@@ -122,7 +122,7 @@ export interface FabProps extends ConsciousnessFeatures {
   disableAnimation?: boolean;
 
   /** Animation configuration */
-  animationConfig?: any;
+  animationConfig?: Record<string, unknown>;
 
   /** Glass surface intent */
   intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
@@ -401,7 +401,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
       ...rest
     } = props;
 
-    const fabRef = useRef<HTMLButtonElement>(null);
+    const fabRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null);
     const [isHovered, setIsHovered] = useState(false);
     const [clickCount, setClickCount] = useState(0);
     const [shouldRender, setShouldRender] = useState(isVisible);
@@ -481,7 +481,7 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
       (event: React.MouseEvent<HTMLElement>) => {
         if (disabled) return;
 
-        setClickCount((prev: any) => prev + 1);
+        setClickCount((prev) => prev + 1);
 
         // Record interaction for predictive learning
         if (interactionRecorder) {
@@ -629,12 +629,18 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
             onMouseLeave={() => setIsHovered(false)}
             ref={(node: HTMLElement | null) => {
               if (typeof ref === "function") {
-                ref(node as any);
+                ref(node as HTMLButtonElement | HTMLAnchorElement | null);
               } else if (ref) {
-                ref.current = node as any;
+                ref.current = node as
+                  | HTMLButtonElement
+                  | HTMLAnchorElement
+                  | null;
               }
               if (fabRef.current !== undefined) {
-                (fabRef as any).current = node;
+                fabRef.current = node as
+                  | HTMLButtonElement
+                  | HTMLAnchorElement
+                  | null;
               }
             }}
             {...a11yProps}
@@ -666,7 +672,10 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
                 ref.current = node as HTMLButtonElement | HTMLAnchorElement;
               }
               if (fabRef.current !== undefined) {
-                (fabRef as any).current = node;
+                fabRef.current = node as
+                  | HTMLButtonElement
+                  | HTMLAnchorElement
+                  | null;
               }
             }}
             {...a11yProps}

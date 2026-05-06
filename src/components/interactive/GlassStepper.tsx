@@ -11,7 +11,7 @@ export interface Step {
 export interface GlassStepperProps
   extends Omit<
     React.HTMLAttributes<HTMLDivElement>,
-    keyof { steps: any; active: any; onChange: any }
+    "steps" | "active" | "onChange"
   > {
   steps?: Step[];
   active?: string;

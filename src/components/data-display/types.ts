@@ -1,14 +1,18 @@
 import React from "react";
-export interface ColumnDefinition {
+
+export type DataDisplayRow = Record<string, unknown>;
+export type DataDisplayCellValue = unknown;
+
+export interface ColumnDefinition<T extends DataDisplayRow = DataDisplayRow> {
   key: string;
   label: string;
   sortable?: boolean;
   width?: string | number;
   align?: "left" | "center" | "right";
-  render?: (value: any, row: any) => React.ReactNode;
+  render?: (value: DataDisplayCellValue, row: T) => React.ReactNode;
   id?: string;
   header?: string;
-  cellRenderer?: (value: any, row: any) => React.ReactNode;
+  cellRenderer?: (value: DataDisplayCellValue, row: T) => React.ReactNode;
   accessorKey?: string;
   placeholder?: React.ReactNode;
 }
@@ -18,16 +22,16 @@ export interface SortState {
   direction: "asc" | "desc" | null;
 }
 
-export interface GlassDataGridProps
+export interface GlassDataGridProps<T extends DataDisplayRow = DataDisplayRow>
   extends React.HTMLAttributes<HTMLDivElement> {
-  data?: any[];
-  columns?: ColumnDefinition[];
+  data?: T[];
+  columns?: ColumnDefinition<T>[];
   sortable?: boolean;
   onSort?: (sortState: SortState) => void;
   height?: string | number;
   initialSort?: SortState;
   enableRowDragging?: boolean;
-  onRowOrderChange?: (newOrder: any[]) => void;
+  onRowOrderChange?: (newOrder: T[]) => void;
 
   /** Glass surface intent */
   intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 
 export interface ErrorInfo {
@@ -67,7 +67,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
       const errorId = generateErrorId();
 
-      setErrorState((prev: any) => {
+      setErrorState((prev) => {
         const newErrorState = {
           hasError: true,
           error,
@@ -78,18 +78,6 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
         // Report error to external service
         onError?.(error, enhancedErrorInfo);
-
-        // Log error for development
-        if (process.env.NODE_ENV === "development") {
-          console.group(`🚨 Error Boundary: ${errorId}`);
-          console.error("Error:", error);
-          console.error("Component Stack:", enhancedErrorInfo.componentStack);
-          console.error(
-            "Timestamp:",
-            new Date(enhancedErrorInfo.timestamp).toISOString()
-          );
-          console.groupEnd();
-        }
 
         // Auto-reset after timeout if retries available
         if (resetTimeout > 0 && prev.retryCount < maxRetries) {
@@ -123,7 +111,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
 
   // Retry with incremented counter
   const retry = useCallback(() => {
-    setErrorState((prev: any) => {
+    setErrorState((prev) => {
       if (prev.retryCount >= maxRetries) {
         return prev; // Don't retry if max retries reached
       }
@@ -154,7 +142,7 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
         retry: () => void;
       }>
     ) => {
-      return React.forwardRef<any, P>((props, ref) => {
+      return React.forwardRef<unknown, P>((props, ref) => {
         try {
           if (errorState.hasError && errorState.error && errorState.errorInfo) {
             if (fallback) {
@@ -171,16 +159,16 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
             // Default fallback UI
             return (
               <div className="glass-p-4 glass-border glass-border-red/20 glass-surface-danger/10 glass-radius-lg">
-                <h3 className='glass-text-primary glass-font-semibold glass-mb-2'>
+                <h3 className="glass-text-primary glass-font-semibold glass-mb-2">
                   Something went wrong
                 </h3>
-                <p className='glass-text-secondary glass-text-sm glass-mb-3'>
+                <p className="glass-text-secondary glass-text-sm glass-mb-3">
                   {errorState.error.message}
                 </p>
                 {errorState.retryCount < maxRetries && (
                   <button
                     onClick={retry}
-                    className='glass-px-3 glass-py-1 glass-surface-danger/20 glass-text-secondary glass-radius hover:glass-surface-red/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                    className="glass-px-3 glass-py-1 glass-surface-danger/20 glass-text-secondary glass-radius hover:glass-surface-red/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                   >
                     Try Again ({maxRetries - errorState.retryCount} attempts
                     left)
@@ -190,7 +178,10 @@ export function useErrorBoundary(options: ErrorBoundaryOptions = {}) {
             );
           }
 
-          return <Component {...(props as any)} ref={ref} />;
+          const ComponentWithRef = Component as React.ComponentType<
+            React.PropsWithoutRef<P> & React.RefAttributes<unknown>
+          >;
+          return <ComponentWithRef {...props} ref={ref} />;
         } catch (error) {
           captureError(error as Error);
           return null;
@@ -240,15 +231,13 @@ export function useAsyncError() {
 
   const captureAsyncError = useCallback((error: Error) => {
     setError(error);
-
-    // Log async error
-    if (process.env.NODE_ENV === "development") {
-      console.error("Async Error:", error);
-    }
   }, []);
 
   const retryAsync = useCallback(
-    async (asyncFn: () => Promise<any>, maxRetries: number = 3) => {
+    async <T,>(
+      asyncFn: () => Promise<T>,
+      maxRetries: number = 3
+    ): Promise<T> => {
       setIsRetrying(true);
       setError(null);
 
@@ -272,6 +261,8 @@ export function useAsyncError() {
           );
         }
       }
+
+      throw new Error("Async retry loop exited unexpectedly");
     },
     [captureAsyncError]
   );
@@ -311,10 +302,7 @@ export function useGracefulDegradation<T>(
     try {
       const shouldUsePrimary = testCondition();
       setResult(shouldUsePrimary ? primaryFeature() : fallbackFeature());
-    } catch (error) {
-      if (process.env.NODE_ENV === "development") {
-        console.warn("Feature test failed, using fallback:", error);
-      }
+    } catch {
       setResult(fallbackFeature());
     }
   }, [primaryFeature, fallbackFeature, testCondition]);
@@ -348,7 +336,7 @@ export function useErrorReporting(
       context: {
         component?: string;
         action?: string;
-        metadata?: Record<string, any>;
+        metadata?: Record<string, unknown>;
       } = {}
     ) => {
       if (!enableReporting || !endpoint) return;
@@ -373,10 +361,8 @@ export function useErrorReporting(
           },
           body: JSON.stringify(errorReport),
         });
-      } catch (reportingError) {
-        if (process.env.NODE_ENV === "development") {
-          console.warn("Failed to report error:", reportingError);
-        }
+      } catch {
+        // Reporting failures should not surface through the UI.
       }
     },
     [enableReporting, endpoint, apiKey, userId, sessionId]

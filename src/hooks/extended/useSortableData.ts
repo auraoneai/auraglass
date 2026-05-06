@@ -1,8 +1,8 @@
-'use client';
-import React from 'react';
-import { useState, useCallback, useMemo } from 'react';
+"use client";
+import React from "react";
+import { useState, useCallback, useMemo } from "react";
 
-export type SortDirection = 'asc' | 'desc' | null;
+export type SortDirection = "asc" | "desc" | null;
 export type SortKey<T> = keyof T | null;
 
 export interface SortConfig<T> {
@@ -26,7 +26,7 @@ export interface SortableDataOptions<T> {
   /** Null/undefined handling */
   nullsFirst?: boolean;
   /** Custom value getter for sorting */
-  getValue?: (item: T, key: keyof T) => any;
+  getValue?: (item: T, key: keyof T) => unknown;
 }
 
 export interface SortableDataResult<T> {
@@ -58,6 +58,29 @@ const DEFAULT_OPTIONS = {
   nullsFirst: false,
 };
 
+const compareKnownValues = (aValue: unknown, bValue: unknown): number => {
+  if (typeof aValue === "number" && typeof bValue === "number") {
+    return aValue - bValue;
+  }
+
+  if (aValue instanceof Date && bValue instanceof Date) {
+    return aValue.getTime() - bValue.getTime();
+  }
+
+  if (typeof aValue === "boolean" && typeof bValue === "boolean") {
+    return Number(aValue) - Number(bValue);
+  }
+
+  return String(aValue).localeCompare(String(bValue));
+};
+
+const applyDirection = (
+  comparison: number,
+  direction: SortDirection
+): number => {
+  return direction === "asc" ? comparison : -comparison;
+};
+
 export function useSortableData<T>(
   data: T[],
   options: SortableDataOptions<T> = {}
@@ -72,38 +95,41 @@ export function useSortableData<T>(
   const sortConfig = sortConfigs[0] || { key: null, direction: null };
 
   // Default sort function
-  const defaultSort = useCallback((a: T, b: T, key: keyof T, direction: SortDirection): number => {
-    const aValue = finalOptions.getValue ? finalOptions.getValue(a, key) : (a as any)[key];
-    const bValue = finalOptions.getValue ? finalOptions.getValue(b, key) : (b as any)[key];
+  const defaultSort = useCallback(
+    (a: T, b: T, key: keyof T, direction: SortDirection): number => {
+      const aValue = finalOptions.getValue
+        ? finalOptions.getValue(a, key)
+        : a[key];
+      const bValue = finalOptions.getValue
+        ? finalOptions.getValue(b, key)
+        : b[key];
 
-    // Handle null/undefined values
-    if (aValue == null && bValue == null) return 0;
-    if (aValue == null) return finalOptions.nullsFirst ? -1 : 1;
-    if (bValue == null) return finalOptions.nullsFirst ? 1 : -1;
+      // Handle null/undefined values
+      if (aValue == null && bValue == null) return 0;
+      if (aValue == null) return finalOptions.nullsFirst ? -1 : 1;
+      if (bValue == null) return finalOptions.nullsFirst ? 1 : -1;
 
-    // String comparison
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      const comparison = finalOptions.caseSensitive
-        ? aValue.localeCompare(bValue)
-        : aValue.toLowerCase().localeCompare(bValue.toLowerCase());
+      // String comparison
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        const comparison = finalOptions.caseSensitive
+          ? aValue.localeCompare(bValue)
+          : aValue.toLowerCase().localeCompare(bValue.toLowerCase());
 
-      return direction === 'asc' ? comparison : -comparison;
-    }
+        return applyDirection(comparison, direction);
+      }
 
-    // Number/Date comparison
-    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
-    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
-
-    return 0;
-  }, [finalOptions]);
+      return applyDirection(compareKnownValues(aValue, bValue), direction);
+    },
+    [finalOptions]
+  );
 
   // Sort data based on configurations
   const sortedData = useMemo(() => {
-        if (!sortConfigs || (sortConfigs?.length || 0) === 0) return data;
+    if (!sortConfigs || (sortConfigs?.length || 0) === 0) return data;
 
     const sortFn = finalOptions.customSort || defaultSort;
 
-    return [...data].sort((a: any, b: any) => {
+    return [...data].sort((a, b) => {
       for (const config of sortConfigs) {
         if (config.key === null) continue;
 
@@ -116,47 +142,57 @@ export function useSortableData<T>(
   }, [data, sortConfigs, defaultSort, finalOptions.customSort]);
 
   // Sort function
-  const sort = useCallback((
-    key: keyof T,
-    direction?: SortDirection,
-    append: boolean = false
-  ) => {
-    setSortConfigs(prevConfigs => {
-      // If not appending, replace all configs
-      if (!finalOptions.multiSort || !append) {
-        const newDirection = direction ||
-          (prevConfigs[0]?.key === key && prevConfigs[0]?.direction === 'asc' ? 'desc' : 'asc');
-        return [{ key, direction: newDirection }];
-      }
+  const sort = useCallback(
+    (key: keyof T, direction?: SortDirection, append: boolean = false) => {
+      setSortConfigs((prevConfigs) => {
+        // If not appending, replace all configs
+        if (!finalOptions.multiSort || !append) {
+          const newDirection =
+            direction ||
+            (prevConfigs[0]?.key === key && prevConfigs[0]?.direction === "asc"
+              ? "desc"
+              : "asc");
+          return [{ key, direction: newDirection }];
+        }
 
-      // Multi-sort logic
-      const existingIndex = prevConfigs.findIndex(config => config.key === key);
+        // Multi-sort logic
+        const existingIndex = prevConfigs.findIndex(
+          (config) => config.key === key
+        );
 
-      if (existingIndex >= 0) {
-        // Toggle direction or remove if already desc
-        const currentDirection = prevConfigs[existingIndex].direction;
-        if (currentDirection === 'desc') {
-          // Remove this sort level
-          return prevConfigs.filter((_, index) => index !== existingIndex);
-        } else {
-          // Change to desc
-          const newConfigs = [...prevConfigs];
-          if (newConfigs) {
-            newConfigs[existingIndex] = { ...newConfigs?.[existingIndex], direction: 'desc' as const };
+        if (existingIndex >= 0) {
+          // Toggle direction or remove if already desc
+          const currentDirection = prevConfigs[existingIndex].direction;
+          if (currentDirection === "desc") {
+            // Remove this sort level
+            return prevConfigs.filter((_, index) => index !== existingIndex);
+          } else {
+            // Change to desc
+            const newConfigs = [...prevConfigs];
+            if (newConfigs) {
+              newConfigs[existingIndex] = {
+                ...newConfigs?.[existingIndex],
+                direction: "desc" as const,
+              };
+            }
+            return newConfigs;
           }
-          return newConfigs;
-        }
-      } else {
-        // Add new sort level
-        if ((prevConfigs?.length || 0) >= finalOptions.maxSortLevels) {
-          // Remove oldest if at max levels
-          return [...prevConfigs.slice(1), { key, direction: direction || 'asc' }];
         } else {
-          return [...prevConfigs, { key, direction: direction || 'asc' }];
+          // Add new sort level
+          if ((prevConfigs?.length || 0) >= finalOptions.maxSortLevels) {
+            // Remove oldest if at max levels
+            return [
+              ...prevConfigs.slice(1),
+              { key, direction: direction || "asc" },
+            ];
+          } else {
+            return [...prevConfigs, { key, direction: direction || "asc" }];
+          }
         }
-      }
-    });
-  }, [finalOptions.multiSort, finalOptions.maxSortLevels]);
+      });
+    },
+    [finalOptions.multiSort, finalOptions.maxSortLevels]
+  );
 
   // Clear all sorting
   const clearSort = useCallback(() => {
@@ -164,31 +200,43 @@ export function useSortableData<T>(
   }, []);
 
   // Toggle sort direction
-  const toggleSort = useCallback((key: keyof T) => {
-    const existingConfig = sortConfigs.find(config => config.key === key);
-    if (existingConfig) {
-      sort(key, existingConfig.direction === 'asc' ? 'desc' : 'asc', true);
-    } else {
-      sort(key, 'asc', true);
-    }
-  }, [sortConfigs, sort]);
+  const toggleSort = useCallback(
+    (key: keyof T) => {
+      const existingConfig = sortConfigs.find((config) => config.key === key);
+      if (existingConfig) {
+        sort(key, existingConfig.direction === "asc" ? "desc" : "asc", true);
+      } else {
+        sort(key, "asc", true);
+      }
+    },
+    [sortConfigs, sort]
+  );
 
   // Check if column is sorted
-  const isSorted = useCallback((key: keyof T): boolean => {
-    return sortConfigs.some(config => config.key === key);
-  }, [sortConfigs]);
+  const isSorted = useCallback(
+    (key: keyof T): boolean => {
+      return sortConfigs.some((config) => config.key === key);
+    },
+    [sortConfigs]
+  );
 
   // Get sort direction for column
-  const getSortDirection = useCallback((key: keyof T): SortDirection => {
-    const config = sortConfigs.find(config => config.key === key);
-    return config?.direction || null;
-  }, [sortConfigs]);
+  const getSortDirection = useCallback(
+    (key: keyof T): SortDirection => {
+      const config = sortConfigs.find((config) => config.key === key);
+      return config?.direction || null;
+    },
+    [sortConfigs]
+  );
 
   // Get sort priority for column
-  const getSortPriority = useCallback((key: keyof T): number | null => {
-    const index = sortConfigs.findIndex(config => config.key === key);
-    return index >= 0 ? index + 1 : null;
-  }, [sortConfigs]);
+  const getSortPriority = useCallback(
+    (key: keyof T): number | null => {
+      const index = sortConfigs.findIndex((config) => config.key === key);
+      return index >= 0 ? index + 1 : null;
+    },
+    [sortConfigs]
+  );
 
   return {
     data: sortedData,
@@ -215,7 +263,7 @@ export function useSearchableSortableData<T>(
   } = {}
 ) {
   const {
-    searchQuery = '',
+    searchQuery = "",
     searchDebounce = 300,
     caseSensitive = false,
     fuzzy = false,
@@ -243,9 +291,9 @@ export function useSearchableSortableData<T>(
 
     const query = caseSensitive ? debouncedQuery : debouncedQuery.toLowerCase();
 
-    return data?.filter((item: any) => {
-      return searchFields.some(field => {
-        const value = String((item as any)[field] || '').trim();
+    return data?.filter((item) => {
+      return searchFields.some((field) => {
+        const value = String(item[field] ?? "").trim();
         const normalizedValue = caseSensitive ? value : value.toLowerCase();
 
         if (fuzzy) {
@@ -265,8 +313,8 @@ export function useSearchableSortableData<T>(
     ...sortableResult,
     filteredData,
     searchQuery: debouncedQuery,
-    totalCount: (data?.length || 0),
-    filteredCount: (filteredData?.length || 0),
+    totalCount: data?.length || 0,
+    filteredCount: filteredData?.length || 0,
   };
 }
 
@@ -285,16 +333,21 @@ export function usePaginatedSortableData<T>(
   const sortableResult = useSortableData(data, sortOptions);
 
   // Calculate pagination
-  const totalPages = Math.ceil((sortableResult.data?.length || 0) / itemsPerPage);
+  const totalPages = Math.ceil(
+    (sortableResult.data?.length || 0) / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const paginatedData = sortableResult.data?.slice(startIndex, endIndex);
 
-  const goToPage = useCallback((page: number) => {
-    const validPage = Math.max(1, Math.min(page, totalPages));
-    setCurrentPage(validPage);
-    onPageChange?.(validPage);
-  }, [totalPages, onPageChange]);
+  const goToPage = useCallback(
+    (page: number) => {
+      const validPage = Math.max(1, Math.min(page, totalPages));
+      setCurrentPage(validPage);
+      onPageChange?.(validPage);
+    },
+    [totalPages, onPageChange]
+  );
 
   const nextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -326,24 +379,33 @@ export function usePaginatedSortableData<T>(
 // Utility functions for sorting
 export const sortUtils = {
   // Natural sort for strings with numbers
-  naturalSort: (a: string, b: string, direction: SortDirection = 'asc'): number => {
+  naturalSort: (
+    a: string,
+    b: string,
+    direction: SortDirection = "asc"
+  ): number => {
     const regex = /(\d+|[^\d]+)/g;
     const aParts = a.match(regex) || [];
     const bParts = b.match(regex) || [];
 
-    for (let i = 0; i < Math.max((aParts?.length || 0), (bParts?.length || 0)); i++) {
-      const aPart = aParts[i] || '';
-      const bPart = bParts[i] || '';
+    for (
+      let i = 0;
+      i < Math.max(aParts?.length || 0, bParts?.length || 0);
+      i++
+    ) {
+      const aPart = aParts[i] || "";
+      const bPart = bParts[i] || "";
 
       const aIsNumber = /^\d+$/.test(aPart);
       const bIsNumber = /^\d+$/.test(bPart);
 
       if (aIsNumber && bIsNumber) {
         const diff = parseInt(aPart) - parseInt(bPart);
-        if (diff !== 0) return direction === 'asc' ? diff : -diff;
+        if (diff !== 0) return direction === "asc" ? diff : -diff;
       } else {
         const comparison = aPart.localeCompare(bPart);
-        if (comparison !== 0) return direction === 'asc' ? comparison : -comparison;
+        if (comparison !== 0)
+          return direction === "asc" ? comparison : -comparison;
       }
     }
 
@@ -359,24 +421,23 @@ export const sortUtils = {
       direction?: SortDirection;
     }>
   ): T[] => {
-    return [...items].sort((a: any, b: any) => {
-      let scoreA = 0;
-      const scoreB = 0;
+    return [...items].sort((a, b) => {
+      let score = 0;
 
       for (const criterion of criteria) {
         const aValue = a[criterion.key];
-        const bValue = b?.[criterion.key];
-        const direction = criterion.direction || 'asc';
-        const multiplier = direction === 'asc' ? 1 : -1;
+        const bValue = b[criterion.key];
+        const direction = criterion.direction || "asc";
+        const multiplier = direction === "asc" ? 1 : -1;
 
-        if (typeof aValue === 'number' && typeof bValue === 'number') {
-          scoreA += (aValue - bValue) * criterion.weight * multiplier;
-        } else if (typeof aValue === 'string' && typeof bValue === 'string') {
-          scoreA += aValue.localeCompare(bValue) * criterion.weight * multiplier;
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          score += (aValue - bValue) * criterion.weight * multiplier;
+        } else if (typeof aValue === "string" && typeof bValue === "string") {
+          score += aValue.localeCompare(bValue) * criterion.weight * multiplier;
         }
       }
 
-      return scoreA - scoreB;
+      return score;
     });
   },
 
@@ -385,13 +446,13 @@ export const sortUtils = {
     items: T[],
     groupBy: K,
     sortBy: K,
-    direction: SortDirection = 'asc'
+    direction: SortDirection = "asc"
   ): T[] => {
-    const groups = new Map<any, T[]>();
+    const groups = new Map<T[K], T[]>();
 
     // Group items
-    items.forEach((item: any) => {
-      const groupKey = item?.[groupBy];
+    items.forEach((item) => {
+      const groupKey = item[groupBy];
       if (!groups.has(groupKey)) {
         groups.set(groupKey, []);
       }
@@ -399,14 +460,13 @@ export const sortUtils = {
     });
 
     // Sort within each group
-    groups.forEach((group: any) => {
-      group.sort((a: any, b: any) => {
+    groups.forEach((group) => {
+      group.sort((a, b) => {
         const aValue = a[sortBy];
-        const bValue = b?.[sortBy];
+        const bValue = b[sortBy];
 
         if (aValue != null && bValue != null) {
-          if (aValue < bValue) return direction === 'asc' ? -1 : 1;
-          if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+          return applyDirection(compareKnownValues(aValue, bValue), direction);
         }
         return 0;
       });

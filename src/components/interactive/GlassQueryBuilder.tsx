@@ -19,7 +19,7 @@ export interface FieldDef {
 export interface Rule {
   field: string;
   op: string;
-  value: any;
+  value: unknown;
 }
 export interface RuleGroup {
   combinator: "AND" | "OR";
@@ -37,9 +37,20 @@ export interface GlassQueryBuilderProps {
   "data-testid"?: string;
 }
 
-function isGroup(x: any): x is RuleGroup {
-  return x && Array.isArray((x as any).rules);
+function isGroup(x: unknown): x is RuleGroup {
+  return Boolean(
+    x &&
+      typeof x === "object" &&
+      Array.isArray((x as { rules?: unknown }).rules)
+  );
 }
+
+const getRuleInputValue = (value: unknown): string => {
+  if (typeof value === "string" || typeof value === "number") {
+    return String(value);
+  }
+  return "";
+};
 
 export function GlassQueryBuilder({
   fields = [],
@@ -66,7 +77,7 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className='glass-w-40 glass-h-8 glass-text-sm'
+            className="glass-w-40 glass-h-8 glass-text-sm"
             aria-label="Select field"
           >
             <GlassSelectValue placeholder="Field" />
@@ -87,13 +98,13 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className='glass-w-28 glass-h-8 glass-text-sm'
+            className="glass-w-28 glass-h-8 glass-text-sm"
             aria-label="Select operator"
           >
             <GlassSelectValue placeholder="Op" />
           </GlassSelectTrigger>
           <GlassSelectContent>
-            {["=", "!=", ">", ">=", "<", "<=", "contains"].map((op: any) => (
+            {["=", "!=", ">", ">=", "<", "<=", "contains"].map((op) => (
               <GlassSelectItem key={op} value={op}>
                 {op}
               </GlassSelectItem>
@@ -102,7 +113,7 @@ export function GlassQueryBuilder({
         </GlassSelect>
         {field.type === "select" ? (
           <GlassSelect
-            value={rule.value ?? ""}
+            value={getRuleInputValue(rule.value)}
             onValueChange={(v) => {
               const next = v === "__clear__" ? "" : v;
               rule.value = next;
@@ -110,14 +121,14 @@ export function GlassQueryBuilder({
             }}
           >
             <GlassSelectTrigger
-              className='glass-w-48 glass-h-8 glass-text-sm'
+              className="glass-w-48 glass-h-8 glass-text-sm"
               aria-label="Select value"
             >
               <GlassSelectValue placeholder="Value" />
             </GlassSelectTrigger>
             <GlassSelectContent>
               <GlassSelectItem value="__clear__">—</GlassSelectItem>
-              {field.options?.map((o: any) => (
+              {field.options?.map((o) => (
                 <GlassSelectItem key={o.value} value={o.value}>
                   {o.label}
                 </GlassSelectItem>
@@ -126,12 +137,12 @@ export function GlassQueryBuilder({
           </GlassSelect>
         ) : (
           <input
-            value={rule.value ?? ""}
+            value={getRuleInputValue(rule.value)}
             onChange={(e) => {
               rule.value = e.target.value;
               update(value);
             }}
-            className='glass-bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+            className="glass-bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
           />
         )}
         <GlassButton
@@ -159,7 +170,7 @@ export function GlassQueryBuilder({
           }}
         >
           <GlassSelectTrigger
-            className='glass-w-24 glass-h-8 glass-text-sm'
+            className="glass-w-24 glass-h-8 glass-text-sm"
             aria-label="Select combinator (AND/OR)"
           >
             <GlassSelectValue />

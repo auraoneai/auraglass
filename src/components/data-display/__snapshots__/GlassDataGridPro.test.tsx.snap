@@ -11,18 +11,18 @@ exports[`GlassDataGridPro matches snapshot 1`] = `
     data-glass-component="true"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-between glass-gap-4 glass-mb-4"
+      class="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-mb-4"
     >
       <div
-        class="glass-flex glass-items-center glass-gap-4"
+        class="glass-flex glass-min-w-0 glass-flex-1 glass-items-center glass-gap-3"
       >
         <div
-          class="relative glass-w-64"
+          class="relative glass-w-full sm:glass-w-64"
           data-glass-component="true"
           data-testid="glassinput"
         >
           <div
-            class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-64"
+            class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-w-full sm:glass-w-64"
             data-performance-mode="medium"
             style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
           >
@@ -58,15 +58,16 @@ exports[`GlassDataGridPro matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high overflow-hidden transition-all duration-[500ms]"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-overflow-hidden glass-contrast-guard transition-all duration-[500ms]"
       data-performance-mode="medium"
       style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
-        class="glass-overflow-x-auto"
+        class="glass-w-full glass-overflow-x-auto"
       >
         <table
           class="glass-w-full"
+          style="min-width: 100%;"
         >
           <thead
             class="relative bg-muted/20 border-b border-border/20"
@@ -76,7 +77,7 @@ exports[`GlassDataGridPro matches snapshot 1`] = `
           <tbody>
             <tr>
               <td
-                class="text-center glass-text-secondary py-8 glass-px-4 glass-py-3"
+                class="text-center glass-text-secondary py-8 glass-break-words glass-px-4 glass-py-3"
                 colspan="0"
               >
                 <span

@@ -50,26 +50,69 @@ import {
 } from "../charts/hooks/useQualityTier";
 import { glassTokenUtils } from "../../tokens/glass";
 
-const usePhysicsAnimation = (options: any) => ({
+type QualityHookChartType = Parameters<typeof useQualityTier>[1];
+
+interface PhysicsAnimationOptions {
+  type?: "none" | "spring";
+  stiffness?: number;
+  damping?: number;
+  mass?: number;
+  precision?: number;
+  adaptiveMotion?: boolean;
+  respectReducedMotion?: boolean;
+}
+
+interface ElementAnimationTarget {
+  targetScale?: number;
+  targetOpacity?: number;
+}
+
+const getQualityChartType = (type: ChartVariant): QualityHookChartType => {
+  switch (type) {
+    case "doughnut":
+      return "pie";
+    case "polarArea":
+      return "radar";
+    case "kpi":
+      return "bar";
+    default:
+      return type as QualityHookChartType;
+  }
+};
+
+const usePhysicsAnimation = (_options: PhysicsAnimationOptions) => ({
   value: 1,
-  applyOscillation: (intensity?: number) => {},
+  applyOscillation: (_intensity?: number) => {},
   applyPopIn: () => {},
 });
 
 const useChartPhysicsInteraction = (
-  chartRef: React.RefObject<any>,
-  wrapperRef: React.RefObject<any>,
-  options: any
+  _chartRef: React.RefObject<ChartJS | null>,
+  _wrapperRef: React.RefObject<HTMLDivElement | null>,
+  _options: {
+    enabled?: boolean;
+    mode?: "x" | "y" | "xy";
+    physics?: {
+      tension: number;
+      friction: number;
+      mass: number;
+    };
+    minZoom?: number;
+    maxZoom?: number;
+    wheelSensitivity?: number;
+    inertiaDuration?: number;
+    respectReducedMotion?: boolean;
+  }
 ) => ({
   isPanning: false,
   zoomLevel: 1,
-  applyZoom: (level: number) => {},
+  applyZoom: (_level: number) => {},
   resetZoom: () => {},
 });
 
 const GalileoElementInteractionPlugin = {
   id: "galileoElementInteraction",
-} as any;
+} satisfies Plugin<ChartType>;
 
 // Dataset conversion to prevent unnecessary recalculations
 const convertToChartJsDatasetWithEffects = (
@@ -77,7 +120,7 @@ const convertToChartJsDatasetWithEffects = (
   index: number,
   chartType: ChartVariant,
   palette: string[],
-  animation: any
+  _animation: unknown
 ) => {
   const paletteColor = palette[index % (palette?.length || 0)];
   return {
@@ -151,7 +194,7 @@ export interface ChartDataset {
 }
 
 // Quality tier types
-export type QualityTier = "low" | "medium" | "high";
+export type QualityTier = "low" | "medium" | "high" | "ultra";
 
 export interface PhysicsParams {
   stiffness: number;
@@ -162,7 +205,7 @@ export interface PhysicsParams {
 
 // Main component props
 interface GlassDataChartProps {
-  data?: any;
+  data?: unknown;
   datasets?: ChartDataset[];
   width?: string | number;
   height?: number;
@@ -261,12 +304,10 @@ interface GlassDataChartProps {
   "data-testid"?: string;
 }
 
-interface GlassDataChartRef {
-  current: any;
-}
+type GlassDataChartRef = ChartJS;
 
 // Simple format function
-const formatValue = (value: any) => String(value);
+const formatValue = (value: unknown) => String(value);
 
 const getContainerBackground = (variant?: string, color?: string) => {
   switch (variant) {
@@ -347,19 +388,21 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(
       <div
         ref={ref}
         className={cn(chartStyles.container, className)}
-        style={{
-          padding: "var(--aura-space-5)",
-          borderRadius:
-            typeof $borderRadius === "number"
-              ? `${$borderRadius}px`
-              : ($borderRadius ?? "var(--glass-radius-md)"),
-          background,
-          color: "var(--aura-color-global-text-primary)",
-          border: `1px solid ${$borderColor || "color-mix(in srgb, var(--aura-color-global-border-soft) 75%, transparent)"}`,
-          boxShadow,
-          ["--glass-data-chart-backdrop-filter" as any]: blur,
-          ...style,
-        }}
+        style={
+          {
+            padding: "var(--aura-space-5)",
+            borderRadius:
+              typeof $borderRadius === "number"
+                ? `${$borderRadius}px`
+                : ($borderRadius ?? "var(--glass-radius-md)"),
+            background,
+            color: "var(--aura-color-global-text-primary)",
+            border: `1px solid ${$borderColor || "color-mix(in srgb, var(--aura-color-global-border-soft) 75%, transparent)"}`,
+            boxShadow,
+            "--glass-data-chart-backdrop-filter": blur,
+            ...style,
+          } as React.CSSProperties
+        }
         {...rest}
       >
         {children}
@@ -620,13 +663,8 @@ const pathAnimationPlugin: Plugin<ChartType> = {
                     easing: "ease-out",
                   }
                 );
-            } catch (err) {
+            } catch {
               // Fallback for browsers that don't support these features
-              if (process.env.NODE_ENV === "development") {
-                console.log(
-                  "Advanced path animation not supported in this browser"
-                );
-              }
             }
           }
         }
@@ -960,16 +998,18 @@ const GlassDataChartComponent = React.forwardRef<
       animationComplexity: "medium",
       interactionComplexity: "medium",
     },
-    variant as any,
+    getQualityChartType(variant),
     useAdaptiveQuality ? undefined : "high"
   );
-  const activeQuality = useAdaptiveQuality ? qualityTier : "high";
+  const activeQualityTier = useAdaptiveQuality ? qualityTier.tier : "high";
+  const qualityParameterTier: QualityTier = useAdaptiveQuality
+    ? "medium"
+    : "high";
 
   // Get physics parameters based on quality tier
-  const qualityPhysicsParams = getQualityBasedPhysicsParams(
-    activeQuality as any
-  );
-  const qualityGlassParams = getQualityBasedGlassParams(activeQuality as any);
+  const qualityPhysicsParams =
+    getQualityBasedPhysicsParams(qualityParameterTier);
+  const qualityGlassParams = getQualityBasedGlassParams(qualityParameterTier);
 
   // Adapt quality based on user's settings
   const adaptedBlurStrength =
@@ -1041,7 +1081,7 @@ const GlassDataChartComponent = React.forwardRef<
   // Internal element animation state (managed by React)
   // The plugin will read targets from this or similar structure
   const [elementAnimationTargets, setElementAnimationTargets] = useState<
-    Map<string, any>
+    Map<string, ElementAnimationTarget>
   >(new Map());
   // Key: `datasetIndex_dataIndex`, Value: { targetScale: 1, targetOpacity: 1, ... }
 
@@ -1052,11 +1092,11 @@ const GlassDataChartComponent = React.forwardRef<
   useEffect(() => {
     if (enablePhysicsAnimation) {
       // Trigger a pop-in animation on mount for better visual impact
-      if (activeQuality !== ("low" as any)) {
+      if (activeQualityTier !== "low") {
         applyPopIn();
       }
     }
-  }, [enablePhysicsAnimation, activeQuality, applyPopIn]);
+  }, [enablePhysicsAnimation, activeQualityTier, applyPopIn]);
 
   // Derive chartjs type from our variant
   const getChartJsType = (): ChartType => {
@@ -1111,7 +1151,7 @@ const GlassDataChartComponent = React.forwardRef<
                   height="140%"
                 >
                   <feGaussianBlur
-                    stdDeviation={activeQuality === ("low" as any) ? 1 : 2}
+                    stdDeviation={activeQualityTier === "low" ? 1 : 2}
                     result="blur"
                   />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -1126,7 +1166,7 @@ const GlassDataChartComponent = React.forwardRef<
                   height="200%"
                 >
                   <feGaussianBlur
-                    stdDeviation={activeQuality === ("low" as any) ? 2 : 3}
+                    stdDeviation={activeQualityTier === "low" ? 2 : 3}
                     result="blur"
                   />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -1137,13 +1177,19 @@ const GlassDataChartComponent = React.forwardRef<
         </defs>
       </svg>
     ),
-    [palette, activeQuality]
+    [palette, activeQualityTier]
   );
 
   // Memoize the converted datasets to prevent unnecessary recalculations
-  const convertedDatasets = useMemo(() => {
+  const convertedDatasets = useMemo<
+    Array<
+      ReturnType<typeof convertToChartJsDatasetWithEffects> & {
+        processedLabels?: string[];
+      }
+    >
+  >(() => {
     if (!datasets) return [];
-    return datasets.map((dataset: any, i: number) => {
+    return datasets.map((dataset, i) => {
       return convertToChartJsDatasetWithEffects(
         dataset,
         i,
@@ -1159,7 +1205,7 @@ const GlassDataChartComponent = React.forwardRef<
     let labels: string[] | undefined;
     if (chartType === "pie" || chartType === "doughnut") {
       // Access processedLabels from the *first* dataset's conversion result
-      const firstConvertedDataset = convertedDatasets?.[0] as any;
+      const firstConvertedDataset = convertedDatasets?.[0];
       if (
         firstConvertedDataset?.processedLabels &&
         (firstConvertedDataset.processedLabels?.length || 0) > 0
@@ -1168,15 +1214,13 @@ const GlassDataChartComponent = React.forwardRef<
       } else if (datasets && datasets[0]?.data) {
         // Fallback to original data labels if processed labels aren't available
         labels = datasets[0].data?.map(
-          (point: any) => point.label || String(point.x)
+          (point) => point.label || String(point.x)
         );
       }
     } else if (chartType === "polarArea" && datasets) {
       // Use original labels for polarArea
       labels =
-        datasets[0]?.data?.map(
-          (point: any) => point.label || String(point.x)
-        ) || [];
+        datasets[0]?.data?.map((point) => point.label || String(point.x)) || [];
     }
     return labels;
   }, [chartType, convertedDatasets, datasets]);
@@ -1184,9 +1228,9 @@ const GlassDataChartComponent = React.forwardRef<
   // Memoize chart data to prevent unnecessary Chart.js updates
   const chartData = useMemo(
     () => ({
-      // Map converted datasets, removing any temporary properties like processedLabels
-      datasets: convertedDatasets.map((ds: any) => {
-        const { processedLabels, ...rest } = ds as any; // Use type assertion here too
+      // Map converted datasets, removing temporary properties like processedLabels.
+      datasets: convertedDatasets.map((ds) => {
+        const { processedLabels, ...rest } = ds;
         return rest;
       }),
       labels: chartLabels, // Assign the prepared labels
@@ -1197,7 +1241,7 @@ const GlassDataChartComponent = React.forwardRef<
   const hasChartData = useMemo(
     () =>
       convertedDatasets.some(
-        (dataset: any) => Array.isArray(dataset.data) && dataset.data.length > 0
+        (dataset) => Array.isArray(dataset.data) && dataset.data.length > 0
       ),
     [convertedDatasets]
   );
@@ -1238,7 +1282,7 @@ const GlassDataChartComponent = React.forwardRef<
   // Memoized legend items to prevent unnecessary re-renders
   const legendItems = useMemo(() => {
     if (!datasets) return [];
-    return datasets.map((dataset: any, index: number) => {
+    return datasets.map((dataset, index) => {
       const color =
         dataset.style?.lineColor || palette[index % (palette?.length || 0)];
       const rgbColor = hexToRgb(color);
@@ -1274,9 +1318,7 @@ const GlassDataChartComponent = React.forwardRef<
         let newSelectedDatasets = [...selectedDatasets];
 
         if (newSelectedDatasets.includes(index)) {
-          newSelectedDatasets = newSelectedDatasets.filter(
-            (i: any) => i !== index
-          );
+          newSelectedDatasets = newSelectedDatasets.filter((i) => i !== index);
         } else {
           newSelectedDatasets.push(index);
         }
@@ -1357,7 +1399,7 @@ const GlassDataChartComponent = React.forwardRef<
         );
         if (physicsOptions?.clickEffect) {
           const key = `${datasetIndex}_${dataIndex}`;
-          setElementAnimationTargets((prev: Map<string, any>) =>
+          setElementAnimationTargets((prev) =>
             new Map(prev).set(key, {
               ...(prev.get(key) || {}),
               targetScale: physicsOptions.clickEffect?.scale ?? 1,
@@ -1366,12 +1408,6 @@ const GlassDataChartComponent = React.forwardRef<
             })
           );
           // Click effect resets automatically via CSS transition
-          if (process.env.NODE_ENV === "development") {
-            console.log(
-              `[Chart Interaction] Set CLICK target for ${key}:`,
-              physicsOptions.clickEffect
-            );
-          }
         }
       }
       // --- End Trigger ---
@@ -1441,7 +1477,7 @@ const GlassDataChartComponent = React.forwardRef<
             chartType
           );
           if (physicsOptions?.hoverEffect) {
-            setElementAnimationTargets((prev: Map<string, any>) =>
+            setElementAnimationTargets((prev) =>
               new Map(prev).set(currentHoveredKey!, {
                 // Use non-null assertion as key is set
                 ...(prev.get(currentHoveredKey!) || {}),
@@ -1450,12 +1486,6 @@ const GlassDataChartComponent = React.forwardRef<
                 // Add other effects
               })
             );
-            if (process.env.NODE_ENV === "development") {
-              console.log(
-                `[Chart Interaction] Set HOVER target for ${currentHoveredKey}:`,
-                physicsOptions.hoverEffect
-              );
-            }
           }
         }
         // --- End Trigger ---
@@ -1507,7 +1537,7 @@ const GlassDataChartComponent = React.forwardRef<
         previousHoveredKey &&
         previousHoveredKey !== currentHoveredKey
       ) {
-        setElementAnimationTargets((prev: Map<string, any>) =>
+        setElementAnimationTargets((prev) =>
           new Map(prev).set(previousHoveredKey, {
             ...(prev.get(previousHoveredKey) || {}),
             targetScale: 1,
@@ -1515,11 +1545,6 @@ const GlassDataChartComponent = React.forwardRef<
             // Reset other effects
           })
         );
-        if (process.env.NODE_ENV === "development") {
-          console.log(
-            `[Chart Interaction] Reset HOVER target for ${previousHoveredKey}`
-          );
-        }
       }
     },
     [
@@ -1541,23 +1566,16 @@ const GlassDataChartComponent = React.forwardRef<
     }
     // Reset all hover targets on leave ONLY if physics effects are enabled
     if (interaction.physicsHoverEffects) {
-      let resetOccurred = false;
-      setElementAnimationTargets((prev: Map<string, any>) => {
+      setElementAnimationTargets((prev) => {
         const next = new Map(prev);
         for (const key of next.keys()) {
           const current = next.get(key);
           if (current?.targetScale !== 1 || current?.targetOpacity !== 1) {
             next.set(key, { ...current, targetScale: 1, targetOpacity: 1 });
-            resetOccurred = true; // Mark that at least one reset happened
           }
         }
         return next;
       });
-      if (resetOccurred) {
-        if (process.env.NODE_ENV === "development") {
-          console.log("[Chart Interaction] Reset ALL HOVER targets on leave");
-        }
-      }
     }
   }, [interaction.showTooltips, interaction.physicsHoverEffects]);
 
@@ -1579,10 +1597,7 @@ const GlassDataChartComponent = React.forwardRef<
         link.click();
         document.body.removeChild(link);
         return;
-      } catch (e) {
-        if (process.env.NODE_ENV === "development") {
-          console.error("Failed to export KPI", e);
-        }
+      } catch {
         return;
       }
     }
@@ -1686,13 +1701,13 @@ const GlassDataChartComponent = React.forwardRef<
 
   // Combined ref callback for ChartJS instance
   const chartRefCallback = useCallback(
-    (instance: any) => {
-      chartRef.current = instance;
+    (instance: ChartJS | undefined | null) => {
+      chartRef.current = instance ?? null;
       // Call the forwarded ref if it exists
       if (typeof ref === "function") {
-        ref(instance);
+        ref(instance ?? null);
       } else if (ref && ref.current !== undefined) {
-        ref.current = instance;
+        ref.current = instance ?? null;
       }
     },
     [ref]
@@ -1821,7 +1836,7 @@ const GlassDataChartComponent = React.forwardRef<
           <Chart
             key={chartType} // Ensures re-render on type change
             type={getChartJsType()}
-            data={chartData}
+            data={chartData as never}
             options={chartOptions}
             plugins={chartPlugins} // Pass the memoized plugins array
             ref={chartRefCallback} // Use the combined ref callback
@@ -1859,11 +1874,7 @@ const GlassDataChartComponent = React.forwardRef<
           interaction.showTooltips && (
             <DynamicTooltip
               $color={color}
-              $quality={
-                typeof activeQuality === "string"
-                  ? activeQuality
-                  : (activeQuality as any).tier
-              }
+              $quality={activeQualityTier}
               style={{
                 left: `${hoveredPoint.x ?? 0}px`,
                 top: `${hoveredPoint.y ?? 0}px`,

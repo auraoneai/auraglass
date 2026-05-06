@@ -19,6 +19,8 @@ import {
 import type { LiquidGlassMaterial, MaterialVariant } from "../../tokens/glass";
 import { cn } from "../../lib/utilsComprehensive";
 
+type ContrastGuardElement = keyof HTMLElementTagNameMap;
+
 export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * Content to be rendered with contrast protection
@@ -78,7 +80,7 @@ export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
    * Element type to render
    * @default 'span'
    */
-  as?: keyof JSX.IntrinsicElements;
+  as?: ContrastGuardElement;
 
   /**
    * Callback when contrast adjustment is applied
@@ -145,28 +147,28 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
         : undefined
     );
 
-    return (
-      <Component
-        data-glass-component
-        ref={elementRef as any}
-        className={cn(
+    return React.createElement(
+      Component,
+      {
+        "data-glass-component": true,
+        ref: elementRef,
+        className: cn(
           "contrast-guard",
           adjustment?.meetsRequirement && "contrast-guard--compliant",
           adjustment?.modifications.fallbackMode && "contrast-guard--fallback",
           className
-        )}
-        style={{
+        ),
+        style: {
           ...style,
           ...appliedStyles,
           ...(backgroundColor && { backgroundColor }),
-        }}
-        data-contrast-level={level}
-        data-contrast-ratio={adjustment?.adjustedContrast?.toFixed(2)}
-        data-meets-wcag={adjustment?.meetsRequirement}
-        {...rest}
-      >
-        {children}
-      </Component>
+        },
+        "data-contrast-level": level,
+        "data-contrast-ratio": adjustment?.adjustedContrast?.toFixed(2),
+        "data-meets-wcag": adjustment?.meetsRequirement,
+        ...rest,
+      },
+      children
     );
   }
 );
@@ -179,7 +181,7 @@ export interface TextWithContrastProps
   children: React.ReactNode;
   level?: "AA" | "AAA";
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ContrastGuardElement;
 }
 
 export const TextWithContrast: React.FC<TextWithContrastProps> = ({

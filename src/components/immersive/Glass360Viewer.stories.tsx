@@ -7,9 +7,7 @@ import {
 } from "../../stories/GlassMissingInventoryCertification.stories";
 
 const componentName = "Glass360Viewer" satisfies MissingComponentName;
-const Component =
-  (ComponentModule as Record<string, any>)[componentName] ??
-  (ComponentModule as Record<string, any>).default;
+const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
   title: "Components/Immersive/Glass360Viewer",

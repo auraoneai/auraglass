@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 // Enhanced animation types for the AuraGlass system
 
 export interface AnimationConfig {
@@ -12,13 +12,13 @@ export interface AnimationConfig {
   easing?: string;
 
   /** Animation fill mode */
-  fillMode?: 'none' | 'forwards' | 'backwards' | 'both';
+  fillMode?: "none" | "forwards" | "backwards" | "both";
 
   /** Animation direction */
-  direction?: 'normal' | 'reverse' | 'alternate' | 'alternate-reverse';
+  direction?: "normal" | "reverse" | "alternate" | "alternate-reverse";
 
   /** Animation iterations */
-  iterations?: number | 'infinite';
+  iterations?: number | "infinite";
 
   /** Animation playback rate */
   playbackRate?: number;
@@ -100,7 +100,14 @@ export interface AnimationPreset {
   keyframes: KeyframeConfig[];
 
   /** Preset category */
-  category: 'entrance' | 'exit' | 'attention' | 'navigation' | 'loading' | 'hover' | 'click';
+  category:
+    | "entrance"
+    | "exit"
+    | "attention"
+    | "navigation"
+    | "loading"
+    | "hover"
+    | "click";
 
   /** Preset description */
   description?: string;
@@ -191,7 +198,7 @@ export interface AnimationTrack {
 
 export interface AnimationState {
   /** Current animation status */
-  status: 'idle' | 'playing' | 'paused' | 'completed' | 'cancelled';
+  status: "idle" | "playing" | "paused" | "completed" | "cancelled";
 
   /** Current progress (0-1) */
   progress: number;
@@ -209,7 +216,7 @@ export interface AnimationState {
   loop: boolean;
 
   /** Animation direction */
-  direction: 'normal' | 'reverse';
+  direction: "normal" | "reverse";
 
   /** Active animations */
   activeAnimations: string[];
@@ -250,7 +257,11 @@ export interface AnimationController {
   addEventListener: (event: string, callback: Function, name?: string) => void;
 
   /** Remove event listener */
-  removeEventListener: (event: string, callback: Function, name?: string) => void;
+  removeEventListener: (
+    event: string,
+    callback: Function,
+    name?: string
+  ) => void;
 
   /** Destroy controller */
   destroy: () => void;
@@ -258,16 +269,22 @@ export interface AnimationController {
 
 export interface AnimationManager {
   /** Register animation */
-  register: (animation: AnimationSequence | AnimationPreset | AnimationGroup) => string;
+  register: (
+    animation: AnimationSequence | AnimationPreset | AnimationGroup
+  ) => string;
 
   /** Unregister animation */
   unregister: (id: string) => boolean;
 
   /** Get animation */
-  get: (id: string) => AnimationSequence | AnimationPreset | AnimationGroup | undefined;
+  get: (
+    id: string
+  ) => AnimationSequence | AnimationPreset | AnimationGroup | undefined;
 
   /** List animations */
-  list: (category?: string) => (AnimationSequence | AnimationPreset | AnimationGroup)[];
+  list: (
+    category?: string
+  ) => (AnimationSequence | AnimationPreset | AnimationGroup)[];
 
   /** Create controller for animation */
   createController: (id: string) => AnimationController;
@@ -302,20 +319,20 @@ export interface AnimationManager {
 
 // Animation event types
 export type AnimationEventType =
-  | 'start'
-  | 'complete'
-  | 'cancel'
-  | 'pause'
-  | 'resume'
-  | 'seek'
-  | 'iteration'
-  | 'error';
+  | "start"
+  | "complete"
+  | "cancel"
+  | "pause"
+  | "resume"
+  | "seek"
+  | "iteration"
+  | "error";
 
 export interface AnimationEvent {
   type: AnimationEventType;
   animationId: string;
   timestamp: number;
-  data?: any;
+  data?: unknown;
 }
 
 // Physics animation types
@@ -352,7 +369,7 @@ export interface PhysicsConfig {
   maxSteps?: number;
 
   /** Integration method */
-  integration?: 'euler' | 'verlet' | 'rk4';
+  integration?: "euler" | "verlet" | "rk4";
 }
 
 export interface PhysicsBody {
@@ -372,7 +389,7 @@ export interface PhysicsBody {
   mass: number;
 
   /** Body shape */
-  shape: 'circle' | 'rectangle' | 'polygon' | 'custom';
+  shape: "circle" | "rectangle" | "polygon" | "custom";
 
   /** Body dimensions */
   dimensions: {
@@ -401,12 +418,12 @@ export interface PhysicsBody {
   forces: Array<{
     force: { x: number; y: number; z?: number };
     duration?: number;
-    type: 'constant' | 'impulse' | 'drag';
+    type: "constant" | "impulse" | "drag";
   }>;
 
   /** Body constraints */
   constraints: Array<{
-    type: 'distance' | 'angle' | 'axis';
+    type: "distance" | "angle" | "axis";
     target: PhysicsBody | { x: number; y: number; z?: number };
     stiffness: number;
     damping: number;
@@ -422,15 +439,17 @@ export interface PhysicsWorld {
 
   /** World forces */
   forces: Array<{
-    type: 'gravity' | 'wind' | 'magnetic';
+    type: "gravity" | "wind" | "magnetic";
     vector: { x: number; y: number; z?: number };
     strength: number;
   }>;
 
   /** World constraints */
   constraints: Array<{
-    type: 'distance' | 'angle' | 'axis' | 'surface';
-    bodies: [PhysicsBody, PhysicsBody] | [PhysicsBody, { x: number; y: number; z?: number }];
+    type: "distance" | "angle" | "axis" | "surface";
+    bodies:
+      | [PhysicsBody, PhysicsBody]
+      | [PhysicsBody, { x: number; y: number; z?: number }];
     stiffness: number;
     damping: number;
   }>;
@@ -460,7 +479,7 @@ export interface AnimationPerformanceMetrics {
   smoothnessScore: number;
 
   /** Power consumption estimate */
-  powerConsumption: 'low' | 'medium' | 'high';
+  powerConsumption: "low" | "medium" | "high";
 }
 
 // Accessibility types
@@ -469,7 +488,7 @@ export interface AnimationAccessibilityConfig {
   respectReducedMotion: boolean;
 
   /** Reduced motion fallback */
-  reducedMotionFallback: 'none' | 'opacity' | 'transform';
+  reducedMotionFallback: "none" | "opacity" | "transform";
 
   /** Enable high contrast mode */
   highContrastMode: boolean;
@@ -488,9 +507,20 @@ export interface AnimationAccessibilityConfig {
 }
 
 // Export utility types
-export type AnimationType = 'css' | 'javascript' | 'web-animations' | 'physics' | 'canvas';
-export type AnimationStatus = 'idle' | 'playing' | 'paused' | 'completed' | 'cancelled' | 'error';
-export type AnimationPriority = 'low' | 'normal' | 'high' | 'critical';
+export type AnimationType =
+  | "css"
+  | "javascript"
+  | "web-animations"
+  | "physics"
+  | "canvas";
+export type AnimationStatus =
+  | "idle"
+  | "playing"
+  | "paused"
+  | "completed"
+  | "cancelled"
+  | "error";
+export type AnimationPriority = "low" | "normal" | "high" | "critical";
 
 export interface AnimationOptions extends AnimationConfig {
   /** Animation type */

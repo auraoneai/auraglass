@@ -105,8 +105,8 @@ export function GlassLiveCursorPresence({
         try {
           const message = JSON.parse(event.data);
           handleWebSocketMessage(message);
-        } catch (error) {
-          console.warn("Invalid WebSocket message:", error);
+        } catch {
+          // Ignore malformed cursor messages and keep the connection alive.
         }
       };
 
@@ -121,13 +121,13 @@ export function GlassLiveCursorPresence({
         }
       };
 
-      ws.onerror = (error) => {
-        console.warn("WebSocket error:", error);
+      ws.onerror = () => {
+        setIsConnected(false);
       };
 
       wsRef.current = ws;
-    } catch (error) {
-      console.warn("Failed to connect to cursor presence server:", error);
+    } catch {
+      setIsConnected(false);
     }
   }, [connectionUrl, roomId, currentUser, reconnectAttempts]);
 

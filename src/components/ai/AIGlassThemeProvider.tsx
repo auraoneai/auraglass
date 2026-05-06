@@ -242,10 +242,7 @@ export function AIGlassThemeProvider({
             setAIConfig({ ...aiConfig, ...data.aiConfig });
           }
         }
-
-        console.log("AI Glass Theme Provider initialized");
-      } catch (error) {
-        console.error("Failed to initialize AI Glass Theme Provider:", error);
+      } catch {
         setGenerationError("Failed to initialize AI theme system");
       }
     };
@@ -265,8 +262,8 @@ export function AIGlassThemeProvider({
 
     try {
       localStorage.setItem(storageKey, JSON.stringify(dataToSave));
-    } catch (error) {
-      console.warn("Failed to save AI theme data:", error);
+    } catch {
+      // Ignore storage failures; in-memory AI theme state remains active.
     }
   }, [userBehavior, themeHistory, favoriteThemes, aiConfig, storageKey]);
 
@@ -343,7 +340,6 @@ export function AIGlassThemeProvider({
         const errorMessage =
           error instanceof Error ? error.message : "Theme generation failed";
         setGenerationError(errorMessage);
-        console.error("Theme generation error:", error);
         throw error;
       } finally {
         setIsGenerating(false);
@@ -425,8 +421,8 @@ export function AIGlassThemeProvider({
 
     try {
       localStorage.removeItem(storageKey);
-    } catch (error) {
-      console.warn("Failed to clear cache:", error);
+    } catch {
+      // Ignore storage failures; in-memory cache has already been cleared.
     }
   }, [storageKey]);
 
@@ -465,8 +461,7 @@ export function AIGlassThemeProvider({
         }
 
         return true;
-      } catch (error) {
-        console.error("Failed to import AI data:", error);
+      } catch {
         return false;
       }
     },

@@ -16,7 +16,7 @@ export interface DataPoint {
   y: number;
   category?: string;
   label?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   color?: string;
 }
 
@@ -36,10 +36,23 @@ export interface DrillDownLevel {
   aggregation?: "sum" | "avg" | "count" | "min" | "max";
 }
 
+export type ChartFilterPrimitiveValue =
+  | string
+  | number
+  | boolean
+  | Date
+  | null
+  | undefined;
+
+export type ChartFilterValue =
+  | ChartFilterPrimitiveValue
+  | ChartFilterPrimitiveValue[]
+  | [ChartFilterPrimitiveValue, ChartFilterPrimitiveValue];
+
 export interface ChartFilter {
   field: string;
   operator: "equals" | "contains" | "greaterThan" | "lessThan" | "between";
-  value: any;
+  value: ChartFilterValue;
 }
 
 export interface AdvancedDataVizProps {
@@ -66,6 +79,29 @@ export interface AdvancedDataVizProps {
   height?: number;
   className?: string;
 }
+
+const EMPTY_CHART_SERIES: ChartSeries[] = [];
+
+interface ChartExportSeries {
+  series: string;
+  data: Array<
+    {
+      x: DataPoint["x"];
+      y: number;
+      category?: string;
+      label?: string;
+    } & Record<string, unknown>
+  >;
+}
+
+const isChartFilterPrimitiveValue = (
+  value: unknown
+): value is ChartFilterPrimitiveValue =>
+  value == null ||
+  typeof value === "string" ||
+  typeof value === "number" ||
+  typeof value === "boolean" ||
+  value instanceof Date;
 
 // Chart rendering utility functions
 const createSVGPath = (
@@ -130,7 +166,7 @@ const generateColors = (count: number): string[] => {
   return [...colors, ...additionalColors];
 };
 
-const formatValue = (value: any, type?: string): string => {
+const formatValue = (value: unknown, type?: string): string => {
   if (typeof value === "number") {
     if (type === "currency") {
       return new Intl.NumberFormat("en-US", {
@@ -185,9 +221,9 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     content: string;
   }>({ visible: false, x: 0, y: 0, content: "" });
 
-  const dataArray = data || [];
+  const dataArray = data ?? EMPTY_CHART_SERIES;
   const [selectedSeries, setSelectedSeries] = useState<string[]>(
-    dataArray.map((s: any) => s.id)
+    dataArray.map((s) => s.id)
   );
 
   const [zoomLevel, setZoomLevel] = useState({ x: [0, 1], y: [0, 1] });
@@ -204,9 +240,9 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   const processedData = useMemo(() => {
     if (!dataArray || dataArray.length === 0) return [];
     return dataArray
-      .map((series: any) => ({
+      .map((series) => ({
         ...series,
-        data: series.data.filter((point: any) => {
+        data: series.data.filter((point) => {
           return appliedFilters.every((filter) => {
             const fieldValue = point.metadata?.[filter.field] ?? point.y;
 
@@ -221,18 +257,22 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 return Number(fieldValue) > Number(filter.value);
               case "lessThan":
                 return Number(fieldValue) < Number(filter.value);
-              case "between":
+              case "between": {
+                const rangeValue = Array.isArray(filter.value)
+                  ? filter.value
+                  : [];
                 return (
-                  Number(fieldValue) >= Number(filter.value[0]) &&
-                  Number(fieldValue) <= Number(filter.value[1])
+                  Number(fieldValue) >= Number(rangeValue[0]) &&
+                  Number(fieldValue) <= Number(rangeValue[1])
                 );
+              }
               default:
                 return true;
             }
           });
         }),
       }))
-      .filter((series: any) => selectedSeries.includes(series.id));
+      .filter((series) => selectedSeries.includes(series.id));
   }, [dataArray, appliedFilters, selectedSeries]);
 
   // Calculate chart dimensions and scales
@@ -255,7 +295,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     let yMin = Infinity,
       yMax = -Infinity;
 
-    allPoints.forEach((point: any) => {
+    allPoints.forEach((point) => {
       const xVal =
         typeof point.x === "number" ? point.x : new Date(point.x).getTime();
       xMin = Math.min(xMin, xVal);
@@ -316,8 +356,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       let nearestSeries: ChartSeries | null = null;
       let minDistance = Infinity;
 
-      processedData.forEach((series: any) => {
-        series.data.forEach((point: any) => {
+      processedData.forEach((series) => {
+        series.data.forEach((point) => {
           const pointX = scaleValue(
             typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
             chartDimensions.xDomain,
@@ -354,7 +394,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           content: `${s.name}: ${formatValue(p.y)} (${formatValue(p.x)})`,
         });
       } else {
-        setTooltip((prev: any) => ({ ...prev, visible: false }));
+        setTooltip((prev) => ({ ...prev, visible: false }));
       }
     },
     [showTooltip, processedData, chartDimensions]
@@ -366,14 +406,17 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
       if (enableDrillDown && currentDrillLevel < drillDownLevels.length - 1) {
         const nextLevel = drillDownLevels[currentDrillLevel + 1];
+        const metadataValue = point.metadata?.[nextLevel.dataKey];
         const newFilter: ChartFilter = {
           field: nextLevel.dataKey,
           operator: "equals",
-          value: point.metadata?.[nextLevel.dataKey] || point.category,
+          value: isChartFilterPrimitiveValue(metadataValue)
+            ? metadataValue
+            : point.category,
         };
 
-        setAppliedFilters((prev: any) => [...prev, newFilter]);
-        setCurrentDrillLevel((prev: any) => prev + 1);
+        setAppliedFilters((prev) => [...prev, newFilter]);
+        setCurrentDrillLevel((prev) => prev + 1);
         onDrillDown?.(nextLevel, [...appliedFilters, newFilter]);
       }
     },
@@ -421,9 +464,9 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   }, []);
 
   const toggleSeries = useCallback((seriesId: string) => {
-    setSelectedSeries((prev: any) =>
+    setSelectedSeries((prev) =>
       prev.includes(seriesId)
-        ? prev.filter((id: any) => id !== seriesId)
+        ? prev.filter((id) => id !== seriesId)
         : [...prev, seriesId]
     );
   }, []);
@@ -431,9 +474,9 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   const exportChart = useCallback(
     (format: "png" | "svg" | "csv" | "json") => {
       if (format === "csv" || format === "json") {
-        const exportData = processedData.map((series: any) => ({
+        const exportData: ChartExportSeries[] = processedData.map((series) => ({
           series: series.name,
-          data: series.data.map((point: any) => ({
+          data: series.data.map((point) => ({
             x: point.x,
             y: point.y,
             category: point.category,
@@ -465,11 +508,11 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     [processedData, onExport]
   );
 
-  const convertToCSV = (data: any[]): string => {
+  const convertToCSV = (data: ChartExportSeries[]): string => {
     const rows: string[] = ["Series,X,Y,Category,Label"];
 
-    data.forEach((series: any) => {
-      series.data.forEach((point: any) => {
+    data.forEach((series) => {
+      series.data.forEach((point) => {
         rows.push(
           `${series.series},${point.x},${point.y},${point.category || ""},${point.label || ""}`
         );
@@ -480,8 +523,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   };
 
   const renderLineChart = () => {
-    return processedData.map((series: any) => {
-      const points = series.data.map((point: any) => ({
+    return processedData.map((series) => {
+      const points = series.data.map((point) => ({
         x: scaleValue(
           typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
           chartDimensions.xDomain,
@@ -517,7 +560,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             strokeLinejoin="round"
             className={enableAnimation ? "transition-all duration-300" : ""}
           />
-          {series.data.map((point: any, index: any) => (
+          {series.data.map((point, index) => (
             <circle
               key={`${point.id}-${index}`}
               cx={points[index].x}
@@ -526,7 +569,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               fill={seriesColors[series.id]}
               stroke="white"
               strokeWidth={2}
-              className='glass-cursor-pointer glass-hover-r-6 glass-transition-all'
+              className="glass-cursor-pointer glass-hover-r-6 glass-transition-all"
               onClick={() => handleDataPointClick(point, series)}
             />
           ))}
@@ -542,7 +585,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
     return processedData.map((series, seriesIndex) => (
       <g key={series.id}>
-        {series.data.map((point: any, pointIndex: any) => {
+        {series.data.map((point, pointIndex) => {
           const x =
             pointIndex * barWidth +
             seriesIndex * barGroupWidth +
@@ -561,7 +604,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
               width={barGroupWidth * 0.8}
               height={height}
               fill={seriesColors[series.id]}
-              className='glass-cursor-pointer hover:glass-opacity-80 glass-transition-all'
+              className="glass-cursor-pointer hover:glass-opacity-80 glass-transition-all"
               onClick={() => handleDataPointClick(point, series)}
             />
           );
@@ -618,7 +661,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={x}
                 y={chartDimensions.chartHeight + 20}
                 textAnchor="middle"
-                className='glass-text-xs glass-fill-gray-600'
+                className="glass-text-xs glass-fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -650,7 +693,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 x={-10}
                 y={y + 4}
                 textAnchor="end"
-                className='glass-text-xs glass-fill-gray-600'
+                className="glass-text-xs glass-fill-gray-600"
               >
                 {formatValue(value)}
               </text>
@@ -664,7 +707,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={chartDimensions.chartWidth / 2}
             y={chartDimensions.chartHeight + 45}
             textAnchor="middle"
-            className='glass-text-sm glass-font-medium glass-fill-gray-700'
+            className="glass-text-sm glass-font-medium glass-fill-gray-700"
           >
             {xAxisLabel}
           </text>
@@ -675,7 +718,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             x={-40}
             y={chartDimensions.chartHeight / 2}
             textAnchor="middle"
-            className='glass-text-sm glass-font-medium glass-fill-gray-700'
+            className="glass-text-sm glass-font-medium glass-fill-gray-700"
             transform={`rotate(-90, -40, ${chartDimensions.chartHeight / 2})`}
           >
             {yAxisLabel}
@@ -689,15 +732,15 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     <div ref={containerRef} className={cn("relative", className)}>
       <Glass className="glass-p-6">
         {/* Header */}
-        <div className='glass-flex glass-items-center glass-justify-between glass-mb-6'>
+        <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
           <div>
             {title && (
-              <h2 className='glass-text-xl glass-font-semibold glass-text-secondary'>
+              <h2 className="glass-text-xl glass-font-semibold glass-text-secondary">
                 {title}
               </h2>
             )}
             {subtitle && (
-              <p className='glass-text-secondary glass-mt-1'>{subtitle}</p>
+              <p className="glass-text-secondary glass-mt-1">{subtitle}</p>
             )}
           </div>
 
@@ -705,22 +748,22 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             {enableZoom && (
               <button
                 onClick={resetZoom}
-                className='glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary glass-radius hover:glass-surface-subtle glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 Reset Zoom
               </button>
             )}
 
-            <div className='glass-flex glass-border glass-border-subtle glass-radius glass-overflow-hidden'>
+            <div className="glass-flex glass-border glass-border-subtle glass-radius glass-overflow-hidden">
               <button
                 onClick={() => exportChart("csv")}
-                className='glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-border-r glass-border-subtle glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-border-r glass-border-subtle glass-focus glass-touch-target glass-contrast-guard"
               >
                 CSV
               </button>
               <button
                 onClick={() => exportChart("json")}
-                className='glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-subtle glass-text-secondary hover:glass-surface-subtle glass-focus glass-touch-target glass-contrast-guard"
               >
                 JSON
               </button>
@@ -730,22 +773,22 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Drill-down breadcrumbs */}
         {enableDrillDown && appliedFilters.length > 0 && (
-          <div className='glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-text-sm glass-text-secondary'>
+          <div className="glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-text-sm glass-text-secondary">
             <span>📊</span>
             <span>Filtered by:</span>
             {appliedFilters.map((filter, index) => (
               <span
                 key={index}
-                className='glass-px-2 glass-py-1 glass-surface-subtle glass-text-primary glass-radius glass-flex glass-items-center glass-gap-1'
+                className="glass-px-2 glass-py-1 glass-surface-subtle glass-text-primary glass-radius glass-flex glass-items-center glass-gap-1"
               >
-                {filter.field}: {filter.value}
+                {filter.field}: {formatValue(filter.value)}
                 <button
                   onClick={() =>
-                    setAppliedFilters((prev: any) =>
-                      prev.filter((_: any, i: any) => i !== index)
+                    setAppliedFilters((prev) =>
+                      prev.filter((_, i) => i !== index)
                     )
                   }
-                  className='glass-text-primary hover:glass-text-primary glass-ml-1 glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-text-primary hover:glass-text-primary glass-ml-1 glass-focus glass-touch-target glass-contrast-guard"
                 >
                   ✕
                 </button>
@@ -755,14 +798,14 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         )}
 
         {/* Chart */}
-        <div className='glass-relative'>
+        <div className="glass-relative">
           <svg
             ref={svgRef}
             width={width}
             height={height}
             onMouseMove={handleMouseMove}
             onMouseLeave={() =>
-              setTooltip((prev: any) => ({ ...prev, visible: false }))
+              setTooltip((prev) => ({ ...prev, visible: false }))
             }
             onWheel={(e) => {
               e.preventDefault();
@@ -815,8 +858,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* Legend */}
         {showLegend && (
-          <div className='glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-mt-4 glass-pt-4 glass-border-t glass-border-subtle'>
-            {processedData.map((series: any) => (
+          <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-mt-4 glass-pt-4 glass-border-t glass-border-subtle">
+            {processedData.map((series) => (
               <button
                 key={series.id}
                 onClick={() => toggleSeries(series.id)}
@@ -828,7 +871,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
                 )}
               >
                 <div
-                  className='glass-w-3 glass-h-3 glass-radius-full'
+                  className="glass-w-3 glass-h-3 glass-radius-full"
                   style={{ backgroundColor: seriesColors[series.id] }}
                 />
                 <span>{series.name}</span>
@@ -841,7 +884,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       {/* Tooltip */}
       {tooltip.visible && (
         <div
-          className='glass-fixed glass-z-50 glass-px-3 glass-py-2 glass-surface-subtle glass-text-primary glass-text-sm glass-radius glass-shadow-lg glass-pointer-events-none'
+          className="glass-fixed glass-z-50 glass-px-3 glass-py-2 glass-surface-subtle glass-text-primary glass-text-sm glass-radius glass-shadow-lg glass-pointer-events-none"
           style={{
             left: tooltip.x + 10,
             top: tooltip.y - 10,

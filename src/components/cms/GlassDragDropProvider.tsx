@@ -12,13 +12,17 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
+export type ComponentPropValue = string | number | boolean | undefined;
+export type ComponentProps = React.CSSProperties &
+  Record<string, ComponentPropValue>;
+
 export interface ComponentDefinition {
   id: string;
   type: string;
   name: string;
   icon: string;
   category: "layout" | "content" | "media" | "interactive" | "advanced";
-  defaultProps: Record<string, any>;
+  defaultProps: ComponentProps;
   editableProps: {
     [key: string]: {
       type:
@@ -44,7 +48,7 @@ export interface ComponentDefinition {
 export interface PageComponent {
   id: string;
   type: string;
-  props: Record<string, any>;
+  props: ComponentProps;
   children: PageComponent[];
   parent?: string;
   order: number;
@@ -70,6 +74,12 @@ export interface PageBuilderState {
   activeBreakpoint: "desktop" | "tablet" | "mobile";
   showGrid: boolean;
   snapToGrid: boolean;
+}
+
+export interface PageExportData {
+  components: PageComponent[];
+  timestamp: string;
+  version: string;
 }
 
 interface DragDropContextValue {
@@ -98,7 +108,7 @@ interface DragDropContextValue {
     targetId?: string,
     position?: "before" | "after" | "inside"
   ) => void;
-  updateComponent: (id: string, props: Partial<Record<string, any>>) => void;
+  updateComponent: (id: string, props: Partial<ComponentProps>) => void;
   deleteComponent: (id: string) => void;
   duplicateComponent: (id: string) => void;
   moveComponent: (
@@ -125,8 +135,8 @@ interface DragDropContextValue {
 
   // Page Management
   clearPage: () => void;
-  exportPage: () => any;
-  importPage: (data: any) => void;
+  exportPage: () => PageExportData;
+  importPage: (data: Partial<PageExportData>) => void;
 
   // View Options
   togglePreviewMode: () => void;
@@ -438,7 +448,7 @@ export const DragDropProvider = forwardRef<
   }, []);
 
   const saveToHistory = useCallback(() => {
-    setPageState((prev: any) => {
+    setPageState((prev) => {
       const newHistory = prev.history.slice(0, prev.historyIndex + 1);
       newHistory.push([...prev.components]);
       return {
@@ -472,7 +482,7 @@ export const DragDropProvider = forwardRef<
 
   const onDragOver = useCallback(
     (targetId: string, position: "before" | "after" | "inside") => {
-      setDragDropState((prev: any) => ({
+      setDragDropState((prev) => ({
         ...prev,
         dropTarget: targetId,
         dropPosition: position,
@@ -518,7 +528,7 @@ export const DragDropProvider = forwardRef<
         order: 0,
       };
 
-      setPageState((prev: any) => {
+      setPageState((prev) => {
         const components = [...prev.components];
 
         if (targetId && position) {
@@ -557,12 +567,12 @@ export const DragDropProvider = forwardRef<
   );
 
   const updateComponent = useCallback(
-    (id: string, props: Partial<Record<string, any>>) => {
-      setPageState((prev: any) => {
+    (id: string, props: Partial<ComponentProps>) => {
+      setPageState((prev) => {
         const updateInArray = (
           components: PageComponent[]
         ): PageComponent[] => {
-          return components.map((component: any) => {
+          return components.map((component) => {
             if (component.id === id) {
               return { ...component, props: { ...component.props, ...props } };
             }
@@ -587,11 +597,11 @@ export const DragDropProvider = forwardRef<
 
   const deleteComponent = useCallback(
     (id: string) => {
-      setPageState((prev: any) => {
+      setPageState((prev) => {
         const removeFromArray = (
           components: PageComponent[]
         ): PageComponent[] => {
-          return components.filter((component: any) => {
+          return components.filter((component) => {
             if (component.id === id) return false;
             component.children = removeFromArray(component.children);
             return true;
@@ -612,7 +622,7 @@ export const DragDropProvider = forwardRef<
 
   const duplicateComponent = useCallback(
     (id: string) => {
-      setPageState((prev: any) => {
+      setPageState((prev) => {
         const findComponent = (
           components: PageComponent[]
         ): PageComponent | null => {
@@ -655,7 +665,7 @@ export const DragDropProvider = forwardRef<
   );
 
   const selectComponent = useCallback((id?: string) => {
-    setPageState((prev: any) => ({
+    setPageState((prev) => ({
       ...prev,
       selectedComponent: id,
     }));
@@ -697,7 +707,7 @@ export const DragDropProvider = forwardRef<
   );
 
   const undo = useCallback(() => {
-    setPageState((prev: any) => {
+    setPageState((prev) => {
       if (prev.historyIndex > 0) {
         return {
           ...prev,
@@ -710,7 +720,7 @@ export const DragDropProvider = forwardRef<
   }, []);
 
   const redo = useCallback(() => {
-    setPageState((prev: any) => {
+    setPageState((prev) => {
       if (prev.historyIndex < prev.history.length - 1) {
         return {
           ...prev,
@@ -735,7 +745,7 @@ export const DragDropProvider = forwardRef<
     (id: string) => {
       const component = getComponentById(id);
       if (component) {
-        setPageState((prev: any) => ({
+        setPageState((prev) => ({
           ...prev,
           clipboardComponent: component,
         }));
@@ -763,7 +773,7 @@ export const DragDropProvider = forwardRef<
   );
 
   const clearPage = useCallback(() => {
-    setPageState((prev: any) => ({
+    setPageState((prev) => ({
       ...prev,
       components: [],
       selectedComponent: undefined,
@@ -771,7 +781,7 @@ export const DragDropProvider = forwardRef<
     saveToHistory();
   }, [saveToHistory]);
 
-  const exportPage = useCallback(() => {
+  const exportPage = useCallback((): PageExportData => {
     return {
       components: pageState.components,
       timestamp: new Date().toISOString(),
@@ -780,11 +790,12 @@ export const DragDropProvider = forwardRef<
   }, [pageState.components]);
 
   const importPage = useCallback(
-    (data: any) => {
-      if (data.components) {
-        setPageState((prev: any) => ({
+    (data: Partial<PageExportData>) => {
+      const importedComponents = data.components;
+      if (importedComponents) {
+        setPageState((prev) => ({
           ...prev,
-          components: data.components,
+          components: importedComponents,
           selectedComponent: undefined,
         }));
         saveToHistory();
@@ -794,22 +805,22 @@ export const DragDropProvider = forwardRef<
   );
 
   const togglePreviewMode = useCallback(() => {
-    setPageState((prev: any) => ({ ...prev, previewMode: !prev.previewMode }));
+    setPageState((prev) => ({ ...prev, previewMode: !prev.previewMode }));
   }, []);
 
   const setActiveBreakpoint = useCallback(
     (breakpoint: "desktop" | "tablet" | "mobile") => {
-      setPageState((prev: any) => ({ ...prev, activeBreakpoint: breakpoint }));
+      setPageState((prev) => ({ ...prev, activeBreakpoint: breakpoint }));
     },
     []
   );
 
   const toggleGrid = useCallback(() => {
-    setPageState((prev: any) => ({ ...prev, showGrid: !prev.showGrid }));
+    setPageState((prev) => ({ ...prev, showGrid: !prev.showGrid }));
   }, []);
 
   const toggleSnapToGrid = useCallback(() => {
-    setPageState((prev: any) => ({ ...prev, snapToGrid: !prev.snapToGrid }));
+    setPageState((prev) => ({ ...prev, snapToGrid: !prev.snapToGrid }));
   }, []);
 
   const value: DragDropContextValue = {

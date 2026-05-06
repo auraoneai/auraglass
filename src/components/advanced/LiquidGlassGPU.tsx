@@ -195,7 +195,6 @@ export class LiquidGlassGPUDriver {
         )) as WebGLRenderingContext | null;
 
       if (!this.gl) {
-        console.warn("LiquidGlassGPU: WebGL not supported");
         return false;
       }
 
@@ -206,9 +205,7 @@ export class LiquidGlassGPUDriver {
       ];
       for (const ext of requiredExtensions) {
         if (!this.gl.getExtension(ext)) {
-          console.warn(
-            `LiquidGlassGPU: Required extension ${ext} not available`
-          );
+          continue;
         }
       }
 
@@ -226,8 +223,7 @@ export class LiquidGlassGPUDriver {
 
       this.isInitialized = true;
       return true;
-    } catch (error) {
-      console.error("LiquidGlassGPU: Initialization failed", error);
+    } catch {
       return false;
     }
   }
@@ -312,8 +308,8 @@ export class LiquidGlassGPUDriver {
         this.gl.TEXTURE_MAG_FILTER,
         this.gl.LINEAR
       );
-    } catch (error) {
-      console.warn("LiquidGlassGPU: Failed to update backdrop", error);
+    } catch {
+      // Keep rendering with the previous backdrop texture.
     }
   }
 
@@ -381,10 +377,6 @@ export class LiquidGlassGPUDriver {
     this.gl.linkProgram(program);
 
     if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) {
-      console.error(
-        "LiquidGlassGPU: Shader program linking failed:",
-        this.gl.getProgramInfoLog(program)
-      );
       this.gl.deleteProgram(program);
       return null;
     }
@@ -402,10 +394,6 @@ export class LiquidGlassGPUDriver {
     this.gl.compileShader(shader);
 
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-      console.error(
-        "LiquidGlassGPU: Shader compilation failed:",
-        this.gl.getShaderInfoLog(shader)
-      );
       this.gl.deleteShader(shader);
       return null;
     }
@@ -601,8 +589,7 @@ export class LiquidGlassGPUDriver {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       return ctx.getImageData(0, 0, canvas.width, canvas.height);
-    } catch (error) {
-      console.warn("LiquidGlassGPU: Failed to capture element", error);
+    } catch {
       return null;
     }
   }

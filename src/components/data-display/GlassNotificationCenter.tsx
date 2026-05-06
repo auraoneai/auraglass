@@ -64,9 +64,6 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    console.warn(
-      "useNotifications must be used within a GlassNotificationProvider. Using default values."
-    );
     return {
       notifications: [],
       addNotification: () => {},

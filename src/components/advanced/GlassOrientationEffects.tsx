@@ -138,8 +138,7 @@ export function GlassOrientationEffects({
         setPermissionGranted(
           orientationPermission === "granted" || motionPermission === "granted"
         );
-      } catch (error) {
-        console.warn("Error requesting device orientation permission:", error);
+      } catch {
         setPermissionGranted(false);
       }
     } else {

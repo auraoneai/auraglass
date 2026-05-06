@@ -1,17 +1,49 @@
 # Changelog
 
-## Unreleased
+## [3.0.0] - 2026-05-06
+
+### Major Release
+
+- Repositioned AuraGlass as a 3.0 platform relaunch after the old public npm package remained on `2.16.2`.
+- Updated the npm package version and package metadata for the major public relaunch.
+- Rebuilt the README around the full 3.0 release: Liquid Glass, the 356-component certified inventory, runtime/security hardening, public API audits, package entrypoints, release gates, and current publish workflow.
+- Preserved the existing package export map while treating the release as a major product-line update.
 
 ### Added
 
 - Added Aura Liquid Glass system primitives: `LiquidGlassEffectGroup`, `LiquidGlassScrollEdge`, `LiquidGlassBackdropSampler`, `LiquidGlassConcentricFrame`, `LiquidGlassLayerProvider`, and `LiquidGlassSourceTransition`.
 - Added portfolio-grade Liquid Glass components for navigation, search, presentations, controls, data, media, interactive map/command surfaces, and `LiquidGlassShowcase`.
+- Added 32 Liquid Glass public value exports plus related public type exports from the root package entrypoint.
 - Added Liquid Glass tests, stories, docs, token entries, and public exports.
+- Added public export, API surface, runtime cleanliness, manual browser QA, npm publish-readiness, AI/server security, and breaking-change review reports.
+- Added Next.js integration smoke coverage for both Next 14 / React 18 and Next 15 / React 19 tarball consumers.
+- Added package verification for missing package-metadata declaration paths, nested `node_modules`, React runtimes, and dispatcher artifacts.
 
 ### Changed
 
 - `LiquidGlassMaterial` now consumes backdrop sampling, grouping context, and layer policy.
 - `GlassToolbar`, `GlassActionSheet`, `GlassSegmentedControl`, `GlassSlider`, `GlassSwitch`, and `GlassToggle` expose Liquid Glass upgrade paths or markers while preserving existing behavior.
+- Release scripts now use npm with provenance publishing, `prepublishOnly`, pack verification, and Next integration gates.
+- Feature-specific peer dependencies are optional while `react` and `react-dom` remain required core peers.
+- React Three Fiber, Drei, and Sentry peer ranges were updated for modern React 18/19 install paths.
+- README, installation docs, reports, and certification evidence were refreshed for the 3.0 package.
+
+### Security And Runtime Hardening
+
+- API key generation, websocket room IDs, demo API tokens, and anonymous collaboration IDs now use crypto-backed randomness instead of `Math.random()` paths.
+- Auth middleware no longer accepts JWTs or API keys from URL query parameters.
+- Vision cache keys use SHA-256 instead of MD5.
+- AI service/provider/client logging and broader low-value production-source diagnostics were reduced.
+- Runtime cleanliness auditing now tracks production-source console, debugger, and TODO/FIXME/XXX findings.
+
+### Verification
+
+- Full CI covers TypeScript, lint, token/style validation, glass validation, contrast tests, token exports, package exports, type fixtures, and Jest coverage.
+- Storybook visual certification records 356/356 passed entries with 712 screenshots.
+- `npm publish --dry-run --provenance --access public` exercises build, pack verification, and both Next integration smokes before publishing.
+- `npm audit --audit-level=moderate` reports zero vulnerabilities in the verified release state.
+
+## Unreleased
 
 All notable changes to AuraGlass will be documented in this file.
 

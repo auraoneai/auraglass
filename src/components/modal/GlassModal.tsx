@@ -566,8 +566,8 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
             complexity: insights.complexity || prevInsights?.complexity || 0.5,
             userStress: insights.userStress || prevInsights?.userStress || 0.3,
           }));
-        } catch (error) {
-          console.warn("Predictive modal analysis failed:", error);
+        } catch {
+          setModalInsights(null);
         }
       };
 

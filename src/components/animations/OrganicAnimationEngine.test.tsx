@@ -131,7 +131,7 @@ describe("OrganicAnimationEngine", () => {
    * Debug Overlay: Renders animation debug info overlay
    */
   it("renders animation debug overlay", () => {
-    const { container } = render(<OrganicAnimationEngine />);
+    const { container } = render(<OrganicAnimationEngine showDebugHud />);
 
     const debug = container.querySelector(
       ".animation-debug-info"

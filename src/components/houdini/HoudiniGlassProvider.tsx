@@ -12,7 +12,6 @@ import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface HoudiniGlassContextType {
   isSupported: boolean;
@@ -103,7 +102,6 @@ export const HoudiniGlassProvider = forwardRef<
     },
     ref
   ) => {
-    const prefersReducedMotion = useReducedMotion();
     const [isSupported, setIsSupported] = useState(false);
     const [hasPropertyAPI, setHasPropertyAPI] = useState(false);
     const [hasPaintAPI, setHasPaintAPI] = useState(false);
@@ -129,14 +127,6 @@ export const HoudiniGlassProvider = forwardRef<
         setHasPaintAPI(paintAPI);
         setIsSupported(propertyAPI || paintAPI);
 
-        if (debugModeState) {
-          console.log("Houdini Support Detection:", {
-            propertyAPI,
-            paintAPI,
-            overall: propertyAPI || paintAPI,
-          });
-        }
-
         return { propertyAPI, paintAPI };
       };
 
@@ -146,11 +136,8 @@ export const HoudiniGlassProvider = forwardRef<
       if (propertyAPI) {
         try {
           registerGlassProperties();
-          if (debugModeState) {
-            console.log("Glass properties registered successfully");
-          }
-        } catch (error) {
-          console.warn("Failed to register glass properties:", error);
+        } catch {
+          // Ignore registration failures; CSS fallbacks remain active.
         }
       }
 
@@ -158,14 +145,11 @@ export const HoudiniGlassProvider = forwardRef<
       if (paintAPI && !performanceModeState) {
         try {
           registerGlassWorklets();
-          if (debugModeState) {
-            console.log("Glass worklets registered successfully");
-          }
-        } catch (error) {
-          console.warn("Failed to register glass worklets:", error);
+        } catch {
+          // Ignore registration failures; CSS fallbacks remain active.
         }
       }
-    }, [debugModeState, performanceModeState]);
+    }, [performanceModeState]);
 
     // Inject global styles
     useEffect(() => {
@@ -190,12 +174,8 @@ export const HoudiniGlassProvider = forwardRef<
         Object.entries(preset).forEach(([property, value]) => {
           document.documentElement.style.setProperty(property, value);
         });
-
-        if (debugModeState) {
-          console.log(`Applied global preset: ${globalPreset}`, preset);
-        }
       }
-    }, [globalPreset, hasPropertyAPI, debugModeState]);
+    }, [globalPreset, hasPropertyAPI]);
 
     // Apply global properties to document root
     useEffect(() => {
@@ -203,12 +183,8 @@ export const HoudiniGlassProvider = forwardRef<
         Object.entries(globalProperties).forEach(([property, value]) => {
           document.documentElement.style.setProperty(property, value);
         });
-
-        if (debugModeState) {
-          console.log("Applied global properties:", globalProperties);
-        }
       }
-    }, [globalProperties, hasPropertyAPI, debugModeState]);
+    }, [globalProperties, hasPropertyAPI]);
 
     // Performance mode adjustments
     useEffect(() => {
@@ -234,13 +210,6 @@ export const HoudiniGlassProvider = forwardRef<
           "--glass-blur-intensity",
           "5"
         );
-
-        if (debugModeState) {
-          console.log(
-            "Performance mode enabled - reduced effects:",
-            reducedEffects
-          );
-        }
       } else {
         // Restore full effects
         setEnabledEffectsState((prev: any) => {
@@ -259,36 +228,7 @@ export const HoudiniGlassProvider = forwardRef<
           "10"
         );
       }
-    }, [performanceModeState, enabledEffects, debugModeState]);
-
-    // Debug information logging
-    useEffect(() => {
-      if (debugModeState && !prefersReducedMotion) {
-        const interval = setInterval(() => {
-          console.log("Houdini Glass Debug Info:", {
-            isSupported,
-            hasPropertyAPI,
-            hasPaintAPI,
-            globalPreset,
-            enabledEffects: enabledEffectsState,
-            performanceMode: performanceModeState,
-            globalPropertiesCount: Object.keys(globalProperties).length,
-          });
-        }, ANIMATION.DURATION.slower * 7);
-
-        return () => clearInterval(interval);
-      }
-    }, [
-      debugModeState,
-      prefersReducedMotion,
-      isSupported,
-      hasPropertyAPI,
-      hasPaintAPI,
-      globalPreset,
-      enabledEffectsState,
-      performanceModeState,
-      globalProperties,
-    ]);
+    }, [performanceModeState, enabledEffects]);
 
     const updateGlobalProperty = useCallback(
       (property: string, value: string) => {
@@ -297,47 +237,26 @@ export const HoudiniGlassProvider = forwardRef<
         if (hasPropertyAPI) {
           document.documentElement.style.setProperty(property, value);
         }
-
-        if (debugModeState) {
-          console.log(`Updated global property: ${property} = ${value}`);
-        }
       },
-      [hasPropertyAPI, debugModeState]
+      [hasPropertyAPI]
     );
 
-    const toggleEffect = useCallback(
-      (effect: string) => {
-        setEnabledEffectsState((prev: any) => {
-          const newEffects = prev.includes(effect)
-            ? prev.filter((e: any) => e !== effect)
-            : [...prev, effect];
+    const toggleEffect = useCallback((effect: string) => {
+      setEnabledEffectsState((prev: any) => {
+        const newEffects = prev.includes(effect)
+          ? prev.filter((e: any) => e !== effect)
+          : [...prev, effect];
 
-          if (debugModeState) {
-            console.log(`Toggled effect: ${effect}. New effects:`, newEffects);
-          }
+        return newEffects;
+      });
+    }, []);
 
-          return newEffects;
-        });
-      },
-      [debugModeState]
-    );
-
-    const setPerformanceMode = useCallback(
-      (enabled: boolean) => {
-        setPerformanceModeState(enabled);
-
-        if (debugModeState) {
-          console.log(`Performance mode ${enabled ? "enabled" : "disabled"}`);
-        }
-      },
-      [debugModeState]
-    );
+    const setPerformanceMode = useCallback((enabled: boolean) => {
+      setPerformanceModeState(enabled);
+    }, []);
 
     const setDebugMode = useCallback((enabled: boolean) => {
       setDebugModeState(enabled);
-      console.log(
-        `Houdini Glass debug mode ${enabled ? "enabled" : "disabled"}`
-      );
     }, []);
 
     const contextValue: HoudiniGlassContextType = {
@@ -549,8 +468,8 @@ function registerGlassProperties() {
         inherits: false,
         initialValue: "10",
       });
-    } catch (error) {
-      console.warn("Failed to register glass properties:", error);
+    } catch {
+      // Ignore duplicate or unsupported registration details.
     }
   }
 }
@@ -581,10 +500,8 @@ function registerGlassWorklets() {
       // CSS.paintWorklet.addModule('/worklets/glass-caustics.js');
       // CSS.paintWorklet.addModule('/worklets/glass-border.js');
       // CSS.paintWorklet.addModule('/worklets/glass-refraction.js');
-
-      console.log("Glass worklets registered (mock implementation)");
-    } catch (error) {
-      console.warn("Failed to register glass worklets:", error);
+    } catch {
+      // Ignore duplicate or unsupported registration details.
     }
   }
 }

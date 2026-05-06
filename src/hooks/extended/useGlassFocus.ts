@@ -1,6 +1,6 @@
-'use client';
-import React from 'react';
-import { useRef, useEffect, useCallback, useState } from 'react';
+"use client";
+import React from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 
 export interface GlassFocusOptions {
   /** Enable glass focus ring */
@@ -20,7 +20,7 @@ export interface GlassFocusOptions {
   /** Focus ring position */
   position?: string;
   /** Custom focus styles */
-  customStyles?: Record<string, any>;
+  customStyles?: React.CSSProperties;
   /** Enable keyboard navigation */
   keyboardNavigation?: boolean;
   /** Auto-focus on mount */
@@ -34,20 +34,20 @@ export interface GlassFocusOptions {
 export interface GlassFocusState {
   isFocused: boolean;
   isKeyboardFocused: boolean;
-  focusOrigin: 'mouse' | 'keyboard' | 'programmatic' | null;
+  focusOrigin: "mouse" | "keyboard" | "programmatic" | null;
   focusRingVisible: boolean;
   previousFocusedElement: Element | null;
 }
 
 const DEFAULT_OPTIONS: Required<GlassFocusOptions> = {
   enabled: true,
-  color: 'var(--glass-color-primary, 0.5)',
+  color: "var(--glass-color-primary, 0.5)",
   width: 2,
   blur: 4,
   spread: 2,
   duration: 200,
   offset: 2,
-  position: 'relative',
+  position: "relative",
   customStyles: {},
   keyboardNavigation: true,
   autoFocus: false,
@@ -58,7 +58,9 @@ const DEFAULT_OPTIONS: Required<GlassFocusOptions> = {
 export function useGlassFocus(options: GlassFocusOptions = {}) {
   const elementRef = useRef<HTMLElement>(null);
   const previousFocusedElementRef = useRef<Element | null>(null);
-  const focusOriginRef = useRef<'mouse' | 'keyboard' | 'programmatic' | null>(null);
+  const focusOriginRef = useRef<"mouse" | "keyboard" | "programmatic" | null>(
+    null
+  );
 
   const [focusState, setFocusState] = useState<GlassFocusState>({
     isFocused: false,
@@ -74,45 +76,49 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
   const baseStyle = useCallback((): React.CSSProperties => {
     if (!finalOptions.enabled) return {};
     return {
-      outline: 'none',
-      position: 'relative',
+      outline: "none",
+      position: "relative",
       // pseudo-element styles are applied by CSS-in-JS in the wrapper component
     } as React.CSSProperties;
   }, [finalOptions.enabled]);
 
   // Handle focus events
-  const handleFocus = useCallback((event: FocusEvent) => {
-    const target = event.target as HTMLElement;
+  const handleFocus = useCallback(
+    (event: FocusEvent) => {
+      const target = event.target as HTMLElement;
 
-    // Determine focus origin
-    if (event.relatedTarget) {
-      focusOriginRef.current = 'keyboard';
-    } else if (focusOriginRef.current === null) {
-      focusOriginRef.current = 'programmatic';
-    }
-
-    setFocusState((prev: any) => ({
-      ...prev,
-      isFocused: true,
-      isKeyboardFocused: focusOriginRef.current === 'keyboard',
-      focusOrigin: focusOriginRef.current,
-      focusRingVisible: finalOptions.enabled && focusOriginRef.current === 'keyboard',
-    }));
-
-    // Apply focus styles
-    if (target && finalOptions.enabled) {
-      target.classList.add('glass-focus-visible');
-
-      if (focusOriginRef.current === 'keyboard') {
-        target.classList.add('glass-focus-keyboard');
+      // Determine focus origin
+      if (event.relatedTarget) {
+        focusOriginRef.current = "keyboard";
+      } else if (focusOriginRef.current === null) {
+        focusOriginRef.current = "programmatic";
       }
-    }
-  }, [finalOptions.enabled]);
+
+      setFocusState((prev) => ({
+        ...prev,
+        isFocused: true,
+        isKeyboardFocused: focusOriginRef.current === "keyboard",
+        focusOrigin: focusOriginRef.current,
+        focusRingVisible:
+          finalOptions.enabled && focusOriginRef.current === "keyboard",
+      }));
+
+      // Apply focus styles
+      if (target && finalOptions.enabled) {
+        target.classList.add("glass-focus-visible");
+
+        if (focusOriginRef.current === "keyboard") {
+          target.classList.add("glass-focus-keyboard");
+        }
+      }
+    },
+    [finalOptions.enabled]
+  );
 
   const handleBlur = useCallback((event: FocusEvent) => {
     const target = event.target as HTMLElement;
 
-    setFocusState((prev: any) => ({
+    setFocusState((prev) => ({
       ...prev,
       isFocused: false,
       isKeyboardFocused: false,
@@ -122,26 +128,36 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
 
     // Remove focus styles
     if (target) {
-      target.classList.remove('glass-focus-visible', 'glass-focus-keyboard');
+      target.classList.remove("glass-focus-visible", "glass-focus-keyboard");
     }
   }, []);
 
   // Handle mouse down to detect mouse focus
   const handleMouseDown = useCallback(() => {
-    focusOriginRef.current = 'mouse';
+    focusOriginRef.current = "mouse";
   }, []);
 
   // Handle key down to detect keyboard focus
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(event.key)) {
-      focusOriginRef.current = 'keyboard';
+    if (
+      [
+        "Tab",
+        "ArrowUp",
+        "ArrowDown",
+        "ArrowLeft",
+        "ArrowRight",
+        "Enter",
+        " ",
+      ].includes(event.key)
+    ) {
+      focusOriginRef.current = "keyboard";
     }
   }, []);
 
   // Programmatic focus methods
   const focus = useCallback(() => {
     if (elementRef.current && finalOptions.enabled) {
-      focusOriginRef.current = 'programmatic';
+      focusOriginRef.current = "programmatic";
       elementRef.current.focus();
     }
   }, [finalOptions.enabled]);
@@ -162,10 +178,12 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
     );
 
     const firstElement = focusableElements[0] as HTMLElement;
-    const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+    const lastElement = focusableElements[
+      focusableElements.length - 1
+    ] as HTMLElement;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab') {
+      if (event.key === "Tab") {
         if (event.shiftKey) {
           if (document.activeElement === firstElement) {
             event.preventDefault();
@@ -180,10 +198,10 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
       }
     };
 
-    element.addEventListener('keydown', handleKeyDown);
+    element.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      element.removeEventListener('keydown', handleKeyDown);
+      element.removeEventListener("keydown", handleKeyDown);
     };
   }, [finalOptions.focusTrap]);
 
@@ -198,12 +216,12 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
     }
 
     // Add event listeners
-    element.addEventListener('focus', handleFocus);
-    element.addEventListener('blur', handleBlur);
-    element.addEventListener('mousedown', handleMouseDown);
+    element.addEventListener("focus", handleFocus);
+    element.addEventListener("blur", handleBlur);
+    element.addEventListener("mousedown", handleMouseDown);
 
     if (finalOptions.keyboardNavigation) {
-      element.addEventListener('keydown', handleKeyDown);
+      element.addEventListener("keydown", handleKeyDown);
     }
 
     // Setup focus trap
@@ -215,12 +233,12 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
     }
 
     return () => {
-      element.removeEventListener('focus', handleFocus);
-      element.removeEventListener('blur', handleBlur);
-      element.removeEventListener('mousedown', handleMouseDown);
+      element.removeEventListener("focus", handleFocus);
+      element.removeEventListener("blur", handleBlur);
+      element.removeEventListener("mousedown", handleMouseDown);
 
       if (finalOptions.keyboardNavigation) {
-        element.removeEventListener('keydown', handleKeyDown);
+        element.removeEventListener("keydown", handleKeyDown);
       }
 
       cleanupFocusTrap?.();
@@ -254,63 +272,71 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
 }
 
 // Hook for managing focus within a group of elements
-export function useGlassFocusGroup(options: GlassFocusOptions & {
-  elements: HTMLElement[];
-  loop?: boolean;
-} = { elements: [] }) {
+export function useGlassFocusGroup(
+  options: GlassFocusOptions & {
+    elements: HTMLElement[];
+    loop?: boolean;
+  } = { elements: [] }
+) {
   const { elements, loop = true, ...focusOptions } = options;
   const [currentFocusIndex, setCurrentFocusIndex] = useState(-1);
 
-  const moveFocus = useCallback((direction: 'next' | 'previous' | 'first' | 'last') => {
-    if (elements.length === 0) return;
+  const moveFocus = useCallback(
+    (direction: "next" | "previous" | "first" | "last") => {
+      if (elements.length === 0) return;
 
-    let newIndex: number;
+      let newIndex: number;
 
-    switch (direction) {
-      case 'first':
-        newIndex = 0;
-        break;
-      case 'last':
-        newIndex = elements.length - 1;
-        break;
-      case 'next':
-        newIndex = loop
-          ? (currentFocusIndex + 1) % elements.length
-          : Math.min(currentFocusIndex + 1, elements.length - 1);
-        break;
-      case 'previous':
-        newIndex = loop
-          ? (currentFocusIndex - 1 + elements.length) % elements.length
-          : Math.max(currentFocusIndex - 1, 0);
-        break;
-    }
+      switch (direction) {
+        case "first":
+          newIndex = 0;
+          break;
+        case "last":
+          newIndex = elements.length - 1;
+          break;
+        case "next":
+          newIndex = loop
+            ? (currentFocusIndex + 1) % elements.length
+            : Math.min(currentFocusIndex + 1, elements.length - 1);
+          break;
+        case "previous":
+          newIndex = loop
+            ? (currentFocusIndex - 1 + elements.length) % elements.length
+            : Math.max(currentFocusIndex - 1, 0);
+          break;
+      }
 
-    setCurrentFocusIndex(newIndex);
-    elements[newIndex]?.focus();
-  }, [elements, currentFocusIndex, loop]);
+      setCurrentFocusIndex(newIndex);
+      elements[newIndex]?.focus();
+    },
+    [elements, currentFocusIndex, loop]
+  );
 
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        event.preventDefault();
-        moveFocus('next');
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        event.preventDefault();
-        moveFocus('previous');
-        break;
-      case 'Home':
-        event.preventDefault();
-        moveFocus('first');
-        break;
-      case 'End':
-        event.preventDefault();
-        moveFocus('last');
-        break;
-    }
-  }, [moveFocus]);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      switch (event.key) {
+        case "ArrowRight":
+        case "ArrowDown":
+          event.preventDefault();
+          moveFocus("next");
+          break;
+        case "ArrowLeft":
+        case "ArrowUp":
+          event.preventDefault();
+          moveFocus("previous");
+          break;
+        case "Home":
+          event.preventDefault();
+          moveFocus("first");
+          break;
+        case "End":
+          event.preventDefault();
+          moveFocus("last");
+          break;
+      }
+    },
+    [moveFocus]
+  );
 
   useEffect(() => {
     const handleGlobalKeyDown = (event: KeyboardEvent) => {
@@ -319,8 +345,8 @@ export function useGlassFocusGroup(options: GlassFocusOptions & {
       }
     };
 
-    document.addEventListener('keydown', handleGlobalKeyDown);
-    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
+    document.addEventListener("keydown", handleGlobalKeyDown);
+    return () => document.removeEventListener("keydown", handleGlobalKeyDown);
   }, [elements, handleKeyDown]);
 
   return {
@@ -331,12 +357,14 @@ export function useGlassFocusGroup(options: GlassFocusOptions & {
 }
 
 // Hook for skip links (accessibility)
-export function useSkipLinks(links: Array<{ id: string; label: string; targetId: string }>) {
+export function useSkipLinks(
+  links: Array<{ id: string; label: string; targetId: string }>
+) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Tab' && !visible) {
+      if (event.key === "Tab" && !visible) {
         setVisible(true);
       }
     };
@@ -345,12 +373,12 @@ export function useSkipLinks(links: Array<{ id: string; label: string; targetId:
       setVisible(false);
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('click', handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleClick);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClick);
     };
   }, [visible]);
 
@@ -358,7 +386,7 @@ export function useSkipLinks(links: Array<{ id: string; label: string; targetId:
     const target = document.getElementById(targetId);
     if (target) {
       target.focus();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     setVisible(false);
   }, []);

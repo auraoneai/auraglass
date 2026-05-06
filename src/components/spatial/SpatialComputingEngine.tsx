@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
 import { cn } from '@/lib/utils';
@@ -66,7 +66,7 @@ export interface GestureEvent {
   velocity: SpatialPosition;
   confidence: number;
   duration: number;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
 }
 
 // Spatial anchor system for persistent positioning
@@ -179,7 +179,7 @@ const detectSpatialContext = (): SpatialContext => {
 
 export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
   children,
-  className="",
+  className = "",
   position = {},
   bounds,
   enableGestures = true,
@@ -275,8 +275,8 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
           session.requestAnimationFrame(onXRFrame);
         }
       }
-    } catch (error) {
-      console.warn("XR session initialization failed:", error);
+    } catch {
+      // XR is optional; keep non-XR spatial positioning available.
     }
   }, [spatialContext]);
 
@@ -590,7 +590,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Spatial bounds visualization */}
       {bounds && process.env.NODE_ENV === "development" && (
         <div
-          className='spatial-bounds-debug'
+          className="spatial-bounds-debug"
           style={{
             position: "absolute",
             border: "1px dashed rgba(0, 255, 0, 0.5)",
@@ -606,7 +606,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Spatial anchor indicator */}
       {spatialAnchor && (
         <div
-          className='spatial-anchor-indicator'
+          className="spatial-anchor-indicator"
           style={{
             position: "absolute",
             top: "10px",
@@ -624,7 +624,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Gesture feedback */}
       {gestureActive && (
         <div
-          className='gesture-feedback'
+          className="gesture-feedback"
           style={{
             position: "absolute",
             top: "50%",
@@ -644,7 +644,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Occlusion layer */}
       {enableOcclusion && spatialContext.capabilities.occlusion && (
         <div
-          className='occlusion-layer'
+          className="occlusion-layer"
           style={{
             position: "absolute",
             inset: 0,
@@ -661,7 +661,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {/* Debug information */}
       {(showDebugHud || process.env.NODE_ENV === "development") && (
         <div
-          className='spatial-debug-info'
+          className="spatial-debug-info"
           style={{
             position: "absolute",
             bottom: "10px",

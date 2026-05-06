@@ -1,9 +1,9 @@
 // @ts-nocheck - Optional Google Cloud Vision dependency
-import vision from '@google-cloud/vision';
-import type { ImageAnnotatorClient } from '@google-cloud/vision';
-import { AIConfig } from './config';
-import { CacheService } from './cache-service';
-import { ErrorHandler } from './error-handler';
+import vision from "@google-cloud/vision";
+import type { ImageAnnotatorClient } from "@google-cloud/vision";
+import { AIConfig } from "./config";
+import { CacheService } from "./cache-service";
+import { ErrorHandler } from "./error-handler";
 
 export interface FaceDetectionResult {
   boundingBox: {
@@ -87,15 +87,15 @@ export class VisionService {
         });
       } else if (this.config.googleCloud.apiKey) {
         this.client = new vision.ImageAnnotatorClient({
-          apiEndpoint: 'vision.googleapis.com',
+          apiEndpoint: "vision.googleapis.com",
           credentials: {
-            client_email: 'vision-api@project.iam.gserviceaccount.com',
+            client_email: "vision-api@project.iam.gserviceaccount.com",
             private_key: this.config.googleCloud.apiKey,
           },
         });
       }
-    } catch (error) {
-      console.warn('Google Vision client initialization failed, using fallback:', error);
+    } catch {
+      this.client = null;
     }
   }
 
@@ -115,20 +115,22 @@ export class VisionService {
       const [result] = await this.client.faceDetection(imageBuffer);
       const faces = result.faceAnnotations || [];
 
-      const detectionResults: FaceDetectionResult[] = faces.map((face: any) => ({
-        boundingBox: this.convertBoundingPoly(face.boundingPoly),
-        confidence: face.detectionConfidence || 0,
-        emotions: {
-          joy: this.likelihoodToScore(face.joyLikelihood),
-          sorrow: this.likelihoodToScore(face.sorrowLikelihood),
-          anger: this.likelihoodToScore(face.angerLikelihood),
-          surprise: this.likelihoodToScore(face.surpriseLikelihood),
-        },
-        landmarks: face.landmarks?.map((landmark: any) => ({
-          type: landmark.type || '',
-          position: landmark.position || { x: 0, y: 0, z: 0 },
-        })),
-      }));
+      const detectionResults: FaceDetectionResult[] = faces.map(
+        (face: any) => ({
+          boundingBox: this.convertBoundingPoly(face.boundingPoly),
+          confidence: face.detectionConfidence || 0,
+          emotions: {
+            joy: this.likelihoodToScore(face.joyLikelihood),
+            sorrow: this.likelihoodToScore(face.sorrowLikelihood),
+            anger: this.likelihoodToScore(face.angerLikelihood),
+            surprise: this.likelihoodToScore(face.surpriseLikelihood),
+          },
+          landmarks: face.landmarks?.map((landmark: any) => ({
+            type: landmark.type || "",
+            position: landmark.position || { x: 0, y: 0, z: 0 },
+          })),
+        })
+      );
 
       if (this.config.costOptimization.enableCaching) {
         await this.cache.set(cacheKey, detectionResults, 3600);
@@ -140,8 +142,8 @@ export class VisionService {
         error,
         () => this.fallbackFaceDetection(),
         {
-          service: 'Vision',
-          operation: 'detectFaces',
+          service: "Vision",
+          operation: "detectFaces",
         }
       );
     }
@@ -160,14 +162,18 @@ export class VisionService {
         return this.fallbackObjectDetection();
       }
 
-      const [result] = await (this.client as any).objectLocalization(imageBuffer);
+      const [result] = await (this.client as any).objectLocalization(
+        imageBuffer
+      );
       const objects = result.localizedObjectAnnotations || [];
 
-      const detectionResults: ObjectDetectionResult[] = objects.map((obj: any) => ({
-        name: obj.name || 'unknown',
-        confidence: obj.score || 0,
-        boundingBox: this.convertBoundingPoly(obj.boundingPoly),
-      }));
+      const detectionResults: ObjectDetectionResult[] = objects.map(
+        (obj: any) => ({
+          name: obj.name || "unknown",
+          confidence: obj.score || 0,
+          boundingBox: this.convertBoundingPoly(obj.boundingPoly),
+        })
+      );
 
       if (this.config.costOptimization.enableCaching) {
         await this.cache.set(cacheKey, detectionResults, 3600);
@@ -179,8 +185,8 @@ export class VisionService {
         error,
         () => this.fallbackObjectDetection(),
         {
-          service: 'Vision',
-          operation: 'detectObjects',
+          service: "Vision",
+          operation: "detectObjects",
         }
       );
     }
@@ -204,21 +210,24 @@ export class VisionService {
 
       if (!fullTextAnnotation) {
         return {
-          text: '',
+          text: "",
           confidence: 0,
           blocks: [],
         };
       }
 
       const extractionResult: TextExtractionResult = {
-        text: fullTextAnnotation.text || '',
-        confidence: this.calculateAverageConfidence(fullTextAnnotation.pages ?? undefined),
-        language: (result.textAnnotations?.[0]?.locale || undefined),
-        blocks: fullTextAnnotation.pages?.[0]?.blocks?.map((block: any) => ({
-          text: this.extractBlockText(block),
-          confidence: block.confidence || 0,
-          boundingBox: block.boundingBox,
-        })) || [],
+        text: fullTextAnnotation.text || "",
+        confidence: this.calculateAverageConfidence(
+          fullTextAnnotation.pages ?? undefined
+        ),
+        language: result.textAnnotations?.[0]?.locale || undefined,
+        blocks:
+          fullTextAnnotation.pages?.[0]?.blocks?.map((block: any) => ({
+            text: this.extractBlockText(block),
+            confidence: block.confidence || 0,
+            boundingBox: block.boundingBox,
+          })) || [],
       };
 
       if (this.config.costOptimization.enableCaching) {
@@ -231,8 +240,8 @@ export class VisionService {
         error,
         () => this.fallbackTextExtraction(),
         {
-          service: 'Vision',
-          operation: 'extractText',
+          service: "Vision",
+          operation: "extractText",
         }
       );
     }
@@ -252,34 +261,38 @@ export class VisionService {
       }
 
       const [result] = await this.client.annotateImage({
-        image: { content: imageBuffer.toString('base64') },
+        image: { content: imageBuffer.toString("base64") },
         features: [
-          { type: 'LABEL_DETECTION', maxResults: 10 },
-          { type: 'SAFE_SEARCH_DETECTION' },
-          { type: 'IMAGE_PROPERTIES' },
-          { type: 'CROP_HINTS', maxResults: 3 },
+          { type: "LABEL_DETECTION", maxResults: 10 },
+          { type: "SAFE_SEARCH_DETECTION" },
+          { type: "IMAGE_PROPERTIES" },
+          { type: "CROP_HINTS", maxResults: 3 },
         ],
       });
 
       const analysisResult: ImageAnalysisResult = {
-        labels: result.labelAnnotations?.map((label: any) => ({
-          description: label.description || '',
-          score: label.score || 0,
-        })) || [],
+        labels:
+          result.labelAnnotations?.map((label: any) => ({
+            description: label.description || "",
+            score: label.score || 0,
+          })) || [],
         safeSearch: {
-          adult: String(result.safeSearchAnnotation?.adult ?? 'UNKNOWN'),
-          violence: String(result.safeSearchAnnotation?.violence ?? 'UNKNOWN'),
-          medical: String(result.safeSearchAnnotation?.medical ?? 'UNKNOWN'),
+          adult: String(result.safeSearchAnnotation?.adult ?? "UNKNOWN"),
+          violence: String(result.safeSearchAnnotation?.violence ?? "UNKNOWN"),
+          medical: String(result.safeSearchAnnotation?.medical ?? "UNKNOWN"),
         },
-        colors: result.imagePropertiesAnnotation?.dominantColors?.colors?.map((color: any) => ({
-          color: {
-            red: color.color?.red || 0,
-            green: color.color?.green || 0,
-            blue: color.color?.blue || 0,
-          },
-          score: color.score || 0,
-          pixelFraction: color.pixelFraction || 0,
-        })) || [],
+        colors:
+          result.imagePropertiesAnnotation?.dominantColors?.colors?.map(
+            (color: any) => ({
+              color: {
+                red: color.color?.red || 0,
+                green: color.color?.green || 0,
+                blue: color.color?.blue || 0,
+              },
+              score: color.score || 0,
+              pixelFraction: color.pixelFraction || 0,
+            })
+          ) || [],
         cropHints: result.cropHintsAnnotation?.cropHints?.map((hint: any) => ({
           boundingBox: hint.boundingPoly,
           confidence: hint.confidence || 0,
@@ -297,8 +310,8 @@ export class VisionService {
         error,
         () => this.fallbackImageAnalysis(),
         {
-          service: 'Vision',
-          operation: 'analyzeImage',
+          service: "Vision",
+          operation: "analyzeImage",
         }
       );
     }
@@ -309,19 +322,23 @@ export class VisionService {
 
     if (this.config.costOptimization.enableCaching) {
       const cached = await this.cache.get<string>(cacheKey);
-      if (cached) return Buffer.from(cached, 'base64');
+      if (cached) return Buffer.from(cached, "base64");
     }
 
     try {
       const formData = new FormData();
       // Convert Node Buffer to Blob-compatible data for fetch
-      formData.append('image_file', new Blob([new Uint8Array(imageBuffer)]), 'image.jpg');
-      formData.append('size', 'auto');
+      formData.append(
+        "image_file",
+        new Blob([new Uint8Array(imageBuffer)]),
+        "image.jpg"
+      );
+      formData.append("size", "auto");
 
-      const response = await fetch('https://api.remove.bg/v1.0/removebg', {
-        method: 'POST',
+      const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+        method: "POST",
         headers: {
-          'X-Api-Key': this.removeBgApiKey,
+          "X-Api-Key": this.removeBgApiKey,
         },
         body: formData,
       });
@@ -333,19 +350,15 @@ export class VisionService {
       const resultBuffer = Buffer.from(await response.arrayBuffer());
 
       if (this.config.costOptimization.enableCaching) {
-        await this.cache.set(cacheKey, resultBuffer.toString('base64'), 3600);
+        await this.cache.set(cacheKey, resultBuffer.toString("base64"), 3600);
       }
 
       return resultBuffer;
     } catch (error) {
-      return this.errorHandler.handleWithFallback(
-        error,
-        () => imageBuffer,
-        {
-          service: 'Vision',
-          operation: 'removeBackground',
-        }
-      );
+      return this.errorHandler.handleWithFallback(error, () => imageBuffer, {
+        service: "Vision",
+        operation: "removeBackground",
+      });
     }
   }
 
@@ -355,18 +368,20 @@ export class VisionService {
       const topLabels = analysis.labels.slice(0, 5);
 
       if (topLabels.length === 0) {
-        return 'No description available';
+        return "No description available";
       }
 
-      const labelDescriptions = topLabels.map((l: any) => l.description).join(', ');
+      const labelDescriptions = topLabels
+        .map((l: any) => l.description)
+        .join(", ");
       return `This image contains: ${labelDescriptions}`;
     } catch (error) {
       return this.errorHandler.handleWithFallback(
         error,
-        () => 'Unable to generate image description',
+        () => "Unable to generate image description",
         {
-          service: 'Vision',
-          operation: 'generateImageDescription',
+          service: "Vision",
+          operation: "generateImageDescription",
         }
       );
     }
@@ -404,7 +419,7 @@ export class VisionService {
       LIKELY: 0.75,
       VERY_LIKELY: 1,
     };
-    return map[likelihood || ''] || 0;
+    return map[likelihood || ""] || 0;
   }
 
   private calculateAverageConfidence(pages?: any[]): number {
@@ -422,43 +437,49 @@ export class VisionService {
   }
 
   private extractBlockText(block: any): string {
-    if (!block.paragraphs) return '';
+    if (!block.paragraphs) return "";
 
     return block.paragraphs
-      .map((p: any) =>
-        p.words
-          ?.map((w: any) =>
-            w.symbols?.map((s: any) => s.text || '').join('') || ''
-          )
-          .join(' ') || ''
+      .map(
+        (p: any) =>
+          p.words
+            ?.map(
+              (w: any) =>
+                w.symbols?.map((s: any) => s.text || "").join("") || ""
+            )
+            .join(" ") || ""
       )
-      .join('\n');
+      .join("\n");
   }
 
   private hashBuffer(buffer: Buffer): string {
-    const crypto = require('crypto');
-    return crypto.createHash('md5').update(buffer).digest('hex');
+    const crypto = require("crypto");
+    return crypto.createHash("sha256").update(buffer).digest("hex");
   }
 
   private fallbackFaceDetection(): FaceDetectionResult[] {
-    return [{
-      boundingBox: { left: 100, top: 100, width: 200, height: 200 },
-      confidence: 0.5,
-      emotions: { joy: 0.5, sorrow: 0, anger: 0, surprise: 0 },
-    }];
+    return [
+      {
+        boundingBox: { left: 100, top: 100, width: 200, height: 200 },
+        confidence: 0.5,
+        emotions: { joy: 0.5, sorrow: 0, anger: 0, surprise: 0 },
+      },
+    ];
   }
 
   private fallbackObjectDetection(): ObjectDetectionResult[] {
-    return [{
-      name: 'object',
-      confidence: 0.5,
-      boundingBox: { left: 0, top: 0, width: 100, height: 100 },
-    }];
+    return [
+      {
+        name: "object",
+        confidence: 0.5,
+        boundingBox: { left: 0, top: 0, width: 100, height: 100 },
+      },
+    ];
   }
 
   private fallbackTextExtraction(): TextExtractionResult {
     return {
-      text: 'Text extraction unavailable',
+      text: "Text extraction unavailable",
       confidence: 0,
       blocks: [],
     };
@@ -466,8 +487,8 @@ export class VisionService {
 
   private fallbackImageAnalysis(): ImageAnalysisResult {
     return {
-      labels: [{ description: 'image', score: 0.5 }],
-      safeSearch: { adult: 'UNKNOWN', violence: 'UNKNOWN', medical: 'UNKNOWN' },
+      labels: [{ description: "image", score: 0.5 }],
+      safeSearch: { adult: "UNKNOWN", violence: "UNKNOWN", medical: "UNKNOWN" },
       colors: [],
     };
   }

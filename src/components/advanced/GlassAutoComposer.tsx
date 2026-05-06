@@ -40,13 +40,19 @@ interface GeneratedLayout {
   timestamp: number;
 }
 
+type DesignTokenPrimitive = string | number;
+type DesignTokenGroup = Record<
+  string,
+  DesignTokenPrimitive | Record<string, DesignTokenPrimitive>
+>;
+
 interface DesignTokens {
   colors: Record<string, string>;
   spacing: Record<string, string>;
-  typography: Record<string, any>;
+  typography: DesignTokenGroup;
   shadows: Record<string, string>;
   borders: Record<string, string>;
-  animations: Record<string, any>;
+  animations: DesignTokenGroup;
 }
 
 interface ComposerConfig {
@@ -593,7 +599,7 @@ class LayoutOptimizer {
         break;
       case "spacing":
         const scale = 0.8 + Math.random() * 0.4; // 0.8 to 1.2
-        Object.keys(mutatedTokens.spacing).forEach((key: any) => {
+        Object.keys(mutatedTokens.spacing).forEach((key) => {
           const value = parseFloat(mutatedTokens.spacing[key]);
           mutatedTokens.spacing[key] = `${value * scale}rem`;
         });
@@ -702,15 +708,19 @@ class LayoutOptimizer {
     };
   }
 
-  private mutation(population: GeneratedLayout[]): GeneratedLayout[] {
+  private async mutation(
+    population: GeneratedLayout[]
+  ): Promise<GeneratedLayout[]> {
     const mutationRate = 0.1;
 
-    return population.map(async (layout) => {
-      if (Math.random() < mutationRate) {
-        return await this.createVariant(layout);
-      }
-      return layout;
-    }) as any; // Simplified for demo
+    return Promise.all(
+      population.map(async (layout) => {
+        if (Math.random() < mutationRate) {
+          return await this.createVariant(layout);
+        }
+        return layout;
+      })
+    );
   }
 
   private getBestLayout(): GeneratedLayout {
@@ -780,7 +790,7 @@ export function GlassAutoComposerProvider({
       if (!generatorRef.current) throw new Error("Generator not initialized");
 
       const layout = await generatorRef.current.generateLayout(prompt);
-      setCurrentLayouts((prev: any) => [...prev, layout]);
+      setCurrentLayouts((prev) => [...prev, layout]);
       return layout;
     },
     []
@@ -797,7 +807,7 @@ export function GlassAutoComposerProvider({
         layout,
         feedback
       );
-      setCurrentLayouts((prev: any) => [...prev, optimized]);
+      setCurrentLayouts((prev) => [...prev, optimized]);
       return optimized;
     },
     []
@@ -852,8 +862,8 @@ export function GlassAutoComposerInterface({
         style: "standard",
       });
       setGeneratedLayout(layout);
-    } catch (error) {
-      console.error("Failed to generate layout:", error);
+    } catch {
+      setGeneratedLayout(null);
     } finally {
       setIsGenerating(false);
     }
@@ -985,7 +995,7 @@ export function GlassGeneratedLayoutRenderer({
   className,
 }: {
   layout: GeneratedLayout;
-  data?: Record<string, any>;
+  data?: Record<string, unknown>;
   className?: string;
 }) {
   const renderJSX = useCallback(() => {

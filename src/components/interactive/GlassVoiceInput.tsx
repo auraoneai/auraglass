@@ -286,7 +286,6 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
       };
 
       recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-        console.error("Speech recognition error:", event.error);
         onError?.(event.error);
         setIsListening(false);
         play("error");
@@ -338,8 +337,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
         if (showVisualizer) {
           startAudioAnalysis();
         }
-      } catch (error) {
-        console.error("Microphone access denied:", error);
+      } catch {
         setPermissionStatus("denied");
         onError?.("Microphone access denied");
       }
@@ -461,8 +459,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
       try {
         recognitionRef.current.start();
-      } catch (error) {
-        console.error("Failed to start recognition:", error);
+      } catch {
         onError?.("Failed to start voice recognition");
       }
     }, [isListening, permissionStatus, initializeAudioContext, onError]);
@@ -472,8 +469,8 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
 
       try {
         recognitionRef.current.stop();
-      } catch (error) {
-        console.error("Failed to stop recognition:", error);
+      } catch {
+        onError?.("Failed to stop voice recognition");
       }
     }, [isListening]);
 

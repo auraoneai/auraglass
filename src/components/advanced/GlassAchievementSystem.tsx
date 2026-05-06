@@ -101,6 +101,20 @@ interface AchievementNotification {
   shown: boolean;
 }
 
+type AchievementActionContext = Record<string, unknown> & {
+  component?: string;
+  level?: number;
+  theme?: string | number;
+  effect?: string | number;
+  sound?: string | number;
+  type?: string;
+  value?: unknown;
+  action?: string;
+  users?: string[];
+};
+
+type AchievementDashboardTab = "progress" | "achievements" | "stats";
+
 // Predefined achievements
 const GLASS_ACHIEVEMENTS: Achievement[] = [
   // Interaction achievements
@@ -283,7 +297,7 @@ class GlassAchievementEngine {
   private actionHistory: Array<{
     action: string;
     timestamp: number;
-    context: any;
+    context: AchievementActionContext;
   }> = [];
   private sessionStart: number = Date.now();
   private notifications: AchievementNotification[] = [];
@@ -330,23 +344,23 @@ class GlassAchievementEngine {
         `auraglass-achievements-${this.progress.userId}`
       );
       if (stored) {
-        const data = JSON.parse(stored);
+        const data = JSON.parse(stored) as Partial<UserProgress>;
         this.progress = { ...this.progress, ...data };
 
-        // Merge achievements with any new ones
+        // Merge persisted achievements with newer definitions.
         this.progress.achievements = this.mergeAchievements(
           data.achievements || []
         );
       }
-    } catch (error) {
-      console.warn("Failed to load achievement progress:", error);
+    } catch {
+      // Ignore invalid persisted achievement data.
     }
   }
 
   private mergeAchievements(storedAchievements: Achievement[]): Achievement[] {
     const merged = [...this.achievements];
 
-    storedAchievements.forEach((stored: any) => {
+    storedAchievements.forEach((stored) => {
       const index = merged.findIndex((a) => a.id === stored.id);
       if (index >= 0) {
         merged[index] = { ...merged[index], ...stored };
@@ -367,8 +381,8 @@ class GlassAchievementEngine {
         `auraglass-achievements-${this.progress.userId}`,
         JSON.stringify(this.progress)
       );
-    } catch (error) {
-      console.warn("Failed to save achievement progress:", error);
+    } catch {
+      // Ignore storage failures; progress remains active in memory.
     }
   }
 
@@ -395,7 +409,7 @@ class GlassAchievementEngine {
     }, 10000); // Check every 10 seconds
   }
 
-  recordAction(action: string, context: any = {}): void {
+  recordAction(action: string, context: AchievementActionContext = {}): void {
     const timestamp = Date.now();
 
     this.actionHistory.push({ action, timestamp, context });
@@ -426,7 +440,7 @@ class GlassAchievementEngine {
   }
 
   private checkAchievements(): void {
-    this.progress.achievements.forEach((achievement: any) => {
+    this.progress.achievements.forEach((achievement) => {
       if (achievement.unlocked) return;
 
       const newProgress = this.calculateAchievementProgress(achievement);
@@ -442,14 +456,14 @@ class GlassAchievementEngine {
     let totalProgress = 0;
     const requirements = achievement.requirements;
 
-    requirements.forEach((req: any) => {
+    requirements.forEach((req) => {
       let reqProgress = 0;
 
       switch (req.type) {
         case "action_count":
           if (req.action && req.count) {
             const actionCount = this.actionHistory.filter(
-              (a: any) => a.action === req.action
+              (a) => a.action === req.action
             ).length;
             reqProgress = Math.min(1, actionCount / req.count);
           }
@@ -497,7 +511,7 @@ class GlassAchievementEngine {
       case "speed_interactions":
         // Check for 10 interactions in 5 seconds
         const recent = this.actionHistory.filter(
-          (a: any) => Date.now() - a.timestamp < 5000
+          (a) => Date.now() - a.timestamp < 5000
         );
         return Math.min(1, recent.length / 10);
 
@@ -514,13 +528,11 @@ class GlassAchievementEngine {
     if (comboActions.length === 0) return 0;
 
     // Check for sequence of actions in recent history
-    const recentActions = this.actionHistory
-      .slice(-20)
-      .map((a: any) => a.action);
+    const recentActions = this.actionHistory.slice(-20).map((a) => a.action);
     let bestCombo = 0;
     let currentCombo = 0;
 
-    recentActions.forEach((action: any) => {
+    recentActions.forEach((action) => {
       if (comboActions.includes(action)) {
         currentCombo++;
       } else {
@@ -559,7 +571,7 @@ class GlassAchievementEngine {
     this.notifications.push(notification);
 
     // Notify listeners
-    this.listeners.forEach((listener: any) => listener(notification));
+    this.listeners.forEach((listener) => listener(notification));
 
     // Apply rewards
     this.applyAchievementRewards(achievement);
@@ -590,7 +602,7 @@ class GlassAchievementEngine {
   private applyAchievementRewards(achievement: Achievement): void {
     if (!achievement.rewards) return;
 
-    achievement.rewards.forEach((reward: any) => {
+    achievement.rewards.forEach((reward) => {
       switch (reward.type) {
         case "theme":
           // Unlock theme
@@ -613,13 +625,11 @@ class GlassAchievementEngine {
   }
 
   getUnlockedAchievements(): Achievement[] {
-    return this.progress.achievements.filter((a: any) => a.unlocked);
+    return this.progress.achievements.filter((a) => a.unlocked);
   }
 
   getAvailableAchievements(): Achievement[] {
-    return this.progress.achievements.filter(
-      (a: any) => !a.unlocked && !a.hidden
-    );
+    return this.progress.achievements.filter((a) => !a.unlocked && !a.hidden);
   }
 
   getNotifications(): AchievementNotification[] {
@@ -656,7 +666,7 @@ class GlassAchievementEngine {
 const AchievementContext = createContext<{
   engine: GlassAchievementEngine | null;
   progress: UserProgress | null;
-  recordAction: (action: string, context?: any) => void;
+  recordAction: (action: string, context?: AchievementActionContext) => void;
   notifications: AchievementNotification[];
 }>({
   engine: null,
@@ -685,7 +695,7 @@ export function GlassAchievementProvider({
     setProgress(engineRef.current.getProgress());
 
     const removeListener = engineRef.current.addListener((notification) => {
-      setNotifications((prev: any) => [...prev, notification]);
+      setNotifications((prev) => [...prev, notification]);
     });
 
     // Update progress periodically
@@ -704,11 +714,14 @@ export function GlassAchievementProvider({
     };
   }, [userId]);
 
-  const recordAction = useCallback((action: string, context: any = {}) => {
-    if (engineRef.current) {
-      engineRef.current.recordAction(action, context);
-    }
-  }, []);
+  const recordAction = useCallback(
+    (action: string, context: AchievementActionContext = {}) => {
+      if (engineRef.current) {
+        engineRef.current.recordAction(action, context);
+      }
+    },
+    []
+  );
 
   const value = {
     engine: engineRef.current || null,
@@ -749,9 +762,9 @@ export function GlassAchievementNotifications({
   >([]);
 
   useEffect(() => {
-    const newNotifications = notifications.filter((n: any) => !n.shown);
+    const newNotifications = notifications.filter((n) => !n.shown);
     if (newNotifications.length > 0) {
-      setVisibleNotifications((prev: any) => [...prev, ...newNotifications]);
+      setVisibleNotifications((prev) => [...prev, ...newNotifications]);
 
       // Mark as shown
       newNotifications.forEach((_, index) => {
@@ -762,9 +775,7 @@ export function GlassAchievementNotifications({
   }, [notifications, engine]);
 
   const removeNotification = (notification: AchievementNotification) => {
-    setVisibleNotifications((prev: any) =>
-      prev.filter((n: any) => n !== notification)
-    );
+    setVisibleNotifications((prev) => prev.filter((n) => n !== notification));
   };
 
   const positionClasses = {
@@ -1013,6 +1024,43 @@ export function GlassAchievementDashboard({
 
   const unlockedAchievements = engine?.getUnlockedAchievements() || [];
   const availableAchievements = engine?.getAvailableAchievements() || [];
+  const tabs: Array<{
+    id: AchievementDashboardTab;
+    label: string;
+    count: number;
+  }> = [
+    { id: "progress", label: "Progress", count: progress.totalXP },
+    {
+      id: "achievements",
+      label: "Achievements",
+      count: unlockedAchievements.length,
+    },
+    {
+      id: "stats",
+      label: "Stats",
+      count: progress.stats.totalInteractions,
+    },
+  ];
+  const stats: Array<{ label: string; value: string | number }> = [
+    {
+      label: "Interactions",
+      value: progress.stats.totalInteractions,
+    },
+    {
+      label: "Components",
+      value: progress.stats.componentsExplored.length,
+    },
+    { label: "Streak", value: progress.streak },
+    {
+      label: "Sessions",
+      value: progress.stats.sessionsCompleted,
+    },
+    {
+      label: "Time Spent",
+      value: `${Math.floor(progress.stats.timeSpent / 60000)}m`,
+    },
+    { label: "Social", value: progress.stats.socialInteractions },
+  ];
 
   return (
     <section>
@@ -1069,22 +1117,10 @@ export function GlassAchievementDashboard({
 
         {/* Tabs */}
         <div className="glass-flex glass-border-b glass-border-white/10">
-          {[
-            { id: "progress", label: "Progress", count: progress.totalXP },
-            {
-              id: "achievements",
-              label: "Achievements",
-              count: unlockedAchievements.length,
-            },
-            {
-              id: "stats",
-              label: "Stats",
-              count: progress.stats.totalInteractions,
-            },
-          ].map((tab: any) => (
+          {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id)}
               className={cn(
                 "flex-1 glass-px-3 glass-py-2 glass-text-sm transition-colors glass-focus glass-touch-target",
                 activeTab === tab.id
@@ -1135,7 +1171,7 @@ export function GlassAchievementDashboard({
                   </h4>
                 </ContrastGuard>
                 <div className="glass-gap-2">
-                  {availableAchievements.slice(0, 3).map((achievement: any) => (
+                  {availableAchievements.slice(0, 3).map((achievement) => (
                     <div
                       key={achievement.id}
                       className="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-p-2"
@@ -1165,7 +1201,7 @@ export function GlassAchievementDashboard({
 
           {activeTab === "achievements" && (
             <div className="glass-gap-2">
-              {unlockedAchievements.map((achievement: any) => (
+              {unlockedAchievements.map((achievement) => (
                 <div
                   key={achievement.id}
                   className="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-sm glass-p-3"
@@ -1204,26 +1240,7 @@ export function GlassAchievementDashboard({
           {activeTab === "stats" && (
             <div className="glass-gap-3">
               <div className="glass-grid glass-grid-cols-2 glass-gap-2">
-                {[
-                  {
-                    label: "Interactions",
-                    value: progress.stats.totalInteractions,
-                  },
-                  {
-                    label: "Components",
-                    value: progress.stats.componentsExplored.length,
-                  },
-                  { label: "Streak", value: progress.streak },
-                  {
-                    label: "Sessions",
-                    value: progress.stats.sessionsCompleted,
-                  },
-                  {
-                    label: "Time Spent",
-                    value: `${Math.floor(progress.stats.timeSpent / 60000)}m`,
-                  },
-                  { label: "Social", value: progress.stats.socialInteractions },
-                ].map((stat: any) => (
+                {stats.map((stat) => (
                   <div
                     key={stat.label}
                     className="glass-surface-subtle/5 glass-backdrop-blur-sm glass-radius-md glass-p-2 glass-text-center"
@@ -1272,7 +1289,7 @@ export function useAchievementTracker() {
   );
 
   const trackCustomization = useCallback(
-    (type: string, value: any) => {
+    (type: string, value: unknown) => {
       recordAction("customize", { type, value });
     },
     [recordAction]

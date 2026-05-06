@@ -7,11 +7,7 @@ import {
   type PersonaId,
 } from "../theme/designMatrix";
 
-const warn = (message: string) => {
-  if (process.env.NODE_ENV === "development") {
-    console.warn(message);
-  }
-};
+const warn = (..._args: unknown[]) => undefined;
 
 export interface ThemeContextType {
   theme: "light" | "dark" | "glass";
@@ -30,7 +26,8 @@ export const ThemeContext = createContext<ThemeContextType>({
   personaId: DEFAULT_PERSONA_ID,
   persona: DESIGN_MATRIX[DEFAULT_PERSONA_ID],
   personas: PERSONA_LIST,
-  setPersona: (persona) => warn(`setPersona(${persona}) called outside ThemeProvider`),
+  setPersona: (persona) =>
+    warn(`setPersona(${persona}) called outside ThemeProvider`),
 });
 
 export const useTheme = () => {
@@ -49,6 +46,7 @@ export const createThemeContext = (theme?: "light" | "dark" | "glass") => {
     personaId: DEFAULT_PERSONA_ID,
     persona: DESIGN_MATRIX[DEFAULT_PERSONA_ID],
     personas: PERSONA_LIST,
-    setPersona: (persona) => warn(`setPersona(${persona}) called outside ThemeProvider`),
+    setPersona: (persona) =>
+      warn(`setPersona(${persona}) called outside ThemeProvider`),
   });
 };

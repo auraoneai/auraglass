@@ -21,7 +21,7 @@ export interface HeatmapDataPoint {
   y: number;
   value: number;
   label?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface HeatmapCell {
@@ -30,7 +30,7 @@ export interface HeatmapCell {
   value: number;
   normalizedValue: number;
   label?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface HeatmapColorScale {
@@ -44,8 +44,10 @@ export interface HeatmapAxis {
   labels: string[];
   title?: string;
   tickCount?: number;
-  format?: (value: any) => string;
+  format?: (value: unknown) => string;
 }
+
+type PreventableEvent = Pick<React.SyntheticEvent, "preventDefault">;
 
 export interface GlassHeatmapProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -199,7 +201,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
       // Normalize values
       const range = maxValue - minValue || 1;
-      cells = cells.map((cell: any) => ({
+      cells = cells.map((cell) => ({
         ...cell,
         normalizedValue: (cell.value - minValue) / range,
       }));
@@ -214,10 +216,8 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
       if (!processedData.cells.length) {
         return { rows: 0, cols: 0 };
       }
-      const maxRow =
-        Math.max(...processedData.cells.map((c: any) => c.row)) + 1;
-      const maxCol =
-        Math.max(...processedData.cells.map((c: any) => c.col)) + 1;
+      const maxRow = Math.max(...processedData.cells.map((c) => c.row)) + 1;
+      const maxCol = Math.max(...processedData.cells.map((c) => c.col)) + 1;
       return { rows: maxRow, cols: maxCol };
     }, [processedData.cells]);
 
@@ -278,7 +278,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             // Multi-select
             newSelection = isSelected
               ? selectedCells.filter(
-                  (c: any) => !(c.row === cell.row && c.col === cell.col)
+                  (c) => !(c.row === cell.row && c.col === cell.col)
                 )
               : [...selectedCells, cellId];
           } else {
@@ -314,10 +314,10 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
     // Handle zoom
     const handleZoom = useCallback(
-      (delta: number, event: React.WheelEvent) => {
+      (delta: number, event?: PreventableEvent) => {
         if (!zoomable) return;
 
-        event.preventDefault();
+        event?.preventDefault();
         const newZoom = Math.max(0.5, Math.min(3, internalZoomLevel + delta));
         setInternalZoomLevel(newZoom);
         onZoomChange?.(newZoom);
@@ -502,7 +502,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         .fill(null)
         .map(() => Array(gridDimensions.cols).fill(null));
 
-      processedData.cells.forEach((cell: any) => {
+      processedData.cells.forEach((cell) => {
         if (cell.row < gridDimensions.rows && cell.col < gridDimensions.cols) {
           matrix[cell.row][cell.col] = cell;
         }
@@ -692,13 +692,13 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           {zoomable && (
             <div className="glass-absolute glass-top-4 glass-right-4 glass-flex glass-flex-col glass-gap-1">
               <button
-                onClick={() => handleZoom(0.1, {} as any)}
+                onClick={() => handleZoom(0.1)}
                 className="glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center glass-radius-md glass-text-sm glass-font-bold glass-transition-all glass-hover-scale-105 glass-focus glass-touch-target glass-contrast-guard"
               >
                 +
               </button>
               <button
-                onClick={() => handleZoom(-0.1, {} as any)}
+                onClick={() => handleZoom(-0.1)}
                 className="glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center glass-radius-md glass-text-sm glass-font-bold glass-transition-all glass-hover-scale-105 glass-focus glass-touch-target glass-contrast-guard"
               >
                 −

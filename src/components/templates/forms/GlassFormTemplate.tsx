@@ -1,8 +1,11 @@
-'use client';
+"use client";
 import React, { forwardRef, useState } from "react";
 import { Glass } from "../../../primitives";
 import { Motion } from "../../../primitives";
-import { GlassFormBuilder } from "../../../components/interactive/GlassFormBuilder";
+import {
+  GlassFormBuilder,
+  type FormSection,
+} from "../../../components/interactive/GlassFormBuilder";
 import { GlassButton } from "../../../components/button/GlassButton";
 import { GlassProgress } from "../../../components/data-display/GlassProgress";
 import { PageHeader } from "../../../components/layout/GlassAppShell";
@@ -14,13 +17,20 @@ export interface FormStep {
   id: string;
   title: string;
   description?: string;
-  sections: any[]; // FormSection from GlassFormBuilder
+  sections: FormSection[];
   optional?: boolean;
-  validation?: (values: any) => Promise<Record<string, string>>;
+  validation?: (
+    values: GlassFormTemplateValues
+  ) => Promise<Record<string, string>>;
 }
 
+export type GlassFormTemplateValues = Record<string, unknown>;
+
 export interface GlassFormTemplateProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "autoSave"> {
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "autoSave" | "onChange" | "onSubmit"
+  > {
   /**
    * Form title
    */
@@ -36,11 +46,11 @@ export interface GlassFormTemplateProps
   /**
    * Single form schema (for single-step forms)
    */
-  schema?: any[];
+  schema?: FormSection[];
   /**
    * Form values
    */
-  values?: Record<string, any>;
+  values?: GlassFormTemplateValues;
   /**
    * Form errors
    */
@@ -60,7 +70,7 @@ export interface GlassFormTemplateProps
   /**
    * Form submit handler
    */
-  onSubmit?: (values: Record<string, any>) => Promise<void> | void;
+  onSubmit?: (values: GlassFormTemplateValues) => Promise<void> | void;
   /**
    * Form cancel handler
    */
@@ -68,11 +78,11 @@ export interface GlassFormTemplateProps
   /**
    * Value change handler
    */
-  onChange?: (values: Record<string, any>) => void;
+  onChange?: (values: GlassFormTemplateValues) => void;
   /**
    * Form validation handler
    */
-  onValidate?: (values: Record<string, any>) => Record<string, string>;
+  onValidate?: (values: GlassFormTemplateValues) => Record<string, string>;
   /**
    * Loading state
    */
@@ -84,7 +94,7 @@ export interface GlassFormTemplateProps
   /**
    * Draft save handler
    */
-  onSaveDraft?: (values: Record<string, any>) => void;
+  onSaveDraft?: (values: GlassFormTemplateValues) => void;
   /**
    * Form layout
    */
@@ -158,8 +168,10 @@ export const GlassFormTemplate = forwardRef<
     },
     ref
   ) => {
-    const [internalValues, setInternalValues] = useState(values);
-    const [internalErrors, setInternalErrors] = useState(errors);
+    const [internalValues, setInternalValues] =
+      useState<GlassFormTemplateValues>(values);
+    const [internalErrors, setInternalErrors] =
+      useState<Record<string, string>>(errors);
     const [stepValidation, setStepValidation] = useState<
       Record<number, boolean>
     >({});
@@ -172,13 +184,13 @@ export const GlassFormTemplate = forwardRef<
     const currentSchema = isMultiStep ? currentStepData?.sections : schema;
 
     // Handle value change
-    const handleValueChange = (newValues: Record<string, any>) => {
+    const handleValueChange = (newValues: GlassFormTemplateValues) => {
       setInternalValues(newValues);
       onChange?.(newValues);
     };
 
     // Handle form validation
-    const handleValidate = async (stepValues: Record<string, any>) => {
+    const handleValidate = async (stepValues: GlassFormTemplateValues) => {
       let errors: Record<string, string> = {};
 
       // Global validation
@@ -215,7 +227,7 @@ export const GlassFormTemplate = forwardRef<
     };
 
     // Handle form submission
-    const handleSubmit = async (formValues: Record<string, any>) => {
+    const handleSubmit = async (formValues: GlassFormTemplateValues) => {
       if (isMultiStep) {
         const errors = await handleValidate(formValues);
         const hasErrors = Object.keys(errors).length > 0;
@@ -249,7 +261,7 @@ export const GlassFormTemplate = forwardRef<
       return (
         <VStack data-glass-component space="md">
           <HStack space="sm" align="center" justify="between">
-            <span className='glass-text-sm glass-font-medium glass-text-primary'>
+            <span className="glass-text-sm glass-font-medium glass-text-primary">
               Step {currentStep + 1} of {totalSteps}
             </span>
             <span className="glass-text-sm glass-text-secondary">
@@ -287,7 +299,7 @@ export const GlassFormTemplate = forwardRef<
                 >
                   {index < currentStep ? "✓" : index + 1}
                 </div>
-                <span className='glass-text-xs glass-text-center glass-max-w-16 glass-truncate'>
+                <span className="glass-text-xs glass-text-center glass-max-w-16 glass-truncate">
                   {step.title}
                 </span>
               </div>
@@ -347,7 +359,7 @@ export const GlassFormTemplate = forwardRef<
         {/* Current step header */}
         {isMultiStep && currentStepData && (
           <VStack space="sm">
-            <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
+            <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
               {currentStepData.title}
             </h2>
             {currentStepData.description && (
@@ -385,7 +397,7 @@ export const GlassFormTemplate = forwardRef<
       switch (layout) {
         case "centered":
           return (
-            <div className='glass-max-w-2xl glass-mx-auto'>
+            <div className="glass-max-w-2xl glass-mx-auto">
               <GlassCard variant="default" className="glass-p-8">
                 {renderFormContent()}
               </GlassCard>
@@ -395,12 +407,12 @@ export const GlassFormTemplate = forwardRef<
         case "sidebar":
           return (
             <div className="glass-grid glass-grid-cols-12 glass-gap-8">
-              <div className='glass-col-span-8'>
+              <div className="glass-col-span-8">
                 <GlassCard variant="default" className="glass-p-6">
                   {renderFormContent()}
                 </GlassCard>
               </div>
-              <div className='glass-col-span-4'>{sidebar}</div>
+              <div className="glass-col-span-4">{sidebar}</div>
             </div>
           );
 

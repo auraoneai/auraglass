@@ -1,19 +1,27 @@
-import React from 'react';
+import React from "react";
+import type {
+  PanInfo,
+  TargetAndTransition,
+  Transition as FramerTransition,
+  VariantLabels,
+  Variants,
+} from "framer-motion";
+
 // Animation type definitions
-export type AnimationType = 'spring' | 'tween' | 'keyframes' | 'inertia';
+export type AnimationType = "spring" | "tween" | "keyframes" | "inertia";
 
 export type EasingFunction =
-  | 'linear'
-  | 'easeIn'
-  | 'easeOut'
-  | 'easeInOut'
-  | 'circIn'
-  | 'circOut'
-  | 'circInOut'
-  | 'backIn'
-  | 'backOut'
-  | 'backInOut'
-  | 'anticipate'
+  | "linear"
+  | "easeIn"
+  | "easeOut"
+  | "easeInOut"
+  | "circIn"
+  | "circOut"
+  | "circInOut"
+  | "backIn"
+  | "backOut"
+  | "backInOut"
+  | "anticipate"
   | number[];
 
 export interface SpringConfig {
@@ -53,34 +61,55 @@ export interface InertiaConfig {
   max?: number;
 }
 
-export type AnimationConfig = SpringConfig | TweenConfig | KeyframesConfig | InertiaConfig;
+export type AnimationConfig =
+  | SpringConfig
+  | TweenConfig
+  | KeyframesConfig
+  | InertiaConfig;
 
-export interface Transition {
+export type Transition = FramerTransition & {
   type: AnimationType;
-  [key: string]: any;
+  [key: string]: unknown;
+};
+
+export type AnimationTarget = boolean | TargetAndTransition | VariantLabels;
+export type GestureAnimationTarget = TargetAndTransition | VariantLabels;
+export interface ViewportOptions {
+  root?: React.RefObject<Element>;
+  once?: boolean;
+  margin?: string;
+  amount?: "some" | "all" | number;
 }
+export type DragConstraints =
+  | false
+  | Partial<Record<"top" | "right" | "bottom" | "left", number>>
+  | React.RefObject<Element>;
+export type DragEventHandler = (
+  event: MouseEvent | TouchEvent | PointerEvent,
+  info: PanInfo
+) => void;
 
 export interface AnimationProps {
-  initial?: any;
-  animate?: any;
-  exit?: any;
+  initial?: AnimationTarget;
+  animate?: AnimationTarget;
+  exit?: AnimationTarget;
   transition?: Transition;
-  variants?: Record<string, any>;
-  whileHover?: any;
-  whileTap?: any;
-  whileDrag?: any;
-  whileFocus?: any;
-  whileInView?: any;
-  viewport?: any;
-  layout?: boolean | 'position' | 'size';
+  variants?: Variants;
+  whileHover?: GestureAnimationTarget;
+  whileTap?: GestureAnimationTarget;
+  whileDrag?: GestureAnimationTarget;
+  whileFocus?: GestureAnimationTarget;
+  whileInView?: GestureAnimationTarget;
+  viewport?: ViewportOptions;
+  layout?: boolean | "position" | "size";
   layoutId?: string;
-  drag?: boolean | 'x' | 'y';
-  dragConstraints?: any;
+  drag?: boolean | "x" | "y";
+  dragConstraints?: DragConstraints;
   dragElastic?: number | boolean;
   dragMomentum?: boolean;
-  onDragStart?: (event: any, info: any) => void;
-  onDragEnd?: (event: any, info: any) => void;
-  onDrag?: (event: any, info: any) => void;
+  onDragStart?: DragEventHandler;
+  onDragEnd?: DragEventHandler;
+  onDrag?: DragEventHandler;
 }
 
 // Physics-based interaction types

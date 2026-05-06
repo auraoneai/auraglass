@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   AnimatePresence,
   motion,
@@ -27,7 +27,7 @@ export interface OrbitalMenuItem {
   shortcut?: string;
   category?: string;
   priority?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface GlassOrbitalMenuProps {
@@ -73,7 +73,7 @@ export const GlassOrbitalMenu = forwardRef<
       springFriction = 25,
       glassConfig = {},
       soundEnabled = true,
-      className="",
+      className = "",
       style = {},
       ...props
     },
@@ -234,11 +234,11 @@ export const GlassOrbitalMenu = forwardRef<
       >
         <div
           ref={containerRef}
-          className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'
+          className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
         >
           {/* Center Button */}
           <motion.button
-            className='glass-relative glass-z-20 glass-flex glass-items-center glass-justify-center glass-surface glass-radius-full glass-border glass-border-white/20 glass-backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 glass-transition-colors glass-contrast-guard'
+            className="glass-relative glass-z-20 glass-flex glass-items-center glass-justify-center glass-surface glass-radius-full glass-border glass-border-white/20 glass-backdrop-blur-md glass-surface-subtle/10 hover:glass-surface-subtle/15 glass-transition-colors glass-contrast-guard"
             style={{
               width: itemSize + 8,
               height: itemSize + 8,
@@ -252,11 +252,11 @@ export const GlassOrbitalMenu = forwardRef<
           >
             {centerElement || (
               <motion.div
-                className='glass-w-6 glass-h-6 glass-flex glass-flex-col glass-items-center glass-justify-center'
+                className="glass-w-6 glass-h-6 glass-flex glass-flex-col glass-items-center glass-justify-center"
                 animate={{ rotate: isOpen ? 45 : 0 }}
               >
-                <div className='glass-w-4 glass-h-0-5 glass-surface-subtle/70 glass-mb-1' />
-                <div className='glass-w-4 glass-h-0-5 glass-surface-subtle/70' />
+                <div className="glass-w-4 glass-h-0-5 glass-surface-subtle/70 glass-mb-1" />
+                <div className="glass-w-4 glass-h-0-5 glass-surface-subtle/70" />
               </motion.div>
             )}
           </motion.button>
@@ -264,7 +264,7 @@ export const GlassOrbitalMenu = forwardRef<
           {/* Orbital Items */}
           <div
             id={`${menuId}-items`}
-            className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-pointer-events-none'
+            className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-pointer-events-none"
             role="group"
           >
             <AnimatePresence>
@@ -277,7 +277,7 @@ export const GlassOrbitalMenu = forwardRef<
                   return (
                     <motion.div
                       key={item.id}
-                      className='glass-absolute glass-pointer-events-auto'
+                      className="glass-absolute glass-pointer-events-auto"
                       custom={index}
                       variants={getItemVariants()}
                       initial="hidden"
@@ -321,7 +321,7 @@ export const GlassOrbitalMenu = forwardRef<
                         )}
 
                         {item.shortcut && (
-                          <div className='glass-absolute glass--top-2 glass--right-2 glass-surface-dark/50 glass-text-primary-opacity-70 glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-text-10px glass-backdrop-blur-sm glass-contrast-guard'>
+                          <div className="glass-absolute glass--top-2 glass--right-2 glass-surface-dark/50 glass-text-primary-opacity-70 glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-text-10px glass-backdrop-blur-sm glass-contrast-guard">
                             {item.shortcut}
                           </div>
                         )}
@@ -330,7 +330,7 @@ export const GlassOrbitalMenu = forwardRef<
                         <AnimatePresence>
                           {isHovered && !prefersReducedMotion && (
                             <motion.div
-                              className='glass-absolute glass-top-full glass-mt-2 glass-surface-dark/80 glass-text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-whitespace-nowrap glass-contrast-guard'
+                              className="glass-absolute glass-top-full glass-mt-2 glass-surface-dark/80 glass-text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-whitespace-nowrap glass-contrast-guard"
                               initial={{ opacity: 0, y: -5 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -5 }}
@@ -351,7 +351,7 @@ export const GlassOrbitalMenu = forwardRef<
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                className='glass-absolute glass-border glass-border-white/10 glass-radius-full glass-pointer-events-none'
+                className="glass-absolute glass-border glass-border-white/10 glass-radius-full glass-pointer-events-none"
                 style={{
                   width: radius * 2,
                   height: radius * 2,
@@ -370,7 +370,7 @@ export const GlassOrbitalMenu = forwardRef<
         </div>
 
         {/* Status Display */}
-        <div className='glass-absolute glass-bottom-2 glass-right-2 glass-text-xs glass-text-primary-glass-opacity-60'>
+        <div className="glass-absolute glass-bottom-2 glass-right-2 glass-text-xs glass-text-primary-glass-opacity-60">
           {items.length} items
         </div>
       </OptimizedGlass>

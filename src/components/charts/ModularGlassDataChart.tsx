@@ -412,8 +412,9 @@ export const ModularGlassDataChart = React.forwardRef<
             context: usageContext,
           });
         }
-      } catch (error) {
-        console.warn("Modular chart insights analysis failed:", error);
+      } catch {
+        setDataPatterns([]);
+        setChartInsights([]);
       }
     };
 
@@ -534,8 +535,8 @@ export const ModularGlassDataChart = React.forwardRef<
         //   currentData: datasets,
         //   patterns: dataPatterns
         // });
-      } catch (error) {
-        console.warn("Modular chart data preloading failed:", error);
+      } catch {
+        // Keep rendering with the current chart data.
       } finally {
         setIsPreloading(false);
       }

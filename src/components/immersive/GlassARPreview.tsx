@@ -38,7 +38,7 @@ export interface ARObject {
     speed: number;
     enabled: boolean;
   };
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ARMarker {
@@ -237,8 +237,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
               videoRef.current.play();
             }
           })
-          .catch((error) => {
-            console.warn("Camera access denied:", error);
+          .catch(() => {
             onError?.(new Error("Camera access required for AR preview"));
           });
 

@@ -1,15 +1,45 @@
 /**
  * AuraGlass Production Configuration and Utilities
- * 
+ *
  * This module provides production-ready configuration, optimization utilities,
  * and performance monitoring for the AuraGlass design system.
  */
 
-import { detectDevice } from '../utils/deviceCapabilities';
-import { PolyfillManager } from '../utils/browserCompatibility';
-import { PerformanceMonitor } from '../utils/performanceOptimizations';
-import { injectGlowKeyframes } from './mixins/glowEffects';
-import { getSafeDocument, getSafeNavigator, getSafeWindow, isBrowser, safeMatchMedia } from '../utils/env';
+import { detectDevice } from "../utils/deviceCapabilities";
+import { PolyfillManager } from "../utils/browserCompatibility";
+import {
+  PerformanceMetrics,
+  PerformanceMonitor,
+} from "../utils/performanceOptimizations";
+import { injectGlowKeyframes } from "./mixins/glowEffects";
+import {
+  getSafeDocument,
+  getSafeNavigator,
+  getSafeWindow,
+  isBrowser,
+  safeMatchMedia,
+} from "../utils/env";
+
+interface BrowserPerformanceMemory {
+  usedJSHeapSize: number;
+  totalJSHeapSize?: number;
+  jsHeapSizeLimit?: number;
+}
+
+type PerformanceWithMemory = Performance & {
+  memory?: BrowserPerformanceMemory;
+};
+
+type WindowWithGarbageCollection = Window & {
+  gc?: () => void;
+};
+
+const getPerformanceWithMemory = (): PerformanceWithMemory | undefined => {
+  const win = getSafeWindow();
+  const perf =
+    typeof performance !== "undefined" ? performance : win?.performance;
+  return perf as PerformanceWithMemory | undefined;
+};
 
 export interface ProductionConfig {
   /** Enable development mode features */
@@ -23,11 +53,11 @@ export interface ProductionConfig {
   /** Auto-load polyfills */
   autoPolyfills: boolean;
   /** Quality tier override */
-  qualityTier?: 'low' | 'medium' | 'high' | 'ultra' | 'auto';
+  qualityTier?: "low" | "medium" | "high" | "ultra" | "auto";
   /** Enable reduced motion by default */
   reducedMotion?: boolean;
   /** Theme preference */
-  defaultTheme?: 'light' | 'dark' | 'glass';
+  defaultTheme?: "light" | "dark" | "glass";
   /** Animation preferences */
   animations: {
     enabled: boolean;
@@ -43,18 +73,18 @@ export interface ProductionConfig {
 }
 
 export const defaultProductionConfig: ProductionConfig = {
-  development: process.env.NODE_ENV === 'development',
+  development: process.env.NODE_ENV === "development",
   monitoring: true,
   analytics: false,
   errorReporting: true,
   autoPolyfills: true,
-  qualityTier: 'auto',
+  qualityTier: "auto",
   reducedMotion: false,
-  defaultTheme: 'glass',
+  defaultTheme: "glass",
   animations: {
     enabled: true,
     duration: 300,
-    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    easing: "cubic-bezier(0.4, 0, 0.2, 1)",
   },
   performance: {
     targetFPS: 60,
@@ -86,7 +116,7 @@ export class AuraGlassProduction {
 
     const device = detectDevice();
 
-    if (this.config.qualityTier === 'auto') {
+    if (this.config.qualityTier === "auto") {
       this.config.qualityTier = device.performance.tier;
     }
 
@@ -97,12 +127,15 @@ export class AuraGlassProduction {
 
     try {
       // 1. Load required polyfills
-      if (this.config.autoPolyfills && typeof PolyfillManager.loadRequiredPolyfills === 'function') {
+      if (
+        this.config.autoPolyfills &&
+        typeof PolyfillManager.loadRequiredPolyfills === "function"
+      ) {
         await PolyfillManager.loadRequiredPolyfills();
       }
 
       // 2. Detect device capabilities
-      
+
       const doc = getSafeDocument();
       const win = getSafeWindow();
 
@@ -133,28 +166,19 @@ export class AuraGlassProduction {
       }
 
       this.initialized = true;
-
-      if (this.config.development) {
-        console.log('🎉 AuraGlass Production initialized successfully', {
-          qualityTier: this.config.qualityTier,
-          device: device.type,
-          performance: device.performance.tier,
-        });
-      }
     } catch (error) {
-      console.error('❌ AuraGlass Production initialization failed:', error);
       throw error;
     }
   }
 
   private injectProductionCSS(): void {
-    const cssId = 'aura-glass-production-styles';
+    const cssId = "aura-glass-production-styles";
     const doc = getSafeDocument();
     if (!doc) return;
 
     if (doc.getElementById(cssId)) return;
 
-    const style = doc.createElement('style');
+    const style = doc.createElement("style");
     style.id = cssId;
     style.textContent = this.generateProductionCSS();
     doc.head?.appendChild(style);
@@ -217,12 +241,12 @@ export class AuraGlassProduction {
     if (!win) return;
 
     // Monitor component render times
-    this.performanceMonitor.startMeasure('aura-glass-render');
+    this.performanceMonitor.startMeasure("aura-glass-render");
 
     // Monitor memory usage
     win.setInterval(() => {
-      const perf: any = typeof performance !== 'undefined' ? performance : win.performance;
-      if (perf && 'memory' in perf) {
+      const perf = getPerformanceWithMemory();
+      if (perf?.memory) {
         const memoryInfo = perf.memory;
         if (memoryInfo.usedJSHeapSize > this.config.performance.memoryLimit) {
           this.optimizeForMemory();
@@ -236,8 +260,9 @@ export class AuraGlassProduction {
 
   private monitorFPS(): void {
     const win = getSafeWindow();
-    const perf = typeof performance !== 'undefined' ? performance : win?.performance;
-    if (!win || !perf || typeof win.requestAnimationFrame !== 'function') {
+    const perf =
+      typeof performance !== "undefined" ? performance : win?.performance;
+    if (!win || !perf || typeof win.requestAnimationFrame !== "function") {
       return;
     }
 
@@ -254,7 +279,10 @@ export class AuraGlassProduction {
         lastTime = currentTime;
 
         // Optimize if FPS is too low
-        if (fps < this.config.performance.targetFPS * 0.8 && this.config.performance.autoOptimize) {
+        if (
+          fps < this.config.performance.targetFPS * 0.8 &&
+          this.config.performance.autoOptimize
+        ) {
           this.optimizeForPerformance();
         }
       }
@@ -270,10 +298,10 @@ export class AuraGlassProduction {
     if (!doc) return;
 
     // Reduce animation quality
-    doc.documentElement.classList.add('aura-glass-performance-optimized');
+    doc.documentElement.classList.add("aura-glass-performance-optimized");
 
     // Disable non-essential animations
-    const style = doc.createElement('style');
+    const style = doc.createElement("style");
     style.textContent = `
       .aura-glass-performance-optimized * {
         animation-duration: 0.1s !important;
@@ -289,34 +317,43 @@ export class AuraGlassProduction {
   private optimizeForMemory(): void {
     // Clear unused caches
     const win = getSafeWindow();
-    const perf: any = typeof performance !== 'undefined' ? performance : win?.performance;
+    const perf = getPerformanceWithMemory();
 
-    if (perf && 'memory' in perf && win) {
+    if (perf?.memory && win) {
       // Force garbage collection if available
-      if ('gc' in win) {
-        (win as any).gc();
-      }
+      const gc = (win as WindowWithGarbageCollection).gc;
+      gc?.();
     }
 
     // Emit memory warning event
-    win?.dispatchEvent(new CustomEvent('aura-glass-memory-warning', {
-      detail: { timestamp: Date.now() }
-    }));
+    win?.dispatchEvent(
+      new CustomEvent("aura-glass-memory-warning", {
+        detail: { timestamp: Date.now() },
+      })
+    );
   }
 
   private setupErrorReporting(): void {
     const win = getSafeWindow();
     if (!win) return;
 
-    win.addEventListener('error', (event) => {
-      if (event.error && event.error.stack && event.error.stack.includes('aura-glass')) {
-        this.reportError(event.error, 'javascript-error');
+    win.addEventListener("error", (event) => {
+      if (
+        event.error &&
+        event.error.stack &&
+        event.error.stack.includes("aura-glass")
+      ) {
+        this.reportError(event.error, "javascript-error");
       }
     });
 
-    win.addEventListener('unhandledrejection', (event) => {
-      if (event.reason && event.reason.stack && event.reason.stack.includes('aura-glass')) {
-        this.reportError(event.reason, 'unhandled-promise');
+    win.addEventListener("unhandledrejection", (event) => {
+      if (
+        event.reason &&
+        event.reason.stack &&
+        event.reason.stack.includes("aura-glass")
+      ) {
+        this.reportError(event.reason, "unhandled-promise");
       }
     });
   }
@@ -335,10 +372,6 @@ export class AuraGlassProduction {
       config: this.config,
     };
 
-    if (this.config.development) {
-      console.error('🚨 AuraGlass Error:', errorReport);
-    }
-
     // In production, you would send this to your error reporting service
     // Example: Sentry, LogRocket, or custom analytics
   }
@@ -348,19 +381,25 @@ export class AuraGlassProduction {
     if (!doc) return;
 
     // Check for reduced motion preference
-    if ((safeMatchMedia('(prefers-reduced-motion: reduce)')?.matches ?? false) || this.config.reducedMotion) {
-      doc.documentElement.classList.add('aura-glass-reduced-motion');
+    if (
+      (safeMatchMedia("(prefers-reduced-motion: reduce)")?.matches ?? false) ||
+      this.config.reducedMotion
+    ) {
+      doc.documentElement.classList.add("aura-glass-reduced-motion");
       this.config.animations.enabled = false;
     }
 
     // Check for high contrast preference
-    if (safeMatchMedia('(prefers-contrast: high)')?.matches) {
-      doc.documentElement.classList.add('aura-glass-high-contrast');
+    if (safeMatchMedia("(prefers-contrast: high)")?.matches) {
+      doc.documentElement.classList.add("aura-glass-high-contrast");
     }
 
     // Check for dark mode preference
-    if (safeMatchMedia('(prefers-color-scheme: dark)')?.matches && this.config.defaultTheme === 'glass') {
-      doc.documentElement.classList.add('aura-glass-dark-mode');
+    if (
+      safeMatchMedia("(prefers-color-scheme: dark)")?.matches &&
+      this.config.defaultTheme === "glass"
+    ) {
+      doc.documentElement.classList.add("aura-glass-dark-mode");
     }
   }
 
@@ -369,16 +408,30 @@ export class AuraGlassProduction {
     if (!doc) return;
 
     // Apply default theme
-    doc.documentElement.setAttribute('data-aura-theme', this.config.defaultTheme || 'glass');
-    
+    doc.documentElement.setAttribute(
+      "data-aura-theme",
+      this.config.defaultTheme || "glass"
+    );
+
     // Apply quality tier class
-    doc.documentElement.classList.add(`aura-glass-quality-${this.config.qualityTier}`);
+    doc.documentElement.classList.add(
+      `aura-glass-quality-${this.config.qualityTier}`
+    );
 
     // Setup CSS custom properties
     const root = doc.documentElement;
-    root.style.setProperty('--aura-animation-duration', `${this.config.animations.duration}ms`);
-    root.style.setProperty('--aura-animation-easing', this.config.animations.easing);
-    root.style.setProperty('--aura-target-fps', this.config.performance.targetFPS.toString());
+    root.style.setProperty(
+      "--aura-animation-duration",
+      `${this.config.animations.duration}ms`
+    );
+    root.style.setProperty(
+      "--aura-animation-easing",
+      this.config.animations.easing
+    );
+    root.style.setProperty(
+      "--aura-target-fps",
+      this.config.performance.targetFPS.toString()
+    );
   }
 
   // Public API methods
@@ -388,7 +441,7 @@ export class AuraGlassProduction {
 
   updateConfig(updates: Partial<ProductionConfig>): void {
     this.config = { ...this.config, ...updates };
-    
+
     if (this.initialized) {
       this.applyConfigChanges(updates);
     }
@@ -399,25 +452,37 @@ export class AuraGlassProduction {
     if (!doc) return;
 
     if (updates.qualityTier) {
-      doc.documentElement.className = doc.documentElement.className
-        .replace(/aura-glass-quality-\w+/, `aura-glass-quality-${updates.qualityTier}`);
+      doc.documentElement.className = doc.documentElement.className.replace(
+        /aura-glass-quality-\w+/,
+        `aura-glass-quality-${updates.qualityTier}`
+      );
     }
 
     if (updates.animations?.duration) {
-      doc.documentElement.style.setProperty('--aura-animation-duration', `${updates.animations.duration}ms`);
+      doc.documentElement.style.setProperty(
+        "--aura-animation-duration",
+        `${updates.animations.duration}ms`
+      );
     }
 
     if (updates.animations?.easing) {
-      doc.documentElement.style.setProperty('--aura-animation-easing', updates.animations.easing);
+      doc.documentElement.style.setProperty(
+        "--aura-animation-easing",
+        updates.animations.easing
+      );
     }
 
     if (updates.defaultTheme) {
-      doc.documentElement.setAttribute('data-aura-theme', updates.defaultTheme);
+      doc.documentElement.setAttribute("data-aura-theme", updates.defaultTheme);
     }
   }
 
-  getPerformanceMetrics(): any {
+  getPerformanceMetrics(): PerformanceMetrics {
     return this.performanceMonitor.getMetrics();
+  }
+
+  optimizePerformance(): void {
+    this.optimizeForPerformance();
   }
 
   isInitialized(): boolean {
@@ -434,11 +499,13 @@ export class AuraGlassProduction {
     const doc = getSafeDocument();
     if (doc) {
       const styles = doc.querySelectorAll('style[id^="aura-glass"]');
-      styles.forEach((style: any) => style.remove());
+      styles.forEach((style) => style.remove());
 
       // Remove classes
-      doc.documentElement.className = doc.documentElement.className
-        .replace(/aura-glass-[\w-]+/g, '');
+      doc.documentElement.className = doc.documentElement.className.replace(
+        /aura-glass-[\w-]+/g,
+        ""
+      );
     }
 
     this.initialized = false;
@@ -446,13 +513,17 @@ export class AuraGlassProduction {
 }
 
 // Global initialization function
-export async function initializeAuraGlass(config?: Partial<ProductionConfig>): Promise<AuraGlassProduction> {
+export async function initializeAuraGlass(
+  config?: Partial<ProductionConfig>
+): Promise<AuraGlassProduction> {
   const instance = AuraGlassProduction.getInstance(config);
   await instance.initialize();
   return instance;
 }
 
-export async function initializeAuraGlassClient(config?: Partial<ProductionConfig>): Promise<AuraGlassProduction> {
+export async function initializeAuraGlassClient(
+  config?: Partial<ProductionConfig>
+): Promise<AuraGlassProduction> {
   const instance = AuraGlassProduction.getInstance(config);
   if (!isBrowser()) {
     return instance;
@@ -479,7 +550,7 @@ export const productionUtils = {
   },
 
   // Get performance metrics
-  getMetrics: (): any => {
+  getMetrics: (): PerformanceMetrics => {
     return AuraGlassProduction.getInstance().getPerformanceMetrics();
   },
 
@@ -487,7 +558,7 @@ export const productionUtils = {
   optimize: (): void => {
     if (!isBrowser()) return;
     const instance = AuraGlassProduction.getInstance();
-    (instance as any).optimizeForPerformance();
+    instance.optimizePerformance();
   },
 
   // Check device capabilities
@@ -502,36 +573,43 @@ export const productionUtils = {
     if (!isBrowser()) {
       return {
         ready: false,
-        issues: ['Production validation requires a browser environment.'],
+        issues: ["Production validation requires a browser environment."],
       };
     }
 
     // Check required APIs
     const win = getSafeWindow();
     if (!win?.requestAnimationFrame) {
-      issues.push('RequestAnimationFrame not available');
+      issues.push("RequestAnimationFrame not available");
     }
 
     if (!win?.getComputedStyle) {
-      issues.push('GetComputedStyle not available');
+      issues.push("GetComputedStyle not available");
     }
 
     // Check CSS support
     const doc = getSafeDocument();
     if (doc) {
-      const testElement = doc.createElement('div');
-      if (!('backdropFilter' in testElement.style) && !('webkitBackdropFilter' in testElement.style)) {
-        issues.push('Backdrop filter not supported - glassmorphism effects will be limited');
+      const testElement = doc.createElement("div");
+      if (
+        !("backdropFilter" in testElement.style) &&
+        !("webkitBackdropFilter" in testElement.style)
+      ) {
+        issues.push(
+          "Backdrop filter not supported - glassmorphism effects will be limited"
+        );
       }
-      if (!('grid' in testElement.style)) {
-        issues.push('CSS Grid not supported - layout may be affected');
+      if (!("grid" in testElement.style)) {
+        issues.push("CSS Grid not supported - layout may be affected");
       }
     }
 
     // Check performance capabilities
     const device = detectDevice();
-    if (device.performance.tier === 'low') {
-      issues.push('Low performance device detected - consider enabling performance optimizations');
+    if (device.performance.tier === "low") {
+      issues.push(
+        "Low performance device detected - consider enabling performance optimizations"
+      );
     }
 
     return {
@@ -545,17 +623,19 @@ export const productionUtils = {
 export const getAuraGlass = () => AuraGlassProduction.getInstance();
 
 // Development utilities (only available in development)
-export const devUtils = process.env.NODE_ENV === 'development' ? {
-  // Enable debug mode
-  enableDebug: (): void => {
-    const doc = getSafeDocument();
-    if (!doc) return;
+export const devUtils =
+  process.env.NODE_ENV === "development"
+    ? {
+        // Enable debug mode
+        enableDebug: (): void => {
+          const doc = getSafeDocument();
+          if (!doc) return;
 
-    doc.documentElement.classList.add('aura-glass-debug');
+          doc.documentElement.classList.add("aura-glass-debug");
 
-    const debugStyle = doc.createElement('style');
-    debugStyle.id = 'aura-glass-debug-styles';
-    debugStyle.textContent = `
+          const debugStyle = doc.createElement("style");
+          debugStyle.id = "aura-glass-debug-styles";
+          debugStyle.textContent = `
       .aura-glass-debug .glass-surface {
         outline: 1px dashed rgba(255, 0, 0, 0.5) !important;
       }
@@ -572,29 +652,29 @@ export const devUtils = process.env.NODE_ENV === 'development' ? {
         z-index: 10000;
       }
     `;
-    doc.head?.appendChild(debugStyle);
-  },
+          doc.head?.appendChild(debugStyle);
+        },
 
-  // Disable debug mode
-  disableDebug: (): void => {
-    const doc = getSafeDocument();
-    if (!doc) return;
-    doc.documentElement.classList.remove('aura-glass-debug');
-    const debugStyle = doc.getElementById('aura-glass-debug-styles');
-    if (debugStyle) debugStyle.remove();
-  },
+        // Disable debug mode
+        disableDebug: (): void => {
+          const doc = getSafeDocument();
+          if (!doc) return;
+          doc.documentElement.classList.remove("aura-glass-debug");
+          const debugStyle = doc.getElementById("aura-glass-debug-styles");
+          if (debugStyle) debugStyle.remove();
+        },
 
-  // Log performance metrics
-  logMetrics: (): void => {
-    console.table(getAuraGlass().getPerformanceMetrics());
-  },
+        // Log performance metrics
+        logMetrics: (): void => {
+          console.table(getAuraGlass().getPerformanceMetrics());
+        },
 
-  // Test all components
-  testComponents: (): void => {
-    console.log('🧪 Testing AuraGlass components...');
-    // Component testing logic would go here
-  },
-} : {};
+        // Test all components
+        testComponents: (): void => {
+          // Component testing logic would go here
+        },
+      }
+    : {};
 
 // Export default configuration
 export default defaultProductionConfig;

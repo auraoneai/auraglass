@@ -18,12 +18,34 @@ export interface SearchResult {
   tags: string[];
   url?: string;
   score: number;
-  metadata?: Record<string, any>;
+  metadata?: SearchResultMetadata;
   highlights?: {
     title?: string[];
     description?: string[];
   };
 }
+
+export interface SearchResultMetadata extends Record<string, unknown> {
+  rating?: number;
+  date?: string | number | Date;
+}
+
+export interface SearchDateRange {
+  start: string | number | Date;
+  end: string | number | Date;
+}
+
+export type SearchFilterValue =
+  | string
+  | number
+  | boolean
+  | string[]
+  | number[]
+  | SearchDateRange
+  | null
+  | undefined;
+
+export type SearchFilters = Record<string, SearchFilterValue>;
 
 export interface SearchFilter {
   id: string;
@@ -31,7 +53,19 @@ export interface SearchFilter {
   type: "select" | "multiselect" | "range" | "date" | "boolean";
   options?: Array<{ value: string; label: string; count?: number }>;
   range?: { min: number; max: number; step?: number };
-  value?: any;
+  value?: SearchFilterValue;
+}
+
+interface QueryEntity {
+  type: string;
+  value: string;
+}
+
+interface QueryAnalysis {
+  intent: string;
+  entities: QueryEntity[];
+  sentiment: "positive" | "neutral" | "negative";
+  keywords: string[];
 }
 
 export interface SearchSuggestion {
@@ -43,7 +77,7 @@ export interface SearchSuggestion {
 
 export interface IntelligentSearchProps {
   data?: SearchResult[];
-  onSearch?: (query: string, filters: Record<string, any>) => void;
+  onSearch?: (query: string, filters: SearchFilters) => void;
   onResultClick?: (result: SearchResult) => void;
   placeholder?: string;
   showFilters?: boolean;
@@ -56,15 +90,28 @@ export interface IntelligentSearchProps {
   "data-testid"?: string;
 }
 
+const isStringArray = (value: SearchFilterValue): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const isSearchDateRange = (
+  value: SearchFilterValue
+): value is SearchDateRange =>
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  "start" in value &&
+  "end" in value;
+
+const getStringFilterValues = (value: SearchFilterValue): string[] =>
+  isStringArray(value) ? value : [];
+
+const getNumericFilterValue = (
+  value: SearchFilterValue,
+  fallback: number
+): number => (typeof value === "number" ? value : fallback);
+
 // NLP Query Analysis
-const analyzeQuery = (
-  query: string
-): {
-  intent: string;
-  entities: Array<{ type: string; value: string }>;
-  sentiment: "positive" | "neutral" | "negative";
-  keywords: string[];
-} => {
+const analyzeQuery = (query: string): QueryAnalysis => {
   const lowercaseQuery = query.toLowerCase();
 
   // Intent detection
@@ -96,19 +143,19 @@ const analyzeQuery = (
   }
 
   // Entity extraction (simplified)
-  const entities: Array<{ type: string; value: string }> = [];
+  const entities: QueryEntity[] = [];
 
   // Date entities
   const dateMatches = query.match(
     /(\d{4}|\d{1,2}\/\d{1,2}\/\d{4}|today|yesterday|last week|this month)/gi
   );
-  dateMatches?.forEach((match: any) => {
+  dateMatches?.forEach((match) => {
     entities.push({ type: "date", value: match });
   });
 
   // Number entities
   const numberMatches = query.match(/\b\d+(?:\.\d+)?\b/g);
-  numberMatches?.forEach((match: any) => {
+  numberMatches?.forEach((match) => {
     entities.push({ type: "number", value: match });
   });
 
@@ -123,7 +170,7 @@ const analyzeQuery = (
     "user",
     "project",
   ];
-  categories.forEach((category: any) => {
+  categories.forEach((category) => {
     if (lowercaseQuery.includes(category)) {
       entities.push({ type: "category", value: category });
     }
@@ -203,7 +250,7 @@ const analyzeQuery = (
   const keywords = query
     .toLowerCase()
     .split(/\s+/)
-    .filter((word: any) => word.length > 2 && !stopWords.includes(word))
+    .filter((word) => word.length > 2 && !stopWords.includes(word))
     .filter((word, index, arr) => arr.indexOf(word) === index); // Remove duplicates
 
   return { intent, entities, sentiment, keywords };
@@ -213,7 +260,7 @@ const analyzeQuery = (
 const performIntelligentSearch = (
   query: string,
   data: SearchResult[],
-  filters: Record<string, any>,
+  filters: SearchFilters,
   enableNLP: boolean = true
 ): SearchResult[] => {
   if (!query.trim() && Object.keys(filters).length === 0) {
@@ -224,10 +271,10 @@ const performIntelligentSearch = (
   const searchTerms = query
     .toLowerCase()
     .split(/\s+/)
-    .filter((term: any) => term.length > 0);
+    .filter((term) => term.length > 0);
 
   return data
-    .map((item: any) => {
+    .map((item) => {
       let score = 0;
 
       // Text matching with different weights
@@ -242,8 +289,7 @@ const performIntelligentSearch = (
       const tagMatch = searchTerms.reduce((acc, term) => {
         return (
           acc +
-          item.tags.filter((tag: any) => tag.toLowerCase().includes(term))
-            .length *
+          item.tags.filter((tag) => tag.toLowerCase().includes(term)).length *
             0.7
         );
       }, 0);
@@ -258,7 +304,7 @@ const performIntelligentSearch = (
         }
 
         // Entity matching
-        analysis.entities.forEach((entity: any) => {
+        analysis.entities.forEach((entity) => {
           if (
             entity.type === "category" &&
             item.category.toLowerCase().includes(entity.value)
@@ -269,7 +315,7 @@ const performIntelligentSearch = (
 
         // Keyword density bonus
         const keywordMatches = analysis.keywords.filter(
-          (keyword: any) =>
+          (keyword) =>
             item.title.toLowerCase().includes(keyword) ||
             item.description.toLowerCase().includes(keyword)
         ).length;
@@ -283,20 +329,20 @@ const performIntelligentSearch = (
 
         switch (key) {
           case "category":
-            if (Array.isArray(value)) {
+            if (isStringArray(value)) {
               passesFilters = passesFilters && value.includes(item.category);
-            } else {
+            } else if (typeof value === "string") {
               passesFilters = passesFilters && item.category === value;
             }
             break;
           case "tags":
-            if (Array.isArray(value)) {
+            if (isStringArray(value)) {
               passesFilters =
                 passesFilters && value.some((tag) => item.tags.includes(tag));
             }
             break;
           case "dateRange":
-            if (item.metadata?.date) {
+            if (item.metadata?.date && isSearchDateRange(value)) {
               const itemDate = new Date(item.metadata.date);
               const startDate = new Date(value.start);
               const endDate = new Date(value.end);
@@ -305,7 +351,7 @@ const performIntelligentSearch = (
             }
             break;
           case "rating":
-            if (item.metadata?.rating) {
+            if (item.metadata?.rating && typeof value === "number") {
               passesFilters = passesFilters && item.metadata.rating >= value;
             }
             break;
@@ -319,7 +365,7 @@ const performIntelligentSearch = (
       // Generate highlights
       const highlights: { title?: string[]; description?: string[] } = {};
       if (score > 0) {
-        searchTerms.forEach((term: any) => {
+        searchTerms.forEach((term) => {
           if (item.title.toLowerCase().includes(term)) {
             if (!highlights.title) highlights.title = [];
             highlights.title.push(term);
@@ -337,7 +383,7 @@ const performIntelligentSearch = (
         highlights,
       };
     })
-    .filter((item: any) => item.score > 0)
+    .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score);
 };
 
@@ -354,9 +400,9 @@ const generateSuggestions = (
 
   // Recent searches
   recentSearches
-    .filter((search: any) => search.toLowerCase().includes(lowercaseQuery))
+    .filter((search) => search.toLowerCase().includes(lowercaseQuery))
     .slice(0, 3)
-    .forEach((search: any) => {
+    .forEach((search) => {
       suggestions.push({
         text: search,
         type: "query",
@@ -364,14 +410,12 @@ const generateSuggestions = (
     });
 
   // Category suggestions
-  const categories = [...new Set(data.map((item: any) => item.category))];
+  const categories = [...new Set(data.map((item) => item.category))];
   categories
-    .filter((category: any) => category.toLowerCase().includes(lowercaseQuery))
+    .filter((category) => category.toLowerCase().includes(lowercaseQuery))
     .slice(0, 3)
-    .forEach((category: any) => {
-      const count = data.filter(
-        (item: any) => item.category === category
-      ).length;
+    .forEach((category) => {
+      const count = data.filter((item) => item.category === category).length;
       suggestions.push({
         text: category,
         type: "category",
@@ -423,11 +467,13 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
-  const [filters, setFilters] = useState<Record<string, any>>({});
+  const [filters, setFilters] = useState<SearchFilters>({});
   const [showSuggestionsList, setShowSuggestionsList] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [searchAnalysis, setSearchAnalysis] = useState<any>(null);
+  const [searchAnalysis, setSearchAnalysis] = useState<QueryAnalysis | null>(
+    null
+  );
   const [isListening, setIsListening] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -442,9 +488,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   const availableFilters = useMemo((): SearchFilter[] => {
     if (!data || data.length === 0) return [];
 
-    const categories = [
-      ...new Set(data.map((item: any) => item?.category).filter(Boolean)),
-    ];
+    const categories = [...new Set(data.map((item) => item.category))];
     const allTags = data.flatMap((item) => item?.tags || []);
     const tagCounts = allTags.reduce(
       (acc, tag) => {
@@ -466,10 +510,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         id: "category",
         name: "Category",
         type: "multiselect",
-        options: categories.map((cat: any) => ({
+        options: categories.map((cat) => ({
           value: cat,
           label: cat,
-          count: data.filter((item: any) => item?.category === cat).length,
+          count: data.filter((item) => item.category === cat).length,
         })),
       },
       {
@@ -487,7 +531,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     ];
   }, [data]);
 
-  // Set initial mount flag and cleanup - run FIRST before any other effects
+  // Set initial mount flag and cleanup before the dependent effects run.
   useEffect(() => {
     isMountedRef.current = true;
     isInitialMountRef.current = true;
@@ -502,7 +546,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
   // Debounced search
   const performSearch = useCallback(
-    (searchQuery: string, currentFilters: Record<string, any>) => {
+    (searchQuery: string, currentFilters: SearchFilters) => {
       if (!isMountedRef.current) return;
 
       setIsSearching(true);
@@ -607,14 +651,14 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     if (suggestion.type === "query") {
       setQuery(suggestion.text);
     } else if (suggestion.type === "category") {
-      setFilters((prev: any) => ({
+      setFilters((prev) => ({
         ...prev,
-        category: [...(prev.category || []), suggestion.text],
+        category: [...getStringFilterValues(prev.category), suggestion.text],
       }));
     } else if (suggestion.type === "tag") {
-      setFilters((prev: any) => ({
+      setFilters((prev) => ({
         ...prev,
-        tags: [...(prev.tags || []), suggestion.text],
+        tags: [...getStringFilterValues(prev.tags), suggestion.text],
       }));
     }
     setShowSuggestionsList(false);
@@ -623,13 +667,13 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
   const handleSearchSubmit = () => {
     if (query.trim() && !recentSearches.includes(query.trim())) {
-      setRecentSearches((prev: any) => [query.trim(), ...prev.slice(0, 9)]);
+      setRecentSearches((prev) => [query.trim(), ...prev.slice(0, 9)]);
     }
     setShowSuggestionsList(false);
   };
 
-  const handleFilterChange = (filterId: string, value: any) => {
-    setFilters((prev: any) => ({
+  const handleFilterChange = (filterId: string, value: SearchFilterValue) => {
+    setFilters((prev) => ({
       ...prev,
       [filterId]: value,
     }));
@@ -640,9 +684,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   };
 
   const startVoiceSearch = () => {
-    if (!enableVoiceSearch || !("webkitSpeechRecognition" in window)) return;
+    const SpeechRecognitionCtor = window.webkitSpeechRecognition;
+    if (!enableVoiceSearch || !SpeechRecognitionCtor) return;
 
-    const recognition = new (window as any).webkitSpeechRecognition();
+    const recognition = new SpeechRecognitionCtor();
     recognition.lang = "en-US";
     recognition.continuous = false;
     recognition.interimResults = false;
@@ -651,7 +696,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
       setIsListening(true);
     };
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       setQuery(transcript);
       setIsListening(false);
@@ -848,16 +893,14 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                   Entities:
                 </span>
                 <div className="glass-flex glass-flex-wrap glass-gap-1">
-                  {searchAnalysis.entities
-                    .slice(0, 3)
-                    .map((entity: any, index: number) => (
-                      <span
-                        key={index}
-                        className="glass-px-2 glass-py-1 glass-surface-subtle glass-text-primary glass-radius glass-text-xs glass-break-words"
-                      >
-                        {entity.type}: {entity.value}
-                      </span>
-                    ))}
+                  {searchAnalysis.entities.slice(0, 3).map((entity, index) => (
+                    <span
+                      key={index}
+                      className="glass-px-2 glass-py-1 glass-surface-subtle glass-text-primary glass-radius glass-text-xs glass-break-words"
+                    >
+                      {entity.type}: {entity.value}
+                    </span>
+                  ))}
                 </div>
               </div>
             )}
@@ -901,7 +944,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
           </div>
 
           <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4">
-            {availableFilters.map((filter: any) => (
+            {availableFilters.map((filter) => (
               <div key={filter.id}>
                 <label className="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2">
                   {filter.name}
@@ -909,18 +952,20 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
                 {filter.type === "multiselect" && (
                   <div className="glass-space-y-2 glass-max-h-32 glass-overflow-y-auto">
-                    {filter.options?.map((option: any) => (
+                    {filter.options?.map((option) => (
                       <label
                         key={option.value}
                         className="glass-flex glass-items-start glass-gap-2 glass-text-sm"
                       >
                         <input
                           type="checkbox"
-                          checked={
-                            filters[filter.id]?.includes(option.value) || false
-                          }
+                          checked={getStringFilterValues(
+                            filters[filter.id]
+                          ).includes(option.value)}
                           onChange={(e) => {
-                            const current = filters[filter.id] || [];
+                            const current = getStringFilterValues(
+                              filters[filter.id]
+                            );
                             if (e.target.checked) {
                               handleFilterChange(filter.id, [
                                 ...current,
@@ -955,7 +1000,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                       min={filter.range.min}
                       max={filter.range.max}
                       step={filter.range.step || 1}
-                      value={filters[filter.id] || filter.range.min}
+                      value={getNumericFilterValue(
+                        filters[filter.id],
+                        filter.range.min
+                      )}
                       onChange={(e) =>
                         handleFilterChange(
                           filter.id,
@@ -967,7 +1015,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                     <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mt-1">
                       <span>{filter.range.min}</span>
                       <span className="glass-font-medium">
-                        {filters[filter.id] || filter.range.min}
+                        {getNumericFilterValue(
+                          filters[filter.id],
+                          filter.range.min
+                        )}
                       </span>
                       <span>{filter.range.max}</span>
                     </div>
@@ -1001,7 +1052,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         ) : null}
 
         <div className="glass-space-y-4">
-          {results.map((result: any) => (
+          {results.map((result) => (
             <Glass
               key={result.id}
               className={cn(
@@ -1050,7 +1101,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
                   {result.tags.length > 0 && (
                     <div className="glass-flex glass-flex-wrap glass-gap-1">
-                      {result.tags.slice(0, 5).map((tag: any) => (
+                      {result.tags.slice(0, 5).map((tag) => (
                         <span
                           key={tag}
                           className="glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle glass-text-primary glass-radius glass-break-words"

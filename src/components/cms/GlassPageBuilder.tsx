@@ -2,7 +2,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
-import { DragDropProvider, useDragDrop } from "./GlassDragDropProvider";
+import {
+  DragDropProvider,
+  PageBuilderState,
+  PageExportData,
+  useDragDrop,
+} from "./GlassDragDropProvider";
 import { GlassComponentPalette } from "./GlassComponentPalette";
 import { GlassCanvas } from "./GlassCanvas";
 import { GlassPropertyPanel } from "./GlassPropertyPanel";
@@ -11,14 +16,43 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-interface PageBuilderProps {
+export interface PageBuilderProps {
   className?: string;
-  initialData?: any;
-  onSave?: (data: any) => void;
-  onPreview?: (data: any) => void;
-  onPublish?: (data: any) => void;
+  initialData?: PageBuilderInitialData;
+  onSave?: (data: PageExportData) => void;
+  onPreview?: (data: PageExportData) => void;
+  onPublish?: (data: PageExportData) => void;
   "data-testid"?: string;
 }
+
+export interface PageBuilderInitialComponent {
+  id: string;
+  type: string;
+  props?: Record<string, unknown>;
+  children?: PageBuilderInitialComponent[];
+  parent?: string;
+  order?: number;
+  locked?: boolean;
+}
+
+export interface PageBuilderInitialData
+  extends Omit<Partial<PageExportData>, "components"> {
+  components?: PageBuilderInitialComponent[];
+}
+
+type BuilderBreakpoint = PageBuilderState["activeBreakpoint"];
+
+interface BreakpointOption {
+  key: BuilderBreakpoint;
+  icon: string;
+  label: string;
+}
+
+const breakpointOptions: BreakpointOption[] = [
+  { key: "desktop", icon: "🖥️", label: "Desktop" },
+  { key: "tablet", icon: "📱", label: "Tablet" },
+  { key: "mobile", icon: "📱", label: "Mobile" },
+];
 
 const Toolbar: React.FC = () => {
   const {
@@ -48,8 +82,8 @@ const Toolbar: React.FC = () => {
       try {
         const data = JSON.parse(saved);
         importPage(data);
-      } catch (error) {
-        console.error("Error loading saved data:", error);
+      } catch {
+        // Ignore invalid saved page data.
       }
     }
   }, [importPage]);
@@ -143,14 +177,10 @@ const Toolbar: React.FC = () => {
 
       {/* Center - Breakpoint Controls */}
       <div className="glass-flex glass-items-center glass-gap-2 glass-surface-subtle glass-radius-lg glass-p-1">
-        {[
-          { key: "desktop", icon: "🖥️", label: "Desktop" },
-          { key: "tablet", icon: "📱", label: "Tablet" },
-          { key: "mobile", icon: "📱", label: "Mobile" },
-        ].map((breakpoint: any) => (
+        {breakpointOptions.map((breakpoint) => (
           <button
             key={breakpoint.key}
-            onClick={() => setActiveBreakpoint(breakpoint.key as any)}
+            onClick={() => setActiveBreakpoint(breakpoint.key)}
             className={cn(
               "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
               pageState.activeBreakpoint === breakpoint.key
@@ -213,9 +243,8 @@ const Toolbar: React.FC = () => {
           </button>
           <button
             onClick={() => {
-              const data = exportPage();
-              console.log("Publishing:", data);
-              alert("Page published! (Demo - check console for data)");
+              exportPage();
+              alert("Page published! (Demo)");
             }}
             className="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-text-sm glass-font-medium glass-surface-blue glass-text-primary hover:glass-surface-blue glass-radius-md glass-transition-colors"
           >
@@ -247,7 +276,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
   // Load initial data
   useEffect(() => {
     if (initialData) {
-      importPage(initialData);
+      importPage(initialData as Partial<PageExportData>);
     } else {
       // Try to load from localStorage
       const saved = localStorage.getItem("glass-page-builder-autosave");
@@ -255,8 +284,8 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
         try {
           const data = JSON.parse(saved);
           importPage(data);
-        } catch (error) {
-          console.error("Error loading saved data:", error);
+        } catch {
+          // Ignore invalid saved page data.
         }
       }
     }

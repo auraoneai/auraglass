@@ -229,7 +229,6 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
         // Check max files limit
         if (maxFiles && internalFiles.length + newFiles.length > maxFiles) {
-          console.warn(`Maximum ${maxFiles} files allowed`);
           return;
         }
 

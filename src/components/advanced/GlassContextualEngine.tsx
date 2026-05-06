@@ -639,8 +639,8 @@ class GlassContextualEngineCore {
       if (this.contextHistory.length > 200) {
         this.contextHistory.shift();
       }
-    } catch (error) {
-      console.warn("Failed to update context:", error);
+    } catch {
+      // Keep the previous context snapshot when a sensor read fails.
     }
   }
 
@@ -919,7 +919,6 @@ class ContextualSensors {
   async initialize(): Promise<void> {
     // CRITICAL SSR FIX: Skip all sensor initialization on server
     if (typeof window === "undefined" || typeof navigator === "undefined") {
-      console.warn("ContextualSensors: Skipping initialization on server");
       return;
     }
 
@@ -955,8 +954,8 @@ class ContextualSensors {
       try {
         this.ambientLight = new (window as any).AmbientLightSensor();
         this.ambientLight.start();
-      } catch (error) {
-        console.warn("Ambient light sensor not available:", error);
+      } catch {
+        this.ambientLight = null;
       }
     }
   }

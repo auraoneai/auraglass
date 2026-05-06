@@ -256,7 +256,6 @@ export function GlassWebGLShader({
 
     if (!gl) {
       setIsSupported(false);
-      console.warn("WebGL not supported");
       return;
     }
 
@@ -343,7 +342,6 @@ export function GlassWebGLShader({
     gl.compileShader(shader);
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      console.error("Shader compilation error:", gl.getShaderInfoLog(shader));
       gl.deleteShader(shader);
       return null;
     }
@@ -365,7 +363,6 @@ export function GlassWebGLShader({
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program linking error:", gl.getProgramInfoLog(program));
       gl.deleteProgram(program);
       return null;
     }

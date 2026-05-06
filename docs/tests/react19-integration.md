@@ -21,11 +21,7 @@ registry issues, etc.). Logs are copied to:
 
 ## Prerequisites
 
-1. **Corepack/PNPM** – The script shells out to `pnpm`. If Corepack is available:
-   ```bash
-   corepack enable
-   ```
-   or install pnpm globally.
+1. **npm** - The script shells out to `npm`, matching the repository release workflow.
 2. **Playwright Chromium deps** – On macOS/Linux CI runners ensure the system
    packages required by Playwright’s Chromium build are installed (GitHub-hosted
    runners already have them).
@@ -58,7 +54,7 @@ AURAGLASS_SKIP_BUILD=1 npm run test:integration:next
 1. AuraGlass is `npm pack`’d into a temp directory.
 2. Two Next.js apps (`next-app` and `next-app-react19`) are scaffolded and
    pointed at the tarball via `file:` dependency.
-3. Each app installs dependencies via `pnpm install`.
+3. Each app installs dependencies via `npm install`.
 4. Playwright installs Chromium and runs the `tests/smoke.spec.ts`.
 5. Logs are copied into `reports/` for inspection. If the log contains any of:
    - `Invalid hook call`
@@ -71,7 +67,7 @@ AURAGLASS_SKIP_BUILD=1 npm run test:integration:next
 
 | Symptom | Fix |
 | --- | --- |
-| `pnpm: command not found` | Enable Corepack or install pnpm globally |
+| `npm install` dependency failure | Review the generated temporary app log and peer dependency ranges. |
 | Playwright dependency errors | Run `npx playwright install --with-deps chromium` once outside the script to prime caches |
 | Port already in use | Set `PORT_4310/PORT_4311` env vars to change the dev server ports (requires updating `scripts/ci/run-next-integration.js`) |
 | Want to keep the temp apps | Set `AURAGLASS_NEXT_DEBUG=1` to stop the script from deleting temp dirs (edit script to respect this flag if desired) |
@@ -85,6 +81,5 @@ The GitHub Actions pipeline calls the same npm script:
   run: npm run test:integration:next
 ```
 
-Ensure the job has Corepack enabled (or pnpm pre-installed) and the Playwright
-Ubuntu dependencies available. The resulting logs are uploaded as job artifacts
+Ensure the job has npm and the Playwright Ubuntu dependencies available. The resulting logs are uploaded as job artifacts
 so you can compare them against `reports/next-integration-react19.log` in git.

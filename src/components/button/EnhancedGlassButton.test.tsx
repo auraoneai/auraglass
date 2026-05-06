@@ -69,7 +69,13 @@ describe("EnhancedGlassButton", () => {
    */
   it("renders animation debug overlay", () => {
     const { container } = render(
-      <EnhancedGlassButton>Snapshot Button</EnhancedGlassButton>
+      <EnhancedGlassButton
+        enhancedFeatures={{
+          organicMotion: { enabled: true, showDebugHud: true },
+        }}
+      >
+        Snapshot Button
+      </EnhancedGlassButton>
     );
 
     const debug = container.querySelector(

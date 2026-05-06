@@ -31,7 +31,7 @@ export interface MediaFile {
     | "2160p";
   chapters?: MediaChapter[];
   subtitles?: MediaSubtitle[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface MediaChapter {
@@ -188,6 +188,13 @@ export interface RecordingOptions {
 }
 
 const MediaContext = createContext<MediaContextValue | null>(null);
+const transcriptSentiments: Array<NonNullable<TranscriptEntry["sentiment"]>> = [
+  "positive",
+  "neutral",
+  "negative",
+];
+
+const isString = (value: unknown): value is string => typeof value === "string";
 
 // Mock transcription service
 const mockTranscriptionService = {
@@ -232,9 +239,10 @@ const mockTranscriptionService = {
           0,
           Math.floor(Math.random() * 3) + 1
         ),
-        sentiment: ["positive", "neutral", "negative"][
-          Math.floor(Math.random() * 3)
-        ] as any,
+        sentiment:
+          transcriptSentiments[
+            Math.floor(Math.random() * transcriptSentiments.length)
+          ],
       });
     }
 
@@ -251,9 +259,9 @@ const mockTranscriptionService = {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const speakers = [
-      ...new Set(transcript.map((entry: any) => entry.speaker).filter(Boolean)),
+      ...new Set(transcript.map((entry) => entry.speaker).filter(isString)),
     ];
-    return speakers as string[];
+    return speakers;
   },
 };
 
@@ -296,12 +304,11 @@ export const MediaProvider: React.FC<{
         const devices = await navigator.mediaDevices.enumerateDevices();
         setRecordingDevices(
           devices.filter(
-            (device: any) =>
+            (device) =>
               device.kind === "audioinput" || device.kind === "videoinput"
           )
         );
-      } catch (error) {
-        console.error("Error getting media devices:", error);
+      } catch {
         setRecordingDevices([]);
       }
     };
@@ -310,10 +317,10 @@ export const MediaProvider: React.FC<{
   }, []);
 
   const addMediaFile = useCallback((file: MediaFile) => {
-    setMediaFiles((prev: any) => [...prev, file]);
+    setMediaFiles((prev) => [...prev, file]);
 
     // Initialize analytics
-    setAnalytics((prev: any) => ({
+    setAnalytics((prev) => ({
       ...prev,
       [file.id]: {
         totalViews: 0,
@@ -328,13 +335,13 @@ export const MediaProvider: React.FC<{
   }, []);
 
   const removeMediaFile = useCallback((id: string) => {
-    setMediaFiles((prev: any) => prev.filter((file: any) => file.id !== id));
-    setTranscripts((prev: any) => {
+    setMediaFiles((prev) => prev.filter((file) => file.id !== id));
+    setTranscripts((prev) => {
       const newTranscripts = { ...prev };
       delete newTranscripts[id];
       return newTranscripts;
     });
-    setAnalytics((prev: any) => {
+    setAnalytics((prev) => {
       const newAnalytics = { ...prev };
       delete newAnalytics[id];
       return newAnalytics;
@@ -343,17 +350,15 @@ export const MediaProvider: React.FC<{
 
   const getMediaFile = useCallback(
     (id: string) => {
-      return mediaFiles.find((file: any) => file.id === id);
+      return mediaFiles.find((file) => file.id === id);
     },
     [mediaFiles]
   );
 
   const updateMediaFile = useCallback(
     (id: string, updates: Partial<MediaFile>) => {
-      setMediaFiles((prev: any) =>
-        prev.map((file: any) =>
-          file.id === id ? { ...file, ...updates } : file
-        )
+      setMediaFiles((prev) =>
+        prev.map((file) => (file.id === id ? { ...file, ...updates } : file))
       );
     },
     []
@@ -363,7 +368,7 @@ export const MediaProvider: React.FC<{
     (mediaId: string) => {
       const mediaFile = getMediaFile(mediaId);
       if (mediaFile) {
-        setPlaybackState((prev: any) => ({
+        setPlaybackState((prev) => ({
           ...prev,
           mediaId,
           isPlaying: true,
@@ -386,9 +391,7 @@ export const MediaProvider: React.FC<{
   );
 
   const pause = useCallback(() => {
-    setPlaybackState((prev: any) =>
-      prev ? { ...prev, isPlaying: false } : null
-    );
+    setPlaybackState((prev) => (prev ? { ...prev, isPlaying: false } : null));
     if (playbackState) {
       trackEngagement(
         playbackState.mediaId,
@@ -404,7 +407,7 @@ export const MediaProvider: React.FC<{
 
   const seekTo = useCallback(
     (time: number) => {
-      setPlaybackState((prev: any) =>
+      setPlaybackState((prev) =>
         prev ? { ...prev, currentTime: time } : null
       );
       if (playbackState) {
@@ -415,23 +418,21 @@ export const MediaProvider: React.FC<{
   );
 
   const setVolume = useCallback((volume: number) => {
-    setPlaybackState((prev: any) => (prev ? { ...prev, volume } : null));
+    setPlaybackState((prev) => (prev ? { ...prev, volume } : null));
   }, []);
 
   const setPlaybackRate = useCallback((rate: number) => {
-    setPlaybackState((prev: any) =>
-      prev ? { ...prev, playbackRate: rate } : null
-    );
+    setPlaybackState((prev) => (prev ? { ...prev, playbackRate: rate } : null));
   }, []);
 
   const toggleMute = useCallback(() => {
-    setPlaybackState((prev: any) =>
+    setPlaybackState((prev) =>
       prev ? { ...prev, isMuted: !prev.isMuted } : null
     );
   }, []);
 
   const toggleFullscreen = useCallback(() => {
-    setPlaybackState((prev: any) =>
+    setPlaybackState((prev) =>
       prev ? { ...prev, isFullscreen: !prev.isFullscreen } : null
     );
     if (playbackState) {
@@ -444,7 +445,7 @@ export const MediaProvider: React.FC<{
   }, [playbackState]);
 
   const setQuality = useCallback((quality: string) => {
-    setPlaybackState((prev: any) => (prev ? { ...prev, quality } : null));
+    setPlaybackState((prev) => (prev ? { ...prev, quality } : null));
   }, []);
 
   const generateTranscript = useCallback(
@@ -454,9 +455,9 @@ export const MediaProvider: React.FC<{
 
       try {
         const transcript = await mockTranscriptionService.transcribe(mediaFile);
-        setTranscripts((prev: any) => ({ ...prev, [mediaId]: transcript }));
-      } catch (error) {
-        console.error("Error generating transcript:", error);
+        setTranscripts((prev) => ({ ...prev, [mediaId]: transcript }));
+      } catch {
+        setTranscripts((prev) => ({ ...prev, [mediaId]: [] }));
       }
     },
     [getMediaFile]
@@ -468,9 +469,9 @@ export const MediaProvider: React.FC<{
       const lowercaseQuery = query.toLowerCase();
 
       return transcript.filter(
-        (entry: any) =>
+        (entry) =>
           entry.text.toLowerCase().includes(lowercaseQuery) ||
-          entry.keywords?.some((keyword: any) =>
+          entry.keywords?.some((keyword) =>
             keyword.toLowerCase().includes(lowercaseQuery)
           )
       );
@@ -482,14 +483,14 @@ export const MediaProvider: React.FC<{
     (mediaId: string, time: number) => {
       const transcript = transcripts[mediaId] || [];
       return transcript.find(
-        (entry: any) => time >= entry.startTime && time <= entry.endTime
+        (entry) => time >= entry.startTime && time <= entry.endTime
       );
     },
     [transcripts]
   );
 
   const setActiveChapter = useCallback((mediaId: string, chapterId: string) => {
-    setPlaybackState((prev: any) =>
+    setPlaybackState((prev) =>
       prev && prev.mediaId === mediaId
         ? { ...prev, activeChapter: chapterId }
         : prev
@@ -502,7 +503,7 @@ export const MediaProvider: React.FC<{
       if (!mediaFile?.chapters) return undefined;
 
       return mediaFile.chapters.find(
-        (chapter: any) => time >= chapter.startTime && time <= chapter.endTime
+        (chapter) => time >= chapter.startTime && time <= chapter.endTime
       );
     },
     [getMediaFile]
@@ -510,7 +511,7 @@ export const MediaProvider: React.FC<{
 
   const setActiveSubtitle = useCallback(
     (mediaId: string, subtitleId: string) => {
-      setPlaybackState((prev: any) =>
+      setPlaybackState((prev) =>
         prev && prev.mediaId === mediaId
           ? { ...prev, activeSubtitle: subtitleId }
           : prev
@@ -524,7 +525,7 @@ export const MediaProvider: React.FC<{
       const transcript = transcripts[mediaId];
       if (!transcript) return;
 
-      const subtitles: SubtitleEntry[] = transcript.map((entry: any) => ({
+      const subtitles: SubtitleEntry[] = transcript.map((entry) => ({
         id: entry.id,
         startTime: entry.startTime,
         endTime: entry.endTime,
@@ -548,7 +549,7 @@ export const MediaProvider: React.FC<{
   );
 
   const trackView = useCallback((mediaId: string, watchTime: number) => {
-    setAnalytics((prev: any) => ({
+    setAnalytics((prev) => ({
       ...prev,
       [mediaId]: {
         ...prev[mediaId],
@@ -560,8 +561,12 @@ export const MediaProvider: React.FC<{
   }, []);
 
   const trackEngagement = useCallback(
-    (mediaId: string, time: number, type: string) => {
-      setAnalytics((prev: any) => ({
+    (
+      mediaId: string,
+      time: number,
+      type: "play" | "pause" | "seek" | "fullscreen"
+    ) => {
+      setAnalytics((prev) => ({
         ...prev,
         [mediaId]: {
           ...prev[mediaId],
@@ -613,7 +618,7 @@ export const MediaProvider: React.FC<{
 
       const sentimentMap: Record<number, "positive" | "neutral" | "negative"> =
         {};
-      transcript.forEach((entry: any) => {
+      transcript.forEach((entry) => {
         if (entry.sentiment) {
           sentimentMap[entry.startTime] = entry.sentiment;
         }
@@ -646,8 +651,8 @@ export const MediaProvider: React.FC<{
         mediaRecorderRef.current = mediaRecorder;
         setIsRecording(true);
         mediaRecorder.start();
-      } catch (error) {
-        console.error("Error starting recording:", error);
+      } catch {
+        setIsRecording(false);
       }
     },
     []

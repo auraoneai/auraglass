@@ -521,8 +521,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             }
             return prevInsights;
           });
-        } catch (error) {
-          console.warn("Predictive drawer analysis failed:", error);
+        } catch {
+          setDrawerInsights(null);
         }
       };
 

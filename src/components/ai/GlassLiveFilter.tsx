@@ -24,8 +24,12 @@ export interface FilterEffect {
   description: string;
   category: "artistic" | "color" | "blur" | "distortion" | "vintage" | "modern";
   intensity: number;
-  parameters?: { [key: string]: number | string };
+  parameters?: FilterParameters;
 }
+
+export type FilterParameterValue = number | string;
+export type FilterParameters = Record<string, FilterParameterValue>;
+type ProcessingQuality = ProcessingSettings["quality"];
 
 export interface ProcessingSettings {
   quality: "low" | "medium" | "high" | "ultra";
@@ -49,7 +53,7 @@ export interface GlassLiveFilterProps {
   maxFilters?: number;
   canvasWidth?: number;
   canvasHeight?: number;
-  onFilterApply?: (filterId: string, params: any) => void;
+  onFilterApply?: (filterId: string, params: FilterParameters) => void;
   onProcessingComplete?: (processedData: string) => void;
   onError?: (error: Error) => void;
   className?: string;
@@ -190,9 +194,9 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     const [isProcessing, setIsProcessing] = useState(false);
     const [activeFilters, setActiveFilters] =
       useState<string[]>(selectedFilters);
-    const [filterParameters, setFilterParameters] = useState<{
-      [key: string]: any;
-    }>({});
+    const [filterParameters, setFilterParameters] = useState<
+      Record<string, FilterParameters>
+    >({});
     const [processedImageUrl, setProcessedImageUrl] = useState<string>("");
     const [originalImageUrl, setOriginalImageUrl] = useState<string>(
       imageSource || ""
@@ -239,54 +243,63 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
           imageData.height
         );
 
-        filters.forEach((filter: any) => {
+        filters.forEach((filter) => {
           const params = filterParameters[filter.id] || filter.parameters || {};
 
           switch (filter.id) {
             case "grayscale":
               processedData = applyGrayscale(
                 processedData,
-                params.strength || 1.0
+                getNumericParam(params, "strength", 1.0)
               );
               break;
             case "sepia":
-              processedData = applySepia(processedData, params.warmth || 0.8);
+              processedData = applySepia(
+                processedData,
+                getNumericParam(params, "warmth", 0.8)
+              );
               break;
             case "blur":
               // Simplified blur - in production would use proper convolution
-              processedData = applyBlur(processedData, params.radius || 5);
+              processedData = applyBlur(
+                processedData,
+                getNumericParam(params, "radius", 5)
+              );
               break;
             case "brightness":
               processedData = applyBrightness(
                 processedData,
-                params.level || 1.2
+                getNumericParam(params, "level", 1.2)
               );
               break;
             case "contrast":
-              processedData = applyContrast(processedData, params.level || 1.3);
+              processedData = applyContrast(
+                processedData,
+                getNumericParam(params, "level", 1.3)
+              );
               break;
             case "saturation":
               processedData = applySaturation(
                 processedData,
-                params.level || 1.5
+                getNumericParam(params, "level", 1.5)
               );
               break;
             case "hue-shift":
               processedData = applyHueShift(
                 processedData,
-                params.degrees || 30
+                getNumericParam(params, "degrees", 30)
               );
               break;
             case "edge-detect":
               processedData = applyEdgeDetection(
                 processedData,
-                params.threshold || 0.5
+                getNumericParam(params, "threshold", 0.5)
               );
               break;
             case "emboss":
               processedData = applyEmboss(
                 processedData,
-                params.strength || 0.8
+                getNumericParam(params, "strength", 0.8)
               );
               break;
             case "vintage":
@@ -589,13 +602,30 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       return new ImageData(output, width, height);
     };
 
-    const applyVintage = (imageData: ImageData, params: any): ImageData => {
+    const getNumericParam = (
+      params: FilterParameters,
+      key: string,
+      fallback: number
+    ): number => {
+      const value = params[key];
+      if (typeof value === "number") return value;
+      if (typeof value === "string") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : fallback;
+      }
+      return fallback;
+    };
+
+    const applyVintage = (
+      imageData: ImageData,
+      params: FilterParameters
+    ): ImageData => {
       let result = imageData;
       // Apply sepia first
       result = applySepia(result, 0.7);
 
       // Add grain
-      const grain = params.grain || 0.3;
+      const grain = getNumericParam(params, "grain", 0.3);
       const data = result.data;
       for (let i = 0; i < data.length; i += 4) {
         const noise = (Math.random() - 0.5) * grain * 255;
@@ -607,9 +637,12 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       return result;
     };
 
-    const applyNeonGlow = (imageData: ImageData, params: any): ImageData => {
+    const applyNeonGlow = (
+      imageData: ImageData,
+      params: FilterParameters
+    ): ImageData => {
       const data = imageData.data;
-      const glow = params.glow || 1.2;
+      const glow = getNumericParam(params, "glow", 1.2);
 
       // Enhance bright colors and add glow effect
       for (let i = 0; i < data.length; i += 4) {
@@ -667,7 +700,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       imageData: ImageData,
       ctx: CanvasRenderingContext2D
     ) => {
-      const activeFilterObjects = availableFilters.filter((f: any) =>
+      const activeFilterObjects = availableFilters.filter((f) =>
         activeFilters.includes(f.id)
       );
 
@@ -697,14 +730,14 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
           return;
         }
 
-        setActiveFilters((prev: any) => [...prev, filterId]);
+        setActiveFilters((prev) => [...prev, filterId]);
         const filter = availableFilters.find((f) => f.id === filterId);
         if (filter) {
-          setFilterParameters((prev: any) => ({
+          setFilterParameters((prev) => ({
             ...prev,
             [filterId]: { ...filter.parameters },
           }));
-          onFilterApply?.(filterId, filter.parameters);
+          onFilterApply?.(filterId, filter.parameters ?? {});
           play("select");
         }
       },
@@ -713,10 +746,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
 
     const removeFilter = useCallback(
       (filterId: string) => {
-        setActiveFilters((prev: any) =>
-          prev.filter((id: any) => id !== filterId)
-        );
-        setFilterParameters((prev: any) => {
+        setActiveFilters((prev) => prev.filter((id) => id !== filterId));
+        setFilterParameters((prev) => {
           const { [filterId]: removed, ...rest } = prev;
           return rest;
         });
@@ -726,8 +757,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
     );
 
     const updateFilterParameter = useCallback(
-      (filterId: string, paramName: string, value: any) => {
-        setFilterParameters((prev: any) => ({
+      (filterId: string, paramName: string, value: FilterParameterValue) => {
+        setFilterParameters((prev) => ({
           ...prev,
           [filterId]: {
             ...prev[filterId],
@@ -884,7 +915,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                               paramName.slice(1)}
                             :
                             {typeof defaultValue === "number"
-                              ? ` ${(filterParameters[filterId]?.[paramName] ?? defaultValue).toFixed(2)}`
+                              ? ` ${getNumericParam(filterParameters[filterId] ?? {}, paramName, defaultValue).toFixed(2)}`
                               : ""}
                           </label>
                           {typeof defaultValue === "number" ? (
@@ -1041,9 +1072,9 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                   <select
                     value={settings.quality}
                     onChange={(e) =>
-                      setSettings((prev: any) => ({
+                      setSettings((prev) => ({
                         ...prev,
-                        quality: e.target.value as any,
+                        quality: e.target.value as ProcessingQuality,
                       }))
                     }
                     className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
@@ -1066,7 +1097,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                     max="60"
                     value={settings.fps}
                     onChange={(e) =>
-                      setSettings((prev: any) => ({
+                      setSettings((prev) => ({
                         ...prev,
                         fps: parseInt(e.target.value),
                       }))
@@ -1083,7 +1114,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                     type="checkbox"
                     checked={settings.enableGPU}
                     onChange={(e) =>
-                      setSettings((prev: any) => ({
+                      setSettings((prev) => ({
                         ...prev,
                         enableGPU: e.target.checked,
                       }))

@@ -256,12 +256,6 @@ function SpeedDialComponent(
             {React.Children.toArray(children).map((child, index) => {
               // Check if the action is a valid React element before rendering
               if (!React.isValidElement(child)) {
-                if (process.env.NODE_ENV === "development") {
-                  console.warn(
-                    "Invalid element passed as child to SpeedDial:",
-                    child
-                  );
-                }
                 return null;
               }
 

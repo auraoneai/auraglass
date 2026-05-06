@@ -368,7 +368,7 @@ PortalTheme {
 4. **Tailwind Extension:** Add persona namespace to Tailwind config with opacity-aware helpers and utility shortcuts (`bg-{persona}-surface`, `ring-{persona}`).
 5. **Shell Wiring:** Ensure route-level layouts wrap content with `<ThemeProvider persona="{id}" disableTransitionOnChange>`. Shell primitives propagate `data-persona` to root nodes.
 6. **Component & Interaction Sweep:** Replace hard-coded colors in persona routes with semantic utilities, align typography usage to the persona ladder, wire glass treatments, and map microinteraction triggers to motion tokens. Update charts, modals, empty states, navigation rails, loaders, and notifications.
-7. **Testing & QA:** Run `pnpm typecheck`, `pnpm lint`, and persona-specific Playwright suites. Validate motion fallbacks (`prefers-reduced-motion`), focus visibility, and audio/haptic opt-ins while capturing visual baselines and accessibility audits.
+7. **Testing & QA:** Run `npm run typecheck`, `npm run lint:check`, and persona-specific Playwright suites. Validate motion fallbacks (`prefers-reduced-motion`), focus visibility, and audio/haptic opt-ins while capturing visual baselines and accessibility audits.
 8. **Documentation:** Mirror updates in upgrade files and Storybook entries. Provide before/after references for stakeholders and external applications adopting the system.
 
 ## Design Adoption Checklist

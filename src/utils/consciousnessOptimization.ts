@@ -4,6 +4,24 @@
 
 import { useCallback, useMemo, useRef, useEffect } from "react";
 
+export type ConsciousnessGazeData = unknown;
+export type ConsciousnessBiometricData = unknown;
+export type ConsciousnessPredictivePattern = unknown;
+
+export interface ConsciousnessPredictiveResult {
+  predictions: unknown[];
+  confidence: number;
+  message?: string;
+  [key: string]: unknown;
+}
+
+export interface ConsciousnessOperationStats {
+  avg: number;
+  max: number;
+  min: number;
+  count: number;
+}
+
 // Performance optimization strategies for consciousness features
 export const OPTIMIZATION_STRATEGIES = {
   LAZY_LOADING: "lazy",
@@ -42,9 +60,8 @@ class ConsciousnessResourcePool {
           new URL("../workers/predictiveWorker.js", import.meta.url)
         );
         this.predictiveAnalyzers.push(predWorker);
-      } catch (error) {
+      } catch {
         // Workers not available in this environment (e.g., SSR, old browsers)
-        console.warn("Consciousness workers not available:", error);
       }
     }
   }
@@ -85,9 +102,9 @@ class ConsciousnessResourcePool {
       ...this.eyeTrackingWorkers,
       ...this.biometricProcessors,
       ...this.predictiveAnalyzers,
-    ].forEach((worker: any) => worker.terminate());
+    ].forEach((worker) => worker.terminate());
 
-    this.spatialAudioContexts.forEach((context: any) => {
+    this.spatialAudioContexts.forEach((context) => {
       if (context.state !== "closed") {
         context.close();
       }
@@ -138,7 +155,7 @@ export const consciousnessResourcePool = new Proxy(
 // Performance-optimized consciousness hooks
 export const useOptimizedEyeTracking = (
   enabled: boolean,
-  onGazeChange: (data: any) => void,
+  onGazeChange: (data: ConsciousnessGazeData) => void,
   options: { throttleMs?: number } = {}
 ) => {
   const { throttleMs = 16.67 } = options; // 60fps default
@@ -146,7 +163,7 @@ export const useOptimizedEyeTracking = (
   const workerRef = useRef<Worker | null>(null);
 
   const throttledGazeChange = useCallback(
-    (data: any) => {
+    (data: ConsciousnessGazeData) => {
       const now = Date.now();
       if (now - lastUpdateRef.current >= throttleMs) {
         lastUpdateRef.current = now;
@@ -189,11 +206,11 @@ export const useOptimizedEyeTracking = (
 // Optimized biometric monitoring
 export const useOptimizedBiometricMonitoring = (
   enabled: boolean,
-  onBiometricChange: (data: any) => void,
+  onBiometricChange: (data: ConsciousnessBiometricData) => void,
   options: { batchSize?: number; intervalMs?: number } = {}
 ) => {
   const { batchSize = 10, intervalMs = 100 } = options;
-  const dataBuffer = useRef<any[]>([]);
+  const dataBuffer = useRef<ConsciousnessBiometricData[]>([]);
   const workerRef = useRef<Worker | null>(null);
 
   const processBatch = useCallback(() => {
@@ -234,7 +251,7 @@ export const useOptimizedBiometricMonitoring = (
   }, [enabled, onBiometricChange, processBatch, intervalMs]);
 
   const addBiometricData = useCallback(
-    (data: any) => {
+    (data: ConsciousnessBiometricData) => {
       dataBuffer.current.push(data);
 
       // Process immediately if buffer is full
@@ -255,34 +272,41 @@ export const useOptimizedBiometricMonitoring = (
 // Optimized predictive analysis with caching
 export const useOptimizedPredictiveAnalysis = (
   enabled: boolean,
-  patterns: any[],
+  patterns: ConsciousnessPredictivePattern[],
   options: { cacheSize?: number; debounceMs?: number } = {}
 ) => {
   const { cacheSize = 100, debounceMs = 200 } = options;
-  const cacheRef = useRef<Map<string, any>>(new Map());
+  const cacheRef = useRef<Map<string, ConsciousnessPredictiveResult>>(
+    new Map()
+  );
   const debounceRef = useRef<NodeJS.Timeout>();
 
-  const getCacheKey = useCallback((patterns: any[]) => {
-    return JSON.stringify(patterns.slice(0, 10)); // Use first 10 patterns for key
-  }, []);
+  const getCacheKey = useCallback(
+    (patterns: ConsciousnessPredictivePattern[]) => {
+      return JSON.stringify(patterns.slice(0, 10)); // Use first 10 patterns for key
+    },
+    []
+  );
 
   const runPredictiveAnalysis = useCallback(
-    async (patterns: any[]) => {
+    async (
+      patterns: ConsciousnessPredictivePattern[]
+    ): Promise<ConsciousnessPredictiveResult> => {
       const cacheKey = getCacheKey(patterns);
 
       // Check cache first
       if (cacheRef.current.has(cacheKey)) {
-        return cacheRef.current.get(cacheKey);
+        return cacheRef.current.get(cacheKey)!;
       }
 
-      return new Promise((resolve) => {
+      return new Promise<ConsciousnessPredictiveResult>((resolve) => {
         try {
           const worker = new Worker(
             new URL("../workers/predictiveWorker.ts", import.meta.url)
           );
 
           worker.onmessage = (event) => {
-            const result = event.data;
+            const result = event.data as ConsciousnessPredictiveResult;
 
             // Cache result
             if (cacheRef.current.size >= cacheSize) {
@@ -297,8 +321,7 @@ export const useOptimizedPredictiveAnalysis = (
             resolve(result);
           };
 
-          worker.onerror = (error) => {
-            console.error("Predictive worker error:", error);
+          worker.onerror = () => {
             worker.terminate();
             resolve({
               predictions: [],
@@ -322,7 +345,7 @@ export const useOptimizedPredictiveAnalysis = (
   );
 
   const debouncedAnalysis = useCallback(
-    (patterns: any[]) => {
+    (patterns: ConsciousnessPredictivePattern[]) => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }
@@ -347,7 +370,7 @@ export const useOptimizedPredictiveAnalysis = (
   }, [enabled, patterns, debouncedAnalysis]);
 
   return {
-    getCachedResult: (patterns: any[]) => {
+    getCachedResult: (patterns: ConsciousnessPredictivePattern[]) => {
       const cacheKey = getCacheKey(patterns);
       return cacheRef.current.get(cacheKey);
     },
@@ -378,7 +401,7 @@ export const useOptimizedSpatialAudio = (
 
     return () => {
       // Clean up sources and panners
-      sourcesRef.current.forEach((source: any) => {
+      sourcesRef.current.forEach((source) => {
         try {
           source.disconnect();
           source.stop();
@@ -387,7 +410,7 @@ export const useOptimizedSpatialAudio = (
         }
       });
 
-      pannersRef.current.forEach((panner: any) => {
+      pannersRef.current.forEach((panner) => {
         panner.disconnect();
       });
 
@@ -453,8 +476,8 @@ export const useOptimizedSpatialAudio = (
 
         sourcesRef.current.push(source);
         pannersRef.current.push(panner);
-      } catch (error) {
-        console.error("Failed to play spatial audio:", error);
+      } catch {
+        // Spatial audio is optional and may be blocked by browser policy.
       }
     },
     [position, maxSources]
@@ -514,13 +537,6 @@ export const useConsciousnessPerformanceOptimization = (
       if (metricsRef.current.renderTimes.length > 100) {
         metricsRef.current.renderTimes.shift();
       }
-
-      // Warn if render is slow
-      if (renderTime > 16.67) {
-        console.warn(
-          `Slow render in ${componentName}: ${renderTime.toFixed(2)}ms`
-        );
-      }
     };
   }, [componentName]);
 
@@ -554,7 +570,7 @@ export const useConsciousnessPerformanceOptimization = (
         ? renderTimes.reduce((a, b) => a + b) / renderTimes.length
         : 0;
 
-    const consciousnessStats: Record<string, any> = {};
+    const consciousnessStats: Record<string, ConsciousnessOperationStats> = {};
     consciousnessOperations.forEach((measurements, operation) => {
       if (measurements.length > 0) {
         consciousnessStats[operation] = {

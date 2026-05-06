@@ -14,7 +14,17 @@ export interface AIClientConfig {
 
 export interface FormFieldSuggestion {
   fieldName: string;
-  fieldType: 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'checkbox' | 'radio' | 'textarea' | 'file';
+  fieldType:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "date"
+    | "select"
+    | "checkbox"
+    | "radio"
+    | "textarea"
+    | "file";
   label: string;
   placeholder?: string;
   required: boolean;
@@ -70,10 +80,15 @@ class AIClient {
 
   constructor(config: AIClientConfig = {}) {
     this.config = {
-      apiUrl: config.apiUrl || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
-      wsUrl: config.wsUrl || process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3002',
-      getAuthToken: config.getAuthToken || (() => Promise.resolve(this.authToken)),
-      onError: config.onError || ((error) => console.error('AI Client Error:', error)),
+      apiUrl:
+        config.apiUrl ||
+        process.env.NEXT_PUBLIC_API_URL ||
+        "http://localhost:3001",
+      wsUrl:
+        config.wsUrl || process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3002",
+      getAuthToken:
+        config.getAuthToken || (() => Promise.resolve(this.authToken)),
+      onError: config.onError || (() => undefined),
     };
   }
 
@@ -87,18 +102,21 @@ class AIClient {
   /**
    * Make authenticated API request
    */
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<T> {
     try {
       const token = await this.config.getAuthToken();
       const url = `${this.config.apiUrl}${endpoint}`;
 
       const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...(options.headers as Record<string, string>),
       };
 
       if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+        headers["Authorization"] = `Bearer ${token}`;
       }
 
       const response = await fetch(url, {
@@ -107,8 +125,10 @@ class AIClient {
       });
 
       if (!response.ok) {
-        const error = await response.json().catch(() => ({ error: response.statusText }));
-        throw new Error(error.error || error.message || 'Request failed');
+        const error = await response
+          .json()
+          .catch(() => ({ error: response.statusText }));
+        throw new Error(error.error || error.message || "Request failed");
       }
 
       return await response.json();
@@ -125,7 +145,10 @@ class AIClient {
   /**
    * Login with email and password
    */
-  async login(email: string, password: string): Promise<{
+  async login(
+    email: string,
+    password: string
+  ): Promise<{
     token: string;
     refreshToken: string;
     user: {
@@ -136,8 +159,8 @@ class AIClient {
       permissions: string[];
     };
   }> {
-    const result = await this.request('/api/auth/login', {
-      method: 'POST',
+    const result = await this.request("/api/auth/login", {
+      method: "POST",
       body: JSON.stringify({ email, password }),
     });
 
@@ -149,8 +172,8 @@ class AIClient {
    * Register new user
    */
   async register(email: string, password: string, name?: string) {
-    const result = await this.request('/api/auth/register', {
-      method: 'POST',
+    const result = await this.request("/api/auth/register", {
+      method: "POST",
       body: JSON.stringify({ email, password, name }),
     });
 
@@ -162,8 +185,8 @@ class AIClient {
    * Refresh authentication token
    */
   async refreshToken(refreshToken: string): Promise<{ token: string }> {
-    const result = await this.request<{ token: string }>('/api/auth/refresh', {
-      method: 'POST',
+    const result = await this.request<{ token: string }>("/api/auth/refresh", {
+      method: "POST",
       body: JSON.stringify({ refreshToken }),
     });
 
@@ -175,7 +198,7 @@ class AIClient {
    * Logout current user
    */
   async logout(): Promise<void> {
-    await this.request('/api/auth/logout', { method: 'POST' });
+    await this.request("/api/auth/logout", { method: "POST" });
     this.authToken = null;
   }
 
@@ -193,10 +216,13 @@ class AIClient {
     context: string,
     existingFields: FormFieldSuggestion[] = []
   ): Promise<FormFieldSuggestion[]> {
-    const result = await this.request<{ fields: FormFieldSuggestion[] }>('/api/ai/generate-form', {
-      method: 'POST',
-      body: JSON.stringify({ context, existingFields }),
-    });
+    const result = await this.request<{ fields: FormFieldSuggestion[] }>(
+      "/api/ai/generate-form",
+      {
+        method: "POST",
+        body: JSON.stringify({ context, existingFields }),
+      }
+    );
 
     return result.fields;
   }
@@ -220,8 +246,8 @@ class AIClient {
     intent: string;
     totalResults: number;
   }> {
-    return await this.request('/api/ai/search', {
-      method: 'POST',
+    return await this.request("/api/ai/search", {
+      method: "POST",
       body: JSON.stringify({ query, options }),
     });
   }
@@ -234,15 +260,17 @@ class AIClient {
    *   { id: '1', content: 'Document content...', title: 'Doc 1' }
    * ]);
    */
-  async indexDocuments(documents: Array<{
-    id: string;
-    content: string;
-    title?: string;
-    metadata?: Record<string, any>;
-    tags?: string[];
-  }>): Promise<{ success: boolean; indexed: number }> {
-    return await this.request('/api/ai/index-documents', {
-      method: 'POST',
+  async indexDocuments(
+    documents: Array<{
+      id: string;
+      content: string;
+      title?: string;
+      metadata?: Record<string, any>;
+      tags?: string[];
+    }>
+  ): Promise<{ success: boolean; indexed: number }> {
+    return await this.request("/api/ai/index-documents", {
+      method: "POST",
       body: JSON.stringify({ documents }),
     });
   }
@@ -255,12 +283,15 @@ class AIClient {
    */
   async analyzeImage(
     imageData: string,
-    analysisTypes: ('faces' | 'objects' | 'text' | 'labels' | 'all')[] = ['all']
+    analysisTypes: ("faces" | "objects" | "text" | "labels" | "all")[] = ["all"]
   ): Promise<ImageAnalysis> {
-    const result = await this.request<{ analysis: ImageAnalysis }>('/api/ai/analyze-image', {
-      method: 'POST',
-      body: JSON.stringify({ image: imageData, analysisTypes }),
-    });
+    const result = await this.request<{ analysis: ImageAnalysis }>(
+      "/api/ai/analyze-image",
+      {
+        method: "POST",
+        body: JSON.stringify({ image: imageData, analysisTypes }),
+      }
+    );
 
     return result.analysis;
   }
@@ -272,10 +303,13 @@ class AIClient {
    * const processedImage = await client.removeBackground(base64Image);
    */
   async removeBackground(imageData: string): Promise<string> {
-    const result = await this.request<{ image: string }>('/api/ai/remove-background', {
-      method: 'POST',
-      body: JSON.stringify({ image: imageData }),
-    });
+    const result = await this.request<{ image: string }>(
+      "/api/ai/remove-background",
+      {
+        method: "POST",
+        body: JSON.stringify({ image: imageData }),
+      }
+    );
 
     return result.image;
   }
@@ -287,10 +321,13 @@ class AIClient {
    * const summary = await client.summarize(longText, 200);
    */
   async summarize(content: string, maxLength: number = 200): Promise<string> {
-    const result = await this.request<{ summary: string }>('/api/ai/summarize', {
-      method: 'POST',
-      body: JSON.stringify({ content, maxLength }),
-    });
+    const result = await this.request<{ summary: string }>(
+      "/api/ai/summarize",
+      {
+        method: "POST",
+        body: JSON.stringify({ content, maxLength }),
+      }
+    );
 
     return result.summary;
   }
@@ -310,7 +347,7 @@ class AIClient {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error('Health check failed');
+      throw new Error("Health check failed");
     }
 
     return await response.json();

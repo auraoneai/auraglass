@@ -1,7 +1,7 @@
 // @ts-nocheck - Optional express-rate-limit dependency
-import { Request, Response, NextFunction } from 'express';
-import rateLimit from 'express-rate-limit';
-import { AuthService, TokenPayload, Permission } from './auth-service';
+import { Request, Response, NextFunction } from "express";
+import rateLimit from "express-rate-limit";
+import { AuthService, TokenPayload, Permission } from "./auth-service";
 
 declare global {
   namespace Express {
@@ -28,7 +28,7 @@ export class AuthMiddleware {
       const token = this.extractToken(req);
 
       if (!token) {
-        res.status(401).json({ error: 'No authentication token provided' });
+        res.status(401).json({ error: "No authentication token provided" });
         return;
       }
 
@@ -37,7 +37,7 @@ export class AuthMiddleware {
       next();
     } catch (error: any) {
       res.status(error.statusCode || 401).json({
-        error: error.message || 'Authentication failed',
+        error: error.message || "Authentication failed",
         code: error.code,
       });
     }
@@ -71,12 +71,12 @@ export class AuthMiddleware {
       const apiKey = this.extractApiKey(req);
 
       if (!apiKey) {
-        res.status(401).json({ error: 'No API key provided' });
+        res.status(401).json({ error: "No API key provided" });
         return;
       }
 
       if (!this.authService.validateApiKey(apiKey)) {
-        res.status(401).json({ error: 'Invalid API key format' });
+        res.status(401).json({ error: "Invalid API key format" });
         return;
       }
 
@@ -84,21 +84,25 @@ export class AuthMiddleware {
       next();
     } catch (error: any) {
       res.status(401).json({
-        error: error.message || 'API key authentication failed',
+        error: error.message || "API key authentication failed",
       });
     }
   };
 
   requirePermission = (permission: Permission) => {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ): Promise<void> => {
       if (!req.user) {
-        res.status(401).json({ error: 'Authentication required' });
+        res.status(401).json({ error: "Authentication required" });
         return;
       }
 
       if (!this.authService.hasPermission(req.user, permission)) {
         res.status(403).json({
-          error: 'Insufficient permissions',
+          error: "Insufficient permissions",
           required: permission,
         });
         return;
@@ -109,15 +113,19 @@ export class AuthMiddleware {
   };
 
   requireAnyPermission = (permissions: Permission[]) => {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ): Promise<void> => {
       if (!req.user) {
-        res.status(401).json({ error: 'Authentication required' });
+        res.status(401).json({ error: "Authentication required" });
         return;
       }
 
       if (!this.authService.hasAnyPermission(req.user, permissions)) {
         res.status(403).json({
-          error: 'Insufficient permissions',
+          error: "Insufficient permissions",
           required: permissions,
         });
         return;
@@ -127,10 +135,14 @@ export class AuthMiddleware {
     };
   };
 
-  requireRole = (role: 'user' | 'admin' | 'developer') => {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  requireRole = (role: "user" | "admin" | "developer") => {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ): Promise<void> => {
       if (!req.user) {
-        res.status(401).json({ error: 'Authentication required' });
+        res.status(401).json({ error: "Authentication required" });
         return;
       }
 
@@ -139,7 +151,7 @@ export class AuthMiddleware {
 
       if (roleHierarchy[userRole] < roleHierarchy[role]) {
         res.status(403).json({
-          error: 'Insufficient role privileges',
+          error: "Insufficient role privileges",
           required: role,
           current: userRole,
         });
@@ -153,7 +165,7 @@ export class AuthMiddleware {
   private extractToken(req: Request): string | null {
     const authHeader = req.headers.authorization;
 
-    if (authHeader?.startsWith('Bearer ')) {
+    if (authHeader?.startsWith("Bearer ")) {
       return authHeader.substring(7);
     }
 
@@ -161,22 +173,14 @@ export class AuthMiddleware {
       return req.cookies.token;
     }
 
-    if (req.query?.token && typeof req.query.token === 'string') {
-      return req.query.token;
-    }
-
     return null;
   }
 
   private extractApiKey(req: Request): string | null {
-    const apiKeyHeader = req.headers['x-api-key'];
+    const apiKeyHeader = req.headers["x-api-key"];
 
-    if (apiKeyHeader && typeof apiKeyHeader === 'string') {
+    if (apiKeyHeader && typeof apiKeyHeader === "string") {
       return apiKeyHeader;
-    }
-
-    if (req.query?.apiKey && typeof req.query.apiKey === 'string') {
-      return req.query.apiKey;
     }
 
     return null;
@@ -192,7 +196,7 @@ export const createRateLimiter = (options?: {
   return rateLimit({
     windowMs: options?.windowMs || 15 * 60 * 1000,
     max: options?.max || 100,
-    message: options?.message || 'Too many requests, please try again later',
+    message: options?.message || "Too many requests, please try again later",
     skipSuccessfulRequests: options?.skipSuccessfulRequests || false,
     standardHeaders: true,
     legacyHeaders: false,
@@ -202,24 +206,24 @@ export const createRateLimiter = (options?: {
 export const aiRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 50,
-  message: 'AI service rate limit exceeded. Please try again later.',
+  message: "AI service rate limit exceeded. Please try again later.",
 });
 
 export const authRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: 'Too many authentication attempts. Please try again later.',
+  message: "Too many authentication attempts. Please try again later.",
   skipSuccessfulRequests: true,
 });
 
 export const uploadRateLimiter = createRateLimiter({
   windowMs: 60 * 60 * 1000,
   max: 20,
-  message: 'Upload rate limit exceeded. Please try again later.',
+  message: "Upload rate limit exceeded. Please try again later.",
 });
 
 export const searchRateLimiter = createRateLimiter({
   windowMs: 1 * 60 * 1000,
   max: 30,
-  message: 'Search rate limit exceeded. Please slow down.',
+  message: "Search rate limit exceeded. Please slow down.",
 });

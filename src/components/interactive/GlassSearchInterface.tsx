@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 import { GlassInput } from "../input/GlassInput";
 
@@ -15,7 +15,7 @@ export interface SearchResult {
   description?: string;
   category?: string;
   url?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   highlighted?: {
     title?: string;
     description?: string;
@@ -329,7 +329,7 @@ export const GlassSearchInterface = forwardRef<
       >
         {/* Categories */}
         {showCategories && categories.length > 0 && (
-          <div className='glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-overflow-x-auto'>
+          <div className="glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-overflow-x-auto">
             <GlassButton
               variant={!activeCategory ? "primary" : "ghost"}
               size="sm"
@@ -361,7 +361,7 @@ export const GlassSearchInterface = forwardRef<
         )}
 
         {/* Search GlassInput */}
-        <div className='glass-relative'>
+        <div className="glass-relative">
           <GlassInput
             ref={searchRef}
             value={internalValue}
@@ -371,7 +371,7 @@ export const GlassSearchInterface = forwardRef<
             placeholder={placeholder}
             leftIcon={
               <svg
-                className='glass-w-4 glass-h-4'
+                className="glass-w-4 glass-h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -386,7 +386,7 @@ export const GlassSearchInterface = forwardRef<
             }
             rightIcon={
               loading ? (
-                <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full glass-animate-spin' />
+                <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-current glass-border-t-transparent glass-radius-full glass-animate-spin" />
               ) : undefined
             }
             clearable
@@ -396,12 +396,12 @@ export const GlassSearchInterface = forwardRef<
 
           {/* Active filters indicator */}
           {hasActiveFilters && (
-            <div className='glass-absolute glass--right-12 glass-top-1/2 glass--translate-y-1-2'>
+            <div className="glass-absolute glass--right-12 glass-top-1/2 glass--translate-y-1-2">
               <GlassBadge
                 variant="default"
                 size="xs"
                 onClick={clearFilters}
-                className='glass-cursor-pointer'
+                className="glass-cursor-pointer"
               >
                 {Object.values(selectedFilters).flat().length} filters
               </GlassBadge>
@@ -413,7 +413,7 @@ export const GlassSearchInterface = forwardRef<
         {isOpen && (
           <Motion
             preset="slideDown"
-            className='glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-2 glass-z-50'
+            className="glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-2 glass-z-50"
           >
             <OptimizedGlass
               intent="neutral"
@@ -424,14 +424,17 @@ export const GlassSearchInterface = forwardRef<
               border="subtle"
               animation="none"
               performanceMode="medium"
-              className='glass-border glass-border-glass-border/20 glass-max-h-96 glass-overflow-hidden'
+              className="glass-border glass-border-glass-border/20 glass-max-h-96 glass-overflow-hidden"
             >
               <FocusTrap active={isOpen} onEscape={() => setIsOpen(false)}>
-                <div ref={resultsRef} className='glass-overflow-y-auto glass-max-h-96'>
+                <div
+                  ref={resultsRef}
+                  className="glass-overflow-y-auto glass-max-h-96"
+                >
                   {/* Suggestions */}
                   {suggestions.length > 0 && (
                     <div className="glass-p-2 glass-border-b glass-border-glass-border/20">
-                      <h4 className='glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
+                      <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                         Suggestions
                       </h4>
                       {suggestions.map((suggestion, index) => (
@@ -445,7 +448,7 @@ export const GlassSearchInterface = forwardRef<
                           onClick={(e) => handleItemSelect(index)}
                         >
                           <svg
-                            className='glass-w-4 glass-h-4 glass-text-secondary'
+                            className="glass-w-4 glass-h-4 glass-text-secondary"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -466,7 +469,7 @@ export const GlassSearchInterface = forwardRef<
                   {/* Recent Searches */}
                   {recentSearches.length > 0 && (
                     <div className="glass-p-2 glass-border-b glass-border-glass-border/20">
-                      <h4 className='glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
+                      <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                         Recent Searches
                       </h4>
                       {recentSearches.map((recent, index) => {
@@ -482,7 +485,7 @@ export const GlassSearchInterface = forwardRef<
                             onClick={(e) => handleItemSelect(globalIndex)}
                           >
                             <svg
-                              className='glass-w-4 glass-h-4 glass-text-secondary'
+                              className="glass-w-4 glass-h-4 glass-text-secondary"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -504,7 +507,7 @@ export const GlassSearchInterface = forwardRef<
                   {/* Search Results */}
                   {displayResults.length > 0 ? (
                     <div className="glass-p-2">
-                      <h4 className='glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide'>
+                      <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                         Results ({results.length})
                       </h4>
                       {displayResults.map((result, index) => {
@@ -524,9 +527,9 @@ export const GlassSearchInterface = forwardRef<
                               renderResult(result)
                             ) : (
                               <>
-                                <div className='glass-w-8 glass-h-8 glass-radius-md glass-surface-primary/10 glass-flex glass-items-center glass-justify-center glass-flex-shrink-0 glass-mt-0-5'>
+                                <div className="glass-w-8 glass-h-8 glass-radius-md glass-surface-primary/10 glass-flex glass-items-center glass-justify-center glass-flex-shrink-0 glass-mt-0-5">
                                   <svg
-                                    className='glass-w-4 glass-h-4 glass-text-primary'
+                                    className="glass-w-4 glass-h-4 glass-text-primary"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -540,11 +543,11 @@ export const GlassSearchInterface = forwardRef<
                                   </svg>
                                 </div>
                                 <div className="glass-flex-1 glass-min-glass-w-0">
-                                  <h5 className='glass-font-medium glass-text-primary'>
+                                  <h5 className="glass-font-medium glass-text-primary">
                                     {result.highlighted?.title || result.title}
                                   </h5>
                                   {result.description && (
-                                    <p className='glass-text-sm glass-text-secondary glass-mt-1 glass-line-clamp-2'>
+                                    <p className="glass-text-sm glass-text-secondary glass-mt-1 glass-line-clamp-2">
                                       {result.highlighted?.description ||
                                         result.description}
                                     </p>
@@ -566,7 +569,7 @@ export const GlassSearchInterface = forwardRef<
                       })}
 
                       {results.length > maxResults && (
-                        <div className='glass-px-3 glass-py-2 glass-text-center'>
+                        <div className="glass-px-3 glass-py-2 glass-text-center">
                           <GlassButton
                             variant="ghost"
                             size="sm"
@@ -580,10 +583,10 @@ export const GlassSearchInterface = forwardRef<
                       )}
                     </div>
                   ) : internalValue.trim() && !loading ? (
-                    <div className='glass-p-8 glass-text-center'>
-                      <div className='glass-w-12 glass-h-12 glass-radius-full glass-surface-subtle glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3'>
+                    <div className="glass-p-8 glass-text-center">
+                      <div className="glass-w-12 glass-h-12 glass-radius-full glass-surface-subtle glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
                         <svg
-                          className='glass-w-6 glass-h-6 glass-text-secondary'
+                          className="glass-w-6 glass-h-6 glass-text-secondary"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -620,8 +623,10 @@ export const GlassSearchInterface = forwardRef<
               performanceMode="medium"
               className="glass-mt-4 glass-p-4 glass-border glass-border-glass-border/20"
             >
-              <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
-                <h3 className='glass-font-medium glass-text-primary'>Filters</h3>
+              <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
+                <h3 className="glass-font-medium glass-text-primary">
+                  Filters
+                </h3>
                 {hasActiveFilters && (
                   <GlassButton variant="ghost" size="sm" onClick={clearFilters}>
                     Clear all
@@ -629,17 +634,17 @@ export const GlassSearchInterface = forwardRef<
                 )}
               </div>
 
-              <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-4'>
+              <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-4">
                 {Object.entries(filters).map(([filterId, options]) => (
                   <div key={filterId}>
-                    <h4 className='glass-font-medium glass-text-sm glass-text-primary glass-mb-2'>
+                    <h4 className="glass-font-medium glass-text-sm glass-text-primary glass-mb-2">
                       {filterId.charAt(0).toUpperCase() + filterId.slice(1)}
                     </h4>
                     <div className="glass-gap-2">
                       {options.map((option) => (
                         <label
                           key={option.id}
-                          className='glass-flex glass-items-center glass-gap-2 glass-cursor-pointer'
+                          className="glass-flex glass-items-center glass-gap-2 glass-cursor-pointer"
                         >
                           <GlassInput
                             type="checkbox"
@@ -655,9 +660,9 @@ export const GlassSearchInterface = forwardRef<
                                 e.target.checked
                               )
                             }
-                            className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
+                            className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
                           />
-                          <span className='glass-text-sm glass-text-primary glass-flex-1'>
+                          <span className="glass-text-sm glass-text-primary glass-flex-1">
                             {option.label}
                           </span>
                           {option.count && (

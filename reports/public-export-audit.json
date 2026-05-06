@@ -1,7 +1,7 @@
 {
   "objective": "Audit the src/index.ts public export surface against source, declaration, inventory, Storybook, test, and documentation evidence.",
   "summary": {
-    "generatedAt": "2026-05-06T06:03:07.466Z",
+    "generatedAt": "2026-05-06T18:27:19.597Z",
     "rootExportCount": 797,
     "valueExportCount": 642,
     "typeExportCount": 149,

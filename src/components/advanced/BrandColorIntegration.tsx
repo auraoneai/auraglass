@@ -149,8 +149,7 @@ export function BrandColorIntegration({
           // Transition reset handled via onAnimationComplete to avoid timers
         }
       })
-      .catch((error) => {
-        console.error("Failed to fetch brand colors:", error);
+      .catch(() => {
         if (isMounted) {
           setEntityColors({
             entityId,
@@ -486,8 +485,7 @@ export function useBrandColors(entityId?: string) {
         };
 
         setBrandColors(mockColors[entityId] || null);
-      } catch (error) {
-        console.error("Failed to fetch brand colors:", error);
+      } catch {
         setBrandColors(null);
       }
     };

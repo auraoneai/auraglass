@@ -1,5 +1,5 @@
 // @ts-nocheck - Optional Redis dependency
-import { createClient, RedisClientType } from 'redis';
+import { createClient, RedisClientType } from "redis";
 
 export class CacheService {
   private client: RedisClientType | null = null;
@@ -13,15 +13,13 @@ export class CacheService {
 
     try {
       this.client = createClient({ url: this.config.url });
-      this.client.on('error', (err: Error) => {
-        console.warn('Redis client error, falling back to memory cache:', err.message);
+      this.client.on("error", () => {
         this.connected = false;
       });
 
       await this.client.connect();
       this.connected = true;
-    } catch (error) {
-      console.warn('Failed to connect to Redis, using memory cache:', error);
+    } catch {
       this.connected = false;
     }
   }
@@ -39,8 +37,7 @@ export class CacheService {
         this.memoryCache.delete(key);
         return null;
       }
-    } catch (error) {
-      console.error('Cache get error:', error);
+    } catch {
       return null;
     }
   }
@@ -59,8 +56,7 @@ export class CacheService {
 
         this.cleanupMemoryCache();
       }
-    } catch (error) {
-      console.error('Cache set error:', error);
+    } catch {
       this.memoryCache.set(key, {
         value,
         expiry: Date.now() + ttlSeconds * 1000,
@@ -75,8 +71,7 @@ export class CacheService {
       } else {
         this.memoryCache.delete(key);
       }
-    } catch (error) {
-      console.error('Cache delete error:', error);
+    } catch {
       this.memoryCache.delete(key);
     }
   }
@@ -88,8 +83,7 @@ export class CacheService {
       } else {
         this.memoryCache.clear();
       }
-    } catch (error) {
-      console.error('Cache flush error:', error);
+    } catch {
       this.memoryCache.clear();
     }
   }

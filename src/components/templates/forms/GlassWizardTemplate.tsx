@@ -1,9 +1,12 @@
-'use client';
+"use client";
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import { GlassButton } from "@/components/button";
 import { cn } from "../../../lib/utilsComprehensive";
 import { GlassCard } from "@/components/card";
-import { GlassFormBuilder } from "@/components/interactive/GlassFormBuilder";
+import {
+  GlassFormBuilder,
+  type FormSection,
+} from "@/components/interactive/GlassFormBuilder";
 import { HStack, VStack } from "@/components/layout";
 import { Glass } from "@/primitives";
 import { Motion } from "@/primitives";
@@ -13,15 +16,22 @@ export interface WizardStep {
   id: string;
   title: string;
   description?: string;
-  schema: any[];
-  validation?: (values: any) => Promise<Record<string, string>>;
+  schema: FormSection[];
+  validation?: (
+    values: GlassWizardTemplateValues
+  ) => Promise<Record<string, string>>;
   optional?: boolean;
   canSkip?: boolean;
   component?: React.ReactNode;
 }
 
+export type GlassWizardTemplateValues = Record<string, unknown>;
+
 export interface GlassWizardTemplateProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "autoSave"> {
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "autoSave" | "onChange" | "onSubmit"
+  > {
   /**
    * Wizard title
    */
@@ -41,7 +51,7 @@ export interface GlassWizardTemplateProps
   /**
    * Form values
    */
-  values?: Record<string, any>;
+  values?: GlassWizardTemplateValues;
   /**
    * Form errors
    */
@@ -53,7 +63,7 @@ export interface GlassWizardTemplateProps
   /**
    * Form submit handler (called when wizard is completed)
    */
-  onSubmit?: (values: Record<string, any>) => Promise<void> | void;
+  onSubmit?: (values: GlassWizardTemplateValues) => Promise<void> | void;
   /**
    * Form cancel handler
    */
@@ -61,13 +71,13 @@ export interface GlassWizardTemplateProps
   /**
    * Value change handler
    */
-  onChange?: (values: Record<string, any>) => void;
+  onChange?: (values: GlassWizardTemplateValues) => void;
   /**
    * Step validation handler
    */
   onStepValidate?: (
     step: number,
-    values: Record<string, any>
+    values: GlassWizardTemplateValues
   ) => Promise<Record<string, string>>;
   /**
    * Loading state
@@ -80,7 +90,7 @@ export interface GlassWizardTemplateProps
   /**
    * Draft save handler
    */
-  onSaveDraft?: (values: Record<string, any>) => void;
+  onSaveDraft?: (values: GlassWizardTemplateValues) => void;
   /**
    * Auto-save functionality
    */
@@ -147,8 +157,10 @@ export const GlassWizardTemplate = forwardRef<
     },
     ref
   ) => {
-    const [internalValues, setInternalValues] = useState(values);
-    const [internalErrors, setInternalErrors] = useState(errors);
+    const [internalValues, setInternalValues] =
+      useState<GlassWizardTemplateValues>(values);
+    const [internalErrors, setInternalErrors] =
+      useState<Record<string, string>>(errors);
     const [stepValidation, setStepValidation] = useState<
       Record<number, boolean>
     >({});
@@ -163,7 +175,7 @@ export const GlassWizardTemplate = forwardRef<
 
     // Handle value change
     const handleValueChange = useCallback(
-      (newValues: Record<string, any>) => {
+      (newValues: GlassWizardTemplateValues) => {
         setInternalValues(newValues);
         onChange?.(newValues);
       },
@@ -172,12 +184,12 @@ export const GlassWizardTemplate = forwardRef<
 
     // Handle step validation
     const handleStepValidation = useCallback(
-      async (stepIndex: number, stepValues: Record<string, any>) => {
+      async (stepIndex: number, stepValues: GlassWizardTemplateValues) => {
         const step = steps?.[stepIndex];
         let errors: Record<string, string> = {};
 
         // Step-specific validation
-        if (step.validation) {
+        if (step?.validation) {
           errors = await step.validation(stepValues);
         }
 
@@ -189,7 +201,7 @@ export const GlassWizardTemplate = forwardRef<
 
         setInternalErrors(errors);
         const isValid = Object.keys(errors).length === 0;
-        setStepValidation((prev: any) => ({ ...prev, [stepIndex]: isValid }));
+        setStepValidation((prev) => ({ ...prev, [stepIndex]: isValid }));
 
         return isValid;
       },
@@ -203,7 +215,7 @@ export const GlassWizardTemplate = forwardRef<
       const isValid = await handleStepValidation(currentStep, internalValues);
 
       if (isValid) {
-        setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
+        setCompletedSteps((prev) => new Set([...prev, currentStep]));
         onStepChange?.(currentStep + 1);
       }
     }, [
@@ -277,7 +289,9 @@ export const GlassWizardTemplate = forwardRef<
     const renderHeader = () => (
       <VStack space="md">
         <VStack space="sm">
-          <h1 className='glass-text-2xl glass-font-bold glass-text-primary'>{title}</h1>
+          <h1 className="glass-text-2xl glass-font-bold glass-text-primary">
+            {title}
+          </h1>
           {description && <p className="glass-text-secondary">{description}</p>}
         </VStack>
 
@@ -299,7 +313,7 @@ export const GlassWizardTemplate = forwardRef<
         {/* Step header */}
         <VStack space="sm">
           <HStack space="sm" align="center">
-            <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
+            <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
               {currentStepData.title}
             </h2>
             {currentStepData.optional && (
@@ -402,7 +416,7 @@ export const GlassWizardTemplate = forwardRef<
       switch (layout) {
         case "compact":
           return (
-            <div data-glass-component className='glass-max-w-2xl glass-mx-auto'>
+            <div data-glass-component className="glass-max-w-2xl glass-mx-auto">
               <GlassCard variant="default" className="glass-p-6">
                 {content}
               </GlassCard>
@@ -412,10 +426,12 @@ export const GlassWizardTemplate = forwardRef<
         case "sidebar":
           return (
             <div className="glass-grid glass-grid-cols-12 glass-gap-8">
-              <div className='glass-col-span-4'>
-                <Glass className='glass-p-6 glass-sticky glass-top-8'>
+              <div className="glass-col-span-4">
+                <Glass className="glass-p-6 glass-sticky glass-top-8">
                   <VStack space="md">
-                    <h3 className='glass-font-semibold glass-text-primary'>Steps</h3>
+                    <h3 className="glass-font-semibold glass-text-primary">
+                      Steps
+                    </h3>
                     <VStack space="sm">
                       {steps.map((step, index) => (
                         <GlassButton
@@ -434,9 +450,9 @@ export const GlassWizardTemplate = forwardRef<
                             !completedSteps.has(index - 1)
                           }
                         >
-                          <div className='glass-font-medium'>{step.title}</div>
+                          <div className="glass-font-medium">{step.title}</div>
                           {step.description && (
-                            <div className='glass-text-sm glass-opacity-75 glass-mt-1'>
+                            <div className="glass-text-sm glass-opacity-75 glass-mt-1">
                               {step.description}
                             </div>
                           )}
@@ -446,7 +462,7 @@ export const GlassWizardTemplate = forwardRef<
                   </VStack>
                 </Glass>
               </div>
-              <div className='glass-col-span-8'>
+              <div className="glass-col-span-8">
                 <GlassCard variant="default" className="glass-p-6">
                   {content}
                 </GlassCard>

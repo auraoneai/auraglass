@@ -81,6 +81,7 @@ interface EnhancedFeatures {
     patterns?: string[];
     emotionalContext?: string;
     enableMicroInteractions?: boolean;
+    showDebugHud?: boolean;
   };
 
   // Emotional intelligence
@@ -111,7 +112,7 @@ export interface EnhancedGlassButtonProps extends BaseGlassButtonProps {
   enhancedFeatures?: EnhancedFeatures;
   userId?: string;
   componentId?: string;
-  onAdvancedInteraction?: (type: string, data: any) => void;
+  onAdvancedInteraction?: (type: string, data: unknown) => void;
 }
 
 export const EnhancedGlassButton = forwardRef<
@@ -424,6 +425,7 @@ export const EnhancedGlassButton = forwardRef<
             enableMicroInteractions={
               features.organicMotion.enableMicroInteractions
             }
+            showDebugHud={features.organicMotion.showDebugHud}
           >
             {buttonElement}
           </OrganicAnimationEngine>

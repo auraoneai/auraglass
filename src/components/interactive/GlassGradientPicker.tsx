@@ -258,8 +258,8 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
       await navigator.clipboard.writeText(gradient);
       setCopied(true);
       setTimeout(() => setCopied(false), ANIMATION.DURATION.normal);
-    } catch (err) {
-      console.error("Failed to copy gradient:", err);
+    } catch {
+      setCopied(false);
     }
   }, [generateGradient]);
 

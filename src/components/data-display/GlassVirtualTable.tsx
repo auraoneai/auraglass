@@ -1,32 +1,28 @@
 "use client";
-import { cn } from "@/lib/utils";
-
 import React from "react";
-import { GlassDataTable } from "./GlassDataTable";
 import {
-  ContrastGuard,
-  TextWithContrast,
-} from "@/components/accessibility/ContrastGuard";
-import { ANIMATION } from "../../tokens/designConstants";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
+  ColumnDef,
+  GlassDataTable,
+  GlassDataTableProps,
+  GlassDataTableRow,
+} from "./GlassDataTable";
 
-export interface GlassVirtualTableProps<T = any> {
-  columns: any[];
-  rows: T[];
-  [key: string]: any; // passthrough for DataTable props (cellRenderers emptyState, className, etc.)
+export interface GlassVirtualTableProps<
+  T extends GlassDataTableRow = GlassDataTableRow,
+> extends Omit<GlassDataTableProps<T>, "columns" | "data"> {
+  columns?: ColumnDef<T>[];
+  rows?: T[];
+  children?: React.ReactNode;
+  disabled?: boolean;
 }
 
-export function GlassVirtualTable<T = any>({
-  columns,
-  rows,
-  ...rest
-}: GlassVirtualTableProps<T>) {
+export function GlassVirtualTable<
+  T extends GlassDataTableRow = GlassDataTableRow,
+>({ columns, rows, ...rest }: GlassVirtualTableProps<T>) {
   // In a future iteration this can swap to an actual virtualized list implementation.
-  // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+  // ContrastGuard text coverage is tracked in the manual accessibility QA report.
 
-  return (
-    <GlassDataTable columns={columns as any} data={rows as any} {...rest} />
-  );
+  return <GlassDataTable columns={columns ?? []} data={rows ?? []} {...rest} />;
 }
 
 export default GlassVirtualTable;

@@ -48,6 +48,8 @@ export interface GlassEngineConfig {
   };
 }
 
+type GlassTextureType = GlassEngineConfig["texture"]["type"];
+
 interface GlassEngineContextType {
   config: GlassEngineConfig;
   updateConfig: (newConfig: Partial<GlassEngineConfig>) => void;
@@ -137,7 +139,7 @@ export const GlassEngineProvider: React.FC<{
   });
 
   const updateConfig = useCallback((newConfig: Partial<GlassEngineConfig>) => {
-    setConfig((prev: any) => ({
+    setConfig((prev) => ({
       ...prev,
       ...newConfig,
       opacity: { ...prev.opacity, ...(newConfig.opacity || {}) },
@@ -181,7 +183,7 @@ export const GlassEngineProvider: React.FC<{
     (conditions: EnvironmentalConditions) => {
       // Use functional update to avoid closing over `config` and to keep
       // this callback stable. Also avoid mutating nested state.
-      setConfig((prev: any) => {
+      setConfig((prev) => {
         // If none of the environment reactions are enabled, no change.
         if (
           !prev.environment.weatherReactive &&
@@ -270,14 +272,27 @@ export const GlassEngineProvider: React.FC<{
   );
 };
 
-interface AdaptiveGlassProps {
+type AdaptiveGlassHtmlProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  | "onDrag"
+  | "onDragStart"
+  | "onDragEnd"
+  | "onDragEnter"
+  | "onDragLeave"
+  | "onDragOver"
+  | "onDragExit"
+  | "onDrop"
+  | "onAnimationStart"
+  | "onAnimationEnd"
+  | "onAnimationIteration"
+>;
+
+interface AdaptiveGlassProps extends AdaptiveGlassHtmlProps {
   children: React.ReactNode;
   variant?: "base" | "hover" | "active";
-  textureOverride?: string;
+  textureOverride?: GlassTextureType;
   environmentalAware?: boolean;
-  className?: string;
   as?: keyof JSX.IntrinsicElements;
-  [key: string]: any;
 }
 
 export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
@@ -296,7 +311,7 @@ export const AdaptiveGlass: React.FC<AdaptiveGlassProps> = ({
   const glassStyle = useMemo(() => {
     const customConfig = textureOverride
       ? {
-          texture: { ...config.texture, type: textureOverride as any },
+          texture: { ...config.texture, type: textureOverride },
         }
       : undefined;
 
@@ -497,14 +512,17 @@ export const GlassTextureVariations: React.FC<{
       video: "liquid",
       code: "frosted",
       data: "rippled",
-    };
+    } satisfies Record<
+      NonNullable<Parameters<typeof GlassTextureVariations>[0]["contentType"]>,
+      GlassTextureType
+    >;
 
     const newTexture = textureMap[contentType];
     setCurrentTexture(newTexture);
 
     updateConfig({
       texture: {
-        type: newTexture as any,
+        type: newTexture,
         intensity: 0.6,
         animated: contentType === "video",
       },
@@ -537,7 +555,7 @@ export const EnvironmentalGlass: React.FC<{
   useEffect(() => {
     if (timeSync) {
       const updateTime = () => {
-        setConditions((prev: any) => ({
+        setConditions((prev) => ({
           ...prev,
           timeOfDay: new Date().getHours(),
         }));

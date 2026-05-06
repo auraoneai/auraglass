@@ -522,8 +522,8 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
             sequence.delay || 0
           );
         }
-      } catch (error) {
-        console.warn("Animation sequence failed:", error);
+      } catch {
+        // Failed sequence steps are dropped and the engine continues.
       } finally {
         if (isMountedRef.current) {
           setActiveSequences((prev: Set<string>) => {

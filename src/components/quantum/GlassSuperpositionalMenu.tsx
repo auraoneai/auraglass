@@ -2,6 +2,7 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { Transition } from "framer-motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -17,6 +18,18 @@ export interface QuantumMenuState {
   coherence: number;
   entangled?: string[];
   subStates?: QuantumMenuState[];
+}
+
+export interface QuantumMenuInteraction {
+  type: string;
+  stateId: string;
+  timestamp: number;
+  probability: number;
+}
+
+interface WavePoint {
+  x: number;
+  y: number;
 }
 
 export interface GlassSuperpositionalMenuProps
@@ -71,23 +84,19 @@ export const GlassSuperpositionalMenu = forwardRef<
       onStateCollapse,
       onMeasurement,
       onEntanglement,
-      className="",
+      className = "",
       ...props
     },
     ref
   ) => {
     const prefersReducedMotion = useReducedMotion();
-    const [currentStates, setCurrentStates] = useState(menuStates);
+    const [currentStates, setCurrentStates] =
+      useState<QuantumMenuState[]>(menuStates);
     const [measurementTime, setMeasurementTime] = useState<number | null>(null);
     const [collapsedState, setCollapsedState] = useState<string | null>(null);
     const [quantumTime, setQuantumTime] = useState(0);
     const [interactionHistory, setInteractionHistory] = useState<
-      Array<{
-        type: string;
-        stateId: string;
-        timestamp: number;
-        probability: number;
-      }>
+      QuantumMenuInteraction[]
     >([]);
     const id = useA11yId("glass-superposition-menu");
 
@@ -95,13 +104,13 @@ export const GlassSuperpositionalMenu = forwardRef<
     const { shouldAnimate } = useMotionPreference();
 
     // Helper function to respect motion preferences
-    const respectMotionPreference = (config: any) =>
+    const respectMotionPreference = (config: Transition): Transition =>
       shouldAnimate ? config : { duration: 0 };
 
     // Quantum time evolution
     useEffect(() => {
       const interval = setInterval(() => {
-        setQuantumTime((prev: any) => prev + 0.1);
+        setQuantumTime((prev) => prev + 0.1);
       }, 16);
       return () => clearInterval(interval);
     }, []);
@@ -111,9 +120,9 @@ export const GlassSuperpositionalMenu = forwardRef<
       if (isObserved || collapsedState) return;
 
       const interval = setInterval(() => {
-        setCurrentStates((prev: any) =>
+        setCurrentStates((prev) =>
           prev
-            .map((state: any) => ({
+            .map((state) => ({
               ...state,
               coherence: Math.max(0, state.coherence - coherenceDecay),
               probability:
@@ -121,7 +130,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   ? state.probability + (Math.random() - 0.5) * 0.02
                   : state.probability * 0.98,
             }))
-            .map((state: any) => ({
+            .map((state) => ({
               ...state,
               probability: Math.max(0.01, Math.min(1, state.probability)),
             }))
@@ -138,8 +147,8 @@ export const GlassSuperpositionalMenu = forwardRef<
         0
       );
       if (totalProb > 0) {
-        setCurrentStates((prev: any) =>
-          prev.map((state: any) => ({
+        setCurrentStates((prev) =>
+          prev.map((state) => ({
             ...state,
             probability: state.probability / totalProb,
           }))
@@ -177,7 +186,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         ]);
       }
 
-      setInteractionHistory((prev: any) => [
+      setInteractionHistory((prev) => [
         ...prev,
         {
           type: "measurement",
@@ -192,12 +201,12 @@ export const GlassSuperpositionalMenu = forwardRef<
     };
 
     const createEntanglement = (stateIds: string[]) => {
-      setCurrentStates((prev: any) =>
-        prev.map((state: any) => {
+      setCurrentStates((prev) =>
+        prev.map((state) => {
           if (stateIds.includes(state.id)) {
             return {
               ...state,
-              entangled: stateIds.filter((id: any) => id !== state.id),
+              entangled: stateIds.filter((id) => id !== state.id),
               coherence: Math.min(1, state.coherence + 0.2),
             };
           }
@@ -239,7 +248,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         const frequency = 0.5 + state.energy * 0.3;
         const phase = getQuantumPhase(state);
 
-        return Array.from({ length: numPoints }, (_, i) => {
+        return Array.from({ length: numPoints }, (_, i): WavePoint => {
           const t = (i / numPoints) * 4 * Math.PI;
           const y = amplitude * wavePatterns.complex(t + phase, frequency);
           return { x: (i / numPoints) * 200, y: y + 25 };
@@ -256,7 +265,7 @@ export const GlassSuperpositionalMenu = forwardRef<
           style={{ zIndex: -1 }}
         >
           <path
-            d={`M ${points.map((p: any) => `${p.x} ${p.y}`).join(" L ")}`}
+            d={`M ${points.map((p) => `${p.x} ${p.y}`).join(" L ")}`}
             stroke={
               state.entangled?.length
                 ? quantumColors.entangled
@@ -270,7 +279,7 @@ export const GlassSuperpositionalMenu = forwardRef<
 
           {/* Probability density */}
           <path
-            d={`M ${points.map((p: any) => `${p.x} ${25 + Math.abs(p.y - 25) * 0.3}`).join(" L ")}`}
+            d={`M ${points.map((p) => `${p.x} ${25 + Math.abs(p.y - 25) * 0.3}`).join(" L ")}`}
             fill={
               state.entangled?.length
                 ? quantumColors.entangled
@@ -330,8 +339,8 @@ export const GlassSuperpositionalMenu = forwardRef<
         style={{ zIndex: 10 }}
       >
         {currentStates
-          .map((state: any) =>
-            state.entangled?.map((entangledId: any) => {
+          .map((state) =>
+            state.entangled?.map((entangledId) => {
               const entangledState = currentStates.find(
                 (s) => s.id === entangledId
               );
@@ -516,7 +525,7 @@ export const GlassSuperpositionalMenu = forwardRef<
     );
 
     const superpositionStates = collapsedState
-      ? currentStates.filter((s: any) => s.id === collapsedState)
+      ? currentStates.filter((s) => s.id === collapsedState)
       : currentStates.slice(0, maxSuperpositions);
 
     return (
@@ -571,7 +580,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                     const randomStates = currentStates
                       .sort(() => Math.random() - 0.5)
                       .slice(0, 2)
-                      .map((s: any) => s.id);
+                      .map((s) => s.id);
                     createEntanglement(randomStates);
                   }}
                   className={cn(
@@ -630,17 +639,15 @@ export const GlassSuperpositionalMenu = forwardRef<
                 Entangled Pairs:
               </span>
               <span className={cn("glass-ml-2 glass-text-primary")}>
-                {currentStates.filter((s: any) => s.entangled?.length).length /
-                  2}
+                {currentStates.filter((s) => s.entangled?.length).length / 2}
               </span>
             </div>
             <div>
               <span className={cn("glass-text-secondary")}>Measurements:</span>
               <span className={cn("glass-ml-2 glass-text-primary")}>
                 {
-                  interactionHistory.filter(
-                    (h: any) => h.type === "measurement"
-                  ).length
+                  interactionHistory.filter((h) => h.type === "measurement")
+                    .length
                 }
               </span>
             </div>

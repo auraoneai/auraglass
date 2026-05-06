@@ -191,7 +191,7 @@ docker-compose up -d
 npm install
 
 # Or with specific package manager
-pnpm install
+npm install
 yarn install
 ```
 

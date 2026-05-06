@@ -1,5 +1,5 @@
-import { io, Socket } from 'socket.io-client';
-import { EventEmitter } from 'events';
+import { io, Socket } from "socket.io-client";
+import { EventEmitter } from "events";
 
 export interface CursorPosition {
   x: number;
@@ -10,7 +10,7 @@ export interface CursorPosition {
 }
 
 export interface CollaborativeEdit {
-  type: 'insert' | 'delete' | 'replace';
+  type: "insert" | "delete" | "replace";
   position: number;
   content?: string;
   length?: number;
@@ -22,7 +22,7 @@ export interface CollaborativeEdit {
 export interface PresenceInfo {
   userId: string;
   userName: string;
-  status: 'online' | 'away' | 'busy';
+  status: "online" | "away" | "busy";
   lastActivity: Date;
   cursor?: CursorPosition;
   selection?: { start: number; end: number };
@@ -52,7 +52,7 @@ export class CollaborationService extends EventEmitter {
   ) {
     super();
     this.userId = this.generateUserId();
-    this.userName = 'User';
+    this.userName = "User";
   }
 
   async connect(userName?: string): Promise<void> {
@@ -73,15 +73,15 @@ export class CollaborationService extends EventEmitter {
 
       this.setupEventHandlers();
 
-      this.socket.on('connect', () => {
+      this.socket.on("connect", () => {
         this.isConnected = true;
         this.reconnectAttempts = 0;
         this.flushOperationQueue();
-        this.emit('connected');
+        this.emit("connected");
         resolve();
       });
 
-      this.socket.on('connect_error', (error) => {
+      this.socket.on("connect_error", (error) => {
         this.reconnectAttempts++;
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
           reject(new Error(`Failed to connect: ${error.message}`));
@@ -93,53 +93,53 @@ export class CollaborationService extends EventEmitter {
   private setupEventHandlers(): void {
     if (!this.socket) return;
 
-    this.socket.on('disconnect', () => {
+    this.socket.on("disconnect", () => {
       this.isConnected = false;
-      this.emit('disconnected');
+      this.emit("disconnected");
     });
 
-    this.socket.on('cursor-update', (data: CursorPosition) => {
+    this.socket.on("cursor-update", (data: CursorPosition) => {
       this.updatePresenceCursor(data);
-      this.emit('cursor-moved', data);
+      this.emit("cursor-moved", data);
     });
 
-    this.socket.on('operation-applied', (operation: CollaborativeEdit) => {
-      this.emit('document-changed', operation);
+    this.socket.on("operation-applied", (operation: CollaborativeEdit) => {
+      this.emit("document-changed", operation);
     });
 
-    this.socket.on('presence-update', (presence: PresenceInfo) => {
+    this.socket.on("presence-update", (presence: PresenceInfo) => {
       this.presenceMap.set(presence.userId, presence);
-      this.emit('presence-changed', Array.from(this.presenceMap.values()));
+      this.emit("presence-changed", Array.from(this.presenceMap.values()));
     });
 
-    this.socket.on('user-joined', (user: PresenceInfo) => {
+    this.socket.on("user-joined", (user: PresenceInfo) => {
       this.presenceMap.set(user.userId, user);
-      this.emit('user-joined', user);
+      this.emit("user-joined", user);
     });
 
-    this.socket.on('user-left', (userId: string) => {
+    this.socket.on("user-left", (userId: string) => {
       this.presenceMap.delete(userId);
-      this.emit('user-left', userId);
+      this.emit("user-left", userId);
     });
 
-    this.socket.on('room-state', (state: CollaborationRoom) => {
+    this.socket.on("room-state", (state: CollaborationRoom) => {
       this.currentRoom = state.roomId;
       state.participants.forEach((p: any) => this.presenceMap.set(p.userId, p));
-      this.emit('room-synced', state);
+      this.emit("room-synced", state);
     });
 
-    this.socket.on('conflict-detected', (conflict: any) => {
-      this.emit('conflict', conflict);
+    this.socket.on("conflict-detected", (conflict: any) => {
+      this.emit("conflict", conflict);
     });
   }
 
   async joinRoom(roomId: string): Promise<void> {
     if (!this.socket || !this.isConnected) {
-      throw new Error('Not connected to collaboration server');
+      throw new Error("Not connected to collaboration server");
     }
 
     return new Promise((resolve, reject) => {
-      this.socket!.emit('join-room', roomId, (response: any) => {
+      this.socket!.emit("join-room", roomId, (response: any) => {
         if (response.error) {
           reject(new Error(response.error));
         } else {
@@ -154,7 +154,7 @@ export class CollaborationService extends EventEmitter {
     if (!this.socket || !this.currentRoom) return;
 
     return new Promise((resolve) => {
-      this.socket!.emit('leave-room', this.currentRoom, () => {
+      this.socket!.emit("leave-room", this.currentRoom, () => {
         this.currentRoom = null;
         this.presenceMap.clear();
         resolve();
@@ -173,10 +173,10 @@ export class CollaborationService extends EventEmitter {
       color: this.getUserColor(),
     };
 
-    this.socket.emit('cursor-move', cursorData);
+    this.socket.emit("cursor-move", cursorData);
   }
 
-  sendEdit(edit: Omit<CollaborativeEdit, 'userId' | 'timestamp'>): void {
+  sendEdit(edit: Omit<CollaborativeEdit, "userId" | "timestamp">): void {
     const fullEdit: CollaborativeEdit = {
       ...edit,
       userId: this.userId,
@@ -188,10 +188,10 @@ export class CollaborationService extends EventEmitter {
       return;
     }
 
-    this.socket.emit('collaborative-edit', fullEdit);
+    this.socket.emit("collaborative-edit", fullEdit);
   }
 
-  updatePresence(status: 'online' | 'away' | 'busy'): void {
+  updatePresence(status: "online" | "away" | "busy"): void {
     if (!this.socket || !this.isConnected) return;
 
     const presence: PresenceInfo = {
@@ -201,13 +201,13 @@ export class CollaborationService extends EventEmitter {
       lastActivity: new Date(),
     };
 
-    this.socket.emit('update-presence', presence);
+    this.socket.emit("update-presence", presence);
   }
 
   updateSelection(start: number, end: number): void {
     if (!this.socket || !this.isConnected) return;
 
-    this.socket.emit('selection-change', {
+    this.socket.emit("selection-change", {
       userId: this.userId,
       selection: { start, end },
     });
@@ -215,11 +215,11 @@ export class CollaborationService extends EventEmitter {
 
   async createRoom(initialState?: any): Promise<string> {
     if (!this.socket || !this.isConnected) {
-      throw new Error('Not connected to collaboration server');
+      throw new Error("Not connected to collaboration server");
     }
 
     return new Promise((resolve, reject) => {
-      this.socket!.emit('create-room', { initialState }, (response: any) => {
+      this.socket!.emit("create-room", { initialState }, (response: any) => {
         if (response.error) {
           reject(new Error(response.error));
         } else {
@@ -252,19 +252,35 @@ export class CollaborationService extends EventEmitter {
     while (this.operationQueue.length > 0) {
       const operation = this.operationQueue.shift();
       if (operation) {
-        this.socket.emit('collaborative-edit', operation);
+        this.socket.emit("collaborative-edit", operation);
       }
     }
   }
 
   private generateUserId(): string {
-    return `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    if (typeof globalThis.crypto?.randomUUID === "function") {
+      return `user-${globalThis.crypto.randomUUID()}`;
+    }
+
+    const randomBytes = new Uint8Array(16);
+    if (typeof globalThis.crypto?.getRandomValues === "function") {
+      globalThis.crypto.getRandomValues(randomBytes);
+      return `user-${Array.from(randomBytes, (byte) => byte.toString(16).padStart(2, "0")).join("")}`;
+    }
+
+    return `user-${Date.now()}`;
   }
 
   private getUserColor(): string {
     const colors = [
-      '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
-      '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F',
+      "#FF6B6B",
+      "#4ECDC4",
+      "#45B7D1",
+      "#96CEB4",
+      "#FFEAA7",
+      "#DDA0DD",
+      "#98D8C8",
+      "#F7DC6F",
     ];
     const index = parseInt(this.userId.substr(-2), 36) % colors.length;
     return colors[index];

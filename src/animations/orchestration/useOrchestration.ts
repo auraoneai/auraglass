@@ -3,21 +3,21 @@
  * Provides synchronized multi-element animation control with sequencing and choreography
  */
 
-import { useCallback, useRef, useState, useEffect } from 'react';
-import { UnsubscribeFunction } from '../../types/common';
+import { useCallback, useRef, useState, useEffect } from "react";
+import { UnsubscribeFunction } from "../../types/common";
 
 /**
  * Public animation stage states
  */
 export enum PublicAnimationStage {
-  IDLE = 'idle',
-  PREPARING = 'preparing',
-  ENTERING = 'entering',
-  ACTIVE = 'active',
-  EXITING = 'exiting',
-  COMPLETED = 'completed',
-  PAUSED = 'paused',
-  ERROR = 'error',
+  IDLE = "idle",
+  PREPARING = "preparing",
+  ENTERING = "entering",
+  ACTIVE = "active",
+  EXITING = "exiting",
+  COMPLETED = "completed",
+  PAUSED = "paused",
+  ERROR = "error",
 }
 
 /**
@@ -28,7 +28,7 @@ export interface AnimationElement {
   delay?: number;
   duration?: number;
   easing?: string;
-  properties?: Record<string, any>;
+  properties?: Record<string, unknown>;
   onStart?: () => void;
   onComplete?: () => void;
 }
@@ -38,7 +38,7 @@ export interface AnimationElement {
  */
 export interface OrchestrationSequence {
   elements: AnimationElement[];
-  mode?: 'parallel' | 'sequential' | 'stagger';
+  mode?: "parallel" | "sequential" | "stagger";
   staggerDelay?: number;
   loop?: boolean | number; // false, true (infinite), or number of iterations
   onSequenceStart?: () => void;
@@ -64,7 +64,7 @@ interface OrchestrationState {
 export const useOrchestration = (sequence: OrchestrationSequence) => {
   const {
     elements = [],
-    mode = 'sequential',
+    mode = "sequential",
     staggerDelay = 100,
     loop = false,
     onSequenceStart,
@@ -72,7 +72,9 @@ export const useOrchestration = (sequence: OrchestrationSequence) => {
     onStageChange,
   } = sequence;
 
-  const [stage, setStage] = useState<PublicAnimationStage>(PublicAnimationStage.IDLE);
+  const [stage, setStage] = useState<PublicAnimationStage>(
+    PublicAnimationStage.IDLE
+  );
   const [progress, setProgress] = useState(0);
   const [currentElementId, setCurrentElementId] = useState<string | null>(null);
 
@@ -140,7 +142,9 @@ export const useOrchestration = (sequence: OrchestrationSequence) => {
    */
   const executeParallel = useCallback(async () => {
     updateStage(PublicAnimationStage.ENTERING);
-    const promises = elements.map((element) => animateElement(element, element.delay || 0));
+    const promises = elements.map((element) =>
+      animateElement(element, element.delay || 0)
+    );
     await Promise.all(promises);
     updateStage(PublicAnimationStage.COMPLETED);
   }, [elements, animateElement, updateStage]);
@@ -193,13 +197,13 @@ export const useOrchestration = (sequence: OrchestrationSequence) => {
       updateStage(PublicAnimationStage.ACTIVE);
 
       switch (mode) {
-        case 'parallel':
+        case "parallel":
           await executeParallel();
           break;
-        case 'sequential':
+        case "sequential":
           await executeSequential();
           break;
-        case 'stagger':
+        case "stagger":
           await executeStagger();
           break;
       }
@@ -208,7 +212,7 @@ export const useOrchestration = (sequence: OrchestrationSequence) => {
       if (loop) {
         stateRef.current.iteration += 1;
 
-        if (typeof loop === 'number' && stateRef.current.iteration >= loop) {
+        if (typeof loop === "number" && stateRef.current.iteration >= loop) {
           updateStage(PublicAnimationStage.COMPLETED);
           onSequenceComplete?.();
         } else {
@@ -326,7 +330,9 @@ export const useOrchestration = (sequence: OrchestrationSequence) => {
     reset,
     seekToElement,
     getState,
-    isAnimating: stage === PublicAnimationStage.ACTIVE || stage === PublicAnimationStage.ENTERING,
+    isAnimating:
+      stage === PublicAnimationStage.ACTIVE ||
+      stage === PublicAnimationStage.ENTERING,
     isPaused: stage === PublicAnimationStage.PAUSED,
     isCompleted: stage === PublicAnimationStage.COMPLETED,
   };
@@ -340,7 +346,7 @@ export const createOrchestrationSequence = (
   options: Partial<OrchestrationSequence> = {}
 ): OrchestrationSequence => ({
   elements,
-  mode: options.mode || 'sequential',
+  mode: options.mode || "sequential",
   staggerDelay: options.staggerDelay || 100,
   loop: options.loop || false,
   onSequenceStart: options.onSequenceStart,

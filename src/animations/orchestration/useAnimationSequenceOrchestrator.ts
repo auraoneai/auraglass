@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRef, useCallback, useEffect, useState } from 'react';
+import React from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 
 export interface OrchestratedAnimationStep {
   id: string;
@@ -13,7 +13,7 @@ export interface OrchestratedAnimationStep {
     rotation?: number;
     opacity?: number;
   };
-  style?: Record<string, any>;
+  style?: React.CSSProperties;
   onStart?: () => void;
   onComplete?: () => void;
   onUpdate?: (progress: number) => void;
@@ -59,8 +59,11 @@ export function useAnimationSequence(
     progress: 0,
     elapsed: 0,
     totalDuration: parallel
-      ? Math.max(...steps.map((s: any) => s.duration + (s.delay || 0)))
-      : steps.reduce((total, step) => total + step.duration + (step.delay || 0), 0),
+      ? Math.max(...steps.map((step) => step.duration + (step.delay || 0)))
+      : steps.reduce(
+          (total, step) => total + step.duration + (step.delay || 0),
+          0
+        ),
   });
 
   const elementRef = useRef<HTMLElement>(null);
@@ -71,245 +74,274 @@ export function useAnimationSequence(
 
   // Calculate total duration
   const totalDuration = parallel
-    ? Math.max(...steps.map((s: any) => s.duration + (s.delay || 0)))
-    : steps.reduce((total, step) => total + step.duration + (step.delay || 0), 0);
+    ? Math.max(...steps.map((step) => step.duration + (step.delay || 0)))
+    : steps.reduce(
+        (total, step) => total + step.duration + (step.delay || 0),
+        0
+      );
 
-  const applyStepTransform = useCallback((step: OrchestratedAnimationStep, progress: number = 1) => {
-    if (!elementRef.current) return;
+  const applyStepTransform = useCallback(
+    (step: OrchestratedAnimationStep, progress: number = 1) => {
+      if (!elementRef.current) return;
 
-    const element = elementRef.current;
-    const transform = step.transform;
+      const element = elementRef.current;
+      const transform = step.transform;
 
-    if (transform) {
-      const transforms: string[] = [];
+      if (transform) {
+        const transforms: string[] = [];
 
-      if (transform.x !== undefined || transform.y !== undefined) {
-        transforms.push(`translate(${transform.x || 0}px, ${transform.y || 0}px)`);
+        if (transform.x !== undefined || transform.y !== undefined) {
+          transforms.push(
+            `translate(${transform.x || 0}px, ${transform.y || 0}px)`
+          );
+        }
+
+        if (transform.scale !== undefined) {
+          transforms.push(`scale(${transform.scale})`);
+        }
+
+        if (transform.rotation !== undefined) {
+          transforms.push(`rotate(${transform.rotation}deg)`);
+        }
+
+        if (transforms.length > 0) {
+          element.style.transform = transforms.join(" ");
+        }
+
+        if (transform.opacity !== undefined) {
+          element.style.opacity = transform.opacity.toString();
+        }
       }
 
-      if (transform.scale !== undefined) {
-        transforms.push(`scale(${transform.scale})`);
+      // Apply additional styles
+      if (step.style) {
+        Object.assign(element.style, step.style);
+      }
+    },
+    []
+  );
+
+  const animateStep = useCallback(
+    (stepIndex: number, stepProgress: number) => {
+      const step = steps[stepIndex];
+      if (!step) return;
+
+      // Apply transform based on progress
+      const easedProgress = step.easing
+        ? easeValue(stepProgress, step.easing)
+        : stepProgress;
+
+      // Interpolate between current and target values
+      if (step.transform) {
+        const interpolatedTransform = {
+          x:
+            step.transform.x !== undefined
+              ? step.transform.x * easedProgress
+              : undefined,
+          y:
+            step.transform.y !== undefined
+              ? step.transform.y * easedProgress
+              : undefined,
+          scale:
+            step.transform.scale !== undefined
+              ? 1 + (step.transform.scale - 1) * easedProgress
+              : undefined,
+          rotation:
+            step.transform.rotation !== undefined
+              ? step.transform.rotation * easedProgress
+              : undefined,
+          opacity:
+            step.transform.opacity !== undefined
+              ? step.transform.opacity * easedProgress
+              : undefined,
+        };
+
+        if (elementRef.current) {
+          applyStepTransform({ ...step, transform: interpolatedTransform }, 1);
+        }
       }
 
-      if (transform.rotation !== undefined) {
-        transforms.push(`rotate(${transform.rotation}deg)`);
+      // Call update callback
+      step.onUpdate?.(easedProgress);
+    },
+    [steps, applyStepTransform]
+  );
+
+  const runAnimation = useCallback(
+    (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+        stepStartTimesRef.current = new Array(steps.length).fill(0);
+        completedStepsRef.current.clear();
       }
 
-      if (transforms.length > 0) {
-        element.style.transform = transforms.join(' ');
-      }
+      const elapsed = (timestamp - startTimeRef.current) * speed;
 
-      if (transform.opacity !== undefined) {
-        element.style.opacity = transform.opacity.toString();
-      }
-    }
+      if (parallel) {
+        // Parallel execution
+        let allCompleted = true;
+        let maxProgress = 0;
 
-    // Apply additional styles
-    if (step.style) {
-      Object.assign(element.style, step.style);
-    }
-  }, []);
+        steps.forEach((step, index) => {
+          const stepDelay = step.delay || 0;
+          const stepStartTime =
+            stepStartTimesRef.current[index] ||
+            startTimeRef.current + stepDelay;
 
-  const animateStep = useCallback((stepIndex: number, stepProgress: number) => {
-    const step = steps[stepIndex];
-    if (!step) return;
+          if (elapsed >= stepDelay) {
+            if (stepStartTimesRef.current[index] === 0) {
+              stepStartTimesRef.current[index] = timestamp;
+              step.onStart?.();
+            }
 
-    // Apply transform based on progress
-    const easedProgress = step.easing
-      ? easeValue(stepProgress, step.easing)
-      : stepProgress;
+            const stepElapsed = (timestamp - stepStartTime) * speed;
+            const stepProgress = Math.min(stepElapsed / step.duration, 1);
 
-    // Interpolate between current and target values
-    if (step.transform) {
-      const interpolatedTransform = {
-        x: step.transform.x !== undefined ? step.transform.x * easedProgress : undefined,
-        y: step.transform.y !== undefined ? step.transform.y * easedProgress : undefined,
-        scale: step.transform.scale !== undefined
-          ? 1 + (step.transform.scale - 1) * easedProgress
-          : undefined,
-        rotation: step.transform.rotation !== undefined
-          ? step.transform.rotation * easedProgress
-          : undefined,
-        opacity: step.transform.opacity !== undefined
-          ? step.transform.opacity * easedProgress
-          : undefined,
-      };
+            animateStep(index, stepProgress);
+            maxProgress = Math.max(maxProgress, stepProgress);
 
-      if (elementRef.current) {
-        applyStepTransform({ ...step, transform: interpolatedTransform }, 1);
-      }
-    }
+            if (stepProgress >= 1 && !completedStepsRef.current.has(index)) {
+              completedStepsRef.current.add(index);
+              step.onComplete?.();
+            }
 
-    // Call update callback
-    step.onUpdate?.(easedProgress);
-  }, [steps, applyStepTransform]);
-
-  const runAnimation = useCallback((timestamp: number) => {
-    if (!startTimeRef.current) {
-      startTimeRef.current = timestamp;
-      stepStartTimesRef.current = new Array(steps.length).fill(0);
-      completedStepsRef.current.clear();
-    }
-
-    const elapsed = (timestamp - startTimeRef.current) * speed;
-
-    if (parallel) {
-      // Parallel execution
-      let allCompleted = true;
-      let maxProgress = 0;
-
-      steps.forEach((step, index) => {
-        const stepDelay = step.delay || 0;
-        const stepStartTime = stepStartTimesRef.current[index] || (startTimeRef.current + stepDelay);
-
-        if (elapsed >= stepDelay) {
-          if (stepStartTimesRef.current[index] === 0) {
-            stepStartTimesRef.current[index] = timestamp;
-            step.onStart?.();
-          }
-
-          const stepElapsed = (timestamp - stepStartTime) * speed;
-          const stepProgress = Math.min(stepElapsed / step.duration, 1);
-
-          animateStep(index, stepProgress);
-          maxProgress = Math.max(maxProgress, stepProgress);
-
-          if (stepProgress >= 1 && !completedStepsRef.current.has(index)) {
-            completedStepsRef.current.add(index);
-            step.onComplete?.();
-          }
-
-          if (stepProgress < 1) {
+            if (stepProgress < 1) {
+              allCompleted = false;
+            }
+          } else {
             allCompleted = false;
           }
-        } else {
-          allCompleted = false;
-        }
-      });
+        });
 
-      setState((prev: any) => ({
-        ...prev,
-        progress: maxProgress,
-        elapsed,
-      }));
-
-      if (allCompleted) {
-        setState((prev: any) => ({ ...prev, isPlaying: false, progress: 1 }));
-
-        if (loop) {
-          // Restart animation
-          startTimeRef.current = 0;
-          stepStartTimesRef.current = new Array(steps.length).fill(0);
-          completedStepsRef.current.clear();
-          setState((prev: any) => ({
-            ...prev,
-            isPlaying: true,
-            currentStep: 0,
-            progress: 0,
-            elapsed: 0,
-          }));
-          animationRef.current = requestAnimationFrame(runAnimation);
-        }
-        return;
-      }
-    } else {
-      // Sequential execution
-      let accumulatedTime = 0;
-      let currentStepIndex = 0;
-      let stepElapsed = 0;
-
-      for (let i = 0; i < steps.length; i++) {
-        const step = steps[i];
-        const stepDuration = step.duration + (step.delay || 0);
-
-        if (elapsed >= accumulatedTime && elapsed < accumulatedTime + stepDuration) {
-          currentStepIndex = i;
-          stepElapsed = elapsed - accumulatedTime;
-          break;
-        }
-
-        accumulatedTime += stepDuration;
-      }
-
-      // Handle step transitions
-      if (currentStepIndex !== state.currentStep) {
-        // Complete previous step
-        const prevStep = steps[state.currentStep];
-        prevStep?.onComplete?.();
-
-        // Start new step
-        const newStep = steps[currentStepIndex];
-        newStep?.onStart?.();
-      }
-
-      // Calculate step progress
-      const currentStep = steps[currentStepIndex];
-      const stepDelay = currentStep.delay || 0;
-      const stepDuration = currentStep.duration;
-      const stepProgress = Math.max(0, Math.min(1,
-        (stepElapsed - stepDelay) / stepDuration
-      ));
-
-      // Apply animation
-      animateStep(currentStepIndex, stepProgress);
-
-      // Update state
-      const overallProgress = elapsed / totalDuration;
-      setState((prev: any) => ({
-        ...prev,
-        currentStep: currentStepIndex,
-        progress: overallProgress,
-        elapsed,
-      }));
-
-      if (elapsed >= totalDuration) {
-        // Animation complete
-        setState((prev: any) => ({
+        setState((prev) => ({
           ...prev,
-          isPlaying: false,
-          progress: 1,
+          progress: maxProgress,
+          elapsed,
         }));
 
-        // Complete final step
-        const finalStep = steps[steps.length - 1];
-        finalStep.onComplete?.();
+        if (allCompleted) {
+          setState((prev) => ({ ...prev, isPlaying: false, progress: 1 }));
 
-        if (loop) {
-          // Restart animation
-          startTimeRef.current = 0;
-          stepStartTimesRef.current = new Array(steps.length).fill(0);
-          completedStepsRef.current.clear();
-          setState((prev: any) => ({
-            ...prev,
-            isPlaying: true,
-            currentStep: 0,
-            progress: 0,
-            elapsed: 0,
-          }));
-          animationRef.current = requestAnimationFrame(runAnimation);
+          if (loop) {
+            // Restart animation
+            startTimeRef.current = 0;
+            stepStartTimesRef.current = new Array(steps.length).fill(0);
+            completedStepsRef.current.clear();
+            setState((prev) => ({
+              ...prev,
+              isPlaying: true,
+              currentStep: 0,
+              progress: 0,
+              elapsed: 0,
+            }));
+            animationRef.current = requestAnimationFrame(runAnimation);
+          }
+          return;
+        }
+      } else {
+        // Sequential execution
+        let accumulatedTime = 0;
+        let currentStepIndex = 0;
+        let stepElapsed = 0;
+
+        for (let i = 0; i < steps.length; i++) {
+          const step = steps[i];
+          const stepDuration = step.duration + (step.delay || 0);
+
+          if (
+            elapsed >= accumulatedTime &&
+            elapsed < accumulatedTime + stepDuration
+          ) {
+            currentStepIndex = i;
+            stepElapsed = elapsed - accumulatedTime;
+            break;
+          }
+
+          accumulatedTime += stepDuration;
         }
 
-        return;
-      }
-    }
+        // Handle step transitions
+        if (currentStepIndex !== state.currentStep) {
+          // Complete previous step
+          const prevStep = steps[state.currentStep];
+          prevStep?.onComplete?.();
 
-    animationRef.current = requestAnimationFrame(runAnimation);
-  }, [
-    steps,
-    speed,
-    totalDuration,
-    reverse,
-    loop,
-    parallel,
-    applyStepTransform,
-    animateStep,
-    state.currentStep,
-  ]);
+          // Start new step
+          const newStep = steps[currentStepIndex];
+          newStep?.onStart?.();
+        }
+
+        // Calculate step progress
+        const currentStep = steps[currentStepIndex];
+        const stepDelay = currentStep.delay || 0;
+        const stepDuration = currentStep.duration;
+        const stepProgress = Math.max(
+          0,
+          Math.min(1, (stepElapsed - stepDelay) / stepDuration)
+        );
+
+        // Apply animation
+        animateStep(currentStepIndex, stepProgress);
+
+        // Update state
+        const overallProgress = elapsed / totalDuration;
+        setState((prev) => ({
+          ...prev,
+          currentStep: currentStepIndex,
+          progress: overallProgress,
+          elapsed,
+        }));
+
+        if (elapsed >= totalDuration) {
+          // Animation complete
+          setState((prev) => ({
+            ...prev,
+            isPlaying: false,
+            progress: 1,
+          }));
+
+          // Complete final step
+          const finalStep = steps[steps.length - 1];
+          finalStep.onComplete?.();
+
+          if (loop) {
+            // Restart animation
+            startTimeRef.current = 0;
+            stepStartTimesRef.current = new Array(steps.length).fill(0);
+            completedStepsRef.current.clear();
+            setState((prev) => ({
+              ...prev,
+              isPlaying: true,
+              currentStep: 0,
+              progress: 0,
+              elapsed: 0,
+            }));
+            animationRef.current = requestAnimationFrame(runAnimation);
+          }
+
+          return;
+        }
+      }
+
+      animationRef.current = requestAnimationFrame(runAnimation);
+    },
+    [
+      steps,
+      speed,
+      totalDuration,
+      reverse,
+      loop,
+      parallel,
+      applyStepTransform,
+      animateStep,
+      state.currentStep,
+    ]
+  );
 
   const play = useCallback(() => {
     if (state.isPlaying) return;
 
-    setState((prev: any) => ({
+    setState((prev) => ({
       ...prev,
       isPlaying: true,
       isPaused: false,
@@ -324,7 +356,7 @@ export function useAnimationSequence(
   const pause = useCallback(() => {
     if (!state.isPlaying) return;
 
-    setState((prev: any) => ({
+    setState((prev) => ({
       ...prev,
       isPaused: true,
     }));
@@ -345,7 +377,7 @@ export function useAnimationSequence(
     stepStartTimesRef.current = new Array(steps.length).fill(0);
     completedStepsRef.current = new Set();
 
-    setState((prev: any) => ({
+    setState((prev) => ({
       ...prev,
       isPlaying: false,
       isPaused: false,
@@ -360,19 +392,22 @@ export function useAnimationSequence(
     }
   }, [applyStepTransform, steps]);
 
-  const seek = useCallback((progress: number) => {
-    const seekTime = progress * totalDuration;
-    startTimeRef.current = Date.now() - seekTime / speed;
+  const seek = useCallback(
+    (progress: number) => {
+      const seekTime = progress * totalDuration;
+      startTimeRef.current = Date.now() - seekTime / speed;
 
-    setState((prev: any) => ({
-      ...prev,
-      progress,
-      elapsed: seekTime,
-    }));
+      setState((prev) => ({
+        ...prev,
+        progress,
+        elapsed: seekTime,
+      }));
 
-    // This is a simplified seek implementation
-    // In a full implementation, you'd need to calculate which step and at what progress
-  }, [totalDuration, speed]);
+      // This is a simplified seek implementation
+      // In a full implementation, you'd need to calculate which step and at what progress
+    },
+    [totalDuration, speed]
+  );
 
   // Auto-play on mount
   useEffect(() => {
@@ -408,24 +443,36 @@ export function useAnimationSequence(
 // Easing function utilities
 function easeValue(progress: number, easing: string): number {
   // Simple easing function parser
-  const [type, ...params] = easing.split('(');
-  const values = params.join('(').replace(')', '').split(',').map((v: any) => parseFloat(v.trim()));
+  const [type, ...params] = easing.split("(");
+  const values = params
+    .join("(")
+    .replace(")", "")
+    .split(",")
+    .map((v) => parseFloat(v.trim()));
 
   switch (type) {
-    case 'ease-in':
+    case "ease-in":
       return progress * progress;
-    case 'ease-out':
+    case "ease-out":
       return progress * (2 - progress);
-    case 'ease-in-out':
-      return progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
-    case 'cubic-bezier':
+    case "ease-in-out":
+      return progress < 0.5
+        ? 2 * progress * progress
+        : -1 + (4 - 2 * progress) * progress;
+    case "cubic-bezier":
       return cubicBezier(progress, values[0], values[1], values[2], values[3]);
     default:
       return progress;
   }
 }
 
-function cubicBezier(t: number, p0: number, p1: number, p2: number, p3: number): number {
+function cubicBezier(
+  t: number,
+  p0: number,
+  p1: number,
+  p2: number,
+  p3: number
+): number {
   const u = 1 - t;
   const tt = t * t;
   const uu = u * u;
@@ -438,40 +485,97 @@ function cubicBezier(t: number, p0: number, p1: number, p2: number, p3: number):
 // Predefined orchestration sequences
 export const orchestrationPresets = {
   staggeredFadeIn: [
-    { id: 'step1', duration: 300, delay: 0, transform: { opacity: 1 } },
-    { id: 'step2', duration: 300, delay: 100, transform: { opacity: 1 } },
-    { id: 'step3', duration: 300, delay: 200, transform: { opacity: 1 } },
+    { id: "step1", duration: 300, delay: 0, transform: { opacity: 1 } },
+    { id: "step2", duration: 300, delay: 100, transform: { opacity: 1 } },
+    { id: "step3", duration: 300, delay: 200, transform: { opacity: 1 } },
   ],
 
   cascadingSlideIn: [
-    { id: 'slide1', duration: 400, delay: 0, transform: { x: 0 }, easing: 'ease-out' },
-    { id: 'slide2', duration: 400, delay: 150, transform: { x: 0 }, easing: 'ease-out' },
-    { id: 'slide3', duration: 400, delay: 300, transform: { x: 0 }, easing: 'ease-out' },
+    {
+      id: "slide1",
+      duration: 400,
+      delay: 0,
+      transform: { x: 0 },
+      easing: "ease-out",
+    },
+    {
+      id: "slide2",
+      duration: 400,
+      delay: 150,
+      transform: { x: 0 },
+      easing: "ease-out",
+    },
+    {
+      id: "slide3",
+      duration: 400,
+      delay: 300,
+      transform: { x: 0 },
+      easing: "ease-out",
+    },
   ],
 
   parallelScaleIn: [
-    { id: 'scale1', duration: 500, delay: 0, transform: { scale: 1 }, easing: 'ease-out' },
-    { id: 'scale2', duration: 500, delay: 0, transform: { scale: 1 }, easing: 'ease-out' },
-    { id: 'scale3', duration: 500, delay: 0, transform: { scale: 1 }, easing: 'ease-out' },
+    {
+      id: "scale1",
+      duration: 500,
+      delay: 0,
+      transform: { scale: 1 },
+      easing: "ease-out",
+    },
+    {
+      id: "scale2",
+      duration: 500,
+      delay: 0,
+      transform: { scale: 1 },
+      easing: "ease-out",
+    },
+    {
+      id: "scale3",
+      duration: 500,
+      delay: 0,
+      transform: { scale: 1 },
+      easing: "ease-out",
+    },
   ],
 
   complexOrchestration: [
-    { id: 'initial', duration: 200, transform: { opacity: 1, scale: 0.8 } },
-    { id: 'grow', duration: 300, delay: 100, transform: { scale: 1.1 }, easing: 'ease-out' },
-    { id: 'settle', duration: 200, delay: 50, transform: { scale: 1 }, easing: 'ease-in-out' },
-    { id: 'slide', duration: 400, delay: 0, transform: { x: 0 }, easing: 'ease-out' },
+    { id: "initial", duration: 200, transform: { opacity: 1, scale: 0.8 } },
+    {
+      id: "grow",
+      duration: 300,
+      delay: 100,
+      transform: { scale: 1.1 },
+      easing: "ease-out",
+    },
+    {
+      id: "settle",
+      duration: 200,
+      delay: 50,
+      transform: { scale: 1 },
+      easing: "ease-in-out",
+    },
+    {
+      id: "slide",
+      duration: 400,
+      delay: 0,
+      transform: { x: 0 },
+      easing: "ease-out",
+    },
   ],
 };
 
 // Utility functions for creating complex orchestrations
 export const createOrchestration = {
-  fromSteps: (steps: OrchestratedAnimationStep[], config?: OrchestrationConfig) => ({
+  fromSteps: (
+    steps: OrchestratedAnimationStep[],
+    config?: OrchestrationConfig
+  ) => ({
     steps,
     config: { ...config },
   }),
 
   staggered: (
-    baseStep: Omit<OrchestratedAnimationStep, 'id' | 'delay'>,
+    baseStep: Omit<OrchestratedAnimationStep, "id" | "delay">,
     count: number,
     staggerDelay: number
   ): OrchestratedAnimationStep[] => {
@@ -483,7 +587,7 @@ export const createOrchestration = {
   },
 
   parallel: (
-    steps: Omit<OrchestratedAnimationStep, 'id'>[]
+    steps: Omit<OrchestratedAnimationStep, "id">[]
   ): OrchestratedAnimationStep[] => {
     return steps.map((step, i) => ({
       ...step,
@@ -493,7 +597,7 @@ export const createOrchestration = {
   },
 
   sequence: (
-    steps: Omit<OrchestratedAnimationStep, 'id'>[]
+    steps: Omit<OrchestratedAnimationStep, "id">[]
   ): OrchestratedAnimationStep[] => {
     let accumulatedDelay = 0;
     return steps.map((step, i) => {

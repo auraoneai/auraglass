@@ -2,9 +2,10 @@ const { Server } = require('socket.io');
 const http = require('http');
 const Redis = require('ioredis');
 const jwt = require('jsonwebtoken');
+const { randomBytes } = require('crypto');
 
 const PORT = process.env.WS_PORT || 3001;
-const JWT_SECRET = process.env.JWT_SECRET || 'default-secret-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET;
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 
 // Create HTTP server
@@ -36,6 +37,10 @@ io.use(async (socket, next) => {
     const userName = socket.handshake.auth.userName || 'Anonymous';
 
     if (token) {
+      if (!JWT_SECRET) {
+        throw new Error('JWT_SECRET is required to verify authenticated websocket connections');
+      }
+
       // Verify JWT token
       const decoded = jwt.verify(token, JWT_SECRET);
       socket.userId = decoded.userId;
@@ -299,7 +304,7 @@ async function leaveRoom(socket, roomId) {
 }
 
 function generateRoomId() {
-  return `room-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  return `room-${Date.now()}-${randomBytes(9).toString('hex')}`;
 }
 
 function applyOperation(documentState, operation) {

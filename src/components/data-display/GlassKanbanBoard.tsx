@@ -27,7 +27,7 @@ export interface KanbanCard {
   dueDate?: Date;
   createdAt?: Date;
   updatedAt?: Date;
-  customData?: Record<string, any>;
+  customData?: Record<string, unknown>;
 }
 
 export interface KanbanColumn {
@@ -39,7 +39,7 @@ export interface KanbanColumn {
   cards: KanbanCard[];
   allowedCardTypes?: string[];
   readOnly?: boolean;
-  customData?: Record<string, any>;
+  customData?: Record<string, unknown>;
 }
 
 export interface DragState {
@@ -212,7 +212,7 @@ export const GlassKanbanBoard = forwardRef<
         if (!dragState.isDragging) return;
 
         e.preventDefault();
-        setDragState((prev: any) => ({
+        setDragState((prev) => ({
           ...prev,
           dragOverColumn: columnId,
         }));
@@ -493,7 +493,7 @@ export const GlassKanbanBoard = forwardRef<
     // Handle column scroll
     const handleColumnScroll = useCallback(
       (columnId: string, scrollTop: number) => {
-        setScrollPositions((prev: any) => ({
+        setScrollPositions((prev) => ({
           ...prev,
           [columnId]: scrollTop,
         }));

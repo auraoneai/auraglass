@@ -22,12 +22,33 @@ import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
+type WorkspaceLayout = "split" | "tabs" | "canvas-focused" | "editor-focused";
+type WorkspaceTheme = "dark" | "light" | "auto";
+type WorkspaceRole = "admin" | "editor" | "viewer";
+type CursorSize = "sm" | "md" | "lg";
+type CursorGlassLevel = "low" | "medium" | "high";
+
+interface WorkspaceSummary {
+  id: string;
+  name: string;
+}
+
+interface WorkspaceUser {
+  id: string;
+  name: string;
+  role: WorkspaceRole;
+  avatar?: string;
+  color?: string;
+}
+
+type WorkspaceError = Error | string | { message?: string; code?: string };
+
 interface CollaborativeGlassWorkspaceProps {
   workspaceId: string;
   userId: string;
   userName: string;
   userEmail: string;
-  userRole?: "admin" | "editor" | "viewer";
+  userRole?: WorkspaceRole;
   userAvatar?: string;
   className?: string;
   "aria-label"?: string;
@@ -40,8 +61,8 @@ interface CollaborativeGlassWorkspaceProps {
   enableRealTimeSync?: boolean;
 
   // UI configuration
-  layout?: "split" | "tabs" | "canvas-focused" | "editor-focused";
-  theme?: "dark" | "light" | "auto";
+  layout?: WorkspaceLayout;
+  theme?: WorkspaceTheme;
   showMiniMap?: boolean;
   showOnlineUsers?: boolean;
   showCursors?: boolean;
@@ -56,11 +77,116 @@ interface CollaborativeGlassWorkspaceProps {
   enableSnapping?: boolean;
 
   // Callbacks
-  onWorkspaceReady?: (workspace: any) => void;
-  onUserJoined?: (user: any) => void;
+  onWorkspaceReady?: (workspace: WorkspaceSummary) => void;
+  onUserJoined?: (user: WorkspaceUser) => void;
   onUserLeft?: (userId: string) => void;
   onElementSelected?: (elementId: string | null) => void;
-  onError?: (error: any) => void;
+  onError?: (error: WorkspaceError) => void;
+}
+
+interface WorkspaceHeaderProps {
+  workspace: WorkspaceSummary;
+  currentUser: WorkspaceUser;
+  onlineUsers: WorkspaceUser[];
+  canEdit: boolean;
+  isVoiceActive: boolean;
+  voiceUsers: string[];
+  onToggleVoice: () => void;
+  onCreateSnapshot: (name: string) => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onLayoutChange: (layout: WorkspaceLayout) => void;
+  activeLayout: WorkspaceLayout;
+  onToggleSidebar: () => void;
+  onToggleFullscreen: () => void;
+  isFullscreen: boolean;
+  showOnlineUsers: boolean;
+  enableVoiceChat: boolean;
+  enableVersionControl: boolean;
+}
+
+interface CollaborativeGlassCanvasProps {
+  width?: number;
+  height?: number;
+  gridSize?: number;
+  showGrid?: boolean;
+  showRulers?: boolean;
+  enableSnapping?: boolean;
+  onElementSelect?: (elementId: string | null) => void;
+  className?: string;
+}
+
+interface MultiUserGlassEditorProps {
+  target?: string;
+  showPreview?: boolean;
+  showHistory?: boolean;
+  showComments?: boolean;
+  enableRealTimeSync?: boolean;
+  layout?: "vertical" | "horizontal";
+  className?: string;
+}
+
+interface WorkspaceTabsProps extends CollaborativeGlassCanvasProps {
+  selectedElementId: string | null;
+  onElementSelect: (elementId: string | null) => void;
+  enableComments?: boolean;
+  enableRealTimeSync?: boolean;
+}
+
+interface WorkspaceSidebarProps {
+  selectedElementId: string | null;
+  onElementSelect: (elementId: string | null) => void;
+  showMiniMap: boolean;
+  showOnlineUsers: boolean;
+  onlineUsers: WorkspaceUser[];
+  currentUser: WorkspaceUser;
+  isVoiceActive: boolean;
+  voiceUsers: string[];
+  enableComments: boolean;
+}
+
+export interface GlassCollaborationProviderProps
+  extends React.PropsWithChildren<Record<string, unknown>> {}
+
+export interface GlassTeamCursorsProps {
+  showNames?: boolean;
+  showVoiceIndicators?: boolean;
+  cursorSize?: CursorSize;
+  glassLevel?: CursorGlassLevel;
+}
+
+export interface GlassTeamCursorsWithEffectsProps
+  extends GlassTeamCursorsProps {
+  enableRippleEffect?: boolean;
+  enableGlowEffect?: boolean;
+}
+
+interface VoiceChatPanelProps {
+  isActive: boolean;
+  voiceUsers: string[];
+  onClose: () => void;
+  onToggleVoice: () => void;
+}
+
+interface VersionControlPanelProps {
+  onClose: () => void;
+  onCreateSnapshot: (name: string) => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  onUndo: () => void;
+  onRedo: () => void;
+}
+
+interface WorkspaceFloatingActionsProps {
+  isVoiceActive: boolean;
+  onToggleVoice: () => void;
+  onShowVoicePanel: () => void;
+  onShowVersionPanel: () => void;
+  onToggleFullscreen: () => void;
+  enableVoiceChat: boolean;
+  enableVersionControl: boolean;
 }
 
 export function CollaborativeGlassWorkspace(
@@ -117,7 +243,26 @@ function WorkspaceContent({
   "workspaceId" | "userId" | "userName" | "userEmail"
 >) {
   // Mock collaboration context - in real implementation this would use actual context
-  const mockCollaborationContext = {
+  const mockCollaborationContext: {
+    isConnected: boolean;
+    isConnecting: boolean;
+    workspace: WorkspaceSummary;
+    users: WorkspaceUser[];
+    currentUser: WorkspaceUser;
+    onlineUsers: WorkspaceUser[];
+    canEdit: boolean;
+    isVoiceActive: boolean;
+    voiceUsers: string[];
+    toggleVoice: () => void;
+    addComment: () => void;
+    createSnapshot: (name: string) => void;
+    undo: () => void;
+    redo: () => void;
+    canUndo: boolean;
+    canRedo: boolean;
+    connect: () => void;
+    disconnect: () => void;
+  } = {
     isConnected: true,
     isConnecting: false,
     workspace: { id: "workspace-1", name: "Collaborative Design Session" },
@@ -303,8 +448,8 @@ function WorkspaceContent({
           <WorkspaceTabs
             selectedElementId={selectedElementId}
             onElementSelect={handleElementSelect}
-            canvasWidth={canvasWidth}
-            canvasHeight={canvasHeight}
+            width={canvasWidth}
+            height={canvasHeight}
             gridSize={gridSize}
             showGrid={showGrid}
             showRulers={showRulers}
@@ -446,7 +591,10 @@ function WorkspaceContent({
 }
 
 // Mock provider components - in real implementation these would be actual providers
-export function GlassCollaborationProvider({ children, ...props }: any) {
+export function GlassCollaborationProvider({
+  children,
+  ...props
+}: GlassCollaborationProviderProps) {
   return <>{children}</>;
 }
 
@@ -472,7 +620,7 @@ function WorkspaceHeader({
   showOnlineUsers,
   enableVoiceChat,
   enableVersionControl,
-}: any) {
+}: WorkspaceHeaderProps) {
   const [showLayoutMenu, setShowLayoutMenu] = useState(false);
 
   return (
@@ -540,23 +688,23 @@ function WorkspaceHeader({
           </button>
           {showLayoutMenu && (
             <div className="glass-absolute glass-top-full glass-left-0 glass-mt-2 glass-p-2 glass-surface-dark glass-border glass-border-white/20 glass-radius glass-shadow-lg glass-z-50">
-              {["split", "tabs", "canvas-focused", "editor-focused"].map(
-                (layout: any) => (
-                  <button
-                    key={layout}
-                    onClick={() => {
-                      onLayoutChange(layout);
-                      setShowLayoutMenu(false);
-                    }}
-                    className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-white/10 text-white ${
-                      activeLayout === layout ? "bg-blue-600" : ""
-                    }`}
-                  >
-                    {layout.charAt(0).toUpperCase() +
-                      layout.slice(1).replace("-", " ")}
-                  </button>
-                )
-              )}
+              {(
+                ["split", "tabs", "canvas-focused", "editor-focused"] as const
+              ).map((layout) => (
+                <button
+                  key={layout}
+                  onClick={() => {
+                    onLayoutChange(layout);
+                    setShowLayoutMenu(false);
+                  }}
+                  className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-white/10 text-white ${
+                    activeLayout === layout ? "bg-blue-600" : ""
+                  }`}
+                >
+                  {layout.charAt(0).toUpperCase() +
+                    layout.slice(1).replace("-", " ")}
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -589,7 +737,7 @@ function WorkspaceHeader({
         {showOnlineUsers && (
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-flex glass--space-x-2">
-              {onlineUsers.slice(0, 5).map((user: any) => (
+              {onlineUsers.slice(0, 5).map((user) => (
                 <div
                   key={user.id}
                   className="glass-w-8 glass-h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary"
@@ -641,7 +789,13 @@ function WorkspaceHeader({
 }
 
 // Mock sub-components - in real implementation these would be actual components
-function WorkspaceTabs({ selectedElementId, onElementSelect, ...props }: any) {
+function WorkspaceTabs({
+  selectedElementId,
+  onElementSelect,
+  enableComments,
+  enableRealTimeSync,
+  ...props
+}: WorkspaceTabsProps) {
   const [activeTab, setActiveTab] = useState<"canvas" | "editor">("canvas");
 
   return (
@@ -679,7 +833,11 @@ function WorkspaceTabs({ selectedElementId, onElementSelect, ...props }: any) {
             className="glass-h-full"
           />
         ) : (
-          <MultiUserGlassEditor {...props} className="glass-h-full" />
+          <MultiUserGlassEditor
+            showComments={enableComments}
+            enableRealTimeSync={enableRealTimeSync}
+            className="glass-h-full"
+          />
         )}
       </div>
     </div>
@@ -695,7 +853,7 @@ function CollaborativeGlassCanvas({
   enableSnapping,
   onElementSelect,
   className,
-}: any) {
+}: CollaborativeGlassCanvasProps) {
   return (
     <div
       className={`collaborative-canvas relative ${className}`}
@@ -730,7 +888,7 @@ function MultiUserGlassEditor({
   enableRealTimeSync,
   layout,
   className,
-}: any) {
+}: MultiUserGlassEditorProps) {
   return (
     <div
       className={`multi-user-editor ${className}`}
@@ -828,7 +986,7 @@ function WorkspaceSidebar({
   isVoiceActive,
   voiceUsers,
   enableComments,
-}: any) {
+}: WorkspaceSidebarProps) {
   return (
     <div
       className="workspace-sidebar glass-w-80 glass-border-l glass-border-white/20 glass-p-4 glass-space-y-4"
@@ -855,7 +1013,7 @@ function WorkspaceSidebar({
             Online Users
           </h3>
           <div className="glass-space-y-2">
-            {onlineUsers.map((user: any) => (
+            {onlineUsers.map((user) => (
               <div
                 key={user.id}
                 className="glass-flex glass-items-center glass-gap-3 glass-p-2 glass-radius hover:glass-surface-subtle/5"
@@ -912,7 +1070,7 @@ export function GlassTeamCursors({
   showVoiceIndicators,
   cursorSize,
   glassLevel,
-}: any) {
+}: GlassTeamCursorsProps) {
   return null; // Mock component
 }
 
@@ -923,11 +1081,16 @@ export function GlassTeamCursorsWithEffects({
   glassLevel,
   enableRippleEffect,
   enableGlowEffect,
-}: any) {
+}: GlassTeamCursorsWithEffectsProps) {
   return null; // Mock component
 }
 
-function VoiceChatPanel({ isActive, voiceUsers, onClose, onToggleVoice }: any) {
+function VoiceChatPanel({
+  isActive,
+  voiceUsers,
+  onClose,
+  onToggleVoice,
+}: VoiceChatPanelProps) {
   return (
     <div
       className="glass-fixed glass-bottom-4 glass-right-4 glass-w-80 glass-p-4 glass-radius-lg glass-border glass-border-white/20"
@@ -977,7 +1140,7 @@ function VersionControlPanel({
   canRedo,
   onUndo,
   onRedo,
-}: any) {
+}: VersionControlPanelProps) {
   return (
     <div
       className="glass-fixed glass-bottom-4 glass-left-4 glass-w-80 glass-p-4 glass-radius-lg glass-border glass-border-white/20"
@@ -1036,7 +1199,7 @@ function WorkspaceFloatingActions({
   onToggleFullscreen,
   enableVoiceChat,
   enableVersionControl,
-}: any) {
+}: WorkspaceFloatingActionsProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (

@@ -7,7 +7,7 @@ exports[`GlowingCard matches snapshot 1`] = `
   style="--glow-color: #00d4ff; --glow-intensity: 0.8; --animation-duration: 3000ms; --glow-spread: 4px; --glow-blur: 16px; position: relative; overflow: hidden; cursor: pointer; transition: none; opacity: 1; pointer-events: auto;"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 glowing-card-content"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none glowing-card-content"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); z-index: 1;"
   >
     <div

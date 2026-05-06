@@ -1,7 +1,18 @@
-'use client';
-import React from 'react';
-import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
-import { PerformanceMonitor, MemoryManager } from '../../utils/performanceOptimizations';
+"use client";
+import React from "react";
+import { useRef, useEffect, useCallback, useState, useMemo } from "react";
+import {
+  PerformanceMonitor,
+  MemoryManager,
+  type PerformanceMetrics as MonitorPerformanceMetrics,
+} from "../../utils/performanceOptimizations";
+
+export type PerformanceLevel = "low" | "medium" | "high" | "ultra";
+
+export interface GlassPerformanceReport extends MonitorPerformanceMetrics {
+  memoryStats?: ReturnType<MemoryManager["getStats"]>;
+  recommendations: string[];
+}
 
 export interface GlassPerformanceOptions {
   /** Enable performance monitoring */
@@ -15,7 +26,7 @@ export interface GlassPerformanceOptions {
   /** Quality adjustment threshold */
   qualityThreshold?: number;
   /** Performance metrics callback */
-  onPerformanceMetrics?: (metrics: any) => void;
+  onPerformanceMetrics?: (metrics: GlassPerformanceReport) => void;
   /** Quality change callback */
   onQualityChange?: (quality: number) => void;
 }
@@ -67,12 +78,18 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       maxMemoryUsage: finalOptions.memoryLimit * 1024 * 1024,
     });
 
-    memoryManagerRef.current = MemoryManager.getInstance(finalOptions.memoryLimit * 1024 * 1024);
+    memoryManagerRef.current = MemoryManager.getInstance(
+      finalOptions.memoryLimit * 1024 * 1024
+    );
 
     return () => {
       // PerformanceMonitor is a singleton and doesn't need explicit cleanup
     };
-  }, [finalOptions.enableMonitoring, finalOptions.targetFPS, finalOptions.memoryLimit]);
+  }, [
+    finalOptions.enableMonitoring,
+    finalOptions.targetFPS,
+    finalOptions.memoryLimit,
+  ]);
 
   // FPS monitoring
   const measureFPS = useCallback(() => {
@@ -89,7 +106,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       const fps = Math.round((frameCountRef.current * 1000) / deltaTime);
       const frameTime = deltaTime / frameCountRef.current;
 
-      setMetrics((prev: any) => ({
+      setMetrics((prev) => ({
         ...prev,
         fps,
         frameTime,
@@ -107,30 +124,33 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
     requestAnimationFrame(measureFPS);
   }, [finalOptions.autoAdjustQuality]);
 
-  const adjustQuality = useCallback((fps: number) => {
-    const targetFPS = finalOptions.targetFPS;
-    const threshold = finalOptions.qualityThreshold;
+  const adjustQuality = useCallback(
+    (fps: number) => {
+      const targetFPS = finalOptions.targetFPS;
+      const threshold = finalOptions.qualityThreshold;
 
-    let newQuality = qualityRef.current;
+      let newQuality = qualityRef.current;
 
-    if (fps < threshold) {
-      // Reduce quality
-      newQuality = Math.max(0.1, qualityRef.current * 0.9);
-    } else if (fps > targetFPS * 0.9) {
-      // Increase quality
-      newQuality = Math.min(1.0, qualityRef.current * 1.05);
-    }
+      if (fps < threshold) {
+        // Reduce quality
+        newQuality = Math.max(0.1, qualityRef.current * 0.9);
+      } else if (fps > targetFPS * 0.9) {
+        // Increase quality
+        newQuality = Math.min(1.0, qualityRef.current * 1.05);
+      }
 
-    if (newQuality !== qualityRef.current) {
-      qualityRef.current = newQuality;
-      finalOptions.onQualityChange(newQuality);
+      if (newQuality !== qualityRef.current) {
+        qualityRef.current = newQuality;
+        finalOptions.onQualityChange(newQuality);
 
-      setMetrics((prev: any) => ({
-        ...prev,
-        quality: newQuality,
-      }));
-    }
-  }, [finalOptions]);
+        setMetrics((prev) => ({
+          ...prev,
+          quality: newQuality,
+        }));
+      }
+    },
+    [finalOptions]
+  );
 
   // Start monitoring
   useEffect(() => {
@@ -152,9 +172,10 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
       const memoryStats = memoryManagerRef.current?.getStats();
 
       if (monitorMetrics) {
-        const recommendations = monitorRef.current?.getOptimizationSuggestions() || [];
+        const recommendations =
+          monitorRef.current?.getOptimizationSuggestions() || [];
 
-        setMetrics((prev: any) => ({
+        setMetrics((prev) => ({
           ...prev,
           memoryUsage: monitorMetrics.memoryUsage,
           renderTime: monitorMetrics.frameTime,
@@ -190,7 +211,7 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
 
     return {
       particleCount: currentFPS > 50 ? 100 : currentFPS > 30 ? 50 : 25,
-      shadowQuality: memoryUsage < memoryLimit * 0.8 ? 'high' : 'low',
+      shadowQuality: memoryUsage < memoryLimit * 0.8 ? "high" : "low",
       textureSize: currentFPS > 50 ? 1024 : 512,
       animationEnabled: currentFPS > 25,
       blurEnabled: currentFPS > 40,
@@ -209,11 +230,12 @@ export function useGlassPerformance(options: GlassPerformanceOptions = {}) {
 
 // Hook for debounced performance monitoring
 export function useDebouncedPerformance(
-  callback: (metrics: GlassPerformanceMetrics) => void,
+  callback: (metrics: GlassPerformanceReport) => void,
   delay: number = 1000,
   options: GlassPerformanceOptions = {}
 ) {
-  const [debouncedMetrics, setDebouncedMetrics] = useState<GlassPerformanceMetrics | null>(null);
+  const [debouncedMetrics, setDebouncedMetrics] =
+    useState<GlassPerformanceReport | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
 
   const performance = useGlassPerformance({
@@ -253,26 +275,32 @@ export function useConditionalRendering(
     high: number;
   } = { low: 30, medium: 45, high: 55 }
 ) {
-  const performanceLevel = useMemo(() => {
+  const performanceLevel = useMemo<PerformanceLevel>(() => {
     const fps = performance.metrics.fps;
 
-    if (fps < thresholds.low) return 'low';
-    if (fps < thresholds.medium) return 'medium';
-    if (fps < thresholds.high) return 'high';
-    return 'ultra';
+    if (fps < thresholds.low) return "low";
+    if (fps < thresholds.medium) return "medium";
+    if (fps < thresholds.high) return "high";
+    return "ultra";
   }, [performance.metrics.fps, thresholds]);
 
-  const shouldRender = useCallback((minPerformance: keyof typeof thresholds) => {
-    const levels = ['low', 'medium', 'high', 'ultra'];
-    const currentIndex = levels.indexOf(performanceLevel);
-    const minIndex = levels.indexOf(minPerformance);
+  const shouldRender = useCallback(
+    (minPerformance: keyof typeof thresholds) => {
+      const levels = ["low", "medium", "high", "ultra"];
+      const currentIndex = levels.indexOf(performanceLevel);
+      const minIndex = levels.indexOf(minPerformance);
 
-    return currentIndex >= minIndex;
-  }, [performanceLevel]);
+      return currentIndex >= minIndex;
+    },
+    [performanceLevel]
+  );
 
-  const getComponentVariant = useCallback((variants: Record<string, any>) => {
-    return variants[performanceLevel] || variants.default;
-  }, [performanceLevel]);
+  const getComponentVariant = useCallback(
+    <T>(variants: Partial<Record<PerformanceLevel | "default", T>>) => {
+      return variants[performanceLevel] || variants.default;
+    },
+    [performanceLevel]
+  );
 
   return {
     performanceLevel,
@@ -282,9 +310,9 @@ export function useConditionalRendering(
 }
 
 // Hook for lazy loading based on performance
-export function useLazyPerformance(
-  component: React.ComponentType<any>,
-  fallback?: React.ComponentType<any>,
+export function useLazyPerformance<P extends object = Record<string, unknown>>(
+  component: React.ComponentType<P>,
+  fallback?: React.ComponentType<P>,
   options: GlassPerformanceOptions & {
     minFPS?: number;
     loadDelay?: number;
@@ -304,7 +332,7 @@ export function useLazyPerformance(
     }
   }, [performance.metrics.fps, minFPS, loadDelay]);
 
-  const Component = isLoaded ? component : (fallback || (() => null));
+  const Component = isLoaded ? component : fallback || (() => null);
 
   return {
     Component,
@@ -318,31 +346,41 @@ export function useProgressiveEnhancement(
   performance: ReturnType<typeof useGlassPerformance>,
   features: Array<{
     name: string;
-    component: React.ComponentType<any>;
+    component: React.ComponentType<Record<string, unknown>>;
     minFPS: number;
-    fallback?: React.ComponentType<any>;
+    fallback?: React.ComponentType<Record<string, unknown>>;
   }>
 ) {
   const enabledFeatures = useMemo(() => {
-    return features.filter((feature: any) =>
-      performance.metrics.fps >= feature.minFPS
+    return features.filter(
+      (feature) => performance.metrics.fps >= feature.minFPS
     );
   }, [features, performance.metrics.fps]);
 
-  const getFeatureComponent = useCallback((featureName: string) => {
-    const feature = enabledFeatures.find(f => f.name === featureName);
-    return feature?.component || (() => null);
-  }, [enabledFeatures]);
+  const getFeatureComponent = useCallback(
+    (featureName: string) => {
+      const feature = enabledFeatures.find((f) => f.name === featureName);
+      return feature?.component || (() => null);
+    },
+    [enabledFeatures]
+  );
 
-  const isFeatureEnabled = useCallback((featureName: string) => {
-    return enabledFeatures.some(f => f.name === featureName);
-  }, [enabledFeatures]);
+  const isFeatureEnabled = useCallback(
+    (featureName: string) => {
+      return enabledFeatures.some((f) => f.name === featureName);
+    },
+    [enabledFeatures]
+  );
 
   return {
     enabledFeatures,
     getFeatureComponent,
     isFeatureEnabled,
-    performanceLevel: performance.metrics.fps >= 50 ? 'high' :
-                     performance.metrics.fps >= 30 ? 'medium' : 'low',
+    performanceLevel:
+      performance.metrics.fps >= 50
+        ? "high"
+        : performance.metrics.fps >= 30
+          ? "medium"
+          : "low",
   };
 }

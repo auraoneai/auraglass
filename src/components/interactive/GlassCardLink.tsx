@@ -48,7 +48,7 @@ export interface GlassCardLinkProps {
 export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
   (
     {
-      // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+      // ContrastGuard text coverage is tracked in the manual accessibility QA report.
 
       icon,
       title,

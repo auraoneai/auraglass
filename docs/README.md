@@ -4,8 +4,9 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 
 ## Current Source Of Truth
 
-- Package version: 2.16.4
-- Component inventory: 356 components in [reports/component_inventory.json](../reports/component_inventory.json)
+- Package version: 3.0.0
+- Certified component inventory: 356 components in [reports/component_inventory.json](../reports/component_inventory.json)
+- Liquid Glass public surface: 32 value exports plus related type exports from the root package entrypoint.
 - Visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
 - Certification screenshots: 712 desktop/mobile captures in [reports/glassmorphism-storybook-visual-certification/screenshots](../reports/glassmorphism-storybook-visual-certification/screenshots)
 - Component audit command: `npm run audit:components`
@@ -13,6 +14,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 ## Primary Docs
 
 - [Root README](../README.md): package overview, install, API entrypoints, architecture, verification, and release workflow.
+- [Component selection guide](./components/CHOOSING.md): developer and AI-agent decision tree for choosing the right AuraGlass family without scanning every export.
 - [Installation guide](../INSTALLATION.md): peer dependencies, setup flows, SSR setup, and troubleshooting.
 - [Changelog](../CHANGELOG.md): version history.
 - [Component documentation](./components/README.md): organized index for every component page.

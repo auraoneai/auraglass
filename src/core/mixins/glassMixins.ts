@@ -20,6 +20,22 @@ export interface GlassOptions {
   press?: boolean;
 }
 
+export interface LegacyGlassMixinOptions {
+  interactive?: boolean;
+  variant?: "primary" | "success" | "warning" | "error" | "info" | string;
+  elevation?: 1 | 2 | 3 | 4 | number;
+}
+
+interface NavigatorWithConnection extends Navigator {
+  connection?: {
+    effectiveType?: string;
+  };
+}
+
+type MutableGlassStyle = CSSProperties & {
+  WebkitBackdropFilter?: string;
+};
+
 /**
  * SINGLE PUBLIC API - Creates glass styles from canonical tokens
  *
@@ -38,7 +54,11 @@ export function createGlassStyle(opts: GlassOptions = {}): CSSProperties {
   } = opts;
 
   // Get the base styles from canonical tokens
-  const styles = glassTokenUtils.buildSurfaceStyles(intent, elevation, tier);
+  const styles = glassTokenUtils.buildSurfaceStyles(
+    intent,
+    elevation,
+    tier
+  ) as MutableGlassStyle;
 
   if (!styles.backdropFilter) {
     const surface = glassTokenUtils.getSurface(intent, elevation);
@@ -46,19 +66,19 @@ export function createGlassStyle(opts: GlassOptions = {}): CSSProperties {
       surface.backdropBlur.px,
       tier
     );
-    (styles as any).backdropFilter = fallbackFilter;
-    (styles as any).WebkitBackdropFilter = fallbackFilter;
+    styles.backdropFilter = fallbackFilter;
+    styles.WebkitBackdropFilter = fallbackFilter;
   }
 
   if (!styles.background) {
     const surface = glassTokenUtils.getSurface(intent, elevation);
-    (styles as any).background = surface.surface.base;
+    styles.background = surface.surface.base;
   }
 
   // Add interactive enhancements if requested
   if (interactive) {
-    (styles as any).cursor = "pointer";
-    (styles as any).userSelect = "none";
+    styles.cursor = "pointer";
+    styles.userSelect = "none";
 
     // Interactive surfaces get slightly enhanced shadows by default
     if (styles.boxShadow && styles.boxShadow !== "none") {
@@ -90,11 +110,9 @@ export function createGlassStyle(opts: GlassOptions = {}): CSSProperties {
  * DEPRECATED: Legacy API support - will be removed in next version
  * @deprecated Use createGlassStyle() instead
  */
-export function createGlassMixin(options: any = {}): CSSProperties {
-  console.warn(
-    "[AuraGlass] createGlassMixin is deprecated. Use createGlassStyle() instead."
-  );
-
+export function createGlassMixin(
+  options: LegacyGlassMixinOptions = {}
+): CSSProperties {
   // Map old options to new options
   const newOptions: GlassOptions = {
     intent: "neutral",
@@ -123,11 +141,9 @@ export function createGlassMixin(options: any = {}): CSSProperties {
  * DEPRECATED: Legacy hover mixin
  * @deprecated Use CSS :hover with createGlassStyle({ hoverLift: true })
  */
-export function createGlassHoverMixin(options: any = {}): CSSProperties {
-  console.warn(
-    "[AuraGlass] createGlassHoverMixin is deprecated. Use CSS :hover with hoverLift option."
-  );
-
+export function createGlassHoverMixin(
+  options: LegacyGlassMixinOptions = {}
+): CSSProperties {
   return {
     transform: "translateY(-2px) scale(1.01)",
     boxShadow: "0 12px 40px rgba(0,0,0,0.3)",
@@ -138,11 +154,9 @@ export function createGlassHoverMixin(options: any = {}): CSSProperties {
  * DEPRECATED: Legacy focus mixin
  * @deprecated Use CSS :focus-visible with createGlassStyle({ focusRing: true })
  */
-export function createGlassFocusMixin(options: any = {}): CSSProperties {
-  console.warn(
-    "[AuraGlass] createGlassFocusMixin is deprecated. Use CSS :focus-visible with focusRing option."
-  );
-
+export function createGlassFocusMixin(
+  options: LegacyGlassMixinOptions = {}
+): CSSProperties {
   return {
     outline: "none",
     boxShadow: "0 0 0 3px var(--glass-color-primary, 0.3)",
@@ -154,10 +168,6 @@ export function createGlassFocusMixin(options: any = {}): CSSProperties {
  * @deprecated Use CSS :disabled with reduced opacity
  */
 export function createGlassDisabledMixin(): CSSProperties {
-  console.warn(
-    "[AuraGlass] createGlassDisabledMixin is deprecated. Use CSS :disabled with opacity: 0.6."
-  );
-
   return {
     opacity: 0.6,
     cursor: "not-allowed",
@@ -170,10 +180,6 @@ export function createGlassDisabledMixin(): CSSProperties {
  * @deprecated Use modern loading UI patterns
  */
 export function createGlassLoadingMixin(): CSSProperties {
-  console.warn(
-    "[AuraGlass] createGlassLoadingMixin is deprecated. Use modern loading UI patterns."
-  );
-
   return {
     position: "relative",
     overflow: "hidden",
@@ -284,9 +290,9 @@ export function getRecommendedTier(): QualityTier {
   // Check connection quality if available
   const nav = getSafeNavigator();
   if (nav && "connection" in nav) {
-    const conn = (nav as any).connection;
-    if (conn.effectiveType === "4g") return "medium";
-    if (conn.effectiveType === "3g") return "low";
+    const conn = (nav as NavigatorWithConnection).connection;
+    if (conn?.effectiveType === "4g") return "medium";
+    if (conn?.effectiveType === "3g") return "low";
   }
 
   return "medium";

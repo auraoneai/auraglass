@@ -32,7 +32,7 @@ export interface FormField {
     maxLength?: number;
     min?: number;
     max?: number;
-    custom?: (value: any) => string | null;
+    custom?: (value: unknown) => string | null;
   };
   options?: Array<{ value: string; label: string }>;
   aiSuggestions?: {
@@ -43,7 +43,7 @@ export interface FormField {
   };
   conditional?: {
     dependsOn: string;
-    condition: (value: any) => boolean;
+    condition: (value: unknown) => boolean;
   };
 }
 
@@ -164,7 +164,7 @@ const analyzeFieldPurpose = (
 
 // AI form optimization engine
 const optimizeFormFlow = (fields: FormField[]): string[] => {
-  const optimizations = [];
+  const optimizations: string[] = [];
 
   // Check field order
   const hasPersonalInfo = fields.some(
@@ -192,7 +192,7 @@ const optimizeFormFlow = (fields: FormField[]): string[] => {
   }
 
   // Check for required field balance
-  const requiredFields = fields.filter((f: any) => f.required).length;
+  const requiredFields = fields.filter((f) => f.required).length;
   if (requiredFields / fields.length > 0.7) {
     optimizations.push(
       "Consider reducing required fields to improve completion rates"
@@ -200,7 +200,7 @@ const optimizeFormFlow = (fields: FormField[]): string[] => {
   }
 
   // Check for conditional logic opportunities
-  const independentFields = fields.filter((f: any) => !f.conditional).length;
+  const independentFields = fields.filter((f) => !f.conditional).length;
   if (independentFields === fields.length && fields.length > 5) {
     optimizations.push(
       "Consider adding conditional logic to reduce cognitive load"
@@ -305,7 +305,7 @@ export const GlassIntelligentFormBuilder: React.FC<
   const calculateAccessibilityScore = (fields: FormField[]): number => {
     let score = 100;
 
-    fields.forEach((field: any) => {
+    fields.forEach((field) => {
       if (!field.label || field.label.trim() === "") score -= 10;
       if (field.required && !field.validation) score -= 5;
       if (
@@ -326,7 +326,7 @@ export const GlassIntelligentFormBuilder: React.FC<
       required: false,
     };
 
-    setSchema((prev: any) => ({
+    setSchema((prev) => ({
       ...prev,
       fields: [...prev.fields, newField],
     }));
@@ -334,9 +334,9 @@ export const GlassIntelligentFormBuilder: React.FC<
 
   const updateField = useCallback(
     (index: number, updates: Partial<FormField>) => {
-      setSchema((prev: any) => ({
+      setSchema((prev) => ({
         ...prev,
-        fields: prev.fields.map((field: any, i: any) => {
+        fields: prev.fields.map((field, i) => {
           if (i === index) {
             const updatedField = { ...field, ...updates };
 
@@ -359,9 +359,9 @@ export const GlassIntelligentFormBuilder: React.FC<
 
   const removeField = useCallback(
     (index: number) => {
-      setSchema((prev: any) => ({
+      setSchema((prev) => ({
         ...prev,
-        fields: prev.fields.filter((_: any, i: any) => i !== index),
+        fields: prev.fields.filter((_, i) => i !== index),
       }));
       if (selectedFieldIndex === index) {
         setSelectedFieldIndex(null);
@@ -463,7 +463,7 @@ export const GlassIntelligentFormBuilder: React.FC<
               type="text"
               value={schema.title}
               onChange={(e) =>
-                setSchema((prev: any) => ({ ...prev, title: e.target.value }))
+                setSchema((prev) => ({ ...prev, title: e.target.value }))
               }
               className={cn(
                 "glass-w-full glass-px-3 glass-py-2 glass-border glass-radius-lg glass-focus",
@@ -485,7 +485,7 @@ export const GlassIntelligentFormBuilder: React.FC<
               type="text"
               value={schema.description}
               onChange={(e) =>
-                setSchema((prev: any) => ({
+                setSchema((prev) => ({
                   ...prev,
                   description: e.target.value,
                 }))

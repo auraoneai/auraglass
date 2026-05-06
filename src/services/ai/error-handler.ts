@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/react';
+import * as Sentry from "@sentry/react";
 
 export interface ErrorContext {
   service?: string;
@@ -19,8 +19,8 @@ export class ErrorHandler {
 
     Sentry.init({
       dsn: process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV || 'development',
-      tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,
+      environment: process.env.NODE_ENV || "development",
+      tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
       integrations: [
         Sentry.replayIntegration({
           maskAllText: true,
@@ -30,9 +30,8 @@ export class ErrorHandler {
       beforeSend(event, hint) {
         if (event.exception) {
           const error = hint.originalException;
-          if (error && typeof error === 'object' && 'code' in error) {
-            if ((error as any).code === 'insufficient_quota') {
-              console.warn('AI service quota exceeded, not sending to Sentry');
+          if (error && typeof error === "object" && "code" in error) {
+            if ((error as any).code === "insufficient_quota") {
               return null;
             }
           }
@@ -47,20 +46,17 @@ export class ErrorHandler {
   handleError(error: unknown, context?: ErrorContext): void {
     const errorInfo = this.extractErrorInfo(error);
 
-    console.error(`[${context?.service || 'AI'}] Error in ${context?.operation || 'operation'}:`, {
-      message: errorInfo.message,
-      code: errorInfo.code,
-      details: errorInfo.details,
-      ...context?.metadata,
-    });
-
-    if (this.initialized && process.env.NODE_ENV === 'production') {
+    if (this.initialized && process.env.NODE_ENV === "production") {
       Sentry.captureException(error, {
         tags: {
           service: context?.service,
           operation: context?.operation,
         },
-        extra: context?.metadata,
+        extra: {
+          ...context?.metadata,
+          errorCode: errorInfo.code,
+          errorStatus: errorInfo.status,
+        },
         user: context?.userId ? { id: context.userId } : undefined,
       });
     }
@@ -108,6 +104,7 @@ export class ErrorHandler {
   private extractErrorInfo(error: unknown): {
     message: string;
     code?: string;
+    status?: number;
     details?: any;
   } {
     if (error instanceof Error) {
@@ -115,19 +112,19 @@ export class ErrorHandler {
         message: error.message,
       };
 
-      if ('code' in error) info.code = (error as any).code;
-      if ('response' in error) info.details = (error as any).response;
-      if ('status' in error) info.status = (error as any).status;
+      if ("code" in error) info.code = (error as any).code;
+      if ("response" in error) info.details = (error as any).response;
+      if ("status" in error) info.status = (error as any).status;
 
       return info;
     }
 
-    if (typeof error === 'string') {
+    if (typeof error === "string") {
       return { message: error };
     }
 
     return {
-      message: 'Unknown error occurred',
+      message: "Unknown error occurred",
       details: error,
     };
   }
@@ -150,13 +147,13 @@ export class ServiceError extends Error {
     public details?: any
   ) {
     super(message);
-    this.name = 'ServiceError';
+    this.name = "ServiceError";
   }
 }
 
 export class RateLimitError extends ServiceError {
-  constructor(message = 'Rate limit exceeded', retryAfter?: number) {
-    super(message, 'RATE_LIMIT_EXCEEDED', 429, { retryAfter });
+  constructor(message = "Rate limit exceeded", retryAfter?: number) {
+    super(message, "RATE_LIMIT_EXCEEDED", 429, { retryAfter });
   }
 }
 
@@ -164,7 +161,7 @@ export class QuotaExceededError extends ServiceError {
   constructor(service: string) {
     super(
       `${service} quota exceeded. Falling back to alternative implementation.`,
-      'QUOTA_EXCEEDED',
+      "QUOTA_EXCEEDED",
       402
     );
   }
@@ -172,6 +169,6 @@ export class QuotaExceededError extends ServiceError {
 
 export class ValidationError extends ServiceError {
   constructor(message: string, fields?: Record<string, string>) {
-    super(message, 'VALIDATION_ERROR', 400, { fields });
+    super(message, "VALIDATION_ERROR", 400, { fields });
   }
 }

@@ -7,6 +7,9 @@ import { cn } from "../../lib/utilsComprehensive";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
+const loadOptionalService = <T,>(modulePath: string): Promise<T> =>
+  import(/* @vite-ignore */ modulePath) as Promise<T>;
+
 interface ProductionAIIntegrationProps
   extends React.HTMLAttributes<HTMLDivElement> {
   authToken?: string;
@@ -60,11 +63,21 @@ export const ProductionAIIntegration: React.FC<
         { CollaborationService },
         { AuthService },
       ] = await Promise.all([
-        import("../../services/ai/openai-service"),
-        import("../../services/ai/semantic-search-service"),
-        import("../../services/ai/vision-service"),
-        import("../../services/websocket/collaboration-service"),
-        import("../../services/auth/auth-service"),
+        loadOptionalService<typeof import("../../services/ai/openai-service")>(
+          "../../services/ai/openai-service"
+        ),
+        loadOptionalService<
+          typeof import("../../services/ai/semantic-search-service")
+        >("../../services/ai/semantic-search-service"),
+        loadOptionalService<typeof import("../../services/ai/vision-service")>(
+          "../../services/ai/vision-service"
+        ),
+        loadOptionalService<
+          typeof import("../../services/websocket/collaboration-service")
+        >("../../services/websocket/collaboration-service"),
+        loadOptionalService<typeof import("../../services/auth/auth-service")>(
+          "../../services/auth/auth-service"
+        ),
       ]);
 
       openAIService.current = new OpenAIService(defaultAIConfig);
@@ -245,14 +258,6 @@ export const ProductionAIIntegration: React.FC<
 
     try {
       await collaborationService.current.joinRoom(roomId);
-
-      collaborationService.current.on("document-changed", (operation: any) => {
-        console.log("Document changed:", operation);
-      });
-
-      collaborationService.current.on("cursor-moved", (cursor: any) => {
-        console.log("Cursor moved:", cursor);
-      });
 
       const participants = collaborationService.current.getRoomParticipants();
       setCollaborators(participants);

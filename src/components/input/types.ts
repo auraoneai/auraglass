@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 export interface MultiSelectOption<T = string | number> {
   id?: string;
   value: T;
@@ -31,20 +31,20 @@ export interface GlassStepInternalProps {
   index: number;
   active: boolean;
   completed: boolean;
-  orientation: 'horizontal' | 'vertical';
+  orientation: "horizontal" | "vertical";
   clickable?: boolean;
   onClick?: (step: Step) => void;
   className?: string;
   style?: React.CSSProperties;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }
 
 export interface MultiSelectProps<T extends string | number = string> {
@@ -60,8 +60,8 @@ export interface MultiSelectProps<T extends string | number = string> {
   required?: boolean;
   fullWidth?: boolean;
   width?: string | number;
-  size?: 'small' | 'medium' | 'large';
-  variant?: 'outlined' | 'filled' | 'standard';
+  size?: "small" | "medium" | "large";
+  variant?: "outlined" | "filled" | "standard";
   multiple?: boolean;
   maxItems?: number;
   searchable?: boolean;
@@ -70,10 +70,19 @@ export interface MultiSelectProps<T extends string | number = string> {
   grouped?: boolean;
   virtualized?: boolean;
   maxHeight?: number;
-  renderOption?: (option: MultiSelectOption<T>, selected: boolean) => React.ReactNode;
+  renderOption?: (
+    option: MultiSelectOption<T>,
+    selected: boolean
+  ) => React.ReactNode;
   renderValue?: (selected: MultiSelectOption<T>[]) => React.ReactNode;
-  renderToken?: (option: MultiSelectOption<T>, onRemove: (value: T) => void) => React.ReactNode;
-  filterOptions?: (options: MultiSelectOption<T>[], input: string) => MultiSelectOption<T>[];
+  renderToken?: (
+    option: MultiSelectOption<T>,
+    onRemove: (value: T) => void
+  ) => React.ReactNode;
+  filterOptions?: (
+    options: MultiSelectOption<T>[],
+    input: string
+  ) => MultiSelectOption<T>[];
   onCreateOption?: (inputValue: string) => void;
   onInputChange?: (inputValue: string) => void;
   onRemove?: (value: T) => void;
@@ -88,16 +97,19 @@ export interface MultiSelectProps<T extends string | number = string> {
   keyboardNavigation?: boolean;
   withGroups?: boolean;
   groups?: OptionGroup<T>[];
-  filterFunction?: (options: MultiSelectOption<T>[], input: string) => MultiSelectOption<T>[];
+  filterFunction?: (
+    options: MultiSelectOption<T>[],
+    input: string
+  ) => MultiSelectOption<T>[];
   autoFocus?: boolean;
   ariaLabel?: string;
   openUp?: boolean;
-  physics?: any;
+  physics?: unknown;
   maxSelections?: number;
   renderGroup?: (group: OptionGroup<T>) => React.ReactNode;
-  async?: any;
+  async?: unknown;
   dataTestId?: string;
-  itemRemoveAnimation?: any;
+  itemRemoveAnimation?: unknown;
   id?: string;
   errorMessage?: string;
   className?: string;

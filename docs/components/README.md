@@ -2,13 +2,18 @@
 
 This directory is the organized component documentation index for the AuraGlass inventory. Component pages live inside numbered sections instead of the directory root, so related APIs stay grouped by design-system role.
 
+## How To Choose
+
+Start with the [Choosing AuraGlass Components](./CHOOSING.md) guide before browsing individual component pages. It gives developers and AI agents a smaller decision tree: default app kit, Liquid Glass, product families, advanced systems, and when not to use a specialized component.
+
 ## Coverage State
 
-- Inventory components: 356
+- Certified inventory components: 356
 - Direct component documentation coverage: 356/356, verified by `npm run audit:components`.
 - Storybook visual certification: 356/356 passed with 712 screenshots.
 - Direct owner stories: 356/356.
 - Direct unit tests: 356/356.
+- Liquid Glass public surface: 32 root value exports plus related type exports, additive to the certified inventory.
 
 ## Section Map
 

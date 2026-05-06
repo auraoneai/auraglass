@@ -55,8 +55,6 @@ export class GlassStyleProbes {
     // Skip monitoring during SSR
     if (!canUseDOM || this.isMonitoring) return;
 
-    console.log("🔍 Starting AuraGlass runtime probes...");
-
     this.isMonitoring = true;
     this.setupMutationObserver();
     this.setupPerformanceObserver();
@@ -69,8 +67,6 @@ export class GlassStyleProbes {
   // Stop monitoring
   stopMonitoring(): void {
     if (!this.isMonitoring) return;
-
-    console.log("⏹️ Stopping AuraGlass runtime probes...");
 
     this.isMonitoring = false;
 
@@ -127,7 +123,10 @@ export class GlassStyleProbes {
               entry.name.includes("glass") ||
               entry.name.includes("backdrop")
             ) {
-              console.log("🏃‍♂️ Glass performance entry:", entry);
+              (window as any).__auraglassPerformanceEntries = [
+                ...((window as any).__auraglassPerformanceEntries || []),
+                entry,
+              ].slice(-50);
             }
           });
         });
@@ -135,8 +134,8 @@ export class GlassStyleProbes {
         this.performanceObserver.observe({
           entryTypes: ["measure", "paint", "layout-shift"],
         });
-      } catch (error) {
-        console.warn("⚠️ Performance observer setup failed:", error);
+      } catch {
+        this.performanceObserver = null;
       }
     }
   }
@@ -170,14 +169,7 @@ export class GlassStyleProbes {
       this.probeResults = this.probeResults.slice(-100);
     }
 
-    // Report critical issues immediately
-    if (result.compliance.accessibilityScore < 0.7) {
-      console.warn("⚠️ Glass accessibility issue detected:", result);
-    }
-
-    if (!result.performance.backdropSupported) {
-      console.warn("⚠️ Backdrop filter not supported, glass effects disabled");
-    }
+    // Critical probe issues are retained in probeResults for callers to inspect.
   }
 
   private isGlassElement(element: Element): boolean {
@@ -471,8 +463,6 @@ export class GlassStyleProbes {
     // Remove duplicate warnings
     summary.deprecationWarnings = [...new Set(summary.deprecationWarnings)];
 
-    console.log("📊 AuraGlass Comprehensive Probe Summary:", summary);
-
     // Store for potential reporting
     (window as any).__auraglassProbeData = {
       latestSummary: summary,
@@ -485,7 +475,7 @@ export class GlassStyleProbes {
     return [...this.probeResults];
   }
 
-  getLatestSummary(): any {
+  getLatestSummary(): unknown {
     return (window as any).__auraglassProbeData?.latestSummary;
   }
 

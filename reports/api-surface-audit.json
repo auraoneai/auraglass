@@ -1,0 +1,4410 @@
+{
+  "objective": "Audit public API declaration quality, explicit any usage, and likely ref-forwarding follow-ups for root public exports.",
+  "inputs": {
+    "publicExportAudit": "reports/public-export-audit.json"
+  },
+  "summary": {
+    "generatedAt": "2026-05-06T18:27:19.846Z",
+    "publicExportCount": 797,
+    "publicSourceFileCount": 416,
+    "publicDeclarationFileCount": 416,
+    "sourceFilesWithAnyCount": 168,
+    "sourceAnyCount": 851,
+    "declarationFilesWithAnyCount": 1,
+    "declarationAnyCount": 1,
+    "componentLikeValueExportCount": 421,
+    "componentRefFollowupCount": 129,
+    "supportRefFollowupCount": 32,
+    "declarationFilesMissingReactTypeReferenceCount": 0
+  },
+  "sourceAnyFiles": [
+    {
+      "filePath": "src/components/interactive/GlassChat.tsx",
+      "anyCount": 18,
+      "samples": [
+        {
+          "line": 226,
+          "text": "const handleGazeData = (gazeData: any) => {"
+        },
+        {
+          "line": 268,
+          "text": "messages: messages.slice(-5).map((m: any) => ({"
+        },
+        {
+          "line": 282,
+          "text": ".filter((p: any) => p.type === \"suggest\")"
+        },
+        {
+          "line": 284,
+          "text": ".filter((text: any) => text.length > 0)"
+        },
+        {
+          "line": 294,
+          "text": "(insights.find((i: any) => i.type === \"sentiment\")?.metadata"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassContextualEngine.tsx",
+      "anyCount": 17,
+      "samples": [
+        {
+          "line": 159,
+          "text": "metrics.forEach((metric: any) => {"
+        },
+        {
+          "line": 338,
+          "text": "const value = (context.environment as any)[key];"
+        },
+        {
+          "line": 350,
+          "text": "const value = (context.biometrics as any)[key];"
+        },
+        {
+          "line": 362,
+          "text": "const value = (context.device as any)[key];"
+        },
+        {
+          "line": 533,
+          "text": "this.weights.forEach((layer: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/charts/GlassAreaChart.tsx",
+      "anyCount": 17,
+      "samples": [
+        {
+          "line": 123,
+          "text": "const xValues = allPoints.map((p: any) =>"
+        },
+        {
+          "line": 126,
+          "text": "const yValues = allPoints.map((p: any) => p.y);"
+        },
+        {
+          "line": 148,
+          "text": "const xPoints = new Set(allPoints.map((p: any) => p.x));"
+        },
+        {
+          "line": 151,
+          "text": "return series.map((s: any) => {"
+        },
+        {
+          "line": 152,
+          "text": "const point = s.data?.find((p: any) => p.x === x);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/houdini/HoudiniGlassProvider.tsx",
+      "anyCount": 17,
+      "samples": [
+        {
+          "line": 196,
+          "text": "(effect: any) => ![\"caustics\", \"refraction\"].includes(effect)"
+        },
+        {
+          "line": 198,
+          "text": "setEnabledEffectsState((prev: any) => {"
+        },
+        {
+          "line": 202,
+          "text": "prev.every((v: any, i: any) => v === reducedEffects[i]);"
+        },
+        {
+          "line": 218,
+          "text": "setEnabledEffectsState((prev: any) => {"
+        },
+        {
+          "line": 222,
+          "text": "sameLength && prev.every((v: any, i: any) => v === next[i]);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/extended/useZSpaceAnimation.ts",
+      "anyCount": 17,
+      "samples": [
+        {
+          "line": 67,
+          "text": "initialLayers.forEach((layer: any) => {"
+        },
+        {
+          "line": 74,
+          "text": "initialLayers.forEach((layer: any) => {"
+        },
+        {
+          "line": 116,
+          "text": "setLayers((prev: any) => prev.map((l: any) =>"
+        },
+        {
+          "line": 170,
+          "text": "const maxElevation = Math.max(...layers.map((l: any) => l.elevation)) + 10;"
+        },
+        {
+          "line": 179,
+          "text": "const minElevation = Math.min(...layers.map((l: any) => l.elevation)) - 10;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/atmospheric/GlassAuroraDisplay.tsx",
+      "anyCount": 14,
+      "samples": [
+        {
+          "line": 201,
+          "text": "setStarField((prev: any) => ({ ...prev, stars }));"
+        },
+        {
+          "line": 235,
+          "text": "setActiveColors(colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`));"
+        },
+        {
+          "line": 238,
+          "text": "colors.map((c: any) => `rgb(${c[0]}, ${c[1]}, ${c[2]})`)"
+        },
+        {
+          "line": 286,
+          "text": "prevLayers.map((layer: any) => ({"
+        },
+        {
+          "line": 321,
+          "text": ".map((particle: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "anyCount": 14,
+      "samples": [
+        {
+          "line": 246,
+          "text": "particles.forEach((particle: any) => {"
+        },
+        {
+          "line": 249,
+          "text": "particles.forEach((neighbor: any) => {"
+        },
+        {
+          "line": 273,
+          "text": "particles.forEach((particle: any) => {"
+        },
+        {
+          "line": 278,
+          "text": "particles.forEach((neighbor: any) => {"
+        },
+        {
+          "line": 304,
+          "text": "currentForces.forEach((force: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layouts/GlassIslandLayout.tsx",
+      "anyCount": 14,
+      "samples": [
+        {
+          "line": 174,
+          "text": "const physics = layoutIslands.map((island: any) => ({"
+        },
+        {
+          "line": 190,
+          "text": "const newIslands = prevIslands.map((island: any) => ({ ...island }));"
+        },
+        {
+          "line": 297,
+          "text": "connections.forEach((connection: any) => {"
+        },
+        {
+          "line": 403,
+          "text": "setLayoutIslands((prev: any) =>"
+        },
+        {
+          "line": 413,
+          "text": "setPhysicsIslands((prev: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layouts/GlassMasonryGrid.tsx",
+      "anyCount": 14,
+      "samples": [
+        {
+          "line": 176,
+          "text": "processed = processed.filter((item: any) => {"
+        },
+        {
+          "line": 189,
+          "text": "(item: any) => item.category === activeFilter"
+        },
+        {
+          "line": 195,
+          "text": "let aVal: any, bVal: any;"
+        },
+        {
+          "line": 293,
+          "text": "...newLayoutItems.map((item: any) => item.y + item.computedHeight)"
+        },
+        {
+          "line": 308,
+          "text": "const visible = newLayoutItems.filter((item: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ai/GlassMusicVisualizer.tsx",
+      "anyCount": 13,
+      "samples": [
+        {
+          "line": 218,
+          "text": "(window as any).webkitAudioContext)();"
+        },
+        {
+          "line": 241,
+          "text": "sourceRef.current = source as any;"
+        },
+        {
+          "line": 247,
+          "text": "sourceRef.current = source as any;"
+        },
+        {
+          "line": 504,
+          "text": "particles.current = particles.current.filter((particle: any) => {"
+        },
+        {
+          "line": 538,
+          "text": "particles.current.forEach((particle: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/modal/GlassDrawer.tsx",
+      "anyCount": 13,
+      "samples": [
+        {
+          "line": 172,
+          "text": "} as any;"
+        },
+        {
+          "line": 243,
+          "text": "setInteractionCount((prev: any) => prev + 1);"
+        },
+        {
+          "line": 251,
+          "text": "} as any;"
+        },
+        {
+          "line": 296,
+          "text": "} as any;"
+        },
+        {
+          "line": 301,
+          "text": "setContentEngagement((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/social/GlassVoiceWaveform.tsx",
+      "anyCount": 13,
+      "samples": [
+        {
+          "line": 138,
+          "text": "setSimulatedParticipants((prev: any) =>"
+        },
+        {
+          "line": 187,
+          "text": "setAudioData((prev: any) => {"
+        },
+        {
+          "line": 189,
+          "text": "snapshot.forEach((participant: any) => {"
+        },
+        {
+          "line": 197,
+          "text": "(current: any, index: any) =>"
+        },
+        {
+          "line": 202,
+          "text": "updated[participant.id] = prevData.map((v: any) => v * 0.9);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/atmospheric/GlassNebulaClouds.tsx",
+      "anyCount": 12,
+      "samples": [
+        {
+          "line": 403,
+          "text": "prevLayers.map((layer: any) => ({"
+        },
+        {
+          "line": 408,
+          "text": "points: layer.points.map((point: any) => ({"
+        },
+        {
+          "line": 436,
+          "text": "prevDust.map((dustCloud: any) => ({"
+        },
+        {
+          "line": 439,
+          "text": ".map((particle: any) => ({"
+        },
+        {
+          "line": 447,
+          "text": "(particle: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "anyCount": 12,
+      "samples": [
+        {
+          "line": 269,
+          "text": "] as any,"
+        },
+        {
+          "line": 290,
+          "text": "setCurrentIntensity((prev: any) => Math.min(intensity, prev + 0.02));"
+        },
+        {
+          "line": 304,
+          "text": "setCurrentIntensity((prev: any) => Math.max(0, prev - 0.02));"
+        },
+        {
+          "line": 322,
+          "text": "prevRings.map((ring: any) => ({"
+        },
+        {
+          "line": 340,
+          "text": ".map((particle: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/atmospheric/GlassBiomeSimulator.tsx",
+      "anyCount": 11,
+      "samples": [
+        {
+          "line": 595,
+          "text": ".map((particle: any) => {"
+        },
+        {
+          "line": 611,
+          "text": "(particle: any) =>"
+        },
+        {
+          "line": 653,
+          "text": "return baseColors.map((color: any) => {"
+        },
+        {
+          "line": 693,
+          "text": "biomeLayers.forEach((layer: any) => {"
+        },
+        {
+          "line": 701,
+          "text": "layer.elements.forEach((element: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/modal/GlassDialog.tsx",
+      "anyCount": 11,
+      "samples": [
+        {
+          "line": 159,
+          "text": "startTracking: (handler: any) => {},"
+        },
+        {
+          "line": 170,
+          "text": "playSound: (sound: string, config?: any) => {},"
+        },
+        {
+          "line": 175,
+          "text": "recordInteraction: (type: string, data?: any) => {},"
+        },
+        {
+          "line": 180,
+          "text": "recordInteraction: (type: string, data?: any) => {},"
+        },
+        {
+          "line": 255,
+          "text": "setInteractionCount((prev: any) => prev + 1);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/quantum/GlassProbabilityCloud.tsx",
+      "anyCount": 11,
+      "samples": [
+        {
+          "line": 102,
+          "text": "const respectMotionPreference = (config: any) =>"
+        },
+        {
+          "line": 137,
+          "text": "setQuantumTime((prev: any) => prev + 0.1 * animationSpeed);"
+        },
+        {
+          "line": 147,
+          "text": "setParticles((prev: any) =>"
+        },
+        {
+          "line": 275,
+          "text": "particles.forEach((particle: any) => {"
+        },
+        {
+          "line": 404,
+          "text": "particles.forEach((particle: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassEyeTracking.tsx",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 68,
+          "text": "if (typeof window !== \"undefined\" && !(window as any).webgazer) {"
+        },
+        {
+          "line": 73,
+          "text": "const webgazer = (window as any).webgazer;"
+        },
+        {
+          "line": 82,
+          "text": ".setGazeListener((data: any, timestamp: number) => {"
+        },
+        {
+          "line": 91,
+          "text": "this.gazeListeners.forEach((listener: any) => listener(gazePoint));"
+        },
+        {
+          "line": 146,
+          "text": "const webgazer = (window as any).webgazer;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ai/GlassDeepDreamGlass.tsx",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 365,
+          "text": "setLayerActivations((prev: any) => ({"
+        },
+        {
+          "line": 443,
+          "text": "setSettings((prev: any) => {"
+        },
+        {
+          "line": 445,
+          "text": "? prev.layers.filter((id: any) => id !== layerId)"
+        },
+        {
+          "line": 532,
+          "text": "{layer.features.slice(0, 3).map((feature: any) => ("
+        },
+        {
+          "line": 590,
+          "text": "setSettings((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassCarousel.tsx",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 226,
+          "text": "setSlideInteractionCounts((prev: any) => ({"
+        },
+        {
+          "line": 235,
+          "text": "} as any);"
+        },
+        {
+          "line": 371,
+          "text": "const handleSlideGaze = (event: any) => {"
+        },
+        {
+          "line": 778,
+          "text": "{(carouselItems[currentIndex] as any)?.title && ("
+        },
+        {
+          "line": 782,
+          "text": "{(carouselItems[currentIndex] as any).title}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/modal/GlassModal.tsx",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 167,
+          "text": "analyzeModalEngagement: async (context?: any) => ({"
+        },
+        {
+          "line": 176,
+          "text": "startTracking: (handler: any) => {},"
+        },
+        {
+          "line": 187,
+          "text": "playSound: (sound: string, config?: any) => {},"
+        },
+        {
+          "line": 192,
+          "text": "recordInteraction: (type: string, data?: any) => {},"
+        },
+        {
+          "line": 197,
+          "text": "recordInteraction: (type: string, data?: any) => {},"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/extended/useDraggableListPhysics.ts",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 106,
+          "text": "const draggedIndices = draggedItems.map((item: any) =>"
+        },
+        {
+          "line": 167,
+          "text": "draggedItems = items.filter((item: any) => selectedItems.includes(item?.id));"
+        },
+        {
+          "line": 208,
+          "text": "setDragState((prev: any) => ({"
+        },
+        {
+          "line": 244,
+          "text": "setDragState((prev: any) => ({"
+        },
+        {
+          "line": 264,
+          "text": "? items.filter((item: any) => selectedItems.includes(item?.id))"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useAccessibilitySettings.ts",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 82,
+          "text": "setSettings((prev: any) => ({ ...prev, keyboardNavigation: true }));"
+        },
+        {
+          "line": 89,
+          "text": "setSettings((prev: any) => ({ ...prev, keyboardNavigation: false }));"
+        },
+        {
+          "line": 130,
+          "text": "setSettings((prev: any) => {"
+        },
+        {
+          "line": 165,
+          "text": "(detected as any)[key] = mediaQuery.matches;"
+        },
+        {
+          "line": 167,
+          "text": "(detected as any)[key] = false;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/utils/soundDesign.ts",
+      "anyCount": 10,
+      "samples": [
+        {
+          "line": 84,
+          "text": "this.audioContext = new (currentWin.AudioContext || (currentWin as any).webkitAudioContext)();"
+        },
+        {
+          "line": 100,
+          "text": "doc.addEventListener('click', enable, { capture: true, once: true, passive: true } as any);"
+        },
+        {
+          "line": 101,
+          "text": "doc.addEventListener('touchstart', enable, { capture: true, once: true, passive: true } as any);"
+        },
+        {
+          "line": 129,
+          "text": "this.audioContext = new (win.AudioContext || (win as any).webkitAudioContext)();"
+        },
+        {
+          "line": 202,
+          "text": "frequencies.forEach((freq: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/atmospheric/GlassWeatherGlass.tsx",
+      "anyCount": 9,
+      "samples": [
+        {
+          "line": 437,
+          "text": ".map((particle: any) => {"
+        },
+        {
+          "line": 462,
+          "text": "(particle: any) =>"
+        },
+        {
+          "line": 496,
+          "text": ".map((effect: any) => ({"
+        },
+        {
+          "line": 500,
+          "text": ".filter((effect: any) => effect.duration > 0);"
+        },
+        {
+          "line": 526,
+          "text": "atmosphericEffects.forEach((effect: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "anyCount": 9,
+      "samples": [
+        {
+          "line": 260,
+          "text": "const errors = issues.filter((i: any) => i.type === \"error\").length;"
+        },
+        {
+          "line": 262,
+          "text": "const infos = issues.filter((i: any) => i.type === \"info\").length;"
+        },
+        {
+          "line": 294,
+          "text": "(issue: any) => filter === \"all\" || issue.type === filter"
+        },
+        {
+          "line": 427,
+          "text": "(type: any) => ("
+        },
+        {
+          "line": 445,
+          "text": "{filteredIssues.map((issue: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassGradientPicker.tsx",
+      "anyCount": 9,
+      "samples": [
+        {
+          "line": 144,
+          "text": ".map((stop: any) => `${stop.color} ${stop.position}%`)"
+        },
+        {
+          "line": 162,
+          "text": "setStops((prev: any) =>"
+        },
+        {
+          "line": 163,
+          "text": "prev.map((stop: any, i: any) =>"
+        },
+        {
+          "line": 179,
+          "text": "setStops((prev: any) => [...prev, newStop]);"
+        },
+        {
+          "line": 188,
+          "text": "setStops((prev: any) => prev.filter((_: any, i: any) => i !== index));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassHeader.tsx",
+      "anyCount": 9,
+      "samples": [
+        {
+          "line": 191,
+          "text": "} as any);"
+        },
+        {
+          "line": 238,
+          "text": ".filter((p: any) => p.type === \"suggest\" && p.metadata?.searchQuery)"
+        },
+        {
+          "line": 261,
+          "text": "setNavigationUsage((prev: any) => ({"
+        },
+        {
+          "line": 272,
+          "text": "} as any);"
+        },
+        {
+          "line": 477,
+          "text": "} as any);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassTabs.tsx",
+      "anyCount": 9,
+      "samples": [
+        {
+          "line": 211,
+          "text": "(listRef as any).current = node as HTMLDivElement | null;"
+        },
+        {
+          "line": 212,
+          "text": "if (typeof ref === \"function\") ref(node as any);"
+        },
+        {
+          "line": 215,
+          "text": "node as any;"
+        },
+        {
+          "line": 232,
+          "text": "{...(commonA11y as any)}"
+        },
+        {
+          "line": 249,
+          "text": "(listRef as any).current = node as HTMLDivElement | null;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/accessibility/GlassFocusIndicators.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 242,
+          "text": "(window as any).announceToScreenReader"
+        },
+        {
+          "line": 253,
+          "text": "(window as any).announceToScreenReader("
+        },
+        {
+          "line": 360,
+          "text": "modals.forEach((modal: any) => {"
+        },
+        {
+          "line": 432,
+          "text": "if ((window as any).announceToScreenReader) {"
+        },
+        {
+          "line": 457,
+          "text": "if (landmarks.length > 0 && (window as any).announceToScreenReader) {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassReactions.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 238,
+          "text": "setLocalReactions((prev: any) => [...prev, reaction]);"
+        },
+        {
+          "line": 242,
+          "text": "glassSoundDesign.playGlassSound(reactionType.sound as any);"
+        },
+        {
+          "line": 255,
+          "text": "setLocalReactions((prev: any) =>"
+        },
+        {
+          "line": 314,
+          "text": "{allReactions.map((reaction: any) => ("
+        },
+        {
+          "line": 613,
+          "text": "setReactions((prev: any) => [...prev, reaction]);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 195,
+          "text": "const rendererRef = useRef<any>(null);"
+        },
+        {
+          "line": 211,
+          "text": "(navigator as any).xr"
+        },
+        {
+          "line": 246,
+          "text": "cameraStream.getTracks().forEach((track: any) => track.stop());"
+        },
+        {
+          "line": 302,
+          "text": "objects.forEach((object: any) => {"
+        },
+        {
+          "line": 320,
+          "text": "markers.forEach((marker: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassSelect.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 159,
+          "text": "? options.filter((option: any) =>"
+        },
+        {
+          "line": 178,
+          "text": "? options.filter((opt: any) => value.includes(opt.value))"
+        },
+        {
+          "line": 180,
+          "text": "? options.filter((opt: any) => opt.value === value)"
+        },
+        {
+          "line": 190,
+          "text": "? currentValues.filter((v: any) => v !== option.value)"
+        },
+        {
+          "line": 210,
+          "text": "setFocusedIndex((prev: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/mobile/TouchGlassOptimization.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 114,
+          "text": "setRipples((prev: any) => [...prev, newRipple]);"
+        },
+        {
+          "line": 118,
+          "text": "setRipples((prev: any) =>"
+        },
+        {
+          "line": 147,
+          "text": "(event: any, info: PanInfo) => {"
+        },
+        {
+          "line": 473,
+          "text": "setRipples((prev: any) => {"
+        },
+        {
+          "line": 480,
+          "text": "setRipples((prev: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassNavigation.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 126,
+          "text": ".filter((item: any) => !item.disabled)"
+        },
+        {
+          "line": 242,
+          "text": "setExpandedItems((prev: any) =>"
+        },
+        {
+          "line": 244,
+          "text": "? prev.filter((itemId: any) => itemId !== id)"
+        },
+        {
+          "line": 382,
+          "text": "assignRef(el as any);"
+        },
+        {
+          "line": 397,
+          "text": "assignRef(el as any);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/quantum/GlassCoherenceIndicator.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 99,
+          "text": "setCurrentCoherence((prev: any) => {"
+        },
+        {
+          "line": 116,
+          "text": "setCurrentPhase((prev: any) => {"
+        },
+        {
+          "line": 122,
+          "text": "setAnimationTime((prev: any) => prev + 0.1 * animationSpeed);"
+        },
+        {
+          "line": 150,
+          "text": "(prev: any) => [...prev.slice(-49), newDataPoint]"
+        },
+        {
+          "line": 236,
+          "text": "d={`M ${waveData.map((p: any) => `${p.x} ${p.y1}`).join(\" L \")}`}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/social/GlassPresenceIndicator.tsx",
+      "anyCount": 8,
+      "samples": [
+        {
+          "line": 97,
+          "text": "const respectMotionPreference = (config: any) =>"
+        },
+        {
+          "line": 105,
+          "text": "setPresenceData((prev: any) =>"
+        },
+        {
+          "line": 120,
+          "text": ".filter((user: any) => user.isTyping)"
+        },
+        {
+          "line": 128,
+          "text": "presenceData.forEach((user: any) => {"
+        },
+        {
+          "line": 154,
+          "text": "totalOnline: processedData.filter((u: any) => u.status === \"online\")"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassLiquidTransition.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 149,
+          "text": "setIsActive((prev: any) => !prev);"
+        },
+        {
+          "line": 357,
+          "text": "setRipples((prev: any) => [...prev, ripple]);"
+        },
+        {
+          "line": 360,
+          "text": "setRipples((prev: any) => prev.filter((r: any) => r.id !== ripple.id));"
+        },
+        {
+          "line": 366,
+          "text": "{ripples.map((ripple: any) => ("
+        },
+        {
+          "line": 417,
+          "text": "{Array.from({ length: particleCount }).map((_: any, i: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ai/AIGlassThemeProvider.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 273,
+          "text": "setAIConfig((prev: any) => {"
+        },
+        {
+          "line": 336,
+          "text": "setThemeHistory((prev: any) => [theme, ...prev.slice(0, 49)]);"
+        },
+        {
+          "line": 371,
+          "text": "setUserBehavior((prev: any) => ({ ...prev, ...behavior }));"
+        },
+        {
+          "line": 407,
+          "text": "setFavoriteThemes((prev: any) => {"
+        },
+        {
+          "line": 414,
+          "text": "setFavoriteThemes((prev: any) => prev.filter((t: any) => t.id !== themeId));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ai/GlassGANGenerator.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 397,
+          "text": "(val: any) => val * params.truncation"
+        },
+        {
+          "line": 416,
+          "text": "setGeneratedImages((prev: any) =>"
+        },
+        {
+          "line": 419,
+          "text": "setLatentVectors((prev: any) =>"
+        },
+        {
+          "line": 685,
+          "text": "setParams((prev: any) => ({"
+        },
+        {
+          "line": 706,
+          "text": "setParams((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ai/GlassStyleTransfer.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 406,
+          "text": "setTransferParams((prev: any) => ({"
+        },
+        {
+          "line": 423,
+          "text": "setTransferParams((prev: any) => ({"
+        },
+        {
+          "line": 425,
+          "text": "resolution: e.target.value as any,"
+        },
+        {
+          "line": 445,
+          "text": "setTransferParams((prev: any) => ({"
+        },
+        {
+          "line": 447,
+          "text": "blendMode: e.target.value as any,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/cookie-consent/GlobalCookieConsent.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 121,
+          "text": ".filter((category: any) => category.required)"
+        },
+        {
+          "line": 173,
+          "text": "? prevSelected.filter((id: any) => id !== categoryId)"
+        },
+        {
+          "line": 186,
+          "text": "(category: any) => category.id"
+        },
+        {
+          "line": 204,
+          "text": ".filter((category: any) => category.required)"
+        },
+        {
+          "line": 312,
+          "text": "{cookieCategories.map((category: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassGanttChart.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 172,
+          "text": "new Date(Math.min(...taskDates.map((d: any) => d.getTime())));"
+        },
+        {
+          "line": 175,
+          "text": "new Date(Math.max(...taskDates.map((d: any) => d.getTime())));"
+        },
+        {
+          "line": 380,
+          "text": "const taskMap = new Map(tasks.map((task: any) => [task.id, task]));"
+        },
+        {
+          "line": 385,
+          "text": "tasks.forEach((task: any) => {"
+        },
+        {
+          "line": 398,
+          "text": "taskList.forEach((task: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ecommerce/GlassProductRecommendations.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 457,
+          "text": "recs = recs.filter((rec: any) => rec.reason === recommendationType);"
+        },
+        {
+          "line": 490,
+          "text": "setCurrentIndex((prev: any) =>"
+        },
+        {
+          "line": 498,
+          "text": "setCurrentIndex((prev: any) =>"
+        },
+        {
+          "line": 609,
+          "text": ".map((recommendation: any) => ("
+        },
+        {
+          "line": 627,
+          "text": "currentRecommendations.map((recommendation: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/ecommerce/GlassSmartShoppingCart.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 281,
+          "text": "{shippingOptions.map((option: any) => {"
+        },
+        {
+          "line": 446,
+          "text": "setSavedItems((prev: any) => [...prev, item]);"
+        },
+        {
+          "line": 484,
+          "text": "Looks like you haven't added any items to your cart yet."
+        },
+        {
+          "line": 523,
+          "text": "{cart.slice(0, maxItems).map((item: any) => ("
+        },
+        {
+          "line": 549,
+          "text": "{savedItems.map((item: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/image/GlassIntelligentImageUploader.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 184,
+          "text": "].map((tab: any) => ("
+        },
+        {
+          "line": 187,
+          "text": "onClick={() => setActiveTab(tab.key as any)}"
+        },
+        {
+          "line": 378,
+          "text": "{templates.map((template: any) => ("
+        },
+        {
+          "line": 490,
+          "text": "const validFiles = Array.from(files).filter((file: any) => {"
+        },
+        {
+          "line": 504,
+          "text": "filesToProcess.forEach((file: any) => fileList.items.add(file));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 311,
+          "text": "forces.forEach((force: any) => applyForce(particle, force, deltaTime));"
+        },
+        {
+          "line": 426,
+          "text": ".map((particle: any) => updateParticle(particle, deltaTime))"
+        },
+        {
+          "line": 440,
+          "text": "forces.forEach((force: any) => {"
+        },
+        {
+          "line": 596,
+          "text": "particles.forEach((particle: any) => {"
+        },
+        {
+          "line": 612,
+          "text": "`Emitters: ${emitters.filter((e: any) => e.enabled).length}`,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassCommandPalette.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 159,
+          "text": "...recentCommands.filter((cmd: any) => cmd.id !== item?.id),"
+        },
+        {
+          "line": 173,
+          "text": "groups.forEach((group: any) => {"
+        },
+        {
+          "line": 175,
+          "text": "...group.items.map((item: any) => ({"
+        },
+        {
+          "line": 220,
+          "text": "result = result.filter((item: any) =>"
+        },
+        {
+          "line": 225,
+          "text": "result = recentCommands.filter((recent: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassWhiteboard.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 301,
+          "text": "drawingData.forEach((item: any) => {"
+        },
+        {
+          "line": 305,
+          "text": "(point: any) =>"
+        },
+        {
+          "line": 404,
+          "text": "elements.forEach((element: any) => {"
+        },
+        {
+          "line": 472,
+          "text": "selectedElements.forEach((elementId: any) => {"
+        },
+        {
+          "line": 474,
+          "text": "(item: any) => item?.id === elementId"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/social/GlassReactionBubbles.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 132,
+          "text": "setBubbles((prev: any) =>"
+        },
+        {
+          "line": 134,
+          "text": ".map((bubble: any) => {"
+        },
+        {
+          "line": 173,
+          "text": ".filter((bubble: any): bubble is NonNullable<typeof bubble> => bubble !== null)"
+        },
+        {
+          "line": 199,
+          "text": "setBubbles((prev: any) => {"
+        },
+        {
+          "line": 328,
+          "text": "{availableEmojis.map((emoji: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/social/GlassSocialFeed.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 107,
+          "text": "const respectMotionPreference = (config: any) =>"
+        },
+        {
+          "line": 115,
+          "text": "setSimulatedPosts((prev: any) =>"
+        },
+        {
+          "line": 137,
+          "text": "filtered = filtered.filter((post: any) => post.author.verified);"
+        },
+        {
+          "line": 140,
+          "text": "filtered = filtered.filter((post: any) => likedPosts.has(post.id));"
+        },
+        {
+          "line": 345,
+          "text": "{post.tags.map((tag: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/spatial/SpatialComputingEngine.tsx",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 146,
+          "text": "handTracking: hasWebXR && \"getInputSources\" in (window as any),"
+        },
+        {
+          "line": 193,
+          "text": "const xrSessionRef = useRef<any>(null);"
+        },
+        {
+          "line": 242,
+          "text": "const xr = (navigator as any).xr as any;"
+        },
+        {
+          "line": 258,
+          "text": "const onXRFrame = (time: number, frame: any) => {"
+        },
+        {
+          "line": 261,
+          "text": "session.renderState.baseLayer!.framebuffer as any"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useEnhancedPerformance.ts",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 92,
+          "text": "const memoryInfo = (performance as any).memory;"
+        },
+        {
+          "line": 96,
+          "text": "const connection = (navigator as any).connection;"
+        },
+        {
+          "line": 127,
+          "text": "setState((prev: any) => ({"
+        },
+        {
+          "line": 154,
+          "text": "setState((prev: any) => ({ ...prev, isLoading: true, error: null }));"
+        },
+        {
+          "line": 171,
+          "text": "setState((prev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "anyCount": 7,
+      "samples": [
+        {
+          "line": 119,
+          "text": "(window as any).__auraglassPerformanceEntries = ["
+        },
+        {
+          "line": 120,
+          "text": "...((window as any).__auraglassPerformanceEntries || []),"
+        },
+        {
+          "line": 348,
+          "text": "const [r, g, b] = rgb.map((c: any) => {"
+        },
+        {
+          "line": 422,
+          "text": "this.probeResults.slice(-glassElements.length).forEach((result: any) => {"
+        },
+        {
+          "line": 460,
+          "text": "(window as any).__auraglassProbeData = {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/animations/physics/useMultiSpringPhysics.ts",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 56,
+          "text": "Object.keys(initialValues).forEach((key: any) => {"
+        },
+        {
+          "line": 73,
+          "text": "Object.keys(springStateRef.current).forEach((key: any) => {"
+        },
+        {
+          "line": 135,
+          "text": "Object.keys(targets).forEach((key: any) => {"
+        },
+        {
+          "line": 179,
+          "text": "Object.keys(springStateRef.current).forEach((key: any) => {"
+        },
+        {
+          "line": 191,
+          "text": "Object.keys(newValues).forEach((key: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassFoldableSupport.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 91,
+          "text": "const screenDetails = await (window as any).getScreenDetails();"
+        },
+        {
+          "line": 92,
+          "text": "const segments = screenDetails.screens.map((screen: any) => ({"
+        },
+        {
+          "line": 170,
+          "text": "setFoldableInfo((prev: any) => ({"
+        },
+        {
+          "line": 192,
+          "text": "setFoldableInfo((prev: any) => ({"
+        },
+        {
+          "line": 220,
+          "text": "setFoldableInfo((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassMagneticCursor.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 109,
+          "text": "magneticElements.current = Array.from(elements).map((el: any) => ({"
+        },
+        {
+          "line": 185,
+          "text": "setTrail((prev: any) => {"
+        },
+        {
+          "line": 216,
+          "text": "setRipples((prev: any) => [...prev, ripple]);"
+        },
+        {
+          "line": 220,
+          "text": "setRipples((prev: any) =>"
+        },
+        {
+          "line": 367,
+          "text": "ripples.map((ripple: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/houdini/HoudiniGlassCard.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 191,
+          "text": "(effect: any) => ("
+        },
+        {
+          "line": 242,
+          "text": "{appliedEffects.map((effect: any) => ("
+        },
+        {
+          "line": 301,
+          "text": "setSelectedEffects((prev: any) =>"
+        },
+        {
+          "line": 303,
+          "text": "? prev.filter((id: any) => id !== effectId)"
+        },
+        {
+          "line": 362,
+          "text": "{presets.map((preset: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassMindMap.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 127,
+          "text": "node.children?.forEach((child: any) => {"
+        },
+        {
+          "line": 310,
+          "text": "connections.forEach((conn: any) => {"
+        },
+        {
+          "line": 320,
+          "text": "node.children?.forEach((child: any) => {"
+        },
+        {
+          "line": 335,
+          "text": "return positionedNodes.map((node: any) => {"
+        },
+        {
+          "line": 479,
+          "text": "{positionedNodes.map((node: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/media/GlassAdvancedVideoPlayer.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 206,
+          "text": "{playbackSpeeds.map((speed: any) => ("
+        },
+        {
+          "line": 237,
+          "text": "{qualities.map((q: any) => ("
+        },
+        {
+          "line": 279,
+          "text": "{chapters.map((chapter: any) => {"
+        },
+        {
+          "line": 338,
+          "text": "const results = transcript.filter((entry: any) =>"
+        },
+        {
+          "line": 392,
+          "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/modal/GlassPopover.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 394,
+          "text": "? React.cloneElement(children as any, {"
+        },
+        {
+          "line": 397,
+          "text": "(children as any).props?.onClick?.(e);"
+        },
+        {
+          "line": 401,
+          "text": "(children as any).props?.onMouseEnter?.(e);"
+        },
+        {
+          "line": 405,
+          "text": "(children as any).props?.onMouseLeave?.(e);"
+        },
+        {
+          "line": 409,
+          "text": "(children as any).props?.onFocus?.(e);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/toggle-button/ToggleButton.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 314,
+          "text": "setClickCount((prev: any) => prev + 1);"
+        },
+        {
+          "line": 400,
+          "text": ": (ariaHaspopup as any),"
+        },
+        {
+          "line": 457,
+          "text": "ref(node as any);"
+        },
+        {
+          "line": 459,
+          "text": "ref.current = node as any;"
+        },
+        {
+          "line": 463,
+          "text": "(buttonRef as any).current = node;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/toggle-button/ToggleButtonGroup.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 54,
+          "text": "const [internalValue, setInternalValue] = useState<any | any[]>("
+        },
+        {
+          "line": 68,
+          "text": "(event: React.MouseEvent<HTMLButtonElement>, buttonValue: any) => {"
+        },
+        {
+          "line": 72,
+          "text": "let newValue: any | any[];"
+        },
+        {
+          "line": 82,
+          "text": "newValue = valueArray.filter((v: any) => v !== buttonValue);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/website-components/GlassPrismComparison.tsx",
+      "anyCount": 6,
+      "samples": [
+        {
+          "line": 197,
+          "text": "(el.style as any).webkitBackgroundClip = \"text\";"
+        },
+        {
+          "line": 199,
+          "text": "(el.style as any).webkitTextFillColor = \"transparent\";"
+        },
+        {
+          "line": 433,
+          "text": "{Array.from({ length: 5 }).map((_: any, i: any) => ("
+        },
+        {
+          "line": 591,
+          "text": "{Array.from({ length: 20 }).map((_: any, i: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/charts/GlassBarChart.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 156,
+          "text": "allDataPoints.forEach((point: any) => {"
+        },
+        {
+          "line": 165,
+          "text": "const allYValues = allDataPoints.map((p: any) => p.data?.y);"
+        },
+        {
+          "line": 290,
+          "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
+        },
+        {
+          "line": 350,
+          "text": "{Array.from({ length: 8 }).map((_: any, i: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/charts/hooks/useQualityTier.ts",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 52,
+          "text": "const connection = (navigator as any).connection;"
+        },
+        {
+          "line": 60,
+          "text": "const memory = (navigator as any).deviceMemory || (isLowEndDevice ? 2 : 8);"
+        },
+        {
+          "line": 201,
+          "text": "setCurrentTier((prev: any) => {"
+        },
+        {
+          "line": 208,
+          "text": "setCurrentTier((prev: any) => {"
+        },
+        {
+          "line": 271,
+          "text": "const configs: Record<ChartQualityTier['tier'], any> = {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/cms/GlassPropertyPanel.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 20,
+          "text": "value: any;"
+        },
+        {
+          "line": 25,
+          "text": "onChange: (value: any) => void;"
+        },
+        {
+          "line": 120,
+          "text": "{options?.map((option: any) => ("
+        },
+        {
+          "line": 222,
+          "text": "].map((section: any) => ("
+        },
+        {
+          "line": 225,
+          "text": "onClick={() => setActiveSection(section.key as any)}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/collaboration/GlassCollaborationDashboard.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 229,
+          "text": "(user: any) => Date.now() - user.lastActive < 300000"
+        },
+        {
+          "line": 232,
+          "text": "const unresolvedComments = comments.filter((c: any) => !c.resolved);"
+        },
+        {
+          "line": 247,
+          "text": "{activeUsers.slice(0, 3).map((user: any) => ("
+        },
+        {
+          "line": 373,
+          "text": "{activeUsers.map((user: any) => {"
+        },
+        {
+          "line": 424,
+          "text": "{recentActivities.map((activity: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/collaboration/GlassCollaborativeComments.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 22,
+          "text": "user: any;"
+        },
+        {
+          "line": 190,
+          "text": "{comment.replies.map((reply: any) => {"
+        },
+        {
+          "line": 390,
+          "text": "comments.forEach((comment: any) => {"
+        },
+        {
+          "line": 437,
+          "text": ".filter((comment: any) =>"
+        },
+        {
+          "line": 444,
+          "text": ".map((comment: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassDataGrid.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 15,
+          "text": "const useSortableData = (data: any[], sortConfig: SortState | null) => ({"
+        },
+        {
+          "line": 21,
+          "text": "const useDraggableListPhysics = (options: any) => ({"
+        },
+        {
+          "line": 28,
+          "text": "const useVectorSpring = (options: any) => ({"
+        },
+        {
+          "line": 96,
+          "text": ".map((index: any) => normalizedSortedData?.[index])"
+        },
+        {
+          "line": 108,
+          "text": ".map((originalIndex: any) => safeInitialData?.[originalIndex])"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassGallery.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 118,
+          "text": "images.filter((img: any) => newSelected.has(img.id))"
+        },
+        {
+          "line": 154,
+          "text": "(image: any) =>"
+        },
+        {
+          "line": 160,
+          "text": "new Set(images.map((img: any) => img.category).filter(Boolean))"
+        },
+        {
+          "line": 481,
+          "text": "images={images.map((img: any) => ({"
+        },
+        {
+          "line": 528,
+          "text": "{categories.map((category: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassKanban.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 125,
+          "text": "const handleGazeData = (gazeData: any) => {"
+        },
+        {
+          "line": 192,
+          "text": "columns: columns.map((col: any) => ({"
+        },
+        {
+          "line": 197,
+          "text": "cards: col.cards.map((card: any) => ({"
+        },
+        {
+          "line": 275,
+          "text": "setCardInteractionCounts((prev: any) => ({"
+        },
+        {
+          "line": 328,
+          "text": "setColumnInteractionCounts((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassSidebar.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 210,
+          "text": "if (typeof ref === \"function\") ref(node as any);"
+        },
+        {
+          "line": 212,
+          "text": "(ref as any).current = node;"
+        },
+        {
+          "line": 426,
+          "text": "? React.cloneElement(item.icon as React.ReactElement<any>, {"
+        },
+        {
+          "line": 428,
+          "text": "(item.icon as React.ReactElement<any>).props?.className,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/quantum/GlassWaveFunction.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 187,
+          "text": "waveEquations.forEach((wave: any) => {"
+        },
+        {
+          "line": 297,
+          "text": "...Object.values(waveData).map((d: any) => d.length)"
+        },
+        {
+          "line": 464,
+          "text": "setSelectedWave((prev: any) =>"
+        },
+        {
+          "line": 618,
+          "text": "{waveEquations.map((wave: any) => ("
+        },
+        {
+          "line": 628,
+          "text": "setSelectedWave((prev: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassContextAware.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 202,
+          "text": "const connection = (navigator as any).connection;"
+        },
+        {
+          "line": 211,
+          "text": "setEnvironmentContext((prev: any) => ({"
+        },
+        {
+          "line": 223,
+          "text": "(navigator as any)"
+        },
+        {
+          "line": 297,
+          "text": "setUsageContext((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/calendar/GlassCalendar.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 103,
+          "text": "events.forEach((event: any) => {"
+        },
+        {
+          "line": 172,
+          "text": "setCurrentDate((prev: any) => {"
+        },
+        {
+          "line": 255,
+          "text": "{Array.from({ length: 35 }).map((_: any, i: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/charts/GlassLineChart.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 113,
+          "text": "const xValues = allPoints.map((p: any) =>"
+        },
+        {
+          "line": 116,
+          "text": "const yValues = allPoints.map((p: any) => p.y);"
+        },
+        {
+          "line": 157,
+          "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
+        },
+        {
+          "line": 180,
+          "text": "const generatePath = (points: any[]) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassMetricsGrid.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 188,
+          "text": "(metric: any) =>"
+        },
+        {
+          "line": 199,
+          "text": "(metric: any) =>"
+        },
+        {
+          "line": 205,
+          "text": "(metric: any) =>"
+        },
+        {
+          "line": 211,
+          "text": "(metric: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/Glass360Viewer.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 287,
+          "text": "setCurrentView((prev: any) => ({"
+        },
+        {
+          "line": 342,
+          "text": "matrix: any,"
+        },
+        {
+          "line": 375,
+          "text": "matrix: any,"
+        },
+        {
+          "line": 602,
+          "text": "setCurrentView((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/immersive/GlassHologram.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 197,
+          "text": "setAnimationTime((prev: any) => prev + 0.016);"
+        },
+        {
+          "line": 200,
+          "text": "setCurrentProjection((prev: any) => ({"
+        },
+        {
+          "line": 720,
+          "text": "setCurrentProjection((prev: any) => ({"
+        },
+        {
+          "line": 734,
+          "text": "setCurrentProjection((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassDatePicker.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 343,
+          "text": "setCurrentMonth((prev: any) => {"
+        },
+        {
+          "line": 489,
+          "text": "(year: any) => ("
+        },
+        {
+          "line": 514,
+          "text": "{dayNames.map((day: any) => ("
+        },
+        {
+          "line": 536,
+          "text": ".map((date: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassToggle.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 131,
+          "text": "? currentValues.filter((v: any) => v !== itemValue)"
+        },
+        {
+          "line": 220,
+          "text": "ref={ref as any}"
+        },
+        {
+          "line": 369,
+          "text": "setValue((prev: any) =>"
+        },
+        {
+          "line": 371,
+          "text": "? prev.filter((v: any) => v !== itemValue)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassCommand.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 132,
+          "text": "return items.filter((item: any) => {"
+        },
+        {
+          "line": 160,
+          "text": "filteredItems.forEach((item: any) => {"
+        },
+        {
+          "line": 176,
+          "text": "setSelectedIndex((prev: any) => (prev + 1) % totalItems);"
+        },
+        {
+          "line": 180,
+          "text": "setSelectedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassFileExplorer.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 148,
+          "text": "filtered = filtered.filter((file: any) =>"
+        },
+        {
+          "line": 155,
+          "text": "filtered = filtered.filter((file: any) => !file.name.startsWith(\".\"));"
+        },
+        {
+          "line": 179,
+          "text": "? selectedFiles.filter((id: any) => id !== file.id)"
+        },
+        {
+          "line": 196,
+          "text": ".map((f: any) => f.id);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassFileUpload.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 147,
+          "text": "const acceptedTypes = accept.split(\",\").map((type: any) => type.trim());"
+        },
+        {
+          "line": 288,
+          "text": "const updatedFiles = internalFiles.filter((f: any) => f.id !== fileId);"
+        },
+        {
+          "line": 636,
+          "text": ".filter((f: any) => f.status === \"pending\")"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/accessibility/AccessibilityProvider.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 76,
+          "text": "setSettings((prev: any) => ({ ...prev, ...parsedSettings }));"
+        },
+        {
+          "line": 79,
+          "text": "setSettings((prev: any) => ({ ...defaultSettings, ...prev }));"
+        },
+        {
+          "line": 145,
+          "text": "setSettings((prev: any) => ({ ...prev, ...newSettings }));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassLiveCursorPresence.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 117,
+          "text": "setReconnectAttempts((prev: any) => prev + 1);"
+        },
+        {
+          "line": 133,
+          "text": "(message: any) => {"
+        },
+        {
+          "line": 353,
+          "text": "(cursor: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 121,
+          "text": "Object.keys(this.bandpassFilters).forEach((band: any) => {"
+        },
+        {
+          "line": 558,
+          "text": "Object.keys(trigger).forEach((key: any) => {"
+        },
+        {
+          "line": 1048,
+          "text": "{metricsArray.map((metric: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassOrientationEffects.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 125,
+          "text": "typeof (DeviceOrientationEvent as any).requestPermission === \"function\""
+        },
+        {
+          "line": 129,
+          "text": "DeviceOrientationEvent as any"
+        },
+        {
+          "line": 132,
+          "text": "DeviceMotionEvent as any"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 57,
+          "text": "(navigator as any).getBattery().then((battery: any) => {"
+        },
+        {
+          "line": 271,
+          "text": "margin: rootMargin as any,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/backgrounds/AtmosphericBackground.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 138,
+          "text": "intent={intent as any}"
+        },
+        {
+          "line": 139,
+          "text": "elevation={elevation as any}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/backgrounds/ParticleBackground.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 315,
+          "text": "intent={intent as any}"
+        },
+        {
+          "line": 316,
+          "text": "elevation={elevation as any}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/charts/GlassDataChart.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 627,
+          "text": "const element = meta.dataset as any;"
+        },
+        {
+          "line": 1751,
+          "text": "easing: (animation.easing || \"easeOutQuart\") as any,"
+        },
+        {
+          "line": 1757,
+          "text": ": false) as any,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/cms/GlassComponentPalette.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 115,
+          "text": "{components.map((component: any) => ("
+        },
+        {
+          "line": 163,
+          "text": "(component: any) =>"
+        },
+        {
+          "line": 239,
+          "text": "{filteredComponents.map((component: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassBadge.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 147,
+          "text": "(dotVariantClasses as any)[variant] ?? dotVariantClasses.default,"
+        },
+        {
+          "line": 172,
+          "text": "ref={ref as any}"
+        },
+        {
+          "line": 179,
+          "text": "(variantClasses as any)[variant] ?? variantClasses.default,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassNotificationCenter.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 89,
+          "text": "setNotifications((prev: any) => [newNotification, ...prev]);"
+        },
+        {
+          "line": 102,
+          "text": "setNotifications((prev: any) =>"
+        },
+        {
+          "line": 103,
+          "text": "prev.filter((notification: any) => notification.id !== id)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/effects/GlassPhysicsEngine.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 141,
+          "text": ".map((particle: any) => {"
+        },
+        {
+          "line": 172,
+          "text": ".filter((particle: any) => particle.life > 0);"
+        },
+        {
+          "line": 188,
+          "text": "particles.forEach((particle: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassSearchInterface.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 175,
+          "text": "(v: any) => v !== optionValue"
+        },
+        {
+          "line": 196,
+          "text": "setFocusedIndex((prev: any) => (prev + 1) % totalItems);"
+        },
+        {
+          "line": 200,
+          "text": "setFocusedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassTagInput.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 29,
+          "text": "const remove = (tag: string) => onChange(value.filter((v: any) => v !== tag));"
+        },
+        {
+          "line": 72,
+          "text": ".filter((s: any) => s.toLowerCase().includes(input.toLowerCase()))"
+        },
+        {
+          "line": 74,
+          "text": ".map((s: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassBox.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 308,
+          "text": "const getElevationLevel = (elev: any) => {"
+        },
+        {
+          "line": 352,
+          "text": "...(rest as any),"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/media/GlassAdvancedAudioPlayer.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 364,
+          "text": "const results = transcript.filter((entry: any) =>"
+        },
+        {
+          "line": 418,
+          "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
+        },
+        {
+          "line": 520,
+          "text": "(window as any).webkitAudioContext)();"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassBreadcrumb.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 104,
+          "text": "ref={ref as any}"
+        },
+        {
+          "line": 251,
+          "text": "onClick={props?.onClick as any}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassMobileNav.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 229,
+          "text": "{item?.children!.map((child: any) =>"
+        },
+        {
+          "line": 254,
+          "text": "{section.items.map((item: any) => renderNavigationItem(item))}"
+        },
+        {
+          "line": 360,
+          "text": "{navigation.map((section: any) => renderSection(section))}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/visual-feedback/RippleButton.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 135,
+          "text": "setRipples((prev: any) => [...prev, { id, x, y }]);"
+        },
+        {
+          "line": 139,
+          "text": "setRipples((prev: any) => prev.filter((r: any) => r.id !== id));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useEnhancedReducedMotion.ts",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 29,
+          "text": "if (typeof (mediaQuery as any).addListener === 'function') {"
+        },
+        {
+          "line": 31,
+          "text": "return () => (mediaQuery as any).removeListener(handleChange);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useGlassOptimization.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 216,
+          "text": "batch.forEach((animation: any) => {"
+        },
+        {
+          "line": 231,
+          "text": "setActiveAnimations((prev: any) => prev + 1);"
+        },
+        {
+          "line": 238,
+          "text": "setActiveAnimations((prev: any) => Math.max(0, prev - 1));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useReducedMotion.ts",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 31,
+          "text": "if (typeof (mediaQuery as any).addListener === 'function') {"
+        },
+        {
+          "line": 33,
+          "text": "return () => (mediaQuery as any).removeListener(handleChange);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/glass/GlassAdvanced.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 92,
+          "text": "onClick?.(e as any);"
+        },
+        {
+          "line": 156,
+          "text": "...(props as any)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/glass/OptimizedGlassAdvanced.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 317,
+          "text": "setMouseVars({ ['--mx' as any]: `${mx}px`, ['--my' as any]: `${my}px` });"
+        },
+        {
+          "line": 363,
+          "text": "setMetrics((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/LiquidGlassConcentricFrame.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 65,
+          "text": "return React.cloneElement(children as React.ReactElement<any>, {"
+        },
+        {
+          "line": 67,
+          "text": "className: cn((children as React.ReactElement<any>).props.className, className),"
+        },
+        {
+          "line": 68,
+          "text": "style: { ...cssVars, ...(children as React.ReactElement<any>).props.style, ...style },"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/OptimizedGlassCore.tsx",
+      "anyCount": 3,
+      "samples": [
+        {
+          "line": 133,
+          "text": "React.ElementRef<any>,"
+        },
+        {
+          "line": 269,
+          "text": "} = (restProps as any) || {};"
+        },
+        {
+          "line": 275,
+          "text": "delete (domProps as any)[key];"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/advanced/GlassParallaxLayers.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 102,
+          "text": "setRotation((prev: any) => prev + rotateSpeed);"
+        },
+        {
+          "line": 258,
+          "text": "} as any;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/animations/GlassTransitions.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 418,
+          "text": "setOpenItems((prev: any) => {"
+        },
+        {
+          "line": 420,
+          "text": "return prev.filter((item: any) => item !== id);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/button/EnhancedGlassButton.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 365,
+          "text": "interaction={features.physics.interaction as any}"
+        },
+        {
+          "line": 413,
+          "text": "(features.organicMotion.emotionalContext as any)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/button/GlassMagneticButton.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 249,
+          "text": "onPointerEnter(e as any);"
+        },
+        {
+          "line": 256,
+          "text": "onPointerLeave(e as any);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/collaboration/GlassCollaborativeCursor.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 60,
+          "text": "(user: any) =>"
+        },
+        {
+          "line": 80,
+          "text": "visibleCursors.map((user: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassChip.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 312,
+          "text": "handleClick(e as any);"
+        },
+        {
+          "line": 407,
+          "text": "newSelected = currentSelected.filter((v: any) => v !== value);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/effects/Glass3DEngine.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 383,
+          "text": "} as any),"
+        },
+        {
+          "line": 447,
+          "text": "style={{ ...(generateLayerStyles(layer, index) as any) }}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/effects/GlassMorphingEngine.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 366,
+          "text": "Object.keys(targetProperties).forEach((key: any) => {"
+        },
+        {
+          "line": 585,
+          "text": "return () => { subs.forEach((unsub: any) => unsub()); };"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/image-list/ImageListItem.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 96,
+          "text": "onClick(event as any);"
+        },
+        {
+          "line": 117,
+          "text": "const attributes: Record<string, any> = {};"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassCheckboxGroup.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 255,
+          "text": "handleClick(e as any);"
+        },
+        {
+          "line": 456,
+          "text": "newValue = currentValue.filter((v: any) => v !== itemValue);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassInput.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 324,
+          "text": "} = props as any;"
+        },
+        {
+          "line": 451,
+          "text": "} = props as any;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassSlider.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 249,
+          "text": "return ticks.filter((tick: any) => tick >= min && tick <= max);"
+        },
+        {
+          "line": 350,
+          "text": "const distances = valueArray.map((val: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassSwitch.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 148,
+          "text": "props?.onClick?.(event as any);"
+        },
+        {
+          "line": 237,
+          "text": "ref={ref as any}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassCommentThread.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 85,
+          "text": "{(c.replies || []).map((r: any) => render(r, depth + 1))}"
+        },
+        {
+          "line": 94,
+          "text": "{(comments || []).map((c: any) => render(c))}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassImageViewer.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 180,
+          "text": "setRotation((prev: any) => (prev + degrees) % 360);"
+        },
+        {
+          "line": 317,
+          "text": "setCurrentIndex((prev: any) => (prev + 1) % safeImageCount);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassQueryBuilder.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 84,
+          "text": "{fields.map((f: any) => ("
+        },
+        {
+          "line": 166,
+          "text": "group.combinator = v as any;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassThemeSwitcher.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 126,
+          "text": "setCustomColors((prev: any) => ({"
+        },
+        {
+          "line": 142,
+          "text": "(preview: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassUserPresence.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 191,
+          "text": "(user: any) => user.status !== \"invisible\" || user.id === currentUser?.id"
+        },
+        {
+          "line": 216,
+          "text": "(user: any) => user.status === \"online\""
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassAppShell.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 186,
+          "text": "const sidebarExtraProps: any = {"
+        },
+        {
+          "line": 209,
+          "text": "} as any"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassContainer.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 158,
+          "text": "} as any;"
+        },
+        {
+          "line": 295,
+          "text": "} = props as any;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassTabBar.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 118,
+          "text": "(contextValue as any)?.disableAnimation ??"
+        },
+        {
+          "line": 125,
+          "text": "(contextValue as any)?.animationConfig ??"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/surfaces/FrostedGlass.tsx",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 73,
+          "text": "const getElevationLevel = (elev: any) => {"
+        },
+        {
+          "line": 119,
+          "text": "(containerRef as any).current = node;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useGlassIntersection.ts",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 117,
+          "text": "setState((prev: any) => ({"
+        },
+        {
+          "line": 308,
+          "text": "setLoadedCount((prev: any) => Math.min(items.length, prev + adaptiveBatchSize));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/usePhysicsInteraction.ts",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 160,
+          "text": "setPhysicsState((prev: any) => ({ ...prev, isInteracting: true }));"
+        },
+        {
+          "line": 201,
+          "text": "setPhysicsState((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/hooks/useVirtualization.ts",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 189,
+          "text": "setMeasuredSizes((prev: any) => new Map(prev.set(index, {"
+        },
+        {
+          "line": 416,
+          "text": "setAllItems((prev: any) => [...prev, ...newItems]);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/utils/dateAdapters.ts",
+      "anyCount": 2,
+      "samples": [
+        {
+          "line": 36,
+          "text": "let dateFns: any;"
+        },
+        {
+          "line": 125,
+          "text": "let dayjs: any;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/backgrounds/GlassDynamicAtmosphere.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 246,
+          "text": "(containerStyle as any).WebkitBackdropFilter = `blur(${blurStrength}px)`;"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassAccordion.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 124,
+          "text": "? (openItems || []).filter((id: any) => id !== itemId)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassAvatar.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 113,
+          "text": ".map((word: any) => word[0])"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassDateRangePicker.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 279,
+          "text": "setCurrentMonth((prev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/input/GlassMultiSelect.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 828,
+          "text": "(GlassMultiSelect as any).displayName = \"GlassMultiSelect\";"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassCodeEditor.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 391,
+          "text": "{files.map((file: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassFileTree.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 133,
+          "text": "? localExpandedNodes.filter((id: any) => id !== node.id)"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassMentionList.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 39,
+          "text": "items.map((it: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassMessageList.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 141,
+          "text": "(message: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassReactionBar.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 33,
+          "text": "reactions.map((r: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassMasonry.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 52,
+          "text": "columnCount: columns as any,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassScrollArea.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 117,
+          "text": "const scrollTimer = useRef<any>(null);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layout/GlassSplitPane.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 139,
+          "text": "[\"--a\" as any]: `${pct}%`,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layouts/GlassFractalLayout.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 290,
+          "text": "setCurrentZoom((prev: any) =>"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layouts/GlassGoldenRatioGrid.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 367,
+          "text": "d={`M ${spiralPoints.map((p: any) => `${p.x},${p.y}`).join(\" L \")}`}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/layouts/GlassOrbitalMenu.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 98,
+          "text": "setRotation((prev: any) => (prev + rotationSpeed) % 360);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassBottomNav.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 221,
+          "text": "{items.map((item: any) => renderNavigationItem(item))}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassMenubar.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 170,
+          "text": "setOpenMenus((prev: any) => new Set([...prev, item?.id]))"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassSegmentedControl.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 93,
+          "text": "{items.map((it: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/navigation/GlassTabItem.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 92,
+          "text": "ref={ref as any}"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/surfaces/DimensionalGlass.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 58,
+          "text": "const getElevationLevel = (elev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/surfaces/HeatGlass.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 96,
+          "text": "const getElevationLevel = (elev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/surfaces/PageGlassContainer.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 55,
+          "text": "const getElevationLevel = (elev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/surfaces/WidgetGlass.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 61,
+          "text": "const getElevationLevel = (elev: any) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/visual-feedback/VisualFeedback.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 91,
+          "text": "setRipples((prevRipples) => prevRipples.filter((r: any) => r.id !== id));"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/voice/VoiceGlassControl.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 717,
+          "text": "{actions.getAvailableVoices().map((voice: any) => ("
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/website-components/MotionAwareGlass.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 185,
+          "text": "props?.onClick?.(e as any);"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/LiquidGlassSourceTransition.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 98,
+          "text": "return React.cloneElement(children as React.ReactElement<any>, {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/primitives/MotionNative.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 126,
+          "text": "const frames: Record<string, any> = {};"
+        }
+      ]
+    },
+    {
+      "filePath": "src/utils/errorBoundary.tsx",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 132,
+          "text": "errorInfo: any,"
+        }
+      ]
+    },
+    {
+      "filePath": "src/utils/ssr.ts",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 155,
+          "text": "const nav = navigator as any;"
+        }
+      ]
+    }
+  ],
+  "declarationAnyFiles": [
+    {
+      "filePath": "dist/primitives/OptimizedGlassCore.d.ts",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 67,
+          "text": "declare const OptimizedGlassCore: React.ForwardRefExoticComponent<Omit<PolymorphicComponentProps<React.ElementType<any, keyof React.JSX.IntrinsicElements>, OptimizedGlassProps>, \"ref\"> & React.RefAttributes<unknown>>;"
+        }
+      ]
+    }
+  ],
+  "componentRefFollowups": [
+    {
+      "exportName": "GlassFocusIndicators",
+      "sourcePath": "src/components/accessibility/GlassFocusIndicators.tsx",
+      "declarationPath": "dist/components/accessibility/GlassFocusIndicators.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "BrandColorIntegration",
+      "sourcePath": "src/components/advanced/BrandColorIntegration.tsx",
+      "declarationPath": "dist/components/advanced/BrandColorIntegration.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassContextAware",
+      "sourcePath": "src/components/advanced/GlassContextAware.tsx",
+      "declarationPath": "dist/components/advanced/GlassContextAware.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassContextualDashboard",
+      "sourcePath": "src/components/advanced/GlassContextualEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassContextualEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "AdaptiveGlass",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "EnvironmentalGlass",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassColorTinting",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassEngineDemo",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassTextureVariations",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassFoldableSupport",
+      "sourcePath": "src/components/advanced/GlassFoldableSupport.tsx",
+      "declarationPath": "dist/components/advanced/GlassFoldableSupport.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassLiveCursorPresence",
+      "sourcePath": "src/components/advanced/GlassLiveCursorPresence.tsx",
+      "declarationPath": "dist/components/advanced/GlassLiveCursorPresence.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMetaDashboard",
+      "sourcePath": "src/components/advanced/GlassMetaEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassMetaEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassNeuroFeedback",
+      "sourcePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "declarationPath": "dist/components/advanced/GlassNeuroSync.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassNeuroMetricsDashboard",
+      "sourcePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "declarationPath": "dist/components/advanced/GlassNeuroSync.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassOrientationEffects",
+      "sourcePath": "src/components/advanced/GlassOrientationEffects.tsx",
+      "declarationPath": "dist/components/advanced/GlassOrientationEffects.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "BatteryAwareGlass",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "EfficientGlassRendering",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPerformanceMonitor",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPerformanceOptimization",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LazyGlassLoading",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "ProgressiveGlassEnhancement",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "ReducedMotionGlass",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPredictionIndicator",
+      "sourcePath": "src/components/advanced/GlassPredictiveEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassPredictiveEngine.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassReactions",
+      "sourcePath": "src/components/advanced/GlassReactions.tsx",
+      "declarationPath": "dist/components/advanced/GlassReactions.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSelfHealingDashboard",
+      "sourcePath": "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "declarationPath": "dist/components/advanced/GlassSelfHealingSystem.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSelfHealingWrapper",
+      "sourcePath": "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "declarationPath": "dist/components/advanced/GlassSelfHealingSystem.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAudioReactive",
+      "sourcePath": "src/components/advanced/GlassSpatialAudio.tsx",
+      "declarationPath": "dist/components/advanced/GlassSpatialAudio.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSpatialAudio",
+      "sourcePath": "src/components/advanced/GlassSpatialAudio.tsx",
+      "declarationPath": "dist/components/advanced/GlassSpatialAudio.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSpatialVisualizer",
+      "sourcePath": "src/components/advanced/GlassSpatialAudio.tsx",
+      "declarationPath": "dist/components/advanced/GlassSpatialAudio.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassWebGLShader",
+      "sourcePath": "src/components/advanced/GlassWebGLShader.tsx",
+      "declarationPath": "dist/components/advanced/GlassWebGLShader.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LiquidGlassGPU",
+      "sourcePath": "src/components/advanced/LiquidGlassGPU.tsx",
+      "declarationPath": "dist/components/advanced/LiquidGlassGPU.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LiquidGlassGPUDriver",
+      "sourcePath": "src/components/advanced/LiquidGlassGPU.tsx",
+      "declarationPath": "dist/components/advanced/LiquidGlassGPU.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LivingEcosystemSimulator",
+      "sourcePath": "src/components/advanced/LivingEcosystemSimulator.tsx",
+      "declarationPath": "dist/components/advanced/LivingEcosystemSimulator.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "MolecularBondingInterface",
+      "sourcePath": "src/components/advanced/MolecularBondingInterface.tsx",
+      "declarationPath": "dist/components/advanced/MolecularBondingInterface.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "MultiDimensionalGestureRecognizer",
+      "sourcePath": "src/components/advanced/MultiDimensionalGestureRecognizer.tsx",
+      "declarationPath": "dist/components/advanced/MultiDimensionalGestureRecognizer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassIntelligentFormBuilder",
+      "sourcePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "declarationPath": "dist/components/ai/GlassIntelligentFormBuilder.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "NeuralWeightVisualization",
+      "sourcePath": "src/components/ai/NeuralWeightVisualization.tsx",
+      "declarationPath": "dist/components/ai/NeuralWeightVisualization.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "NeuromorphicLearningNetwork",
+      "sourcePath": "src/components/ai/NeuromorphicLearningNetwork.tsx",
+      "declarationPath": "dist/components/ai/NeuromorphicLearningNetwork.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassTransitions",
+      "sourcePath": "src/components/animations/GlassTransitions.tsx",
+      "declarationPath": "dist/components/animations/GlassTransitions.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCalendar",
+      "sourcePath": "src/components/calendar/GlassCalendar.tsx",
+      "declarationPath": "dist/components/calendar/GlassCalendar.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCardLink",
+      "sourcePath": "src/components/card/glass-card-link.tsx",
+      "declarationPath": "dist/components/card/glass-card-link.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAreaChart",
+      "sourcePath": "src/components/charts/GlassAreaChart.tsx",
+      "declarationPath": "dist/components/charts/GlassAreaChart.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassBarChart",
+      "sourcePath": "src/components/charts/GlassBarChart.tsx",
+      "declarationPath": "dist/components/charts/GlassBarChart.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassLineChart",
+      "sourcePath": "src/components/charts/GlassLineChart.tsx",
+      "declarationPath": "dist/components/charts/GlassLineChart.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCanvas",
+      "sourcePath": "src/components/cms/GlassCanvas.tsx",
+      "declarationPath": "dist/components/cms/GlassCanvas.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassComponentPalette",
+      "sourcePath": "src/components/cms/GlassComponentPalette.tsx",
+      "declarationPath": "dist/components/cms/GlassComponentPalette.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPageBuilder",
+      "sourcePath": "src/components/cms/GlassPageBuilder.tsx",
+      "declarationPath": "dist/components/cms/GlassPageBuilder.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPageStructure",
+      "sourcePath": "src/components/cms/GlassPageStructure.tsx",
+      "declarationPath": "dist/components/cms/GlassPageStructure.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPropertyPanel",
+      "sourcePath": "src/components/cms/GlassPropertyPanel.tsx",
+      "declarationPath": "dist/components/cms/GlassPropertyPanel.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "CollaborativeGlassWorkspace",
+      "sourcePath": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+      "declarationPath": "dist/components/collaboration/CollaborativeGlassWorkspace.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassTeamCursors",
+      "sourcePath": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+      "declarationPath": "dist/components/collaboration/CollaborativeGlassWorkspace.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassTeamCursorsWithEffects",
+      "sourcePath": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+      "declarationPath": "dist/components/collaboration/CollaborativeGlassWorkspace.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCollaborationDashboard",
+      "sourcePath": "src/components/collaboration/GlassCollaborationDashboard.tsx",
+      "declarationPath": "dist/components/collaboration/GlassCollaborationDashboard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCollaborativeComments",
+      "sourcePath": "src/components/collaboration/GlassCollaborativeComments.tsx",
+      "declarationPath": "dist/components/collaboration/GlassCollaborativeComments.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCollaborativeCursor",
+      "sourcePath": "src/components/collaboration/GlassCollaborativeCursor.tsx",
+      "declarationPath": "dist/components/collaboration/GlassCollaborativeCursor.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "MultiUserGlassEditor",
+      "sourcePath": "src/components/collaboration/MultiUserGlassEditor.tsx",
+      "declarationPath": "dist/components/collaboration/MultiUserGlassEditor.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassActivityFeed",
+      "sourcePath": "src/components/dashboard/GlassActivityFeed.tsx",
+      "declarationPath": "dist/components/dashboard/GlassActivityFeed.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassChartWidget",
+      "sourcePath": "src/components/dashboard/GlassChartWidget.tsx",
+      "declarationPath": "dist/components/dashboard/GlassChartWidget.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassKPICard",
+      "sourcePath": "src/components/dashboard/GlassKPICard.tsx",
+      "declarationPath": "dist/components/dashboard/GlassKPICard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassStatCard",
+      "sourcePath": "src/components/dashboard/GlassStatCard.tsx",
+      "declarationPath": "dist/components/dashboard/GlassStatCard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassDiffViewer",
+      "sourcePath": "src/components/data-display/GlassDiffViewer.tsx",
+      "declarationPath": "dist/components/data-display/GlassDiffViewer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassJSONViewer",
+      "sourcePath": "src/components/data-display/GlassJSONViewer.tsx",
+      "declarationPath": "dist/components/data-display/GlassJSONViewer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMetricChip",
+      "sourcePath": "src/components/data-display/GlassMetricChip.tsx",
+      "declarationPath": "dist/components/data-display/GlassMetricChip.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSchemaViewer",
+      "sourcePath": "src/components/data-display/GlassSchemaViewer.tsx",
+      "declarationPath": "dist/components/data-display/GlassSchemaViewer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSkeletonCard",
+      "sourcePath": "src/components/data-display/GlassSkeletonLoader.tsx",
+      "declarationPath": "dist/components/data-display/GlassSkeletonLoader.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSkeletonLoader",
+      "sourcePath": "src/components/data-display/GlassSkeletonLoader.tsx",
+      "declarationPath": "dist/components/data-display/GlassSkeletonLoader.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSkeletonText",
+      "sourcePath": "src/components/data-display/GlassSkeletonLoader.tsx",
+      "declarationPath": "dist/components/data-display/GlassSkeletonLoader.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSparkline",
+      "sourcePath": "src/components/data-display/GlassSparkline.tsx",
+      "declarationPath": "dist/components/data-display/GlassSparkline.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassStatusDot",
+      "sourcePath": "src/components/data-display/GlassStatusDot.tsx",
+      "declarationPath": "dist/components/data-display/GlassStatusDot.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassVirtualTable",
+      "sourcePath": "src/components/data-display/GlassVirtualTable.tsx",
+      "declarationPath": "dist/components/data-display/GlassVirtualTable.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassProductRecommendations",
+      "sourcePath": "src/components/ecommerce/GlassProductRecommendations.tsx",
+      "declarationPath": "dist/components/ecommerce/GlassProductRecommendations.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSmartShoppingCart",
+      "sourcePath": "src/components/ecommerce/GlassSmartShoppingCart.tsx",
+      "declarationPath": "dist/components/ecommerce/GlassSmartShoppingCart.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "HoudiniGlassCard",
+      "sourcePath": "src/components/houdini/HoudiniGlassCard.tsx",
+      "declarationPath": "dist/components/houdini/HoudiniGlassCard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "HoudiniGlassShowcase",
+      "sourcePath": "src/components/houdini/HoudiniGlassCard.tsx",
+      "declarationPath": "dist/components/houdini/HoudiniGlassCard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassIntelligentImageUploader",
+      "sourcePath": "src/components/image/GlassIntelligentImageUploader.tsx",
+      "declarationPath": "dist/components/image/GlassIntelligentImageUploader.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassColorPicker",
+      "sourcePath": "src/components/input/GlassColorPicker.tsx",
+      "declarationPath": "dist/components/input/GlassColorPicker.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassDateRangePicker",
+      "sourcePath": "src/components/input/GlassDateRangePicker.tsx",
+      "declarationPath": "dist/components/input/GlassDateRangePicker.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassFormStepper",
+      "sourcePath": "src/components/input/GlassFormStepper.tsx",
+      "declarationPath": "dist/components/input/GlassFormStepper.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassFormTable",
+      "sourcePath": "src/components/input/GlassFormTable.tsx",
+      "declarationPath": "dist/components/input/GlassFormTable.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMultiStepForm",
+      "sourcePath": "src/components/input/GlassMultiStepForm.tsx",
+      "declarationPath": "dist/components/input/GlassMultiStepForm.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassStepIcon",
+      "sourcePath": "src/components/input/GlassStepIcon.tsx",
+      "declarationPath": "dist/components/input/GlassStepIcon.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassStepLabel",
+      "sourcePath": "src/components/input/GlassStepLabel.tsx",
+      "declarationPath": "dist/components/input/GlassStepLabel.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassWizard",
+      "sourcePath": "src/components/input/GlassWizard.tsx",
+      "declarationPath": "dist/components/input/GlassWizard.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassChat",
+      "sourcePath": "src/components/interactive/GlassChat.tsx",
+      "declarationPath": "dist/components/interactive/GlassChat.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassChatInput",
+      "sourcePath": "src/components/interactive/GlassChatInput.tsx",
+      "declarationPath": "dist/components/interactive/GlassChatInput.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCoachmarks",
+      "sourcePath": "src/components/interactive/GlassCoachmarks.tsx",
+      "declarationPath": "dist/components/interactive/GlassCoachmarks.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCodeEditor",
+      "sourcePath": "src/components/interactive/GlassCodeEditor.tsx",
+      "declarationPath": "dist/components/interactive/GlassCodeEditor.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCodeEditorWithFiles",
+      "sourcePath": "src/components/interactive/GlassCodeEditor.tsx",
+      "declarationPath": "dist/components/interactive/GlassCodeEditor.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCommand",
+      "sourcePath": "src/components/interactive/GlassCommand.tsx",
+      "declarationPath": "dist/components/interactive/GlassCommand.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCommentThread",
+      "sourcePath": "src/components/interactive/GlassCommentThread.tsx",
+      "declarationPath": "dist/components/interactive/GlassCommentThread.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassComponentPlayground",
+      "sourcePath": "src/components/interactive/GlassComponentPlayground.tsx",
+      "declarationPath": "dist/components/interactive/GlassComponentPlayground.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassDraggable",
+      "sourcePath": "src/components/interactive/GlassDraggable.tsx",
+      "declarationPath": "dist/components/interactive/GlassDraggable.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassFocusRing",
+      "sourcePath": "src/components/interactive/GlassFocusRing.tsx",
+      "declarationPath": "dist/components/interactive/GlassFocusRing.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassGallery",
+      "sourcePath": "src/components/interactive/GlassGallery.tsx",
+      "declarationPath": "dist/components/interactive/GlassGallery.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassGradientPicker",
+      "sourcePath": "src/components/interactive/GlassGradientPicker.tsx",
+      "declarationPath": "dist/components/interactive/GlassGradientPicker.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassImageViewer",
+      "sourcePath": "src/components/interactive/GlassImageViewer.tsx",
+      "declarationPath": "dist/components/interactive/GlassImageViewer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassInfiniteScroll",
+      "sourcePath": "src/components/interactive/GlassInfiniteScroll.tsx",
+      "declarationPath": "dist/components/interactive/GlassInfiniteScroll.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassInlineEdit",
+      "sourcePath": "src/components/interactive/GlassInlineEdit.tsx",
+      "declarationPath": "dist/components/interactive/GlassInlineEdit.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassKanban",
+      "sourcePath": "src/components/interactive/GlassKanban.tsx",
+      "declarationPath": "dist/components/interactive/GlassKanban.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassKeyValueEditor",
+      "sourcePath": "src/components/interactive/GlassKeyValueEditor.tsx",
+      "declarationPath": "dist/components/interactive/GlassKeyValueEditor.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassLazyImage",
+      "sourcePath": "src/components/interactive/GlassLazyImage.tsx",
+      "declarationPath": "dist/components/interactive/GlassLazyImage.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMentionList",
+      "sourcePath": "src/components/interactive/GlassMentionList.tsx",
+      "declarationPath": "dist/components/interactive/GlassMentionList.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMessageList",
+      "sourcePath": "src/components/interactive/GlassMessageList.tsx",
+      "declarationPath": "dist/components/interactive/GlassMessageList.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMindMap",
+      "sourcePath": "src/components/interactive/GlassMindMap.tsx",
+      "declarationPath": "dist/components/interactive/GlassMindMap.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassQueryBuilder",
+      "sourcePath": "src/components/interactive/GlassQueryBuilder.tsx",
+      "declarationPath": "dist/components/interactive/GlassQueryBuilder.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassReactionBar",
+      "sourcePath": "src/components/interactive/GlassReactionBar.tsx",
+      "declarationPath": "dist/components/interactive/GlassReactionBar.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassStepper",
+      "sourcePath": "src/components/interactive/GlassStepper.tsx",
+      "declarationPath": "dist/components/interactive/GlassStepper.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassTagInput",
+      "sourcePath": "src/components/interactive/GlassTagInput.tsx",
+      "declarationPath": "dist/components/interactive/GlassTagInput.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassThemeSwitcher",
+      "sourcePath": "src/components/interactive/GlassThemeSwitcher.tsx",
+      "declarationPath": "dist/components/interactive/GlassThemeSwitcher.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassUserPresence",
+      "sourcePath": "src/components/interactive/GlassUserPresence.tsx",
+      "declarationPath": "dist/components/interactive/GlassUserPresence.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassVideoPlayer",
+      "sourcePath": "src/components/interactive/GlassVideoPlayer.tsx",
+      "declarationPath": "dist/components/interactive/GlassVideoPlayer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassVirtualList",
+      "sourcePath": "src/components/interactive/GlassVirtualList.tsx",
+      "declarationPath": "dist/components/interactive/GlassVirtualList.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAdvancedAudioPlayer",
+      "sourcePath": "src/components/media/GlassAdvancedAudioPlayer.tsx",
+      "declarationPath": "dist/components/media/GlassAdvancedAudioPlayer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAdvancedVideoPlayer",
+      "sourcePath": "src/components/media/GlassAdvancedVideoPlayer.tsx",
+      "declarationPath": "dist/components/media/GlassAdvancedVideoPlayer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMenubar",
+      "sourcePath": "src/components/navigation/GlassMenubar.tsx",
+      "declarationPath": "dist/components/navigation/GlassMenubar.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPagination",
+      "sourcePath": "src/components/navigation/GlassPagination.tsx",
+      "declarationPath": "dist/components/navigation/GlassPagination.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "QuantumEntanglementVisualizer",
+      "sourcePath": "src/components/quantum/QuantumEntanglementVisualizer.tsx",
+      "declarationPath": "dist/components/quantum/QuantumEntanglementVisualizer.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassIntelligentSearch",
+      "sourcePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "declarationPath": "dist/components/search/GlassIntelligentSearch.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LiquidGlassShowcase",
+      "sourcePath": "src/components/showcase/LiquidGlassShowcase.tsx",
+      "declarationPath": "dist/components/showcase/LiquidGlassShowcase.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAccordionUI",
+      "sourcePath": "src/components/ui-components/GlassAccordionUI.tsx",
+      "declarationPath": "dist/components/ui-components/GlassAccordionUI.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCheckboxUI",
+      "sourcePath": "src/components/ui-components/GlassCheckboxUI.tsx",
+      "declarationPath": "dist/components/ui-components/GlassCheckboxUI.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassAdvancedDataViz",
+      "sourcePath": "src/components/visualization/GlassAdvancedDataViz.tsx",
+      "declarationPath": "dist/components/visualization/GlassAdvancedDataViz.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassVoiceCommands",
+      "sourcePath": "src/components/voice/VoiceGlassControl.tsx",
+      "declarationPath": "dist/components/voice/VoiceGlassControl.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "VoiceGlassControl",
+      "sourcePath": "src/components/voice/VoiceGlassControl.tsx",
+      "declarationPath": "dist/components/voice/VoiceGlassControl.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "VoiceGlassDemo",
+      "sourcePath": "src/components/voice/VoiceGlassControl.tsx",
+      "declarationPath": "dist/components/voice/VoiceGlassControl.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassChartsDemo",
+      "sourcePath": "src/components/website-components/GlassChartsDemo.tsx",
+      "declarationPath": "dist/components/website-components/GlassChartsDemo.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPrismComparison",
+      "sourcePath": "src/components/website-components/GlassPrismComparison.tsx",
+      "declarationPath": "dist/components/website-components/GlassPrismComparison.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassWipeSlider",
+      "sourcePath": "src/components/website-components/GlassWipeSlider.tsx",
+      "declarationPath": "dist/components/website-components/GlassWipeSlider.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LiquidGlassSurfaceLayer",
+      "sourcePath": "src/primitives/LiquidGlassLayerProvider.tsx",
+      "declarationPath": "dist/primitives/LiquidGlassLayerProvider.d.ts",
+      "supportExport": false,
+      "hasForwardRefSignal": false
+    }
+  ],
+  "supportRefFollowups": [
+    {
+      "exportName": "AccessibilityProvider",
+      "sourcePath": "src/components/accessibility/AccessibilityProvider.tsx",
+      "declarationPath": "dist/components/accessibility/AccessibilityProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassContextualEngine",
+      "sourcePath": "src/components/advanced/GlassContextualEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassContextualEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassContextualEngineProvider",
+      "sourcePath": "src/components/advanced/GlassContextualEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassContextualEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassEngine",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassEngineProvider",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassOpacityEngine",
+      "sourcePath": "src/components/advanced/GlassEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMetaEngineProvider",
+      "sourcePath": "src/components/advanced/GlassMetaEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassMetaEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassNeuroSyncProvider",
+      "sourcePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "declarationPath": "dist/components/advanced/GlassNeuroSync.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPerformanceProvider",
+      "sourcePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "declarationPath": "dist/components/advanced/GlassPerformanceOptimization.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPredictiveEngine",
+      "sourcePath": "src/components/advanced/GlassPredictiveEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassPredictiveEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPredictiveEngineProvider",
+      "sourcePath": "src/components/advanced/GlassPredictiveEngine.tsx",
+      "declarationPath": "dist/components/advanced/GlassPredictiveEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSelfHealingProvider",
+      "sourcePath": "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "declarationPath": "dist/components/advanced/GlassSelfHealingSystem.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassSpatialAudioProvider",
+      "sourcePath": "src/components/advanced/GlassSpatialAudio.tsx",
+      "declarationPath": "dist/components/advanced/GlassSpatialAudio.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "AIGlassThemeProvider",
+      "sourcePath": "src/components/ai/AIGlassThemeProvider.tsx",
+      "declarationPath": "dist/components/ai/AIGlassThemeProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GalileoElementInteractionPlugin",
+      "sourcePath": "src/components/charts/plugins/GalileoElementInteractionPlugin.ts",
+      "declarationPath": "dist/components/charts/plugins/GalileoElementInteractionPlugin.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassCollaborationProvider",
+      "sourcePath": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+      "declarationPath": "dist/components/collaboration/CollaborativeGlassWorkspace.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassEcommerceProvider",
+      "sourcePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "declarationPath": "dist/components/ecommerce/GlassEcommerceProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "Glass3DEngine",
+      "sourcePath": "src/components/effects/Glass3DEngine.tsx",
+      "declarationPath": "dist/components/effects/Glass3DEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMorphingEngine",
+      "sourcePath": "src/components/effects/GlassMorphingEngine.tsx",
+      "declarationPath": "dist/components/effects/GlassMorphingEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassPhysicsEngine",
+      "sourcePath": "src/components/effects/GlassPhysicsEngine.tsx",
+      "declarationPath": "dist/components/effects/GlassPhysicsEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassImageProcessingProvider",
+      "sourcePath": "src/components/image/GlassImageProcessingProvider.tsx",
+      "declarationPath": "dist/components/image/GlassImageProcessingProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassMediaProvider",
+      "sourcePath": "src/components/media/GlassMediaProvider.tsx",
+      "declarationPath": "dist/components/media/GlassMediaProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "QuantumNeuromorphicEngine",
+      "sourcePath": "src/components/quantum/QuantumNeuromorphicEngine.ts",
+      "declarationPath": "dist/components/quantum/QuantumNeuromorphicEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "SpatialComputingEngine",
+      "sourcePath": "src/components/spatial/SpatialComputingEngine.tsx",
+      "declarationPath": "dist/components/spatial/SpatialComputingEngine.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "AuraGlassClientBoundary",
+      "sourcePath": "src/components/ssr/AuraGlassClientBoundary.tsx",
+      "declarationPath": "dist/components/ssr/AuraGlassClientBoundary.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "PersonaPicker",
+      "sourcePath": "src/components/theme/PersonaPicker.tsx",
+      "declarationPath": "dist/components/theme/PersonaPicker.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "AnimationProvider",
+      "sourcePath": "src/contexts/AnimationContext.tsx",
+      "declarationPath": "dist/contexts/AnimationContext.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "ConsciousnessStreamProvider",
+      "sourcePath": "src/contexts/ConsciousnessStreamProvider.tsx",
+      "declarationPath": "dist/contexts/ConsciousnessStreamProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "MotionPreferenceProvider",
+      "sourcePath": "src/contexts/MotionPreferenceContext.tsx",
+      "declarationPath": "dist/contexts/MotionPreferenceContext.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "LiquidGlassLayerProvider",
+      "sourcePath": "src/primitives/LiquidGlassLayerProvider.tsx",
+      "declarationPath": "dist/primitives/LiquidGlassLayerProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "GlassContext",
+      "sourcePath": "src/theme/GlassContext.tsx",
+      "declarationPath": "dist/theme/GlassContext.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
+      "exportName": "ThemeProvider",
+      "sourcePath": "src/theme/ThemeProvider.tsx",
+      "declarationPath": "dist/theme/ThemeProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    }
+  ],
+  "declarationFilesMissingReactTypes": []
+}

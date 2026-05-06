@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 import { GlassInput } from "../input/GlassInput";
 
@@ -37,9 +37,9 @@ export interface FormField {
     minLength?: number;
     maxLength?: number;
     pattern?: string;
-    custom?: (value: any) => string | null;
+    custom?: (value: FormFieldValue) => string | null;
   };
-  defaultValue?: any;
+  defaultValue?: FormFieldValue;
   conditional?: {
     field: string;
     operator:
@@ -48,13 +48,15 @@ export interface FormField {
       | "contains"
       | "greater_than"
       | "less_than";
-    value: any;
+    value: FormFieldValue;
   };
   layout?: {
     width?: "full" | "half" | "third" | "quarter";
     order?: number;
   };
 }
+
+export type FormFieldValue = unknown;
 
 export interface FormSection {
   id: string;
@@ -66,7 +68,7 @@ export interface FormSection {
 }
 
 export interface FormValue {
-  [fieldId: string]: any;
+  [fieldId: string]: FormFieldValue;
 }
 
 export interface FormError {
@@ -159,8 +161,8 @@ export interface GlassFormBuilderProps {
    */
   renderField?: (
     field: FormField,
-    value: any,
-    onChange: (value: any) => void,
+    value: FormFieldValue,
+    onChange: (value: FormFieldValue) => void,
     error?: string
   ) => React.ReactNode;
   className?: string;
@@ -207,10 +209,8 @@ export const GlassFormBuilder = forwardRef<
     const [expandedSections, setExpandedSections] = useState<Set<string>>(
       new Set(
         schema
-          ?.filter(
-            (section: any) => section && section.defaultExpanded !== false
-          )
-          .map((s: any) => s?.id)
+          ?.filter((section) => section && section.defaultExpanded !== false)
+          .map((section) => section.id)
           .filter(Boolean) || []
       )
     );
@@ -231,8 +231,10 @@ export const GlassFormBuilder = forwardRef<
 
     // Get all fields for progress calculation
     const allFields =
-      schema?.flatMap((section) => section?.fields || []).filter(Boolean) || [];
-    const filledFields = allFields.filter((field: any) => {
+      schema
+        ?.flatMap((section) => section?.fields || [])
+        .filter((field): field is FormField => Boolean(field)) || [];
+    const filledFields = allFields.filter((field) => {
       if (!field || !field.id) return false;
       const value = internalValues[field.id];
       return value !== undefined && value !== "" && value !== null;
@@ -240,7 +242,7 @@ export const GlassFormBuilder = forwardRef<
 
     // Handle value change
     const handleValueChange = useCallback(
-      (fieldId: string, value: any) => {
+      (fieldId: string, value: FormFieldValue) => {
         const newValues = { ...internalValues, [fieldId]: value };
         setInternalValues(newValues);
         onChange?.(newValues);
@@ -306,7 +308,10 @@ export const GlassFormBuilder = forwardRef<
     );
 
     // Validate field
-    const validateField = (field: FormField, value: any): string | null => {
+    const validateField = (
+      field: FormField,
+      value: FormFieldValue
+    ): string | null => {
       if (field.required && (!value || value === "")) {
         return `${field.label} is required`;
       }
@@ -349,6 +354,8 @@ export const GlassFormBuilder = forwardRef<
       if (!field || !field.id) return null;
 
       const value = internalValues[field.id] ?? field.defaultValue ?? "";
+      const inputValue =
+        typeof value === "string" || typeof value === "number" ? value : "";
       const error = internalErrors[field.id];
       const isDisabled = disabled || field.disabled;
 
@@ -386,8 +393,10 @@ export const GlassFormBuilder = forwardRef<
               data-glass-component
               {...baseProps}
               type={field.type}
-              value={value}
-              onChange={(e: any) => handleValueChange(field.id, e.target.value)}
+              value={inputValue}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleValueChange(field.id, e.target.value)
+              }
             />
           );
 
@@ -395,8 +404,10 @@ export const GlassFormBuilder = forwardRef<
           return (
             <GlassTextArea
               {...baseProps}
-              value={value}
-              onChange={(e: any) => handleValueChange(field.id, e.target.value)}
+              value={inputValue}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                handleValueChange(field.id, e.target.value)
+              }
               rows={4}
             />
           );
@@ -405,27 +416,29 @@ export const GlassFormBuilder = forwardRef<
           return (
             <GlassSelect
               {...baseProps}
-              value={value}
-              onChange={(e: any) => handleValueChange(field.id, e.target.value)}
+              value={inputValue}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                handleValueChange(field.id, e.target.value)
+              }
               options={field.options || []}
             />
           );
 
         case "checkbox":
           return (
-            <label className='glass-flex glass-items-center glass-gap-3 glass-cursor-pointer'>
+            <label className="glass-flex glass-items-center glass-gap-3 glass-cursor-pointer">
               <GlassInput
                 type="checkbox"
                 id={field.id}
-                checked={value}
+                checked={Boolean(value)}
                 onChange={(e) => handleValueChange(field.id, e.target.checked)}
                 disabled={isDisabled}
-                className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
+                className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
               />
               <span className={cn("font-medium", sizeClasses[size])}>
                 {field.label}
                 {field.required && (
-                  <span className='glass-text-danger glass-ml-1'>*</span>
+                  <span className="glass-text-danger glass-ml-1">*</span>
                 )}
               </span>
             </label>
@@ -439,25 +452,25 @@ export const GlassFormBuilder = forwardRef<
               >
                 {field.label}
                 {field.required && (
-                  <span className='glass-text-danger glass-ml-1'>*</span>
+                  <span className="glass-text-danger glass-ml-1">*</span>
                 )}
               </label>
               <div className="glass-auto-gap glass-auto-gap-sm">
                 {field.options?.map((option) => (
                   <label
                     key={option.value}
-                    className='glass-flex glass-items-center glass-gap-3 glass-cursor-pointer'
+                    className="glass-flex glass-items-center glass-gap-3 glass-cursor-pointer"
                   >
                     <GlassInput
                       type="radio"
                       name={field.id}
                       value={option.value}
                       checked={value === option.value}
-                      onChange={(e: any) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleValueChange(field.id, e.target.value)
                       }
                       disabled={isDisabled}
-                      className='glass-border-glass-border glass-focus-ring-primary'
+                      className="glass-border-glass-border glass-focus-ring-primary"
                     />
                     <span className="glass-text-sm">{option.label}</span>
                   </label>
@@ -493,7 +506,7 @@ export const GlassFormBuilder = forwardRef<
 
       // Validate all fields
       const newErrors: FormError = {};
-      allFields.forEach((field: any) => {
+      allFields.forEach((field) => {
         if (field && field.id && shouldShowField(field)) {
           const value = internalValues[field.id];
           const error = validateField(field, value);
@@ -531,7 +544,7 @@ export const GlassFormBuilder = forwardRef<
       >
         {/* Form header */}
         {(title || description || showProgress) && (
-          <div className='glass-mb-6'>
+          <div className="glass-mb-6">
             {title && (
               <h2
                 className={cn("font-semibold text-foreground glass-mb-2", {
@@ -545,14 +558,14 @@ export const GlassFormBuilder = forwardRef<
             )}
 
             {description && (
-              <p className='glass-text-secondary glass-mb-4'>{description}</p>
+              <p className="glass-text-secondary glass-mb-4">{description}</p>
             )}
 
             {showProgress && (
               <div className="glass-flex glass-items-center glass-gap-4">
-                <div className='glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2'>
+                <div className="glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2">
                   <div
-                    className='glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-300'
+                    className="glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-300"
                     style={{
                       width: `${allFields.length > 0 ? (filledFields.length / allFields.length) * 100 : 0}%`,
                     }}
@@ -571,7 +584,7 @@ export const GlassFormBuilder = forwardRef<
           {schema && schema.length > 0 ? (
             schema
               .filter(
-                (section: any) =>
+                (section) =>
                   section &&
                   section.id &&
                   section.fields &&
@@ -631,7 +644,7 @@ export const GlassFormBuilder = forwardRef<
                       <div className="glass-grid glass-grid-cols-12 glass-gap-4">
                         {section.fields
                           ?.filter(
-                            (field: any) =>
+                            (field) =>
                               field && field.id && shouldShowField(field)
                           )
                           ?.sort(
@@ -660,14 +673,14 @@ export const GlassFormBuilder = forwardRef<
                 </Motion>
               ))
           ) : (
-            <div className='glass-text-center glass-py-8 glass-text-secondary'>
+            <div className="glass-text-center glass-py-8 glass-text-secondary">
               <p>No form sections configured</p>
             </div>
           )}
         </div>
 
         {/* Form actions */}
-        <div className='glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8'>
+        <div className="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8">
           {autoSave && (
             <GlassBadge variant="outline" size="sm">
               Auto-save enabled

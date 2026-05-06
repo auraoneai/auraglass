@@ -1,13 +1,19 @@
-'use client';
-import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
-import { useAccessibilitySettings } from './useAccessibilitySettings';
-import { useEnhancedPerformance } from './useEnhancedPerformance';
+"use client";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
+import { useAccessibilitySettings } from "./useAccessibilitySettings";
+import { useEnhancedPerformance } from "./useEnhancedPerformance";
 import {
   createGlassStyle,
   type GlassElevation,
-  type GlassOptions
-} from '../core/mixins/glassMixins';
-import { type QualityTier } from '../tokens/glass';
+  type GlassOptions,
+} from "../core/mixins/glassMixins";
+import { type QualityTier } from "../tokens/glass";
 
 export interface GlassOptimizationConfig {
   enableAdaptiveBlur?: boolean;
@@ -44,7 +50,7 @@ export function useGlassOptimization(
 
   const { settings: a11ySettings } = useAccessibilitySettings();
   const { performanceMode, metrics } = useEnhancedPerformance();
-  
+
   const [optimizedOptions, setOptimizedOptions] = useState(baseOptions);
   const [activeAnimations, setActiveAnimations] = useState(0);
   const animationQueueRef = useRef<(() => void)[]>([]);
@@ -52,29 +58,34 @@ export function useGlassOptimization(
 
   // Adaptive blur based on performance
   const adaptiveBlur = useMemo(() => {
-    if (!enableAdaptiveBlur) return baseOptions.tier === 'low' ? 'subtle' : 'medium';
+    if (!enableAdaptiveBlur)
+      return baseOptions.tier === "low" ? "subtle" : "medium";
 
     const frameRate = metrics?.frameRate || 60;
     const memoryUsage = metrics?.memoryUsage || 0;
 
-    if (performanceMode === 'low' || frameRate < 30 || memoryUsage > 0.8) {
-      return 'subtle';
-    } else if (performanceMode === 'high' && frameRate >= 60 && memoryUsage < 0.5) {
-      return 'intense';
+    if (performanceMode === "low" || frameRate < 30 || memoryUsage > 0.8) {
+      return "subtle";
+    } else if (
+      performanceMode === "high" &&
+      frameRate >= 60 &&
+      memoryUsage < 0.5
+    ) {
+      return "intense";
     }
 
-    return 'medium';
+    return "medium";
   }, [enableAdaptiveBlur, baseOptions.tier, metrics, performanceMode]);
 
   // Get tier based on adaptive blur (for backwards compatibility)
   const getTierFromBlur = (blur: string): QualityTier => {
     switch (blur) {
-      case 'subtle':
-        return 'low';
-      case 'intense':
-        return 'high';
+      case "subtle":
+        return "low";
+      case "intense":
+        return "high";
       default:
-        return 'medium';
+        return "medium";
     }
   };
 
@@ -84,23 +95,23 @@ export function useGlassOptimization(
 
     if (enablePerformanceMode) {
       switch (performanceMode) {
-        case 'low':
+        case "low":
           options = {
             ...options,
-            elevation: 'level1',
-            tier: 'low',
+            elevation: "level1",
+            tier: "low",
           };
           break;
-        case 'high':
+        case "high":
           options = {
             ...options,
-            tier: 'high',
+            tier: "high",
           };
           break;
         default:
           options = {
             ...options,
-            tier: 'medium',
+            tier: "medium",
           };
       }
     }
@@ -119,7 +130,7 @@ export function useGlassOptimization(
       options = {
         ...options,
         interactive: false,
-        elevation: 'level1',
+        elevation: "level1",
       };
     }
 
@@ -127,8 +138,8 @@ export function useGlassOptimization(
     if (a11ySettings.highContrast) {
       options = {
         ...options,
-        intent: 'neutral',
-        tier: 'high',
+        intent: "neutral",
+        tier: "high",
       };
     }
 
@@ -136,8 +147,8 @@ export function useGlassOptimization(
     if (a11ySettings.forcedColors) {
       options = {
         ...options,
-        intent: 'neutral',
-        tier: 'high',
+        intent: "neutral",
+        tier: "high",
       };
     }
 
@@ -165,27 +176,29 @@ export function useGlassOptimization(
       base: baseStyles,
       hover: {
         ...baseStyles,
-        transform: a11ySettings.reducedMotion ? 'none' : 'translateY(-2px) scale(1.02)',
-        boxShadow: optimizedOptions.elevation ? 
-          `0 8px 32px rgba(0, 0, 0, 0.2)` : 
-          baseStyles.boxShadow,
+        transform: a11ySettings.reducedMotion
+          ? "none"
+          : "translateY(-2px) scale(1.02)",
+        boxShadow: optimizedOptions.elevation
+          ? `0 8px 32px rgba(0, 0, 0, 0.2)`
+          : baseStyles.boxShadow,
       },
       focus: {
         ...baseStyles,
-        outline: 'none',
+        outline: "none",
         boxShadow: `${baseStyles.boxShadow}, 0 0 0 3px var(--glass-color-primary, 0.3)`,
       },
       disabled: {
         ...baseStyles,
         opacity: 0.5,
-        cursor: 'not-allowed',
-        pointerEvents: 'none',
-        filter: 'grayscale(0.3)',
+        cursor: "not-allowed",
+        pointerEvents: "none",
+        filter: "grayscale(0.3)",
       },
       loading: {
         ...baseStyles,
-        position: 'relative',
-        overflow: 'hidden',
+        position: "relative",
+        overflow: "hidden",
         // Note: CSS pseudo-elements cannot be applied via React.CSSProperties.
         // Use companion CSS modules or dedicated classnames for complex layering.
       },
@@ -193,60 +206,69 @@ export function useGlassOptimization(
   }, [optimizedOptions, performanceMode, a11ySettings]);
 
   // Animation batching system
-  const batchAnimation = useCallback((animationFn: () => void) => {
-    if (!enableBatching) {
-      animationFn();
-      return;
-    }
-
-    animationQueueRef.current.push(animationFn);
-
-    if (batchTimeoutRef.current) {
-      clearTimeout(batchTimeoutRef.current);
-    }
-
-    batchTimeoutRef.current = setTimeout(() => {
-      const animations = animationQueueRef.current.splice(0);
-      
-      // Execute animations in batches to avoid overwhelming the browser
-      const batchSize = Math.min(animations.length, maxConcurrentAnimations);
-      
-      for (let i = 0; i < animations.length; i += batchSize) {
-        const batch = animations.slice(i, i + batchSize);
-        
-        setTimeout(() => {
-          batch.forEach((animation: any) => {
-            try {
-              animation();
-            } catch (error) {
-              if (process.env.NODE_ENV === 'development') {
-                console.warn('Batched animation failed:', error);
-              }
-            }
-          });
-        }, i * 16); // Stagger batches by 16ms (60fps)
+  const batchAnimation = useCallback(
+    (animationFn: () => void) => {
+      if (!enableBatching) {
+        animationFn();
+        return;
       }
-    }, 16); // Batch animations for one frame
-  }, [enableBatching, maxConcurrentAnimations]);
+
+      animationQueueRef.current.push(animationFn);
+
+      if (batchTimeoutRef.current) {
+        clearTimeout(batchTimeoutRef.current);
+      }
+
+      batchTimeoutRef.current = setTimeout(() => {
+        const animations = animationQueueRef.current.splice(0);
+
+        // Execute animations in batches to avoid overwhelming the browser
+        const batchSize = Math.min(animations.length, maxConcurrentAnimations);
+
+        for (let i = 0; i < animations.length; i += batchSize) {
+          const batch = animations.slice(i, i + batchSize);
+
+          setTimeout(() => {
+            batch.forEach((animation: any) => {
+              try {
+                animation();
+              } catch {
+                // Continue the remaining animation batch.
+              }
+            });
+          }, i * 16); // Stagger batches by 16ms (60fps)
+        }
+      }, 16); // Batch animations for one frame
+    },
+    [enableBatching, maxConcurrentAnimations]
+  );
 
   // Throttled animation executor
-  const executeAnimation = useCallback((animationFn: () => void) => {
-    if (!throttleAnimations || activeAnimations < maxConcurrentAnimations) {
-      setActiveAnimations((prev: any) => prev + 1);
-      
-      try {
-        animationFn();
-      } finally {
-        // Decrement counter after animation completes
-        setTimeout(() => {
-          setActiveAnimations((prev: any) => Math.max(0, prev - 1));
-        }, 300); // Assume average animation duration
+  const executeAnimation = useCallback(
+    (animationFn: () => void) => {
+      if (!throttleAnimations || activeAnimations < maxConcurrentAnimations) {
+        setActiveAnimations((prev: any) => prev + 1);
+
+        try {
+          animationFn();
+        } finally {
+          // Decrement counter after animation completes
+          setTimeout(() => {
+            setActiveAnimations((prev: any) => Math.max(0, prev - 1));
+          }, 300); // Assume average animation duration
+        }
+      } else {
+        // Queue animation for later execution
+        batchAnimation(animationFn);
       }
-    } else {
-      // Queue animation for later execution
-      batchAnimation(animationFn);
-    }
-  }, [throttleAnimations, activeAnimations, maxConcurrentAnimations, batchAnimation]);
+    },
+    [
+      throttleAnimations,
+      activeAnimations,
+      maxConcurrentAnimations,
+      batchAnimation,
+    ]
+  );
 
   // Cleanup batched animations on unmount
   useEffect(() => {
@@ -262,9 +284,10 @@ export function useGlassOptimization(
     optimizedOptions,
     optimizedStyles,
     performanceMode,
-    isHighPerformance: performanceMode === 'high',
-    isLowPerformance: performanceMode === 'low',
-    shouldReduceEffects: a11ySettings.reducedMotion || performanceMode === 'low',
+    isHighPerformance: performanceMode === "high",
+    isLowPerformance: performanceMode === "low",
+    shouldReduceEffects:
+      a11ySettings.reducedMotion || performanceMode === "low",
     shouldUseHighContrast: a11ySettings.highContrast,
     executeAnimation,
     batchAnimation,
@@ -281,59 +304,64 @@ export function useOptimizedGlassComponent<P extends object>(
   glassOptions: GlassOptions = {},
   optimizationConfig: GlassOptimizationConfig = {}
 ) {
-  const {
-    optimizedStyles,
-    shouldReduceEffects,
-    executeAnimation,
-  } = useGlassOptimization(glassOptions, optimizationConfig);
+  const { optimizedStyles, shouldReduceEffects, executeAnimation } =
+    useGlassOptimization(glassOptions, optimizationConfig);
 
   const OptimizedComponent = useMemo(() => {
-    return React.memo(React.forwardRef<any, P>((props, ref) => {
-      const componentRef = useRef<HTMLElement>(null);
-      const mergedRef = useCallback((node: HTMLElement | null) => {
-        if (componentRef.current !== node) {
-          (componentRef as React.MutableRefObject<HTMLElement | null>).current = node;
-        }
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          (ref as React.MutableRefObject<HTMLElement | null>).current = node;
-        }
-      }, [ref]);
+    return React.memo(
+      React.forwardRef<HTMLElement, P>((props, ref) => {
+        const componentRef = useRef<HTMLElement>(null);
+        const mergedRef = useCallback(
+          (node: HTMLElement | null) => {
+            if (componentRef.current !== node) {
+              (
+                componentRef as React.MutableRefObject<HTMLElement | null>
+              ).current = node;
+            }
+            if (typeof ref === "function") {
+              ref(node);
+            } else if (ref) {
+              (ref as React.MutableRefObject<HTMLElement | null>).current =
+                node;
+            }
+          },
+          [ref]
+        );
 
-      // Apply optimized styles
-      useEffect(() => {
-        const element = componentRef.current;
-        if (!element) return;
+        // Apply optimized styles
+        useEffect(() => {
+          const element = componentRef.current;
+          if (!element) return;
 
-        Object.assign(element.style, optimizedStyles.base);
+          Object.assign(element.style, optimizedStyles.base);
 
-        // Set up interaction handlers if not reduced motion
-        if (!shouldReduceEffects) {
-          const handleMouseEnter = () => {
-            executeAnimation(() => {
-              Object.assign(element.style, optimizedStyles.hover);
-            });
-          };
+          // Set up interaction handlers if not reduced motion
+          if (!shouldReduceEffects) {
+            const handleMouseEnter = () => {
+              executeAnimation(() => {
+                Object.assign(element.style, optimizedStyles.hover);
+              });
+            };
 
-          const handleMouseLeave = () => {
-            executeAnimation(() => {
-              Object.assign(element.style, optimizedStyles.base);
-            });
-          };
+            const handleMouseLeave = () => {
+              executeAnimation(() => {
+                Object.assign(element.style, optimizedStyles.base);
+              });
+            };
 
-          element.addEventListener('mouseenter', handleMouseEnter);
-          element.addEventListener('mouseleave', handleMouseLeave);
+            element.addEventListener("mouseenter", handleMouseEnter);
+            element.addEventListener("mouseleave", handleMouseLeave);
 
-          return () => {
-            element.removeEventListener('mouseenter', handleMouseEnter);
-            element.removeEventListener('mouseleave', handleMouseLeave);
-          };
-        }
-      }, []);
+            return () => {
+              element.removeEventListener("mouseenter", handleMouseEnter);
+              element.removeEventListener("mouseleave", handleMouseLeave);
+            };
+          }
+        }, []);
 
-      return <Component {...(props as P)} ref={mergedRef} />;
-    }));
+        return <Component {...(props as P)} ref={mergedRef} />;
+      })
+    );
   }, [Component, optimizedStyles, shouldReduceEffects, executeAnimation]);
 
   return OptimizedComponent;
@@ -358,10 +386,12 @@ export function useAdaptiveComponentLoading<T>(
   const {
     memoryUsage = 0.7,
     frameRate = 45,
-    networkSpeed = ['4g', '5g'],
+    networkSpeed = ["4g", "5g"],
   } = threshold;
 
-  const [Component, setComponent] = useState<React.ComponentType<T> | null>(null);
+  const [Component, setComponent] = useState<React.ComponentType<T> | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const { metrics } = useEnhancedPerformance();
@@ -373,14 +403,11 @@ export function useAdaptiveComponentLoading<T>(
         setError(null);
 
         // Determine if we should load the heavy component
-        const shouldLoadHeavy = (
+        const shouldLoadHeavy =
           !metrics ||
-          (
-            (metrics.memoryUsage < memoryUsage) &&
-            (metrics.frameRate >= frameRate) &&
-            (networkSpeed.includes(metrics.networkSpeed))
-          )
-        );
+          (metrics.memoryUsage < memoryUsage &&
+            metrics.frameRate >= frameRate &&
+            networkSpeed.includes(metrics.networkSpeed));
 
         if (shouldLoadHeavy) {
           const heavyModule = await heavyComponent();
@@ -397,7 +424,14 @@ export function useAdaptiveComponentLoading<T>(
     };
 
     loadComponent();
-  }, [heavyComponent, lightComponent, metrics, memoryUsage, frameRate, networkSpeed]);
+  }, [
+    heavyComponent,
+    lightComponent,
+    metrics,
+    memoryUsage,
+    frameRate,
+    networkSpeed,
+  ]);
 
   return {
     Component,

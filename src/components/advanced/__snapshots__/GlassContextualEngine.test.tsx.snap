@@ -62,7 +62,8 @@ exports[`GlassContextualEngine matches snapshot 1`] = `
           <p
             class="glass-text-xs glass-text-secondary"
           >
-            Light 
+            Light
+
             —
           </p>
         </div>

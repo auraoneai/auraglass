@@ -463,8 +463,8 @@ export function GlassTrophyCase({
         osc.start(audioContext.currentTime + index * 0.1);
         osc.stop(audioContext.currentTime + 0.5 + index * 0.1);
       });
-    } catch (error) {
-      console.warn("Unable to play unlock sound:", error);
+    } catch {
+      // Audio feedback is optional; unlocking should continue silently.
     }
   };
 

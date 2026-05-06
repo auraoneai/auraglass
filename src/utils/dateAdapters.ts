@@ -9,7 +9,7 @@
 export interface DateAdapter {
   format: (date: Date | number | string, formatStr: string) => string;
   parse: (dateStr: string, formatStr: string) => Date;
-  isValid: (date: any) => boolean;
+  isValid: (date: unknown) => boolean;
   addDays: (date: Date, days: number) => Date;
   addMonths: (date: Date, months: number) => Date;
   addYears: (date: Date, years: number) => Date;
@@ -27,6 +27,19 @@ export interface DateAdapter {
   getDaysInMonth: (date: Date) => number;
 }
 
+type DateInput = Date | number | string;
+
+const toDateInput = (date: unknown): DateInput => {
+  if (
+    date instanceof Date ||
+    typeof date === "number" ||
+    typeof date === "string"
+  ) {
+    return date;
+  }
+  return new Date(NaN);
+};
+
 /**
  * Create date-fns adapter
  * Requires date-fns to be installed: npm install date-fns
@@ -36,16 +49,16 @@ export const createDateFnsAdapter = (): DateAdapter => {
 
   try {
     // Dynamic import to avoid bundling if not used
-    dateFns = require('date-fns');
+    dateFns = require("date-fns");
   } catch (e) {
     throw new Error(
-      'date-fns is not installed. Please install it: npm install date-fns'
+      "date-fns is not installed. Please install it: npm install date-fns"
     );
   }
 
   return {
     format: (date: Date | number | string, formatStr: string): string => {
-      const dateObj = typeof date === 'string' ? new Date(date) : date;
+      const dateObj = typeof date === "string" ? new Date(date) : date;
       return dateFns.format(dateObj, formatStr);
     },
 
@@ -53,8 +66,8 @@ export const createDateFnsAdapter = (): DateAdapter => {
       return dateFns.parse(dateStr, formatStr, new Date());
     },
 
-    isValid: (date: any): boolean => {
-      return dateFns.isValid(new Date(date));
+    isValid: (date: unknown): boolean => {
+      return dateFns.isValid(new Date(toDateInput(date)));
     },
 
     addDays: (date: Date, days: number): Date => {
@@ -127,10 +140,10 @@ export const createDayJsAdapter = (): DateAdapter => {
   let dayjs: any;
 
   try {
-    dayjs = require('dayjs');
+    dayjs = require("dayjs");
   } catch (e) {
     throw new Error(
-      'dayjs is not installed. Please install it: npm install dayjs'
+      "dayjs is not installed. Please install it: npm install dayjs"
     );
   }
 
@@ -143,52 +156,52 @@ export const createDayJsAdapter = (): DateAdapter => {
       return dayjs(dateStr, formatStr).toDate();
     },
 
-    isValid: (date: any): boolean => {
-      return dayjs(date).isValid();
+    isValid: (date: unknown): boolean => {
+      return dayjs(toDateInput(date)).isValid();
     },
 
     addDays: (date: Date, days: number): Date => {
-      return dayjs(date).add(days, 'day').toDate();
+      return dayjs(date).add(days, "day").toDate();
     },
 
     addMonths: (date: Date, months: number): Date => {
-      return dayjs(date).add(months, 'month').toDate();
+      return dayjs(date).add(months, "month").toDate();
     },
 
     addYears: (date: Date, years: number): Date => {
-      return dayjs(date).add(years, 'year').toDate();
+      return dayjs(date).add(years, "year").toDate();
     },
 
     startOfDay: (date: Date): Date => {
-      return dayjs(date).startOf('day').toDate();
+      return dayjs(date).startOf("day").toDate();
     },
 
     startOfWeek: (date: Date): Date => {
-      return dayjs(date).startOf('week').toDate();
+      return dayjs(date).startOf("week").toDate();
     },
 
     startOfMonth: (date: Date): Date => {
-      return dayjs(date).startOf('month').toDate();
+      return dayjs(date).startOf("month").toDate();
     },
 
     startOfYear: (date: Date): Date => {
-      return dayjs(date).startOf('year').toDate();
+      return dayjs(date).startOf("year").toDate();
     },
 
     endOfDay: (date: Date): Date => {
-      return dayjs(date).endOf('day').toDate();
+      return dayjs(date).endOf("day").toDate();
     },
 
     endOfWeek: (date: Date): Date => {
-      return dayjs(date).endOf('week').toDate();
+      return dayjs(date).endOf("week").toDate();
     },
 
     endOfMonth: (date: Date): Date => {
-      return dayjs(date).endOf('month').toDate();
+      return dayjs(date).endOf("month").toDate();
     },
 
     endOfYear: (date: Date): Date => {
-      return dayjs(date).endOf('year').toDate();
+      return dayjs(date).endOf("year").toDate();
     },
 
     isBefore: (date: Date, dateToCompare: Date): boolean => {
@@ -200,7 +213,7 @@ export const createDayJsAdapter = (): DateAdapter => {
     },
 
     isSameDay: (date: Date, dateToCompare: Date): boolean => {
-      return dayjs(date).isSame(dayjs(dateToCompare), 'day');
+      return dayjs(date).isSame(dayjs(dateToCompare), "day");
     },
 
     getDaysInMonth: (date: Date): number => {
@@ -224,8 +237,8 @@ export const createNativeDateAdapter = (): DateAdapter => {
       return new Date(dateStr);
     },
 
-    isValid: (date: any): boolean => {
-      const d = new Date(date);
+    isValid: (date: unknown): boolean => {
+      const d = new Date(toDateInput(date));
       return d instanceof Date && !isNaN(d.getTime());
     },
 

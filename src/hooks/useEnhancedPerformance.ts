@@ -1,13 +1,13 @@
-'use client';
-import React from 'react';
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { 
-  PerformanceMonitor, 
-  getAdaptivePerformanceConfig, 
+"use client";
+import React from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import {
+  PerformanceMonitor,
+  getAdaptivePerformanceConfig,
   createCleanupManager,
-  type PerformanceOptions 
-} from '../core/mixins/performanceMixins';
-import { detectDevice } from '../utils/deviceCapabilities';
+  type PerformanceOptions,
+} from "../core/mixins/performanceMixins";
+import { detectDevice } from "../utils/deviceCapabilities";
 
 export interface PerformanceMetrics {
   renderTime: number;
@@ -23,7 +23,7 @@ export interface PerformanceMetrics {
 
 export interface PerformanceState {
   isOptimized: boolean;
-  performanceMode: 'high' | 'balanced' | 'low';
+  performanceMode: "high" | "balanced" | "low";
   metrics: PerformanceMetrics | null;
   isLoading: boolean;
   error: string | null;
@@ -32,12 +32,14 @@ export interface PerformanceState {
 /**
  * Enhanced performance monitoring and optimization hook
  */
-export function useEnhancedPerformance(options: {
-  enableMetrics?: boolean;
-  metricsInterval?: number;
-  adaptiveMode?: boolean;
-  onPerformanceChange?: (state: PerformanceState) => void;
-} = {}): PerformanceState & {
+export function useEnhancedPerformance(
+  options: {
+    enableMetrics?: boolean;
+    metricsInterval?: number;
+    adaptiveMode?: boolean;
+    onPerformanceChange?: (state: PerformanceState) => void;
+  } = {}
+): PerformanceState & {
   startMeasure: (name: string) => void;
   endMeasure: (name: string) => number | null;
   optimizeForDevice: () => void;
@@ -52,7 +54,7 @@ export function useEnhancedPerformance(options: {
 
   const [state, setState] = useState<PerformanceState>({
     isOptimized: false,
-    performanceMode: 'balanced',
+    performanceMode: "balanced",
     metrics: null,
     isLoading: true,
     error: null,
@@ -72,13 +74,13 @@ export function useEnhancedPerformance(options: {
     const countFrame = () => {
       frameCount++;
       const currentTime = performance.now();
-      
+
       if (currentTime - startTime >= 1000) {
         frameCountRef.current = frameCount;
         frameCount = 0;
         startTime = currentTime;
       }
-      
+
       requestAnimationFrame(countFrame);
     };
 
@@ -86,50 +88,54 @@ export function useEnhancedPerformance(options: {
   }, []);
 
   // Collect performance metrics
-  const collectMetrics = useCallback(async (): Promise<PerformanceMetrics | null> => {
-    if (!enableMetrics || typeof window === 'undefined') return null;
+  const collectMetrics =
+    useCallback(async (): Promise<PerformanceMetrics | null> => {
+      if (!enableMetrics || typeof window === "undefined") return null;
 
-    try {
-      // Memory usage (if available)
-      const memoryInfo = (performance as any).memory;
-      const memoryUsage = memoryInfo ? memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit : 0;
+      try {
+        // Memory usage (if available)
+        const memoryInfo = (performance as any).memory;
+        const memoryUsage = memoryInfo
+          ? memoryInfo.usedJSHeapSize / memoryInfo.jsHeapSizeLimit
+          : 0;
 
-      // Network speed
-      const connection = (navigator as any).connection;
-      const networkSpeed = connection?.effectiveType || 'unknown';
+        // Network speed
+        const connection = (navigator as any).connection;
+        const networkSpeed = connection?.effectiveType || "unknown";
 
-      // Device capabilities (cached, avoids creating WebGL contexts repeatedly)
-      const deviceInfo = detectDevice();
-      const deviceCapabilities = {
-        supportsGPU: deviceInfo.capabilities.webgl,
-        supportsBackdropFilter: CSS.supports('backdrop-filter', 'blur(1px)') || 
-                                CSS.supports('-webkit-backdrop-filter', 'blur(1px)'),
-        devicePixelRatio: window.devicePixelRatio || 1,
-      };
+        // Device capabilities (cached, avoids creating WebGL contexts repeatedly)
+        const deviceInfo = detectDevice();
+        const deviceCapabilities = {
+          supportsGPU: deviceInfo.capabilities.webgl,
+          supportsBackdropFilter:
+            CSS.supports("backdrop-filter", "blur(1px)") ||
+            CSS.supports("-webkit-backdrop-filter", "blur(1px)"),
+          devicePixelRatio: window.devicePixelRatio || 1,
+        };
 
-      // Render time (average from performance monitor)
-      const renderTime = performanceMonitor.current.getAverageMetric('render') || 0;
+        // Render time (average from performance monitor)
+        const renderTime =
+          performanceMonitor.current.getAverageMetric("render") || 0;
 
-      return {
-        renderTime,
-        memoryUsage,
-        frameRate: frameCountRef.current,
-        networkSpeed,
-        deviceCapabilities,
-      };
-    } catch (error) {
-      console.warn('Failed to collect performance metrics:', error);
-      return null;
-    }
-  }, [enableMetrics]);
+        return {
+          renderTime,
+          memoryUsage,
+          frameRate: frameCountRef.current,
+          networkSpeed,
+          deviceCapabilities,
+        };
+      } catch {
+        return null;
+      }
+    }, [enableMetrics]);
 
   // Optimize performance based on current metrics
   const optimizeForDevice = useCallback(() => {
     const config = getAdaptivePerformanceConfig();
-    
+
     setState((prev: any) => ({
       ...prev,
-      performanceMode: config.mode || 'balanced',
+      performanceMode: config.mode || "balanced",
       isOptimized: true,
     }));
   }, []);
@@ -185,17 +191,19 @@ export function useEnhancedPerformance(options: {
 
         // Initial metrics collection
         const initialMetrics = await collectMetrics();
-        
+
         setState((prev: any) => ({
           ...prev,
           metrics: initialMetrics,
           isLoading: false,
         }));
-
       } catch (error) {
         setState((prev: any) => ({
           ...prev,
-          error: error instanceof Error ? error.message : 'Performance initialization failed',
+          error:
+            error instanceof Error
+              ? error.message
+              : "Performance initialization failed",
           isLoading: false,
         }));
       }
@@ -209,7 +217,15 @@ export function useEnhancedPerformance(options: {
         clearInterval(metricsIntervalRef.current);
       }
     };
-  }, [enableMetrics, metricsInterval, adaptiveMode, measureFrameRate, collectMetrics, optimizeForDevice, onPerformanceChange]);
+  }, [
+    enableMetrics,
+    metricsInterval,
+    adaptiveMode,
+    measureFrameRate,
+    collectMetrics,
+    optimizeForDevice,
+    onPerformanceChange,
+  ]);
 
   return {
     ...state,
@@ -246,21 +262,24 @@ export function usePerformanceAwareRendering<T>(
   const [currentPage, setCurrentPage] = useState(0);
   const { metrics } = useEnhancedPerformance();
 
-  const shouldVirtualize = enableVirtualization && (
-    (data?.length || 0) > performanceThreshold ||
-    (metrics?.frameRate || 60) < 30 ||
-    (metrics?.memoryUsage || 0) > 0.8
-  );
+  const shouldVirtualize =
+    enableVirtualization &&
+    ((data?.length || 0) > performanceThreshold ||
+      (metrics?.frameRate || 60) < 30 ||
+      (metrics?.memoryUsage || 0) > 0.8);
 
   const totalPages = Math.ceil((data?.length || 0) / itemsPerPage);
-  
+
   const visibleData = shouldVirtualize
     ? data?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
     : data;
 
-  const setPage = useCallback((page: number) => {
-    setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)));
-  }, [totalPages]);
+  const setPage = useCallback(
+    (page: number) => {
+      setCurrentPage(Math.max(0, Math.min(page, totalPages - 1)));
+    },
+    [totalPages]
+  );
 
   return {
     visibleData,
@@ -279,23 +298,27 @@ export function usePerformanceLazyLoading(
   options: {
     threshold?: number;
     rootMargin?: string;
-    performanceMode?: 'high' | 'balanced' | 'low';
+    performanceMode?: "high" | "balanced" | "low";
   } = {}
 ): {
   ref: React.RefObject<HTMLElement>;
   isIntersecting: boolean;
   shouldLoad: boolean;
 } {
-  const { threshold = 0.1, rootMargin = '50px', performanceMode } = options;
+  const { threshold = 0.1, rootMargin = "50px", performanceMode } = options;
   const [isIntersecting, setIsIntersecting] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const { performanceMode: detectedMode } = useEnhancedPerformance();
 
   const effectiveMode = performanceMode || detectedMode;
-  const shouldLoad = !enabled || isIntersecting || effectiveMode === 'high';
+  const shouldLoad = !enabled || isIntersecting || effectiveMode === "high";
 
   useEffect(() => {
-    if (!enabled || !ref.current || typeof IntersectionObserver === 'undefined') {
+    if (
+      !enabled ||
+      !ref.current ||
+      typeof IntersectionObserver === "undefined"
+    ) {
       setIsIntersecting(true);
       return;
     }
@@ -305,8 +328,8 @@ export function usePerformanceLazyLoading(
         setIsIntersecting(entry.isIntersecting);
       },
       {
-        threshold: effectiveMode === 'low' ? 0.5 : threshold,
-        rootMargin: effectiveMode === 'low' ? '0px' : rootMargin,
+        threshold: effectiveMode === "low" ? 0.5 : threshold,
+        rootMargin: effectiveMode === "low" ? "0px" : rootMargin,
       }
     );
 
@@ -354,15 +377,18 @@ export function useAdaptiveImageLoading(
       try {
         // Determine best image format based on performance and support
         let targetSrc = src;
-        
-        if (performanceMode === 'high' && metrics?.networkSpeed === '4g') {
+
+        if (performanceMode === "high" && metrics?.networkSpeed === "4g") {
           // Use best quality format available
-          if (avifSrc && CSS.supports('image-format', 'avif')) {
+          if (avifSrc && CSS.supports("image-format", "avif")) {
             targetSrc = avifSrc;
-          } else if (webpSrc && CSS.supports('image-format', 'webp')) {
+          } else if (webpSrc && CSS.supports("image-format", "webp")) {
             targetSrc = webpSrc;
           }
-        } else if (performanceMode === 'low' || metrics?.networkSpeed === '2g') {
+        } else if (
+          performanceMode === "low" ||
+          metrics?.networkSpeed === "2g"
+        ) {
           // Use low quality version if available
           if (lowQualitySrc) {
             targetSrc = lowQualitySrc;
@@ -376,20 +402,26 @@ export function useAdaptiveImageLoading(
           setIsLoading(false);
         };
         img.onerror = () => {
-          setError('Failed to load image');
+          setError("Failed to load image");
           setCurrentSrc(src); // Fallback to original
           setIsLoading(false);
         };
         img.src = targetSrc;
-
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Image loading failed');
+        setError(err instanceof Error ? err.message : "Image loading failed");
         setIsLoading(false);
       }
     };
 
     loadImage();
-  }, [src, lowQualitySrc, webpSrc, avifSrc, performanceMode, metrics?.networkSpeed]);
+  }, [
+    src,
+    lowQualitySrc,
+    webpSrc,
+    avifSrc,
+    performanceMode,
+    metrics?.networkSpeed,
+  ]);
 
   return {
     currentSrc,

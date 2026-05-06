@@ -166,13 +166,11 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           case "copy":
             if (allowCopy) {
               // This would typically open a dialog to select destination
-              console.log("Copy node:", node.id);
             }
             break;
           case "move":
             if (allowMove) {
               // This would typically open a dialog to select destination
-              console.log("Move node:", node.id);
             }
             break;
           case "newFolder":
@@ -223,7 +221,8 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       (event: React.DragEvent, node: TreeNode) => {
         setDraggedNode(node);
         const ghost = document.createElement("div");
-        ghost.className="glass-pointer-events-none glass-px-2 glass-py-1 glass-radius-md glass-surface-dark/40 glass-ring-1 glass-ring-white-opacity-10 glass-text-primary glass-text-xs glass-backdrop-blur-md glass-shadow-xl glass-contrast-guard";
+        ghost.className =
+          "glass-pointer-events-none glass-px-2 glass-py-1 glass-radius-md glass-surface-dark/40 glass-ring-1 glass-ring-white-opacity-10 glass-text-primary glass-text-xs glass-backdrop-blur-md glass-shadow-xl glass-contrast-guard";
         ghost.textContent = node.name;
         document.body.appendChild(ghost);
         event.dataTransfer.setDragImage(ghost, 8, 8);
@@ -300,9 +299,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       (node: TreeNode) => {
         if (node.type === "folder") {
           return localExpandedNodes.includes(node.id) ? (
-            <FolderOpen className='glass-w-4 glass-h-4 glass-text-primary' />
+            <FolderOpen className="glass-w-4 glass-h-4 glass-text-primary" />
           ) : (
-            <Folder className='glass-w-4 glass-h-4 glass-text-primary' />
+            <Folder className="glass-w-4 glass-h-4 glass-text-primary" />
           );
         }
 
@@ -313,20 +312,22 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           case "png":
           case "gif":
           case "webp":
-            return <Image className='glass-w-4 glass-h-4 glass-text-primary' />;
+            return <Image className="glass-w-4 glass-h-4 glass-text-primary" />;
           case "mp4":
           case "avi":
           case "mov":
           case "mkv":
-            return <Video className='glass-w-4 glass-h-4 glass-text-primary' />;
+            return <Video className="glass-w-4 glass-h-4 glass-text-primary" />;
           case "mp3":
           case "wav":
           case "flac":
-            return <Music className='glass-w-4 glass-h-4 glass-text-pink' />;
+            return <Music className="glass-w-4 glass-h-4 glass-text-pink" />;
           case "zip":
           case "rar":
           case "7z":
-            return <Archive className='glass-w-4 glass-h-4 glass-text-primary' />;
+            return (
+              <Archive className="glass-w-4 glass-h-4 glass-text-primary" />
+            );
           case "js":
           case "ts":
           case "jsx":
@@ -338,9 +339,11 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           case "php":
           case "html":
           case "css":
-            return <Code className='glass-w-4 glass-h-4 glass-text-primary' />;
+            return <Code className="glass-w-4 glass-h-4 glass-text-primary" />;
           default:
-            return <FileText className='glass-w-4 glass-h-4 glass-text-secondary' />;
+            return (
+              <FileText className="glass-w-4 glass-h-4 glass-text-secondary" />
+            );
         }
       },
       [localExpandedNodes]
@@ -420,22 +423,22 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
               <GlassButton
                 variant="ghost"
                 size="sm"
-                className='glass-w-4 glass-h-4 glass-p-0 hover:glass-surface-subtle/20 glass-focus glass-touch-target'
+                className="glass-w-4 glass-h-4 glass-p-0 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleToggle(node);
                 }}
               >
                 {isExpanded ? (
-                  <ChevronDown className='glass-w-3 glass-h-3' />
+                  <ChevronDown className="glass-w-3 glass-h-3" />
                 ) : (
-                  <ChevronRight className='glass-w-3 glass-h-3' />
+                  <ChevronRight className="glass-w-3 glass-h-3" />
                 )}
               </GlassButton>
             )}
 
             {/* Spacer for files */}
-            {node.type === "file" && <div className='glass-w-4' />}
+            {node.type === "file" && <div className="glass-w-4" />}
 
             {/* Icon */}
             {showIcons && (
@@ -454,30 +457,32 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                       if (e.key === "Escape") setRenamingNode(null);
                     }}
                     autoFocus
-                    className='glass-flex-1 glass-h-6 glass-text-sm glass-pulse-ring'
+                    className="glass-flex-1 glass-h-6 glass-text-sm glass-pulse-ring"
                   />
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={handleRenameSubmit}
-                    className='glass-w-6 glass-h-6 glass-p-0 glass-focus glass-touch-target'
+                    className="glass-w-6 glass-h-6 glass-p-0 glass-focus glass-touch-target"
                   >
-                    <Check className='glass-w-3 glass-h-3' />
+                    <Check className="glass-w-3 glass-h-3" />
                   </GlassButton>
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={(e) => setRenamingNode(null)}
-                    className='glass-w-6 glass-h-6 glass-p-0 glass-focus glass-touch-target'
+                    className="glass-w-6 glass-h-6 glass-p-0 glass-focus glass-touch-target"
                   >
-                    <X className='glass-w-3 glass-h-3' />
+                    <X className="glass-w-3 glass-h-3" />
                   </GlassButton>
                 </div>
               ) : (
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  <span className='glass-truncate glass-text-primary'>{node.name}</span>
+                  <span className="glass-truncate glass-text-primary">
+                    {node.name}
+                  </span>
                   {showSize && node.size && (
-                    <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
+                    <span className="glass-text-xs glass-text-primary-glass-opacity-60">
                       ({formatFileSize(node.size)})
                     </span>
                   )}
@@ -487,7 +492,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
 
             {/* Modified Date */}
             {showModified && node.modifiedAt && (
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-hidden md:glass-block'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60 glass-hidden md:glass-block">
                 {formatDate(node.modifiedAt)}
               </div>
             )}
@@ -496,14 +501,13 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
             <GlassButton
               variant="ghost"
               size="sm"
-              className='glass-w-6 glass-h-6 glass-p-0 glass-opacity-0 glass-group-glass-hover-opacity-100 hover:glass-surface-subtle/20 glass-focus glass-touch-target'
+              className="glass-w-6 glass-h-6 glass-p-0 glass-opacity-0 glass-group-glass-hover-opacity-100 hover:glass-surface-subtle/20 glass-focus glass-touch-target"
               onClick={(e) => {
                 e.stopPropagation();
                 // Simple action for now
-                console.log("Context menu for:", node.name);
               }}
             >
-              <MoreVertical className='glass-w-3 glass-h-3' />
+              <MoreVertical className="glass-w-3 glass-h-3" />
             </GlassButton>
           </div>
 
@@ -516,7 +520,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                   prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
                 }
                 exit={{ opacity: 0, height: 0 }}
-                className='glass-overflow-hidden'
+                className="glass-overflow-hidden"
               >
                 {node.children.map((child) => (
                   <TreeNodeComponent
@@ -535,8 +539,8 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
               className="glass-flex glass-items-center glass-py-1"
               style={{ paddingLeft: `${indent + 32}px` }}
             >
-              <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin' />
-              <span className='glass-text-sm glass-text-primary-glass-opacity-60 glass-ml-2'>
+              <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin" />
+              <span className="glass-text-sm glass-text-primary-glass-opacity-60 glass-ml-2">
                 Loading...
               </span>
             </div>
@@ -561,23 +565,23 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         {...props}
       >
         {/* Search */}
-        <div className='glass-mb-4'>
+        <div className="glass-mb-4">
           <GlassInput
             placeholder="Search files..."
             value={searchQuery}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            leftIcon={<Search className='glass-w-4 glass-h-4' />}
+            leftIcon={<Search className="glass-w-4 glass-h-4" />}
           />
         </div>
 
         {/* Tree */}
-        <div className='glass-overflow-y-auto' style={{ maxHeight }}>
+        <div className="glass-overflow-y-auto" style={{ maxHeight }}>
           {filteredNodes.length > 0 ? (
             filteredNodes.map((node) => (
               <TreeNodeComponent key={node.id} node={node} />
             ))
           ) : (
-            <div className='glass-text-center glass-py-8 glass-text-primary-glass-opacity-60'>
+            <div className="glass-text-center glass-py-8 glass-text-primary-glass-opacity-60">
               {searchQuery ? "No files found" : "No files to display"}
             </div>
           )}
@@ -585,9 +589,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
 
         {/* Create Node Dialog */}
         {creatingNode && (
-          <div className='glass-fixed glass-inset-0 glass-surface-dark/50 glass-backdrop-blur-md glass-z-50 glass-flex glass-items-center glass-justify-center glass-contrast-guard'>
-            <div className='glass-radius-lg glass-p-6 glass-max-w-md glass-w-full glass-mx-4 glass-surface-subtle/5 glass-ring-1 glass-ring-white-opacity-10 glass-contrast-guard'>
-              <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-4'>
+          <div className="glass-fixed glass-inset-0 glass-surface-dark/50 glass-backdrop-blur-md glass-z-50 glass-flex glass-items-center glass-justify-center glass-contrast-guard">
+            <div className="glass-radius-lg glass-p-6 glass-max-w-md glass-w-full glass-mx-4 glass-surface-subtle/5 glass-ring-1 glass-ring-white-opacity-10 glass-contrast-guard">
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
                 Create New {creatingNode.type === "folder" ? "Folder" : "File"}
               </h3>
               <GlassInput
@@ -595,7 +599,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
                 value={newNodeName}
                 onChange={(e) => setNewNodeName(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleCreateSubmit()}
-                className='glass-mb-4'
+                className="glass-mb-4"
                 autoFocus
               />
               <div className="glass-flex glass-gap-2">

@@ -37,6 +37,17 @@ export interface GenerationSettings {
   iterations: number;
 }
 
+type GenerationModel = GenerationSettings["model"];
+type GenerationResolution = GenerationSettings["resolution"];
+
+export interface GeneratedImageMetadata {
+  id: string;
+  prompt: string;
+  imageUrl: string;
+  settings: GenerationSettings;
+  timestamp: number;
+}
+
 export interface GlassGenerativeArtProps {
   prompt?: string;
   suggestions?: ArtPrompt[];
@@ -50,7 +61,10 @@ export interface GlassGenerativeArtProps {
   realTimeGeneration?: boolean;
   onPromptChange?: (prompt: string) => void;
   onGenerate?: (prompt: string, settings: GenerationSettings) => void;
-  onImageGenerated?: (imageUrl: string, metadata: any) => void;
+  onImageGenerated?: (
+    imageUrl: string,
+    metadata: GeneratedImageMetadata
+  ) => void;
   className?: string;
 }
 
@@ -139,13 +153,7 @@ export const GlassGenerativeArt = forwardRef<
       useState(enablePromptEnhancement);
     const [generatedImages, setGeneratedImages] = useState<string[]>([]);
     const [generationHistory, setGenerationHistory] = useState<
-      Array<{
-        id: string;
-        prompt: string;
-        imageUrl: string;
-        settings: GenerationSettings;
-        timestamp: number;
-      }>
+      GeneratedImageMetadata[]
     >([]);
 
     const [settings, setSettings] = useState<GenerationSettings>({
@@ -376,19 +384,17 @@ export const GlassGenerativeArt = forwardRef<
           }
         }
 
-        setGeneratedImages((prev: any) => [...newImages, ...prev].slice(0, 12));
+        setGeneratedImages((prev) => [...newImages, ...prev].slice(0, 12));
 
         // Add to history
-        const historyEntry = {
+        const historyEntry: GeneratedImageMetadata = {
           id: Date.now().toString(),
           prompt: enhancedPrompt,
           imageUrl: newImages[0] || "",
           settings: { ...settings },
           timestamp: Date.now(),
         };
-        setGenerationHistory((prev: any) =>
-          [historyEntry, ...prev].slice(0, 20)
-        );
+        setGenerationHistory((prev) => [historyEntry, ...prev].slice(0, 20));
 
         setIsGenerating(false);
         play("success");
@@ -453,7 +459,7 @@ export const GlassGenerativeArt = forwardRef<
                     >
                       {suggestion.category}
                     </span>
-                    {suggestion.tags.slice(0, 2).map((tag: any) => (
+                    {suggestion.tags.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
                         className="glass-px-1.5 glass-py-0.5 glass-surface-subtle/10 glass-text-primary-glass-opacity-60 glass-radius glass-text-xs"
@@ -488,9 +494,9 @@ export const GlassGenerativeArt = forwardRef<
               id="model-select"
               value={settings.model}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
-                  model: e.target.value as any,
+                  model: e.target.value as GenerationModel,
                 }))
               }
               className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
@@ -514,7 +520,7 @@ export const GlassGenerativeArt = forwardRef<
               id="style-select"
               value={settings.style}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
                   style: e.target.value,
                 }))
@@ -522,7 +528,7 @@ export const GlassGenerativeArt = forwardRef<
               className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
               aria-label="Art style preset"
             >
-              {stylePresets.map((style: any) => (
+              {stylePresets.map((style) => (
                 <option key={style} value={style}>
                   {style.charAt(0).toUpperCase() + style.slice(1)}
                 </option>
@@ -541,9 +547,9 @@ export const GlassGenerativeArt = forwardRef<
               id="resolution-select"
               value={settings.resolution}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
-                  resolution: e.target.value as any,
+                  resolution: e.target.value as GenerationResolution,
                 }))
               }
               className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
@@ -570,7 +576,7 @@ export const GlassGenerativeArt = forwardRef<
               max="4"
               value={settings.iterations}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
                   iterations: parseInt(e.target.value),
                 }))
@@ -594,7 +600,7 @@ export const GlassGenerativeArt = forwardRef<
               max="50"
               value={settings.steps}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
                   steps: parseInt(e.target.value),
                 }))
@@ -619,7 +625,7 @@ export const GlassGenerativeArt = forwardRef<
               step="0.5"
               value={settings.guidance}
               onChange={(e) =>
-                setSettings((prev: any) => ({
+                setSettings((prev) => ({
                   ...prev,
                   guidance: parseFloat(e.target.value),
                 }))

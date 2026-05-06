@@ -19,43 +19,102 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
 // Behavioral data types
+type InteractionType =
+  | "click"
+  | "hover"
+  | "scroll"
+  | "focus"
+  | "resize"
+  | "navigate";
+type DeviceType = "mobile" | "tablet" | "desktop";
+type PatternType = "sequence" | "temporal" | "spatial" | "contextual";
+type PredictiveActionType =
+  | "preload"
+  | "pre-render"
+  | "animate"
+  | "suggest"
+  | "optimize"
+  | "navigate";
+type PredictiveInsightCategory =
+  | "performance"
+  | "usability"
+  | "accessibility"
+  | "engagement";
+type PredictiveMetadataValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | PredictiveMetadataValue[]
+  | { [key: string]: PredictiveMetadataValue };
+type PredictiveMetadata = Record<string, PredictiveMetadataValue>;
+type PatternElement = string | number;
+
+interface PersistedPredictiveData {
+  patterns?: Array<[string, BehavioralPattern]>;
+  interactions?: UserInteraction[];
+}
+
+interface WorkflowSuggestion {
+  type: "reorganize" | "automation";
+  title: string;
+  description: string;
+  priority: number;
+  cardId: string;
+  suggestedColumn: string;
+  reason: string;
+}
+
+interface BoardPerformanceReport {
+  averageResponseTime: number;
+  abandonmentRate: number;
+  interactionCount: number;
+  efficiency: number;
+  totalCards: number;
+  bottlenecks: string[];
+  productivity: number;
+  completionRate: number;
+  suggestions: WorkflowSuggestion[];
+}
+
 interface UserInteraction {
-  type: "click" | "hover" | "scroll" | "focus" | "resize" | "navigate";
+  type: InteractionType;
   element: string;
   timestamp: number;
   context: {
     viewport: { width: number; height: number };
     timeOfDay: number;
-    deviceType: "mobile" | "tablet" | "desktop";
+    deviceType: DeviceType;
     location?: { x: number; y: number };
     duration?: number;
   };
-  metadata: Record<string, any>;
+  metadata: PredictiveMetadata;
 }
 
 interface BehavioralPattern {
   id: string;
-  type: "sequence" | "temporal" | "spatial" | "contextual";
+  type: PatternType;
   confidence: number;
   frequency: number;
   lastSeen: number;
-  pattern: any[];
+  pattern: PatternElement[];
   prediction: string;
 }
 
 interface PredictiveAction {
   id: string;
-  type: "preload" | "pre-render" | "animate" | "suggest" | "optimize";
+  type: PredictiveActionType;
   target: string;
   confidence: number;
   timing: number;
-  metadata: Record<string, any>;
+  metadata: PredictiveMetadata;
 }
 
 interface PredictiveInsight {
   id: string;
   type?: string;
-  category: "performance" | "usability" | "accessibility" | "engagement";
+  category: PredictiveInsightCategory;
   insight: string;
   confidence: number;
   impact: number;
@@ -66,9 +125,57 @@ interface PredictiveInsight {
     topic?: string;
     userStress?: number;
     complexity?: number;
-    [key: string]: any;
+    [key: string]: PredictiveMetadataValue;
   };
 }
+
+const PREDICTIVE_ACTION_TYPES: PredictiveActionType[] = [
+  "preload",
+  "suggest",
+  "animate",
+  "optimize",
+  "pre-render",
+];
+
+const getNumericMetadata = (
+  metadata: PredictiveMetadata,
+  key: string
+): number | undefined => {
+  const value = metadata[key];
+  return typeof value === "number" ? value : undefined;
+};
+
+const getBooleanMetadata = (
+  metadata: PredictiveMetadata,
+  key: string
+): boolean | undefined => {
+  const value = metadata[key];
+  return typeof value === "boolean" ? value : undefined;
+};
+
+const getNumberArrayMetadata = (
+  metadata: PredictiveMetadata,
+  key: string
+): number[] | undefined => {
+  const value = metadata[key];
+  return Array.isArray(value) && value.every((item) => typeof item === "number")
+    ? value
+    : undefined;
+};
+
+const getBoardCardCount = (context: PredictiveMetadata): number => {
+  const columns = context.columns;
+  if (!Array.isArray(columns)) return 0;
+
+  return columns.reduce<number>((total, column) => {
+    if (!column || typeof column !== "object" || Array.isArray(column)) {
+      return total;
+    }
+
+    const cards = (column as { cards?: PredictiveMetadataValue }).cards;
+    return total + (Array.isArray(cards) ? cards.length : 0);
+  }, 0);
+};
 
 // Neural network simulation for prediction
 class PredictiveNeuralNet {
@@ -164,13 +271,13 @@ class PredictiveUIEngine {
     try {
       const stored = localStorage.getItem("auraglass-predictive-data");
       if (stored) {
-        const data = JSON.parse(stored);
-        this.patterns = new Map(data.patterns);
+        const data = JSON.parse(stored) as PersistedPredictiveData;
+        this.patterns = new Map(data.patterns || []);
         // Load recent interactions
-        this.interactions = data.interactions.slice(-1000); // Keep last 1000
+        this.interactions = (data.interactions || []).slice(-1000); // Keep last 1000
       }
-    } catch (error) {
-      console.warn("Failed to load predictive data:", error);
+    } catch {
+      // Ignore invalid persisted predictive data.
     }
   }
 
@@ -182,8 +289,8 @@ class PredictiveUIEngine {
         timestamp: Date.now(),
       };
       localStorage.setItem("auraglass-predictive-data", JSON.stringify(data));
-    } catch (error) {
-      console.warn("Failed to save predictive data:", error);
+    } catch {
+      // Ignore storage failures; predictive state remains in memory.
     }
   }
 
@@ -219,7 +326,7 @@ class PredictiveUIEngine {
   private analyzeSequentialPatterns(interactions: UserInteraction[]): void {
     for (let i = 0; i < interactions.length - 2; i++) {
       const sequence = interactions.slice(i, i + 3);
-      const pattern = sequence.map((int: any) => int.element).join(" -> ");
+      const pattern = sequence.map((int) => int.element).join(" -> ");
       const patternId = `seq_${pattern}`;
 
       const existing = this.patterns.get(patternId);
@@ -234,7 +341,7 @@ class PredictiveUIEngine {
           confidence: 0.3,
           frequency: 1,
           lastSeen: Date.now(),
-          pattern: sequence.map((int: any) => int.element),
+          pattern: sequence.map((int) => int.element),
           prediction: sequence.length > 2 ? "next_in_sequence" : "unknown",
         });
       }
@@ -244,7 +351,7 @@ class PredictiveUIEngine {
   private analyzeTemporalPatterns(interactions: UserInteraction[]): void {
     const timeGroups = new Map<number, UserInteraction[]>();
 
-    interactions.forEach((interaction: any) => {
+    interactions.forEach((interaction) => {
       const hour = new Date(interaction.timestamp).getHours();
       if (!timeGroups.has(hour)) {
         timeGroups.set(hour, []);
@@ -254,7 +361,7 @@ class PredictiveUIEngine {
 
     timeGroups.forEach((hourInteractions, hour) => {
       const commonElements = this.findCommonElements(hourInteractions);
-      commonElements.forEach((element: any) => {
+      commonElements.forEach((element) => {
         const patternId = `temporal_${hour}_${element}`;
         const existing = this.patterns.get(patternId);
 
@@ -279,7 +386,7 @@ class PredictiveUIEngine {
   private analyzeSpatialPatterns(interactions: UserInteraction[]): void {
     const spatialGroups = new Map<string, UserInteraction[]>();
 
-    interactions.forEach((interaction: any) => {
+    interactions.forEach((interaction) => {
       if (interaction.context.location) {
         const region = this.getScreenRegion(interaction.context.location);
         if (!spatialGroups.has(region)) {
@@ -309,7 +416,7 @@ class PredictiveUIEngine {
   private analyzeContextualPatterns(interactions: UserInteraction[]): void {
     const deviceGroups = new Map<string, UserInteraction[]>();
 
-    interactions.forEach((interaction: any) => {
+    interactions.forEach((interaction) => {
       const device = interaction.context.deviceType;
       if (!deviceGroups.has(device)) {
         deviceGroups.set(device, []);
@@ -339,7 +446,7 @@ class PredictiveUIEngine {
     const now = Date.now();
 
     // Generate predictions from patterns
-    this.patterns.forEach((pattern: any) => {
+    this.patterns.forEach((pattern) => {
       if (pattern.confidence > 0.5 && now - pattern.lastSeen < 86400000) {
         // 24 hours
         const prediction = this.createPredictiveAction(pattern);
@@ -381,7 +488,7 @@ class PredictiveUIEngine {
           return {
             id: actionId,
             type: "preload",
-            target: pattern.pattern[pattern.pattern.length - 1],
+            target: String(pattern.pattern[pattern.pattern.length - 1]),
             confidence: pattern.confidence,
             timing: 500,
             metadata: { sequence: pattern.pattern },
@@ -392,7 +499,11 @@ class PredictiveUIEngine {
       case "temporal":
         const [hour, element] = pattern.pattern;
         const currentHour = new Date().getHours();
-        if (Math.abs(currentHour - hour) <= 1) {
+        if (
+          typeof hour === "number" &&
+          typeof element === "string" &&
+          Math.abs(currentHour - hour) <= 1
+        ) {
           return {
             id: actionId,
             type: "suggest",
@@ -442,9 +553,7 @@ class PredictiveUIEngine {
       if (confidence > 0.6) {
         predictions.push({
           id: `neural_${Date.now()}_${index}`,
-          type: ["preload", "suggest", "animate", "optimize", "pre-render"][
-            index
-          ] as any,
+          type: PREDICTIVE_ACTION_TYPES[index],
           target: "neural_prediction",
           confidence,
           timing: 100 + index * 100,
@@ -503,7 +612,7 @@ class PredictiveUIEngine {
   // Helper methods
   private findCommonElements(interactions: UserInteraction[]): string[] {
     const elementCount = new Map<string, number>();
-    interactions.forEach((int: any) => {
+    interactions.forEach((int) => {
       elementCount.set(int.element, (elementCount.get(int.element) || 0) + 1);
     });
 
@@ -548,7 +657,7 @@ class PredictiveUIEngine {
     const patterns: Array<{ elements: string[]; frequency: number }> = [];
     const elementCount = new Map<string, number>();
 
-    interactions.forEach((int: any) => {
+    interactions.forEach((int) => {
       elementCount.set(int.element, (elementCount.get(int.element) || 0) + 1);
     });
 
@@ -588,8 +697,8 @@ class PredictiveUIEngine {
     interactions: UserInteraction[]
   ): number {
     const times = interactions
-      .filter((int: any) => int.metadata.responseTime)
-      .map((int: any) => int.metadata.responseTime);
+      .map((int) => getNumericMetadata(int.metadata, "responseTime"))
+      .filter((time): time is number => typeof time === "number");
 
     return times.length > 0
       ? times.reduce((sum, time) => sum + time, 0) / times.length
@@ -600,7 +709,7 @@ class PredictiveUIEngine {
     const sequences: UserInteraction[][] = [];
     let currentSequence: UserInteraction[] = [];
 
-    interactions.forEach((int: any) => {
+    interactions.forEach((int) => {
       if (int.type === "navigate") {
         if (currentSequence.length > 0) {
           sequences.push(currentSequence);
@@ -616,8 +725,10 @@ class PredictiveUIEngine {
     }
 
     const abandonedSequences = sequences.filter(
-      (seq: any) =>
-        seq.length < 3 && seq[seq.length - 1]?.metadata?.completed !== true
+      (seq) =>
+        seq.length < 3 &&
+        getBooleanMetadata(seq[seq.length - 1]?.metadata || {}, "completed") !==
+          true
     );
 
     return sequences.length > 0
@@ -638,14 +749,19 @@ class PredictiveUIEngine {
     return Array.from(this.patterns.values());
   }
 
-  async generateWorkflowSuggestions(context: any): Promise<any[]> {
+  async generateWorkflowSuggestions(
+    context: PredictiveMetadata = {}
+  ): Promise<WorkflowSuggestion[]> {
     // Generate workflow suggestions based on current board state
-    const suggestions = [];
+    const suggestions: WorkflowSuggestion[] = [];
+    const fallbackCardId =
+      getBoardCardCount(context) > 0 ? "high-activity-card" : "workflow";
+    const fallbackColumnId = "optimized-flow";
 
     // Analyze interaction patterns to suggest workflow improvements
     const recentInteractions = this.interactions.slice(-20);
     const taskMovement = recentInteractions.filter(
-      (i: any) => i.type === "click" && i.element === "card"
+      (i) => i.type === "click" && i.element === "card"
     );
 
     if (taskMovement.length > 5) {
@@ -654,13 +770,17 @@ class PredictiveUIEngine {
         title: "Consider reorganizing your workflow",
         description:
           "High card movement suggests your current organization may need optimization",
-        priority: "medium",
+        priority: 0.6,
+        cardId: fallbackCardId,
+        suggestedColumn: fallbackColumnId,
+        reason:
+          "High card movement suggests your current organization may need optimization",
       });
     }
 
     // Suggest based on completion patterns
     const completionPatterns = recentInteractions.filter(
-      (i: any) => i.metadata?.action === "complete"
+      (i) => i.metadata.action === "complete"
     );
     if (completionPatterns.length > 0) {
       suggestions.push({
@@ -668,42 +788,57 @@ class PredictiveUIEngine {
         title: "Consider automating repetitive tasks",
         description:
           "Detected repetitive completion patterns that could be automated",
-        priority: "low",
+        priority: 0.3,
+        cardId: fallbackCardId,
+        suggestedColumn: fallbackColumnId,
+        reason:
+          "Detected repetitive completion patterns that could be automated",
       });
     }
 
     return suggestions;
   }
 
-  async analyzeBoardPerformance(context: any): Promise<any> {
+  async analyzeBoardPerformance(
+    context: PredictiveMetadata = {}
+  ): Promise<BoardPerformanceReport> {
     // Analyze board performance metrics
     const recentInteractions = this.interactions.slice(-50);
     const avgResponseTime =
-      recentInteractions.reduce(
-        (sum, i) => sum + (i.metadata?.responseTime || 0),
-        0
-      ) / recentInteractions.length;
+      recentInteractions.length > 0
+        ? recentInteractions.reduce(
+            (sum, i) =>
+              sum + (getNumericMetadata(i.metadata, "responseTime") || 0),
+            0
+          ) / recentInteractions.length
+        : 0;
     const abandonmentRate = this.calculateAbandonmentRate(recentInteractions);
+    const totalCards = getBoardCardCount(context);
 
     return {
       averageResponseTime: avgResponseTime || 0,
-      abandonmentRate: abandonmentRate,
+      abandonmentRate,
       interactionCount: recentInteractions.length,
       efficiency: Math.max(0, 1 - abandonmentRate),
+      totalCards,
+      bottlenecks: [],
+      productivity: Math.max(0, 1 - abandonmentRate),
+      completionRate: totalCards > 0 ? Math.max(0, 1 - abandonmentRate) : 0,
       suggestions: await this.generateWorkflowSuggestions(context),
     };
   }
 
   trainFromFeedback(actionId: string, wasAccurate: boolean): void {
     const action = this.predictions.find((p) => p.id === actionId);
-    if (action && action.metadata?.inputVector) {
+    const inputVector = action
+      ? getNumberArrayMetadata(action.metadata, "inputVector")
+      : undefined;
+    if (action && inputVector) {
       const target = new Array(5).fill(0);
-      target[
-        ["preload", "suggest", "animate", "optimize", "pre-render"].indexOf(
-          action.type
-        )
-      ] = wasAccurate ? 1 : 0;
-      this.neuralNet.train(action.metadata.inputVector, target);
+      target[PREDICTIVE_ACTION_TYPES.indexOf(action.type)] = wasAccurate
+        ? 1
+        : 0;
+      this.neuralNet.train(inputVector, target);
     }
   }
 }
@@ -760,8 +895,8 @@ export function GlassPredictiveEngineProvider({
       setInsights(newInsights);
 
       // Trigger callbacks for new items
-      newPredictions.forEach((prediction: any) => onPrediction?.(prediction));
-      newInsights.forEach((insight: any) => onInsight?.(insight));
+      newPredictions.forEach((prediction) => onPrediction?.(prediction));
+      newInsights.forEach((insight) => onInsight?.(insight));
     },
     [onPrediction, onInsight]
   );
@@ -902,7 +1037,7 @@ export function GlassPredictionIndicator({
                 <h4 className="glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                   Predictions
                 </h4>
-                {topPredictions.map((prediction: any) => (
+                {topPredictions.map((prediction) => (
                   <motion.div
                     key={prediction.id}
                     className="glass-p-2 glass-surface-secondary glass-radius-md"
@@ -946,7 +1081,7 @@ export function GlassPredictionIndicator({
                 <h4 className="glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                   AI Insights
                 </h4>
-                {topInsights.map((insight: any) => (
+                {topInsights.map((insight) => (
                   <motion.div
                     key={insight.id}
                     className="glass-p-2 glass-surface-secondary glass-radius-md"

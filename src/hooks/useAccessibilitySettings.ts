@@ -1,12 +1,12 @@
-'use client';
-import React from 'react';
-import { useState, useEffect, useCallback, useRef } from 'react';
+"use client";
+import React from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface AccessibilitySettings {
   reducedMotion: boolean;
   highContrast: boolean;
   largeText: boolean;
-  colorScheme: 'light' | 'dark' | 'auto';
+  colorScheme: "light" | "dark" | "auto";
   forcedColors: boolean;
   screenReader: boolean;
   keyboardNavigation: boolean;
@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS: AccessibilitySettings = {
   reducedMotion: false,
   highContrast: false,
   largeText: false,
-  colorScheme: 'auto',
+  colorScheme: "auto",
   forcedColors: false,
   screenReader: false,
   keyboardNavigation: false,
@@ -33,38 +33,46 @@ const DEFAULT_SETTINGS: AccessibilitySettings = {
  */
 export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
   settings: AccessibilitySettings;
-  updateSetting: <K extends keyof AccessibilitySettings>(key: K, value: AccessibilitySettings[K]) => void;
+  updateSetting: <K extends keyof AccessibilitySettings>(
+    key: K,
+    value: AccessibilitySettings[K]
+  ) => void;
   resetSettings: () => void;
   isLoading: boolean;
 } {
   const {
     enableStorage = true,
-    storageKey = 'aura-glass-a11y-settings',
+    storageKey = "aura-glass-a11y-settings",
     detectScreenReader = true,
   } = options;
 
-  const [settings, setSettings] = useState<AccessibilitySettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] =
+    useState<AccessibilitySettings>(DEFAULT_SETTINGS);
   const [isLoading, setIsLoading] = useState(true);
   const mediaQueriesRef = useRef<MediaQueryList[]>([]);
   const keyboardDetectionRef = useRef<boolean>(false);
 
   // Detect screen reader usage
   const detectScreenReaderUsage = useCallback((): boolean => {
-    if (!detectScreenReader || typeof window === 'undefined') return false;
+    if (!detectScreenReader || typeof window === "undefined") return false;
 
     // Check for common screen reader indicators
     const indicators = [
       // NVDA
-      () => 'speechSynthesis' in window && window.speechSynthesis.getVoices().length > 0,
+      () =>
+        "speechSynthesis" in window &&
+        window.speechSynthesis.getVoices().length > 0,
       // JAWS, NVDA, others
-      () => navigator.userAgent.includes('NVDA') || navigator.userAgent.includes('JAWS'),
+      () =>
+        navigator.userAgent.includes("NVDA") ||
+        navigator.userAgent.includes("JAWS"),
       // VoiceOver (macOS/iOS)
-      () => 'webkitSpeechRecognition' in window,
+      () => "webkitSpeechRecognition" in window,
       // General screen reader detection
-      () => window.navigator.userAgent.includes('Screenreader'),
+      () => window.navigator.userAgent.includes("Screenreader"),
     ];
 
-    return indicators.some(indicator => {
+    return indicators.some((indicator) => {
       try {
         return indicator();
       } catch {
@@ -78,7 +86,12 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
     let keyboardUsed = false;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ' || e.key.startsWith('Arrow')) {
+      if (
+        e.key === "Tab" ||
+        e.key === "Enter" ||
+        e.key === " " ||
+        e.key.startsWith("Arrow")
+      ) {
         keyboardUsed = true;
         keyboardDetectionRef.current = true;
         setSettings((prev: any) => ({ ...prev, keyboardNavigation: true }));
@@ -92,50 +105,55 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown, { passive: true });
-    document.addEventListener('mousedown', handleMouseDown, { passive: true });
+    document.addEventListener("keydown", handleKeyDown, { passive: true });
+    document.addEventListener("mousedown", handleMouseDown, { passive: true });
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
 
   // Load settings from storage
   const loadStoredSettings = useCallback((): Partial<AccessibilitySettings> => {
-    if (!enableStorage || typeof window === 'undefined') return {};
+    if (!enableStorage || typeof window === "undefined") return {};
 
     try {
       const stored = localStorage.getItem(storageKey);
       return stored ? JSON.parse(stored) : {};
-    } catch (error) {
-      console.warn('Failed to load accessibility settings from storage:', error);
+    } catch {
       return {};
     }
   }, [enableStorage, storageKey]);
 
   // Save settings to storage
-  const saveSettings = useCallback((newSettings: AccessibilitySettings) => {
-    if (!enableStorage || typeof window === 'undefined') return;
+  const saveSettings = useCallback(
+    (newSettings: AccessibilitySettings) => {
+      if (!enableStorage || typeof window === "undefined") return;
 
-    try {
-      localStorage.setItem(storageKey, JSON.stringify(newSettings));
-    } catch (error) {
-      console.warn('Failed to save accessibility settings to storage:', error);
-    }
-  }, [enableStorage, storageKey]);
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(newSettings));
+      } catch {
+        // Ignore storage failures; settings remain active in memory.
+      }
+    },
+    [enableStorage, storageKey]
+  );
 
   // Update individual setting
-  const updateSetting = useCallback(<K extends keyof AccessibilitySettings>(
-    key: K,
-    value: AccessibilitySettings[K]
-  ) => {
-    setSettings((prev: any) => {
-      const newSettings = { ...prev, [key]: value };
-      saveSettings(newSettings);
-      return newSettings;
-    });
-  }, [saveSettings]);
+  const updateSetting = useCallback(
+    <K extends keyof AccessibilitySettings>(
+      key: K,
+      value: AccessibilitySettings[K]
+    ) => {
+      setSettings((prev: any) => {
+        const newSettings = { ...prev, [key]: value };
+        saveSettings(newSettings);
+        return newSettings;
+      });
+    },
+    [saveSettings]
+  );
 
   // Reset to defaults
   const resetSettings = useCallback(() => {
@@ -146,37 +164,40 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
   }, [saveSettings]);
 
   // Detect system accessibility preferences
-  const detectSystemSettings = useCallback((): Partial<AccessibilitySettings> => {
-    if (typeof window === 'undefined') return {};
+  const detectSystemSettings =
+    useCallback((): Partial<AccessibilitySettings> => {
+      if (typeof window === "undefined") return {};
 
-    const queries = [
-      { key: 'reducedMotion', query: '(prefers-reduced-motion: reduce)' },
-      { key: 'highContrast', query: '(prefers-contrast: high)' },
-      { key: 'forcedColors', query: '(forced-colors: active)' },
-    ];
+      const queries = [
+        { key: "reducedMotion", query: "(prefers-reduced-motion: reduce)" },
+        { key: "highContrast", query: "(prefers-contrast: high)" },
+        { key: "forcedColors", query: "(forced-colors: active)" },
+      ];
 
-    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const colorSchemeQuery = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      );
 
-    const detected: Partial<AccessibilitySettings> = {
-      screenReader: detectScreenReaderUsage(),
-      colorScheme: colorSchemeQuery.matches ? 'dark' : 'light',
-    };
+      const detected: Partial<AccessibilitySettings> = {
+        screenReader: detectScreenReaderUsage(),
+        colorScheme: colorSchemeQuery.matches ? "dark" : "light",
+      };
 
-    queries.forEach(({ key, query }) => {
-      try {
-        const mediaQuery = window.matchMedia(query);
-        (detected as any)[key] = mediaQuery.matches;
-      } catch (error) {
-        console.warn(`Failed to detect ${key} preference:`, error);
-      }
-    });
+      queries.forEach(({ key, query }) => {
+        try {
+          const mediaQuery = window.matchMedia(query);
+          (detected as any)[key] = mediaQuery.matches;
+        } catch {
+          (detected as any)[key] = false;
+        }
+      });
 
-    return detected;
-  }, [detectScreenReaderUsage]);
+      return detected;
+    }, [detectScreenReaderUsage]);
 
   // Initialize settings
   useEffect(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       setIsLoading(false);
       return;
     }
@@ -185,10 +206,10 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
       try {
         // Detect system preferences
         const systemSettings = detectSystemSettings();
-        
+
         // Load stored preferences
         const storedSettings = loadStoredSettings();
-        
+
         // Merge with priority: stored > system > defaults
         const initialSettings = {
           ...DEFAULT_SETTINGS,
@@ -200,24 +221,26 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
 
         // Set up media query listeners
         const queries = [
-          { key: 'reducedMotion', query: '(prefers-reduced-motion: reduce)' },
-          { key: 'highContrast', query: '(prefers-contrast: high)' },
-          { key: 'forcedColors', query: '(forced-colors: active)' },
+          { key: "reducedMotion", query: "(prefers-reduced-motion: reduce)" },
+          { key: "highContrast", query: "(prefers-contrast: high)" },
+          { key: "forcedColors", query: "(forced-colors: active)" },
         ];
 
-        const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const colorSchemeQuery = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        );
 
         const updateFromMediaQuery = () => {
           const updates: Partial<AccessibilitySettings> = {
-            colorScheme: colorSchemeQuery.matches ? 'dark' : 'light',
+            colorScheme: colorSchemeQuery.matches ? "dark" : "light",
           };
 
           queries.forEach(({ key, query }) => {
             try {
               const mediaQuery = window.matchMedia(query);
               (updates as any)[key] = mediaQuery.matches;
-            } catch (error) {
-              console.warn(`Failed to update ${key} from media query:`, error);
+            } catch {
+              (updates as any)[key] = false;
             }
           });
 
@@ -235,7 +258,7 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
         ];
 
         mediaQueries.forEach((mq: any) => {
-          mq.addEventListener('change', updateFromMediaQuery);
+          mq.addEventListener("change", updateFromMediaQuery);
         });
 
         mediaQueriesRef.current = mediaQueries;
@@ -246,23 +269,28 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
         // Cleanup function
         return () => {
           mediaQueries.forEach((mq: any) => {
-            mq.removeEventListener('change', updateFromMediaQuery);
+            mq.removeEventListener("change", updateFromMediaQuery);
           });
           cleanupKeyboardDetection();
         };
-      } catch (error) {
-        console.error('Failed to initialize accessibility settings:', error);
+      } catch {
+        setSettings(DEFAULT_SETTINGS);
       } finally {
         setIsLoading(false);
       }
     };
 
     const cleanup = initializeSettings();
-    
+
     return () => {
-      cleanup?.then(fn => fn?.());
+      cleanup?.then((fn) => fn?.());
     };
-  }, [detectSystemSettings, loadStoredSettings, saveSettings, detectKeyboardNavigation]);
+  }, [
+    detectSystemSettings,
+    loadStoredSettings,
+    saveSettings,
+    detectKeyboardNavigation,
+  ]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -282,7 +310,9 @@ export function useAccessibilitySettings(options: AccessibilityOptions = {}): {
 /**
  * Hook for specific accessibility feature detection
  */
-export function useAccessibilityFeature(feature: keyof AccessibilitySettings): boolean {
+export function useAccessibilityFeature(
+  feature: keyof AccessibilitySettings
+): boolean {
   const { settings } = useAccessibilitySettings();
   return settings[feature] as boolean;
 }
@@ -296,7 +326,7 @@ export function useAccessibleAnimation(defaultEnabled: boolean = true): {
   transitionDuration: number;
 } {
   const { settings } = useAccessibilitySettings();
-  
+
   const shouldAnimate = defaultEnabled && !settings.reducedMotion;
   const animationDuration = settings.reducedMotion ? 0 : 300;
   const transitionDuration = settings.reducedMotion ? 0 : 200;
@@ -313,7 +343,7 @@ export function useAccessibleAnimation(defaultEnabled: boolean = true): {
  */
 export function useAccessibleColors(): {
   shouldUseHighContrast: boolean;
-  colorScheme: 'light' | 'dark' | 'auto';
+  colorScheme: "light" | "dark" | "auto";
   forcedColors: boolean;
 } {
   const { settings } = useAccessibilitySettings();

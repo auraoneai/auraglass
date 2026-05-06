@@ -3,7 +3,11 @@ import React, { useRef, useCallback, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
-import { useDragDrop, PageComponent } from "./GlassDragDropProvider";
+import {
+  useDragDrop,
+  PageComponent,
+  ComponentPropValue,
+} from "./GlassDragDropProvider";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
@@ -17,6 +21,23 @@ interface DropZoneProps {
   isActive?: boolean;
   onDrop: (targetId?: string, position?: "before" | "after" | "inside") => void;
 }
+
+const toStringProp = (value: ComponentPropValue): string | undefined => {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  return undefined;
+};
+
+const toBooleanProp = (value: ComponentPropValue): boolean | undefined =>
+  typeof value === "boolean" ? value : undefined;
+
+const headingTags = ["h1", "h2", "h3", "h4", "h5", "h6"] as const;
+type HeadingTag = (typeof headingTags)[number];
+
+const toHeadingTag = (value: ComponentPropValue): HeadingTag => {
+  const tag = toStringProp(value);
+  return headingTags.includes(tag as HeadingTag) ? (tag as HeadingTag) : "h2";
+};
 
 const DropZone: React.FC<DropZoneProps> = ({
   targetId,
@@ -72,7 +93,7 @@ const ComponentRenderer: React.FC<{
     }
   };
 
-  const handleInlineEdit = (prop: string, value: any) => {
+  const handleInlineEdit = (prop: string, value: ComponentPropValue) => {
     updateComponent(component.id, { [prop]: value });
     setIsEditing(null);
   };
@@ -112,7 +133,7 @@ const ComponentRenderer: React.FC<{
                 Drop components here
               </span>
             ) : (
-              component.children.map((child: any) => (
+              component.children.map((child) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -133,7 +154,7 @@ const ComponentRenderer: React.FC<{
               gap: component.props.gap,
               justifyContent: component.props.justifyContent,
               alignItems: component.props.alignItems,
-              flexWrap: component.props.wrap,
+              flexWrap: component.props.wrap as React.CSSProperties["flexWrap"],
               padding: component.props.padding,
               minHeight: component.children.length === 0 ? "80px" : "auto",
             }}
@@ -148,7 +169,7 @@ const ComponentRenderer: React.FC<{
                 Add columns here
               </span>
             ) : (
-              component.children.map((child: any) => (
+              component.children.map((child) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -184,7 +205,7 @@ const ComponentRenderer: React.FC<{
                 Column content
               </span>
             ) : (
-              component.children.map((child: any) => (
+              component.children.map((child) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -212,7 +233,7 @@ const ComponentRenderer: React.FC<{
             {isEditing === "content" ? (
               <input
                 type="text"
-                value={component.props.content}
+                value={toStringProp(component.props.content) ?? ""}
                 onChange={(e) => handleInlineEdit("content", e.target.value)}
                 onBlur={() => setIsEditing(null)}
                 onKeyDown={(e) => {
@@ -229,8 +250,7 @@ const ComponentRenderer: React.FC<{
         );
 
       case "heading":
-        const HeadingTag = component.props.level as keyof JSX.IntrinsicElements;
-        const Tag = HeadingTag as any;
+        const Tag = toHeadingTag(component.props.level);
         return (
           <Tag
             style={{
@@ -245,7 +265,7 @@ const ComponentRenderer: React.FC<{
             {isEditing === "content" ? (
               <input
                 type="text"
-                value={component.props.content}
+                value={toStringProp(component.props.content) ?? ""}
                 onChange={(e) => handleInlineEdit("content", e.target.value)}
                 onBlur={() => setIsEditing(null)}
                 onKeyDown={(e) => {
@@ -264,8 +284,8 @@ const ComponentRenderer: React.FC<{
       case "image":
         return (
           <img
-            src={component.props.src}
-            alt={component.props.alt}
+            src={toStringProp(component.props.src)}
+            alt={toStringProp(component.props.alt) ?? ""}
             style={{
               ...baseStyle,
               width: component.props.width,
@@ -277,21 +297,24 @@ const ComponentRenderer: React.FC<{
         );
 
       case "button":
-        const ButtonTag = component.props.href ? "a" : "button";
+        const href = toStringProp(component.props.href);
+        const disabled = toBooleanProp(component.props.disabled);
+        const onClickScript = toStringProp(component.props.onClick);
+        const ButtonTag = href ? "a" : "button";
         return (
           <ButtonTag
-            href={component.props.href || undefined}
-            disabled={component.props.disabled}
+            href={href || undefined}
+            disabled={disabled}
             onClick={
-              component.props.href
+              href
                 ? undefined
                 : () => {
-                    if (component.props.onClick) {
+                    if (onClickScript) {
                       try {
                         // eslint-disable-next-line no-new-func
-                        new Function(component.props.onClick)();
-                      } catch (e) {
-                        console.warn("Button onClick error:", e);
+                        new Function(onClickScript)();
+                      } catch {
+                        // Ignore invalid custom button scripts.
                       }
                     }
                   }
@@ -348,7 +371,7 @@ const ComponentRenderer: React.FC<{
                 Card content goes here
               </span>
             ) : (
-              component.children.map((child: any) => (
+              component.children.map((child) => (
                 <ComponentRenderer
                   key={child.id}
                   component={child}
@@ -525,8 +548,8 @@ export const GlassCanvas: React.FC<
                 // Render Components
                 <div className="glass-p-4 glass-space-y-4">
                   {pageState.components
-                    .filter((component: any) => !component.parent) // Only root components
-                    .map((component: any) => (
+                    .filter((component) => !component.parent) // Only root components
+                    .map((component) => (
                       <div key={component.id} className="glass-relative">
                         <DropZone
                           position="before"

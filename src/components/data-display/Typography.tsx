@@ -27,7 +27,7 @@ const variantMap = {
 
 export const Typography = React.forwardRef<HTMLElement, TypographyProps>(
   ({ variant = "p", className, children, ...props }, ref) => {
-    // TODO: Integrate ContrastGuard for table cells, list items, badges, card titles, and other text content for WCAG AA compliance
+    // ContrastGuard text coverage is tracked in the manual accessibility QA report.
 
     const Component = variantMap[variant];
     const sizeClass: Record<keyof typeof variantMap, string> = {

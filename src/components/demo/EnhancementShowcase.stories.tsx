@@ -7,9 +7,7 @@ import {
 } from "../../stories/GlassMissingInventoryCertification.stories";
 
 const componentName = "EnhancementShowcase" satisfies MissingComponentName;
-const Component =
-  (ComponentModule as Record<string, any>)[componentName] ??
-  (ComponentModule as Record<string, any>).default;
+const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
   title: "Components/Demo/EnhancementShowcase",

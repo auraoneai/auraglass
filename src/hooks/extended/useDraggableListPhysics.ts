@@ -1,12 +1,15 @@
-'use client';
-import React from 'react';
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { useMultiSpring, SpringConfig } from '../../animations/hooks/useMultiSpringBasic';
+"use client";
+import React from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
+import {
+  useMultiSpring,
+  SpringConfig,
+} from "../../animations/hooks/useMultiSpringBasic";
 
 export interface DraggableItem {
   id: string;
   content: React.ReactNode;
-  data?: any;
+  data?: unknown;
 }
 
 export interface DragState {
@@ -50,7 +53,7 @@ const DEFAULT_OPTIONS: Required<DraggableListPhysicsOptions> = {
   springConfig: { stiffness: 300, damping: 30, mass: 1 },
   dragThreshold: 5,
   enableHaptics: true,
-  dragHandle: '',
+  dragHandle: "",
   autoScroll: true,
   autoScrollThreshold: 50,
   autoScrollSpeed: 10,
@@ -62,7 +65,11 @@ const DEFAULT_OPTIONS: Required<DraggableListPhysicsOptions> = {
 
 export function useDraggableListPhysics(
   items: DraggableItem[],
-  onReorder: (fromIndex: number, toIndex: number, draggedItems?: DraggableItem[]) => void,
+  onReorder: (
+    fromIndex: number,
+    toIndex: number,
+    draggedItems?: DraggableItem[]
+  ) => void,
   options: DraggableListPhysicsOptions = {}
 ) {
   const finalOptions = { ...DEFAULT_OPTIONS, ...options };
@@ -76,178 +83,212 @@ export function useDraggableListPhysics(
     dropTarget: null,
   });
 
-  const [selectedItems, setSelectedItems] = useState<string[]>(finalOptions.selectedItems);
+  const [selectedItems, setSelectedItems] = useState<string[]>(
+    finalOptions.selectedItems
+  );
 
   const containerRef = useRef<HTMLElement>(null);
   const dragStartPos = useRef({ x: 0, y: 0 });
   const dragElement = useRef<HTMLElement | null>(null);
   const autoScrollInterval = useRef<NodeJS.Timeout>();
-  const physicsSprings = useMultiSpring({}, { config: finalOptions.springConfig });
+  const physicsSprings = useMultiSpring(
+    {},
+    { config: finalOptions.springConfig }
+  );
 
   // Physics-based animations for list items
-  const animateListReorder = useCallback((
-    fromIndex: number,
-    toIndex: number,
-    draggedItems: DraggableItem[]
-  ) => {
-    if (!finalOptions.enablePhysics) {
-      onReorder(fromIndex, toIndex, draggedItems);
-      return;
-    }
+  const animateListReorder = useCallback(
+    (fromIndex: number, toIndex: number, draggedItems: DraggableItem[]) => {
+      if (!finalOptions.enablePhysics) {
+        onReorder(fromIndex, toIndex, draggedItems);
+        return;
+      }
 
-    const springTargets: Record<string, number> = {};
+      const springTargets: Record<string, number> = {};
 
-    // Calculate new positions for all items
-    items.forEach((item, index) => {
-      let newIndex = index;
+      // Calculate new positions for all items
+      items.forEach((item, index) => {
+        let newIndex = index;
 
-      if (finalOptions.multiSelect && (draggedItems?.length || 0) > 1) {
-        // Handle multi-item drag
-        const draggedIndices = draggedItems.map((item: any) =>
-          items.findIndex(i => i.id === item?.id)
-        ).sort((a, b) => a - b);
+        if (finalOptions.multiSelect && (draggedItems?.length || 0) > 1) {
+          // Handle multi-item drag
+          const draggedIndices = draggedItems
+            .map((item: any) => items.findIndex((i) => i.id === item?.id))
+            .sort((a, b) => a - b);
 
-        if (draggedIndices.includes(index)) {
-          // This item is being dragged
-          const relativeIndex = draggedIndices.indexOf(index);
-          newIndex = toIndex + relativeIndex;
-        } else if (index >= Math.min(fromIndex, toIndex) && index <= Math.max(fromIndex, toIndex)) {
-          // This item needs to shift
-          if (fromIndex < toIndex) {
-            newIndex = index - (draggedIndices?.length || 0);
-          } else {
-            newIndex = index + (draggedIndices?.length || 0);
-          }
-        }
-      } else {
-        // Single item drag
-        if (index === fromIndex) {
-          newIndex = toIndex;
-        } else if (fromIndex < toIndex) {
-          if (index > fromIndex && index <= toIndex) {
-            newIndex = index - 1;
+          if (draggedIndices.includes(index)) {
+            // This item is being dragged
+            const relativeIndex = draggedIndices.indexOf(index);
+            newIndex = toIndex + relativeIndex;
+          } else if (
+            index >= Math.min(fromIndex, toIndex) &&
+            index <= Math.max(fromIndex, toIndex)
+          ) {
+            // This item needs to shift
+            if (fromIndex < toIndex) {
+              newIndex = index - (draggedIndices?.length || 0);
+            } else {
+              newIndex = index + (draggedIndices?.length || 0);
+            }
           }
         } else {
-          if (index < fromIndex && index >= toIndex) {
-            newIndex = index + 1;
+          // Single item drag
+          if (index === fromIndex) {
+            newIndex = toIndex;
+          } else if (fromIndex < toIndex) {
+            if (index > fromIndex && index <= toIndex) {
+              newIndex = index - 1;
+            }
+          } else {
+            if (index < fromIndex && index >= toIndex) {
+              newIndex = index + 1;
+            }
           }
         }
-      }
 
-      if (springTargets) {
-        springTargets[`item-${item?.id}`] = newIndex * 60; // Assume 60px item height
-      }
-    });
+        if (springTargets) {
+          springTargets[`item-${item?.id}`] = newIndex * 60; // Assume 60px item height
+        }
+      });
 
-    physicsSprings.start(springTargets);
+      physicsSprings.start(springTargets);
 
-    // Trigger reorder after animation completes
-    setTimeout(() => {
-      onReorder(fromIndex, toIndex, draggedItems);
-    }, 300);
-  }, [items, onReorder, finalOptions, physicsSprings]);
+      // Trigger reorder after animation completes
+      setTimeout(() => {
+        onReorder(fromIndex, toIndex, draggedItems);
+      }, 300);
+    },
+    [items, onReorder, finalOptions, physicsSprings]
+  );
 
   // Handle drag start
-  const handleDragStart = useCallback((
-    event: React.DragEvent | React.TouchEvent | MouseEvent,
-    item: DraggableItem,
-    index: number
-  ) => {
-    event.preventDefault();
+  const handleDragStart = useCallback(
+    (
+      event: React.DragEvent | React.TouchEvent | MouseEvent,
+      item: DraggableItem,
+      index: number
+    ) => {
+      event.preventDefault();
 
-    const clientX = 'touches' in event ? event.touches[0].clientX : (event as MouseEvent).clientX;
-    const clientY = 'touches' in event ? event.touches[0].clientY : (event as MouseEvent).clientY;
+      const clientX =
+        "touches" in event
+          ? event.touches[0].clientX
+          : (event as MouseEvent).clientX;
+      const clientY =
+        "touches" in event
+          ? event.touches[0].clientY
+          : (event as MouseEvent).clientY;
 
-    dragStartPos.current = { x: clientX, y: clientY };
-    dragElement.current = event.target as HTMLElement;
+      dragStartPos.current = { x: clientX, y: clientY };
+      dragElement.current = event.target as HTMLElement;
 
-    // Handle multi-select
-    let draggedItems = [item];
-    if (finalOptions.multiSelect && (selectedItems?.length || 0) > 1 && selectedItems.includes(item?.id)) {
-      draggedItems = items.filter((item: any) => selectedItems.includes(item?.id));
-    }
+      // Handle multi-select
+      let draggedItems = [item];
+      if (
+        finalOptions.multiSelect &&
+        (selectedItems?.length || 0) > 1 &&
+        selectedItems.includes(item?.id)
+      ) {
+        draggedItems = items.filter((item: any) =>
+          selectedItems.includes(item?.id)
+        );
+      }
 
-    setDragState({
-      isDragging: true,
-      draggedItem: item,
-      dragIndex: index,
-      hoverIndex: index,
-      dragOffset: { x: 0, y: 0 },
-      dropTarget: null,
-    });
+      setDragState({
+        isDragging: true,
+        draggedItem: item,
+        dragIndex: index,
+        hoverIndex: index,
+        dragOffset: { x: 0, y: 0 },
+        dropTarget: null,
+      });
 
-    // Add global drag listeners
-    document.addEventListener('mousemove', handleDragMove);
-    document.addEventListener('touchmove', handleDragMove, { passive: false });
-    document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('touchend', handleDragEnd);
+      // Add global drag listeners
+      document.addEventListener("mousemove", handleDragMove);
+      document.addEventListener("touchmove", handleDragMove, {
+        passive: false,
+      });
+      document.addEventListener("mouseup", handleDragEnd);
+      document.addEventListener("touchend", handleDragEnd);
 
-    // Trigger haptic feedback
-    if (finalOptions.enableHaptics && 'vibrate' in navigator) {
-      navigator.vibrate(50);
-    }
-  }, [items, selectedItems, finalOptions]);
+      // Trigger haptic feedback
+      if (finalOptions.enableHaptics && "vibrate" in navigator) {
+        navigator.vibrate(50);
+      }
+    },
+    [items, selectedItems, finalOptions]
+  );
 
   // Handle drag move
-  const handleDragMove = useCallback((event: MouseEvent | TouchEvent) => {
-    if (!dragState.isDragging) return;
+  const handleDragMove = useCallback(
+    (event: MouseEvent | TouchEvent) => {
+      if (!dragState.isDragging) return;
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
-    const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+      const clientX =
+        "touches" in event ? event.touches[0].clientX : event.clientX;
+      const clientY =
+        "touches" in event ? event.touches[0].clientY : event.clientY;
 
-    const deltaX = clientX - dragStartPos.current.x;
-    const deltaY = clientY - dragStartPos.current.y;
+      const deltaX = clientX - dragStartPos.current.x;
+      const deltaY = clientY - dragStartPos.current.y;
 
-    // Check drag threshold
-    if (Math.abs(deltaX) < finalOptions.dragThreshold && Math.abs(deltaY) < finalOptions.dragThreshold) {
-      return;
-    }
-
-    setDragState((prev: any) => ({
-      ...prev,
-      dragOffset: { x: deltaX, y: deltaY },
-    }));
-
-    // Auto-scroll functionality
-    if (finalOptions.autoScroll && containerRef.current) {
-      const container = containerRef.current;
-      const rect = container.getBoundingClientRect();
-      const threshold = finalOptions.autoScrollThreshold;
-
-      if (clientY < rect.top + threshold) {
-        // Scroll up
-        container.scrollTop -= finalOptions.autoScrollSpeed;
-      } else if (clientY > rect.bottom - threshold) {
-        // Scroll down
-        container.scrollTop += finalOptions.autoScrollSpeed;
+      // Check drag threshold
+      if (
+        Math.abs(deltaX) < finalOptions.dragThreshold &&
+        Math.abs(deltaY) < finalOptions.dragThreshold
+      ) {
+        return;
       }
-    }
 
-    // Find hover index
-    if (containerRef.current) {
-      const elements = containerRef.current.querySelectorAll('[data-draggable-item]');
-      let hoverIndex = -1;
+      setDragState((prev: any) => ({
+        ...prev,
+        dragOffset: { x: deltaX, y: deltaY },
+      }));
 
-      for (let i = 0; i < (elements?.length || 0); i++) {
-        const element = elements[i] as HTMLElement;
-        const rect = element.getBoundingClientRect();
+      // Auto-scroll functionality
+      if (finalOptions.autoScroll && containerRef.current) {
+        const container = containerRef.current;
+        const rect = container.getBoundingClientRect();
+        const threshold = finalOptions.autoScrollThreshold;
 
-        if (clientY >= rect.top && clientY <= rect.bottom) {
-          hoverIndex = parseInt(element.getAttribute('data-index') || '-1');
-          break;
+        if (clientY < rect.top + threshold) {
+          // Scroll up
+          container.scrollTop -= finalOptions.autoScrollSpeed;
+        } else if (clientY > rect.bottom - threshold) {
+          // Scroll down
+          container.scrollTop += finalOptions.autoScrollSpeed;
         }
       }
 
-      if (hoverIndex !== -1 && hoverIndex !== dragState.hoverIndex) {
-        setDragState((prev: any) => ({
-          ...prev,
-          hoverIndex,
-        }));
+      // Find hover index
+      if (containerRef.current) {
+        const elements = containerRef.current.querySelectorAll(
+          "[data-draggable-item]"
+        );
+        let hoverIndex = -1;
+
+        for (let i = 0; i < (elements?.length || 0); i++) {
+          const element = elements[i] as HTMLElement;
+          const rect = element.getBoundingClientRect();
+
+          if (clientY >= rect.top && clientY <= rect.bottom) {
+            hoverIndex = parseInt(element.getAttribute("data-index") || "-1");
+            break;
+          }
+        }
+
+        if (hoverIndex !== -1 && hoverIndex !== dragState.hoverIndex) {
+          setDragState((prev: any) => ({
+            ...prev,
+            hoverIndex,
+          }));
+        }
       }
-    }
-  }, [dragState, finalOptions]);
+    },
+    [dragState, finalOptions]
+  );
 
   // Handle drag end
   const handleDragEnd = useCallback(() => {
@@ -260,9 +301,10 @@ export function useDraggableListPhysics(
     }
 
     // Validate drop
-    const draggedItems = finalOptions.multiSelect && (selectedItems?.length || 0) > 1
-      ? items.filter((item: any) => selectedItems.includes(item?.id))
-      : [dragState.draggedItem!];
+    const draggedItems =
+      finalOptions.multiSelect && (selectedItems?.length || 0) > 1
+        ? items.filter((item: any) => selectedItems.includes(item?.id))
+        : [dragState.draggedItem!];
 
     const isValidDrop = finalOptions.validateDrop(
       dragState.draggedItem!,
@@ -270,7 +312,11 @@ export function useDraggableListPhysics(
     );
 
     if (isValidDrop && dragState.dragIndex !== dragState.hoverIndex) {
-      animateListReorder(dragState.dragIndex, dragState.hoverIndex, draggedItems);
+      animateListReorder(
+        dragState.dragIndex,
+        dragState.hoverIndex,
+        draggedItems
+      );
     }
 
     // Reset drag state
@@ -284,77 +330,92 @@ export function useDraggableListPhysics(
     });
 
     // Remove global listeners
-    document.removeEventListener('mousemove', handleDragMove);
-    document.removeEventListener('touchmove', handleDragMove);
-    document.removeEventListener('mouseup', handleDragEnd);
-    document.removeEventListener('touchend', handleDragEnd);
+    document.removeEventListener("mousemove", handleDragMove);
+    document.removeEventListener("touchmove", handleDragMove);
+    document.removeEventListener("mouseup", handleDragEnd);
+    document.removeEventListener("touchend", handleDragEnd);
 
     dragElement.current = null;
   }, [dragState, selectedItems, items, finalOptions, animateListReorder]);
 
   // Multi-select functionality
-  const toggleItemSelection = useCallback((itemId: string) => {
-    if (!finalOptions.multiSelect) return;
+  const toggleItemSelection = useCallback(
+    (itemId: string) => {
+      if (!finalOptions.multiSelect) return;
 
-    setSelectedItems((prev: any) => {
-      if (prev.includes(itemId)) {
-        return prev.filter((id: any) => id !== itemId);
-      } else {
-        return [...prev, itemId];
-      }
-    });
-  }, [finalOptions.multiSelect]);
+      setSelectedItems((prev: any) => {
+        if (prev.includes(itemId)) {
+          return prev.filter((id: any) => id !== itemId);
+        } else {
+          return [...prev, itemId];
+        }
+      });
+    },
+    [finalOptions.multiSelect]
+  );
 
-  const selectItemRange = useCallback((startId: string, endId: string) => {
-    if (!finalOptions.multiSelect) return;
+  const selectItemRange = useCallback(
+    (startId: string, endId: string) => {
+      if (!finalOptions.multiSelect) return;
 
-    const startIndex = items.findIndex(item => item?.id === startId);
-    const endIndex = items.findIndex(item => item?.id === endId);
+      const startIndex = items.findIndex((item) => item?.id === startId);
+      const endIndex = items.findIndex((item) => item?.id === endId);
 
-    if (startIndex === -1 || endIndex === -1) return;
+      if (startIndex === -1 || endIndex === -1) return;
 
-    const minIndex = Math.min(startIndex, endIndex);
-    const maxIndex = Math.max(startIndex, endIndex);
+      const minIndex = Math.min(startIndex, endIndex);
+      const maxIndex = Math.max(startIndex, endIndex);
 
-    const rangeIds = items.slice(minIndex, maxIndex + 1).map((item: any) => item?.id);
-    setSelectedItems(rangeIds);
-  }, [items, finalOptions.multiSelect]);
+      const rangeIds = items
+        .slice(minIndex, maxIndex + 1)
+        .map((item: any) => item?.id);
+      setSelectedItems(rangeIds);
+    },
+    [items, finalOptions.multiSelect]
+  );
 
   const clearSelection = useCallback(() => {
     setSelectedItems([]);
   }, []);
 
   // Keyboard navigation for accessibility
-  const handleKeyDown = useCallback((event: KeyboardEvent, itemId: string) => {
-    const currentIndex = items.findIndex(item => item?.id === itemId);
-    if (currentIndex === -1) return;
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent, itemId: string) => {
+      const currentIndex = items.findIndex((item) => item?.id === itemId);
+      if (currentIndex === -1) return;
 
-    switch (event.key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        if (currentIndex > 0) {
-          const targetItem = items[currentIndex - 1];
-          animateListReorder(currentIndex, currentIndex - 1, [items[currentIndex]]);
-        }
-        break;
-
-      case 'ArrowDown':
-        event.preventDefault();
-        if (currentIndex < (items?.length || 0) - 1) {
-          const targetItem = items[currentIndex + 1];
-          animateListReorder(currentIndex, currentIndex + 1, [items[currentIndex]]);
-        }
-        break;
-
-      case 'Enter':
-      case ' ':
-        if (finalOptions.multiSelect) {
+      switch (event.key) {
+        case "ArrowUp":
           event.preventDefault();
-          toggleItemSelection(itemId);
-        }
-        break;
-    }
-  }, [items, animateListReorder, toggleItemSelection, finalOptions.multiSelect]);
+          if (currentIndex > 0) {
+            const targetItem = items[currentIndex - 1];
+            animateListReorder(currentIndex, currentIndex - 1, [
+              items[currentIndex],
+            ]);
+          }
+          break;
+
+        case "ArrowDown":
+          event.preventDefault();
+          if (currentIndex < (items?.length || 0) - 1) {
+            const targetItem = items[currentIndex + 1];
+            animateListReorder(currentIndex, currentIndex + 1, [
+              items[currentIndex],
+            ]);
+          }
+          break;
+
+        case "Enter":
+        case " ":
+          if (finalOptions.multiSelect) {
+            event.preventDefault();
+            toggleItemSelection(itemId);
+          }
+          break;
+      }
+    },
+    [items, animateListReorder, toggleItemSelection, finalOptions.multiSelect]
+  );
 
   // Cleanup on unmount
   useEffect(() => {
@@ -383,86 +444,98 @@ export function useDraggableListPhysics(
     // Utility methods
     isSelected: (itemId: string) => selectedItems.includes(itemId),
     isDragging: dragState.isDragging,
-    canDrop: (targetIndex: number) => finalOptions.validateDrop(
-      dragState.draggedItem!,
-      targetIndex
-    ),
+    canDrop: (targetIndex: number) =>
+      finalOptions.validateDrop(dragState.draggedItem!, targetIndex),
   };
 }
 
 // Hook for physics-based item transitions
 export function useItemTransitions(
   items: DraggableItem[],
-  transitionType: 'slide' | 'fade' | 'scale' | 'bounce' = 'slide',
+  transitionType: "slide" | "fade" | "scale" | "bounce" = "slide",
   options: {
     duration?: number;
     stagger?: number;
-    direction?: 'up' | 'down' | 'left' | 'right';
+    direction?: "up" | "down" | "left" | "right";
     easing?: string;
   } = {}
 ) {
   const {
     duration = 300,
     stagger = 50,
-    direction = 'up',
-    easing = 'ease-out',
+    direction = "up",
+    easing = "ease-out",
   } = options;
 
   const [animatingItems, setAnimatingItems] = useState<Set<string>>(new Set());
 
-  const getTransitionStyle = useCallback((itemId: string, index: number) => {
-    const delay = index * stagger;
-    const isAnimating = animatingItems.has(itemId);
+  const getTransitionStyle = useCallback(
+    (itemId: string, index: number) => {
+      const delay = index * stagger;
+      const isAnimating = animatingItems.has(itemId);
 
-    let transform = '';
-    let opacity = 1;
+      let transform = "";
+      let opacity = 1;
 
-    if (!isAnimating) {
-      switch (transitionType) {
-        case 'slide':
-          switch (direction) {
-            case 'up': transform = 'translateY(20px)'; break;
-            case 'down': transform = 'translateY(-20px)'; break;
-            case 'left': transform = 'translateX(20px)'; break;
-            case 'right': transform = 'translateX(-20px)'; break;
-          }
-          opacity = 0;
-          break;
+      if (!isAnimating) {
+        switch (transitionType) {
+          case "slide":
+            switch (direction) {
+              case "up":
+                transform = "translateY(20px)";
+                break;
+              case "down":
+                transform = "translateY(-20px)";
+                break;
+              case "left":
+                transform = "translateX(20px)";
+                break;
+              case "right":
+                transform = "translateX(-20px)";
+                break;
+            }
+            opacity = 0;
+            break;
 
-        case 'fade':
-          opacity = 0;
-          break;
+          case "fade":
+            opacity = 0;
+            break;
 
-        case 'scale':
-          transform = 'scale(0.8)';
-          opacity = 0;
-          break;
+          case "scale":
+            transform = "scale(0.8)";
+            opacity = 0;
+            break;
 
-        case 'bounce':
-          transform = 'scale(0.3) translateY(10px)';
-          opacity = 0;
-          break;
+          case "bounce":
+            transform = "scale(0.3) translateY(10px)";
+            opacity = 0;
+            break;
+        }
       }
-    }
 
-    return {
-      transition: `all ${duration}ms ${easing} ${delay}ms`,
-      transform,
-      opacity,
-    };
-  }, [transitionType, direction, duration, stagger, easing, animatingItems]);
+      return {
+        transition: `all ${duration}ms ${easing} ${delay}ms`,
+        transform,
+        opacity,
+      };
+    },
+    [transitionType, direction, duration, stagger, easing, animatingItems]
+  );
 
-  const animateItem = useCallback((itemId: string) => {
-    setAnimatingItems((prev: Set<string>) => new Set(prev).add(itemId));
+  const animateItem = useCallback(
+    (itemId: string) => {
+      setAnimatingItems((prev: Set<string>) => new Set(prev).add(itemId));
 
-    setTimeout(() => {
-      setAnimatingItems((prev: Set<string>) => {
-        const next = new Set(prev);
-        next.delete(itemId);
-        return next;
-      });
-    }, duration);
-  }, [duration]);
+      setTimeout(() => {
+        setAnimatingItems((prev: Set<string>) => {
+          const next = new Set(prev);
+          next.delete(itemId);
+          return next;
+        });
+      }, duration);
+    },
+    [duration]
+  );
 
   const animateAllItems = useCallback(() => {
     items.forEach((item, index) => {
@@ -489,41 +562,47 @@ export function useDropZones(
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [isOverZone, setIsOverZone] = useState(false);
 
-  const handleDragOver = useCallback((event: React.DragEvent, zoneId: string) => {
-    event.preventDefault();
+  const handleDragOver = useCallback(
+    (event: React.DragEvent, zoneId: string) => {
+      event.preventDefault();
 
-    const zone = zones.find(z => z.id === zoneId);
-    if (!zone) return;
+      const zone = zones.find((z) => z.id === zoneId);
+      if (!zone) return;
 
-    // You would need to pass the dragged item data through the drag event
-    // For now, this is a placeholder structure
-    const draggedItem = (event as any).draggedItem as DraggableItem;
+      // You would need to pass the dragged item data through the drag event
+      // For now, this is a placeholder structure
+      const draggedItem = (event as any).draggedItem as DraggableItem;
 
-    if (draggedItem && zone.accepts(draggedItem)) {
-      setActiveZone(zoneId);
-      setIsOverZone(true);
-    }
-  }, [zones]);
+      if (draggedItem && zone.accepts(draggedItem)) {
+        setActiveZone(zoneId);
+        setIsOverZone(true);
+      }
+    },
+    [zones]
+  );
 
   const handleDragLeave = useCallback(() => {
     setIsOverZone(false);
   }, []);
 
-  const handleDrop = useCallback((event: React.DragEvent, zoneId: string) => {
-    event.preventDefault();
+  const handleDrop = useCallback(
+    (event: React.DragEvent, zoneId: string) => {
+      event.preventDefault();
 
-    const zone = zones.find(z => z.id === zoneId);
-    if (!zone) return;
+      const zone = zones.find((z) => z.id === zoneId);
+      if (!zone) return;
 
-    const draggedItem = (event as any).draggedItem as DraggableItem;
+      const draggedItem = (event as any).draggedItem as DraggableItem;
 
-    if (draggedItem && zone.accepts(draggedItem)) {
-      zone.onDrop(draggedItem, zoneId);
-    }
+      if (draggedItem && zone.accepts(draggedItem)) {
+        zone.onDrop(draggedItem, zoneId);
+      }
 
-    setActiveZone(null);
-    setIsOverZone(false);
-  }, [zones]);
+      setActiveZone(null);
+      setIsOverZone(false);
+    },
+    [zones]
+  );
 
   return {
     activeZone,
@@ -532,7 +611,7 @@ export function useDropZones(
     handleDragLeave,
     handleDrop,
     isValidDrop: (zoneId: string, item: DraggableItem) => {
-      const zone = zones.find(z => z.id === zoneId);
+      const zone = zones.find((z) => z.id === zoneId);
       return zone ? zone.accepts(item) : false;
     },
   };

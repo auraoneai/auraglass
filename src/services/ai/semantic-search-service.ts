@@ -1,9 +1,9 @@
 // @ts-nocheck - Optional Pinecone and OpenAI dependencies
-import { Pinecone } from '@pinecone-database/pinecone';
-import OpenAI from 'openai';
-import { AIConfig } from './config';
-import { CacheService } from './cache-service';
-import { ErrorHandler } from './error-handler';
+import { Pinecone } from "@pinecone-database/pinecone";
+import OpenAI from "openai";
+import { AIConfig } from "./config";
+import { CacheService } from "./cache-service";
+import { ErrorHandler } from "./error-handler";
 
 export interface SearchResult {
   id: string;
@@ -52,7 +52,8 @@ export class SemanticSearchService {
 
       const indexes = await this.pinecone.listIndexes();
       const indexExists = indexes.indexes?.some(
-        (idx: PineconeIndexSummary) => idx.name === this.config.pinecone.indexName
+        (idx: PineconeIndexSummary) =>
+          idx.name === this.config.pinecone.indexName
       );
 
       if (!indexExists) {
@@ -62,8 +63,8 @@ export class SemanticSearchService {
       this.index = this.pinecone.index(this.config.pinecone.indexName);
     } catch (error) {
       this.errorHandler.handleError(error, {
-        service: 'SemanticSearch',
-        operation: 'initialize',
+        service: "SemanticSearch",
+        operation: "initialize",
       });
       throw error;
     }
@@ -73,11 +74,11 @@ export class SemanticSearchService {
     await this.pinecone.createIndex({
       name: this.config.pinecone.indexName,
       dimension: 1536,
-      metric: 'cosine',
+      metric: "cosine",
       spec: {
         serverless: {
-          cloud: 'aws',
-          region: 'us-east-1',
+          cloud: "aws",
+          region: "us-east-1",
         },
       },
     });
@@ -89,7 +90,8 @@ export class SemanticSearchService {
     for (let i = 0; i < maxAttempts; i++) {
       const indexes = await this.pinecone.listIndexes();
       const index = indexes.indexes?.find(
-        (idx: PineconeIndexSummary) => idx.name === this.config.pinecone.indexName
+        (idx: PineconeIndexSummary) =>
+          idx.name === this.config.pinecone.indexName
       );
 
       if (index?.status?.ready) {
@@ -99,7 +101,7 @@ export class SemanticSearchService {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
-    throw new Error('Index creation timeout');
+    throw new Error("Index creation timeout");
   }
 
   async indexDocuments(documents: IndexableDocument[]): Promise<void> {
@@ -120,9 +122,9 @@ export class SemanticSearchService {
               values: embedding,
               metadata: {
                 content: doc.content.substring(0, 1000),
-                title: doc.title || '',
+                title: doc.title || "",
                 ...doc.metadata,
-                tags: doc.tags?.join(',') || '',
+                tags: doc.tags?.join(",") || "",
               },
             };
           })
@@ -131,11 +133,11 @@ export class SemanticSearchService {
         await this.index.upsert(vectors);
       }
 
-      await this.cache.delete('search:*');
+      await this.cache.delete("search:*");
     } catch (error) {
       this.errorHandler.handleError(error, {
-        service: 'SemanticSearch',
-        operation: 'indexDocuments',
+        service: "SemanticSearch",
+        operation: "indexDocuments",
         metadata: { documentCount: documents.length },
       });
       throw error;
@@ -155,12 +157,7 @@ export class SemanticSearchService {
       await this.initialize();
     }
 
-    const {
-      topK = 10,
-      filter,
-      includeMetadata = true,
-      namespace,
-    } = options;
+    const { topK = 10, filter, includeMetadata = true, namespace } = options;
 
     const cacheKey = `search:${query}:${JSON.stringify(options)}`;
 
@@ -172,20 +169,25 @@ export class SemanticSearchService {
     try {
       const queryEmbedding = await this.generateEmbedding(query);
 
-      const queryResponse = await this.index.namespace(namespace || '').query({
+      const queryResponse = await this.index.namespace(namespace || "").query({
         vector: queryEmbedding,
         topK,
         includeMetadata,
         filter,
       });
 
-      const results: SearchResult[] = queryResponse.matches.map((match: any) => ({
-        id: match.id,
-        content: match.metadata?.content || '',
-        metadata: match.metadata || {},
-        score: match.score || 0,
-        highlights: this.generateHighlights(query, match.metadata?.content || ''),
-      }));
+      const results: SearchResult[] = queryResponse.matches.map(
+        (match: any) => ({
+          id: match.id,
+          content: match.metadata?.content || "",
+          metadata: match.metadata || {},
+          score: match.score || 0,
+          highlights: this.generateHighlights(
+            query,
+            match.metadata?.content || ""
+          ),
+        })
+      );
 
       if (this.config.costOptimization.enableCaching) {
         await this.cache.set(cacheKey, results, 300);
@@ -197,8 +199,8 @@ export class SemanticSearchService {
         error,
         () => this.fallbackSearch(query, options),
         {
-          service: 'SemanticSearch',
-          operation: 'search',
+          service: "SemanticSearch",
+          operation: "search",
           metadata: { query },
         }
       );
@@ -262,14 +264,17 @@ export class SemanticSearchService {
       filter?: Record<string, any>;
     } = {}
   ): Promise<SearchResult[]> {
-    const keywords = query.toLowerCase().split(/\s+/).filter((k: any) => k.length > 2);
+    const keywords = query
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((k: any) => k.length > 2);
 
     if (!this.index) {
       return [];
     }
 
     try {
-      const results = await this.index.namespace('').query({
+      const results = await this.index.namespace("").query({
         vector: new Array(1536).fill(0),
         topK: options.topK || 10,
         includeMetadata: true,
@@ -282,7 +287,7 @@ export class SemanticSearchService {
       });
 
       return results.matches.map((match: any) => {
-        const content = match.metadata?.content || '';
+        const content = match.metadata?.content || "";
         const keywordScore = this.calculateKeywordScore(keywords, content);
 
         return {
@@ -294,7 +299,10 @@ export class SemanticSearchService {
         };
       });
     } catch (error) {
-      console.error('Keyword search error:', error);
+      this.errorHandler.handleError(error, {
+        service: "SemanticSearch",
+        operation: "keywordSearch",
+      });
       return [];
     }
   }
@@ -304,7 +312,8 @@ export class SemanticSearchService {
     let score = 0;
 
     keywords.forEach((keyword: any) => {
-      const occurrences = (lowerContent.match(new RegExp(keyword, 'g')) || []).length;
+      const occurrences = (lowerContent.match(new RegExp(keyword, "g")) || [])
+        .length;
       score += occurrences * (1 / keywords.length);
     });
 
@@ -314,15 +323,15 @@ export class SemanticSearchService {
   private async generateEmbedding(text: string): Promise<number[]> {
     try {
       const response = await this.openai.embeddings.create({
-        model: 'text-embedding-ada-002',
+        model: "text-embedding-ada-002",
         input: text.substring(0, 8000),
       });
 
       return response.data[0].embedding;
     } catch (error) {
       this.errorHandler.handleError(error, {
-        service: 'SemanticSearch',
-        operation: 'generateEmbedding',
+        service: "SemanticSearch",
+        operation: "generateEmbedding",
       });
       throw error;
     }
@@ -335,7 +344,7 @@ export class SemanticSearchService {
 
     sentences.forEach((sentence: any) => {
       const lowerSentence = sentence.toLowerCase();
-      const hasMatch = words.some(word => lowerSentence.includes(word));
+      const hasMatch = words.some((word) => lowerSentence.includes(word));
 
       if (hasMatch && sentence.trim().length > 20) {
         highlights.push(sentence.trim());
@@ -345,16 +354,12 @@ export class SemanticSearchService {
     return highlights.slice(0, 3);
   }
 
-  private fallbackSearch(
-    query: string,
-    options: any
-  ): SearchResult[] {
-    console.warn('Falling back to basic search implementation');
-
+  private fallbackSearch(query: string, options: any): SearchResult[] {
     return [
       {
-        id: 'fallback-1',
-        content: 'Search service is temporarily unavailable. Please try again later.',
+        id: "fallback-1",
+        content:
+          "Search service is temporarily unavailable. Please try again later.",
         metadata: { fallback: true },
         score: 0.5,
         highlights: [],
@@ -376,7 +381,7 @@ export class SemanticSearchService {
     }
 
     await this.index.deleteOne(id);
-    await this.cache.delete('search:*');
+    await this.cache.delete("search:*");
   }
 
   async deleteAllDocuments(namespace?: string): Promise<void> {
@@ -384,7 +389,7 @@ export class SemanticSearchService {
       await this.initialize();
     }
 
-    await this.index.namespace(namespace || '').deleteAll();
-    await this.cache.delete('search:*');
+    await this.index.namespace(namespace || "").deleteAll();
+    await this.cache.delete("search:*");
   }
 }

@@ -10,7 +10,7 @@ import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 export interface GlassJSONViewerProps {
-  value: any;
+  value: unknown;
   className?: string;
 }
 

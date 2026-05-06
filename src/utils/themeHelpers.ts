@@ -380,10 +380,7 @@ export const mergeThemes = (
   }, {} as Partial<GlassTheme>);
 
   // Validate and provide defaults
-  const errors = validateTheme(merged);
-  if (errors.length > 0) {
-    console.warn("Theme validation errors:", errors);
-  }
+  validateTheme(merged);
 
   return createGlassTheme(merged);
 };

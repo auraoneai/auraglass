@@ -7,9 +7,7 @@ import {
 } from "../../stories/GlassMissingInventoryCertification.stories";
 
 const componentName = "SpatialComputingEngine" satisfies MissingComponentName;
-const Component =
-  (ComponentModule as Record<string, any>)[componentName] ??
-  (ComponentModule as Record<string, any>).default;
+const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
   title: "Components/Spatial/SpatialComputingEngine",

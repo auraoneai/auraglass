@@ -16,8 +16,21 @@ import { OptimizedGlass } from "../../primitives";
 import { GlassButton } from "../button/GlassButton";
 import { GlassCheckbox } from "../input/GlassCheckbox";
 import { GlassDateRangePicker } from "../input/GlassDateRangePicker";
+import type { DateRange } from "../input/GlassDateRangePicker";
 import { GlassInput } from "../input/GlassInput";
 import { GlassSlider } from "../input/GlassSlider";
+
+export type FacetScalarValue = string | number | boolean;
+export type FacetRangeValue = number | number[];
+export type FacetValue =
+  | FacetScalarValue
+  | string[]
+  | FacetRangeValue
+  | DateRange
+  | null
+  | undefined;
+export type FacetValuesState = Record<string, FacetValue>;
+export type SearchResultMetadata = Record<string, unknown>;
 
 export interface Facet {
   id: string;
@@ -47,7 +60,7 @@ export interface SearchResult {
   category?: string;
   tags?: string[];
   score?: number;
-  metadata?: Record<string, any>;
+  metadata?: SearchResultMetadata;
 }
 
 export interface GlassFacetSearchProps
@@ -55,8 +68,8 @@ export interface GlassFacetSearchProps
   query?: string;
   onQueryChange?: (query: string) => void;
   facets?: Facet[];
-  facetValues?: Record<string, any>;
-  onFacetChange?: (facetId: string, value: any) => void;
+  facetValues?: FacetValuesState;
+  onFacetChange?: (facetId: string, value: FacetValue) => void;
   results?: SearchResult[];
   onResultSelect?: (result: SearchResult) => void;
   placeholder?: string;
@@ -65,7 +78,7 @@ export interface GlassFacetSearchProps
   showResults?: boolean;
   maxResults?: number;
   className?: string;
-  onSearch?: (query: string, filters: Record<string, any>) => void;
+  onSearch?: (query: string, filters: FacetValuesState) => void;
   suggestions?: string[];
   onSuggestionSelect?: (suggestion: string) => void;
   recentSearches?: string[];
@@ -76,6 +89,44 @@ export interface GlassFacetSearchProps
   "data-testid"?: string;
   "aria-label"?: string;
 }
+
+const createExpandedFacetState = (facets: Facet[]): Record<string, boolean> =>
+  Object.fromEntries(facets.map((facet) => [facet.id, !facet.collapsed]));
+
+const createClearedFacetValues = (facets: Facet[]): FacetValuesState =>
+  Object.fromEntries(
+    facets.map((facet) => [facet.id, facet.type === "checkbox" ? [] : null])
+  );
+
+const isActiveFacetValue = (value: FacetValue): boolean => {
+  if (Array.isArray(value)) {
+    return value.length > 0;
+  }
+
+  return value !== null && value !== undefined;
+};
+
+const toCheckboxValues = (value: FacetValue): string[] =>
+  Array.isArray(value)
+    ? value.filter((item): item is string => typeof item === "string")
+    : [];
+
+const toSliderValue = (
+  value: FacetValue,
+  fallback: number
+): number | number[] =>
+  typeof value === "number" ||
+  (Array.isArray(value) &&
+    value.every((item): item is number => typeof item === "number"))
+    ? value
+    : [fallback];
+
+const isDateRange = (value: FacetValue): value is DateRange =>
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  "from" in value &&
+  "to" in value;
 
 const GlassFacetSearch = React.forwardRef<
   HTMLDivElement,
@@ -114,7 +165,7 @@ const GlassFacetSearch = React.forwardRef<
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [expandedFacets, setExpandedFacets] = useState<
       Record<string, boolean>
-    >(Object.fromEntries(facets.map((f: any) => [f.id, !f.collapsed])));
+    >(createExpandedFacetState(facets));
     const [showFacetPanel, setShowFacetPanel] = useState(showFilters);
 
     const handleQueryChange = useCallback(
@@ -143,14 +194,14 @@ const GlassFacetSearch = React.forwardRef<
     );
 
     const handleFacetToggle = useCallback((facetId: string) => {
-      setExpandedFacets((prev: any) => ({
+      setExpandedFacets((prev) => ({
         ...prev,
         [facetId]: !prev[facetId],
       }));
     }, []);
 
     const handleFacetChange = useCallback(
-      (facetId: string, value: any) => {
+      (facetId: string, value: FacetValue) => {
         onFacetChange(facetId, value);
         // Auto-search when facets change
         setTimeout(
@@ -162,19 +213,15 @@ const GlassFacetSearch = React.forwardRef<
     );
 
     const clearFilters = useCallback(() => {
-      const clearedValues = Object.fromEntries(
-        facets.map((f: any) => [f.id, f.type === "checkbox" ? [] : null])
-      );
-      Object.keys(clearedValues).forEach((facetId: any) => {
+      const clearedValues = createClearedFacetValues(facets);
+      Object.keys(clearedValues).forEach((facetId) => {
         onFacetChange(facetId, clearedValues[facetId]);
       });
       onSearch?.(query, clearedValues);
     }, [facets, onFacetChange, onSearch, query]);
 
     const hasActiveFilters = useMemo(() => {
-      return Object.values(facetValues).some((value) =>
-        Array.isArray(value) ? (value?.length || 0) > 0 : value != null
-      );
+      return Object.values(facetValues).some(isActiveFacetValue);
     }, [facetValues]);
 
     const displayedResults = useMemo(() => {
@@ -216,26 +263,26 @@ const GlassFacetSearch = React.forwardRef<
         {...props}
       >
         {/* Search Input */}
-        <div className='glass-relative glass-mb-4'>
+        <div className="glass-relative glass-mb-4">
           <GlassInput
             value={query}
             onChange={handleQueryChange}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
-            className='glass-w-full glass-pr-12'
-            leftIcon={<Search className='glass-w-4 glass-h-4' />}
+            className="glass-w-full glass-pr-12"
+            leftIcon={<Search className="glass-w-4 glass-h-4" />}
           />
-          <div className='glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-flex glass-items-center glass-gap-2'>
+          <div className="glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-flex glass-items-center glass-gap-2">
             {loading && (
-              <div className='glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin' />
+              <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin" />
             )}
             {query && (
               <button
                 onClick={(e) => onQueryChange("")}
-                className='glass-text-primary-opacity-70 hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-text-primary-opacity-70 hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 aria-label="Clear search"
               >
-                <X className='glass-w-4 glass-h-4' />
+                <X className="glass-w-4 glass-h-4" />
               </button>
             )}
             {showFilters && (
@@ -250,7 +297,7 @@ const GlassFacetSearch = React.forwardRef<
                 aria-label="Toggle filters"
                 aria-pressed={showFacetPanel}
               >
-                <SlidersHorizontal className='glass-w-4 glass-h-4' />
+                <SlidersHorizontal className="glass-w-4 glass-h-4" />
               </GlassButton>
             )}
           </div>
@@ -263,15 +310,15 @@ const GlassFacetSearch = React.forwardRef<
                   initial={{ opacity: 0, y: -10 }}
                   animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className='glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-1 glass-z-10 glass-max-h-60 glass-overflow-y-auto'
+                  className="glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-1 glass-z-10 glass-max-h-60 glass-overflow-y-auto"
                 >
                   <OptimizedGlass
                     elevation={"level2"}
-                    className='glass-radius-lg glass-overflow-hidden glass-shadow-lg'
+                    className="glass-radius-lg glass-overflow-hidden glass-shadow-lg"
                   >
                     {suggestions.length > 0 && (
                       <div className="glass-p-2">
-                        <div className='glass-text-xs glass-text-primary-opacity-70 glass-px-2 glass-py-1'>
+                        <div className="glass-text-xs glass-text-primary-opacity-70 glass-px-2 glass-py-1">
                           Suggestions
                         </div>
                         {suggestions.map((suggestion, index) => (
@@ -282,7 +329,7 @@ const GlassFacetSearch = React.forwardRef<
                               onQueryChange(suggestion);
                               setShowSuggestions(false);
                             }}
-                            className='glass-w-full glass-text-left glass-px-2 glass-py-1 glass-text-sm glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                            className="glass-w-full glass-text-left glass-px-2 glass-py-1 glass-text-sm glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                           >
                             {suggestion}
                           </button>
@@ -292,7 +339,7 @@ const GlassFacetSearch = React.forwardRef<
 
                     {recentSearches.length > 0 && (
                       <div className="glass-p-2 glass-border-t glass-border-white/10">
-                        <div className='glass-text-xs glass-text-primary-opacity-70 glass-px-2 glass-py-1'>
+                        <div className="glass-text-xs glass-text-primary-opacity-70 glass-px-2 glass-py-1">
                           Recent Searches
                         </div>
                         {recentSearches.map((search, index) => (
@@ -303,7 +350,7 @@ const GlassFacetSearch = React.forwardRef<
                               onQueryChange(search);
                               setShowSuggestions(false);
                             }}
-                            className='glass-w-full glass-text-left glass-px-2 glass-py-1 glass-text-sm glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                            className="glass-w-full glass-text-left glass-px-2 glass-py-1 glass-text-sm glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                           >
                             {search}
                           </button>
@@ -325,12 +372,12 @@ const GlassFacetSearch = React.forwardRef<
                 prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
               }
               exit={{ opacity: 0, height: 0 }}
-              className='glass-mb-6 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden'
+              className="glass-mb-6 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
             >
               <div className="glass-p-4">
-                <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
-                  <h3 className='glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2'>
-                    <Filter className='glass-w-4 glass-h-4' />
+                <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
+                  <h3 className="glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2">
+                    <Filter className="glass-w-4 glass-h-4" />
                     Filters
                   </h3>
                   {hasActiveFilters && (
@@ -338,7 +385,7 @@ const GlassFacetSearch = React.forwardRef<
                       variant="ghost"
                       size="sm"
                       onClick={clearFilters}
-                      className='glass-text-primary-opacity-70 hover:glass-text-primary'
+                      className="glass-text-primary-opacity-70 hover:glass-text-primary"
                     >
                       Clear All
                     </GlassButton>
@@ -366,11 +413,11 @@ const GlassFacetSearch = React.forwardRef<
         {showResults && (
           <div className="glass-auto-gap glass-auto-gap-sm">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className='glass-font-semibold glass-text-primary'>
+              <h3 className="glass-font-semibold glass-text-primary">
                 Results {results.length > 0 && `(${results.length})`}
               </h3>
               {results.length > maxResults && (
-                <span className='glass-text-sm glass-text-primary-opacity-70'>
+                <span className="glass-text-sm glass-text-primary-opacity-70">
                   Showing {maxResults} of {results.length}
                 </span>
               )}
@@ -384,7 +431,7 @@ const GlassFacetSearch = React.forwardRef<
                   exit={{ opacity: 0 }}
                   className="glass-flex glass-items-center glass-justify-center glass-py-8"
                 >
-                  <div className='glass-w-6 glass-h-6 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin' />
+                  <div className="glass-w-6 glass-h-6 glass-border-2 glass-border-white/30 glass-border-t-white glass-radius-full glass-animate-spin" />
                 </motion.div>
               ) : displayedResults.length > 0 ? (
                 <motion.div
@@ -403,22 +450,22 @@ const GlassFacetSearch = React.forwardRef<
                           ? { duration: 0 }
                           : { duration: 0.3 }
                       }
-                      className='glass-p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg glass-cursor-pointer glass-transition-all glass-duration-200 glass-hover--translate-y-0-5 glass-ring-1 glass-ring-white-opacity-10 glass-hover-ring-white-opacity-20 glass-border glass-border-white/10 hover:glass-border-white/20'
+                      className="glass-p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg glass-cursor-pointer glass-transition-all glass-duration-200 glass-hover--translate-y-0-5 glass-ring-1 glass-ring-white-opacity-10 glass-hover-ring-white-opacity-20 glass-border glass-border-white/10 hover:glass-border-white/20"
                       onClick={(e) => onResultSelect?.(result)}
                     >
                       <div className="glass-flex glass-items-start glass-justify-between">
                         <div className="glass-flex-1">
-                          <h4 className='glass-font-medium glass-text-primary'>
+                          <h4 className="glass-font-medium glass-text-primary">
                             {result.title}
                           </h4>
                           {result.description && (
-                            <p className='glass-text-sm glass-text-primary-opacity-70 glass-mt-1'>
+                            <p className="glass-text-sm glass-text-primary-opacity-70 glass-mt-1">
                               {result.description}
                             </p>
                           )}
                           <div className="glass-flex glass-items-center glass-gap-2 glass-mt-2">
                             {result.category && (
-                              <span className='glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle/10 glass-text-primary-glass-opacity-80 glass-radius-md'>
+                              <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-subtle/10 glass-text-primary-glass-opacity-80 glass-radius-md">
                                 {result.category}
                               </span>
                             )}
@@ -428,14 +475,14 @@ const GlassFacetSearch = React.forwardRef<
                                   key={tagIndex}
                                   className="glass-flex glass-items-center glass-gap-1 glass-px-2 glass-py-1 glass-text-xs glass-surface-blue/20 glass-text-secondary glass-radius-md"
                                 >
-                                  <Tag className='glass-w-3 glass-h-3' />
+                                  <Tag className="glass-w-3 glass-h-3" />
                                   {tag}
                                 </span>
                               ))}
                           </div>
                         </div>
                         {result.score && (
-                          <div className='glass-text-xs glass-text-primary-glass-opacity-50'>
+                          <div className="glass-text-xs glass-text-primary-glass-opacity-50">
                             {Math.round(result.score * 100)}%
                           </div>
                         )}
@@ -448,7 +495,7 @@ const GlassFacetSearch = React.forwardRef<
                   initial={{ opacity: 0 }}
                   animate={prefersReducedMotion ? {} : { opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className='glass-text-center glass-py-8 glass-text-primary-opacity-70'
+                  className="glass-text-center glass-py-8 glass-text-primary-opacity-70"
                 >
                   No results found for "{query}"
                 </motion.div>
@@ -457,7 +504,7 @@ const GlassFacetSearch = React.forwardRef<
                   initial={{ opacity: 0 }}
                   animate={prefersReducedMotion ? {} : { opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className='glass-text-center glass-py-8 glass-text-primary-opacity-70'
+                  className="glass-text-center glass-py-8 glass-text-primary-opacity-70"
                 >
                   Start typing to search...
                 </motion.div>
@@ -475,8 +522,8 @@ GlassFacetSearch.displayName = "GlassFacetSearch";
 // Facet Group Component
 interface FacetGroupProps {
   facet: Facet;
-  value: any;
-  onChange: (value: any) => void;
+  value: FacetValue;
+  onChange: (value: FacetValue) => void;
   expanded: boolean;
   onToggle: () => void;
 }
@@ -490,16 +537,18 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   return (
-    <div className='glass-border glass-border-white/10 glass-radius-lg glass-overflow-hidden'>
+    <div className="glass-border glass-border-white/10 glass-radius-lg glass-overflow-hidden">
       <button
         onClick={onToggle}
-        className='glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+        className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
-        <span className='glass-font-medium glass-text-primary'>{facet.label}</span>
+        <span className="glass-font-medium glass-text-primary">
+          {facet.label}
+        </span>
         {expanded ? (
-          <ChevronDown className='glass-w-4 glass-h-4 glass-text-primary-opacity-70' />
+          <ChevronDown className="glass-w-4 glass-h-4 glass-text-primary-opacity-70" />
         ) : (
-          <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-opacity-70' />
+          <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-opacity-70" />
         )}
       </button>
 
@@ -509,7 +558,7 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
             initial={{ opacity: 0, height: 0 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className='glass-px-3 glass-pb-3'
+            className="glass-px-3 glass-pb-3"
           >
             <FacetContent facet={facet} value={value} onChange={onChange} />
           </motion.div>
@@ -522,8 +571,8 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
 // Facet Content Component
 interface FacetContentProps {
   facet: Facet;
-  value: any;
-  onChange: (value: any) => void;
+  value: FacetValue;
+  onChange: (value: FacetValue) => void;
 }
 
 const FacetContent: React.FC<FacetContentProps> = ({
@@ -542,19 +591,21 @@ const FacetContent: React.FC<FacetContentProps> = ({
             >
               <GlassCheckbox
                 id={option.id}
-                checked={Array.isArray(value) && value.includes(option.value)}
+                checked={toCheckboxValues(value).includes(option.value)}
                 onCheckedChange={(checked) => {
-                  const currentValues = Array.isArray(value) ? value : [];
+                  const currentValues = toCheckboxValues(value);
                   const newValues = checked
                     ? [...currentValues, option.value]
-                    : currentValues.filter((v: any) => v !== option.value);
+                    : currentValues.filter(
+                        (currentValue) => currentValue !== option.value
+                      );
                   onChange(newValues);
                 }}
                 disabled={option.disabled}
                 label={option.label}
               />
               {facet.showCount && option.count != null && (
-                <span className='glass-text-xs glass-text-primary-glass-opacity-50'>
+                <span className="glass-text-xs glass-text-primary-glass-opacity-50">
                   ({option.count})
                 </span>
               )}
@@ -570,11 +621,11 @@ const FacetContent: React.FC<FacetContentProps> = ({
             min={facet.min || 0}
             max={facet.max || 100}
             step={facet.step || 1}
-            value={Array.isArray(value) ? value : [facet.min || 0]}
+            value={toSliderValue(value, facet.min || 0)}
             onValueChange={onChange}
             className="glass-w-full"
           />
-          <div className='glass-flex glass-justify-between glass-text-sm glass-text-primary-opacity-70'>
+          <div className="glass-flex glass-justify-between glass-text-sm glass-text-primary-opacity-70">
             <span>{facet.min || 0}</span>
             <span>{facet.max || 100}</span>
           </div>
@@ -602,7 +653,7 @@ const FacetContent: React.FC<FacetContentProps> = ({
     case "daterange":
       return (
         <GlassDateRangePicker
-          value={value}
+          value={isDateRange(value) ? value : undefined}
           onChange={onChange}
           placeholder="Select date range"
         />

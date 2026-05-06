@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { Loader2 } from "lucide-react";
 import React, {
@@ -14,8 +14,8 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 export interface VirtualListItem {
   id: string;
   height: number;
-  component: React.ComponentType<any>;
-  props?: Record<string, any>;
+  component: React.ElementType;
+  props?: Record<string, unknown>;
 }
 
 export interface GlassVirtualListProps {
@@ -192,11 +192,11 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
       >
         <div
           ref={contentRef}
-          className='glass-relative'
+          className="glass-relative"
           style={{ height: totalHeight }}
         >
           <div
-            className='glass-absolute glass-top-0 glass-left-0 glass-right-0'
+            className="glass-absolute glass-top-0 glass-left-0 glass-right-0"
             style={{ transform: `translateY(${offsetY}px)` }}
           >
             {visibleItems.map((item, index) => {
@@ -219,10 +219,12 @@ export const GlassVirtualList: React.FC<GlassVirtualListProps> = ({
 
         {/* Loading indicator */}
         {loading && (
-          <div className='glass-absolute glass-bottom-4 glass--left-1-2 glass-transform glass--translate-x-1-2'>
+          <div className="glass-absolute glass-bottom-4 glass--left-1-2 glass-transform glass--translate-x-1-2">
             <div className="glass-flex glass-items-center glass-gap-2 glass-px-4 glass-py-2 glass-surface-dark/80 glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
-              <Loader2 className='glass-w-4 glass-h-4 glass-animate-spin' />
-              <span className='glass-text-primary glass-text-sm'>Loading...</span>
+              <Loader2 className="glass-w-4 glass-h-4 glass-animate-spin" />
+              <span className="glass-text-primary glass-text-sm">
+                Loading...
+              </span>
             </div>
           </div>
         )}
@@ -342,9 +344,12 @@ export const GlassVirtualGrid: React.FC<GlassVirtualGridProps> = ({
         onScroll={handleScroll}
         {...props}
       >
-        <div className='glass-relative' style={{ height: totalRows * rowHeight }}>
+        <div
+          className="glass-relative"
+          style={{ height: totalRows * rowHeight }}
+        >
           <div
-            className='glass-absolute glass-top-0 glass-left-0 glass-right-0'
+            className="glass-absolute glass-top-0 glass-left-0 glass-right-0"
             style={{ transform: `translateY(${offsetY}px)` }}
           >
             <div

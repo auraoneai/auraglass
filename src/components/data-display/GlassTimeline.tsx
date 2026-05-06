@@ -34,7 +34,7 @@ export interface TimelineItem {
   /**
    * Additional metadata
    */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   /**
    * Custom styling for this item
    */

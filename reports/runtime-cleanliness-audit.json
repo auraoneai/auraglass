@@ -1,0 +1,31 @@
+{
+  "objective": "Audit production-source runtime cleanliness for console calls, debugger statements, and TODO/FIXME/XXX markers.",
+  "summary": {
+    "generatedAt": "2026-05-06T18:27:20.244Z",
+    "scannedRoot": "src",
+    "scannedFileCount": 659,
+    "findingCount": 0,
+    "fileWithFindingsCount": 0,
+    "consoleFindingCount": 0,
+    "todoFindingCount": 0,
+    "debuggerFindingCount": 0,
+    "countsByKind": {}
+  },
+  "exclusions": {
+    "fileGlobs": [
+      "*.stories.*",
+      "*.test.*",
+      "*.spec.*",
+      "**/__snapshots__/**",
+      "src/docs/**",
+      "src/scripts/**"
+    ],
+    "basenames": [
+      "testSetup.ts",
+      "testSetup.tsx",
+      "testingUtils.ts",
+      "testingUtils.tsx"
+    ]
+  },
+  "findings": []
+}

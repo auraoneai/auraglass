@@ -58,6 +58,34 @@ interface GlassSound {
   variations?: string[];
 }
 
+interface GlassSoundOptions {
+  loop?: boolean;
+  volume?: number;
+  delay?: number;
+  [key: string]: unknown;
+}
+
+type WindowWithWebKitAudioContext = Window &
+  typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+  };
+
+interface LegacyAudioListener {
+  setOrientation?: (
+    forwardX: number,
+    forwardY: number,
+    forwardZ: number,
+    upX: number,
+    upY: number,
+    upZ: number
+  ) => void;
+  setPosition?: (x: number, y: number, z: number) => void;
+}
+
+interface LegacyPannerNode {
+  setPosition?: (x: number, y: number, z: number) => void;
+}
+
 // Pre-defined glass sounds
 const GLASS_SOUNDS: Record<string, GlassSound> = {
   tap: {
@@ -131,8 +159,15 @@ class SpatialAudioEngine {
   async initialize(): Promise<boolean> {
     try {
       // Create audio context
-      this.context = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const AudioContextCtor =
+        window.AudioContext ||
+        (window as WindowWithWebKitAudioContext).webkitAudioContext;
+
+      if (!AudioContextCtor) {
+        throw new Error("Web Audio API not supported");
+      }
+
+      this.context = new AudioContextCtor();
 
       if (!this.context) {
         throw new Error("Web Audio API not supported");
@@ -161,8 +196,7 @@ class SpatialAudioEngine {
 
       this.isInitialized = true;
       return true;
-    } catch (error) {
-      console.error("Failed to initialize spatial audio:", error);
+    } catch {
       return false;
     }
   }
@@ -191,7 +225,14 @@ class SpatialAudioEngine {
       this.listener.upZ.value = 0;
     } else {
       // Legacy Web Audio API
-      (this.listener as any).setOrientation?.(0, 0, -1, 0, 1, 0);
+      (this.listener as unknown as LegacyAudioListener).setOrientation?.(
+        0,
+        0,
+        -1,
+        0,
+        1,
+        0
+      );
     }
 
     // Set listener position
@@ -200,7 +241,7 @@ class SpatialAudioEngine {
       this.listener.positionY.value = 0;
       this.listener.positionZ.value = 0;
     } else {
-      (this.listener as any).setPosition?.(0, 0, 0);
+      (this.listener as unknown as LegacyAudioListener).setPosition?.(0, 0, 0);
     }
   }
 
@@ -214,8 +255,8 @@ class SpatialAudioEngine {
             sound.category
           );
           this.buffers.set(key, buffer);
-        } catch (error) {
-          console.warn(`Failed to load sound ${key}:`, error);
+        } catch {
+          this.buffers.delete(key);
         }
       }
     );
@@ -319,7 +360,11 @@ class SpatialAudioEngine {
         panner.positionY.value = position.y;
         panner.positionZ.value = position.z;
       } else {
-        (panner as any).setPosition?.(position.x, position.y, position.z);
+        (panner as unknown as LegacyPannerNode).setPosition?.(
+          position.x,
+          position.y,
+          position.z
+        );
       }
 
       // Connect: source -> gain -> panner -> master gain -> destination
@@ -354,11 +399,7 @@ class SpatialAudioEngine {
     id: string,
     soundKey: string,
     position: SpatialPosition,
-    options: {
-      loop?: boolean;
-      volume?: number;
-      delay?: number;
-    } = {}
+    options: GlassSoundOptions = {}
   ): void {
     if (!this.isInitialized) return;
 
@@ -414,7 +455,7 @@ class SpatialAudioEngine {
         source.panner.positionY.value = position.y;
         source.panner.positionZ.value = position.z;
       } else {
-        (source.panner as any).setPosition?.(
+        (source.panner as unknown as LegacyPannerNode).setPosition?.(
           position.x,
           position.y,
           position.z
@@ -432,7 +473,11 @@ class SpatialAudioEngine {
       this.listener.positionY.value = position.y;
       this.listener.positionZ.value = position.z;
     } else {
-      (this.listener as any).setPosition?.(position.x, position.y, position.z);
+      (this.listener as unknown as LegacyAudioListener).setPosition?.(
+        position.x,
+        position.y,
+        position.z
+      );
     }
   }
 
@@ -450,7 +495,7 @@ class SpatialAudioEngine {
       this.listener.upY.value = up.y;
       this.listener.upZ.value = up.z;
     } else {
-      (this.listener as any).setOrientation?.(
+      (this.listener as unknown as LegacyAudioListener).setOrientation?.(
         forward.x,
         forward.y,
         forward.z,
@@ -501,7 +546,7 @@ const SpatialAudioContext = createContext<{
   playGlassSound: (
     soundKey: string,
     position?: SpatialPosition,
-    options?: any
+    options?: GlassSoundOptions
   ) => string;
   stopGlassSound: (id: string) => void;
   setMasterVolume: (volume: number) => void;
@@ -577,7 +622,7 @@ export function GlassSpatialAudioProvider({
     (
       soundKey: string,
       position: SpatialPosition = { x: 0, y: 0, z: 0 },
-      options = {}
+      options: GlassSoundOptions = {}
     ): string => {
       if (!engineRef.current || !isInitialized) return "";
 
@@ -820,7 +865,7 @@ export function GlassSpatialVisualizer({
 
         {/* Audio sources */}
         <AnimatePresence>
-          {sources.map((source: any) => {
+          {sources.map((source) => {
             // Convert 3D position to 2D screen position
             const screenX = (source.position.x + 1) * 50; // -1 to 1 -> 0 to 100%
             const screenY = (1 - source.position.y) * 50; // -1 to 1 -> 100 to 0%

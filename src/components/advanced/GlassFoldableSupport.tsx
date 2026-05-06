@@ -148,8 +148,8 @@ export function GlassFoldableSupport({
         setLayoutMode(
           isFoldable ? (segments.length > 2 ? "extended" : "dual") : "single"
         );
-      } catch (error) {
-        console.warn("Screen Details API not supported:", error);
+      } catch {
+        // Keep the default single-screen fallback when Screen Details is unavailable.
       }
     }
 

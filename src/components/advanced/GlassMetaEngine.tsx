@@ -101,6 +101,9 @@ interface GlassSystemHealth {
   trend: "improving" | "stable" | "declining";
 }
 
+type GlassHealthIssue = GlassSystemHealth["issues"][number];
+type SystemOptimizationType = SystemOptimization["optimizationType"];
+
 // Advanced quantum-inspired optimization algorithm
 class QuantumOptimizer {
   private quantumStates: Map<string, number[]>;
@@ -119,7 +122,7 @@ class QuantumOptimizer {
     const norm = Math.sqrt(state.reduce((sum, val) => sum + val * val, 0));
     this.quantumStates.set(
       systemId,
-      state.map((val: any) => val / norm)
+      state.map((val) => val / norm)
     );
   }
 
@@ -142,7 +145,7 @@ class QuantumOptimizer {
     if (!state) return 0;
 
     // Collapse quantum state to measured value
-    const probabilities = state.map((amplitude: any) => amplitude * amplitude);
+    const probabilities = state.map((amplitude) => amplitude * amplitude);
     const random = Math.random();
     let cumulative = 0;
 
@@ -183,8 +186,8 @@ class QuantumOptimizer {
   }
 
   private applyMatrix(matrix: number[][], state: number[]): number[] {
-    return matrix.map((row: any) =>
-      row.reduce((sum: any, val: any, idx: any) => sum + val * state[idx], 0)
+    return matrix.map((row) =>
+      row.reduce((sum, val, idx) => sum + val * state[idx], 0)
     );
   }
 }
@@ -331,7 +334,7 @@ class GlassMetaEngineCore {
       "AIPersonalizationEngine",
     ];
 
-    glassSystems.forEach((system: any) => {
+    glassSystems.forEach((system) => {
       this.quantumOptimizer.createQuantumState(system, 8);
       this.systemHealth.set(system, {
         systemId: system,
@@ -473,7 +476,7 @@ class GlassMetaEngineCore {
     if (!health || health.healthScore > 0.8) return;
 
     // Generate optimization based on identified issues
-    health.issues.forEach((issue: any) => {
+    health.issues.forEach((issue) => {
       const optimization = this.createOptimization(systemId, issue);
       if (optimization) {
         this.optimizations.push(optimization);
@@ -495,7 +498,7 @@ class GlassMetaEngineCore {
 
   private createOptimization(
     systemId: string,
-    issue: any
+    issue: GlassHealthIssue
   ): SystemOptimization | null {
     const optimizationId = `opt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -567,14 +570,14 @@ class GlassMetaEngineCore {
 
     if (confidence < 0.6) return null;
 
-    const optimizationTypes = [
+    const optimizationTypes: SystemOptimizationType[] = [
       "performance",
       "memory",
       "battery",
       "network",
       "accessibility",
     ];
-    const type = optimizationTypes[maxIndex % optimizationTypes.length] as any;
+    const type = optimizationTypes[maxIndex % optimizationTypes.length];
 
     return {
       id: `neural_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -659,8 +662,8 @@ class GlassMetaEngineCore {
       return 0;
 
     // Simple correlation calculation
-    const perf1 = metrics1.map((m: any) => m.performanceMetrics.renderTime);
-    const perf2 = metrics2.map((m: any) => m.performanceMetrics.renderTime);
+    const perf1 = metrics1.map((m) => m.performanceMetrics.renderTime);
+    const perf2 = metrics2.map((m) => m.performanceMetrics.renderTime);
 
     const mean1 = perf1.reduce((sum, val) => sum + val, 0) / perf1.length;
     const mean2 = perf2.reduce((sum, val) => sum + val, 0) / perf2.length;
@@ -683,15 +686,11 @@ class GlassMetaEngineCore {
 
   private applyOptimizations(): void {
     const autoApplyable = this.optimizations.filter(
-      (opt: any) => opt.autoApplyable && opt.confidence > 0.8
+      (opt) => opt.autoApplyable && opt.confidence > 0.8
     );
 
-    autoApplyable.forEach((optimization: any) => {
+    autoApplyable.forEach((optimization) => {
       // Simulate applying optimization
-      console.log(
-        `Auto-applying optimization: ${optimization.description} for ${optimization.targetSystem}`
-      );
-
       // Update system health after optimization
       const health = this.systemHealth.get(optimization.targetSystem);
       if (health) {
@@ -700,7 +699,7 @@ class GlassMetaEngineCore {
           health.healthScore + optimization.impact * 0.1
         );
         health.issues = health.issues.filter(
-          (issue: any) =>
+          (issue) =>
             issue.type !== optimization.optimizationType || !issue.autoFixable
         );
       }
@@ -708,7 +707,7 @@ class GlassMetaEngineCore {
 
     // Remove applied optimizations
     this.optimizations = this.optimizations.filter(
-      (opt: any) => !autoApplyable.includes(opt)
+      (opt) => !autoApplyable.includes(opt)
     );
   }
 
@@ -733,16 +732,13 @@ class GlassMetaEngineCore {
     this.systemHealth.forEach((health, systemId) => {
       // Auto-heal critical issues
       const criticalIssues = health.issues.filter(
-        (issue: any) => issue.severity === "critical"
+        (issue) => issue.severity === "critical"
       );
 
       if (criticalIssues.length > 0) {
-        criticalIssues.forEach((issue: any) => {
+        criticalIssues.forEach((issue) => {
           if (issue.autoFixable) {
             // Apply emergency healing
-            console.log(
-              `Emergency healing applied to ${systemId} for ${issue.type}`
-            );
             health.healthScore = Math.max(health.healthScore, 0.5);
           }
         });
@@ -768,7 +764,7 @@ class GlassMetaEngineCore {
   }
 
   getQuantumStates(): Array<{ system: string; coherence: number }> {
-    return Array.from(this.systemHealth.keys()).map((system: any) => ({
+    return Array.from(this.systemHealth.keys()).map((system) => ({
       system,
       coherence: this.quantumOptimizer.observe(system),
     }));
@@ -824,8 +820,8 @@ export function GlassMetaEngineProvider({
         setSystemHealth(newHealth);
 
         // Trigger callbacks
-        newOptimizations.forEach((opt: any) => onOptimization?.(opt));
-        newEvolutions.forEach((evo: any) => onEvolution?.(evo));
+        newOptimizations.forEach((opt) => onOptimization?.(opt));
+        newEvolutions.forEach((evo) => onEvolution?.(evo));
       }
     }, ANIMATION.DURATION.fast);
 
@@ -899,9 +895,7 @@ export function GlassMetaDashboard({
   }, [engine, showQuantumStates]);
 
   const topOptimizations = optimizations.slice(0, maxOptimizations);
-  const criticalEvolutions = evolutions.filter(
-    (evo: any) => evo.confidence > 0.8
-  );
+  const criticalEvolutions = evolutions.filter((evo) => evo.confidence > 0.8);
 
   return (
     <div className={cn("fixed bottom-4 right-4 z-50", className)}>
@@ -1057,7 +1051,7 @@ export function GlassMetaDashboard({
                     Quantum Coherence
                   </h4>
                   <div className="glass-grid glass-grid-cols-2 glass-gap-2">
-                    {quantumStates.map((state: any) => (
+                    {quantumStates.map((state) => (
                       <div
                         key={state.system}
                         className="glass-p-2 glass-surface-secondary glass-radius-sm"
@@ -1094,7 +1088,7 @@ export function GlassMetaDashboard({
                   <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                     Active Optimizations
                   </h4>
-                  {topOptimizations.map((optimization: any) => (
+                  {topOptimizations.map((optimization) => (
                     <motion.div
                       key={optimization.id}
                       className="glass-p-3 glass-surface-secondary glass-radius-md"
@@ -1146,7 +1140,7 @@ export function GlassMetaDashboard({
                   <h4 className="glass-text-sm glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                     System Evolutions
                   </h4>
-                  {criticalEvolutions.slice(0, 3).map((evolution: any) => (
+                  {criticalEvolutions.slice(0, 3).map((evolution) => (
                     <motion.div
                       key={evolution.id}
                       className="glass-p-3 glass-surface-secondary glass-radius-md"
@@ -1197,6 +1191,20 @@ export function useMetaEngineRecorder(systemId: string, componentType: string) {
     (userSatisfactionScore: number = 1.0) => {
       const endTime = Date.now();
       const renderTime = endTime - startTimeRef.current;
+      const runtimePerformance = globalThis.performance as Performance & {
+        memory?: { usedJSHeapSize: number };
+      };
+      const navigatorWithConnection = navigator as Navigator & {
+        connection?: { effectiveType?: string };
+      };
+      const effectiveType =
+        navigatorWithConnection.connection?.effectiveType || "unknown";
+      const networkCondition: SystemUsageMetric["context"]["networkCondition"] =
+        effectiveType.includes("2g")
+          ? "slow"
+          : effectiveType.includes("3g")
+            ? "moderate"
+            : "fast";
 
       recordUsage({
         systemId,
@@ -1205,7 +1213,7 @@ export function useMetaEngineRecorder(systemId: string, componentType: string) {
         performanceMetrics: {
           renderTime,
           memoryUsage:
-            (performance as any).memory?.usedJSHeapSize / 1024 / 1024 || 0,
+            (runtimePerformance.memory?.usedJSHeapSize ?? 0) / 1024 / 1024,
           interactionLatency: 0,
           errorRate: 0,
         },
@@ -1225,12 +1233,8 @@ export function useMetaEngineRecorder(systemId: string, componentType: string) {
               : navigator.userAgent.includes("Safari")
                 ? "WebKit"
                 : "Unknown",
-          networkConnection:
-            (navigator as any).connection?.effectiveType || "unknown",
-          batteryLevel: (navigator as any)
-            .getBattery?.()
-            .then((battery: any) => battery.level),
-        } as any,
+          networkCondition,
+        },
       });
 
       startTimeRef.current = Date.now();

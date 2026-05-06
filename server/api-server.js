@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const { createServer } = require('http');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const app = express();
@@ -11,6 +12,9 @@ const httpServer = createServer(app);
 // Import services (these would be transpiled from TypeScript in production)
 // For now, we'll create simple wrappers
 const PORT = process.env.API_PORT || 3002;
+const enableDemoAuth = process.env.ENABLE_DEMO_AUTH === 'true';
+
+const createDemoToken = (prefix) => `${prefix}_${crypto.randomBytes(32).toString('base64url')}`;
 
 // Security middleware
 app.use(helmet());
@@ -142,11 +146,16 @@ const authRouter = express.Router();
 
 authRouter.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    if (!enableDemoAuth) {
+      return res.status(501).json({
+        error: 'Demo authentication is disabled. Set ENABLE_DEMO_AUTH=true only for local demos.',
+      });
+    }
 
-    // Mock authentication
-    const token = 'mock-jwt-token';
-    const refreshToken = 'mock-refresh-token';
+    const { email } = req.body;
+
+    const token = createDemoToken('demo_access');
+    const refreshToken = createDemoToken('demo_refresh');
 
     res.json({
       token,
@@ -165,9 +174,18 @@ authRouter.post('/login', async (req, res) => {
 
 authRouter.post('/refresh', async (req, res) => {
   try {
-    const { refreshToken } = req.body;
+    if (!enableDemoAuth) {
+      return res.status(501).json({
+        error: 'Demo authentication is disabled. Set ENABLE_DEMO_AUTH=true only for local demos.',
+      });
+    }
 
-    const newToken = 'new-mock-jwt-token';
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return res.status(400).json({ error: 'refreshToken is required' });
+    }
+
+    const newToken = createDemoToken('demo_access');
 
     res.json({ token: newToken });
   } catch (error) {

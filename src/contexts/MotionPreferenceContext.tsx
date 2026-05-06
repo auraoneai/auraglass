@@ -1,15 +1,15 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 export interface MotionPreferenceContextType {
   prefersReducedMotion: boolean;
   isMotionSafe: boolean;
-  motionPolicy: 'auto' | 'always-safe' | 'never-safe';
+  motionPolicy: "auto" | "always-safe" | "never-safe";
 }
 
 const MotionPreferenceContext = createContext<MotionPreferenceContextType>({
   prefersReducedMotion: false,
   isMotionSafe: true,
-  motionPolicy: 'auto',
+  motionPolicy: "auto",
 });
 
 /**
@@ -21,11 +21,10 @@ const MotionPreferenceContext = createContext<MotionPreferenceContextType>({
 export const useMotionPreferenceContext = () => {
   const context = useContext(MotionPreferenceContext);
   if (!context) {
-    console.warn('useMotionPreferenceContext must be used within a MotionPreferenceProvider. Using default values.');
     return {
       prefersReducedMotion: false,
       isMotionSafe: true,
-      motionPolicy: 'auto' as const,
+      motionPolicy: "auto" as const,
     };
   }
   return context;
@@ -42,7 +41,7 @@ export interface MotionPreferenceProviderProps {
    * CRITICAL for SSR: Use 'always-safe' to prevent hydration mismatches
    * when you know your users don't prefer reduced motion.
    */
-  initialMotionPolicy?: 'auto' | 'always-safe' | 'never-safe';
+  initialMotionPolicy?: "auto" | "always-safe" | "never-safe";
   /**
    * Initial value for prefersReducedMotion during SSR
    * Default: false (motion allowed)
@@ -74,34 +73,38 @@ export interface MotionPreferenceProviderProps {
  * </MotionPreferenceProvider>
  * ```
  */
-export const MotionPreferenceProvider: React.FC<MotionPreferenceProviderProps> = ({
+export const MotionPreferenceProvider: React.FC<
+  MotionPreferenceProviderProps
+> = ({
   children,
-  initialMotionPolicy = 'auto',
+  initialMotionPolicy = "auto",
   initialPrefersReducedMotion = false,
 }) => {
   // CRITICAL FIX: Start with SSR-safe default to prevent hydration mismatch
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(initialPrefersReducedMotion);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    initialPrefersReducedMotion
+  );
   const [motionPolicy] = useState(initialMotionPolicy);
 
   useEffect(() => {
     // Skip detection if motion policy is forced
-    if (motionPolicy !== 'auto') {
-      setPrefersReducedMotion(motionPolicy === 'never-safe');
+    if (motionPolicy !== "auto") {
+      setPrefersReducedMotion(motionPolicy === "never-safe");
       return;
     }
 
     // Detect actual motion preference after hydration (client-side only)
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (event: MediaQueryListEvent) => {
       setPrefersReducedMotion(event.matches);
     };
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [motionPolicy]);
 
   const value = {

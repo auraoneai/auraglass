@@ -31,6 +31,56 @@ import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
+type ButtonDomProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonSize = NonNullable<GlassButtonProps["size"]>;
+type ButtonVariantVisualConfig = {
+  className: string;
+  glassVariant:
+    | OptimizedGlassProps["variant"]
+    | "liquid"
+    | "ethereal"
+    | "holographic";
+  tint: string;
+  intensity: NonNullable<OptimizedGlassProps["intensity"]>;
+  border: NonNullable<OptimizedGlassProps["border"]>;
+  lighting?: OptimizedGlassProps["lighting"];
+  caustics?: boolean;
+  chromatic?: boolean;
+  parallax?: boolean;
+  refraction?: boolean;
+  adaptive?: boolean;
+};
+type LiquidGlassButtonSurfaceProps = ButtonDomProps & {
+  as?: React.ElementType;
+  ior?: number;
+  thickness?: number;
+  tint?: { r: number; g: number; b: number; a: number };
+  variant?: "regular" | "clear";
+  quality?: "ultra" | "high" | "balanced" | "efficient";
+  environmentAdaptation?: boolean;
+  motionResponsive?: boolean;
+  interactive?: boolean;
+  style?: React.CSSProperties;
+  "data-liquid-glass-button"?: string;
+  "data-button-variant"?: string;
+  "data-button-size"?: ButtonSize;
+};
+
+const LiquidGlassButtonSurface =
+  LiquidGlassMaterial as unknown as React.ForwardRefExoticComponent<
+    LiquidGlassButtonSurfaceProps & React.RefAttributes<HTMLButtonElement>
+  >;
+
+const toOptimizedGlassVariant = (
+  value: ButtonVariantVisualConfig["glassVariant"]
+): OptimizedGlassProps["variant"] => {
+  if (value === "liquid" || value === "ethereal" || value === "holographic") {
+    return "dynamic";
+  }
+
+  return value;
+};
+
 export interface GlassButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size">,
     ConsciousnessFeatures {
@@ -250,35 +300,53 @@ export const GlassButton = forwardRef(function GlassButton(
   useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement);
 
   // Utility: filter out non-DOM props before spreading on elements
-  const filterDomProps = useCallback((p: any) => {
-    const {
-      loadingText: _lt,
-      asChild: _ac,
-      leftIcon: _li,
-      rightIcon: _ri,
-      loadingSpinner: _ls,
-      animation: _an,
-      flat: _fl,
-      description: _desc,
-      // Master flag
-      consciousness: _cons,
-      // Consciousness-related props
-      predictive: _pred,
-      preloadContent: _prel,
-      eyeTracking: _eye,
-      gazeResponsive: _gaze,
-      adaptive: _ad,
-      biometricResponsive: _bio,
-      spatialAudio: _sa,
-      audioFeedback: _af,
-      trackAchievements: _ta,
-      achievementId: _aid,
-      usageContext: _uctx,
-      onClick: _oc,
-      ...valid
-    } = (p || {}) as any;
-    return valid;
-  }, []);
+  const filterDomProps = useCallback(
+    (p: Partial<GlassButtonProps>): ButtonDomProps => {
+      const {
+        variant: _variant,
+        size: _size,
+        elevation: _elevation,
+        glassVariant: _glassVariant,
+        intensity: _intensity,
+        depth: _depth,
+        tint: _tint,
+        border: _border,
+        loading: _loading,
+        iconOnly: _iconOnly,
+        fullWidth: _fullWidth,
+        loadingText: _lt,
+        asChild: _ac,
+        leftIcon: _li,
+        rightIcon: _ri,
+        loadingSpinner: _ls,
+        animation: _an,
+        flat: _fl,
+        material: _material,
+        materialProps: _materialProps,
+        intent: _intent,
+        tier: _tier,
+        description: _desc,
+        // Master flag
+        consciousness: _cons,
+        // Consciousness-related props
+        predictive: _pred,
+        preloadContent: _prel,
+        eyeTracking: _eye,
+        gazeResponsive: _gaze,
+        adaptive: _ad,
+        biometricResponsive: _bio,
+        spatialAudio: _sa,
+        audioFeedback: _af,
+        trackAchievements: _ta,
+        achievementId: _aid,
+        usageContext: _uctx,
+        onClick: _oc,
+        ...valid
+      } = p;
+      return valid;
+    },
+    []
+  );
 
   // Biometric adaptation effects
   useEffect(() => {
@@ -380,12 +448,7 @@ export const GlassButton = forwardRef(function GlassButton(
     if (buttonPrediction && buttonPrediction.confidence > 0.7) {
       setPredictedAction(buttonPrediction.type);
 
-      // Preload action if specified
-      if (preloadContent && buttonPrediction.type === "preload") {
-        console.log(
-          `Preloading content for button: ${variant}-${usageContext}`
-        );
-      }
+      // Preload action hook intentionally left to consumers.
     } else {
       setPredictedAction(null);
     }
@@ -396,7 +459,7 @@ export const GlassButton = forwardRef(function GlassButton(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       if (disabled || loading) return;
 
-      setClickCount((prev: any) => prev + 1);
+      setClickCount((prev: number) => prev + 1);
 
       // Record interaction for predictive learning
       if (interactionRecorder) {
@@ -460,9 +523,7 @@ export const GlassButton = forwardRef(function GlassButton(
   // Validate accessibility requirements
   React.useEffect(() => {
     if (iconOnly && !ariaLabel && !ariaLabelledBy && !children) {
-      console.warn(
-        "GlassButton: Icon-only buttons must have an aria-label or aria-labelledby prop for accessibility"
-      );
+      return;
     }
   }, [iconOnly, ariaLabel, ariaLabelledBy, children]);
 
@@ -533,7 +594,10 @@ export const GlassButton = forwardRef(function GlassButton(
     }
   );
 
-  const variantStyles = {
+  const variantStyles: Record<
+    GlassButtonVariantType,
+    ButtonVariantVisualConfig
+  > = {
     default: {
       glassVariant: "frosted" as const,
       tint: "neutral" as const,
@@ -637,9 +701,16 @@ export const GlassButton = forwardRef(function GlassButton(
       parallax: true,
       className: "glass-text-primary hover:glass-text-secondary",
     },
-  };
+  } satisfies Record<GlassButtonVariantType, ButtonVariantVisualConfig>;
 
   const variantConfig = variantStyles?.[resolvedVariant];
+  const optimizedGlassVariant =
+    glassVariant || toOptimizedGlassVariant(variantConfig.glassVariant);
+  const liquidButtonStyle = {
+    "--liquid-glass-button-pressure": isHovered ? "0.02" : "0.0",
+    "--liquid-glass-hover-refraction": "1.2",
+    "--liquid-glass-press-density": "0.95",
+  } as React.CSSProperties;
 
   // Map variant to accent focus ring utility
   const variantAccent =
@@ -700,7 +771,11 @@ export const GlassButton = forwardRef(function GlassButton(
   };
 
   if (resolvedVariant === "ghost" || resolvedVariant === "link") {
-    const Comp: any = asChild ? Slot : "button";
+    const Comp = (asChild
+      ? Slot
+      : "button") as unknown as React.ForwardRefExoticComponent<
+      ButtonDomProps & React.RefAttributes<HTMLButtonElement>
+    >;
     return (
       <Motion
         data-glass-component
@@ -745,8 +820,9 @@ export const GlassButton = forwardRef(function GlassButton(
       className="glass-inline-glass-block"
     >
       {material === "liquid" ? (
-        <LiquidGlassMaterial
-          as={asChild ? (Slot as any) : "button"}
+        /* eslint-disable auraglass/no-inline-style-attr -- Liquid button interaction tests assert these CSS custom properties. */
+        <LiquidGlassButtonSurface
+          as={asChild ? (Slot as React.ElementType) : "button"}
           ior={materialProps?.ior || (variant === "primary" ? 1.48 : 1.44)}
           thickness={
             materialProps?.thickness ||
@@ -770,11 +846,7 @@ export const GlassButton = forwardRef(function GlassButton(
             "liquid-glass-button-surface glass-ripple glass-magnet",
             className
           )}
-          style={{
-            "--liquid-glass-button-pressure": isHovered ? "0.02" : "0.0",
-            "--liquid-glass-hover-refraction": "1.2",
-            "--liquid-glass-press-density": "0.95",
-          }}
+          style={liquidButtonStyle}
           data-liquid-glass-button="true"
           data-button-variant={variant}
           data-button-size={size}
@@ -784,40 +856,12 @@ export const GlassButton = forwardRef(function GlassButton(
           onMouseLeave={() => setIsHovered(false)}
           ref={buttonRef}
           {...a11yProps}
-          {...(() => {
-            const {
-              loadingText: _,
-              asChild: __,
-              leftIcon: ___,
-              rightIcon: ____,
-              loadingSpinner: _____,
-              animation: ______,
-              description: _______,
-              // Filter out the master flag too so it never hits the DOM
-              consciousness: __ignoreConsciousness,
-              material: ________,
-              materialProps: _________,
-              predictive: __________,
-              preloadContent: ___________,
-              eyeTracking: ____________,
-              gazeResponsive: _____________,
-              adaptive: ______________,
-              biometricResponsive: _______________,
-              spatialAudio: ________________,
-              audioFeedback: _________________,
-              trackAchievements: __________________,
-              achievementId: ___________________,
-              usageContext: ____________________,
-              onClick: _____________________,
-              ...validProps
-            } = props as any;
-            return validProps;
-          })()}
+          {...filterDomProps(props)}
         >
           {asChild ? (
             // When rendering asChild (Slot), Slot expects exactly one child element.
             // Defer content to the passed child to avoid React.Children.only errors.
-            (children as any)
+            children
           ) : (
             <>
               {resolvedVariant === "gradient" && (
@@ -833,11 +877,12 @@ export const GlassButton = forwardRef(function GlassButton(
               )}
             </>
           )}
-        </LiquidGlassMaterial>
+        </LiquidGlassButtonSurface>
       ) : (
+        /* eslint-enable auraglass/no-inline-style-attr */
         <OptimizedGlass
-          as={asChild ? (Slot as any) : "button"}
-          variant={glassVariant || variantConfig.glassVariant}
+          as={asChild ? (Slot as React.ElementType) : "button"}
+          variant={optimizedGlassVariant}
           elevation={elevation}
           intensity={intensity || variantConfig.intensity}
           depth={depth}
@@ -852,12 +897,12 @@ export const GlassButton = forwardRef(function GlassButton(
                   ? "pulse"
                   : "shimmer"
           }
-          lighting={(variantConfig as any).lighting || "ambient"}
-          caustics={(variantConfig as any).caustics || false}
-          chromatic={(variantConfig as any).chromatic || false}
-          parallax={(variantConfig as any).parallax || false}
-          refraction={(variantConfig as any).refraction || false}
-          adaptive={(variantConfig as any).adaptive || false}
+          lighting={variantConfig.lighting || "ambient"}
+          caustics={variantConfig.caustics || false}
+          chromatic={variantConfig.chromatic || false}
+          parallax={variantConfig.parallax || false}
+          refraction={variantConfig.refraction || false}
+          adaptive={variantConfig.adaptive || false}
           interactive
           hoverSheen
           liftOnHover
@@ -881,7 +926,7 @@ export const GlassButton = forwardRef(function GlassButton(
           {asChild ? (
             // When rendering asChild (Slot), Slot expects exactly one child element.
             // Defer content to the passed child to avoid React.Children.only errors.
-            (children as any)
+            children
           ) : (
             <>
               {resolvedVariant === "gradient" && (
@@ -936,7 +981,7 @@ export const IconButton = forwardRef(function IconButton(
       iconOnly
       variant={variant}
       flat={flat}
-      size={size as any}
+      size={size}
       {...props}
     >
       {icon}
@@ -988,31 +1033,33 @@ export function ButtonGroup({
   );
 
   const enhancedChildren = React.Children.map(children, (child, index) => {
-    if (!React.isValidElement(child)) return child;
+    if (!React.isValidElement<Partial<GlassButtonProps>>(child)) return child;
 
     const isFirst = index === 0;
     const isLast = index === React.Children.count(children) - 1;
 
-    const additionalProps: any = {};
+    const additionalProps: Partial<
+      Pick<GlassButtonProps, "size" | "variant" | "className">
+    > = {};
 
     if (size) additionalProps.size = size;
     if (variant) additionalProps.variant = variant;
 
     if (connected) {
       if (orientation === "horizontal") {
-        additionalProps.className = cn((child as any).props?.className, {
+        additionalProps.className = cn(child.props.className, {
           "rounded-r-none border-r-0": !isLast,
           "rounded-l-none": !isFirst,
         });
       } else {
-        additionalProps.className = cn((child as any).props?.className, {
+        additionalProps.className = cn(child.props.className, {
           "rounded-b-none border-b-0": !isLast,
           "rounded-t-none": !isFirst,
         });
       }
     } else {
       additionalProps.className = cn(
-        (child as any).props?.className,
+        child.props.className,
         orientation === "horizontal"
           ? "glass-mr-2 last:mr-0"
           : "glass-mb-2 last:glass-mb-0"

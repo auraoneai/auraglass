@@ -481,13 +481,13 @@ export const glassTheme: ThemeTokens = {
 // Utility functions for theme management
 export const themeUtils = {
   // Get theme value by path
-  get: (theme: ThemeTokens, path: string) => {
+  get: (theme: ThemeTokens, path: string): unknown => {
     const keys = path.split(".");
-    let value: any = theme;
+    let value: unknown = theme;
 
     for (const key of keys) {
       if (value && typeof value === "object" && key in value) {
-        value = value[key];
+        value = (value as Record<string, unknown>)[key];
       } else {
         return undefined;
       }

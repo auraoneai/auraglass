@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { useEnhancedPerformance } from './useEnhancedPerformance';
+"use client";
+import React from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useEnhancedPerformance } from "./useEnhancedPerformance";
 
 export interface VirtualizationOptions {
   itemHeight: number | ((index: number) => number);
@@ -37,10 +37,12 @@ export function useVirtualization<T>(
   items: T[],
   options: VirtualizationOptions
 ): VirtualizationState<T> & {
-  containerProps: React.HTMLAttributes<HTMLDivElement> & { ref: React.RefObject<HTMLDivElement> };
+  containerProps: React.HTMLAttributes<HTMLDivElement> & {
+    ref: React.RefObject<HTMLDivElement>;
+  };
   scrollElementProps: React.HTMLAttributes<HTMLDivElement>;
   measureElement: (index: number, element: HTMLElement) => void;
-  scrollToIndex: (index: number, align?: 'start' | 'center' | 'end') => void;
+  scrollToIndex: (index: number, align?: "start" | "center" | "end") => void;
 } {
   const {
     itemHeight,
@@ -55,36 +57,44 @@ export function useVirtualization<T>(
 
   const [scrollTop, setScrollTop] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [measuredSizes, setMeasuredSizes] = useState<Map<number, { width: number; height: number }>>(new Map());
-  
+  const [measuredSizes, setMeasuredSizes] = useState<
+    Map<number, { width: number; height: number }>
+  >(new Map());
+
   const { performanceMode } = useEnhancedPerformance();
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
   // Calculate item dimensions
-  const getItemHeight = useCallback((index: number): number => {
-    if (typeof itemHeight === 'function') {
-      return itemHeight(index);
-    }
-    return measuredSizes.get(index)?.height || itemHeight;
-  }, [itemHeight, measuredSizes]);
+  const getItemHeight = useCallback(
+    (index: number): number => {
+      if (typeof itemHeight === "function") {
+        return itemHeight(index);
+      }
+      return measuredSizes.get(index)?.height || itemHeight;
+    },
+    [itemHeight, measuredSizes]
+  );
 
-  const getItemWidth = useCallback((index: number): number => {
-    if (!enableHorizontal || !itemWidth) return containerWidth;
-    
-    if (typeof itemWidth === 'function') {
-      return itemWidth(index);
-    }
-    return measuredSizes.get(index)?.width || itemWidth;
-  }, [enableHorizontal, itemWidth, containerWidth, measuredSizes]);
+  const getItemWidth = useCallback(
+    (index: number): number => {
+      if (!enableHorizontal || !itemWidth) return containerWidth;
+
+      if (typeof itemWidth === "function") {
+        return itemWidth(index);
+      }
+      return measuredSizes.get(index)?.width || itemWidth;
+    },
+    [enableHorizontal, itemWidth, containerWidth, measuredSizes]
+  );
 
   // Calculate total dimensions
   const totalHeight = useMemo(() => {
-    if (typeof itemHeight === 'number') {
-        return (items?.length || 0) * itemHeight;
+    if (typeof itemHeight === "number") {
+      return (items?.length || 0) * itemHeight;
     }
-    
+
     let total = 0;
     for (let i = 0; i < (items?.length || 0); i++) {
       total += getItemHeight(i);
@@ -93,10 +103,10 @@ export function useVirtualization<T>(
   }, [items.length, itemHeight, getItemHeight]);
 
   const totalWidth = useMemo(() => {
-    if (!enableHorizontal || typeof itemWidth === 'number') {
+    if (!enableHorizontal || typeof itemWidth === "number") {
       return containerWidth;
     }
-    
+
     let total = 0;
     for (let i = 0; i < (items?.length || 0); i++) {
       total += getItemWidth(i);
@@ -109,7 +119,7 @@ export function useVirtualization<T>(
     let startIndex = 0;
     let endIndex = items.length - 1;
 
-    if (typeof itemHeight === 'number') {
+    if (typeof itemHeight === "number") {
       // Fixed height optimization
       startIndex = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
       endIndex = Math.min(
@@ -119,7 +129,7 @@ export function useVirtualization<T>(
     } else {
       // Variable height calculation
       let currentOffset = 0;
-      
+
       // Find start index
       for (let i = 0; i < (items?.length || 0); i++) {
         const height = getItemHeight(i);
@@ -147,7 +157,14 @@ export function useVirtualization<T>(
     }
 
     return { startIndex, endIndex };
-  }, [items.length, itemHeight, scrollTop, containerHeight, overscan, getItemHeight]);
+  }, [
+    items.length,
+    itemHeight,
+    scrollTop,
+    containerHeight,
+    overscan,
+    getItemHeight,
+  ]);
 
   // Calculate visible items with positions
   const visibleItems = useMemo((): VirtualizedItem<T>[] => {
@@ -160,7 +177,11 @@ export function useVirtualization<T>(
     }
 
     // Generate visible items
-    for (let i = visibleRange.startIndex; i <= visibleRange.endIndex && i < items.length; i++) {
+    for (
+      let i = visibleRange.startIndex;
+      i <= visibleRange.endIndex && i < items.length;
+      i++
+    ) {
       const height = getItemHeight(i);
       const width = getItemWidth(i);
 
@@ -168,12 +189,12 @@ export function useVirtualization<T>(
         index: i,
         data: items[i],
         style: {
-          position: 'absolute',
+          position: "absolute",
           top: currentOffset,
           left: enableHorizontal ? 0 : undefined,
-          width: enableHorizontal ? width : '100%',
+          width: enableHorizontal ? width : "100%",
           height,
-          contain: 'layout style paint',
+          contain: "layout style paint",
         },
       });
 
@@ -188,79 +209,92 @@ export function useVirtualization<T>(
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
-    setMeasuredSizes((prev: any) => new Map(prev.set(index, {
-      width: rect.width,
-      height: rect.height,
-    })));
+    setMeasuredSizes(
+      (prev: any) =>
+        new Map(
+          prev.set(index, {
+            width: rect.width,
+            height: rect.height,
+          })
+        )
+    );
   }, []);
 
   // Optimized scroll handler
-  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
-    const target = e.currentTarget;
-    const newScrollTop = target.scrollTop;
-    const newScrollLeft = target.scrollLeft;
+  const handleScroll = useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.currentTarget;
+      const newScrollTop = target.scrollTop;
+      const newScrollLeft = target.scrollLeft;
 
-    setScrollTop(newScrollTop);
-    setScrollLeft(newScrollLeft);
+      setScrollTop(newScrollTop);
+      setScrollLeft(newScrollLeft);
 
-    isScrollingRef.current = true;
+      isScrollingRef.current = true;
 
-    // Clear existing timeout
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
 
-    // Set timeout to detect end of scrolling
-    scrollTimeoutRef.current = setTimeout(() => {
-      isScrollingRef.current = false;
-    }, 150);
+      // Set timeout to detect end of scrolling
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 150);
 
-    onScroll?.(newScrollTop, newScrollLeft);
-  }, [onScroll]);
+      onScroll?.(newScrollTop, newScrollLeft);
+    },
+    [onScroll]
+  );
 
   // Scroll to index
-  const scrollToIndex = useCallback((index: number, align: 'start' | 'center' | 'end' = 'start') => {
-    if (!containerRef.current) return;
+  const scrollToIndex = useCallback(
+    (index: number, align: "start" | "center" | "end" = "start") => {
+      if (!containerRef.current) return;
 
-    let offset = 0;
-    for (let i = 0; i < index; i++) {
-      offset += getItemHeight(i);
-    }
+      let offset = 0;
+      for (let i = 0; i < index; i++) {
+        offset += getItemHeight(i);
+      }
 
-    const itemHeight = getItemHeight(index);
+      const itemHeight = getItemHeight(index);
 
-    switch (align) {
-      case 'center':
-        offset -= (containerHeight - itemHeight) / 2;
-        break;
-      case 'end':
-        offset -= containerHeight - itemHeight;
-        break;
-    }
+      switch (align) {
+        case "center":
+          offset -= (containerHeight - itemHeight) / 2;
+          break;
+        case "end":
+          offset -= containerHeight - itemHeight;
+          break;
+      }
 
-    containerRef.current.scrollTo({
-      top: Math.max(0, offset),
-      behavior: 'smooth',
-    });
-  }, [getItemHeight, containerHeight]);
+      containerRef.current.scrollTo({
+        top: Math.max(0, offset),
+        behavior: "smooth",
+      });
+    },
+    [getItemHeight, containerHeight]
+  );
 
   // Performance optimization: disable virtualization for small lists
   const shouldVirtualize = useMemo(() => {
-        if (performanceMode === 'high') return (items?.length || 0) > threshold * 2;
-    if (performanceMode === 'low') return (items?.length || 0) > threshold / 2;
+    if (performanceMode === "high") return (items?.length || 0) > threshold * 2;
+    if (performanceMode === "low") return (items?.length || 0) > threshold / 2;
     return (items?.length || 0) > threshold;
   }, [items?.length, threshold, performanceMode]);
 
   // Container props
-  const containerProps: React.HTMLAttributes<HTMLDivElement> & { ref: React.RefObject<HTMLDivElement> } = {
+  const containerProps: React.HTMLAttributes<HTMLDivElement> & {
+    ref: React.RefObject<HTMLDivElement>;
+  } = {
     ref: containerRef,
     onScroll: handleScroll,
     style: {
       height: containerHeight,
-      width: enableHorizontal ? containerWidth : '100%',
-      overflow: 'auto',
-      contain: 'strict',
-      WebkitOverflowScrolling: 'touch',
+      width: enableHorizontal ? containerWidth : "100%",
+      overflow: "auto",
+      contain: "strict",
+      WebkitOverflowScrolling: "touch",
     },
   };
 
@@ -268,21 +302,23 @@ export function useVirtualization<T>(
   const scrollElementProps: React.HTMLAttributes<HTMLDivElement> = {
     style: {
       height: totalHeight,
-      width: enableHorizontal ? totalWidth : '100%',
-      position: 'relative',
-      contain: 'layout',
+      width: enableHorizontal ? totalWidth : "100%",
+      position: "relative",
+      contain: "layout",
     },
   };
 
   // Return all items if virtualization is disabled
-  const finalVisibleItems = shouldVirtualize ? visibleItems : items.map((data, index) => ({
-    index,
-    data,
-    style: {
-      position: 'relative' as const,
-      contain: 'layout style paint',
-    },
-  }));
+  const finalVisibleItems = shouldVirtualize
+    ? visibleItems
+    : items.map((data, index) => ({
+        index,
+        data,
+        style: {
+          position: "relative" as const,
+          contain: "layout style paint",
+        },
+      }));
 
   return {
     startIndex: shouldVirtualize ? visibleRange.startIndex : 0,
@@ -328,7 +364,10 @@ export function useGridVirtualization<T>(
   const rows = Math.ceil(items.length / columns);
   const totalHeight = rows * (itemHeight + gap) - gap;
 
-  const startRow = Math.max(0, Math.floor(scrollTop / (itemHeight + gap)) - overscan);
+  const startRow = Math.max(
+    0,
+    Math.floor(scrollTop / (itemHeight + gap)) - overscan
+  );
   const endRow = Math.min(
     rows - 1,
     Math.ceil((scrollTop + containerHeight) / (itemHeight + gap)) + overscan
@@ -348,12 +387,12 @@ export function useGridVirtualization<T>(
           row,
           col,
           style: {
-            position: 'absolute',
+            position: "absolute",
             top: row * (itemHeight + gap),
             left: col * (itemWidth + gap),
             width: itemWidth,
             height: itemHeight,
-            contain: 'layout style paint',
+            contain: "layout style paint",
           },
         });
       }
@@ -374,16 +413,16 @@ export function useGridVirtualization<T>(
       style: {
         height: containerHeight,
         width: containerWidth,
-        overflow: 'auto',
-        contain: 'strict',
+        overflow: "auto",
+        contain: "strict",
       },
     },
     scrollElementProps: {
       style: {
         height: totalHeight,
         width: containerWidth,
-        position: 'relative',
-        contain: 'layout',
+        position: "relative",
+        contain: "layout",
       },
     },
   };
@@ -416,14 +455,12 @@ export function useInfiniteVirtualization<T>(
 
     if (scrollPercentage > 0.8) {
       loadingRef.current = true;
-      
+
       try {
         const newItems = await loadMore();
         setAllItems((prev: any) => [...prev, ...newItems]);
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Failed to load more items:', error);
-        }
+      } catch {
+        // Keep existing items and allow future load attempts.
       } finally {
         loadingRef.current = false;
       }
@@ -438,7 +475,7 @@ export function useInfiniteVirtualization<T>(
   return {
     ...virtualization,
     isLoadingMore: loadingRef.current,
-        totalItems: allItems?.length || 0,
+    totalItems: allItems?.length || 0,
   };
 }
 
@@ -452,7 +489,7 @@ export function useWindowVirtualization<T>(
 ) {
   const [scrollY, setScrollY] = useState(0);
   const [windowHeight, setWindowHeight] = useState(
-    typeof window !== 'undefined' ? window.innerHeight : 600
+    typeof window !== "undefined" ? window.innerHeight : 600
   );
 
   // Update scroll position
@@ -465,18 +502,21 @@ export function useWindowVirtualization<T>(
       setWindowHeight(window.innerHeight);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const visibleRange = useMemo(() => {
-    if (typeof itemHeight === 'number') {
-      const startIndex = Math.max(0, Math.floor(scrollY / itemHeight) - overscan);
+    if (typeof itemHeight === "number") {
+      const startIndex = Math.max(
+        0,
+        Math.floor(scrollY / itemHeight) - overscan
+      );
       const endIndex = Math.min(
         (items?.length || 1) - 1,
         Math.ceil((scrollY + windowHeight) / itemHeight) + overscan
@@ -491,7 +531,8 @@ export function useWindowVirtualization<T>(
 
     // Find start index
     for (let i = 0; i < (items?.length || 0); i++) {
-      const height = typeof itemHeight === 'function' ? itemHeight(i) : itemHeight;
+      const height =
+        typeof itemHeight === "function" ? itemHeight(i) : itemHeight;
       if (currentOffset + height > scrollY) {
         startIndex = Math.max(0, i - overscan);
         break;
@@ -501,7 +542,8 @@ export function useWindowVirtualization<T>(
 
     // Find end index
     for (let i = startIndex; i < items.length; i++) {
-      const height = typeof itemHeight === 'function' ? itemHeight(i) : itemHeight;
+      const height =
+        typeof itemHeight === "function" ? itemHeight(i) : itemHeight;
       if (currentOffset > scrollY + windowHeight) {
         endIndex = Math.min(items.length - 1, i + overscan);
         break;
@@ -518,23 +560,29 @@ export function useWindowVirtualization<T>(
 
     // Calculate offset to start index
     for (let i = 0; i < visibleRange.startIndex; i++) {
-      const height = typeof itemHeight === 'function' ? itemHeight(i) : itemHeight;
+      const height =
+        typeof itemHeight === "function" ? itemHeight(i) : itemHeight;
       currentOffset += height;
     }
 
     // Generate visible items
-    for (let i = visibleRange.startIndex; i <= visibleRange.endIndex && i < items.length; i++) {
-      const height = typeof itemHeight === 'function' ? itemHeight(i) : itemHeight;
+    for (
+      let i = visibleRange.startIndex;
+      i <= visibleRange.endIndex && i < items.length;
+      i++
+    ) {
+      const height =
+        typeof itemHeight === "function" ? itemHeight(i) : itemHeight;
 
       result.push({
         index: i,
         data: items[i],
         style: {
-          position: 'absolute',
+          position: "absolute",
           top: currentOffset,
-          width: '100%',
+          width: "100%",
           height,
-          contain: 'layout style paint',
+          contain: "layout style paint",
         },
       });
 
@@ -588,7 +636,9 @@ export function useTableVirtualization<T>(
     Math.ceil((scrollTop + availableHeight) / rowHeight) + overscan
   );
 
-  const visibleRows = useMemo((): Array<VirtualizedItem<T> & { columns: typeof columns }> => {
+  const visibleRows = useMemo((): Array<
+    VirtualizedItem<T> & { columns: typeof columns }
+  > => {
     const result: Array<VirtualizedItem<T> & { columns: typeof columns }> = [];
 
     for (let i = startIndex; i <= endIndex && i < data.length; i++) {
@@ -597,13 +647,13 @@ export function useTableVirtualization<T>(
         data: data[i],
         columns,
         style: {
-          position: 'absolute',
-          top: headerHeight + (i * rowHeight),
+          position: "absolute",
+          top: headerHeight + i * rowHeight,
           left: 0,
-          width: '100%',
+          width: "100%",
           height: rowHeight,
-          display: 'flex',
-          contain: 'layout style paint',
+          display: "flex",
+          contain: "layout style paint",
         },
       });
     }
@@ -616,7 +666,7 @@ export function useTableVirtualization<T>(
     setScrollLeft(e.currentTarget.scrollLeft);
   }, []);
 
-  const totalHeight = headerHeight + (data.length * rowHeight);
+  const totalHeight = headerHeight + data.length * rowHeight;
   const totalWidth = columns.reduce((sum, col) => sum + col.width, 0);
 
   return {
@@ -630,16 +680,16 @@ export function useTableVirtualization<T>(
       onScroll: handleScroll,
       style: {
         height: containerHeight,
-        overflow: 'auto',
-        contain: 'strict',
+        overflow: "auto",
+        contain: "strict",
       },
     },
     scrollElementProps: {
       style: {
         height: totalHeight,
         width: totalWidth,
-        position: 'relative',
-        contain: 'layout',
+        position: "relative",
+        contain: "layout",
       },
     },
   };

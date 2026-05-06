@@ -16,17 +16,32 @@ import { GlassCard } from "../../../components/card/GlassCard";
 import { GlassInput } from "../../../components/input/GlassInput";
 import { cn } from "@/lib/utils";
 
-export interface ListItem {
+export type ListCellValue = unknown;
+export type ListComparableValue = string | number | Date;
+export type ListFilterRangeValue = readonly [
+  ListComparableValue,
+  ListComparableValue,
+];
+export type ListFilterMultiValue = readonly ListComparableValue[];
+export type ListFilterValue =
+  | ListComparableValue
+  | boolean
+  | null
+  | undefined
+  | ListFilterRangeValue
+  | ListFilterMultiValue;
+export type ListFiltersState = Record<string, ListFilterValue>;
+export type ListViewMode = "table" | "grid" | "list";
+export type ListItem = Record<string, ListCellValue> & {
   id: string;
-  [key: string]: any;
-}
+};
 
 export interface ListColumn {
   id: string;
   header: string;
   accessorKey?: string;
-  accessorFn?: (row: ListItem) => any;
-  cell?: (props: { row: ListItem; value: any }) => React.ReactNode;
+  accessorFn?: (row: ListItem) => ListCellValue;
+  cell?: (props: { row: ListItem; value: ListCellValue }) => React.ReactNode;
   sortable?: boolean;
   filterable?: boolean;
   width?: string | number;
@@ -38,7 +53,7 @@ export interface ListFilter {
   label: string;
   type: "select" | "multiselect" | "range" | "date" | "text";
   options?: Array<{ value: string; label: string; count?: number }>;
-  value?: any;
+  value?: ListFilterValue;
   placeholder?: string;
 }
 
@@ -82,11 +97,11 @@ export interface GlassListViewProps
   /**
    * Active filters
    */
-  activeFilters?: Record<string, any>;
+  activeFilters?: ListFiltersState;
   /**
    * Filter change handler
    */
-  onFiltersChange?: (filters: Record<string, any>) => void;
+  onFiltersChange?: (filters: ListFiltersState) => void;
   /**
    * Search query
    */
@@ -122,11 +137,11 @@ export interface GlassListViewProps
   /**
    * View mode
    */
-  viewMode?: "table" | "grid" | "list";
+  viewMode?: ListViewMode;
   /**
    * View mode change handler
    */
-  onViewModeChange?: (mode: "table" | "grid" | "list") => void;
+  onViewModeChange?: (mode: ListViewMode) => void;
   /**
    * Available actions
    */
@@ -168,6 +183,114 @@ export interface GlassListViewProps
    */
   selectable?: boolean;
 }
+
+const VIEW_MODES: Array<{ key: ListViewMode; icon: string; label: string }> = [
+  { key: "table", icon: "📊", label: "Table" },
+  { key: "grid", icon: "▦", label: "Grid" },
+  { key: "list", icon: "☰", label: "List" },
+];
+
+const isActiveFilterValue = (
+  value: ListFilterValue
+): value is Exclude<ListFilterValue, null | undefined | ""> => {
+  if (value === null || value === undefined || value === "") {
+    return false;
+  }
+
+  return !Array.isArray(value) || value.length > 0;
+};
+
+const toSearchableText = (value: ListCellValue): string => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value);
+};
+
+const toDisplayText = (value: ListCellValue, fallback = ""): string => {
+  if (typeof value === "string") {
+    return value || fallback;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  return fallback;
+};
+
+const toFilterControlValue = (
+  value: ListFilterValue
+): string | number | readonly string[] => {
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) =>
+      item instanceof Date ? item.toISOString() : String(item)
+    );
+  }
+
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+
+  if (typeof value === "boolean") {
+    return String(value);
+  }
+
+  return value as string | number;
+};
+
+const isComparableFilterValue = (
+  value: ListFilterValue
+): value is ListComparableValue =>
+  typeof value === "string" ||
+  typeof value === "number" ||
+  value instanceof Date;
+
+const toComparableNumber = (value: ListCellValue): number | null => {
+  if (typeof value === "number") {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (value instanceof Date) {
+    const time = value.getTime();
+    return Number.isFinite(time) ? time : null;
+  }
+
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+};
+
+const isRangeFilterValue = (
+  value: ListFilterValue
+): value is ListFilterRangeValue =>
+  Array.isArray(value) &&
+  value.length === 2 &&
+  isComparableFilterValue(value[0]) &&
+  isComparableFilterValue(value[1]);
+
+const matchesRangeFilter = (
+  itemValue: ListCellValue,
+  filterValue: ListFilterRangeValue
+) => {
+  const numericValue = toComparableNumber(itemValue);
+  const min = toComparableNumber(filterValue[0]);
+  const max = toComparableNumber(filterValue[1]);
+
+  if (numericValue === null || min === null || max === null) {
+    return true;
+  }
+
+  return numericValue >= min && numericValue <= max;
+};
 
 /**
  * GlassListView component
@@ -217,14 +340,14 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
       // Apply search
       if (searchQuery && !onSearchChange) {
-        result = result.filter((item: any) =>
+        result = result.filter((item) =>
           columns.some((column) => {
             const value = column.accessorFn
               ? column.accessorFn(item)
               : column.accessorKey
                 ? item?.[column.accessorKey]
                 : "";
-            return String(value)
+            return toSearchableText(value)
               .toLowerCase()
               .includes(searchQuery.toLowerCase());
           })
@@ -233,11 +356,11 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
       // Apply filters
       if (Object.keys(activeFilters).length > 0 && !onFiltersChange) {
-        result = result.filter((item: any) => {
+        result = result.filter((item) => {
           return Object.entries(activeFilters).every(
             ([filterId, filterValue]) => {
               const filter = filters.find((f) => f.id === filterId);
-              if (!filter || !filterValue) return true;
+              if (!filter || !isActiveFilterValue(filterValue)) return true;
 
               const itemValue = item?.[filterId];
 
@@ -253,11 +376,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                     .toLowerCase()
                     .includes(String(filterValue).toLowerCase());
                 case "range":
-                  if (Array.isArray(filterValue) && filterValue.length === 2) {
-                    return (
-                      itemValue >= filterValue?.[0] &&
-                      itemValue <= filterValue?.[1]
-                    );
+                  if (isRangeFilterValue(filterValue)) {
+                    return matchesRangeFilter(itemValue, filterValue);
                   }
                   return true;
                 default:
@@ -295,7 +415,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
 
     // Handle bulk actions
     const handleBulkAction = (action: ListAction) => {
-      const selectedData = data?.filter((item: any) =>
+      const selectedData = data?.filter((item) =>
         selectedItems.includes(item?.id)
       );
       action.onClick(selectedData);
@@ -305,21 +425,15 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderViewModeToggle = () => {
       if (!onViewModeChange) return null;
 
-      const modes = [
-        { key: "table", icon: "📊", label: "Table" },
-        { key: "grid", icon: "▦", label: "Grid" },
-        { key: "list", icon: "☰", label: "List" },
-      ];
-
       return (
         <HStack data-glass-component space="none">
-          {modes.map((mode) => (
+          {VIEW_MODES.map((mode) => (
             <IconButton
               key={mode.key}
               icon={mode.icon}
               variant={viewMode === mode.key ? "primary" : "ghost"}
               size="sm"
-              onClick={(e) => onViewModeChange(mode.key as any)}
+              onClick={() => onViewModeChange(mode.key)}
               aria-label={mode.label}
             />
           ))}
@@ -336,7 +450,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
           <Glass className="glass-p-4 glass-radius-lg">
             <VStack space="md">
               <HStack space="sm" align="center" justify="between">
-                <h3 className='glass-text-sm glass-font-medium glass-text-primary'>
+                <h3 className="glass-text-sm glass-font-medium glass-text-primary">
                   Filters
                 </h3>
                 <GlassButton
@@ -349,23 +463,23 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                 </GlassButton>
               </HStack>
 
-              <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 xl:glass-grid-cols-4 glass-gap-4'>
+              <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 xl:glass-grid-cols-4 glass-gap-4">
                 {filters.map((filter) => (
                   <div key={filter.id}>
-                    <label className='glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2'>
+                    <label className="glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2">
                       {filter.label}
                     </label>
 
                     {filter.type === "select" && (
                       <select
-                        value={activeFilters?.[filter.id] || ""}
+                        value={toFilterControlValue(activeFilters?.[filter.id])}
                         onChange={(e) =>
                           onFiltersChange?.({
                             ...activeFilters,
                             [filter.id]: e.target.value,
                           })
                         }
-                        className='glass-w-full glass-px-3 glass-py-2 glass-bg-background glass-border glass-border-glass-border glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary'
+                        className="glass-w-full glass-px-3 glass-py-2 glass-bg-background glass-border glass-border-glass-border glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary"
                       >
                         <option value="">
                           {filter.placeholder || "Select..."}
@@ -381,7 +495,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                     {filter.type === "text" && (
                       <GlassInput
                         type="text"
-                        value={activeFilters?.[filter.id] || ""}
+                        value={toFilterControlValue(activeFilters?.[filter.id])}
                         onChange={(e) =>
                           onFiltersChange?.({
                             ...activeFilters,
@@ -389,7 +503,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                           })
                         }
                         placeholder={filter.placeholder}
-                        className='glass-w-full glass-px-3 glass-py-2 glass-bg-background glass-border glass-border-glass-border glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary'
+                        className="glass-w-full glass-px-3 glass-py-2 glass-bg-background glass-border glass-border-glass-border glass-radius-md glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary"
                       />
                     )}
                   </div>
@@ -405,7 +519,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderActionsBar = () => {
       const hasSelectedItems = (selectedItems?.length || 0) > 0;
       const availableActions = actions.filter(
-        (action: any) => !action.requiresSelection || hasSelectedItems
+        (action) => !action.requiresSelection || hasSelectedItems
       );
 
       if ((availableActions?.length || 0) === 0 && !primaryAction) return null;
@@ -474,15 +588,18 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             ) : (
               <GlassCard
                 variant="default"
-                className='glass-h-full glass-cursor-pointer hover:glass-shadow-lg glass-transition-shadow'
+                className="glass-h-full glass-cursor-pointer hover:glass-shadow-lg glass-transition-shadow"
                 onClick={(e) => onRowClick?.(item)}
               >
                 <VStack space="sm">
-                  <div className='glass-text-sm glass-font-medium glass-text-primary'>
-                    {item?.name || item?.title || item?.id}
+                  <div className="glass-text-sm glass-font-medium glass-text-primary">
+                    {toDisplayText(
+                      item?.name,
+                      toDisplayText(item?.title, item?.id)
+                    )}
                   </div>
                   <div className="glass-text-xs glass-text-secondary">
-                    {item?.description || "No description"}
+                    {toDisplayText(item?.description, "No description")}
                   </div>
                 </VStack>
               </GlassCard>
@@ -498,7 +615,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
         {currentPageData.map((item, index) => (
           <div
             key={item?.id}
-            className='glass-animate-fade-in-up'
+            className="glass-animate-fade-in-up"
             style={{
               animationDelay: `${Math.min(index, 10) * 50}ms`,
               animationFillMode: "both",
@@ -509,7 +626,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
             ) : (
               <GlassCard
                 variant="outlined"
-                className='glass-foundation-complete glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-cursor-pointer hover:glass-shadow-2xl glass-hover-scale-1-01 glass-transition-all glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-foundation-complete glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-cursor-pointer hover:glass-shadow-2xl glass-hover-scale-1-01 glass-transition-all glass-focus glass-touch-target glass-contrast-guard"
                 onClick={(e) => onRowClick?.(item)}
               >
                 <HStack space="md" align="center">
@@ -520,26 +637,29 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
                       onChange={(e) => {
                         const newSelection = e.target.checked
                           ? [...selectedItems, item?.id]
-                          : selectedItems.filter((id: any) => id !== item?.id);
+                          : selectedItems.filter((id) => id !== item?.id);
                         handleSelectionChange(newSelection);
                       }}
                       onClick={(e) => e.stopPropagation()}
-                      className='glass-radius-md glass-border-glass-border glass-focus-ring-primary'
+                      className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
                     />
                   )}
 
                   <VStack space="xs" className="glass-flex-1">
-                    <div className='glass-text-sm glass-font-medium glass-text-primary'>
-                      {item?.name || item?.title || item?.id}
+                    <div className="glass-text-sm glass-font-medium glass-text-primary">
+                      {toDisplayText(
+                        item?.name,
+                        toDisplayText(item?.title, item?.id)
+                      )}
                     </div>
-                    <div className='glass-text-xs glass-text-primary-opacity-70'>
-                      {item?.description || "No description"}
+                    <div className="glass-text-xs glass-text-primary-opacity-70">
+                      {toDisplayText(item?.description, "No description")}
                     </div>
                   </VStack>
 
-                  {item?.status && (
+                  {Boolean(item?.status) && (
                     <GlassBadge variant="outline" size="xs">
-                      {item?.status}
+                      {toDisplayText(item?.status)}
                     </GlassBadge>
                   )}
                 </HStack>
@@ -554,8 +674,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
     const renderContent = () => {
       if (loading) {
         return (
-          <div className='glass-flex glass-items-center glass-justify-center glass-h-64'>
-            <div className='glass-w-8 glass-h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
+          <div className="glass-flex glass-items-center glass-justify-center glass-h-64">
+            <div className="glass-w-8 glass-h-8 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
           </div>
         );
       }
@@ -563,8 +683,8 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
       if ((currentPageData?.length || 0) === 0) {
         return (
           emptyState || (
-            <div className='glass-flex glass-flex-col glass-items-center glass-justify-center glass-h-64 glass-text-center'>
-              <div className='glass-text-lg glass-font-medium glass-text-secondary glass-mb-2'>
+            <div className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-h-64 glass-text-center">
+              <div className="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2">
                 No items found
               </div>
               <div className="glass-text-sm glass-text-secondary">
@@ -620,7 +740,7 @@ export const GlassListView = forwardRef<HTMLDivElement, GlassListViewProps>(
               onChange={onSearchChange}
               showFilters={false}
               showCategories={false}
-              className='glass-w-64'
+              className="glass-w-64"
             />
           }
         />

@@ -22,14 +22,23 @@ import {
 } from "../tokens/glass";
 import {
   useContrastGuard,
+  type BackdropSample,
+  type ContrastAdjustment,
   type ContrastLevel,
 } from "../utils/contrastGuard";
-import { useLiquidGlassBackdrop } from "../hooks/useLiquidGlassBackdrop";
+import {
+  useLiquidGlassBackdrop,
+  type LiquidGlassBackdropSample,
+} from "../hooks/useLiquidGlassBackdrop";
 import { useLiquidGlassEffectGroup } from "./LiquidGlassEffectGroup";
 import {
   LiquidGlassSurfaceLayer,
   useLiquidGlassLayer,
 } from "./LiquidGlassLayerProvider";
+
+export interface LiquidGlassMaterialBackdropAnalysis
+  extends BackdropSample,
+    LiquidGlassBackdropSample {}
 
 // Enhanced props interface for Liquid Glass Material
 export interface LiquidGlassMaterialProps
@@ -110,10 +119,10 @@ export interface LiquidGlassMaterialProps
   children?: React.ReactNode;
 
   /** Callback when contrast adjustment occurs */
-  onContrastAdjustment?: (adjustment: any) => void;
+  onContrastAdjustment?: (adjustment: ContrastAdjustment) => void;
 
   /** Callback when backdrop analysis completes */
-  onBackdropAnalysis?: (sample: any) => void;
+  onBackdropAnalysis?: (sample: LiquidGlassMaterialBackdropAnalysis) => void;
 }
 
 /**
@@ -169,7 +178,8 @@ export const LiquidGlassMaterial = forwardRef<
     const [isHovered, setIsHovered] = useState(false);
     const [isPressed, setIsPressed] = useState(false);
     const [deviceTilt, setDeviceTilt] = useState({ x: 0, y: 0 });
-    const [backdropSample, setBackdropSample] = useState<any>(null);
+    const [backdropSample, setBackdropSample] =
+      useState<LiquidGlassMaterialBackdropAnalysis | null>(null);
 
     const prefersReducedMotion = useReducedMotion();
     const layer = useLiquidGlassLayer();
@@ -285,7 +295,7 @@ export const LiquidGlassMaterial = forwardRef<
     // Backdrop sampling for environmental adaptation
     useEffect(() => {
       if (!adaptToContent || material !== "liquid") return;
-      const legacySample = {
+      const legacySample: LiquidGlassMaterialBackdropAnalysis = {
         averageLuminance: backdrop.luminance,
         dominantHue: 0,
         contrast: backdrop.contrastHint === "mixed" ? 4.5 : 7,
@@ -307,14 +317,14 @@ export const LiquidGlassMaterial = forwardRef<
         performanceLevel
       );
 
-      let styles = { ...baseStyles };
+      let styles: React.CSSProperties = { ...baseStyles };
 
       // Apply contrast adjustments
       if (contrastAdjustment?.modifications) {
         const { modifications } = contrastAdjustment;
 
         if (modifications.opacity !== undefined) {
-          (styles as any).opacity = modifications.opacity;
+          styles.opacity = modifications.opacity;
         }
 
         if (modifications.tint && materialSpec.tintMode === "adaptive") {
@@ -324,12 +334,15 @@ export const LiquidGlassMaterial = forwardRef<
         if (modifications.backdropBlur !== undefined) {
           const currentBlur = materialSpec.backdropBlur.px;
           const adjustedBlur = currentBlur * modifications.backdropBlur;
-          const backdropFilter = (styles as any).backdropFilter?.replace(
-            /blur\([\d.]+px\)/,
-            `blur(${adjustedBlur}px)`
-          );
-          (styles as any).backdropFilter = backdropFilter;
-          (styles as any).WebkitBackdropFilter = backdropFilter;
+          const backdropFilter =
+            typeof styles.backdropFilter === "string"
+              ? styles.backdropFilter.replace(
+                  /blur\([\d.]+px\)/,
+                  `blur(${adjustedBlur}px)`
+                )
+              : undefined;
+          styles.backdropFilter = backdropFilter;
+          styles.WebkitBackdropFilter = backdropFilter;
         }
       }
 
@@ -341,8 +354,8 @@ export const LiquidGlassMaterial = forwardRef<
         const contrast = 1.08 + materialSpec.sheen * 0.02;
 
         const backdropFilter = `blur(${materialSpec.backdropBlur.px}px) saturate(${saturation}) brightness(${brightness}) contrast(${contrast})`;
-        (styles as any).backdropFilter = backdropFilter;
-        (styles as any).WebkitBackdropFilter = backdropFilter;
+        styles.backdropFilter = backdropFilter;
+        styles.WebkitBackdropFilter = backdropFilter;
       }
 
       // Apply thickness-based enhancements
@@ -359,7 +372,11 @@ export const LiquidGlassMaterial = forwardRef<
         styles.background = `${styles.background}, ${adaptiveTint}`;
       }
 
-      if (material === "liquid" && variant === "clear" && backdrop.requiresDimming) {
+      if (
+        material === "liquid" &&
+        variant === "clear" &&
+        backdrop.requiresDimming
+      ) {
         styles.background = `${styles.background}, linear-gradient(rgba(0,0,0,var(--liquid-glass-clear-dimming-strength,0.22)), rgba(0,0,0,var(--liquid-glass-clear-dimming-strength,0.22)))`;
       }
 
@@ -390,7 +407,7 @@ export const LiquidGlassMaterial = forwardRef<
 
       // Parallax depth effects
       if (effectiveFlags.parallax && materialSpec.thickness > 3) {
-        (styles as any).transformStyle = "preserve-3d";
+        styles.transformStyle = "preserve-3d";
         styles.transform =
           `${styles.transform || ""} translateZ(${materialSpec.thickness * 2}px)`.trim();
       }
@@ -518,8 +535,12 @@ export const LiquidGlassMaterial = forwardRef<
           data-liquid-glass-material="true"
           data-liquid-glass-variant={variant}
           data-liquid-glass-group-id={effectGroup?.groupId}
-          data-liquid-glass-sampling={effectGroup?.samplingStrategy ?? "isolated"}
-          data-liquid-glass-requires-dimming={backdrop.requiresDimming ? "true" : "false"}
+          data-liquid-glass-sampling={
+            effectGroup?.samplingStrategy ?? "isolated"
+          }
+          data-liquid-glass-requires-dimming={
+            backdrop.requiresDimming ? "true" : "false"
+          }
           data-liquid-glass-backdrop-source={backdrop.source}
           {...props}
         >
@@ -603,7 +624,8 @@ export function useLiquidGlassState(
     adaptToMotion = true,
     performanceLevel = "high",
   } = options;
-  const [backdropSample, setBackdropSample] = useState<any>(null);
+  const [backdropSample, setBackdropSample] =
+    useState<LiquidGlassBackdropSample | null>(null);
   const [deviceTilt, setDeviceTilt] = useState({ x: 0, y: 0 });
   const [isInteracting, setIsInteracting] = useState(false);
 

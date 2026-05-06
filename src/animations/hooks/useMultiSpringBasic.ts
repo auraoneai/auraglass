@@ -1,5 +1,5 @@
-import React from 'react';
-import { useRef, useCallback, useEffect, useState } from 'react';
+import React from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 
 export interface SpringConfig {
   stiffness?: number;
@@ -53,7 +53,7 @@ export function useMultiSpring(
   // Initialize state for each key
   useEffect(() => {
     const newState: SpringState = {};
-    Object.keys(initialValues).forEach((key: any) => {
+    Object.keys(initialValues).forEach((key) => {
       newState[key] = {
         position: initialValues[key],
         velocity: config.velocity,
@@ -64,94 +64,101 @@ export function useMultiSpring(
     targetsRef.current = { ...initialValues };
   }, [initialValues, config.velocity]);
 
-  const animate = useCallback((timestamp: number) => {
-    if (!lastTimeRef.current) {
+  const animate = useCallback(
+    (timestamp: number) => {
+      if (!lastTimeRef.current) {
+        lastTimeRef.current = timestamp;
+      }
+
+      const deltaTime = (timestamp - lastTimeRef.current) / 1000; // Convert to seconds
       lastTimeRef.current = timestamp;
-    }
 
-    const deltaTime = (timestamp - lastTimeRef.current) / 1000; // Convert to seconds
-    lastTimeRef.current = timestamp;
+      let hasActiveAnimations = false;
+      const newValues: Record<string, number> = {};
 
-    let hasActiveAnimations = false;
-    const newValues: Record<string, number> = {};
+      // Update each spring
+      Object.keys(stateRef.current).forEach((key) => {
+        const spring = stateRef.current[key];
+        const target = targetsRef.current[key];
 
-    // Update each spring
-    Object.keys(stateRef.current).forEach((key: any) => {
-      const spring = stateRef.current[key];
-      const target = targetsRef.current[key];
+        if (target === undefined) return;
 
-      if (target === undefined) return;
+        // Calculate spring forces
+        const displacement = target - spring.position;
+        const springForce = displacement * config.stiffness;
+        const dampingForce = -spring.velocity * config.damping;
 
-      // Calculate spring forces
-      const displacement = target - spring.position;
-      const springForce = displacement * config.stiffness;
-      const dampingForce = -spring.velocity * config.damping;
+        // Update acceleration (F = ma)
+        const acceleration = (springForce + dampingForce) / config.mass;
 
-      // Update acceleration (F = ma)
-      const acceleration = (springForce + dampingForce) / config.mass;
+        // Update velocity (v = v + a * dt)
+        spring.velocity += acceleration * deltaTime;
 
-      // Update velocity (v = v + a * dt)
-      spring.velocity += acceleration * deltaTime;
+        // Update position (p = p + v * dt)
+        spring.position += spring.velocity * deltaTime;
 
-      // Update position (p = p + v * dt)
-      spring.position += spring.velocity * deltaTime;
+        // Check if animation is complete
+        const isAtRest =
+          Math.abs(spring.velocity) < config.precision &&
+          Math.abs(displacement) < config.precision;
 
-      // Check if animation is complete
-      const isAtRest = Math.abs(spring.velocity) < config.precision &&
-                      Math.abs(displacement) < config.precision;
+        if (isAtRest) {
+          spring.position = target;
+          spring.velocity = 0;
+          spring.isAnimating = false;
+        } else {
+          spring.isAnimating = true;
+          hasActiveAnimations = true;
+        }
 
-      if (isAtRest) {
-        spring.position = target;
-        spring.velocity = 0;
-        spring.isAnimating = false;
-      } else {
-        spring.isAnimating = true;
-        hasActiveAnimations = true;
+        newValues[key] = spring.position;
+      });
+
+      // Update values
+      setValues(newValues);
+      onUpdate?.(newValues);
+
+      // Check if all animations are complete
+      if (!hasActiveAnimations) {
+        setIsAnimating(false);
+        onComplete?.(newValues);
+        animationRef.current = undefined;
+        return;
       }
 
-      newValues[key] = spring.position;
-    });
-
-    // Update values
-    setValues(newValues);
-    onUpdate?.(newValues);
-
-    // Check if all animations are complete
-    if (!hasActiveAnimations) {
-      setIsAnimating(false);
-      onComplete?.(newValues);
-      animationRef.current = undefined;
-      return;
-    }
-
-    animationRef.current = requestAnimationFrame(animate);
-  }, [config, onUpdate, onComplete]);
-
-  const start = useCallback((targets: SpringTarget) => {
-    // Update targets
-    targetsRef.current = { ...targetsRef.current, ...targets };
-
-    // Start animations for changed targets
-    Object.keys(targets).forEach((key: any) => {
-      if (stateRef.current[key]) {
-        stateRef.current[key].isAnimating = true;
-      }
-    });
-
-    setIsAnimating(true);
-
-    if (!animationRef.current) {
-      lastTimeRef.current = 0;
       animationRef.current = requestAnimationFrame(animate);
-    }
-  }, [animate]);
+    },
+    [config, onUpdate, onComplete]
+  );
+
+  const start = useCallback(
+    (targets: SpringTarget) => {
+      // Update targets
+      targetsRef.current = { ...targetsRef.current, ...targets };
+
+      // Start animations for changed targets
+      Object.keys(targets).forEach((key) => {
+        if (stateRef.current[key]) {
+          stateRef.current[key].isAnimating = true;
+        }
+      });
+
+      setIsAnimating(true);
+
+      if (!animationRef.current) {
+        lastTimeRef.current = 0;
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    },
+    [animate]
+  );
 
   const set = useCallback((values: SpringTarget) => {
     // Immediately set values without animation
     const newValues = { ...values };
     const newState: SpringState = {};
 
-    Object.keys(values).forEach((key: any) => {
+    Object.keys(values).forEach((key) => {
       newState[key] = {
         position: values[key],
         velocity: 0,
@@ -161,7 +168,7 @@ export function useMultiSpring(
 
     stateRef.current = { ...stateRef.current, ...newState };
     targetsRef.current = { ...targetsRef.current, ...values };
-    setValues((prev: any) => ({ ...prev, ...newValues }));
+    setValues((prev) => ({ ...prev, ...newValues }));
   }, []);
 
   const stop = useCallback(() => {
@@ -171,7 +178,7 @@ export function useMultiSpring(
     }
 
     // Stop all animations
-    Object.keys(stateRef.current).forEach((key: any) => {
+    Object.keys(stateRef.current).forEach((key) => {
       stateRef.current[key].isAnimating = false;
     });
 
@@ -184,7 +191,7 @@ export function useMultiSpring(
     targetsRef.current = { ...initialValues };
 
     const resetState: SpringState = {};
-    Object.keys(initialValues).forEach((key: any) => {
+    Object.keys(initialValues).forEach((key) => {
       resetState[key] = {
         position: initialValues[key],
         velocity: 0,
@@ -255,12 +262,12 @@ export function useSpringTransform(
 
 // Hook for spring-based color transitions
 export function useSpringColor(
-  initialColor: string = 'var(--glass-black)',
+  initialColor: string = "var(--glass-black)",
   options: MultiSpringOptions = {}
 ) {
   // Parse initial color
   const parseColor = (color: string) => {
-    const div = document.createElement('div');
+    const div = document.createElement("div");
     div.style.color = color;
     document.body.appendChild(div);
     const computed = getComputedStyle(div).color;
@@ -302,7 +309,7 @@ export function useSpringArray(
 
   const array = Object.keys(spring.values)
     .sort()
-    .map((key: any) => spring.values[key]);
+    .map((key) => spring.values[key]);
 
   return {
     ...spring,
@@ -311,7 +318,9 @@ export function useSpringArray(
 }
 
 // Utility functions for common spring patterns
-export const createSpringPreset = (preset: 'gentle' | 'wobbly' | 'stiff' | 'slow' | 'bouncy'): SpringConfig => {
+export const createSpringPreset = (
+  preset: "gentle" | "wobbly" | "stiff" | "slow" | "bouncy"
+): SpringConfig => {
   const presets = {
     gentle: { stiffness: 120, damping: 14, mass: 1 },
     wobbly: { stiffness: 180, damping: 12, mass: 1 },
@@ -341,14 +350,23 @@ export const interpolateSprings = (
   const index = Math.floor(progress * (springs.length - 1));
   const localProgress = (progress * (springs.length - 1)) % 1;
 
-  const current: Required<SpringConfig> = { ...DEFAULT_CONFIG, ...(springs[index]?.config || {}) };
-  const next: Required<SpringConfig> = { ...DEFAULT_CONFIG, ...(springs[index + 1]?.config || {}) };
+  const current: Required<SpringConfig> = {
+    ...DEFAULT_CONFIG,
+    ...(springs[index]?.config || {}),
+  };
+  const next: Required<SpringConfig> = {
+    ...DEFAULT_CONFIG,
+    ...(springs[index + 1]?.config || {}),
+  };
 
   return {
-    stiffness: current.stiffness + (next.stiffness - current.stiffness) * localProgress,
+    stiffness:
+      current.stiffness + (next.stiffness - current.stiffness) * localProgress,
     damping: current.damping + (next.damping - current.damping) * localProgress,
     mass: current.mass + (next.mass - current.mass) * localProgress,
-    precision: current.precision + (next.precision - current.precision) * localProgress,
-    velocity: current.velocity + (next.velocity - current.velocity) * localProgress,
+    precision:
+      current.precision + (next.precision - current.precision) * localProgress,
+    velocity:
+      current.velocity + (next.velocity - current.velocity) * localProgress,
   };
 };

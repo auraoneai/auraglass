@@ -18,13 +18,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Build Storybook
-        run: pnpm run build-storybook
+        run: npm run build-storybook
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'

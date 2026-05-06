@@ -1,7 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GlassWizardTemplate } from './GlassWizardTemplate';
-import { cn } from '../../../lib/utils';
+import {
+  GlassWizardTemplate,
+  type WizardStep,
+} from './GlassWizardTemplate';
 
 const meta: Meta<typeof GlassWizardTemplate> = {
   title: 'Components/Forms/GlassWizardTemplate',
@@ -29,32 +31,38 @@ export default meta;
 type Story = StoryObj<typeof GlassWizardTemplate>;
 
 // Sample wizard steps for stories
-const sampleSteps = [
+const sampleSteps: WizardStep[] = [
   {
     id: 'personal-info',
     title: 'Personal Information',
     description: 'Please provide your basic personal information.',
     schema: [
       {
-        type: 'text',
-        name: 'firstName',
-        label: 'First Name',
-        required: true,
-        placeholder: 'Enter your first name',
-      },
-      {
-        type: 'text',
-        name: 'lastName',
-        label: 'Last Name',
-        required: true,
-        placeholder: 'Enter your last name',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Email Address',
-        required: true,
-        placeholder: 'Enter your email address',
+        id: 'personal-fields',
+        title: 'Personal details',
+        fields: [
+          {
+            type: 'text',
+            id: 'firstName',
+            label: 'First Name',
+            required: true,
+            placeholder: 'Enter your first name',
+          },
+          {
+            type: 'text',
+            id: 'lastName',
+            label: 'Last Name',
+            required: true,
+            placeholder: 'Enter your last name',
+          },
+          {
+            type: 'email',
+            id: 'email',
+            label: 'Email Address',
+            required: true,
+            placeholder: 'Enter your email address',
+          },
+        ],
       },
     ],
   },
@@ -64,21 +72,27 @@ const sampleSteps = [
     description: 'Tell us about your preferences.',
     schema: [
       {
-        type: 'select',
-        name: 'theme',
-        label: 'Preferred Theme',
-        options: [
-          { value: 'light', label: 'Light' },
-          { value: 'dark', label: 'Dark' },
-          { value: 'auto', label: 'Auto' },
+        id: 'preference-fields',
+        title: 'Display and notifications',
+        fields: [
+          {
+            type: 'select',
+            id: 'theme',
+            label: 'Preferred Theme',
+            options: [
+              { value: 'light', label: 'Light' },
+              { value: 'dark', label: 'Dark' },
+              { value: 'auto', label: 'Auto' },
+            ],
+            required: true,
+          },
+          {
+            type: 'checkbox',
+            id: 'notifications',
+            label: 'Enable Notifications',
+            required: false,
+          },
         ],
-        required: true,
-      },
-      {
-        type: 'checkbox',
-        name: 'notifications',
-        label: 'Enable Notifications',
-        required: false,
       },
     ],
     optional: true,

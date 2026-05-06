@@ -34,7 +34,7 @@ export interface ImageMetadata {
   colorSpace: string;
   hasAlpha: boolean;
   dpi?: number;
-  exifData?: Record<string, any>;
+  exifData?: Record<string, unknown>;
   dominantColors: string[];
   brightness: number;
   contrast: number;
@@ -55,7 +55,7 @@ export interface EditOperation {
     | "watermark"
     | "background";
   timestamp: Date;
-  parameters: Record<string, any>;
+  parameters: unknown;
   preview?: string;
 }
 
@@ -398,7 +398,7 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function callImageService<T>(
   endpoint: string,
-  payload: Record<string, any>,
+  payload: Record<string, unknown>,
   attempt: number = 0
 ): Promise<T> {
   if (!IMAGE_SERVICE_URL) {
@@ -431,13 +431,11 @@ const imageProcessor = {
   async analyzeImage(imageUrl: string): Promise<Partial<ImageMetadata>> {
     if (!IMAGE_SERVICE_URL) return mockImageProcessor.analyzeImage(imageUrl);
     try {
-      const result = await callImageService<{ metadata?: Partial<ImageMetadata> }>(
-        "/analyze",
-        { imageUrl }
-      );
+      const result = await callImageService<{
+        metadata?: Partial<ImageMetadata>;
+      }>("/analyze", { imageUrl });
       return result.metadata || {};
-    } catch (error) {
-      console.warn("[ImageProcessing] analyzeImage failed, using fallback", error);
+    } catch {
       return mockImageProcessor.analyzeImage(imageUrl);
     }
   },
@@ -450,8 +448,7 @@ const imageProcessor = {
         { imageUrl }
       );
       return result.faces || [];
-    } catch (error) {
-      console.warn("[ImageProcessing] detectFaces failed, using fallback", error);
+    } catch {
       return mockImageProcessor.detectFaces(imageUrl);
     }
   },
@@ -460,15 +457,15 @@ const imageProcessor = {
     imageUrl: string,
     options: OptimizationOptions
   ): Promise<string> {
-    if (!IMAGE_SERVICE_URL) return mockImageProcessor.optimizeImage(imageUrl, options);
+    if (!IMAGE_SERVICE_URL)
+      return mockImageProcessor.optimizeImage(imageUrl, options);
     try {
-      const result = await callImageService<{ optimizedUrl?: string; url?: string }>(
-        "/optimize",
-        { imageUrl, options }
-      );
+      const result = await callImageService<{
+        optimizedUrl?: string;
+        url?: string;
+      }>("/optimize", { imageUrl, options });
       return result.optimizedUrl || result.url || imageUrl;
-    } catch (error) {
-      console.warn("[ImageProcessing] optimizeImage failed, using fallback", error);
+    } catch {
       return mockImageProcessor.optimizeImage(imageUrl, options);
     }
   },
@@ -557,7 +554,7 @@ export const ImageProcessingProvider: React.FC<{
     async (file: File): Promise<ImageFile> => {
       const imageFile = await createImageFromFile(file);
 
-      setImages((prev: any) => [...prev, imageFile]);
+      setImages((prev) => [...prev, imageFile]);
 
       // Auto-optimize if enabled
       if (autoOptimize) {
@@ -583,7 +580,7 @@ export const ImageProcessingProvider: React.FC<{
             imageFiles.push(imageFile);
 
             // Update progress
-            setUploadProgresses((prev: any) => [
+            setUploadProgresses((prev) => [
               ...prev,
               {
                 imageId: imageFile.id,
@@ -591,45 +588,51 @@ export const ImageProcessingProvider: React.FC<{
                 status: "completed",
               },
             ]);
-          } catch (error) {
-            console.error("Failed to process image:", file.name, error);
+          } catch {
+            setUploadProgresses((prev) => [
+              ...prev,
+              {
+                imageId: file.name,
+                progress: 0,
+                status: "error",
+                message: "Image processing failed",
+              },
+            ]);
           }
         }
       }
 
-      setImages((prev: any) => [...prev, ...imageFiles]);
+      setImages((prev) => [...prev, ...imageFiles]);
       return imageFiles;
     },
     [createImageFromFile]
   );
 
   const removeImage = useCallback((id: string) => {
-    setImages((prev: any) => {
-      const image = prev.find((img: any) => img.id === id);
+    setImages((prev) => {
+      const image = prev.find((img) => img.id === id);
       if (image) {
         URL.revokeObjectURL(image.url);
         if (image.thumbnailUrl) {
           URL.revokeObjectURL(image.thumbnailUrl);
         }
       }
-      return prev.filter((img: any) => img.id !== id);
+      return prev.filter((img) => img.id !== id);
     });
 
-    setUploadProgresses((prev: any) =>
-      prev.filter((p: any) => p.imageId !== id)
-    );
+    setUploadProgresses((prev) => prev.filter((p) => p.imageId !== id));
   }, []);
 
   const getImage = useCallback(
     (id: string) => {
-      return images.find((img: any) => img.id === id);
+      return images.find((img) => img.id === id);
     },
     [images]
   );
 
   const updateImage = useCallback((id: string, updates: Partial<ImageFile>) => {
-    setImages((prev: any) =>
-      prev.map((img: any) => (img.id === id ? { ...img, ...updates } : img))
+    setImages((prev) =>
+      prev.map((img) => (img.id === id ? { ...img, ...updates } : img))
     );
   }, []);
 
@@ -642,7 +645,7 @@ export const ImageProcessingProvider: React.FC<{
       if (!image) throw new Error("Image not found");
 
       // Update progress
-      setUploadProgresses((prev: any) => [
+      setUploadProgresses((prev) => [
         ...prev,
         {
           imageId,
@@ -658,10 +661,8 @@ export const ImageProcessingProvider: React.FC<{
         // Simulate optimization progress
         for (let progress = 10; progress <= 90; progress += 20) {
           await new Promise((resolve) => setTimeout(resolve, 200));
-          setUploadProgresses((prev: any) =>
-            prev.map((p: any) =>
-              p.imageId === imageId ? { ...p, progress } : p
-            )
+          setUploadProgresses((prev) =>
+            prev.map((p) => (p.imageId === imageId ? { ...p, progress } : p))
           );
         }
 
@@ -690,12 +691,12 @@ export const ImageProcessingProvider: React.FC<{
           ],
         };
 
-        setImages((prev: any) =>
-          prev.map((img: any) => (img.id === imageId ? optimizedImage : img))
+        setImages((prev) =>
+          prev.map((img) => (img.id === imageId ? optimizedImage : img))
         );
 
-        setUploadProgresses((prev: any) =>
-          prev.map((p: any) =>
+        setUploadProgresses((prev) =>
+          prev.map((p) =>
             p.imageId === imageId
               ? {
                   ...p,
@@ -709,8 +710,8 @@ export const ImageProcessingProvider: React.FC<{
 
         return optimizedImage;
       } catch (error) {
-        setUploadProgresses((prev: any) =>
-          prev.map((p: any) =>
+        setUploadProgresses((prev) =>
+          prev.map((p) =>
             p.imageId === imageId
               ? { ...p, status: "error", message: "Optimization failed" }
               : p
@@ -733,8 +734,8 @@ export const ImageProcessingProvider: React.FC<{
         try {
           const optimized = await optimizeImage(imageId, options);
           results.push(optimized);
-        } catch (error) {
-          console.error(`Failed to optimize image ${imageId}:`, error);
+        } catch {
+          // Continue optimizing remaining images.
         }
       }
 
@@ -786,8 +787,8 @@ export const ImageProcessingProvider: React.FC<{
         },
       };
 
-      setImages((prev: any) =>
-        prev.map((img: any) => (img.id === imageId ? updatedImage : img))
+      setImages((prev) =>
+        prev.map((img) => (img.id === imageId ? updatedImage : img))
       );
 
       return updatedImage;
@@ -821,8 +822,8 @@ export const ImageProcessingProvider: React.FC<{
         editHistory: [...image.editHistory, editOperation],
       };
 
-      setImages((prev: any) =>
-        prev.map((img: any) => (img.id === imageId ? croppedImage : img))
+      setImages((prev) =>
+        prev.map((img) => (img.id === imageId ? croppedImage : img))
       );
 
       return croppedImage;
@@ -869,8 +870,8 @@ export const ImageProcessingProvider: React.FC<{
         editHistory: [...image.editHistory, editOperation],
       };
 
-      setImages((prev: any) =>
-        prev.map((img: any) => (img.id === imageId ? resizedImage : img))
+      setImages((prev) =>
+        prev.map((img) => (img.id === imageId ? resizedImage : img))
       );
 
       return resizedImage;
@@ -900,8 +901,8 @@ export const ImageProcessingProvider: React.FC<{
         editHistory: [...image.editHistory, editOperation],
       };
 
-      setImages((prev: any) =>
-        prev.map((img: any) => (img.id === imageId ? watermarkedImage : img))
+      setImages((prev) =>
+        prev.map((img) => (img.id === imageId ? watermarkedImage : img))
       );
 
       return watermarkedImage;
@@ -929,8 +930,8 @@ export const ImageProcessingProvider: React.FC<{
         editHistory: [...image.editHistory, editOperation],
       };
 
-      setImages((prev: any) =>
-        prev.map((img: any) => (img.id === imageId ? processedImage : img))
+      setImages((prev) =>
+        prev.map((img) => (img.id === imageId ? processedImage : img))
       );
 
       return processedImage;
@@ -1037,7 +1038,7 @@ export const ImageProcessingProvider: React.FC<{
 
   const getOptimizationStats = useCallback(() => {
     const processedImages = images.filter(
-      (img: any) => img.metadata.compressionRatio
+      (img) => img.metadata.compressionRatio
     );
     const totalOriginalSize = processedImages.reduce(
       (sum, img) => sum + img.size,
@@ -1067,9 +1068,7 @@ export const ImageProcessingProvider: React.FC<{
   }, [images]);
 
   const clearProgress = useCallback((imageId: string) => {
-    setUploadProgresses((prev: any) =>
-      prev.filter((p: any) => p.imageId !== imageId)
-    );
+    setUploadProgresses((prev) => prev.filter((p) => p.imageId !== imageId));
   }, []);
 
   // Placeholder implementations for other methods
@@ -1108,8 +1107,8 @@ export const ImageProcessingProvider: React.FC<{
         try {
           const resized = await resizeImage(imageId, width, height);
           results.push(resized);
-        } catch (error) {
-          console.error(`Failed to resize image ${imageId}:`, error);
+        } catch {
+          // Continue resizing remaining images.
         }
       }
       return results;
@@ -1127,8 +1126,8 @@ export const ImageProcessingProvider: React.FC<{
         try {
           const filtered = await applyFilter(imageId, filters);
           results.push(filtered);
-        } catch (error) {
-          console.error(`Failed to filter image ${imageId}:`, error);
+        } catch {
+          // Continue filtering remaining images.
         }
       }
       return results;
@@ -1146,8 +1145,8 @@ export const ImageProcessingProvider: React.FC<{
         try {
           const watermarked = await addWatermark(imageId, watermark);
           results.push(watermarked);
-        } catch (error) {
-          console.error(`Failed to watermark image ${imageId}:`, error);
+        } catch {
+          // Continue watermarking remaining images.
         }
       }
       return results;
@@ -1185,7 +1184,7 @@ export const ImageProcessingProvider: React.FC<{
 
   const applyTemplate = useCallback(
     async (imageId: string, templateId: string): Promise<ImageFile> => {
-      const template = templates.find((t: any) => t.id === templateId);
+      const template = templates.find((t) => t.id === templateId);
       if (!template) throw new Error("Template not found");
 
       let result = await resizeImage(

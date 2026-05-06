@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 export interface AnimationContextType {
   reducedMotion: boolean;
@@ -20,7 +20,8 @@ const defaultContextValue: AnimationContextType = {
   },
 };
 
-export const AnimationContext = createContext<AnimationContextType>(defaultContextValue);
+export const AnimationContext =
+  createContext<AnimationContextType>(defaultContextValue);
 
 // AnimationProvider component
 export interface AnimationProviderProps {
@@ -42,16 +43,16 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = ({
 
   // Check for prefers-reduced-motion
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (typeof window !== "undefined") {
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
       setReducedMotion(mediaQuery.matches);
-      
+
       const handleChange = (e: MediaQueryListEvent) => {
         setReducedMotion(e.matches);
       };
-      
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
     }
   }, []);
 
@@ -72,7 +73,6 @@ export const useAnimation = () => {
   const context = useContext(AnimationContext);
   if (!context) {
     // Instead of throwing, return default values to prevent crashes
-    console.warn('useAnimation must be used within an AnimationProvider. Using default values.');
     return defaultContextValue;
   }
   return context;

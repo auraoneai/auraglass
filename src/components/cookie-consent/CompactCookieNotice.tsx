@@ -34,7 +34,7 @@ interface CompactCookieNoticeProps
   onAccept?: () => void;
   onDecline?: () => void;
   onMoreInfo?: () => void;
-  theme?: any;
+  theme?: unknown;
   animate?: boolean;
 }
 

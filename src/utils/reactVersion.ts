@@ -16,12 +16,6 @@ export const isReact19OrNewer = (): boolean => {
 
 export const assertReact19ForThree = (): boolean => {
   if (!isReact19OrNewer()) {
-    if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
-      console.warn(
-        "[AuraGlass] 3D glass effects require React 19+. Running under React 18 – three-based effects are disabled."
-      );
-    }
     return false;
   }
   return true;

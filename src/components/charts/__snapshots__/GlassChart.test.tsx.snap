@@ -26,7 +26,6 @@ exports[`GlassChart matches snapshot 1`] = `
       >
         <div
           class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none overflow-hidden"
-          data="[object Object]"
           style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
@@ -45,7 +44,81 @@ exports[`GlassChart matches snapshot 1`] = `
                 >
                   <g
                     class="glass-opacity-20"
-                  />
+                  >
+                    <line
+                      class="glass-text-primary-glass-opacity-30"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      x1="60"
+                      x2="580"
+                      y1="340"
+                      y2="340"
+                    />
+                    <line
+                      class="glass-text-primary-glass-opacity-30"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      x1="60"
+                      x2="580"
+                      y1="260"
+                      y2="260"
+                    />
+                    <line
+                      class="glass-text-primary-glass-opacity-30"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      x1="60"
+                      x2="580"
+                      y1="180"
+                      y2="180"
+                    />
+                    <line
+                      class="glass-text-primary-glass-opacity-30"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      x1="60"
+                      x2="580"
+                      y1="100"
+                      y2="100"
+                    />
+                    <line
+                      class="glass-text-primary-glass-opacity-30"
+                      stroke="currentColor"
+                      stroke-width="1"
+                      x1="60"
+                      x2="580"
+                      y1="20"
+                      y2="20"
+                    />
+                  </g>
+                  <div
+                    class="motion-primitive glass-relative"
+                  >
+                    <rect
+                      class="glass-cursor-pointer glass-transition-all glass-duration-[150ms] hover:glass-opacity-80"
+                      fill="#6366F1"
+                      height="26.666666666666686"
+                      opacity="1"
+                      style="animation: barGrow 300ms ease-out 0ms both;"
+                      width="208"
+                      x="86"
+                      y="313.3333333333333"
+                    />
+                  </div>
+                  <div
+                    class="motion-primitive glass-relative"
+                  >
+                    <rect
+                      class="glass-cursor-pointer glass-transition-all glass-duration-[150ms] hover:glass-opacity-80"
+                      fill="#6366F1"
+                      height="293.3333333333333"
+                      opacity="1"
+                      style="animation: barGrow 300ms ease-out 50ms both;"
+                      width="208"
+                      x="346"
+                      y="46.666666666666686"
+                    />
+                  </div>
                   <line
                     class="glass-text-primary-glass-opacity-50"
                     stroke="currentColor"
@@ -64,7 +137,99 @@ exports[`GlassChart matches snapshot 1`] = `
                     y1="20"
                     y2="340"
                   />
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="middle"
+                    x="190"
+                    y="360"
+                  >
+                    A
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="middle"
+                    x="450"
+                    y="360"
+                  >
+                    B
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="end"
+                    x="50"
+                    y="344"
+                  >
+                    9
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="end"
+                    x="50"
+                    y="264"
+                  >
+                    12
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="end"
+                    x="50"
+                    y="184"
+                  >
+                    15
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="end"
+                    x="50"
+                    y="104"
+                  >
+                    18
+                  </text>
+                  <text
+                    class="glass-text-xs glass-fill-white/70"
+                    style="font-size: 0.625rem;"
+                    text-anchor="end"
+                    x="50"
+                    y="24"
+                  >
+                    21
+                  </text>
                 </svg>
+              </div>
+              <div
+                aria-label="Chart legend"
+                class="glass-flex glass-flex-wrap glass-justify-center glass-gap-4 glass-mt-6"
+                role="list"
+              >
+                <div
+                  aria-label="Series 1 data series"
+                  class="flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[150ms] glass-hover--translate-y-0-5 opacity-100"
+                  role="listitem"
+                  tabindex="0"
+                >
+                  <div
+                    aria-hidden="true"
+                    class="glass-w-3 glass-h-3 glass-radius-md"
+                    style="background-color: rgb(99, 102, 241);"
+                  />
+                  <span
+                    class="contrast-guard"
+                    data-contrast-level="AA"
+                    data-glass-component="true"
+                  >
+                    <span
+                      class="glass-text-sm glass-text-primary-glass-opacity-80"
+                    >
+                      Series 1
+                    </span>
+                  </span>
+                </div>
               </div>
             </div>
           </div>

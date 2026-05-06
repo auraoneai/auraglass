@@ -1,15 +1,26 @@
-import React from 'react';
+import React from "react";
 // Production-ready TypeScript definitions for AuraGlass
 
-import { CSSProperties, ReactNode, RefObject } from 'react';
+import { CSSProperties, ErrorInfo, ReactNode, RefObject } from "react";
 
 // === Core Glass Types ===
 
-export type GlassVariant = 'frosted' | 'crystal' | 'tinted' | 'metallic' | 'neon';
-export type BlurIntensity = 'none' | 'subtle' | 'medium' | 'strong' | 'intense';
-export type GlassElevation = 0 | 1 | 2 | 3 | 4 | 'float';
-export type PerformanceMode = 'high' | 'balanced' | 'low';
-export type AnimationEasing = 'linear' | 'easeIn' | 'easeOut' | 'easeInOut' | 'bounce' | 'elastic';
+export type GlassVariant =
+  | "frosted"
+  | "crystal"
+  | "tinted"
+  | "metallic"
+  | "neon";
+export type BlurIntensity = "none" | "subtle" | "medium" | "strong" | "intense";
+export type GlassElevation = 0 | 1 | 2 | 3 | 4 | "float";
+export type PerformanceMode = "high" | "balanced" | "low";
+export type AnimationEasing =
+  | "linear"
+  | "easeIn"
+  | "easeOut"
+  | "easeInOut"
+  | "bounce"
+  | "elastic";
 
 // === Component Base Props ===
 
@@ -39,11 +50,11 @@ export interface BaseGlassProps {
   /** Performance mode */
   performanceMode?: PerformanceMode;
   /** Accessibility label */
-  'aria-label'?: string;
+  "aria-label"?: string;
   /** Accessibility description */
-  'aria-describedby'?: string;
+  "aria-describedby"?: string;
   /** Test ID for testing */
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 // === Error Handling Types ===
@@ -51,14 +62,14 @@ export interface BaseGlassProps {
 export interface ErrorBoundaryState {
   hasError: boolean;
   error: Error | null;
-  errorInfo: any;
+  errorInfo: ErrorInfo | null;
   errorId: string;
   retryCount: number;
 }
 
 export interface ErrorFallbackProps {
   error: Error;
-  errorInfo: any;
+  errorInfo: ErrorInfo | null;
   retry: () => void;
   errorId: string;
 }
@@ -91,7 +102,7 @@ export interface AccessibilitySettings {
   reducedMotion: boolean;
   highContrast: boolean;
   largeText: boolean;
-  colorScheme: 'light' | 'dark' | 'auto';
+  colorScheme: "light" | "dark" | "auto";
   forcedColors: boolean;
   screenReader: boolean;
   keyboardNavigation: boolean;
@@ -101,9 +112,9 @@ export interface A11yAuditRule {
   id: string;
   name: string;
   description: string;
-  wcagLevel: 'A' | 'AA' | 'AAA';
+  wcagLevel: "A" | "AA" | "AAA";
   wcagGuideline: string;
-  severity: 'error' | 'warning' | 'info';
+  severity: "error" | "warning" | "info";
   check: (element: Element) => boolean;
   message: string;
   suggestion: string;
@@ -112,13 +123,19 @@ export interface A11yAuditRule {
 // === Animation Types ===
 
 export type AnimationType =
-  | 'fadeIn' | 'fadeOut'
-  | 'slideIn' | 'slideOut'
-  | 'scaleIn' | 'scaleOut'
-  | 'bounce' | 'shake' | 'pulse'
-  | 'rotate' | 'flip';
+  | "fadeIn"
+  | "fadeOut"
+  | "slideIn"
+  | "slideOut"
+  | "scaleIn"
+  | "scaleOut"
+  | "bounce"
+  | "shake"
+  | "pulse"
+  | "rotate"
+  | "flip";
 
-export type AnimationDirection = 'up' | 'down' | 'left' | 'right' | 'center';
+export type AnimationDirection = "up" | "down" | "left" | "right" | "center";
 
 export interface AnimationConfig {
   type: AnimationType;
@@ -143,27 +160,28 @@ export interface MotionPreferences {
 // === Component-Specific Types ===
 
 // Skeleton Loader
-export interface GlassSkeletonLoaderProps extends Omit<BaseGlassProps, 'variant'> {
+export interface GlassSkeletonLoaderProps
+  extends Omit<BaseGlassProps, "variant"> {
   loading?: boolean;
   text?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'pulse' | 'wave' | 'shimmer';
+  size?: "sm" | "md" | "lg" | "xl";
+  variant?: "pulse" | "wave" | "shimmer";
   children?: ReactNode;
 }
 
-export interface GlassSkeletonProps extends Omit<BaseGlassProps, 'variant'> {
-  variant?: 'text' | 'rectangular' | 'circular' | 'rounded';
+export interface GlassSkeletonProps extends Omit<BaseGlassProps, "variant"> {
+  variant?: "text" | "rectangular" | "circular" | "rounded";
   width?: string | number;
   height?: string | number;
-  animation?: 'pulse' | 'wave' | 'none';
+  animation?: "pulse" | "wave" | "none";
   lines?: number;
   spacing?: string;
 }
 
 // Tooltip
-export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right' | 'auto';
+export type TooltipPosition = "top" | "bottom" | "left" | "right" | "auto";
 
-export interface GlassTooltipProps extends Omit<BaseGlassProps, 'variant'> {
+export interface GlassTooltipProps extends Omit<BaseGlassProps, "variant"> {
   content: ReactNode;
   children: ReactNode;
   position?: TooltipPosition;
@@ -173,11 +191,11 @@ export interface GlassTooltipProps extends Omit<BaseGlassProps, 'variant'> {
   disabled?: boolean;
   maxWidth?: string;
   showArrow?: boolean;
-  variant?: 'fade' | 'scale' | 'slide';
+  variant?: "fade" | "scale" | "slide";
 }
 
 // Notification
-export type NotificationType = 'success' | 'error' | 'warning' | 'info';
+export type NotificationType = "success" | "error" | "warning" | "info";
 
 export interface GlassNotification {
   id: string;
@@ -193,13 +211,20 @@ export interface GlassNotification {
 }
 
 export interface GlassNotificationCenterProps extends BaseGlassProps {
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+  position?:
+    | "top-right"
+    | "top-left"
+    | "bottom-right"
+    | "bottom-left"
+    | "top-center"
+    | "bottom-center";
   maxNotifications?: number;
   autoHideDelay?: number;
 }
 
 // Animated Number
-export interface GlassAnimatedNumberProps extends Omit<BaseGlassProps, 'variant'> {
+export interface GlassAnimatedNumberProps
+  extends Omit<BaseGlassProps, "variant"> {
   value: number;
   from?: number;
   duration?: number;
@@ -210,16 +235,36 @@ export interface GlassAnimatedNumberProps extends Omit<BaseGlassProps, 'variant'
   suffix?: string;
   formatter?: (value: number) => string;
   animateOnChange?: boolean;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'count' | 'scale' | 'glow';
+  size?: "sm" | "md" | "lg" | "xl";
+  variant?: "count" | "scale" | "glow";
 }
 
 // Code Editor
 export type Language =
-  | 'javascript' | 'typescript' | 'python' | 'java' | 'cpp' | 'csharp'
-  | 'go' | 'rust' | 'php' | 'ruby' | 'swift' | 'kotlin' | 'scala'
-  | 'html' | 'css' | 'json' | 'xml' | 'yaml' | 'sql'
-  | 'bash' | 'powershell' | 'dockerfile' | 'markdown' | 'plaintext';
+  | "javascript"
+  | "typescript"
+  | "python"
+  | "java"
+  | "cpp"
+  | "csharp"
+  | "go"
+  | "rust"
+  | "php"
+  | "ruby"
+  | "swift"
+  | "kotlin"
+  | "scala"
+  | "html"
+  | "css"
+  | "json"
+  | "xml"
+  | "yaml"
+  | "sql"
+  | "bash"
+  | "powershell"
+  | "dockerfile"
+  | "markdown"
+  | "plaintext";
 
 export interface GlassCodeEditorProps extends BaseGlassProps {
   value?: string;
@@ -232,13 +277,13 @@ export interface GlassCodeEditorProps extends BaseGlassProps {
   wordWrap?: boolean;
   tabSize?: number;
   autoComplete?: boolean;
-  theme?: 'light' | 'dark' | 'auto';
+  theme?: "light" | "dark" | "auto";
   maxHeight?: string;
   minHeight?: string;
   onChange?: (value: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
-  onMount?: (editor: any) => void;
+  onMount?: (editor: unknown) => void;
 }
 
 // Color Scheme Generator
@@ -262,7 +307,7 @@ export interface GlassColorSchemeGeneratorProps extends BaseGlassProps {
   generateCSS?: boolean;
   generateTailwind?: boolean;
   onSchemeChange?: (scheme: ColorScheme) => void;
-  onExport?: (scheme: ColorScheme, format: 'css' | 'json' | 'tailwind') => void;
+  onExport?: (scheme: ColorScheme, format: "css" | "json" | "tailwind") => void;
 }
 
 // Motion Controller
@@ -280,17 +325,17 @@ export interface MindMapNode {
   children?: MindMapNode[];
   color?: string;
   position?: { x: number; y: number };
-  size?: 'sm' | 'md' | 'lg';
-  shape?: 'circle' | 'rectangle' | 'diamond';
+  size?: "sm" | "md" | "lg";
+  shape?: "circle" | "rectangle" | "diamond";
   icon?: ReactNode;
-  data?: any;
+  data?: unknown;
 }
 
 export interface MindMapConnection {
   from: string;
   to: string;
   label?: string;
-  type?: 'solid' | 'dashed' | 'dotted';
+  type?: "solid" | "dashed" | "dotted";
   color?: string;
 }
 
@@ -300,7 +345,7 @@ export interface GlassMindMapProps extends BaseGlassProps {
   editable?: boolean;
   showMinimap?: boolean;
   zoomable?: boolean;
-  direction?: 'horizontal' | 'vertical' | 'radial';
+  direction?: "horizontal" | "vertical" | "radial";
   nodeSpacing?: number;
   onNodeClick?: (node: MindMapNode) => void;
   onNodeDoubleClick?: (node: MindMapNode) => void;
@@ -310,8 +355,23 @@ export interface GlassMindMapProps extends BaseGlassProps {
 }
 
 // Whiteboard
-export type DrawingTool = 'pen' | 'eraser' | 'rectangle' | 'circle' | 'line' | 'text' | 'select';
-export type DrawingColor = 'var(--glass-white)' | 'var(--glass-black)' | '#ff0000' | '#00ff00' | '#0000ff' | '#ffff00' | '#ff00ff' | '#00ffff';
+export type DrawingTool =
+  | "pen"
+  | "eraser"
+  | "rectangle"
+  | "circle"
+  | "line"
+  | "text"
+  | "select";
+export type DrawingColor =
+  | "var(--glass-white)"
+  | "var(--glass-black)"
+  | "#ff0000"
+  | "#00ff00"
+  | "#0000ff"
+  | "#ffff00"
+  | "#ff00ff"
+  | "#00ffff";
 
 export interface DrawingPath {
   id: string;
@@ -325,7 +385,7 @@ export interface DrawingPath {
 
 export interface DrawingShape {
   id: string;
-  type: 'rectangle' | 'circle' | 'line' | 'text';
+  type: "rectangle" | "circle" | "line" | "text";
   startX: number;
   startY: number;
   endX: number;
@@ -345,7 +405,7 @@ export interface GlassWhiteboardProps extends BaseGlassProps {
   availableColors?: DrawingColor[];
   width?: number;
   height?: number;
-  backgroundPattern?: 'none' | 'grid' | 'dots' | 'lines';
+  backgroundPattern?: "none" | "grid" | "dots" | "lines";
   showToolbar?: boolean;
   showMinimap?: boolean;
   onDrawingChange?: (data: Array<DrawingPath | DrawingShape>) => void;
@@ -356,7 +416,7 @@ export interface GlassWhiteboardProps extends BaseGlassProps {
 // A11y Auditor
 export interface A11yIssue {
   id: string;
-  type: 'error' | 'warning' | 'info';
+  type: "error" | "warning" | "info";
   rule: string;
   message: string;
   element?: string;
@@ -393,8 +453,8 @@ export interface ComponentExample {
   name: string;
   description?: string;
   category: string;
-  component: React.ComponentType<any>;
-  props?: Record<string, any>;
+  component: React.ElementType;
+  props?: Record<string, unknown>;
   code?: string;
 }
 
@@ -410,8 +470,8 @@ export interface GlassComponentPlaygroundProps extends BaseGlassProps {
   showCode?: boolean;
   showProps?: boolean;
   customTabs?: PlaygroundTab[];
-  theme?: 'light' | 'dark' | 'auto';
-  codeTheme?: 'light' | 'dark';
+  theme?: "light" | "dark" | "auto";
+  codeTheme?: "light" | "dark";
 }
 
 // === Utility Types ===
@@ -440,7 +500,7 @@ export interface ThemeConfig {
   blur: Record<BlurIntensity, string>;
   shadows: Record<GlassElevation, string>;
   animations: {
-    duration: Record<'fast' | 'normal' | 'slow', number>;
+    duration: Record<"fast" | "normal" | "slow", number>;
     easing: Record<AnimationEasing, string>;
   };
   breakpoints: {
@@ -448,7 +508,7 @@ export interface ThemeConfig {
     md: string;
     lg: string;
     xl: string;
-    '2xl': string;
+    "2xl": string;
   };
 }
 
@@ -497,14 +557,16 @@ export interface IntersectionReturn {
 
 // === Event Handler Types ===
 
-export type GlassEventHandler<T = HTMLElement> = (event: React.SyntheticEvent<T>) => void;
+export type GlassEventHandler<T = HTMLElement> = (
+  event: React.SyntheticEvent<T>
+) => void;
 export type GlassChangeHandler<T> = (value: T) => void;
 export type GlassClickHandler = (event: React.MouseEvent<HTMLElement>) => void;
 export type GlassFocusHandler = (event: React.FocusEvent<HTMLElement>) => void;
 
 // === Validation Types ===
 
-export interface ValidationRule<T = any> {
+export interface ValidationRule<T = unknown> {
   required?: boolean;
   minLength?: number;
   maxLength?: number;
@@ -550,35 +612,44 @@ export interface SelectOption {
   group?: string;
 }
 
-export interface TableColumn {
+export type TableRecord = Record<string, unknown> & { id: string };
+export type TableCellValue = unknown;
+export type FormFieldValue = unknown;
+
+export interface TableColumn<T extends TableRecord = TableRecord> {
   key: string;
   header: string;
   width?: string | number;
   sortable?: boolean;
   filterable?: boolean;
-  render?: (value: any, row: any) => ReactNode;
+  render?: (value: TableCellValue, row: T) => ReactNode;
 }
 
-export interface TableRow {
-  id: string;
-  [key: string]: any;
-}
+export type TableRow = TableRecord;
 
 // === Form Types ===
 
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'select' | 'textarea' | 'checkbox' | 'radio';
+  type:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "select"
+    | "textarea"
+    | "checkbox"
+    | "radio";
   required?: boolean;
   validation?: ValidationRule[];
   options?: SelectOption[];
   placeholder?: string;
-  defaultValue?: any;
+  defaultValue?: FormFieldValue;
 }
 
 export interface FormState {
-  values: Record<string, any>;
+  values: Record<string, FormFieldValue>;
   errors: Record<string, string[]>;
   touched: Record<string, boolean>;
   isSubmitting: boolean;
@@ -595,7 +666,7 @@ export interface GridConfig {
 }
 
 export interface FlexConfig {
-  direction: 'row' | 'column';
+  direction: "row" | "column";
   align: string;
   justify: string;
   gap: string;
@@ -625,19 +696,19 @@ export interface BreadcrumbItem {
 
 export interface ModalState {
   isOpen: boolean;
-  data?: any;
+  data?: unknown;
   onClose: () => void;
 }
 
 export interface DrawerState extends ModalState {
-  side: 'left' | 'right' | 'top' | 'bottom';
+  side: "left" | "right" | "top" | "bottom";
 }
 
 // === Testing Types ===
 
 export interface ComponentTestProps {
-  'data-testid'?: string;
-  'aria-label'?: string;
+  "data-testid"?: string;
+  "aria-label"?: string;
   role?: string;
 }
 
@@ -692,15 +763,20 @@ export interface GlassPlugin {
 
 // === Utility Function Types ===
 
-export type ClassNameGenerator = (...classes: (string | undefined | null | false)[]) => string;
-export type StyleGenerator<T = any> = (props: T) => CSSProperties;
+export type ClassNameGenerator = (
+  ...classes: (string | undefined | null | false)[]
+) => string;
+export type StyleGenerator<T = unknown> = (props: T) => CSSProperties;
 export type ThemeGenerator = (baseColors: Partial<ColorScheme>) => ColorScheme;
 
 // === Advanced Types ===
 
 export interface GlassComponentFactory<P = {}> {
   create: (config: Partial<BaseGlassProps>) => React.ComponentType<P>;
-  extend: (baseComponent: React.ComponentType<P>, overrides: Partial<BaseGlassProps>) => React.ComponentType<P>;
+  extend: (
+    baseComponent: React.ComponentType<P>,
+    overrides: Partial<BaseGlassProps>
+  ) => React.ComponentType<P>;
 }
 
 export interface GlassHOCOptions {
@@ -712,16 +788,22 @@ export interface GlassHOCOptions {
 
 // === Type Guards ===
 
-export const isGlassComponent = (component: any): component is React.ComponentType<BaseGlassProps> => {
-  return component && typeof component === 'function';
+export const isGlassComponent = (
+  component: unknown
+): component is React.ComponentType<BaseGlassProps> => {
+  return typeof component === "function";
 };
 
-export const isValidGlassVariant = (variant: any): variant is GlassVariant => {
-  return ['frosted', 'crystal', 'tinted', 'metallic', 'neon'].includes(variant);
+export const isValidGlassVariant = (
+  variant: unknown
+): variant is GlassVariant => {
+  if (typeof variant !== "string") return false;
+  return ["frosted", "crystal", "tinted", "metallic", "neon"].includes(variant);
 };
 
-export const isValidBlurIntensity = (blur: any): blur is BlurIntensity => {
-  return ['none', 'subtle', 'medium', 'strong', 'intense'].includes(blur);
+export const isValidBlurIntensity = (blur: unknown): blur is BlurIntensity => {
+  if (typeof blur !== "string") return false;
+  return ["none", "subtle", "medium", "strong", "intense"].includes(blur);
 };
 
 // === Branded Types for Type Safety ===
@@ -757,14 +839,19 @@ export type ThemeVariable = `--glass-${string}`;
 // === Recursive Types ===
 
 export interface NestedGlassComponent {
-  component: React.ComponentType<any>;
-  props?: Record<string, any>;
+  component: React.ElementType;
+  props?: Record<string, unknown>;
   children?: NestedGlassComponent[];
 }
 
 // === Function Overloads ===
 
 export interface CreateGlassComponent {
-  <P>(component: React.ComponentType<P>): React.ComponentType<P & BaseGlassProps>;
-  <P>(component: React.ComponentType<P>, defaultProps: Partial<BaseGlassProps>): React.ComponentType<P & BaseGlassProps>;
+  <P>(
+    component: React.ComponentType<P>
+  ): React.ComponentType<P & BaseGlassProps>;
+  <P>(
+    component: React.ComponentType<P>,
+    defaultProps: Partial<BaseGlassProps>
+  ): React.ComponentType<P & BaseGlassProps>;
 }

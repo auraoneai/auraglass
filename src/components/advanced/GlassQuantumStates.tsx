@@ -25,7 +25,7 @@ import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 
 // Quantum state types
-interface QuantumState<T = any> {
+interface QuantumState<T = unknown> {
   id: string;
   possibleStates: T[];
   probabilities: number[];
@@ -36,7 +36,7 @@ interface QuantumState<T = any> {
   decoherenceRate: number;
 }
 
-interface QuantumMeasurement<T = any> {
+interface QuantumMeasurement<T = unknown> {
   stateId: string;
   measuredValue: T;
   probability: number;
@@ -55,11 +55,52 @@ interface QuantumEntanglement {
 }
 
 interface QuantumSuperposition {
-  states: Map<string, any>;
+  states: Map<string, unknown>;
   totalProbability: number;
   coherenceTime: number;
   interferencePattern: number[];
 }
+
+export interface QuantumSuperpositionEntry<T = unknown> {
+  state: T;
+  probability: number;
+  phase: number;
+}
+
+export interface QuantumButtonState {
+  label: string;
+  color: string;
+  action: () => void;
+}
+
+interface QuantumStatesContextValue {
+  system: QuantumUISystem | null;
+  createQuantumState: <T>(
+    stateId: string,
+    possibleStates: T[],
+    initialProbabilities?: number[]
+  ) => void;
+  measureState: <T = unknown>(
+    stateId: string,
+    observer?: string
+  ) => QuantumMeasurement<T> | null;
+  getSuperposition: <T = unknown>(
+    stateId: string
+  ) => QuantumSuperpositionEntry<T>[] | null;
+  createEntanglement: (
+    state1: string,
+    state2: string,
+    strength?: number,
+    type?: QuantumEntanglement["correlationType"]
+  ) => void;
+  getCoherence: (stateId: string) => number;
+}
+
+const serializeQuantumState = (state: unknown): string =>
+  JSON.stringify(state) ?? "null";
+
+const parseQuantumState = <T = unknown,>(state: string): T =>
+  JSON.parse(state) as T;
 
 // Complex number representation for quantum amplitudes
 class ComplexNumber {
@@ -139,7 +180,7 @@ class QuantumStateVector {
     const normalizationFactor = 1 / Math.sqrt(totalProbability);
 
     this.amplitudes = this.amplitudes.map(
-      (amp: any) =>
+      (amp) =>
         new ComplexNumber(
           amp.real * normalizationFactor,
           amp.imaginary * normalizationFactor
@@ -278,8 +319,8 @@ class QuantumUISystem {
     possibleStates: T[],
     initialProbabilities?: number[]
   ): QuantumStateVector {
-    const stateLabels = possibleStates.map((state: any) =>
-      JSON.stringify(state)
+    const stateLabels = possibleStates.map((state) =>
+      serializeQuantumState(state)
     );
     const quantumState = new QuantumStateVector(stateLabels);
 
@@ -307,7 +348,7 @@ class QuantumUISystem {
       (total, prob) => total + Math.abs(prob),
       0
     );
-    return probabilities.map((prob: any) => Math.abs(prob) / sum);
+    return probabilities.map((prob) => Math.abs(prob) / sum);
   }
 
   private createHamiltonianMatrix(stateId: string, dimension: number): void {
@@ -344,18 +385,18 @@ class QuantumUISystem {
     setInterval(evolveState, ANIMATION.DURATION.fast / 2); // 20fps evolution
   }
 
-  measureState(
+  measureState<T = unknown>(
     stateId: string,
     observer: string = "unknown"
-  ): QuantumMeasurement | null {
+  ): QuantumMeasurement<T> | null {
     const quantumState = this.quantumStates.get(stateId);
     if (!quantumState) return null;
 
     const measurement = quantumState.measure();
 
-    const quantumMeasurement: QuantumMeasurement = {
+    const quantumMeasurement: QuantumMeasurement<T> = {
       stateId,
-      measuredValue: JSON.parse(measurement.state),
+      measuredValue: parseQuantumState<T>(measurement.state),
       probability: measurement.probability,
       timestamp: Date.now(),
       observer,
@@ -377,7 +418,7 @@ class QuantumUISystem {
     measuredStateId: string,
     measuredIndex: number
   ): void {
-    this.entanglements.forEach((entanglement: any) => {
+    this.entanglements.forEach((entanglement) => {
       if (
         entanglement.state1 === measuredStateId ||
         entanglement.state2 === measuredStateId
@@ -474,14 +515,14 @@ class QuantumUISystem {
     this.entanglements.set(entanglementId, entanglement);
   }
 
-  getSuperposition(
+  getSuperposition<T = unknown>(
     stateId: string
-  ): Array<{ state: any; probability: number; phase: number }> | null {
+  ): QuantumSuperpositionEntry<T>[] | null {
     const quantumState = this.quantumStates.get(stateId);
     if (!quantumState) return null;
 
-    return quantumState.getSuperposition().map((item: any) => ({
-      state: JSON.parse(item.state),
+    return quantumState.getSuperposition().map((item) => ({
+      state: parseQuantumState<T>(item.state),
       probability: item.probability,
       phase: item.amplitude.phase(),
     }));
@@ -544,28 +585,7 @@ class QuantumUISystem {
 }
 
 // React Context for quantum states
-const QuantumStatesContext = createContext<{
-  system: QuantumUISystem | null;
-  createQuantumState: <T>(
-    stateId: string,
-    possibleStates: T[],
-    initialProbabilities?: number[]
-  ) => void;
-  measureState: (
-    stateId: string,
-    observer?: string
-  ) => QuantumMeasurement | null;
-  getSuperposition: (
-    stateId: string
-  ) => Array<{ state: any; probability: number; phase: number }> | null;
-  createEntanglement: (
-    state1: string,
-    state2: string,
-    strength?: number,
-    type?: "positive" | "negative" | "complex"
-  ) => void;
-  getCoherence: (stateId: string) => number;
-}>({
+const QuantumStatesContext = createContext<QuantumStatesContextValue>({
   system: null,
   createQuantumState: () => {},
   measureState: () => null,
@@ -582,7 +602,10 @@ export function GlassQuantumStatesProvider({
 }: {
   children: React.ReactNode;
   onMeasurement?: (measurement: QuantumMeasurement) => void;
-  onStateChange?: (stateId: string, superposition: any[]) => void;
+  onStateChange?: (
+    stateId: string,
+    superposition: QuantumSuperpositionEntry[]
+  ) => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<QuantumUISystem>();
@@ -612,8 +635,11 @@ export function GlassQuantumStatesProvider({
   );
 
   const measureState = useCallback(
-    (stateId: string, observer: string = "user") => {
-      const measurement = systemRef.current?.measureState(stateId, observer);
+    function measureState<T = unknown>(
+      stateId: string,
+      observer: string = "user"
+    ): QuantumMeasurement<T> | null {
+      const measurement = systemRef.current?.measureState<T>(stateId, observer);
       if (measurement) {
         onMeasurement?.(measurement);
       }
@@ -622,8 +648,10 @@ export function GlassQuantumStatesProvider({
     [onMeasurement]
   );
 
-  const getSuperposition = useCallback((stateId: string) => {
-    return systemRef.current?.getSuperposition(stateId) || null;
+  const getSuperposition = useCallback(function getSuperposition<T = unknown>(
+    stateId: string
+  ): QuantumSuperpositionEntry<T>[] | null {
+    return systemRef.current?.getSuperposition<T>(stateId) || null;
   }, []);
 
   const createEntanglement = useCallback(
@@ -679,16 +707,20 @@ export function GlassQuantumButton({
   ...props
 }: {
   children: React.ReactNode;
-  possibleStates: Array<{ label: string; color: string; action: () => void }>;
-  onCollapse?: (selectedState: any) => void;
+  possibleStates: QuantumButtonState[];
+  onCollapse?: (selectedState: QuantumButtonState) => void;
   className?: string;
   stateId?: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   const prefersReducedMotion = useReducedMotion();
   const { createQuantumState, measureState, getSuperposition } =
     useQuantumStates();
-  const [currentState, setCurrentState] = useState<any>(null);
-  const [superposition, setSuperposition] = useState<any[]>([]);
+  const [currentState, setCurrentState] = useState<QuantumButtonState | null>(
+    null
+  );
+  const [superposition, setSuperposition] = useState<
+    QuantumSuperpositionEntry<QuantumButtonState>[]
+  >([]);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const buttonId = stateId || `quantum-button-${Date.now()}`;
 
@@ -698,7 +730,8 @@ export function GlassQuantumButton({
 
     // Update superposition display
     const updateSuperposition = () => {
-      const currentSuperposition = getSuperposition(buttonId);
+      const currentSuperposition =
+        getSuperposition<QuantumButtonState>(buttonId);
       if (currentSuperposition) {
         setSuperposition(currentSuperposition);
       }
@@ -711,7 +744,10 @@ export function GlassQuantumButton({
   }, [buttonId, createQuantumState, getSuperposition, possibleStates]);
 
   const handleClick = useCallback(() => {
-    const measurement = measureState(buttonId, "user-click");
+    const measurement = measureState<QuantumButtonState>(
+      buttonId,
+      "user-click"
+    );
     if (measurement) {
       const prefersReducedMotion = useReducedMotion();
       setCurrentState(measurement.measuredValue);
@@ -888,7 +924,7 @@ export function GlassQuantumEntangledPair({
   children: [React.ReactNode, React.ReactNode];
   stateId1: string;
   stateId2: string;
-  possibleStates: any[];
+  possibleStates: unknown[];
   entanglementType?: "positive" | "negative" | "complex";
   entanglementStrength?: number;
   className?: string;
@@ -900,8 +936,12 @@ export function GlassQuantumEntangledPair({
     measureState,
     getSuperposition,
   } = useQuantumStates();
-  const [state1Superposition, setState1Superposition] = useState<any[]>([]);
-  const [state2Superposition, setState2Superposition] = useState<any[]>([]);
+  const [state1Superposition, setState1Superposition] = useState<
+    QuantumSuperpositionEntry[]
+  >([]);
+  const [state2Superposition, setState2Superposition] = useState<
+    QuantumSuperpositionEntry[]
+  >([]);
 
   // Initialize entangled states
   useEffect(() => {
@@ -1071,7 +1111,7 @@ export function useQuantumState<T>(
   // Update superposition
   useEffect(() => {
     const updateSuperposition = () => {
-      const currentSuperposition = getSuperposition(stateId);
+      const currentSuperposition = getSuperposition<T>(stateId);
       if (currentSuperposition) {
         setSuperposition(currentSuperposition);
       }
@@ -1085,7 +1125,7 @@ export function useQuantumState<T>(
 
   const measure = useCallback(
     (observer: string = "component") => {
-      const measurement = measureState(stateId, observer);
+      const measurement = measureState<T>(stateId, observer);
       if (measurement) {
         setCurrentMeasurement(measurement.measuredValue);
         return measurement.measuredValue;

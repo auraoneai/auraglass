@@ -42,7 +42,7 @@ export interface ActivityItem {
     avatar?: string;
     id: string;
   };
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   icon?: React.ReactNode;
   color?: string;
   category?: string;
@@ -229,7 +229,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
     const groups: Record<string, ActivityItem[]> = {};
 
-    activities.forEach((activity: any) => {
+    activities.forEach((activity) => {
       const date = activity.timestamp.toDateString();
       if (!groups[date]) {
         groups[date] = [];
@@ -246,12 +246,12 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
     if (selectedFilter !== "all") {
       filtered = filtered.filter(
-        (activity: any) => activity.type === selectedFilter
+        (activity) => activity.type === selectedFilter
       );
     }
 
     if (filterBy && filterBy.length > 0) {
-      filtered = filtered.filter((activity: any) =>
+      filtered = filtered.filter((activity) =>
         filterBy.includes(activity.type)
       );
     }
@@ -261,13 +261,13 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
   // Get available filter options
   const filterOptions = useMemo(() => {
-    const types = new Set(activities.map((activity: any) => activity.type));
+    const types = new Set(activities.map((activity) => activity.type));
     return ["all", ...Array.from(types)];
   }, [activities]);
 
   // Handle load more
   const handleLoadMore = () => {
-    setVisibleCount((prev: any) => prev + (maxItems || 10));
+    setVisibleCount((prev) => prev + (maxItems || 10));
     onLoadMore?.();
   };
 
@@ -278,7 +278,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
         <div className="glass-animate-pulse glass-auto-gap glass-auto-gap-lg">
           <div className="glass-h-6 glass-surface-subtle/20 glass-radius-md glass-w-48"></div>
           <div className="glass-auto-gap glass-auto-gap-md">
-            {Array.from({ length: 5 }).map((_: any, i: any) => (
+            {Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="glass-flex glass-gap-3">
                 <div className="glass-w-8 glass-h-8 glass-surface-subtle/20 glass-radius-full glass-flex-shrink-0"></div>
                 <div className="glass-flex-1 glass-auto-gap glass-auto-gap-sm">
@@ -322,7 +322,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                   aria-label="Filter activity feed"
                 >
                   <option value="all">All Types</option>
-                  {filterOptions.slice(1).map((type: any) => (
+                  {filterOptions.slice(1).map((type) => (
                     <option key={type} value={type}>
                       {type.charAt(0).toUpperCase() + type.slice(1)}
                     </option>
@@ -365,7 +365,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
                     <div className="glass-auto-gap glass-auto-gap-md">
                       {items
-                        .filter((activity: any) => {
+                        .filter((activity) => {
                           if (selectedFilter === "all") return true;
                           return activity.type === selectedFilter;
                         })

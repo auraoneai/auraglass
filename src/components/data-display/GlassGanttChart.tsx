@@ -42,7 +42,7 @@ export interface GanttTask {
   milestone?: boolean;
   parent?: string;
   children?: string[];
-  customData?: Record<string, any>;
+  customData?: Record<string, unknown>;
 }
 
 export interface GanttTimeScale {

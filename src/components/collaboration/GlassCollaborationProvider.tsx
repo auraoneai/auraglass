@@ -252,8 +252,8 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
             });
             break;
         }
-      } catch (error) {
-        console.warn("Failed to parse collaboration message:", error);
+      } catch {
+        // Ignore malformed collaboration messages and keep the connection alive.
       }
     },
     [addActivity]
@@ -269,9 +269,6 @@ export const CollaborationProvider: React.FC<CollaborationProviderProps> = ({
       "";
 
     if (!wsBase) {
-      console.warn(
-        "[Collaboration] WEBSOCKET_SERVER_URL is not configured; realtime disabled."
-      );
       return;
     }
 

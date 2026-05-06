@@ -102,8 +102,7 @@ class WebGazerIntegration {
 
       this.isInitialized = true;
       return true;
-    } catch (error) {
-      console.warn("Failed to initialize eye tracking:", error);
+    } catch {
       return false;
     }
   }
@@ -399,11 +398,6 @@ export function GlassEyeTrackingProvider({
     if (autoInitialize) {
       engineRef.current.initialize().then((success) => {
         setIsInitialized(success);
-        if (!success) {
-          console.warn(
-            "Eye tracking initialization failed. Using fallback mode."
-          );
-        }
       });
     }
 

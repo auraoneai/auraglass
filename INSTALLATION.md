@@ -1,6 +1,6 @@
 # AuraGlass Installation Guide
 
-This guide matches AuraGlass 2.16.4. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, and a separate 3D entrypoint from the package export map.
+This guide matches AuraGlass 3.0.0. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, Liquid Glass primitives, and a separate 3D entrypoint from the package export map.
 
 ## Install
 
@@ -23,20 +23,20 @@ If you do not use 3D, Radix-powered controls, forms, charts, or monitoring, your
 
 | Package | Supported range | Notes |
 |---------|-----------------|-------|
-| `@radix-ui/react-dropdown-menu` | `^2.0.0` | Required when using APIs that depend on this peer. |
-| `@radix-ui/react-label` | `^2.0.0` | Required when using APIs that depend on this peer. |
-| `@radix-ui/react-select` | `^2.0.0` | Required when using APIs that depend on this peer. |
-| `@radix-ui/react-slot` | `^1.0.0` | Required when using APIs that depend on this peer. |
-| `@react-three/drei` | `^9.4.0` | Required when using APIs that depend on this peer. |
-| `@react-three/fiber` | `^9.4.0` | Required when using APIs that depend on this peer. |
-| `@sentry/react` | `^7.100.0` | Required when using APIs that depend on this peer. |
-| `framer-motion` | `>=10.0.0` | Required when using APIs that depend on this peer. |
-| `lucide-react` | `^0.400.0` | Required when using APIs that depend on this peer. |
-| `react` | `>=18.0.0` | Required when using APIs that depend on this peer. |
-| `react-chartjs-2` | `^5.0.0` | Required when using APIs that depend on this peer. |
-| `react-dom` | `>=18.0.0` | Required when using APIs that depend on this peer. |
-| `react-hook-form` | `^7.0.0` | Required when using APIs that depend on this peer. |
-| `three` | `^0.170.0` | Required when using APIs that depend on this peer. |
+| `@radix-ui/react-dropdown-menu` | `^2.0.0` | Optional; install when using APIs that depend on this peer. |
+| `@radix-ui/react-label` | `^2.0.0` | Optional; install when using APIs that depend on this peer. |
+| `@radix-ui/react-select` | `^2.0.0` | Optional; install when using APIs that depend on this peer. |
+| `@radix-ui/react-slot` | `^1.0.0` | Optional; install when using APIs that depend on this peer. |
+| `@react-three/drei` | `^9.122.0 || ^10.0.0` | Optional; install with `aura-glass/three`. Use 9.x with React 18/Fiber 8 or 10.x with React 19/Fiber 9. |
+| `@react-three/fiber` | `^8.18.0 || ^9.0.0` | Optional; install with `aura-glass/three`. Use 8.x for React 18 or 9.x for React 19. |
+| `@sentry/react` | `^7.100.0` | Optional; install only when using Sentry-backed monitoring integrations. |
+| `framer-motion` | `>=10.0.0` | Optional; install when using APIs that depend on this peer. |
+| `lucide-react` | `^0.400.0` | Optional; install when using APIs that depend on this peer. |
+| `react` | `>=18.0.0 <20.0.0` | Required. React 18 is supported for standard UI; React 19 is required for the Fiber 9 3D stack. |
+| `react-chartjs-2` | `^5.0.0` | Optional; install when using chart components. |
+| `react-dom` | `>=18.0.0 <20.0.0` | Required. Match the installed React major version. |
+| `react-hook-form` | `^7.0.0` | Optional; install when using form-builder integrations. |
+| `three` | `>=0.159.0 <1.0.0` | Optional; install with `aura-glass/three`. |
 
 ## Basic Setup
 

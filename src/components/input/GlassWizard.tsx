@@ -27,6 +27,8 @@ export interface WizardStep {
   disabled?: boolean;
 }
 
+export type WizardData = Record<string, unknown>;
+
 export interface GlassWizardProps {
   /**
    * Wizard steps
@@ -43,7 +45,7 @@ export interface GlassWizardProps {
   /**
    * Callback when wizard completes
    */
-  onComplete?: (data?: any) => void;
+  onComplete?: (data?: WizardData) => void;
   /**
    * Callback when wizard is cancelled
    */
@@ -109,8 +111,8 @@ interface WizardContextValue {
   isStepCompleted: (stepIndex: number) => boolean;
   completeWizard: () => void;
   cancelWizard: () => void;
-  data: Record<string, any>;
-  setData: (data: Record<string, any>) => void;
+  data: WizardData;
+  setData: (data: WizardData) => void;
 }
 
 const WizardContext = createContext<WizardContextValue | null>(null);
@@ -118,9 +120,6 @@ const WizardContext = createContext<WizardContextValue | null>(null);
 export const useWizard = () => {
   const context = useContext(WizardContext);
   if (!context) {
-    console.warn(
-      "useWizard must be used within a GlassWizard component. Using default values."
-    );
     return {
       currentStep: 0,
       totalSteps: 1,
@@ -162,7 +161,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
 }) => {
   const [internalCurrentStep, setInternalCurrentStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
-  const [wizardData, setWizardData] = useState<Record<string, any>>({});
+  const [wizardData, setWizardData] = useState<WizardData>({});
   const [validatingStep, setValidatingStep] = useState<number | null>(null);
   const [stepErrors, setStepErrors] = useState<Record<number, string>>({});
 
@@ -192,12 +191,12 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
       setValidatingStep(null);
 
       if (!isValid) {
-        setStepErrors((prev: any) => ({
+        setStepErrors((prev) => ({
           ...prev,
           [stepIndex]: "Please complete all required fields",
         }));
       } else {
-        setStepErrors((prev: any) => {
+        setStepErrors((prev) => {
           const newErrors = { ...prev };
           delete newErrors[stepIndex];
           return newErrors;
@@ -205,9 +204,9 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
       }
 
       return isValid;
-    } catch (error) {
+    } catch {
       setValidatingStep(null);
-      setStepErrors((prev: any) => ({
+      setStepErrors((prev) => ({
         ...prev,
         [stepIndex]: "Validation failed",
       }));
@@ -240,11 +239,9 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
       if (!isValid) return;
 
       // Mark current step as completed
-      setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
+      setCompletedSteps((prev) => new Set([...prev, currentStep]));
     }
 
-    const newStep =
-      controlledCurrentStep !== undefined ? controlledCurrentStep : stepIndex;
     if (controlledCurrentStep === undefined) {
       setInternalCurrentStep(stepIndex);
     }
@@ -274,7 +271,7 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
     if (!isValid) return;
 
     // Mark final step as completed
-    setCompletedSteps((prev: any) => new Set([...prev, currentStep]));
+    setCompletedSteps((prev) => new Set([...prev, currentStep]));
 
     onComplete?.(wizardData);
   };
@@ -285,8 +282,8 @@ export const GlassWizard: React.FC<GlassWizardProps> = ({
   };
 
   // Set wizard data
-  const setData = (data: Record<string, any>) => {
-    setWizardData((prev: any) => ({ ...prev, ...data }));
+  const setData = (data: WizardData) => {
+    setWizardData((prev) => ({ ...prev, ...data }));
   };
 
   const contextValue: WizardContextValue = {

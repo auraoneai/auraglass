@@ -1,10 +1,82 @@
-# AuraGlass
+# AuraGlass 3.0
 
-AuraGlass is a production glassmorphism design system for React applications. It ships component APIs, CSS, design tokens, Storybook stories, accessibility guardrails, visual certification artifacts, SSR helpers, and optional 3D/AR entrypoints from one package.
+[![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
+[![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
+[![license](https://img.shields.io/npm/l/aura-glass)](./LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18%20%7C%2019-61dafb)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js-14%20%7C%2015-black)](https://nextjs.org/)
 
-The current repository state is built around a canonical 356-component inventory. Each inventory component has direct Storybook coverage, direct documentation coverage, direct unit-test coverage, accessibility metadata, and a Storybook visual certification entry.
+**React Liquid Glass and glassmorphism UI components for Next.js, SaaS dashboards, AI products, media apps, and premium web interfaces.**
 
-## Current Certification State
+AuraGlass 3.0 is the full platform relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
+
+This release is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes npm provenance publishing, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and publish readiness.
+
+```bash
+npm install aura-glass
+```
+
+```tsx
+import { GlassButton, GlassCard, OptimizedGlass } from 'aura-glass';
+import 'aura-glass/styles';
+```
+
+## Built For
+
+| Use case | AuraGlass fit |
+| --- | --- |
+| Next.js and React apps | SSR-safe entrypoints, React 18/19 smoke coverage, TypeScript declarations |
+| SaaS dashboards and admin tools | Layout, navigation, forms, tables, charts, status, notifications, templates |
+| Premium Liquid Glass interfaces | Liquid material, source transitions, scroll edges, command surfaces, media controls |
+| Accessible glassmorphism UI | ContrastGuard metadata, focus-management coverage, reduced-motion support |
+| AI and media products | AI surfaces, command palettes, search, media controls, 3D/AR and immersive entrypoints |
+
+## What Is New In 3.0
+
+- **Liquid Glass system:** 32 public value exports spanning primitives, navigation surfaces, presentation layers, controls, media/data surfaces, source transitions, backdrop sampling, scroll-edge glass, layer policy, and a complete `LiquidGlassShowcase`.
+- **356-component certified inventory:** each canonical inventory component has direct Storybook coverage, direct documentation coverage, direct unit-test coverage, accessibility metadata, and Storybook visual certification evidence. The newer Liquid Glass public surface is additive to that certified inventory.
+- **Storybook and visual QA refresh:** certification artifacts cover 356/356 passed entries and 712 desktop/mobile screenshots, with maintained visual CI and browser-matrix guardrails.
+- **React 18 and React 19 consumer validation:** `prepublishOnly` builds temporary Next 14 / React 18 and Next 15 / React 19 apps from the tarball and runs Playwright smoke tests.
+- **Release-grade npm pipeline:** npm provenance publishing, `prepublishOnly`, clean pack verification, package-metadata declaration checks, worker packaging, bundle-size limits, and no bundled React runtime.
+- **Public package surface audits:** export audits verify source/declaration coverage for the public export map, while API audits report declaration `any`, public-source `any`, and ref-forwarding follow-ups explicitly.
+- **Runtime cleanliness and security hardening:** auth middleware rejects URL query credentials, API keys and room/demo tokens use crypto-backed randomness, AI/server logging was reduced, MD5 image cache keys were replaced with SHA-256, and production-source console/debugger/TODO findings are audited.
+- **Peer and install modernization:** feature-specific peers are optional, Sentry support is widened, React Three Fiber/Drei ranges cover React 18 and React 19 paths, and install docs explain which peers are needed for each feature family.
+- **SSR, tokens, workers, and 3D entrypoints:** SSR helpers, token manifests, persona CSS generation, worker outputs, and the `aura-glass/three` entrypoint are part of the verified package story.
+- **Release transparency:** `final.md` and `reports/` record publish readiness, API surface debt, breaking-change review evidence, runtime cleanliness, and manual browser/accessibility follow-ups.
+
+## Liquid Glass System
+
+AuraGlass 3.0 includes a dedicated Liquid Glass layer for real product UI, not just decorative panels.
+
+| Area | Added or upgraded |
+|------|-------------------|
+| Primitives | `LiquidGlassEffectGroup`, `LiquidGlassScrollEdge`, `LiquidGlassBackdropSampler`, `LiquidGlassConcentricFrame`, `LiquidGlassLayerProvider`, `LiquidGlassSourceTransition` |
+| Navigation | Liquid toolbar, inset sidebar, tab bar, bottom accessory, inspector panel, command and segmented-control upgrade paths |
+| Presentation | Adaptive sheet, popover menu, source transition, modal/search/navigation integration fixes |
+| Controls | Liquid button style, control group patterns, slider/switch/toggle markers, segmented control upgrade path |
+| Media and data | Media controls, now-playing bar, photo inspector, badge clusters, carousel rails, glass data surfaces |
+| Showcase and docs | `LiquidGlassShowcase`, design rules, component map, tests, stories, tokens, and public exports |
+
+Start with [Liquid Glass design rules](./docs/guides/liquid-glass-design-rules.md) and the [Liquid Glass component map](./docs/guides/liquid-glass-component-map.md).
+
+Liquid Glass public value exports in 3.0:
+
+```text
+LiquidGlassMaterial, LiquidGlassBackdropSampler, LiquidGlassConcentricFrame,
+LiquidGlassEffectGroup, LiquidGlassLayerProvider, LiquidGlassSurfaceLayer,
+LiquidGlassScrollEdge, LiquidGlassDestination, LiquidGlassSource,
+LiquidGlassTransitionProvider, LiquidGlassBottomAccessory,
+LiquidGlassInsetSidebar, LiquidGlassInspectorPanel, LiquidGlassSegmentedControl,
+LiquidGlassTabBar, LiquidGlassToolbar, LiquidGlassAdaptiveSheet,
+LiquidGlassPopoverMenu, LiquidGlassControlGroup, LiquidGlassButtonStyle,
+LiquidGlassBadgeCluster, LiquidGlassCarouselRail, LiquidGlassCommandSurface,
+LiquidGlassMapControls, LiquidGlassGPU, LiquidGlassGPUDriver,
+LiquidGlassSearchField, LiquidGlassSearchTab, LiquidGlassMediaControls,
+LiquidGlassNowPlayingBar, LiquidGlassPhotoInspector, LiquidGlassShowcase
+```
+
+## Current Certified Inventory State
 
 These numbers are derived from the checked-in inventory and certification artifacts:
 
@@ -36,6 +108,17 @@ Run the live audit at any time:
 ```bash
 npm run audit:components
 ```
+
+## How To Choose Components
+
+Do not start by scanning every export. Start with the [component selection guide](./docs/components/CHOOSING.md), which groups AuraGlass by product job:
+
+- **Default app kit:** `GlassAppShell`, `GlassContainer`, `GlassGrid`, `GlassStack`, `OptimizedGlass`, `GlassCard`, `GlassButton`, `GlassInput`, `GlassSelect`, `GlassTabs`, `GlassModal`, `GlassDataTable`, `GlassBadge`, `GlassToast`, `ThemeProvider`, and `ContrastGuard`.
+- **Liquid Glass:** use for premium app chrome, media controls, command centers, source transitions, overlays, and focal surfaces.
+- **Product families:** layout, navigation, forms, data display, charts, dashboards, interactive tools, media, templates, accessibility, and theming.
+- **Advanced systems:** AI, consciousness, quantum, immersive/spatial, atmospheric effects, and 3D/AR. Use these only when the feature explicitly requires them.
+
+For AI agents, give the selection guide as context and ask for a product family first. That prevents the agent from treating 356 certified inventory components plus the Liquid Glass public surface as one flat menu.
 
 ## Install
 
@@ -77,6 +160,34 @@ export function ExamplePanel() {
         <GlassButton variant="primary">Review</GlassButton>
       </GlassCard>
     </OptimizedGlass>
+  );
+}
+```
+
+Liquid Glass example:
+
+```tsx
+import {
+  GlassButton,
+  LiquidGlassEffectGroup,
+  LiquidGlassScrollEdge,
+  LiquidGlassSource,
+  LiquidGlassTransitionProvider,
+} from 'aura-glass';
+import 'aura-glass/styles';
+
+export function LiquidGlassPanel() {
+  return (
+    <LiquidGlassTransitionProvider>
+      <LiquidGlassEffectGroup className="glass-p-6">
+        <LiquidGlassScrollEdge edge="top" active />
+        <LiquidGlassSource id="primary-action" asChild>
+          <GlassButton material="liquid" variant="primary">
+            Open command center
+          </GlassButton>
+        </LiquidGlassSource>
+      </LiquidGlassEffectGroup>
+    </LiquidGlassTransitionProvider>
   );
 }
 ```
@@ -256,6 +367,10 @@ Useful scripts:
 | `npm run test:visual` | Runs visual tests. |
 | `npm run test:a11y` | Runs accessibility tests. |
 | `npm run verify:pack` | Verifies package output before publishing. |
+| `npm run test:integration:next` | Builds temporary Next.js consumer apps for React 18 and React 19 smoke coverage. |
+| `npm run audit:exports` | Verifies public exports against source and declaration files. |
+| `npm run audit:api` | Reports public API typing, declaration, and ref-forwarding follow-ups. |
+| `npm run audit:runtime` | Reports production-source console, debugger, and TODO/FIXME findings. |
 
 ## Storybook Visual Certification
 
@@ -302,12 +417,18 @@ Before publishing or presenting certification state:
 
 ```bash
 npm run audit:components
+npm run audit:exports
+npm run audit:api
+npm run audit:runtime
 npm run typecheck
 npm run lint:check
 npm run lint:tokens
 npm run lint:styles
 npm run build
+npm run verify:pack
+npm run test:integration:next -- --skip-build
 npm run build-storybook
+npm publish --dry-run --provenance --access public
 git diff --check
 ```
 
@@ -329,16 +450,3 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 - [Deployment](./docs/deployment/deployment.md)
 - [Reports](./reports/README.md)
 - [Changelog](./CHANGELOG.md)
-
-## Aura Liquid Glass System
-
-This package now includes a dedicated Liquid Glass system for functional UI layers:
-
-- primitives: effect groups, scroll edges, backdrop sampling, concentric frames, layer policy, source transitions
-- navigation: Liquid Glass toolbar, inset sidebar, tab bar, bottom accessory, inspector panel
-- presentations: adaptive sheet and popover menu
-- controls: Liquid Glass button style, control group, segmented control upgrade path
-- media/data: media controls, now-playing bar, photo inspector, badge cluster, carousel rail
-- showcase: `LiquidGlassShowcase`
-
-Start with [Liquid Glass design rules](./docs/guides/liquid-glass-design-rules.md) and the [component map](./docs/guides/liquid-glass-component-map.md).

@@ -71,7 +71,7 @@ export interface CommandGroup {
 }
 
 export interface GlassCommandPaletteProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
   /**
    * Command items (flat list or grouped)
    */
@@ -217,8 +217,8 @@ export const GlassCommandPalette = forwardRef<
         if (stored) {
           setRecentCommands(JSON.parse(stored));
         }
-      } catch (error) {
-        console.warn("Failed to load recent commands:", error);
+      } catch {
+        setRecentCommands([]);
       }
     }, [enableRecents, recentsKey]);
 
@@ -234,8 +234,8 @@ export const GlassCommandPalette = forwardRef<
 
         setRecentCommands(newRecents);
         localStorage.setItem(recentsKey, JSON.stringify(newRecents));
-      } catch (error) {
-        console.warn("Failed to save recent command:", error);
+      } catch {
+        // Ignore storage failures; recent commands remain active in memory.
       }
     };
 
@@ -450,7 +450,7 @@ export const GlassCommandPalette = forwardRef<
     return (
       <div
         data-glass-component
-        className='glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh'
+        className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onOpenChange?.(false);
@@ -469,7 +469,7 @@ export const GlassCommandPalette = forwardRef<
         <Motion
           preset="scaleIn"
           duration={200}
-          className='glass-relative glass-w-full glass-max-w-2xl glass-mx-4'
+          className="glass-relative glass-w-full glass-max-w-2xl glass-mx-4"
         >
           <OptimizedGlass
             ref={ref}
@@ -501,7 +501,7 @@ export const GlassCommandPalette = forwardRef<
                 size="lg"
                 leftIcon={
                   <svg
-                    className='glass-w-5 glass-h-5'
+                    className="glass-w-5 glass-h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -518,11 +518,11 @@ export const GlassCommandPalette = forwardRef<
                   search && (
                     <GlassButton
                       type="button"
-                      className='glass-p-1 glass-radius-md hover:glass-surface-subtle glass-transition-colors'
+                      className="glass-p-1 glass-radius-md hover:glass-surface-subtle glass-transition-colors"
                       onClick={(e) => setSearch("")}
                     >
                       <svg
-                        className='glass-w-4 glass-h-4'
+                        className="glass-w-4 glass-h-4"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -537,28 +537,34 @@ export const GlassCommandPalette = forwardRef<
                     </GlassButton>
                   )
                 }
-                className='glass-border-0 glass-bg-transparent glass-focus-ring-0'
+                className="glass-border-0 glass-bg-transparent glass-focus-ring-0"
               />
             </div>
 
             {/* Results */}
             <div
               ref={listRef}
-              className='glass-max-h-96 glass-overflow-y-auto glass-overscroll-contain'
-              role={filteredItems && filteredItems.length > 0 ? "listbox" : "status"}
-              aria-label={filteredItems && filteredItems.length > 0 ? "Command results" : "No commands found"}
+              className="glass-max-h-96 glass-overflow-y-auto glass-overscroll-contain"
+              role={
+                filteredItems && filteredItems.length > 0 ? "listbox" : "status"
+              }
+              aria-label={
+                filteredItems && filteredItems.length > 0
+                  ? "Command results"
+                  : "No commands found"
+              }
             >
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
                   <div className="glass-flex glass-items-center glass-gap-3">
-                    <div className='glass-w-5 glass-h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
+                    <div className="glass-w-5 glass-h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
                     <span className="glass-text-secondary">
                       {loadingMessage}
                     </span>
                   </div>
                 </div>
               ) : (filteredItems?.length || 0) === 0 ? (
-                <div className='glass-py-8 glass-text-center glass-text-secondary'>
+                <div className="glass-py-8 glass-text-center glass-text-secondary">
                   {emptyMessage}
                 </div>
               ) : (
@@ -567,7 +573,7 @@ export const GlassCommandPalette = forwardRef<
                     <div key={category}>
                       {showCategories &&
                         Object.keys(groupedItems).length > 1 && (
-                          <div className='glass-px-4 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5'>
+                          <div className="glass-px-4 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-surface-subtle glass-border-b glass-border-glass-border/5">
                             {search ? "Results" : category}
                           </div>
                         )}
@@ -614,11 +620,11 @@ export const GlassCommandPalette = forwardRef<
 
                             {/* Content */}
                             <div className="glass-flex-1 glass-min-glass-w-0">
-                              <div className='glass-font-medium glass-text-primary'>
+                              <div className="glass-font-medium glass-text-primary">
                                 {item?.label}
                               </div>
                               {item?.description && (
-                                <div className='glass-text-sm glass-text-secondary glass-truncate'>
+                                <div className="glass-text-sm glass-text-secondary glass-truncate">
                                   {item?.description}
                                 </div>
                               )}

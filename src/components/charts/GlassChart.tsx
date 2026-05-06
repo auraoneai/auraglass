@@ -117,7 +117,7 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   /**
    * Data for the chart
    */
-  data?: any;
+  data?: GlassChartData;
 
   /**
    * Force simplified mode (no advanced features)
@@ -147,7 +147,7 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   /**
    * Tab configuration
    */
-  tabs?: any;
+  tabs?: GlassChartTab[];
 
   /**
    * Active tab ID
@@ -162,12 +162,12 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   /**
    * Additional chart props
    */
-  chartProps?: any;
+  chartProps?: GlassChartCustomProps;
 
   /**
    * Custom toolbar items
    */
-  toolbarItems?: any;
+  toolbarItems?: GlassChartToolbarItems;
 
   /**
    * Accessible label for the chart container
@@ -182,7 +182,7 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   /**
    * Available chart types
    */
-  availableTypes?: string[];
+  availableTypes?: Array<GlassChartProps["type"]>;
 
   /**
    * Focus mode
@@ -202,21 +202,105 @@ export interface GlassChartProps extends BaseChartProps, ConsciousnessFeatures {
   /**
    * Theme override
    */
-  theme?: any;
+  theme?: Partial<AuraChartTheme> | Record<string, unknown>;
 }
 
 import { GlassAreaChart as AreaChart } from "./GlassAreaChart";
 import { GlassBarChart as BarChart } from "./GlassBarChart";
 import { GlassLineChart as LineChart } from "./GlassLineChart";
-import { GlassPieChart as PieChart } from "./GlassPieChart";
+import { GlassPieChart as PieChart, type PieDataPoint } from "./GlassPieChart";
 import chartStyles from "./GlassChart.module.css";
 
-interface AuraChartTheme {
+export interface AuraChartTheme {
   isDarkMode: boolean;
   colorMode: "light" | "dark";
   themeVariant: string;
   colors: Record<string, unknown>;
   zIndex: Record<string, number | string>;
+}
+
+export type GlassChartValue = string | number | Date;
+
+export interface GlassChartDataPoint {
+  x?: GlassChartValue;
+  y?: number;
+  value?: number;
+  label?: string;
+  color?: string;
+  [key: string]: unknown;
+}
+
+export interface GlassChartSeries {
+  id: string;
+  name: string;
+  data: GlassChartDataPoint[];
+  color?: string;
+  [key: string]: unknown;
+}
+
+export interface GlassChartJsDataset {
+  id?: string;
+  label?: string;
+  data?: Array<number | GlassChartDataPoint>;
+  backgroundColor?: string | string[];
+  borderColor?: string | string[];
+  [key: string]: unknown;
+}
+
+export interface GlassChartJsData {
+  labels?: GlassChartValue[];
+  datasets?: GlassChartJsDataset[];
+  [key: string]: unknown;
+}
+
+export type GlassChartData =
+  | GlassChartSeries[]
+  | GlassChartDataPoint[]
+  | GlassChartJsData;
+
+export interface GlassChartTab {
+  id: string;
+  label?: React.ReactNode;
+  content?: React.ReactNode;
+  disabled?: boolean;
+  [key: string]: unknown;
+}
+
+export type GlassChartToolbarItems = React.ReactNode | React.ReactNode[];
+export type GlassChartCustomProps = Record<string, unknown>;
+
+interface NormalizedChartPoint {
+  x: string | number;
+  y: number;
+  value?: number;
+  label?: string;
+  color?: string;
+  [key: string]: unknown;
+}
+
+interface NormalizedChartSeries {
+  id: string;
+  name: string;
+  data: NormalizedChartPoint[];
+  color?: string;
+  [key: string]: unknown;
+}
+
+interface ChartInsight {
+  title?: string;
+  message?: string;
+  insight?: string;
+  [key: string]: unknown;
+}
+
+interface ChartDataPattern {
+  id?: string;
+  type?: string;
+  confidence?: number;
+  frequency?: number;
+  pattern?: Array<string | number>;
+  prediction?: string;
+  [key: string]: unknown;
 }
 
 // Ref interface
@@ -511,19 +595,112 @@ const defaultTheme: AuraChartTheme = {
   },
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const toChartXValue = (value: unknown, fallback: number): string | number => {
+  if (typeof value === "string" || typeof value === "number") {
+    return value;
+  }
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  return fallback;
+};
+
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value === "string" && value.trim() !== "") {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+  return fallback;
+};
+
+const toOptionalString = (value: unknown): string | undefined =>
+  typeof value === "string" ? value : undefined;
+
+const getColorValue = (value: unknown, index = 0): string | undefined => {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (Array.isArray(value) && value.length > 0) {
+    const item = value[index % value.length];
+    return typeof item === "string" ? item : undefined;
+  }
+  return undefined;
+};
+
+const isChartJsData = (input: unknown): input is GlassChartJsData =>
+  isRecord(input) &&
+  Array.isArray(input.datasets) &&
+  Array.isArray(input.labels);
+
+const isAuraChartTheme = (input: unknown): input is AuraChartTheme =>
+  isRecord(input) &&
+  typeof input.isDarkMode === "boolean" &&
+  (input.colorMode === "light" || input.colorMode === "dark") &&
+  typeof input.themeVariant === "string" &&
+  isRecord(input.colors) &&
+  isRecord(input.zIndex);
+
+const normalizePoint = (
+  point: unknown,
+  index: number
+): NormalizedChartPoint => {
+  if (isRecord(point)) {
+    const yValue = toFiniteNumber(point.y ?? point.value);
+    return {
+      ...point,
+      x: toChartXValue(point.x ?? point.label, index),
+      y: yValue,
+      value: toFiniteNumber(point.value ?? point.y, yValue),
+      label: toOptionalString(point.label) ?? String(point.x ?? index + 1),
+      color: toOptionalString(point.color),
+    };
+  }
+
+  const yValue = toFiniteNumber(point);
+  return {
+    x: index,
+    y: yValue,
+    value: yValue,
+    label: String(index + 1),
+  };
+};
+
+const normalizeSeries = (
+  series: unknown,
+  index: number
+): NormalizedChartSeries => {
+  const seriesRecord = isRecord(series) ? series : {};
+  const rawData = Array.isArray(seriesRecord.data) ? seriesRecord.data : [];
+
+  return {
+    ...seriesRecord,
+    id: toOptionalString(seriesRecord.id) ?? `series-${index}`,
+    name: toOptionalString(seriesRecord.name) ?? `Series ${index + 1}`,
+    color: toOptionalString(seriesRecord.color),
+    data: rawData.map(normalizePoint),
+  };
+};
+
+const toPieDataPoint = (point: unknown, index: number): PieDataPoint => {
+  const normalizedPoint = normalizePoint(point, index);
+  return {
+    label: normalizedPoint.label ?? String(normalizedPoint.x),
+    value: normalizedPoint.value ?? normalizedPoint.y,
+    color: normalizedPoint.color,
+  };
+};
+
 // Helper function to ensure we have a properly typed theme
-const ensureValidTheme = (themeInput: any): AuraChartTheme => {
+const ensureValidTheme = (themeInput: unknown): AuraChartTheme => {
   // If the theme is already a valid DefaultTheme return it
-  if (
-    themeInput &&
-    typeof themeInput === "object" &&
-    "isDarkMode" in themeInput &&
-    "colorMode" in themeInput &&
-    "themeVariant" in themeInput &&
-    "colors" in themeInput &&
-    "zIndex" in themeInput
-  ) {
-    return themeInput as AuraChartTheme;
+  if (isAuraChartTheme(themeInput)) {
+    return themeInput;
   }
 
   // Return cached default theme instead of recreating
@@ -533,48 +710,58 @@ const ensureValidTheme = (themeInput: any): AuraChartTheme => {
 /**
  * Memoized helper function to transform Chart.js data format to chart data
  */
-const transformChartJsData = (chartJsData: any): any[] => {
-  if (
-    !chartJsData ||
-    !Array.isArray(chartJsData.datasets) ||
-    !Array.isArray(chartJsData.labels)
-  ) {
+const transformChartJsData = (
+  chartJsData: GlassChartJsData
+): NormalizedChartSeries[] => {
+  if (!isChartJsData(chartJsData)) {
     // Return empty or handle error if format is unexpected
     return [];
   }
 
-  return chartJsData.datasets.map((dataset: any, index: number) => ({
-    id: dataset.id || `dataset-${index}`,
-    name: dataset.label || `Dataset ${index + 1}`,
-    color: dataset.borderColor || dataset.backgroundColor, // Use borderColor or backgroundColor as series color
-    data: dataset.data?.map((value: number, pointIndex: number) => ({
-      x: chartJsData.labels?.[pointIndex] || pointIndex,
-      y: value,
-      value,
-      label: chartJsData.labels?.[pointIndex] || `Point ${pointIndex + 1}`,
-    })),
+  return (chartJsData.datasets ?? []).map((dataset, index) => ({
+    id: dataset.id ?? `dataset-${index}`,
+    name: dataset.label ?? `Dataset ${index + 1}`,
+    color:
+      getColorValue(dataset.borderColor, index) ??
+      getColorValue(dataset.backgroundColor, index),
+    data: (dataset.data ?? []).map((value, pointIndex) => {
+      const valueRecord = isRecord(value) ? value : {};
+      const yValue = toFiniteNumber(
+        isRecord(value) ? (value.y ?? value.value) : value
+      );
+      const label = chartJsData.labels?.[pointIndex];
+
+      return {
+        ...valueRecord,
+        x: toChartXValue(valueRecord.x ?? label, pointIndex),
+        y: yValue,
+        value: toFiniteNumber(
+          valueRecord.value ?? valueRecord.y ?? value,
+          yValue
+        ),
+        label:
+          toOptionalString(valueRecord.label) ??
+          String(label ?? `Point ${pointIndex + 1}`),
+        color: getColorValue(dataset.backgroundColor, pointIndex),
+      };
+    }),
   }));
 };
 
-const normalizeSeriesData = (input: any): any[] => {
+const normalizeSeriesData = (input: unknown): NormalizedChartSeries[] => {
   if (!Array.isArray(input)) return [];
   if (input.length === 0) return [];
 
   const first = input[0];
-  if (first && Array.isArray(first.data)) {
-    return input;
+  if (isRecord(first) && Array.isArray(first.data)) {
+    return input.map(normalizeSeries);
   }
 
   return [
     {
       id: "series-1",
       name: "Series 1",
-      data: input.map((point: any, index: number) => ({
-        x: point?.x ?? point?.label ?? index,
-        y: Number(point?.y ?? point?.value ?? point ?? 0),
-        label: point?.label ?? String(point?.x ?? index + 1),
-        ...point,
-      })),
+      data: input.map(normalizePoint),
     },
   ];
 };
@@ -673,8 +860,8 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Consciousness features state
-    const [chartInsights, setChartInsights] = useState<any[]>([]);
-    const [dataPatterns, setDataPatterns] = useState<any[]>([]);
+    const [chartInsights, setChartInsights] = useState<ChartInsight[]>([]);
+    const [dataPatterns, setDataPatterns] = useState<ChartDataPattern[]>([]);
     const [isPreloading, setIsPreloading] = useState(false);
     const [adaptiveComplexity, setAdaptiveComplexity] = useState<
       "low" | "medium" | "high"
@@ -705,8 +892,26 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
           const patterns = predictiveEngine.engine?.getPatterns() || [];
           const insights = predictiveEngine.engine?.getInsights() || [];
 
-          setDataPatterns(patterns || []);
-          setChartInsights(insights || []);
+          setDataPatterns(
+            patterns.map((pattern) => ({
+              id: pattern.id,
+              type: pattern.type,
+              confidence: pattern.confidence,
+              frequency: pattern.frequency,
+              pattern: pattern.pattern,
+              prediction: pattern.prediction,
+            }))
+          );
+          setChartInsights(
+            insights.map((insight) => ({
+              title: insight.recommendation,
+              message: insight.insight,
+              insight: insight.insight,
+              category: insight.category,
+              confidence: insight.confidence,
+              impact: insight.impact,
+            }))
+          );
 
           if (achievementTracker && trackAchievements) {
             achievementTracker.recordAction("chart_insights_generated", {
@@ -716,8 +921,9 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
               context: usageContext,
             });
           }
-        } catch (error) {
-          console.warn("Chart insights analysis failed:", error);
+        } catch {
+          setDataPatterns([]);
+          setChartInsights([]);
         }
       };
 
@@ -844,8 +1050,8 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
           //   currentData: data,
           //   patterns: dataPatterns
           // });
-        } catch (error) {
-          console.warn("Chart data preloading failed:", error);
+        } catch {
+          // Keep rendering with the current chart data.
         } finally {
           setIsPreloading(false);
         }
@@ -891,19 +1097,11 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     const depthStyles = zAnimationResult.style;
 
     // Flag to know if original data was Chart.js format
-    const isChartJsDataFormat = useMemo(
-      () =>
-        data &&
-        typeof data === "object" &&
-        !Array.isArray(data) &&
-        data?.datasets &&
-        data?.labels,
-      [data]
-    );
+    const isChartJsDataFormat = useMemo(() => isChartJsData(data), [data]);
 
     // Prepare data for non-pie charts
     const chartSeriesData = useMemo(() => {
-      if (isChartJsDataFormat) {
+      if (isChartJsData(data)) {
         return transformChartJsData(data);
       }
       return normalizeSeriesData(data);
@@ -938,7 +1136,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
             ctrlKey: false,
             altKey: false,
             shiftKey: false,
-          } as any;
+          } as React.MouseEvent<HTMLElement>;
           interactionRecorder.recordClick(syntheticEvent);
         }
 
@@ -973,7 +1171,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     // Handle focus mode toggle
     const handleFocusToggle = useCallback(() => {
       if (focusMode) {
-        setIsFocused((prev: any) => {
+        setIsFocused((prev) => {
           const newFocused = !prev;
 
           // Enhanced focus toggle with consciousness features
@@ -999,7 +1197,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
             const syntheticEvent = {
               currentTarget: { id: "chart-container" },
               type: newFocused ? "focus" : "blur",
-            } as any;
+            } as React.FocusEvent<HTMLElement>;
             interactionRecorder.recordFocus(syntheticEvent);
           }
 
@@ -1049,7 +1247,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
           ctrlKey: false,
           altKey: false,
           shiftKey: false,
-        } as any;
+        } as React.MouseEvent<HTMLElement>;
         interactionRecorder.recordClick(syntheticEvent);
       }
 
@@ -1066,10 +1264,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       if (onDownload) {
         onDownload();
       } else {
-        // Default download implementation - would need canvas conversion
-        if (process.env.NODE_ENV === "development") {
-          console.log("Download chart - custom implementation required");
-        }
+        // Default download implementation would need canvas conversion.
       }
     }, [
       onDownload,
@@ -1096,7 +1291,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
           }
         },
         setActiveTab: (tabId: string) => {
-          if (tabs?.some((tab: any) => tab.id === tabId)) {
+          if (tabs?.some((tab) => tab.id === tabId)) {
             handleTabChange(tabId);
           }
         },
@@ -1153,48 +1348,48 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       () => ({
         width: typeof width === "number" ? width : 640,
         height: typeof height === "number" ? height : 320,
-        glass,
         title: undefined,
         description: undefined,
-        adaptToCapabilities,
-        simplified: useSimplified,
-        onError,
         ...chartProps,
       }),
-      [glass, adaptToCapabilities, useSimplified, onError, chartProps]
+      [width, height, chartProps]
     );
 
     // Memoized pie data processing
-    const pieData = useMemo(() => {
+    const pieData = useMemo<PieDataPoint[]>(() => {
       if (currentType !== "pie") return [];
 
-      let pieDataResult: any[] = [];
+      let pieDataResult: PieDataPoint[] = [];
 
       if (isChartJsDataFormat) {
-        const firstDataset = data?.datasets?.[0];
+        const chartJsData = data as GlassChartJsData;
+        const firstDataset = chartJsData.datasets?.[0];
         if (firstDataset && Array.isArray(firstDataset.data)) {
-          pieDataResult = firstDataset.data?.map(
-            (value: number, index: number) => ({
-              label: data?.labels?.[index] || `Slice ${index + 1}`,
-              value: value,
-              color: Array.isArray(firstDataset.backgroundColor)
-                ? firstDataset.backgroundColor[
-                    index % (firstDataset.backgroundColor?.length || 0)
-                  ]
-                : firstDataset.backgroundColor,
-            })
-          );
+          pieDataResult = firstDataset.data.map((value, index) => {
+            const pointRecord = isRecord(value) ? value : {};
+            const label = chartJsData.labels?.[index];
+            return {
+              label:
+                toOptionalString(pointRecord.label) ??
+                String(label ?? `Slice ${index + 1}`),
+              value: toFiniteNumber(
+                pointRecord.value ?? pointRecord.y ?? value
+              ),
+              color: getColorValue(firstDataset.backgroundColor, index),
+            };
+          });
         }
       } else if (
         Array.isArray(data) &&
         data?.length > 0 &&
+        isRecord(data[0]) &&
         data[0].value !== undefined
       ) {
         // Data looks like the expected format
-        pieDataResult = data;
+        pieDataResult = data.map(toPieDataPoint);
       } else if (Array.isArray(chartSeriesData) && chartSeriesData.length > 0) {
         // Extract data from the first series
-        pieDataResult = chartSeriesData[0].data;
+        pieDataResult = chartSeriesData[0].data.map(toPieDataPoint);
       }
 
       return pieDataResult;
@@ -1204,7 +1399,13 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     const renderChart = useCallback(() => {
       // Handle Pie/Doughnut data preparation separately
       if (currentType === "pie") {
-        return <PieChart {...commonProps} data={pieData} />;
+        const { width: _width, height: _height, ...pieProps } = commonProps;
+        return (
+          <PieChart
+            {...(pieProps as Partial<React.ComponentProps<typeof PieChart>>)}
+            data={pieData}
+          />
+        );
       }
 
       // Handle other chart types, passing chartSeriesData
@@ -1217,22 +1418,47 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
 
       switch (currentType) {
         case "bar":
-          return <BarChart {...commonProps} data={chartDataForOtherTypes} />;
+          return (
+            <BarChart
+              {...(commonProps as Partial<
+                React.ComponentProps<typeof BarChart>
+              >)}
+              series={chartDataForOtherTypes}
+            />
+          );
         case "line":
-          return <LineChart {...commonProps} data={chartDataForOtherTypes} />;
+          return (
+            <LineChart
+              {...(commonProps as Partial<
+                React.ComponentProps<typeof LineChart>
+              >)}
+              series={chartDataForOtherTypes}
+            />
+          );
         case "area":
           const { fillArea, ...otherAreaProps } = chartProps;
           return (
             <AreaChart
-              {...commonProps}
-              data={chartDataForOtherTypes}
-              {...otherAreaProps}
+              {...(commonProps as Partial<
+                React.ComponentProps<typeof AreaChart>
+              >)}
+              {...(otherAreaProps as Partial<
+                React.ComponentProps<typeof AreaChart>
+              >)}
+              series={chartDataForOtherTypes}
             />
           );
         // Pie case handled above
         default:
           // Fallback or handle scatter etc.
-          return <BarChart {...commonProps} data={chartDataForOtherTypes} />;
+          return (
+            <BarChart
+              {...(commonProps as Partial<
+                React.ComponentProps<typeof BarChart>
+              >)}
+              series={chartDataForOtherTypes}
+            />
+          );
       }
       // Separate dependencies for chartSeriesData calculation from renderChart
     }, [
@@ -1336,7 +1562,10 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                     <strong>💡 Insights:</strong>{" "}
                     {chartInsights
                       .slice(0, 2)
-                      .map((insight: any) => insight.title || insight.message)
+                      .map(
+                        (insight) =>
+                          insight.title || insight.message || insight.insight
+                      )
                       .join(", ")}
                     {chartInsights.length > 2 &&
                       ` (+${chartInsights.length - 2} more)`}

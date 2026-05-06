@@ -37,7 +37,7 @@ interface TreeItemProps extends React.HTMLAttributes<HTMLLIElement> {
   collapseIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   disabled?: boolean;
-  animationConfig?: any;
+  animationConfig?: Partial<SpringConfig>;
   disableAnimation?: boolean;
   motionSensitivity?: number;
 }

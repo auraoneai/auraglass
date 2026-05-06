@@ -45,7 +45,7 @@ export interface MotionProps extends React.HTMLAttributes<HTMLDivElement> {
   repeat?: number;
 
   /** Custom animation keyframes */
-  keyframes?: Record<string, any>;
+  keyframes?: Record<string, React.CSSProperties>;
 
   /** Animation fill mode */
   fillMode?: "none" | "forwards" | "backwards" | "both";

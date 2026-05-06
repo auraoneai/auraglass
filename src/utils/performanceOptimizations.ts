@@ -207,14 +207,10 @@ export class PerformanceMonitor {
   }
 
   stop(): void {
-    // Stop all measurements and log results
+    // Stop all measurements.
     for (const [name, measurement] of this.measurements) {
       if (!measurement.endTime) {
         measurement.endTime = performance.now();
-        const duration = measurement.endTime - measurement.startTime;
-        console.log(
-          `Performance measurement '${name}': ${duration.toFixed(2)}ms`
-        );
       }
     }
     this.measurements.clear();

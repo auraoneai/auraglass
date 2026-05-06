@@ -41,8 +41,7 @@ export function safeBrowserExec<T>(callback: () => T): T | undefined {
   if (!canUseDOM) return undefined;
   try {
     return callback();
-  } catch (error) {
-    console.warn("Browser API call failed:", error);
+  } catch {
     return undefined;
   }
 }
@@ -57,8 +56,7 @@ export function getBrowserValue<T>(getter: () => T, fallback: T): T {
   if (!canUseDOM) return fallback;
   try {
     return getter();
-  } catch (error) {
-    console.warn("Browser API call failed, using fallback:", error);
+  } catch {
     return fallback;
   }
 }
@@ -144,7 +142,7 @@ export function isLocalStorageAvailable(): boolean {
  */
 export function addBrowserEventListener<K extends keyof WindowEventMap>(
   type: K,
-  listener: (this: Window, ev: WindowEventMap[K]) => any,
+  listener: (this: Window, ev: WindowEventMap[K]) => void,
   options?: boolean | AddEventListenerOptions
 ): () => void {
   if (!canUseDOM) return () => {};

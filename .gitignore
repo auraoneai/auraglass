@@ -91,7 +91,16 @@ tmp/
 temp/
 
 # Scripts directory
-scripts/
+scripts/*
+!scripts/build-all.js
+!scripts/audit/
+scripts/audit/*
+!scripts/audit/api-surface-audit.js
+!scripts/audit/public-export-audit.js
+!scripts/audit/runtime-cleanliness-audit.js
+!scripts/ci/
+scripts/ci/*
+!scripts/ci/verify-pack.js
 
 # Editor directories and files
 .vscode/
@@ -150,6 +159,7 @@ Desktop.ini
 # Testing
 test-results/
 playwright-report/
+playwright-report*/
 playwright/.cache/
 
 # Local development

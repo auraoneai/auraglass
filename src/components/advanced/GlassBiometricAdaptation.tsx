@@ -65,12 +65,134 @@ interface BiometricProfile {
   history: BiometricReading[];
 }
 
+type BiometricAdaptationType = "color" | "motion" | "layout" | "audio";
+
+interface ColorAdaptation {
+  type: "calming" | "energizing";
+  intensity: number;
+  colors: string[];
+}
+
+interface MotionAdaptation {
+  type: "calming" | "normal";
+  speed: number;
+  amplitude: number;
+}
+
+interface LayoutAdaptation {
+  type: "simplified";
+  density: number;
+  spacing: number;
+}
+
+interface AudioAdaptation {
+  type: "calming";
+  volume: number;
+  frequency: "low" | "medium" | "high";
+}
+
+type BiometricAdaptation =
+  | ColorAdaptation
+  | MotionAdaptation
+  | LayoutAdaptation
+  | AudioAdaptation;
+
+interface BiometricAdaptationState {
+  color?: ColorAdaptation;
+  motion?: MotionAdaptation;
+  layout?: LayoutAdaptation;
+}
+
+interface SensorLike {
+  addEventListener(type: "reading", listener: () => void): void;
+  stop(): void;
+}
+
+interface MotionSensorLike extends SensorLike {
+  x: number | null;
+  y: number | null;
+  z: number | null;
+}
+
+interface AmbientLightSensorLike extends SensorLike {
+  illuminance: number | null;
+}
+
+type MotionSensorConstructor<TSensor extends SensorLike> = new (options?: {
+  frequency?: number;
+}) => TSensor;
+
+interface SensorWindow extends Window {
+  Accelerometer?: MotionSensorConstructor<MotionSensorLike>;
+  Gyroscope?: MotionSensorConstructor<MotionSensorLike>;
+  AmbientLightSensor?: MotionSensorConstructor<AmbientLightSensorLike>;
+}
+
+interface BluetoothCharacteristicValueEvent extends Event {
+  target: EventTarget & {
+    value?: DataView;
+  };
+}
+
+interface BluetoothRemoteGATTCharacteristicLike {
+  startNotifications(): Promise<BluetoothRemoteGATTCharacteristicLike>;
+  addEventListener(
+    type: "characteristicvaluechanged",
+    listener: (event: BluetoothCharacteristicValueEvent) => void
+  ): void;
+}
+
+interface BluetoothRemoteGATTServiceLike {
+  getCharacteristic(
+    characteristic: string
+  ): Promise<BluetoothRemoteGATTCharacteristicLike>;
+}
+
+interface BluetoothRemoteGATTServerLike {
+  getPrimaryService(service: string): Promise<BluetoothRemoteGATTServiceLike>;
+}
+
+interface BluetoothDeviceLike {
+  gatt: {
+    connect(): Promise<BluetoothRemoteGATTServerLike>;
+  };
+}
+
+interface BluetoothNavigator extends Navigator {
+  bluetooth?: {
+    requestDevice(options: {
+      filters: Array<{ services: string[] }>;
+      optionalServices: string[];
+    }): Promise<BluetoothDeviceLike>;
+  };
+}
+
+interface StoredBiometricProfile extends Partial<BiometricProfile> {}
+
+const BIOMETRIC_ADAPTATION_TYPES: BiometricAdaptationType[] = [
+  "color",
+  "motion",
+  "layout",
+  "audio",
+];
+
+const isColorAdaptation = (
+  adaptation: BiometricAdaptation
+): adaptation is ColorAdaptation => "colors" in adaptation;
+
+const isMotionAdaptation = (
+  adaptation: BiometricAdaptation
+): adaptation is MotionAdaptation => "speed" in adaptation;
+
+const isLayoutAdaptation = (
+  adaptation: BiometricAdaptation
+): adaptation is LayoutAdaptation => "spacing" in adaptation;
+
 // Biometric sensor integration
 class BiometricSensorManager {
-  private heartRateSensor: any = null;
-  private accelerometer: any = null;
-  private gyroscope: any = null;
-  private ambientLightSensor: any = null;
+  private accelerometer: MotionSensorLike | null = null;
+  private gyroscope: MotionSensorLike | null = null;
+  private ambientLightSensor: AmbientLightSensorLike | null = null;
   private isSupported = false;
   private readings: BiometricReading[] = [];
   private listeners: Array<(reading: BiometricReading) => void> = [];
@@ -78,14 +200,14 @@ class BiometricSensorManager {
   async initialize(): Promise<boolean> {
     // CRITICAL SSR FIX: Skip all sensor initialization on server
     if (typeof window === "undefined") {
-      console.warn("BiometricSensorManager: Skipping initialization on server");
       return false;
     }
 
     try {
+      const sensorWindow = window as SensorWindow;
       // Check for Generic Sensor API support
-      if ("Accelerometer" in window) {
-        this.accelerometer = new (window as any).Accelerometer({
+      if (sensorWindow.Accelerometer) {
+        this.accelerometer = new sensorWindow.Accelerometer({
           frequency: 10,
         });
         this.accelerometer.addEventListener(
@@ -94,16 +216,16 @@ class BiometricSensorManager {
         );
       }
 
-      if ("Gyroscope" in window) {
-        this.gyroscope = new (window as any).Gyroscope({ frequency: 10 });
+      if (sensorWindow.Gyroscope) {
+        this.gyroscope = new sensorWindow.Gyroscope({ frequency: 10 });
         this.gyroscope.addEventListener(
           "reading",
           this.handleGyroscope.bind(this)
         );
       }
 
-      if ("AmbientLightSensor" in window) {
-        this.ambientLightSensor = new (window as any).AmbientLightSensor();
+      if (sensorWindow.AmbientLightSensor) {
+        this.ambientLightSensor = new sensorWindow.AmbientLightSensor();
         this.ambientLightSensor.addEventListener(
           "reading",
           this.handleAmbientLight.bind(this)
@@ -119,11 +241,7 @@ class BiometricSensorManager {
       this.setupBehavioralAnalysis();
 
       return true;
-    } catch (error) {
-      console.warn(
-        "Biometric sensors not available, using behavioral analysis:",
-        error
-      );
+    } catch {
       this.setupBehavioralAnalysis();
       return true; // Still functional with behavioral analysis
     }
@@ -211,7 +329,9 @@ class BiometricSensorManager {
   private handleAccelerometer(): void {
     if (!this.accelerometer) return;
 
-    const { x, y, z } = this.accelerometer;
+    const x = this.accelerometer.x ?? 0;
+    const y = this.accelerometer.y ?? 0;
+    const z = this.accelerometer.z ?? 0;
     const acceleration = Math.sqrt(x * x + y * y + z * z);
 
     // High acceleration might indicate stress/agitation
@@ -227,7 +347,9 @@ class BiometricSensorManager {
   private handleGyroscope(): void {
     if (!this.gyroscope) return;
 
-    const { x, y, z } = this.gyroscope;
+    const x = this.gyroscope.x ?? 0;
+    const y = this.gyroscope.y ?? 0;
+    const z = this.gyroscope.z ?? 0;
     const rotation = Math.sqrt(x * x + y * y + z * z);
 
     // Rapid device rotation might indicate stress
@@ -239,7 +361,7 @@ class BiometricSensorManager {
   private handleAmbientLight(): void {
     if (!this.ambientLightSensor) return;
 
-    const { illuminance } = this.ambientLightSensor;
+    const illuminance = this.ambientLightSensor.illuminance ?? 0;
 
     // Very low light might indicate late hours / stress
     if (illuminance < 10) {
@@ -258,7 +380,7 @@ class BiometricSensorManager {
   private analyzeBehavioralPatterns(): void {
     const now = Date.now();
     const recentReadings = this.readings.filter(
-      (r: any) => now - r.timestamp < 30000
+      (r) => now - r.timestamp < 30000
     ); // Last 30 seconds
 
     if (recentReadings.length === 0) return;
@@ -292,22 +414,23 @@ class BiometricSensorManager {
     }
 
     // Notify listeners
-    this.listeners.forEach((listener: any) => listener(reading));
+    this.listeners.forEach((listener) => listener(reading));
   }
 
   async connectHeartRateMonitor(): Promise<boolean> {
     // CRITICAL SSR FIX: Skip bluetooth access on server
     if (typeof navigator === "undefined") {
-      console.warn("BiometricSensorManager: Bluetooth not available on server");
       return false;
     }
 
     try {
-      if (!("bluetooth" in navigator)) {
+      const bluetoothNavigator = navigator as BluetoothNavigator;
+
+      if (!bluetoothNavigator.bluetooth) {
         throw new Error("Web Bluetooth not supported");
       }
 
-      const device = await (navigator as any).bluetooth.requestDevice({
+      const device = await bluetoothNavigator.bluetooth.requestDevice({
         filters: [{ services: ["heart_rate"] }],
         optionalServices: ["heart_rate"],
       });
@@ -319,23 +442,20 @@ class BiometricSensorManager {
       );
 
       await characteristic.startNotifications();
-      characteristic.addEventListener(
-        "characteristicvaluechanged",
-        (event: any) => {
-          const value = event.target.value;
-          const heartRate = value.getUint16(1, true);
+      characteristic.addEventListener("characteristicvaluechanged", (event) => {
+        const value = event.target.value;
+        if (!value) return;
+        const heartRate = value.getUint16(1, true);
 
-          this.reportBiometricReading({
-            heartRate,
-            timestamp: Date.now(),
-            confidence: 0.9,
-          });
-        }
-      );
+        this.reportBiometricReading({
+          heartRate,
+          timestamp: Date.now(),
+          confidence: 0.9,
+        });
+      });
 
       return true;
-    } catch (error) {
-      console.warn("Failed to connect heart rate monitor:", error);
+    } catch {
       return false;
     }
   }
@@ -358,7 +478,7 @@ class BiometricSensorManager {
 
   getReadingHistory(duration: number = 300000): BiometricReading[] {
     const cutoff = Date.now() - duration;
-    return this.readings.filter((r: any) => r.timestamp > cutoff);
+    return this.readings.filter((r) => r.timestamp > cutoff);
   }
 
   cleanup(): void {
@@ -383,9 +503,11 @@ export class BiometricAdaptationEngine {
   private profile: BiometricProfile;
   private adaptationCallbacks: Map<
     string,
-    (reading: BiometricReading) => void
+    (adaptation: BiometricAdaptation) => void
   > = new Map();
-  private currentAdaptations: Map<string, any> = new Map();
+  private currentAdaptations: Map<string, BiometricAdaptation> = new Map();
+  private adaptationTimeouts: Map<string, ReturnType<typeof setTimeout>> =
+    new Map();
 
   constructor(settings: Partial<AdaptationSettings> = {}) {
     this.sensorManager = new BiometricSensorManager();
@@ -450,8 +572,10 @@ export class BiometricAdaptationEngine {
     this.debounceAdaptations(adaptations);
   }
 
-  private determineAdaptations(reading: BiometricReading): Map<string, any> {
-    const adaptations = new Map();
+  private determineAdaptations(
+    reading: BiometricReading
+  ): Map<string, BiometricAdaptation> {
+    const adaptations = new Map<string, BiometricAdaptation>();
     const stressLevel = reading.stressLevel || 0;
 
     // Color adaptations
@@ -514,23 +638,25 @@ export class BiometricAdaptationEngine {
     return adaptations;
   }
 
-  private debounceAdaptations(adaptations: Map<string, any>): void {
+  private debounceAdaptations(
+    adaptations: Map<string, BiometricAdaptation>
+  ): void {
     adaptations.forEach((adaptation, type) => {
-      const existingTimeout = this.currentAdaptations.get(`${type}_timeout`);
+      const existingTimeout = this.adaptationTimeouts.get(type);
       if (existingTimeout) {
         clearTimeout(existingTimeout);
       }
 
       const timeout = setTimeout(() => {
         this.applyAdaptation(type, adaptation);
-        this.currentAdaptations.delete(`${type}_timeout`);
+        this.adaptationTimeouts.delete(type);
       }, this.settings.responseSpeed);
 
-      this.currentAdaptations.set(`${type}_timeout`, timeout);
+      this.adaptationTimeouts.set(type, timeout);
     });
   }
 
-  private applyAdaptation(type: string, adaptation: any): void {
+  private applyAdaptation(type: string, adaptation: BiometricAdaptation): void {
     this.currentAdaptations.set(type, adaptation);
 
     const callback = this.adaptationCallbacks.get(type);
@@ -541,7 +667,7 @@ export class BiometricAdaptationEngine {
 
   registerAdaptationCallback(
     type: string,
-    callback: (adaptation: any) => void
+    callback: (adaptation: BiometricAdaptation) => void
   ): void {
     this.adaptationCallbacks.set(type, callback);
   }
@@ -550,7 +676,7 @@ export class BiometricAdaptationEngine {
     this.adaptationCallbacks.delete(type);
   }
 
-  getCurrentAdaptation(type: string): any {
+  getCurrentAdaptation(type: string): BiometricAdaptation | undefined {
     return this.currentAdaptations.get(type);
   }
 
@@ -579,11 +705,11 @@ export class BiometricAdaptationEngine {
     try {
       const stored = localStorage.getItem("auraglass-biometric-profile");
       if (stored) {
-        const data = JSON.parse(stored);
+        const data = JSON.parse(stored) as StoredBiometricProfile;
         this.profile = { ...this.profile, ...data };
       }
-    } catch (error) {
-      console.warn("Failed to load biometric profile:", error);
+    } catch {
+      // Ignore invalid persisted profile data.
     }
   }
 
@@ -598,8 +724,8 @@ export class BiometricAdaptationEngine {
         "auraglass-biometric-profile",
         JSON.stringify(this.profile)
       );
-    } catch (error) {
-      console.warn("Failed to save biometric profile:", error);
+    } catch {
+      // Ignore storage failures; profile remains active in memory.
     }
   }
 
@@ -607,6 +733,8 @@ export class BiometricAdaptationEngine {
     this.sensorManager.cleanup();
     this.adaptationCallbacks.clear();
     this.currentAdaptations.clear();
+    this.adaptationTimeouts.forEach((timeout) => clearTimeout(timeout));
+    this.adaptationTimeouts.clear();
     this.saveProfile();
   }
 }
@@ -739,7 +867,7 @@ export const GlassStressResponsive = forwardRef<
 ) {
   const { engine, currentStressLevel, latestReading } =
     useBiometricAdaptation();
-  const [adaptations, setAdaptations] = useState<Record<string, any>>({});
+  const [adaptations, setAdaptations] = useState<BiometricAdaptationState>({});
   const { prefersReducedMotion } = useMotionPreferenceContext();
   const stressId = useA11yId("stress-responsive");
   const descriptionId = useA11yId("stress-description");
@@ -747,21 +875,30 @@ export const GlassStressResponsive = forwardRef<
   useEffect(() => {
     if (!engine) return;
 
-    const handleColorAdaptation = (adaptation: any) => {
-      if (adaptationType === "color" || adaptationType === "all") {
-        setAdaptations((prev: any) => ({ ...prev, color: adaptation }));
+    const handleColorAdaptation = (adaptation: BiometricAdaptation) => {
+      if (
+        (adaptationType === "color" || adaptationType === "all") &&
+        isColorAdaptation(adaptation)
+      ) {
+        setAdaptations((prev) => ({ ...prev, color: adaptation }));
       }
     };
 
-    const handleMotionAdaptation = (adaptation: any) => {
-      if (adaptationType === "motion" || adaptationType === "all") {
-        setAdaptations((prev: any) => ({ ...prev, motion: adaptation }));
+    const handleMotionAdaptation = (adaptation: BiometricAdaptation) => {
+      if (
+        (adaptationType === "motion" || adaptationType === "all") &&
+        isMotionAdaptation(adaptation)
+      ) {
+        setAdaptations((prev) => ({ ...prev, motion: adaptation }));
       }
     };
 
-    const handleLayoutAdaptation = (adaptation: any) => {
-      if (adaptationType === "layout" || adaptationType === "all") {
-        setAdaptations((prev: any) => ({ ...prev, layout: adaptation }));
+    const handleLayoutAdaptation = (adaptation: BiometricAdaptation) => {
+      if (
+        (adaptationType === "layout" || adaptationType === "all") &&
+        isLayoutAdaptation(adaptation)
+      ) {
+        setAdaptations((prev) => ({ ...prev, layout: adaptation }));
       }
     };
 
@@ -895,7 +1032,7 @@ export const GlassBiometricDashboard = forwardRef<
     const interval = setInterval(() => {
       const readings = engine.getLatestReading();
       if (readings) {
-        setHistory((prev: any) => [...prev.slice(-19), readings]); // Keep last 20 readings
+        setHistory((prev) => [...prev.slice(-19), readings]); // Keep last 20 readings
       }
     }, ANIMATION.DURATION.normal);
 
@@ -1030,7 +1167,7 @@ export const GlassBiometricDashboard = forwardRef<
                     Active Adaptations
                   </div>
                   <div className="glass-gap-1">
-                    {["color", "motion", "layout", "audio"].map((type: any) => {
+                    {BIOMETRIC_ADAPTATION_TYPES.map((type) => {
                       const adaptation = engine.getCurrentAdaptation(type);
                       return adaptation ? (
                         <div

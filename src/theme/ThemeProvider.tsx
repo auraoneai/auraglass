@@ -15,17 +15,65 @@ import React, {
 
 // import { css, createGlobalStyle } from 'styled-components'; // Unused imports
 // Simple deep merge utility
-const deepmerge = (target: any, source: any): any => {
+type UnknownRecord = Record<string, unknown>;
+type GlassQualityTier = "ultra" | "high" | "medium" | "low" | "minimal";
+type UserPreferences = {
+  reducedMotion: boolean;
+  reducedTransparency: boolean;
+  highContrastMode: boolean;
+};
+type PendingThemeUpdates = {
+  colorMode?: ColorMode;
+};
+type GlassSurfaceComponentType = React.FC<
+  GlassSurfaceProps & { children?: React.ReactNode }
+>;
+
+const isRecord = (value: unknown): value is UnknownRecord =>
+  Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+const isGlassQualityTier = (value: string): value is GlassQualityTier =>
+  (["ultra", "high", "medium", "low", "minimal"] as const).includes(
+    value as GlassQualityTier
+  );
+
+const isBlurStrength = (
+  value: string
+): value is (typeof BLUR_STRENGTHS)[number] =>
+  BLUR_STRENGTHS.includes(value as (typeof BLUR_STRENGTHS)[number]);
+
+const parseStoredPreferences = (value: string): Partial<UserPreferences> => {
+  const parsed: unknown = JSON.parse(value);
+  if (!isRecord(parsed)) return {};
+
+  return {
+    ...(typeof parsed.reducedMotion === "boolean"
+      ? { reducedMotion: parsed.reducedMotion }
+      : {}),
+    ...(typeof parsed.reducedTransparency === "boolean"
+      ? { reducedTransparency: parsed.reducedTransparency }
+      : {}),
+    ...(typeof parsed.highContrastMode === "boolean"
+      ? { highContrastMode: parsed.highContrastMode }
+      : {}),
+  };
+};
+
+const deepmerge = (
+  target: UnknownRecord,
+  source: UnknownRecord
+): UnknownRecord => {
   const result = { ...target };
-  Object.keys(source).forEach((key: any) => {
-    if (
-      source[key] &&
-      typeof source[key] === "object" &&
-      !Array.isArray(source[key])
-    ) {
-      result[key] = deepmerge(result[key] || {}, source[key]);
+  Object.keys(source).forEach((key) => {
+    const sourceValue = source[key];
+    const targetValue = result[key];
+    if (isRecord(sourceValue)) {
+      result[key] = deepmerge(
+        isRecord(targetValue) ? targetValue : {},
+        sourceValue
+      );
     } else {
-      result[key] = source[key];
+      result[key] = sourceValue;
     }
   });
   return result;
@@ -64,12 +112,6 @@ import {
 
 const PERSONA_STORAGE_KEY = "glass-ui-persona-id";
 
-const warnBeforeInit = (method: string) => {
-  if (process.env.NODE_ENV === "development") {
-    console.warn(`${method} was called before ThemeProvider was initialized`);
-  }
-};
-
 const isPersonaId = (value: string): value is PersonaId =>
   Object.prototype.hasOwnProperty.call(DESIGN_MATRIX, value);
 
@@ -87,7 +129,7 @@ const resolveLegacyPersona = (
   return LEGACY_THEME_VARIANT_TO_PERSONA[normalized] || null;
 };
 
-const getValueByPath = (root: any, path: string[]): unknown => {
+const getValueByPath = (root: unknown, path: string[]): unknown => {
   return path.reduce<unknown>((value, key) => {
     if (value && typeof value === "object" && key in value) {
       return (value as Record<string, unknown>)[key];
@@ -107,21 +149,9 @@ interface ColorModeContextType {
 
 const ColorModeContext = createContext<ColorModeContextType>({
   colorMode: "system",
-  setColorMode: (mode: ColorMode) => {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "setColorMode was called before ThemeProvider was initialized"
-      );
-    }
-  },
+  setColorMode: () => undefined,
   isDarkMode: false,
-  toggleColorMode: () => {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "toggleColorMode was called before ThemeProvider was initialized"
-      );
-    }
-  },
+  toggleColorMode: () => undefined,
   systemPrefersDark: false,
 });
 
@@ -134,13 +164,7 @@ interface ThemeVariantContextType {
 
 const ThemeVariantContext = createContext<ThemeVariantContextType>({
   themeVariant: _THEME_VARIANTS[0] || "default",
-  setThemeVariant: (variant: string) => {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "setThemeVariant was called before ThemeProvider was initialized"
-      );
-    }
-  },
+  setThemeVariant: () => undefined,
   availableThemes: [..._THEME_VARIANTS],
 });
 
@@ -155,7 +179,7 @@ export interface PersonaContextType {
 const PersonaContext = createContext<PersonaContextType>({
   personaId: DEFAULT_PERSONA_ID,
   persona: DESIGN_MATRIX[DEFAULT_PERSONA_ID],
-  setPersona: (id: PersonaId) => warnBeforeInit(`setPersona(${id})`),
+  setPersona: () => undefined,
   personas: PERSONA_LIST,
 });
 
@@ -180,28 +204,19 @@ const StyleUtilsContext = createContext<StyleUtilsContextType>({
 
 // ------ GlassEffects Context ------
 interface GlassEffectsContextType {
-  qualityTier: "ultra" | "high" | "medium" | "low" | "minimal";
-  setQualityTier: (
-    tier: "ultra" | "high" | "medium" | "low" | "minimal"
-  ) => void;
+  qualityTier: GlassQualityTier;
+  setQualityTier: (tier: GlassQualityTier) => void;
   getBlurStrength: (strength: string | number) => string;
   getBackgroundOpacity: (opacity: string | number) => number;
   getBorderOpacity: (opacity: string | number) => number;
   getGlowIntensity: (intensity: string | number) => number;
   createSurface: (props: GlassSurfaceProps) => string;
-  // Use any type to avoid TypeScript errors with PropTypes
-  GlassSurface: any;
+  GlassSurface: GlassSurfaceComponentType;
 }
 
 const GlassEffectsContext = createContext<GlassEffectsContextType>({
   qualityTier: "high",
-  setQualityTier: (tier: "ultra" | "high" | "medium" | "low" | "minimal") => {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "setQualityTier was called before ThemeProvider was initialized"
-      );
-    }
-  },
+  setQualityTier: () => undefined,
   getBlurStrength: () => "",
   getBackgroundOpacity: () => 0,
   getBorderOpacity: () => 0,
@@ -223,13 +238,7 @@ const PreferencesContext = createContext<PreferencesContextType>({
   reducedMotion: false,
   reducedTransparency: false,
   highContrastMode: false,
-  setPreference: (key: string, value: boolean) => {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "setPreference was called before ThemeProvider was initialized"
-      );
-    }
-  },
+  setPreference: () => undefined,
   getUserPreference: () => false,
 });
 
@@ -392,8 +401,6 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   initialQualityTier = "high",
   isolateTheme = false,
   enableOptimizations = true,
-  debug = false,
-  performanceMonitoring = false,
   contextUpdateThrottle = 0,
   updateOnlyOnCommit = false,
   onColorModeChange,
@@ -426,9 +433,6 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   const setPersona = useCallback(
     (nextPersona: PersonaId) => {
       if (!isPersonaId(nextPersona)) {
-        if (process.env.NODE_ENV === "development") {
-          console.warn(`Attempted to set unknown persona "${nextPersona}".`);
-        }
         return;
       }
 
@@ -475,12 +479,11 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   const [themeVariant, setThemeVariantState] = useState<string>(initialTheme);
 
   // ------ Glass Effects State ------
-  const [qualityTier, setQualityTierState] = useState<
-    "ultra" | "high" | "medium" | "low" | "minimal"
-  >(initialQualityTier);
+  const [qualityTier, setQualityTierState] =
+    useState<GlassQualityTier>(initialQualityTier);
 
   // ------ Preferences State ------
-  const [preferences, setPreferences] = useState({
+  const [preferences, setPreferences] = useState<UserPreferences>({
     reducedMotion: false,
     reducedTransparency: false,
     highContrastMode: false,
@@ -490,9 +493,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   const [currentBreakpoint, setCurrentBreakpoint] = useState("md");
 
   // ------ Performance Tracking ------
-  const renderCount = useRef(0);
-  const lastUpdateTime = useRef(Date.now());
-  const pendingUpdates = useRef<Record<string, any>>({});
+  const pendingUpdates = useRef<PendingThemeUpdates>({});
   const commitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ------ Initialize System Preferences ------
@@ -507,7 +508,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     };
 
     const handleMotionChange = (event: MediaQueryListEvent) => {
-      setPreferences((prev: any) => ({
+      setPreferences((prev) => ({
         ...prev,
         reducedMotion: event.matches,
       }));
@@ -519,7 +520,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     }
 
     if (motionMediaQuery) {
-      setPreferences((prev: any) => ({
+      setPreferences((prev) => ({
         ...prev,
         reducedMotion: motionMediaQuery.matches,
       }));
@@ -568,25 +569,21 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       }
 
       const savedQualityTier = storage.getItem("glass-ui-quality-tier");
-      if (savedQualityTier) {
-        setQualityTierState(savedQualityTier as any);
+      if (savedQualityTier && isGlassQualityTier(savedQualityTier)) {
+        setQualityTierState(savedQualityTier);
       }
 
       const savedPreferences = storage.getItem("glass-ui-preferences");
       if (savedPreferences) {
         try {
-          const parsedPreferences = JSON.parse(savedPreferences);
-          setPreferences((prev: any) => ({ ...prev, ...parsedPreferences }));
-        } catch (e) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Failed to parse saved preferences", e);
-          }
+          const parsedPreferences = parseStoredPreferences(savedPreferences);
+          setPreferences((prev) => ({ ...prev, ...parsedPreferences }));
+        } catch {
+          setPreferences((prev) => ({ ...prev }));
         }
       }
-    } catch (error) {
-      if (process.env.NODE_ENV === "development") {
-        console.warn("ThemeProvider: failed to load saved preferences", error);
-      }
+    } catch {
+      // Ignore invalid or unavailable persisted theme state.
     }
   }, [forceColorMode, persona, persistPersona, setPersona]);
 
@@ -644,13 +641,12 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
 
         if (!commitTimerRef.current) {
           commitTimerRef.current = setTimeout(() => {
-            setColorModeState(pendingUpdates.current.colorMode);
-            if (onColorModeChange)
-              onColorModeChange(pendingUpdates.current.colorMode);
-            storage?.setItem(
-              "glass-ui-color-mode",
-              pendingUpdates.current.colorMode
-            );
+            const pendingColorMode = pendingUpdates.current.colorMode;
+            if (pendingColorMode) {
+              setColorModeState(pendingColorMode);
+              onColorModeChange?.(pendingColorMode);
+              storage?.setItem("glass-ui-color-mode", pendingColorMode);
+            }
             commitTimerRef.current = null;
           }, contextUpdateThrottle);
         }
@@ -697,18 +693,15 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
   );
 
   // Handle quality tier change
-  const setQualityTier = useCallback(
-    (tier: "ultra" | "high" | "medium" | "low" | "minimal") => {
-      setQualityTierState(tier);
-      const storage = getSafeWindow()?.localStorage;
-      storage?.setItem("glass-ui-quality-tier", tier);
-    },
-    []
-  );
+  const setQualityTier = useCallback((tier: GlassQualityTier) => {
+    setQualityTierState(tier);
+    const storage = getSafeWindow()?.localStorage;
+    storage?.setItem("glass-ui-quality-tier", tier);
+  }, []);
 
   // Handle preference changes
   const setPreference = useCallback((key: string, value: boolean) => {
-    setPreferences((prev: any) => {
+    setPreferences((prev) => {
       const newPreferences = { ...prev, [key]: value };
       const storage = getSafeWindow()?.localStorage;
       storage?.setItem("glass-ui-preferences", JSON.stringify(newPreferences));
@@ -814,7 +807,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       return `${strength}px`;
     }
 
-    return BLUR_STRENGTHS.includes(strength as any) ? strength : "standard";
+    return isBlurStrength(strength) ? strength : "standard";
   }, []);
 
   const getBackgroundOpacity = useCallback((opacity: string | number) => {
@@ -1338,20 +1331,6 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     [breakpoints, currentBreakpoint, isMobile, isTablet, isDesktop, mediaQuery]
   );
 
-  // Performance debugging
-  useEffect(() => {
-    if (debug && performanceMonitoring) {
-      renderCount.current++;
-      const renderTime = Date.now() - lastUpdateTime.current;
-      if (process.env.NODE_ENV === "development") {
-        console.log(
-          `[ThemeProvider] Render #${renderCount.current} took ${renderTime}ms`
-        );
-      }
-      lastUpdateTime.current = Date.now();
-    }
-  });
-
   // Prevent transitions during theme changes
   useEffect(() => {
     if (!disableTransitions) {
@@ -1582,7 +1561,7 @@ export const useResponsive = (): ResponsiveContextType => {
  * ThemeObserver hook for subscribing to theme changes without re-rendering.
  */
 export const useThemeObserver = (
-  callback: (theme: any, isDark: boolean) => void
+  callback: (theme: string, isDark: boolean) => void
 ) => {
   const { isDark, currentTheme } = useTheme();
 

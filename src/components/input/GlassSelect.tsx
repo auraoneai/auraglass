@@ -27,6 +27,9 @@ export interface SelectOption {
   group?: string;
 }
 
+export type SelectValue = SelectOption["value"];
+export type SelectValueChange = SelectValue | SelectValue[];
+
 export interface GlassSelectProps
   extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
   /**
@@ -92,13 +95,11 @@ export interface GlassSelectProps
   /**
    * Custom value renderer
    */
-  renderValue?: (
-    value: string | number | (string | number)[]
-  ) => React.ReactNode;
+  renderValue?: (value: SelectValueChange) => React.ReactNode;
   /**
    * Value change callback (preferred over onChange)
    */
-  onValueChange?: (value: any) => void;
+  onValueChange?: (value: SelectValueChange) => void;
 
   // Accessibility props
   /**

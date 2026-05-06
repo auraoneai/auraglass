@@ -45,6 +45,27 @@ const config: StorybookConfig = {
       },
     };
 
+    const serverOnlyPackages = [
+      '@google-cloud/vision',
+      '@pinecone-database/pinecone',
+      'bcryptjs',
+      'jsonwebtoken',
+      'openai',
+      'redis',
+      'socket.io-client',
+    ];
+    config.build = config.build || {};
+    config.build.chunkSizeWarningLimit = 2000;
+    config.build.rollupOptions = config.build.rollupOptions || {};
+    const existingExternal = config.build.rollupOptions.external;
+    if (Array.isArray(existingExternal)) {
+      config.build.rollupOptions.external = Array.from(
+        new Set([...existingExternal, ...serverOnlyPackages])
+      );
+    } else {
+      config.build.rollupOptions.external = serverOnlyPackages;
+    }
+
     return config;
   },
 

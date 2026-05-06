@@ -1,5 +1,5 @@
-import React from 'react';
-import { detectDevice } from './deviceCapabilities';
+import React from "react";
+import { detectDevice } from "./deviceCapabilities";
 /**
  * Production utilities for AuraGlass components
  * These utilities are optimized for production environments
@@ -8,41 +8,41 @@ import { detectDevice } from './deviceCapabilities';
 // === Environment Detection ===
 
 export const isProduction = (): boolean => {
-  return process.env.NODE_ENV === 'production';
+  return process.env.NODE_ENV === "production";
 };
 
 export const isDevelopment = (): boolean => {
-  return process.env.NODE_ENV === 'development';
+  return process.env.NODE_ENV === "development";
 };
 
 export const isTest = (): boolean => {
-  return process.env.NODE_ENV === 'test';
+  return process.env.NODE_ENV === "test";
 };
 
 // === Logging Utilities ===
 
 export const logger = {
-  error: (message: string, ...args: any[]) => {
+  error: (message: string, ...args: unknown[]) => {
     if (isDevelopment()) {
-      console.error(`[AuraGlass Error]: ${message}`, ...args);
+      globalThis.console?.error(`[AuraGlass Error]: ${message}`, ...args);
     }
   },
 
-  warn: (message: string, ...args: any[]) => {
+  warn: (message: string, ...args: unknown[]) => {
     if (isDevelopment()) {
-      console.warn(`[AuraGlass Warning]: ${message}`, ...args);
+      globalThis.console?.warn(`[AuraGlass Warning]: ${message}`, ...args);
     }
   },
 
-  info: (message: string, ...args: any[]) => {
+  info: (message: string, ...args: unknown[]) => {
     if (isDevelopment()) {
-      console.info(`[AuraGlass Info]: ${message}`, ...args);
+      globalThis.console?.info(`[AuraGlass Info]: ${message}`, ...args);
     }
   },
 
-  debug: (message: string, ...args: any[]) => {
+  debug: (message: string, ...args: unknown[]) => {
     if (isDevelopment()) {
-      console.debug(`[AuraGlass Debug]: ${message}`, ...args);
+      globalThis.console?.debug(`[AuraGlass Debug]: ${message}`, ...args);
     }
   },
 };
@@ -65,7 +65,10 @@ export const performance = {
     return duration;
   },
 
-  measureAsync: async (name: string, fn: () => Promise<void>): Promise<number> => {
+  measureAsync: async (
+    name: string,
+    fn: () => Promise<void>
+  ): Promise<number> => {
     if (!isDevelopment()) {
       await fn();
       return 0;
@@ -91,7 +94,7 @@ export const safeExecute = <T>(
   try {
     return fn();
   } catch (error) {
-    logger.error(errorMessage || 'Safe execution failed', error);
+    logger.error(errorMessage || "Safe execution failed", error);
     return fallback;
   }
 };
@@ -104,7 +107,7 @@ export const safeExecuteAsync = async <T>(
   try {
     return await fn();
   } catch (error) {
-    logger.error(errorMessage || 'Safe async execution failed', error);
+    logger.error(errorMessage || "Safe async execution failed", error);
     return fallback;
   }
 };
@@ -113,77 +116,77 @@ export const safeExecuteAsync = async <T>(
 
 export const features = {
   supportsIntersectionObserver: (): boolean => {
-    return typeof IntersectionObserver !== 'undefined';
+    return typeof IntersectionObserver !== "undefined";
   },
 
   supportsResizeObserver: (): boolean => {
-    return typeof ResizeObserver !== 'undefined';
+    return typeof ResizeObserver !== "undefined";
   },
 
   supportsBackdropFilter: (): boolean => {
-    if (typeof CSS === 'undefined') return false;
+    if (typeof CSS === "undefined") return false;
     return (
-      CSS.supports('backdrop-filter', 'blur(1px)') ||
-      CSS.supports('-webkit-backdrop-filter', 'blur(1px)')
+      CSS.supports("backdrop-filter", "blur(1px)") ||
+      CSS.supports("-webkit-backdrop-filter", "blur(1px)")
     );
   },
 
   supportsWebGL: (): boolean => {
-    if (typeof window === 'undefined') return false;
+    if (typeof window === "undefined") return false;
     // Use cached device detection to avoid creating contexts repeatedly
     return detectDevice().capabilities.webgl;
   },
 
   supportsWebP: (): boolean => {
-    if (typeof CSS === 'undefined') return false;
-    return CSS.supports('image-format', 'webp');
+    if (typeof CSS === "undefined") return false;
+    return CSS.supports("image-format", "webp");
   },
 
   supportsAVIF: (): boolean => {
-    if (typeof CSS === 'undefined') return false;
-    return CSS.supports('image-format', 'avif');
+    if (typeof CSS === "undefined") return false;
+    return CSS.supports("image-format", "avif");
   },
 
   supportsContainerQueries: (): boolean => {
-    if (typeof CSS === 'undefined') return false;
-    return CSS.supports('container-type', 'inline-size');
+    if (typeof CSS === "undefined") return false;
+    return CSS.supports("container-type", "inline-size");
   },
 };
 
 // === Memory Management ===
 
 export const memory = {
-  cleanup: (refs: React.RefObject<any>[]): void => {
-    refs.forEach((ref: any) => {
+  cleanup: (refs: React.RefObject<unknown>[]): void => {
+    refs.forEach((ref) => {
       if (ref.current) {
-        (ref as React.MutableRefObject<any>).current = null;
+        (ref as React.MutableRefObject<unknown | null>).current = null;
       }
     });
   },
 
-  debounce: <T extends (...args: any[]) => void>(
+  debounce: <T extends (...args: never[]) => void>(
     func: T,
     wait: number
   ): T => {
     let timeout: NodeJS.Timeout;
-    
-    return ((...args: any[]) => {
+
+    return ((...args: Parameters<T>) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(null, args), wait);
     }) as T;
   },
 
-  throttle: <T extends (...args: any[]) => void>(
+  throttle: <T extends (...args: never[]) => void>(
     func: T,
     limit: number
   ): T => {
     let inThrottle: boolean;
-    
-    return ((...args: any[]) => {
+
+    return ((...args: Parameters<T>) => {
       if (!inThrottle) {
         func.apply(null, args);
         inThrottle = true;
-        setTimeout(() => inThrottle = false, limit);
+        setTimeout(() => (inThrottle = false), limit);
       }
     }) as T;
   },
@@ -197,7 +200,9 @@ export const validate = {
   },
 
   isValidRgbaColor: (color: string): boolean => {
-    return /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+)?\s*\)$/.test(color);
+    return /^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+)?\s*\)$/.test(
+      color
+    );
   },
 
   isValidCSSUnit: (value: string): boolean => {
@@ -221,15 +226,15 @@ export const validate = {
 // === Data Utilities ===
 
 export const data = {
-  generateId: (prefix: string = 'glass'): string => {
+  generateId: (prefix: string = "glass"): string => {
     return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   },
 
   deepClone: <T>(obj: T): T => {
-    if (obj === null || typeof obj !== 'object') return obj;
+    if (obj === null || typeof obj !== "object") return obj;
     if (obj instanceof Date) return new Date(obj.getTime()) as unknown as T;
     if (obj instanceof Array) return obj.map(data.deepClone) as unknown as T;
-    if (typeof obj === 'object') {
+    if (typeof obj === "object") {
       const cloned = {} as T;
       for (const key in obj) {
         cloned[key] = data.deepClone(obj[key]);
@@ -239,39 +244,41 @@ export const data = {
     return obj;
   },
 
-  isEqual: (a: any, b: any): boolean => {
+  isEqual: (a: unknown, b: unknown): boolean => {
     if (a === b) return true;
     if (a == null || b == null) return false;
     if (Array.isArray(a) && Array.isArray(b)) {
       if (a.length !== b.length) return false;
       return a.every((val, index) => data.isEqual(val, b[index]));
     }
-    if (typeof a === 'object' && typeof b === 'object') {
-      const keysA = Object.keys(a);
-      const keysB = Object.keys(b);
+    if (typeof a === "object" && typeof b === "object") {
+      const objectA = a as Record<string, unknown>;
+      const objectB = b as Record<string, unknown>;
+      const keysA = Object.keys(objectA);
+      const keysB = Object.keys(objectB);
       if (keysA.length !== keysB.length) return false;
-      return keysA.every(key => data.isEqual(a[key], b[key]));
+      return keysA.every((key) => data.isEqual(objectA[key], objectB[key]));
     }
     return false;
   },
 
-  omit: <T extends Record<string, any>, K extends keyof T>(
+  omit: <T extends Record<string, unknown>, K extends keyof T>(
     obj: T,
     keys: K[]
   ): Omit<T, K> => {
     const result = { ...obj };
-    keys.forEach((key: any) => delete result[key]);
+    keys.forEach((key) => delete result[key]);
     return result;
   },
 
-  pick: <T extends Record<string, any>, K extends keyof T>(
+  pick: <T extends Record<string, unknown>, K extends keyof T>(
     obj: T,
     keys: K[]
   ): Pick<T, K> => {
     const result = {} as Pick<T, K>;
-    keys.forEach((key: any) => {
+    keys.forEach((key) => {
       if (key in obj) {
-        (result as any)[key] = obj[key];
+        result[key] = obj[key];
       }
     });
     return result;
@@ -282,12 +289,18 @@ export const data = {
 
 export const css = {
   classNames: (...classes: (string | undefined | null | false)[]): string => {
-    return classes.filter(Boolean).join(' ');
+    return classes.filter(Boolean).join(" ");
   },
 
-  mergeStyles: (...styles: (React.CSSProperties | undefined)[]): React.CSSProperties => {
-    return styles.filter((style): style is React.CSSProperties => style !== undefined)
-      .reduce((merged, style) => ({ ...merged, ...style }), {} as React.CSSProperties);
+  mergeStyles: (
+    ...styles: (React.CSSProperties | undefined)[]
+  ): React.CSSProperties => {
+    return styles
+      .filter((style): style is React.CSSProperties => style !== undefined)
+      .reduce(
+        (merged, style) => ({ ...merged, ...style }),
+        {} as React.CSSProperties
+      );
   },
 
   pxToRem: (px: number, baseFontSize: number = 16): string => {
@@ -306,7 +319,9 @@ export const css = {
 
 export const browser = {
   isChrome: (): boolean => {
-    return /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    return (
+      /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)
+    );
   },
 
   isFirefox: (): boolean => {
@@ -314,7 +329,9 @@ export const browser = {
   },
 
   isSafari: (): boolean => {
-    return /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    return (
+      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
+    );
   },
 
   isEdge: (): boolean => {
@@ -322,11 +339,13 @@ export const browser = {
   },
 
   isMobile: (): boolean => {
-    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
   },
 
   isTouch: (): boolean => {
-    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
   },
 
   getViewportSize: (): { width: number; height: number } => {
@@ -344,7 +363,7 @@ export const browser = {
 // === Storage Utilities ===
 
 export const storage = {
-  set: (key: string, value: any): void => {
+  set: (key: string, value: unknown): void => {
     safeExecute(
       () => {
         localStorage.setItem(key, JSON.stringify(value));
@@ -381,7 +400,7 @@ export const storage = {
         localStorage.clear();
       },
       undefined,
-      'Failed to clear localStorage'
+      "Failed to clear localStorage"
     );
   },
 };
@@ -389,7 +408,7 @@ export const storage = {
 // === Analytics Utilities ===
 
 export const analytics = {
-  track: (event: string, properties?: Record<string, any>): void => {
+  track: (event: string, properties?: Record<string, unknown>): void => {
     if (isProduction()) {
       // Integration point for analytics service
       // Example: analyticsService.track(event, properties);
@@ -406,7 +425,7 @@ export const analytics = {
     }
   },
 
-  page: (page: string, properties?: Record<string, any>): void => {
+  page: (page: string, properties?: Record<string, unknown>): void => {
     if (isProduction()) {
       // Integration point for page tracking
       // Example: analyticsService.page(page, properties);
@@ -423,7 +442,7 @@ export const analytics = {
     }
   },
 
-  identify: (userId: string, traits?: Record<string, any>): void => {
+  identify: (userId: string, traits?: Record<string, unknown>): void => {
     if (isProduction()) {
       // Integration point for user identification
       // Example: analyticsService.identify(userId, traits);
@@ -447,8 +466,8 @@ export const productionConfig = {
   // Error reporting configuration
   errorReporting: {
     enabled: isProduction(),
-    endpoint: process.env.REACT_APP_ERROR_ENDPOINT || '',
-    apiKey: process.env.REACT_APP_ERROR_API_KEY || '',
+    endpoint: process.env.REACT_APP_ERROR_ENDPOINT || "",
+    apiKey: process.env.REACT_APP_ERROR_API_KEY || "",
     maxRetries: 3,
     retryDelay: 1000,
   },
@@ -456,7 +475,7 @@ export const productionConfig = {
   // Analytics configuration
   analytics: {
     enabled: isProduction(),
-    trackingId: process.env.REACT_APP_ANALYTICS_ID || '',
+    trackingId: process.env.REACT_APP_ANALYTICS_ID || "",
     sampleRate: 1.0,
     enableAutoPageTracking: true,
   },
@@ -488,7 +507,7 @@ export const bundle = {
   reportSize: (componentName: string, size: number): void => {
     if (isDevelopment()) {
       logger.info(`Bundle: ${componentName} is ${(size / 1024).toFixed(2)}KB`);
-      
+
       if (size > productionConfig.performance.thresholds.bundleSize) {
         logger.warn(`Bundle: ${componentName} exceeds size threshold`);
       }
@@ -499,8 +518,8 @@ export const bundle = {
     if (isDevelopment()) {
       logger.debug(`Import: ${componentName} loaded`);
     }
-    
-    analytics.track('component_imported', {
+
+    analytics.track("component_imported", {
       component: componentName,
       timestamp: Date.now(),
     });
@@ -517,15 +536,15 @@ export const health = {
     const issues: string[] = [];
 
     if (!features.supportsBackdropFilter()) {
-      issues.push('Backdrop filter not supported');
+      issues.push("Backdrop filter not supported");
     }
 
     if (!features.supportsIntersectionObserver()) {
-      issues.push('Intersection Observer not supported');
+      issues.push("Intersection Observer not supported");
     }
 
     if (!features.supportsResizeObserver()) {
-      issues.push('Resize Observer not supported');
+      issues.push("Resize Observer not supported");
     }
 
     return {
@@ -544,19 +563,25 @@ export const health = {
     // Check device capabilities
     if (!features.supportsWebGL()) {
       score -= 20;
-      recommendations.push('Enable GPU acceleration for better performance');
+      recommendations.push("Enable GPU acceleration for better performance");
     }
 
     if (browser.isMobile()) {
       score -= 10;
-      recommendations.push('Consider reduced effects for mobile devices');
+      recommendations.push("Consider reduced effects for mobile devices");
     }
 
     // Check memory
-    const memory = (performance as any).memory;
+    const memory = (
+      globalThis.performance as Performance & {
+        memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number };
+      }
+    ).memory;
     if (memory && memory.usedJSHeapSize / memory.jsHeapSizeLimit > 0.8) {
       score -= 30;
-      recommendations.push('High memory usage detected - enable virtualization');
+      recommendations.push(
+        "High memory usage detected - enable virtualization"
+      );
     }
 
     return { score, recommendations };
@@ -569,59 +594,72 @@ export const initializeProduction = (): void => {
   if (!isProduction()) return;
 
   // Set up error handling
-  window.addEventListener('error', (event) => {
-    logger.error('Unhandled error:', event.error);
+  window.addEventListener("error", (event) => {
+    logger.error("Unhandled error:", event.error);
   });
 
-  window.addEventListener('unhandledrejection', (event) => {
-    logger.error('Unhandled promise rejection:', event.reason);
+  window.addEventListener("unhandledrejection", (event) => {
+    logger.error("Unhandled promise rejection:", event.reason);
   });
 
   // Check glass support
   const glassSupport = health.checkGlassSupport();
   if (!glassSupport.supported) {
-    logger.warn('Glass effects may not work properly:', glassSupport.issues);
+    logger.warn("Glass effects may not work properly:", glassSupport.issues);
   }
 
   // Check performance
   const performanceCheck = health.checkPerformance();
   if (performanceCheck.score < 70) {
-    logger.warn('Performance issues detected:', performanceCheck.recommendations);
+    logger.warn(
+      "Performance issues detected:",
+      performanceCheck.recommendations
+    );
   }
 
-  logger.info('AuraGlass production mode initialized');
+  logger.info("AuraGlass production mode initialized");
 };
 
 // === Development Helpers ===
 
 export const dev = {
-  logComponentRender: (componentName: string, props: any): void => {
+  logComponentRender: (componentName: string, props: unknown): void => {
     if (isDevelopment()) {
       logger.debug(`Render: ${componentName}`, props);
     }
   },
 
-  logPerformanceWarning: (componentName: string, metric: string, value: number, threshold: number): void => {
+  logPerformanceWarning: (
+    componentName: string,
+    metric: string,
+    value: number,
+    threshold: number
+  ): void => {
     if (isDevelopment() && value > threshold) {
-      logger.warn(`Performance: ${componentName} ${metric} (${value}) exceeds threshold (${threshold})`);
+      logger.warn(
+        `Performance: ${componentName} ${metric} (${value}) exceeds threshold (${threshold})`
+      );
     }
   },
 
-  validateProps: <T>(props: T, schema: Record<keyof T, (value: any) => boolean>): boolean => {
+  validateProps: <T>(
+    props: T,
+    schema: Record<keyof T, (value: unknown) => boolean>
+  ): boolean => {
     if (!isDevelopment()) return true;
 
     const errors: string[] = [];
 
     Object.entries(schema).forEach(([key, validator]) => {
-      const value = (props as any)[key];
-      const validatorFn = validator as (value: any) => boolean;
+      const value = (props as Record<keyof T, unknown>)[key as keyof T];
+      const validatorFn = validator as (value: unknown) => boolean;
       if (value !== undefined && !validatorFn(value)) {
         errors.push(`Invalid prop: ${key}`);
       }
     });
 
     if (errors.length > 0) {
-      logger.error('Prop validation failed:', errors);
+      logger.error("Prop validation failed:", errors);
       return false;
     }
 

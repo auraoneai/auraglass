@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   forwardRef,
@@ -74,7 +74,7 @@ const RefreshIcon = ({ rotation }: { rotation: number }) => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className='glass-w-6 glass-h-6'
+    className="glass-w-6 glass-h-6"
     style={{
       transform: `rotate(${rotation}deg)`,
       transition: "transform 0.2s ease-out",
@@ -109,7 +109,7 @@ const SpinnerIcon = () => (
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className='glass-w-6 glass-h-6 glass-animate-spin'
+    className="glass-w-6 glass-h-6 glass-animate-spin"
   >
     <circle
       cx="12"
@@ -214,8 +214,8 @@ export const GlassPullToRefresh = forwardRef<
 
         try {
           await onRefresh();
-        } catch (error) {
-          console.error("Refresh failed:", error);
+        } catch {
+          // Consumers can surface refresh failures from their own callback state.
         } finally {
           setTimeout(() => {
             setIsRefreshing(false);
@@ -278,7 +278,7 @@ export const GlassPullToRefresh = forwardRef<
         {showIndicator && (pullDistance > 0 || isRefreshing) && (
           <OptimizedGlass
             elevation={elevation}
-            className='glass-absolute glass-left-0 glass-right-0 glass-top-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4'
+            className="glass-absolute glass-left-0 glass-right-0 glass-top-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
             style={{
               transform: `translateY(${isRefreshing ? 0 : pullDistance - 60}px)`,
               opacity: isRefreshing ? 1 : opacity,

@@ -2,81 +2,77 @@
  * @deprecated Use createGlassStyle() from glassMixins instead
  * This file contains hardcoded glass foundation values that bypass our unified token system.
  * Migrate to: createGlassStyle({ intent, elevation, tier })
- * 
+ *
  * AURA GLASS - FOUNDATION ARCHITECTURE (DEPRECATED)
- * 
+ *
  * This module provides the architectural foundation for all glassmorphism components.
  * Components MUST use these utilities to ensure consistent, visible glass effects.
  */
 
-import { CSSProperties } from 'react';
-import { createGlassStyle } from '../mixins/glassMixins';
-
-console.warn('[AuraGlass] glassFoundation.ts is deprecated. Use createGlassStyle() from glassMixins instead.');
+import { CSSProperties } from "react";
+import { createGlassStyle } from "../mixins/glassMixins";
 
 // Foundation opacity values - THESE ARE MINIMUMS, never go below these
 export const GLASS_FOUNDATION = {
   opacity: {
-    subtle: 0.25,     // Visible presence (matches CSS --glass-bg)
-    min: 0.25,        // Foundation minimum (matches CSS)
-    standard: 0.3,    // Standard visibility (matches CSS) 
-    strong: 0.4,      // High visibility (matches CSS --glass-bg-strong)
-    bold: 0.5,        // Maximum foundation opacity
+    subtle: 0.25, // Visible presence (matches CSS --glass-bg)
+    min: 0.25, // Foundation minimum (matches CSS)
+    standard: 0.3, // Standard visibility (matches CSS)
+    strong: 0.4, // High visibility (matches CSS --glass-bg-strong)
+    bold: 0.5, // Maximum foundation opacity
   },
-  
+
   blur: {
-    subtle: 'blur(8px)',
-    standard: 'blur(16px)',
-    strong: 'blur(24px)', 
-    intense: 'blur(32px)',
+    subtle: "blur(8px)",
+    standard: "blur(16px)",
+    strong: "blur(24px)",
+    intense: "blur(32px)",
   },
-  
+
   enhancements: {
-    saturate: 'saturate(180%)',
-    brightness: 'brightness(1.15)',
-    contrast: 'contrast(1.08)',
+    saturate: "saturate(180%)",
+    brightness: "brightness(1.15)",
+    contrast: "contrast(1.08)",
   },
-  
+
   borders: {
-    subtle: 'rgba(255, 255, 255, 0.2)',
-    standard: 'rgba(255, 255, 255, 0.3)',
-    strong: 'rgba(255, 255, 255, 0.4)',
-    bold: 'rgba(255, 255, 255, 0.5)',
+    subtle: "rgba(255, 255, 255, 0.2)",
+    standard: "rgba(255, 255, 255, 0.3)",
+    strong: "rgba(255, 255, 255, 0.4)",
+    bold: "rgba(255, 255, 255, 0.5)",
   },
-  
+
   shadows: {
-    subtle: '0 8px 32px rgba(0, 0, 0, 0.15)',
-    standard: '0 12px 40px rgba(0, 0, 0, 0.2)',
-    strong: '0 16px 48px rgba(0, 0, 0, 0.25)',
-    bold: '0 20px 56px rgba(0, 0, 0, 0.3)',
+    subtle: "0 8px 32px rgba(0, 0, 0, 0.15)",
+    standard: "0 12px 40px rgba(0, 0, 0, 0.2)",
+    strong: "0 16px 48px rgba(0, 0, 0, 0.25)",
+    bold: "0 20px 56px rgba(0, 0, 0, 0.3)",
   },
 } as const;
 
-export type GlassFoundationLevel = 'subtle' | 'standard' | 'strong' | 'bold';
-export type GlassBlurLevel = 'subtle' | 'standard' | 'strong' | 'intense';
+export type GlassFoundationLevel = "subtle" | "standard" | "strong" | "bold";
+export type GlassBlurLevel = "subtle" | "standard" | "strong" | "intense";
 
 /**
  * @deprecated Use createGlassStyle() instead
  * @example createGlassStyle({ intent: 'neutral', elevation: 'level2', tier: 'high' })
- * 
+ *
  * Core foundation mixin - ALL components must use this as their base
  */
 export function createGlassFoundation(
-  level: GlassFoundationLevel = 'standard',
-  blurLevel: GlassBlurLevel = 'standard'
+  level: GlassFoundationLevel = "standard",
+  blurLevel: GlassBlurLevel = "standard"
 ): CSSProperties {
-  console.warn('[AuraGlass] createGlassFoundation() is deprecated. Use createGlassStyle() instead.');
-  
   const opacityKey = level;
-  
+
   return {
-    position: 'relative',
+    position: "relative",
     // Use createGlassStyle() instead,
     // Use createGlassStyle() instead,
     background: `rgba(255, 255, 255, ${GLASS_FOUNDATION.opacity[opacityKey]})`,
     border: `1px solid ${GLASS_FOUNDATION.borders[level]}`,
     boxShadow: GLASS_FOUNDATION.shadows[level],
-    borderRadius: '16px',
+    borderRadius: "16px",
   };
 }
 
@@ -84,7 +80,7 @@ export function createGlassFoundation(
  * Extended foundation mixin - allows components to enhance the foundation
  */
 export function extendGlassFoundation(
-  baseLevel: GlassFoundationLevel = 'standard',
+  baseLevel: GlassFoundationLevel = "standard",
   extensions: Partial<{
     opacity: number;
     blur: string;
@@ -95,14 +91,18 @@ export function extendGlassFoundation(
     additionalFilters: string[];
   }> = {}
 ): CSSProperties {
-  
-  const foundation = createGlassStyle({ intent: "neutral", elevation: "level2", tier: "high" });
-  
+  const foundation = createGlassStyle({
+    intent: "neutral",
+    elevation: "level2",
+    tier: "high",
+  });
+
   // Ensure opacity never goes below foundation minimum
-  const safeOpacity = extensions.opacity && extensions.opacity>= GLASS_FOUNDATION.opacity.min 
-    ? extensions.opacity 
-    : GLASS_FOUNDATION.opacity[baseLevel];
-  
+  const safeOpacity =
+    extensions.opacity && extensions.opacity >= GLASS_FOUNDATION.opacity.min
+      ? extensions.opacity
+      : GLASS_FOUNDATION.opacity[baseLevel];
+
   // Combine backdrop filters
   const baseFilters = [
     extensions.blur || GLASS_FOUNDATION.blur.standard,
@@ -110,11 +110,11 @@ export function extendGlassFoundation(
     GLASS_FOUNDATION.enhancements.brightness,
     GLASS_FOUNDATION.enhancements.contrast,
   ];
-  
+
   if (extensions.additionalFilters) {
     baseFilters.push(...extensions.additionalFilters);
   }
-  
+
   return {
     ...foundation,
     // Use createGlassStyle() instead,
@@ -131,33 +131,40 @@ export function extendGlassFoundation(
  * Generates a CSS string representation of the glass foundation styles.
  */
 export function injectGlassFoundation(
-  level: GlassFoundationLevel = 'standard',
-  blurLevel: GlassBlurLevel = 'standard'
+  level: GlassFoundationLevel = "standard",
+  blurLevel: GlassBlurLevel = "standard"
 ): string {
-  const foundation = createGlassStyle({ intent: "neutral", elevation: "level2", tier: "high" });
-  
+  const foundation = createGlassStyle({
+    intent: "neutral",
+    elevation: "level2",
+    tier: "high",
+  });
+
   return Object.entries(foundation)
     .map(([key, value]) => {
-      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      const cssKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
       return `${cssKey}: ${value};`;
     })
-    .join('\n  ');
+    .join("\n  ");
 }
 
 /**
  * Additional legacy helper for template-literal based styling systems.
  */
 export function glassFoundationCSS(
-  level: GlassFoundationLevel = 'standard',
-  blurLevel: GlassBlurLevel = 'standard'
+  level: GlassFoundationLevel = "standard",
+  blurLevel: GlassBlurLevel = "standard"
 ): string {
-  const foundation = createGlassStyle({ intent: "neutral", elevation: "level2" });
+  const foundation = createGlassStyle({
+    intent: "neutral",
+    elevation: "level2",
+  });
   return Object.entries(foundation)
     .map(([key, value]) => {
-      const cssKey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      const cssKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
       return `${cssKey}: ${value};`;
     })
-    .join('\n  ');
+    .join("\n  ");
 }
 
 /**
@@ -170,26 +177,24 @@ export function validateGlassFoundation(styles: {
 }): boolean {
   // Extract opacity from background if it's rgba
   let actualOpacity = styles.opacity;
-  
+
   if (!actualOpacity && styles.background) {
     const rgbaMatch = styles.background.match(/rgba\([\d,\s]+,\s*([\d.]+)\)/);
     if (rgbaMatch) {
       actualOpacity = parseFloat(rgbaMatch[1]);
     }
   }
-  
+
   // Check if opacity meets minimum foundation requirements
   if (actualOpacity && actualOpacity < GLASS_FOUNDATION.opacity.min) {
-    console.warn(`Glass component opacity ${actualOpacity} is below foundation minimum ${GLASS_FOUNDATION.opacity.min}`);
     return false;
   }
-  
+
   // Check if backdrop filter exists
-  if (!styles.backdropFilter || styles.backdropFilter === 'none') {
-    console.warn('Glass component missing backdrop-filter');
+  if (!styles.backdropFilter || styles.backdropFilter === "none") {
     return false;
   }
-  
+
   return true;
 }
 
@@ -198,10 +203,9 @@ export function validateGlassFoundation(styles: {
  */
 export function enhanceForStorybookMode(
   foundation: CSSProperties,
-  mode: 'studio' | 'showcase' = 'studio'
+  mode: "studio" | "showcase" = "studio"
 ): CSSProperties {
-  
-  if (mode === 'showcase') {
+  if (mode === "showcase") {
     return {
       ...foundation,
       // Use createGlassStyle() instead,
@@ -209,14 +213,14 @@ export function enhanceForStorybookMode(
       background: `rgba(255, 255, 255, ${GLASS_FOUNDATION.opacity.strong})`,
       border: `2px solid ${GLASS_FOUNDATION.borders.strong}`,
       boxShadow: [
-        '0 0 80px var(--glass-color-primary,0.3)',
-        '0 0 160px rgba(147,51,234,0.15)', 
+        "0 0 80px var(--glass-color-primary,0.3)",
+        "0 0 160px rgba(147,51,234,0.15)",
         GLASS_FOUNDATION.shadows.strong,
-        '0 2px 0 rgba(255,255,255,0.3) inset',
-      ].join(', '),
+        "0 2px 0 rgba(255,255,255,0.3) inset",
+      ].join(", "),
     };
   }
-  
+
   // Studio mode - clean but properly visible
   return {
     ...foundation,
@@ -229,15 +233,15 @@ export function enhanceForStorybookMode(
  * Performance-optimized foundation for mobile/low-power devices
  */
 export function createOptimizedGlassFoundation(
-  level: GlassFoundationLevel = 'standard'
+  level: GlassFoundationLevel = "standard"
 ): CSSProperties {
   return {
-    position: 'relative',
+    position: "relative",
     // Use createGlassStyle() instead,
     // Use createGlassStyle() instead,
     background: `rgba(255, 255, 255, ${GLASS_FOUNDATION.opacity[level]})`,
     border: `1px solid ${GLASS_FOUNDATION.borders[level]}`,
     boxShadow: GLASS_FOUNDATION.shadows[level],
-    borderRadius: '12px',
+    borderRadius: "12px",
   };
 }

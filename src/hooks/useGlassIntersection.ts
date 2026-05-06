@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useEnhancedPerformance } from './useEnhancedPerformance';
+"use client";
+import React from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useEnhancedPerformance } from "./useEnhancedPerformance";
 
 export interface IntersectionOptions {
   threshold?: number | number[];
@@ -29,7 +29,7 @@ export function useGlassIntersection(
 ): [React.RefObject<HTMLElement>, IntersectionState] {
   const {
     threshold = 0.1,
-    rootMargin = '0px',
+    rootMargin = "0px",
     root = null,
     triggerOnce = false,
     skip = false,
@@ -53,21 +53,22 @@ export function useGlassIntersection(
   // Performance-aware threshold adjustment
   const adaptiveThreshold = Array.isArray(threshold)
     ? threshold
-    : performanceMode === 'low'
+    : performanceMode === "low"
       ? Math.max(threshold, 0.25) // Higher threshold for low-end devices
       : threshold;
 
   // Performance-aware root margin adjustment
-  const adaptiveRootMargin = performanceMode === 'low'
-    ? '0px' // No preloading for low-end devices
-    : rootMargin;
+  const adaptiveRootMargin =
+    performanceMode === "low"
+      ? "0px" // No preloading for low-end devices
+      : rootMargin;
 
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
-      
+
       const updateState = () => {
-        setState(prevState => {
+        setState((prevState) => {
           const newState: IntersectionState = {
             isIntersecting: entry.isIntersecting,
             intersectionRatio: entry.intersectionRatio,
@@ -114,10 +115,7 @@ export function useGlassIntersection(
       });
 
       observerRef.current.observe(ref.current);
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Failed to create IntersectionObserver:', error);
-      }
+    } catch {
       // Fallback: assume element is visible
       setState((prev: any) => ({
         ...prev,
@@ -166,14 +164,24 @@ export function useGlassLazyImage(
   isLoaded: boolean;
   error: string | null;
 } {
-  const { placeholder, lowQualitySrc, webpSrc, avifSrc, ...intersectionOptions } = options;
-  
-  const [elementRef, { isIntersecting, hasIntersected }] = useGlassIntersection({
-    triggerOnce: true,
-    ...intersectionOptions,
-  });
-  
-  const [currentSrc, setCurrentSrc] = useState(placeholder || lowQualitySrc || '');
+  const {
+    placeholder,
+    lowQualitySrc,
+    webpSrc,
+    avifSrc,
+    ...intersectionOptions
+  } = options;
+
+  const [elementRef, { isIntersecting, hasIntersected }] = useGlassIntersection(
+    {
+      triggerOnce: true,
+      ...intersectionOptions,
+    }
+  );
+
+  const [currentSrc, setCurrentSrc] = useState(
+    placeholder || lowQualitySrc || ""
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -183,19 +191,26 @@ export function useGlassLazyImage(
 
   // Determine best image format based on performance
   const getBestImageSrc = useCallback(() => {
-    const networkSpeed = metrics?.networkSpeed || '4g';
-    
+    const networkSpeed = metrics?.networkSpeed || "4g";
+
     // Use low quality for slow networks or low performance mode
-    if (performanceMode === 'low' || networkSpeed === '2g' || networkSpeed === 'slow-2g') {
+    if (
+      performanceMode === "low" ||
+      networkSpeed === "2g" ||
+      networkSpeed === "slow-2g"
+    ) {
       return lowQualitySrc || src;
     }
 
     // Use modern formats for fast networks and high performance
-    if (performanceMode === 'high' && (networkSpeed === '4g' || networkSpeed === '5g')) {
-      if (avifSrc && CSS.supports('image-format', 'avif')) {
+    if (
+      performanceMode === "high" &&
+      (networkSpeed === "4g" || networkSpeed === "5g")
+    ) {
+      if (avifSrc && CSS.supports("image-format", "avif")) {
         return avifSrc;
       }
-      if (webpSrc && CSS.supports('image-format', 'webp')) {
+      if (webpSrc && CSS.supports("image-format", "webp")) {
         return webpSrc;
       }
     }
@@ -217,14 +232,14 @@ export function useGlassLazyImage(
 
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve();
-          img.onerror = () => reject(new Error('Image failed to load'));
+          img.onerror = () => reject(new Error("Image failed to load"));
           img.src = targetSrc;
         });
 
         setCurrentSrc(targetSrc);
         setIsLoaded(true);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load image');
+        setError(err instanceof Error ? err.message : "Failed to load image");
         setCurrentSrc(src); // Fallback to original
       } finally {
         setIsLoading(false);
@@ -247,7 +262,7 @@ export function useGlassLazyImage(
  * Hook for animating elements on intersection
  */
 export function useGlassIntersectionAnimation(
-  animationClass: string = 'animate-fade-in',
+  animationClass: string = "animate-fade-in",
   options: IntersectionOptions = {}
 ): [React.RefObject<HTMLElement>, boolean] {
   const [ref, { isIntersecting, hasIntersected }] = useGlassIntersection({
@@ -292,17 +307,18 @@ export function useProgressiveLoading<T>(
   scrollRef: React.RefObject<HTMLElement>;
 } {
   const { batchSize = 10, delay = 100, threshold = 0.8 } = options;
-  
+
   const [loadedCount, setLoadedCount] = useState(batchSize);
   const [isLoading, setIsLoading] = useState(false);
   const { performanceMode } = useEnhancedPerformance();
 
   // Adjust batch size based on performance
-  const adaptiveBatchSize = performanceMode === 'low' 
-    ? Math.max(1, Math.floor(batchSize / 2))
-    : performanceMode === 'high'
-      ? batchSize * 2
-      : batchSize;
+  const adaptiveBatchSize =
+    performanceMode === "low"
+      ? Math.max(1, Math.floor(batchSize / 2))
+      : performanceMode === "high"
+        ? batchSize * 2
+        : batchSize;
 
   const visibleItems = items.slice(0, loadedCount);
 
@@ -313,10 +329,12 @@ export function useProgressiveLoading<T>(
 
     // Simulate loading delay for better UX
     if (delay > 0) {
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
 
-    setLoadedCount((prev: any) => Math.min(items.length, prev + adaptiveBatchSize));
+    setLoadedCount((prev: any) =>
+      Math.min(items.length, prev + adaptiveBatchSize)
+    );
     setIsLoading(false);
   }, [isLoading, loadedCount, items.length, delay, adaptiveBatchSize]);
 
@@ -328,7 +346,7 @@ export function useProgressiveLoading<T>(
   // Auto-load more when scrolled near bottom
   const [scrollRef] = useGlassIntersection({
     threshold: threshold,
-    rootMargin: '100px',
+    rootMargin: "100px",
   });
 
   return {

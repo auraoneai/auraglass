@@ -14,7 +14,7 @@ import { Motion } from "../../primitives";
 export interface DragData {
   id: string;
   type: string;
-  data?: any;
+  data?: unknown;
 }
 
 export interface GlassDraggableProps {
@@ -29,7 +29,7 @@ export interface GlassDraggableProps {
   /**
    * Additional data to pass during drag
    */
-  data?: any;
+  data?: unknown;
   /**
    * Drag handle element
    */
@@ -71,9 +71,6 @@ const DragContext = createContext<DragContextType | null>(null);
 export const useDragContext = () => {
   const context = useContext(DragContext);
   if (!context) {
-    console.warn(
-      "useDragContext must be used within a DragProvider. Using default values."
-    );
     return {
       isDragging: false,
       dragOffset: { x: 0, y: 0 },
@@ -86,7 +83,7 @@ export const useDragContext = () => {
 
 /**
  * GlassDraggable component
- * Makes any element draggable with visual feedback
+ * Makes an element draggable with visual feedback
  */
 export const GlassDraggable: React.FC<GlassDraggableProps> = ({
   id,
@@ -288,7 +285,9 @@ export const GlassDroppable: React.FC<GlassDroppableProps> = ({
       e.preventDefault();
       if (disabled) return;
 
-      const dragData = JSON.parse(e.dataTransfer.getData("application/json"));
+      const dragData = JSON.parse(
+        e.dataTransfer.getData("application/json")
+      ) as DragData;
       const isAccepted =
         (accept?.length || 0) === 0 || accept.includes(dragData.type);
 
@@ -328,7 +327,9 @@ export const GlassDroppable: React.FC<GlassDroppableProps> = ({
       e.preventDefault();
       if (disabled) return;
 
-      const dragData = JSON.parse(e.dataTransfer.getData("application/json"));
+      const dragData = JSON.parse(
+        e.dataTransfer.getData("application/json")
+      ) as DragData;
       const isAccepted =
         (accept?.length || 0) === 0 || accept.includes(dragData.type);
 
@@ -398,7 +399,7 @@ export const GlassDroppable: React.FC<GlassDroppableProps> = ({
 export interface SortableItem {
   id: string;
   content: React.ReactNode;
-  data?: any;
+  data?: unknown;
 }
 
 export interface GlassSortableProps {

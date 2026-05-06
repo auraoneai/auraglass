@@ -75,8 +75,8 @@ export function AccessibilityProvider({
         const parsedSettings = JSON.parse(saved);
         setSettings((prev: any) => ({ ...prev, ...parsedSettings }));
       }
-    } catch (error) {
-      console.warn("Failed to load accessibility settings:", error);
+    } catch {
+      setSettings((prev: any) => ({ ...defaultSettings, ...prev }));
     }
   }, [storageKey]);
 
@@ -84,8 +84,8 @@ export function AccessibilityProvider({
   useEffect(() => {
     try {
       localStorage.setItem(storageKey, JSON.stringify(settings));
-    } catch (error) {
-      console.warn("Failed to save accessibility settings:", error);
+    } catch {
+      // Ignore storage failures; settings remain active in memory.
     }
   }, [settings, storageKey]);
 

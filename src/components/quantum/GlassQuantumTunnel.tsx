@@ -32,6 +32,24 @@ export interface TunnelBarrier {
   quantumCoherence: number;
 }
 
+export interface QuantumTunnelTransition {
+  from: string;
+  to: string;
+  progress: number;
+  probability: number;
+  startTime: number;
+}
+
+export interface QuantumTunnelParticle {
+  id: string;
+  x: number;
+  y: number;
+  energy: number;
+  wavePhase: number;
+  tunneling: boolean;
+  targetState?: string;
+}
+
 export interface GlassQuantumTunnelProps
   extends React.HTMLAttributes<HTMLDivElement> {
   quantumStates?: QuantumState[];
@@ -107,27 +125,13 @@ export const GlassQuantumTunnel = forwardRef<
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [currentTime, setCurrentTime] = useState(0);
     const [activeTransitions, setActiveTransitions] = useState<
-      Array<{
-        from: string;
-        to: string;
-        progress: number;
-        probability: number;
-        startTime: number;
-      }>
+      QuantumTunnelTransition[]
     >([]);
     const [measuredStates, setMeasuredStates] = useState<Set<string>>(
       new Set()
     );
     const [quantumParticles, setQuantumParticles] = useState<
-      Array<{
-        id: string;
-        x: number;
-        y: number;
-        energy: number;
-        wavePhase: number;
-        tunneling: boolean;
-        targetState?: string;
-      }>
+      QuantumTunnelParticle[]
     >([]);
     const id = useA11yId("glass-quantum-tunnel");
     const { shouldAnimate } = useMotionPreference();
@@ -153,7 +157,7 @@ export const GlassQuantumTunnel = forwardRef<
     useEffect(() => {
       if (quantumStates.length === 0) return;
       const interval = setInterval(() => {
-        setCurrentTime((prev: any) => prev + 0.1 * tunnelingSpeed);
+        setCurrentTime((prev) => prev + 0.1 * tunnelingSpeed);
       }, ANIMATION.DURATION.fast);
       return () => clearInterval(interval);
     }, [tunnelingSpeed, quantumStates.length]);
@@ -163,10 +167,10 @@ export const GlassQuantumTunnel = forwardRef<
       if (!realTimeMode || quantumStates.length === 0) return;
 
       const interval = setInterval(() => {
-        quantumStates.forEach((state: any) => {
+        quantumStates.forEach((state) => {
           if (!state.isActive) return;
 
-          state.connections.forEach((connectionId: any) => {
+          state.connections.forEach((connectionId) => {
             const targetState = quantumStates.find(
               (s) => s.id === connectionId
             );
@@ -191,7 +195,7 @@ export const GlassQuantumTunnel = forwardRef<
 
             // Random tunneling events
             if (Math.random() < tunnelingProb * 0.1) {
-              setActiveTransitions((prev: any) => [
+              setActiveTransitions((prev) => [
                 ...prev,
                 {
                   from: state.id,
@@ -222,21 +226,21 @@ export const GlassQuantumTunnel = forwardRef<
     // Update active transitions
     useEffect(() => {
       if (quantumStates.length === 0) return;
-      setActiveTransitions((prev: any) =>
+      setActiveTransitions((prev) =>
         prev
-          .map((transition: any) => ({
+          .map((transition) => ({
             ...transition,
             progress: Math.min(1, (currentTime - transition.startTime) / 5),
           }))
-          .filter((transition: any) => transition.progress < 1)
+          .filter((transition) => transition.progress < 1)
       );
     }, [currentTime, quantumStates.length]);
 
     // Update quantum particles
     useEffect(() => {
       if (quantumStates.length === 0) return;
-      setQuantumParticles((prev: any) =>
-        prev.map((particle: any) => {
+      setQuantumParticles((prev) =>
+        prev.map((particle) => {
           const state = quantumStates.find(
             (s) => s.id === particle.id.replace("particle-", "")
           );
@@ -296,7 +300,7 @@ export const GlassQuantumTunnel = forwardRef<
 
       // Draw barriers
       if (showBarriers) {
-        barriers.forEach((barrier: any) => {
+        barriers.forEach((barrier) => {
           ctx.fillStyle = canvasColors.error(barrier.transparency);
           ctx.fillRect(
             barrier.position.x - barrier.width / 2,
@@ -319,7 +323,7 @@ export const GlassQuantumTunnel = forwardRef<
 
       // Draw energy levels
       if (showEnergyLevels) {
-        quantumStates.forEach((state: any) => {
+        quantumStates.forEach((state) => {
           const y = 200 - state.energy * 20;
           ctx.strokeStyle = canvasColors.info(0.6);
           ctx.lineWidth = 2;
@@ -334,7 +338,7 @@ export const GlassQuantumTunnel = forwardRef<
 
       // Draw wave functions
       if (showWaveFunction) {
-        quantumParticles.forEach((particle: any) => {
+        quantumParticles.forEach((particle) => {
           const state = quantumStates.find(
             (s) => s.id === particle.id.replace("particle-", "")
           );
@@ -384,7 +388,7 @@ export const GlassQuantumTunnel = forwardRef<
       }
 
       // Draw quantum particles
-      quantumParticles.forEach((particle: any) => {
+      quantumParticles.forEach((particle) => {
         const radius = particle.tunneling ? 8 : 6;
         const alpha = particle.tunneling ? 0.9 : 0.7;
 
@@ -417,8 +421,8 @@ export const GlassQuantumTunnel = forwardRef<
       });
 
       // Draw connections
-      quantumStates.forEach((state: any) => {
-        state.connections.forEach((connectionId: any) => {
+      quantumStates.forEach((state) => {
+        state.connections.forEach((connectionId) => {
           const targetState = quantumStates.find((s) => s.id === connectionId);
           if (!targetState) return;
 
@@ -503,7 +507,7 @@ export const GlassQuantumTunnel = forwardRef<
 
             {/* Quantum state overlays */}
             <AnimatePresence>
-              {quantumStates.map((state: any) => (
+              {quantumStates.map((state) => (
                 <motion.div
                   key={state.id}
                   className={`
@@ -566,7 +570,7 @@ export const GlassQuantumTunnel = forwardRef<
 
             {/* Active transitions */}
             <AnimatePresence>
-              {activeTransitions.map((transition: any) => {
+              {activeTransitions.map((transition) => {
                 const fromState = quantumStates.find(
                   (s) => s.id === transition.from
                 );
@@ -668,8 +672,8 @@ export const GlassQuantumTunnel = forwardRef<
                 <div className="glass-text-primary-glass-opacity-90 glass-font-medium">
                   {quantumStates.length > 0
                     ? (
-                        Math.max(...quantumStates.map((s: any) => s.energy)) -
-                        Math.min(...quantumStates.map((s: any) => s.energy))
+                        Math.max(...quantumStates.map((s) => s.energy)) -
+                        Math.min(...quantumStates.map((s) => s.energy))
                       ).toFixed(1)
                     : "0"}{" "}
                   eV

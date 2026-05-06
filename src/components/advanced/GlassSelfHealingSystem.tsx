@@ -45,7 +45,7 @@ interface ComponentIssue {
   autoFixable: boolean;
   fixAttempts: number;
   resolved: boolean;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
 }
 
 interface HealingAction {
@@ -72,6 +72,24 @@ interface HealingStrategy {
   successRate: number;
   executionTime: number;
 }
+
+interface BrowserPerformanceMemory {
+  usedJSHeapSize: number;
+}
+
+interface PerformanceWithMemory extends Performance {
+  memory?: BrowserPerformanceMemory;
+}
+
+type SelfHealingComponentInput = Record<string, unknown>;
+
+const HEALTH_STATUS_COLORS: Record<ComponentHealthCheck["status"], string> = {
+  healthy: "var(--glass-color-success)",
+  warning: "var(--glass-color-warning)",
+  critical: "var(--glass-color-danger)",
+  healing: "var(--glass-color-primary)",
+  failed: "#7f1d1d",
+};
 
 // Visual anomaly detection using computer vision techniques
 class VisualAnomalyDetector {
@@ -118,8 +136,7 @@ class VisualAnomalyDetector {
       }
 
       return snapshot;
-    } catch (error) {
-      console.warn("Failed to capture element snapshot:", error);
+    } catch {
       return null;
     }
   }
@@ -142,7 +159,7 @@ class VisualAnomalyDetector {
     ];
 
     let hash = 0;
-    importantProps.forEach((prop: any) => {
+    importantProps.forEach((prop) => {
       const value = styles.getPropertyValue(prop);
       for (let i = 0; i < value.length; i++) {
         hash = (hash << 5) - hash + value.charCodeAt(i);
@@ -432,7 +449,7 @@ class AccessibilityAnomalyDetector {
     // Simple RGB extraction (works for rgb() and rgba() formats)
     const match = color.match(/rgba?\(([^)]+)\)/);
     if (match) {
-      const values = match[1].split(",").map((v: any) => parseInt(v.trim()));
+      const values = match[1].split(",").map((v) => parseInt(v.trim()));
       return [values[0] || 0, values[1] || 0, values[2] || 0];
     }
     return [0, 0, 0]; // Fallback
@@ -495,7 +512,7 @@ class AccessibilityAnomalyDetector {
       // Large number of focusable elements might need focus management
       let hasFocusManagement = false;
 
-      focusableElements.forEach((el: any) => {
+      focusableElements.forEach((el) => {
         if (
           el.getAttribute("aria-describedby") ||
           el.getAttribute("aria-controls")
@@ -582,9 +599,7 @@ class PerformanceAnomalyDetector {
     }
 
     // Check for rendering spikes
-    const recentSpikes = renderTimes.filter(
-      (time: any) => time > avgRenderTime * 2
-    );
+    const recentSpikes = renderTimes.filter((time) => time > avgRenderTime * 2);
     if (recentSpikes.length > renderTimes.length * 0.1) {
       issues.push({
         id: `render-spikes-${Date.now()}`,
@@ -600,8 +615,9 @@ class PerformanceAnomalyDetector {
     }
 
     // Check memory usage if available
-    if ((performance as any).memory) {
-      const memUsage = (performance as any).memory.usedJSHeapSize / 1024 / 1024;
+    const memory = (performance as PerformanceWithMemory).memory;
+    if (memory) {
+      const memUsage = memory.usedJSHeapSize / 1024 / 1024;
       if (memUsage > 50) {
         // 50MB threshold
         issues.push({
@@ -786,9 +802,8 @@ class SelfHealingSystem {
     health.recoveryAttempts++;
 
     // Find applicable healing strategies
-    const applicableStrategies = this.healingStrategies.filter(
-      (strategy: any) =>
-        health.issues.some((issue) => strategy.conditions(issue))
+    const applicableStrategies = this.healingStrategies.filter((strategy) =>
+      health.issues.some((issue) => strategy.conditions(issue))
     );
 
     // Sort by priority
@@ -798,7 +813,7 @@ class SelfHealingSystem {
 
     for (const strategy of applicableStrategies) {
       try {
-        const actions = strategy.actions.map((action: any) => ({
+        const actions = strategy.actions.map<HealingAction>((action) => ({
           ...action,
           targetComponent: componentId,
         }));
@@ -812,20 +827,14 @@ class SelfHealingSystem {
 
           if (success) {
             healingSuccess = true;
-            console.log(
-              `✅ Healing action ${action.actionType} succeeded for ${componentId}`
-            );
           } else {
-            console.warn(
-              `❌ Healing action ${action.actionType} failed for ${componentId}`
-            );
             await action.rollback();
           }
         }
 
         if (healingSuccess) break;
-      } catch (error) {
-        console.error(`Healing strategy ${strategy.name} failed:`, error);
+      } catch {
+        // Try the next strategy when one fails.
       }
     }
 
@@ -839,12 +848,8 @@ class SelfHealingSystem {
     if (healingSuccess && updatedHealth.healthScore > health.healthScore) {
       updatedHealth.status =
         updatedHealth.healthScore > 0.8 ? "healthy" : "warning";
-      console.log(
-        `🎉 Component ${componentId} successfully healed! Health: ${(updatedHealth.healthScore * 100).toFixed(1)}%`
-      );
     } else {
       updatedHealth.status = "failed";
-      console.error(`💀 Healing failed for component ${componentId}`);
     }
 
     return healingSuccess;
@@ -1082,8 +1087,8 @@ export function GlassSelfHealingWrapper({
           componentType
         );
         setHealth(diagnosis);
-      } catch (error) {
-        console.warn("Self-healing diagnosis failed:", error);
+      } catch {
+        setHealth(null);
       }
     };
 
@@ -1174,7 +1179,7 @@ export function GlassSelfHealingDashboard({
       const health = getAllHealth();
       setAllHealth(
         showOnlyUnhealthy
-          ? health.filter((h: any) => h.status !== "healthy")
+          ? health.filter((h) => h.status !== "healthy")
           : health
       );
     };
@@ -1184,15 +1189,9 @@ export function GlassSelfHealingDashboard({
     return () => clearInterval(interval);
   }, [getAllHealth, showOnlyUnhealthy]);
 
-  const criticalCount = allHealth.filter(
-    (h: any) => h.status === "critical"
-  ).length;
-  const warningCount = allHealth.filter(
-    (h: any) => h.status === "warning"
-  ).length;
-  const healingCount = allHealth.filter(
-    (h: any) => h.status === "healing"
-  ).length;
+  const criticalCount = allHealth.filter((h) => h.status === "critical").length;
+  const warningCount = allHealth.filter((h) => h.status === "warning").length;
+  const healingCount = allHealth.filter((h) => h.status === "healing").length;
 
   return (
     <div className={cn("fixed top-4 left-4 z-50", className)}>
@@ -1241,7 +1240,7 @@ export function GlassSelfHealingDashboard({
               </button>
             </div>
 
-            {allHealth.map((health: any) => (
+            {allHealth.map((health) => (
               <motion.div
                 key={health.componentId}
                 className="glass-p-3 glass-surface-secondary glass-radius-md"
@@ -1256,15 +1255,7 @@ export function GlassSelfHealingDashboard({
                     <div
                       className="glass-w-3 glass-h-3 glass-radius-full"
                       style={{
-                        backgroundColor: (
-                          {
-                            healthy: "var(--glass-color-success)",
-                            warning: "var(--glass-color-warning)",
-                            critical: "var(--glass-color-danger)",
-                            healing: "var(--glass-color-primary)",
-                            failed: "#7f1d1d",
-                          } as const as any
-                        )[health.status],
+                        backgroundColor: HEALTH_STATUS_COLORS[health.status],
                       }}
                     />
                     <span className="glass-text-xs glass-text-secondary">
@@ -1312,8 +1303,7 @@ export function useComponentSelfHealing(
         );
         setHealth(diagnosis);
         return diagnosis;
-      } catch (error) {
-        console.warn(`Health check failed for ${componentId}:`, error);
+      } catch {
         return null;
       }
     }
@@ -1339,7 +1329,7 @@ export function GlassSelfHealingSystem({
 }: {
   children?: React.ReactNode;
   className?: string;
-  components?: any[];
+  components?: SelfHealingComponentInput[];
 } & React.HTMLAttributes<HTMLDivElement>) {
   return (
     <GlassSelfHealingProvider>

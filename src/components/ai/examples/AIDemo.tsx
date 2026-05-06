@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * AI Demo Component
  *
@@ -54,9 +54,8 @@ export const AIDemo: React.FC = () => {
     setError(null);
 
     try {
-      const result = await aiClient.login(email, password);
+      await aiClient.login(email, password);
       setIsAuthenticated(true);
-      console.log("Logged in as:", result.user);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -69,9 +68,8 @@ export const AIDemo: React.FC = () => {
     setError(null);
 
     try {
-      const result = await aiClient.register(email, password);
+      await aiClient.register(email, password);
       setIsAuthenticated(true);
-      console.log("Registered:", result);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -115,7 +113,6 @@ export const AIDemo: React.FC = () => {
       const result = await aiClient.search(searchQuery, { limit: 10 });
       setSearchResults(result.results);
       setEnhancedQuery(result.enhancedQuery);
-      console.log("Detected intent:", result.intent);
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -172,16 +169,16 @@ export const AIDemo: React.FC = () => {
   // ============================================
 
   const renderAuthTab = () => (
-    <div className='glass-space-y-6'>
+    <div className="glass-space-y-6">
       <div>
-        <h3 className='glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-mb-4'>
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-mb-4">
           {isAuthenticated ? "✓ Authenticated" : "Authentication Required"}
         </h3>
 
         {!isAuthenticated ? (
-          <div className='glass-space-y-4'>
+          <div className="glass-space-y-4">
             <div>
-              <label className='glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2'>
+              <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
                 Email
               </label>
               <input
@@ -189,12 +186,12 @@ export const AIDemo: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="user@example.com"
-                className='glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
               />
             </div>
 
             <div>
-              <label className='glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2'>
+              <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
                 Password
               </label>
               <input
@@ -202,7 +199,7 @@ export const AIDemo: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="********"
-                className='glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
               />
             </div>
 
@@ -210,27 +207,27 @@ export const AIDemo: React.FC = () => {
               <button
                 onClick={handleLogin}
                 disabled={loading || !email || !password}
-                className='glass-flex-1 glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-flex-1 glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 {loading ? "Logging in..." : "Login"}
               </button>
               <button
                 onClick={handleRegister}
                 disabled={loading || !email || !password}
-                className='glass-flex-1 glass-px-4 glass-py-2 glass-border glass-border-white/30 glass-text-primary glass-radius-lg hover:glass-surface-subtle/5 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-flex-1 glass-px-4 glass-py-2 glass-border glass-border-white/30 glass-text-primary glass-radius-lg hover:glass-surface-subtle/5 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
               >
                 {loading ? "Registering..." : "Register"}
               </button>
             </div>
           </div>
         ) : (
-          <div className='glass-space-y-4'>
-            <p className='glass-text-primary-opacity-70'>
+          <div className="glass-space-y-4">
+            <p className="glass-text-primary-opacity-70">
               You are logged in as: <strong>{email}</strong>
             </p>
             <button
               onClick={handleLogout}
-              className='glass-px-4 glass-py-2 glass-border glass-border-red/30 glass-text-primary glass-radius-lg hover:glass-surface-red/10 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-4 glass-py-2 glass-border glass-border-red/30 glass-text-primary glass-radius-lg hover:glass-surface-red/10 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             >
               Logout
             </button>
@@ -241,9 +238,9 @@ export const AIDemo: React.FC = () => {
   );
 
   const renderFormsTab = () => (
-    <div className='glass-space-y-6'>
+    <div className="glass-space-y-6">
       <div>
-        <label className='glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2'>
+        <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
           Form Context (describe your form)
         </label>
         <input
@@ -251,21 +248,21 @@ export const AIDemo: React.FC = () => {
           value={formContext}
           onChange={(e) => setFormContext(e.target.value)}
           placeholder="e.g., 'user registration form', 'contact form', 'payment form'"
-          className='glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+          className="glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
         />
       </div>
 
       <button
         onClick={handleGenerateForm}
         disabled={loading || !formContext}
-        className='glass-w-full glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+        className="glass-w-full glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         {loading ? "Generating with GPT-4..." : "🤖 Generate Smart Form Fields"}
       </button>
 
       {generatedFields.length > 0 && (
-        <div className='glass-space-y-3'>
-          <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+        <div className="glass-space-y-3">
+          <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
             Generated Fields:
           </h4>
           {generatedFields.map((field, index) => (
@@ -273,22 +270,24 @@ export const AIDemo: React.FC = () => {
               key={index}
               className="glass-p-4 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg"
             >
-              <div className='glass-flex glass-items-center glass-justify-between glass-mb-2'>
-                <span className='glass-font-medium glass-text-primary-glass-opacity-90'>
+              <div className="glass-flex glass-items-center glass-justify-between glass-mb-2">
+                <span className="glass-font-medium glass-text-primary-glass-opacity-90">
                   {field.label}
                 </span>
                 <span className="glass-text-xs glass-px-2 glass-py-1 glass-surface-subtle/20 glass-radius">
                   {field.fieldType}
                 </span>
               </div>
-              <p className='glass-text-sm glass-text-primary-glass-opacity-60 glass-mb-2'>
+              <p className="glass-text-sm glass-text-primary-glass-opacity-60 glass-mb-2">
                 {field.placeholder}
               </p>
               {field.required && (
-                <span className='glass-text-xs glass-text-primary'>* Required</span>
+                <span className="glass-text-xs glass-text-primary">
+                  * Required
+                </span>
               )}
               {field.validation && (
-                <div className='glass-text-xs glass-text-primary-glass-opacity-50 glass-mt-2'>
+                <div className="glass-text-xs glass-text-primary-glass-opacity-50 glass-mt-2">
                   Validation: {JSON.stringify(field.validation)}
                 </div>
               )}
@@ -300,9 +299,9 @@ export const AIDemo: React.FC = () => {
   );
 
   const renderSearchTab = () => (
-    <div className='glass-space-y-6'>
+    <div className="glass-space-y-6">
       <div>
-        <label className='glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2'>
+        <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
           Search Query
         </label>
         <input
@@ -311,28 +310,32 @@ export const AIDemo: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyPress={(e) => e.key === "Enter" && handleSearch()}
           placeholder="Search anything..."
-          className='glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+          className="glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
         />
       </div>
 
       <button
         onClick={handleSearch}
         disabled={loading || !searchQuery}
-        className='glass-w-full glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+        className="glass-w-full glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         {loading ? "Searching with AI..." : "🔍 Semantic Search"}
       </button>
 
       {enhancedQuery && (
         <div className="glass-p-3 glass-surface-subtle/10 glass-border glass-border-blue/20 glass-radius-lg">
-          <span className='glass-text-xs glass-text-primary-glass-opacity-60'>Enhanced Query:</span>
-          <p className='glass-text-sm glass-text-primary-glass-opacity-90 glass-mt-1'>{enhancedQuery}</p>
+          <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+            Enhanced Query:
+          </span>
+          <p className="glass-text-sm glass-text-primary-glass-opacity-90 glass-mt-1">
+            {enhancedQuery}
+          </p>
         </div>
       )}
 
       {searchResults.length > 0 && (
-        <div className='glass-space-y-3'>
-          <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+        <div className="glass-space-y-3">
+          <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
             Results ({searchResults.length}):
           </h4>
           {searchResults.map((result) => (
@@ -340,11 +343,13 @@ export const AIDemo: React.FC = () => {
               key={result.id}
               className="glass-p-4 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg"
             >
-              <p className='glass-text-primary-glass-opacity-90 glass-mb-2'>{result.content}</p>
-              <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-60'>
+              <p className="glass-text-primary-glass-opacity-90 glass-mb-2">
+                {result.content}
+              </p>
+              <div className="glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-60">
                 <span>Score: {result.score.toFixed(3)}</span>
                 {result.highlights && result.highlights.length > 0 && (
-                  <span className='glass-text-primary'>★ Highlighted</span>
+                  <span className="glass-text-primary">★ Highlighted</span>
                 )}
               </div>
             </div>
@@ -355,33 +360,33 @@ export const AIDemo: React.FC = () => {
   );
 
   const renderImagesTab = () => (
-    <div className='glass-space-y-6'>
+    <div className="glass-space-y-6">
       <div>
-        <label className='glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2'>
+        <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
           Upload Image
         </label>
         <input
           type="file"
           accept="image/*"
           onChange={handleImageUpload}
-          className='glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-file-mr-4 glass-file-py-2 glass-file-px-4 glass-file-radius glass-file-border-0 glass-file-surface-blue glass-file-text-primary glass-touch-target glass-contrast-guard'
+          className="glass-w-full glass-px-4 glass-py-2 glass-border glass-border-white/20 glass-radius-lg glass-surface-subtle/5 glass-text-primary glass-file-mr-4 glass-file-py-2 glass-file-px-4 glass-file-radius glass-file-border-0 glass-file-surface-blue glass-file-text-primary glass-touch-target glass-contrast-guard"
         />
       </div>
 
       {selectedImage && (
         <>
-          <div className='glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden'>
+          <div className="glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden">
             <img
               src={selectedImage}
               alt="Uploaded"
-              className='glass-w-full glass-h-full glass-object-cover'
+              className="glass-w-full glass-h-full glass-object-cover"
             />
           </div>
 
           <button
             onClick={handleRemoveBackground}
             disabled={loading}
-            className='glass-w-full glass-px-6 glass-py-3 glass-surface-green glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+            className="glass-w-full glass-px-6 glass-py-3 glass-surface-green glass-text-primary glass-radius-lg hover:glass-opacity-90 disabled:glass-opacity-50 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
           >
             {loading ? "Removing Background..." : "✂️ Remove Background"}
           </button>
@@ -389,26 +394,26 @@ export const AIDemo: React.FC = () => {
       )}
 
       {imageAnalysis && (
-        <div className='glass-space-y-3'>
-          <h4 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80'>
+        <div className="glass-space-y-3">
+          <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
             Analysis Results:
           </h4>
 
           <div className="glass-grid glass-grid-cols-2 glass-gap-3">
             <div className="glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg">
-              <div className='glass-text-2xl glass-font-bold glass-text-primary-glass-opacity-90'>
+              <div className="glass-text-2xl glass-font-bold glass-text-primary-glass-opacity-90">
                 {imageAnalysis.faces?.length || 0}
               </div>
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60">
                 Faces Detected
               </div>
             </div>
 
             <div className="glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg">
-              <div className='glass-text-2xl glass-font-bold glass-text-primary-glass-opacity-90'>
+              <div className="glass-text-2xl glass-font-bold glass-text-primary-glass-opacity-90">
                 {imageAnalysis.objects?.length || 0}
               </div>
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60">
                 Objects Detected
               </div>
             </div>
@@ -416,12 +421,14 @@ export const AIDemo: React.FC = () => {
 
           {imageAnalysis.labels && imageAnalysis.labels.length > 0 && (
             <div className="glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg">
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2'>Labels:</div>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2">
+                Labels:
+              </div>
               <div className="glass-flex glass-flex-wrap glass-gap-2">
                 {imageAnalysis.labels.slice(0, 5).map((label, i) => (
                   <span
                     key={i}
-                    className='glass-px-2 glass-py-1 glass-surface-subtle/20 glass-radius glass-text-xs glass-text-primary-glass-opacity-90'
+                    className="glass-px-2 glass-py-1 glass-surface-subtle/20 glass-radius glass-text-xs glass-text-primary-glass-opacity-90"
                   >
                     {label.description} ({(label.score * 100).toFixed(0)}%)
                   </span>
@@ -432,10 +439,10 @@ export const AIDemo: React.FC = () => {
 
           {imageAnalysis.text && imageAnalysis.text.text && (
             <div className="glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/10 glass-radius-lg">
-              <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2'>
+              <div className="glass-text-xs glass-text-primary-glass-opacity-60 glass-mb-2">
                 Extracted Text:
               </div>
-              <p className='glass-text-sm glass-text-primary-glass-opacity-90'>
+              <p className="glass-text-sm glass-text-primary-glass-opacity-90">
                 {imageAnalysis.text.text.substring(0, 200)}...
               </p>
             </div>
@@ -450,14 +457,14 @@ export const AIDemo: React.FC = () => {
   // ============================================
 
   return (
-    <div data-glass-component className='glass-min-h-screen glass-p-6'>
-      <div className='glass-max-w-4xl glass-mx-auto'>
+    <div data-glass-component className="glass-min-h-screen glass-p-6">
+      <div className="glass-max-w-4xl glass-mx-auto">
         <OptimizedGlass className="glass-p-8">
-          <div className='glass-mb-8'>
-            <h1 className='glass-text-3xl glass-font-bold glass-text-primary-glass-opacity-90 glass-mb-2'>
+          <div className="glass-mb-8">
+            <h1 className="glass-text-3xl glass-font-bold glass-text-primary-glass-opacity-90 glass-mb-2">
               🤖 AuraGlass AI Demo
             </h1>
-            <p className='glass-text-primary-glass-opacity-60'>
+            <p className="glass-text-primary-glass-opacity-60">
               Production-ready AI features with real OpenAI, Pinecone, and
               Google Vision APIs
             </p>
@@ -465,13 +472,13 @@ export const AIDemo: React.FC = () => {
 
           {/* Error Display */}
           {error && (
-            <div className='glass-mb-6 glass-p-4 glass-border glass-border-red/30 glass-surface-red/20 glass-radius-lg'>
-              <p className='glass-text-primary glass-text-sm'>⚠️ {error}</p>
+            <div className="glass-mb-6 glass-p-4 glass-border glass-border-red/30 glass-surface-red/20 glass-radius-lg">
+              <p className="glass-text-primary glass-text-sm">⚠️ {error}</p>
             </div>
           )}
 
           {/* Tabs */}
-          <div className='glass-flex glass-gap-2 glass-mb-6 glass-border-b glass-border-white/10 glass-pb-4'>
+          <div className="glass-flex glass-gap-2 glass-mb-6 glass-border-b glass-border-white/10 glass-pb-4">
             {[
               { id: "auth", label: "🔐 Auth", icon: "🔐" },
               { id: "forms", label: "📝 Smart Forms", icon: "📝" },
@@ -494,7 +501,7 @@ export const AIDemo: React.FC = () => {
           </div>
 
           {/* Tab Content */}
-          <div className='glass-min-h-400px'>
+          <div className="glass-min-h-400px">
             {activeTab === "auth" && renderAuthTab()}
             {activeTab === "forms" && renderFormsTab()}
             {activeTab === "search" && renderSearchTab()}
@@ -502,8 +509,8 @@ export const AIDemo: React.FC = () => {
           </div>
 
           {/* Server Status */}
-          <div className='glass-mt-8 glass-pt-6 glass-border-t glass-border-white/10'>
-            <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
+          <div className="glass-mt-8 glass-pt-6 glass-border-t glass-border-white/10">
+            <div className="glass-text-xs glass-text-primary-glass-opacity-60">
               💡 <strong>Tip:</strong> Make sure your API server is running on
               port 3001. Run:{" "}
               <code className="glass-px-2 glass-py-1 glass-surface-subtle/20 glass-radius">

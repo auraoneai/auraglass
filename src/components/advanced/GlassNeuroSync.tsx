@@ -652,9 +652,6 @@ class NeuroSyncSystem {
       // Real device connection would go here
       // For now, we'll use Web Bluetooth API simulation
       if ("bluetooth" in navigator) {
-        // Attempt to connect to BCI device
-        console.log(`Attempting to connect to ${deviceType} device...`);
-
         // This would be replaced with actual device-specific connection code
         this.isConnected = true;
         this.deviceInfo = {
@@ -668,8 +665,7 @@ class NeuroSyncSystem {
       }
 
       throw new Error("Web Bluetooth not supported");
-    } catch (error) {
-      console.error("Failed to connect to EEG device:", error);
+    } catch {
       return false;
     }
   }

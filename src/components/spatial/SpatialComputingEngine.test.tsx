@@ -60,7 +60,7 @@ describe("SpatialComputingEngine", () => {
    * Debug Overlay: Renders spatial debug info overlay
    */
   it("renders spatial debug overlay", () => {
-    render(<SpatialComputingEngine />);
+    render(<SpatialComputingEngine showDebugHud />);
 
     const envText = screen.getByText(/Env:/i);
     expect(envText).toBeInTheDocument();

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
@@ -24,13 +24,21 @@ interface VoiceGlassControlProps {
   position?: "bottom-left" | "bottom-right" | "top-left" | "top-right";
   autoEnable?: boolean;
   showTranscript?: boolean;
-  onVoiceCommand?: (command: string, result: any) => void;
+  onVoiceCommand?: (command: string, result: VoiceCommandResult) => void;
   onToggleControls?: (show: boolean) => void;
   wakeWord?: string;
   enableFeedback?: boolean;
   showHelp?: boolean;
   maxTranscriptLength?: number;
-  'data-testid'?: string;
+  "data-testid"?: string;
+}
+
+interface VoiceCommandResult {
+  type: string;
+  action: string;
+  feedback?: string;
+  originalText?: string;
+  parameters?: Record<string, unknown>;
 }
 
 interface VoiceCommand {
@@ -48,7 +56,9 @@ const useVoiceGlassControl = () => {
   const [isSupported, setIsSupported] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [interimTranscript, setInterimTranscript] = useState("");
-  const [lastCommand, setLastCommand] = useState<any>(null);
+  const [lastCommand, setLastCommand] = useState<VoiceCommandResult | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [wakeWordDetected, setWakeWordDetected] = useState(false);
   const [availableVoices, setAvailableVoices] = useState<
@@ -183,7 +193,7 @@ export default function VoiceGlassControl({
   enableFeedback = true,
   showHelp = true,
   maxTranscriptLength = 100,
-  'data-testid': dataTestId,
+  "data-testid": dataTestId,
 }: VoiceGlassControlProps) {
   const prefersReducedMotion = useReducedMotion();
   const { state, actions } = useVoiceGlassControl();
@@ -234,14 +244,17 @@ export default function VoiceGlassControl({
   // Handle voice command callback
   useEffect(() => {
     if (state.lastCommand && onVoiceCommand) {
-      onVoiceCommand(state.lastCommand.originalText, state.lastCommand);
+      onVoiceCommand(
+        state.lastCommand.originalText ?? state.lastCommand.action,
+        state.lastCommand
+      );
     }
   }, [state.lastCommand, onVoiceCommand]);
 
   // Handle controls visibility
   useEffect(() => {
     if (state.lastCommand?.type === "TOGGLE_CONTROLS" && onToggleControls) {
-      onToggleControls(state.lastCommand.parameters?.show || false);
+      onToggleControls(state.lastCommand.parameters?.show === true);
     }
   }, [state.lastCommand, onToggleControls]);
 
@@ -415,9 +428,8 @@ export default function VoiceGlassControl({
   );
 
   // Mock function to set last command (would be handled by the hook in real implementation)
-  const setLastCommand = (command: any) => {
+  const setLastCommand = (command: VoiceCommandResult) => {
     // In real implementation, this would update the hook's state
-    console.log("Voice command processed:", command);
     if (feedbackEnabled && command.feedback) {
       actions.speak(command.feedback, selectedVoice || undefined);
     }
@@ -432,14 +444,18 @@ export default function VoiceGlassControl({
 
   const getStateIcon = () => {
     if (!state.isSupported)
-      return <AlertCircle className='glass-h-5 glass-w-5 glass-text-primary' />;
-    if (state.isListening) return <Mic className='glass-h-5 glass-w-5 glass-text-primary' />;
+      return <AlertCircle className="glass-h-5 glass-w-5 glass-text-primary" />;
+    if (state.isListening)
+      return <Mic className="glass-h-5 glass-w-5 glass-text-primary" />;
     if (state.wakeWordDetected)
-      return <Mic className='glass-h-5 glass-w-5 glass-text-primary glass-animate-pulse' />;
-    if (state.error) return <AlertCircle className='glass-h-5 glass-w-5 glass-text-primary' />;
+      return (
+        <Mic className="glass-h-5 glass-w-5 glass-text-primary glass-animate-pulse" />
+      );
+    if (state.error)
+      return <AlertCircle className="glass-h-5 glass-w-5 glass-text-primary" />;
     if (state.isEnabled)
-      return <MicOff className='glass-h-5 glass-w-5 glass-text-secondary' />;
-    return <MicOff className='glass-h-5 glass-w-5 glass-text-secondary' />;
+      return <MicOff className="glass-h-5 glass-w-5 glass-text-secondary" />;
+    return <MicOff className="glass-h-5 glass-w-5 glass-text-secondary" />;
   };
 
   const getStateColor = () => {
@@ -475,16 +491,16 @@ export default function VoiceGlassControl({
 
   if (!state.isSupported) {
     return (
-      <div 
+      <div
         className={cn("fixed z-50", positionClasses[position], className)}
-        data-testid={dataTestId || 'voiceglasscontrol'}
+        data-testid={dataTestId || "voiceglasscontrol"}
       >
         <motion.div
           className="glass-backdrop-blur-lg glass-border glass-border-red/20 glass-surface-red/10 glass-p-3 glass-radius-lg glass-contrast-guard"
           whileHover={{ scale: 1.05 }}
         >
-          <div className='glass-flex glass-items-center glass-gap-2 glass-text-primary'>
-            <AlertCircle className='glass-h-4 glass-w-4' />
+          <div className="glass-flex glass-items-center glass-gap-2 glass-text-primary">
+            <AlertCircle className="glass-h-4 glass-w-4" />
             <span className="glass-text-sm">Voice control not supported</span>
           </div>
         </motion.div>
@@ -493,9 +509,9 @@ export default function VoiceGlassControl({
   }
 
   return (
-    <div 
+    <div
       className={cn("fixed z-50", positionClasses[position], className)}
-      data-testid={dataTestId || 'voiceglasscontrol'}
+      data-testid={dataTestId || "voiceglasscontrol"}
     >
       <div className="glass-flex glass-flex-col glass-gap-2">
         {/* Main Control */}
@@ -510,17 +526,17 @@ export default function VoiceGlassControl({
             {/* State Icon */}
             <button
               onClick={actions.toggle}
-              className='glass-flex glass-items-center glass-justify-center glass-w-10 glass-h-10 glass-radius-full glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-flex glass-items-center glass-justify-center glass-w-10 glass-h-10 glass-radius-full glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
             >
               {getStateIcon()}
             </button>
 
             {/* State Info */}
-            <div className='glass-flex-1 glass-min-w-0'>
-              <div className='glass-text-sm glass-font-medium glass-text-primary'>
+            <div className="glass-flex-1 glass-min-w-0">
+              <div className="glass-text-sm glass-font-medium glass-text-primary">
                 Voice Control
               </div>
-              <div className='glass-text-xs glass-text-primary-opacity-70 glass-truncate'>
+              <div className="glass-text-xs glass-text-primary-opacity-70 glass-truncate">
                 {getStateDescription()}
               </div>
             </div>
@@ -530,18 +546,18 @@ export default function VoiceGlassControl({
               {showHelp && (
                 <button
                   onClick={() => setShowHelpPanel(true)}
-                  className='glass-p-1.5 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-p-1.5 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                   title="Help"
                 >
-                  <HelpCircle className='glass-h-4 glass-w-4 glass-text-primary-opacity-70' />
+                  <HelpCircle className="glass-h-4 glass-w-4 glass-text-primary-opacity-70" />
                 </button>
               )}
               <button
                 onClick={() => setShowSettings(true)}
-                className='glass-p-1.5 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-p-1.5 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 title="Settings"
               >
-                <Settings className='glass-h-4 glass-w-4 glass-text-primary-opacity-70' />
+                <Settings className="glass-h-4 glass-w-4 glass-text-primary-opacity-70" />
               </button>
             </div>
           </div>
@@ -552,7 +568,7 @@ export default function VoiceGlassControl({
               initial={{ opacity: 0, y: -10 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className='glass-mt-2 glass-p-2 glass-surface-green/20 glass-radius glass-text-xs glass-text-primary glass-text-center'
+              className="glass-mt-2 glass-p-2 glass-surface-green/20 glass-radius glass-text-xs glass-text-primary glass-text-center"
             >
               🎤 Wake word detected - speak your command now!
             </motion.div>
@@ -563,15 +579,15 @@ export default function VoiceGlassControl({
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-              className='glass-mt-2 glass-p-2 glass-surface-red/20 glass-radius glass-text-xs glass-text-primary'
+              className="glass-mt-2 glass-p-2 glass-surface-red/20 glass-radius glass-text-xs glass-text-primary"
             >
               <div className="glass-flex glass-items-center glass-justify-between">
                 <span>{state.error}</span>
                 <button
                   onClick={actions.clearError}
-                  className='glass-p-0.5 hover:glass-surface-red/20 glass-radius glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-p-0.5 hover:glass-surface-red/20 glass-radius glass-focus glass-touch-target glass-contrast-guard"
                 >
-                  <X className='glass-h-3 glass-w-3' />
+                  <X className="glass-h-3 glass-w-3" />
                 </button>
               </div>
             </motion.div>
@@ -582,11 +598,11 @@ export default function VoiceGlassControl({
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-              className='glass-mt-2 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-xs'
+              className="glass-mt-2 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-xs"
             >
-              <div className='glass-text-primary glass-font-medium'>
+              <div className="glass-text-primary glass-font-medium">
                 {state.transcript}
-                <span className='glass-text-primary-glass-opacity-50 glass-italic'>
+                <span className="glass-text-primary-glass-opacity-50 glass-italic">
                   {state.interimTranscript}
                 </span>
               </div>
@@ -598,10 +614,10 @@ export default function VoiceGlassControl({
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-              className='glass-mt-2 glass-p-2 glass-surface-blue/20 glass-radius glass-text-xs glass-text-primary'
+              className="glass-mt-2 glass-p-2 glass-surface-blue/20 glass-radius glass-text-xs glass-text-primary"
             >
               <div className="glass-flex glass-items-start glass-gap-2">
-                <CheckCircle className='glass-h-3 glass-w-3 glass-mt-0-5 glass-flex-shrink-0' />
+                <CheckCircle className="glass-h-3 glass-w-3 glass-mt-0-5 glass-flex-shrink-0" />
                 <span>{state.lastFeedback}</span>
               </div>
             </motion.div>
@@ -612,38 +628,38 @@ export default function VoiceGlassControl({
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
-              className='glass-mt-2 glass-flex glass-items-center glass-gap-2 glass-p-2 glass-surface-subtle/10 glass-radius'
+              className="glass-mt-2 glass-flex glass-items-center glass-gap-2 glass-p-2 glass-surface-subtle/10 glass-radius"
             >
               <button
                 onClick={() => setIsPlaying(false)}
-                className='glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard"
                 title="Pause"
               >
-                <Pause className='glass-h-3 glass-w-3 glass-text-primary' />
+                <Pause className="glass-h-3 glass-w-3 glass-text-primary" />
               </button>
               <button
                 onClick={() => processVoiceCommand("previous track")}
-                className='glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard"
                 title="Previous"
               >
-                <SkipBack className='glass-h-3 glass-w-3 glass-text-primary' />
+                <SkipBack className="glass-h-3 glass-w-3 glass-text-primary" />
               </button>
               <button
                 onClick={() => processVoiceCommand("next track")}
-                className='glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-p-1 hover:glass-surface-subtle/20 glass-radius glass-focus glass-touch-target glass-contrast-guard"
                 title="Next"
               >
-                <SkipForward className='glass-h-3 glass-w-3 glass-text-primary' />
+                <SkipForward className="glass-h-3 glass-w-3 glass-text-primary" />
               </button>
               <div className="glass-flex-1 glass-flex glass-items-center glass-gap-2">
-                <Volume1 className='glass-h-3 glass-w-3 glass-text-primary-opacity-70' />
-                <div className='glass-flex-1 glass-surface-subtle/20 glass-radius-full glass-h-1'>
+                <Volume1 className="glass-h-3 glass-w-3 glass-text-primary-opacity-70" />
+                <div className="glass-flex-1 glass-surface-subtle/20 glass-radius-full glass-h-1">
                   <div
-                    className='glass-surface-blue glass-h-1 glass-radius-full glass-transition-all'
+                    className="glass-surface-blue glass-h-1 glass-radius-full glass-transition-all"
                     style={{ width: `${currentVolume}%` }}
                   />
                 </div>
-                <span className='glass-text-xs glass-text-primary-opacity-70'>
+                <span className="glass-text-xs glass-text-primary-opacity-70">
                   {currentVolume}%
                 </span>
               </div>
@@ -661,37 +677,39 @@ export default function VoiceGlassControl({
               }
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
-              <div className='glass-backdrop-blur-lg glass-border glass-border-white/20 glass-surface-subtle/10 glass-p-4 glass-radius-lg glass-w-80 glass-contrast-guard'>
-                <div className='glass-flex glass-items-center glass-justify-between glass-mb-3'>
-                  <h3 className='glass-font-medium glass-text-primary'>Voice Settings</h3>
+              <div className="glass-backdrop-blur-lg glass-border glass-border-white/20 glass-surface-subtle/10 glass-p-4 glass-radius-lg glass-w-80 glass-contrast-guard">
+                <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
+                  <h3 className="glass-font-medium glass-text-primary">
+                    Voice Settings
+                  </h3>
                   <button
                     onClick={() => setShowSettings(false)}
-                    className='glass-p-1 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                    className="glass-p-1 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                   >
-                    <X className='glass-h-4 glass-w-4 glass-text-primary-opacity-70' />
+                    <X className="glass-h-4 glass-w-4 glass-text-primary-opacity-70" />
                   </button>
                 </div>
 
-                <div className='glass-space-y-4'>
+                <div className="glass-space-y-4">
                   {/* Wake Word */}
                   <div>
-                    <label className='glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2'>
+                    <label className="glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2">
                       Wake Word
                     </label>
                     <input
                       type="text"
                       value={wakeWord}
                       readOnly
-                      className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
                     />
-                    <div className='glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1'>
+                    <div className="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1">
                       Say this to activate voice control
                     </div>
                   </div>
 
                   {/* Voice Selection */}
                   <div>
-                    <label className='glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2'>
+                    <label className="glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2">
                       Voice
                     </label>
                     <select
@@ -702,7 +720,7 @@ export default function VoiceGlassControl({
                           .find((v) => v.name === e.target.value);
                         setSelectedVoice(voice || null);
                       }}
-                      className='glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius glass-text-primary glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
                     >
                       {actions.getAvailableVoices().map((voice: any) => (
                         <option
@@ -719,10 +737,10 @@ export default function VoiceGlassControl({
                   {/* Voice Feedback Toggle */}
                   <div className="glass-flex glass-items-center glass-justify-between">
                     <div>
-                      <div className='glass-text-sm glass-font-medium glass-text-primary'>
+                      <div className="glass-text-sm glass-font-medium glass-text-primary">
                         Voice Feedback
                       </div>
-                      <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
+                      <div className="glass-text-xs glass-text-primary-glass-opacity-60">
                         Speak command confirmations
                       </div>
                     </div>
@@ -745,12 +763,12 @@ export default function VoiceGlassControl({
 
                   {/* Test Commands */}
                   <div>
-                    <label className='glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2'>
+                    <label className="glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2">
                       Test Commands
                     </label>
                     <button
                       onClick={handleTestCommand}
-                      className='glass-w-full glass-p-2 glass-surface-blue/20 hover:glass-surface-blue/30 glass-border glass-border-blue/30 glass-radius glass-text-primary glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-p-2 glass-surface-blue/20 hover:glass-surface-blue/30 glass-border glass-border-blue/30 glass-radius glass-text-primary glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                     >
                       Try Random Command
                     </button>
@@ -761,14 +779,14 @@ export default function VoiceGlassControl({
                           selectedVoice || undefined
                         )
                       }
-                      className='glass-w-full glass-p-2 glass-surface-green/20 hover:glass-surface-green/30 glass-border glass-border-green/30 glass-radius glass-text-primary glass-text-sm glass-transition-colors glass-mt-2 glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-p-2 glass-surface-green/20 hover:glass-surface-green/30 glass-border glass-border-green/30 glass-radius glass-text-primary glass-text-sm glass-transition-colors glass-mt-2 glass-focus glass-touch-target glass-contrast-guard"
                     >
                       Test Voice Output
                     </button>
                   </div>
 
                   {/* Status Info */}
-                  <div className='glass-pt-3 glass-border-t glass-border-white/10 glass-space-y-1 glass-text-xs glass-text-primary-glass-opacity-60'>
+                  <div className="glass-pt-3 glass-border-t glass-border-white/10 glass-space-y-1 glass-text-xs glass-text-primary-glass-opacity-60">
                     <div>
                       Status: {state.isEnabled ? "Enabled" : "Disabled"}
                     </div>
@@ -796,27 +814,29 @@ export default function VoiceGlassControl({
               }
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
-              <div className='glass-backdrop-blur-lg glass-border glass-border-white/20 glass-surface-subtle/10 glass-p-4 glass-radius-lg glass-w-96 glass-max-h-80 glass-overflow-y-auto glass-contrast-guard'>
-                <div className='glass-flex glass-items-center glass-justify-between glass-mb-3'>
-                  <h3 className='glass-font-medium glass-text-primary'>Voice Commands</h3>
+              <div className="glass-backdrop-blur-lg glass-border glass-border-white/20 glass-surface-subtle/10 glass-p-4 glass-radius-lg glass-w-96 glass-max-h-80 glass-overflow-y-auto glass-contrast-guard">
+                <div className="glass-flex glass-items-center glass-justify-between glass-mb-3">
+                  <h3 className="glass-font-medium glass-text-primary">
+                    Voice Commands
+                  </h3>
                   <button
                     onClick={() => setShowHelpPanel(false)}
-                    className='glass-p-1 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                    className="glass-p-1 hover:glass-surface-subtle/10 glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                   >
-                    <X className='glass-h-4 glass-w-4 glass-text-primary-opacity-70' />
+                    <X className="glass-h-4 glass-w-4 glass-text-primary-opacity-70" />
                   </button>
                 </div>
 
-                <div className='glass-space-y-3'>
-                  <div className='glass-text-sm glass-text-primary-glass-opacity-80'>
+                <div className="glass-space-y-3">
+                  <div className="glass-text-sm glass-text-primary-glass-opacity-80">
                     Start commands with{" "}
-                    <span className='glass-font-mono glass-surface-subtle/20 glass-px-1 glass-radius'>
+                    <span className="glass-font-mono glass-surface-subtle/20 glass-px-1 glass-radius">
                       "{wakeWord}"
                     </span>
                     :
                   </div>
 
-                  <div className='glass-space-y-2'>
+                  <div className="glass-space-y-2">
                     {GlassVoiceCommands()
                       .slice(0, 10)
                       .map((command, index) => (
@@ -824,20 +844,20 @@ export default function VoiceGlassControl({
                           key={index}
                           className="glass-p-2 glass-surface-subtle/5 glass-radius glass-text-sm"
                         >
-                          <div className='glass-text-primary glass-font-mono'>
+                          <div className="glass-text-primary glass-font-mono">
                             "{command}"
                           </div>
                         </div>
                       ))}
                   </div>
 
-                  <div className='glass-pt-3 glass-border-t glass-border-white/10'>
-                    <div className='glass-text-xs glass-text-primary-glass-opacity-60'>
-                      <div className='glass-flex glass-items-center glass-gap-2 glass-mb-1'>
-                        <MessageCircle className='glass-h-3 glass-w-3' />
+                  <div className="glass-pt-3 glass-border-t glass-border-white/10">
+                    <div className="glass-text-xs glass-text-primary-glass-opacity-60">
+                      <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
+                        <MessageCircle className="glass-h-3 glass-w-3" />
                         <span>Tips:</span>
                       </div>
-                      <ul className='glass-list-disc glass-list-inside glass-space-y-1 glass-ml-5'>
+                      <ul className="glass-list-disc glass-list-inside glass-space-y-1 glass-ml-5">
                         <li>Speak clearly and at normal volume</li>
                         <li>Wait for the wake word confirmation</li>
                         <li>Use natural language variations</li>

@@ -156,11 +156,8 @@ export class GlassErrorBoundary extends Component<
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(errorReport),
       // });
-    } catch (reportingError) {
-      // Silent fail in production, log in development
-      if (process.env.NODE_ENV === "development") {
-        console.warn("Failed to report error:", reportingError);
-      }
+    } catch {
+      // Reporting failures should not cascade back into the UI.
     }
   }
 
@@ -222,15 +219,15 @@ export class GlassErrorBoundary extends Component<
       // Default glassmorphism error UI
       return (
         <OptimizedGlass
-          className='glass-p-8 glass-m-4 glass-max-w-md glass-mx-auto glass-text-center'
+          className="glass-p-8 glass-m-4 glass-max-w-md glass-mx-auto glass-text-center"
           intensity="medium"
           elevation="level2"
         >
           <div className="glass-auto-gap glass-auto-gap-lg">
             {/* Error Icon */}
-            <div className='glass-w-16 glass-h-16 glass-mx-auto glass-surface-danger/20 glass-radius-full glass-flex glass-items-center glass-justify-center'>
+            <div className="glass-w-16 glass-h-16 glass-mx-auto glass-surface-danger/20 glass-radius-full glass-flex glass-items-center glass-justify-center">
               <svg
-                className='glass-w-8 glass-h-8 glass-text-primary'
+                className="glass-w-8 glass-h-8 glass-text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -246,7 +243,7 @@ export class GlassErrorBoundary extends Component<
 
             {/* Error Message */}
             <div>
-              <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-2'>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-2">
                 Oops! Something went wrong
               </h3>
               <p className="glass-text-primary-opacity-70 glass-text-sm">
@@ -255,7 +252,7 @@ export class GlassErrorBoundary extends Component<
             </div>
 
             {/* Error ID */}
-            <p className='glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono'>
+            <p className="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono">
               Error ID: {errorId}
             </p>
 
@@ -264,7 +261,7 @@ export class GlassErrorBoundary extends Component<
               {retryCount < maxRetries && (
                 <button
                   onClick={this.handleRetry}
-                  className='glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius hover:glass-surface-blue/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius hover:glass-surface-blue/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Try Again ({maxRetries - retryCount} attempts left)
                 </button>
@@ -272,21 +269,21 @@ export class GlassErrorBoundary extends Component<
 
               <button
                 onClick={() => getSafeWindow()?.location.reload?.()}
-                className='glass-px-4 glass-py-2 glass-surface-subtle/10 glass-text-primary-opacity-70 glass-radius hover:glass-surface-subtle/20 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+                className="glass-px-4 glass-py-2 glass-surface-subtle/10 glass-text-primary-opacity-70 glass-radius hover:glass-surface-subtle/20 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               >
                 Reload Page
               </button>
 
               {/* Development only: Show error details */}
               {process.env.NODE_ENV === "development" && (
-                <details className='glass-mt-4 glass-text-left'>
-                  <summary className='glass-cursor-pointer glass-text-primary-glass-opacity-50 glass-text-xs'>
+                <details className="glass-mt-4 glass-text-left">
+                  <summary className="glass-cursor-pointer glass-text-primary-glass-opacity-50 glass-text-xs">
                     Show Error Details
                   </summary>
-                  <pre className='glass-mt-2 glass-p-3 glass-surface-dark/20 glass-radius glass-text-xs glass-text-primary-opacity-70 glass-overflow-auto glass-max-h-32'>
+                  <pre className="glass-mt-2 glass-p-3 glass-surface-dark/20 glass-radius glass-text-xs glass-text-primary-opacity-70 glass-overflow-auto glass-max-h-32">
                     {error.stack}
                   </pre>
-                  <pre className='glass-mt-2 glass-p-3 glass-surface-dark/20 glass-radius glass-text-xs glass-text-primary-opacity-70 glass-overflow-auto glass-max-h-32'>
+                  <pre className="glass-mt-2 glass-p-3 glass-surface-dark/20 glass-radius glass-text-xs glass-text-primary-opacity-70 glass-overflow-auto glass-max-h-32">
                     {errorInfo.componentStack}
                   </pre>
                 </details>
@@ -308,11 +305,22 @@ export function withGlassErrorBoundary<P extends object>(
   Component: React.ComponentType<P>,
   errorBoundaryProps?: Omit<ErrorBoundaryProps, "children">
 ) {
-  const WrappedComponent = React.forwardRef<any, P>((props, ref) => (
-    <GlassErrorBoundary {...errorBoundaryProps}>
-      <Component {...(props as any)} ref={ref} />
-    </GlassErrorBoundary>
-  ));
+  const ComponentWithRef = Component as React.ComponentType<
+    P & React.RefAttributes<unknown>
+  >;
+
+  const WrappedComponent = React.forwardRef<unknown, P>((props, ref) => {
+    const componentProps = {
+      ...(props as P),
+      ref,
+    } as P & React.RefAttributes<unknown>;
+
+    return (
+      <GlassErrorBoundary {...errorBoundaryProps}>
+        <ComponentWithRef {...componentProps} />
+      </GlassErrorBoundary>
+    );
+  });
 
   WrappedComponent.displayName = `withGlassErrorBoundary(${Component.displayName || Component.name})`;
 
@@ -392,15 +400,15 @@ export class GlassAsyncErrorBoundary extends Component<
     if (hasError && error) {
       return (
         <OptimizedGlass
-          className='glass-p-6 glass-m-4 glass-text-center'
+          className="glass-p-6 glass-m-4 glass-text-center"
           intensity="medium"
           elevation="level1"
         >
           <div className="glass-auto-gap glass-auto-gap-lg">
-            <div className='glass-w-12 glass-h-12 glass-mx-auto glass-surface-warning/20 glass-radius-full glass-flex glass-items-center glass-justify-center'>
+            <div className="glass-w-12 glass-h-12 glass-mx-auto glass-surface-warning/20 glass-radius-full glass-flex glass-items-center glass-justify-center">
               {isTimeout ? (
                 <svg
-                  className='glass-w-6 glass-h-6 glass-text-primary'
+                  className="glass-w-6 glass-h-6 glass-text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -414,7 +422,7 @@ export class GlassAsyncErrorBoundary extends Component<
                 </svg>
               ) : (
                 <svg
-                  className='glass-w-6 glass-h-6 glass-text-primary'
+                  className="glass-w-6 glass-h-6 glass-text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -430,7 +438,7 @@ export class GlassAsyncErrorBoundary extends Component<
             </div>
 
             <div>
-              <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-2'>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-2">
                 {isTimeout ? "Request Timed Out" : "Loading Failed"}
               </h3>
               <p className="glass-text-primary-opacity-70 glass-text-sm">
@@ -442,7 +450,7 @@ export class GlassAsyncErrorBoundary extends Component<
 
             <button
               onClick={() => getSafeWindow()?.location.reload?.()}
-              className='glass-px-4 glass-py-2 glass-surface-warning/20 glass-text-secondary glass-radius hover:glass-surface-yellow/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-4 glass-py-2 glass-surface-warning/20 glass-text-secondary glass-radius hover:glass-surface-yellow/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
             >
               Reload Page
             </button>
@@ -491,9 +499,9 @@ export const GlassLightErrorBoundary: React.FC<{
 
   if (hasError) {
     return (
-      <div className='glass-p-4 glass-surface-danger/10 glass-border glass-border-red/20 glass-radius glass-text-center'>
+      <div className="glass-p-4 glass-surface-danger/10 glass-border glass-border-red/20 glass-radius glass-text-center">
         {fallback || (
-          <p className='glass-text-primary glass-text-sm'>
+          <p className="glass-text-primary glass-text-sm">
             This component failed to load
           </p>
         )}
@@ -516,33 +524,33 @@ export const GlassComponentErrorBoundary: React.FC<{
       componentName={componentName}
       fallback={({ error, retry, errorId }) => (
         <OptimizedGlass
-          className='glass-p-4 glass-text-center glass-border glass-border-red/20'
+          className="glass-p-4 glass-text-center glass-border glass-border-red/20"
           intensity="subtle"
           elevation="level1"
         >
           <div className="glass-auto-gap glass-auto-gap-md">
-            <div className='glass-w-10 glass-h-10 glass-mx-auto glass-surface-danger/20 glass-radius-full glass-flex glass-items-center glass-justify-center'>
-              <span className='glass-text-primary glass-text-sm'>⚠</span>
+            <div className="glass-w-10 glass-h-10 glass-mx-auto glass-surface-danger/20 glass-radius-full glass-flex glass-items-center glass-justify-center">
+              <span className="glass-text-primary glass-text-sm">⚠</span>
             </div>
 
             <div>
-              <h4 className='glass-text-primary glass-font-medium glass-text-sm'>
+              <h4 className="glass-text-primary glass-font-medium glass-text-sm">
                 {componentName} Error
               </h4>
-              <p className='glass-text-secondary/70 glass-text-xs glass-mt-1'>
+              <p className="glass-text-secondary/70 glass-text-xs glass-mt-1">
                 {error.message}
               </p>
             </div>
 
             <button
               onClick={retry}
-              className='glass-px-3 glass-py-1 glass-surface-danger/20 glass-text-secondary glass-radius glass-text-xs hover:glass-surface-red/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-1 glass-surface-danger/20 glass-text-secondary glass-radius glass-text-xs hover:glass-surface-red/30 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
             >
               Retry
             </button>
 
             {process.env.NODE_ENV === "development" && (
-              <p className='glass-text-primary/50 glass-text-xs glass-font-mono'>
+              <p className="glass-text-primary/50 glass-text-xs glass-font-mono">
                 ID: {errorId}
               </p>
             )}

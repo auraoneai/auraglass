@@ -3,52 +3,54 @@
  * WCAG 2.1 AA compliance and accessibility helpers
  */
 
-import { useId, useState, useEffect, useRef, useCallback } from 'react';
+import { useId, useState, useEffect, useRef, useCallback } from "react";
+
+type DebouncedCallback<TArgs extends unknown[]> = (...args: TArgs) => void;
 
 /**
  * ARIA role mappings for interactive elements
  */
 export const ARIA_ROLES = {
-  button: 'button',
-  link: 'link',
-  menu: 'menu',
-  menuitem: 'menuitem',
-  menubar: 'menubar',
-  menuitemcheckbox: 'menuitemcheckbox',
-  menuitemradio: 'menuitemradio',
-  dialog: 'dialog',
-  alert: 'alert',
-  alertdialog: 'alertdialog',
-  tab: 'tab',
-  tablist: 'tablist',
-  tabpanel: 'tabpanel',
-  navigation: 'navigation',
-  complementary: 'complementary',
-  main: 'main',
-  search: 'search',
-  form: 'form',
-  region: 'region',
-  combobox: 'combobox',
-  listbox: 'listbox',
-  option: 'option',
-  group: 'group',
-  radiogroup: 'radiogroup',
-  checkbox: 'checkbox',
-  radio: 'radio',
-  switch: 'switch',
-  slider: 'slider',
-  spinbutton: 'spinbutton',
-  progressbar: 'progressbar',
-  status: 'status',
-  log: 'log',
-  marquee: 'marquee',
-  timer: 'timer',
+  button: "button",
+  link: "link",
+  menu: "menu",
+  menuitem: "menuitem",
+  menubar: "menubar",
+  menuitemcheckbox: "menuitemcheckbox",
+  menuitemradio: "menuitemradio",
+  dialog: "dialog",
+  alert: "alert",
+  alertdialog: "alertdialog",
+  tab: "tab",
+  tablist: "tablist",
+  tabpanel: "tabpanel",
+  navigation: "navigation",
+  complementary: "complementary",
+  main: "main",
+  search: "search",
+  form: "form",
+  region: "region",
+  combobox: "combobox",
+  listbox: "listbox",
+  option: "option",
+  group: "group",
+  radiogroup: "radiogroup",
+  checkbox: "checkbox",
+  radio: "radio",
+  switch: "switch",
+  slider: "slider",
+  spinbutton: "spinbutton",
+  progressbar: "progressbar",
+  status: "status",
+  log: "log",
+  marquee: "marquee",
+  timer: "timer",
 } as const;
 
 /**
  * Generate unique IDs for ARIA relationships
  */
-export function generateAriaId(prefix = 'glass'): string {
+export function generateAriaId(prefix = "glass"): string {
   return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
 }
 
@@ -58,46 +60,54 @@ export function generateAriaId(prefix = 'glass'): string {
 export interface AriaProps {
   id?: string;
   role?: string;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-  'aria-expanded'?: boolean;
-  'aria-haspopup'?: boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
-  'aria-pressed'?: boolean;
-  'aria-checked'?: boolean | 'mixed';
-  'aria-selected'?: boolean;
-  'aria-disabled'?: boolean;
-  'aria-hidden'?: boolean;
-  'aria-live'?: 'polite' | 'assertive' | 'off';
-  'aria-atomic'?: boolean;
-  'aria-busy'?: boolean;
-  'aria-current'?: boolean | 'page' | 'step' | 'location' | 'date' | 'time';
-  'aria-invalid'?: boolean | 'false' | 'true' | 'grammar' | 'spelling';
-  'aria-required'?: boolean;
-  'aria-controls'?: string;
-  'aria-owns'?: string;
-  'aria-activedescendant'?: string;
-  'aria-modal'?: boolean;
-  'aria-multiline'?: boolean;
-  'aria-multiselectable'?: boolean;
-  'aria-readonly'?: boolean;
-  'aria-autocomplete'?: 'none' | 'inline' | 'list' | 'both';
-  'aria-orientation'?: 'horizontal' | 'vertical';
-  'aria-sort'?: 'none' | 'ascending' | 'descending' | 'other';
-  'aria-valuemin'?: number;
-  'aria-valuemax'?: number;
-  'aria-valuenow'?: number;
-  'aria-valuetext'?: string;
-  'aria-posinset'?: number;
-  'aria-setsize'?: number;
-  'aria-level'?: number;
-  'aria-rowcount'?: number;
-  'aria-colcount'?: number;
-  'aria-rowindex'?: number;
-  'aria-colindex'?: number;
-  'aria-colspan'?: number;
-  'aria-rowspan'?: number;
-  'aria-errormessage'?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+  "aria-expanded"?: boolean;
+  "aria-haspopup"?:
+    | boolean
+    | "false"
+    | "true"
+    | "menu"
+    | "listbox"
+    | "tree"
+    | "grid"
+    | "dialog";
+  "aria-pressed"?: boolean;
+  "aria-checked"?: boolean | "mixed";
+  "aria-selected"?: boolean;
+  "aria-disabled"?: boolean;
+  "aria-hidden"?: boolean;
+  "aria-live"?: "polite" | "assertive" | "off";
+  "aria-atomic"?: boolean;
+  "aria-busy"?: boolean;
+  "aria-current"?: boolean | "page" | "step" | "location" | "date" | "time";
+  "aria-invalid"?: boolean | "false" | "true" | "grammar" | "spelling";
+  "aria-required"?: boolean;
+  "aria-controls"?: string;
+  "aria-owns"?: string;
+  "aria-activedescendant"?: string;
+  "aria-modal"?: boolean;
+  "aria-multiline"?: boolean;
+  "aria-multiselectable"?: boolean;
+  "aria-readonly"?: boolean;
+  "aria-autocomplete"?: "none" | "inline" | "list" | "both";
+  "aria-orientation"?: "horizontal" | "vertical";
+  "aria-sort"?: "none" | "ascending" | "descending" | "other";
+  "aria-valuemin"?: number;
+  "aria-valuemax"?: number;
+  "aria-valuenow"?: number;
+  "aria-valuetext"?: string;
+  "aria-posinset"?: number;
+  "aria-setsize"?: number;
+  "aria-level"?: number;
+  "aria-rowcount"?: number;
+  "aria-colcount"?: number;
+  "aria-rowindex"?: number;
+  "aria-colindex"?: number;
+  "aria-colspan"?: number;
+  "aria-rowspan"?: number;
+  "aria-errormessage"?: string;
 }
 
 export function buildAriaProps(options: {
@@ -113,18 +123,18 @@ export function buildAriaProps(options: {
   required?: boolean;
 }): AriaProps {
   const props: AriaProps = {};
-  
+
   if (options.role) props.role = options.role;
-  if (options.label) props['aria-label'] = options.label;
-  if (options.labelledBy) props['aria-labelledby'] = options.labelledBy;
-  if (options.describedBy) props['aria-describedby'] = options.describedBy;
-  if (options.expanded !== undefined) props['aria-expanded'] = options.expanded;
-  if (options.disabled !== undefined) props['aria-disabled'] = options.disabled;
-  if (options.pressed !== undefined) props['aria-pressed'] = options.pressed;
-  if (options.checked !== undefined) props['aria-checked'] = options.checked;
-  if (options.invalid !== undefined) props['aria-invalid'] = options.invalid;
-  if (options.required !== undefined) props['aria-required'] = options.required;
-  
+  if (options.label) props["aria-label"] = options.label;
+  if (options.labelledBy) props["aria-labelledby"] = options.labelledBy;
+  if (options.describedBy) props["aria-describedby"] = options.describedBy;
+  if (options.expanded !== undefined) props["aria-expanded"] = options.expanded;
+  if (options.disabled !== undefined) props["aria-disabled"] = options.disabled;
+  if (options.pressed !== undefined) props["aria-pressed"] = options.pressed;
+  if (options.checked !== undefined) props["aria-checked"] = options.checked;
+  if (options.invalid !== undefined) props["aria-invalid"] = options.invalid;
+  if (options.required !== undefined) props["aria-required"] = options.required;
+
   return props;
 }
 
@@ -133,19 +143,19 @@ export function buildAriaProps(options: {
  */
 export function isAriaVisible(element: HTMLElement): boolean {
   // Check aria-hidden
-  if (element.getAttribute('aria-hidden') === 'true') return false;
-  
+  if (element.getAttribute("aria-hidden") === "true") return false;
+
   // Check parent aria-hidden
   let parent = element.parentElement;
   while (parent) {
-    if (parent.getAttribute('aria-hidden') === 'true') return false;
+    if (parent.getAttribute("aria-hidden") === "true") return false;
     parent = parent.parentElement;
   }
-  
+
   // Check CSS visibility
   const styles = window.getComputedStyle(element);
-  if (styles.display === 'none' || styles.visibility === 'hidden') return false;
-  
+  if (styles.display === "none" || styles.visibility === "hidden") return false;
+
   return true;
 }
 
@@ -156,13 +166,13 @@ export class LiveRegion {
   private element: HTMLDivElement;
   private queue: string[] = [];
   private isProcessing = false;
-  
-  constructor(priority: 'polite' | 'assertive' = 'polite') {
-    this.element = document.createElement('div');
-    this.element.setAttribute('role', 'status');
-    this.element.setAttribute('aria-live', priority);
-    this.element.setAttribute('aria-atomic', 'true');
-    this.element.className='glass-sr-only'; // Visually hidden
+
+  constructor(priority: "polite" | "assertive" = "polite") {
+    this.element = document.createElement("div");
+    this.element.setAttribute("role", "status");
+    this.element.setAttribute("aria-live", priority);
+    this.element.setAttribute("aria-atomic", "true");
+    this.element.className = "glass-sr-only"; // Visually hidden
     this.element.style.cssText = `
       position: absolute;
       left: -10000px;
@@ -172,31 +182,31 @@ export class LiveRegion {
     `;
     document.body.appendChild(this.element);
   }
-  
+
   announce(message: string) {
     this.queue.push(message);
     this.processQueue();
   }
-  
+
   private async processQueue() {
     if (this.isProcessing || this.queue.length === 0) return;
-    
+
     this.isProcessing = true;
     const message = this.queue.shift()!;
-    
+
     // Clear and set new message
-    this.element.textContent = '';
-    await new Promise(resolve => setTimeout(resolve, 100));
+    this.element.textContent = "";
+    await new Promise((resolve) => setTimeout(resolve, 100));
     this.element.textContent = message;
-    
+
     // Wait before processing next
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     this.isProcessing = false;
-    
+
     // Process next message
     this.processQueue();
   }
-  
+
   destroy() {
     document.body.removeChild(this.element);
   }
@@ -206,25 +216,25 @@ export class LiveRegion {
  * Keyboard navigation helpers
  */
 export const KEYS = {
-  ENTER: 'Enter',
-  SPACE: ' ',
-  ESCAPE: 'Escape',
-  TAB: 'Tab',
-  ARROW_UP: 'ArrowUp',
-  ARROW_DOWN: 'ArrowDown',
-  ARROW_LEFT: 'ArrowLeft',
-  ARROW_RIGHT: 'ArrowRight',
-  HOME: 'Home',
-  END: 'End',
-  PAGE_UP: 'PageUp',
-  PAGE_DOWN: 'PageDown',
+  ENTER: "Enter",
+  SPACE: " ",
+  ESCAPE: "Escape",
+  TAB: "Tab",
+  ARROW_UP: "ArrowUp",
+  ARROW_DOWN: "ArrowDown",
+  ARROW_LEFT: "ArrowLeft",
+  ARROW_RIGHT: "ArrowRight",
+  HOME: "Home",
+  END: "End",
+  PAGE_UP: "PageUp",
+  PAGE_DOWN: "PageDown",
 } as const;
 
 /**
  * Check if keyboard event is a navigation key
  */
 export function isNavigationKey(key: string): boolean {
-  const navigationKeys = [
+  const navigationKeys: readonly string[] = [
     KEYS.TAB,
     KEYS.ARROW_UP,
     KEYS.ARROW_DOWN,
@@ -235,7 +245,7 @@ export function isNavigationKey(key: string): boolean {
     KEYS.PAGE_UP,
     KEYS.PAGE_DOWN,
   ];
-  return navigationKeys.includes(key as any);
+  return navigationKeys.includes(key);
 }
 
 /**
@@ -250,12 +260,12 @@ export function isActivationKey(key: string): boolean {
  */
 export function ensureMinimumTouchTarget(element: HTMLElement, minSize = 44) {
   const rect = element.getBoundingClientRect();
-  
+
   if (rect.width < minSize || rect.height < minSize) {
     // Add padding to meet minimum size
     const paddingX = Math.max(0, (minSize - rect.width) / 2);
     const paddingY = Math.max(0, (minSize - rect.height) / 2);
-    
+
     element.style.padding = `${paddingY}px ${paddingX}px`;
   }
 }
@@ -281,24 +291,27 @@ export function srOnly(element: HTMLElement) {
  * Check if user prefers reduced motion
  */
 export function prefersReducedMotion(): boolean {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 /**
  * Check if user prefers high contrast
  */
 export function prefersHighContrast(): boolean {
-  return window.matchMedia('(prefers-contrast: high)').matches;
+  return window.matchMedia("(prefers-contrast: high)").matches;
 }
 
 /**
  * Create skip link for keyboard navigation
  */
-export function createSkipLink(targetId: string, text = 'Skip to main content'): HTMLAnchorElement {
-  const link = document.createElement('a');
+export function createSkipLink(
+  targetId: string,
+  text = "Skip to main content"
+): HTMLAnchorElement {
+  const link = document.createElement("a");
   link.href = `#${targetId}`;
   link.textContent = text;
-  link.className='glass-skip-link';
+  link.className = "glass-skip-link";
   link.style.cssText = `
     position: absolute;
     left: -10000px;
@@ -307,9 +320,9 @@ export function createSkipLink(targetId: string, text = 'Skip to main content'):
     height: 1px;
     overflow: hidden;
   `;
-  
+
   // Show on focus
-  link.addEventListener('focus', () => {
+  link.addEventListener("focus", () => {
     link.style.cssText = `
       position: absolute;
       left: 50%;
@@ -325,8 +338,8 @@ export function createSkipLink(targetId: string, text = 'Skip to main content'):
       /* Backdrop blur via tokenized surfaces */
     `;
   });
-  
-  link.addEventListener('blur', () => {
+
+  link.addEventListener("blur", () => {
     link.style.cssText = `
       position: absolute;
       left: -10000px;
@@ -336,17 +349,20 @@ export function createSkipLink(targetId: string, text = 'Skip to main content'):
       overflow: hidden;
     `;
   });
-  
+
   return link;
 }
 
 /**
  * Debounce function for reducing announcement frequency
  */
-export function debounceAnnouncement(func: Function, delay = 500) {
+export function debounceAnnouncement<TArgs extends unknown[]>(
+  func: DebouncedCallback<TArgs>,
+  delay = 500
+) {
   let timeoutId: NodeJS.Timeout;
-  
-  return (...args: any[]) => {
+
+  return (...args: TArgs) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
   };
@@ -357,14 +373,14 @@ export function debounceAnnouncement(func: Function, delay = 500) {
  */
 export function formatNumberForAnnouncement(num: number): string {
   // Add spaces between digits for better pronunciation
-  return num.toString().split('').join(' ');
+  return num.toString().split("").join(" ");
 }
 
 /**
  * Build descriptive text for complex UI elements
  */
 export function buildDescription(parts: (string | undefined)[]): string {
-  return parts.filter(Boolean).join(', ');
+  return parts.filter(Boolean).join(", ");
 }
 
 /**
@@ -380,12 +396,12 @@ export const useA11yId = (prefix?: string): string => {
  */
 export interface FormFieldA11yProps extends AriaProps {
   id?: string;
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-  'aria-required'?: boolean;
-  'aria-invalid'?: boolean | 'false' | 'true' | 'grammar' | 'spelling';
-  'aria-errormessage'?: string;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+  "aria-required"?: boolean;
+  "aria-invalid"?: boolean | "false" | "true" | "grammar" | "spelling";
+  "aria-errormessage"?: string;
 }
 
 export function createFormFieldA11y(options: {
@@ -416,22 +432,22 @@ export function createFormFieldA11y(options: {
   const attrs: FormFieldA11yProps = {};
 
   if (id) attrs.id = id;
-  if (label && !labelId) attrs['aria-label'] = label;
-  if (labelId) attrs['aria-labelledby'] = labelId;
-  if (required) attrs['aria-required'] = true;
-  if (invalid) attrs['aria-invalid'] = true;
-  if (disabled) attrs['aria-disabled'] = true;
+  if (label && !labelId) attrs["aria-label"] = label;
+  if (labelId) attrs["aria-labelledby"] = labelId;
+  if (required) attrs["aria-required"] = true;
+  if (invalid) attrs["aria-invalid"] = true;
+  if (disabled) attrs["aria-disabled"] = true;
 
   // Build describedby from available descriptions
   const describedByIds = [];
   if (description && descriptionId) describedByIds.push(descriptionId);
   if (error && errorId) describedByIds.push(errorId);
   if (describedByIds.length > 0) {
-    attrs['aria-describedby'] = describedByIds.join(' ');
+    attrs["aria-describedby"] = describedByIds.join(" ");
   }
 
   if (error && errorId) {
-    attrs['aria-errormessage'] = errorId;
+    attrs["aria-errormessage"] = errorId;
   }
 
   return attrs;
@@ -442,12 +458,20 @@ export function createFormFieldA11y(options: {
  */
 export interface ButtonA11yProps extends AriaProps {
   id?: string;
-  'aria-label'?: string;
-  'aria-describedby'?: string;
-  'aria-pressed'?: boolean;
-  'aria-expanded'?: boolean;
-  'aria-controls'?: string;
-  'aria-haspopup'?: boolean | 'false' | 'true' | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  "aria-label"?: string;
+  "aria-describedby"?: string;
+  "aria-pressed"?: boolean;
+  "aria-expanded"?: boolean;
+  "aria-controls"?: string;
+  "aria-haspopup"?:
+    | boolean
+    | "false"
+    | "true"
+    | "menu"
+    | "listbox"
+    | "tree"
+    | "grid"
+    | "dialog";
 }
 
 export function createButtonA11y(options: {
@@ -457,7 +481,7 @@ export function createButtonA11y(options: {
   pressed?: boolean;
   expanded?: boolean;
   controls?: string;
-  haspopup?: boolean | 'menu' | 'listbox' | 'tree' | 'grid' | 'dialog';
+  haspopup?: boolean | "menu" | "listbox" | "tree" | "grid" | "dialog";
   disabled?: boolean;
   descriptionId?: string;
 }): ButtonA11yProps {
@@ -476,13 +500,13 @@ export function createButtonA11y(options: {
   const attrs: ButtonA11yProps = {};
 
   if (id) attrs.id = id;
-  if (label) attrs['aria-label'] = label;
-  if (description && descriptionId) attrs['aria-describedby'] = descriptionId;
-  if (pressed !== undefined) attrs['aria-pressed'] = pressed;
-  if (expanded !== undefined) attrs['aria-expanded'] = expanded;
-  if (controls) attrs['aria-controls'] = controls;
-  if (haspopup !== undefined) attrs['aria-haspopup'] = haspopup;
-  if (disabled) attrs['aria-disabled'] = true;
+  if (label) attrs["aria-label"] = label;
+  if (description && descriptionId) attrs["aria-describedby"] = descriptionId;
+  if (pressed !== undefined) attrs["aria-pressed"] = pressed;
+  if (expanded !== undefined) attrs["aria-expanded"] = expanded;
+  if (controls) attrs["aria-controls"] = controls;
+  if (haspopup !== undefined) attrs["aria-haspopup"] = haspopup;
+  if (disabled) attrs["aria-disabled"] = true;
 
   return attrs;
 }
@@ -492,20 +516,20 @@ export function createButtonA11y(options: {
  */
 export interface NavigationA11yProps extends AriaProps {
   id?: string;
-  'aria-label'?: string;
-  'aria-current'?: boolean | 'page' | 'step' | 'location' | 'date' | 'time';
-  'aria-expanded'?: boolean;
-  'aria-controls'?: string;
-  'aria-owns'?: string;
-  'aria-level'?: number;
-  'aria-posinset'?: number;
-  'aria-setsize'?: number;
+  "aria-label"?: string;
+  "aria-current"?: boolean | "page" | "step" | "location" | "date" | "time";
+  "aria-expanded"?: boolean;
+  "aria-controls"?: string;
+  "aria-owns"?: string;
+  "aria-level"?: number;
+  "aria-posinset"?: number;
+  "aria-setsize"?: number;
 }
 
 export function createNavigationA11y(options: {
   id?: string;
   label?: string;
-  current?: boolean | 'page' | 'step' | 'location' | 'date' | 'time';
+  current?: boolean | "page" | "step" | "location" | "date" | "time";
   expanded?: boolean;
   controls?: string;
   owns?: string;
@@ -528,14 +552,14 @@ export function createNavigationA11y(options: {
   const attrs: NavigationA11yProps = {};
 
   if (id) attrs.id = id;
-  if (label) attrs['aria-label'] = label;
-  if (current !== undefined) attrs['aria-current'] = current;
-  if (expanded !== undefined) attrs['aria-expanded'] = expanded;
-  if (controls) attrs['aria-controls'] = controls;
-  if (owns) attrs['aria-owns'] = owns;
-  if (level !== undefined) attrs['aria-level'] = level;
-  if (posinset !== undefined) attrs['aria-posinset'] = posinset;
-  if (setsize !== undefined) attrs['aria-setsize'] = setsize;
+  if (label) attrs["aria-label"] = label;
+  if (current !== undefined) attrs["aria-current"] = current;
+  if (expanded !== undefined) attrs["aria-expanded"] = expanded;
+  if (controls) attrs["aria-controls"] = controls;
+  if (owns) attrs["aria-owns"] = owns;
+  if (level !== undefined) attrs["aria-level"] = level;
+  if (posinset !== undefined) attrs["aria-posinset"] = posinset;
+  if (setsize !== undefined) attrs["aria-setsize"] = setsize;
 
   return attrs;
 }
@@ -545,10 +569,10 @@ export function createNavigationA11y(options: {
  */
 export interface ModalA11yProps extends AriaProps {
   id?: string;
-  role: 'dialog';
-  'aria-modal'?: boolean;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
+  role: "dialog";
+  "aria-modal"?: boolean;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
 }
 
 export function createModalA11y(options: {
@@ -560,13 +584,13 @@ export function createModalA11y(options: {
   const { id, titleId, descriptionId, modal = true } = options;
 
   const attrs: ModalA11yProps = {
-    role: 'dialog',
+    role: "dialog",
   };
 
   if (id) attrs.id = id;
-  if (modal) attrs['aria-modal'] = true;
-  if (titleId) attrs['aria-labelledby'] = titleId;
-  if (descriptionId) attrs['aria-describedby'] = descriptionId;
+  if (modal) attrs["aria-modal"] = true;
+  if (titleId) attrs["aria-labelledby"] = titleId;
+  if (descriptionId) attrs["aria-describedby"] = descriptionId;
 
   return attrs;
 }
@@ -580,8 +604,8 @@ export function createComboboxA11y(options: {
   expanded?: boolean;
   controls?: string;
   activedescendant?: string;
-  hasPopup?: 'listbox' | 'menu' | 'tree' | 'grid' | 'dialog';
-  autocomplete?: 'none' | 'inline' | 'list' | 'both';
+  hasPopup?: "listbox" | "menu" | "tree" | "grid" | "dialog";
+  autocomplete?: "none" | "inline" | "list" | "both";
   required?: boolean;
   invalid?: boolean;
   disabled?: boolean;
@@ -594,8 +618,8 @@ export function createComboboxA11y(options: {
     expanded,
     controls,
     activedescendant,
-    hasPopup = 'listbox',
-    autocomplete = 'list',
+    hasPopup = "listbox",
+    autocomplete = "list",
     required = false,
     invalid = false,
     disabled = false,
@@ -604,21 +628,21 @@ export function createComboboxA11y(options: {
   } = options;
 
   const attrs: AriaProps = {
-    role: 'combobox',
-    'aria-autocomplete': autocomplete,
+    role: "combobox",
+    "aria-autocomplete": autocomplete,
   };
 
   if (id) attrs.id = id;
-  if (label && !labelId) attrs['aria-label'] = label;
-  if (labelId) attrs['aria-labelledby'] = labelId;
-  if (descriptionId) attrs['aria-describedby'] = descriptionId;
-  if (expanded !== undefined) attrs['aria-expanded'] = expanded;
-  if (controls) attrs['aria-controls'] = controls;
-  if (activedescendant) attrs['aria-activedescendant'] = activedescendant;
-  if (hasPopup) attrs['aria-haspopup'] = hasPopup;
-  if (required) attrs['aria-required'] = true;
-  if (invalid) attrs['aria-invalid'] = true;
-  if (disabled) attrs['aria-disabled'] = true;
+  if (label && !labelId) attrs["aria-label"] = label;
+  if (labelId) attrs["aria-labelledby"] = labelId;
+  if (descriptionId) attrs["aria-describedby"] = descriptionId;
+  if (expanded !== undefined) attrs["aria-expanded"] = expanded;
+  if (controls) attrs["aria-controls"] = controls;
+  if (activedescendant) attrs["aria-activedescendant"] = activedescendant;
+  if (hasPopup) attrs["aria-haspopup"] = hasPopup;
+  if (required) attrs["aria-required"] = true;
+  if (invalid) attrs["aria-invalid"] = true;
+  if (disabled) attrs["aria-disabled"] = true;
 
   return attrs;
 }
@@ -636,14 +660,14 @@ export function createListboxOptionA11y(options: {
   const { id, selected, disabled, posinset, setsize } = options;
 
   const attrs: AriaProps = {
-    role: 'option',
+    role: "option",
   };
 
   if (id) attrs.id = id;
-  if (selected !== undefined) attrs['aria-selected'] = selected;
-  if (disabled) attrs['aria-disabled'] = true;
-  if (posinset !== undefined) attrs['aria-posinset'] = posinset;
-  if (setsize !== undefined) attrs['aria-setsize'] = setsize;
+  if (selected !== undefined) attrs["aria-selected"] = selected;
+  if (disabled) attrs["aria-disabled"] = true;
+  if (posinset !== undefined) attrs["aria-posinset"] = posinset;
+  if (setsize !== undefined) attrs["aria-setsize"] = setsize;
 
   return attrs;
 }
@@ -663,9 +687,9 @@ export function createPaginationA11y(options: {
   const attrs: AriaProps = {};
 
   if (id) attrs.id = id;
-  if (label) attrs['aria-label'] = label;
-  if (current) attrs['aria-current'] = 'page';
-  if (disabled) attrs['aria-disabled'] = true;
+  if (label) attrs["aria-label"] = label;
+  if (current) attrs["aria-current"] = "page";
+  if (disabled) attrs["aria-disabled"] = true;
 
   return attrs;
 }
@@ -693,7 +717,7 @@ export const focusUtils = {
     const focusable = container.querySelector(
       'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
     ) as HTMLElement;
-    
+
     if (focusable) {
       focusable.focus();
     }
@@ -706,7 +730,7 @@ export const focusUtils = {
     const focusable = container.querySelectorAll(
       'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
     );
-    
+
     const lastFocusable = focusable[focusable.length - 1] as HTMLElement;
     if (lastFocusable) {
       lastFocusable.focus();
@@ -720,7 +744,7 @@ export const focusUtils = {
     const elements = container.querySelectorAll(
       'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
     );
-    
+
     return Array.from(elements) as HTMLElement[];
   },
 };
@@ -732,75 +756,89 @@ export const keyboardHandlers = {
   /**
    * Handle escape key
    */
-  onEscape: (callback: () => void) => (event: KeyboardEvent | React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      event.stopPropagation();
-      callback();
-    }
-  },
+  onEscape:
+    (callback: () => void) => (event: KeyboardEvent | React.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        callback();
+      }
+    },
 
   /**
    * Handle enter or space key for button-like elements
    */
-  onActivate: (callback: () => void) => (event: KeyboardEvent | React.KeyboardEvent) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      event.stopPropagation();
-      callback();
-    }
-  },
+  onActivate:
+    (callback: () => void) => (event: KeyboardEvent | React.KeyboardEvent) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        event.stopPropagation();
+        callback();
+      }
+    },
 
   /**
    * Handle arrow navigation
    */
-  onArrowNavigation: (options: {
-    onArrowUp?: () => void;
-    onArrowDown?: () => void;
-    onArrowLeft?: () => void;
-    onArrowRight?: () => void;
-    onHome?: () => void;
-    onEnd?: () => void;
-  }) => (event: KeyboardEvent | React.KeyboardEvent) => {
-    const { onArrowUp, onArrowDown, onArrowLeft, onArrowRight, onHome, onEnd } = options;
-    
-    switch (event.key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        onArrowUp?.();
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        onArrowDown?.();
-        break;
-      case 'ArrowLeft':
-        event.preventDefault();
-        onArrowLeft?.();
-        break;
-      case 'ArrowRight':
-        event.preventDefault();
-        onArrowRight?.();
-        break;
-      case 'Home':
-        event.preventDefault();
-        onHome?.();
-        break;
-      case 'End':
-        event.preventDefault();
-        onEnd?.();
-        break;
-    }
-  },
+  onArrowNavigation:
+    (options: {
+      onArrowUp?: () => void;
+      onArrowDown?: () => void;
+      onArrowLeft?: () => void;
+      onArrowRight?: () => void;
+      onHome?: () => void;
+      onEnd?: () => void;
+    }) =>
+    (event: KeyboardEvent | React.KeyboardEvent) => {
+      const {
+        onArrowUp,
+        onArrowDown,
+        onArrowLeft,
+        onArrowRight,
+        onHome,
+        onEnd,
+      } = options;
+
+      switch (event.key) {
+        case "ArrowUp":
+          event.preventDefault();
+          onArrowUp?.();
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          onArrowDown?.();
+          break;
+        case "ArrowLeft":
+          event.preventDefault();
+          onArrowLeft?.();
+          break;
+        case "ArrowRight":
+          event.preventDefault();
+          onArrowRight?.();
+          break;
+        case "Home":
+          event.preventDefault();
+          onHome?.();
+          break;
+        case "End":
+          event.preventDefault();
+          onEnd?.();
+          break;
+      }
+    },
 };
 
 /**
  * Announce messages to screen readers
  */
-export const announceToScreenReader = (message: string, priority: 'polite' | 'assertive' = 'polite'): void => {
-  const announcement = document.createElement('div');
-  announcement.setAttribute('aria-live', priority);
-  announcement.setAttribute('aria-atomic', 'true');
-  announcement.className='glass-sr-only';
+export const announceToScreenReader = (
+  message: string,
+  priority: "polite" | "assertive" = "polite"
+): void => {
+  const announcement = document.createElement("div");
+  announcement.setAttribute("aria-live", priority);
+  announcement.setAttribute("aria-atomic", "true");
+  announcement.className = "glass-sr-only";
   announcement.style.cssText = `
     position: absolute;
     left: -10000px;
@@ -812,9 +850,9 @@ export const announceToScreenReader = (message: string, priority: 'polite' | 'as
     border-width: 0;
   `;
   announcement.textContent = message;
-  
+
   document.body.appendChild(announcement);
-  
+
   // Remove after announcement
   setTimeout(() => {
     if (document.body.contains(announcement)) {
@@ -826,11 +864,14 @@ export const announceToScreenReader = (message: string, priority: 'polite' | 'as
 /**
  * Generate loading state accessibility attributes
  */
-export const createLoadingA11y = (loading: boolean, loadingText = 'Loading'): AriaProps => {
+export const createLoadingA11y = (
+  loading: boolean,
+  loadingText = "Loading"
+): AriaProps => {
   return {
-    'aria-busy': loading,
-    'aria-live': loading ? 'polite' : undefined,
-    ...(loading && { 'aria-label': loadingText }),
+    "aria-busy": loading,
+    "aria-live": loading ? "polite" : undefined,
+    ...(loading && { "aria-label": loadingText }),
   };
 };
 
@@ -883,6 +924,27 @@ export interface ConsciousnessA11yContext {
   };
 }
 
+export interface ConsciousnessFeatureFlags {
+  eyeTracking?: boolean;
+  biometricResponsive?: boolean;
+  biometricAdaptation?: boolean;
+  spatialAudio?: boolean;
+  predictive?: boolean;
+}
+
+export interface ConsciousnessA11yViolation {
+  rule: string;
+  severity: "error" | "warning";
+  element?: Element;
+  description: string;
+  remediation: string;
+}
+
+export interface ConsciousnessA11yValidationResult {
+  isValid: boolean;
+  violations: ConsciousnessA11yViolation[];
+}
+
 /**
  * Hook for consciousness accessibility context
  */
@@ -902,22 +964,24 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     // Check media queries for accessibility preferences
-    const reducedMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const highContrastMQ = window.matchMedia('(prefers-contrast: high)');
-    const reducedDataMQ = window.matchMedia('(prefers-reduced-data: reduce)');
+    const reducedMotionMQ = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+    const highContrastMQ = window.matchMedia("(prefers-contrast: high)");
+    const reducedDataMQ = window.matchMedia("(prefers-reduced-data: reduce)");
 
     // Check for screen reader
-    const screenReaderActive = 
-      'speechSynthesis' in window ||
-      navigator.userAgent.includes('NVDA') ||
-      navigator.userAgent.includes('JAWS') ||
-      navigator.userAgent.includes('VoiceOver');
+    const screenReaderActive =
+      "speechSynthesis" in window ||
+      navigator.userAgent.includes("NVDA") ||
+      navigator.userAgent.includes("JAWS") ||
+      navigator.userAgent.includes("VoiceOver");
 
     // Update context
-    setContext((prev: any) => ({
+    setContext((prev) => ({
       ...prev,
       prefersReducedMotion: reducedMotionMQ.matches,
       prefersHighContrast: highContrastMQ.matches,
@@ -927,41 +991,41 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
 
     // Listen for changes
     const handleReducedMotionChange = (e: MediaQueryListEvent) => {
-      setContext((prev: any) => ({ ...prev, prefersReducedMotion: e.matches }));
+      setContext((prev) => ({ ...prev, prefersReducedMotion: e.matches }));
     };
 
     const handleHighContrastChange = (e: MediaQueryListEvent) => {
-      setContext((prev: any) => ({ ...prev, prefersHighContrast: e.matches }));
+      setContext((prev) => ({ ...prev, prefersHighContrast: e.matches }));
     };
 
     const handleReducedDataChange = (e: MediaQueryListEvent) => {
-      setContext((prev: any) => ({ ...prev, prefersReducedData: e.matches }));
+      setContext((prev) => ({ ...prev, prefersReducedData: e.matches }));
     };
 
-    reducedMotionMQ.addEventListener('change', handleReducedMotionChange);
-    highContrastMQ.addEventListener('change', handleHighContrastChange);
-    reducedDataMQ.addEventListener('change', handleReducedDataChange);
+    reducedMotionMQ.addEventListener("change", handleReducedMotionChange);
+    highContrastMQ.addEventListener("change", handleHighContrastChange);
+    reducedDataMQ.addEventListener("change", handleReducedDataChange);
 
     // Listen for keyboard navigation
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        setContext((prev: any) => ({ ...prev, keyboardNavigation: true }));
+      if (e.key === "Tab") {
+        setContext((prev) => ({ ...prev, keyboardNavigation: true }));
       }
     };
 
     const handleMouseDown = () => {
-      setContext((prev: any) => ({ ...prev, keyboardNavigation: false }));
+      setContext((prev) => ({ ...prev, keyboardNavigation: false }));
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      reducedMotionMQ.removeEventListener('change', handleReducedMotionChange);
-      highContrastMQ.removeEventListener('change', handleHighContrastChange);
-      reducedDataMQ.removeEventListener('change', handleReducedDataChange);
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleMouseDown);
+      reducedMotionMQ.removeEventListener("change", handleReducedMotionChange);
+      highContrastMQ.removeEventListener("change", handleHighContrastChange);
+      reducedDataMQ.removeEventListener("change", handleReducedDataChange);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
 
@@ -972,104 +1036,107 @@ export const useConsciousnessA11y = (): ConsciousnessA11yContext => {
  * Consciousness accessibility validator
  */
 export class ConsciousnessA11yValidator {
-  private violations: Array<{
-    rule: string;
-    severity: 'error' | 'warning';
-    element?: Element;
-    description: string;
-    remediation: string;
-  }> = [];
+  private violations: ConsciousnessA11yViolation[] = [];
 
   // Validate eye tracking accessibility
-  validateEyeTracking(element: Element, features: any) {
+  validateEyeTracking(element: Element, features: ConsciousnessFeatureFlags) {
     if (!features.eyeTracking) return;
 
     // Check for keyboard alternative
-    const hasKeyboardAlternative = 
-      element.hasAttribute('tabindex') ||
-      element.closest('[tabindex]') ||
-      element.tagName.toLowerCase() === 'button';
+    const hasKeyboardAlternative =
+      element.hasAttribute("tabindex") ||
+      element.closest("[tabindex]") ||
+      element.tagName.toLowerCase() === "button";
 
     if (!hasKeyboardAlternative) {
       this.violations.push({
-        rule: 'eye-tracking-keyboard-alternative',
-        severity: 'error',
+        rule: "eye-tracking-keyboard-alternative",
+        severity: "error",
         element,
-        description: 'Eye tracking features must have keyboard alternatives',
-        remediation: 'Add tabindex or ensure keyboard navigation is available',
+        description: "Eye tracking features must have keyboard alternatives",
+        remediation: "Add tabindex or ensure keyboard navigation is available",
       });
     }
 
     // Check for escape mechanism
-    if (!element.closest('[data-consciousness-escape]')) {
+    if (!element.closest("[data-consciousness-escape]")) {
       this.violations.push({
-        rule: 'eye-tracking-escape',
-        severity: 'error',
+        rule: "eye-tracking-escape",
+        severity: "error",
         element,
-        description: 'Eye tracking interfaces must provide escape mechanisms',
-        remediation: 'Add data-consciousness-escape attribute to parent container',
+        description: "Eye tracking interfaces must provide escape mechanisms",
+        remediation:
+          "Add data-consciousness-escape attribute to parent container",
       });
     }
   }
 
   // Validate biometric adaptation accessibility
-  validateBiometricAdaptation(element: Element, features: any) {
-    if (!features.biometricResponsive) return;
+  validateBiometricAdaptation(
+    element: Element,
+    features: ConsciousnessFeatureFlags
+  ) {
+    if (!features.biometricResponsive && !features.biometricAdaptation) return;
 
     // Check for manual override
-    const hasManualOverride = 
-      element.querySelector('[data-biometric-override]') ||
-      element.closest('[data-biometric-override]');
+    const hasManualOverride =
+      element.querySelector("[data-biometric-override]") ||
+      element.closest("[data-biometric-override]");
 
     if (!hasManualOverride) {
       this.violations.push({
-        rule: 'biometric-manual-override',
-        severity: 'error',
+        rule: "biometric-manual-override",
+        severity: "error",
         element,
-        description: 'Biometric adaptation must provide manual override controls',
-        remediation: 'Add manual override controls with data-biometric-override attribute',
+        description:
+          "Biometric adaptation must provide manual override controls",
+        remediation:
+          "Add manual override controls with data-biometric-override attribute",
       });
     }
 
     // Check for status announcements
-    const hasAriaLive = 
-      element.hasAttribute('aria-live') ||
-      element.querySelector('[aria-live]');
+    const hasAriaLive =
+      element.hasAttribute("aria-live") || element.querySelector("[aria-live]");
 
     if (!hasAriaLive) {
       this.violations.push({
-        rule: 'biometric-status-announcement',
-        severity: 'warning',
+        rule: "biometric-status-announcement",
+        severity: "warning",
         element,
-        description: 'Biometric adaptations should announce status changes',
-        remediation: 'Add aria-live region for status announcements',
+        description: "Biometric adaptations should announce status changes",
+        remediation: "Add aria-live region for status announcements",
       });
     }
   }
 
   // Validate spatial audio accessibility
-  validateSpatialAudio(element: Element, features: any) {
+  validateSpatialAudio(element: Element, features: ConsciousnessFeatureFlags) {
     if (!features.spatialAudio) return;
 
     // Check for visual alternatives
-    const hasVisualAlternative = 
-      element.hasAttribute('aria-describedby') ||
+    const hasVisualAlternative =
+      element.hasAttribute("aria-describedby") ||
       element.querySelector('[role="status"]') ||
-      element.querySelector('.visual-audio-indicator');
+      element.querySelector(".visual-audio-indicator");
 
     if (!hasVisualAlternative) {
       this.violations.push({
-        rule: 'spatial-audio-visual-alternative',
-        severity: 'error',
+        rule: "spatial-audio-visual-alternative",
+        severity: "error",
         element,
-        description: 'Spatial audio must provide visual alternatives',
-        remediation: 'Add visual indicators or aria-describedby for audio information',
+        description: "Spatial audio must provide visual alternatives",
+        remediation:
+          "Add visual indicators or aria-describedby for audio information",
       });
     }
   }
 
   // Comprehensive validation
-  validate(element: Element, consciousnessFeatures: any) {
+  validate(
+    element: Element,
+    consciousnessFeatures: ConsciousnessFeatureFlags
+  ): ConsciousnessA11yValidationResult {
     this.violations = []; // Reset violations
 
     this.validateEyeTracking(element, consciousnessFeatures);
@@ -1077,7 +1144,8 @@ export class ConsciousnessA11yValidator {
     this.validateSpatialAudio(element, consciousnessFeatures);
 
     return {
-      isValid: this.violations.filter((v: any) => v.severity === 'error').length === 0,
+      isValid:
+        this.violations.filter((v) => v.severity === "error").length === 0,
       violations: this.violations,
     };
   }
@@ -1088,17 +1156,24 @@ export class ConsciousnessA11yValidator {
  */
 export const useConsciousnessA11yValidation = (
   elementRef: React.RefObject<Element>,
-  consciousnessFeatures: any,
-  options: { autoValidate?: boolean; onViolation?: (violations: any[]) => void } = {}
+  consciousnessFeatures: ConsciousnessFeatureFlags,
+  options: {
+    autoValidate?: boolean;
+    onViolation?: (violations: ConsciousnessA11yViolation[]) => void;
+  } = {}
 ) => {
   const { autoValidate = true, onViolation } = options;
   const validatorRef = useRef(new ConsciousnessA11yValidator());
-  const [validationResult, setValidationResult] = useState<any>(null);
+  const [validationResult, setValidationResult] =
+    useState<ConsciousnessA11yValidationResult | null>(null);
 
   const validate = useCallback(() => {
     if (!elementRef.current) return null;
 
-    const result = validatorRef.current.validate(elementRef.current, consciousnessFeatures);
+    const result = validatorRef.current.validate(
+      elementRef.current,
+      consciousnessFeatures
+    );
     setValidationResult(result);
 
     if (onViolation && result.violations.length > 0) {
@@ -1131,9 +1206,9 @@ export const useConsciousnessAnnouncements = () => {
   useEffect(() => {
     // Create hidden announcer for screen readers
     if (!announcerRef.current) {
-      const announcer = document.createElement('div');
-      announcer.setAttribute('aria-live', 'polite');
-      announcer.setAttribute('aria-atomic', 'true');
+      const announcer = document.createElement("div");
+      announcer.setAttribute("aria-live", "polite");
+      announcer.setAttribute("aria-atomic", "true");
       announcer.style.cssText = `
         position: absolute;
         left: -10000px;
@@ -1141,7 +1216,7 @@ export const useConsciousnessAnnouncements = () => {
         height: 1px;
         overflow: hidden;
       `;
-      
+
       document.body.appendChild(announcer);
       announcerRef.current = announcer;
     }
@@ -1154,27 +1229,36 @@ export const useConsciousnessAnnouncements = () => {
     };
   }, []);
 
-  const announce = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
-    if (announcerRef.current) {
-      announcerRef.current.setAttribute('aria-live', priority);
-      announcerRef.current.textContent = message;
+  const announce = useCallback(
+    (message: string, priority: "polite" | "assertive" = "polite") => {
+      if (announcerRef.current) {
+        announcerRef.current.setAttribute("aria-live", priority);
+        announcerRef.current.textContent = message;
 
-      // Clear after announcement
-      setTimeout(() => {
-        if (announcerRef.current) {
-          announcerRef.current.textContent = '';
-        }
-      }, 1000);
-    }
-  }, []);
+        // Clear after announcement
+        setTimeout(() => {
+          if (announcerRef.current) {
+            announcerRef.current.textContent = "";
+          }
+        }, 1000);
+      }
+    },
+    []
+  );
 
-  const announceConsciousnessChange = useCallback((feature: string, status: string) => {
-    announce(`Consciousness feature ${feature} is now ${status}`, 'polite');
-  }, [announce]);
+  const announceConsciousnessChange = useCallback(
+    (feature: string, status: string) => {
+      announce(`Consciousness feature ${feature} is now ${status}`, "polite");
+    },
+    [announce]
+  );
 
-  const announcePrivacyChange = useCallback((change: string) => {
-    announce(`Privacy setting changed: ${change}`, 'assertive');
-  }, [announce]);
+  const announcePrivacyChange = useCallback(
+    (change: string) => {
+      announce(`Privacy setting changed: ${change}`, "assertive");
+    },
+    [announce]
+  );
 
   return {
     announce,
@@ -1186,30 +1270,32 @@ export const useConsciousnessAnnouncements = () => {
 /**
  * Create accessibility attributes for consciousness features
  */
-export const createConsciousnessA11y = (features: any): AriaProps => {
+export const createConsciousnessA11y = (
+  features: ConsciousnessFeatureFlags
+): AriaProps => {
   const attrs: AriaProps = {};
 
   // Add consciousness-specific attributes
   if (features.eyeTracking) {
-    attrs['aria-describedby'] = 'consciousness-eye-tracking-desc';
+    attrs["aria-describedby"] = "consciousness-eye-tracking-desc";
   }
 
   if (features.biometricResponsive) {
-    attrs['aria-describedby'] = attrs['aria-describedby'] 
-      ? `${attrs['aria-describedby']} consciousness-biometric-desc`
-      : 'consciousness-biometric-desc';
+    attrs["aria-describedby"] = attrs["aria-describedby"]
+      ? `${attrs["aria-describedby"]} consciousness-biometric-desc`
+      : "consciousness-biometric-desc";
   }
 
   if (features.spatialAudio) {
-    attrs['aria-describedby'] = attrs['aria-describedby'] 
-      ? `${attrs['aria-describedby']} consciousness-spatial-audio-desc`
-      : 'consciousness-spatial-audio-desc';
+    attrs["aria-describedby"] = attrs["aria-describedby"]
+      ? `${attrs["aria-describedby"]} consciousness-spatial-audio-desc`
+      : "consciousness-spatial-audio-desc";
   }
 
   if (features.predictive) {
-    attrs['aria-describedby'] = attrs['aria-describedby'] 
-      ? `${attrs['aria-describedby']} consciousness-predictive-desc`
-      : 'consciousness-predictive-desc';
+    attrs["aria-describedby"] = attrs["aria-describedby"]
+      ? `${attrs["aria-describedby"]} consciousness-predictive-desc`
+      : "consciousness-predictive-desc";
   }
 
   return attrs;

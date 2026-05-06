@@ -963,11 +963,6 @@ export const GlassTabBar = forwardRef<
 
         // Ensure tabRefs array is aligned with tabs array
         if (tabRefs.current.length !== normalizedTabs.length) {
-          if (process.env.NODE_ENV === "development") {
-            console.warn(
-              "GlassTabBar: tabRefs length mismatch, delaying recalculation."
-            );
-          }
           // Optionally, could reschedule or handle this state
           return;
         }
@@ -1134,6 +1129,7 @@ export const GlassTabBar = forwardRef<
           </React.Fragment>
         ) : (
           <TabItemComponent
+            key={`tab-${tab.value}`}
             id={tab.id || `tab-${index}`}
             label={tab.label}
             icon={tab.icon}

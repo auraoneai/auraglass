@@ -9,6 +9,7 @@ import {
   useDragDrop,
   PageComponent,
   ComponentDefinition,
+  ComponentPropValue,
 } from "./GlassDragDropProvider";
 
 interface PageStructureProps {
@@ -27,6 +28,12 @@ interface TreeItemProps {
   expandedItems: Set<string>;
   componentDefinition?: ComponentDefinition;
 }
+
+const toStringProp = (value: ComponentPropValue): string => {
+  if (typeof value === "string") return value;
+  if (typeof value === "number") return String(value);
+  return "";
+};
 
 const TreeItem: React.FC<TreeItemProps> = ({
   component,
@@ -110,10 +117,10 @@ const TreeItem: React.FC<TreeItemProps> = ({
           <span className="glass-text-sm glass-font-medium glass-truncate">
             {componentDefinition?.name || component.type}
           </span>
-          {component.props.content && (
+          {toStringProp(component.props.content) && (
             <span className="glass-text-xs glass-text-secondary glass-ml-1 glass-truncate">
-              "{component.props.content.substring(0, 20)}
-              {component.props.content.length > 20 ? "..." : ""}"
+              "{toStringProp(component.props.content).substring(0, 20)}
+              {toStringProp(component.props.content).length > 20 ? "..." : ""}"
             </span>
           )}
         </div>
@@ -169,7 +176,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
       {/* Children */}
       {hasChildren && isExpanded && (
         <div>
-          {component.children.map((child: any) => (
+          {component.children.map((child) => (
             <TreeItem
               key={child.id}
               component={child}
@@ -225,7 +232,7 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
   const expandAll = () => {
     const allIds = new Set<string>();
     const addIds = (components: PageComponent[]) => {
-      components.forEach((component: any) => {
+      components.forEach((component) => {
         allIds.add(component.id);
         addIds(component.children);
       });
@@ -277,13 +284,13 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
 
   // Filter components based on search
   const filteredComponents = searchQuery
-    ? pageState.components.filter((component: any) => {
+    ? pageState.components.filter((component) => {
         const searchInComponent = (comp: PageComponent): boolean => {
           const definition = componentLibrary.find(
             (def) => def.type === comp.type
           );
           const name = definition?.name || comp.type;
-          const content = comp.props.content || "";
+          const content = toStringProp(comp.props.content);
 
           const matches =
             name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -418,8 +425,8 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
           ) : (
             <div className="glass-space-y-1">
               {filteredComponents
-                .filter((component: any) => !component.parent) // Only show root components
-                .map((component: any) => (
+                .filter((component) => !component.parent) // Only show root components
+                .map((component) => (
                   <TreeItem
                     key={component.id}
                     component={component}
@@ -447,7 +454,10 @@ export const GlassPageStructure: React.FC<PageStructureProps> = ({
             <div className="glass-flex glass-justify-between">
               <span>Root Components:</span>
               <span>
-                {pageState.components.filter((c: any) => !c.parent).length}
+                {
+                  pageState.components.filter((component) => !component.parent)
+                    .length
+                }
               </span>
             </div>
             <div className="glass-flex glass-justify-between">

@@ -39,7 +39,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
       data-glass-component="true"
     >
       <div
-        class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
+        class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none overflow-hidden"
         style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
@@ -838,6 +838,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         aria-checked="false"
                         aria-labelledby="glass-switch-label-:r48:"
                         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 h-6 w-11 glass-focus"
+                        data-liquid-glass-switch="false"
                         data-performance-mode="medium"
                         id="glass-switch-:r47:"
                         role="switch"
@@ -878,6 +879,9 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                 </h2>
                 <div
                   class="glass-slider-container"
+                  data-interaction-glass="false"
+                  data-liquid-glass-slider="false"
+                  data-show-tick-labels="false"
                   data-testid="glassslider"
                 >
                   <div

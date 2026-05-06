@@ -39,9 +39,6 @@ export class GlassErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log to error reporting service
-    console.error("Glass Error Boundary caught:", error, errorInfo);
-
     // Call custom error handler
     this.props.onError?.(error, errorInfo);
 
@@ -99,7 +96,7 @@ export class GlassErrorBoundary extends Component<Props, State> {
           {...props}
         >
           <ContrastGuard as="div" className="glass-stack glass-gap-4">
-            <div className='glass-text-2xl glass-font-bold glass-text-balance'>
+            <div className="glass-text-2xl glass-font-bold glass-text-balance">
               ⚠️ Something went wrong
             </div>
 
@@ -110,10 +107,10 @@ export class GlassErrorBoundary extends Component<Props, State> {
 
             {process.env.NODE_ENV === "development" && this.state.error && (
               <details className="glass-mt-4">
-                <summary className='glass-font-semibold glass-cursor-pointer glass-focus'>
+                <summary className="glass-font-semibold glass-cursor-pointer glass-focus">
                   Error Details (Development Only)
                 </summary>
-                <pre className='glass-mt-2 glass-p-4 glass-radius-md glass-text-xs glass-overflow-auto glass-surface-danger'>
+                <pre className="glass-mt-2 glass-p-4 glass-radius-md glass-text-xs glass-overflow-auto glass-surface-danger">
                   {this.state.error.toString()}
                   {this.state.errorInfo?.componentStack}
                 </pre>

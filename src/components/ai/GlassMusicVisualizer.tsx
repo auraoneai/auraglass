@@ -246,8 +246,9 @@ export const GlassMusicVisualizer = forwardRef<
           analyser.connect(context.destination);
           sourceRef.current = source as any;
         }
-      } catch (error) {
-        console.error("Failed to initialize audio:", error);
+      } catch {
+        analyserRef.current = null;
+        sourceRef.current = null;
       }
     }, [audioSource, audioConfig.fftSize, audioConfig.smoothing]);
 
@@ -605,8 +606,8 @@ export const GlassMusicVisualizer = forwardRef<
           setIsPlaying(true);
           renderVisualization();
           play("play");
-        } catch (error) {
-          console.error("Failed to play audio:", error);
+        } catch {
+          setIsPlaying(false);
         }
       }
     }, [initializeAudio, renderVisualization, play]);

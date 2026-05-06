@@ -30,14 +30,8 @@ export function ARGlassEffects(props: ARGlassEffectsProps) {
           LoadedImpl = Component;
           setImpl(() => Component);
         })
-        .catch((error) => {
-          if (process.env.NODE_ENV !== "production") {
-            // eslint-disable-next-line no-console
-            console.error(
-              "[AuraGlass] Failed to load ARGlassEffects R3F module",
-              error
-            );
-          }
+        .catch(() => {
+          // Keep the lightweight fallback when optional R3F loading fails.
         });
     }
 

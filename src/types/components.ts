@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 // Component-specific type definitions
-export * from './components/button';
-export * from './components/layout';
-export * from './components/form';
-export * from './components/data-display';
+export * from "./components/button";
+export * from "./components/layout";
+export * from "./components/form";
+export * from "./components/data-display";
 
 // Base component interfaces
 export interface GlassComponentProps {
-  glassIntensity?: 'subtle' | 'medium' | 'strong' | 'intense';
+  glassIntensity?: "subtle" | "medium" | "strong" | "intense";
   blur?: number;
   backdrop?: boolean;
   interactive?: boolean;
@@ -17,45 +17,47 @@ export interface GlassComponentProps {
 
 // Common component variants
 export type ButtonVariant =
-  | 'default'
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'error'
-  | 'outline'
-  | 'ghost'
-  | 'link'
-  | 'text';
+  | "default"
+  | "primary"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "error"
+  | "outline"
+  | "ghost"
+  | "link"
+  | "text";
 
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-export type InputVariant = 'default' | 'filled' | 'outlined' | 'underlined';
+export type InputVariant = "default" | "filled" | "outlined" | "underlined";
 
-export type CardVariant = 'default' | 'elevated' | 'outlined' | 'glass';
+export type CardVariant = "default" | "elevated" | "outlined" | "glass";
 
-export type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type ModalSize = "xs" | "sm" | "md" | "lg" | "xl" | "full";
 
 // Layout component types
 export interface ContainerProps {
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
   centerContent?: boolean;
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
 }
 
 export interface GridProps {
-  columns?: number | { xs?: number; sm?: number; md?: number; lg?: number; xl?: number };
-  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  alignItems?: 'start' | 'center' | 'end' | 'stretch';
-  justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  columns?:
+    | number
+    | { xs?: number; sm?: number; md?: number; lg?: number; xl?: number };
+  gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
+  alignItems?: "start" | "center" | "end" | "stretch";
+  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
 }
 
 export interface FlexProps {
-  direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-  alignItems?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
-  justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  direction?: "row" | "column" | "row-reverse" | "column-reverse";
+  wrap?: "nowrap" | "wrap" | "wrap-reverse";
+  alignItems?: "start" | "center" | "end" | "stretch" | "baseline";
+  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
+  gap?: "none" | "xs" | "sm" | "md" | "lg" | "xl";
 }
 
 // Form component types
@@ -77,27 +79,36 @@ export interface SelectOption {
 }
 
 // Data display component types
-export interface TableColumn<T = any> {
+export type TableRecord = Record<string, unknown>;
+export type TableCellValue = unknown;
+
+export interface TablePaginationState {
+  current: number;
+  pageSize: number;
+  total: number;
+  showSizeChanger?: boolean;
+  showQuickJumper?: boolean;
+}
+
+export interface TableColumn<T extends TableRecord = TableRecord> {
   key: keyof T | string;
   title: string;
   width?: number | string;
   sortable?: boolean;
   filterable?: boolean;
-  render?: (value: any, record: T, index: number) => React.ReactNode;
+  render?: (value: TableCellValue, record: T, index: number) => React.ReactNode;
 }
 
-export interface TableProps<T = any> {
+export interface TableProps<T extends TableRecord = TableRecord> {
   columns: TableColumn<T>[];
   data: T[];
   loading?: boolean;
-  pagination?: {
-    current: number;
-    pageSize: number;
-    total: number;
-    showSizeChanger?: boolean;
-    showQuickJumper?: boolean;
-  };
-  onChange?: (pagination: any, filters: any, sorter: any) => void;
+  pagination?: TablePaginationState;
+  onChange?: (
+    pagination: TablePaginationState,
+    filters: Record<string, TableCellValue | TableCellValue[]>,
+    sorter: TableColumn<T> | null
+  ) => void;
 }
 
 // Modal and overlay types
@@ -130,8 +141,8 @@ export interface BreadcrumbItem {
 
 // Chart types
 export interface ChartProps {
-  data: any[];
-  type: 'line' | 'bar' | 'area' | 'pie' | 'scatter' | 'radar';
+  data: Array<Record<string, unknown>>;
+  type: "line" | "bar" | "area" | "pie" | "scatter" | "radar";
   width?: number | string;
   height?: number | string;
   colors?: string[];

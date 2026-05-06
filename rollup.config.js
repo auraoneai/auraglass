@@ -103,12 +103,21 @@ const getPlugins = (extractCss = true) => [
         useTsconfigDeclarationDir: true,
         cacheRoot: './.rpt2_cache',
         clean: true,
+        check: false,
         tsconfigOverride: {
             compilerOptions: {
                 declaration: true,
                 declarationDir: 'dist',
             },
-            exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.stories.tsx', 'src/utils/testingUtils.tsx'],
+            exclude: [
+                '**/*.test.ts',
+                '**/*.test.tsx',
+                '**/*.stories.tsx',
+                'src/tests/**',
+                'src/utils/testSetup.ts',
+                'src/utils/testing/**',
+                'src/utils/testingUtils.tsx',
+            ],
         },
     }),
     extractCss && postcss({

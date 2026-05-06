@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
@@ -9,20 +9,28 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Transition } from "framer-motion";
 import { OptimizedGlass } from "../../primitives";
 import { useGlassSound } from "../../utils/soundDesign";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { createGlassStyle } from "../../utils/createGlassStyle";
 
+export type DrawingTool = "pen" | "marker" | "eraser" | "shape";
+
+export interface DrawingPoint {
+  x: number;
+  y: number;
+  pressure?: number;
+}
+
 export interface DrawingStroke {
   id: string;
   userId: string;
   userName: string;
   userColor: string;
-  points: Array<{ x: number; y: number; pressure?: number }>;
-  tool: "pen" | "marker" | "eraser" | "shape";
+  points: DrawingPoint[];
+  tool: DrawingTool;
   color: string;
   size: number;
   opacity: number;
@@ -67,7 +75,13 @@ export interface GlassSharedWhiteboardProps {
   className?: string;
 }
 
-const tools = [
+interface ToolDefinition {
+  id: DrawingTool;
+  name: string;
+  icon: string;
+}
+
+const tools: readonly ToolDefinition[] = [
   { id: "pen", name: "Pen", icon: "✏️" },
   { id: "marker", name: "Marker", icon: "🖍️" },
   { id: "eraser", name: "Eraser", icon: "🧽" },
@@ -87,7 +101,7 @@ const colors = [
   "#FF0080",
 ];
 
-const sizes = [2, 4, 8, 12, 16, 24];
+const sizes = [2, 4, 8, 12, 16, 24] as const;
 
 export const GlassSharedWhiteboard = forwardRef<
   HTMLDivElement,
@@ -116,7 +130,7 @@ export const GlassSharedWhiteboard = forwardRef<
       onUndo,
       onRedo,
       onUserCursorMove,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -127,7 +141,7 @@ export const GlassSharedWhiteboard = forwardRef<
     const [currentStroke, setCurrentStroke] = useState<DrawingStroke | null>(
       null
     );
-    const [selectedTool, setSelectedTool] = useState("pen");
+    const [selectedTool, setSelectedTool] = useState<DrawingTool>("pen");
     const [selectedColor, setSelectedColor] = useState("var(--glass-black)");
     const [selectedSize, setSelectedSize] = useState(4);
     const [localStrokes, setLocalStrokes] = useState<DrawingStroke[]>(strokes);
@@ -140,7 +154,7 @@ export const GlassSharedWhiteboard = forwardRef<
     const { shouldAnimate } = useMotionPreference();
 
     // Helper function to respect motion preferences
-    const respectMotionPreference = (config: any) =>
+    const respectMotionPreference = (config: Transition): Transition =>
       shouldAnimate ? config : { duration: 0 };
 
     const currentUser = users.find((u) => u.id === currentUserId);
@@ -150,8 +164,8 @@ export const GlassSharedWhiteboard = forwardRef<
       if (!realTimeSync) return;
 
       const interval = setInterval(() => {
-        setSimulatedUsers((prev: any) =>
-          prev.map((user: any) => {
+        setSimulatedUsers((prev) =>
+          prev.map((user) => {
             if (user.id === currentUserId) return user;
 
             // Randomly move cursors and simulate drawing
@@ -184,7 +198,7 @@ export const GlassSharedWhiteboard = forwardRef<
                 isComplete: true,
               };
 
-              setLocalStrokes((prev: any) => [
+              setLocalStrokes((prev) => [
                 ...prev.slice(-maxStrokes + 1),
                 stroke,
               ]);
@@ -257,7 +271,7 @@ export const GlassSharedWhiteboard = forwardRef<
       ctx.globalAlpha = 1;
 
       // Draw all strokes
-      localStrokes.forEach((stroke: any) => {
+      localStrokes.forEach((stroke) => {
         if (stroke.points.length < 2) return;
 
         ctx.strokeStyle = stroke.color;
@@ -309,7 +323,7 @@ export const GlassSharedWhiteboard = forwardRef<
           userName: currentUser?.name || "Unknown",
           userColor: currentUser?.color || selectedColor,
           points: [{ x, y }],
-          tool: selectedTool as any,
+          tool: selectedTool,
           color: selectedColor,
           size: selectedSize,
           opacity: selectedTool === "marker" ? 0.7 : 1,
@@ -353,8 +367,8 @@ export const GlassSharedWhiteboard = forwardRef<
         };
 
         setCurrentStroke(updatedStroke);
-        setLocalStrokes((prev: any) => [
-          ...prev.filter((s: any) => s.id !== updatedStroke.id),
+        setLocalStrokes((prev) => [
+          ...prev.filter((s) => s.id !== updatedStroke.id),
           updatedStroke,
         ]);
       },
@@ -369,9 +383,9 @@ export const GlassSharedWhiteboard = forwardRef<
         isComplete: true,
       };
 
-      setLocalStrokes((prev: any) => {
+      setLocalStrokes((prev) => {
         const newStrokes = [
-          ...prev.filter((s: any) => s.id !== completedStroke.id),
+          ...prev.filter((s) => s.id !== completedStroke.id),
           completedStroke,
         ].slice(-maxStrokes);
 
@@ -390,8 +404,8 @@ export const GlassSharedWhiteboard = forwardRef<
       if (undoStack.length === 0) return;
 
       const previousState = undoStack[undoStack.length - 1];
-      setRedoStack((prev: any) => [localStrokes, ...prev]);
-      setUndoStack((prev: any) => prev.slice(0, -1));
+      setRedoStack((prev) => [localStrokes, ...prev]);
+      setUndoStack((prev) => prev.slice(0, -1));
       setLocalStrokes(previousState);
       onUndo?.();
     };
@@ -400,14 +414,14 @@ export const GlassSharedWhiteboard = forwardRef<
       if (redoStack.length === 0) return;
 
       const nextState = redoStack[0];
-      setUndoStack((prev: any) => [...prev, localStrokes]);
-      setRedoStack((prev: any) => prev.slice(1));
+      setUndoStack((prev) => [...prev, localStrokes]);
+      setRedoStack((prev) => prev.slice(1));
       setLocalStrokes(nextState);
       onRedo?.();
     };
 
     const handleClear = () => {
-      setUndoStack((prev: any) => [...prev, localStrokes]);
+      setUndoStack((prev) => [...prev, localStrokes]);
       setRedoStack([]);
       setLocalStrokes([]);
       onClear?.();
@@ -415,7 +429,7 @@ export const GlassSharedWhiteboard = forwardRef<
 
     const UserCursor = ({ user }: { user: WhiteboardUser }) => (
       <motion.div
-        className='glass-absolute glass-pointer-events-none glass-z-20'
+        className="glass-absolute glass-pointer-events-none glass-z-20"
         style={{
           left: user.cursorX,
           top: user.cursorY,
@@ -461,7 +475,7 @@ export const GlassSharedWhiteboard = forwardRef<
         className={`relative ${className}`}
         {...props}
       >
-        <div className='glass-flex glass-flex-col glass-space-y-4'>
+        <div className="glass-flex glass-flex-col glass-space-y-4">
           {/* Toolbar */}
           {showToolbar && !readOnly && (
             <div
@@ -470,10 +484,10 @@ export const GlassSharedWhiteboard = forwardRef<
               ${createGlassStyle({ variant: "default" })}
             `}
             >
-              <div className='glass-flex glass-items-center glass-space-x-4'>
+              <div className="glass-flex glass-items-center glass-space-x-4">
                 {/* Tools */}
-                <div className='glass-flex glass-space-x-2'>
-                  {tools.map((tool: any) => (
+                <div className="glass-flex glass-space-x-2">
+                  {tools.map((tool) => (
                     <button
                       key={tool.id}
                       onClick={() => setSelectedTool(tool.id)}
@@ -493,7 +507,7 @@ export const GlassSharedWhiteboard = forwardRef<
                 </div>
 
                 {/* Colors */}
-                <div className='glass-flex glass-space-x-1'>
+                <div className="glass-flex glass-space-x-1">
                   {colors.map((color, i) => (
                     <button
                       key={`${color}-${i}`}
@@ -513,8 +527,8 @@ export const GlassSharedWhiteboard = forwardRef<
                 </div>
 
                 {/* Sizes */}
-                <div className='glass-flex glass-space-x-1'>
-                  {sizes.map((size: any) => (
+                <div className="glass-flex glass-space-x-1">
+                  {sizes.map((size) => (
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
@@ -529,7 +543,7 @@ export const GlassSharedWhiteboard = forwardRef<
                       aria-label={`Select brush size ${size}px`}
                     >
                       <div
-                        className='glass-bg-transparent glass-radius-full'
+                        className="glass-bg-transparent glass-radius-full"
                         style={{
                           width: Math.min(size, 16),
                           height: Math.min(size, 16),
@@ -541,20 +555,20 @@ export const GlassSharedWhiteboard = forwardRef<
               </div>
 
               {/* Actions */}
-              <div className='glass-flex glass-items-center glass-space-x-2'>
+              <div className="glass-flex glass-items-center glass-space-x-2">
                 {showUndoRedo && (
                   <>
                     <button
                       onClick={handleUndo}
                       disabled={undoStack.length === 0}
-                      className='glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary-opacity-70 hover:glass-text-primary disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary-opacity-70 hover:glass-text-primary disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       ↶ Undo
                     </button>
                     <button
                       onClick={handleRedo}
                       disabled={redoStack.length === 0}
-                      className='glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary-opacity-70 hover:glass-text-primary disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary-opacity-70 hover:glass-text-primary disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                     >
                       ↷ Redo
                     </button>
@@ -562,7 +576,7 @@ export const GlassSharedWhiteboard = forwardRef<
                 )}
                 <button
                   onClick={handleClear}
-                  className='glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard'
+                  className="glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
                 >
                   Clear
                 </button>
@@ -570,9 +584,9 @@ export const GlassSharedWhiteboard = forwardRef<
             </div>
           )}
 
-          <div className='glass-flex glass-space-x-4'>
+          <div className="glass-flex glass-space-x-4">
             {/* Whiteboard Canvas */}
-            <div className='glass-relative glass-flex-1'>
+            <div className="glass-relative glass-flex-1">
               <canvas
                 ref={canvasRef}
                 width={width}
@@ -591,8 +605,8 @@ export const GlassSharedWhiteboard = forwardRef<
               {showUserCursors && (
                 <AnimatePresence>
                   {simulatedUsers
-                    .filter((user: any) => user.id !== currentUserId)
-                    .map((user: any) => (
+                    .filter((user) => user.id !== currentUserId)
+                    .map((user) => (
                       <UserCursor key={user.id} user={user} />
                     ))}
                 </AnimatePresence>
@@ -601,8 +615,8 @@ export const GlassSharedWhiteboard = forwardRef<
               {/* Grid toggle */}
               {!readOnly && (
                 <button
-                  onClick={() => setGridVisible(!gridVisible)}
-                  className='glass-absolute glass-top-2 glass-right-2 glass-p-2 glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+                  onClick={() => setGridVisible((visible) => !visible)}
+                  className="glass-absolute glass-top-2 glass-right-2 glass-p-2 glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
                   title="Toggle Grid"
                 >
                   #
@@ -618,24 +632,26 @@ export const GlassSharedWhiteboard = forwardRef<
                 ${createGlassStyle({ variant: "default" })}
               `}
               >
-                <h3 className='glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-mb-3'>
+                <h3 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-mb-3">
                   Active Users ({simulatedUsers.length})
                 </h3>
-                {simulatedUsers.map((user: any) => (
+                {simulatedUsers.map((user) => (
                   <div
                     key={user.id}
-                    className='glass-flex glass-items-center glass-space-x-2 glass-p-2 glass-radius hover:glass-surface-subtle/5'
+                    className="glass-flex glass-items-center glass-space-x-2 glass-p-2 glass-radius hover:glass-surface-subtle/5"
                   >
                     <div
-                      className='glass-w-3 glass-h-3 glass-radius-full glass-border glass-border-white/30'
+                      className="glass-w-3 glass-h-3 glass-radius-full glass-border glass-border-white/30"
                       style={{ backgroundColor: user.color }}
                     />
-                    <span className='glass-text-sm glass-text-primary-glass-opacity-80 glass-truncate'>
+                    <span className="glass-text-sm glass-text-primary-glass-opacity-80 glass-truncate">
                       {user.name}
                       {user.id === currentUserId && " (You)"}
                     </span>
                     {user.isDrawing && (
-                      <span className='glass-text-xs glass-text-primary'>✏️</span>
+                      <span className="glass-text-xs glass-text-primary">
+                        ✏️
+                      </span>
                     )}
                   </div>
                 ))}
@@ -644,16 +660,18 @@ export const GlassSharedWhiteboard = forwardRef<
           </div>
 
           {/* Status */}
-          <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-50'>
-            <div className='glass-flex glass-items-center glass-space-x-4'>
+          <div className="glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-50">
+            <div className="glass-flex glass-items-center glass-space-x-4">
               <span>{localStrokes.length} strokes</span>
               {realTimeSync && (
-                <span className='glass-flex glass-items-center glass-space-x-1'>
-                  <div className='glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse' />
+                <span className="glass-flex glass-items-center glass-space-x-1">
+                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
                   <span>Synced</span>
                 </span>
               )}
-              {readOnly && <span className='glass-text-primary'>Read Only</span>}
+              {readOnly && (
+                <span className="glass-text-primary">Read Only</span>
+              )}
             </div>
             <div>
               Canvas: {width}×{height}

@@ -44,7 +44,7 @@ export interface Product {
   isNew?: boolean;
   isBestseller?: boolean;
   availability: "in-stock" | "out-of-stock" | "pre-order" | "discontinued";
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface ProductFeature {
@@ -73,7 +73,7 @@ export interface CartItem {
   quantity: number;
   selectedVariants?: Record<string, string>;
   addedAt: Date;
-  customizations?: Record<string, any>;
+  customizations?: Record<string, unknown>;
   giftWrap?: boolean;
   giftMessage?: string;
 }
@@ -251,7 +251,7 @@ interface EcommerceContextValue {
 
   // Analytics
   viewProduct: (productId: string) => void;
-  trackEvent: (event: string, data?: Record<string, any>) => void;
+  trackEvent: (event: string, data?: Record<string, unknown>) => void;
   getAnalytics: () => EcommerceAnalytics;
 
   // Checkout
@@ -297,6 +297,9 @@ export interface EcommerceAnalytics {
 
 const EcommerceContext = createContext<EcommerceContextValue | null>(null);
 
+const isProduct = (product: Product | undefined): product is Product =>
+  product !== undefined;
+
 // Mock AI recommendation engine
 const mockRecommendationEngine = {
   async generateRecommendations(
@@ -305,7 +308,7 @@ const mockRecommendationEngine = {
   ): Promise<Recommendation[]> {
     await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
 
-    const product = products.find((p: any) => p.id === productId);
+    const product = products.find((p) => p.id === productId);
     if (!product) return [];
 
     // Generate different types of recommendations
@@ -314,14 +317,14 @@ const mockRecommendationEngine = {
     // Similar products (same category)
     const similarProducts = products
       .filter(
-        (p: any) =>
+        (p) =>
           p.id !== productId &&
           p.category === product.category &&
           Math.abs(p.price - product.price) / product.price < 0.5
       )
       .slice(0, 3);
 
-    similarProducts.forEach((p: any) => {
+    similarProducts.forEach((p) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -334,10 +337,10 @@ const mockRecommendationEngine = {
 
     // Trending products
     const trendingProducts = products
-      .filter((p: any) => p.id !== productId && (p.isBestseller || p.isNew))
+      .filter((p) => p.id !== productId && (p.isBestseller || p.isNew))
       .slice(0, 2);
 
-    trendingProducts.forEach((p: any) => {
+    trendingProducts.forEach((p) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -353,14 +356,14 @@ const mockRecommendationEngine = {
     // Frequently bought together (mock)
     const complementaryProducts = products
       .filter(
-        (p: any) =>
+        (p) =>
           p.id !== productId &&
           p.category !== product.category &&
           p.price < product.price * 0.5
       )
       .slice(0, 2);
 
-    complementaryProducts.forEach((p: any) => {
+    complementaryProducts.forEach((p) => {
       recommendations.push({
         productId: p.id,
         product: p,
@@ -462,33 +465,31 @@ export const EcommerceProvider: React.FC<{
   const cartTotal = cartSubtotal + cartTax + cartShipping;
 
   const addProduct = useCallback((product: Product) => {
-    setProducts((prev: any) => [...prev, product]);
+    setProducts((prev) => [...prev, product]);
   }, []);
 
   const updateProduct = useCallback((id: string, updates: Partial<Product>) => {
-    setProducts((prev: any) =>
-      prev.map((product: any) =>
+    setProducts((prev) =>
+      prev.map((product) =>
         product.id === id ? { ...product, ...updates } : product
       )
     );
   }, []);
 
   const removeProduct = useCallback((id: string) => {
-    setProducts((prev: any) =>
-      prev.filter((product: any) => product.id !== id)
-    );
+    setProducts((prev) => prev.filter((product) => product.id !== id));
   }, []);
 
   const getProduct = useCallback(
     (id: string) => {
-      return products.find((product: any) => product.id === id);
+      return products.find((product) => product.id === id);
     },
     [products]
   );
 
   const getProductsByCategory = useCallback(
     (category: string) => {
-      return products.filter((product: any) => product.category === category);
+      return products.filter((product) => product.category === category);
     },
     [products]
   );
@@ -501,10 +502,10 @@ export const EcommerceProvider: React.FC<{
       if (query) {
         const lowercaseQuery = query.toLowerCase();
         filtered = filtered.filter(
-          (product: any) =>
+          (product) =>
             product.name.toLowerCase().includes(lowercaseQuery) ||
             product.description.toLowerCase().includes(lowercaseQuery) ||
-            product.tags.some((tag: any) =>
+            product.tags.some((tag) =>
               tag.toLowerCase().includes(lowercaseQuery)
             ) ||
             product.brand?.toLowerCase().includes(lowercaseQuery)
@@ -515,14 +516,14 @@ export const EcommerceProvider: React.FC<{
       const activeFilters = searchFilters || filters;
 
       if (activeFilters.category?.length) {
-        filtered = filtered.filter((product: any) =>
+        filtered = filtered.filter((product) =>
           activeFilters.category!.includes(product.category)
         );
       }
 
       if (activeFilters.brand?.length) {
         filtered = filtered.filter(
-          (product: any) =>
+          (product) =>
             product.brand && activeFilters.brand!.includes(product.brand)
         );
       }
@@ -530,23 +531,23 @@ export const EcommerceProvider: React.FC<{
       if (activeFilters.priceRange) {
         const [min, max] = activeFilters.priceRange;
         filtered = filtered.filter(
-          (product: any) => product.price >= min && product.price <= max
+          (product) => product.price >= min && product.price <= max
         );
       }
 
       if (activeFilters.rating) {
         filtered = filtered.filter(
-          (product: any) => product.rating >= activeFilters.rating!
+          (product) => product.rating >= activeFilters.rating!
         );
       }
 
       if (activeFilters.onSale) {
-        filtered = filtered.filter((product: any) => product.isOnSale);
+        filtered = filtered.filter((product) => product.isOnSale);
       }
 
       if (activeFilters.inStock) {
         filtered = filtered.filter(
-          (product: any) => product.availability === "in-stock"
+          (product) => product.availability === "in-stock"
         );
       }
 
@@ -584,15 +585,15 @@ export const EcommerceProvider: React.FC<{
       const product = getProduct(productId);
       if (!product) return;
 
-      setCart((prev: any) => {
+      setCart((prev) => {
         const existingItem = prev.find(
-          (item: any) =>
+          (item) =>
             item.productId === productId &&
             JSON.stringify(item.selectedVariants) === JSON.stringify(variants)
         );
 
         if (existingItem) {
-          return prev.map((item: any) =>
+          return prev.map((item) =>
             item.id === existingItem.id
               ? { ...item, quantity: item.quantity + quantity }
               : item
@@ -619,15 +620,13 @@ export const EcommerceProvider: React.FC<{
       return;
     }
 
-    setCart((prev: any) =>
-      prev.map((item: any) =>
-        item.id === itemId ? { ...item, quantity } : item
-      )
+    setCart((prev) =>
+      prev.map((item) => (item.id === itemId ? { ...item, quantity } : item))
     );
   }, []);
 
   const removeFromCart = useCallback((itemId: string) => {
-    setCart((prev: any) => prev.filter((item: any) => item.id !== itemId));
+    setCart((prev) => prev.filter((item) => item.id !== itemId));
   }, []);
 
   const clearCart = useCallback(() => {
@@ -651,7 +650,7 @@ export const EcommerceProvider: React.FC<{
       if (!product) return;
 
       const existingItem = wishlist.find(
-        (item: any) => item.productId === productId
+        (item) => item.productId === productId
       );
       if (existingItem) return;
 
@@ -663,20 +662,18 @@ export const EcommerceProvider: React.FC<{
         priority,
       };
 
-      setWishlist((prev: any) => [...prev, newItem]);
+      setWishlist((prev) => [...prev, newItem]);
     },
     [getProduct, wishlist]
   );
 
   const removeFromWishlist = useCallback((itemId: string) => {
-    setWishlist((prev: any) => prev.filter((item: any) => item.id !== itemId));
+    setWishlist((prev) => prev.filter((item) => item.id !== itemId));
   }, []);
 
   const moveToCart = useCallback(
     (wishlistItemId: string) => {
-      const wishlistItem = wishlist.find(
-        (item: any) => item.id === wishlistItemId
-      );
+      const wishlistItem = wishlist.find((item) => item.id === wishlistItemId);
       if (!wishlistItem) return;
 
       addToCart(wishlistItem.productId, 1);
@@ -686,9 +683,7 @@ export const EcommerceProvider: React.FC<{
   );
 
   const shareWishlist = useCallback(() => {
-    const wishlistData = JSON.stringify(
-      wishlist.map((item: any) => item.productId)
-    );
+    const wishlistData = JSON.stringify(wishlist.map((item) => item.productId));
     return `${window.location.origin}/wishlist?items=${encodeURIComponent(wishlistData)}`;
   }, [wishlist]);
 
@@ -705,7 +700,7 @@ export const EcommerceProvider: React.FC<{
         productId,
         products
       );
-      setRecommendations((prev: any) => ({ ...prev, [productId]: recs }));
+      setRecommendations((prev) => ({ ...prev, [productId]: recs }));
       return recs;
     },
     [products]
@@ -714,8 +709,8 @@ export const EcommerceProvider: React.FC<{
   const createComparison = useCallback(
     (productIds: string[], title?: string) => {
       const comparisonProducts = productIds
-        .map((id: any) => getProduct(id))
-        .filter(Boolean) as Product[];
+        .map((id) => getProduct(id))
+        .filter(isProduct);
       if (comparisonProducts.length < 2)
         throw new Error("At least 2 products required for comparison");
 
@@ -729,7 +724,7 @@ export const EcommerceProvider: React.FC<{
         title: title || `Comparison of ${comparisonProducts.length} products`,
       };
 
-      setComparisons((prev: any) => [...prev, comparison]);
+      setComparisons((prev) => [...prev, comparison]);
       return comparison;
     },
     [getProduct]
@@ -737,31 +732,29 @@ export const EcommerceProvider: React.FC<{
 
   const updateComparison = useCallback(
     (id: string, updates: Partial<ProductComparison>) => {
-      setComparisons((prev: any) =>
-        prev.map((comp: any) =>
-          comp.id === id ? { ...comp, ...updates } : comp
-        )
+      setComparisons((prev) =>
+        prev.map((comp) => (comp.id === id ? { ...comp, ...updates } : comp))
       );
     },
     []
   );
 
   const removeComparison = useCallback((id: string) => {
-    setComparisons((prev: any) => prev.filter((comp: any) => comp.id !== id));
+    setComparisons((prev) => prev.filter((comp) => comp.id !== id));
   }, []);
 
   const compareProducts = useCallback(
     (productIds: string[]) => {
       const comparisonProducts = productIds
-        .map((id: any) => getProduct(id))
-        .filter(Boolean) as Product[];
+        .map((id) => getProduct(id))
+        .filter(isProduct);
       const features: ComparisonFeature[] = [];
 
       // Price comparison
       features.push({
         name: "Price",
         category: "General",
-        values: comparisonProducts.map((p: any) => `$${p.price.toFixed(2)}`),
+        values: comparisonProducts.map((p) => `$${p.price.toFixed(2)}`),
         importance: "high",
         winner: comparisonProducts.indexOf(
           comparisonProducts.reduce((min, p) => (p.price < min.price ? p : min))
@@ -772,7 +765,7 @@ export const EcommerceProvider: React.FC<{
       features.push({
         name: "Rating",
         category: "General",
-        values: comparisonProducts.map((p: any) => p.rating),
+        values: comparisonProducts.map((p) => p.rating),
         importance: "high",
         winner: comparisonProducts.indexOf(
           comparisonProducts.reduce((max, p) =>
@@ -785,7 +778,7 @@ export const EcommerceProvider: React.FC<{
       features.push({
         name: "Stock",
         category: "Availability",
-        values: comparisonProducts.map((p: any) => p.stock),
+        values: comparisonProducts.map((p) => p.stock),
         importance: "medium",
       });
 
@@ -803,7 +796,7 @@ export const EcommerceProvider: React.FC<{
         createdAt: new Date(),
       };
 
-      setReviews((prev: any) => ({
+      setReviews((prev) => ({
         ...prev,
         [productId]: [...(prev[productId] || []), newReview],
       }));
@@ -813,10 +806,10 @@ export const EcommerceProvider: React.FC<{
 
   const updateReview = useCallback(
     (reviewId: string, updates: Partial<ProductReview>) => {
-      setReviews((prev: any) => {
+      setReviews((prev) => {
         const newReviews = { ...prev };
-        Object.keys(newReviews).forEach((productId: any) => {
-          newReviews[productId] = newReviews[productId].map((review: any) =>
+        Object.keys(newReviews).forEach((productId) => {
+          newReviews[productId] = newReviews[productId].map((review) =>
             review.id === reviewId ? { ...review, ...updates } : review
           );
         });
@@ -827,11 +820,11 @@ export const EcommerceProvider: React.FC<{
   );
 
   const removeReview = useCallback((reviewId: string) => {
-    setReviews((prev: any) => {
+    setReviews((prev) => {
       const newReviews = { ...prev };
-      Object.keys(newReviews).forEach((productId: any) => {
+      Object.keys(newReviews).forEach((productId) => {
         newReviews[productId] = newReviews[productId].filter(
-          (review: any) => review.id !== reviewId
+          (review) => review.id !== reviewId
         );
       });
       return newReviews;
@@ -870,7 +863,7 @@ export const EcommerceProvider: React.FC<{
         source: "tracking",
       };
 
-      setPriceHistory((prev: any) => ({
+      setPriceHistory((prev) => ({
         ...prev,
         [productId]: [...(prev[productId] || []), historyEntry],
       }));
@@ -879,7 +872,7 @@ export const EcommerceProvider: React.FC<{
   );
 
   const untrackPrice = useCallback((productId: string) => {
-    setPriceHistory((prev: any) => {
+    setPriceHistory((prev) => {
       const newHistory = { ...prev };
       delete newHistory[productId];
       return newHistory;
@@ -904,9 +897,8 @@ export const EcommerceProvider: React.FC<{
   }, []);
 
   const trackEvent = useCallback(
-    (event: string, data?: Record<string, any>) => {
+    (event: string, data?: Record<string, unknown>) => {
       // Mock analytics tracking
-      console.log("Analytics event:", event, data);
     },
     []
   );
@@ -918,7 +910,7 @@ export const EcommerceProvider: React.FC<{
       totalPurchases: 89,
       conversionRate: 7.1,
       averageOrderValue: 156.78,
-      popularProducts: products.slice(0, 5).map((p: any) => ({
+      popularProducts: products.slice(0, 5).map((p) => ({
         productId: p.id,
         views: Math.floor(Math.random() * 500) + 100,
         purchases: Math.floor(Math.random() * 50) + 10,

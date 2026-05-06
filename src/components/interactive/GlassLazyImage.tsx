@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   AlertCircle,
@@ -233,8 +233,8 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
           title: title || "Image",
           url: src,
         });
-      } catch (err) {
-        console.error("Error sharing:", err);
+      } catch {
+        // Native sharing can be cancelled by the user; no component state changes.
       }
     } else {
       // Fallback: copy to clipboard
@@ -246,11 +246,13 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
   const defaultLoadingComponent = (
     <Motion
       preset="fadeIn"
-      className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'
+      className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
     >
       <div className="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-contrast-guard">
-        <Loader2 className='glass-w-4 glass-h-4 glass-animate-spin glass-text-primary-glass-opacity-80' />
-        <span className='glass-text-primary-glass-opacity-80 glass-text-sm'>Loading...</span>
+        <Loader2 className="glass-w-4 glass-h-4 glass-animate-spin glass-text-primary-glass-opacity-80" />
+        <span className="glass-text-primary-glass-opacity-80 glass-text-sm">
+          Loading...
+        </span>
       </div>
     </Motion>
   );
@@ -259,10 +261,12 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
   const defaultErrorComponent = (
     <Motion
       preset="fadeIn"
-      className='glass-absolute glass-inset-0 glass-flex glass-flex-col glass-items-center glass-justify-center glass-surface-dark/20'
+      className="glass-absolute glass-inset-0 glass-flex glass-flex-col glass-items-center glass-justify-center glass-surface-dark/20"
     >
-      <AlertCircle className='glass-w-8 glass-h-8 glass-text-primary glass-mb-2' />
-      <span className='glass-text-primary glass-text-sm'>Failed to load image</span>
+      <AlertCircle className="glass-w-8 glass-h-8 glass-text-primary glass-mb-2" />
+      <span className="glass-text-primary glass-text-sm">
+        Failed to load image
+      </span>
     </Motion>
   );
 
@@ -282,7 +286,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
       {/* Placeholder/Loading State */}
       {(!isLoaded || !isInView) && (
         <div
-          className='glass-absolute glass-inset-0 glass-surface-subtle/10 glass-flex glass-items-center glass-justify-center'
+          className="glass-absolute glass-inset-0 glass-surface-subtle/10 glass-flex glass-items-center glass-justify-center"
           style={{
             filter: blur ? `blur(${blurIntensity}px)` : "none",
           }}
@@ -291,11 +295,11 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
             <img
               src={placeholder}
               alt="Loading..."
-              className='glass-w-full glass-h-full glass-object-cover'
+              className="glass-w-full glass-h-full glass-object-cover"
             />
           ) : (
             <div className="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full">
-              <ImageIcon className='glass-w-8 glass-h-8 glass-text-primary-glass-opacity-40' />
+              <ImageIcon className="glass-w-8 glass-h-8 glass-text-primary-glass-opacity-40" />
             </div>
           )}
         </div>
@@ -331,46 +335,46 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
       {/* Loading Overlay */}
       {!isLoaded && !isError && isInView && (
-        <div className='glass-absolute glass-inset-0'>
+        <div className="glass-absolute glass-inset-0">
           {loadingComponent || defaultLoadingComponent}
         </div>
       )}
 
       {/* Error Overlay */}
       {isError && (
-        <div className='glass-absolute glass-inset-0'>
+        <div className="glass-absolute glass-inset-0">
           {errorComponent || defaultErrorComponent}
         </div>
       )}
 
       {/* Image Info Overlay */}
       {(title || showStats) && (
-        <div className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity'>
+        <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-3 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity">
           {title && (
-            <h3 className='glass-text-primary glass-font-medium glass-text-sm glass-mb-1 glass-truncate'>
+            <h3 className="glass-text-primary glass-font-medium glass-text-sm glass-mb-1 glass-truncate">
               {title}
             </h3>
           )}
 
           {showStats && stats && (
-            <div className='glass-flex glass-items-center glass-gap-3 glass-text-primary-glass-opacity-80 glass-text-xs'>
+            <div className="glass-flex glass-items-center glass-gap-3 glass-text-primary-glass-opacity-80 glass-text-xs">
               {stats.views && (
                 <div className="glass-flex glass-items-center glass-gap-1">
-                  <Eye className='glass-w-3 glass-h-3' />
+                  <Eye className="glass-w-3 glass-h-3" />
                   <span>{stats.views}</span>
                 </div>
               )}
 
               {stats.likes && (
                 <div className="glass-flex glass-items-center glass-gap-1">
-                  <Heart className='glass-w-3 glass-h-3' />
+                  <Heart className="glass-w-3 glass-h-3" />
                   <span>{stats.likes}</span>
                 </div>
               )}
 
               {stats.downloads && (
                 <div className="glass-flex glass-items-center glass-gap-1">
-                  <Download className='glass-w-3 glass-h-3' />
+                  <Download className="glass-w-3 glass-h-3" />
                   <span>{stats.downloads}</span>
                 </div>
               )}
@@ -381,23 +385,23 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
       {/* Actions Menu */}
       {enableActions && (
-        <div className='glass-absolute glass-top-2 glass-right-2 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity'>
-          <div className='glass-relative'>
+        <div className="glass-absolute glass-top-2 glass-right-2 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity">
+          <div className="glass-relative">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setShowActionsMenu(!showActionsMenu);
               }}
-              className='glass-p-2 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-full hover:glass-surface-dark/70 glass-transition-colors glass-focus glass-touch-target'
+              className="glass-p-2 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-full hover:glass-surface-dark/70 glass-transition-colors glass-focus glass-touch-target"
             >
-              <span className='glass-text-primary glass-text-lg'>⋯</span>
+              <span className="glass-text-primary glass-text-lg">⋯</span>
             </button>
 
             {/* Actions Dropdown */}
             {showActionsMenu && (
               <Motion
                 preset="slideDown"
-                className='glass-absolute glass-top-full glass-right-0 glass-mt-2'
+                className="glass-absolute glass-top-full glass-right-0 glass-mt-2"
               >
                 <div className="glass-surface-dark/80 glass-backdrop-blur-md glass-contrast-guard glass-radius-lg glass-shadow-xl glass-border glass-border-white/20 glass-min-glass-w-32 glass-contrast-guard">
                   {enableZoom && (
@@ -407,9 +411,9 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                         handleZoom();
                         setShowActionsMenu(false);
                       }}
-                      className='glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 first:glass-radius-t-lg glass-focus glass-touch-target glass-contrast-guard'
+                      className="glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 first:glass-radius-t-lg glass-focus glass-touch-target glass-contrast-guard"
                     >
-                      <ZoomIn className='glass-w-4 glass-h-4' />
+                      <ZoomIn className="glass-w-4 glass-h-4" />
                       <span className="glass-text-sm">Zoom</span>
                     </button>
                   )}
@@ -420,9 +424,9 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                       handleDownload();
                       setShowActionsMenu(false);
                     }}
-                    className='glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 glass-focus glass-touch-target glass-contrast-guard'
+                    className="glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 glass-focus glass-touch-target glass-contrast-guard"
                   >
-                    <Download className='glass-w-4 glass-h-4' />
+                    <Download className="glass-w-4 glass-h-4" />
                     <span className="glass-text-sm">Download</span>
                   </button>
 
@@ -432,9 +436,9 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
                       handleShare();
                       setShowActionsMenu(false);
                     }}
-                    className='glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 last:glass-radius-b-lg glass-focus glass-touch-target glass-contrast-guard'
+                    className="glass-w-full glass-text-left glass-px-4 glass-py-3 glass-text-primary-glass-opacity-90 hover:glass-surface-subtle/10 glass-transition-colors glass-flex glass-items-center glass-gap-3 last:glass-radius-b-lg glass-focus glass-touch-target glass-contrast-guard"
                   >
-                    <Share2 className='glass-w-4 glass-h-4' />
+                    <Share2 className="glass-w-4 glass-h-4" />
                     <span className="glass-text-sm">Share</span>
                   </button>
                 </div>
@@ -446,7 +450,7 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
 
       {/* Image Dimensions Info (dev mode) */}
       {process.env.NODE_ENV === "development" && imageDimensions.width > 0 && (
-        <div className='glass-absolute glass-top-2 glass-left-2 glass-px-2 glass-py-1 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-md glass-text-primary-glass-opacity-60 glass-text-xs glass-contrast-guard'>
+        <div className="glass-absolute glass-top-2 glass-left-2 glass-px-2 glass-py-1 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-md glass-text-primary-glass-opacity-60 glass-text-xs glass-contrast-guard">
           {imageDimensions.width} × {imageDimensions.height}
         </div>
       )}
