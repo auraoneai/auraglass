@@ -58,7 +58,7 @@ AuraGlass 3.0 includes a dedicated Liquid Glass layer for real product UI, not j
 | Media and data | Media controls, now-playing bar, photo inspector, badge clusters, carousel rails, glass data surfaces |
 | Showcase and docs | `LiquidGlassShowcase`, design rules, component map, tests, stories, tokens, and public exports |
 
-Start with [Liquid Glass design rules](./docs/guides/liquid-glass-design-rules.md) and the [Liquid Glass component map](./docs/guides/liquid-glass-component-map.md).
+Start with [Liquid Glass design rules](./docs/liquid-glass/design-rules.md) and the [Liquid Glass component map](./docs/liquid-glass/component-map.md).
 
 Liquid Glass public value exports in 3.0:
 
@@ -444,9 +444,9 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 - [Documentation home](./docs/readme.md)
 - [Installation guide](./INSTALLATION.md)
 - [Component documentation](./docs/components/readme.md)
-- [Design tokens](./docs/tokens/design-tokens.md)
+- [Design tokens](./docs/design-tokens.md)
 - [Accessibility guide](./docs/guides/accessibility.md)
 - [SSR setup](./docs/guides/ssr-setup.md)
-- [Deployment](./docs/deployment/deployment.md)
+- [Deployment](./docs/deployment.md)
 - [Reports](./reports/README.md)
 - [Release notes](./RELEASE_NOTES_3.0.0.md)

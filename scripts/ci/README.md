@@ -206,7 +206,7 @@ if (DEBUG) console.log('Processing file:', filePath);
 ## 📚 Related Documentation
 
 - [Design System Enforcement Guide](../../docs/guides/design-system-enforcement.md)
-- [Glass Tokens Reference](../../docs/tokens/design-tokens.md)
+- [Glass Tokens Reference](../../docs/design-tokens.md)
 - [Contributing Guidelines](../../README.md)
 
 ---

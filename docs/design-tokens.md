@@ -650,11 +650,11 @@ npm run token:report
 
 ## 📚 Related Documentation
 
-- [Component Standards](../guides/component-standards.md)
-- [Glass Utilities Guide](../utilities/glass-utilities.md)
-- [Elevation Guidelines](../guides/elevation-guidelines.md)
-- [Design System Enforcement](../guides/design-system-enforcement.md)
-- [Migration Guide](../guides/migration.md)
+- [Component Standards](./guides/component-standards.md)
+- [Glass Utilities Guide](./glass-utilities.md)
+- [Elevation Guidelines](./guides/elevation-guidelines.md)
+- [Design System Enforcement](./guides/design-system-enforcement.md)
+- [Migration Guide](./guides/migration.md)
 
 ---
 

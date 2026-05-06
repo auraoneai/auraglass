@@ -157,14 +157,14 @@ const { fps, gpuMemory, quality } = useLiquidGlassPerformance()
 
 ## Migration Guide
 
-See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for detailed migration instructions.
+See [Liquid Glass Migration Guide](../migration.md) for detailed migration instructions.
 
 ## Related Components
 
 - [LiquidGlassMaterial](./liquid-glass-material.md) - Core primitive
-- [GlassModal](../components/07-modal/glass-modal.md) - Liquid glass modals
-- [GlassButton](../components/13-buttons/glass-button.md) - Interactive elements
-- [GlassCard](../components/14-cards/glass-card.md) - Container surfaces
+- [GlassModal](../../components/07-modal/glass-modal.md) - Liquid glass modals
+- [GlassButton](../../components/13-buttons/glass-button.md) - Interactive elements
+- [GlassCard](../../components/14-cards/glass-card.md) - Container surfaces
 
 ## Troubleshooting
 

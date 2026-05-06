@@ -19,33 +19,31 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 - [Installation guide](../INSTALLATION.md): peer dependencies, setup flows, SSR setup, and troubleshooting.
 - [3.0 release notes](../RELEASE_NOTES_3.0.0.md): public release highlights and verified gates.
 - [Component documentation](./components/readme.md): organized index for every component page.
+- [Liquid Glass hub](./liquid-glass/readme.md): Liquid Glass rules, migration, primitives, showcase, and component map.
 - [Reports index](../reports/README.md): certification, audit, TypeScript, accessibility, and tooling evidence.
 
 ## Documentation Areas
 
 - `docs/ai`: AI service, setup, and production integration guides.
 - `docs/components`: numbered component sections with 356/356 direct docs coverage.
-- `docs/deployment`: deployment and production runtime notes.
-- `docs/features`: feature-level design and implementation notes.
+- `docs/liquid-glass`: Liquid Glass design rules, migration, primitives, component map, and showcase.
 - `docs/guides`: standards, migration guides, accessibility rules, focus management, SSR, visual testing, and house style.
-- `docs/primitives`: lower-level liquid glass primitives and material system docs.
-- `docs/showcase`: release showcase documentation.
-- `docs/tests`: integration and compatibility test notes.
-- `docs/tokens`: design token documentation.
-- `docs/utilities`: glass utility class and helper documentation.
+- `docs/deployment.md`: deployment and production runtime notes.
+- `docs/design-tokens.md`: design token documentation.
+- `docs/glass-utilities.md`: glass utility class and helper documentation.
+- `docs/guides/consciousness-interface.md`: feature-level consciousness interface notes.
+- `docs/guides/performance-optimization.md`: performance rules and optimization notes.
+- `docs/guides/react19-integration.md`: React 19 integration and compatibility notes.
 
 ## Top-Level File Map
 
 - [ai](./ai/): 9 Markdown files
 - [components](./components/): 423 Markdown files
-- [deployment](./deployment/): 1 Markdown file
-- [features](./features/): 1 Markdown file
+- [liquid-glass](./liquid-glass/readme.md): 13 Markdown files
 - [guides](./guides/): 16 Markdown files
-- [primitives](./primitives/): 9 Markdown files
-- [showcase](./showcase/): 1 Markdown file
-- [tests](./tests/): 1 Markdown file
-- [tokens](./tokens/): 1 Markdown file
-- [utilities](./utilities/): 1 Markdown file
+- [deployment](./deployment.md): 1 Markdown file
+- [design tokens](./design-tokens.md): 1 Markdown file
+- [glass utilities](./glass-utilities.md): 1 Markdown file
 
 ## Maintenance Rules
 

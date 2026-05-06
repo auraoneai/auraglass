@@ -524,7 +524,7 @@ Your application now has:
 ## 📚 Additional Resources
 
 - [Component Standards](./component-standards.md)
-- [Glass Utilities Guide](../utilities/glass-utilities.md)
+- [Glass Utilities Guide](../glass-utilities.md)
 - [Elevation Guidelines](./elevation-guidelines.md)
 - [Design System Enforcement](./design-system-enforcement.md)
-- [Design Token Reference](../tokens/design-tokens.md)
+- [Design Token Reference](../design-tokens.md)

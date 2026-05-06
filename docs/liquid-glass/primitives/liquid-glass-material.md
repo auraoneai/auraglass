@@ -353,13 +353,13 @@ function CustomGlassComponent({ children, ...glassProps }: CustomGlassProps) {
 ## Related Documentation
 
 - [Liquid Glass System Overview](./liquid-glass-system.md)
-- [GPU Acceleration Guide](../components/27-revolutionary-enhancements/liquid-glass-gpu.md)
-- [Accessibility Guidelines](../guides/accessibility.md)
-- [Performance Best Practices](./performance-optimization.md)
+- [GPU Acceleration Guide](../../components/27-revolutionary-enhancements/liquid-glass-gpu.md)
+- [Accessibility Guidelines](../../guides/accessibility.md)
+- [Performance Best Practices](../../guides/performance-optimization.md)
 
 ## Migration from OptimizedGlass
 
-See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for detailed migration instructions from the previous glass system.
+See [Liquid Glass Migration Guide](../migration.md) for detailed migration instructions from the previous glass system.
 
 ## System Integration
 

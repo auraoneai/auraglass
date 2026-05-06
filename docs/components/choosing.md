@@ -95,7 +95,7 @@ For 3D/AR, import from aura-glass/three and install the optional 3D peers.
 ## Documentation Map
 
 - [Component index](./readme.md)
-- [Liquid Glass design rules](../guides/liquid-glass-design-rules.md)
-- [Liquid Glass component map](../guides/liquid-glass-component-map.md)
+- [Liquid Glass design rules](../liquid-glass/design-rules.md)
+- [Liquid Glass component map](../liquid-glass/component-map.md)
 - [Installation guide](../../INSTALLATION.md)
 - [Root README](../../readme.md)
