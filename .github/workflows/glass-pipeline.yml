@@ -60,36 +60,7 @@ jobs:
       run: npm run glass:validate
         
     - name: Glass token consistency check
-      run: |
-        if [ ! -f "src/tokens/glass.ts" ]; then
-          echo "❌ Canonical glass tokens missing"
-          exit 1
-        fi
-        
-        # Verify token structure contains all required intents and elevations
-        node -e "
-          const { AURA_GLASS } = require('./dist/tokens/glass.js');
-          const intents = Object.keys(AURA_GLASS.surfaces);
-          const elevations = Object.keys(AURA_GLASS.surfaces.neutral);
-          
-          const expectedIntents = ['neutral', 'primary', 'success', 'warning', 'danger', 'info'];
-          const expectedElevations = ['level1', 'level2', 'level3', 'level4'];
-          
-          const missingIntents = expectedIntents.filter(i => !intents.includes(i));
-          const missingElevations = expectedElevations.filter(e => !elevations.includes(e));
-          
-          if (missingIntents.length > 0) {
-            console.error('❌ Missing intents:', missingIntents);
-            process.exit(1);
-          }
-          
-          if (missingElevations.length > 0) {
-            console.error('❌ Missing elevations:', missingElevations);
-            process.exit(1);
-          }
-          
-          console.log('✅ Glass token structure validated');
-        "
+      run: npm run glass:validate
         
     - name: Performance budget check
       run: |
