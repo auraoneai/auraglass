@@ -93,6 +93,7 @@ temp/
 # Scripts directory
 scripts/*
 !scripts/build-all.js
+!scripts/verify-glass-pipeline.js
 !scripts/audit/
 scripts/audit/*
 !scripts/audit/api-surface-audit.js
@@ -100,6 +101,8 @@ scripts/audit/*
 !scripts/audit/runtime-cleanliness-audit.js
 !scripts/ci/
 scripts/ci/*
+!scripts/ci/style-audit.js
+!scripts/ci/token-lint.js
 !scripts/ci/verify-pack.js
 
 # Editor directories and files
