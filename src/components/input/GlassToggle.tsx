@@ -57,6 +57,7 @@ export interface GlassToggleProps
    * Animation type
    */
   animation?: "none" | "scale" | "slide";
+  material?: "glass" | "liquid";
 }
 
 export interface GlassToggleGroupProps {
@@ -146,6 +147,7 @@ export const GlassToggle = React.forwardRef<
       className,
       shape = "glass-radius-md",
       animation = "scale",
+      material = "glass",
       "data-testid": dataTestId,
       "aria-label": ariaLabel,
       ...props
@@ -265,6 +267,7 @@ export const GlassToggle = React.forwardRef<
           animation="none"
           performanceMode="medium"
           ref={ref as any}
+          data-liquid-glass-toggle={material === "liquid" ? "true" : "false"}
           data-testid={dataTestId || "glasstoggle"}
           className={cn(
             "relative flex items-center justify-center glass-gap-2 font-medium",

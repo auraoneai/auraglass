@@ -244,3 +244,21 @@
   transition: none !important;
   transform: none !important;
 }
+/* Aura Liquid Glass system tokens */
+:root {
+  --liquid-glass-scroll-edge-soft-size: 32px;
+  --liquid-glass-scroll-edge-soft-blur: 10px;
+  --liquid-glass-scroll-edge-soft-opacity: 0.2;
+  --liquid-glass-scroll-edge-hard-size: 44px;
+  --liquid-glass-scroll-edge-hard-blur: 16px;
+  --liquid-glass-scroll-edge-hard-opacity: 0.32;
+  --liquid-glass-concentric-inset-compact: 6px;
+  --liquid-glass-concentric-inset-comfortable: 10px;
+  --liquid-glass-concentric-inset-spacious: 14px;
+  --liquid-glass-clear-dimming-subtle: 0.16;
+  --liquid-glass-clear-dimming-standard: 0.22;
+  --liquid-glass-clear-dimming-strong: 0.32;
+  --liquid-glass-group-spacing-tight: 6px;
+  --liquid-glass-group-spacing-regular: 12px;
+  --liquid-glass-group-spacing-loose: 18px;
+}

@@ -1194,6 +1194,48 @@ export interface LiquidGlassTokens extends AuraGlassTokens {
       sampleRate: 30;
     };
   };
+
+  // System-level Liquid Glass behavior tokens
+  system: {
+    scrollEdge: {
+      soft: { size: 32; blur: 10; opacity: 0.2 };
+      hard: { size: 44; blur: 16; opacity: 0.32 };
+      transitionMs: 160;
+    };
+    concentric: {
+      inset: { compact: 6; comfortable: 10; spacious: 14 };
+      fallbackRadius: 8;
+    };
+    layer: {
+      maxRecommendedDepth: 1;
+      warningDepth: 2;
+      zBase: 100;
+    };
+    clearDimming: {
+      subtle: 0.16;
+      standard: 0.22;
+      strong: 0.32;
+    };
+    group: {
+      spacing: { tight: 6; regular: 12; loose: 18 };
+      blendStrength: 0.72;
+    };
+    density: {
+      compact: 0.86;
+      comfortable: 0.92;
+      spacious: 1;
+    };
+    illumination: {
+      hover: 0.12;
+      press: 0.18;
+      focus: 0.16;
+    };
+    reducedMotion: {
+      transitionMs: 1;
+      disableParallax: true;
+      disableShimmer: true;
+    };
+  };
 }
 
 /**
@@ -1294,6 +1336,48 @@ export const LIQUID_GLASS: LiquidGlassTokens = {
       enableParallax: false,
       enableMicroInteractions: false,
       sampleRate: 30,
+    },
+  },
+
+  // System-level behavior tokens
+  system: {
+    scrollEdge: {
+      soft: { size: 32, blur: 10, opacity: 0.2 },
+      hard: { size: 44, blur: 16, opacity: 0.32 },
+      transitionMs: 160,
+    },
+    concentric: {
+      inset: { compact: 6, comfortable: 10, spacious: 14 },
+      fallbackRadius: 8,
+    },
+    layer: {
+      maxRecommendedDepth: 1,
+      warningDepth: 2,
+      zBase: 100,
+    },
+    clearDimming: {
+      subtle: 0.16,
+      standard: 0.22,
+      strong: 0.32,
+    },
+    group: {
+      spacing: { tight: 6, regular: 12, loose: 18 },
+      blendStrength: 0.72,
+    },
+    density: {
+      compact: 0.86,
+      comfortable: 0.92,
+      spacious: 1,
+    },
+    illumination: {
+      hover: 0.12,
+      press: 0.18,
+      focus: 0.16,
+    },
+    reducedMotion: {
+      transitionMs: 1,
+      disableParallax: true,
+      disableShimmer: true,
     },
   },
 };

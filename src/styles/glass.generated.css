@@ -550,3 +550,10 @@
     -webkit-backdrop-filter: none !important;
   }
 }
+/* Generated Liquid Glass system token bridge */
+:root {
+  --liquid-glass-scroll-edge-soft-background: rgba(255, 255, 255, var(--liquid-glass-scroll-edge-soft-opacity, 0.2));
+  --liquid-glass-scroll-edge-hard-background: rgba(255, 255, 255, var(--liquid-glass-scroll-edge-hard-opacity, 0.32));
+  --liquid-glass-frame-inset: var(--liquid-glass-concentric-inset-comfortable, 10px);
+  --liquid-glass-frame-radius: var(--glass-radius-lg, 12px);
+}

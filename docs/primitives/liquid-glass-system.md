@@ -180,3 +180,16 @@ See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for deta
 ```
 
 Enables visual debugging overlays and performance metrics.
+
+## New System Primitives
+
+The Liquid Glass system now includes these public primitives:
+
+- `LiquidGlassEffectGroup`: shared material grouping for related controls.
+- `LiquidGlassScrollEdge`: soft/hard overlap boundary for floating UI over scroll content.
+- `LiquidGlassBackdropSampler` and `useLiquidGlassBackdrop`: backdrop luminance, color, media richness, and dimming signals.
+- `LiquidGlassConcentricFrame`: concentric radius variables for nested geometry.
+- `LiquidGlassLayerProvider`: layer depth, performance, variant, and nested-glass policy.
+- `LiquidGlassSourceTransition`: source/destination transition registration for sheets, menus, and inspectors.
+
+These primitives support higher-level components such as `LiquidGlassToolbar`, `LiquidGlassInsetSidebar`, `LiquidGlassTabBar`, `LiquidGlassAdaptiveSheet`, `LiquidGlassPopoverMenu`, `LiquidGlassCommandSurface`, and the portfolio `LiquidGlassShowcase`.

@@ -329,3 +329,16 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 - [Deployment](./docs/deployment/deployment.md)
 - [Reports](./reports/README.md)
 - [Changelog](./CHANGELOG.md)
+
+## Aura Liquid Glass System
+
+This package now includes a dedicated Liquid Glass system for functional UI layers:
+
+- primitives: effect groups, scroll edges, backdrop sampling, concentric frames, layer policy, source transitions
+- navigation: Liquid Glass toolbar, inset sidebar, tab bar, bottom accessory, inspector panel
+- presentations: adaptive sheet and popover menu
+- controls: Liquid Glass button style, control group, segmented control upgrade path
+- media/data: media controls, now-playing bar, photo inspector, badge cluster, carousel rail
+- showcase: `LiquidGlassShowcase`
+
+Start with [Liquid Glass design rules](./docs/guides/liquid-glass-design-rules.md) and the [component map](./docs/guides/liquid-glass-component-map.md).

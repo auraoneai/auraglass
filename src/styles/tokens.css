@@ -333,3 +333,14 @@
   --glass-transition: var(--glass-transition-property)
     var(--glass-transition-duration) var(--glass-transition-timing);
 }
+/* Aura Liquid Glass system tokens */
+:root {
+  --liquid-glass-scroll-edge-soft-size: 32px;
+  --liquid-glass-scroll-edge-soft-blur: 10px;
+  --liquid-glass-scroll-edge-soft-opacity: 0.2;
+  --liquid-glass-scroll-edge-hard-size: 44px;
+  --liquid-glass-scroll-edge-hard-blur: 16px;
+  --liquid-glass-scroll-edge-hard-opacity: 0.32;
+  --liquid-glass-clear-dimming-strength: 0.22;
+  --liquid-glass-group-blend-strength: 0.72;
+}

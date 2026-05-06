@@ -2220,9 +2220,7 @@
   }
 }
 
-@supports not (
-  (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))
-) {
+@supports not ((backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))) {
   .glass,
   .glass-foundation-complete,
   .glass-foundation-basic,
@@ -2536,5 +2534,69 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     box-shadow: none;
+  }
+}
+/* Liquid Glass system primitives */
+:root {
+  --liquid-glass-scroll-edge-soft-size: 32px;
+  --liquid-glass-scroll-edge-soft-blur: 10px;
+  --liquid-glass-scroll-edge-soft-background: rgba(255, 255, 255, 0.2);
+  --liquid-glass-scroll-edge-hard-size: 44px;
+  --liquid-glass-scroll-edge-hard-blur: 16px;
+  --liquid-glass-scroll-edge-hard-background: rgba(255, 255, 255, 0.32);
+  --liquid-glass-scroll-edge-transition: 160ms ease;
+  --liquid-glass-clear-dimming-strength: 0.22;
+  --liquid-glass-group-blend-strength: 0.72;
+  --liquid-glass-source-transition-duration: 220ms;
+  --liquid-glass-source-transition-easing: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.liquid-glass-effect-group {
+  isolation: isolate;
+}
+
+.liquid-glass-effect-group-morph > [data-liquid-glass-material="true"] {
+  transition:
+    border-radius var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing),
+    transform var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing),
+    opacity 160ms ease;
+}
+
+.liquid-glass-grouped-surface {
+  --liquid-glass-grouped: 1;
+}
+
+.liquid-glass-scroll-edge {
+  pointer-events: none;
+}
+
+.liquid-glass-concentric-frame {
+  border-radius: var(--liquid-glass-frame-radius);
+}
+
+.liquid-glass-transition-active {
+  animation: liquid-glass-source-pop var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing);
+}
+
+.liquid-glass-transition-reduced-motion {
+  animation: none;
+}
+
+@keyframes liquid-glass-source-pop {
+  from {
+    opacity: 0.72;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-effect-group-morph > [data-liquid-glass-material="true"],
+  .liquid-glass-transition-active {
+    animation: none;
+    transition-duration: 1ms;
   }
 }

@@ -4,6 +4,7 @@ import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { LiquidGlassToolbar } from "./LiquidGlassToolbar";
 
 export interface GlassToolbarProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -12,6 +13,9 @@ export interface GlassToolbarProps
   right?: React.ReactNode;
   sticky?: boolean;
   floating?: boolean;
+  material?: "glass" | "liquid";
+  materialVariant?: "regular" | "clear";
+  scrollEdge?: "soft" | "hard" | false;
   /**
    * Whether to respect motion preferences for animations
    */
@@ -26,6 +30,9 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
       right,
       sticky = false,
       floating = false,
+      material = "glass",
+      materialVariant = "regular",
+      scrollEdge = false,
       respectMotionPreference = true,
       className,
       'aria-label': ariaLabel,
@@ -37,6 +44,25 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
     const toolbarId = useA11yId("toolbar");
     const prefersReducedMotion = useReducedMotion();
     const shouldReduceMotion = respectMotionPreference && prefersReducedMotion;
+
+    if (material === "liquid") {
+      return (
+        <LiquidGlassToolbar
+          ref={ref}
+          left={left}
+          center={center}
+          right={right}
+          sticky={sticky}
+          floating={floating}
+          materialVariant={materialVariant}
+          scrollEdge={scrollEdge}
+          aria-label={ariaLabel || "Toolbar"}
+          className={className}
+          {...rest}
+        />
+      );
+    }
+
     return (
       <OptimizedGlass
         ref={ref}

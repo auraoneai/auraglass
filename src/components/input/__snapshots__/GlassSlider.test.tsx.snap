@@ -3,6 +3,9 @@
 exports[`GlassSlider matches snapshot 1`] = `
 <div
   class="glass-slider-container"
+  data-interaction-glass="false"
+  data-liquid-glass-slider="false"
+  data-show-tick-labels="false"
   data-testid="glassslider"
 >
   <div

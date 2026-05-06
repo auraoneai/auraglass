@@ -457,6 +457,21 @@ This directory is the organized component documentation index for the AuraGlass 
 - [glass-reactions](./27-revolutionary-enhancements/glass-reactions.md)
 - [integration-example](./27-revolutionary-enhancements/integration-example.md)
 - [liquid-glass-gpu](./27-revolutionary-enhancements/liquid-glass-gpu.md)
+
+## Aura Liquid Glass System
+
+New Liquid Glass component docs:
+
+- [Liquid Glass toolbar](./navigation/liquid-glass-toolbar.md)
+- [Liquid Glass inset sidebar](./navigation/liquid-glass-inset-sidebar.md)
+- [Liquid Glass tab bar](./navigation/liquid-glass-tab-bar.md)
+- [Liquid Glass inspector panel](./navigation/liquid-glass-inspector-panel.md)
+- [Liquid Glass search](./search/liquid-glass-search.md)
+- [Liquid Glass adaptive sheet](./modal/liquid-glass-adaptive-sheet.md)
+- [Liquid Glass popover menu](./modal/liquid-glass-popover-menu.md)
+- [Liquid Glass button style](./button/liquid-glass-button-style.md)
+- [Liquid Glass media controls](./media/liquid-glass-media-controls.md)
+- [Liquid Glass command surface](./interactive/liquid-glass-command-surface.md)
 - [organic-animation-engine](./27-revolutionary-enhancements/organic-animation-engine.md)
 - [spatial-computing-engine](./27-revolutionary-enhancements/spatial-computing-engine.md)
 

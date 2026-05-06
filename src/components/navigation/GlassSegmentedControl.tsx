@@ -5,6 +5,7 @@ import { GlassButton } from "../button/GlassButton";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { LiquidGlassSegmentedControl } from "./LiquidGlassSegmentedControl";
 
 export interface SegmentedItem {
   id: string;
@@ -19,6 +20,7 @@ export interface GlassSegmentedControlProps {
   onChange?: (id: string) => void;
   size?: "sm" | "md" | "lg";
   condensed?: boolean;
+  material?: "glass" | "liquid";
   className?: string;
   /**
    * Whether to respect motion preferences for animations
@@ -45,6 +47,7 @@ export const GlassSegmentedControl = forwardRef<
       onChange = () => {},
       size = "md",
       condensed = false,
+      material = "glass",
       respectMotionPreference = true,
       "aria-label": ariaLabel = "Segmented control",
       "data-testid": dataTestId,
@@ -56,6 +59,19 @@ export const GlassSegmentedControl = forwardRef<
     const segmentedId = useA11yId("segmented-control");
     const prefersReducedMotion = useReducedMotion();
     const shouldReduceMotion = respectMotionPreference && prefersReducedMotion;
+    if (material === "liquid") {
+      return (
+        <LiquidGlassSegmentedControl
+          ref={ref}
+          segments={items}
+          value={value}
+          onValueChange={onChange}
+          className={className}
+          aria-label={ariaLabel}
+          data-testid={dataTestId}
+        />
+      );
+    }
     const sizes = {
       sm: "h-8 glass-text-xs",
       md: "h-9 glass-text-sm",

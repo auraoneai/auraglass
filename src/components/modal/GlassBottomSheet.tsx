@@ -10,6 +10,7 @@ import {
   announceToScreenReader,
 } from "../../utils/a11y";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
+import { LiquidGlassAdaptiveSheet } from "./LiquidGlassAdaptiveSheet";
 
 export interface GlassBottomSheetProps {
   open: boolean;
@@ -45,6 +46,22 @@ export interface GlassBottomSheetProps {
    * Testing attribute
    */
   "data-testid"?: string;
+  /**
+   * Material system to use for the sheet surface.
+   */
+  material?: "glass" | "liquid";
+  /**
+   * Liquid material variant.
+   */
+  materialVariant?: "regular" | "clear";
+  /**
+   * Presentation mode for liquid sheets.
+   */
+  presentationMode?: "interruptive" | "parallel";
+  /**
+   * Source id for Liquid Glass source transitions.
+   */
+  sourceId?: string;
 }
 
 export const GlassBottomSheet = forwardRef<
@@ -64,6 +81,10 @@ export const GlassBottomSheet = forwardRef<
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
+      material = "glass",
+      materialVariant = "regular",
+      presentationMode = "interruptive",
+      sourceId,
       ...props
     },
     ref
@@ -108,6 +129,32 @@ export const GlassBottomSheet = forwardRef<
     const shouldAnimate = respectMotionPreference
       ? !prefersReducedMotion
       : true;
+
+    if (material === "liquid") {
+      return (
+        <LiquidGlassAdaptiveSheet
+          ref={ref}
+          open={open}
+          onOpenChange={onOpenChange}
+          title={title || ariaLabel}
+          height={height}
+          side="bottom"
+          sourceId={sourceId}
+          presentationMode={presentationMode}
+          materialVariant={materialVariant}
+          className={className}
+          aria-describedby={ariaDescribedBy || descriptionId}
+          data-testid={props["data-testid"]}
+        >
+          {description && (
+            <p id={descriptionId} className="glass-text-sm glass-text-secondary glass-mb-4">
+              {description}
+            </p>
+          )}
+          {children}
+        </LiquidGlassAdaptiveSheet>
+      );
+    }
 
     return (
       <>

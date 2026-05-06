@@ -22,7 +22,7 @@ interface PersonaConfig {
 
 1. Update or add personas exclusively through `DESIGN_MATRIX` to keep docs, CSS, and runtime hooks in sync.
 2. Preserve existing `PersonaId` keys (kebab-case) and extend types when new fields are required.
-3. Validate changes by running `pnpm run typecheck` (types) and the persona CSS generation script (added in Workstream 3).
+3. Validate changes by running `npm run typecheck` (types) and the persona CSS generation script (added in Workstream 3).
 4. Avoid hard-coded values elsewhere—import helpers from `src/theme/designMatrix.ts` when consuming persona data.
 
 #### Generation Commands
@@ -659,3 +659,16 @@ npm run token:report
 ---
 
 This token system ensures consistent, maintainable, and themeable glassmorphism across your entire application while maintaining the 100/100 design system score.
+
+## Liquid Glass System Tokens
+
+Aura Liquid Glass adds system-level tokens for:
+
+- scroll edges: soft/hard size, blur, opacity, transition
+- concentric geometry: compact, comfortable, and spacious insets
+- clear material dimming: subtle, standard, strong
+- effect groups: tight, regular, loose spacing and blend strength
+- density and illumination: compact controls, hover, press, and focus response
+- reduced motion: transition fallback and parallax/shimmer opt-outs
+
+TypeScript values live in `src/tokens/glass.ts` under `LIQUID_GLASS.system`. The token manifest includes a `liquidGlassSystem` section for downstream tooling.

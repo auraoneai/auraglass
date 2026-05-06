@@ -19,6 +19,8 @@ export { GlassStatusDot } from "./GlassStatusDot";
 export { GlassTimeline } from "./GlassTimeline";
 export { GlassToast } from "./GlassToast";
 export { GlassVirtualTable } from "./GlassVirtualTable";
+export { LiquidGlassBadgeCluster, type LiquidGlassBadgeClusterProps } from "./LiquidGlassBadgeCluster";
+export { LiquidGlassCarouselRail, type LiquidGlassCarouselRailProps } from "./LiquidGlassCarouselRail";
 
 // New Production-Ready Components
 export {

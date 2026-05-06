@@ -351,3 +351,16 @@ While the **AuraGlass design token architecture is excellent** and the **Liquid 
 **Recommended Approach**: Automated codemods + manual review + comprehensive testing
 
 **Next Steps**: See `fix_plan.md` for detailed remediation strategy.
+
+## Liquid Glass Upgrade Addendum
+
+Implemented upgrade artifacts from `LiquidUpgrade.md`:
+
+- Foundation primitives for grouping, scroll edges, backdrop sampling, concentric geometry, layer policy, and source transitions.
+- Public Liquid Glass navigation, search, modal, control, data, media, interactive, and showcase components.
+- `LiquidGlassMaterial` integration with backdrop sampling, group metadata, layer policy, and clear-variant dimming hints.
+- Targeted validation:
+  - `npm run typecheck -- --pretty false`
+  - `npx jest ... tests/liquid-glass --runInBand`
+  - `npx jest src/components/**/LiquidGlass*.test.tsx --runInBand`
+  - `npx playwright test tests/visual/liquid-glass/liquid-glass-showcase.spec.ts --config=playwright.config.ts`

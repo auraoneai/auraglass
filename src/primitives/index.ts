@@ -5,6 +5,48 @@ export { OptimizedGlassCore } from './OptimizedGlassCore';
 export { OptimizedGlassAdvanced } from './glass/OptimizedGlassAdvanced';
 export { MotionNative } from './MotionNative';
 export { MotionFramer } from './motion/MotionFramer';
+export {
+  LiquidGlassBackdropSampler,
+  type LiquidGlassBackdropSamplerProps,
+} from './LiquidGlassBackdropSampler';
+export {
+  LiquidGlassConcentricFrame,
+  getConcentricRadiusValue,
+  type LiquidGlassConcentricFrameProps,
+  type LiquidGlassConcentricRadius,
+  type LiquidGlassConcentricShape,
+} from './LiquidGlassConcentricFrame';
+export {
+  LiquidGlassEffectGroup,
+  useLiquidGlassEffectGroup,
+  type LiquidGlassEffectGroupProps,
+  type LiquidGlassSamplingStrategy,
+} from './LiquidGlassEffectGroup';
+export {
+  LiquidGlassLayerProvider,
+  LiquidGlassSurfaceLayer,
+  useLiquidGlassLayer,
+  type LiquidGlassLayerContextValue,
+  type LiquidGlassLayerProviderProps,
+  type LiquidGlassPerformanceLevel,
+  type LiquidGlassVariant,
+} from './LiquidGlassLayerProvider';
+export {
+  LiquidGlassScrollEdge,
+  type LiquidGlassScrollEdgeProps,
+  type LiquidGlassScrollEdgeSide,
+  type LiquidGlassScrollEdgeStyle,
+} from './LiquidGlassScrollEdge';
+export {
+  LiquidGlassDestination,
+  LiquidGlassSource,
+  LiquidGlassTransitionProvider,
+  useLiquidGlassTransition,
+  type LiquidGlassDestinationProps,
+  type LiquidGlassSourceProps,
+  type LiquidGlassTransitionContextValue,
+  type LiquidGlassTransitionProviderProps,
+} from './LiquidGlassSourceTransition';
 
 // Primitive component types
 export type { GlassProps } from './GlassCore';

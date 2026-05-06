@@ -51,6 +51,7 @@ export interface GlassSwitchProps
   required?: boolean;
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
+  material?: "glass" | "liquid";
   /** Accessible label for the switch */
   "aria-label"?: string;
   /** ID of element that labels the switch */
@@ -79,6 +80,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
       error,
       required = false,
       respectMotionPreference = true,
+      material = "glass",
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
@@ -234,6 +236,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         as="button"
         ref={ref as any}
         role="switch"
+        data-liquid-glass-switch={material === "liquid" ? "true" : "false"}
         type="button"
         elevation={isChecked ? "level2" : "level1"}
         intensity={isChecked ? "medium" : "subtle"}

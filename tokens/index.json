@@ -7,5 +7,24 @@
       "label": "AuraGlass Default",
       "path": "./personas/default.json"
     }
-  ]
+  ],
+  "liquidGlassSystem": {
+    "scrollEdge": {
+      "soft": { "size": 32, "blur": 10, "opacity": 0.2 },
+      "hard": { "size": 44, "blur": 16, "opacity": 0.32 }
+    },
+    "concentric": {
+      "fallbackRadius": 8,
+      "inset": { "compact": 6, "comfortable": 10, "spacious": 14 }
+    },
+    "clearDimming": {
+      "subtle": 0.16,
+      "standard": 0.22,
+      "strong": 0.32
+    },
+    "group": {
+      "spacing": { "tight": 6, "regular": 12, "loose": 18 },
+      "blendStrength": 0.72
+    }
+  }
 }

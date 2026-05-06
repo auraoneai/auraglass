@@ -21,10 +21,15 @@ import {
   type TintMode,
 } from "../tokens/glass";
 import {
-  contrastGuard,
   useContrastGuard,
   type ContrastLevel,
 } from "../utils/contrastGuard";
+import { useLiquidGlassBackdrop } from "../hooks/useLiquidGlassBackdrop";
+import { useLiquidGlassEffectGroup } from "./LiquidGlassEffectGroup";
+import {
+  LiquidGlassSurfaceLayer,
+  useLiquidGlassLayer,
+} from "./LiquidGlassLayerProvider";
 
 // Enhanced props interface for Liquid Glass Material
 export interface LiquidGlassMaterialProps
@@ -167,6 +172,14 @@ export const LiquidGlassMaterial = forwardRef<
     const [backdropSample, setBackdropSample] = useState<any>(null);
 
     const prefersReducedMotion = useReducedMotion();
+    const layer = useLiquidGlassLayer();
+    const effectGroup = useLiquidGlassEffectGroup();
+    const backdrop = useLiquidGlassBackdrop(elementRef, {
+      enabled: adaptToContent && material === "liquid",
+      variant,
+      minContrastRatio: variant === "clear" ? 7 : 4.5,
+      throttleMs: LIQUID_GLASS.tinting.adaptive.updateThrottle,
+    });
 
     // Merge refs
     const combinedRef = useCallback(
@@ -271,31 +284,18 @@ export const LiquidGlassMaterial = forwardRef<
 
     // Backdrop sampling for environmental adaptation
     useEffect(() => {
-      if (!adaptToContent || !elementRef.current || material !== "liquid") {
-        return;
-      }
-
-      const element = elementRef.current;
-      const sampleBackdrop = async () => {
-        try {
-          const sample = await contrastGuard.sampleBackdrop(element);
-          setBackdropSample(sample);
-          onBackdropAnalysis?.(sample);
-        } catch (error) {
-          console.warn("LiquidGlassMaterial: Backdrop sampling failed", error);
-        }
+      if (!adaptToContent || material !== "liquid") return;
+      const legacySample = {
+        averageLuminance: backdrop.luminance,
+        dominantHue: 0,
+        contrast: backdrop.contrastHint === "mixed" ? 4.5 : 7,
+        timestamp: Date.now(),
+        confidence: backdrop.source === "fallback" ? 0.4 : 0.8,
+        ...backdrop,
       };
-
-      // Initial sample
-      sampleBackdrop();
-
-      // Periodic updates (throttled)
-      const interval = setInterval(
-        sampleBackdrop,
-        LIQUID_GLASS.tinting.adaptive.updateThrottle
-      );
-      return () => clearInterval(interval);
-    }, [adaptToContent, material, onBackdropAnalysis]);
+      setBackdropSample(legacySample);
+      onBackdropAnalysis?.(legacySample);
+    }, [adaptToContent, backdrop, material, onBackdropAnalysis]);
 
     // Generate dynamic styles based on current state
     const dynamicStyles = useMemo(() => {
@@ -349,6 +349,18 @@ export const LiquidGlassMaterial = forwardRef<
       if (materialSpec.thickness > 2) {
         const thicknessOpacity = 0.1 + materialSpec.sheen * 0.05;
         styles.boxShadow = `${styles.boxShadow}, inset 0 1px ${materialSpec.thickness}px rgba(255,255,255,${thicknessOpacity})`;
+      }
+
+      if (material === "liquid" && materialSpec.tintMode === "adaptive") {
+        const adaptiveTint = liquidGlassUtils.generateAdaptiveTint(
+          backdrop.luminance,
+          intent
+        );
+        styles.background = `${styles.background}, ${adaptiveTint}`;
+      }
+
+      if (material === "liquid" && variant === "clear" && backdrop.requiresDimming) {
+        styles.background = `${styles.background}, linear-gradient(rgba(0,0,0,var(--liquid-glass-clear-dimming-strength,0.22)), rgba(0,0,0,var(--liquid-glass-clear-dimming-strength,0.22)))`;
       }
 
       // Motion responsiveness
@@ -416,6 +428,7 @@ export const LiquidGlassMaterial = forwardRef<
       deviceTilt,
       prefersReducedMotion,
       radius,
+      backdrop,
     ]);
 
     // Event handlers for micro-interactions
@@ -475,6 +488,8 @@ export const LiquidGlassMaterial = forwardRef<
 
       // Reduced motion
       prefersReducedMotion && "liquid-glass-reduced-motion",
+      effectGroup && "liquid-glass-grouped-surface",
+      layer.insideGlass && "liquid-glass-layered-surface",
 
       // Custom classes
       className
@@ -487,51 +502,61 @@ export const LiquidGlassMaterial = forwardRef<
     };
 
     return (
-      <div
-        ref={combinedRef}
-        className={classes}
-        style={{ ...combinedStyles }}
-        onMouseEnter={interactive ? handleMouseEnter : undefined}
-        onMouseLeave={interactive ? handleMouseLeave : undefined}
-        onMouseDown={interactive ? handleMouseDown : undefined}
-        onMouseUp={interactive ? handleMouseUp : undefined}
-        aria-disabled={disabled || undefined}
-        data-liquid-glass-material="true"
-        {...props}
+      <LiquidGlassSurfaceLayer
+        variant={variant}
+        performanceLevel={performanceLevel}
       >
-        {/* Edge sheen layer */}
-        {materialSpec.sheen > 0 && (
-          <div
-            className="liquid-glass-sheen glass-absolute glass-inset-0 glass-pointer-events-none"
-            style={{
-              background: `radial-gradient(60% 60% at 50% -10%, rgba(255,255,255,${0.1 + materialSpec.sheen * 0.05}) 0%, transparent 60%)`,
-              opacity: isHovered ? 1.2 : 1,
-              transition: LIQUID_GLASS.motionFluency.hover.easing,
-            }}
-          />
-        )}
+        <div
+          ref={combinedRef}
+          className={classes}
+          style={{ ...combinedStyles }}
+          onMouseEnter={interactive ? handleMouseEnter : undefined}
+          onMouseLeave={interactive ? handleMouseLeave : undefined}
+          onMouseDown={interactive ? handleMouseDown : undefined}
+          onMouseUp={interactive ? handleMouseUp : undefined}
+          aria-disabled={disabled || undefined}
+          data-liquid-glass-material="true"
+          data-liquid-glass-variant={variant}
+          data-liquid-glass-group-id={effectGroup?.groupId}
+          data-liquid-glass-sampling={effectGroup?.samplingStrategy ?? "isolated"}
+          data-liquid-glass-requires-dimming={backdrop.requiresDimming ? "true" : "false"}
+          data-liquid-glass-backdrop-source={backdrop.source}
+          {...props}
+        >
+          {/* Edge sheen layer */}
+          {materialSpec.sheen > 0 && (
+            <div
+              className="liquid-glass-sheen glass-absolute glass-inset-0 glass-pointer-events-none"
+              style={{
+                background: `radial-gradient(60% 60% at 50% -10%, rgba(255,255,255,${0.1 + materialSpec.sheen * 0.05}) 0%, transparent 60%)`,
+                opacity: isHovered ? 1.2 : 1,
+                transition: LIQUID_GLASS.motionFluency.hover.easing,
+              }}
+            />
+          )}
 
-        {/* Content layer with proper z-index */}
-        <div className="liquid-glass-content glass-relative glass-z-10">
-          {children}
-        </div>
-
-        {/* Debug information in development */}
-        {process.env.NODE_ENV === "development" && (
-          <div className="liquid-glass-debug glass-absolute glass-top-0 glass-right-0 glass-text-xs glass-opacity-50 glass-pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius">
-            <div>Material: {material}</div>
-            <div>Variant: {variant}</div>
-            <div>IOR: {materialSpec.ior.toFixed(2)}</div>
-            <div>Thickness: {materialSpec.thickness}px</div>
-            <div>Sheen: {materialSpec.sheen}</div>
-            {contrastAdjustment && (
-              <div>
-                Contrast: {contrastAdjustment.adjustedContrast.toFixed(1)}:1
-              </div>
-            )}
+          {/* Content layer with proper z-index */}
+          <div className="liquid-glass-content glass-relative glass-z-10">
+            {children}
           </div>
-        )}
-      </div>
+
+          {/* Debug information in development */}
+          {process.env.NODE_ENV === "development" && (
+            <div className="liquid-glass-debug glass-absolute glass-top-0 glass-right-0 glass-text-xs glass-opacity-50 glass-pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius">
+              <div>Material: {material}</div>
+              <div>Variant: {variant}</div>
+              <div>IOR: {materialSpec.ior.toFixed(2)}</div>
+              <div>Thickness: {materialSpec.thickness}px</div>
+              <div>Sheen: {materialSpec.sheen}</div>
+              {contrastAdjustment && (
+                <div>
+                  Contrast: {contrastAdjustment.adjustedContrast.toFixed(1)}:1
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </LiquidGlassSurfaceLayer>
     );
   }
 );

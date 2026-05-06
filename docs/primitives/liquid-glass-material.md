@@ -360,3 +360,13 @@ function CustomGlassComponent({ children, ...glassProps }: CustomGlassProps) {
 ## Migration from OptimizedGlass
 
 See [Liquid Glass Migration Guide](../guides/liquid-glass-migration.md) for detailed migration instructions from the previous glass system.
+
+## System Integration
+
+`LiquidGlassMaterial` now participates in the broader Aura Liquid Glass system:
+
+- consumes `useLiquidGlassBackdrop` for adaptive tint and clear-variant dimming hints
+- reads `LiquidGlassEffectGroup` context for shared sampling metadata
+- registers with `LiquidGlassLayerProvider` to warn about accidental nested glass
+- respects reduced motion for parallax and micro-interaction behavior
+- exposes data attributes for variant, sampling strategy, backdrop source, and dimming requirements

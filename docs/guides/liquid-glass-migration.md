@@ -403,4 +403,20 @@ For migration assistance or advanced configurations:
 
 **Welcome to the future of glassmorphism!** 🌊✨
 
-*Liquid Glass brings Apple-quality material physics to your React components with zero breaking changes and maximum visual impact.*
+*Liquid Glass brings Apple-quality material physics to your React components with zero breaking changes and maximum visual impact.* 
+
+## Aura Liquid Glass System Upgrade
+
+The system now includes a dedicated Liquid Glass component family for structural UI:
+
+| Existing component | New Liquid Glass option |
+| --- | --- |
+| `GlassToolbar` | `LiquidGlassToolbar` or `material="liquid"` |
+| `GlassSidebar` | `LiquidGlassInsetSidebar` |
+| `GlassTabBar` | `LiquidGlassTabBar` and `LiquidGlassBottomAccessory` |
+| `GlassSegmentedControl` | `LiquidGlassSegmentedControl` or `material="liquid"` |
+| `GlassActionSheet` | `material="liquid"` or `LiquidGlassAdaptiveSheet` |
+| `GlassPopover` | `LiquidGlassPopoverMenu` |
+| `GlassCommandPalette` / `GlassSpotlightSearch` | `LiquidGlassCommandSurface` |
+
+Use `LiquidGlassEffectGroup` for related control clusters, `LiquidGlassScrollEdge` where floating UI overlaps scroll content, and `LiquidGlassBackdropSampler` for adaptive contrast/tint behavior. Avoid applying Liquid Glass to every content card by default.

@@ -14,6 +14,20 @@ export { MotionFramer } from "./primitives/motion/MotionFramer";
 export { MotionNative as Motion } from "./primitives/MotionNative";
 export { OptimizedGlassCore as OptimizedGlass } from "./primitives/OptimizedGlassCore";
 export { LiquidGlassMaterial } from "./primitives/LiquidGlassMaterial";
+export { LiquidGlassBackdropSampler, type LiquidGlassBackdropSamplerProps } from "./primitives/LiquidGlassBackdropSampler";
+export { LiquidGlassConcentricFrame, getConcentricRadiusValue, type LiquidGlassConcentricFrameProps } from "./primitives/LiquidGlassConcentricFrame";
+export { LiquidGlassEffectGroup, useLiquidGlassEffectGroup, type LiquidGlassEffectGroupProps } from "./primitives/LiquidGlassEffectGroup";
+export { LiquidGlassLayerProvider, LiquidGlassSurfaceLayer, useLiquidGlassLayer, type LiquidGlassLayerProviderProps } from "./primitives/LiquidGlassLayerProvider";
+export { LiquidGlassScrollEdge, type LiquidGlassScrollEdgeProps } from "./primitives/LiquidGlassScrollEdge";
+export { LiquidGlassDestination, LiquidGlassSource, LiquidGlassTransitionProvider, useLiquidGlassTransition, type LiquidGlassDestinationProps, type LiquidGlassSourceProps, type LiquidGlassTransitionProviderProps } from "./primitives/LiquidGlassSourceTransition";
+export {
+  LIQUID_GLASS_FALLBACK_BACKDROP_SAMPLE,
+  sampleLiquidGlassBackdrop,
+  useLiquidGlassBackdrop,
+  type LiquidGlassBackdropOptions,
+  type LiquidGlassBackdropSample,
+  type LiquidGlassContrastHint,
+} from "./hooks/useLiquidGlassBackdrop";
 
 // Localization Provider
 export { GlassLocalizationProvider } from "./lib/GlassLocalizationProvider";
@@ -62,6 +76,12 @@ export { GlassTabItem } from "./components/navigation/GlassTabItem";
 export { GlassTabs } from "./components/navigation/GlassTabs";
 export { EnhancedGlassTabs } from "./components/navigation/EnhancedGlassTabs";
 export { GlassToolbar } from "./components/navigation/GlassToolbar";
+export { LiquidGlassBottomAccessory, type LiquidGlassBottomAccessoryProps } from "./components/navigation/LiquidGlassBottomAccessory";
+export { LiquidGlassInsetSidebar, type LiquidGlassInsetSidebarProps } from "./components/navigation/LiquidGlassInsetSidebar";
+export { LiquidGlassInspectorPanel, type LiquidGlassInspectorPanelProps } from "./components/navigation/LiquidGlassInspectorPanel";
+export { LiquidGlassSegmentedControl, type LiquidGlassSegmentedControlProps } from "./components/navigation/LiquidGlassSegmentedControl";
+export { LiquidGlassTabBar, type LiquidGlassTabBarProps } from "./components/navigation/LiquidGlassTabBar";
+export { LiquidGlassToolbar, type LiquidGlassToolbarProps } from "./components/navigation/LiquidGlassToolbar";
 
 // Modal & Overlay Components
 export { GlassBottomSheet } from "./components/modal/GlassBottomSheet";
@@ -70,6 +90,8 @@ export { GlassDrawer } from "./components/modal/GlassDrawer";
 export { GlassHoverCard } from "./components/modal/GlassHoverCard";
 export { GlassModal } from "./components/modal/GlassModal";
 export { GlassPopover } from "./components/modal/GlassPopover";
+export { LiquidGlassAdaptiveSheet, type LiquidGlassAdaptiveSheetProps } from "./components/modal/LiquidGlassAdaptiveSheet";
+export { LiquidGlassPopoverMenu, type LiquidGlassPopoverMenuProps } from "./components/modal/LiquidGlassPopoverMenu";
 
 // Form & Input Components
 export { GlassCheckbox } from "./components/input/GlassCheckbox";
@@ -95,10 +117,12 @@ export { GlassSwitch } from "./components/input/GlassSwitch";
 export { GlassTextarea } from "./components/input/GlassTextarea";
 export { GlassToggle } from "./components/input/GlassToggle";
 export { GlassWizard } from "./components/input/GlassWizard";
+export { LiquidGlassControlGroup, type LiquidGlassControlGroupProps } from "./components/input/LiquidGlassControlGroup";
 
 // Button & Card Components
 export { GlassButton } from "./components/button/GlassButton";
 export { GlassButton as Button } from "./components/button/GlassButton"; // Alias export
+export { LiquidGlassButtonStyle, type LiquidGlassButtonStyleProps } from "./components/button/LiquidGlassButtonStyle";
 export { GlassCardLink } from "./components/card/glass-card-link";
 export { GlassCard } from "./components/card/GlassCard";
 export { GlassCard as Card } from "./components/card/GlassCard"; // Alias export
@@ -134,6 +158,8 @@ export { GlassStatusDot } from "./components/data-display/GlassStatusDot";
 export { GlassTimeline } from "./components/data-display/GlassTimeline";
 export { GlassToast } from "./components/data-display/GlassToast";
 export { GlassVirtualTable } from "./components/data-display/GlassVirtualTable";
+export { LiquidGlassBadgeCluster, type LiquidGlassBadgeClusterProps } from "./components/data-display/LiquidGlassBadgeCluster";
+export { LiquidGlassCarouselRail, type LiquidGlassCarouselRailProps } from "./components/data-display/LiquidGlassCarouselRail";
 
 // New Components - Phase 1 (High Priority)
 export {
@@ -210,6 +236,8 @@ export { GlassChatInput } from "./components/interactive/GlassChatInput";
 export { GlassCoachmarks } from "./components/interactive/GlassCoachmarks";
 export { GlassCommand } from "./components/interactive/GlassCommand";
 export { GlassCommandPalette } from "./components/interactive/GlassCommandPalette";
+export { LiquidGlassCommandSurface, type LiquidGlassCommandSurfaceProps } from "./components/interactive/LiquidGlassCommandSurface";
+export { LiquidGlassMapControls, type LiquidGlassMapControlsProps } from "./components/interactive/LiquidGlassMapControls";
 export { GlassCommentThread } from "./components/interactive/GlassCommentThread";
 export { GlassDraggable } from "./components/interactive/GlassDraggable";
 export { GlassFacetSearch } from "./components/interactive/GlassFacetSearch";
@@ -400,6 +428,8 @@ export { GlassDeepDreamGlass } from "./components/ai/GlassDeepDreamGlass";
 export { GlassGANGenerator } from "./components/ai/GlassGANGenerator";
 export { GlassGenerativeArt } from "./components/ai/GlassGenerativeArt";
 export { GlassIntelligentSearch } from "./components/search/GlassIntelligentSearch";
+export { LiquidGlassSearchField, type LiquidGlassSearchFieldProps, type LiquidGlassSearchResult } from "./components/search/LiquidGlassSearchField";
+export { LiquidGlassSearchTab, type LiquidGlassSearchTabProps } from "./components/search/LiquidGlassSearchTab";
 export { GlassLiveFilter } from "./components/ai/GlassLiveFilter";
 export { GlassMusicVisualizer } from "./components/ai/GlassMusicVisualizer";
 export { NeuralWeightVisualization } from "./components/ai/NeuralWeightVisualization";
@@ -482,7 +512,11 @@ export { GlassIntelligentImageUploader } from "./components/image/GlassIntellige
 export { GlassMediaProvider } from "./components/media/GlassMediaProvider";
 export { GlassAdvancedVideoPlayer } from "./components/media/GlassAdvancedVideoPlayer";
 export { GlassAdvancedAudioPlayer } from "./components/media/GlassAdvancedAudioPlayer";
+export { LiquidGlassMediaControls, type LiquidGlassMediaControlsProps } from "./components/media/LiquidGlassMediaControls";
+export { LiquidGlassNowPlayingBar, type LiquidGlassNowPlayingBarProps } from "./components/media/LiquidGlassNowPlayingBar";
+export { LiquidGlassPhotoInspector, type LiquidGlassPhotoInspectorProps } from "./components/media/LiquidGlassPhotoInspector";
 export { GlassActionSheet } from "./components/mobile/GlassActionSheet";
+export { LiquidGlassShowcase } from "./components/showcase/LiquidGlassShowcase";
 export { GlassPullToRefresh } from "./components/mobile/GlassPullToRefresh";
 export {
   TouchOptimizedGlass,

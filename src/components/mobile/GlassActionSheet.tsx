@@ -3,6 +3,7 @@ import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef, useEffect, useCallback, useRef } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { createPortal } from "react-dom";
+import { LiquidGlassAdaptiveSheet } from "../modal/LiquidGlassAdaptiveSheet";
 
 export interface GlassActionSheetAction {
   /**
@@ -76,6 +77,11 @@ export interface GlassActionSheetProps
    * @default 300
    */
   animationDuration?: number;
+  material?: "glass" | "liquid";
+  sourceId?: string;
+  presentationMode?: "interruptive" | "parallel";
+  sourceTransition?: boolean;
+  localDimming?: boolean;
 }
 
 export const GlassActionSheet = forwardRef<
@@ -94,6 +100,11 @@ export const GlassActionSheet = forwardRef<
       elevation = "level4",
       closeOnBackdrop = true,
       animationDuration = 300,
+      material = "glass",
+      sourceId,
+      presentationMode = "interruptive",
+      sourceTransition = false,
+      localDimming = true,
       className,
       "aria-label": ariaLabel,
       ...props
@@ -105,6 +116,46 @@ export const GlassActionSheet = forwardRef<
     const sheetRef = useRef<HTMLDivElement>(null);
     const startYRef = useRef(0);
     const currentYRef = useRef(0);
+
+    if (material === "liquid") {
+      return (
+        <LiquidGlassAdaptiveSheet
+          ref={ref}
+          open={open}
+          onOpenChange={(next) => {
+            if (!next) onClose();
+          }}
+          title={title}
+          sourceId={sourceTransition ? sourceId : undefined}
+          presentationMode={presentationMode}
+          materialVariant={localDimming ? "clear" : "regular"}
+          className={className}
+          aria-label={ariaLabel}
+          {...props}
+        >
+          {message && <p className="glass-text-sm glass-text-secondary">{message}</p>}
+          <div className="glass-mt-4 glass-flex glass-flex-col glass-gap-2">
+            {actions.map((action) => (
+              <button
+                key={action.label}
+                type="button"
+                disabled={action.disabled}
+                className={cn("glass-radius-lg glass-px-3 glass-py-2 glass-text-left", action.variant === "destructive" && "glass-text-danger")}
+                onClick={() => {
+                  if (action.disabled) return;
+                  action.onAction();
+                  onClose();
+                }}
+              >
+                {action.icon}
+                {action.label}
+              </button>
+            ))}
+            {showCancel && <button type="button" onClick={onClose}>{cancelText}</button>}
+          </div>
+        </LiquidGlassAdaptiveSheet>
+      );
+    }
 
     useEffect(() => {
       if (open) {

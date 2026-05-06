@@ -65,6 +65,10 @@ export interface GlassSliderProps
   required?: boolean;
   /** Respect user's motion preferences */
   respectMotionPreference?: boolean;
+  material?: "glass" | "liquid";
+  neutralValue?: number;
+  showTickLabels?: boolean;
+  interactionGlass?: boolean;
   /** Accessible label for the slider */
   "aria-label"?: string;
   /** ID of element that labels the slider */
@@ -100,6 +104,10 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
       error,
       required = false,
       respectMotionPreference = true,
+      material = "glass",
+      neutralValue,
+      showTickLabels = false,
+      interactionGlass = false,
       "aria-label": ariaLabel,
       "aria-labelledby": ariaLabelledBy,
       "aria-describedby": ariaDescribedBy,
@@ -474,6 +482,10 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
       <div
         ref={ref}
         className={cn("glass-slider-container", className)}
+        data-liquid-glass-slider={material === "liquid" ? "true" : "false"}
+        data-neutral-value={neutralValue}
+        data-show-tick-labels={showTickLabels ? "true" : "false"}
+        data-interaction-glass={interactionGlass ? "true" : "false"}
         data-testid={dataTestId || "glassslider"}
         {...props}
       >

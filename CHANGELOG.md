@@ -1,9 +1,33 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Added Aura Liquid Glass system primitives: `LiquidGlassEffectGroup`, `LiquidGlassScrollEdge`, `LiquidGlassBackdropSampler`, `LiquidGlassConcentricFrame`, `LiquidGlassLayerProvider`, and `LiquidGlassSourceTransition`.
+- Added portfolio-grade Liquid Glass components for navigation, search, presentations, controls, data, media, interactive map/command surfaces, and `LiquidGlassShowcase`.
+- Added Liquid Glass tests, stories, docs, token entries, and public exports.
+
+### Changed
+
+- `LiquidGlassMaterial` now consumes backdrop sampling, grouping context, and layer policy.
+- `GlassToolbar`, `GlassActionSheet`, `GlassSegmentedControl`, `GlassSlider`, `GlassSwitch`, and `GlassToggle` expose Liquid Glass upgrade paths or markers while preserving existing behavior.
+
 All notable changes to AuraGlass will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.17.0] - 2026-05-05
+
+### Release Readiness
+- Updated package metadata for the 356-component certified AuraGlass release line.
+- Normalized the release workflow around npm, including `prepublishOnly`, Storybook CI, and Next.js integration smoke tests.
+- Expanded optional peer dependency metadata so non-3D consumers do not receive unnecessary peer warnings.
+- Aligned React Three Fiber and Drei peer ranges to support React 18/Fiber 8/Drei 9 and React 19/Fiber 9/Drei 10 installation paths.
+- Added Node and npm engine requirements plus public provenance publish configuration.
+- Verified the package export map against published `2.16.2`; no package-level subpath exports were removed for the `2.17.0` target.
+- Marked feature-specific peers optional while keeping `react` and `react-dom` as required core peers.
 
 ## [2.16.4] - 2026-05-05
 
