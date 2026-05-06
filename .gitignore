@@ -90,34 +90,7 @@ storybook-static
 tmp/
 temp/
 
-# Scripts directory
-scripts/*
-!scripts/build-all.js
-!scripts/build-tokens.js
-!scripts/build-workers.js
-!scripts/generate-glass-css-simple.js
-!scripts/generate-persona-css-runner.js
-!scripts/generate-persona-css.ts
-!scripts/glass-visual-test-generator.js
-!scripts/verify-glass-pipeline.js
-!scripts/visual-test-runner.js
-!scripts/audit/
-scripts/audit/*
-!scripts/audit/api-surface-audit.js
-!scripts/audit/public-export-audit.js
-!scripts/audit/runtime-cleanliness-audit.js
-!scripts/audit/storybook-visual-certification.mjs
-!scripts/audit/universal-glass-audit.js
-!scripts/ci/
-scripts/ci/*
-!scripts/ci/forbidden-check.js
-!scripts/ci/run-next-integration.js
-!scripts/ci/style-audit.js
-!scripts/ci/token-lint.js
-!scripts/ci/verify-pack.js
-!scripts/codemods/
-scripts/codemods/*
-!scripts/codemods/tw-to-glass.js
+# Scripts are release-critical build and CI assets; keep them tracked.
 
 # Editor directories and files
 .vscode/
