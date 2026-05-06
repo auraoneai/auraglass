@@ -57,16 +57,7 @@ jobs:
         echo "✅ Glass surface validation passed: $surface_count surfaces"
         
     - name: Deprecated API detection
-      run: |
-        deprecated_usage=$(grep -r "glassSurface\|glassBorder\|interactiveGlass\|createGlassFoundation" src --include="*.ts" --include="*.tsx" | grep -v "deprecated" || true)
-        
-        if [ -n "$deprecated_usage" ]; then
-          echo "❌ Deprecated glass API usage detected:"
-          echo "$deprecated_usage"
-          exit 1
-        fi
-        
-        echo "✅ No deprecated glass API usage found"
+      run: npm run glass:validate
         
     - name: Glass token consistency check
       run: |
