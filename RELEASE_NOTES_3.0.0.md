@@ -7,11 +7,11 @@ AuraGlass 3.0.0 is the public platform relaunch from the old `2.16.2` npm packag
 - Full 3.0 README and npm discovery refresh with SEO-oriented package copy, badges, install snippets, public entrypoints, release-gate evidence, and clearer positioning for React, Next.js, TypeScript, Liquid Glass, glassmorphism, dashboards, accessibility, Storybook, and 3D/AR.
 - Dedicated Liquid Glass system with 32 public value exports plus related type exports, covering material primitives, grouped effects, scroll edges, source transitions, toolbar/tab/sidebar surfaces, overlays, media controls, search, map controls, inspection UI, and `LiquidGlassShowcase`.
 - Preserved 356-component certified inventory with complete direct Storybook, docs, unit-test, accessibility metadata, and visual certification coverage.
-- Added `docs/components/CHOOSING.md` so developers and AI agents can select components by product job instead of being overwhelmed by a flat component list.
+- Added `docs/components/choosing.md` so developers and AI agents can select components by product job instead of being overwhelmed by a flat component list.
 - Storybook visual certification refreshed with 356/356 passed entries and 712 desktop/mobile screenshots.
 - React 18 and React 19 consumer validation through Next 14 and Next 15 tarball smoke tests.
 - npm package pipeline modernized around public access, provenance configuration, `prepublishOnly`, pack verification, worker packaging, bundle-size checks, and no bundled React runtime.
-- Public export/API/runtime audits added and checked in under `reports/`, including export coverage, API type debt, runtime cleanliness, breaking-change review, manual QA checklist, and npm publish readiness.
+- Public export/API/runtime audits added and checked in under `reports/`, including export coverage, API type debt, runtime cleanliness, breaking-change review, manual QA checklist, and visual certification evidence.
 - Runtime and security hardening across auth middleware, API key generation, websocket/demo token generation, collaboration IDs, AI service logging, and SHA-256 image cache keys.
 - Package metadata and optional peers refreshed for modern React 18/19, Next.js, Storybook, Sentry, Three.js, React Three Fiber, Drei, Framer Motion, Radix, lucide-react, charting, and forms usage.
 
@@ -53,6 +53,6 @@ import 'aura-glass/styles';
 
 ## Developer Guidance
 
-Start with `docs/components/CHOOSING.md` when building with AuraGlass. For most apps, begin with the default app kit: `GlassAppShell`, `GlassContainer`, `GlassGrid`, `GlassStack`, `OptimizedGlass`, `GlassCard`, `GlassButton`, `GlassInput`, `GlassSelect`, `GlassTabs`, `GlassModal`, `GlassDataTable`, `GlassBadge`, `GlassToast`, `ThemeProvider`, and `ContrastGuard`.
+Start with `docs/components/choosing.md` when building with AuraGlass. For most apps, begin with the default app kit: `GlassAppShell`, `GlassContainer`, `GlassGrid`, `GlassStack`, `OptimizedGlass`, `GlassCard`, `GlassButton`, `GlassInput`, `GlassSelect`, `GlassTabs`, `GlassModal`, `GlassDataTable`, `GlassBadge`, `GlassToast`, `ThemeProvider`, and `ContrastGuard`.
 
 Use Liquid Glass for premium app chrome, command centers, media controls, connected source transitions, overlays, and high-value focal surfaces. Use AI, quantum, immersive, atmospheric, and 3D/AR systems only when the product requirement specifically calls for them.

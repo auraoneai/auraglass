@@ -221,32 +221,32 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     );
   });
 
-  test("audit prompt includes required reproducibility sections", () => {
-    const prompt = fs.readFileSync(
-      path.join(
-        repoRoot,
-        "docs/prompts/glassmorphism-component-audit-master-prompt.md"
-      ),
+  test("public docs reference release evidence instead of internal rebuild prompts", () => {
+    const docsIndex = fs.readFileSync(
+      path.join(repoRoot, "docs/readme.md"),
+      "utf8"
+    );
+    const componentIndex = fs.readFileSync(
+      path.join(repoRoot, "docs/components/readme.md"),
       "utf8"
     );
 
-    for (const requiredSection of [
-      "Audit goals",
-      "Preferred workflow",
-      "Recommended verification",
-      "Final response format",
-      "Minimum Acceptance Criteria",
-    ]) {
-      expect(prompt).toContain(requiredSection);
-    }
-
     for (const requiredPath of [
       "reports/component_inventory.json",
-      "src/stories/**",
-      "tests/visual/**",
-      "tests/e2e/**",
+      "reports/glassmorphism-storybook-visual-certification.json",
+      "docs/components/choosing.md",
     ]) {
-      expect(prompt).toContain(requiredPath);
+      expect(`${docsIndex}\n${componentIndex}`).toContain(requiredPath);
+    }
+
+    for (const internalPath of [
+      "docs/prompts",
+      "LiquidUpgrade.md",
+      "final.md",
+      "token-violations-fix-prompt.md",
+      "designmatrix-PRD.md",
+    ]) {
+      expect(`${docsIndex}\n${componentIndex}`).not.toContain(internalPath);
     }
   });
 

@@ -166,6 +166,6 @@ Run `npm run glass:generate-persona-css` and commit the generated CSS after pers
 ## Documentation
 
 - Start with `README.md` for package architecture and API entrypoints.
-- Use `docs/README.md` for the full documentation map.
-- Use `docs/components/README.md` for the organized component index.
+- Use `docs/readme.md` for the full documentation map.
+- Use `docs/components/readme.md` for the organized component index.
 - Use `reports/README.md` for certification and audit evidence.

@@ -36,7 +36,6 @@ This directory stores generated and hand-authored audit reports. The reports are
 - [glass_compliance_summary.md](./glass_compliance_summary.md)
 - [glassmorphism-storybook-visual-certification.md](./glassmorphism-storybook-visual-certification.md)
 - [manual-browser-qa-checklist.md](./manual-browser-qa-checklist.md)
-- [npm-publish-readiness.md](./npm-publish-readiness.md)
 - [public-export-audit.md](./public-export-audit.md)
 - [runtime-cleanliness-audit.md](./runtime-cleanliness-audit.md)
 - [tailwind_audit.md](./tailwind_audit.md)

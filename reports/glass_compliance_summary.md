@@ -354,7 +354,7 @@ While the **AuraGlass design token architecture is excellent** and the **Liquid 
 
 ## Liquid Glass Upgrade Addendum
 
-Implemented upgrade artifacts from `LiquidUpgrade.md`:
+Implemented upgrade artifacts from the internal Liquid Glass upgrade plan:
 
 - Foundation primitives for grouping, scroll edges, backdrop sampling, concentric geometry, layer policy, and source transitions.
 - Public Liquid Glass navigation, search, modal, control, data, media, interactive, and showcase components.

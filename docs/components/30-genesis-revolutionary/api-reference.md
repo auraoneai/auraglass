@@ -11,7 +11,7 @@ This page indexes the Genesis revolutionary component APIs documented in this se
 
 ## Related Pages
 
-- [Section overview](./README.md)
+- [Section overview](./readme.md)
 - [Migration guide](./migration-guide.md)
 - [Performance guide](./performance-guide.md)
 - [Security guide](./security-guide.md)

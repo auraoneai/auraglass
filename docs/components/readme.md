@@ -4,7 +4,7 @@ This directory is the organized component documentation index for the AuraGlass 
 
 ## How To Choose
 
-Start with the [Choosing AuraGlass Components](./CHOOSING.md) guide before browsing individual component pages. It gives developers and AI agents a smaller decision tree: default app kit, Liquid Glass, product families, advanced systems, and when not to use a specialized component.
+Start with the [Choosing AuraGlass Components](./choosing.md) guide before browsing individual component pages. It gives developers and AI agents a smaller decision tree: default app kit, Liquid Glass, product families, advanced systems, and when not to use a specialized component.
 
 ## Coverage State
 
@@ -52,6 +52,7 @@ Start with the [Choosing AuraGlass Components](./CHOOSING.md) guide before brows
 - [New Genesis Components](./32-new-genesis-components/): 10 pages
 - [Quantum UI](./33-quantum-ui/): 7 pages
 - [Enhanced Buttons](./34-enhanced-buttons/): 1 page
+- [Liquid Glass](./35-liquid-glass/): 23 pages
 - [Core](./core/): 4 pages
 
 ## Component Pages
@@ -462,23 +463,34 @@ Start with the [Choosing AuraGlass Components](./CHOOSING.md) guide before brows
 - [glass-reactions](./27-revolutionary-enhancements/glass-reactions.md)
 - [integration-example](./27-revolutionary-enhancements/integration-example.md)
 - [liquid-glass-gpu](./27-revolutionary-enhancements/liquid-glass-gpu.md)
-
-## Aura Liquid Glass System
-
-New Liquid Glass component docs:
-
-- [Liquid Glass toolbar](./navigation/liquid-glass-toolbar.md)
-- [Liquid Glass inset sidebar](./navigation/liquid-glass-inset-sidebar.md)
-- [Liquid Glass tab bar](./navigation/liquid-glass-tab-bar.md)
-- [Liquid Glass inspector panel](./navigation/liquid-glass-inspector-panel.md)
-- [Liquid Glass search](./search/liquid-glass-search.md)
-- [Liquid Glass adaptive sheet](./modal/liquid-glass-adaptive-sheet.md)
-- [Liquid Glass popover menu](./modal/liquid-glass-popover-menu.md)
-- [Liquid Glass button style](./button/liquid-glass-button-style.md)
-- [Liquid Glass media controls](./media/liquid-glass-media-controls.md)
-- [Liquid Glass command surface](./interactive/liquid-glass-command-surface.md)
 - [organic-animation-engine](./27-revolutionary-enhancements/organic-animation-engine.md)
 - [spatial-computing-engine](./27-revolutionary-enhancements/spatial-computing-engine.md)
+
+### Liquid Glass
+
+- [liquid-glass-button-style](./35-liquid-glass/button/liquid-glass-button-style.md)
+- [liquid-glass-badge-cluster](./35-liquid-glass/data-display/liquid-glass-badge-cluster.md)
+- [liquid-glass-carousel-rail](./35-liquid-glass/data-display/liquid-glass-carousel-rail.md)
+- [liquid-glass-control-group](./35-liquid-glass/input/liquid-glass-control-group.md)
+- [liquid-glass-slider](./35-liquid-glass/input/liquid-glass-slider.md)
+- [liquid-glass-switch-toggle](./35-liquid-glass/input/liquid-glass-switch-toggle.md)
+- [liquid-glass-command-surface](./35-liquid-glass/interactive/liquid-glass-command-surface.md)
+- [liquid-glass-map-controls](./35-liquid-glass/interactive/liquid-glass-map-controls.md)
+- [liquid-glass-media-controls](./35-liquid-glass/media/liquid-glass-media-controls.md)
+- [liquid-glass-now-playing-bar](./35-liquid-glass/media/liquid-glass-now-playing-bar.md)
+- [liquid-glass-photo-inspector](./35-liquid-glass/media/liquid-glass-photo-inspector.md)
+- [liquid-glass-action-sheet](./35-liquid-glass/mobile/liquid-glass-action-sheet.md)
+- [liquid-glass-adaptive-sheet](./35-liquid-glass/modal/liquid-glass-adaptive-sheet.md)
+- [liquid-glass-popover-menu](./35-liquid-glass/modal/liquid-glass-popover-menu.md)
+- [liquid-glass-bottom-accessory](./35-liquid-glass/navigation/liquid-glass-bottom-accessory.md)
+- [liquid-glass-inset-sidebar](./35-liquid-glass/navigation/liquid-glass-inset-sidebar.md)
+- [liquid-glass-inspector-panel](./35-liquid-glass/navigation/liquid-glass-inspector-panel.md)
+- [liquid-glass-segmented-control](./35-liquid-glass/navigation/liquid-glass-segmented-control.md)
+- [liquid-glass-tab-bar](./35-liquid-glass/navigation/liquid-glass-tab-bar.md)
+- [liquid-glass-toolbar](./35-liquid-glass/navigation/liquid-glass-toolbar.md)
+- [liquid-glass-search](./35-liquid-glass/search/liquid-glass-search.md)
+- [liquid-glass-search-field](./35-liquid-glass/search/liquid-glass-search-field.md)
+- [liquid-glass-search-tab](./35-liquid-glass/search/liquid-glass-search-tab.md)
 
 ### Next Wave Systems
 
@@ -519,7 +531,7 @@ New Liquid Glass component docs:
 
 ### Genesis Revolutionary
 
-- [README](./30-genesis-revolutionary/README.md)
+- [README](./30-genesis-revolutionary/readme.md)
 - [api-reference](./30-genesis-revolutionary/api-reference.md)
 - [collaborative-glass-workspace](./30-genesis-revolutionary/collaborative-glass-workspace.md)
 - [glass-a11y](./30-genesis-revolutionary/glass-a11y.md)
@@ -531,7 +543,7 @@ New Liquid Glass component docs:
 
 ### AR Effects
 
-- [README](./31-ar-effects/README.md)
+- [README](./31-ar-effects/readme.md)
 - [ar-glass-effects](./31-ar-effects/ar-glass-effects.md)
 - [aurora-pro](./31-ar-effects/aurora-pro.md)
 - [glass-ar-preview](./31-ar-effects/glass-ar-preview.md)
@@ -545,20 +557,20 @@ New Liquid Glass component docs:
 
 ### New Genesis Components
 
-- [AIGlassThemeProvider](./32-new-genesis-components/AIGlassThemeProvider.md)
-- [BrandColorIntegration](./32-new-genesis-components/BrandColorIntegration.md)
-- [GlassDepthLayer](./32-new-genesis-components/GlassDepthLayer.md)
-- [GlassEngine](./32-new-genesis-components/GlassEngine.md)
-- [GlassFocusIndicators](./32-new-genesis-components/GlassFocusIndicators.md)
-- [GlassPerformanceOptimization](./32-new-genesis-components/GlassPerformanceOptimization.md)
-- [GlassTransitions](./32-new-genesis-components/GlassTransitions.md)
-- [GlassTrophyCase](./32-new-genesis-components/GlassTrophyCase.md)
-- [IntelligentColorSystem](./32-new-genesis-components/IntelligentColorSystem.md)
-- [TouchGlassOptimization](./32-new-genesis-components/TouchGlassOptimization.md)
+- [AIGlassThemeProvider](./32-new-genesis-components/ai-glass-theme-provider.md)
+- [BrandColorIntegration](./32-new-genesis-components/brand-color-integration.md)
+- [GlassDepthLayer](./32-new-genesis-components/glass-depth-layer.md)
+- [GlassEngine](./32-new-genesis-components/glass-engine.md)
+- [GlassFocusIndicators](./32-new-genesis-components/glass-focus-indicators.md)
+- [GlassPerformanceOptimization](./32-new-genesis-components/glass-performance-optimization.md)
+- [GlassTransitions](./32-new-genesis-components/glass-transitions.md)
+- [GlassTrophyCase](./32-new-genesis-components/glass-trophy-case.md)
+- [IntelligentColorSystem](./32-new-genesis-components/intelligent-color-system.md)
+- [TouchGlassOptimization](./32-new-genesis-components/touch-glass-optimization.md)
 
 ### Quantum UI
 
-- [README](./33-quantum-ui/README.md)
+- [README](./33-quantum-ui/readme.md)
 - [glass-coherence-indicator](./33-quantum-ui/glass-coherence-indicator.md)
 - [glass-probability-cloud](./33-quantum-ui/glass-probability-cloud.md)
 - [glass-quantum-field](./33-quantum-ui/glass-quantum-field.md)
@@ -568,7 +580,7 @@ New Liquid Glass component docs:
 
 ### Enhanced Buttons
 
-- [README](./34-enhanced-buttons/README.md)
+- [README](./34-enhanced-buttons/readme.md)
 
 ### Core
 

@@ -11,7 +11,7 @@
 
 AuraGlass 3.0 is the full platform relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
 
-This release is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes npm provenance publishing, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and publish readiness.
+This release is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes npm provenance publishing, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
 
 ```bash
 npm install aura-glass
@@ -43,7 +43,7 @@ import 'aura-glass/styles';
 - **Runtime cleanliness and security hardening:** auth middleware rejects URL query credentials, API keys and room/demo tokens use crypto-backed randomness, AI/server logging was reduced, MD5 image cache keys were replaced with SHA-256, and production-source console/debugger/TODO findings are audited.
 - **Peer and install modernization:** feature-specific peers are optional, Sentry support is widened, React Three Fiber/Drei ranges cover React 18 and React 19 paths, and install docs explain which peers are needed for each feature family.
 - **SSR, tokens, workers, and 3D entrypoints:** SSR helpers, token manifests, persona CSS generation, worker outputs, and the `aura-glass/three` entrypoint are part of the verified package story.
-- **Release transparency:** `final.md` and `reports/` record publish readiness, API surface debt, breaking-change review evidence, runtime cleanliness, and manual browser/accessibility follow-ups.
+- **Release transparency:** release notes plus checked-in audit evidence record API surface debt, breaking-change review evidence, runtime cleanliness, visual certification, and manual browser/accessibility follow-ups without publishing internal rebuild prompts.
 
 ## Liquid Glass System
 
@@ -99,8 +99,8 @@ Primary evidence:
 - [Component inventory](./reports/component_inventory.json)
 - [Storybook visual certification JSON](./reports/glassmorphism-storybook-visual-certification.json)
 - [Storybook visual certification report](./reports/glassmorphism-storybook-visual-certification.md)
-- [Documentation map](./docs/README.md)
-- [Component documentation index](./docs/components/README.md)
+- [Documentation map](./docs/readme.md)
+- [Component documentation index](./docs/components/readme.md)
 - [Reports index](./reports/README.md)
 
 Run the live audit at any time:
@@ -111,7 +111,7 @@ npm run audit:components
 
 ## How To Choose Components
 
-Do not start by scanning every export. Start with the [component selection guide](./docs/components/CHOOSING.md), which groups AuraGlass by product job:
+Do not start by scanning every export. Start with the [component selection guide](./docs/components/choosing.md), which groups AuraGlass by product job:
 
 - **Default app kit:** `GlassAppShell`, `GlassContainer`, `GlassGrid`, `GlassStack`, `OptimizedGlass`, `GlassCard`, `GlassButton`, `GlassInput`, `GlassSelect`, `GlassTabs`, `GlassModal`, `GlassDataTable`, `GlassBadge`, `GlassToast`, `ThemeProvider`, and `ContrastGuard`.
 - **Liquid Glass:** use for premium app chrome, media controls, command centers, source transitions, overlays, and focal surfaces.
@@ -313,7 +313,7 @@ The current inventory metadata reports 356/356 coverage for ContrastGuard, ARIA,
 
 ## Component Documentation
 
-Component docs are organized into numbered sections under [docs/components](./docs/components/README.md). The directory root intentionally contains only the section index.
+Component docs are organized into numbered sections under [docs/components](./docs/components/readme.md). The directory root intentionally contains only the section index.
 
 Common sections include:
 
@@ -441,12 +441,12 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 
 ## More Documentation
 
-- [Documentation home](./docs/README.md)
+- [Documentation home](./docs/readme.md)
 - [Installation guide](./INSTALLATION.md)
-- [Component documentation](./docs/components/README.md)
+- [Component documentation](./docs/components/readme.md)
 - [Design tokens](./docs/tokens/design-tokens.md)
 - [Accessibility guide](./docs/guides/accessibility.md)
 - [SSR setup](./docs/guides/ssr-setup.md)
 - [Deployment](./docs/deployment/deployment.md)
 - [Reports](./reports/README.md)
-- [Changelog](./CHANGELOG.md)
+- [Release notes](./RELEASE_NOTES_3.0.0.md)

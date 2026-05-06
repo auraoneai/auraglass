@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { createGlassStyle } from "../core/mixins/glassMixins";
 import {
-  GLASSMORPHISM_AUDIT_PROMPT_PATH,
+  GLASSMORPHISM_AUDIT_EVIDENCE_PATHS,
   glassmorphismAuditCoverage,
 } from "../reports/glassmorphismAuditCoverage";
 
@@ -159,11 +159,11 @@ const metricCards = [
 const GlassAuditCoverage: React.FC = () => (
   <main style={pageStyle}>
     <header style={headerStyle}>
-      <span style={chipStyle}>{GLASSMORPHISM_AUDIT_PROMPT_PATH}</span>
+      <span style={chipStyle}>{GLASSMORPHISM_AUDIT_EVIDENCE_PATHS[0]}</span>
       <h1 style={titleStyle}>Glassmorphism audit coverage matrix</h1>
       <p style={bodyStyle}>
-        Static snapshot for the reusable full-library audit prompt. The matrix
-        separates component-owned stories from the complete Storybook visual
+        Static snapshot for the public audit evidence. The matrix separates
+        component-owned stories from the complete Storybook visual
         certification pass, docs, unit tests, and owned visual-test breadth so
         remaining coverage debt is visible without contradicting the certified
         356-component pass.

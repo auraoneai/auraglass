@@ -253,9 +253,11 @@ const main = () => {
     missingDocs.forEach((name) => console.log(`- ${name}`));
   }
 
-  console.log("\nReusable audit prompt");
-  console.log("- docs/prompts/glassmorphism-component-audit-master-prompt.md");
-  console.log("- docs/prompts/glassmorphism-storybook-visual-certification-prompt.md");
+  console.log("\nPublic audit evidence");
+  console.log("- reports/component_inventory.json");
+  console.log("- reports/glassmorphism-storybook-visual-certification.json");
+  console.log("- docs/components/readme.md");
+  console.log("- docs/components/choosing.md");
 };
 
 main();

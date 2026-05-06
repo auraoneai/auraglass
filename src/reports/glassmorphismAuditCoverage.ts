@@ -1,8 +1,12 @@
-export const GLASSMORPHISM_AUDIT_PROMPT_PATH =
-  "docs/prompts/glassmorphism-component-audit-master-prompt.md";
-
 export const GLASSMORPHISM_AUDIT_COVERAGE_REPORT_PATH =
   "src/reports/glassmorphismAuditCoverage.ts";
+
+export const GLASSMORPHISM_AUDIT_EVIDENCE_PATHS = [
+  "reports/component_inventory.json",
+  "reports/glassmorphism-storybook-visual-certification.json",
+  "docs/components/readme.md",
+  "docs/components/choosing.md",
+] as const;
 
 export type GlassAuditCategoryCoverage = {
   total: number;

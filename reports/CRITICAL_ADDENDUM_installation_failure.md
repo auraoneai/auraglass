@@ -333,7 +333,7 @@ Before publishing fix:
 - [ ] Bundle size < 200KB gzipped
 - [ ] No peer dependency warnings in clean install
 - [ ] README updated with peer dep instructions
-- [ ] CHANGELOG.md documents breaking change
+- [ ] Release notes document breaking change
 - [ ] Semver bump: 1.1.0 → 2.0.0 (breaking change)
 
 ---

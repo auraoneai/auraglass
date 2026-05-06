@@ -2,7 +2,7 @@
 
 Generated: 2026-05-06
 
-This report records the local AI/auth/server security hardening completed for the `2.17.0` release-readiness pass and the remaining items that still require broader review before the package should be described as fully security-audited.
+This report records the local AI/auth/server security hardening completed for the `3.0.0` release-readiness pass and the remaining items that still require broader review before the package should be described as fully security-audited.
 
 ## Completed Hardening
 
