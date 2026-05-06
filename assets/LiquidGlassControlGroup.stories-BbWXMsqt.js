@@ -1,0 +1,3 @@
+import{j as r}from"./iframe-OZreUAtx.js";import{L as t}from"./LiquidGlassControlGroup-B9efCnvS.js";import"./preload-helper-PPVm8Dsz.js";import"./LiquidGlassMaterial-6ZsmKJqk.js";import"./LiquidGlassLayerProvider-D9koVs6n.js";const u={title:"Input/LiquidGlassControlGroup",component:t},o={render:()=>r.jsxs(t,{children:[r.jsx("button",{children:"Bold"}),r.jsx("button",{children:"Italic"})]})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  render: () => <LiquidGlassControlGroup><button>Bold</button><button>Italic</button></LiquidGlassControlGroup>
+}`,...o.parameters?.docs?.source}}};const l=["ToolbarGroup"];export{o as ToolbarGroup,l as __namedExportsOrder,u as default};

@@ -1,0 +1,3 @@
+import{j as r}from"./iframe-OZreUAtx.js";import{L as s}from"./LiquidGlassBottomAccessory-IozPWtPi.js";import"./preload-helper-PPVm8Dsz.js";import"./LiquidGlassMaterial-6ZsmKJqk.js";import"./LiquidGlassLayerProvider-D9koVs6n.js";const m={title:"Navigation/LiquidGlassBottomAccessory",component:s},o={render:()=>r.jsx(s,{children:"Now playing"})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+  render: () => <LiquidGlassBottomAccessory>Now playing</LiquidGlassBottomAccessory>
+}`,...o.parameters?.docs?.source}}};const n=["Default"];export{o as Default,n as __namedExportsOrder,m as default};
