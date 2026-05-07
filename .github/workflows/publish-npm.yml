@@ -17,6 +17,8 @@ jobs:
     name: Publish aura-glass to npm
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      HAS_NPM_TOKEN: ${{ secrets.NPM_TOKEN != '' }}
 
     steps:
       - name: Checkout
@@ -53,5 +55,12 @@ jobs:
           npm run verify:pack
           npm run test:integration:next -- --skip-build
 
-      - name: Publish with npm provenance
+      - name: Publish with npm trusted publishing
+        if: env.HAS_NPM_TOKEN != 'true'
         run: npm publish --access public
+
+      - name: Publish with npm token provenance
+        if: env.HAS_NPM_TOKEN == 'true'
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
