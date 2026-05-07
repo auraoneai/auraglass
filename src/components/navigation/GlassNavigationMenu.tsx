@@ -1,4 +1,4 @@
-'use client';
+"use client";
 // Removed circular import - using regular button element
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -327,7 +327,7 @@ export const GlassNavigationMenuItem: React.FC<
 
   if (item?.separator) {
     return (
-      <div className='glass-h-px glass-surface-subtle/20 glass-mx-4 glass-my-2' />
+      <div className="glass-h-px glass-surface-subtle/20 glass-mx-4 glass-my-2" />
     );
   }
 
@@ -336,7 +336,7 @@ export const GlassNavigationMenuItem: React.FC<
       <Motion preset="none">
         <button
           className={cn(
-            "relative flex items-center justify-center w-full",
+            "glass-relative glass-flex glass-items-center glass-justify-center glass-w-full",
             "glass-text-primary/70 hover:glass-text-primary transition-colors duration-200",
             "hover:bg-white/10 glass-radius-lg",
             "glass-focus glass-touch-target glass-contrast-guard",
@@ -353,6 +353,12 @@ export const GlassNavigationMenuItem: React.FC<
           disabled={item?.disabled}
           title={item?.label}
           type="button"
+          style={{
+            border: 0,
+            background: "transparent",
+            color: "inherit",
+            font: "inherit",
+          }}
         >
           {item?.icon && (
             <div className="glass-flex glass-items-center glass-justify-center">
@@ -361,7 +367,7 @@ export const GlassNavigationMenuItem: React.FC<
           )}
 
           {item?.badge && (
-            <div className='glass-absolute glass-top-1 glass--right-1 glass-w-5 glass-h-5 glass-surface-red glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary'>
+            <div className="glass-absolute glass-top-1 glass--right-1 glass-w-5 glass-h-5 glass-surface-red glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary">
               {typeof item?.badge === "number" && item?.badge > 99
                 ? "99+"
                 : item?.badge}
@@ -376,7 +382,7 @@ export const GlassNavigationMenuItem: React.FC<
     <Motion preset="none">
       <button
         className={cn(
-          "relative flex items-center justify-between w-full",
+          "glass-relative glass-flex glass-items-center glass-justify-between glass-w-full",
           "glass-text-primary/70 hover:glass-text-primary transition-all duration-200",
           "hover:bg-white/10 glass-radius-lg",
           "glass-focus glass-touch-target glass-contrast-guard",
@@ -394,8 +400,14 @@ export const GlassNavigationMenuItem: React.FC<
         onMouseLeave={onHoverLeave}
         disabled={item?.disabled}
         type="button"
+        style={{
+          border: 0,
+          background: "transparent",
+          color: "inherit",
+          font: "inherit",
+        }}
       >
-        <div className='glass-flex glass-items-center glass-gap-3 glass-flex-1 glass-min-w-0'>
+        <div className="glass-flex glass-items-center glass-gap-3 glass-flex-1 glass-min-w-0">
           {/* Icon */}
           {item?.icon && (
             <div className="glass-flex glass-items-center glass-justify-center glass-flex-shrink-0">
@@ -404,12 +416,14 @@ export const GlassNavigationMenuItem: React.FC<
           )}
 
           {/* Content */}
-          <div className='glass-flex-1 glass-min-w-0 glass-text-left'>
+          <div className="glass-flex-1 glass-min-w-0 glass-text-left">
             <div className="glass-flex glass-items-center glass-gap-2">
-              <span className='glass-truncate glass-font-medium'>{item?.label}</span>
+              <span className="glass-truncate glass-font-medium">
+                {item?.label}
+              </span>
 
               {item?.badge && (
-                <span className='glass-flex-shrink-0 glass-px-2 glass-py-0.5 glass-surface-red/20 glass-text-secondary glass-radius-full glass-text-xs glass-font-medium'>
+                <span className="glass-flex-shrink-0 glass-px-2 glass-py-0.5 glass-surface-red/20 glass-text-secondary glass-radius-full glass-text-xs glass-font-medium">
                   {typeof item?.badge === "number" && item?.badge > 99
                     ? "99+"
                     : item?.badge}
@@ -418,7 +432,7 @@ export const GlassNavigationMenuItem: React.FC<
             </div>
 
             {item?.description && (
-              <p className='glass-text-primary-glass-opacity-50 glass-text-sm glass-truncate glass-mt-0-5'>
+              <p className="glass-text-primary-glass-opacity-50 glass-text-sm glass-truncate glass-mt-0-5">
                 {item?.description}
               </p>
             )}
@@ -428,22 +442,33 @@ export const GlassNavigationMenuItem: React.FC<
         {/* Right side actions */}
         <div className="glass-flex glass-items-center glass-gap-2 glass-flex-shrink-0">
           {/* External link indicator */}
-          {item?.external && <div className='glass-w-3 glass-h-3 glass-text-primary-glass-opacity-50'>↗</div>}
+          {item?.external && (
+            <div className="glass-w-3 glass-h-3 glass-text-primary-glass-opacity-50">
+              ↗
+            </div>
+          )}
 
           {/* Featured indicator */}
           {item?.featured && (
-            <div className='glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full glass-animate-pulse' />
+            <div className="glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full glass-animate-pulse" />
           )}
 
           {/* Submenu toggle */}
           {item?.children && item?.children.length > 0 && (
             <button
               onClick={handleSubmenuToggle}
-              className='glass-p-1 hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-duration-200 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-p-1 hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-duration-200 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               aria-label="Toggle submenu"
+              type="button"
+              style={{
+                border: 0,
+                background: "transparent",
+                color: "inherit",
+                font: "inherit",
+              }}
             >
               <Motion preset="rotateIn" duration={200}>
-                <ChevronRight className='glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50' />
+                <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50" />
               </Motion>
             </button>
           )}

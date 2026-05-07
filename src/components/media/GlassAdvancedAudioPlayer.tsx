@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Glass } from "../../primitives";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { useMedia, MediaFile, TranscriptEntry } from "./GlassMediaProvider";
 
@@ -44,6 +45,154 @@ const formatTime = (seconds: number): string => {
   const secs = Math.floor(seconds % 60);
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 };
+
+const getInlineTranscript = (mediaFile: MediaFile): TranscriptEntry[] =>
+  mediaFile.subtitles?.flatMap(
+    (subtitle) =>
+      subtitle.content?.map((entry) => ({
+        ...entry,
+        keywords: [],
+        sentiment: "neutral" as const,
+      })) ?? []
+  ) ?? [];
+
+const clampPercent = (value: number, total: number): number => {
+  if (!Number.isFinite(value) || !Number.isFinite(total) || total <= 0) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(100, (value / total) * 100));
+};
+
+const audioButtonStyle: React.CSSProperties = {
+  ...createGlassStyle({
+    intent: "neutral",
+    elevation: "level4",
+    interactive: true,
+  }),
+  appearance: "none",
+  WebkitAppearance: "none",
+  border: "1px solid rgba(148, 163, 184, 0.38)",
+  color: "#f8fafc",
+  boxShadow:
+    "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24)",
+};
+
+const audioPrimaryButtonStyle: React.CSSProperties = {
+  ...createGlassStyle({
+    intent: "primary",
+    elevation: "level4",
+    interactive: true,
+  }),
+  appearance: "none",
+  WebkitAppearance: "none",
+  color: "#f8fafc",
+  borderColor: "rgba(191, 219, 254, 0.7)",
+  boxShadow:
+    "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24)",
+};
+
+const audioRangeStyle: React.CSSProperties = {
+  appearance: "none",
+  WebkitAppearance: "none",
+  color: "#0ea5e9",
+  accentColor: "#0ea5e9",
+};
+
+const audioComponentStyles = `
+  .ag-advanced-audio-player,
+  .ag-advanced-audio-player * {
+    box-sizing: border-box;
+  }
+
+  .ag-advanced-audio-player .ag-audio-layout {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .ag-advanced-audio-player .ag-audio-main {
+    flex: 1 1 26rem;
+    min-width: min(100%, 20rem);
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panels {
+    display: flex;
+    flex: 1 1 24rem;
+    min-width: min(100%, 20rem);
+    max-width: 44rem;
+    border-left: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panel {
+    flex: 1 1 20rem;
+    min-width: min(100%, 18rem);
+    height: 24rem;
+    max-height: 24rem;
+    overflow: hidden;
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panel + .ag-audio-side-panel {
+    border-left: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .ag-advanced-audio-player .ag-audio-panel-content {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 250, 252, 0.68));
+    color: #0f172a;
+  }
+
+  .ag-advanced-audio-player .ag-audio-panel-scroll {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 2px;
+  }
+
+  @media (max-width: 920px) {
+    .ag-advanced-audio-player .ag-audio-side-panels {
+      width: 100%;
+      max-width: none;
+      border-left: 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.12);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ag-advanced-audio-player .ag-audio-side-panels {
+      flex-direction: column;
+    }
+
+    .ag-advanced-audio-player .ag-audio-side-panel {
+      width: 100%;
+      max-height: 20rem;
+    }
+  }
+`;
+
+const fallbackCover =
+  "data:image/svg+xml," +
+  encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720">
+      <defs>
+        <linearGradient id="cover" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0f172a"/>
+          <stop offset="0.5" stop-color="#7c3aed"/>
+          <stop offset="1" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect width="720" height="720" fill="url(#cover)"/>
+      <circle cx="360" cy="360" r="170" fill="rgba(255,255,255,0.16)"/>
+      <circle cx="360" cy="360" r="58" fill="rgba(255,255,255,0.88)"/>
+      <rect x="112" y="108" width="408" height="74" rx="22" fill="rgba(255,255,255,0.18)"/>
+      <text x="142" y="158" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">AuraGlass Audio</text>
+      <rect x="116" y="572" width="488" height="12" rx="6" fill="rgba(255,255,255,0.24)"/>
+      <rect x="116" y="572" width="228" height="12" rx="6" fill="#ffffff"/>
+    </svg>
+  `);
 
 const Waveform: React.FC<WaveformProps> = ({
   audioData,
@@ -163,6 +312,16 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
 
+  const getIdleData = useCallback(() => {
+    const data = new Uint8Array(64);
+    for (let index = 0; index < data.length; index++) {
+      const wave = Math.sin(index * 0.42) * 34;
+      const pulse = Math.cos(index * 0.17) * 22;
+      data[index] = Math.max(20, Math.min(160, 84 + wave + pulse));
+    }
+    return data;
+  }, []);
+
   const drawBars = useCallback(
     (ctx: CanvasRenderingContext2D, dataArray: Uint8Array) => {
       const { width, height } = ctx.canvas;
@@ -275,6 +434,24 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   }, [analyzer, isPlaying, type, drawBars, drawWave, drawCircular]);
 
   useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext("2d");
+
+    if (ctx && (!isPlaying || !analyzer)) {
+      const idleData = getIdleData();
+      switch (type) {
+        case "bars":
+          drawBars(ctx, idleData);
+          break;
+        case "wave":
+          drawWave(ctx, idleData);
+          break;
+        case "circular":
+          drawCircular(ctx, idleData);
+          break;
+      }
+    }
+
     if (isPlaying) {
       animate();
     } else if (animationRef.current) {
@@ -286,7 +463,16 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isPlaying, animate]);
+  }, [
+    isPlaying,
+    analyzer,
+    animate,
+    drawBars,
+    drawWave,
+    drawCircular,
+    getIdleData,
+    type,
+  ]);
 
   return (
     <canvas
@@ -304,24 +490,33 @@ const PlaylistPanel: React.FC<{
   onMediaSelect: (media: MediaFile) => void;
 }> = ({ playlist, currentMediaId, onMediaSelect }) => {
   return (
-    <div className="glass-surface-subtle glass-p-4 glass-radius-lg">
+    <div className="ag-audio-panel-content glass-surface-subtle glass-p-4">
       <h3 className="glass-font-semibold glass-text-secondary glass-mb-3">
         Playlist
       </h3>
-      <div className="glass-space-y-2 glass-max-glass-h-64 glass-overflow-y-auto">
+      <div className="ag-audio-panel-scroll glass-space-y-2">
         {playlist.map((media, index) => (
           <button
             key={media.id}
             onClick={() => onMediaSelect(media)}
             className={cn(
-              "flex items-center gap-3 w-full p-3 rounded-lg text-left transition-colors glass-focus glass-touch-target glass-contrast-guard",
+              "glass-flex glass-items-center glass-gap-3 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
               media.id === currentMediaId
                 ? "bg-blue-100 border border-blue-200"
                 : "bg-white hover:bg-gray-50 border border-gray-200"
             )}
+            style={{
+              background:
+                media.id === currentMediaId
+                  ? "rgba(219, 234, 254, 0.9)"
+                  : "rgba(255, 255, 255, 0.74)",
+              border: "1px solid rgba(15, 23, 42, 0.12)",
+              color: "#0f172a",
+              minHeight: 84,
+            }}
           >
             <div className="glass-text-lg">{index + 1}</div>
-            <div className="glass-flex-1 glass-min-glass-w-0">
+            <div className="glass-flex-1 glass-min-w-0">
               <div className="glass-font-medium glass-text-secondary glass-truncate">
                 {media.title || `Track ${index + 1}`}
               </div>
@@ -391,7 +586,7 @@ const TranscriptPanel: React.FC<{
   };
 
   return (
-    <div className="glass-surface-subtle glass-p-4 glass-radius-lg glass-h-full glass-flex glass-flex-col">
+    <div className="ag-audio-panel-content glass-surface-subtle glass-p-4 glass-h-full glass-flex glass-flex-col">
       <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
         <h3 className="glass-font-semibold glass-text-secondary">Transcript</h3>
         <div className="glass-text-sm glass-text-secondary">
@@ -416,7 +611,7 @@ const TranscriptPanel: React.FC<{
       </div>
 
       {/* Transcript Entries */}
-      <div className="glass-flex-1 glass-overflow-y-auto glass-space-y-2">
+      <div className="ag-audio-panel-scroll glass-flex-1 glass-space-y-2">
         {(searchQuery ? highlightedResults : transcript).map((entry: any) => {
           const isActive =
             currentTime >= entry.startTime && currentTime <= entry.endTime;
@@ -426,11 +621,18 @@ const TranscriptPanel: React.FC<{
               key={entry.id}
               onClick={() => onTranscriptClick(entry)}
               className={cn(
-                "flex flex-col items-start gap-2 w-full p-3 rounded-lg text-left transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                "glass-flex glass-flex-col glass-items-start glass-gap-2 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
                 isActive
                   ? "bg-blue-100 border border-blue-200"
                   : "bg-white hover:bg-gray-50"
               )}
+              style={{
+                background: isActive
+                  ? "rgba(219, 234, 254, 0.9)"
+                  : "rgba(255, 255, 255, 0.74)",
+                border: "1px solid rgba(15, 23, 42, 0.12)",
+                color: "#0f172a",
+              }}
             >
               <div className="glass-flex glass-items-center glass-justify-between glass-w-full">
                 <span className="glass-text-xs glass-text-secondary glass-font-mono">
@@ -498,6 +700,11 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
   const [hasTranscript, setHasTranscript] = useState(false);
   const [waveformData, setWaveformData] = useState<number[]>([]);
   const [currentPlaylistIndex, setCurrentPlaylistIndex] = useState(0);
+  const inlineTranscript = React.useMemo(
+    () => getInlineTranscript(mediaFile),
+    [mediaFile]
+  );
+  const visibleTranscript = transcripts[mediaFile.id] ?? inlineTranscript;
 
   const isPlaying =
     playbackState?.mediaId === mediaFile.id && playbackState.isPlaying;
@@ -510,6 +717,8 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
   const volume = playbackState?.volume || 1;
   const playbackRate = playbackState?.playbackRate || 1;
   const isMuted = playbackState?.isMuted || false;
+  const coverSrc = mediaFile.thumbnail || mediaFile.poster || fallbackCover;
+  const playbackSpeeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
   // Lazily create audio context when user initiates playback
   const ensureAudioContext = useCallback(() => {
@@ -535,6 +744,13 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
   }, [visualizerType]);
   // Initialize transcript
   useEffect(() => {
+    if (!showTranscript) return;
+
+    if (inlineTranscript.length > 0) {
+      setHasTranscript(true);
+      return;
+    }
+
     if (!transcripts[mediaFile.id] && showTranscript) {
       generateTranscript(mediaFile.id).then(() => {
         setHasTranscript(true);
@@ -542,14 +758,23 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     } else if (transcripts[mediaFile.id]) {
       setHasTranscript(true);
     }
-  }, [mediaFile.id, showTranscript, generateTranscript, transcripts]);
+  }, [
+    mediaFile.id,
+    showTranscript,
+    generateTranscript,
+    transcripts,
+    inlineTranscript.length,
+  ]);
 
   // Generate mock waveform data
   useEffect(() => {
     if (showWaveform) {
       const mockData = Array.from(
         { length: 100 },
-        () => Math.random() * 0.8 + 0.2
+        (_, index) =>
+          0.22 +
+          Math.abs(Math.sin(index * 0.29)) * 0.42 +
+          Math.abs(Math.cos(index * 0.11)) * 0.18
       );
       setWaveformData(mockData);
     }
@@ -627,6 +852,13 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     }
   };
 
+  const handlePlaybackRateChange = (rate: number) => {
+    setPlaybackRate(rate);
+    if (audioRef.current) {
+      audioRef.current.playbackRate = rate;
+    }
+  };
+
   const handleMuteToggle = () => {
     toggleMute();
     if (audioRef.current) {
@@ -646,11 +878,29 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     handleSeek(entry.startTime);
   };
 
+  const handleSpeedCycle = () => {
+    const currentIndex = playbackSpeeds.indexOf(playbackRate);
+    const nextSpeed =
+      playbackSpeeds[(currentIndex + 1) % playbackSpeeds.length];
+    handlePlaybackRateChange(nextSpeed);
+  };
+
   const renderCompactPlayer = () => (
-    <div className="glass-flex glass-items-center glass-gap-4 glass-p-4">
+    <div
+      className="glass-flex glass-items-center glass-gap-4 glass-p-4"
+      style={{ color: "#0f172a", minHeight: 96 }}
+    >
+      <img
+        src={coverSrc}
+        alt=""
+        className="glass-w-16 glass-h-16 glass-object-cover glass-radius-lg"
+        style={{ flex: "0 0 auto", boxShadow: "0 10px 24px rgba(2,6,23,0.16)" }}
+      />
       <button
         onClick={handlePlayPause}
         className="glass-w-12 glass-h-12 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        style={audioPrimaryButtonStyle}
+        aria-label={isPlaying ? "Pause audio" : "Play audio"}
       >
         {isPlaying ? "⏸️" : "▶️"}
       </button>
@@ -664,24 +914,49 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         </div>
       </div>
 
-      <div className="glass-text-sm glass-text-secondary glass-font-mono">
+      <div
+        className="glass-text-sm glass-text-secondary glass-font-mono"
+        style={{
+          ...createGlassStyle({ intent: "neutral", elevation: "level1" }),
+          color: "#0f172a",
+          border: "1px solid rgba(148,163,184,0.34)",
+          borderRadius: 999,
+          padding: "8px 12px",
+          whiteSpace: "nowrap",
+        }}
+      >
         {formatTime(currentTime)} / {formatTime(duration)}
       </div>
     </div>
   );
 
   const renderFullPlayer = () => (
-    <div className="glass-p-6 glass-space-y-6">
+    <div className="glass-p-6 glass-space-y-6" style={{ color: "#0f172a" }}>
       {/* Header */}
-      <div className="glass-text-center">
-        <h2 className="glass-text-xl glass-font-semibold glass-text-secondary">
-          {mediaFile.title || "Untitled Track"}
-        </h2>
-        {mediaFile.description && (
-          <p className="glass-text-secondary glass-mt-1">
-            {mediaFile.description}
-          </p>
-        )}
+      <div
+        className="glass-flex glass-items-center glass-gap-4"
+        style={{ alignItems: "center" }}
+      >
+        <img
+          src={coverSrc}
+          alt=""
+          className="glass-w-24 glass-h-24 glass-object-cover glass-radius-lg"
+          style={{
+            flex: "0 0 auto",
+            border: "1px solid rgba(148,163,184,0.34)",
+            boxShadow: "0 16px 34px rgba(2,6,23,0.18)",
+          }}
+        />
+        <div>
+          <h2 className="glass-text-xl glass-font-semibold glass-text-secondary">
+            {mediaFile.title || "Untitled Track"}
+          </h2>
+          {mediaFile.description && (
+            <p className="glass-text-secondary glass-mt-1">
+              {mediaFile.description}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Waveform or Visualizer */}
@@ -709,10 +984,20 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
           <span>{formatTime(currentTime)}</span>
           <span>{formatTime(duration)}</span>
         </div>
-        <div className="glass-w-full glass-h-2 glass-surface-subtle glass-radius-full glass-cursor-pointer">
+        <div
+          className="glass-w-full glass-h-2 glass-surface-subtle glass-radius-full glass-cursor-pointer"
+          style={createGlassStyle({ intent: "neutral", elevation: "level1" })}
+          onClick={(event) => {
+            if (duration <= 0) return;
+            const rect = event.currentTarget.getBoundingClientRect();
+            handleSeek(((event.clientX - rect.left) / rect.width) * duration);
+          }}
+        >
           <div
             className="glass-h-full glass-surface-blue glass-radius-full"
-            style={{ width: `${(currentTime / duration) * 100}%` }}
+            style={{
+              width: `${clampPercent(currentTime, duration)}%`,
+            }}
           />
         </div>
       </div>
@@ -722,6 +1007,8 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         <button
           onClick={() => handleSeek(Math.max(0, currentTime - 10))}
           className="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+          style={audioButtonStyle}
+          aria-label="Rewind 10 seconds"
         >
           ⏪
         </button>
@@ -729,6 +1016,8 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         <button
           onClick={handlePlayPause}
           className="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
+          style={audioPrimaryButtonStyle}
+          aria-label={isPlaying ? "Pause audio" : "Play audio"}
         >
           {isPlaying ? "⏸️" : "▶️"}
         </button>
@@ -736,17 +1025,24 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         <button
           onClick={() => handleSeek(Math.min(duration, currentTime + 10))}
           className="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+          style={audioButtonStyle}
+          aria-label="Forward 10 seconds"
         >
           ⏩
         </button>
       </div>
 
       {/* Volume and Speed */}
-      <div className="glass-flex glass-items-center glass-justify-between">
+      <div
+        className="glass-flex glass-items-center glass-justify-between"
+        style={{ gap: 16, flexWrap: "wrap" }}
+      >
         <div className="glass-flex glass-items-center glass-gap-3">
           <button
             onClick={handleMuteToggle}
             className="glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+            style={audioButtonStyle}
+            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
           >
             {isMuted ? "🔇" : "🔊"}
           </button>
@@ -758,25 +1054,22 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
             value={isMuted ? 0 : volume}
             onChange={(e) => handleVolumeChange(Number(e.target.value))}
             className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
+            style={audioRangeStyle}
             aria-label="Volume"
           />
         </div>
 
         <div className="glass-flex glass-items-center glass-gap-3">
           <span className="glass-text-sm glass-text-secondary">Speed:</span>
-          <select
-            value={playbackRate}
-            onChange={(e) => setPlaybackRate(Number(e.target.value))}
-            className="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-2 glass-py-1 glass-focus glass-touch-target glass-contrast-guard"
-            aria-label="Playback speed"
+          <button
+            type="button"
+            onClick={handleSpeedCycle}
+            className="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-3 glass-py-2 glass-focus glass-touch-target glass-contrast-guard"
+            style={audioButtonStyle}
+            aria-label={`Playback speed: ${playbackRate}x`}
           >
-            <option value={0.5}>0.5x</option>
-            <option value={0.75}>0.75x</option>
-            <option value={1}>1x</option>
-            <option value={1.25}>1.25x</option>
-            <option value={1.5}>1.5x</option>
-            <option value={2}>2x</option>
-          </select>
+            {playbackRate}x
+          </button>
         </div>
       </div>
     </div>
@@ -784,12 +1077,22 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
 
   return (
     <Glass
-      className={cn("overflow-hidden", className)}
+      className={cn(
+        "ag-advanced-audio-player glass-overflow-hidden",
+        className
+      )}
       data-testid={props["data-testid"]}
+      style={{
+        ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+        color: "#0f172a",
+        border: "1px solid rgba(148, 163, 184, 0.28)",
+        boxShadow: "0 24px 70px rgba(15, 23, 42, 0.18)",
+      }}
     >
-      <div className="glass-flex">
+      <style>{audioComponentStyles}</style>
+      <div className="ag-audio-layout glass-flex">
         {/* Main Player */}
-        <div className="glass-flex-1">
+        <div className="ag-audio-main glass-flex-1">
           <audio
             ref={audioRef}
             src={mediaFile.src}
@@ -806,29 +1109,34 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         </div>
 
         {/* Side Panels */}
-        <div className="glass-flex">
-          {showPlaylist && playlist.length > 0 && (
-            <div className="glass-w-80 glass-border-l glass-border-subtle">
-              <PlaylistPanel
-                playlist={playlist}
-                currentMediaId={mediaFile.id}
-                onMediaSelect={handleMediaSelect}
-              />
-            </div>
-          )}
+        {(showPlaylist && playlist.length > 0) ||
+        (showTranscript && hasTranscript && visibleTranscript.length > 0) ? (
+          <div className="ag-audio-side-panels glass-flex">
+            {showPlaylist && playlist.length > 0 && (
+              <div className="ag-audio-side-panel glass-border-l glass-border-subtle">
+                <PlaylistPanel
+                  playlist={playlist}
+                  currentMediaId={mediaFile.id}
+                  onMediaSelect={handleMediaSelect}
+                />
+              </div>
+            )}
 
-          {showTranscript && hasTranscript && transcripts[mediaFile.id] && (
-            <div className="glass-w-96 glass-border-l glass-border-subtle glass-h-96 glass-overflow-hidden">
-              <TranscriptPanel
-                transcript={transcripts[mediaFile.id]}
-                currentTime={currentTime}
-                searchQuery={transcriptSearch}
-                onSearchChange={setTranscriptSearch}
-                onTranscriptClick={handleTranscriptClick}
-              />
-            </div>
-          )}
-        </div>
+            {showTranscript &&
+              hasTranscript &&
+              visibleTranscript.length > 0 && (
+                <div className="ag-audio-side-panel glass-border-l glass-border-subtle glass-overflow-hidden">
+                  <TranscriptPanel
+                    transcript={visibleTranscript}
+                    currentTime={currentTime}
+                    searchQuery={transcriptSearch}
+                    onSearchChange={setTranscriptSearch}
+                    onTranscriptClick={handleTranscriptClick}
+                  />
+                </div>
+              )}
+          </div>
+        ) : null}
       </div>
     </Glass>
   );

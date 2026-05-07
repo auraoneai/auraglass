@@ -4,7 +4,7 @@ import { ContextAwareGlass } from './ContextAwareGlass';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ContextAwareGlass> = {
-  title: 'Components/Interactive/ContextAwareGlass',
+  title: 'AI + Intelligence/Context Aware Glass',
   component: ContextAwareGlass,
   parameters: {
     layout: 'centered',

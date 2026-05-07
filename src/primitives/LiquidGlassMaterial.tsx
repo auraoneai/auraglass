@@ -115,6 +115,9 @@ export interface LiquidGlassMaterialProps
   /** Disable all effects */
   disabled?: boolean;
 
+  /** Show development-only material diagnostics */
+  showDebug?: boolean;
+
   /** Content to render inside the glass surface */
   children?: React.ReactNode;
 
@@ -166,6 +169,7 @@ export const LiquidGlassMaterial = forwardRef<
       radius = "lg",
       interactive = false,
       disabled = false,
+      showDebug = false,
       children,
       onContrastAdjustment,
       onBackdropAnalysis,
@@ -561,8 +565,8 @@ export const LiquidGlassMaterial = forwardRef<
             {children}
           </div>
 
-          {/* Debug information in development */}
-          {process.env.NODE_ENV === "development" && (
+          {/* Opt-in diagnostics for primitive development. */}
+          {showDebug && process.env.NODE_ENV === "development" && (
             <div className="liquid-glass-debug glass-absolute glass-top-0 glass-right-0 glass-text-xs glass-opacity-50 glass-pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius">
               <div>Material: {material}</div>
               <div>Variant: {variant}</div>

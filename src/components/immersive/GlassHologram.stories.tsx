@@ -10,7 +10,7 @@ const componentName = "GlassHologram" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Immersive/GlassHologram",
+  title: 'Effects + Advanced/Glass Hologram',
   component: Component,
   parameters: {
     layout: "centered",

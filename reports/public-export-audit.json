@@ -1,7 +1,7 @@
 {
   "objective": "Audit the src/index.ts public export surface against source, declaration, inventory, Storybook, test, and documentation evidence.",
   "summary": {
-    "generatedAt": "2026-05-06T18:27:19.597Z",
+    "generatedAt": "2026-05-07T16:45:39.971Z",
     "rootExportCount": 797,
     "valueExportCount": 642,
     "typeExportCount": 149,
@@ -13,7 +13,7 @@
     "componentExportsMissingInventoryCount": 23,
     "componentExportsMissingDirectStoryCount": 15,
     "componentExportsMissingDirectTestCount": 23,
-    "componentExportsMissingDirectDocsCount": 22,
+    "componentExportsMissingDirectDocsCount": 23,
     "unresolvedExportStarCount": 0
   },
   "exportStars": [
@@ -1439,6 +1439,23 @@
         "hasInventoryEntry": false,
         "hasDirectStory": false,
         "hasDirectTest": false,
+        "hasDirectDocs": false
+      },
+      {
+        "exportName": "LiquidGlassShowcase",
+        "importedName": "LiquidGlassShowcase",
+        "kind": "value",
+        "isAlias": false,
+        "isComponentLike": true,
+        "specifier": "./components/showcase/LiquidGlassShowcase",
+        "sourcePath": "src/components/showcase/LiquidGlassShowcase.tsx",
+        "sourceExists": true,
+        "declarationPath": "dist/components/showcase/LiquidGlassShowcase.d.ts",
+        "declarationExists": true,
+        "inventoryName": null,
+        "hasInventoryEntry": true,
+        "hasDirectStory": true,
+        "hasDirectTest": true,
         "hasDirectDocs": false
       },
       {
@@ -9025,7 +9042,7 @@
       "hasInventoryEntry": true,
       "hasDirectStory": true,
       "hasDirectTest": true,
-      "hasDirectDocs": true
+      "hasDirectDocs": false
     },
     {
       "exportName": "GlassPullToRefresh",

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassGestureZone } from './GlassGestureZone';
 
 const meta = {
-  title: 'Glass UI/Interactive/GlassGestureZone',
+  title: 'Effects + Advanced/Glass Gesture Zone',
   component: GlassGestureZone,
   parameters: {
     layout: 'centered',

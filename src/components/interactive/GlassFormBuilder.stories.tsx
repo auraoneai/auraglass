@@ -4,7 +4,7 @@ import { GlassFormBuilder } from './GlassFormBuilder';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassFormBuilder> = {
-  title: 'Components/Interactive/GlassFormBuilder',
+  title: 'Workflows/Glass Form Builder',
   component: GlassFormBuilder,
   parameters: {
     layout: 'centered',

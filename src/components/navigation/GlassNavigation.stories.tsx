@@ -4,7 +4,7 @@ import { GlassNavigation } from './GlassNavigation';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassNavigation> = {
-  title: 'Components/Navigation/GlassNavigation',
+  title: 'Navigation/Glass Navigation',
   component: GlassNavigation,
   parameters: {
     layout: 'centered',

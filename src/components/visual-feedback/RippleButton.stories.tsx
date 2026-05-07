@@ -1,44 +1,39 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import RippleButton from './RippleButton';
-import { cn } from '../../lib/utils';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Check, CloudUpload, Trash2, Zap } from "lucide-react";
+import RippleButton from "./RippleButton";
 
 const meta: Meta<typeof RippleButton> = {
-  title: 'Components/Visual-feedback/RippleButton',
+  title: 'Controls/Inputs/Ripple Button',
   component: RippleButton,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism ripplebutton component.',
+        component:
+          "A glass button with pointer ripple feedback for high-confidence actions.",
       },
     },
   },
   argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
     variant: {
-      control: { type: 'select' },
-      options: ["primary","secondary","ghost","outline","danger"],
-      description: 'variant prop',
+      control: { type: "select" },
+      options: ["primary", "secondary", "ghost", "outline", "destructive"],
     },
     size: {
-      control: { type: 'select' },
-      options: ["sm","md","lg"],
-      description: 'size prop',
+      control: { type: "select" },
+      options: ["sm", "md", "lg"],
     },
-    loading: {
-      control: 'boolean',
-      description: 'loading prop',
-    },
+    loading: { control: "boolean" },
+    centerRipple: { control: "boolean" },
   },
   args: {
-    className: '',
-    variant: 'primary',
-    size: 'sm',
+    variant: "primary",
+    size: "md",
     loading: false,
+    centerRipple: false,
+    rippleColor: "white",
   },
 };
 
@@ -46,32 +41,49 @@ export default meta;
 type Story = StoryObj<typeof RippleButton>;
 
 export const Default: Story = {
-  args: {
-    
-  },
+  render: (args) => (
+    <RippleButton {...args}>
+      <CloudUpload size={16} aria-hidden="true" />
+      Upload changes
+    </RippleButton>
+  ),
 };
 
 export const Variants: Story = {
-  render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <RippleButton key="primary" {...args} variant="primary">
-        primary
-      </RippleButton>
-      <RippleButton key="secondary" {...args} variant="secondary">
-        secondary
-      </RippleButton>
-      <RippleButton key="ghost" {...args} variant="ghost">
-        ghost
-      </RippleButton>
-      <RippleButton key="outline" {...args} variant="outline">
-        outline
-      </RippleButton>
-      <RippleButton key="danger" {...args} variant="danger">
-        danger
-      </RippleButton>
+  render: (args) => (
+    <div
+      className="glass-grid glass-gap-3"
+      style={{ width: "min(680px, calc(100vw - 64px))" }}
+    >
+      <div className="glass-grid glass-grid-cols-1 sm:glass-grid-cols-2 glass-gap-3">
+        <RippleButton {...args} variant="primary" rippleColor="primary">
+          <Check size={16} aria-hidden="true" />
+          Approve
+        </RippleButton>
+        <RippleButton {...args} variant="secondary" rippleColor="secondary">
+          <Zap size={16} aria-hidden="true" />
+          Optimize
+        </RippleButton>
+        <RippleButton {...args} variant="outline" rippleColor="info">
+          Review
+        </RippleButton>
+        <RippleButton {...args} variant="destructive" rippleColor="error">
+          <Trash2 size={16} aria-hidden="true" />
+          Delete
+        </RippleButton>
+      </div>
+      <p className="glass-text-sm glass-text-secondary">
+        Variants use valid GlassButton variants, so the ripple layer no longer
+        passes an unsupported danger value into the glass lighting config.
+      </p>
     </div>
   ),
+};
+
+export const CenterRipple: Story = {
   args: {
-    
+    children: "Centered ripple",
+    centerRipple: true,
+    variant: "outline",
   },
 };

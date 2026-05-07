@@ -418,7 +418,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
           position: "relative",
           transformStyle: "preserve-3d",
           perspective: `${perspectiveDistance}px`,
-          overflow: "hidden",
+          overflow: "visible",
         },
       }}
       animate={controls}
@@ -431,6 +431,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       {/* 3D Glass Layers */}
       <motion.div
         className="glass-3d-layers"
+        data-glass-overlay="true"
         style={{
           ...{
             position: "absolute",
@@ -448,6 +449,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
             {/* Standard 3D layer */}
             <motion.div
               className={`glass-3d-layer glass-layer-${layer.id}`}
+              data-glass-overlay="true"
               style={{ ...(generateLayerStyles(layer, index) as any) }}
               onHoverStart={() => handleLayerFocus(layer.id)}
               whileHover={{ scale: 1.01 }}
@@ -517,6 +519,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
       {enableParallax && (
         <motion.div
           className="glass-parallax-background"
+          data-glass-overlay="true"
           style={{
             position: "absolute",
             inset: "-20%",

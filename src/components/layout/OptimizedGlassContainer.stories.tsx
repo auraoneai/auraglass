@@ -4,7 +4,7 @@ import { OptimizedGlassContainer } from './OptimizedGlassContainer';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof OptimizedGlassContainer> = {
-  title: 'Components/Layout/OptimizedGlassContainer',
+  title: 'Surfaces/App Shells + Layout/Optimized Glass Container',
   component: OptimizedGlassContainer,
   parameters: {
     layout: 'centered',

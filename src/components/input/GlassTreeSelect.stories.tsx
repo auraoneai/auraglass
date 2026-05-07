@@ -1,31 +1,94 @@
-import React from "react";
+import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import * as ComponentModule from "./GlassTreeSelect";
-import {
-  CertificationCase,
-  type MissingComponentName,
-} from "../../stories/GlassMissingInventoryCertification.stories";
+import { Folder, LayoutDashboard, Shield, Users } from "lucide-react";
+import { GlassTreeSelect, type TreeNode } from "./GlassTreeSelect";
 
-const componentName = "GlassTreeSelect" satisfies MissingComponentName;
-const Component = (ComponentModule as Record<string, any>)[componentName];
+const data: TreeNode[] = [
+  {
+    id: "workspace",
+    label: "Workspace",
+    icon: <Folder size={16} />,
+    children: [
+      {
+        id: "overview",
+        label: "Overview",
+        icon: <LayoutDashboard size={16} />,
+      },
+      { id: "audiences", label: "Audiences", icon: <Users size={16} /> },
+    ],
+  },
+  {
+    id: "governance",
+    label: "Governance",
+    icon: <Shield size={16} />,
+    children: [
+      { id: "roles", label: "Roles" },
+      { id: "audit", label: "Audit log" },
+      { id: "policies", label: "Policies" },
+    ],
+  },
+];
+
+const InteractiveTreeSelect = (
+  args: React.ComponentProps<typeof GlassTreeSelect>
+) => {
+  const [value, setValue] = useState<(string | number)[]>(
+    args.value ?? ["overview", "roles"]
+  );
+
+  return (
+    <div
+      style={{
+        width: "min(420px, calc(100vw - 48px))",
+        minHeight: 420,
+        display: "grid",
+        alignItems: "start",
+      }}
+    >
+      <GlassTreeSelect {...args} value={value} onChange={setValue} />
+    </div>
+  );
+};
 
 const meta = {
-  title: "Components/Input/GlassTreeSelect",
-  component: Component,
+  title: 'Controls/Inputs/Glass Tree Select',
+  component: GlassTreeSelect,
   parameters: {
     layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
         component:
-          "Component-owned Storybook coverage for GlassTreeSelect. This story renders the certified AuraGlass sample used by the full visual certification suite.",
+          "A searchable glass tree select for hierarchical navigation, permissions, and taxonomy fields.",
       },
     },
   },
-} satisfies Meta<typeof Component>;
+  args: {
+    data,
+    value: ["overview", "roles"],
+    placeholder: "Select workspace areas",
+    multiple: true,
+    searchable: true,
+    searchPlaceholder: "Search areas...",
+    showCheckbox: true,
+    defaultExpanded: true,
+    maxHeight: "280px",
+  },
+} satisfies Meta<typeof GlassTreeSelect>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <CertificationCase name={componentName} />,
+  render: (args) => <InteractiveTreeSelect {...args} />,
+};
+
+export const SingleSelect: Story = {
+  args: {
+    multiple: false,
+    showCheckbox: false,
+    value: ["audit"],
+    placeholder: "Choose destination",
+  },
+  render: (args) => <InteractiveTreeSelect {...args} />,
 };

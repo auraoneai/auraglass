@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { FocusTrap } from './FocusTrap';
 
 const meta: Meta<typeof FocusTrap> = {
-  title: 'Components/Focus/FocusTrap',
+  title: 'Foundations/Liquid Glass Primitives/Focus Trap',
   component: FocusTrap,
   parameters: {
     layout: 'centered',

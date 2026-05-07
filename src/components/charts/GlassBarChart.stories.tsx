@@ -4,7 +4,7 @@ import { GlassBarChart } from './GlassBarChart';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassBarChart> = {
-  title: 'Components/Charts/GlassBarChart',
+  title: 'Data + Visualization/Glass Bar Chart',
   component: GlassBarChart,
   parameters: {
     layout: 'centered',

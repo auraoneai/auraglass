@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, type CSSProperties } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { LiquidGlassEffectGroup } from "../../primitives/LiquidGlassEffectGroup";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
@@ -12,7 +12,8 @@ export interface LiquidGlassBadgeClusterItem {
   disabled?: boolean;
 }
 
-export interface LiquidGlassBadgeClusterProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface LiquidGlassBadgeClusterProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   items: LiquidGlassBadgeClusterItem[];
   expanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
@@ -21,7 +22,18 @@ export interface LiquidGlassBadgeClusterProps extends React.HTMLAttributes<HTMLD
   materialVariant?: "regular" | "clear";
 }
 
-export const LiquidGlassBadgeCluster = forwardRef<HTMLDivElement, LiquidGlassBadgeClusterProps>(
+const badgeClusterButtonStyle: CSSProperties = {
+  border: 0,
+  background: "transparent",
+  color: "inherit",
+  cursor: "pointer",
+  font: "inherit",
+};
+
+export const LiquidGlassBadgeCluster = forwardRef<
+  HTMLDivElement,
+  LiquidGlassBadgeClusterProps
+>(
   (
     {
       items,
@@ -43,7 +55,10 @@ export const LiquidGlassBadgeCluster = forwardRef<HTMLDivElement, LiquidGlassBad
         material="liquid"
         variant={materialVariant}
         radius="full"
-        className={cn("liquid-glass-badge-cluster glass-inline-flex", className)}
+        className={cn(
+          "liquid-glass-badge-cluster glass-inline-flex",
+          className
+        )}
         data-selection-mode={selectionMode}
         {...props}
       >
@@ -52,13 +67,21 @@ export const LiquidGlassBadgeCluster = forwardRef<HTMLDivElement, LiquidGlassBad
             <span
               key={item.id}
               aria-pressed={item.selected}
-              className={cn("glass-radius-full glass-px-2 glass-py-1 glass-text-xs", item.selected && "glass-surface-primary")}
+              className={cn(
+                "glass-radius-full glass-px-2 glass-py-1 glass-text-xs",
+                item.selected && "glass-surface-primary"
+              )}
             >
               {item.label}
             </span>
           ))}
           {hiddenCount > 0 && (
-            <button type="button" className="glass-radius-full glass-px-2 glass-py-1 glass-text-xs" onClick={() => onExpandedChange?.(!expanded)}>
+            <button
+              type="button"
+              className="glass-radius-full glass-px-2 glass-py-1 glass-text-xs"
+              style={badgeClusterButtonStyle}
+              onClick={() => onExpandedChange?.(!expanded)}
+            >
               +{hiddenCount}
             </button>
           )}

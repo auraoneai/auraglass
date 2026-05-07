@@ -4,7 +4,7 @@ import { GlassTimeline } from './GlassTimeline';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassTimeline> = {
-  title: 'Components/Data-display/GlassTimeline',
+  title: 'Data + Visualization/Glass Timeline',
   component: GlassTimeline,
   parameters: {
     layout: 'centered',

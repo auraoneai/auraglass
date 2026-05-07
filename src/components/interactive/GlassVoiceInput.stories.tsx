@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassVoiceInput } from './GlassVoiceInput';
 
 const meta = {
-  title: 'Glass UI/Interactive/GlassVoiceInput',
+  title: 'Effects + Advanced/Glass Voice Input',
   component: GlassVoiceInput,
   parameters: {
     layout: 'centered',

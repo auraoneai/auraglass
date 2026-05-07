@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { OptimizedGlassAdvanced } from './OptimizedGlassAdvanced';
 
 const meta: Meta<typeof OptimizedGlassAdvanced> = {
-  title: 'Components/Glass/OptimizedGlassAdvanced',
+  title: 'Foundations/Liquid Glass Primitives/Optimized Glass Advanced',
   component: OptimizedGlassAdvanced,
   parameters: {
     layout: 'centered',

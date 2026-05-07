@@ -4,7 +4,7 @@ import { MotionAwareGlass } from './MotionAwareGlass';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof MotionAwareGlass> = {
-  title: 'Components/Website-components/MotionAwareGlass',
+  title: 'Reference/Legacy Components/Motion Aware Glass',
   component: MotionAwareGlass,
   parameters: {
     layout: 'centered',

@@ -10,7 +10,7 @@ const componentName = "GlassPageStructure" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Cms/GlassPageStructure",
+  title: 'Workflows/Glass Page Structure',
   component: Component,
   parameters: {
     layout: "centered",

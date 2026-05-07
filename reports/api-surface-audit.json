@@ -4,7 +4,7 @@
     "publicExportAudit": "reports/public-export-audit.json"
   },
   "summary": {
-    "generatedAt": "2026-05-06T18:27:19.846Z",
+    "generatedAt": "2026-05-07T16:45:40.155Z",
     "publicExportCount": 797,
     "publicSourceFileCount": 416,
     "publicDeclarationFileCount": 416,
@@ -23,23 +23,23 @@
       "anyCount": 18,
       "samples": [
         {
-          "line": 226,
+          "line": 229,
           "text": "const handleGazeData = (gazeData: any) => {"
         },
         {
-          "line": 268,
+          "line": 271,
           "text": "messages: messages.slice(-5).map((m: any) => ({"
         },
         {
-          "line": 282,
+          "line": 285,
           "text": ".filter((p: any) => p.type === \"suggest\")"
         },
         {
-          "line": 284,
+          "line": 287,
           "text": ".filter((text: any) => text.length > 0)"
         },
         {
-          "line": 294,
+          "line": 297,
           "text": "(insights.find((i: any) => i.type === \"sentiment\")?.metadata"
         }
       ]
@@ -101,23 +101,23 @@
       "anyCount": 17,
       "samples": [
         {
-          "line": 196,
+          "line": 194,
           "text": "(effect: any) => ![\"caustics\", \"refraction\"].includes(effect)"
         },
         {
-          "line": 198,
+          "line": 196,
           "text": "setEnabledEffectsState((prev: any) => {"
         },
         {
-          "line": 202,
+          "line": 200,
           "text": "prev.every((v: any, i: any) => v === reducedEffects[i]);"
         },
         {
-          "line": 218,
+          "line": 215,
           "text": "setEnabledEffectsState((prev: any) => {"
         },
         {
-          "line": 222,
+          "line": 219,
           "text": "sameLength && prev.every((v: any, i: any) => v === next[i]);"
         }
       ]
@@ -529,11 +529,11 @@
           "text": "const handleSlideGaze = (event: any) => {"
         },
         {
-          "line": 778,
+          "line": 780,
           "text": "{(carouselItems[currentIndex] as any)?.title && ("
         },
         {
-          "line": 782,
+          "line": 784,
           "text": "{(carouselItems[currentIndex] as any).title}"
         }
       ]
@@ -569,23 +569,23 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 106,
-          "text": "const draggedIndices = draggedItems.map((item: any) =>"
+          "line": 116,
+          "text": ".map((item: any) => items.findIndex((i) => i.id === item?.id))"
         },
         {
-          "line": 167,
-          "text": "draggedItems = items.filter((item: any) => selectedItems.includes(item?.id));"
+          "line": 192,
+          "text": "draggedItems = items.filter((item: any) =>"
         },
         {
-          "line": 208,
+          "line": 245,
           "text": "setDragState((prev: any) => ({"
         },
         {
-          "line": 244,
+          "line": 283,
           "text": "setDragState((prev: any) => ({"
         },
         {
-          "line": 264,
+          "line": 306,
           "text": "? items.filter((item: any) => selectedItems.includes(item?.id))"
         }
       ]
@@ -595,23 +595,23 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 82,
+          "line": 95,
           "text": "setSettings((prev: any) => ({ ...prev, keyboardNavigation: true }));"
         },
         {
-          "line": 89,
+          "line": 102,
           "text": "setSettings((prev: any) => ({ ...prev, keyboardNavigation: false }));"
         },
         {
-          "line": 130,
+          "line": 147,
           "text": "setSettings((prev: any) => {"
         },
         {
-          "line": 165,
+          "line": 187,
           "text": "(detected as any)[key] = mediaQuery.matches;"
         },
         {
-          "line": 167,
+          "line": 189,
           "text": "(detected as any)[key] = false;"
         }
       ]
@@ -621,24 +621,24 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 84,
-          "text": "this.audioContext = new (currentWin.AudioContext || (currentWin as any).webkitAudioContext)();"
+          "line": 132,
+          "text": "(currentWin as any).webkitAudioContext)();"
         },
         {
-          "line": 100,
-          "text": "doc.addEventListener('click', enable, { capture: true, once: true, passive: true } as any);"
+          "line": 152,
+          "text": "} as any);"
         },
         {
-          "line": 101,
-          "text": "doc.addEventListener('touchstart', enable, { capture: true, once: true, passive: true } as any);"
+          "line": 157,
+          "text": "} as any);"
         },
         {
-          "line": 129,
-          "text": "this.audioContext = new (win.AudioContext || (win as any).webkitAudioContext)();"
+          "line": 162,
+          "text": "} as any);"
         },
         {
-          "line": 202,
-          "text": "frequencies.forEach((freq: any) => {"
+          "line": 193,
+          "text": "(win as any).webkitAudioContext)();"
         }
       ]
     },
@@ -685,11 +685,11 @@
           "text": "(issue: any) => filter === \"all\" || issue.type === filter"
         },
         {
-          "line": 427,
+          "line": 437,
           "text": "(type: any) => ("
         },
         {
-          "line": 445,
+          "line": 455,
           "text": "{filteredIssues.map((issue: any) => ("
         }
       ]
@@ -763,11 +763,11 @@
           "text": "node as any;"
         },
         {
-          "line": 232,
+          "line": 234,
           "text": "{...(commonA11y as any)}"
         },
         {
-          "line": 249,
+          "line": 251,
           "text": "(listRef as any).current = node as HTMLDivElement | null;"
         }
       ]
@@ -933,23 +933,23 @@
       "anyCount": 8,
       "samples": [
         {
-          "line": 99,
+          "line": 121,
           "text": "setCurrentCoherence((prev: any) => {"
         },
         {
-          "line": 116,
+          "line": 141,
           "text": "setCurrentPhase((prev: any) => {"
         },
         {
-          "line": 122,
-          "text": "setAnimationTime((prev: any) => prev + 0.1 * animationSpeed);"
+          "line": 148,
+          "text": "setAnimationTime((prev: any) => prev + 0.1 * safeAnimationSpeed);"
         },
         {
-          "line": 150,
+          "line": 176,
           "text": "(prev: any) => [...prev.slice(-49), newDataPoint]"
         },
         {
-          "line": 236,
+          "line": 264,
           "text": "d={`M ${waveData.map((p: any) => `${p.x} ${p.y1}`).join(\" L \")}`}"
         }
       ]
@@ -1011,23 +1011,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 273,
+          "line": 272,
           "text": "setAIConfig((prev: any) => {"
         },
         {
-          "line": 336,
+          "line": 335,
           "text": "setThemeHistory((prev: any) => [theme, ...prev.slice(0, 49)]);"
         },
         {
-          "line": 371,
+          "line": 370,
           "text": "setUserBehavior((prev: any) => ({ ...prev, ...behavior }));"
         },
         {
-          "line": 407,
+          "line": 406,
           "text": "setFavoriteThemes((prev: any) => {"
         },
         {
-          "line": 414,
+          "line": 413,
           "text": "setFavoriteThemes((prev: any) => prev.filter((t: any) => t.id !== themeId));"
         }
       ]
@@ -1193,23 +1193,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 184,
+          "line": 186,
           "text": "].map((tab: any) => ("
         },
         {
-          "line": 187,
+          "line": 189,
           "text": "onClick={() => setActiveTab(tab.key as any)}"
         },
         {
-          "line": 378,
+          "line": 388,
           "text": "{templates.map((template: any) => ("
         },
         {
-          "line": 490,
+          "line": 500,
           "text": "const validFiles = Array.from(files).filter((file: any) => {"
         },
         {
-          "line": 504,
+          "line": 514,
           "text": "filesToProcess.forEach((file: any) => fileList.items.add(file));"
         }
       ]
@@ -1375,23 +1375,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 92,
+          "line": 95,
           "text": "const memoryInfo = (performance as any).memory;"
         },
         {
-          "line": 96,
+          "line": 101,
           "text": "const connection = (navigator as any).connection;"
         },
         {
-          "line": 127,
+          "line": 134,
           "text": "setState((prev: any) => ({"
         },
         {
-          "line": 154,
+          "line": 161,
           "text": "setState((prev: any) => ({ ...prev, isLoading: true, error: null }));"
         },
         {
-          "line": 171,
+          "line": 178,
           "text": "setState((prev: any) => {"
         }
       ]
@@ -1557,23 +1557,23 @@
       "anyCount": 6,
       "samples": [
         {
-          "line": 206,
+          "line": 458,
           "text": "{playbackSpeeds.map((speed: any) => ("
         },
         {
-          "line": 237,
+          "line": 500,
           "text": "{qualities.map((q: any) => ("
         },
         {
-          "line": 279,
+          "line": 550,
           "text": "{chapters.map((chapter: any) => {"
         },
         {
-          "line": 338,
+          "line": 617,
           "text": "const results = transcript.filter((entry: any) =>"
         },
         {
-          "line": 392,
+          "line": 671,
           "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
         }
       ]
@@ -1679,19 +1679,19 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 156,
+          "line": 188,
           "text": "allDataPoints.forEach((point: any) => {"
         },
         {
-          "line": 165,
+          "line": 197,
           "text": "const allYValues = allDataPoints.map((p: any) => p.data?.y);"
         },
         {
-          "line": 290,
+          "line": 341,
           "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
         },
         {
-          "line": 350,
+          "line": 415,
           "text": "{Array.from({ length: 8 }).map((_: any, i: any) => ("
         }
       ]
@@ -1701,24 +1701,24 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 52,
+          "line": 57,
           "text": "const connection = (navigator as any).connection;"
         },
         {
-          "line": 60,
+          "line": 66,
           "text": "const memory = (navigator as any).deviceMemory || (isLowEndDevice ? 2 : 8);"
         },
         {
-          "line": 201,
+          "line": 239,
           "text": "setCurrentTier((prev: any) => {"
         },
         {
-          "line": 208,
+          "line": 254,
           "text": "setCurrentTier((prev: any) => {"
         },
         {
-          "line": 271,
-          "text": "const configs: Record<ChartQualityTier['tier'], any> = {"
+          "line": 326,
+          "text": "const configs: Record<ChartQualityTier[\"tier\"], any> = {"
         }
       ]
     },
@@ -1883,19 +1883,19 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 210,
+          "line": 204,
           "text": "if (typeof ref === \"function\") ref(node as any);"
         },
         {
-          "line": 212,
+          "line": 206,
           "text": "(ref as any).current = node;"
         },
         {
-          "line": 426,
+          "line": 421,
           "text": "? React.cloneElement(item.icon as React.ReactElement<any>, {"
         },
         {
-          "line": 428,
+          "line": 423,
           "text": "(item.icon as React.ReactElement<any>).props?.className,"
         }
       ]
@@ -1971,19 +1971,19 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 113,
+          "line": 147,
           "text": "const xValues = allPoints.map((p: any) =>"
         },
         {
-          "line": 116,
+          "line": 150,
           "text": "const yValues = allPoints.map((p: any) => p.y);"
         },
         {
-          "line": 157,
+          "line": 209,
           "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
         },
         {
-          "line": 180,
+          "line": 232,
           "text": "const generatePath = (points: any[]) => {"
         }
       ]
@@ -2279,15 +2279,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 627,
+          "line": 629,
           "text": "const element = meta.dataset as any;"
         },
         {
-          "line": 1751,
+          "line": 1750,
           "text": "easing: (animation.easing || \"easeOutQuart\") as any,"
         },
         {
-          "line": 1757,
+          "line": 1756,
           "text": ": false) as any,"
         }
       ]
@@ -2419,15 +2419,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 364,
+          "line": 552,
           "text": "const results = transcript.filter((entry: any) =>"
         },
         {
-          "line": 418,
+          "line": 606,
           "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
         },
         {
-          "line": 520,
+          "line": 724,
           "text": "(window as any).webkitAudioContext)();"
         }
       ]
@@ -2497,15 +2497,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 216,
+          "line": 230,
           "text": "batch.forEach((animation: any) => {"
         },
         {
-          "line": 231,
+          "line": 248,
           "text": "setActiveAnimations((prev: any) => prev + 1);"
         },
         {
-          "line": 238,
+          "line": 255,
           "text": "setActiveAnimations((prev: any) => Math.max(0, prev - 1));"
         }
       ]
@@ -2529,12 +2529,12 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 92,
+          "line": 105,
           "text": "onClick?.(e as any);"
         },
         {
-          "line": 156,
-          "text": "...(props as any)"
+          "line": 170,
+          "text": "...(props as any),"
         }
       ]
     },
@@ -2681,7 +2681,7 @@
           "text": "} as any),"
         },
         {
-          "line": 447,
+          "line": 449,
           "text": "style={{ ...(generateLayerStyles(layer, index) as any) }}"
         }
       ]
@@ -2761,11 +2761,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 148,
+          "line": 149,
           "text": "props?.onClick?.(event as any);"
         },
         {
-          "line": 237,
+          "line": 238,
           "text": "ref={ref as any}"
         }
       ]
@@ -2901,12 +2901,12 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 117,
+          "line": 118,
           "text": "setState((prev: any) => ({"
         },
         {
-          "line": 308,
-          "text": "setLoadedCount((prev: any) => Math.min(items.length, prev + adaptiveBatchSize));"
+          "line": 327,
+          "text": "setLoadedCount((prev: any) =>"
         }
       ]
     },
@@ -2929,11 +2929,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 189,
-          "text": "setMeasuredSizes((prev: any) => new Map(prev.set(index, {"
+          "line": 211,
+          "text": "(prev: any) =>"
         },
         {
-          "line": 416,
+          "line": 455,
           "text": "setAllItems((prev: any) => [...prev, ...newItems]);"
         }
       ]
@@ -2943,11 +2943,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 36,
+          "line": 40,
           "text": "let dateFns: any;"
         },
         {
-          "line": 125,
+          "line": 129,
           "text": "let dayjs: any;"
         }
       ]
@@ -3007,7 +3007,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 391,
+          "line": 426,
           "text": "{files.map((file: any) => ("
         }
       ]
@@ -3057,7 +3057,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 52,
+          "line": 61,
           "text": "columnCount: columns as any,"
         }
       ]
@@ -3117,7 +3117,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 221,
+          "line": 226,
           "text": "{items.map((item: any) => renderNavigationItem(item))}"
         }
       ]
@@ -3207,7 +3207,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 717,
+          "line": 725,
           "text": "{actions.getAvailableVoices().map((voice: any) => ("
         }
       ]

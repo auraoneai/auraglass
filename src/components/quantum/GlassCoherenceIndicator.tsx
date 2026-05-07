@@ -46,8 +46,24 @@ const phaseColors = {
   270: "var(--glass-color-success)", // 270°
 };
 
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : fallback;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const clamp = (value: unknown, min = 0, max = 1, fallback = 0): number => {
+  const numericValue = toFiniteNumber(value, fallback);
+  return Math.min(max, Math.max(min, numericValue));
+};
+
 const getPhaseColor = (phase: number): string => {
-  const normalizedPhase = ((phase % (2 * Math.PI)) / (2 * Math.PI)) * 360;
+  const safePhase = toFiniteNumber(phase);
+  const normalizedPhase = ((safePhase % (2 * Math.PI)) / (2 * Math.PI)) * 360;
 
   if (normalizedPhase < 45 || normalizedPhase >= 315) return phaseColors[0];
   if (normalizedPhase < 135) return phaseColors[90];
@@ -81,9 +97,16 @@ export const GlassCoherenceIndicator = forwardRef<
     },
     ref
   ) => {
+    const safeCoherenceLevel = clamp(coherenceLevel);
+    const safePhase = toFiniteNumber(phase);
+    const safeDecoherenceRate = clamp(decoherenceRate, 0, 1, 0.02);
+    const safeEntanglementStrength = clamp(entanglementStrength);
+    const safeCoherenceThreshold = clamp(coherenceThreshold, 0, 1, 0.3);
+    const safeAnimationSpeed = toFiniteNumber(animationSpeed, 1);
     const prefersReducedMotion = useReducedMotion();
-    const [currentCoherence, setCurrentCoherence] = useState(coherenceLevel);
-    const [currentPhase, setCurrentPhase] = useState(phase);
+    const [currentCoherence, setCurrentCoherence] =
+      useState(safeCoherenceLevel);
+    const [currentPhase, setCurrentPhase] = useState(safePhase);
     const [animationTime, setAnimationTime] = useState(0);
     const [isDecohering, setIsDecohering] = useState(false);
     const [coherenceHistory, setCoherenceHistory] =
@@ -98,15 +121,18 @@ export const GlassCoherenceIndicator = forwardRef<
       const interval = setInterval(() => {
         setCurrentCoherence((prev: any) => {
           const noise = (Math.random() - 0.5) * 0.1;
-          const decay = prev * (1 - decoherenceRate);
+          const decay = clamp(prev) * (1 - safeDecoherenceRate);
           const newCoherence = Math.max(0, Math.min(1, decay + noise));
 
-          if (newCoherence < coherenceThreshold && prev >= coherenceThreshold) {
+          if (
+            newCoherence < safeCoherenceThreshold &&
+            prev >= safeCoherenceThreshold
+          ) {
             setIsDecohering(true);
             if (alertOnDecoherence) {
               onCoherenceLoss?.(newCoherence);
             }
-          } else if (newCoherence >= coherenceThreshold) {
+          } else if (newCoherence >= safeCoherenceThreshold) {
             setIsDecohering(false);
           }
 
@@ -114,21 +140,22 @@ export const GlassCoherenceIndicator = forwardRef<
         });
 
         setCurrentPhase((prev: any) => {
-          const newPhase = (prev + 0.1 * animationSpeed) % (2 * Math.PI);
+          const newPhase =
+            (toFiniteNumber(prev) + 0.1 * safeAnimationSpeed) % (2 * Math.PI);
           onPhaseChange?.(newPhase);
           return newPhase;
         });
 
-        setAnimationTime((prev: any) => prev + 0.1 * animationSpeed);
+        setAnimationTime((prev: any) => prev + 0.1 * safeAnimationSpeed);
       }, 100);
 
       return () => clearInterval(interval);
     }, [
       realTimeMode,
-      decoherenceRate,
-      coherenceThreshold,
+      safeDecoherenceRate,
+      safeCoherenceThreshold,
       alertOnDecoherence,
-      animationSpeed,
+      safeAnimationSpeed,
       onCoherenceLoss,
       onPhaseChange,
     ]);
@@ -138,12 +165,12 @@ export const GlassCoherenceIndicator = forwardRef<
       if (realTimeMode) {
         const newDataPoint: CoherenceData = {
           timestamp: Date.now(),
-          coherence: currentCoherence,
-          phase: currentPhase,
-          amplitude: currentCoherence,
+          coherence: clamp(currentCoherence),
+          phase: toFiniteNumber(currentPhase),
+          amplitude: clamp(currentCoherence),
           frequency: 1.0,
-          decoherenceRate,
-          entanglementStrength,
+          decoherenceRate: safeDecoherenceRate,
+          entanglementStrength: safeEntanglementStrength,
         };
 
         setCoherenceHistory(
@@ -154,22 +181,23 @@ export const GlassCoherenceIndicator = forwardRef<
       currentCoherence,
       currentPhase,
       realTimeMode,
-      decoherenceRate,
-      entanglementStrength,
+      safeDecoherenceRate,
+      safeEntanglementStrength,
     ]);
 
     const coherenceStatus = useMemo(() => {
-      if (currentCoherence >= 0.8)
+      const safeCurrentCoherence = clamp(currentCoherence);
+      if (safeCurrentCoherence >= 0.8)
         return {
           label: "Highly Coherent",
           color: "var(--glass-color-success)",
         };
-      if (currentCoherence >= 0.5)
+      if (safeCurrentCoherence >= 0.5)
         return {
           label: "Moderately Coherent",
           color: "var(--glass-color-warning)",
         };
-      if (currentCoherence >= 0.2)
+      if (safeCurrentCoherence >= 0.2)
         return { label: "Low Coherence", color: "var(--glass-color-danger)" };
       return { label: "Decoherent", color: "var(--glass-color-danger)" };
     }, [currentCoherence]);
@@ -179,12 +207,13 @@ export const GlassCoherenceIndicator = forwardRef<
       const waveData = useMemo(() => {
         return Array.from({ length: points }, (_, i) => {
           const x = (i / points) * 4 * Math.PI;
-          const amplitude = currentCoherence;
-          const wave1 = amplitude * Math.sin(x + currentPhase);
+          const amplitude = clamp(currentCoherence);
+          const phaseValue = toFiniteNumber(currentPhase);
+          const wave1 = amplitude * Math.sin(x + phaseValue);
           const wave2 =
-            entanglementStrength *
+            safeEntanglementStrength *
             amplitude *
-            Math.sin(x + currentPhase + Math.PI / 2);
+            Math.sin(x + phaseValue + Math.PI / 2);
           return {
             x: (i / points) * 300,
             y1: 50 + wave1 * 30,
@@ -192,7 +221,7 @@ export const GlassCoherenceIndicator = forwardRef<
             combined: 50 + (wave1 + wave2 * 0.5) * 25,
           };
         });
-      }, [currentCoherence, currentPhase, entanglementStrength, points]);
+      }, [currentCoherence, currentPhase, safeEntanglementStrength, points]);
 
       return (
         <svg
@@ -237,23 +266,23 @@ export const GlassCoherenceIndicator = forwardRef<
             fill="none"
             stroke={getPhaseColor(currentPhase)}
             strokeWidth="2"
-            opacity={currentCoherence}
+            opacity={clamp(currentCoherence)}
           />
 
           {/* Entangled wave */}
-          {entanglementStrength > 0 && (
+          {safeEntanglementStrength > 0 && (
             <path
               d={`M ${waveData.map((p: any) => `${p.x} ${p.y2}`).join(" L ")}`}
               fill="none"
               stroke="var(--glass-color-secondary)"
               strokeWidth="1.5"
-              opacity={entanglementStrength * 0.8}
+              opacity={safeEntanglementStrength * 0.8}
               strokeDasharray="3,3"
             />
           )}
 
           {/* Combined interference pattern */}
-          {entanglementStrength > 0.3 && (
+          {safeEntanglementStrength > 0.3 && (
             <path
               d={`M ${waveData.map((p: any) => `${p.x} ${p.combined}`).join(" L ")}`}
               fill="none"
@@ -287,6 +316,17 @@ export const GlassCoherenceIndicator = forwardRef<
           )}
         </svg>
       );
+    };
+
+    const phaseVector = {
+      x:
+        48 +
+        Math.cos(toFiniteNumber(currentPhase) - Math.PI / 2) *
+          (30 * clamp(currentCoherence)),
+      y:
+        48 +
+        Math.sin(toFiniteNumber(currentPhase) - Math.PI / 2) *
+          (30 * clamp(currentCoherence)),
     };
 
     const PhaseIndicator = () => (
@@ -333,14 +373,8 @@ export const GlassCoherenceIndicator = forwardRef<
           <motion.line
             x1="48"
             y1="48"
-            x2={
-              48 +
-              Math.cos(currentPhase - Math.PI / 2) * (30 * currentCoherence)
-            }
-            y2={
-              48 +
-              Math.sin(currentPhase - Math.PI / 2) * (30 * currentCoherence)
-            }
+            x2={phaseVector.x}
+            y2={phaseVector.y}
             stroke={getPhaseColor(currentPhase)}
             strokeWidth="3"
             strokeLinecap="round"
@@ -348,14 +382,8 @@ export const GlassCoherenceIndicator = forwardRef<
               prefersReducedMotion
                 ? {}
                 : {
-                    x2:
-                      48 +
-                      Math.cos(currentPhase - Math.PI / 2) *
-                        (30 * currentCoherence),
-                    y2:
-                      48 +
-                      Math.sin(currentPhase - Math.PI / 2) *
-                        (30 * currentCoherence),
+                    x2: phaseVector.x,
+                    y2: phaseVector.y,
                   }
             }
             transition={
@@ -380,7 +408,7 @@ export const GlassCoherenceIndicator = forwardRef<
                 "glass-text-xs glass-text-primary glass-font-medium"
               )}
             >
-              {((currentPhase * 180) / Math.PI).toFixed(0)}°
+              {((toFiniteNumber(currentPhase) * 180) / Math.PI).toFixed(0)}°
             </div>
           </div>
         </div>
@@ -468,7 +496,7 @@ export const GlassCoherenceIndicator = forwardRef<
                   "glass-text-sm glass-font-medium glass-text-primary"
                 )}
               >
-                {(currentCoherence * 100).toFixed(1)}%
+                {(clamp(currentCoherence) * 100).toFixed(1)}%
               </span>
             </div>
 
@@ -483,7 +511,7 @@ export const GlassCoherenceIndicator = forwardRef<
                   background: `linear-gradient(90deg, ${coherenceStatus.color} 0%, ${coherenceStatus.color}80 100%)`,
                 }}
                 animate={{
-                  width: `${currentCoherence * 100}%`,
+                  width: `${clamp(currentCoherence) * 100}%`,
                 }}
                 transition={
                   shouldAnimate
@@ -497,7 +525,7 @@ export const GlassCoherenceIndicator = forwardRef<
                 className={cn(
                   "glass-absolute glass-top-0 glass-h-full glass-w-0.5 glass-surface-muted"
                 )}
-                style={{ left: `${coherenceThreshold * 100}%` }}
+                style={{ left: `${safeCoherenceThreshold * 100}%` }}
               />
             </div>
 
@@ -507,7 +535,9 @@ export const GlassCoherenceIndicator = forwardRef<
               )}
             >
               <span>0%</span>
-              <span>Threshold ({(coherenceThreshold * 100).toFixed(0)}%)</span>
+              <span>
+                Threshold ({(safeCoherenceThreshold * 100).toFixed(0)}%)
+              </span>
               <span>100%</span>
             </div>
           </div>
@@ -545,7 +575,7 @@ export const GlassCoherenceIndicator = forwardRef<
             <div>
               <span className={cn("glass-text-secondary")}>Phase:</span>
               <div className={cn("glass-text-primary glass-font-medium")}>
-                {((currentPhase * 180) / Math.PI).toFixed(1)}°
+                {((toFiniteNumber(currentPhase) * 180) / Math.PI).toFixed(1)}°
               </div>
             </div>
 
@@ -553,18 +583,18 @@ export const GlassCoherenceIndicator = forwardRef<
               <div>
                 <span className={cn("glass-text-secondary")}>Decoherence:</span>
                 <div className={cn("glass-text-primary glass-font-medium")}>
-                  {(decoherenceRate * 100).toFixed(2)}%/s
+                  {(safeDecoherenceRate * 100).toFixed(2)}%/s
                 </div>
               </div>
             )}
 
-            {showEntanglement && entanglementStrength > 0 && (
+            {showEntanglement && safeEntanglementStrength > 0 && (
               <div>
                 <span className={cn("glass-text-secondary")}>
                   Entanglement:
                 </span>
                 <div className={cn("glass-text-primary glass-font-medium")}>
-                  {(entanglementStrength * 100).toFixed(0)}%
+                  {(safeEntanglementStrength * 100).toFixed(0)}%
                 </div>
               </div>
             )}
@@ -575,7 +605,9 @@ export const GlassCoherenceIndicator = forwardRef<
                 className={cn("glass-font-medium")}
                 style={{ color: coherenceStatus.color }}
               >
-                {currentCoherence >= coherenceThreshold ? "Stable" : "Unstable"}
+                {clamp(currentCoherence) >= safeCoherenceThreshold
+                  ? "Stable"
+                  : "Unstable"}
               </div>
             </div>
           </div>

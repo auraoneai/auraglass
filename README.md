@@ -36,7 +36,7 @@ import 'aura-glass/styles';
 
 - **Liquid Glass system:** 32 public value exports spanning primitives, navigation surfaces, presentation layers, controls, media/data surfaces, source transitions, backdrop sampling, scroll-edge glass, layer policy, and a complete `LiquidGlassShowcase`.
 - **356-component certified inventory:** each canonical inventory component has direct Storybook coverage, direct documentation coverage, direct unit-test coverage, accessibility metadata, and Storybook visual certification evidence. The newer Liquid Glass public surface is additive to that certified inventory.
-- **Storybook and visual QA refresh:** certification artifacts cover 356/356 passed entries and 712 desktop/mobile screenshots, with maintained visual CI and browser-matrix guardrails.
+- **Storybook taxonomy and visual QA refresh:** Storybook is organized by developer intent across Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification. Certification artifacts cover 356/356 passed entries and 712 desktop/mobile screenshots, while the static all-story audit covers 1,595 stories with zero hard render/runtime/media/native-control failures.
 - **React 18 and React 19 consumer validation:** `prepublishOnly` builds temporary Next 14 / React 18 and Next 15 / React 19 apps from the tarball and runs Playwright smoke tests.
 - **Release-grade npm pipeline:** npm provenance publishing, `prepublishOnly`, clean pack verification, package-metadata declaration checks, worker packaging, bundle-size limits, and no bundled React runtime.
 - **Public package surface audits:** export audits verify source/declaration coverage for the public export map, while API audits report declaration `any`, public-source `any`, and ref-forwarding follow-ups explicitly.
@@ -93,12 +93,14 @@ These numbers are derived from the checked-in inventory and certification artifa
 | ARIA metadata | 356/356 |
 | Focus-management metadata | 356/356 |
 | Reduced-motion metadata | 356/356 |
+| Static Storybook hard-failure audit | 1,595 stories, 0 hard failures, 0 run errors |
 
 Primary evidence:
 
 - [Component inventory](./reports/component_inventory.json)
 - [Storybook visual certification JSON](./reports/glassmorphism-storybook-visual-certification.json)
 - [Storybook visual certification report](./reports/glassmorphism-storybook-visual-certification.md)
+- [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
 - [Documentation map](./docs/readme.md)
 - [Component documentation index](./docs/components/readme.md)
 - [Reports index](./reports/README.md)
@@ -111,14 +113,14 @@ npm run audit:components
 
 ## How To Choose Components
 
-Do not start by scanning every export. Start with the [component selection guide](./docs/components/choosing.md), which groups AuraGlass by product job:
+Do not start by scanning every export. Start with the [component selection guide](./docs/components/choosing.md) and the Storybook `Start Here/Guide` entry, which group AuraGlass by product job:
 
 - **Default app kit:** `GlassAppShell`, `GlassContainer`, `GlassGrid`, `GlassStack`, `OptimizedGlass`, `GlassCard`, `GlassButton`, `GlassInput`, `GlassSelect`, `GlassTabs`, `GlassModal`, `GlassDataTable`, `GlassBadge`, `GlassToast`, `ThemeProvider`, and `ContrastGuard`.
 - **Liquid Glass:** use for premium app chrome, media controls, command centers, source transitions, overlays, and focal surfaces.
 - **Product families:** layout, navigation, forms, data display, charts, dashboards, interactive tools, media, templates, accessibility, and theming.
 - **Advanced systems:** AI, consciousness, quantum, immersive/spatial, atmospheric effects, and 3D/AR. Use these only when the feature explicitly requires them.
 
-For AI agents, give the selection guide as context and ask for a product family first. That prevents the agent from treating 356 certified inventory components plus the Liquid Glass public surface as one flat menu.
+Storybook mirrors this decision tree with top-level sections for `Foundations`, `Controls`, `Navigation`, `Surfaces`, `Data + Visualization`, `Media`, `Workflows`, `AI + Intelligence`, `Effects + Advanced`, `Showcases`, `Reference`, and `Certification`. For AI agents, give the selection guide as context and ask for a product family first. That prevents the agent from treating 356 certified inventory components plus the Liquid Glass public surface as one flat menu.
 
 ## Install
 
@@ -396,6 +398,8 @@ Expected complete-pass artifact state for the current inventory:
 ```
 
 Do not claim full certification from README text alone. Use the JSON report in `reports/glassmorphism-storybook-visual-certification.json` as the evidence source.
+
+For the public 3.0 Storybook, the static all-story QA pass also crawls `storybook-static/index.json` across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes. The current exhaustive report covers 1,595 stories with zero hard failures, zero audit-run errors, and zero occurrences of hard flags such as Storybook render errors, page errors, severe console errors, remote media failures, missing story roots, or visible native controls. Remaining entries in [reports/storybook-exhaustive-qa.md](./reports/storybook-exhaustive-qa.md) are visual heuristics such as contrast, clipping, and overflow that are retained as follow-up evidence rather than publish blockers.
 
 ## Repository Map
 

@@ -49,7 +49,7 @@ const mockReactions: ReactionBubble[] = [
 const customEmojis = ['🚀', '⚡', '🌟', '💎', '🔥', '🎊', '🌈', '✨'];
 
 const meta = {
-  title: 'Glass UI/Social/GlassReactionBubbles',
+  title: 'Workflows/Glass Reaction Bubbles',
   component: GlassReactionBubbles,
   parameters: {
     layout: 'centered',

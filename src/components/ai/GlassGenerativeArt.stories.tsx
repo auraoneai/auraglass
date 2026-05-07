@@ -47,7 +47,7 @@ const mockArtPrompts: ArtPrompt[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/AI/GlassGenerativeArt',
+  title: 'AI + Intelligence/Glass Generative Art',
   component: GlassGenerativeArt,
   parameters: {
     layout: 'centered',

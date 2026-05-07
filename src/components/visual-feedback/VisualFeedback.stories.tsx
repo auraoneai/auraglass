@@ -4,7 +4,7 @@ import VisualFeedback from './VisualFeedback';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof VisualFeedback> = {
-  title: 'Components/Visual-feedback/VisualFeedback',
+  title: 'Controls/Inputs/Visual Feedback',
   component: VisualFeedback,
   parameters: {
     layout: 'centered',

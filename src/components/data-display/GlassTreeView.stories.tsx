@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { GlassTreeView as Component } from "./GlassTreeView";
 
 const meta = {
-  title: "Components/Data Display/GlassTreeView",
+  title: 'Data + Visualization/Glass Tree View',
   component: Component,
   parameters: {
     layout: "centered",

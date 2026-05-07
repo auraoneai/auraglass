@@ -10,7 +10,7 @@ const componentName = "GlassActionSheet" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Mobile/GlassActionSheet",
+  title: 'Effects + Advanced/Glass Action Sheet',
   component: Component,
   parameters: {
     layout: "centered",

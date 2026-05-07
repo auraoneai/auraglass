@@ -4,7 +4,7 @@ import { GlassMultiSelect } from './GlassMultiSelect';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassMultiSelect> = {
-  title: 'Components/Input/GlassMultiSelect',
+  title: 'Controls/Inputs/Glass Multi Select',
   component: GlassMultiSelect,
   parameters: {
     layout: 'centered',

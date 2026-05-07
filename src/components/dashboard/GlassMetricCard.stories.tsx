@@ -4,7 +4,7 @@ import { GlassMetricCard } from './GlassMetricCard';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassMetricCard> = {
-  title: 'Components/Dashboard/GlassMetricCard',
+  title: 'Reference/Legacy Components/Glass Metric Card',
   component: GlassMetricCard,
   parameters: {
     layout: 'centered',

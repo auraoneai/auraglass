@@ -4,7 +4,7 @@ import { GlassSparkline } from './GlassSparkline';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSparkline> = {
-  title: 'Components/Data-display/GlassSparkline',
+  title: 'Data + Visualization/Glass Sparkline',
   component: GlassSparkline,
   parameters: {
     layout: 'centered',

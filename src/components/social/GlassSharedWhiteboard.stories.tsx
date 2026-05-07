@@ -6,7 +6,7 @@ const mockUsers: WhiteboardUser[] = [
     id: 'user1',
     name: 'Alice Johnson',
     color: '#FF6B6B',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face',
+    avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
     cursorX: 150,
     cursorY: 100,
     isDrawing: false,
@@ -17,7 +17,7 @@ const mockUsers: WhiteboardUser[] = [
     id: 'user2',
     name: 'Bob Smith',
     color: '#4ECDC4',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face',
+    avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
     cursorX: 300,
     cursorY: 200,
     isDrawing: true,
@@ -87,7 +87,7 @@ const mockStrokes: DrawingStroke[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Social/GlassSharedWhiteboard',
+  title: 'Workflows/Glass Shared Whiteboard',
   component: GlassSharedWhiteboard,
   parameters: {
     layout: 'fullscreen',

@@ -10,7 +10,7 @@ const componentName = "GlassTransitions" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Animations/GlassTransitions",
+  title: 'Foundations/Motion/Glass Transitions',
   component: Component,
   parameters: {
     layout: "centered",

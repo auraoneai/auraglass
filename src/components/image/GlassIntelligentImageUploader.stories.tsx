@@ -11,7 +11,7 @@ const componentName =
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Image/GlassIntelligentImageUploader",
+  title: 'AI + Intelligence/Glass Intelligent Image Uploader',
   component: Component,
   parameters: {
     layout: "centered",

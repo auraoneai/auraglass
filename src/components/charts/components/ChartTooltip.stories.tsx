@@ -4,7 +4,7 @@ import { ChartTooltip } from './ChartTooltip';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartTooltip> = {
-  title: 'Components/Components/ChartTooltip',
+  title: 'Data + Visualization/Chart Tooltip',
   component: ChartTooltip,
   parameters: {
     layout: 'centered',

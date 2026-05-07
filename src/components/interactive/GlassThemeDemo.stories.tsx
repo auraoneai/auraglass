@@ -4,7 +4,7 @@ import { GlassThemeDemo } from './GlassThemeDemo';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassThemeDemo> = {
-  title: 'Components/Interactive/GlassThemeDemo',
+  title: 'Effects + Advanced/Glass Theme Demo',
   component: GlassThemeDemo,
   parameters: {
     layout: 'centered',

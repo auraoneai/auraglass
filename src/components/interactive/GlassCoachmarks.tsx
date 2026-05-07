@@ -39,29 +39,32 @@ export function GlassCoachmarks({
       {...props}
     >
       <div
-        className='glass-absolute glass-inset-0 glass-surface-dark/60'
+        className="glass-absolute glass-inset-0 glass-surface-dark/45"
         onClick={onClose}
       />
-      <div className='glass-absolute glass-inset-x-0 glass-bottom-10 glass-mx-auto glass-w-full glass-max-w-xl'>
-        <div className='glass-radius-2xl glass-surface-subtle/10 glass-border glass-border-white/20 glass-p-4 glass-mx-4 glass-text-primary'>
-          <div className='glass-mb-3'>{step.content}</div>
-          <div className="glass-flex glass-justify-between">
+      <div className="glass-absolute glass-inset-x-0 glass-bottom-10 glass-mx-auto glass-w-full glass-max-w-xl">
+        <div className="glass-radius-2xl glass-surface-overlay glass-border glass-border-subtle glass-p-4 glass-mx-4 glass-text-primary glass-contrast-guard">
+          <div className="glass-mb-3">{step.content}</div>
+          <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-2">
             <button
+              type="button"
               className="glass-px-3 glass-py-1 glass-radius-md glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
               onClick={onPrev}
               disabled={current === 0}
             >
               Back
             </button>
-            <div className="glass-gap-2">
+            <div className="glass-flex glass-flex-wrap glass-gap-2">
               <button
+                type="button"
                 className="glass-px-3 glass-py-1 glass-radius-md glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
                 onClick={onClose}
               >
                 Close
               </button>
               <button
-                className='glass-px-3 glass-py-1 glass-radius-md glass-surface-blue glass-text-primary glass-focus glass-touch-target glass-contrast-guard'
+                type="button"
+                className="glass-px-3 glass-py-1 glass-radius-md glass-surface-blue glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
                 onClick={onNext}
               >
                 Next

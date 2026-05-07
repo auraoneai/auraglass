@@ -10,7 +10,7 @@ const componentName = "GlassSmartShoppingCart" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Ecommerce/GlassSmartShoppingCart",
+  title: 'Workflows/Glass Smart Shopping Cart',
   component: Component,
   parameters: {
     layout: "centered",

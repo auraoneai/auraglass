@@ -10,7 +10,7 @@ const componentName = "GlassQuantumField" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Quantum/GlassQuantumField",
+  title: 'Effects + Advanced/Glass Quantum Field',
   component: Component,
   parameters: {
     layout: "centered",

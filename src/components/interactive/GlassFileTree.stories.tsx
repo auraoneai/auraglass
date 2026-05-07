@@ -4,7 +4,7 @@ import { GlassFileTree } from './GlassFileTree';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassFileTree> = {
-  title: 'Components/Interactive/GlassFileTree',
+  title: 'Effects + Advanced/Glass File Tree',
   component: GlassFileTree,
   parameters: {
     layout: 'centered',

@@ -8,7 +8,7 @@ const mockPosts: SocialPost[] = [
       id: 'user1',
       name: 'Alice Johnson',
       username: 'alicej',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=48&h=48&fit=crop&crop=face',
+      avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
       verified: true
     },
     content: 'Just shipped a new feature using Glass UI components! The glassmorphism effects look incredible. 🚀✨ #WebDev #GlassUI',
@@ -20,7 +20,7 @@ const mockPosts: SocialPost[] = [
     media: [
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop',
+        url: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27300%27%20viewBox=%270%200%20400%20300%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27g%27%20x1=%270%27%20x2=%271%27%20y1=%270%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%230ea5e9%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%230f766e%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27300%27%20rx=%2724%27%20fill=%27url(%23g)%27/%3E%3Ccircle%20cx=%27320%27%20cy=%2760%27%20r=%2752%27%20fill=%27%23ffffff%27%20opacity=%27.18%27/%3E%3Cpath%20d=%27M40%20235l88-92%2070%2068%2055-42%20107%2066v28H40z%27%20fill=%27%23ffffff%27%20opacity=%27.82%27/%3E%3C/svg%3E',
         alt: 'Glass UI screenshot'
       }
     ]
@@ -31,7 +31,7 @@ const mockPosts: SocialPost[] = [
       id: 'user2',
       name: 'Bob Chen',
       username: 'bobdev',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=48&h=48&fit=crop&crop=face',
+      avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
       verified: false
     },
     content: 'Working on a new dashboard design. The blur effects and transparency create such a modern feel! What do you think about the color scheme? Should I go with warmer tones or keep it cool? 🎨',
@@ -43,12 +43,12 @@ const mockPosts: SocialPost[] = [
     media: [
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop',
+        url: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27300%27%20viewBox=%270%200%20400%20300%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27g%27%20x1=%270%27%20x2=%271%27%20y1=%270%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%230ea5e9%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%230f766e%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27300%27%20rx=%2724%27%20fill=%27url(%23g)%27/%3E%3Ccircle%20cx=%27320%27%20cy=%2760%27%20r=%2752%27%20fill=%27%23ffffff%27%20opacity=%27.18%27/%3E%3Cpath%20d=%27M40%20235l88-92%2070%2068%2055-42%20107%2066v28H40z%27%20fill=%27%23ffffff%27%20opacity=%27.82%27/%3E%3C/svg%3E',
         alt: 'Dashboard mockup'
       },
       {
         type: 'image',
-        url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop',
+        url: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27300%27%20viewBox=%270%200%20400%20300%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27g%27%20x1=%270%27%20x2=%271%27%20y1=%270%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%230ea5e9%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%230f766e%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27300%27%20rx=%2724%27%20fill=%27url(%23g)%27/%3E%3Ccircle%20cx=%27320%27%20cy=%2760%27%20r=%2752%27%20fill=%27%23ffffff%27%20opacity=%27.18%27/%3E%3Cpath%20d=%27M40%20235l88-92%2070%2068%2055-42%20107%2066v28H40z%27%20fill=%27%23ffffff%27%20opacity=%27.82%27/%3E%3C/svg%3E',
         alt: 'Color palette'
       }
     ]
@@ -74,7 +74,7 @@ const mockPosts: SocialPost[] = [
       id: 'user4',
       name: 'David Kim',
       username: 'dkim_design',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=48&h=48&fit=crop&crop=face',
+      avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
       verified: false
     },
     content: 'New animation preview! 🎬 Created this smooth transition effect for our app\'s onboarding flow. The combination of glass morphism and micro-interactions creates such an engaging experience.',
@@ -85,9 +85,9 @@ const mockPosts: SocialPost[] = [
     tags: ['Animation', 'Microinteractions', 'Onboarding'],
     media: [
       {
-        type: 'video',
-        url: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
-        thumbnail: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=300&fit=crop',
+        type: 'image',
+        url: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27300%27%20viewBox=%270%200%20400%20300%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27g%27%20x1=%270%27%20x2=%271%27%20y1=%270%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%230ea5e9%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%230f766e%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27300%27%20rx=%2724%27%20fill=%27url(%23g)%27/%3E%3Ccircle%20cx=%27320%27%20cy=%2760%27%20r=%2752%27%20fill=%27%23ffffff%27%20opacity=%27.18%27/%3E%3Cpath%20d=%27M40%20235l88-92%2070%2068%2055-42%20107%2066v28H40z%27%20fill=%27%23ffffff%27%20opacity=%27.82%27/%3E%3C/svg%3E',
+        thumbnail: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%27400%27%20height=%27300%27%20viewBox=%270%200%20400%20300%27%3E%3Cdefs%3E%3ClinearGradient%20id=%27g%27%20x1=%270%27%20x2=%271%27%20y1=%270%27%20y2=%271%27%3E%3Cstop%20offset=%270%27%20stop-color=%27%230ea5e9%27/%3E%3Cstop%20offset=%271%27%20stop-color=%27%230f766e%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width=%27400%27%20height=%27300%27%20rx=%2724%27%20fill=%27url(%23g)%27/%3E%3Ccircle%20cx=%27320%27%20cy=%2760%27%20r=%2752%27%20fill=%27%23ffffff%27%20opacity=%27.18%27/%3E%3Cpath%20d=%27M40%20235l88-92%2070%2068%2055-42%20107%2066v28H40z%27%20fill=%27%23ffffff%27%20opacity=%27.82%27/%3E%3C/svg%3E',
         alt: 'Animation preview'
       }
     ]
@@ -113,7 +113,7 @@ const mockPosts: SocialPost[] = [
       id: 'user6',
       name: 'Frank Wilson',
       username: 'frankw',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=48&h=48&fit=crop&crop=face',
+      avatar: 'data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20width=%2764%27%20height=%2764%27%20viewBox=%270%200%2064%2064%27%3E%3Crect%20width=%2764%27%20height=%2764%27%20rx=%2732%27%20fill=%27%230f766e%27/%3E%3Ccircle%20cx=%2732%27%20cy=%2726%27%20r=%2711%27%20fill=%27%23ffffff%27%20opacity=%27.9%27/%3E%3Cpath%20d=%27M14%2057c3-12%2013-18%2018-18s15%206%2018%2018%27%20fill=%27%23ffffff%27%20opacity=%27.85%27/%3E%3C/svg%3E',
       verified: false
     },
     content: 'Beautiful glass components! 😍 The depth and lighting effects are perfect. How do you handle browser compatibility issues with backdrop-filter?',
@@ -126,7 +126,7 @@ const mockPosts: SocialPost[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Social/GlassSocialFeed',
+  title: 'Workflows/Glass Social Feed',
   component: GlassSocialFeed,
   parameters: {
     layout: 'centered',

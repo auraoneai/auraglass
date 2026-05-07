@@ -3,8 +3,15 @@ import React from 'react';
 import { GlassIntelligentFormBuilder, FormSchema } from './GlassIntelligentFormBuilder';
 
 const meta: Meta<typeof GlassIntelligentFormBuilder> = {
-  title: 'AI/GlassIntelligentFormBuilder',
+  title: 'AI + Intelligence/Glass Intelligent Form Builder',
   component: GlassIntelligentFormBuilder,
+  decorators: [
+    (Story) => (
+      <FormBuilderStoryFrame>
+        <Story />
+      </FormBuilderStoryFrame>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -17,6 +24,29 @@ const meta: Meta<typeof GlassIntelligentFormBuilder> = {
 
 export default meta;
 type Story = StoryObj<typeof GlassIntelligentFormBuilder>;
+
+const FormBuilderStoryFrame = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      height: '100vh',
+      maxHeight: '100vh',
+      overflow: 'hidden',
+      background: 'linear-gradient(135deg, #eff6ff 0%, #f8fafc 45%, #ecfeff 100%)',
+    }}
+  >
+    <div
+      style={{
+        height: '100%',
+        overflowY: 'auto',
+        overscrollBehavior: 'contain',
+        padding: 24,
+        boxSizing: 'border-box',
+      }}
+    >
+      {children}
+    </div>
+  </div>
+);
 
 const sampleContactSchema: Partial<FormSchema> = {
   title: 'Contact Support Form',

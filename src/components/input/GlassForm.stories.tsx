@@ -14,7 +14,7 @@ import { GlassInput } from './GlassInput';
 import { GlassButton } from '../button/GlassButton';
 
 const meta: Meta<typeof GlassForm> = {
-  title: 'Components/Input/GlassForm',
+  title: 'Controls/Inputs/Glass Form',
   component: GlassForm,
   parameters: {
     layout: 'centered',

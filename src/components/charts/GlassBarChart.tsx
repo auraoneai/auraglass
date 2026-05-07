@@ -14,6 +14,25 @@ import {
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : fallback;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const getSeriesColor = (
+  explicitColor: string | undefined,
+  colors: string[],
+  index: number
+) =>
+  explicitColor ||
+  colors[index % Math.max(1, colors.length)] ||
+  "var(--glass-color-primary)";
+
 export interface BarDataPoint {
   x: string | number;
   y: number;
@@ -155,14 +174,23 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
 
   // Chart dimensions with padding
   const padding = { top: 20, right: 60, bottom: 60, left: 60 };
-  const chartWidth = width - padding.left - padding.right;
-  const chartHeight = height - padding.top - padding.bottom;
+  const chartWidth = Math.max(1, width - padding.left - padding.right);
+  const chartHeight = Math.max(1, height - padding.top - padding.bottom);
 
   // Process data for chart
   const processedData = useMemo(() => {
     if (!series || !Array.isArray(series) || series.length === 0) {
       return { bars: [], xLabels: [], yLabels: [] };
     }
+
+    const sanitizedSeries = series.map((s) => ({
+      ...s,
+      data: (Array.isArray(s.data) ? s.data : []).map((point, pointIndex) => ({
+        ...point,
+        x: point?.x ?? point?.label ?? pointIndex,
+        y: toFiniteNumber(point?.y),
+      })),
+    }));
 
     // Combine all data points from all series
     const allDataPoints: Array<{
@@ -172,7 +200,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
       index: number;
     }> = [];
 
-    series.forEach((s, seriesIndex) => {
+    sanitizedSeries.forEach((s, seriesIndex) => {
       s.data?.forEach((dataPoint, dataIndex) => {
         allDataPoints.push({
           seriesId: s.id,
@@ -182,6 +210,10 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
         });
       });
     });
+
+    if (allDataPoints.length === 0) {
+      return { bars: [], xLabels: [], yLabels: [] };
+    }
 
     // Group by X value (for grouped bars)
     const groupedData = new Map<
@@ -209,7 +241,8 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
 
     // Add some padding to Y axis
     const yRange = yMax - yMin;
-    const yPadding = yRange * 0.1;
+    const yPadding =
+      yRange === 0 ? (yMax === 0 ? 1 : Math.abs(yMax) * 0.1) : yRange * 0.1;
     const yMinPadded = Math.max(0, yMin - yPadding);
     const yMaxPadded = yMax + yPadding;
 
@@ -218,10 +251,10 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
       if (orientation === "vertical") {
         return (
           chartHeight -
-          ((y - yMinPadded) / (yMaxPadded - yMinPadded)) * chartHeight
+          ((y - yMinPadded) / (yMaxPadded - yMinPadded || 1)) * chartHeight
         );
       } else {
-        return ((y - yMinPadded) / (yMaxPadded - yMinPadded)) * chartWidth;
+        return ((y - yMinPadded) / (yMaxPadded - yMinPadded || 1)) * chartWidth;
       }
     };
 
@@ -259,11 +292,10 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
         barsInGroup;
 
       group.forEach((point, barIndex) => {
-        const currentSeries = series?.[point.seriesIndex];
+        const currentSeries = sanitizedSeries?.[point.seriesIndex];
         const color =
           point.data?.color ||
-          currentSeries.color ||
-          colors[point.seriesIndex % (colors?.length || 0)];
+          getSeriesColor(currentSeries.color, colors, point.seriesIndex);
 
         if (orientation === "vertical") {
           const barX =
@@ -273,14 +305,25 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
           const barHeight = chartHeight - scaleY(point.data?.y);
           const barY = padding.top + scaleY(point.data?.y);
 
+          const safeBarX = Number.isFinite(barX) ? barX : padding.left;
+          const safeBarY = Number.isFinite(barY)
+            ? barY
+            : padding.top + chartHeight;
+          const safeBarWidth = Number.isFinite(barWidth)
+            ? Math.max(0, barWidth)
+            : 0;
+          const safeBarHeight = Number.isFinite(barHeight)
+            ? Math.max(0, barHeight)
+            : 0;
+
           bars.push({
             seriesId: point.seriesId,
             seriesIndex: point.seriesIndex,
             dataIndex: point.index,
-            x: barX,
-            y: barY,
-            width: barWidth,
-            height: barHeight,
+            x: safeBarX,
+            y: safeBarY,
+            width: safeBarWidth,
+            height: safeBarHeight,
             value: point.data?.y,
             label: point.data?.label || formatXValue(point.data?.x),
             color,
@@ -294,14 +337,22 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
           const barWidthH = scaleY(point.data?.y);
           const barX = padding.left;
 
+          const safeBarWidthH = Number.isFinite(barWidthH)
+            ? Math.max(0, barWidthH)
+            : 0;
+          const safeBarY = Number.isFinite(barY) ? barY : padding.top;
+          const safeBarHeight = Number.isFinite(barWidth)
+            ? Math.max(0, barWidth)
+            : 0;
+
           bars.push({
             seriesId: point.seriesId,
             seriesIndex: point.seriesIndex,
             dataIndex: point.index,
             x: barX,
-            y: barY,
-            width: barWidthH,
-            height: barWidth,
+            y: safeBarY,
+            width: safeBarWidthH,
+            height: safeBarHeight,
             value: point.data?.y,
             label: point.data?.label || formatXValue(point.data?.x),
             color,
@@ -345,7 +396,21 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
       }
     });
 
-    return { bars, xLabels, yLabels };
+    return {
+      bars: bars.filter(
+        (bar) =>
+          Number.isFinite(bar.x) &&
+          Number.isFinite(bar.y) &&
+          Number.isFinite(bar.width) &&
+          Number.isFinite(bar.height)
+      ),
+      xLabels: xLabels.filter(
+        (label) => Number.isFinite(label.x) && Number.isFinite(label.y)
+      ),
+      yLabels: yLabels.filter(
+        (label) => Number.isFinite(label.x) && Number.isFinite(label.y)
+      ),
+    };
   }, [
     series,
     width,
@@ -428,6 +493,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
               width={width}
               height={height}
               className="glass-overflow-visible"
+              style={{ maxWidth: "100%", height: "auto" }}
             >
               {/* Grid lines */}
               {showGrid && (
@@ -714,8 +780,7 @@ export const GlassBarChart: React.FC<GlassBarChartProps> = ({
                   <div
                     className="glass-w-3 glass-h-3 glass-radius-md"
                     style={{
-                      backgroundColor:
-                        s.color || colors[idx % (colors?.length || 0)],
+                      backgroundColor: getSeriesColor(s.color, colors, idx),
                     }}
                     aria-hidden="true"
                   />

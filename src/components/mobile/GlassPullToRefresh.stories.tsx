@@ -10,7 +10,7 @@ const componentName = "GlassPullToRefresh" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Mobile/GlassPullToRefresh",
+  title: 'Effects + Advanced/Glass Pull To Refresh',
   component: Component,
   parameters: {
     layout: "centered",

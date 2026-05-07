@@ -3,19 +3,19 @@
 exports[`GlassToolbar matches snapshot 1`] = `
 <div
   aria-label="Toolbar"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high w-full flex items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high w-full max-w-full flex flex-wrap items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl"
   id="toolbar-:r6:"
   role="navigation"
   style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="glass-min-w-0 glass-flex glass-items-center glass-gap-2"
+    class="glass-min-w-0 glass-flex glass-flex-1 glass-items-center glass-gap-2 sm:glass-flex-none"
   />
   <div
-    class="glass-min-w-0 glass-flex-1 glass-flex glass-items-center glass-justify-center"
+    class="glass-min-w-0 glass-order-3 glass-flex glass-w-full glass-items-center glass-justify-start sm:glass-order-none sm:glass-w-auto sm:glass-flex-1 sm:glass-justify-center"
   />
   <div
-    class="glass-min-w-0 glass-flex glass-items-center glass-gap-2"
+    class="glass-min-w-0 glass-flex glass-flex-wrap glass-items-center glass-justify-end glass-gap-2"
   />
 </div>
 `;

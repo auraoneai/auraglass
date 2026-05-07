@@ -4,7 +4,7 @@ import { ChartGrid } from './ChartGrid';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartGrid> = {
-  title: 'Components/Components/ChartGrid',
+  title: 'Data + Visualization/Chart Grid',
   component: ChartGrid,
   parameters: {
     layout: 'centered',

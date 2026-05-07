@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassNebulaClouds } from './GlassNebulaClouds';
 
 const meta = {
-  title: 'Glass UI/Atmospheric/GlassNebulaClouds',
+  title: 'Effects + Advanced/Glass Nebula Clouds',
   component: GlassNebulaClouds,
   parameters: {
     layout: 'centered',

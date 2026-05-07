@@ -1,27 +1,25 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import SpeedDialIcon from './SpeedDialIcon';
-import { cn } from '../../lib/utils';
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Minus, Plus } from "lucide-react";
+import SpeedDialIcon from "./SpeedDialIcon";
 
 const meta: Meta<typeof SpeedDialIcon> = {
-  title: 'Components/Speed-dial/SpeedDialIcon',
+  title: 'Controls/Buttons/Speed Dial Icon',
   component: SpeedDialIcon,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism speeddialicon component.',
+        component:
+          "The speed-dial icon transition between closed and open action states.",
       },
     },
   },
-  argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
-  },
   args: {
-    className: ''
+    icon: <Plus size={24} aria-hidden="true" />,
+    openIcon: <Minus size={24} aria-hidden="true" />,
+    open: false,
   },
 };
 
@@ -29,20 +27,22 @@ export default meta;
 type Story = StoryObj<typeof SpeedDialIcon>;
 
 export const Default: Story = {
-  args: {
-    
-  },
+  render: (args) => (
+    <div className="glass-inline-flex glass-h-14 glass-w-14 glass-items-center glass-justify-center glass-radius-full glass-surface-blue glass-text-primary">
+      <SpeedDialIcon {...args} />
+    </div>
+  ),
 };
 
 export const Variants: Story = {
-  render: (args: any) => (
+  render: (args) => (
     <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <SpeedDialIcon {...args}>
-        Default
-      </SpeedDialIcon>
+      <div className="glass-inline-flex glass-h-14 glass-w-14 glass-items-center glass-justify-center glass-radius-full glass-surface-blue glass-text-primary">
+        <SpeedDialIcon {...args} open={false} />
+      </div>
+      <div className="glass-inline-flex glass-h-14 glass-w-14 glass-items-center glass-justify-center glass-radius-full glass-surface-overlay glass-text-primary">
+        <SpeedDialIcon {...args} open />
+      </div>
     </div>
   ),
-  args: {
-    
-  },
 };

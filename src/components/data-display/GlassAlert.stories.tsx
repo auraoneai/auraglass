@@ -4,7 +4,7 @@ import { GlassAlert } from './GlassAlert';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAlert> = {
-  title: 'Components/Data-display/GlassAlert',
+  title: 'Data + Visualization/Glass Alert',
   component: GlassAlert,
   parameters: {
     layout: 'centered',

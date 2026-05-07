@@ -49,7 +49,7 @@ const smallMockItems = generateMockItems(8);
 const largeMockItems = generateMockItems(50);
 
 const meta = {
-  title: 'Glass UI/Layouts/GlassMasonryGrid',
+  title: 'Surfaces/App Shells + Layout/Glass Masonry Grid',
   component: GlassMasonryGrid,
   parameters: {
     layout: 'centered',

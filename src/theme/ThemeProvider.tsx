@@ -739,6 +739,8 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       if (host) {
         host.setAttribute("data-aura-theme", resolvedPersonaId);
         host.setAttribute("data-aura-mode", resolvedMode);
+        host.setAttribute("data-theme", resolvedMode);
+        host.classList.toggle("dark", resolvedMode === "dark");
       }
       return;
     }
@@ -752,10 +754,14 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     const previousTheme = el.getAttribute("data-aura-theme");
     const previousMode = el.getAttribute("data-aura-mode");
     const previousPersona = el.getAttribute("data-persona");
+    const previousDataTheme = el.getAttribute("data-theme");
+    const hadDarkClass = el.classList.contains("dark");
 
     el.setAttribute("data-aura-theme", resolvedPersonaId);
     el.setAttribute("data-aura-mode", resolvedMode);
+    el.setAttribute("data-theme", resolvedMode);
     el.setAttribute("data-persona", resolvedPersonaId);
+    el.classList.toggle("dark", resolvedMode === "dark");
 
     return () => {
       if (previousTheme) {
@@ -775,6 +781,14 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       } else {
         el.removeAttribute("data-persona");
       }
+
+      if (previousDataTheme) {
+        el.setAttribute("data-theme", previousDataTheme);
+      } else {
+        el.removeAttribute("data-theme");
+      }
+
+      el.classList.toggle("dark", hadDarkClass);
     };
   }, [isolateTheme, resolvedPersonaId, resolvedMode]);
 
@@ -1395,7 +1409,9 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
       ref={themeHostRef}
       data-aura-theme={resolvedPersonaId}
       data-aura-mode={resolvedMode}
+      data-theme={resolvedMode}
       data-persona={resolvedPersonaId}
+      className={resolvedMode === "dark" ? "dark" : undefined}
     >
       {children}
     </div>

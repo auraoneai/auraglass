@@ -154,6 +154,7 @@ function RippleButtonComponent(
     [disabled, prefersReducedMotion, centerRipple, rippleSpeed, onMouseDown]
   ); // Added dependencies
 
+  const buttonVariant = variant;
   const rippleSizeValue = rippleSizeProp
     ? getRippleSize(rippleSizeProp)
     : getRippleSize(size); // Use prop or button size
@@ -187,7 +188,7 @@ function RippleButtonComponent(
     >
       <Button
         ref={ref} // Forward the ref to the underlying Button
-        variant={variant}
+        variant={buttonVariant}
         size={size}
         disabled={disabled}
         fullWidth={fullWidth}

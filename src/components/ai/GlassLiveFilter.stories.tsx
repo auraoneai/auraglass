@@ -69,7 +69,7 @@ const customFilters: FilterEffect[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/AI/GlassLiveFilter',
+  title: 'AI + Intelligence/Glass Live Filter',
   component: GlassLiveFilter,
   parameters: {
     layout: 'centered',

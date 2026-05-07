@@ -4,7 +4,7 @@ import { GlassLoadingSkeleton } from './GlassLoadingSkeleton';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassLoadingSkeleton> = {
-  title: 'Components/Data-display/GlassLoadingSkeleton',
+  title: 'Data + Visualization/Glass Loading Skeleton',
   component: GlassLoadingSkeleton,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassLoadingSkeleton> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(680px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     className: {
       control: 'text',

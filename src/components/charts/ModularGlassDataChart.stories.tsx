@@ -1,28 +1,78 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { ModularGlassDataChart } from './ModularGlassDataChart';
-import { cn } from '../../lib/utils';
+
+const datasets = [
+  {
+    id: 'forecast',
+    label: 'Forecast',
+    data: [
+      { x: 'Q1', y: 112 },
+      { x: 'Q2', y: 128 },
+      { x: 'Q3', y: 147 },
+      { x: 'Q4', y: 166 },
+    ],
+    borderColor: 'var(--glass-color-primary)',
+    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+  },
+  {
+    id: 'actual',
+    label: 'Actual',
+    data: [
+      { x: 'Q1', y: 108 },
+      { x: 'Q2', y: 136 },
+      { x: 'Q3', y: 142 },
+      { x: 'Q4', y: 174 },
+    ],
+    borderColor: 'var(--glass-color-success)',
+    backgroundColor: 'rgba(34, 197, 94, 0.18)',
+  },
+];
+
+const ChartFrame = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="glass-rounded-xl glass-border glass-border-white/40 glass-bg-white/55 glass-p-5 glass-shadow-xl"
+    style={{ width: 'min(980px, calc(100vw - 48px))', overflowX: 'auto' }}
+  >
+    {children}
+  </div>
+);
 
 const meta: Meta<typeof ModularGlassDataChart> = {
-  title: 'Components/Charts/ModularGlassDataChart',
+  title: 'Data + Visualization/Modular Glass Data Chart',
   component: ModularGlassDataChart,
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
+    previewSurface: 'app',
     docs: {
       description: {
-        component: 'A glass morphism modularglassdatachart component.',
+        component: 'Modular glass data chart composed from reusable renderer, tooltip, legend, and toolbar primitives.',
       },
     },
   },
   argTypes: {
-    className: { control: 'text', description: 'className prop' },
-    // Avoid Storybook inferring color controls for token-based props
+    variant: { control: { type: 'select' }, options: ['line', 'bar', 'area', 'pie', 'doughnut', 'polarArea', 'kpi'] },
+    glassVariant: { control: { type: 'select' }, options: ['frosted', 'dynamic', 'clear', 'tinted', 'luminous'] },
     color: { control: { type: 'select' }, options: ['primary', 'secondary', 'blue', 'green', 'yellow', 'red', 'pink', 'gray'] },
-    palette: { control: 'object' },
-    axis: { control: 'object' },
   },
   args: {
-    className: '',
+    title: 'Forecast accuracy',
+    subtitle: 'Modular chart renderer with glass legend and static export disabled for Storybook',
+    variant: 'line' as any,
+    datasets,
+    width: '100%',
+    height: 390,
+    showToolbar: true,
+    allowDownload: false,
+    allowTypeSwitch: true,
+    glassVariant: 'frosted',
+    legend: {
+      show: true,
+      position: 'top',
+      align: 'center',
+      style: 'default',
+      glassEffect: true,
+    },
   },
 };
 
@@ -30,18 +80,17 @@ export default meta;
 type Story = StoryObj<typeof ModularGlassDataChart>;
 
 export const Default: Story = {
-  args: {},
+  render: (args) => (
+    <ChartFrame>
+      <ModularGlassDataChart {...args} />
+    </ChartFrame>
+  ),
 };
 
-export const Variants: Story = {
-  render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <ModularGlassDataChart {...args}>
-        Default
-      </ModularGlassDataChart>
-    </div>
+export const BarVariant: Story = {
+  render: (args) => (
+    <ChartFrame>
+      <ModularGlassDataChart {...args} title="Quarterly bookings" variant={'bar' as any} allowTypeSwitch={false} />
+    </ChartFrame>
   ),
-  args: {
-    
-  },
 };

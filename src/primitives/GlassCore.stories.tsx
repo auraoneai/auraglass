@@ -5,7 +5,7 @@ import { GlassCore } from './GlassCore';
 import { GlassVariant, BlurIntensity } from '../core/mixins/glassMixins';
 
 const meta: Meta<typeof GlassCore> = {
-  title: 'Primitives/GlassCore',
+  title: 'Foundations/Liquid Glass Primitives/Glass Core',
   component: GlassCore,
   parameters: {
     layout: 'centered',

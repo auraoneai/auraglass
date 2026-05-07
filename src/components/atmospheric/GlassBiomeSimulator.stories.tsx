@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassBiomeSimulator } from './GlassBiomeSimulator';
 
 const meta = {
-  title: 'Glass UI/Atmospheric/GlassBiomeSimulator',
+  title: 'Effects + Advanced/Glass Biome Simulator',
   component: GlassBiomeSimulator,
   parameters: {
     layout: 'centered',

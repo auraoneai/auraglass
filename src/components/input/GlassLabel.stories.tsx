@@ -1,37 +1,27 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassLabel } from './GlassLabel';
-import { cn } from '../../lib/utils';
+import type { Meta, StoryObj } from "@storybook/react";
+import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { GlassLabel } from "./GlassLabel";
+import { GlassInput } from "./GlassInput";
 
 const meta: Meta<typeof GlassLabel> = {
-  title: 'Components/Input/GlassLabel',
+  title: 'Controls/Inputs/Glass Label',
   component: GlassLabel,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glasslabel component.',
+        component:
+          "A glass-aware form label with required, icon, description, and state variants.",
       },
     },
   },
-  argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
-    children: {
-      control: 'text',
-      description: 'children prop',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'disabled prop',
-    },
-  },
   args: {
-    className: '',
-    children: '',
-    disabled: false,
+    children: "Workspace slug",
+    description: "Lowercase letters, numbers, and hyphens only.",
+    required: true,
+    enhanced: true,
+    icon: <Info size={15} />,
   },
 };
 
@@ -39,25 +29,18 @@ export default meta;
 type Story = StoryObj<typeof GlassLabel>;
 
 export const Default: Story = {
-  args: {
-    children: (
-      <div className="glass-p-4 glass-text-center">
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">GlassLabel</h3>
-        <p className="glass-text-sm opacity-80">This is the default glasslabel component.</p>
-      </div>
-    ),
-  },
-};
-
-export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassLabel {...args}>
-        Default
+    <div className="glass-grid glass-w-[min(520px,calc(100vw-48px))] glass-gap-5 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <div>
+        <GlassLabel {...args} htmlFor="workspace-slug" />
+        <GlassInput id="workspace-slug" placeholder="revenue-ops" fullWidth />
+      </div>
+      <GlassLabel variant="success" icon={<CheckCircle2 size={15} />} description="The saved value passed validation.">
+        Approved setting
+      </GlassLabel>
+      <GlassLabel variant="warning" icon={<AlertTriangle size={15} />} description="This label is readable in warning contexts.">
+        Needs review
       </GlassLabel>
     </div>
   ),
-  args: {
-    children: null,
-  },
 };

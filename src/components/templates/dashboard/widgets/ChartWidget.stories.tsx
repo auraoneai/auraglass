@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChartWidget } from './ChartWidget';
-import { cn } from '../../../../lib/utils';
 
 const meta: Meta<typeof ChartWidget> = {
-  title: 'Components/Widgets/ChartWidget',
+  title: 'Workflows/Chart Widget',
   component: ChartWidget,
   parameters: {
     layout: 'centered',
+    previewSurface: 'component',
     docs: {
       description: {
-        component: 'A glass morphism chartwidget component.',
+        component: 'Chart widget with realistic timeseries data and bounded panel sizing.',
       },
     },
   },
@@ -28,50 +28,55 @@ const meta: Meta<typeof ChartWidget> = {
 export default meta;
 type Story = StoryObj<typeof ChartWidget>;
 
+const revenueData = {
+  title: 'Revenue trend',
+  subtitle: 'Last six weeks',
+  dataPoints: [
+    { label: 'W1', value: 42 },
+    { label: 'W2', value: 58 },
+    { label: 'W3', value: 51 },
+    { label: 'W4', value: 68 },
+    { label: 'W5', value: 73 },
+    { label: 'W6', value: 86 },
+  ],
+  summary: {
+    total: 378,
+    change: 18.4,
+    trend: 'up' as const,
+  },
+};
+
 export const Default: Story = {
   args: {
-    data: {
-      title: 'Sample Chart',
-      subtitle: 'Monthly data',
-      dataPoints: [
-        { label: 'Jan', value: 65 },
-        { label: 'Feb', value: 59 },
-        { label: 'Mar', value: 80 },
-        { label: 'Apr', value: 81 },
-        { label: 'May', value: 56 },
-        { label: 'Jun', value: 55 },
-      ],
-      summary: {
-        total: 396,
-        change: 12.5,
-        trend: 'up' as const,
-      },
-    },
+    data: revenueData,
     type: 'bar',
-    size: 'md',
+    size: 'lg',
+    colorScheme: 'primary',
+    showLegend: true,
+    showGrid: true,
   },
 };
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <ChartWidget {...args} type="bar" />
-      <ChartWidget {...args} type="line" />
-      <ChartWidget {...args} type="pie" />
-      <ChartWidget {...args} type="sparkline" />
+    <div className="glass-grid glass-w-[960px] glass-grid-cols-2 glass-gap-4">
+      {['bar', 'line'].map((type) => (
+        <ChartWidget
+          key={type}
+          {...args}
+          data={{
+            ...revenueData,
+            title: type === 'bar' ? 'Acquisition' : 'Retention',
+          }}
+          type={type as any}
+          colorScheme={type === 'bar' ? 'success' : 'primary'}
+        />
+      ))}
     </div>
   ),
   args: {
-    data: {
-      title: 'Chart Variants',
-      dataPoints: [
-        { label: 'A', value: 45 },
-        { label: 'B', value: 67 },
-        { label: 'C', value: 23 },
-        { label: 'D', value: 89 },
-      ],
-    },
-    size: 'sm',
+    data: revenueData,
+    size: 'md',
   },
 };
 
@@ -87,6 +92,10 @@ export const EmptyData: Story = {
 
 export const NoData: Story = {
   args: {
+    data: {
+      title: 'No Data',
+      dataPoints: [],
+    },
     type: 'bar',
   },
 };

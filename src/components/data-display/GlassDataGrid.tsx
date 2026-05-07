@@ -200,7 +200,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         animation="none"
         performanceMode="medium"
         className={cn(
-          "glass-w-full glass-overflow-hidden",
+          "glass-w-full glass-overflow-x-auto",
           height && "glass-overflow-y-auto",
           className
         )}

@@ -4,7 +4,7 @@ import { GlassChart, ConsciousGlassChart, PredictiveGlassChart, AdaptiveGlassCha
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassChart> = {
-  title: 'Components/Charts/GlassChart',
+  title: 'Data + Visualization/Glass Chart',
   component: GlassChart,
   parameters: {
     layout: 'centered',

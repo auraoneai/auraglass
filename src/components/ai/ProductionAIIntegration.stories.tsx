@@ -10,7 +10,7 @@ const componentName = "ProductionAIIntegration" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Ai/ProductionAIIntegration",
+  title: 'AI + Intelligence/Production AIIntegration',
   component: Component,
   parameters: {
     layout: "centered",

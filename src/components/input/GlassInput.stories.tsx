@@ -1,130 +1,63 @@
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassInput } from './GlassInput';
-import { cn } from '../../lib/utils';
+import { useState, type ComponentProps } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Check, Mail, Search, UserRound } from "lucide-react";
+import { GlassInput } from "./GlassInput";
 
 const meta: Meta<typeof GlassInput> = {
-  title: 'Components/Input/GlassInput',
+  title: 'Controls/Inputs/Glass Input',
   component: GlassInput,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glassmorphism input component with advanced styling and validation.',
+        component:
+          "A glass text input with icons, helper text, validation, and liquid material support.",
       },
     },
   },
-  argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'disabled prop',
-    },
-    placeholder: {
-      control: 'text',
-      description: 'placeholder prop',
-    },
-    // Intentionally omit `value` from Controls to avoid
-    // passing a controlled value without onChange by default
-    size: {
-      control: { type: 'select' },
-      options: ["sm","md","lg"],
-      description: 'size prop',
-    },
-    variant: {
-      control: { type: 'select' },
-      options: ["default","filled","outlined","minimal"],
-      description: 'variant prop',
-    },
-    state: {
-      control: { type: 'select' },
-      options: ["default","error","warning","success"],
-      description: 'state prop',
-    },
-  },
   args: {
-    className: '',
-    disabled: false,
-    placeholder: 'Enter text...',
-    size: 'md',
-    variant: 'default',
-    state: 'default',
+    label: "Workspace name",
+    placeholder: "Revenue operations",
+    helperText: "Used in navigation, reports, and shared links.",
+    size: "md",
+    variant: "default",
+    fullWidth: true,
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof GlassInput>;
 
+const InputFrame = (args: ComponentProps<typeof GlassInput>) => {
+  const [value, setValue] = useState("");
+
+  return (
+    <div className="glass-grid glass-w-[min(640px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <GlassInput
+        {...args}
+        value={value}
+        onChange={(event) => setValue(event.currentTarget.value)}
+      />
+      <div className="glass-grid glass-gap-3 md:glass-grid-cols-2">
+        <GlassInput label="Owner" placeholder="Avery Stone" leftIcon={<UserRound size={16} />} fullWidth />
+        <GlassInput label="Contact" placeholder="ops@auraglass.dev" leftIcon={<Mail size={16} />} rightIcon={<Check size={16} />} state="success" fullWidth />
+        <GlassInput label="Search" placeholder="Find segments" leftIcon={<Search size={16} />} variant="filled" fullWidth />
+        <GlassInput label="Budget code" placeholder="Required" errorText="Budget code is required before publishing." fullWidth />
+      </div>
+    </div>
+  );
+};
+
 export const Default: Story = {
+  render: (args) => <InputFrame {...args} />,
+};
+
+export const Liquid: Story = {
   args: {
-    placeholder: 'Enter your text here...',
+    material: "liquid",
+    label: "Launch title",
+    placeholder: "Spring activation",
   },
-};
-
-export const Variants: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassInput {...args} variant="default" placeholder="Default variant" />
-      <GlassInput {...args} variant="filled" placeholder="Filled variant" />
-      <GlassInput {...args} variant="outlined" placeholder="Outlined variant" />
-      <GlassInput {...args} variant="minimal" placeholder="Minimal variant" />
-    </div>
-  ),
-};
-
-export const States: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassInput {...args} state="default" placeholder="Default state" />
-      <GlassInput {...args} state="success" placeholder="Success state" />
-      <GlassInput {...args} state="warning" placeholder="Warning state" />
-      <GlassInput {...args} state="error" placeholder="Error state" />
-    </div>
-  ),
-};
-
-export const Sizes: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassInput {...args} size="sm" placeholder="Small size" />
-      <GlassInput {...args} size="md" placeholder="Medium size" />
-      <GlassInput {...args} size="lg" placeholder="Large size" />
-    </div>
-  ),
-};
-
-export const WithIcons: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassInput {...args} leftIcon="🔍" placeholder="With left icon" />
-      <GlassInput {...args} rightIcon="✨" placeholder="With right icon" />
-      <GlassInput {...args} leftIcon="👤" rightIcon="✓" placeholder="With both icons" />
-    </div>
-  ),
-};
-
-// Controlled example using React state
-export const Controlled: Story = {
-  render: (args) => {
-    const ControlledInput = () => {
-      const [value, setValue] = useState('Hello');
-      return (
-        <div className="max-w-md glass-space-y-3">
-          <GlassInput
-            {...args}
-            value={value}
-            onChange={(e) => setValue((e.target as HTMLInputElement).value)}
-            placeholder={args.placeholder ?? 'Controlled input'}
-          />
-          <div className="glass-text-sm glass-text-secondary">
-            Current value: <code>{JSON.stringify(value)}</code>
-          </div>
-        </div>
-      );
-    };
-    return <ControlledInput />;
-  },
+  render: (args) => <InputFrame {...args} />,
 };

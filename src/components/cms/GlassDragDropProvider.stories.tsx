@@ -10,7 +10,7 @@ const componentName = "GlassDragDropProvider" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Cms/GlassDragDropProvider",
+  title: 'Workflows/Glass Drag Drop Provider',
   component: Component,
   parameters: {
     layout: "centered",

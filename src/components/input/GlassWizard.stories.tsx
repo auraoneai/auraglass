@@ -4,7 +4,7 @@ import { GlassWizard } from './GlassWizard';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassWizard> = {
-  title: 'Components/Input/GlassWizard',
+  title: 'Controls/Inputs/Glass Wizard',
   component: GlassWizard,
   parameters: {
     layout: 'centered',

@@ -41,7 +41,7 @@ exports[`GlassModal matches snapshot 1`] = `
             class="glass-flex glass-items-start glass-justify-between"
           >
             <div
-              class="glass-flex-1 glass-min-glass-w-0"
+              class="glass-flex-1 glass-min-w-0"
             />
             <div
               class="glass-flex-shrink-0 glass-ml-4"

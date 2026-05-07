@@ -10,7 +10,7 @@ const componentName = "GlassConnectionStatus" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Status/GlassConnectionStatus",
+  title: 'Reference/Legacy Components/Glass Connection Status',
   component: Component,
   parameters: {
     layout: "centered",

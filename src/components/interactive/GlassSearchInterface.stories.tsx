@@ -4,7 +4,7 @@ import { GlassSearchInterface } from './GlassSearchInterface';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassSearchInterface> = {
-  title: 'Components/Interactive/GlassSearchInterface',
+  title: 'Effects + Advanced/Glass Search Interface',
   component: GlassSearchInterface,
   parameters: {
     layout: 'centered',

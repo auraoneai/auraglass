@@ -48,7 +48,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
             </svg>
           </div>
           <div
-            class="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary"
+            class="glass-absolute glass-inset-0 glass-bg-gradient-to-b glass-from-black/45 glass-via-transparent glass-to-black/70"
           >
             <div
               class="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-flex glass-justify-between glass-items-center"
@@ -95,7 +95,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
               class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
             >
               <div
-                class="glass-flex glass-items-center glass-gap-4 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity"
+                class="glass-flex glass-items-center glass-gap-3 sm:glass-gap-4 glass-transition-opacity sm:glass-opacity-0 sm:glass-group-glass-hover-opacity-100"
               >
                 <div
                   class="motion-primitive glass-inline-glass-block"
@@ -222,10 +222,10 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                 />
               </div>
               <div
-                class="glass-flex glass-items-center glass-justify-between"
+                class="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3"
               >
                 <div
-                  class="glass-flex glass-items-center glass-gap-4"
+                  class="glass-flex glass-min-w-0 glass-flex-wrap glass-items-center glass-gap-2 sm:glass-gap-4"
                 >
                   <div
                     class="motion-primitive glass-inline-glass-block"
@@ -293,7 +293,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                       </button>
                     </div>
                     <div
-                      class="glass-w-20 glass-h-1 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer"
+                      class="glass-hidden glass-h-1 glass-w-20 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer sm:glass-block"
                     >
                       <div
                         class="glass-h-full glass-surface-subtle glass-radius-full"
@@ -302,7 +302,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     </div>
                   </div>
                   <span
-                    class="glass-text-primary glass-text-sm"
+                    class="glass-whitespace-nowrap glass-text-primary glass-text-sm"
                   >
                     0:00
                      / 
@@ -310,10 +310,10 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   </span>
                 </div>
                 <div
-                  class="glass-flex glass-items-center glass-gap-2"
+                  class="glass-flex glass-shrink-0 glass-items-center glass-gap-2"
                 >
                   <span
-                    class="glass-text-primary glass-text-sm"
+                    class="glass-whitespace-nowrap glass-text-primary glass-text-sm"
                   >
                     1
                     x

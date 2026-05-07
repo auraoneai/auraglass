@@ -1,56 +1,33 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassSidebar } from './GlassSidebar';
-import { cn } from '../../lib/utils';
+import { useState, type ComponentProps } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { BarChart3, FolderKanban, Home, Settings } from "lucide-react";
+import { GlassSidebar, type NavigationItem } from "./GlassSidebar";
+
+const items: NavigationItem[] = [
+  { id: "home", label: "Home", icon: <Home size={18} /> },
+  { id: "projects", label: "Projects", icon: <FolderKanban size={18} />, badge: 5 },
+  { id: "analytics", label: "Analytics", icon: <BarChart3 size={18} /> },
+  { id: "settings", label: "Settings", icon: <Settings size={18} /> },
+];
 
 const meta: Meta<typeof GlassSidebar> = {
-  title: 'Components/Navigation/GlassSidebar',
+  title: 'Navigation/Glass Sidebar',
   component: GlassSidebar,
   parameters: {
-    layout: 'centered',
+    layout: "fullscreen",
+    previewSurface: "app",
     docs: {
       description: {
-        component: 'A glass morphism glasssidebar component.',
+        component:
+          "A glass sidebar for app navigation with badges, collapse behavior, and surrounding content.",
       },
     },
   },
-  argTypes: {
-    items: {
-      control: 'object',
-      description: 'Navigation items array',
-    },
-    activeId: {
-      control: 'text',
-      description: 'Currently active item ID',
-    },
-    variant: {
-      control: { type: 'select', options: ['default', 'compact', 'floating', 'overlay'] },
-      description: 'Sidebar variant',
-    },
-    width: {
-      control: { type: 'select', options: ['sm', 'md', 'lg', 'xl'] },
-      description: 'Sidebar width',
-    },
-    collapsed: {
-      control: 'boolean',
-      description: 'Whether sidebar is collapsed',
-    },
-    collapsible: {
-      control: 'boolean',
-      description: 'Whether sidebar is collapsible',
-    },
-  },
   args: {
-    items: [
-      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-      { id: 'projects', label: 'Projects', icon: '📁', badge: 3 },
-      { id: 'analytics', label: 'Analytics', icon: '📈' },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeId: 'dashboard',
-    variant: 'default',
-    width: 'md',
-    collapsed: false,
+    items,
+    activeId: "projects",
+    variant: "floating",
+    width: "md",
     collapsible: true,
   },
 };
@@ -58,109 +35,35 @@ const meta: Meta<typeof GlassSidebar> = {
 export default meta;
 type Story = StoryObj<typeof GlassSidebar>;
 
-export const Default: Story = {
-  args: {
-    items: [
-      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-      { id: 'projects', label: 'Projects', icon: '📁', badge: 5 },
-      { id: 'analytics', label: 'Analytics', icon: '📈' },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeId: 'dashboard',
-    header: <div className="glass-text-lg glass-font-bold">My App</div>,
-  },
-};
+const SidebarFrame = (args: ComponentProps<typeof GlassSidebar>) => {
+  const [collapsed, setCollapsed] = useState(args.collapsed ?? false);
 
-export const Variants: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-h-96">
-      <div className="glass-w-64">
-        <GlassSidebar {...args} variant="default" />
-      </div>
-      <div className="glass-w-64 glass-ml-4">
-        <GlassSidebar {...args} variant="compact" />
-      </div>
-      <div className="glass-w-64 glass-ml-4">
-        <GlassSidebar {...args} variant="floating" />
-      </div>
+  return (
+    <div className="glass-flex glass-min-h-screen glass-w-full glass-gap-5 glass-p-4">
+      <GlassSidebar
+        {...args}
+        collapsed={collapsed}
+        onCollapsedChange={setCollapsed}
+        header={<div className="glass-text-base glass-font-semibold glass-text-primary">Aura Ops</div>}
+        footer={<div className="glass-text-xs glass-text-secondary">Workspace online</div>}
+      />
+      <main className="glass-min-w-0 glass-flex-1 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+        <h2 className="glass-m-0 glass-text-2xl glass-font-semibold glass-text-primary">Project operations</h2>
+        <p className="glass-mt-2 glass-max-w-2xl glass-text-sm glass-text-secondary">
+          The sidebar is shown with adjacent app content so width, scrolling, and collapsed states are easy to inspect.
+        </p>
+      </main>
     </div>
-  ),
-  args: {
-    items: [
-      { id: 'home', label: 'Home', icon: '🏠' },
-      { id: 'search', label: 'Search', icon: '🔍' },
-      { id: 'profile', label: 'Profile', icon: '👤' },
-    ],
-    activeId: 'home',
-    collapsed: false,
-  },
+  );
 };
 
-export const WithNestedItems: Story = {
-  args: {
-    items: [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        icon: '📊',
-        children: [
-          { id: 'overview', label: 'Overview' },
-          { id: 'reports', label: 'Reports' },
-        ]
-      },
-      {
-        id: 'projects',
-        label: 'Projects',
-        icon: '📁',
-        badge: 3,
-        children: [
-          { id: 'active', label: 'Active', badge: 2 },
-          { id: 'completed', label: 'Completed', badge: 1 },
-        ]
-      },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeId: 'dashboard',
-  },
+export const Default: Story = {
+  render: (args) => <SidebarFrame {...args} />,
 };
 
 export const Collapsed: Story = {
   args: {
-    items: [
-      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-      { id: 'projects', label: 'Projects', icon: '📁', badge: 3 },
-      { id: 'analytics', label: 'Analytics', icon: '📈' },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeId: 'dashboard',
     collapsed: true,
-    collapsible: true,
   },
-};
-
-export const WithHeaderAndFooter: Story = {
-  args: {
-    items: [
-      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-      { id: 'projects', label: 'Projects', icon: '📁' },
-      { id: 'analytics', label: 'Analytics', icon: '📈' },
-    ],
-    activeId: 'dashboard',
-    header: (
-      <div className="glass-flex glass-items-center glass-gap-2">
-        <div className="glass-w-8 glass-h-8 glass-surface-primary glass-radius-lg glass-flex glass-items-center glass-justify-center">
-          <span className="glass-text-primary glass-font-bold">A</span>
-        </div>
-        <div>
-          <h3 className="glass-font-semibold">Aura Glass</h3>
-          <p className="glass-text-xs glass-text-secondary">v1.0.0</p>
-        </div>
-      </div>
-    ),
-    footer: (
-      <div className="glass-text-xs glass-text-secondary">
-        © 2024 Aura Glass
-      </div>
-    ),
-  },
+  render: (args) => <SidebarFrame {...args} />,
 };

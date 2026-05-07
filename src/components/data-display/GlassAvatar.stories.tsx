@@ -4,7 +4,7 @@ import { GlassAvatar } from './GlassAvatar';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAvatar> = {
-  title: 'Components/Data-display/GlassAvatar',
+  title: 'Data + Visualization/Glass Avatar',
   component: GlassAvatar,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,13 @@ const meta: Meta<typeof GlassAvatar> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div className="glass-flex glass-items-center glass-justify-center glass-gap-4 glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5">
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     className: {
       control: 'text',

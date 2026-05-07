@@ -3,7 +3,7 @@ import { MagneticButton } from './GlassMagneticButton';
 
 import { cn } from '../../lib/utils';
 const meta: Meta<typeof MagneticButton> = {
-  title: 'Components/Button/MagneticButton',
+  title: 'Controls/Buttons/Glass Magnetic Button',
   component: MagneticButton,
   parameters: {
     layout: 'centered',
@@ -55,19 +55,37 @@ export default meta;
 type Story = StoryObj<typeof MagneticButton>;
 
 export const Default: Story = {
-  args: {
-    children: (
-      <div className="glass-p-4 glass-text-center">
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">MagneticButton</h3>
-        <p className="glass-text-sm opacity-80">This is the default glassmagneticbutton component.</p>
+  render: (args) => (
+    <div
+      className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-6"
+      style={{ width: "min(560px, calc(100vw - 64px))" }}
+    >
+      <div className="glass-flex glass-flex-col glass-gap-4">
+        <div>
+          <h3 className="glass-text-base glass-font-semibold glass-text-primary">
+            Magnetic button
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Pointer-responsive action with clear label and generous spacing.
+          </p>
+        </div>
+        <div>
+          <MagneticButton {...args}>Open workspace</MagneticButton>
+        </div>
       </div>
-    ),
+    </div>
+  ),
+  args: {
+    children: null,
   },
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
+    <div
+      className="glass-flex glass-flex-wrap glass-gap-4 glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-6"
+      style={{ width: "min(720px, calc(100vw - 64px))" }}
+    >
       <MagneticButton key="primary" {...args} variant="primary">
         primary
       </MagneticButton>

@@ -4,7 +4,7 @@ import { Typography } from './Typography';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof Typography> = {
-  title: 'Components/Data-display/Typography',
+  title: 'Data + Visualization/Typography',
   component: Typography,
   parameters: {
     layout: 'centered',

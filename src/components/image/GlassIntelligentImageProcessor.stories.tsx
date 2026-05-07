@@ -3,7 +3,7 @@ import { ImageProcessingProvider } from './GlassImageProcessingProvider';
 import { GlassIntelligentImageUploader } from './GlassIntelligentImageUploader';
 
 const meta = {
-  title: 'Image/GlassIntelligentImageProcessor',
+  title: 'AI + Intelligence/Glass Intelligent Image Processor',
   component: GlassIntelligentImageUploader,
   parameters: {
     layout: 'padded',

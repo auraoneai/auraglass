@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { GlassChartWidget } from './GlassChartWidget';
 
 const meta: Meta<typeof GlassChartWidget> = {
-  title: 'Components/Dashboard/GlassChartWidget',
+  title: 'Reference/Legacy Components/Glass Chart Widget',
   component: GlassChartWidget,
   parameters: {
     layout: 'centered',

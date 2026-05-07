@@ -4,7 +4,7 @@ import { ChartLegend } from './ChartLegend';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartLegend> = {
-  title: 'Components/Components/ChartLegend',
+  title: 'Data + Visualization/Chart Legend',
   component: ChartLegend,
   parameters: {
     layout: 'centered',
@@ -46,6 +46,14 @@ export default meta;
 type Story = StoryObj<typeof ChartLegend>;
 
 export const Default: Story = {
+  render: (args) => (
+    <div
+      className="glass-radius-xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+      style={{ width: "min(720px, calc(100vw - 48px))", overflowX: "auto" }}
+    >
+      <ChartLegend {...args} />
+    </div>
+  ),
   args: {
     datasets: [
       { label: 'Dataset 1', color: 'var(--glass-color-primary)' },
@@ -57,7 +65,10 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-8">
+    <div
+      className="glass-flex glass-flex-col glass-gap-6 glass-radius-xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+      style={{ width: "min(760px, calc(100vw - 48px))", overflowX: "auto" }}
+    >
       <ChartLegend {...args} position="top" style="default" />
       <ChartLegend {...args} position="bottom" style="compact" />
       <ChartLegend {...args} position="left" style="minimal" />

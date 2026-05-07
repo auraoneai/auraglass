@@ -42,6 +42,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
       <svg
         class="glass-border glass-border-subtle glass-radius"
         height="400"
+        style="max-width: 100%; height: auto;"
         width="800"
       >
         <g
@@ -79,7 +80,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="0"
                 y="340"
               >
-                NaN
+                -0.05
               </text>
             </g>
             <g>
@@ -97,7 +98,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="180"
                 y="340"
               >
-                NaN
+                0.225
               </text>
             </g>
             <g>
@@ -115,7 +116,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="360"
                 y="340"
               >
-                NaN
+                0.5
               </text>
             </g>
             <g>
@@ -133,7 +134,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="540"
                 y="340"
               >
-                NaN
+                0.775
               </text>
             </g>
             <g>
@@ -151,7 +152,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="720"
                 y="340"
               >
-                NaN
+                1.05
               </text>
             </g>
             <g>
@@ -169,7 +170,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="-10"
                 y="324"
               >
-                NaN
+                -0.1
               </text>
             </g>
             <g>
@@ -187,7 +188,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="-10"
                 y="244"
               >
-                NaN
+                0.2
               </text>
             </g>
             <g>
@@ -205,7 +206,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="-10"
                 y="164"
               >
-                NaN
+                0.5
               </text>
             </g>
             <g>
@@ -223,7 +224,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="-10"
                 y="84"
               >
-                NaN
+                0.8
               </text>
             </g>
             <g>
@@ -241,7 +242,7 @@ exports[`GlassAdvancedDataViz matches snapshot 1`] = `
                 x="-10"
                 y="4"
               >
-                NaN
+                1.1
               </text>
             </g>
           </g>

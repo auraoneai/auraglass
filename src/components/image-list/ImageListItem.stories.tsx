@@ -4,7 +4,7 @@ import { ImageListItem } from './ImageListItem';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ImageListItem> = {
-  title: 'Components/Image-list/ImageListItem',
+  title: 'Media/Image List Item',
   component: ImageListItem,
   parameters: {
     layout: 'centered',

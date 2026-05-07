@@ -4,7 +4,7 @@ import { GlassColorSchemeGenerator } from './GlassColorSchemeGenerator';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassColorSchemeGenerator> = {
-  title: 'Components/Interactive/GlassColorSchemeGenerator',
+  title: 'Effects + Advanced/Glass Color Scheme Generator',
   component: GlassColorSchemeGenerator,
   parameters: {
     layout: 'centered',

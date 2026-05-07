@@ -4,7 +4,7 @@ import { KpiChart } from './KpiChart';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof KpiChart> = {
-  title: 'Components/Components/KpiChart',
+  title: 'Data + Visualization/Kpi Chart',
   component: KpiChart,
   parameters: {
     layout: 'centered',

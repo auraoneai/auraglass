@@ -4,7 +4,7 @@ import { ChartFilters } from './ChartFilters';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartFilters> = {
-  title: 'Components/Components/ChartFilters',
+  title: 'Data + Visualization/Chart Filters',
   component: ChartFilters,
   parameters: {
     layout: 'centered',

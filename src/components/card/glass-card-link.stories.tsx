@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassCardLink } from './glass-card-link';
 
 const meta: Meta<typeof GlassCardLink> = {
-  title: 'Glass Components/GlassCardLink',
+  title: 'Surfaces/Cards + Panels/glass card link',
   component: GlassCardLink,
   parameters: {
     layout: 'centered',

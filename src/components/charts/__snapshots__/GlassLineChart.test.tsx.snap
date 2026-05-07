@@ -20,6 +20,7 @@ exports[`GlassLineChart matches snapshot 1`] = `
           <svg
             class="glass-overflow-visible"
             height="300"
+            style="max-width: 100%; height: auto;"
             width="600"
           >
             <g

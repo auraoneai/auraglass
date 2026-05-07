@@ -1,14 +1,29 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassMessageList } from './GlassMessageList';
-import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
+const attachmentImage =
+  `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0f172a"/>
+          <stop offset="0.6" stop-color="#2563eb"/>
+          <stop offset="1" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect width="300" height="200" fill="url(#bg)"/>
+      <circle cx="220" cy="56" r="34" fill="rgba(255,255,255,.18)"/>
+      <text x="28" y="124" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Attachment</text>
+    </svg>
+  `)}`;
+
 const meta: Meta<typeof GlassMessageList> = {
-  title: 'Components/Interactive/GlassMessageList',
+  title: 'Workflows/Glass Message List',
   component: GlassMessageList,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component: 'A glass morphism glassmessagelist component.',
@@ -44,6 +59,23 @@ const meta: Meta<typeof GlassMessageList> = {
     showTimestamps: true,
     showAvatars: true,
   },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          boxSizing: 'border-box',
+          display: 'grid',
+          minHeight: '100vh',
+          overflow: 'hidden',
+          padding: 16,
+          placeItems: 'center',
+          width: 'min(100%, calc(100vw - 64px))',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
@@ -111,7 +143,7 @@ export const WithAttachments: Story = {
         attachments: [
           {
             type: 'image',
-            url: 'https://via.placeholder.com/300x200',
+            url: attachmentImage,
             name: 'sample-image.jpg',
             size: 245760,
           },

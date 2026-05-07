@@ -186,6 +186,11 @@ export const HeaderUserMenu = forwardRef<
                             ? "text-red-300 hover:bg-red-500/10"
                             : "glass-text-primary/90 hover:glass-text-primary hover:bg-white/10"
                         )}
+                        style={{
+                          border: 0,
+                          background: "transparent",
+                          font: "inherit",
+                        }}
                       >
                         <span className="glass-inline-glass-flex glass-items-center glass-gap-3 glass-truncate">
                           {item?.icon && (
@@ -223,6 +228,12 @@ export const HeaderUserMenu = forwardRef<
                 `transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover-scale-105`,
               className
             )}
+            style={{
+              border: 0,
+              background: "transparent",
+              color: "inherit",
+              font: "inherit",
+            }}
             aria-label={user.name}
             aria-haspopup="menu"
             aria-expanded={open}

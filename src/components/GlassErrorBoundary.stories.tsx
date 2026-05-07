@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { GlassErrorBoundary as Component } from "./GlassErrorBoundary";
 
 const meta = {
-  title: "Components/misc/GlassErrorBoundary",
+  title: 'Reference/Legacy Components/Glass Error Boundary',
   component: Component,
   parameters: {
     layout: "centered",

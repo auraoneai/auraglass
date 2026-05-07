@@ -4,7 +4,7 @@ import { GlassSpotlight } from './GlassSpotlight';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassSpotlight> = {
-  title: 'Components/Interactive/GlassSpotlight',
+  title: 'Effects + Advanced/Glass Spotlight',
   component: GlassSpotlight,
   parameters: {
     layout: 'centered',

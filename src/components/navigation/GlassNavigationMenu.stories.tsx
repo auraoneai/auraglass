@@ -1,87 +1,58 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassNavigationMenu } from './GlassNavigationMenu';
-import { cn } from '../../lib/utils';
+
+const productItems = [
+  {
+    id: 'overview',
+    label: 'Overview',
+    icon: 'O',
+    description: 'Health and adoption',
+  },
+  {
+    id: 'workflows',
+    label: 'Workflows',
+    icon: 'W',
+    badge: 4,
+    children: [
+      { id: 'workflows-live', label: 'Live runs', badge: 2 },
+      { id: 'workflows-drafts', label: 'Drafts', badge: 2 },
+    ],
+  },
+  {
+    id: 'insights',
+    label: 'Insights',
+    icon: 'I',
+    featured: true,
+  },
+];
 
 const meta: Meta<typeof GlassNavigationMenu> = {
-  title: 'Components/Navigation/GlassNavigationMenu',
+  title: 'Navigation/Glass Navigation Menu',
   component: GlassNavigationMenu,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
     docs: {
       description: {
-        component: 'A glass morphism glassnavigationmenu component.',
+        component: 'Glass navigation menu presented in bounded app panels with readable active and nested states.',
       },
     },
   },
   argTypes: {
-    items: {
-      control: 'object',
-      description: 'Array of navigation items',
-    },
-    orientation: {
-      control: { type: 'select', options: ['horizontal', 'vertical'] },
-      description: 'Menu orientation',
-    },
-    variant: {
-      control: { type: 'select', options: ['default', 'sidebar', 'header'] },
-      description: 'Menu variant',
-    },
-    size: {
-      control: { type: 'select', options: ['sm', 'md', 'lg'] },
-      description: 'Size variant',
-    },
-    activeItem: {
-      control: 'text',
-      description: 'Active item ID',
-    },
-    collapsed: {
-      control: 'boolean',
-      description: 'Whether menu is collapsed',
-    },
+    items: { control: 'object', description: 'Array of navigation items' },
+    orientation: { control: { type: 'select', options: ['horizontal', 'vertical'] } },
+    variant: { control: { type: 'select', options: ['default', 'sidebar', 'header'] } },
+    size: { control: { type: 'select', options: ['sm', 'md', 'lg'] } },
+    activeItem: { control: 'text' },
+    collapsed: { control: 'boolean' },
   },
   args: {
-    items: [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        icon: '📊',
-        href: '/dashboard',
-        description: 'Overview and analytics',
-      },
-      {
-        id: 'projects',
-        label: 'Projects',
-        icon: '📁',
-        href: '/projects',
-        badge: 3,
-        children: [
-          {
-            id: 'projects-active',
-            label: 'Active Projects',
-            href: '/projects/active',
-            badge: 2,
-          },
-          {
-            id: 'projects-completed',
-            label: 'Completed',
-            href: '/projects/completed',
-            badge: 1,
-          },
-        ],
-      },
-      {
-        id: 'analytics',
-        label: 'Analytics',
-        icon: '📈',
-        href: '/analytics',
-        featured: true,
-      },
-    ],
+    items: productItems,
     orientation: 'vertical',
     variant: 'default',
     size: 'md',
-    activeItem: 'dashboard',
+    activeItem: 'overview',
     collapsed: false,
   },
 };
@@ -90,81 +61,75 @@ export default meta;
 type Story = StoryObj<typeof GlassNavigationMenu>;
 
 export const Default: Story = {
-  args: {
-    items: [
-      { id: 'home', label: 'Home', icon: '🏠', href: '/' },
-      { id: 'about', label: 'About', icon: 'ℹ️', href: '/about' },
-      { id: 'contact', label: 'Contact', icon: '📞', href: '/contact' },
-    ],
-    activeItem: 'home',
-  },
+  render: (args) => (
+    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+    <section className="glass-w-full glass-max-w-md glass-rounded-2xl glass-p-5 glass-shadow-xl" style={{ width: '100%', maxWidth: 420, background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}>
+      <div className="glass-mb-4">
+        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-secondary">
+          Product nav
+        </p>
+        <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Workspace sections</h3>
+      </div>
+      <GlassNavigationMenu {...args} className="glass-w-full glass-rounded-xl glass-p-2" />
+    </section>
+    </div>
+  ),
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="space-y-8">
-      <div>
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Default Variant</h3>
-        <GlassNavigationMenu {...args} />
-      </div>
-      <div>
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Sidebar Variant</h3>
-        <GlassNavigationMenu {...args} variant="sidebar" />
-      </div>
-      <div>
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-4">Header Variant</h3>
-        <GlassNavigationMenu {...args} variant="header" orientation="horizontal" />
-      </div>
+    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+    <div className="glass-grid glass-w-full glass-max-w-5xl glass-grid-cols-1 glass-gap-4 lg:glass-grid-cols-3" style={{ width: '100%', maxWidth: 980 }}>
+      {[
+        ['Default', 'default', 'vertical'],
+        ['Sidebar', 'sidebar', 'vertical'],
+        ['Header', 'header', 'horizontal'],
+      ].map(([label, variant, orientation]) => (
+        <section key={label} className="glass-min-w-0 glass-rounded-2xl glass-p-4 glass-shadow-lg" style={{ background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}>
+          <h3 className="glass-mb-3 glass-text-base glass-font-semibold glass-text-primary">{label}</h3>
+          <GlassNavigationMenu
+            {...args}
+            variant={variant as any}
+            orientation={orientation as any}
+            size="sm"
+            className="glass-w-full glass-rounded-xl glass-p-2"
+          />
+        </section>
+      ))}
+    </div>
     </div>
   ),
   args: {
-    items: [
-      { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-      { id: 'users', label: 'Users', icon: '👥' },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeItem: 'dashboard',
+    items: productItems,
+    activeItem: 'overview',
   },
 };
 
 export const WithNestedItems: Story = {
+  render: (args) => (
+    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+    <section className="glass-w-full glass-max-w-md glass-rounded-2xl glass-p-5 glass-shadow-xl" style={{ width: '100%', maxWidth: 420, background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}>
+      <GlassNavigationMenu {...args} className="glass-w-full glass-rounded-xl glass-p-2" />
+    </section>
+    </div>
+  ),
   args: {
-    items: [
-      {
-        id: 'products',
-        label: 'Products',
-        icon: '📦',
-        children: [
-          { id: 'products-all', label: 'All Products', href: '/products' },
-          { id: 'products-new', label: 'Add New', href: '/products/new' },
-          { id: 'products-categories', label: 'Categories', href: '/products/categories' },
-        ],
-      },
-      {
-        id: 'orders',
-        label: 'Orders',
-        icon: '🛒',
-        badge: 5,
-        children: [
-          { id: 'orders-pending', label: 'Pending', badge: 3, href: '/orders/pending' },
-          { id: 'orders-completed', label: 'Completed', badge: 12, href: '/orders/completed' },
-        ],
-      },
-      { id: 'reports', label: 'Reports', icon: '📈', featured: true },
-    ],
-    activeItem: 'products',
+    items: productItems,
+    activeItem: 'workflows',
   },
 };
 
 export const Collapsed: Story = {
+  render: (args) => (
+    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+    <section className="glass-rounded-2xl glass-p-4 glass-shadow-xl" style={{ background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}>
+      <GlassNavigationMenu {...args} className="glass-w-20 glass-rounded-xl glass-p-2" />
+    </section>
+    </div>
+  ),
   args: {
-    items: [
-      { id: 'home', label: 'Home', icon: '🏠' },
-      { id: 'search', label: 'Search', icon: '🔍' },
-      { id: 'profile', label: 'Profile', icon: '👤' },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-    ],
-    activeItem: 'home',
+    items: productItems,
+    activeItem: 'overview',
     collapsed: true,
   },
 };

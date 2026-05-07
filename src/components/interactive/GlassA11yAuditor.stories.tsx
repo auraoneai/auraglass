@@ -4,7 +4,7 @@ import { GlassA11yAuditor } from './GlassA11yAuditor';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassA11yAuditor> = {
-  title: 'Components/Interactive/GlassA11yAuditor',
+  title: 'Effects + Advanced/Glass A11y Auditor',
   component: GlassA11yAuditor,
   parameters: {
     layout: 'centered',

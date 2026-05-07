@@ -4,7 +4,7 @@ import { GlassMetricChip } from './GlassMetricChip';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassMetricChip> = {
-  title: 'Components/Data-display/GlassMetricChip',
+  title: 'Data + Visualization/Glass Metric Chip',
   component: GlassMetricChip,
   parameters: {
     layout: 'centered',

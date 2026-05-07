@@ -11,7 +11,7 @@ const componentName =
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Image/GlassImageProcessingProvider",
+  title: 'Reference/Legacy Components/Glass Image Processing Provider',
   component: Component,
   parameters: {
     layout: "centered",

@@ -48,7 +48,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
         </div>
         <span
           aria-hidden="true"
-          class="glass-px-4 glass-py-2 glass-surface-primary glass-text-primary-foreground glass-radius-lg glass-transition-colors glass-font-medium glass-inline-glass-flex"
+          class="glass-px-4 glass-py-2 glass-surface-primary glass-text-primary-foreground glass-radius-lg glass-transition-colors glass-font-medium glass-inline-flex"
         >
           Browse Files
         </span>

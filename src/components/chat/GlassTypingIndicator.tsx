@@ -141,15 +141,15 @@ export const GlassTypingIndicator = forwardRef<
       neutral: "glass-surface-subtle",
     };
 
+    const animations = {
+      bounce: `animate-bounce`,
+      pulse: `animate-pulse`,
+      wave: ``,
+      fade: `animate-pulse`,
+    };
+
     const getAnimationStyle = (index: number) => {
       const delay = index * 150;
-
-      const animations = {
-        bounce: `animate-bounce`,
-        pulse: `animate-pulse`,
-        wave: ``,
-        fade: `animate-pulse`,
-      };
 
       const styles: React.CSSProperties = {
         animationDelay: `${delay}ms`,

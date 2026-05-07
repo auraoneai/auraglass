@@ -3,7 +3,7 @@ import { ToastProvider, useToastHelpers } from './GlassToast';
 import React from 'react';
 
 const meta: Meta = {
-  title: 'Feedback/GlassToast',
+  title: 'Reference/Legacy Components/Glass Toast',
   component: ToastProvider,
   parameters: {
     layout: 'fullscreen',

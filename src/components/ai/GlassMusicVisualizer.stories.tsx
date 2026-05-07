@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassMusicVisualizer } from './GlassMusicVisualizer';
 
 const meta = {
-  title: 'Glass UI/AI/GlassMusicVisualizer',
+  title: 'AI + Intelligence/Glass Music Visualizer',
   component: GlassMusicVisualizer,
   parameters: {
     layout: 'centered',

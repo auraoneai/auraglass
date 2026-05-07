@@ -3,7 +3,7 @@ import React from 'react';
 import { PageTransitionDemo } from './PageTransitionDemo';
 
 const meta: Meta<typeof PageTransitionDemo> = {
-  title: 'Components/Interactive/PageTransitionDemo',
+  title: 'Effects + Advanced/Page Transition Demo',
   component: PageTransitionDemo,
   parameters: {
     layout: 'centered',

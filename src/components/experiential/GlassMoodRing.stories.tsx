@@ -10,7 +10,7 @@ const componentName = "GlassMoodRing" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Experiential/GlassMoodRing",
+  title: 'Reference/Legacy Components/Glass Mood Ring',
   component: Component,
   parameters: {
     layout: "centered",

@@ -4,7 +4,7 @@ import { GlassVirtualList } from './GlassVirtualList';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassVirtualList> = {
-  title: 'Components/Interactive/GlassVirtualList',
+  title: 'Effects + Advanced/Glass Virtual List',
   component: GlassVirtualList,
   parameters: {
     layout: 'centered',

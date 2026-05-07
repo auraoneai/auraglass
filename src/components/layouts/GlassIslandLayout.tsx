@@ -601,7 +601,11 @@ export const GlassIslandLayout = forwardRef<
         ref={ref}
         variant="frosted"
         className={`relative overflow-hidden ${className}`}
-        style={{ height: "600px" }}
+        style={{
+          width: "min(1120px, calc(100vw - 48px))",
+          maxWidth: "100%",
+          height: "600px",
+        }}
         {...props}
       >
         {/* Header */}
@@ -652,6 +656,7 @@ export const GlassIslandLayout = forwardRef<
           {/* Canvas for connections */}
           <canvas
             ref={canvasRef}
+            data-glass-overlay="true"
             className="glass-absolute glass-inset-0 glass-pointer-events-none"
             width={2000}
             height={2000}

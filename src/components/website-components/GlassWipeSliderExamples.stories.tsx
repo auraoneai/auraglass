@@ -1,10 +1,15 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GlassWipeSliderExamples } from './GlassWipeSliderExamples';
+import {
+  AuraOneVsScaleAIComparison,
+  GlassWipeSliderExamples,
+  PerformanceMetricsComparison,
+  PresetPositionDemo,
+} from './GlassWipeSliderExamples';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassWipeSliderExamples> = {
-  title: 'Components/Website-components/GlassWipeSliderExamples',
+  title: 'Reference/Legacy Components/Glass Wipe Slider Examples',
   component: GlassWipeSliderExamples,
   parameters: {
     layout: 'centered',
@@ -29,20 +34,21 @@ export default meta;
 type Story = StoryObj<typeof GlassWipeSliderExamples>;
 
 export const Default: Story = {
-  args: {
-    
-  },
+  render: (args: any) => (
+    <div className="glass-w-full" style={{ maxWidth: 960 }}>
+      <AuraOneVsScaleAIComparison className={args.className} />
+    </div>
+  ),
 };
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassWipeSliderExamples {...args}>
-        Default
-      </GlassWipeSliderExamples>
+    <div
+      className={cn("glass-w-full glass-auto-gap glass-auto-gap-2xl", args.className)}
+      style={{ maxWidth: 1040 }}
+    >
+      <PerformanceMetricsComparison />
+      <PresetPositionDemo />
     </div>
   ),
-  args: {
-    
-  },
 };

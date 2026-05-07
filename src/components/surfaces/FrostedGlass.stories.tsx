@@ -4,7 +4,7 @@ import FrostedGlass from './FrostedGlass';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof FrostedGlass> = {
-  title: 'Components/Surfaces/FrostedGlass',
+  title: 'Surfaces/Cards + Panels/Frosted Glass',
   component: FrostedGlass,
   parameters: {
     layout: 'centered',

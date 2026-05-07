@@ -81,6 +81,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
       className,
       id,
       required,
+      defaultChecked,
       ...props
     },
     ref
@@ -99,6 +100,11 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
 
     const isInvalid = !!error;
     const isRequired = required || false;
+    const isControlled = checked !== undefined;
+    const [internalChecked, setInternalChecked] = React.useState(
+      Boolean(defaultChecked)
+    );
+    const isChecked = isControlled ? Boolean(checked) : internalChecked;
 
     // Create accessibility attributes
     const a11yProps = createFormFieldA11y({
@@ -125,26 +131,29 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
       if (disabled || loading) return;
 
       const newChecked = event.target.checked;
+      if (!isControlled) {
+        setInternalChecked(newChecked);
+      }
       onCheckedChange?.(newChecked);
       onChange?.(event);
     };
 
     const sizeConfig = {
       sm: {
-        box: "h-4 w-4",
-        icon: "h-3 w-3",
+        box: "glass-h-4 glass-w-4",
+        icon: "glass-h-3 glass-w-3",
         text: "glass-text-xs",
         gap: "glass-gap-2",
       },
       md: {
-        box: "h-5 w-5",
-        icon: "h-4 w-4",
+        box: "glass-h-5 glass-w-5",
+        icon: "glass-h-4 glass-w-4",
         text: "glass-text-sm",
         gap: "glass-gap-3",
       },
       lg: {
-        box: "h-6 w-6",
-        icon: "h-5 w-5",
+        box: "glass-h-6 glass-w-6",
+        icon: "glass-h-5 glass-w-5",
         text: "glass-text-base",
         gap: "glass-gap-4",
       },
@@ -180,11 +189,11 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
 
     const config = sizeConfig[size];
     const colors = variantConfig[variant];
-    const isCheckedOrIndeterminate = checked || indeterminate;
+    const isCheckedOrIndeterminate = isChecked || indeterminate;
 
     const checkboxElement = (
       <div
-        className="glass-relative glass-inline-glass-flex glass-items-center"
+        className="glass-relative glass-inline-flex glass-items-center"
         data-testid={dataTestId || "glasscheckbox"}
       >
         {/* Hidden input */}
@@ -192,7 +201,8 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
           ref={ref}
           type="checkbox"
           {...a11yProps}
-          checked={checked}
+          checked={isControlled ? isChecked : undefined}
+          defaultChecked={!isControlled ? defaultChecked : undefined}
           onChange={handleChange}
           disabled={disabled || loading}
           className="glass-sr-only glass-touch-target glass-contrast-guard"
@@ -238,7 +248,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
             error && !isCheckedOrIndeterminate && "ring-2 ring-destructive/50"
           )}
           role="checkbox"
-          aria-checked={!!checked} // Ensure it's always a boolean
+          aria-checked={!!isChecked}
           aria-busy={loading || undefined}
           aria-label={
             a11yProps["aria-label"] || label || description || "checkbox"
@@ -265,10 +275,10 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
                     : "",
                   "glass-radius-full border-2 border-current border-t-transparent",
                   size === "sm"
-                    ? "w-2.5 h-2.5"
+                    ? "glass-w-2 glass-h-2"
                     : size === "md"
-                      ? "w-3 h-3"
-                      : "w-4 h-4"
+                      ? "glass-w-3 glass-h-3"
+                      : "glass-w-4 glass-h-4"
                 )}
               />
             )}
@@ -281,7 +291,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
 
             {!loading &&
               !indeterminate &&
-              checked &&
+              isChecked &&
               (checkIcon || <Check className={config.icon} strokeWidth={3} />)}
           </Motion>
         </OptimizedGlass>
@@ -362,7 +372,7 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
         {(labelPosition === "top" || labelPosition === "bottom") &&
           checkboxElement}
 
-        <div className="glass-gap-1 glass-min-glass-w-0 glass-flex-1">
+        <div className="glass-gap-1 glass-min-w-0 glass-flex-1">
           {labelElement}
           {descriptionElement}
           {errorElement}

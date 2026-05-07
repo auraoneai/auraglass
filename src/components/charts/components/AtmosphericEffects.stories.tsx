@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AtmosphericEffects } from './AtmosphericEffects';
 
 const meta: Meta<typeof AtmosphericEffects> = {
-  title: 'Components/Components/AtmosphericEffects',
+  title: 'Data + Visualization/Atmospheric Effects',
   component: AtmosphericEffects,
   parameters: {
     layout: 'centered',

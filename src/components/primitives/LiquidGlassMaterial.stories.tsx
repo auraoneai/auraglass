@@ -1,12 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import { LiquidGlassMaterial } from '../../primitives/LiquidGlassMaterial';
 
-import { cn } from '../../lib/utils';
 const meta: Meta<typeof LiquidGlassMaterial> = {
-  title: 'Primitives/LiquidGlassMaterial',
+  title: 'Foundations/Liquid Glass Primitives/Liquid Glass Material',
   component: LiquidGlassMaterial,
+  render: (args) => (
+    <MaterialStage narrow>
+      <LiquidGlassMaterial {...args} />
+    </MaterialStage>
+  ),
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
     docs: {
       description: {
         component: `
@@ -79,6 +85,36 @@ The **LiquidGlassMaterial** primitive provides Apple Liquid Glass parity+ with p
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+function MaterialStage({ children, narrow = false }: { children: ReactNode; narrow?: boolean }) {
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        width: '100%',
+        display: 'grid',
+        placeItems: 'center',
+        padding: 32,
+        boxSizing: 'border-box',
+      }}
+    >
+      <div
+        style={{
+          width: narrow ? 'min(420px, 100%)' : 'min(960px, 100%)',
+          display: 'grid',
+          gap: 20,
+          padding: 28,
+          borderRadius: 32,
+          background:
+            'linear-gradient(135deg, rgba(255,255,255,0.70), rgba(219,234,254,0.52)), radial-gradient(circle at 16% 16%, rgba(59,130,246,0.22), transparent 28%), radial-gradient(circle at 84% 76%, rgba(20,184,166,0.18), transparent 30%)',
+          boxShadow: '0 24px 80px rgba(15,23,42,0.14)',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
 export const Default: Story = {
   args: {
     ior: 1.45,
@@ -89,7 +125,9 @@ export const Default: Story = {
     environmentAdaptation: true,
     motionResponsive: true,
     interactive: false,
-    className: 'w-64 h-40 p-6',
+    radius: '2xl',
+    className: 'glass-p-6',
+    style: { width: 'min(320px, 100%)', minHeight: 180 },
     children: (
       <div className="glass-text-primary">
         <h3 className="glass-text-lg glass-font-semibold glass-mb-2">Liquid Glass</h3>
@@ -99,6 +137,11 @@ export const Default: Story = {
       </div>
     ),
   },
+  render: (args) => (
+    <MaterialStage narrow>
+      <LiquidGlassMaterial {...args} />
+    </MaterialStage>
+  ),
 };
 
 export const HighIOR: Story = {
@@ -156,7 +199,8 @@ export const Interactive: Story = {
 
 export const QualityComparison: Story = {
   render: () => (
-    <div className="glass-grid glass-glass-grid-cols-2 glass-gap-6 glass-p-6">
+    <MaterialStage>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 16 }}>
       {(['ultra', 'high', 'balanced', 'efficient'] as const).map((quality) => (
         <LiquidGlassMaterial
           key={quality}
@@ -167,7 +211,9 @@ export const QualityComparison: Story = {
           quality={quality}
           environmentAdaptation
           motionResponsive
-          className="glass-w-48 glass-h-32 glass-p-4"
+          radius="2xl"
+          className="glass-p-4"
+          style={{ minHeight: 132 }}
         >
           <div className="glass-text-primary">
             <h4 className="glass-font-medium glass-mb-1 glass-capitalize">{quality} Quality</h4>
@@ -180,13 +226,15 @@ export const QualityComparison: Story = {
           </div>
         </LiquidGlassMaterial>
       ))}
-    </div>
+      </div>
+    </MaterialStage>
   ),
 };
 
 export const MaterialVariants: Story = {
   render: () => (
-    <div className="glass-grid glass-glass-grid-cols-2 glass-gap-6 glass-p-6">
+    <MaterialStage>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 18 }}>
       <LiquidGlassMaterial
         ior={1.45}
         thickness={12}
@@ -195,7 +243,9 @@ export const MaterialVariants: Story = {
         quality="high"
         environmentAdaptation
         motionResponsive
-        className="glass-w-48 glass-h-32 glass-p-4"
+        radius="2xl"
+        className="glass-p-5"
+        style={{ minHeight: 150 }}
       >
         <div className="glass-text-primary">
           <h4 className="glass-font-medium glass-mb-1">Regular Variant</h4>
@@ -213,7 +263,9 @@ export const MaterialVariants: Story = {
         quality="high"
         environmentAdaptation
         motionResponsive
-        className="glass-w-48 glass-h-32 glass-p-4"
+        radius="2xl"
+        className="glass-p-5"
+        style={{ minHeight: 150 }}
       >
         <div className="glass-text-primary">
           <h4 className="glass-font-medium glass-mb-1">Clear Variant</h4>
@@ -222,13 +274,15 @@ export const MaterialVariants: Story = {
           </p>
         </div>
       </LiquidGlassMaterial>
-    </div>
+      </div>
+    </MaterialStage>
   ),
 };
 
 export const ColorfulTints: Story = {
   render: () => (
-    <div className="glass-grid glass-glass-grid-cols-3 glass-gap-4 glass-p-6">
+    <MaterialStage>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 14 }}>
       {[
         { name: 'Blue', tint: { r: 59, g: 130, b: 246, a: 0.12 } },
         { name: 'Green', tint: { r: 34, g: 197, b: 94, a: 0.12 } },
@@ -246,20 +300,24 @@ export const ColorfulTints: Story = {
           quality="high"
           environmentAdaptation
           motionResponsive
-          className="glass-w-32 glass-h-24 glass-p-3"
+          radius="xl"
+          className="glass-p-3"
+          style={{ minHeight: 104 }}
         >
           <div className="glass-text-primary glass-text-center">
             <h5 className="glass-text-sm glass-font-medium">{name}</h5>
           </div>
         </LiquidGlassMaterial>
       ))}
-    </div>
+      </div>
+    </MaterialStage>
   ),
 };
 
 export const ThicknessVariations: Story = {
   render: () => (
-    <div className="glass-grid glass-glass-grid-cols-4 glass-gap-4 glass-p-6">
+    <MaterialStage>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 14 }}>
       {[4, 8, 16, 32].map((thickness) => (
         <LiquidGlassMaterial
           key={thickness}
@@ -270,7 +328,9 @@ export const ThicknessVariations: Story = {
           quality="high"
           environmentAdaptation
           motionResponsive
-          className="glass-w-32 glass-h-24 glass-p-3"
+          radius="xl"
+          className="glass-p-3"
+          style={{ minHeight: 104 }}
         >
           <div className="glass-text-primary glass-text-center">
             <h5 className="glass-text-sm glass-font-medium">{thickness}px</h5>
@@ -278,14 +338,17 @@ export const ThicknessVariations: Story = {
           </div>
         </LiquidGlassMaterial>
       ))}
-    </div>
+      </div>
+    </MaterialStage>
   ),
 };
 
 export const Playground: Story = {
   args: {
     ...Default.args,
-    className: 'w-96 h-64 p-8',
+    radius: '2xl',
+    className: 'glass-p-8',
+    style: { width: 'min(420px, 100%)', minHeight: 280 },
     children: (
       <div className="glass-text-primary glass-h-full glass-flex glass-flex-col glass-justify-between">
         <div>
@@ -296,11 +359,16 @@ export const Playground: Story = {
           </p>
         </div>
         <div className="glass-text-xs opacity-60">
-          <p>🔬 Physics: Real-time IOR calculations</p>
-          <p>🌍 Adaptive: Content-aware environmental tinting</p>
-          <p>⚡ Performance: GPU-accelerated with CSS fallbacks</p>
+          <p>Physics: Real-time IOR calculations</p>
+          <p>Adaptive: Content-aware environmental tinting</p>
+          <p>Performance: GPU-accelerated with CSS fallbacks</p>
         </div>
       </div>
     ),
   },
+  render: (args) => (
+    <MaterialStage narrow>
+      <LiquidGlassMaterial {...args} />
+    </MaterialStage>
+  ),
 };

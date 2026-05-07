@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassVortexPortal } from './GlassVortexPortal';
 
 const meta = {
-  title: 'Glass UI/Immersive/GlassVortexPortal',
+  title: 'Effects + Advanced/Glass Vortex Portal',
   component: GlassVortexPortal,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { GlassBadgeLine } from './GlassBadgeLine';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassBadgeLine> = {
-  title: 'Components/Data-display/GlassBadgeLine',
+  title: 'Data + Visualization/Glass Badge Line',
   component: GlassBadgeLine,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassBadgeLine> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(640px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     className: {
       control: 'text',

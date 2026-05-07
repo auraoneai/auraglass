@@ -11,11 +11,14 @@ Start with the [Choosing AuraGlass Components](./choosing.md) guide before brows
 - Certified inventory components: 356
 - Direct component documentation coverage: 356/356, verified by `npm run audit:components`.
 - Storybook visual certification: 356/356 passed with 712 screenshots.
+- Static Storybook exhaustive QA: 1,595 public stories crawled with zero hard failures and zero audit-run errors.
 - Direct owner stories: 356/356.
 - Direct unit tests: 356/356.
 - Liquid Glass public surface: 32 root value exports plus related type exports, additive to the certified inventory.
 
 ## Section Map
+
+Storybook groups these pages by developer intent: `Start Here`, `Foundations`, `Controls`, `Navigation`, `Surfaces`, `Data + Visualization`, `Media`, `Workflows`, `AI + Intelligence`, `Effects + Advanced`, `Showcases`, `Reference`, and `Certification`. The numbered documentation sections below remain stable file-system anchors for audits and direct links.
 
 - [Accessibility System](./00-accessibility-system/): 2 pages
 - [Consciousness Interface](./01-consciousness-interface/): 5 pages

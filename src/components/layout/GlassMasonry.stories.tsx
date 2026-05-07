@@ -4,7 +4,7 @@ import { GlassMasonry } from './GlassMasonry';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassMasonry> = {
-  title: 'Components/Layout/GlassMasonry',
+  title: 'Surfaces/App Shells + Layout/Glass Masonry',
   component: GlassMasonry,
   parameters: {
     layout: 'centered',

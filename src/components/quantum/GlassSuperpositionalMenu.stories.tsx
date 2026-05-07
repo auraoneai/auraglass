@@ -131,7 +131,7 @@ const complexStates: QuantumMenuState[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Quantum/GlassSuperpositionalMenu',
+  title: 'Effects + Advanced/Glass Superpositional Menu',
   component: GlassSuperpositionalMenu,
   parameters: {
     layout: 'centered',

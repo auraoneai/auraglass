@@ -4,7 +4,7 @@ import { GlassMultiStepForm } from './GlassMultiStepForm';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassMultiStepForm> = {
-  title: 'Components/Input/GlassMultiStepForm',
+  title: 'Controls/Inputs/Glass Multi Step Form',
   component: GlassMultiStepForm,
   parameters: {
     layout: 'centered',

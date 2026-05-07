@@ -1,19 +1,18 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import * as ComponentModule from "./GlassPhysicsEngine";
-import {
-  CertificationCase,
-  type MissingComponentName,
-} from "../../stories/GlassMissingInventoryCertification.stories";
+import { type MissingComponentName } from "../../stories/GlassMissingInventoryCertification.stories";
+import { StorybookVisualShowcase } from "../advanced/StorybookVisualShowcase";
 
 const componentName = "GlassPhysicsEngine" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Effects/GlassPhysicsEngine",
+  title: 'Effects + Advanced/Glass Physics Engine',
   component: Component,
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
+    previewSurface: "media",
     docs: {
       description: {
         component:
@@ -27,5 +26,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <CertificationCase name={componentName} />,
+  render: () => <StorybookVisualShowcase name={componentName} kind="effect" />,
 };

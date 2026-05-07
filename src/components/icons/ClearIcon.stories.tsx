@@ -4,7 +4,7 @@ import { fn } from '@storybook/test';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ClearIcon> = {
-  title: 'Components/Icons/ClearIcon',
+  title: 'Reference/Legacy Components/Clear Icon',
   component: ClearIcon,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SkipLinks } from './SkipLinks';
 
 const meta: Meta<typeof SkipLinks> = {
-  title: 'Components/Focus/SkipLinks',
+  title: 'Foundations/Liquid Glass Primitives/Skip Links',
   component: SkipLinks,
   parameters: {
     layout: 'centered',

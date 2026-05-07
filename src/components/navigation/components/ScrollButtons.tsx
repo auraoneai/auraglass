@@ -1,5 +1,6 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
+import { createGlassStyle } from "../../../core/mixins/glassMixins";
 
 export interface ScrollButtonsProps {
   onScrollLeft?: () => void;
@@ -22,18 +23,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
         <button
           type="button"
           aria-label="Scroll left"
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: '32px',
-            background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-            border: 'none',
-            color: 'white',
-            cursor: 'pointer',
-            zIndex: 10,
-          }}
+          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
           onClick={onScrollLeft}
           className={`glass-focus glass-touch-target glass-contrast-guard ${className}`} // Apply className here
         >
@@ -44,18 +34,7 @@ export const ScrollButtons: React.FC<ScrollButtonsProps> = ({
         <button
           type="button"
           aria-label="Scroll right"
-          style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            width: '32px',
-            background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-            border: 'none',
-            color: 'white',
-            cursor: 'pointer',
-            zIndex: 10,
-          }}
+          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
           onClick={onScrollRight}
           className={`glass-focus glass-touch-target glass-contrast-guard ${className}`} // Apply className here
         >

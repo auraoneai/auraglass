@@ -21,11 +21,35 @@
     --glass-theme-background-surface,
     var(--glass-gradient-default)
   );
+  --glass-text-primary: var(--glass-theme-text, currentColor);
+  --glass-text-secondary: var(--glass-theme-text, currentColor);
+  --glass-text-tertiary: var(--glass-theme-text, currentColor);
   border: 2px solid var(--glass-border-default);
   box-shadow: var(--glass-theme-shadow-panel, var(--glass-elev-2));
   border-radius: var(--glass-theme-panel-radius, var(--glass-radius-lg));
   transition: var(--glass-transition);
   color: var(--glass-theme-text, var(--glass-text-primary));
+}
+
+[data-bg="light"] .glass,
+[data-bg="light"] .glass-foundation-complete,
+[data-bg="light"] .liquid-glass-material,
+.glass-on-light .glass,
+.glass-on-light .glass-foundation-complete,
+.glass-on-light .liquid-glass-material {
+  --glass-text-primary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-90)
+  );
+  --glass-text-secondary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-70)
+  );
+  --glass-text-tertiary: rgba(
+    var(--glass-color-black) / var(--glass-opacity-60)
+  );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  color: var(--glass-text-primary);
 }
 
 /* ========================================
@@ -444,13 +468,66 @@
   border-color: var(--glass-accent-info-border);
 }
 
+.glass-surface-subtle,
+.glass-surface-subtle\/5 {
+  background-color: rgba(var(--glass-color-white) / 0.05);
+  color: var(--glass-text-primary);
+}
+
+.glass-surface-subtle\/10 {
+  background-color: rgba(var(--glass-color-white) / 0.1);
+  color: var(--glass-text-primary);
+}
+
+.glass-surface-subtle\/20 {
+  background-color: rgba(var(--glass-color-white) / 0.2);
+  color: var(--glass-text-primary);
+}
+
+.glass-surface-subtle\/30 {
+  background-color: rgba(var(--glass-color-white) / 0.3);
+  color: var(--glass-text-primary);
+}
+
+.glass-surface-dark\/30 {
+  background-color: rgba(var(--glass-color-black) / 0.3);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-dark\/50 {
+  background-color: rgba(var(--glass-color-black) / 0.5);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-blue\/20,
+.glass-surface-green\/10 {
+  background-color: rgba(
+    var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.2
+  );
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-border-blue\/50 {
+  border-color: rgba(var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.5);
+}
+
 /* Neutral/light frosted surface intended for controls and pills.
    Enforces dark text tokens to avoid white-on-white contrast issues. */
 .glass-surface-secondary,
 .glass-surface-neutral {
   background: var(--glass-gradient-neutral);
   border-color: var(--glass-border-subtle);
-  /* Override text tokens for this subtree to ensure readability */
+  color: var(--glass-theme-text, var(--glass-text-primary));
+}
+
+/* Override text tokens for neutral/light frosted surfaces in light contexts.
+   Dark mode keeps the dark theme text tokens so tinted surfaces stay readable. */
+:root:not([data-theme="dark"]) .glass-surface-secondary,
+:root:not([data-theme="dark"]) .glass-surface-neutral,
+[data-theme="light"] .glass-surface-secondary,
+[data-theme="light"] .glass-surface-neutral,
+.glass-on-light.glass-surface-secondary,
+.glass-on-light.glass-surface-neutral {
   --glass-text-primary: rgba(
     var(--glass-color-black) / var(--glass-opacity-90)
   );
@@ -464,6 +541,10 @@
   --glass-text-disabled: rgba(
     var(--glass-color-black) / var(--glass-opacity-40)
   );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
   color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
@@ -474,6 +555,55 @@
 
 .glass-text-secondary {
   color: var(--glass-text-secondary) !important;
+}
+
+:is(.glass, .glass-foundation-complete, .optimized-glass-surface)
+  :is(select, input, textarea):is([class*="glass-"]) {
+  background-color: rgba(15, 23, 42, 0.78);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+  border-color: rgba(var(--glass-color-white) / 0.24);
+}
+
+:is(.glass, .glass-foundation-complete, .optimized-glass-surface)
+  :is(select, input, textarea):is([class*="glass-"])
+  option {
+  background-color: rgb(15, 23, 42);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.liquid-glass-range {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 10px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(14, 165, 233, 0.95), rgba(34, 211, 238, 0.72)),
+    rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  box-shadow:
+    inset 0 1px 3px rgba(15, 23, 42, 0.16),
+    0 1px 0 rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+}
+
+.liquid-glass-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #38bdf8;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.45);
+}
+
+.liquid-glass-range::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: #38bdf8;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.45);
 }
 
 .glass-on-light {
@@ -490,6 +620,10 @@
   --glass-text-disabled: rgba(
     var(--glass-color-black) / var(--glass-opacity-40)
   );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
   color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
@@ -507,6 +641,36 @@
   --glass-text-disabled: rgba(
     var(--glass-color-white) / var(--glass-opacity-40)
   );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
+  color: var(--glass-theme-text, var(--glass-text-primary));
+}
+
+/* Persona glass surfaces use a dark translucent panel even in light previews.
+   Keep their local text tokens light while the page surface remains dark text. */
+[data-bg="light"] .glass-foundation-complete,
+[data-bg="light"] .optimized-glass-surface,
+.glass-on-light .glass-foundation-complete,
+.glass-on-light .optimized-glass-surface {
+  --glass-text-primary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+  --glass-theme-text: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+  --glass-text-secondary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-80)
+  );
+  --glass-text-tertiary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
+  --glass-text-disabled: rgba(
+    var(--glass-color-white) / var(--glass-opacity-40)
+  );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
   color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
@@ -525,6 +689,10 @@
   --glass-text-disabled: rgba(
     var(--glass-color-black) / var(--glass-opacity-40)
   );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
   color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
@@ -542,6 +710,10 @@
   --glass-text-disabled: rgba(
     var(--glass-color-white) / var(--glass-opacity-40)
   );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  --typography-text-disabled: var(--glass-text-disabled);
   color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
@@ -1418,6 +1590,24 @@
   min-width: var(--glass-touch-target-lg);
 }
 
+.glass-sr-only.glass-touch-target,
+.sr-only.glass-touch-target,
+.glass-sr-only.glass-touch-target-sm,
+.sr-only.glass-touch-target-sm,
+.glass-sr-only.glass-touch-target-md,
+.sr-only.glass-touch-target-md,
+.glass-sr-only.glass-touch-target-lg,
+.sr-only.glass-touch-target-lg {
+  min-width: 1px;
+  min-height: 1px;
+}
+
+span.glass-touch-target,
+svg.glass-touch-target {
+  min-width: 0;
+  min-height: 0;
+}
+
 /* ========================================
    CONTAINER UTILITIES
    ======================================== */
@@ -1631,6 +1821,9 @@
 .glass-inline-flex {
   display: inline-flex;
 }
+.glass-inline-glass-block {
+  display: inline-block;
+}
 .glass-grid {
   display: grid;
 }
@@ -1647,6 +1840,16 @@
 }
 .glass-flex-wrap {
   flex-wrap: wrap;
+}
+.glass-flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+.glass-stepper,
+.glass-stepper *,
+.glass-tabs,
+.glass-tabs * {
+  box-sizing: border-box;
 }
 
 /* Alignment */
@@ -1943,6 +2146,20 @@
 /* Surface overlay */
 .glass-surface-overlay {
   background: var(--glass-overlay-bg);
+  --glass-text-primary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-95)
+  );
+  --glass-theme-text: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+  --glass-text-secondary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-80)
+  );
+  --glass-text-tertiary: rgba(
+    var(--glass-color-white) / var(--glass-opacity-60)
+  );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  color: var(--glass-theme-text, var(--glass-text-primary));
 }
 
 /* Transparent background */
@@ -2220,7 +2437,9 @@
   }
 }
 
-@supports not ((backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))) {
+@supports not (
+  (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0))
+) {
   .glass,
   .glass-foundation-complete,
   .glass-foundation-basic,
@@ -2557,8 +2776,10 @@
 
 .liquid-glass-effect-group-morph > [data-liquid-glass-material="true"] {
   transition:
-    border-radius var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing),
-    transform var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing),
+    border-radius var(--liquid-glass-source-transition-duration)
+      var(--liquid-glass-source-transition-easing),
+    transform var(--liquid-glass-source-transition-duration)
+      var(--liquid-glass-source-transition-easing),
     opacity 160ms ease;
 }
 
@@ -2575,7 +2796,9 @@
 }
 
 .liquid-glass-transition-active {
-  animation: liquid-glass-source-pop var(--liquid-glass-source-transition-duration) var(--liquid-glass-source-transition-easing);
+  animation: liquid-glass-source-pop
+    var(--liquid-glass-source-transition-duration)
+    var(--liquid-glass-source-transition-easing);
 }
 
 .liquid-glass-transition-reduced-motion {

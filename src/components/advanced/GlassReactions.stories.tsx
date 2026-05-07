@@ -1,19 +1,18 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import * as ComponentModule from "./GlassReactions";
-import {
-  CertificationCase,
-  type MissingComponentName,
-} from "../../stories/GlassMissingInventoryCertification.stories";
+import { type MissingComponentName } from "../../stories/GlassMissingInventoryCertification.stories";
+import { StorybookVisualShowcase } from "./StorybookVisualShowcase";
 
 const componentName = "GlassReactions" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Advanced/GlassReactions",
+  title: 'Effects + Advanced/Glass Reactions',
   component: Component,
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
+    previewSurface: "media",
     docs: {
       description: {
         component:
@@ -27,5 +26,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: () => <CertificationCase name={componentName} />,
+  render: () => <StorybookVisualShowcase name={componentName} kind="advanced" />,
 };

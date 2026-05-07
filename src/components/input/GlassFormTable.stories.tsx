@@ -1,67 +1,50 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassFormTable } from './GlassFormTable';
-import { cn } from '../../lib/utils';
-import { fn } from '@storybook/test';
+import { useState } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { GlassFormTable } from "./GlassFormTable";
 
-interface User {
+interface TeamMember {
   name: string;
   email: string;
   role: string;
 }
 
-interface SimpleUser {
-  firstName: string;
-  lastName: string;
-}
+const columns = [
+  { key: "name" as const, header: "Name" },
+  { key: "email" as const, header: "Email" },
+  { key: "role" as const, header: "Role" },
+];
 
-const meta: Meta<typeof GlassFormTable<User>> = {
-  title: 'Components/Input/GlassFormTable',
+const meta: Meta<typeof GlassFormTable<TeamMember>> = {
+  title: 'Controls/Inputs/Glass Form Table',
   component: GlassFormTable,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glassformtable component.',
+        component:
+          "An editable glass form table for compact structured data entry.",
       },
     },
   },
-  argTypes: {},
-  args: {},
 };
 
 export default meta;
-type Story = StoryObj<typeof GlassFormTable<User>>;
+type Story = StoryObj<typeof GlassFormTable<TeamMember>>;
 
-export const Default: Story = {
-  args: {
-    columns: [
-      { key: 'name' as keyof User, header: 'Name' },
-      { key: 'email' as keyof User, header: 'Email' },
-      { key: 'role' as keyof User, header: 'Role' }
-    ],
-    rows: [
-      { name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-      { name: 'Jane Smith', email: 'jane@example.com', role: 'User' }
-    ],
-    onChange: fn(),
-  },
+const TableFrame = () => {
+  const [rows, setRows] = useState<TeamMember[]>([
+    { name: "Avery Stone", email: "avery@auraglass.dev", role: "Owner" },
+    { name: "Mina Chen", email: "mina@auraglass.dev", role: "Reviewer" },
+  ]);
+
+  return (
+    <div className="glass-w-[min(820px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
+      <GlassFormTable columns={columns} rows={rows} onChange={setRows} />
+    </div>
+  );
 };
 
-export const Variants: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassFormTable {...args} />
-    </div>
-  ),
-  args: {
-    columns: [
-      { key: 'name' as keyof User, header: 'Name' },
-      { key: 'email' as keyof User, header: 'Email' }
-    ],
-    rows: [
-      { name: 'Alice Johnson', email: 'alice@example.com', role: 'User' }
-    ],
-    onChange: fn(),
-  },
+export const Default: Story = {
+  render: () => <TableFrame />,
 };

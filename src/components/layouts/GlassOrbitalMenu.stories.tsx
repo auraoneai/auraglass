@@ -83,7 +83,7 @@ const customCenterElement = (
 );
 
 const meta = {
-  title: 'Glass UI/Layouts/GlassOrbitalMenu',
+  title: 'Surfaces/App Shells + Layout/Glass Orbital Menu',
   component: GlassOrbitalMenu,
   parameters: {
     layout: 'centered',

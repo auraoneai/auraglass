@@ -808,7 +808,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 {(title || description || showCloseButton) && (
                   <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
                     <div className="glass-flex glass-items-start glass-justify-between">
-                      <div className="glass-flex-1 glass-min-glass-w-0">
+                      <div className="glass-flex-1 glass-min-w-0">
                         {title && (
                           <h2
                             id={titleId}
@@ -893,7 +893,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 {(title || description || showCloseButton) && (
                   <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
                     <div className="glass-flex glass-items-start glass-justify-between">
-                      <div className="glass-flex-1 glass-min-glass-w-0">
+                      <div className="glass-flex-1 glass-min-w-0">
                         {title && (
                           <h2
                             id={titleId}

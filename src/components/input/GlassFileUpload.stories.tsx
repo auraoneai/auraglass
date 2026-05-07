@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { GlassFileUpload as Component } from "./GlassFileUpload";
 
 const meta = {
-  title: "Components/Input/GlassFileUpload",
+  title: 'Controls/Inputs/Glass File Upload',
   component: Component,
   parameters: {
     layout: "centered",

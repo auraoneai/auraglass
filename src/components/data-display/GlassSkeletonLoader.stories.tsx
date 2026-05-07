@@ -4,7 +4,7 @@ import { GlassSkeletonLoader, GlassSkeletonText } from './GlassSkeletonLoader';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSkeletonLoader> = {
-  title: 'Components/Data-display/GlassSkeletonLoader',
+  title: 'Data + Visualization/Glass Skeleton Loader',
   component: GlassSkeletonLoader,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassSkeletonLoader> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(760px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     loading: {
       control: 'boolean',
@@ -52,7 +62,7 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 max-w-4xl">
+    <div className="glass-grid glass-grid-cols-3 glass-gap-6">
       <div className="glass-text-center">
         <h3 className="glass-text-sm glass-font-semibold glass-mb-4">Pulse</h3>
         <GlassSkeletonLoader {...args} variant="pulse" />
@@ -118,7 +128,7 @@ export const WithChildren: Story = {
 // Stories for GlassSkeletonText
 export const SkeletonText: Story = {
   render: (args) => (
-    <div className="glass-gap-4 max-w-md">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-2">Single Line</h4>
         <GlassSkeletonText lines={1} />
@@ -147,7 +157,7 @@ export const SkeletonText: Story = {
 
 export const SkeletonTextVariants: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 max-w-4xl">
+    <div className="glass-grid glass-grid-cols-2 glass-gap-6">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-3">Title Skeleton</h4>
         <GlassSkeletonText lines={1} />

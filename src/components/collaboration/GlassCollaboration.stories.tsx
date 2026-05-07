@@ -7,9 +7,17 @@ import { GlassCollaborationDashboard } from './GlassCollaborationDashboard';
 import { Glass } from '../../primitives';
 
 const meta: Meta = {
-  title: 'Collaboration/GlassCollaboration',
+  title: 'Workflows/Glass Collaboration',
+  decorators: [
+    (Story) => (
+      <CollaborationStoryFrame>
+        <Story />
+      </CollaborationStoryFrame>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
+    previewSurface: 'app',
     docs: {
       description: {
         component: 'Complete real-time collaboration system with live cursors, comments, user presence, and activity tracking - like Google Docs, Figma, or Miro.',
@@ -20,6 +28,25 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj;
+
+const CollaborationStoryFrame: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div
+    className="glass-collaboration-story-frame"
+    style={{
+      width: '100%',
+      height: '100dvh',
+      maxHeight: '100vh',
+      minHeight: 0,
+      minWidth: 0,
+      boxSizing: 'border-box',
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      color: 'inherit',
+    }}
+  >
+    {children}
+  </div>
+);
 
 // Bridge component to set current user via context with stable hook order
 const CurrentUserBridge: React.FC<{ user: CollaborationUser | null }> = ({ user }) => {
@@ -303,20 +330,46 @@ export const MultipleUsers: Story = {
     ];
 
     return (
-      <div className="glass-space-y-4">
-        <div className="glass-surface-subtle glass-p-4 glass-radius-lg">
-          <h3 className="glass-font-semibold glass-text-primary glass-mb-2">Switch User Perspective</h3>
-          <div className="glass-flex glass-gap-2">
+      <div
+        className="glass-collaboration-multiple-users glass-space-y-4"
+        style={{ maxWidth: "100vw", overflowX: "hidden" }}
+      >
+        <div
+          className="glass-collaboration-user-switch glass-surface-overlay glass-border glass-border-subtle glass-p-4 glass-radius-lg"
+          style={{
+            background: "rgba(255, 255, 255, 0.88)",
+            borderColor: "rgba(15, 23, 42, 0.16)",
+            color: "#0f172a",
+          }}
+        >
+          <h3
+            className="glass-collaboration-user-switch-title glass-font-semibold glass-mb-2"
+            style={{ color: "#0f172a" }}
+          >
+            Switch User Perspective
+          </h3>
+          <div className="glass-flex glass-flex-wrap glass-gap-2">
             {demoUsers.map(user => (
               <button
                 key={user.id}
                 onClick={() => setSelectedUser(user)}
-                className={`px-3 py-2 rounded text-sm ${
-                  selectedUser?.id === user.id
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-blue-600 hover:bg-blue-100'
+                className={`glass-collaboration-user-switch-button glass-px-3 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-focus glass-touch-target glass-contrast-guard ${
+                  selectedUser?.id === user.id ? "is-selected" : ""
                 }`}
-                style={{ borderColor: user.color }}
+                style={{
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  border: `1px solid ${user.color}`,
+                  background:
+                    selectedUser?.id === user.id
+                      ? "linear-gradient(135deg, rgba(29, 78, 216, 0.95), rgba(13, 148, 136, 0.95))"
+                      : "rgba(255,255,255,0.62)",
+                  color: selectedUser?.id === user.id ? "#fff" : "#0f172a",
+                  boxShadow:
+                    selectedUser?.id === user.id
+                      ? "0 8px 22px rgba(37,99,235,0.22)"
+                      : "inset 0 1px 0 rgba(255,255,255,0.72)",
+                }}
               >
                 {user.name}
               </button>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -81,7 +81,7 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
                 it.disabled && "opacity-50 cursor-not-allowed"
               )}
             >
-              <span className="glass-inline-glass-flex glass-items-center glass-gap-2">
+              <span className="glass-inline-flex glass-items-center glass-gap-2">
                 {it.icon}
                 {it.label}
                 {it.shortcut && (

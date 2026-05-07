@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { Star, Heart, ThumbsUp } from 'lucide-react';
 
 const meta: Meta<typeof ToggleButton> = {
-  title: 'Components/Toggle-button/ToggleButton',
+  title: 'Reference/Legacy Components/Toggle Button',
   component: ToggleButton,
   parameters: {
     layout: 'centered',

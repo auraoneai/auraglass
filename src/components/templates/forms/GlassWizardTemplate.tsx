@@ -425,8 +425,14 @@ export const GlassWizardTemplate = forwardRef<
 
         case "sidebar":
           return (
-            <div className="glass-grid glass-grid-cols-12 glass-gap-8">
-              <div className="glass-col-span-4">
+            <div
+              className="glass-grid glass-gap-6"
+              style={{
+                gridTemplateColumns:
+                  "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
+              }}
+            >
+              <div className="glass-min-w-0">
                 <Glass className="glass-p-6 glass-sticky glass-top-8">
                   <VStack space="md">
                     <h3 className="glass-font-semibold glass-text-primary">
@@ -438,7 +444,7 @@ export const GlassWizardTemplate = forwardRef<
                           key={step.id}
                           onClick={(e) => handleStepClick(index)}
                           className={cn(
-                            "text-left glass-p-3 glass-radius-lg transition-colors",
+                            "glass-w-full text-left glass-p-3 glass-radius-lg transition-colors",
                             index === currentStep
                               ? "bg-primary/10 text-primary border border-primary/20"
                               : completedSteps.has(index)
@@ -462,7 +468,7 @@ export const GlassWizardTemplate = forwardRef<
                   </VStack>
                 </Glass>
               </div>
-              <div className="glass-col-span-8">
+              <div className="glass-min-w-0">
                 <GlassCard variant="default" className="glass-p-6">
                   {content}
                 </GlassCard>

@@ -3,7 +3,7 @@ import { ARGlassEffects } from './ARGlassEffects';
 
 import { cn } from '../../lib/utils';
 const meta: Meta<typeof ARGlassEffects> = {
-  title: 'AR/ARGlassEffects',
+  title: 'Effects + Advanced/ARGlass Effects',
   component: ARGlassEffects,
   parameters: {
     layout: 'fullscreen',

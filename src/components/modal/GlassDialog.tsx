@@ -645,7 +645,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
               {/* Header */}
               {(header || title || description || showCloseButton) && (
                 <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10">
-                  <div className="glass-flex-1 glass-min-glass-w-0">
+                  <div className="glass-flex-1 glass-min-w-0">
                     {header || (
                       <>
                         {title && (
@@ -730,7 +730,7 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
               {/* Header */}
               {(header || title || description || showCloseButton) && (
                 <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10">
-                  <div className="glass-flex-1 glass-min-glass-w-0">
+                  <div className="glass-flex-1 glass-min-w-0">
                     {header || (
                       <>
                         {title && (

@@ -4,7 +4,7 @@ import { GlassBadge } from './GlassBadge';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassBadge> = {
-  title: 'Components/Data-display/GlassBadge',
+  title: 'Data + Visualization/Glass Badge',
   component: GlassBadge,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassBadge> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-flex-wrap glass-items-center glass-gap-3 glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(520px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     className: {
       control: 'text',

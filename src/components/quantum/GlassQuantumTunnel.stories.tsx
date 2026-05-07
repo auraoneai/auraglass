@@ -112,7 +112,7 @@ const complexSystem: QuantumState[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Quantum/GlassQuantumTunnel',
+  title: 'Effects + Advanced/Glass Quantum Tunnel',
   component: GlassQuantumTunnel,
   parameters: {
     layout: 'centered',

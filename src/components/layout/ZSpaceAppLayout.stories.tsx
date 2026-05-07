@@ -10,7 +10,7 @@ const componentName = "ZSpaceAppLayout" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Layout/ZSpaceAppLayout",
+  title: 'Surfaces/App Shells + Layout/ZSpace App Layout',
   component: Component,
   parameters: {
     layout: "centered",

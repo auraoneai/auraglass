@@ -4,7 +4,7 @@ import { GlassCommentThread } from './GlassCommentThread';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassCommentThread> = {
-  title: 'Components/Interactive/GlassCommentThread',
+  title: 'Workflows/Glass Comment Thread',
   component: GlassCommentThread,
   parameters: {
     layout: 'centered',

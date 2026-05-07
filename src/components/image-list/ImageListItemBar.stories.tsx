@@ -4,7 +4,7 @@ import { ImageListItemBar } from './ImageListItemBar';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ImageListItemBar> = {
-  title: 'Components/Image-list/ImageListItemBar',
+  title: 'Media/Image List Item Bar',
   component: ImageListItemBar,
   parameters: {
     layout: 'centered',

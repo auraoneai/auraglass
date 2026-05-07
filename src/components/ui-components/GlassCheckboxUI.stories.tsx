@@ -1,10 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Checkbox as GlassCheckboxUI } from './GlassCheckboxUI';
-import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassCheckboxUI> = {
-  title: 'Components/Ui-components/GlassCheckboxUI',
+  title: 'Controls/Inputs/Glass Checkbox UI',
   component: GlassCheckboxUI,
   parameters: {
     layout: 'centered',
@@ -36,10 +35,10 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassCheckboxUI {...args}>
-        Default
-      </GlassCheckboxUI>
+    <div className="glass-grid glass-gap-3">
+      <GlassCheckboxUI {...args} label="Default" />
+      <GlassCheckboxUI {...args} label="Checked" defaultChecked />
+      <GlassCheckboxUI {...args} label="Disabled" disabled />
     </div>
   ),
   args: {

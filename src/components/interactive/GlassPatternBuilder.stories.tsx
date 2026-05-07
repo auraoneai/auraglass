@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassPatternBuilder } from './GlassPatternBuilder';
 
 const meta = {
-  title: 'Glass UI/Interactive/GlassPatternBuilder',
+  title: 'Effects + Advanced/Glass Pattern Builder',
   component: GlassPatternBuilder,
   parameters: {
     layout: 'fullscreen',

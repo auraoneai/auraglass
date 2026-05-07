@@ -9,6 +9,8 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 - Liquid Glass public surface: 32 value exports plus related type exports from the root package entrypoint.
 - Visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
 - Certification screenshots: 712 desktop/mobile captures in [reports/glassmorphism-storybook-visual-certification/screenshots](../reports/glassmorphism-storybook-visual-certification/screenshots)
+- Static Storybook exhaustive QA: 1,595 stories, zero hard failures, zero audit-run errors in [reports/storybook-exhaustive-qa.md](../reports/storybook-exhaustive-qa.md)
+- Storybook taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
 - Component selection guide: [docs/components/choosing.md](./components/choosing.md)
 - Component audit command: `npm run audit:components`
 
@@ -16,6 +18,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 
 - [Root README](../README.md): package overview, install, API entrypoints, architecture, verification, and release workflow.
 - [Component selection guide](./components/choosing.md): developer and AI-agent decision tree for choosing the right AuraGlass family without scanning every export.
+- [Storybook configuration guide](../.storybook/README.md): preview surfaces, taxonomy, maintenance rules, and QA gates.
 - [Installation guide](../INSTALLATION.md): peer dependencies, setup flows, SSR setup, and troubleshooting.
 - [3.0 release notes](../RELEASE_NOTES_3.0.0.md): public release highlights and verified gates.
 - [Component documentation](./components/readme.md): organized index for every component page.

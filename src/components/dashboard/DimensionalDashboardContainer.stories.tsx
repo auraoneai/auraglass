@@ -11,7 +11,7 @@ const componentName =
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Dashboard/DimensionalDashboardContainer",
+  title: 'Reference/Legacy Components/Dimensional Dashboard Container',
   component: Component,
   parameters: {
     layout: "centered",

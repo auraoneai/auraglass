@@ -326,8 +326,12 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
   // Handle video error
   const handleError = useCallback(() => {
     setIsLoading(false);
+    if (poster && sources.every((source) => source.src.startsWith("data:"))) {
+      setError(null);
+      return;
+    }
     setError("Failed to load video");
-  }, []);
+  }, [poster, sources]);
 
   // Skip forward/backward
   const handleSkip = useCallback(
@@ -428,7 +432,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
 
             {/* Controls Overlay */}
             {controls && showControls && (
-              <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary">
+              <div className="glass-absolute glass-inset-0 glass-bg-gradient-to-b glass-from-black/45 glass-via-transparent glass-to-black/70">
                 {/* Top Bar */}
                 <div className="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-flex glass-justify-between glass-items-center">
                   {title && (
@@ -445,7 +449,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                       <GlassButton
                         variant="ghost"
                         size="sm"
-                        onClick={(e) => setIsTheaterMode(!isTheaterMode)}
+                        onClick={() => setIsTheaterMode(!isTheaterMode)}
                         className="glass-text-primary"
                         aria-label={
                           isTheaterMode
@@ -464,7 +468,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                     <GlassButton
                       variant="ghost"
                       size="sm"
-                      onClick={(e) => setShowSettings(!showSettings)}
+                      onClick={() => setShowSettings(!showSettings)}
                       className="glass-text-primary"
                       aria-label="Video settings"
                     >
@@ -475,11 +479,11 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
 
                 {/* Center Controls */}
                 <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
-                  <div className="glass-flex glass-items-center glass-gap-4 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity">
+                  <div className="glass-flex glass-items-center glass-gap-3 sm:glass-gap-4 glass-transition-opacity sm:glass-opacity-0 sm:glass-group-glass-hover-opacity-100">
                     <GlassButton
                       variant="secondary"
                       size="lg"
-                      onClick={(e) => handleSkip(-10)}
+                      onClick={() => handleSkip(-10)}
                       className="glass-p-3"
                       aria-label="Rewind 10 seconds"
                     >
@@ -503,7 +507,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                     <GlassButton
                       variant="secondary"
                       size="lg"
-                      onClick={(e) => handleSkip(10)}
+                      onClick={() => handleSkip(10)}
                       className="glass-p-3"
                       aria-label="Forward 10 seconds"
                     >
@@ -528,8 +532,8 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                   </div>
 
                   {/* Control Buttons */}
-                  <div className="glass-flex glass-items-center glass-justify-between">
-                    <div className="glass-flex glass-items-center glass-gap-4">
+                  <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3">
+                    <div className="glass-flex glass-min-w-0 glass-flex-wrap glass-items-center glass-gap-2 sm:glass-gap-4">
                       <GlassButton
                         variant="ghost"
                         size="sm"
@@ -563,7 +567,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                           )}
                         </GlassButton>
 
-                        <div className="glass-w-20 glass-h-1 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer">
+                        <div className="glass-hidden glass-h-1 glass-w-20 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer sm:glass-block">
                           <div
                             className="glass-h-full glass-surface-subtle glass-radius-full"
                             style={{ width: `${isMuted ? 0 : volume * 100}%` }}
@@ -571,13 +575,13 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                         </div>
                       </div>
 
-                      <span className="glass-text-primary glass-text-sm">
+                      <span className="glass-whitespace-nowrap glass-text-primary glass-text-sm">
                         {formatTime(currentTime)} / {formatTime(duration)}
                       </span>
                     </div>
 
-                    <div className="glass-flex glass-items-center glass-gap-2">
-                      <span className="glass-text-primary glass-text-sm">
+                    <div className="glass-flex glass-shrink-0 glass-items-center glass-gap-2">
+                      <span className="glass-whitespace-nowrap glass-text-primary glass-text-sm">
                         {playbackSpeed}x
                       </span>
 

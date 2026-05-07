@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { div } from './div';
 
 const meta: Meta<typeof div> = {
-  title: 'Glass Components/div',
+  title: 'Surfaces/Cards + Panels/div',
   component: div,
   parameters: {
     layout: 'centered',

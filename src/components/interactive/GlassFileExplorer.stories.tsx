@@ -4,7 +4,7 @@ import { GlassFileExplorer } from './GlassFileExplorer';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassFileExplorer> = {
-  title: 'Components/Interactive/GlassFileExplorer',
+  title: 'Effects + Advanced/Glass File Explorer',
   component: GlassFileExplorer,
   parameters: {
     layout: 'centered',

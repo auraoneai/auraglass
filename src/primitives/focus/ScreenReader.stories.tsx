@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ScreenReader } from './ScreenReader';
 
 const meta: Meta<typeof ScreenReader> = {
-  title: 'Components/Focus/ScreenReader',
+  title: 'Foundations/Liquid Glass Primitives/Screen Reader',
   component: ScreenReader,
   parameters: {
     layout: 'centered',

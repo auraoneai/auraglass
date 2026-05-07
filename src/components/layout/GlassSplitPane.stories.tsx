@@ -4,7 +4,7 @@ import { GlassSplitPane } from './GlassSplitPane';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSplitPane> = {
-  title: 'Components/Layout/GlassSplitPane',
+  title: 'Surfaces/App Shells + Layout/Glass Split Pane',
   component: GlassSplitPane,
   parameters: {
     layout: 'centered',

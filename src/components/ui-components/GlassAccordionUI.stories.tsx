@@ -4,7 +4,7 @@ import { GlassAccordion as GlassAccordionUI } from '../data-display/GlassAccordi
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAccordionUI> = {
-  title: 'Components/Ui-components/GlassAccordionUI',
+  title: 'Controls/Inputs/Glass Accordion UI',
   component: GlassAccordionUI,
   parameters: {
     layout: 'centered',

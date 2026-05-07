@@ -4,7 +4,7 @@ import { TreeView } from './TreeView';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof TreeView> = {
-  title: 'Components/Tree-view/TreeView',
+  title: 'Controls/Inputs/Tree View',
   component: TreeView,
   parameters: {
     layout: 'centered',

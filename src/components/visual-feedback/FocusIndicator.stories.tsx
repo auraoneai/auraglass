@@ -4,7 +4,7 @@ import FocusIndicator from './FocusIndicator';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof FocusIndicator> = {
-  title: 'Components/Visual-feedback/FocusIndicator',
+  title: 'Controls/Inputs/Focus Indicator',
   component: FocusIndicator,
   parameters: {
     layout: 'centered',

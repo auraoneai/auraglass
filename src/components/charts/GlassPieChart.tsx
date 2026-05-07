@@ -9,6 +9,25 @@ import {
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : fallback;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const getSegmentColor = (
+  explicitColor: string | undefined,
+  colors: string[],
+  index: number
+) =>
+  explicitColor ||
+  colors[index % Math.max(1, colors.length)] ||
+  "var(--glass-color-primary)";
+
 export interface PieDataPoint {
   label: string;
   value: number;
@@ -146,12 +165,24 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
         return { segments: [], total: 0 };
       }
 
-      const total = data?.reduce((sum, item) => sum + item?.value, 0);
+      const sanitizedData = data
+        .map((item, index) => ({
+          ...item,
+          label: item?.label || `Segment ${index + 1}`,
+          value: Math.max(0, toFiniteNumber(item?.value)),
+        }))
+        .filter((item) => item.value > 0);
+
+      const total = sanitizedData.reduce((sum, item) => sum + item.value, 0);
+      if (!Number.isFinite(total) || total <= 0) {
+        return { segments: [], total: 0 };
+      }
+
       let currentAngle = -Math.PI / 2; // Start from top
 
-      const segments = data?.map((item, index) => {
-        const percentage = (item?.value / total) * 100;
-        const angle = (item?.value / total) * 2 * Math.PI;
+      const segments = sanitizedData.map((item, index) => {
+        const percentage = (item.value / total) * 100;
+        const angle = (item.value / total) * 2 * Math.PI;
         const startAngle = currentAngle;
         const endAngle = currentAngle + angle;
 
@@ -192,8 +223,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
           endAngle,
           labelX,
           labelY,
-          color:
-            item?.color || actualColors[index % (actualColors?.length || 0)],
+          color: getSegmentColor(item?.color, actualColors, index),
         };
       });
 
@@ -282,6 +312,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                   width={size}
                   height={size}
                   className="glass-overflow-visible"
+                  style={{ maxWidth: "100%", height: "auto" }}
                 >
                   {/* Segments */}
                   {processedData.segments.map((segment, index) => (

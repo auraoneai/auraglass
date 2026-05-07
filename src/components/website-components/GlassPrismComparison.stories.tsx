@@ -4,7 +4,7 @@ import { GlassPrismComparison } from './GlassPrismComparison';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassPrismComparison> = {
-  title: 'Components/Website-components/GlassPrismComparison',
+  title: 'Reference/Legacy Components/Glass Prism Comparison',
   component: GlassPrismComparison,
   parameters: {
     layout: 'centered',

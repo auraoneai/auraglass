@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassQueryBuilder> = {
-  title: 'Components/Interactive/GlassQueryBuilder',
+  title: 'Workflows/Glass Query Builder',
   component: GlassQueryBuilder,
   parameters: {
     layout: 'centered',

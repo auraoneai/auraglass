@@ -149,20 +149,20 @@ export const GlassCheckboxItem = forwardRef<
 
     const sizeConfig = {
       sm: {
-        checkbox: "w-4 h-4",
-        check: "w-2 h-2",
+        checkbox: "glass-w-4 glass-h-4",
+        check: "glass-w-2 glass-h-2",
         text: "glass-text-xs",
         gap: "glass-gap-2",
       },
       md: {
-        checkbox: "w-5 h-5",
-        check: "w-2.5 h-2.5",
+        checkbox: "glass-w-5 glass-h-5",
+        check: "glass-w-2 glass-h-2",
         text: "glass-text-sm",
         gap: "glass-gap-3",
       },
       lg: {
-        checkbox: "w-6 h-6",
-        check: "w-3 h-3",
+        checkbox: "glass-w-6 glass-h-6",
+        check: "glass-w-3 glass-h-3",
         text: "glass-text-base",
         gap: "glass-gap-4",
       },
@@ -320,7 +320,7 @@ export const GlassCheckboxItem = forwardRef<
               >
                 {indeterminate ? (
                   // Indeterminate indicator (horizontal line)
-                  <div className='glass-w-2 glass-h-0-5 glass-bg-transparent glass-radius-full' />
+                  <div className="glass-w-2 glass-h-0-5 glass-bg-transparent glass-radius-full" />
                 ) : (
                   // Check mark
                   <svg
@@ -341,12 +341,12 @@ export const GlassCheckboxItem = forwardRef<
             )}
 
             {/* Inner glow effect */}
-            <div className='glass-absolute glass-inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary' />
+            <div className="glass-absolute glass-inset-0 glass-radius-md glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary" />
           </OptimizedGlass>
         </Motion>
 
         {/* Content */}
-        <div className="glass-flex-1 glass-min-glass-w-0">{children}</div>
+        <div className="glass-flex-1 glass-min-w-0">{children}</div>
 
         {/* Hidden input for form submission */}
         <input
@@ -356,7 +356,7 @@ export const GlassCheckboxItem = forwardRef<
           checked={isSelected}
           onChange={() => {}} // Handled by onClick
           disabled={isDisabled}
-          className='glass-sr-only'
+          className="glass-sr-only"
           tabIndex={-1}
         />
       </OptimizedGlass>
@@ -566,7 +566,7 @@ export const GlassCheckboxGroup = forwardRef<
                         {option.icon}
                       </div>
                     )}
-                    <div className="glass-flex-1 glass-min-glass-w-0">
+                    <div className="glass-flex-1 glass-min-w-0">
                       <div
                         className={cn(
                           "font-medium text-foreground",

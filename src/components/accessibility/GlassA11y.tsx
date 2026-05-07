@@ -59,6 +59,7 @@ export interface GlassA11yProps {
   onConfigChange?: (config: GlassA11yConfig) => void;
   enableTesting?: boolean;
   position?: "fixed" | "relative";
+  defaultOpen?: boolean;
   "aria-label"?: string;
   "data-testid"?: string;
 }
@@ -123,6 +124,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
       onConfigChange,
       enableTesting = true,
       position = "fixed",
+      defaultOpen = false,
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
     },
@@ -134,7 +136,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
       defaultAccessibilityConfig
     );
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [activeTab, setActiveTab] = useState<string>("overview");
     const [testResults, setTestResults] = useState<GlassA11yTestResult[]>([]);
     const [isRunningTests, setIsRunningTests] = useState(false);
@@ -389,6 +391,10 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                     !isHighContrast,
                 }
               )}
+              style={{
+                width: "min(24rem, calc(100vw - 2rem))",
+                maxHeight: "min(80vh, 42rem)",
+              }}
             >
               {/* Header */}
               <div className="glass-p-6 glass-border-b glass-border-white/10">

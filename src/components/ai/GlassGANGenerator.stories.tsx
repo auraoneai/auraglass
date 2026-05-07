@@ -65,7 +65,7 @@ const mockGANModels: GANModel[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/AI/GlassGANGenerator',
+  title: 'AI + Intelligence/Glass GANGenerator',
   component: GlassGANGenerator,
   parameters: {
     layout: 'centered',

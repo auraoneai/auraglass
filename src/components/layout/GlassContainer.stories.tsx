@@ -7,7 +7,7 @@ import {
 } from './GlassContainer';
 
 const meta: Meta<typeof GlassContainer> = {
-  title: 'Components/Layout/GlassContainer',
+  title: 'Surfaces/App Shells + Layout/Glass Container',
   component: GlassContainer,
   parameters: {
     layout: 'centered',

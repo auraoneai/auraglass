@@ -10,7 +10,7 @@ const componentName = "HoudiniGlassCard" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Houdini/HoudiniGlassCard",
+  title: 'Effects + Advanced/Houdini Glass Card',
   component: Component,
   parameters: {
     layout: "centered",

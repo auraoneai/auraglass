@@ -9,6 +9,7 @@ import { GlassCard } from "../card/GlassCard";
 import { GlassBadge } from "../data-display/GlassBadge";
 import { GlassTextArea } from "../input/GlassInput";
 import { GlassSelect } from "../input/GlassSelect";
+import { GlassCheckbox } from "../input/GlassCheckbox";
 
 export interface FormField {
   id: string;
@@ -426,22 +427,15 @@ export const GlassFormBuilder = forwardRef<
 
         case "checkbox":
           return (
-            <label className="glass-flex glass-items-center glass-gap-3 glass-cursor-pointer">
-              <GlassInput
-                type="checkbox"
-                id={field.id}
-                checked={Boolean(value)}
-                onChange={(e) => handleValueChange(field.id, e.target.checked)}
-                disabled={isDisabled}
-                className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
-              />
-              <span className={cn("font-medium", sizeClasses[size])}>
-                {field.label}
-                {field.required && (
-                  <span className="glass-text-danger glass-ml-1">*</span>
-                )}
-              </span>
-            </label>
+            <GlassCheckbox
+              id={field.id}
+              label={field.label}
+              checked={Boolean(value)}
+              onChange={(e) => handleValueChange(field.id, e.target.checked)}
+              disabled={isDisabled}
+              required={field.required}
+              size={size === "lg" ? "lg" : size === "sm" ? "sm" : "md"}
+            />
           );
 
         case "radio":

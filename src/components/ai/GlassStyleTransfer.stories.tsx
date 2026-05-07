@@ -53,7 +53,7 @@ const mockStyleModels: StyleModel[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/AI/GlassStyleTransfer',
+  title: 'AI + Intelligence/Glass Style Transfer',
   component: GlassStyleTransfer,
   parameters: {
     layout: 'centered',

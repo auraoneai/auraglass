@@ -10,7 +10,7 @@ const componentName = "GlassARPreview" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Immersive/GlassARPreview",
+  title: 'Effects + Advanced/Glass ARPreview',
   component: Component,
   parameters: {
     layout: "centered",

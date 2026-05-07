@@ -1,6 +1,6 @@
 # API Surface Audit
 
-Generated: 2026-05-06T18:27:19.846Z
+Generated: 2026-05-07T16:45:40.155Z
 
 ## Summary
 

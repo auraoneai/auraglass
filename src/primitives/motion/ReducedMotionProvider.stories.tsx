@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ReducedMotionProvider from './ReducedMotionProvider';
 
 const meta: Meta<typeof ReducedMotionProvider> = {
-  title: 'Components/Motion/ReducedMotionProvider',
+  title: 'Foundations/Liquid Glass Primitives/Reduced Motion Provider',
   component: ReducedMotionProvider,
   parameters: {
     layout: 'centered',

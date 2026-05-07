@@ -1,84 +1,48 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { createGlassStyle } from '../core/mixins/glassMixins';
 
-const WidgetsGallery: React.FC = () => {
-  return (
-    <div style={{ 
-      padding: '2rem',
-      background: 'radial-gradient(circle at 20% 50%, #120E43 0%, #0A0A0A 50%, #1A1A2E 100%)',
-      minHeight: '100vh',
-      color: 'white'
-    }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Widgets Components</h1>
-      <div style={{ 
-        display: 'grid', 
-        gap: '1.5rem', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' 
-      }}>
-        
-          <div style={createGlassStyle({ intent: "neutral", elevation: "level2" })}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>ChartWidget</h3>
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.8 }}>
-              Components/Widgets/ChartWidget
-            </p>
-            <div style={{ 
-              fontFamily: 'monospace', 
-              fontSize: '0.75rem', 
-              opacity: 0.6,
-              background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-              padding: '0.5rem',
-              borderRadius: '4px'
-            }}>
-              src/components/templates/dashboard/widgets/ChartWidget.stories.tsx
-            </div>
-          </div>
-        
-          <div style={createGlassStyle({ intent: "neutral", elevation: "level2" })}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>MetricWidget</h3>
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.8 }}>
-              Components/Widgets/MetricWidget
-            </p>
-            <div style={{ 
-              fontFamily: 'monospace', 
-              fontSize: '0.75rem', 
-              opacity: 0.6,
-              background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-              padding: '0.5rem',
-              borderRadius: '4px'
-            }}>
-              src/components/templates/dashboard/widgets/MetricWidget.stories.tsx
-            </div>
-          </div>
-        
-          <div style={createGlassStyle({ intent: "neutral", elevation: "level2" })}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>TableWidget</h3>
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.8 }}>
-              Components/Widgets/TableWidget
-            </p>
-            <div style={{ 
-              fontFamily: 'monospace', 
-              fontSize: '0.75rem', 
-              opacity: 0.6,
-              background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-              padding: '0.5rem',
-              borderRadius: '4px'
-            }}>
-              src/components/templates/dashboard/widgets/TableWidget.stories.tsx
-            </div>
-          </div>
-        
-      </div>
-    </div>
-  );
+const widgets = [
+  ['MetricWidget', 'KPI cards with trend, status, and compact comparison states.'],
+  ['ChartWidget', 'Dashboard chart container for line, bar, and area snapshots.'],
+  ['TableWidget', 'Dense table card with sortable-looking rows and readable values.'],
+];
+
+const WidgetsGallery = () => (
+  <main style={styles.page}>
+    <section style={styles.header}>
+      <span style={styles.kicker}>Dashboard Templates</span>
+      <h1 style={styles.title}>Widgets Gallery</h1>
+      <p style={styles.copy}>Reusable widgets are shown as dashboard-ready cards with stable heights and readable content density.</p>
+    </section>
+    <section style={styles.grid}>
+      {widgets.map(([name, description], index) => (
+        <article key={name} style={styles.card}>
+          <div style={styles.metric}>{index === 0 ? '+12.8%' : index === 1 ? '6 series' : '24 rows'}</div>
+          <h2 style={styles.cardTitle}>{name}</h2>
+          <p style={styles.cardCopy}>{description}</p>
+        </article>
+      ))}
+    </section>
+  </main>
+);
+
+const styles: Record<string, React.CSSProperties> = {
+  page: { minHeight: '100dvh', padding: 32, boxSizing: 'border-box', color: '#0f172a', background: 'linear-gradient(135deg, #f8fafc 0%, #e0f2fe 48%, #ecfdf5 100%)' },
+  header: { maxWidth: 1040, margin: '0 auto 24px', display: 'grid', gap: 8 },
+  kicker: { color: '#047857', fontWeight: 800, fontSize: 12, letterSpacing: 0, textTransform: 'uppercase' },
+  title: { margin: 0, fontSize: 34, lineHeight: 1.1, letterSpacing: 0 },
+  copy: { margin: 0, color: '#334155', fontSize: 16 },
+  grid: { maxWidth: 1040, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 },
+  card: { minHeight: 180, padding: 20, borderRadius: 8, border: '1px solid rgba(15,23,42,0.12)', background: 'rgba(255,255,255,0.72)', boxShadow: '0 16px 42px rgba(15,23,42,0.10)', display: 'grid', alignContent: 'start', gap: 10 },
+  metric: { width: 'fit-content', borderRadius: 6, padding: '6px 10px', background: 'rgba(14,165,233,0.14)', color: '#075985', fontWeight: 800, fontSize: 13 },
+  cardTitle: { margin: 0, fontSize: 19 },
+  cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
 };
 
 const meta: Meta<typeof WidgetsGallery> = {
-  title: 'Categories/Widgets',
+  title: 'Reference/Category Galleries/Widgets Gallery',
   component: WidgetsGallery,
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen', previewSurface: 'app' },
 };
 
 export default meta;

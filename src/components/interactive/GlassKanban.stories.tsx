@@ -4,7 +4,7 @@ import { GlassKanban } from './GlassKanban';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassKanban> = {
-  title: 'Components/Interactive/GlassKanban',
+  title: 'Workflows/Glass Kanban',
   component: GlassKanban,
   parameters: {
     layout: 'centered',

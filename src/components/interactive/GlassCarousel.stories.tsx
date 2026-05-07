@@ -4,7 +4,7 @@ import { GlassCarousel } from './GlassCarousel';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassCarousel> = {
-  title: 'Components/Interactive/GlassCarousel',
+  title: 'Effects + Advanced/Glass Carousel',
   component: GlassCarousel,
   parameters: {
     layout: 'centered',

@@ -480,11 +480,11 @@ export const GlassSharedWhiteboard = forwardRef<
           {showToolbar && !readOnly && (
             <div
               className={`
-              flex items-center justify-between p-3 rounded-lg
+              flex items-center justify-between p-3 rounded-lg glass-flex-wrap glass-gap-3
               ${createGlassStyle({ variant: "default" })}
             `}
             >
-              <div className="glass-flex glass-items-center glass-space-x-4">
+              <div className="glass-flex glass-items-center glass-flex-wrap glass-gap-3">
                 {/* Tools */}
                 <div className="glass-flex glass-space-x-2">
                   {tools.map((tool) => (
@@ -555,7 +555,7 @@ export const GlassSharedWhiteboard = forwardRef<
               </div>
 
               {/* Actions */}
-              <div className="glass-flex glass-items-center glass-space-x-2">
+              <div className="glass-flex glass-items-center glass-flex-wrap glass-gap-2">
                 {showUndoRedo && (
                   <>
                     <button

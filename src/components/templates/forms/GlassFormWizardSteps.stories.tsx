@@ -4,7 +4,7 @@ import { GlassFormWizardSteps } from './GlassFormWizardSteps';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof GlassFormWizardSteps> = {
-  title: 'Components/Forms/GlassFormWizardSteps',
+  title: 'Workflows/Glass Form Wizard Steps',
   component: GlassFormWizardSteps,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { GlassScrollArea } from './GlassScrollArea';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassScrollArea> = {
-  title: 'Components/Layout/GlassScrollArea',
+  title: 'Surfaces/App Shells + Layout/Glass Scroll Area',
   component: GlassScrollArea,
   parameters: {
     layout: 'centered',

@@ -950,10 +950,7 @@ export const GlassStressResponsive = forwardRef<
         shouldAnimate
           ? {
               duration: ANIMATION.DURATION.slower / 1000 / motionSpeed,
-              ease:
-                currentStressLevel > 0.7
-                  ? ANIMATION.EASING.easeOut
-                  : ANIMATION.EASING.easeInOut,
+              ease: currentStressLevel > 0.7 ? "easeOut" : "easeInOut",
             }
           : {}
       }

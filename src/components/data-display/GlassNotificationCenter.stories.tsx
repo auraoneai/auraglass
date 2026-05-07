@@ -10,7 +10,7 @@ import {
 } from './GlassNotificationCenter';
 
 const meta: Meta<typeof GlassNotificationCenter> = {
-  title: 'Components/Data-Display/GlassNotificationCenter',
+  title: 'Data + Visualization/Glass Notification Center',
   component: GlassNotificationCenter,
   parameters: {
     layout: 'centered',
@@ -100,12 +100,12 @@ const NotificationDemo = ({ position }: { position: any }) => {
 
   return (
     <div className="glass-gap-4">
-      <div className="glass-text-center mb-6">
+      <div className="glass-text-center glass-mb-6">
         <h3 className="glass-text-lg glass-font-semibold glass-mb-2">Notification Center Demo</h3>
         <p className="glass-text-sm opacity-80">Click the buttons below to trigger different types of notifications.</p>
       </div>
 
-      <div className="glass-grid glass-glass-grid-cols-2 md:glass-glass-grid-cols-3 glass-gap-3 max-w-md glass-mx-auto">
+      <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-3 glass-gap-3 glass-mx-auto">
         <GlassButton onClick={showSuccess} variant="success" size="sm">
           Success
         </GlassButton>
@@ -141,13 +141,13 @@ export const Default: Story = {
 
 export const Positions: Story = {
   render: (args) => (
-    <div className="space-y-8">
+    <div className="glass-stack glass-stack-lg">
       <div className="glass-text-center">
         <h3 className="glass-text-lg glass-font-semibold glass-mb-2">Notification Positions</h3>
         <p className="glass-text-sm opacity-80">Try different positions for the notification center.</p>
       </div>
 
-      <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 lg:glass-glass-grid-cols-3 glass-gap-6">
+      <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-6">
         {(['top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center'] as const).map((position) => (
           <div key={position} className="glass-border glass-border-white/20 glass-radius-lg glass-p-4">
             <h4 className="glass-text-sm glass-font-medium glass-mb-3 glass-capitalize glass-text-center">{position.replace('-', ' ')}</h4>

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -51,7 +51,7 @@ export const GlassTabs = forwardRef<HTMLDivElement, GlassTabsProps>(
       activationMode = "automatic",
       className,
       children,
-      'aria-label': ariaLabel,
+      "aria-label": ariaLabel,
       ...props
     },
     ref
@@ -223,8 +223,10 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
         animation="none"
         performanceMode="medium"
         className={cn(
-          "inline-flex items-center justify-start",
-          orientation === "horizontal" ? "flex-row" : "flex-col",
+          "max-w-full items-center justify-start",
+          orientation === "horizontal"
+            ? "flex flex-row overflow-x-auto overflow-y-hidden"
+            : "inline-flex flex-col overflow-y-auto",
           variantStyles[variant],
           variant === "pills" ? "rounded-2xl" : "glass-radius-xl",
           className
@@ -234,9 +236,9 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
       >
         {variant === ("underline" as typeof variant) &&
           orientation === "horizontal" && (
-            <div className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5'>
+            <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5">
               <div
-                className='glass-absolute glass-h-full glass-surface-primary glass-transition-all glass-duration-200'
+                className="glass-absolute glass-h-full glass-surface-primary glass-transition-all glass-duration-200"
                 style={{ left: ink.left, width: ink.width }}
               />
             </div>
@@ -253,15 +255,17 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
               node as any;
         }}
         className={cn(
-          "inline-flex items-center justify-start",
-          orientation === "horizontal" ? "flex-row" : "flex-col",
+          "max-w-full items-center justify-start",
+          orientation === "horizontal"
+            ? "flex flex-row overflow-x-auto overflow-y-hidden"
+            : "inline-flex flex-col overflow-y-auto",
           variantStyles[variant],
           className
         )}
         {...(commonA11y as any)}
         {...props}
       >
-        <div className='glass-relative glass-w-full' />
+        <div className="glass-relative glass-w-full" />
         {children}
       </div>
     );
@@ -351,7 +355,7 @@ export const GlassTabsTrigger = forwardRef<
     };
 
     const baseStyles = cn(
-      "inline-flex items-center justify-center glass-gap-2",
+      "inline-flex min-w-max max-w-full flex-shrink-0 items-center justify-center glass-gap-2",
       "whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2",
       "glass-text-sm font-medium transition-all duration-200",
       "focus-visible:outline-none focus-visible:ring-2",
@@ -404,7 +408,10 @@ export const GlassTabsTrigger = forwardRef<
     };
 
     return (
-      <Motion preset="scaleIn" className='glass-relative'>
+      <Motion
+        preset="scaleIn"
+        className="glass-relative glass-inline-glass-block glass-flex-shrink-0"
+      >
         <GlassButton
           ref={(node: any) => {
             if (typeof ref === "function") ref(node);
@@ -426,9 +433,11 @@ export const GlassTabsTrigger = forwardRef<
           onKeyDown={handleKeyDown}
           {...buttonProps}
         >
-          {icon && <span className='glass-shrink-0'>{icon}</span>}
+          {icon && <span className="glass-shrink-0">{icon}</span>}
 
-          {children && <span className='glass-truncate'>{children}</span>}
+          {children && (
+            <span className="glass-min-w-0 glass-truncate">{children}</span>
+          )}
 
           {badge && (
             <span
@@ -447,7 +456,7 @@ export const GlassTabsTrigger = forwardRef<
           {variant === ("underline" as typeof variant) && isSelected && (
             <Motion
               preset="slideUp"
-              className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5 glass-surface-primary'
+              className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-h-0-5 glass-surface-primary"
             />
           )}
         </GlassButton>

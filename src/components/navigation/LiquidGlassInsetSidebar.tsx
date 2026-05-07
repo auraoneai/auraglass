@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef } from "react";
+import React, { forwardRef, type CSSProperties } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 import { LiquidGlassScrollEdge } from "../../primitives/LiquidGlassScrollEdge";
@@ -26,7 +26,19 @@ export interface LiquidGlassInsetSidebarProps
   materialVariant?: "regular" | "clear";
 }
 
-export const LiquidGlassInsetSidebar = forwardRef<HTMLElement, LiquidGlassInsetSidebarProps>(
+const sidebarButtonStyle = (selected: boolean): CSSProperties => ({
+  border: 0,
+  background: selected ? "rgba(59, 130, 246, 0.14)" : "transparent",
+  color: "inherit",
+  cursor: "pointer",
+  font: "inherit",
+  width: "100%",
+});
+
+export const LiquidGlassInsetSidebar = forwardRef<
+  HTMLElement,
+  LiquidGlassInsetSidebarProps
+>(
   (
     {
       items,
@@ -55,9 +67,19 @@ export const LiquidGlassInsetSidebar = forwardRef<HTMLElement, LiquidGlassInsetS
       data-background-extension={backgroundExtension ? "true" : "false"}
       {...props}
     >
-      <LiquidGlassMaterial material="liquid" variant={materialVariant} radius="2xl" className="glass-h-full">
-        {scrollEdge && <LiquidGlassScrollEdge edge="top" styleMode={scrollEdge} active />}
-        <nav aria-label={props["aria-label"] || "Sidebar"} className="glass-flex glass-flex-col glass-gap-1 glass-p-2">
+      <LiquidGlassMaterial
+        material="liquid"
+        variant={materialVariant}
+        radius="2xl"
+        className="glass-h-full"
+      >
+        {scrollEdge && (
+          <LiquidGlassScrollEdge edge="top" styleMode={scrollEdge} active />
+        )}
+        <nav
+          aria-label={props["aria-label"] || "Sidebar"}
+          className="glass-flex glass-flex-col glass-gap-1 glass-p-2"
+        >
           {items.map((item) => {
             const selected = item.id === selectedId;
             return (
@@ -71,16 +93,25 @@ export const LiquidGlassInsetSidebar = forwardRef<HTMLElement, LiquidGlassInsetS
                   "glass-flex glass-items-center glass-gap-2 glass-radius-lg glass-px-3 glass-py-2 glass-text-left",
                   selected && "glass-surface-primary glass-text-primary"
                 )}
+                style={sidebarButtonStyle(selected)}
                 onClick={() => onSelect?.(item.id)}
               >
                 {item.icon}
-                {!collapsed && <span className="glass-min-w-0 glass-flex-1 glass-truncate">{item.label}</span>}
-                {!collapsed && item.badge && <span className="glass-text-xs">{item.badge}</span>}
+                {!collapsed && (
+                  <span className="glass-min-w-0 glass-flex-1 glass-truncate">
+                    {item.label}
+                  </span>
+                )}
+                {!collapsed && item.badge && (
+                  <span className="glass-text-xs">{item.badge}</span>
+                )}
               </button>
             );
           })}
         </nav>
-        {!collapsible && <span className="glass-sr-only">Sidebar is fixed</span>}
+        {!collapsible && (
+          <span className="glass-sr-only">Sidebar is fixed</span>
+        )}
       </LiquidGlassMaterial>
     </aside>
   )

@@ -6,7 +6,7 @@ import {
 } from './GlassWizardTemplate';
 
 const meta: Meta<typeof GlassWizardTemplate> = {
-  title: 'Components/Forms/GlassWizardTemplate',
+  title: 'Workflows/Glass Wizard Template',
   component: GlassWizardTemplate,
   parameters: {
     layout: 'centered',

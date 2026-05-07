@@ -15,7 +15,7 @@ import {
 } from './GlassDropdownMenu';
 
 const meta: Meta<typeof GlassDropdownMenu> = {
-  title: 'Components/Navigation/GlassDropdownMenu',
+  title: 'Navigation/Glass Dropdown Menu',
   component: GlassDropdownMenu,
   parameters: {
     layout: 'centered',

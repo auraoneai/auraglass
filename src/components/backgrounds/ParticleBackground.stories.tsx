@@ -1,16 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import ParticleBackground from './ParticleBackground';
-import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ParticleBackground> = {
-  title: 'Components/Backgrounds/ParticleBackground',
+  title: 'Effects + Advanced/Particle Background',
   component: ParticleBackground,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'media',
     docs: {
       description: {
-        component: 'A glass morphism particlebackground component.',
+        component: 'Animated particle background shown behind readable media content.',
       },
     },
   },
@@ -26,23 +26,56 @@ export default meta;
 type Story = StoryObj<typeof ParticleBackground>;
 
 export const Default: Story = {
-  args: {
-    children: (
-      <div className="glass-p-4 glass-text-center">
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">ParticleBackground</h3>
-        <p className="glass-text-sm opacity-80">This is the default particlebackground component.</p>
+  render: (args) => (
+    <ParticleBackground
+      {...args}
+      className="glass-w-full glass-p-6 glass-flex glass-items-center glass-justify-center"
+      style={{ minHeight: 'min(100vh, 760px)' }}
+    >
+      <div className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md">
+        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70">
+          Background layer
+        </p>
+        <h1 className="glass-mt-2 glass-text-3xl glass-font-semibold">
+          Signal processing monitor
+        </h1>
+        <div
+          className="glass-mt-6 glass-grid glass-gap-4"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
+          }}
+        >
+          {['Nodes', 'Throughput', 'Noise'].map((label, index) => (
+            <div key={label} className="glass-rounded-xl glass-bg-white/15 glass-p-4">
+              <p className="glass-text-sm glass-text-white/70">{label}</p>
+              <div className="glass-mt-2 glass-text-2xl glass-font-semibold">
+                {['48', '6.8gb', 'Low'][index]}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    ),
+    </ParticleBackground>
+  ),
+  args: {
+    children: null,
   },
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <ParticleBackground {...args}>
-        Default
-      </ParticleBackground>
-    </div>
+    <ParticleBackground
+      {...args}
+      className="glass-w-full glass-p-8 glass-flex glass-items-end glass-justify-center"
+      style={{ minHeight: 'min(100vh, 760px)' }}
+    >
+      <div className="glass-w-full glass-max-w-4xl glass-rounded-2xl glass-bg-white/15 glass-p-6 glass-text-white glass-backdrop-blur-md">
+        <h2 className="glass-text-xl glass-font-semibold">Media surface variant</h2>
+        <p className="glass-mt-2 glass-text-sm glass-text-white/75">
+          The particle field is constrained to the viewport with readable foreground content.
+        </p>
+      </div>
+    </ParticleBackground>
   ),
   args: {
     children: null,

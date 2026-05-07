@@ -10,7 +10,7 @@ const componentName = "SpatialComputingEngine" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Spatial/SpatialComputingEngine",
+  title: 'Reference/Legacy Components/Spatial Computing Engine',
   component: Component,
   parameters: {
     layout: "centered",

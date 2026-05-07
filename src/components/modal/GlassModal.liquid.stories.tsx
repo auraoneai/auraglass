@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { GlassButton } from '../button/GlassButton';
 
 const meta: Meta<typeof GlassModal> = {
-  title: 'Components/GlassModal/Liquid Glass',
+  title: 'Surfaces/Modals/Liquid Glass Modal',
   component: GlassModal,
   parameters: {
     layout: 'centered',

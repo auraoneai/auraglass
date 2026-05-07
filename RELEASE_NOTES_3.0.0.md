@@ -9,6 +9,8 @@ AuraGlass 3.0.0 is the public platform relaunch from the old `2.16.2` npm packag
 - Preserved 356-component certified inventory with complete direct Storybook, docs, unit-test, accessibility metadata, and visual certification coverage.
 - Added `docs/components/choosing.md` so developers and AI agents can select components by product job instead of being overwhelmed by a flat component list.
 - Storybook visual certification refreshed with 356/356 passed entries and 712 desktop/mobile screenshots.
+- Storybook navigation reorganized into developer-intent taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
+- Static Storybook exhaustive QA crawled 1,595 stories across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes with zero hard failures and zero audit-run errors.
 - React 18 and React 19 consumer validation through Next 14 and Next 15 tarball smoke tests.
 - npm package pipeline modernized around public access, provenance configuration, `prepublishOnly`, pack verification, worker packaging, bundle-size checks, and no bundled React runtime.
 - Public export/API/runtime audits added and checked in under `reports/`, including export coverage, API type debt, runtime cleanliness, breaking-change review, manual QA checklist, and visual certification evidence.
@@ -18,12 +20,15 @@ AuraGlass 3.0.0 is the public platform relaunch from the old `2.16.2` npm packag
 ## Verified Release Gates
 
 - `npm run typecheck -- --pretty false`
+- `npm run audit:components`
 - `npm run audit:exports && npm run audit:api && npm run audit:runtime`
-- `npm run check:perf`
-- `npm publish --dry-run --provenance --access public`
-- `npm run ci -- --silent`
+- `npm run build`
+- `npm run verify:pack`
 - `npm run build-storybook`
 - `npm pack --dry-run --json`
+- `npm publish --dry-run --provenance --access public`
+
+The publish dry run completed `prepublishOnly`, including the Next 14 / React 18 and Next 15 / React 19 Playwright smoke tests, then npm rejected the final publish step because `aura-glass@3.0.0` is already published and immutable.
 
 ## Current Evidence
 
@@ -31,14 +36,15 @@ AuraGlass 3.0.0 is the public platform relaunch from the old `2.16.2` npm packag
 - Liquid Glass public value exports: 32.
 - Public root exports audited: 797.
 - Runtime cleanliness findings: 0.
-- CI result: 401 suites, 2132 tests, 339 snapshots passed.
-- Storybook build: Storybook 9.1.20, 4267 modules transformed, output in `storybook-static`.
+- Static Storybook exhaustive QA: 1,595 stories, 0 hard failures, 0 audit-run errors.
+- Storybook build: Storybook 9.1.20, 4271 modules transformed, output in `storybook-static`.
 - Tarball: `aura-glass-3.0.0.tgz`.
-- Packed size: `7596069`.
-- Unpacked size: `40397720`.
-- Entry count: 2002.
+- Packed size: `7680206`.
+- Unpacked size: `40843210`.
+- Entry count: 2005.
 - Bundled dependencies: none.
-- Tarball shasum: `07909a8189be2c1ac821b0edbd35e6325cb7d457`.
+- Local dry-run tarball shasum: `563bb5922d50560b9ed4be9176f22cab0e8b98d7`.
+- Published npm `3.0.0` shasum: `16e96215091488dffeeb2f2a1de2281934c24b71`.
 
 ## Install
 

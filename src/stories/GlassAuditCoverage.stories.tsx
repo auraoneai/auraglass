@@ -290,7 +290,7 @@ const GlassAuditCoverage: React.FC = () => (
 );
 
 const meta: Meta<typeof GlassAuditCoverage> = {
-  title: "Audits/Glassmorphism Coverage",
+  title: 'Certification/Glass Audit Coverage',
   component: GlassAuditCoverage,
   parameters: {
     layout: "fullscreen",

@@ -44,7 +44,7 @@ type PluginArgs = {
 };
 
 const meta: Meta = {
-  title: 'Components/Plugins/GalileoElementInteractionPlugin',
+  title: 'Data + Visualization/Galileo Element Interaction Plugin',
   parameters: {
     layout: 'centered',
     docs: {

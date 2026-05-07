@@ -10,7 +10,7 @@ const componentName = "GlassDepthLayer" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Surfaces/GlassDepthLayer",
+  title: 'Surfaces/Cards + Panels/Glass Depth Layer',
   component: Component,
   parameters: {
     layout: "centered",

@@ -9,7 +9,7 @@ import {
 } from './GlassAnimatedNumber';
 
 const meta: Meta<typeof GlassAnimatedNumber> = {
-  title: 'Components/Data-Display/GlassAnimatedNumber',
+  title: 'Data + Visualization/Glass Animated Number',
   component: GlassAnimatedNumber,
   parameters: {
     layout: 'centered',
@@ -74,7 +74,7 @@ export const Default: Story = {
 
 export const WithPrefixSuffix: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 max-w-4xl">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
       <GlassCard>
         <div className="glass-p-6 glass-text-center">
           <GlassAnimatedNumber {...args} value={42.5} prefix="$" suffix="K" decimals={1} />
@@ -109,7 +109,7 @@ export const WithPrefixSuffix: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 max-w-6xl">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6">
       <GlassCard>
         <div className="glass-p-6 glass-text-center">
           <h4 className="glass-text-sm glass-font-medium glass-mb-4">Count Variant</h4>
@@ -137,7 +137,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-col glass-items-center space-y-6">
+    <div className="glass-flex glass-flex-col glass-items-center glass-stack glass-stack-md">
       <div className="glass-text-center">
         <GlassAnimatedNumber {...args} size="sm" value={1234} />
         <p className="glass-text-xs opacity-80 glass-mt-1">Small</p>
@@ -182,7 +182,7 @@ export const InteractiveDemo: Story = {
 
     return (
       <GlassCard>
-        <div className="glass-p-8 glass-text-center space-y-6">
+        <div className="glass-p-8 glass-text-center glass-stack glass-stack-md">
           <div>
             <GlassAnimatedNumber
               {...args}
@@ -213,7 +213,7 @@ export const InteractiveDemo: Story = {
 
 export const AnimatedCounter: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 max-w-4xl">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
       <GlassCard>
         <div className="glass-p-6 glass-text-center">
           <h4 className="glass-text-sm glass-font-medium glass-mb-4">Simple Counter</h4>
@@ -236,7 +236,7 @@ export const AnimatedCounter: Story = {
 
 export const AnimatedStat: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 max-w-6xl">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6">
       <GlassCard>
         <div className="glass-p-6 glass-text-center">
           <GlassAnimatedStat
@@ -270,7 +270,7 @@ export const AnimatedStat: Story = {
 
 export const DashboardExample: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-4 glass-gap-6 max-w-7xl">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-4 glass-gap-6">
       <GlassCard>
         <div className="glass-p-6 glass-text-center">
           <div className="glass-text-2xl glass-mb-2">📊</div>

@@ -4,7 +4,7 @@ import { GlassDataGridPro } from './GlassDataGridPro';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassDataGridPro> = {
-  title: 'Components/Data-display/GlassDataGridPro',
+  title: 'Data + Visualization/Glass Data Grid Pro',
   component: GlassDataGridPro,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassDataGridPro> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(900px, calc(100vw - 64px))", overflowX: "auto" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     density: {
       control: { type: 'select' },

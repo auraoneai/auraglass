@@ -10,7 +10,7 @@ const componentName = "GlassColorWheel" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Interactive/GlassColorWheel",
+  title: 'Effects + Advanced/Glass Color Wheel',
   component: Component,
   parameters: {
     layout: "centered",

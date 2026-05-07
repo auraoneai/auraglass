@@ -1,42 +1,24 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassStepLabel } from './GlassStepLabel';
-import { cn } from '../../lib/utils';
+import type { Meta, StoryObj } from "@storybook/react";
+import { GlassStepLabel } from "./GlassStepLabel";
 
 const meta: Meta<typeof GlassStepLabel> = {
-  title: 'Components/Input/GlassStepLabel',
+  title: 'Controls/Inputs/Glass Step Label',
   component: GlassStepLabel,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glasssteplabel component.',
+        component:
+          "The stepper label primitive for active, completed, and pending workflow states.",
       },
     },
   },
-  argTypes: {
-    label: {
-      control: 'text',
-      description: 'Label text for the step',
-    },
-    active: {
-      control: 'boolean',
-      description: 'Whether the step is active',
-    },
-    completed: {
-      control: 'boolean',
-      description: 'Whether the step is completed',
-    },
-    orientation: {
-      control: { type: 'select', options: ['horizontal', 'vertical'] },
-      description: 'Orientation of the step label',
-    },
-  },
   args: {
-    label: 'Step Label',
-    active: false,
+    label: "Company profile",
+    active: true,
     completed: false,
-    orientation: 'horizontal',
+    orientation: "horizontal",
   },
 };
 
@@ -44,26 +26,11 @@ export default meta;
 type Story = StoryObj<typeof GlassStepLabel>;
 
 export const Default: Story = {
-  args: {
-    label: 'Step 1',
-    active: true,
-    completed: false,
-    orientation: 'horizontal',
-  },
-};
-
-export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
+    <div className="glass-grid glass-w-[min(420px,calc(100vw-48px))] glass-gap-3 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <GlassStepLabel label="Account" active={false} completed orientation="horizontal" />
       <GlassStepLabel {...args} />
-      <GlassStepLabel {...args} label="Completed Step" active={false} completed={true} />
-      <GlassStepLabel {...args} label="Inactive Step" active={false} completed={false} />
+      <GlassStepLabel label="Billing" active={false} completed={false} orientation="horizontal" />
     </div>
   ),
-  args: {
-    label: 'Active Step',
-    active: true,
-    completed: false,
-    orientation: 'vertical',
-  },
 };

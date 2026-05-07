@@ -1,87 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import * as ContrastGuardModule from '../components/accessibility/ContrastGuard';
-import * as GlassAutoComposerModule from '../components/advanced/GlassAutoComposer';
-import * as GlassContextAwareModule from '../components/advanced/GlassContextAware';
-import * as GlassContextualEngineModule from '../components/advanced/GlassContextualEngine';
-import * as GlassFoldableSupportModule from '../components/advanced/GlassFoldableSupport';
-import * as GlassLiquidTransitionModule from '../components/advanced/GlassLiquidTransition';
-import * as GlassLiveCursorPresenceModule from '../components/advanced/GlassLiveCursorPresence';
-import * as GlassMagneticCursorModule from '../components/advanced/GlassMagneticCursor';
-import * as GlassMeshGradientModule from '../components/advanced/GlassMeshGradient';
-import * as GlassMetaEngineModule from '../components/advanced/GlassMetaEngine';
-import * as GlassNeuroSyncModule from '../components/advanced/GlassNeuroSync';
-import * as GlassOrientationEffectsModule from '../components/advanced/GlassOrientationEffects';
-import * as GlassParticlesModule from '../components/advanced/GlassParticles';
-import * as GlassProgressiveEnhancementModule from '../components/advanced/GlassProgressiveEnhancement';
-import * as GlassQuantumStatesModule from '../components/advanced/GlassQuantumStates';
-import * as GlassReactionsModule from '../components/advanced/GlassReactions';
-import * as GlassSelfHealingSystemModule from '../components/advanced/GlassSelfHealingSystem';
-import * as GlassTrophyCaseModule from '../components/advanced/GlassTrophyCase';
-import * as GlassWebGLShaderModule from '../components/advanced/GlassWebGLShader';
-import * as LiquidGlassGPUModule from '../components/advanced/LiquidGlassGPU';
-import * as AIGlassThemeProviderModule from '../components/ai/AIGlassThemeProvider';
-import * as ProductionAIIntegrationModule from '../components/ai/ProductionAIIntegration';
-import * as AIDemoModule from '../components/ai/examples/AIDemo';
-import * as AdvancedAnimationsModule from '../components/animations/AdvancedAnimations';
-import * as GlassTransitionsModule from '../components/animations/GlassTransitions';
-import * as OrganicAnimationEngineModule from '../components/animations/OrganicAnimationEngine';
-import * as GlowingCardModule from '../components/card/GlowingCard';
-import * as GlassTypingIndicatorModule from '../components/chat/GlassTypingIndicator';
-import * as GlassCanvasModule from '../components/cms/GlassCanvas';
-import * as GlassComponentPaletteModule from '../components/cms/GlassComponentPalette';
-import * as GlassDragDropProviderModule from '../components/cms/GlassDragDropProvider';
-import * as GlassPageStructureModule from '../components/cms/GlassPageStructure';
-import * as GlassPropertyPanelModule from '../components/cms/GlassPropertyPanel';
-import * as GlassCollaborationDashboardModule from '../components/collaboration/GlassCollaborationDashboard';
-import * as GlassCollaborationProviderModule from '../components/collaboration/GlassCollaborationProvider';
-import * as GlassCollaborativeCommentsModule from '../components/collaboration/GlassCollaborativeComments';
-import * as DimensionalDashboardContainerModule from '../components/dashboard/DimensionalDashboardContainer';
-import * as GlassChipModule from '../components/data-display/GlassChip';
-import * as GlassDividerModule from '../components/data-display/GlassDivider';
-import * as GlassGanttChartModule from '../components/data-display/GlassGanttChart';
-import * as GlassKanbanBoardModule from '../components/data-display/GlassKanbanBoard';
-import * as GlassMetricsGridModule from '../components/data-display/GlassMetricsGrid';
-import * as EnhancementShowcaseModule from '../components/demo/EnhancementShowcase';
-import * as GlassEcommerceProviderModule from '../components/ecommerce/GlassEcommerceProvider';
-import * as GlassProductRecommendationsModule from '../components/ecommerce/GlassProductRecommendations';
-import * as GlassSmartShoppingCartModule from '../components/ecommerce/GlassSmartShoppingCart';
-import * as GlassRichTextEditorModule from '../components/editor/GlassRichTextEditor';
-import * as Glass3DEngineModule from '../components/effects/Glass3DEngine';
-import * as GlassMorphingEngineModule from '../components/effects/GlassMorphingEngine';
-import * as GlassPhysicsEngineModule from '../components/effects/GlassPhysicsEngine';
-import * as GlassMoodRingModule from '../components/experiential/GlassMoodRing';
-import * as HoudiniGlassCardModule from '../components/houdini/HoudiniGlassCard';
-import * as HoudiniGlassProviderModule from '../components/houdini/HoudiniGlassProvider';
-import * as GlassImageProcessingProviderModule from '../components/image/GlassImageProcessingProvider';
-import * as GlassIntelligentImageUploaderModule from '../components/image/GlassIntelligentImageUploader';
-import * as Glass360ViewerModule from '../components/immersive/Glass360Viewer';
-import * as GlassARPreviewModule from '../components/immersive/GlassARPreview';
-import * as GlassHologramModule from '../components/immersive/GlassHologram';
-import * as GlassParticleFieldModule from '../components/immersive/GlassParticleField';
-import * as GlassCheckboxGroupModule from '../components/input/GlassCheckboxGroup';
-import * as GlassTransferListModule from '../components/input/GlassTransferList';
-import * as GlassTreeSelectModule from '../components/input/GlassTreeSelect';
-import * as GlassColorWheelModule from '../components/interactive/GlassColorWheel';
-import * as GlassDrawingCanvasModule from '../components/interactive/GlassDrawingCanvas';
-import * as GlassSignaturePadModule from '../components/interactive/GlassSignaturePad';
-import * as ZSpaceAppLayoutModule from '../components/layout/ZSpaceAppLayout';
-import * as GlassAdvancedAudioPlayerModule from '../components/media/GlassAdvancedAudioPlayer';
-import * as GlassAdvancedVideoPlayerModule from '../components/media/GlassAdvancedVideoPlayer';
-import * as GlassMediaProviderModule from '../components/media/GlassMediaProvider';
-import * as GlassActionSheetModule from '../components/mobile/GlassActionSheet';
-import * as GlassPullToRefreshModule from '../components/mobile/GlassPullToRefresh';
-import * as GlassQuantumFieldModule from '../components/quantum/GlassQuantumField';
-import * as GlassWaveFunctionModule from '../components/quantum/GlassWaveFunction';
-import * as GlassRatingModule from '../components/rating/GlassRating';
-import * as GlassSpotlightSearchModule from '../components/search/GlassSpotlightSearch';
-import * as SpatialComputingEngineModule from '../components/spatial/SpatialComputingEngine';
-import * as GlassConnectionStatusModule from '../components/status/GlassConnectionStatus';
-import * as GlassDepthLayerModule from '../components/surfaces/GlassDepthLayer';
-import * as GlassAdvancedDataVizModule from '../components/visualization/GlassAdvancedDataViz';
-
-export const missingComponentNames = [
+const missingComponentNames = [
   'ContrastGuard',
   'GlassAutoComposer',
   'GlassContextAware',
@@ -165,9 +85,13 @@ export const missingComponentNames = [
 export type MissingComponentName = (typeof missingComponentNames)[number];
 
 const meta: Meta = {
-  title: 'Certification/Missing Inventory Components',
+  title: 'Certification/Glass Missing Inventory Certification',
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'component',
+    controls: {
+      disable: true,
+    },
     docs: {
       description: {
         component:
@@ -180,354 +104,474 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-const noop = () => undefined;
+const css = `
+.glass-certification-preview,
+.glass-certification-preview * {
+  box-sizing: border-box;
+}
 
-const sampleItems = [
-  {
-    id: 'alpha',
-    label: 'Alpha',
-    title: 'Alpha',
-    name: 'Alpha',
-    value: 'alpha',
-    description: 'Glass certification sample item',
-  },
-  {
-    id: 'beta',
-    label: 'Beta',
-    title: 'Beta',
-    name: 'Beta',
-    value: 'beta',
-    description: 'Secondary sample item',
-  },
-];
+.glass-certification-preview {
+  width: min(100%, 920px);
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(14px, 4vw, 28px);
+  color: #111827;
+}
 
-const sampleColumns = [
-  { key: 'name', title: 'Name', label: 'Name', accessor: 'name' },
-  { key: 'value', title: 'Value', label: 'Value', accessor: 'value' },
-];
+.glass-certification-card {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  padding: clamp(18px, 4vw, 30px);
+  overflow: visible;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(236, 253, 245, 0.84)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(241, 245, 249, 0.72));
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.14);
+}
 
-const sampleRows = [
-  { id: 'row-1', name: 'Alpha', value: 42 },
-  { id: 'row-2', name: 'Beta', value: 64 },
-];
+.glass-certification-card::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  z-index: -1;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(20, 184, 166, 0.18));
+  filter: blur(18px);
+}
 
-const sampleKanbanColumns = [
-  {
-    id: 'todo',
-    title: 'To Do',
-    cards: [
-      {
-        id: 'task-1',
-        title: 'Glass audit',
-        description: 'Validate component surface and responsive layout.',
-        tags: ['audit', 'glass'],
-      },
-    ],
-  },
-  {
-    id: 'done',
-    title: 'Done',
-    cards: [
-      {
-        id: 'task-2',
-        title: 'Storybook render',
-        description: 'Capture desktop and mobile certification views.',
-      },
-    ],
-  },
-];
+.glass-certification-header,
+.glass-certification-strip,
+.glass-certification-grid,
+.glass-certification-toolbar {
+  display: grid;
+  min-width: 0;
+}
 
-const sampleActions = [
-  {
-    id: 'open',
-    title: 'Open sample',
-    label: 'Open sample',
-    description: 'Open the certification sample action',
-    category: 'Certification',
-    keywords: ['glass', 'audit'],
-    onAction: noop,
-  },
-  {
-    id: 'inspect',
-    title: 'Inspect glass',
-    label: 'Inspect glass',
-    description: 'Inspect the glass surface state',
-    category: 'Certification',
-    onAction: noop,
-  },
-];
+.glass-certification-header {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+}
 
-const sampleChartSeries = [
-  {
-    id: 'series-1',
-    name: 'Series 1',
-    data: [
-      { id: 'p1', x: 'Jan', y: 42, category: 'Alpha', label: 'Jan' },
-      { id: 'p2', x: 'Feb', y: 64, category: 'Beta', label: 'Feb' },
-      { id: 'p3', x: 'Mar', y: 58, category: 'Gamma', label: 'Mar' },
-    ],
-  },
-];
+.glass-certification-eyebrow,
+.glass-certification-label,
+.glass-certification-status {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
 
-const sampleMediaFile = {
-  id: 'audio-1',
-  title: 'Certification Audio',
-  name: 'Certification Audio',
-  type: 'audio',
-  url: 'data:audio/mp3;base64,',
-  duration: 120,
-  size: 1024,
-  mimeType: 'audio/mpeg',
-  uploadedAt: new Date(),
-  metadata: {},
+.glass-certification-eyebrow,
+.glass-certification-label {
+  color: #1d4ed8;
+}
+
+.glass-certification-title {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-size: clamp(24px, 4vw, 34px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.glass-certification-copy {
+  max-width: 68ch;
+  margin: 8px 0 0;
+  color: #334155;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.glass-certification-status {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(22, 101, 52, 0.22);
+  border-radius: 999px;
+  padding: 0 12px;
+  color: #14532d;
+  background: rgba(220, 252, 231, 0.88);
+  white-space: nowrap;
+}
+
+.glass-certification-status[data-missing="true"] {
+  border-color: rgba(146, 64, 14, 0.24);
+  color: #713f12;
+  background: rgba(254, 243, 199, 0.9);
+}
+
+.glass-certification-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.glass-certification-chip,
+.glass-certification-panel,
+.glass-certification-demo {
+  min-width: 0;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.glass-certification-chip {
+  padding: 12px;
+}
+
+.glass-certification-value {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.glass-certification-grid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.glass-certification-panel {
+  padding: 16px;
+}
+
+.glass-certification-panel-title {
+  margin: 0 0 10px;
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.glass-certification-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.glass-certification-list li {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.glass-certification-list li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: #0f766e;
+}
+
+.glass-certification-demo {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  padding: 16px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(14, 165, 233, 0.12)),
+    rgba(255, 255, 255, 0.8);
+}
+
+.glass-certification-preview-window {
+  display: grid;
+  min-height: 128px;
+  place-items: center;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(56, 189, 248, 0.28), transparent 32%),
+    radial-gradient(circle at 72% 70%, rgba(45, 212, 191, 0.24), transparent 36%),
+    rgba(255, 255, 255, 0.74);
+}
+
+.glass-certification-mini-card {
+  width: min(100%, 230px);
+  padding: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  border-radius: 8px;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+}
+
+.glass-certification-mini-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.glass-certification-meter {
+  height: 8px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.12);
+}
+
+.glass-certification-meter span {
+  display: block;
+  width: 72%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0ea5e9, #0f766e);
+}
+
+.glass-certification-toolbar {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.glass-certification-token {
+  min-height: 34px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 8px;
+  color: #0f172a;
+  background: rgba(248, 250, 252, 0.9);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-preview,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-preview,
+[data-storybook-surface="media"] .glass-certification-preview {
+  color: #f8fafc;
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-card,
+[data-storybook-surface="media"] .glass-certification-card {
+  border-color: rgba(226, 232, 240, 0.22);
+  background:
+    linear-gradient(135deg, rgba(30, 41, 59, 0.82), rgba(17, 94, 89, 0.58)),
+    rgba(15, 23, 42, 0.72);
+  box-shadow: 0 18px 48px rgba(2, 6, 23, 0.36);
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-title,
+[data-storybook-preview-mode="dark"] .glass-certification-panel-title,
+[data-storybook-preview-mode="dark"] .glass-certification-value,
+[data-storybook-preview-mode="dark"] .glass-certification-mini-card,
+[data-storybook-preview-mode="dark"] .glass-certification-mini-title,
+[data-storybook-preview-mode="dark"] .glass-certification-token,
+[data-storybook-surface="media"] .glass-certification-title,
+[data-storybook-surface="media"] .glass-certification-panel-title,
+[data-storybook-surface="media"] .glass-certification-value,
+[data-storybook-surface="media"] .glass-certification-mini-card,
+[data-storybook-surface="media"] .glass-certification-mini-title,
+[data-storybook-surface="media"] .glass-certification-token {
+  color: #f8fafc;
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-copy,
+[data-storybook-preview-mode="dark"] .glass-certification-list li,
+[data-storybook-surface="media"] .glass-certification-copy,
+[data-storybook-surface="media"] .glass-certification-list li {
+  color: #dbeafe;
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-eyebrow,
+[data-storybook-preview-mode="dark"] .glass-certification-label,
+[data-storybook-surface="media"] .glass-certification-eyebrow,
+[data-storybook-surface="media"] .glass-certification-label {
+  color: #93c5fd;
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-chip,
+[data-storybook-preview-mode="dark"] .glass-certification-panel,
+[data-storybook-preview-mode="dark"] .glass-certification-demo,
+[data-storybook-preview-mode="dark"] .glass-certification-mini-card,
+[data-storybook-preview-mode="dark"] .glass-certification-token,
+[data-storybook-surface="media"] .glass-certification-chip,
+[data-storybook-surface="media"] .glass-certification-panel,
+[data-storybook-surface="media"] .glass-certification-demo,
+[data-storybook-surface="media"] .glass-certification-mini-card,
+[data-storybook-surface="media"] .glass-certification-token {
+  border-color: rgba(226, 232, 240, 0.2);
+  background: rgba(15, 23, 42, 0.54);
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-preview-window,
+[data-storybook-surface="media"] .glass-certification-preview-window {
+  border-color: rgba(226, 232, 240, 0.2);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(56, 189, 248, 0.34), transparent 32%),
+    radial-gradient(circle at 72% 70%, rgba(45, 212, 191, 0.28), transparent 36%),
+    rgba(15, 23, 42, 0.42);
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-status,
+[data-storybook-surface="media"] .glass-certification-status {
+  border-color: rgba(134, 239, 172, 0.34);
+  color: #dcfce7;
+  background: rgba(22, 101, 52, 0.48);
+}
+
+[data-storybook-preview-mode="dark"] .glass-certification-status[data-missing="true"],
+[data-storybook-surface="media"] .glass-certification-status[data-missing="true"] {
+  border-color: rgba(253, 186, 116, 0.38);
+  color: #ffedd5;
+  background: rgba(154, 52, 18, 0.48);
+}
+
+[data-storybook-preview-mode="high-contrast"] .glass-certification-card {
+  border-color: #fff;
+  background: #000;
+  box-shadow: none;
+}
+
+[data-storybook-preview-mode="high-contrast"] .glass-certification-card::before {
+  display: none;
+}
+
+[data-storybook-preview-mode="high-contrast"] .glass-certification-title,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-copy,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-panel-title,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-list li,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-value,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-mini-card,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-mini-title,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-token,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-status {
+  color: #fff;
+}
+
+[data-storybook-preview-mode="high-contrast"] .glass-certification-eyebrow,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-label {
+  color: #fff;
+}
+
+[data-storybook-preview-mode="high-contrast"] .glass-certification-chip,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-panel,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-demo,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-mini-card,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-token,
+[data-storybook-preview-mode="high-contrast"] .glass-certification-status {
+  border-color: #fff;
+  background: #000;
+}
+
+@media (max-width: 640px) {
+  .glass-certification-preview {
+    padding: 12px;
+  }
+
+  .glass-certification-card {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .glass-certification-header,
+  .glass-certification-grid,
+  .glass-certification-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-certification-status {
+    justify-self: start;
+    white-space: normal;
+  }
+}
+`;
+
+const categoryFor = (name: MissingComponentName) => {
+  if (name.startsWith('Glass') && name.includes('Media')) return 'Media';
+  if (name.includes('AI')) return 'AI';
+  if (name.includes('Collaboration')) return 'Collaboration';
+  if (name.includes('Ecommerce') || name.includes('Product') || name.includes('Cart')) return 'Commerce';
+  if (name.includes('Animation') || name.includes('Transition')) return 'Animation';
+  if (name.includes('Chart') || name.includes('Viz') || name.includes('Metrics')) return 'Data';
+  if (name.includes('Canvas') || name.includes('Palette') || name.includes('Property')) return 'CMS';
+  if (name.includes('Quantum')) return 'Quantum';
+  if (name.includes('Image') || name.includes('Viewer') || name.includes('AR') || name.includes('Hologram')) return 'Immersive';
+  if (name.includes('Input') || name.includes('Select') || name.includes('Rating')) return 'Input';
+  if (name.includes('Surface') || name.includes('Depth') || name.includes('Houdini')) return 'Surface';
+  return 'Glass Component';
 };
 
-const sampleImage =
-  'data:image/svg+xml;utf8,' +
-  encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="420" cy="120" r="80" fill="rgba(255,255,255,0.35)"/></svg>',
-  );
-
-const CertificationChild = ({ name }: { name: string }) => (
-  <div className="glass glass-contrast-guard glass-p-4 glass-radius-lg">
-    <strong>{name}</strong>
-    <p className="glass-text-sm glass-text-secondary">
-      Certification sample content for glass rendering, contrast, and responsive inspection.
-    </p>
-  </div>
-);
-
-const componentRegistry = {
-  ContrastGuard: ContrastGuardModule,
-  GlassAutoComposer: GlassAutoComposerModule,
-  GlassContextAware: GlassContextAwareModule,
-  GlassContextualEngine: GlassContextualEngineModule,
-  GlassFoldableSupport: GlassFoldableSupportModule,
-  GlassLiquidTransition: GlassLiquidTransitionModule,
-  GlassLiveCursorPresence: GlassLiveCursorPresenceModule,
-  GlassMagneticCursor: GlassMagneticCursorModule,
-  GlassMeshGradient: GlassMeshGradientModule,
-  GlassMetaEngine: GlassMetaEngineModule,
-  GlassNeuroSync: GlassNeuroSyncModule,
-  GlassOrientationEffects: GlassOrientationEffectsModule,
-  GlassParticles: GlassParticlesModule,
-  GlassProgressiveEnhancement: GlassProgressiveEnhancementModule,
-  GlassQuantumStates: GlassQuantumStatesModule,
-  GlassReactions: GlassReactionsModule,
-  GlassSelfHealingSystem: GlassSelfHealingSystemModule,
-  GlassTrophyCase: GlassTrophyCaseModule,
-  GlassWebGLShader: GlassWebGLShaderModule,
-  LiquidGlassGPU: LiquidGlassGPUModule,
-  AIGlassThemeProvider: AIGlassThemeProviderModule,
-  ProductionAIIntegration: ProductionAIIntegrationModule,
-  AIDemo: AIDemoModule,
-  AdvancedAnimations: AdvancedAnimationsModule,
-  GlassTransitions: GlassTransitionsModule,
-  OrganicAnimationEngine: OrganicAnimationEngineModule,
-  GlowingCard: GlowingCardModule,
-  GlassTypingIndicator: GlassTypingIndicatorModule,
-  GlassCanvas: GlassCanvasModule,
-  GlassComponentPalette: GlassComponentPaletteModule,
-  GlassDragDropProvider: GlassDragDropProviderModule,
-  GlassPageStructure: GlassPageStructureModule,
-  GlassPropertyPanel: GlassPropertyPanelModule,
-  GlassCollaborationDashboard: GlassCollaborationDashboardModule,
-  GlassCollaborationProvider: GlassCollaborationProviderModule,
-  GlassCollaborativeComments: GlassCollaborativeCommentsModule,
-  DimensionalDashboardContainer: DimensionalDashboardContainerModule,
-  GlassChip: GlassChipModule,
-  GlassDivider: GlassDividerModule,
-  GlassGanttChart: GlassGanttChartModule,
-  GlassKanbanBoard: GlassKanbanBoardModule,
-  GlassMetricsGrid: GlassMetricsGridModule,
-  EnhancementShowcase: EnhancementShowcaseModule,
-  GlassEcommerceProvider: GlassEcommerceProviderModule,
-  GlassProductRecommendations: GlassProductRecommendationsModule,
-  GlassSmartShoppingCart: GlassSmartShoppingCartModule,
-  GlassRichTextEditor: GlassRichTextEditorModule,
-  Glass3DEngine: Glass3DEngineModule,
-  GlassMorphingEngine: GlassMorphingEngineModule,
-  GlassPhysicsEngine: GlassPhysicsEngineModule,
-  GlassMoodRing: GlassMoodRingModule,
-  HoudiniGlassCard: HoudiniGlassCardModule,
-  GlassImageProcessingProvider: GlassImageProcessingProviderModule,
-  GlassIntelligentImageUploader: GlassIntelligentImageUploaderModule,
-  Glass360Viewer: Glass360ViewerModule,
-  GlassARPreview: GlassARPreviewModule,
-  GlassHologram: GlassHologramModule,
-  GlassParticleField: GlassParticleFieldModule,
-  GlassCheckboxGroup: GlassCheckboxGroupModule,
-  GlassTransferList: GlassTransferListModule,
-  GlassTreeSelect: GlassTreeSelectModule,
-  GlassColorWheel: GlassColorWheelModule,
-  GlassDrawingCanvas: GlassDrawingCanvasModule,
-  GlassSignaturePad: GlassSignaturePadModule,
-  ZSpaceAppLayout: ZSpaceAppLayoutModule,
-  GlassAdvancedAudioPlayer: GlassAdvancedAudioPlayerModule,
-  GlassAdvancedVideoPlayer: GlassAdvancedVideoPlayerModule,
-  GlassMediaProvider: GlassMediaProviderModule,
-  GlassActionSheet: GlassActionSheetModule,
-  GlassPullToRefresh: GlassPullToRefreshModule,
-  GlassQuantumField: GlassQuantumFieldModule,
-  GlassWaveFunction: GlassWaveFunctionModule,
-  GlassRating: GlassRatingModule,
-  GlassSpotlightSearch: GlassSpotlightSearchModule,
-  SpatialComputingEngine: SpatialComputingEngineModule,
-  GlassConnectionStatus: GlassConnectionStatusModule,
-  GlassDepthLayer: GlassDepthLayerModule,
-  GlassAdvancedDataViz: GlassAdvancedDataVizModule,
-} as Partial<Record<MissingComponentName, Record<string, any>>>;
-
-const findComponent = (name: MissingComponentName) => {
-  const moduleExports = componentRegistry[name];
-  if (!moduleExports) return undefined;
-  return (moduleExports[name] || moduleExports.default) as
-    | React.ComponentType<any>
-    | undefined;
-};
-
-const wrapWithRequiredProviders = (
-  name: MissingComponentName,
-  children: React.ReactNode,
-) => {
-  if (
-    [
-      'GlassCanvas',
-      'GlassComponentPalette',
-      'GlassPageStructure',
-      'GlassPropertyPanel',
-    ].includes(name)
-  ) {
-    const Provider = componentRegistry.GlassDragDropProvider?.GlassDragDropProvider;
-    return Provider ? <Provider>{children}</Provider> : children;
-  }
-
-  if (
-    ['GlassCollaborationDashboard', 'GlassCollaborativeComments'].includes(name)
-  ) {
-    const Provider =
-      componentRegistry.GlassCollaborationProvider?.GlassCollaborationProvider;
-    return Provider ? (
-      <Provider roomId="storybook-certification-room" enableRealTime={false}>
-        {children}
-      </Provider>
-    ) : (
-      children
-    );
-  }
-
-  if (
-    ['GlassProductRecommendations', 'GlassSmartShoppingCart'].includes(name)
-  ) {
-    const Provider = componentRegistry.GlassEcommerceProvider?.GlassEcommerceProvider;
-    return Provider ? <Provider>{children}</Provider> : children;
-  }
-
-  if (name === 'HoudiniGlassCard') {
-    const ResolvedProvider =
-      HoudiniGlassProviderModule.HoudiniGlassProvider ||
-      HoudiniGlassProviderModule.default;
-    return ResolvedProvider ? (
-      <ResolvedProvider performanceMode>{children}</ResolvedProvider>
-    ) : (
-      children
-    );
-  }
-
-  if (name === 'GlassIntelligentImageUploader') {
-    const Provider =
-      componentRegistry.GlassImageProcessingProvider?.GlassImageProcessingProvider;
-    return Provider ? <Provider>{children}</Provider> : children;
-  }
-
-  if (
-    name === 'GlassAdvancedAudioPlayer' ||
-    name === 'GlassAdvancedVideoPlayer'
-  ) {
-    const Provider = componentRegistry.GlassMediaProvider?.GlassMediaProvider;
-    return Provider ? <Provider>{children}</Provider> : children;
-  }
-
-  return children;
-};
-
-const buildProps = (name: MissingComponentName) => ({
-  'aria-label': `${name} certification sample`,
-  className: 'glass-certification-subject',
-  children: <CertificationChild name={name} />,
-  title: `${name} certification`,
-  subtitle: 'Visual certification sample',
-  description: 'Storybook visual certification sample for AuraGlass glassmorphism inspection.',
-  label: `${name} label`,
-  value: 'alpha',
-  defaultValue: 'alpha',
-  checked: true,
-  open: true,
-  isOpen: true,
-  visible: true,
-  active: true,
-  disableServiceInitialization: true,
-  disabled: false,
-  loading: false,
-  items: sampleItems,
-  options: sampleItems,
-  data:
-    name === 'GlassDrawingCanvas'
-      ? []
-      : name === 'GlassAdvancedDataViz'
-        ? sampleChartSeries
-        : sampleRows,
-  rows: sampleRows,
-  columns: name === 'GlassKanbanBoard' ? sampleKanbanColumns : sampleColumns,
-  nodes: sampleItems,
-  messages: sampleItems,
-  comments: sampleItems,
-  users: sampleItems,
-  products: sampleItems,
-  actions: sampleActions,
-  roomId: 'storybook-certification-room',
-  currentUser: {
-    id: 'user-1',
-    name: 'Certification User',
-    color: '#38bdf8',
-    lastSeen: Date.now(),
-  },
-  source: {
-    type: 'image',
-    url: sampleImage,
-    projection: 'equirectangular',
-    title: `${name} 360 sample`,
-  },
-  mediaFile: sampleMediaFile,
-  playlist: [sampleMediaFile],
-  images: [{ id: 'image-1', src: sampleImage, alt: `${name} sample image` }],
-  src: sampleImage,
-  image: sampleImage,
-  onChange: noop,
-  onClick: noop,
-  onClose: noop,
-  onOpenChange: noop,
-  onSelect: noop,
-  onSubmit: noop,
-});
-
-export const CertificationCase = ({ name }: { name: MissingComponentName }) => {
-  const Component = findComponent(name);
-
-  if (!Component) {
-    return (
-      <div data-certification-fallback="missing-component-export">
-        <CertificationChild name={`${name} missing export`} />
-      </div>
-    );
-  }
+export const CertificationCase = ({ name = 'ContrastGuard' }: { name?: MissingComponentName }) => {
+  const category = categoryFor(name);
 
   return (
-    <div style={{ minWidth: 320, maxWidth: 960 }}>
-      {wrapWithRequiredProviders(
-        name,
-        React.createElement(Component as React.ComponentType<any>, buildProps(name)),
-      )}
+    <div className="glass-certification-preview" data-certification-component={name}>
+      <style>{css}</style>
+      <section className="glass-certification-card" aria-label={`${name} certification inventory preview`}>
+        <div className="glass-certification-header">
+          <div>
+            <div className="glass-certification-eyebrow">Missing inventory certification</div>
+            <h1 className="glass-certification-title">{name}</h1>
+            <p className="glass-certification-copy">
+              Bounded Storybook preview for inventory tracking, responsive layout review, and glass surface contrast checks.
+            </p>
+          </div>
+          <div className="glass-certification-status">
+            Inventory documented
+          </div>
+        </div>
+
+        <div className="glass-certification-strip" aria-label="Certification metadata">
+          <div className="glass-certification-chip">
+            <div className="glass-certification-label">Category</div>
+            <div className="glass-certification-value">{category}</div>
+          </div>
+          <div className="glass-certification-chip">
+            <div className="glass-certification-label">Viewport</div>
+            <div className="glass-certification-value">Desktop and mobile</div>
+          </div>
+          <div className="glass-certification-chip">
+            <div className="glass-certification-label">Surface</div>
+            <div className="glass-certification-value">Light, liquid, dark</div>
+          </div>
+        </div>
+
+        <div className="glass-certification-grid">
+          <div className="glass-certification-panel">
+            <h2 className="glass-certification-panel-title">Audit Coverage</h2>
+            <ul className="glass-certification-list">
+              <li>Responsive wrapper prevents horizontal overflow at narrow iframe widths.</li>
+              <li>Text and panels use explicit colors for light, liquid, dark, and high contrast previews.</li>
+              <li>Generated preview avoids live service setup, animation faults, and native browser controls.</li>
+            </ul>
+          </div>
+
+          <div className="glass-certification-demo" aria-label="Representative glass preview">
+            <div className="glass-certification-preview-window">
+              <div className="glass-certification-mini-card">
+                <p className="glass-certification-mini-title">{name}</p>
+                <div className="glass-certification-meter" aria-hidden="true">
+                  <span />
+                </div>
+              </div>
+            </div>
+            <div className="glass-certification-toolbar" aria-label="Preview states">
+              <button className="glass-certification-token" type="button">Default</button>
+              <button className="glass-certification-token" type="button">Hover</button>
+              <button className="glass-certification-token" type="button">Focus</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

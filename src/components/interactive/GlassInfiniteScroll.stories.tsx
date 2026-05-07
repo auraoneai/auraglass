@@ -4,7 +4,7 @@ import { GlassInfiniteScroll } from './GlassInfiniteScroll';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassInfiniteScroll> = {
-  title: 'Components/Interactive/GlassInfiniteScroll',
+  title: 'Effects + Advanced/Glass Infinite Scroll',
   component: GlassInfiniteScroll,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { GlassGradientPicker } from './GlassGradientPicker';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassGradientPicker> = {
-  title: 'Components/Interactive/GlassGradientPicker',
+  title: 'Effects + Advanced/Glass Gradient Picker',
   component: GlassGradientPicker,
   parameters: {
     layout: 'centered',

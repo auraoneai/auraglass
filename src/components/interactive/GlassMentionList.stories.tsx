@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassMentionList> = {
-  title: 'Components/Interactive/GlassMentionList',
+  title: 'Effects + Advanced/Glass Mention List',
   component: GlassMentionList,
   parameters: {
     layout: 'centered',

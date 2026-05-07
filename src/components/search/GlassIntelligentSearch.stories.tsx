@@ -2,11 +2,160 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { GlassIntelligentSearch, SearchResult } from './GlassIntelligentSearch';
 
+const SearchStoryFrame = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="glass-intelligent-search-story-frame"
+    style={{
+      width: '100%',
+      height: '100vh',
+      minHeight: 0,
+      boxSizing: 'border-box',
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      padding: 'clamp(16px, 3vw, 32px)',
+      color: '#0f172a',
+      background:
+        'linear-gradient(135deg, rgba(239,246,255,0.95), rgba(240,253,250,0.9) 52%, rgba(248,250,252,0.96))',
+    }}
+  >
+    <div style={{ width: 'min(100%, 1120px)', margin: '0 auto' }}>{children}</div>
+    <style>{`
+      .glass-intelligent-search-story-frame,
+      .glass-intelligent-search-story-frame * {
+        box-sizing: border-box;
+      }
+
+      .glass-intelligent-search-story-frame .glass-intelligent-search-panel {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 252, 0.72)), rgba(255, 255, 255, 0.78) !important;
+        background-color: rgba(255, 255, 255, 0.78) !important;
+      }
+
+      .glass-intelligent-search-story-frame .glass-intelligent-search-dropdown {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.86)), rgba(255, 255, 255, 0.9) !important;
+        background-color: rgba(255, 255, 255, 0.9) !important;
+      }
+
+      .glass-intelligent-search-story-frame .glass-intelligent-search input[type="text"] {
+        background: rgba(255, 255, 255, 0.78) !important;
+        background-color: rgba(255, 255, 255, 0.78) !important;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-surface {
+        display: grid;
+        gap: 24px;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-hero,
+      .glass-intelligent-search-story-frame .search-story-callout {
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 24px 70px rgba(15, 23, 42, 0.12);
+        backdrop-filter: blur(22px) saturate(1.35);
+      }
+
+      .glass-intelligent-search-story-frame .search-story-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(220px, 0.75fr);
+        gap: 24px;
+        align-items: center;
+        padding: clamp(20px, 3vw, 32px);
+      }
+
+      .glass-intelligent-search-story-frame .search-story-hero h1 {
+        margin: 0 0 10px;
+        color: #0f172a;
+        font-size: clamp(1.6rem, 3vw, 2.45rem);
+        line-height: 1.08;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-hero p,
+      .glass-intelligent-search-story-frame .search-story-callout p {
+        margin: 0;
+        color: #334155;
+        line-height: 1.6;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-metric {
+        min-height: 88px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        border-radius: 16px;
+        padding: 14px;
+        background: rgba(255, 255, 255, 0.62);
+      }
+
+      .glass-intelligent-search-story-frame .search-story-metric strong {
+        display: block;
+        color: #0f172a;
+        font-size: 1.4rem;
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-metric span {
+        display: block;
+        margin-top: 6px;
+        color: #475569;
+        font-size: 0.875rem;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-callout {
+        padding: 22px;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-callout h3,
+      .glass-intelligent-search-story-frame .search-story-callout h4 {
+        margin: 0 0 10px;
+        color: #0f172a;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-examples {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 14px;
+      }
+
+      .glass-intelligent-search-story-frame .search-story-examples ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        color: #334155;
+        line-height: 1.7;
+      }
+
+      .glass-intelligent-search-story-frame .search-compact {
+        max-width: 42rem !important;
+      }
+
+      @media (max-width: 760px) {
+        .glass-intelligent-search-story-frame .search-story-hero,
+        .glass-intelligent-search-story-frame .search-story-examples {
+          grid-template-columns: 1fr;
+        }
+      }
+    `}</style>
+  </div>
+);
+
 const meta: Meta<typeof GlassIntelligentSearch> = {
-  title: 'Search/GlassIntelligentSearch',
+  title: 'Controls/Search/Glass Intelligent Search',
   component: GlassIntelligentSearch,
+  decorators: [
+    (Story) => (
+      <SearchStoryFrame>
+        <Story />
+      </SearchStoryFrame>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
+    previewSurface: 'app',
     docs: {
       description: {
         component: 'Advanced search interface with NLP capabilities, smart filters, voice search, and intelligent suggestions - like Google or Elasticsearch with AI enhancement.',
@@ -208,59 +357,45 @@ export const FiltersOnly: Story = {
 
 export const SearchShowcase: Story = {
   render: () => {
-    const [searchResults, setSearchResults] = React.useState<SearchResult[]>([]);
     const [searchQuery, setSearchQuery] = React.useState('');
+    const [selectedTitle, setSelectedTitle] = React.useState('No result selected');
 
     const handleSearch = (query: string, filters: Record<string, any>) => {
       setSearchQuery(query);
-      // In real app, you'd make an API call here
     };
 
     const handleResultClick = (result: SearchResult) => {
-      alert(`Clicked: ${result.title}`);
+      setSelectedTitle(result.title);
     };
 
     return (
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="glass-text-center glass-py-8 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-xl">
-          <h1 className="glass-text-3xl glass-font-bold glass-text-secondary glass-mb-4">🔍 Intelligent Search System</h1>
-          <p className="glass-text-lg glass-text-secondary max-w-3xl glass-mx-auto leading-relaxed">
-            Experience the future of search with natural language processing, intelligent filters, 
-            voice recognition, and smart suggestions powered by advanced algorithms.
-          </p>
-          
-          <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-4 glass-gap-6 mt-8 max-w-4xl glass-mx-auto">
-            <div className="glass-text-center">
-              <div className="glass-w-12 glass-h-12 glass-surface-blue glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
-                🧠
-              </div>
-              <h3 className="glass-font-semibold">NLP Processing</h3>
-              <p className="glass-text-sm glass-text-secondary mt-1">Understand natural language queries with intent recognition</p>
+      <div className="search-story-surface">
+        <section className="search-story-hero">
+          <div>
+            <h1>Knowledge Search Workspace</h1>
+            <p>
+              Natural-language search, adaptive filters, suggestions, and result scoring are composed as a real documentation workspace.
+            </p>
+          </div>
+          <div className="search-story-metrics" aria-label="Search demo metrics">
+            <div className="search-story-metric">
+              <strong>{sampleData.length}</strong>
+              <span>indexed records</span>
             </div>
-            <div className="glass-text-center">
-              <div className="glass-w-12 glass-h-12 glass-surface-green glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
-                🎤
-              </div>
-              <h3 className="glass-font-semibold">Voice Search</h3>
-              <p className="glass-text-sm glass-text-secondary mt-1">Speech-to-text search with real-time recognition</p>
+            <div className="search-story-metric">
+              <strong>3</strong>
+              <span>filter dimensions</span>
             </div>
-            <div className="glass-text-center">
-              <div className="glass-w-12 glass-h-12 glass-surface-primary glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
-                🔧
-              </div>
-              <h3 className="glass-font-semibold">Smart Filters</h3>
-              <p className="glass-text-sm glass-text-secondary mt-1">Dynamic filters that adapt to your content</p>
+            <div className="search-story-metric">
+              <strong>{searchQuery || 'Ready'}</strong>
+              <span>current query</span>
             </div>
-            <div className="glass-text-center">
-              <div className="glass-w-12 glass-h-12 glass-surface-primary glass-text-primary glass-radius-full glass-flex glass-items-center glass-justify-center glass-mx-auto glass-mb-3">
-                ✨
-              </div>
-              <h3 className="glass-font-semibold">Auto-suggestions</h3>
-              <p className="glass-text-sm glass-text-secondary mt-1">Intelligent suggestions based on content and history</p>
+            <div className="search-story-metric">
+              <strong>{selectedTitle}</strong>
+              <span>selection state</span>
             </div>
           </div>
-        </div>
+        </section>
 
         <GlassIntelligentSearch
           data={sampleData}
@@ -274,31 +409,32 @@ export const SearchShowcase: Story = {
           maxResults={12}
         />
 
-        <div className="glass-surface-subtle glass-border-l-4 glass-border-yellow glass-p-6 glass-radius-r-lg">
-          <h3 className="glass-font-semibold glass-text-primary glass-mb-2">🧪 Try These Advanced Search Examples</h3>
-          <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-2 glass-gap-4 glass-text-sm glass-text-primary">
+        <section className="search-story-callout">
+          <h3>Recommended demo queries</h3>
+          <p>
+            These examples exercise scoring, suggestions, query analysis, and multi-select filter controls without depending on external services.
+          </p>
+          <div className="search-story-examples">
             <div>
-              <h4 className="glass-font-medium glass-mb-2">Natural Language Queries:</h4>
-              <ul className="space-y-1">
-                <li>• "Find the best React tutorials"</li>
-                <li>• "Show me guides about performance"</li>
-                <li>• "Compare frontend frameworks"</li>
-                <li>• "Help me learn machine learning"</li>
-                <li>• "What are the top rated courses?"</li>
+              <h4>Natural language</h4>
+              <ul>
+                <li>Find the best React tutorials</li>
+                <li>Show me guides about performance</li>
+                <li>Compare frontend frameworks</li>
+                <li>Help me learn machine learning</li>
               </ul>
             </div>
             <div>
-              <h4 className="glass-font-medium glass-mb-2">Smart Features to Try:</h4>
-              <ul className="space-y-1">
-                <li>• Use voice search with the microphone button</li>
-                <li>• Watch auto-suggestions as you type</li>
-                <li>• Filter by category, tags, and ratings</li>
-                <li>• See NLP analysis of your queries</li>
-                <li>• Notice highlighted search terms in results</li>
+              <h4>Feature coverage</h4>
+              <ul>
+                <li>Type to reveal suggestions and result highlighting</li>
+                <li>Filter by category, tags, and minimum rating</li>
+                <li>Inspect NLP intent and extracted keywords</li>
+                <li>Select a result to update the workspace state</li>
               </ul>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     );
   },
@@ -322,6 +458,9 @@ export const LargeDataset: Story = {
       const tech = technologies[i % technologies.length];
       const topic = topics[i % topics.length];
       const category = categories[i % categories.length];
+      const rating = 3 + ((i * 17) % 21) / 10;
+      const month = String((i % 12) + 1).padStart(2, '0');
+      const day = String((i % 28) + 1).padStart(2, '0');
       
       return {
         id: `item-${i}`,
@@ -331,9 +470,9 @@ export const LargeDataset: Story = {
         tags: [tech.toLowerCase(), topic.toLowerCase(), category.toLowerCase(), 'programming', 'development'],
         score: 0,
         metadata: { 
-          rating: Math.round((3 + Math.random() * 2) * 10) / 10,
+          rating: Math.round(rating * 10) / 10,
           author: `Author ${i + 1}`,
-          date: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+          date: `2024-${month}-${day}`
         }
       };
     });
@@ -378,7 +517,7 @@ export const CustomStyling: Story = {
     enableNLP: true,
     enableVoiceSearch: false,
     maxResults: 6,
-    className: "max-w-2xl"
+    className: "search-compact"
   },
   parameters: {
     docs: {

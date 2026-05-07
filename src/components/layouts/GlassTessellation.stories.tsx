@@ -95,11 +95,22 @@ const colorCodedTiles: TessellationTile[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Layouts/GlassTessellation',
+  title: 'Surfaces/App Shells + Layout/Glass Tessellation',
   component: GlassTessellation,
   parameters: {
     layout: 'fullscreen',
+    previewSurface: 'app',
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-8"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     tessellationType: {

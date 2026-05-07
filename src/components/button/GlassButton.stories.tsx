@@ -6,7 +6,7 @@ import { useGlassParallax } from '../../hooks/useGlassParallax';
 import { GlassButtonVariantType } from './types';
 
 const meta: Meta<typeof GlassButton> = {
-  title: 'Components/Button/GlassButton',
+  title: 'Controls/Buttons/Glass Button',
   component: GlassButton,
   parameters: {
     layout: 'centered',
@@ -260,7 +260,7 @@ export const CallToAction: Story = {
     glassVariant: 'dynamic',
     intensity: 'extreme',
     elevation: 'level4',
-    className: 'px-8 py-4 text-lg font-semibold',
+    className: 'glass-px-8 glass-py-4 glass-text-lg glass-font-semibold',
     children: 'Get Started Today',
   },
 };
@@ -269,7 +269,7 @@ export const CallToAction: Story = {
 export const WithPredictiveFeatures: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Predictive Button</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Anticipates user actions and preloads responses</p>
         <GlassButton 
@@ -289,7 +289,7 @@ export const WithPredictiveFeatures: Story = {
 export const WithEyeTracking: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Eye Tracking Enabled</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Responds to user gaze with visual feedback</p>
         <div className="glass-flex glass-flex-wrap glass-gap-4">
@@ -315,38 +315,65 @@ export const WithEyeTracking: Story = {
 
 export const BiometricAdaptive: Story = {
   render: (args) => (
-    <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
-        <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Biometric Adaptive</h3>
-        <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Adjusts interaction patterns based on stress levels</p>
-        <div className="glass-flex glass-flex-wrap glass-gap-4">
-          <GlassButton 
-            {...args}
-          >
-            Adaptive Submit
+    <div
+      className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5 glass-contrast-guard"
+      style={{ width: "min(640px, calc(100vw - 64px))" }}
+    >
+      <div className="glass-flex glass-flex-col glass-gap-4">
+        <div>
+          <h3 className="glass-text-base glass-font-semibold glass-text-primary glass-mb-1">
+            Biometric adaptive actions
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Stable Storybook sample showing larger hit targets and calmer copy
+            for stress-aware action states.
+          </p>
+        </div>
+        <div className="glass-grid glass-grid-cols-1 sm:glass-grid-cols-3 glass-gap-3">
+          {[
+            ["Input cadence", "Slower"],
+            ["Target size", "Large"],
+            ["Motion", "Reduced"],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="glass-radius-lg glass-border glass-border-subtle glass-surface-overlay glass-p-3"
+            >
+              <div className="glass-text-xs glass-text-secondary">{label}</div>
+              <div className="glass-text-sm glass-font-semibold glass-text-primary">
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="glass-flex glass-flex-wrap glass-gap-3">
+          <GlassButton {...args} size="lg" biometricResponsive={false}>
+            Confirm review
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
+            size="lg"
             variant="destructive"
+            biometricResponsive={false}
           >
-            Delete (Stress-Aware)
+            Escalate carefully
           </GlassButton>
         </div>
       </div>
     </div>
   ),
   args: {
-    size: 'md',
+    size: 'lg',
   },
 };
 
 export const WithSpatialAudio: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Spatial Audio Feedback</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Provides positional audio cues for interactions</p>
-        <div className="glass-grid glass-glass-grid-cols-3 glass-gap-4">
+        <div className="glass-grid glass-grid-cols-3 glass-gap-4">
           <GlassButton 
             {...args}
             size="sm"
@@ -377,7 +404,7 @@ export const WithSpatialAudio: Story = {
 export const AchievementTracking: Story = {
   render: (args) => (
     <div className="glass-stack glass-stack-lg">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Achievement System</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Tracks user interactions for gamification</p>
         <div className="glass-flex glass-flex-wrap glass-gap-4">
@@ -409,13 +436,13 @@ export const AchievementTracking: Story = {
 
 export const ConsciousnessShowcase: Story = {
   render: (args) => (
-    <div className="space-y-8">
+    <div className="glass-stack glass-stack-lg">
       <div className="glass-text-center glass-gap-2">
         <h2 className="glass-text-xl glass-font-semibold glass-text-primary">Consciousness-Enhanced Button</h2>
         <p className="glass-text-sm glass-text-primary-secondary">All consciousness features enabled</p>
       </div>
       
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
         <GlassButton 
           {...args}
           size="lg"
@@ -429,7 +456,7 @@ export const ConsciousnessShowcase: Story = {
         </GlassButton>
       </div>
       
-      <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-4 glass-text-sm">
+      <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4 glass-text-sm">
         <div className="glass-surface-overlay glass-radius-lg glass-p-3 glass-contrast-guard">
           <h4 className="glass-font-medium glass-text-primary glass-mb-2">Active Features</h4>
           <ul className="glass-text-primary-secondary glass-gap-1">
@@ -463,15 +490,15 @@ export const ConsciousnessShowcase: Story = {
 
 export const ConsciousnessComparison: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+    <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-4">Standard Button</h3>
         <GlassButton {...args}>
           Traditional Interaction
         </GlassButton>
         <p className="glass-text-xs glass-text-primary-secondary glass-mt-2">Basic click interactions</p>
       </div>
-      <div className="glass-surface-overlay glass-glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-4">Consciousness Enhanced</h3>
         <GlassButton 
           {...args}

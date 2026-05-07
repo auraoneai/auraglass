@@ -5,7 +5,7 @@ import { GlassSmartShoppingCart } from './GlassSmartShoppingCart';
 import { GlassProductRecommendations } from './GlassProductRecommendations';
 
 const meta: Meta = {
-  title: 'E-commerce/GlassEcommerce',
+  title: 'Workflows/Glass Ecommerce',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -84,6 +84,22 @@ This represents the most advanced e-commerce component system available, combini
 
 export default meta;
 
+const productImage = (label: string, color: string) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop stop-color="#${color}" offset="0"/>
+          <stop stop-color="#0f172a" offset="1"/>
+        </linearGradient>
+      </defs>
+      <rect width="400" height="400" rx="48" fill="url(#g)"/>
+      <circle cx="312" cy="88" r="86" fill="rgba(255,255,255,0.16)"/>
+      <circle cx="92" cy="318" r="118" fill="rgba(255,255,255,0.12)"/>
+      <text x="200" y="212" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="700" fill="white">${label}</text>
+    </svg>
+  `)}`;
+
 // Sample product data for demonstrations
 const sampleProducts: Product[] = [
   {
@@ -94,10 +110,10 @@ const sampleProducts: Product[] = [
     originalPrice: 399.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/3b82f6/ffffff?text=Headphones',
-      'https://via.placeholder.com/400x400/1e40af/ffffff?text=Side+View'
+      productImage('Headphones', '3b82f6'),
+      productImage('Side View', '1e40af')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/3b82f6/ffffff?text=Headphones',
+    thumbnail: productImage('Headphones', '3b82f6'),
     category: 'Electronics',
     subcategory: 'Audio',
     brand: 'TechSound',
@@ -134,9 +150,9 @@ const sampleProducts: Product[] = [
     price: 249.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/10b981/ffffff?text=Fitness+Watch'
+      productImage('Fitness Watch', '10b981')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/10b981/ffffff?text=Watch',
+    thumbnail: productImage('Watch', '10b981'),
     category: 'Electronics',
     subcategory: 'Wearables',
     brand: 'FitTech',
@@ -173,9 +189,9 @@ const sampleProducts: Product[] = [
     originalPrice: 499.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/6366f1/ffffff?text=Office+Chair'
+      productImage('Office Chair', '6366f1')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/6366f1/ffffff?text=Chair',
+    thumbnail: productImage('Chair', '6366f1'),
     category: 'Furniture',
     subcategory: 'Office',
     brand: 'ComfortSeating',
@@ -211,9 +227,9 @@ const sampleProducts: Product[] = [
     price: 79.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/f59e0b/ffffff?text=Speaker'
+      productImage('Speaker', 'f59e0b')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/f59e0b/ffffff?text=Speaker',
+    thumbnail: productImage('Speaker', 'f59e0b'),
     category: 'Electronics',
     subcategory: 'Audio',
     brand: 'SoundWave',
@@ -248,9 +264,9 @@ const sampleProducts: Product[] = [
     price: 599.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/8b5cf6/ffffff?text=Standing+Desk'
+      productImage('Standing Desk', '8b5cf6')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/8b5cf6/ffffff?text=Desk',
+    thumbnail: productImage('Desk', '8b5cf6'),
     category: 'Furniture',
     subcategory: 'Office',
     brand: 'DeskTech',
@@ -287,9 +303,9 @@ const sampleProducts: Product[] = [
     originalPrice: 39.99,
     currency: 'USD',
     images: [
-      'https://via.placeholder.com/400x400/ef4444/ffffff?text=Wireless+Charger'
+      productImage('Charger', 'ef4444')
     ],
-    thumbnail: 'https://via.placeholder.com/200x200/ef4444/ffffff?text=Charger',
+    thumbnail: productImage('Charger', 'ef4444'),
     category: 'Electronics',
     subcategory: 'Accessories',
     brand: 'ChargeFast',
@@ -329,11 +345,35 @@ const EcommerceStoryWrapper: React.FC<{
 }) => {
   return (
     <EcommerceProvider>
-      <EcommerceInitializer 
-        products={initialProducts}
-        cartItems={initialCart}
-      />
-      {children}
+      <div data-bg="light" className="glass-on-light ecommerce-story-scope" style={{ minHeight: "100vh", color: "#0f172a" }}>
+        <style>{`
+          .ecommerce-story-scope,
+          .ecommerce-story-scope .glass-text-secondary {
+            color: #0f172a !important;
+          }
+
+          .ecommerce-story-scope .glass-surface-blue,
+          .ecommerce-story-scope button.glass-surface-blue {
+            background: rgba(37, 99, 235, 0.94) !important;
+            color: #fff !important;
+          }
+
+          .ecommerce-story-scope button.glass-text-secondary {
+            background: rgba(255, 255, 255, 0.88);
+            color: #0f172a !important;
+          }
+
+          .ecommerce-story-scope .glass-surface-red {
+            background: rgba(220, 38, 38, 0.95) !important;
+            color: #fff !important;
+          }
+        `}</style>
+        <EcommerceInitializer
+          products={initialProducts}
+          cartItems={initialCart}
+        />
+        {children}
+      </div>
     </EcommerceProvider>
   );
 };
@@ -489,13 +529,13 @@ Space-efficient cart design perfect for mobile or dropdown implementations:
 export const AIProductRecommendationsGrid: Story = {
   render: () => (
     <EcommerceStoryWrapper>
-      <div className="glass-p-6">
+      <div className="glass-p-6" style={{ height: "100vh", overflowY: "auto", boxSizing: "border-box" }}>
         <GlassProductRecommendations
           productId="prod_001"
           title="Customers Also Bought"
           subtitle="Based on your viewing and purchase history"
           variant="grid"
-          maxItems={8}
+          maxItems={4}
           showPrices={true}
           showRatings={true}
           showQuickActions={true}
@@ -666,7 +706,10 @@ export const EcommerceShowcase: Story = {
           { productId: 'prod_004', quantity: 2, variants: { color: 'Blue' } }
         ]}
       >
-        <div className="glass-min-glass-h-screen glass-surface-subtle">
+        <div
+          className="glass-surface-subtle"
+          style={{ height: "100vh", overflowX: "hidden", overflowY: "auto", color: "#0f172a" }}
+        >
           {/* Header */}
           <div className="glass-surface-subtle glass-border-b glass-border-subtle glass-p-4">
             <div className="max-w-6xl glass-mx-auto glass-flex glass-items-center glass-justify-between">
@@ -677,9 +720,18 @@ export const EcommerceShowcase: Story = {
               <button
                 onClick={() => setCartOpen(!cartOpen)}
                 className="glass-relative glass-p-2 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                style={{
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  border: "1px solid rgba(37,99,235,0.36)",
+                  boxShadow: "0 10px 24px rgba(37,99,235,0.2)",
+                }}
               >
                 🛒 Cart
-                <span className="glass-absolute -glass-glassglass--top-2 -right-2 glass-w-6 glass-h-6 glass-surface-red glass-text-primary glass-text-xs glass-radius-full glass-flex glass-items-center glass-justify-center">
+                <span
+                  className="glass-absolute glass-w-6 glass-h-6 glass-surface-red glass-text-primary glass-text-xs glass-radius-full glass-flex glass-items-center glass-justify-center"
+                  style={{ top: -8, right: -8 }}
+                >
                   3
                 </span>
               </button>
@@ -753,6 +805,12 @@ export const EcommerceShowcase: Story = {
                   <button
                     onClick={() => setCartOpen(true)}
                     className="glass-w-full mt-3 glass-py-2 glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                    style={{
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      border: "1px solid rgba(37,99,235,0.32)",
+                      borderRadius: 10,
+                    }}
                   >
                     View Cart
                   </button>

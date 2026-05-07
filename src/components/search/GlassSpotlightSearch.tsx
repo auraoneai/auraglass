@@ -9,6 +9,7 @@ import React, {
   useMemo,
 } from "react";
 import { OptimizedGlass } from "../../primitives";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { createPortal } from "react-dom";
 
 export interface SpotlightAction {
@@ -286,7 +287,11 @@ export const GlassSpotlightSearch = forwardRef<
 
     const content = (
       <div
-        className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-p-4 glass-pt-24 glass-surface-dark/40 glass-backdrop-blur-sm glass-contrast-guard"
+        className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-p-4 glass-pt-24 glass-backdrop-blur-sm glass-contrast-guard"
+        style={{
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+        }}
         onClick={onClose}
         role="presentation"
       >
@@ -294,11 +299,12 @@ export const GlassSpotlightSearch = forwardRef<
           ref={ref}
           elevation={elevation}
           className={cn(
-            "w-full max-w-2xl overflow-hidden glass-radius-2xl",
+            "glass-w-full glass-overflow-hidden glass-radius-2xl",
             "transform transition-all duration-200 ease-out",
             open ? "scale-100 opacity-100" : "scale-95 opacity-0",
             className
           )}
+          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
           onClick={(e: React.MouseEvent) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"
@@ -329,8 +335,27 @@ export const GlassSpotlightSearch = forwardRef<
               }}
               placeholder={placeholder}
               className="glass-flex-1 glass-bg-transparent glass-text-base glass-text-primary glass-outline-none glass-placeholder-text-secondary glass-focus glass-touch-target glass-contrast-guard"
+              style={{
+                minWidth: 0,
+                appearance: "none",
+                WebkitAppearance: "none",
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                border: "1px solid rgba(15,23,42,0.14)",
+                borderRadius: 12,
+                padding: "10px 12px",
+                color: "#0f172a",
+              }}
             />
-            <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-surface-subtle/10 glass-radius-sm">
+            <kbd
+              className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius-sm"
+              style={{
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                border: "1px solid rgba(15,23,42,0.14)",
+                color: "#334155",
+              }}
+            >
               ESC
             </kbd>
           </div>
@@ -370,13 +395,21 @@ export const GlassSpotlightSearch = forwardRef<
                             onClick={() => handleActionSelect(action)}
                             onMouseEnter={() => setSelectedIndex(globalIndex)}
                             className={cn(
-                              "w-full flex items-center gap-3 glass-p-3 glass-radius-lg",
-                              "transition-all duration-200",
-                              "text-left glass-focus glass-touch-target glass-contrast-guard",
-                              isSelected
-                                ? "bg-white/15 shadow-lg"
-                                : "hover:bg-white/5"
+                              "glass-w-full glass-flex glass-items-center glass-gap-3 glass-p-3 glass-radius-lg",
+                              "glass-transition-all",
+                              "glass-text-left glass-focus glass-touch-target glass-contrast-guard",
+                              isSelected ? "glass-shadow-lg" : ""
                             )}
+                            style={{
+                              width: "100%",
+                              background: isSelected
+                                ? "rgba(255,255,255,0.62)"
+                                : "rgba(255,255,255,0.22)",
+                              border: isSelected
+                                ? "1px solid rgba(37,99,235,0.34)"
+                                : "1px solid rgba(15,23,42,0.08)",
+                              color: "#0f172a",
+                            }}
                           >
                             {action.icon && (
                               <div className="glass-flex-shrink-0 glass-text-primary">
@@ -394,7 +427,15 @@ export const GlassSpotlightSearch = forwardRef<
                               )}
                             </div>
                             {action.shortcut && (
-                              <kbd className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-surface-subtle/10 glass-radius-sm glass-flex-shrink-0">
+                              <kbd
+                                className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius-sm glass-flex-shrink-0"
+                                style={{
+                                  background:
+                                    '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                                  border: "1px solid rgba(15,23,42,0.12)",
+                                  color: "#334155",
+                                }}
+                              >
                                 {action.shortcut}
                               </kbd>
                             )}

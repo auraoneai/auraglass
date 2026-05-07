@@ -1,107 +1,59 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassSelect } from './GlassSelect';
-import { cn } from '../../lib/utils';
+import type { ComponentProps } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Building2 } from "lucide-react";
+import { GlassSelect } from "./GlassSelect";
+
+const options = [
+  { value: "startup", label: "Startup workspace" },
+  { value: "growth", label: "Growth team" },
+  { value: "enterprise", label: "Enterprise program" },
+  { value: "partner", label: "Partner operations" },
+];
 
 const meta: Meta<typeof GlassSelect> = {
-  title: 'Components/Input/GlassSelect',
+  title: 'Controls/Inputs/Glass Select',
   component: GlassSelect,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glassselect component.',
+        component:
+          "A glass select field with searchable, multi-select, and validation states.",
       },
     },
   },
-  argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'disabled prop',
-    },
-    placeholder: {
-      control: 'text',
-      description: 'placeholder prop',
-    },
-    size: {
-      control: { type: 'select' },
-      options: ["sm","md","lg"],
-      description: 'size prop',
-    },
-    variant: {
-      control: { type: 'select' },
-      options: ["default","filled","outlined","minimal"],
-      description: 'variant prop',
-    },
-    state: {
-      control: { type: 'select' },
-      options: ["default","error","warning","success"],
-      description: 'state prop',
-    },
-  },
   args: {
-    className: '',
-    disabled: false,
-    placeholder: 'Select an option...',
-    size: 'md',
-    variant: 'default',
-    state: 'default',
-    options: [
-      { value: 'apple', label: 'Apple' },
-      { value: 'banana', label: 'Banana' },
-      { value: 'cherry', label: 'Cherry' },
-      { value: 'date', label: 'Date' },
-    ],
+    label: "Workspace segment",
+    placeholder: "Choose a segment",
+    options,
+    helperText: "Segments tune navigation and reporting defaults.",
+    leftIcon: <Building2 size={16} />,
+    fullWidth: true,
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof GlassSelect>;
 
+const SelectFrame = (args: ComponentProps<typeof GlassSelect>) => (
+  <div className="glass-grid glass-w-[min(640px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+    <GlassSelect {...args} />
+    <div className="glass-grid glass-gap-3 md:glass-grid-cols-2">
+      <GlassSelect label="Region" placeholder="Select region" options={[{ value: "na", label: "North America" }, { value: "eu", label: "Europe" }, { value: "apac", label: "Asia Pacific" }]} variant="filled" fullWidth />
+      <GlassSelect label="Approval lane" placeholder="Select lane" options={[{ value: "fast", label: "Fast track" }, { value: "standard", label: "Standard review" }]} state="warning" helperText="Review is required for external launches." fullWidth />
+    </div>
+  </div>
+);
+
 export const Default: Story = {
+  render: (args) => <SelectFrame {...args} />,
+};
+
+export const Searchable: Story = {
   args: {
-    placeholder: 'Select a fruit...',
-    options: [
-      { value: 'apple', label: '🍎 Apple' },
-      { value: 'banana', label: '🍌 Banana' },
-      { value: 'cherry', label: '🍒 Cherry' },
-      { value: 'grape', label: '🍇 Grape' },
-    ],
+    searchable: true,
+    placeholder: "Search workspace segment",
   },
-};
-
-export const Variants: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassSelect {...args} variant="default" placeholder="Default variant" />
-      <GlassSelect {...args} variant="filled" placeholder="Filled variant" />
-      <GlassSelect {...args} variant="outlined" placeholder="Outlined variant" />
-      <GlassSelect {...args} variant="minimal" placeholder="Minimal variant" />
-    </div>
-  ),
-};
-
-export const States: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassSelect {...args} state="default" placeholder="Default state" />
-      <GlassSelect {...args} state="success" placeholder="Success state" />
-      <GlassSelect {...args} state="warning" placeholder="Warning state" />
-      <GlassSelect {...args} state="error" placeholder="Error state" />
-    </div>
-  ),
-};
-
-export const Sizes: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassSelect {...args} size="sm" placeholder="Small size" />
-      <GlassSelect {...args} size="md" placeholder="Medium size" />
-      <GlassSelect {...args} size="lg" placeholder="Large size" />
-    </div>
-  ),
+  render: (args) => <SelectFrame {...args} />,
 };

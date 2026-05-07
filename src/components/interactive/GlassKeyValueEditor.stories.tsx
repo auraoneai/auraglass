@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassKeyValueEditor> = {
-  title: 'Components/Interactive/GlassKeyValueEditor',
+  title: 'Workflows/Glass Key Value Editor',
   component: GlassKeyValueEditor,
   parameters: {
     layout: 'centered',

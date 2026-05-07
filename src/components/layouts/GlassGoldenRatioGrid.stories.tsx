@@ -300,11 +300,22 @@ const contentCards: GoldenRatioItem[] = [
 ];
 
 const meta = {
-  title: 'Glass UI/Layouts/GlassGoldenRatioGrid',
+  title: 'Surfaces/App Shells + Layout/Glass Golden Ratio Grid',
   component: GlassGoldenRatioGrid,
   parameters: {
     layout: 'fullscreen',
+    previewSurface: 'app',
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-8"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     containerWidth: {

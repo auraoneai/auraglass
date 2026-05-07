@@ -4,7 +4,7 @@ import { GlobalCookieConsent } from './GlobalCookieConsent';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlobalCookieConsent> = {
-  title: 'Components/Cookie-consent/GlobalCookieConsent',
+  title: 'Workflows/Global Cookie Consent',
   component: GlobalCookieConsent,
   parameters: {
     layout: 'centered',

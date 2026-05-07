@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassThemeSwitcher> = {
-  title: 'Components/Interactive/GlassThemeSwitcher',
+  title: 'Effects + Advanced/Glass Theme Switcher',
   component: GlassThemeSwitcher,
   parameters: {
     layout: 'centered',

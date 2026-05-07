@@ -275,7 +275,7 @@ export const GlassTransferList = forwardRef<
                     disabled={disabled || item.disabled}
                     className="glass-mt-0-5 glass-focus"
                   />
-                  <div className="glass-flex-1 glass-min-glass-w-0">
+                  <div className="glass-flex-1 glass-min-w-0">
                     <div className="glass-flex glass-items-center glass-gap-2">
                       {item.icon && (
                         <span className="glass-flex-shrink-0">{item.icon}</span>

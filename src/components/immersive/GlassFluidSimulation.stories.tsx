@@ -3,7 +3,7 @@ import { GlassFluidSimulation } from './GlassFluidSimulation';
 import { fn } from 'storybook/test';
 
 const meta = {
-  title: 'Glass UI/Immersive/GlassFluidSimulation',
+  title: 'Effects + Advanced/Glass Fluid Simulation',
   component: GlassFluidSimulation,
   parameters: {
     layout: 'centered',

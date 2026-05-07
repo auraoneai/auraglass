@@ -12,7 +12,7 @@ const mockHistoricalData: CoherenceData[] = Array.from({ length: 20 }, (_, i) =>
 }));
 
 const meta = {
-  title: 'Glass UI/Quantum/GlassCoherenceIndicator',
+  title: 'Effects + Advanced/Glass Coherence Indicator',
   component: GlassCoherenceIndicator,
   parameters: {
     layout: 'centered',

@@ -11,7 +11,7 @@ const componentName =
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Collaboration/GlassCollaborationProvider",
+  title: 'Workflows/Glass Collaboration Provider',
   component: Component,
   parameters: {
     layout: "centered",

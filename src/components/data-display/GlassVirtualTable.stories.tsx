@@ -4,7 +4,7 @@ import { GlassVirtualTable } from './GlassVirtualTable';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassVirtualTable> = {
-  title: 'Components/Data-display/GlassVirtualTable',
+  title: 'Data + Visualization/Glass Virtual Table',
   component: GlassVirtualTable,
   parameters: {
     layout: 'centered',

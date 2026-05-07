@@ -86,6 +86,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
       "aria-describedby": ariaDescribedBy,
       className,
       id,
+      style,
       ...props
     },
     ref
@@ -153,23 +154,23 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
 
     const sizeConfig = {
       sm: {
-        track: "h-5 w-9",
-        thumb: "h-4 w-4",
-        translate: "translate-x-4",
+        track: { width: 36, height: 20 },
+        thumb: { width: 16, height: 16 },
+        translateX: 16,
         text: "glass-text-xs",
         gap: "glass-gap-2",
       },
       md: {
-        track: "h-6 w-11",
-        thumb: "h-5 w-5",
-        translate: "translate-x-5",
+        track: { width: 44, height: 24 },
+        thumb: { width: 20, height: 20 },
+        translateX: 20,
         text: "glass-text-sm",
         gap: "glass-gap-3",
       },
       lg: {
-        track: "h-7 w-14",
-        thumb: "h-6 w-6",
-        translate: "translate-x-7",
+        track: { width: 56, height: 28 },
+        thumb: { width: 24, height: 24 },
+        translateX: 28,
         text: "glass-text-base",
         gap: "glass-gap-4",
       },
@@ -249,7 +250,6 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         press
         className={cn(
           "glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200",
-          config.track,
           disabled && "opacity-50 cursor-not-allowed",
           loading && "cursor-wait",
           focusRing && "glass-focus",
@@ -257,6 +257,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
           className
         )}
         onClick={handleToggle}
+        style={{ ...config.track, ...style }}
         aria-checked={!!isChecked}
         aria-invalid={isInvalid || undefined}
         aria-required={required || undefined}
@@ -268,10 +269,15 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         <div
           className={cn(
             "pointer-events-none relative flex items-center justify-center glass-radius-full transition-all duration-200 shadow-lg",
-            config.thumb,
-            isChecked ? config.translate : "translate-x-0.5"
+            isChecked ? colors.thumb.checked : colors.thumb.unchecked
           )}
-        />
+          style={{
+            ...config.thumb,
+            transform: `translateX(${isChecked ? config.translateX : 2}px)`,
+          }}
+        >
+          {thumbContent ?? (isChecked ? icons?.checked : icons?.unchecked)}
+        </div>
       </OptimizedGlass>
     );
 

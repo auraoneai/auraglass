@@ -3,8 +3,25 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassGallery } from './GlassGallery';
 import { fn } from '@storybook/test';
 
+const galleryImage = (title: string, accent: string, width = 400, height = 300) =>
+  `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0f172a"/>
+          <stop offset="0.58" stop-color="${accent}"/>
+          <stop offset="1" stop-color="#0f766e"/>
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#bg)"/>
+      <circle cx="${width * 0.78}" cy="${height * 0.28}" r="${Math.min(width, height) * 0.18}" fill="rgba(255,255,255,.18)"/>
+      <rect x="${width * 0.12}" y="${height * 0.18}" width="${width * 0.48}" height="${height * 0.16}" rx="18" fill="rgba(255,255,255,.18)"/>
+      <text x="${width * 0.12}" y="${height * 0.72}" font-family="Inter, Arial, sans-serif" font-size="${Math.max(18, width * 0.06)}" font-weight="700" fill="#ffffff">${title}</text>
+    </svg>
+  `)}`;
+
 const meta: Meta<typeof GlassGallery> = {
-  title: 'Components/Interactive/GlassGallery',
+  title: 'Media/Glass Gallery',
   component: GlassGallery,
   parameters: {
     layout: 'centered',
@@ -50,7 +67,7 @@ const meta: Meta<typeof GlassGallery> = {
     images: [
       {
         id: '1',
-        src: 'https://picsum.photos/400/300?random=1',
+        src: galleryImage('Landscape', '#2563eb'),
         alt: 'Sample Image 1',
         title: 'Beautiful Landscape',
         description: 'A stunning landscape view',
@@ -61,7 +78,7 @@ const meta: Meta<typeof GlassGallery> = {
       },
       {
         id: '2',
-        src: 'https://picsum.photos/400/300?random=2',
+        src: galleryImage('Architecture', '#7c3aed'),
         alt: 'Sample Image 2',
         title: 'Urban Architecture',
         description: 'Modern city architecture',
@@ -72,7 +89,7 @@ const meta: Meta<typeof GlassGallery> = {
       },
       {
         id: '3',
-        src: 'https://picsum.photos/400/300?random=3',
+        src: galleryImage('Abstract', '#db2777'),
         alt: 'Sample Image 3',
         title: 'Abstract Art',
         description: 'Contemporary abstract art',
@@ -101,7 +118,7 @@ export const Default: Story = {
     images: [
       {
         id: '1',
-        src: 'https://picsum.photos/300/300?random=1',
+        src: galleryImage('Sample 1', '#2563eb', 300, 300),
         alt: 'Gallery Image 1',
         title: 'Sample Image 1',
         description: 'A beautiful sample image',
@@ -111,7 +128,7 @@ export const Default: Story = {
       },
       {
         id: '2',
-        src: 'https://picsum.photos/300/300?random=2',
+        src: galleryImage('Sample 2', '#0f766e', 300, 300),
         alt: 'Gallery Image 2',
         title: 'Sample Image 2',
         description: 'Another beautiful sample image',
@@ -121,7 +138,7 @@ export const Default: Story = {
       },
       {
         id: '3',
-        src: 'https://picsum.photos/300/300?random=3',
+        src: galleryImage('Sample 3', '#7c3aed', 300, 300),
         alt: 'Gallery Image 3',
         title: 'Sample Image 3',
         description: 'Third sample image',
@@ -140,7 +157,7 @@ export const Variants: Story = {
     images: [
       {
         id: '1',
-        src: 'https://picsum.photos/400/600?random=4',
+        src: galleryImage('Portrait', '#be123c', 400, 600),
         alt: 'Portrait Image',
         title: 'Portrait Layout',
         description: 'Image with portrait aspect ratio',
@@ -150,7 +167,7 @@ export const Variants: Story = {
       },
       {
         id: '2',
-        src: 'https://picsum.photos/600/400?random=5',
+        src: galleryImage('Landscape', '#0f766e', 600, 400),
         alt: 'Landscape Image',
         title: 'Landscape Layout',
         description: 'Image with landscape aspect ratio',

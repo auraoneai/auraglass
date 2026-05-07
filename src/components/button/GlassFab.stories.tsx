@@ -6,7 +6,7 @@ import { createGlassStyle } from '../../core/mixins/glassMixins';
 import { useParallax } from '../../hooks/useParallax';
 
 const meta: Meta<typeof GlassFab> = {
-  title: 'Components/Button/GlassFab',
+  title: 'Controls/Buttons/Glass Fab',
   component: GlassFab,
   parameters: {
     layout: 'centered',
@@ -47,22 +47,42 @@ export default meta;
 type Story = StoryObj<typeof GlassFab>;
 
 export const Default: Story = {
-  args: {
-    children: (
-      <div className="glass-p-4 glass-text-center">
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">GlassFab</h3>
-        <p className="glass-text-sm opacity-80">This is the default glassfab component.</p>
+  render: (args) => (
+    <div
+      className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-6"
+      style={{ width: "min(520px, calc(100vw - 64px))" }}
+    >
+      <div className="glass-flex glass-items-center glass-justify-between glass-gap-5">
+        <div>
+          <h3 className="glass-text-base glass-font-semibold glass-text-primary">
+            Floating action
+          </h3>
+          <p className="glass-text-sm glass-text-secondary">
+            Primary create action with a compact, reachable hit target.
+          </p>
+        </div>
+        <GlassFab {...args} aria-label="Create item">
+          +
+        </GlassFab>
       </div>
-    ),
+    </div>
+  ),
+  args: {
+    children: null,
   },
 };
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassFab {...args}>
-        Default
-      </GlassFab>
+    <div
+      className="glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-6"
+      style={{ width: "min(640px, calc(100vw - 64px))" }}
+    >
+      {(["default", "primary", "success", "warning", "error"] as const).map((color) => (
+        <GlassFab key={color} {...args} color={color} aria-label={`${color} action`}>
+          +
+        </GlassFab>
+      ))}
     </div>
   ),
   args: {
@@ -78,9 +98,10 @@ export const ParallaxFab: Story = {
         ref={ref}
         onMouseMove={onMouseMove}
         onMouseLeave={onMouseLeave}
+        className="glass-radius-2xl glass-border glass-border-subtle glass-p-6"
         style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
       >
-        <GlassFab {...args}>Parallax</GlassFab>
+        <GlassFab {...args} aria-label="Parallax create action">+</GlassFab>
       </div>
     );
   },

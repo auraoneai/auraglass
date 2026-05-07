@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { OptimizedGlass } from "../../primitives";
@@ -156,7 +156,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
         active && item?.activeIcon ? item?.activeIcon : item?.icon;
 
       return (
-        <div key={item?.id} className='glass-relative glass-flex-1'>
+        <div key={item?.id} className="glass-relative glass-flex-1">
           <GlassButton
             variant={active ? "primary" : "ghost"}
             size="sm"
@@ -171,6 +171,11 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
               labelPosition === "beside" && "flex-row glass-gap-2",
               !showLabels && "glass-gap-0"
             )}
+            style={{
+              border: 0,
+              background: active ? undefined : "transparent",
+              font: "inherit",
+            }}
           >
             {/* Icon */}
             <div
@@ -200,7 +205,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             {active && !showLabels && (
               <Motion
                 preset={respectMotionPreference ? "scaleIn" : "none"}
-                className='glass-absolute glass--glass-bottom-0-5 glass--left-1-2 glass--translate-x-1-2 glass-w-1 glass-h-1 glass-surface-primary glass-radius-full'
+                className="glass-absolute glass--glass-bottom-0-5 glass--left-1-2 glass--translate-x-1-2 glass-w-1 glass-h-1 glass-surface-primary glass-radius-full"
               />
             )}
           </GlassButton>
@@ -210,7 +215,7 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             <GlassBadge
               variant={item?.badgeVariant || "error"}
               size="xs"
-              className='glass-absolute glass-top-1 glass--right-1 glass-min-w-1-25rem glass-h-5 glass-flex glass-items-center glass-justify-center'
+              className="glass-absolute glass-top-1 glass--right-1 glass-min-w-1-25rem glass-h-5 glass-flex glass-items-center glass-justify-center"
             >
               {item?.badge}
             </GlassBadge>

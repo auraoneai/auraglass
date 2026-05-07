@@ -3,7 +3,7 @@ import { fn } from 'storybook/test';
 import { GlassAuroraDisplay } from './GlassAuroraDisplay';
 
 const meta = {
-  title: 'Glass UI/Atmospheric/GlassAuroraDisplay',
+  title: 'Effects + Advanced/Glass Aurora Display',
   component: GlassAuroraDisplay,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { GlassHeatmap } from './GlassHeatmap';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassHeatmap> = {
-  title: 'Components/Data-display/GlassHeatmap',
+  title: 'Data + Visualization/Glass Heatmap',
   component: GlassHeatmap,
   parameters: {
     layout: 'centered',

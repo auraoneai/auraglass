@@ -4,7 +4,7 @@ import { ChartContainer } from './ChartContainer';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartContainer> = {
-  title: 'Components/Components/ChartContainer',
+  title: 'Data + Visualization/Chart Container',
   component: ChartContainer,
   parameters: {
     layout: 'centered',

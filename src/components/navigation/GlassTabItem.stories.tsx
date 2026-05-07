@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { GlassTabItem as Component } from "./GlassTabItem";
 
 const meta = {
-  title: "Components/Navigation/GlassTabItem",
+  title: 'Navigation/Glass Tab Item',
   component: Component,
   parameters: {
     layout: "centered",

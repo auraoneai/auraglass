@@ -7,6 +7,7 @@ This directory stores generated and hand-authored audit reports. The reports are
 - [Component inventory JSON](./component_inventory.json): 356 canonical inventory entries.
 - [Storybook visual certification JSON](./glassmorphism-storybook-visual-certification.json): 356/356 passed entries.
 - [Storybook visual certification Markdown](./glassmorphism-storybook-visual-certification.md): human-readable certification summary.
+- [Storybook exhaustive QA Markdown](./storybook-exhaustive-qa.md): 1,595 static Storybook stories crawled across desktop/mobile modes with zero hard failures and zero audit-run errors; remaining findings are visual heuristics retained for follow-up.
 - [Certification screenshots](./glassmorphism-storybook-visual-certification/screenshots): 712 screenshot artifacts.
 - [Public export audit JSON](./public-export-audit.json): root export source and declaration evidence.
 - [API surface audit JSON](./api-surface-audit.json): public declaration `any` and ref-forwarding follow-up evidence.
@@ -38,6 +39,7 @@ This directory stores generated and hand-authored audit reports. The reports are
 - [manual-browser-qa-checklist.md](./manual-browser-qa-checklist.md)
 - [public-export-audit.md](./public-export-audit.md)
 - [runtime-cleanliness-audit.md](./runtime-cleanliness-audit.md)
+- [storybook-exhaustive-qa.md](./storybook-exhaustive-qa.md)
 - [tailwind_audit.md](./tailwind_audit.md)
 - [tsconfig_matrix.md](./tsconfig_matrix.md)
 
@@ -49,5 +51,6 @@ This directory stores generated and hand-authored audit reports. The reports are
 - Runtime cleanliness audit: `npm run audit:runtime`.
 - Cross-browser visual matrix: `npm run test:visual:matrix`.
 - Full Storybook visual certification: start Storybook, then run `STORYBOOK_URL=http://localhost:6007 node scripts/audit/storybook-visual-certification.mjs`.
+- Static all-story Storybook QA: build Storybook, serve `storybook-static`, then run `STORYBOOK_URL=http://127.0.0.1:6016 STORYBOOK_QA_CONCURRENCY=8 STORYBOOK_QA_TIMEOUT_MS=10000 STORYBOOK_QA_SETTLE_MS=350 node scripts/storybook-exhaustive-qa.js http://127.0.0.1:6016 --mobile-all --fail-on-findings`.
 - Token checks: `npm run lint:tokens`.
 - Style checks: `npm run lint:styles`.

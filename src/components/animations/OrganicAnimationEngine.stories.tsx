@@ -10,7 +10,7 @@ const componentName = "OrganicAnimationEngine" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Animations/OrganicAnimationEngine",
+  title: 'Foundations/Motion/Organic Animation Engine',
   component: Component,
   parameters: {
     layout: "centered",

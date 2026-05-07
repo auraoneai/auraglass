@@ -1,27 +1,51 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { GlassPieChart } from './GlassPieChart';
-import { cn } from '../../lib/utils';
+import React from 'react';
+import { GlassPieChart, type PieDataPoint } from './GlassPieChart';
+
+const segmentData: PieDataPoint[] = [
+  { label: 'Enterprise', value: 48, color: 'var(--glass-color-primary)' },
+  { label: 'Mid-market', value: 27, color: 'var(--glass-color-success)' },
+  { label: 'Startup', value: 16, color: 'var(--glass-color-warning)' },
+  { label: 'Partner', value: 9, color: 'var(--glass-color-danger)' },
+];
+
+const ChartFrame = ({ children }: { children: React.ReactNode }) => (
+  <div
+    className="glass-rounded-xl glass-border glass-border-white/40 glass-bg-white/55 glass-p-5 glass-shadow-xl"
+    style={{ width: 'min(760px, calc(100vw - 48px))', overflowX: 'auto' }}
+  >
+    {children}
+  </div>
+);
 
 const meta: Meta<typeof GlassPieChart> = {
-  title: 'Components/Charts/GlassPieChart',
+  title: 'Data + Visualization/Glass Pie Chart',
   component: GlassPieChart,
   parameters: {
-    layout: 'centered',
+    layout: 'padded',
+    previewSurface: 'app',
     docs: {
       description: {
-        component: 'A glass morphism glasspiechart component.',
+        component: 'Glass pie and donut chart examples with readable segment colors, labels, legend, and tooltips.',
       },
     },
   },
   argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
+    innerRadius: { control: { type: 'range', min: 0, max: 120, step: 10 } },
+    showLegend: { control: 'boolean' },
+    showLabels: { control: 'boolean' },
+    showPercentages: { control: 'boolean' },
   },
   args: {
-    className: '',
+    title: 'Customer mix',
+    data: segmentData,
+    size: 300,
+    showLegend: true,
+    legendPosition: 'right',
+    showLabels: false,
+    showPercentages: true,
+    showTooltips: true,
+    formatValue: (value) => `${value}%`,
   },
 };
 
@@ -29,18 +53,17 @@ export default meta;
 type Story = StoryObj<typeof GlassPieChart>;
 
 export const Default: Story = {
-  args: {},
+  render: (args) => (
+    <ChartFrame>
+      <GlassPieChart {...args} />
+    </ChartFrame>
+  ),
 };
 
-export const Variants: Story = {
-  render: (args: any) => (
-    <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassPieChart {...args}>
-        Default
-      </GlassPieChart>
-    </div>
+export const Donut: Story = {
+  render: (args) => (
+    <ChartFrame>
+      <GlassPieChart {...args} title="Revenue share" innerRadius={86} legendPosition="bottom" showLabels />
+    </ChartFrame>
   ),
-  args: {
-    
-  },
 };

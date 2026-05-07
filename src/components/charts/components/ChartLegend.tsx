@@ -33,13 +33,19 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
     display: "flex",
     flexWrap: "wrap",
     gap: style === "compact" ? "8px" : "12px",
-    padding: "8px",
-    background: glassEffect ? "var(--glass-bg-default)" : "transparent",
-    // Use createGlassStyle() instead,
+    maxWidth: "100%",
+    boxSizing: "border-box",
+    padding: style === "compact" ? "10px" : "12px",
+    background: glassEffect
+      ? "linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.46))"
+      : "transparent",
     borderRadius: glassEffect ? "var(--glass-radius-md)" : "0",
-    border: glassEffect
-      ? '1px solid ${glassStyles.surface?.base || "var(--glass-bg-default)"}'
+    border: glassEffect ? "1px solid rgba(15, 23, 42, 0.14)" : "none",
+    boxShadow: glassEffect
+      ? "inset 0 1px 0 rgba(255,255,255,0.72), 0 12px 34px rgba(15,23,42,0.12)"
       : "none",
+    // Use createGlassStyle() instead,
+    color: "var(--glass-text-primary, #0f172a)",
     marginBottom: position === "top" ? "16px" : "0",
     marginTop: position === "bottom" ? "16px" : "0",
     marginRight: position === "left" ? "16px" : "0",
@@ -49,6 +55,7 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
     alignItems: "center",
     justifyContent:
       position === "left" || position === "right" ? "flex-start" : "center",
+    overflowX: "auto",
   };
 
   if (children) {
@@ -79,8 +86,11 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
             display: "flex",
             alignItems: "center",
             gap: "6px",
+            minWidth: 0,
+            maxWidth: "100%",
             opacity: dataset.hidden ? 0.5 : 1,
             cursor: interactive ? "pointer" : "default",
+            padding: style === "minimal" ? "2px 0" : "4px 6px",
           }}
           onClick={(e) => interactive && onItemClick && onItemClick(index)}
           role={interactive ? "button" : undefined}

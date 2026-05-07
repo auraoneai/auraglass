@@ -1,103 +1,81 @@
 # AuraGlass Storybook
 
-This Storybook showcases all 200+ components in the AuraGlass design system, providing interactive documentation and testing capabilities.
+AuraGlass Storybook is the presentation, QA, and developer-discovery surface for the 3.0 release. It covers the 356-component certified inventory while keeping generated audit coverage separate from curated public showroom examples.
 
-## Features
-
-- **Complete Component Coverage**: Stories for all 219 components
-- **Interactive Controls**: Test component variants, sizes, and states
-- **Glassmorphism Theme**: Consistent glassmorphism styling throughout
-- **Accessibility Testing**: Built-in a11y checks and guidelines
-- **Design System Integration**: Connected to the full theme system
-- **Responsive Testing**: Viewport controls for mobile/desktop testing
-
-## Getting Started
-
-### Local Development
+## Run Locally
 
 ```bash
-# Start Storybook in development mode
-pnpm run storybook
-
-# Build for production
-pnpm run build-storybook
+npm run storybook
+npm run build-storybook
 ```
 
-Storybook will be available at `http://localhost:6006`
+Storybook runs at `http://localhost:6006`.
 
-### Component Categories
+## Preview Modes
 
-- **Primitives**: Core glass components (GlassCore, OptimizedGlass)
-- **Layout**: Containers, grids, flexbox components
-- **Navigation**: Headers, sidebars, tabs, breadcrumbs
-- **Forms**: Inputs, buttons, selects, form components
-- **Data Display**: Cards, tables, charts, lists
-- **Modals**: Dialogs, drawers, tooltips, popovers
-- **Interactive**: Carousels, file uploads, search, etc.
-- **Dashboard**: KPI cards, widgets, analytics components
-- **Specialized**: Animations, backgrounds, surfaces
+The global Storybook toolbar includes a `Preview` control:
 
-## Story Structure
+- `Light`: neutral product documentation surface.
+- `Dark`: dark UI validation surface.
+- `Liquid Glass`: controlled liquid backdrop for glass-specific composition.
+- `High Contrast`: accessibility inspection surface with stronger contrast requirements.
 
-Each component story includes:
+Stories are no longer forced into dark mode and no global decorative blob wrapper is injected around every component. Shared presentation is handled by `.storybook/StorySurface.tsx`, which gives each story a predictable `component`, `app`, `media`, or `plain` surface.
 
-- **Default**: Basic usage example
-- **Variants**: Different visual styles
-- **Sizes**: Available size options
-- **States**: Loading, disabled, hover states
-- **Interactive**: Clickable and dynamic examples
-- **Showcase**: Premium examples with advanced features
+## Navigation Model
 
-## Custom Controls
+Storybook is organized by developer intent for the 3.0 release:
 
-The stories include comprehensive controls for:
+- `Start Here`: the curated guide and component selection entry point.
+- `Foundations`: tokens, Liquid Glass primitives, accessibility, and motion.
+- `Controls`: buttons, inputs, selects, toggles, sliders, search, and compact actions.
+- `Navigation`: tabs, menus, toolbars, sidebars, breadcrumbs, and pagination.
+- `Surfaces`: cards, panels, sheets, modals, popovers, app shells, and layout.
+- `Data + Visualization`: tables, charts, metrics, badges, grids, and dense display UI.
+- `Media`: video, audio, playback controls, photo inspection, and media providers.
+- `Workflows`: wizards, dashboards, commerce, collaboration, CMS, chat, and builders.
+- `AI + Intelligence`: intelligent search, adaptive forms, personalization, and predictive systems.
+- `Effects + Advanced`: particles, WebGL, spatial, quantum, immersive, and experimental systems.
+- `Showcases`: high-signal product demos, including the Liquid Glass app experience and state matrix.
+- `Reference`: generated category galleries and legacy lookup pages for complete coverage.
+- `Certification`: audit and missing-inventory stories used for visual certification evidence.
 
-- **Glass Properties**: Variant, intensity, blur, opacity
-- **Layout**: Size, spacing, alignment
-- **Interaction**: Hover, click, focus states
-- **Accessibility**: ARIA labels, keyboard navigation
-- **Theme**: Color schemes, dark/light mode
+This split is intentional: everyday developer paths stay focused on the job to be done, while generated reference and certification stories preserve full coverage without overwhelming the first load.
 
-## Automated Generation
+## Story Parameters
 
-The story files were generated using the automated script in `scripts/generate-stories.js`. This script:
+Use these parameters when adding or cleaning up stories:
 
-- Scans all component files
-- Creates basic story templates
-- Applies appropriate controls based on component type
-- Generates consistent documentation
+```ts
+parameters: {
+  layout: "fullscreen",
+  previewSurface: "app",
+}
+```
 
-## Testing & QA
+Supported `previewSurface` values:
 
-Use Storybook for:
+- `component`: centered component inspection.
+- `app`: full application or showcase composition.
+- `media`: immersive media/control demos.
+- `plain`: no additional presentation styling.
 
-- **Visual Regression Testing**: Compare component appearances
-- **Interaction Testing**: Test user flows and states
-- **Accessibility Auditing**: Check a11y compliance
-- **Cross-browser Testing**: Verify consistent behavior
-- **Performance Testing**: Monitor component rendering
+## QA Gates
 
-## Deployment
+Storybook presentation quality is covered by focused Playwright checks:
 
-Storybook is automatically deployed to GitHub Pages on:
+```bash
+npx playwright test tests/visual/liquid-glass/liquid-glass-showcase.spec.ts --project=chromium --workers=1 --reporter=line
+npx playwright test tests/visual/design-system/storybook-presentation.spec.ts --project=chromium --workers=1 --reporter=line
+```
 
-- **Main Branch**: Production deployment at `https://storybook.aura-glass.auraone.com`
-- **Pull Requests**: Preview deployments for review
+The presentation tests verify visual composition, preview-surface wiring, the absence of the old global wrapper behavior, and curated navigation entries. The broader visual certification suite remains responsible for inventory-level screenshot evidence.
 
-## Contributing
+## Maintenance Rules
 
-When adding new components:
-
-1. Create the component file
-2. Run `node scripts/generate-stories.js` to generate a basic story
-3. Enhance the story with component-specific examples
-4. Test in Storybook before committing
-
-## Theme Integration
-
-All stories use the AuraGlass ThemeProvider to ensure:
-
-- Consistent glassmorphism styling
-- Proper theme variable application
-- Responsive behavior
-- Accessibility features
+- Keep generated gallery stories under `Reference/Category Galleries`.
+- Keep audit-only and missing-inventory stories under `Certification`.
+- Use composed, realistic data in `Showcases`.
+- Place new component stories by intent, not source-folder name.
+- Avoid story-level decorative backgrounds unless the component itself is a background or media surface.
+- When a story needs a specific environment, opt into it with `previewSurface` instead of changing the global decorator.

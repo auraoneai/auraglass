@@ -4,7 +4,7 @@ import { ChartRenderer } from './ChartRenderer';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartRenderer> = {
-  title: 'Components/Components/ChartRenderer',
+  title: 'Data + Visualization/Chart Renderer',
   component: ChartRenderer,
   parameters: {
     layout: 'centered',
@@ -45,10 +45,10 @@ export const Default: Story = {
   args: {
     chartType: 'line',
     datasets: [{
-      label: 'Sample Data',
-      data: [10, 20, 15, 25, 30, 20],
-      borderColor: 'var(--glass-color-primary)',
-      backgroundColor: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+            label: 'Sample Data',
+            data: [10, 20, 15, 25, 30, 20],
+            borderColor: 'var(--glass-color-primary)',
+            backgroundColor: 'rgba(59, 130, 246, 0.18)',
     }],
   },
 };
@@ -63,7 +63,7 @@ export const Variants: Story = {
             label: 'Sample Chart',
             data: [10, 20, 15, 25, 30, 20],
             borderColor: 'var(--glass-color-primary)',
-            backgroundColor: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+            backgroundColor: 'rgba(59, 130, 246, 0.18)',
           }]}
         />
       </div>

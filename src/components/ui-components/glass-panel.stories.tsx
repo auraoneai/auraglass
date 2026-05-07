@@ -3,7 +3,7 @@ import { GlassPanel } from './glass-panel';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassPanel> = {
-  title: 'Components/UI-Components/GlassPanel',
+  title: 'Controls/Inputs/glass panel',
   component: GlassPanel,
   parameters: {
     layout: 'centered',

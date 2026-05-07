@@ -4,7 +4,7 @@ import { GlassProgress } from './GlassProgress';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassProgress> = {
-  title: 'Components/Data-display/GlassProgress',
+  title: 'Data + Visualization/Glass Progress',
   component: GlassProgress,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassProgress> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(640px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     className: {
       control: 'text',

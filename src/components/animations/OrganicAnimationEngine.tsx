@@ -296,6 +296,59 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
   },
 };
 
+const parseCubicBezier = (
+  ease: string
+): [number, number, number, number] | null => {
+  const match = ease.match(
+    /^cubic-bezier\(\s*(-?\d*\.?\d+)\s*,\s*(-?\d*\.?\d+)\s*,\s*(-?\d*\.?\d+)\s*,\s*(-?\d*\.?\d+)\s*\)$/i
+  );
+
+  if (!match) return null;
+
+  return [
+    Number(match[1]),
+    Number(match[2]),
+    Number(match[3]),
+    Number(match[4]),
+  ];
+};
+
+const toFramerEase = (ease: unknown) => {
+  if (typeof ease !== "string") return ease;
+
+  const cssEaseMap: Record<string, string> = {
+    "ease-in": "easeIn",
+    "ease-out": "easeOut",
+    "ease-in-out": "easeInOut",
+  };
+
+  const bezier = parseCubicBezier(ease);
+  return bezier || cssEaseMap[ease] || ease;
+};
+
+const hasComplexKeyframes = (animate: unknown) =>
+  Object.values((animate || {}) as Record<string, unknown>).some(
+    (value) => Array.isArray(value) && value.length > 2
+  );
+
+const normalizeFramerTransition = (
+  transition: Record<string, unknown>,
+  animate: unknown
+) => {
+  const normalized: Record<string, unknown> = {
+    ...transition,
+    ease: toFramerEase(transition.ease),
+  };
+
+  if (normalized.type === "spring" && hasComplexKeyframes(animate)) {
+    delete normalized.stiffness;
+    delete normalized.damping;
+    normalized.type = "tween";
+  }
+
+  return normalized;
+};
+
 export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
   children,
   className = "",
@@ -499,10 +552,15 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
           };
         }
 
+        const finalFramerTransition = normalizeFramerTransition(
+          finalTransition,
+          motionPattern.animate
+        );
+
         // Execute the animation
         await controls.start({
           ...motionPattern.animate,
-          transition: finalTransition,
+          transition: finalFramerTransition,
         });
 
         // Handle looping

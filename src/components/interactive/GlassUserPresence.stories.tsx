@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassUserPresence> = {
-  title: 'Components/Interactive/GlassUserPresence',
+  title: 'Effects + Advanced/Glass User Presence',
   component: GlassUserPresence,
   parameters: {
     layout: 'centered',

@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassMindMap> = {
-  title: 'Components/Interactive/GlassMindMap',
+  title: 'Workflows/Glass Mind Map',
   component: GlassMindMap,
   parameters: {
     layout: 'centered',

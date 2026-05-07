@@ -4,7 +4,7 @@ import { GlassAvatarGroup } from './GlassAvatarGroup';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAvatarGroup> = {
-  title: 'Components/Interactive/GlassAvatarGroup',
+  title: 'Effects + Advanced/Glass Avatar Group',
   component: GlassAvatarGroup,
   parameters: {
     layout: 'centered',

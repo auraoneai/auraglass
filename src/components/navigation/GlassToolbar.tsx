@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -35,7 +35,7 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
       scrollEdge = false,
       respectMotionPreference = true,
       className,
-      'aria-label': ariaLabel,
+      "aria-label": ariaLabel,
       ...rest
     },
     ref
@@ -72,20 +72,20 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
         aria-label={ariaLabel || "Toolbar"}
         id={toolbarId}
         className={cn(
-          "w-full flex items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl",
+          "w-full max-w-full flex flex-wrap items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl",
           sticky && "sticky top-0 z-30",
           floating && "shadow-xl",
           className
         )}
         {...rest}
       >
-        <div className='glass-min-w-0 glass-flex glass-items-center glass-gap-2'>
+        <div className="glass-min-w-0 glass-flex glass-flex-1 glass-items-center glass-gap-2 sm:glass-flex-none">
           {left}
         </div>
-        <div className='glass-min-w-0 glass-flex-1 glass-flex glass-items-center glass-justify-center'>
+        <div className="glass-min-w-0 glass-order-3 glass-flex glass-w-full glass-items-center glass-justify-start sm:glass-order-none sm:glass-w-auto sm:glass-flex-1 sm:glass-justify-center">
           {center}
         </div>
-        <div className='glass-min-w-0 glass-flex glass-items-center glass-gap-2'>
+        <div className="glass-min-w-0 glass-flex glass-flex-wrap glass-items-center glass-justify-end glass-gap-2">
           {right}
         </div>
       </OptimizedGlass>

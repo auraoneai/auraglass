@@ -4,7 +4,7 @@ import { CursorGlow } from './CursorGlow';
 import { createGlassStyle } from '../../core/mixins/glassMixins';
 
 const meta: Meta<typeof CursorGlow> = {
-  title: 'Components/Interactive/CursorGlow',
+  title: 'Effects + Advanced/Cursor Glow',
   component: CursorGlow,
   parameters: {
     layout: 'fullscreen',

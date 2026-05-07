@@ -10,7 +10,7 @@ const componentName = "GlowingCard" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Card/GlowingCard",
+  title: 'Surfaces/Cards + Panels/Glowing Card',
   component: Component,
   parameters: {
     layout: "centered",

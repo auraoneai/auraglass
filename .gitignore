@@ -152,6 +152,14 @@ playwright-report/
 playwright-report*/
 playwright/.cache/
 
+# Generated local QA artifacts
+/final.md
+/reports/storybook-exhaustive-qa.json
+/reports/storybook-showroom-triage.json
+/reports/storybook-showroom-triage.md
+/reports/storybook-static-resilient-sweep.json
+/reports/worker-*-screens/
+
 # Local development
 .local
 

@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassReactionBar> = {
-  title: 'Components/Interactive/GlassReactionBar',
+  title: 'Effects + Advanced/Glass Reaction Bar',
   component: GlassReactionBar,
   parameters: {
     layout: 'centered',

@@ -82,6 +82,34 @@ export interface AdvancedDataVizProps {
 
 const EMPTY_CHART_SERIES: ChartSeries[] = [];
 
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : fallback;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const toXNumber = (value: DataPoint["x"], fallback: number): number => {
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (value instanceof Date) {
+    const time = value.getTime();
+    return Number.isFinite(time) ? time : fallback;
+  }
+  if (typeof value === "string" && value.trim() !== "") {
+    const numericValue = Number(value);
+    if (Number.isFinite(numericValue)) return numericValue;
+    const time = new Date(value).getTime();
+    return Number.isFinite(time) ? time : fallback;
+  }
+  return fallback;
+};
+
+const isFinitePoint = (point: { x: number; y: number }) =>
+  Number.isFinite(point.x) && Number.isFinite(point.y);
+
 interface ChartExportSeries {
   series: string;
   data: Array<
@@ -108,17 +136,18 @@ const createSVGPath = (
   points: Array<{ x: number; y: number }>,
   type: "line" | "area" = "line"
 ) => {
-  if (points.length === 0) return "";
+  const validPoints = points.filter(isFinitePoint);
+  if (validPoints.length === 0) return "";
 
-  let path = `M ${points[0].x} ${points[0].y}`;
+  let path = `M ${validPoints[0].x} ${validPoints[0].y}`;
 
-  for (let i = 1; i < points.length; i++) {
-    path += ` L ${points[i].x} ${points[i].y}`;
+  for (let i = 1; i < validPoints.length; i++) {
+    path += ` L ${validPoints[i].x} ${validPoints[i].y}`;
   }
 
   if (type === "area") {
-    const firstPoint = points[0];
-    const lastPoint = points[points.length - 1];
+    const firstPoint = validPoints[0];
+    const lastPoint = validPoints[validPoints.length - 1];
     path += ` L ${lastPoint.x} 100 L ${firstPoint.x} 100 Z`;
   }
 
@@ -132,6 +161,18 @@ const scaleValue = (
 ) => {
   const [domainMin, domainMax] = domain;
   const [rangeMin, rangeMax] = range;
+  if (
+    !Number.isFinite(value) ||
+    !Number.isFinite(domainMin) ||
+    !Number.isFinite(domainMax) ||
+    !Number.isFinite(rangeMin) ||
+    !Number.isFinite(rangeMax)
+  ) {
+    return rangeMin;
+  }
+  if (domainMax === domainMin) {
+    return rangeMin + (rangeMax - rangeMin) / 2;
+  }
   return (
     rangeMin +
     ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin)
@@ -242,35 +283,43 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     return dataArray
       .map((series) => ({
         ...series,
-        data: series.data.filter((point) => {
-          return appliedFilters.every((filter) => {
-            const fieldValue = point.metadata?.[filter.field] ?? point.y;
+        data: (Array.isArray(series.data) ? series.data : [])
+          .map((point, pointIndex) => ({
+            ...point,
+            id: point?.id ?? `${series.id}-${pointIndex}`,
+            x: point?.x ?? pointIndex,
+            y: toFiniteNumber(point?.y),
+          }))
+          .filter((point) => Number.isFinite(point.y))
+          .filter((point) => {
+            return appliedFilters.every((filter) => {
+              const fieldValue = point.metadata?.[filter.field] ?? point.y;
 
-            switch (filter.operator) {
-              case "equals":
-                return fieldValue === filter.value;
-              case "contains":
-                return String(fieldValue)
-                  .toLowerCase()
-                  .includes(String(filter.value).toLowerCase());
-              case "greaterThan":
-                return Number(fieldValue) > Number(filter.value);
-              case "lessThan":
-                return Number(fieldValue) < Number(filter.value);
-              case "between": {
-                const rangeValue = Array.isArray(filter.value)
-                  ? filter.value
-                  : [];
-                return (
-                  Number(fieldValue) >= Number(rangeValue[0]) &&
-                  Number(fieldValue) <= Number(rangeValue[1])
-                );
+              switch (filter.operator) {
+                case "equals":
+                  return fieldValue === filter.value;
+                case "contains":
+                  return String(fieldValue)
+                    .toLowerCase()
+                    .includes(String(filter.value).toLowerCase());
+                case "greaterThan":
+                  return Number(fieldValue) > Number(filter.value);
+                case "lessThan":
+                  return Number(fieldValue) < Number(filter.value);
+                case "between": {
+                  const rangeValue = Array.isArray(filter.value)
+                    ? filter.value
+                    : [];
+                  return (
+                    Number(fieldValue) >= Number(rangeValue[0]) &&
+                    Number(fieldValue) <= Number(rangeValue[1])
+                  );
+                }
+                default:
+                  return true;
               }
-              default:
-                return true;
-            }
-          });
-        }),
+            });
+          }),
       }))
       .filter((series) => selectedSeries.includes(series.id));
   }, [dataArray, appliedFilters, selectedSeries]);
@@ -284,8 +333,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     yDomain: [number, number];
   } => {
     const margin = { top: 20, right: 20, bottom: 60, left: 60 };
-    const chartWidth = width - margin.left - margin.right;
-    const chartHeight = height - margin.top - margin.bottom;
+    const chartWidth = Math.max(1, width - margin.left - margin.right);
+    const chartHeight = Math.max(1, height - margin.top - margin.bottom);
 
     // Calculate data bounds
     const allPoints = processedData.flatMap((s) => s.data);
@@ -295,18 +344,34 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
     let yMin = Infinity,
       yMax = -Infinity;
 
-    allPoints.forEach((point) => {
-      const xVal =
-        typeof point.x === "number" ? point.x : new Date(point.x).getTime();
+    allPoints.forEach((point, index) => {
+      const xVal = toXNumber(point.x, index);
       xMin = Math.min(xMin, xVal);
       xMax = Math.max(xMax, xVal);
       yMin = Math.min(yMin, point.y);
       yMax = Math.max(yMax, point.y);
     });
 
+    if (
+      allPoints.length === 0 ||
+      !Number.isFinite(xMin) ||
+      !Number.isFinite(xMax) ||
+      !Number.isFinite(yMin) ||
+      !Number.isFinite(yMax)
+    ) {
+      xMin = 0;
+      xMax = 1;
+      yMin = 0;
+      yMax = 1;
+    }
+
     // Add padding
-    const xPadding = (xMax - xMin) * 0.05;
-    const yPadding = (yMax - yMin) * 0.1;
+    const xRange = xMax - xMin;
+    const yRange = yMax - yMin;
+    const xPadding =
+      xRange === 0 ? (xMax === 0 ? 1 : Math.abs(xMax) * 0.05) : xRange * 0.05;
+    const yPadding =
+      yRange === 0 ? (yMax === 0 ? 1 : Math.abs(yMax) * 0.1) : yRange * 0.1;
 
     xMin -= xPadding;
     xMax += xPadding;
@@ -357,19 +422,23 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
       let minDistance = Infinity;
 
       processedData.forEach((series) => {
-        series.data.forEach((point) => {
+        series.data.forEach((point, pointIndex) => {
           const pointX = scaleValue(
-            typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
+            toXNumber(point.x, pointIndex),
             chartDimensions.xDomain,
             [
               chartDimensions.margin.left,
               chartDimensions.margin.left + chartDimensions.chartWidth,
             ]
           );
-          const pointY = scaleValue(point.y, chartDimensions.yDomain, [
-            chartDimensions.margin.top + chartDimensions.chartHeight,
-            chartDimensions.margin.top,
-          ]);
+          const pointY = scaleValue(
+            toFiniteNumber(point.y),
+            chartDimensions.yDomain,
+            [
+              chartDimensions.margin.top + chartDimensions.chartHeight,
+              chartDimensions.margin.top,
+            ]
+          );
 
           const distance = Math.sqrt(
             Math.pow(x - pointX, 2) + Math.pow(y - pointY, 2)
@@ -524,17 +593,19 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
   const renderLineChart = () => {
     return processedData.map((series) => {
-      const points = series.data.map((point) => ({
-        x: scaleValue(
-          typeof point.x === "number" ? point.x : new Date(point.x).getTime(),
-          chartDimensions.xDomain,
-          [0, chartDimensions.chartWidth]
-        ),
-        y: scaleValue(point.y, chartDimensions.yDomain, [
-          chartDimensions.chartHeight,
-          0,
-        ]),
-      }));
+      const points = series.data
+        .map((point, pointIndex) => ({
+          x: scaleValue(
+            toXNumber(point.x, pointIndex),
+            chartDimensions.xDomain,
+            [0, chartDimensions.chartWidth]
+          ),
+          y: scaleValue(toFiniteNumber(point.y), chartDimensions.yDomain, [
+            chartDimensions.chartHeight,
+            0,
+          ]),
+        }))
+        .filter(isFinitePoint);
 
       const pathD = createSVGPath(
         points,
@@ -563,8 +634,8 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
           {series.data.map((point, index) => (
             <circle
               key={`${point.id}-${index}`}
-              cx={points[index].x}
-              cy={points[index].y}
+              cx={points[index]?.x ?? 0}
+              cy={points[index]?.y ?? chartDimensions.chartHeight}
               r={4}
               fill={seriesColors[series.id]}
               stroke="white"
@@ -579,9 +650,10 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
   };
 
   const renderBarChart = () => {
-    const barWidth =
-      (chartDimensions.chartWidth / (processedData[0]?.data.length || 1)) * 0.8;
-    const barGroupWidth = barWidth / processedData.length;
+    const visibleSeriesCount = Math.max(1, processedData.length);
+    const pointCount = Math.max(1, processedData[0]?.data.length || 0);
+    const barWidth = (chartDimensions.chartWidth / pointCount) * 0.8;
+    const barGroupWidth = barWidth / visibleSeriesCount;
 
     return processedData.map((series, seriesIndex) => (
       <g key={series.id}>
@@ -590,18 +662,19 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             pointIndex * barWidth +
             seriesIndex * barGroupWidth +
             barGroupWidth / 2;
-          const y = scaleValue(point.y, chartDimensions.yDomain, [
-            chartDimensions.chartHeight,
-            0,
-          ]);
-          const height = chartDimensions.chartHeight - y;
+          const y = scaleValue(
+            toFiniteNumber(point.y),
+            chartDimensions.yDomain,
+            [chartDimensions.chartHeight, 0]
+          );
+          const height = Math.max(0, chartDimensions.chartHeight - y);
 
           return (
             <rect
               key={`${point.id}-${pointIndex}`}
-              x={x}
-              y={y}
-              width={barGroupWidth * 0.8}
+              x={Number.isFinite(x) ? x : 0}
+              y={Number.isFinite(y) ? y : chartDimensions.chartHeight}
+              width={Math.max(0, barGroupWidth * 0.8)}
               height={height}
               fill={seriesColors[series.id]}
               className="glass-cursor-pointer hover:glass-opacity-80 glass-transition-all"
@@ -641,11 +714,11 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
 
         {/* X Axis Ticks */}
         {Array.from({ length: xTicks }, (_, i) => {
-          const x = (i / (xTicks - 1)) * chartDimensions.chartWidth;
+          const x = (i / Math.max(1, xTicks - 1)) * chartDimensions.chartWidth;
           const value =
             chartDimensions.xDomain[0] +
             (chartDimensions.xDomain[1] - chartDimensions.xDomain[0]) *
-              (i / (xTicks - 1));
+              (i / Math.max(1, xTicks - 1));
 
           return (
             <g key={i}>
@@ -673,11 +746,11 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
         {Array.from({ length: yTicks }, (_, i) => {
           const y =
             chartDimensions.chartHeight -
-            (i / (yTicks - 1)) * chartDimensions.chartHeight;
+            (i / Math.max(1, yTicks - 1)) * chartDimensions.chartHeight;
           const value =
             chartDimensions.yDomain[0] +
             (chartDimensions.yDomain[1] - chartDimensions.yDomain[0]) *
-              (i / (yTicks - 1));
+              (i / Math.max(1, yTicks - 1));
 
           return (
             <g key={i}>
@@ -803,6 +876,7 @@ export const GlassAdvancedDataViz: React.FC<AdvancedDataVizProps> = ({
             ref={svgRef}
             width={width}
             height={height}
+            style={{ maxWidth: "100%", height: "auto" }}
             onMouseMove={handleMouseMove}
             onMouseLeave={() =>
               setTooltip((prev) => ({ ...prev, visible: false }))

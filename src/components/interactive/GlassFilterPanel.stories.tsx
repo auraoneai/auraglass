@@ -4,7 +4,7 @@ import { GlassFilterPanel } from './GlassFilterPanel';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassFilterPanel> = {
-  title: 'Components/Interactive/GlassFilterPanel',
+  title: 'Effects + Advanced/Glass Filter Panel',
   component: GlassFilterPanel,
   parameters: {
     layout: 'centered',

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { GlassCommand } from './GlassCommand';
 
 const meta: Meta<typeof GlassCommand> = {
-  title: 'Components/Interactive/GlassCommand',
+  title: 'Effects + Advanced/Glass Command',
   component: GlassCommand,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { ThemedGlassComponents } from './ThemedGlassComponents';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof ThemedGlassComponents> = {
-  title: 'Components/Interactive/ThemedGlassComponents',
+  title: 'Foundations/Tokens/Themed Glass Components',
   component: ThemedGlassComponents,
   parameters: {
     layout: 'centered',

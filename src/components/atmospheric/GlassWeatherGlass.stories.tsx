@@ -3,7 +3,7 @@ import { GlassWeatherGlass } from './GlassWeatherGlass';
 import { fn } from 'storybook/test';
 
 const meta = {
-  title: 'Glass UI/Atmospheric/GlassWeatherGlass',
+  title: 'Effects + Advanced/Glass Weather Glass',
   component: GlassWeatherGlass,
   parameters: {
     layout: 'centered',

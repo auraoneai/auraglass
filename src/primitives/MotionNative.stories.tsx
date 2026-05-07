@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MotionNative } from './MotionNative';
 
 const meta: Meta<typeof MotionNative> = {
-  title: 'Components/Primitives/MotionNative',
+  title: 'Foundations/Liquid Glass Primitives/Motion Native',
   component: MotionNative,
   parameters: {
     layout: 'centered',

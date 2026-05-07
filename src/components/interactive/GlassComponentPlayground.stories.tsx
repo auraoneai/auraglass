@@ -4,7 +4,7 @@ import { GlassComponentPlayground } from './GlassComponentPlayground';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassComponentPlayground> = {
-  title: 'Components/Interactive/GlassComponentPlayground',
+  title: 'Workflows/Glass Component Playground',
   component: GlassComponentPlayground,
   parameters: {
     layout: 'centered',

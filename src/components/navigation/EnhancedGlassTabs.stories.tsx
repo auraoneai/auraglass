@@ -4,7 +4,7 @@ import { EnhancedGlassTabs } from './EnhancedGlassTabs';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof EnhancedGlassTabs> = {
-  title: 'Components/Navigation/EnhancedGlassTabs',
+  title: 'Navigation/Enhanced Glass Tabs',
   component: EnhancedGlassTabs,
   parameters: {
     layout: 'centered',

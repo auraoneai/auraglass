@@ -465,6 +465,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
       {/* Particle canvas */}
       <canvas
         ref={canvasRef}
+        data-glass-overlay="true"
         className={cn(
           "glass-absolute glass-inset-0 glass-pointer-events-none glass-z-10"
         )}
@@ -488,6 +489,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
       {/* Interaction indicators */}
       {isAnimating && (
         <div
+          data-glass-overlay="true"
           className={cn(
             "glass-absolute glass-inset-0 glass-pointer-events-none glass-z-20"
           )}

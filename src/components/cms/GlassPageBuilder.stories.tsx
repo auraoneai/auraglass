@@ -3,8 +3,28 @@ import React, { useState } from 'react';
 import { GlassPageBuilder } from './GlassPageBuilder';
 
 const meta: Meta<typeof GlassPageBuilder> = {
-  title: 'CMS/GlassPageBuilder',
+  title: 'Workflows/Glass Page Builder',
   component: GlassPageBuilder,
+  decorators: [
+    (Story) => (
+      <div className="ag-page-builder-story">
+        <style>{`
+          .ag-page-builder-story button {
+            background: rgba(255, 255, 255, 0.72) !important;
+            color: #0f172a !important;
+            border-color: rgba(15, 23, 42, 0.16) !important;
+          }
+
+          [data-storybook-preview-mode="dark"] .ag-page-builder-story button {
+            background: rgba(15, 23, 42, 0.68) !important;
+            color: #f8fafc !important;
+            border-color: rgba(226, 232, 240, 0.22) !important;
+          }
+        `}</style>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {

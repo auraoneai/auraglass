@@ -1,10 +1,10 @@
+import type { ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { HoudiniGlassCard, HoudiniGlassShowcase } from './HoudiniGlassCard';
 import { HoudiniGlassProvider } from './HoudiniGlassProvider';
-import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof HoudiniGlassProvider> = {
-  title: 'Houdini/HoudiniGlassProvider',
+  title: 'Effects + Advanced/Houdini Glass Provider',
   component: HoudiniGlassProvider,
   parameters: {
     layout: 'fullscreen',
@@ -33,6 +33,80 @@ const meta: Meta<typeof HoudiniGlassProvider> = {
 export default meta;
 type Story = StoryObj<typeof HoudiniGlassProvider>;
 
+const HoudiniStoryFrame = ({
+  children,
+  maxWidth = 1120,
+}: {
+  children: ReactNode;
+  maxWidth?: number;
+}) => (
+  <div
+    className="houdini-story-frame"
+    style={{
+      width: '100%',
+      height: '100vh',
+      minHeight: 0,
+      padding: 'clamp(20px, 4vw, 40px)',
+      boxSizing: 'border-box',
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      color: 'inherit',
+    }}
+  >
+    <div style={{ width: 'min(100%, ' + maxWidth + 'px)', margin: '0 auto' }}>
+      {children}
+    </div>
+    <style>{`
+      .houdini-story-frame .glass-foundation-complete {
+        background-color: rgba(15, 23, 42, 0.78) !important;
+      }
+
+      [data-storybook-preview-mode="dark"] .houdini-story-frame,
+      [data-storybook-preview-mode="high-contrast"] .houdini-story-frame {
+        color: #f8fafc;
+      }
+
+      [data-storybook-preview-mode="dark"] .houdini-story-frame button,
+      [data-storybook-preview-mode="high-contrast"] .houdini-story-frame button {
+        background: rgba(31, 41, 55, 0.76) !important;
+        background-color: rgba(31, 41, 55, 0.76) !important;
+        color: #f8fafc !important;
+      }
+
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame {
+        color: #0f172a;
+      }
+
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame h1,
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame h2,
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame h3,
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame h4,
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame [class*="glass-text-primary"],
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame [class*="glass-text-secondary"] {
+        color: #0f172a !important;
+      }
+
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame .glass-foundation-complete {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(226, 232, 240, 0.54)), rgba(255, 255, 255, 0.64) !important;
+        background-color: rgba(255, 255, 255, 0.64) !important;
+        border-color: rgba(15, 23, 42, 0.16) !important;
+        color: #0f172a !important;
+      }
+
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame button {
+        background: rgba(255, 255, 255, 0.66) !important;
+        background-color: rgba(255, 255, 255, 0.66) !important;
+        border-color: rgba(15, 23, 42, 0.18) !important;
+        color: #0f172a !important;
+      }
+
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame button [class*="glass-text-secondary"] {
+        color: #334155 !important;
+      }
+    `}</style>
+  </div>
+);
+
 export const Showcase: Story = {
   args: {
     defaultPreset: 'standard',
@@ -42,7 +116,9 @@ export const Showcase: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <HoudiniGlassShowcase />
+      <HoudiniStoryFrame>
+        <HoudiniGlassShowcase />
+      </HoudiniStoryFrame>
     </HoudiniGlassProvider>
   )
 };
@@ -56,13 +132,23 @@ export const CardGallery: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-p-8">
-        <div className="max-w-6xl glass-mx-auto">
-          <h1 className="glass-text-4xl glass-font-bold glass-text-primary glass-text-center mb-12">
+      <HoudiniStoryFrame maxWidth={1180}>
+        <div>
+          <h1
+            className="glass-text-4xl glass-font-bold glass-text-primary glass-text-center mb-12"
+            style={{ color: '#f8fafc', marginBottom: 32 }}
+          >
             Houdini Glass Card Gallery
           </h1>
 
-          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 lg:glass-glass-grid-cols-3 glass-gap-6">
+          <div
+            className="glass-grid glass-gap-6"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: 24,
+            }}
+          >
             <HoudiniGlassCard
               title="Standard Glass"
               description="Clean, balanced glass effect"
@@ -160,7 +246,7 @@ export const CardGallery: Story = {
             </HoudiniGlassCard>
           </div>
         </div>
-      </div>
+      </HoudiniStoryFrame>
     </HoudiniGlassProvider>
   )
 };
@@ -174,13 +260,23 @@ export const PerformanceMode: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-blue-900 glass-gradient-primary glass-p-8">
-        <div className="max-w-4xl glass-mx-auto">
-          <h1 className="glass-text-3xl glass-font-bold glass-text-primary glass-text-center mb-8">
+      <HoudiniStoryFrame maxWidth={900}>
+        <div>
+          <h1
+            className="glass-text-3xl glass-font-bold glass-text-primary glass-text-center mb-8"
+            style={{ color: '#f8fafc', marginBottom: 28 }}
+          >
             Performance Optimized Glass
           </h1>
 
-          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
+          <div
+            className="glass-grid glass-gap-6"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 24,
+            }}
+          >
             <HoudiniGlassCard
               title="Optimized Card"
               description="Performance-optimized effects"
@@ -226,7 +322,7 @@ export const PerformanceMode: Story = {
             </HoudiniGlassCard>
           </div>
         </div>
-      </div>
+      </HoudiniStoryFrame>
     </HoudiniGlassProvider>
   )
 };
@@ -245,13 +341,23 @@ export const CustomProperties: Story = {
   },
   render: (args) => (
     <HoudiniGlassProvider {...args}>
-      <div className="glass-min-glass-h-screen glass-gradient-primary glass-gradient-primary via-purple-900 glass-gradient-primary glass-p-8">
-        <div className="max-w-4xl glass-mx-auto">
-          <h1 className="glass-text-3xl glass-font-bold glass-text-primary glass-text-center mb-8">
+      <HoudiniStoryFrame maxWidth={900}>
+        <div>
+          <h1
+            className="glass-text-3xl glass-font-bold glass-text-primary glass-text-center mb-8"
+            style={{ color: '#f8fafc', marginBottom: 28 }}
+          >
             Custom Glass Properties
           </h1>
 
-          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6">
+          <div
+            className="glass-grid glass-gap-6"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: 24,
+            }}
+          >
             <HoudiniGlassCard
               title="Custom Colors"
               description="Deep pink glass theme"
@@ -292,8 +398,7 @@ export const CustomProperties: Story = {
             </HoudiniGlassCard>
           </div>
         </div>
-      </div>
+      </HoudiniStoryFrame>
     </HoudiniGlassProvider>
   )
 };
-

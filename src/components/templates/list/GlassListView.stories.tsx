@@ -4,7 +4,7 @@ import { GlassListView } from './GlassListView';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof GlassListView> = {
-  title: 'Components/List/GlassListView',
+  title: 'Workflows/Glass List View',
   component: GlassListView,
   parameters: {
     layout: 'centered',

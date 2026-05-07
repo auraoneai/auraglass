@@ -4,7 +4,7 @@ import { GlassTagInput } from './GlassTagInput';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassTagInput> = {
-  title: 'Components/Interactive/GlassTagInput',
+  title: 'Effects + Advanced/Glass Tag Input',
   component: GlassTagInput,
   parameters: {
     layout: 'centered',

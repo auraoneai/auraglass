@@ -4,7 +4,7 @@ import { GlassCollaborativeCursor as Component } from "./GlassCollaborativeCurso
 import { GlassCollaborationProvider as Provider } from "./GlassCollaborationProvider";
 
 const meta: Meta = {
-  title: "Components/Collaboration/GlassCollaborativeCursor",
+  title: 'Workflows/Glass Collaborative Cursor',
   component: Component as React.ComponentType,
   parameters: {
     layout: "centered",

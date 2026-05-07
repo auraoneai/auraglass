@@ -214,16 +214,10 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
       }
       window.addEventListener("resize", update);
       window.addEventListener("scroll", update, true);
-      const rafLoop = () => {
-        update();
-        rafId = requestAnimationFrame(rafLoop);
-      };
-      let rafId = requestAnimationFrame(rafLoop);
       return () => {
         if (ro) ro.disconnect();
         window.removeEventListener("resize", update);
         window.removeEventListener("scroll", update, true);
-        cancelAnimationFrame(rafId);
       };
     }, [isCollapsed]);
 
@@ -232,7 +226,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
         <Motion
           preset={variant === "overlay" ? "slideRight" : "none"}
           className={cn(
-            variant === "overlay" && "fixed inset-y-0 left-0 z-50",
+            variant === "overlay" && "fixed inset-y-0 left-0 z-50 h-screen",
             "relative overflow-visible z-[60]"
           )}
           style={{ overflow: "visible" }}
@@ -255,7 +249,8 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             role="navigation"
             aria-label={props["aria-label"] || "Main navigation"}
             className={cn(
-              "h-screen max-h-screen flex flex-col transition-colors overflow-visible",
+              "h-full min-h-[420px] max-h-[calc(100vh-2rem)] flex flex-col transition-colors overflow-visible",
+              variant === "overlay" && "h-screen max-h-screen",
               widthClasses?.[width],
               variantClasses?.[variant],
               variant === "floating" ? "squiricle" : "",

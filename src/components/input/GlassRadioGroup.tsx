@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassInput } from "./GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -256,7 +256,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
     };
 
     return (
-      <div data-glass-component className='glass-relative'>
+      <div data-glass-component className="glass-relative">
         {/* Label */}
         {label && (
           <label
@@ -275,7 +275,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
         {description && (
           <p
             id={descriptionId}
-            className='glass-text-sm glass-text-secondary glass-mb-3'
+            className="glass-text-sm glass-text-secondary glass-mb-3"
           >
             {description}
           </p>
@@ -320,7 +320,7 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
         {error && (
           <p
             id={errorId}
-            className='glass-mt-2 glass-text-sm glass-text-danger'
+            className="glass-mt-2 glass-text-sm glass-text-danger"
             role="alert"
             aria-live="polite"
           >
@@ -364,9 +364,9 @@ export const GlassRadioGroupItem = forwardRef<
     const { shouldAnimate } = useMotionPreference();
     const itemId = useA11yId("glass-radio-item");
     const sizeClasses = {
-      sm: "w-4 h-4",
-      md: "w-5 h-5",
-      lg: "w-6 h-6",
+      sm: "glass-w-4 glass-h-4",
+      md: "glass-w-5 glass-h-5",
+      lg: "glass-w-6 glass-h-6",
     };
 
     const textSizeClasses = {
@@ -476,16 +476,16 @@ export const GlassRadioGroupItem = forwardRef<
                         : "none"
                     }
                     duration={200}
-                    className='glass-w-2 glass-h-2 glass-radius-full glass-surface-subtle'
+                    className="glass-w-2 glass-h-2 glass-radius-full glass-surface-subtle"
                   />
                 )}
               </div>
 
               {/* Content */}
-              <div className="glass-flex-1 glass-min-glass-w-0">
+              <div className="glass-flex-1 glass-min-w-0">
                 <div className="glass-flex glass-items-center glass-gap-2">
                   {option.icon && (
-                    <div className='glass-flex glass-items-center glass-justify-center glass-text-primary-opacity-70'>
+                    <div className="glass-flex glass-items-center glass-justify-center glass-text-primary-opacity-70">
                       {option.icon}
                     </div>
                   )}
@@ -500,7 +500,7 @@ export const GlassRadioGroupItem = forwardRef<
                 </div>
 
                 {option.description && (
-                  <p className='glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1 glass-leading-relaxed'>
+                  <p className="glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1 glass-leading-relaxed">
                     {option.description}
                   </p>
                 )}
@@ -561,16 +561,16 @@ export const GlassRadioGroupItem = forwardRef<
                 shouldAnimate && respectMotionPreference ? "scaleIn" : "none"
               }
               duration={200}
-              className='glass-w-2 glass-h-2 glass-radius-full glass-surface-subtle'
+              className="glass-w-2 glass-h-2 glass-radius-full glass-surface-subtle"
             />
           )}
         </div>
 
         {/* Content */}
-        <div className="glass-flex-1 glass-min-glass-w-0">
+        <div className="glass-flex-1 glass-min-w-0">
           <div className="glass-flex glass-items-center glass-gap-2">
             {option.icon && (
-              <div className='glass-flex glass-items-center glass-justify-center glass-text-primary-opacity-70'>
+              <div className="glass-flex glass-items-center glass-justify-center glass-text-primary-opacity-70">
                 {option.icon}
               </div>
             )}
@@ -584,7 +584,7 @@ export const GlassRadioGroupItem = forwardRef<
           </div>
 
           {option.description && (
-            <p className='glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1'>
+            <p className="glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1">
               {option.description}
             </p>
           )}

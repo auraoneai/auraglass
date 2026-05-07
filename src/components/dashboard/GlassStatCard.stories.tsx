@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { TrendingUp, Users, DollarSign } from 'lucide-react';
 
 const meta: Meta<typeof GlassStatCard> = {
-  title: 'Components/Dashboard/GlassStatCard',
+  title: 'Reference/Legacy Components/Glass Stat Card',
   component: GlassStatCard,
   parameters: {
     layout: 'centered',

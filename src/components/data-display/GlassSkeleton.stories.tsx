@@ -4,7 +4,7 @@ import { GlassSkeleton, GlassSkeletonAvatar, GlassSkeletonButton, GlassSkeletonC
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSkeleton> = {
-  title: 'Components/Data-Display/GlassSkeleton',
+  title: 'Data + Visualization/Glass Skeleton',
   component: GlassSkeleton,
   parameters: {
     layout: 'centered',
@@ -14,6 +14,16 @@ const meta: Meta<typeof GlassSkeleton> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-5"
+        style={{ width: "min(760px, calc(100vw - 64px))" }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     variant: {
       control: { type: 'select' },
@@ -52,7 +62,7 @@ type Story = StoryObj<typeof GlassSkeleton>;
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="space-y-6 max-w-md">
+    <div className="glass-stack glass-stack-md">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-3">Rectangular</h4>
         <GlassSkeleton {...args} variant="rectangular" width="100%" height="60px" />
@@ -79,7 +89,7 @@ export const Variants: Story = {
 
 export const Animations: Story = {
   render: (args) => (
-    <div className="glass-gap-4 max-w-md">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-2">Pulse Animation</h4>
         <GlassSkeleton {...args} animation="pulse" width="100%" height="40px" />
@@ -101,7 +111,7 @@ export const Animations: Story = {
 
 export const SkeletonText: Story = {
   render: (args) => (
-    <div className="glass-gap-4 max-w-md">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-2">Single Line</h4>
         <GlassSkeleton variant="text" lines={1} width="100%" height="20px" />
@@ -135,7 +145,7 @@ export const SkeletonAvatar: Story = {
 
 export const SkeletonButton: Story = {
   render: (args) => (
-    <div className="glass-gap-4 max-w-md">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <div>
         <h4 className="glass-text-sm glass-font-medium glass-mb-2">Button Sizes</h4>
         <div className="glass-gap-2">
@@ -156,7 +166,7 @@ export const SkeletonButton: Story = {
 
 export const SkeletonCard: Story = {
   render: (args) => (
-    <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 max-w-4xl">
+    <div className="glass-grid glass-grid-cols-2 glass-gap-6">
       <GlassSkeletonCard />
       <GlassSkeletonCard />
       <GlassSkeletonCard />
@@ -168,7 +178,7 @@ export const SkeletonCard: Story = {
 
 export const LoadingState: Story = {
   render: (args) => (
-    <div className="max-w-md glass-gap-4">
+    <div className="glass-flex glass-flex-col glass-gap-4">
       <div className="glass-flex glass-items-center glass-gap-3">
         <GlassSkeletonAvatar size="md" />
         <div className="glass-flex-1 glass-gap-2">
@@ -190,7 +200,7 @@ export const LoadingState: Story = {
 
 export const ComplexLayout: Story = {
   render: (args) => (
-    <div className="max-w-2xl space-y-6">
+    <div className="glass-stack glass-stack-md">
       {/* Header */}
       <div className="glass-flex glass-items-center glass-justify-between">
         <div className="glass-flex glass-items-center glass-gap-3">
@@ -211,7 +221,7 @@ export const ComplexLayout: Story = {
       </div>
 
       {/* Cards Grid */}
-      <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-4">
+      <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4">
         <GlassSkeletonCard />
         <GlassSkeletonCard />
         <GlassSkeletonCard />

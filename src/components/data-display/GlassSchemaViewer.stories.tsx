@@ -4,7 +4,7 @@ import { GlassSchemaViewer } from './GlassSchemaViewer';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSchemaViewer> = {
-  title: 'Components/Data-display/GlassSchemaViewer',
+  title: 'Data + Visualization/Glass Schema Viewer',
   component: GlassSchemaViewer,
   parameters: {
     layout: 'centered',

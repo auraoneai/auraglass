@@ -4,7 +4,7 @@ import { GlassFacetSearch } from './GlassFacetSearch';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassFacetSearch> = {
-  title: 'Components/Interactive/GlassFacetSearch',
+  title: 'Effects + Advanced/Glass Facet Search',
   component: GlassFacetSearch,
   parameters: {
     layout: 'centered',

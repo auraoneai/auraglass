@@ -62,7 +62,7 @@ const lowUncertaintyPoints: ProbabilityPoint[] = mockProbabilityPoints.map(point
 }));
 
 const meta: Meta<typeof GlassProbabilityCloud> = {
-  title: 'Glass UI/Quantum/GlassProbabilityCloud',
+  title: 'Effects + Advanced/Glass Probability Cloud',
   component: GlassProbabilityCloud,
   parameters: {
     layout: 'centered',

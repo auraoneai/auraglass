@@ -11,7 +11,7 @@ const componentName =
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Ecommerce/GlassProductRecommendations",
+  title: 'Workflows/Glass Product Recommendations',
   component: Component,
   parameters: {
     layout: "centered",

@@ -4,7 +4,7 @@ import { GlassChartsDemo } from './GlassChartsDemo';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassChartsDemo> = {
-  title: 'Components/Website-components/GlassChartsDemo',
+  title: 'Reference/Legacy Components/Glass Charts Demo',
   component: GlassChartsDemo,
   parameters: {
     layout: 'centered',

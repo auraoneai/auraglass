@@ -2,7 +2,7 @@
 
 exports[`GlassCheckboxUI matches snapshot 1`] = `
 <div
-  class="glass-relative glass-inline-glass-flex glass-items-center"
+  class="glass-relative glass-inline-flex glass-items-center"
   data-testid="glasscheckbox"
 >
   <input
@@ -14,13 +14,13 @@ exports[`GlassCheckboxUI matches snapshot 1`] = `
   <div
     aria-checked="false"
     aria-label="checkbox"
-    class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-checkbox-box relative inline-flex items-center justify-center cursor-pointer group glass-radius-lg transition-all duration-200 h-5 w-5 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary focus-within:ring-offset-background"
+    class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-checkbox-box relative inline-flex items-center justify-center cursor-pointer group glass-radius-lg transition-all duration-200 glass-h-5 glass-w-5 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary focus-within:ring-offset-background"
     data-performance-mode="medium"
     role="checkbox"
     style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="motion-primitive flex items-center justify-center h-4 w-4 opacity-0"
+      class="motion-primitive flex items-center justify-center glass-h-4 glass-w-4 opacity-0"
     />
   </div>
 </div>

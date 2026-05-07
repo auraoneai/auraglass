@@ -4,7 +4,7 @@ import { GlassFocusRing } from './GlassFocusRing';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassFocusRing> = {
-  title: 'Components/Interactive/GlassFocusRing',
+  title: 'Effects + Advanced/Glass Focus Ring',
   component: GlassFocusRing,
   parameters: {
     layout: 'centered',

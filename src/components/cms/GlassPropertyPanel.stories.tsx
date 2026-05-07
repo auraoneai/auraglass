@@ -10,7 +10,7 @@ const componentName = "GlassPropertyPanel" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Cms/GlassPropertyPanel",
+  title: 'Workflows/Glass Property Panel',
   component: Component,
   parameters: {
     layout: "centered",

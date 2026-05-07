@@ -9,7 +9,7 @@ exports[`GlassDateRangePicker matches snapshot 1`] = `
     class="relative flex items-center justify-between bg-white/10 glass-backdrop-blur-md border border-white/20 glass-radius-lg cursor-pointer transition-all duration-200 hover:bg-white/15 hover:border-white/30 focus-within:bg-white/15 focus-within:border-white/30 h-10 glass-px-4 glass-text-base"
   >
     <div
-      class="glass-flex glass-items-center glass-gap-2 glass-flex-1 glass-min-glass-w-0"
+      class="glass-flex glass-items-center glass-gap-2 glass-flex-1 glass-min-w-0"
     >
       <svg
         aria-hidden="true"

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState, useRef, useCallback } from "react";
 import { Glass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
@@ -358,18 +358,18 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         role="listitem"
         className="glass-flex glass-items-center glass-p-3 glass-surface-subtle glass-radius-lg glass-border"
       >
-        <div className='glass-text-2xl glass-mr-3' aria-hidden="true">
+        <div className="glass-text-2xl glass-mr-3" aria-hidden="true">
           {getFileIcon(file)}
         </div>
 
-        <div className="glass-flex-1 glass-min-glass-w-0">
+        <div className="glass-flex-1 glass-min-w-0">
           <div className="glass-flex glass-items-center glass-justify-between">
-            <p className='glass-text-sm glass-font-medium glass-text-primary glass-truncate'>
+            <p className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">
               {file.name}
             </p>
             <button
               onClick={() => removeFile(uploadedFile.id)}
-              className='glass-ml-2 glass-text-primary hover:glass-text-primary glass-text-sm'
+              className="glass-ml-2 glass-text-primary hover:glass-text-primary glass-text-sm"
               disabled={status === "uploading"}
               aria-label={`Remove ${file.name}`}
             >
@@ -380,12 +380,12 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
           <p className="glass-text-xs glass-text-secondary">
             {formatFileSize(file.size)}
             {status === "completed" && (
-              <span className='glass-text-primary glass-ml-2' role="status">
+              <span className="glass-text-primary glass-ml-2" role="status">
                 ✓ Completed
               </span>
             )}
             {status === "error" && (
-              <span className='glass-text-primary glass-ml-2' role="alert">
+              <span className="glass-text-primary glass-ml-2" role="alert">
                 ✗ {error}
               </span>
             )}
@@ -393,20 +393,20 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
           {status === "uploading" && (
             <div
-              className='glass-mt-2'
+              className="glass-mt-2"
               role="progressbar"
               aria-valuenow={progress}
               aria-valuemin={0}
               aria-valuemax={100}
               aria-label={`Uploading ${file.name}`}
             >
-              <div className='glass-w-full glass-surface-subtle glass-radius-full glass-h-1'>
+              <div className="glass-w-full glass-surface-subtle glass-radius-full glass-h-1">
                 <div
-                  className='glass-surface-blue glass-h-1 glass-radius-full glass-transition-all glass-duration-300'
+                  className="glass-surface-blue glass-h-1 glass-radius-full glass-transition-all glass-duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <p className='glass-text-xs glass-text-secondary glass-mt-1'>
+              <p className="glass-text-xs glass-text-secondary glass-mt-1">
                 {progress}%
               </p>
             </div>
@@ -425,7 +425,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         accept={accept}
         multiple={multiple}
         onChange={handleFileInputChange}
-        className='glass-hidden glass-touch-target glass-contrast-guard'
+        className="glass-hidden glass-touch-target glass-contrast-guard"
         disabled={disabled}
         aria-label="File upload input"
         id={inputId}
@@ -438,7 +438,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
         aria-describedby="file-upload-instructions"
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : 0}
-        className='glass-block glass-cursor-pointer'
+        className="glass-block glass-cursor-pointer"
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -465,13 +465,13 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
             files.length > 0 ? "glass-radius-t-xl" : "glass-radius-xl"
           )}
         >
-          <div className='glass-flex glass-flex-col glass-items-center glass-gap-4 glass-pointer-events-none'>
-            <div className='glass-text-4xl glass-opacity-60'>
+          <div className="glass-flex glass-flex-col glass-items-center glass-gap-4 glass-pointer-events-none">
+            <div className="glass-text-4xl glass-opacity-60">
               {isUploading ? "⏳" : "📁"}
             </div>
 
             <div>
-              <p className='glass-text-lg glass-font-medium glass-text-primary glass-mb-2'>
+              <p className="glass-text-lg glass-font-medium glass-text-primary glass-mb-2">
                 {isUploading ? "Uploading..." : uploadText}
               </p>
               <p id="file-upload-instructions" className="glass-text-secondary">
@@ -483,7 +483,7 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
 
             {!isUploading && (
               <span
-                className='glass-px-4 glass-py-2 glass-surface-primary glass-text-primary-foreground glass-radius-lg glass-transition-colors glass-font-medium glass-inline-glass-flex'
+                className="glass-px-4 glass-py-2 glass-surface-primary glass-text-primary-foreground glass-radius-lg glass-transition-colors glass-font-medium glass-inline-flex"
                 aria-hidden="true"
               >
                 {browseText}
@@ -496,13 +496,13 @@ export const GlassFileUpload: React.FC<GlassFileUploadProps> = ({
       {/* File list */}
       {showPreview && files.length > 0 && (
         <Glass
-          className='glass-border-t-0 glass-radius-b-xl glass-p-4 glass-space-y-3'
+          className="glass-border-t-0 glass-radius-b-xl glass-p-4 glass-space-y-3"
           role="region"
           aria-label="Uploaded files list"
         >
           <h4
             id="uploaded-files-heading"
-            className='glass-font-medium glass-text-primary glass-mb-3'
+            className="glass-font-medium glass-text-primary glass-mb-3"
           >
             Uploaded Files ({files.length}/{maxFiles})
           </h4>

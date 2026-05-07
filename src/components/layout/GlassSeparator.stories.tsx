@@ -4,7 +4,7 @@ import { GlassSeparator } from './GlassSeparator';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassSeparator> = {
-  title: 'Components/Layout/GlassSeparator',
+  title: 'Surfaces/App Shells + Layout/Glass Separator',
   component: GlassSeparator,
   parameters: {
     layout: 'centered',

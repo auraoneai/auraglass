@@ -4,7 +4,7 @@ import { GlassCalendar } from './GlassCalendar';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassCalendar> = {
-  title: 'Components/Calendar/GlassCalendar',
+  title: 'Reference/Legacy Components/Glass Calendar',
   component: GlassCalendar,
   parameters: {
     layout: 'centered',

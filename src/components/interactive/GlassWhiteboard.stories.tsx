@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassWhiteboard> = {
-  title: 'Components/Interactive/GlassWhiteboard',
+  title: 'Workflows/Glass Whiteboard',
   component: GlassWhiteboard,
   parameters: {
     layout: 'centered',

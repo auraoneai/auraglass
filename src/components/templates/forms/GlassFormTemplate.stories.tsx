@@ -4,7 +4,7 @@ import { GlassFormTemplate } from './GlassFormTemplate';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof GlassFormTemplate> = {
-  title: 'Components/Forms/GlassFormTemplate',
+  title: 'Workflows/Glass Form Template',
   component: GlassFormTemplate,
   parameters: {
     layout: 'centered',

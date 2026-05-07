@@ -9,6 +9,25 @@ import {
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION, COLORS } from "../../tokens/designConstants";
 
+const toFiniteNumber = (value: unknown, fallback = 0): number => {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : fallback;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+};
+
+const getSeriesColor = (
+  explicitColor: string | undefined,
+  colors: string[],
+  index: number
+) =>
+  explicitColor ||
+  colors[index % Math.max(1, colors.length)] ||
+  "var(--glass-color-primary)";
+
 export interface ChartDataPoint {
   x: number | string;
   y: number;
@@ -134,8 +153,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
   // Chart dimensions with padding
   const padding = { top: 20, right: 60, bottom: 60, left: 60 };
-  const chartWidth = width - padding.left - padding.right;
-  const chartHeight = height - padding.top - padding.bottom;
+  const chartWidth = Math.max(1, width - padding.left - padding.right);
+  const chartHeight = Math.max(1, height - padding.top - padding.bottom);
 
   // Process data for chart
   const processedData = useMemo(() => {
@@ -143,10 +162,25 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
       return { scaledSeries: [], xLabels: [], yLabels: [] };
     }
 
-    // Find min/max values across all series
-    const allPoints = series.flatMap((s) => s.data);
+    const sanitizedSeries = series.map((s) => ({
+      ...s,
+      data: (Array.isArray(s.data) ? s.data : [])
+        .map((point, pointIndex) => ({
+          ...point,
+          x: point?.x ?? pointIndex,
+          y: toFiniteNumber(point?.y),
+        }))
+        .filter((point) => Number.isFinite(point.y)),
+    }));
+
+    const allPoints = sanitizedSeries.flatMap((s) => s.data);
+    if (allPoints.length === 0) {
+      return { scaledSeries: [], xLabels: [], yLabels: [] };
+    }
+
+    const allXAreNumeric = allPoints.every((p) => typeof p.x === "number");
     const xValues = allPoints.map((p: any) =>
-      typeof p.x === "number" ? p.x : 0
+      typeof p.x === "number" && Number.isFinite(p.x) ? p.x : 0
     );
     const yValues = allPoints.map((p: any) => p.y);
 
@@ -157,28 +191,48 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
     // Add some padding to Y axis
     const yRange = yMax - yMin;
-    const yPadding = yRange * 0.1;
+    const yPadding =
+      yRange === 0 ? (yMax === 0 ? 1 : Math.abs(yMax) * 0.1) : yRange * 0.1;
     const yMinPadded = Math.max(0, yMin - yPadding);
     const yMaxPadded = yMax + yPadding;
 
-    // Scale functions
-    const scaleX = (x: number) => ((x - xMin) / (xMax - xMin)) * chartWidth;
+    const maxPoints = Math.max(...sanitizedSeries.map((s) => s.data.length), 1);
+    const useOrdinalX = !allXAreNumeric || xMax === xMin;
+    const scaleX = (x: number, index: number) => {
+      if (useOrdinalX) {
+        return maxPoints <= 1
+          ? chartWidth / 2
+          : (index / (maxPoints - 1)) * chartWidth;
+      }
+      return ((x - xMin) / (xMax - xMin || 1)) * chartWidth;
+    };
     const scaleY = (y: number) =>
       chartHeight -
-      ((y - yMinPadded) / (yMaxPadded - yMinPadded)) * chartHeight;
+      ((y - yMinPadded) / (yMaxPadded - yMinPadded || 1)) * chartHeight;
 
     // Process each series
-    const scaledSeries = series.map((s, seriesIndex) => ({
+    const scaledSeries = sanitizedSeries.map((s, seriesIndex) => ({
       ...s,
-      color: s.color || colors[seriesIndex % (colors?.length || 0)],
-      points: s.data?.map((point, pointIndex) => ({
-        ...point,
-        scaledX:
-          padding.left +
-          scaleX(typeof point.x === "number" ? point.x : pointIndex),
-        scaledY: padding.top + scaleY(point.y),
-        originalIndex: pointIndex,
-      })),
+      color: getSeriesColor(s.color, colors, seriesIndex),
+      points: s.data
+        .map((point, pointIndex) => {
+          const scaledX =
+            padding.left +
+            scaleX(typeof point.x === "number" ? point.x : 0, pointIndex);
+          const scaledY = padding.top + scaleY(point.y);
+          return {
+            ...point,
+            scaledX: Number.isFinite(scaledX) ? scaledX : padding.left,
+            scaledY: Number.isFinite(scaledY)
+              ? scaledY
+              : padding.top + chartHeight,
+            originalIndex: pointIndex,
+          };
+        })
+        .filter(
+          (point) =>
+            Number.isFinite(point.scaledX) && Number.isFinite(point.scaledY)
+        ),
     }));
 
     // Generate axis labels
@@ -213,11 +267,15 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
   // Generate path for line
   const generatePath = (points: any[]) => {
-    if ((points?.length || 0) === 0) return "";
+    const validPoints = (points || []).filter(
+      (point) =>
+        Number.isFinite(point?.scaledX) && Number.isFinite(point?.scaledY)
+    );
+    if (validPoints.length === 0) return "";
 
-    let path = `M ${points[0].scaledX} ${points[0].scaledY}`;
-    for (let i = 1; i < (points?.length || 0); i++) {
-      path += ` L ${points[i].scaledX} ${points[i].scaledY}`;
+    let path = `M ${validPoints[0].scaledX} ${validPoints[0].scaledY}`;
+    for (let i = 1; i < validPoints.length; i++) {
+      path += ` L ${validPoints[i].scaledX} ${validPoints[i].scaledY}`;
     }
     return path;
   };
@@ -272,6 +330,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
               width={width}
               height={height}
               className="glass-overflow-visible"
+              style={{ maxWidth: "100%", height: "auto" }}
             >
               {/* Grid lines */}
               {showGrid && (

@@ -1,10 +1,11 @@
-'use client';
+"use client";
 // Typography tokens available via typography.css (imported in index.css)
-import React from 'react';
-import { cn } from '../../../lib/utilsComprehensive';
-import { glassTokenUtils } from '../../../tokens/glass';
+import React from "react";
+import { cn } from "../../../lib/utilsComprehensive";
+import { glassTokenUtils } from "../../../tokens/glass";
 
-export interface TabItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+export interface TabItemProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   id: string;
   label: string;
   icon?: React.ReactNode;
@@ -15,7 +16,7 @@ export interface TabItemProps extends Omit<React.ButtonHTMLAttributes<HTMLButton
   /**
    * ID of the tab panel this tab controls
    */
-  'aria-controls'?: string;
+  "aria-controls"?: string;
   /**
    * Index of the tab for keyboard navigation
    */
@@ -38,7 +39,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
   disabled = false,
   active = false,
   onClick,
-  'aria-controls': ariaControls,
+  "aria-controls": ariaControls,
   index = 0,
   totalTabs = 1,
   onKeyDown,
@@ -54,28 +55,31 @@ const TabItemComponent: React.FC<TabItemProps> = ({
     const parent = e.currentTarget.parentElement;
     if (!parent) return;
 
-    const tabs = Array.from(parent.querySelectorAll('[role="tab"]')) as HTMLButtonElement[];
+    const tabs = Array.from(
+      parent.querySelectorAll('[role="tab"]')
+    ) as HTMLButtonElement[];
     const currentIndex = tabs.indexOf(e.currentTarget);
 
     switch (e.key) {
-      case 'ArrowLeft':
+      case "ArrowLeft":
         e.preventDefault();
-        const prevIndex = currentIndex - 1 < 0 ? tabs.length - 1 : currentIndex - 1;
+        const prevIndex =
+          currentIndex - 1 < 0 ? tabs.length - 1 : currentIndex - 1;
         tabs[prevIndex]?.focus();
         tabs[prevIndex]?.click();
         break;
-      case 'ArrowRight':
+      case "ArrowRight":
         e.preventDefault();
         const nextIndex = (currentIndex + 1) % tabs.length;
         tabs[nextIndex]?.focus();
         tabs[nextIndex]?.click();
         break;
-      case 'Home':
+      case "Home":
         e.preventDefault();
         tabs[0]?.focus();
         tabs[0]?.click();
         break;
-      case 'End':
+      case "End":
         e.preventDefault();
         tabs[tabs.length - 1]?.focus();
         tabs[tabs.length - 1]?.click();
@@ -84,7 +88,8 @@ const TabItemComponent: React.FC<TabItemProps> = ({
   };
 
   return (
-    <button data-glass-component
+    <button
+      data-glass-component
       id={`tab-${id}`}
       role="tab"
       aria-selected={active}
@@ -92,41 +97,57 @@ const TabItemComponent: React.FC<TabItemProps> = ({
       aria-disabled={disabled}
       tabIndex={active ? 0 : -1}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-        padding: '8px 16px',
-        background: active ? glassTokenUtils.getSurface('neutral', 'level1').surface.base : 'transparent',
-        border: 'none',
-        borderRadius: '6px',
-        color: active ? 'var(--glass-white)' : glassTokenUtils.getSurface('neutral', 'level1').text.secondary,
-        cursor: disabled ? 'not-allowed' : 'pointer',
+        display: "flex",
+        alignItems: "center",
+        flexShrink: 0,
+        maxWidth: "100%",
+        minWidth: 0,
+        gap: "6px",
+        padding: "8px 16px",
+        background: active
+          ? glassTokenUtils.getSurface("neutral", "level1").surface.base
+          : "transparent",
+        border: "none",
+        borderRadius: "6px",
+        color: active
+          ? "var(--glass-white)"
+          : glassTokenUtils.getSurface("neutral", "level1").text.secondary,
+        cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.5 : 1,
-        fontSize: '0.875rem', // body text
+        fontSize: "0.875rem", // body text
         fontWeight: active ? 600 : 400,
-        transition: 'all 0.2s ease',
+        transition: "all 0.2s ease",
       }}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       disabled={disabled}
       className={cn(
-        'glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard',
+        "glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard",
         className
       )}
       {...rest}
     >
       {icon && <span aria-hidden="true">{icon}</span>}
-      <span>{label}</span>
+      <span
+        style={{
+          minWidth: 0,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {label}
+      </span>
       {badge && (
         <span
           aria-label={`${badge} notifications`}
           style={{
-            background: 'var(--glass-color-danger)',
-            color: 'white',
-            borderRadius: '10px',
-            padding: '2px 6px',
-            fontSize: '0.625rem',
-            fontWeight: 'var(--typography-heading-weight)', // semi-bold
+            background: "var(--glass-color-danger)",
+            color: "white",
+            borderRadius: "10px",
+            padding: "2px 6px",
+            fontSize: "0.625rem",
+            fontWeight: "var(--typography-heading-weight)", // semi-bold
           }}
         >
           {badge}

@@ -266,7 +266,14 @@ const GlassDataTableInnerBase = <
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(initialPageSize);
-  const activePageSize = biometricResponsive ? adaptivePageSize : pageSize;
+  const activePageSize = Math.max(
+    1,
+    Number.isFinite(biometricResponsive ? adaptivePageSize : pageSize)
+      ? biometricResponsive
+        ? adaptivePageSize
+        : pageSize
+      : 10
+  );
 
   const setContainerRef = useCallback(
     (node: HTMLDivElement | null) => {
@@ -644,7 +651,7 @@ const GlassDataTableInnerBase = <
       >
         <div className="glass-w-full glass-overflow-x-auto">
           <table
-            className="glass-w-full"
+            className="glass-w-full glass-table-fixed"
             style={{
               minWidth:
                 columns.length > 3
@@ -877,22 +884,23 @@ const GlassDataTableInnerBase = <
                               }
                             )}
                           >
-                            <ContrastGuard>
-                              {column.cell
-                                ? column.cell({ row, value })
-                                : cellRenderers &&
-                                  (cellRenderers[
-                                    column.id ||
-                                      (column.accessorKey as string) ||
-                                      ""
-                                  ]
-                                    ? cellRenderers[
+                            <div className="glass-min-w-0 glass-max-w-full glass-break-words">
+                              <ContrastGuard>
+                                {column.cell
+                                  ? column.cell({ row, value })
+                                  : (() => {
+                                      const rendererKey =
                                         column.id ||
-                                          (column.accessorKey as string) ||
-                                          ""
-                                      ]!(value, row)
-                                    : String(value))}
-                            </ContrastGuard>
+                                        (column.accessorKey as string) ||
+                                        "";
+                                      const renderer =
+                                        cellRenderers?.[rendererKey];
+                                      return renderer
+                                        ? renderer(value, row)
+                                        : String(value ?? "");
+                                    })()}
+                              </ContrastGuard>
+                            </div>
                           </td>
                         );
                       })}

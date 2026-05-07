@@ -4,7 +4,7 @@ import { CompactCookieNotice } from './CompactCookieNotice';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof CompactCookieNotice> = {
-  title: 'Components/Cookie-consent/CompactCookieNotice',
+  title: 'Workflows/Compact Cookie Notice',
   component: CompactCookieNotice,
   parameters: {
     layout: 'centered',
@@ -60,11 +60,15 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4">
-      <CompactCookieNotice {...args} position="bottom" />
-      <CompactCookieNotice {...args} position="top" />
-      <CompactCookieNotice {...args} position="bottom-left" />
-      <CompactCookieNotice {...args} position="bottom-right" />
+    <div className="glass-flex glass-flex-col glass-gap-4" style={{ width: 720, maxWidth: '100%' }}>
+      {(['bottom', 'top', 'bottom-left', 'bottom-right'] as const).map((position) => (
+        <CompactCookieNotice
+          key={position}
+          {...args}
+          position={position}
+          style={{ position: 'static', transform: 'none', width: '100%' }}
+        />
+      ))}
     </div>
   ),
 };

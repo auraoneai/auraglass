@@ -430,7 +430,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                 "Select option"
               }
             >
-              <div className="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0">
+              <div className="glass-flex glass-items-center glass-flex-1 glass-min-w-0">
                 {leftIcon && (
                   <div
                     className={cn(
@@ -511,7 +511,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                 "Select option"
               }
             >
-              <div className="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0">
+              <div className="glass-flex glass-items-center glass-flex-1 glass-min-w-0">
                 {leftIcon && (
                   <div
                     className={cn(

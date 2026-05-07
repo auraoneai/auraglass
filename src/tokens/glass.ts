@@ -1501,9 +1501,14 @@ export const liquidGlassUtils = {
       elevation,
       "high"
     );
+    const {
+      backgroundColor: _backgroundColor,
+      color: _color,
+      ...baseStylesWithoutColorConflict
+    } = baseStyles;
 
     return {
-      ...baseStyles,
+      ...baseStylesWithoutColorConflict,
 
       // Enhanced backdrop filter with IOR simulation
       // Use createGlassStyle() instead,

@@ -4,7 +4,7 @@ import StateIndicator from './StateIndicator';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof StateIndicator> = {
-  title: 'Components/Visual-feedback/StateIndicator',
+  title: 'Controls/Inputs/State Indicator',
   component: StateIndicator,
   parameters: {
     layout: 'centered',

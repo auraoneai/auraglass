@@ -31,7 +31,7 @@ exports[`GlassSelect matches snapshot 1`] = `
           class="glass-relative glass-z-10"
         >
           <div
-            class="glass-flex glass-items-center glass-flex-1 glass-min-glass-w-0"
+            class="glass-flex glass-items-center glass-flex-1 glass-min-w-0"
           >
             <span
               class="flex-1 truncate glass-text-primary/60"

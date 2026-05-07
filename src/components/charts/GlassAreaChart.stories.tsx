@@ -4,7 +4,7 @@ import { GlassAreaChart } from './GlassAreaChart';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAreaChart> = {
-  title: 'Components/Charts/GlassAreaChart',
+  title: 'Data + Visualization/Glass Area Chart',
   component: GlassAreaChart,
   parameters: {
     layout: 'centered',

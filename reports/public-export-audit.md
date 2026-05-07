@@ -1,6 +1,6 @@
 # Public Export Audit
 
-Generated: 2026-05-06T18:27:19.597Z
+Generated: 2026-05-07T16:45:39.971Z
 
 ## Summary
 
@@ -15,7 +15,7 @@ Generated: 2026-05-06T18:27:19.597Z
 - Component-like exports missing inventory entries: 23
 - Component-like exports missing direct Storybook stories: 15
 - Component-like exports missing direct unit tests: 23
-- Component-like exports missing direct docs: 22
+- Component-like exports missing direct docs: 23
 - Unresolved export-star declarations: 0
 
 ## Missing Source Files
@@ -112,9 +112,9 @@ Generated: 2026-05-06T18:27:19.597Z
 - QuantumEntanglementVisualizer (src/components/quantum/QuantumEntanglementVisualizer.tsx)
 - QuantumNeuromorphicEngine (src/components/quantum/QuantumNeuromorphicEngine.ts)
 - MultiUserGlassEditor (src/components/collaboration/MultiUserGlassEditor.tsx)
+- LiquidGlassShowcase (src/components/showcase/LiquidGlassShowcase.tsx)
 - ConsciousnessStreamProvider (src/contexts/ConsciousnessStreamProvider.tsx)
-- AnimationProvider (src/contexts/AnimationContext.tsx)
-- ... 2 more
+- ... 3 more
 
 ## Liquid Glass Upgrade Exports
 

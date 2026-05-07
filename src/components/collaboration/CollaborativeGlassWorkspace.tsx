@@ -404,13 +404,119 @@ function WorkspaceContent({
   return (
     <div
       className={cn(
-        "glass-collaborative-workspace glass-h-screen glass-flex glass-flex-col glass-surface-dark",
+        "glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-dark",
         className
       )}
       role="main"
       aria-live="polite"
       aria-label={ariaLabel}
     >
+      <style>{`
+        .glass-collaborative-workspace.workspace-glass-shell {
+          background: linear-gradient(135deg, #07111f 0%, #0f172a 44%, #111827 100%), #07111f !important;
+          background-color: #07111f !important;
+          color: #f8fafc !important;
+        }
+
+        .glass-collaborative-workspace .workspace-glass-panel {
+          background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.82)), rgba(15, 23, 42, 0.9) !important;
+          background-color: rgba(15, 23, 42, 0.9) !important;
+          border-color: rgba(148, 163, 184, 0.3) !important;
+          color: #f8fafc !important;
+        }
+
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-secondary,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-tertiary,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-glass-opacity-60,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-glass-opacity-80,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-opacity-70 {
+          color: #f8fafc !important;
+        }
+
+        .glass-collaborative-workspace .workspace-glass-panel label,
+        .glass-collaborative-workspace .workspace-glass-panel p,
+        .glass-collaborative-workspace .workspace-glass-panel span {
+          color: inherit;
+        }
+
+        .glass-collaborative-workspace .workspace-glass-panel button,
+        .glass-collaborative-workspace .workspace-glass-panel .workspace-glass-button {
+          background-color: rgba(15, 23, 42, 0.68);
+          border: 1px solid rgba(148, 163, 184, 0.28);
+          color: #f8fafc !important;
+        }
+
+        .glass-collaborative-workspace .workspace-glass-panel .glass-surface-blue,
+        .glass-collaborative-workspace .workspace-glass-button-primary {
+          background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
+          background-color: rgba(3, 105, 161, 0.96) !important;
+          border-color: rgba(125, 211, 252, 0.42);
+        }
+
+        .glass-collaborative-workspace .workspace-glass-inset {
+          background: rgba(15, 23, 42, 0.68) !important;
+          background-color: rgba(15, 23, 42, 0.68) !important;
+          border: 1px solid rgba(148, 163, 184, 0.24) !important;
+          color: #f8fafc !important;
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-number,
+        .glass-collaborative-workspace .glass-collaboration-range {
+          appearance: none;
+          -webkit-appearance: none;
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-number {
+          background: rgba(15, 23, 42, 0.72);
+          border: 1px solid rgba(148, 163, 184, 0.42);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          color: #f8fafc;
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-number::placeholder {
+          color: rgba(226, 232, 240, 0.68);
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-number::-webkit-outer-spin-button,
+        .glass-collaborative-workspace .glass-collaboration-number::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-range {
+          height: 0.625rem;
+          border-radius: 999px;
+          border: 1px solid rgba(148, 163, 184, 0.42);
+          background:
+            linear-gradient(90deg, rgba(56, 189, 248, 0.9), rgba(34, 197, 94, 0.5)),
+            rgba(15, 23, 42, 0.72);
+          box-shadow:
+            inset 0 1px 2px rgba(2, 6, 23, 0.28),
+            0 1px 0 rgba(255, 255, 255, 0.08);
+          cursor: pointer;
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-range::-webkit-slider-thumb {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 1.125rem;
+          height: 1.125rem;
+          border-radius: 999px;
+          border: 2px solid rgba(248, 250, 252, 0.96);
+          background: #38bdf8;
+          box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
+        }
+
+        .glass-collaborative-workspace .glass-collaboration-range::-moz-range-thumb {
+          width: 1.125rem;
+          height: 1.125rem;
+          border-radius: 999px;
+          border: 2px solid rgba(248, 250, 252, 0.96);
+          background: #38bdf8;
+          box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
+        }
+      `}</style>
       {/* Workspace Header */}
       {showToolbar && (
         <WorkspaceHeader
@@ -625,7 +731,7 @@ function WorkspaceHeader({
 
   return (
     <div
-      className="workspace-header glass-flex glass-items-center glass-justify-between glass-px-4 glass-py-3 glass-border-b glass-border-white/10"
+      className="workspace-header workspace-glass-panel glass-flex glass-items-center glass-justify-between glass-px-4 glass-py-3 glass-border-b glass-border-white/10"
       style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
     >
       {/* Left Section */}
@@ -668,7 +774,7 @@ function WorkspaceHeader({
             </button>
             <button
               onClick={() => onCreateSnapshot(`Snapshot ${Date.now()}`)}
-              className="glass-px-3 glass-py-2 glass-text-sm glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue"
+              className="workspace-glass-button-primary glass-px-3 glass-py-2 glass-text-sm glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue"
               title="Create Snapshot"
             >
               📷 Snapshot
@@ -856,7 +962,7 @@ function CollaborativeGlassCanvas({
 }: CollaborativeGlassCanvasProps) {
   return (
     <div
-      className={`collaborative-canvas relative ${className}`}
+      className={`collaborative-canvas workspace-glass-panel relative ${className}`}
       style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
     >
       {showGrid && (
@@ -891,7 +997,7 @@ function MultiUserGlassEditor({
 }: MultiUserGlassEditorProps) {
   return (
     <div
-      className={`multi-user-editor ${className}`}
+      className={`multi-user-editor workspace-glass-panel ${className}`}
       style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
     >
       <div className="glass-p-4">
@@ -923,7 +1029,7 @@ function MultiUserGlassEditor({
             <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
               Target Element
             </label>
-            <div className="glass-p-2 glass-surface-subtle/5 glass-radius glass-text-primary glass-text-sm">
+            <div className="workspace-glass-inset glass-p-2 glass-surface-subtle/5 glass-radius glass-text-primary glass-text-sm">
               {target}
             </div>
           </div>
@@ -939,7 +1045,8 @@ function MultiUserGlassEditor({
                 </span>
                 <input
                   type="number"
-                  className="glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-primary glass-text-sm glass-touch-target glass-contrast-guard"
+                  data-glass-component="number"
+                  className="glass-collaboration-number glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-primary glass-text-sm glass-touch-target glass-contrast-guard"
                   placeholder="Auto"
                   aria-label="Width"
                 />
@@ -950,7 +1057,8 @@ function MultiUserGlassEditor({
                 </span>
                 <input
                   type="number"
-                  className="glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-primary glass-text-sm glass-touch-target glass-contrast-guard"
+                  data-glass-component="number"
+                  className="glass-collaboration-number glass-flex-1 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-primary glass-text-sm glass-touch-target glass-contrast-guard"
                   placeholder="Auto"
                   aria-label="Height"
                 />
@@ -961,10 +1069,11 @@ function MultiUserGlassEditor({
                 </span>
                 <input
                   type="range"
+                  data-glass-component="range"
                   min="0"
                   max="1"
                   step="0.1"
-                  className="glass-flex-1 glass-touch-target glass-contrast-guard"
+                  className="glass-collaboration-range glass-flex-1 glass-touch-target glass-contrast-guard"
                   aria-label="Opacity"
                 />
               </div>
@@ -989,7 +1098,7 @@ function WorkspaceSidebar({
 }: WorkspaceSidebarProps) {
   return (
     <div
-      className="workspace-sidebar glass-w-80 glass-border-l glass-border-white/20 glass-p-4 glass-space-y-4"
+      className="workspace-sidebar workspace-glass-panel glass-w-80 glass-border-l glass-border-white/20 glass-p-4 glass-space-y-4"
       style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
     >
       {/* Mini Map */}
@@ -998,8 +1107,8 @@ function WorkspaceSidebar({
           <h3 className="glass-text-sm glass-font-semibold glass-text-primary-glass-opacity-80 glass-uppercase">
             Mini Map
           </h3>
-          <div className="glass-aspect-video glass-surface-dark glass-border glass-border-white/20 glass-radius glass-p-2">
-            <div className="glass-text-xs glass-text-primary-glass-opacity-50 glass-text-center glass-mt-8">
+          <div className="workspace-glass-inset glass-aspect-video glass-surface-dark glass-border glass-border-white/20 glass-radius glass-p-2">
+            <div className="glass-text-xs glass-text-primary glass-text-center glass-mt-8">
               Canvas overview
             </div>
           </div>

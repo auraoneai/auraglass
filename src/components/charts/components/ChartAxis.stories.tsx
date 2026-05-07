@@ -4,7 +4,7 @@ import { ChartAxis } from './ChartAxis';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof ChartAxis> = {
-  title: 'Components/Charts/ChartAxis',
+  title: 'Data + Visualization/Chart Axis',
   component: ChartAxis,
   parameters: {
     layout: 'centered',

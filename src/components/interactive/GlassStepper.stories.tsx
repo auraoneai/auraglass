@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassStepper> = {
-  title: 'Components/Interactive/GlassStepper',
+  title: 'Effects + Advanced/Glass Stepper',
   component: GlassStepper,
   parameters: {
     layout: 'centered',

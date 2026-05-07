@@ -4,7 +4,7 @@ import { CookieConsent } from './CookieConsent';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof CookieConsent> = {
-  title: 'Components/Cookie-consent/CookieConsent',
+  title: 'Workflows/Cookie Consent',
   component: CookieConsent,
   parameters: {
     layout: 'centered',

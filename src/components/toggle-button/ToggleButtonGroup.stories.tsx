@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import ToggleButton from './ToggleButton';
 
 const meta: Meta<typeof ToggleButtonGroup> = {
-  title: 'Components/Toggle-button/ToggleButtonGroup',
+  title: 'Reference/Legacy Components/Toggle Button Group',
   component: ToggleButtonGroup,
   parameters: {
     layout: 'centered',

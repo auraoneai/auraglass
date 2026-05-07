@@ -10,7 +10,7 @@ const componentName = "GlassComponentPalette" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Cms/GlassComponentPalette",
+  title: 'Workflows/Glass Component Palette',
   component: Component,
   parameters: {
     layout: "centered",

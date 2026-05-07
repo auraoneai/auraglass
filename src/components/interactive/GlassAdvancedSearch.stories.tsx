@@ -4,7 +4,7 @@ import { GlassAdvancedSearch } from './GlassAdvancedSearch';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAdvancedSearch> = {
-  title: 'Components/Interactive/GlassAdvancedSearch',
+  title: 'Effects + Advanced/Glass Advanced Search',
   component: GlassAdvancedSearch,
   parameters: {
     layout: 'centered',

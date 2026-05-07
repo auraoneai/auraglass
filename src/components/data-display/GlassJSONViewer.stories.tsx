@@ -4,7 +4,7 @@ import { GlassJSONViewer } from './GlassJSONViewer';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassJSONViewer> = {
-  title: 'Components/Data-display/GlassJSONViewer',
+  title: 'Data + Visualization/Glass JSONViewer',
   component: GlassJSONViewer,
   parameters: {
     layout: 'centered',

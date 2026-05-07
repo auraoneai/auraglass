@@ -4,7 +4,7 @@ import { GlassDraggable } from './GlassDraggable';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassDraggable> = {
-  title: 'Components/Interactive/GlassDraggable',
+  title: 'Effects + Advanced/Glass Draggable',
   component: GlassDraggable,
   parameters: {
     layout: 'centered',

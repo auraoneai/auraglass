@@ -1,121 +1,60 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassSegmentedControl } from './GlassSegmentedControl';
-import { cn } from '../../lib/utils';
+import { useState, type ComponentProps } from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import { Grid3X3, List, PanelsTopLeft } from "lucide-react";
+import { GlassSegmentedControl } from "./GlassSegmentedControl";
+
+const items = [
+  { id: "list", label: "List", icon: <List size={15} /> },
+  { id: "grid", label: "Grid", icon: <Grid3X3 size={15} /> },
+  { id: "board", label: "Board", icon: <PanelsTopLeft size={15} /> },
+];
 
 const meta: Meta<typeof GlassSegmentedControl> = {
-  title: 'Components/Navigation/GlassSegmentedControl',
+  title: 'Navigation/Glass Segmented Control',
   component: GlassSegmentedControl,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glasssegmentedcontrol component.',
+        component:
+          "A compact glass segmented control for switching views and modes.",
       },
     },
   },
-  argTypes: {
-    items: {
-      control: 'object',
-      description: 'Array of segmented control items',
-    },
-    value: {
-      control: 'text',
-      description: 'Currently selected item ID',
-    },
-    size: {
-      control: { type: 'select', options: ['sm', 'md', 'lg'] },
-      description: 'Size variant',
-    },
-    condensed: {
-      control: 'boolean',
-      description: 'Whether to use condensed layout',
-    },
-  },
   args: {
-    items: [
-      { id: 'option1', label: 'Option 1' },
-      { id: 'option2', label: 'Option 2' },
-      { id: 'option3', label: 'Option 3' }
-    ],
-    value: 'option1',
-    size: 'md',
-    condensed: false,
+    items,
+    value: "grid",
+    size: "md",
+    "aria-label": "View mode",
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof GlassSegmentedControl>;
 
-export const Default: Story = {
-  args: {
-    items: [
-      { id: 'daily', label: 'Daily' },
-      { id: 'weekly', label: 'Weekly' },
-      { id: 'monthly', label: 'Monthly' }
-    ],
-    value: 'daily',
-  },
-};
+const SegmentedFrame = (args: ComponentProps<typeof GlassSegmentedControl>) => {
+  const [value, setValue] = useState(args.value ?? "grid");
 
-export const DifferentSizes: Story = {
-  render: (args) => (
-    <div className="glass-gap-4">
+  return (
+    <div className="glass-grid glass-w-[min(560px,calc(100vw-48px))] glass-gap-5 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
       <div>
-        <h3 className="glass-text-sm glass-font-semibold glass-mb-2">Small</h3>
-        <GlassSegmentedControl {...args} size="sm" />
+        <h3 className="glass-m-0 glass-text-lg glass-font-semibold glass-text-primary">View controls</h3>
+        <p className="glass-mt-1 glass-text-sm glass-text-secondary">Segment labels and icons stay inside the control at narrow widths.</p>
       </div>
-      <div>
-        <h3 className="glass-text-sm glass-font-semibold glass-mb-2">Medium</h3>
-        <GlassSegmentedControl {...args} size="md" />
-      </div>
-      <div>
-        <h3 className="glass-text-sm glass-font-semibold glass-mb-2">Large</h3>
-        <GlassSegmentedControl {...args} size="lg" />
-      </div>
+      <GlassSegmentedControl {...args} value={value} onChange={setValue} />
     </div>
-  ),
-  args: {
-    items: [
-      { id: 'small', label: 'Small' },
-      { id: 'medium', label: 'Medium' },
-      { id: 'large', label: 'Large' }
-    ],
-    value: 'medium',
-  },
+  );
 };
 
-export const WithIcons: Story = {
-  args: {
-    items: [
-      { id: 'list', label: 'List', icon: '📋' },
-      { id: 'grid', label: 'Grid', icon: '📊' },
-      { id: 'card', label: 'Card', icon: '🃏' }
-    ],
-    value: 'list',
-  },
+export const Default: Story = {
+  render: (args) => <SegmentedFrame {...args} />,
 };
 
 export const Condensed: Story = {
   args: {
-    items: [
-      { id: 'option1', label: 'Option 1' },
-      { id: 'option2', label: 'Option 2' },
-      { id: 'option3', label: 'Option 3' },
-      { id: 'option4', label: 'Option 4' }
-    ],
-    value: 'option1',
     condensed: true,
+    size: "lg",
   },
-};
-
-export const WithDisabledItems: Story = {
-  args: {
-    items: [
-      { id: 'enabled1', label: 'Enabled' },
-      { id: 'disabled', label: 'Disabled', disabled: true },
-      { id: 'enabled2', label: 'Enabled' }
-    ],
-    value: 'enabled1',
-  },
+  render: (args) => <SegmentedFrame {...args} />,
 };

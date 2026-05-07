@@ -191,7 +191,7 @@ const largeIslands = [
 ];
 
 const meta = {
-  title: 'Glass UI/Layouts/GlassIslandLayout',
+  title: 'Surfaces/App Shells + Layout/Glass Island Layout',
   component: GlassIslandLayout,
   parameters: {
     layout: 'centered',

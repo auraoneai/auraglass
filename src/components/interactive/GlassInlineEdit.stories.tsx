@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { fn } from '@storybook/test';
 
 const meta: Meta<typeof GlassInlineEdit> = {
-  title: 'Components/Interactive/GlassInlineEdit',
+  title: 'Effects + Advanced/Glass Inline Edit',
   component: GlassInlineEdit,
   parameters: {
     layout: 'centered',

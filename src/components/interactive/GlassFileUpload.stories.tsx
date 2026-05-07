@@ -4,7 +4,7 @@ import { GlassFileUpload } from './GlassFileUpload';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassFileUpload> = {
-  title: 'Components/Interactive/GlassFileUpload',
+  title: 'Workflows/Glass File Upload',
   component: GlassFileUpload,
   parameters: {
     layout: 'centered',

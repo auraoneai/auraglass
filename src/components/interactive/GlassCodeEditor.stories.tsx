@@ -3,7 +3,7 @@ import { GlassCodeEditor, GlassCodeEditorWithFiles } from './GlassCodeEditor';
 
 import { cn } from '../../lib/utils';
 const meta: Meta<typeof GlassCodeEditor> = {
-  title: 'Components/Interactive/GlassCodeEditor',
+  title: 'Effects + Advanced/Glass Code Editor',
   component: GlassCodeEditor,
   parameters: {
     layout: 'centered',

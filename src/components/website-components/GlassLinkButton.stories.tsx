@@ -4,7 +4,7 @@ import { GlassLinkButton } from './GlassLinkButton';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassLinkButton> = {
-  title: 'Components/Website-components/GlassLinkButton',
+  title: 'Reference/Legacy Components/Glass Link Button',
   component: GlassLinkButton,
   parameters: {
     layout: 'centered',

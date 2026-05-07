@@ -4,7 +4,7 @@ import { GlassDashboard } from './GlassDashboard';
 import { cn } from '../../../lib/utils';
 
 const meta: Meta<typeof GlassDashboard> = {
-  title: 'Components/Dashboard/GlassDashboard',
+  title: 'Workflows/Glass Dashboard',
   component: GlassDashboard,
   parameters: {
     layout: 'centered',

@@ -1,67 +1,47 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { createGlassStyle } from '../core/mixins/glassMixins';
 
-const InteractiveGallery: React.FC = () => {
-  return (
-    <div style={{ 
-      padding: '2rem',
-      background: 'radial-gradient(circle at 20% 50%, #120E43 0%, #0A0A0A 50%, #1A1A2E 100%)',
-      minHeight: '100vh',
-      color: 'white'
-    }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Interactive Components</h1>
-      <div style={{ 
-        display: 'grid', 
-        gap: '1.5rem', 
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' 
-      }}>
-        
-          <div style={createGlassStyle({ intent: "neutral", elevation: "level2" })}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>CursorGlow</h3>
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.8 }}>
-              Components/Interactive/CursorGlow
-            </p>
-            <div style={{ 
-              fontFamily: 'monospace', 
-              fontSize: '0.75rem', 
-              opacity: 0.6,
-              background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-              padding: '0.5rem',
-              borderRadius: '4px'
-            }}>
-              src/components/interactive/CursorGlow.stories.tsx
-            </div>
-          </div>
-        
-          <div style={createGlassStyle({ intent: "neutral", elevation: "level2" })}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>PageTransitionDemo</h3>
-            <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.8 }}>
-              Components/Interactive/PageTransitionDemo
-            </p>
-            <div style={{ 
-              fontFamily: 'monospace', 
-              fontSize: '0.75rem', 
-              opacity: 0.6,
-              background: '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-              padding: '0.5rem',
-              borderRadius: '4px'
-            }}>
-              src/components/interactive/PageTransitionDemo.stories.tsx
-            </div>
-          </div>
-        
-      </div>
-    </div>
-  );
+const items = [
+  ['Command and search', 'Command surfaces, spotlight search, intelligent search, and tabbed search flows.'],
+  ['Guidance', 'Coachmarks, contextual help, and progressive interaction examples.'],
+  ['Workspace tools', 'Maps, transfer lists, trees, and command-heavy surfaces.'],
+  ['Feedback loops', 'Toast, typing, reactions, and lightweight collaboration moments.'],
+];
+
+const InteractiveGallery = () => (
+  <main style={styles.page}>
+    <section style={styles.header}>
+      <span style={styles.kicker}>Interaction</span>
+      <h1 style={styles.title}>Interactive Gallery</h1>
+      <p style={styles.copy}>Interactive stories expose complete controls and states while staying readable in both desktop and mobile preview frames.</p>
+    </section>
+    <section style={styles.grid}>
+      {items.map(([name, description]) => (
+        <article key={name} style={styles.card}>
+          <h2 style={styles.cardTitle}>{name}</h2>
+          <p style={styles.cardCopy}>{description}</p>
+        </article>
+      ))}
+    </section>
+  </main>
+);
+
+const styles: Record<string, React.CSSProperties> = {
+  page: { minHeight: '100dvh', padding: 32, color: '#0f172a', boxSizing: 'border-box', background: 'linear-gradient(135deg, #f8fafc 0%, #dbeafe 46%, #ecfdf5 100%)' },
+  header: { maxWidth: 1040, margin: '0 auto 24px', display: 'grid', gap: 8 },
+  kicker: { fontSize: 12, fontWeight: 800, letterSpacing: 0, textTransform: 'uppercase', color: '#0369a1' },
+  title: { margin: 0, fontSize: 34, lineHeight: 1.1, letterSpacing: 0 },
+  copy: { margin: 0, color: '#334155', fontSize: 16 },
+  grid: { maxWidth: 1040, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 16 },
+  card: { minHeight: 156, padding: 18, borderRadius: 8, border: '1px solid rgba(15,23,42,0.12)', background: 'rgba(255,255,255,0.72)', boxShadow: '0 16px 42px rgba(15,23,42,0.10)' },
+  cardTitle: { margin: '0 0 8px', fontSize: 19 },
+  cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
 };
 
 const meta: Meta<typeof InteractiveGallery> = {
-  title: 'Categories/Interactive',
+  title: 'Reference/Category Galleries/Interactive Gallery',
   component: InteractiveGallery,
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen', previewSurface: 'app' },
 };
 
 export default meta;

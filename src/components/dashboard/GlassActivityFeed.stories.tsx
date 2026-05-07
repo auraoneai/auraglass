@@ -4,7 +4,7 @@ import { GlassActivityFeed } from './GlassActivityFeed';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassActivityFeed> = {
-  title: 'Components/Dashboard/GlassActivityFeed',
+  title: 'Reference/Legacy Components/Glass Activity Feed',
   component: GlassActivityFeed,
   parameters: {
     layout: 'centered',

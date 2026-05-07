@@ -4,7 +4,7 @@ import DimensionalGlass from './DimensionalGlass';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof DimensionalGlass> = {
-  title: 'Components/Surfaces/DimensionalGlass',
+  title: 'Surfaces/Cards + Panels/Dimensional Glass',
   component: DimensionalGlass,
   parameters: {
     layout: 'centered',

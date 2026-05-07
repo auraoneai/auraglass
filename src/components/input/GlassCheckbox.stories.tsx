@@ -1,54 +1,25 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { GlassCheckbox } from './GlassCheckbox';
-import { cn } from '../../lib/utils';
+import type { Meta, StoryObj } from "@storybook/react";
+import { GlassCheckbox } from "./GlassCheckbox";
 
 const meta: Meta<typeof GlassCheckbox> = {
-  title: 'Components/Input/GlassCheckbox',
+  title: 'Controls/Inputs/Glass Checkbox',
   component: GlassCheckbox,
   parameters: {
-    layout: 'centered',
+    layout: "centered",
+    previewSurface: "component",
     docs: {
       description: {
-        component: 'A glass morphism glasscheckbox component.',
+        component:
+          "A glass checkbox for consent, preference, and review checklist flows.",
       },
     },
   },
-  argTypes: {
-    className: {
-      control: 'text',
-      description: 'className prop',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'disabled prop',
-    },
-    label: {
-      control: 'text',
-      description: 'label prop',
-    },
-    description: {
-      control: 'text',
-      description: 'description prop',
-    },
-    size: {
-      control: { type: 'select' },
-      options: ["sm","md","lg"],
-      description: 'size prop',
-    },
-    variant: {
-      control: { type: 'select' },
-      options: ["default","success","warning","error","info"],
-      description: 'variant prop',
-    },
-  },
   args: {
-    className: '',
-    disabled: false,
-    label: 'Accept terms and conditions',
-    description: 'By checking this box, you agree to our terms.',
-    size: 'md',
-    variant: 'default',
+    label: "Require launch approval",
+    description: "Route campaign changes to the workspace approver before publishing.",
+    variant: "info",
+    size: "md",
+    defaultChecked: true,
   },
 };
 
@@ -56,42 +27,22 @@ export default meta;
 type Story = StoryObj<typeof GlassCheckbox>;
 
 export const Default: Story = {
-  args: {
-    label: 'Default checkbox',
-    description: 'This is a default GlassCheckbox component',
-  },
-};
-
-export const Variants: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassCheckbox {...args} variant="default" label="Default variant" />
-      <GlassCheckbox {...args} variant="success" label="Success variant" />
-      <GlassCheckbox {...args} variant="warning" label="Warning variant" />
-      <GlassCheckbox {...args} variant="error" label="Error variant" />
-      <GlassCheckbox {...args} variant="info" label="Info variant" />
+    <div className="glass-grid glass-w-[min(560px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <GlassCheckbox {...args} />
+      <GlassCheckbox label="Notify channel" description="Post a summary to the launch room." variant="success" defaultChecked />
+      <GlassCheckbox label="Flag budget changes" description="Warn reviewers when spend changes by more than 10%." variant="warning" />
+      <GlassCheckbox label="External sharing" description="Blocked by workspace policy." variant="error" disabled />
     </div>
   ),
 };
 
 export const Sizes: Story = {
   render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassCheckbox {...args} size="sm" label="Small size" />
-      <GlassCheckbox {...args} size="md" label="Medium size" />
-      <GlassCheckbox {...args} size="lg" label="Large size" />
-    </div>
-  ),
-};
-
-export const States: Story = {
-  render: (args) => (
-    <div className="glass-flex glass-flex-col glass-gap-4 max-w-md">
-      <GlassCheckbox {...args} checked={false} label="Unchecked" />
-      <GlassCheckbox {...args} checked={true} label="Checked" />
-      <GlassCheckbox {...args} indeterminate label="Indeterminate" />
-      <GlassCheckbox {...args} disabled label="Disabled" />
-      <GlassCheckbox {...args} disabled checked label="Disabled checked" />
+    <div className="glass-grid glass-w-[min(520px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <GlassCheckbox {...args} size="sm" label="Small approval item" />
+      <GlassCheckbox {...args} size="md" label="Medium approval item" />
+      <GlassCheckbox {...args} size="lg" label="Large approval item" />
     </div>
   ),
 };

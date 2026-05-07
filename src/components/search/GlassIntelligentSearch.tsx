@@ -760,12 +760,135 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
   return (
     <div
       data-glass-component
-      className={cn("w-full max-w-4xl mx-auto glass-min-w-0", className)}
+      className={cn(
+        "glass-intelligent-search glass-w-full glass-min-w-0",
+        className
+      )}
+      style={{ width: "100%", maxWidth: "64rem", margin: "0 auto" }}
       aria-label={ariaLabel}
       data-testid={dataTestId}
     >
+      <style>{`
+        .glass-intelligent-search-panel {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(248, 250, 252, 0.7)), rgba(255, 255, 255, 0.76) !important;
+          background-color: rgba(255, 255, 255, 0.76) !important;
+          border-color: rgba(15, 23, 42, 0.14) !important;
+          color: #0f172a !important;
+          box-shadow: 0 18px 52px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.76);
+        }
+
+        .glass-intelligent-search-panel .glass-text-primary,
+        .glass-intelligent-search-panel .glass-text-secondary,
+        .glass-intelligent-search-panel .glass-text-tertiary {
+          color: #0f172a !important;
+        }
+
+        .glass-intelligent-search-panel label,
+        .glass-intelligent-search-panel p,
+        .glass-intelligent-search-panel span {
+          color: inherit;
+        }
+
+        .glass-intelligent-search-panel button {
+          background-color: rgba(255, 255, 255, 0.58);
+          border: 1px solid rgba(15, 23, 42, 0.14);
+          color: #0f172a !important;
+          border-radius: 12px;
+        }
+
+        .glass-intelligent-search-panel .glass-search-primary-action {
+          background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
+          background-color: rgba(3, 105, 161, 0.96) !important;
+          border-color: rgba(125, 211, 252, 0.42);
+          color: #f8fafc !important;
+        }
+
+        .glass-intelligent-search-dropdown {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.84)), rgba(255, 255, 255, 0.9) !important;
+          background-color: rgba(255, 255, 255, 0.9) !important;
+          backdrop-filter: blur(18px) saturate(1.35);
+          -webkit-backdrop-filter: blur(18px) saturate(1.35);
+        }
+
+        .glass-intelligent-search input[type="text"] {
+          appearance: none;
+          -webkit-appearance: none;
+          background: rgba(255, 255, 255, 0.72);
+          color: #0f172a;
+          border-color: rgba(15, 23, 42, 0.18);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-intelligent-search input[type="text"]::placeholder {
+          color: rgba(51, 65, 85, 0.66);
+        }
+
+        .glass-search-checkbox {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 1rem;
+          height: 1rem;
+          flex: 0 0 1rem;
+          margin-top: 0.125rem;
+          border-radius: 0.375rem;
+          border: 1px solid rgba(148, 163, 184, 0.6);
+          background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(241, 245, 249, 0.74)),
+            rgba(255, 255, 255, 0.82);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.12),
+            0 4px 12px rgba(2, 6, 23, 0.22);
+          cursor: pointer;
+        }
+
+        .glass-search-checkbox:checked {
+          border-color: rgba(56, 189, 248, 0.9);
+          background:
+            linear-gradient(135deg, rgba(56, 189, 248, 0.96), rgba(37, 99, 235, 0.9)),
+            rgba(255, 255, 255, 0.76);
+          box-shadow:
+            inset 0 0 0 3px rgba(255, 255, 255, 0.82),
+            0 0 0 1px rgba(125, 211, 252, 0.34),
+            0 8px 18px rgba(14, 165, 233, 0.22);
+        }
+
+        .glass-search-range {
+          appearance: none;
+          -webkit-appearance: none;
+          height: 0.625rem;
+          border-radius: 999px;
+          border: 1px solid rgba(148, 163, 184, 0.42);
+          background:
+            linear-gradient(90deg, rgba(56, 189, 248, 0.9), rgba(125, 211, 252, 0.44)),
+            rgba(255, 255, 255, 0.72);
+          box-shadow:
+            inset 0 1px 2px rgba(2, 6, 23, 0.28),
+            0 1px 0 rgba(255, 255, 255, 0.08);
+          cursor: pointer;
+        }
+
+        .glass-search-range::-webkit-slider-thumb {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 1.125rem;
+          height: 1.125rem;
+          border-radius: 999px;
+          border: 2px solid rgba(248, 250, 252, 0.96);
+          background: #38bdf8;
+          box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
+        }
+
+        .glass-search-range::-moz-range-thumb {
+          width: 1.125rem;
+          height: 1.125rem;
+          border-radius: 999px;
+          border: 2px solid rgba(248, 250, 252, 0.96);
+          background: #38bdf8;
+          box-shadow: 0 6px 18px rgba(14, 165, 233, 0.4);
+        }
+      `}</style>
       {/* Search Input */}
-      <Glass className="glass-relative">
+      <Glass className="glass-relative glass-intelligent-search-panel">
         <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-3 glass-p-4">
           <div className="glass-relative glass-flex-1">
             <input
@@ -826,7 +949,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
           <button
             onClick={handleSearchSubmit}
             className={cn(
-              "glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard",
+              "glass-search-primary-action glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard",
               !prefersReducedMotion && "glass-transition-colors"
             )}
           >
@@ -837,7 +960,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         {/* Suggestions Dropdown */}
         {showSuggestionsList && suggestions.length > 0 && (
           <div
-            className="glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-2 glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-shadow-lg glass-z-50 glass-max-h-60 glass-overflow-y-auto glass-contrast-guard"
+            className="glass-intelligent-search-panel glass-intelligent-search-dropdown glass-absolute glass-top-full glass-left-0 glass-right-0 glass-mt-2 glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-shadow-lg glass-z-50 glass-max-h-60 glass-overflow-y-auto glass-contrast-guard"
             role="listbox"
           >
             {suggestions.map((suggestion, index) => (
@@ -876,7 +999,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
       {/* NLP Analysis Display */}
       {enableNLP && searchAnalysis && query.trim() && (
-        <Glass className="glass-mt-4 glass-p-4 glass-surface-subtle">
+        <Glass className="glass-intelligent-search-panel glass-mt-4 glass-p-4 glass-surface-subtle">
           <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-3 glass-text-sm">
             <div className="glass-flex glass-min-w-0 glass-items-center glass-gap-2">
               <span className="glass-font-medium glass-text-primary">
@@ -928,7 +1051,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
 
       {/* Filters */}
       {showFilters && availableFilters.length > 0 && (
-        <Glass className="glass-mt-4 glass-p-4">
+        <Glass className="glass-intelligent-search-panel glass-mt-4 glass-p-4">
           <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-mb-4">
             <h3 className="glass-text-lg glass-font-semibold glass-text-secondary">
               Filters
@@ -955,10 +1078,11 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                     {filter.options?.map((option) => (
                       <label
                         key={option.value}
-                        className="glass-flex glass-items-start glass-gap-2 glass-text-sm"
+                        className="glass-flex glass-items-start glass-gap-2 glass-text-sm glass-touch-target glass-contrast-guard"
                       >
                         <input
                           type="checkbox"
+                          data-glass-component="checkbox"
                           checked={getStringFilterValues(
                             filters[filter.id]
                           ).includes(option.value)}
@@ -980,7 +1104,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                               );
                             }
                           }}
-                          className="glass-radius glass-border-subtle glass-text-primary glass-focus-ring-blue-500 glass-focus glass-touch-target glass-contrast-guard"
+                          className="glass-search-checkbox glass-radius glass-border-subtle glass-text-primary glass-focus-ring-blue-500 glass-focus glass-contrast-guard"
                         />
                         <span className="glass-flex-1 glass-min-w-0 glass-break-words">
                           {option.label}
@@ -997,6 +1121,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                   <div>
                     <input
                       type="range"
+                      data-glass-component="range"
                       min={filter.range.min}
                       max={filter.range.max}
                       step={filter.range.step || 1}
@@ -1010,7 +1135,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
                           parseFloat(e.target.value)
                         )
                       }
-                      className="glass-w-full glass-focus glass-touch-target glass-contrast-guard"
+                      className="glass-search-range glass-w-full glass-focus glass-contrast-guard"
                     />
                     <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mt-1">
                       <span>{filter.range.min}</span>
@@ -1056,7 +1181,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
             <Glass
               key={result.id}
               className={cn(
-                "glass-p-6 glass-cursor-pointer hover:glass-shadow-lg glass-contrast-guard",
+                "glass-intelligent-search-panel glass-p-6 glass-cursor-pointer hover:glass-shadow-lg glass-contrast-guard",
                 !prefersReducedMotion && "glass-transition-shadow"
               )}
               onClick={() => onResultClick?.(result)}
@@ -1128,7 +1253,7 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
           {results.length === 0 &&
             (query.trim() || Object.keys(filters).length > 0) &&
             !isSearching && (
-              <Glass className="glass-text-center glass-px-6 glass-py-12 glass-text-secondary glass-surface-subtle glass-contrast-guard">
+              <Glass className="glass-intelligent-search-panel glass-text-center glass-px-6 glass-py-12 glass-text-secondary glass-surface-subtle glass-contrast-guard">
                 <div className="glass-text-5xl glass-mb-4">🔍</div>
                 <h3 className="glass-text-lg glass-font-medium glass-mb-2 glass-text-secondary">
                   No results found

@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils';
 import { Zap, Star, Heart } from 'lucide-react';
 
 const meta: Meta<typeof GlassCardLink> = {
-  title: 'Components/Interactive/GlassCardLink',
+  title: 'Effects + Advanced/Glass Card Link',
   component: GlassCardLink,
   parameters: {
     layout: 'centered',

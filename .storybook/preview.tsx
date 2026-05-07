@@ -1,19 +1,20 @@
-import type { Preview } from '@storybook/react';
+import type { Preview, StoryContext } from '@storybook/react';
 import { ThemeProvider } from '../src/theme/ThemeProvider';
 import { AnimationProvider } from '../src/contexts/AnimationContext';
-import { CursorGlow } from '../src/components/interactive/CursorGlow';
 import { AccessibilityProvider } from '../src/components/accessibility/AccessibilityProvider';
 import { ContrastGuard } from '../src/components/accessibility/ContrastGuard';
 import {
   GlassFocusIndicators,
   SkipLinks,
 } from '../src/components/accessibility';
+import { StorySurface, type StoryPreviewMode, type StorySurfaceKind } from './StorySurface';
 import '../src/styles/index.css';
 import {
   DEFAULT_PERSONA_ID,
   PERSONA_LIST,
   type PersonaId,
 } from '../src/theme/designMatrix';
+import type { ColorMode } from '../src/core/types';
 
 // Import and register ALL Chart.js components to prevent scale registration errors
 import {
@@ -55,19 +56,22 @@ const fontLinks = [
   'https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap'
 ];
 
-fontLinks.forEach(href => {
-  const link = document.createElement('link');
-  link.href = href;
-  link.rel = 'stylesheet';
-  document.head.appendChild(link);
-});
+if (typeof document !== 'undefined') {
+  fontLinks.forEach(href => {
+    if (document.head.querySelector(`link[href="${href}"]`)) return;
+    const link = document.createElement('link');
+    link.href = href;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  });
 
-// Apply premium font stack
-document.body.style.fontFamily = 'Geist, Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
-document.body.style.fontSize = '14px';
-document.body.style.lineHeight = '1.6';
-document.body.style.fontWeight = '400';
-document.body.style.letterSpacing = '-0.01em';
+  // Apply premium font stack
+  document.body.style.fontFamily = 'Geist, Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
+  document.body.style.fontSize = '14px';
+  document.body.style.lineHeight = '1.6';
+  document.body.style.fontWeight = '400';
+  document.body.style.letterSpacing = '0';
+}
 
 export const globalTypes = {
   persona: {
@@ -82,6 +86,30 @@ export const globalTypes = {
       })),
     },
   },
+  previewMode: {
+    name: 'Preview',
+    description: 'Story preview mode',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'contrast',
+      items: [
+        { value: 'light', title: 'Light' },
+        { value: 'dark', title: 'Dark' },
+        { value: 'liquid', title: 'Liquid Glass' },
+        { value: 'high-contrast', title: 'High Contrast' },
+      ],
+    },
+  },
+};
+
+const resolveColorMode = (mode: StoryPreviewMode): ColorMode =>
+  mode === 'dark' || mode === 'high-contrast' ? 'dark' : 'light';
+
+const resolveSurface = (context: StoryContext): StorySurfaceKind => {
+  const configured = context.parameters.previewSurface as StorySurfaceKind | undefined;
+  if (configured) return configured;
+  if (context.parameters.layout === 'fullscreen') return 'app';
+  return 'component';
 };
 
 const preview: Preview = {
@@ -101,44 +129,54 @@ const preview: Preview = {
       codePanel: true
     },
     backgrounds: {
-      default: 'ultra-premium',
+      default: 'neutral',
       values: [
         {
-          name: 'ultra-premium',
-          value: `
-            radial-gradient(circle at 20% 20%, rgba(59,130,246,0.4) 0%, transparent 40%),
-            radial-gradient(circle at 80% 20%, rgba(147,51,234,0.3) 0%, transparent 40%), 
-            radial-gradient(circle at 20% 80%, rgba(236,72,153,0.2) 0%, transparent 40%),
-            radial-gradient(circle at 80% 80%, rgba(59,130,246,0.2) 0%, transparent 40%),
-            linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 75%, #0a0a0f 100%)
-          `,
-        },
-        {
-          name: 'glassmorphism',
-          value: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 20%, #16213e 40%, #0f0f23 60%, #0a0a0a 100%)',
-        },
-        {
-          name: 'light-premium',
-          value: `
-            radial-gradient(circle at 20% 20%, rgba(59,130,246,0.1) 0%, transparent 40%),
-            radial-gradient(circle at 80% 20%, rgba(147,51,234,0.08) 0%, transparent 40%), 
-            linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%)
-          `,
+          name: 'neutral',
+          value: '#f8fafc',
         },
         {
           name: 'dark',
-          value: '#0f0f0f',
+          value: '#0f172a',
         },
         {
-          name: 'light',
-          value: '#ffffff',
+          name: 'media',
+          value: 'linear-gradient(135deg, #0f172a 0%, #1d4ed8 46%, #0f766e 100%)',
+        },
+        {
+          name: 'transparent',
+          value: 'transparent',
         },
       ],
+    },
+    options: {
+      storySort: {
+        order: [
+          'Start Here',
+          'Foundations',
+          'Controls',
+          'Navigation',
+          'Surfaces',
+          'Data + Visualization',
+          'Media',
+          'Workflows',
+          'AI + Intelligence',
+          'Effects + Advanced',
+          'Showcases',
+          'Reference',
+          'Certification',
+        ],
+      },
     },
   },
   decorators: [
     (Story, context) => {
       const personaId = (context.globals.persona || DEFAULT_PERSONA_ID) as PersonaId;
+      const previewMode = (context.globals.previewMode || 'light') as StoryPreviewMode;
+      const colorMode = resolveColorMode(previewMode);
+      const surface = resolveSurface(context);
+      const fullscreen = context.parameters.layout === 'fullscreen';
+      const highContrast = previewMode === 'high-contrast';
 
       return (
         <AccessibilityProvider
@@ -146,87 +184,35 @@ const preview: Preview = {
             focusIndicators: true,
             keyboardNavigation: true,
             screenReaderOptimized: true,
-            highContrast: true,
+            highContrast,
             reducedMotion: true,
           }}
-          storageKey="aura-glass-storybook-accessibility-settings"
+          storageKey={`aura-glass-storybook-accessibility-${previewMode}`}
         >
           <AnimationProvider>
             <ThemeProvider
-              forceColorMode="dark"
+              forceColorMode={colorMode}
               initialPersona={personaId}
               persona={personaId}
+              persistPersona={false}
             >
-        <div
-          style={{
-            padding: '20px',
-            minHeight: '100vh',
-            position: 'relative'
-          }}
-        >
-          <SkipLinks />
-          <GlassFocusIndicators />
-          {/* Global pointer-following glow overlay */}
-          <CursorGlow size={360} intensity={0.6} opacity={0.16} color="#ffffff" />
-          {/* Add some background elements to showcase glass effects */}
-          {/* Enhanced background elements for dramatic glass effect */}
-          <div 
-            style={{
-              position: 'absolute',
-              top: '10%',
-              left: '20%',
-              width: '300px',
-              height: '300px',
-              background: 'radial-gradient(circle, rgba(59,130,246,0.8) 0%, rgba(59,130,246,0.4) 30%, rgba(59,130,246,0.2) 60%, transparent 100%)',
-              borderRadius: '50%',
-              filter: 'blur(60px)',
-              zIndex: 0,
-              pointerEvents: 'none'
-            }}
-          />
-          <div 
-            style={{
-              position: 'absolute',
-              bottom: '20%',
-              right: '15%',
-              width: '250px',
-              height: '250px',
-              background: 'radial-gradient(circle, rgba(147,51,234,0.6) 0%, rgba(147,51,234,0.3) 40%, rgba(236,72,153,0.2) 70%, transparent 100%)',
-              borderRadius: '50%',
-              filter: 'blur(50px)',
-              zIndex: 0,
-              pointerEvents: 'none'
-            }}
-          />
-          <div 
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: '400px',
-              height: '200px',
-              background: 'conic-gradient(from 0deg, rgba(59,130,246,0.3), rgba(147,51,234,0.2), rgba(236,72,153,0.3), rgba(59,130,246,0.3))',
-              borderRadius: '50%',
-              filter: 'blur(80px)',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 0,
-              pointerEvents: 'none'
-            }}
-          />
-          <ContrastGuard
-            as="main"
-            id="main-content"
-            role="main"
-            tabIndex={-1}
-            aria-label={`AuraGlass ${context.title} story certification surface`}
-            className="glass-contrast-guard"
-            level="AA"
-            minContrast={4.5}
-            style={{ position: 'relative', zIndex: 1, display: 'block' }}
-          >
-            <Story />
-          </ContrastGuard>
-        </div>
+              <StorySurface mode={previewMode} kind={surface} fullscreen={fullscreen}>
+                <SkipLinks />
+                <GlassFocusIndicators />
+                <ContrastGuard
+                  as="main"
+                  id="main-content"
+                  role="main"
+                  tabIndex={-1}
+                  aria-label={`AuraGlass ${context.title} story preview surface`}
+                  className="glass-contrast-guard"
+                  level="AA"
+                  minContrast={highContrast ? 7 : 4.5}
+                  style={{ display: 'block', width: '100%' }}
+                >
+                  <Story />
+                </ContrastGuard>
+              </StorySurface>
             </ThemeProvider>
           </AnimationProvider>
         </AccessibilityProvider>

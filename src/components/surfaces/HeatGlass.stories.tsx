@@ -4,7 +4,7 @@ import HeatGlass from './HeatGlass';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof HeatGlass> = {
-  title: 'Components/Surfaces/HeatGlass',
+  title: 'Surfaces/Cards + Panels/Heat Glass',
   component: HeatGlass,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { GlassStatusDot } from './GlassStatusDot';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassStatusDot> = {
-  title: 'Components/Data-display/GlassStatusDot',
+  title: 'Data + Visualization/Glass Status Dot',
   component: GlassStatusDot,
   parameters: {
     layout: 'centered',

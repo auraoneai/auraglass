@@ -1,9 +1,11 @@
 .table {
   width: 100%;
+  min-width: max(640px, 100%);
   border-collapse: separate;
   border-spacing: 0;
   font-family: var(--aura-font-sans);
   color: var(--aura-color-global-text-primary);
+  table-layout: fixed;
 }
 
 .headerRow {
@@ -28,6 +30,7 @@
     background var(--aura-motion-duration-fast)
       var(--aura-motion-easing-standard),
     color var(--aura-motion-duration-fast) var(--aura-motion-easing-standard);
+  overflow-wrap: anywhere;
 }
 
 .headerSortable {
@@ -71,6 +74,8 @@
   font-size: 0.95rem;
   color: var(--aura-color-global-text-primary);
   background: transparent;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .row {

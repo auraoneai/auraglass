@@ -1,44 +1,170 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import VoiceGlassControl from './VoiceGlassControl';
+import type { Meta, StoryObj } from "@storybook/react";
+import VoiceGlassControl from "./VoiceGlassControl";
 
-import { cn } from '../../lib/utils';
+const voiceStoryStyles = `
+  .ag-voice-story {
+    --glass-text-primary: #f8fafc;
+    --glass-text-secondary: #e2e8f0;
+    --glass-text-tertiary: #cbd5e1;
+    --typography-text-primary: #f8fafc;
+    --typography-text-secondary: #e2e8f0;
+    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    background:
+      radial-gradient(circle at 16% 12%, rgba(236, 72, 153, 0.24), transparent 32%),
+      radial-gradient(circle at 82% 18%, rgba(20, 184, 166, 0.24), transparent 28%),
+      linear-gradient(135deg, #0f172a 0%, #312e81 48%, #0f766e 100%);
+    color: #f8fafc;
+    padding: clamp(16px, 4vw, 32px);
+  }
+
+  .ag-voice-story,
+  .ag-voice-story *,
+  .ag-voice-story *::before,
+  .ag-voice-story *::after {
+    box-sizing: border-box;
+  }
+
+  .ag-voice-story .glass-text-primary,
+  .ag-voice-story .glass-text-secondary,
+  .ag-voice-story h1,
+  .ag-voice-story h2,
+  .ag-voice-story h3,
+  .ag-voice-story p,
+  .ag-voice-story span,
+  .ag-voice-story div {
+    color: #f8fafc !important;
+  }
+
+  .ag-voice-story .glass-surface-subtle\\/10 {
+    background: rgba(15, 23, 42, 0.78) !important;
+  }
+
+  .ag-voice-story .glass-surface-subtle\\/20 {
+    background: rgba(30, 41, 59, 0.82) !important;
+  }
+
+  .ag-voice-story .glass-contrast-guard {
+    color: #f8fafc !important;
+  }
+
+  .ag-voice-story button {
+    background: rgba(15, 23, 42, 0.88) !important;
+    color: #f8fafc !important;
+    border-color: rgba(226, 232, 240, 0.24) !important;
+  }
+
+  .ag-voice-story .glass-grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .ag-voice-story .glass-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ag-voice-story .max-w-4xl {
+    max-width: 56rem;
+  }
+
+  .ag-voice-story .max-w-6xl {
+    max-width: 72rem;
+  }
+
+  .ag-voice-story .mb-8 {
+    margin-bottom: 2rem;
+  }
+
+  .ag-voice-story [data-testid="voiceglasscontrol"] {
+    max-width: calc(100vw - 32px);
+    color: #f8fafc !important;
+  }
+
+  .ag-voice-story [data-testid="voiceglasscontrol"] .glass-w-80,
+  .ag-voice-story [data-testid="voiceglasscontrol"] .glass-w-96 {
+    width: min(24rem, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+  }
+
+  @media (max-width: 640px) {
+    .ag-voice-story {
+      padding: 16px;
+    }
+
+    .ag-voice-story [data-testid="voiceglasscontrol"] {
+      left: 16px !important;
+      right: 16px !important;
+      width: auto;
+      max-width: calc(100vw - 32px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .ag-voice-story .md\\:glass-grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ag-voice-story .md\\:glass-grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .ag-voice-story .md\\:glass-grid-cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+`;
+
 const meta: Meta<typeof VoiceGlassControl> = {
-  title: 'Voice/VoiceGlassControl',
+  title: 'Effects + Advanced/Voice Glass Control',
   component: VoiceGlassControl,
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       description: {
-        component: 'Advanced voice interaction system with wake word detection, natural language processing, and hands-free glass UI control.'
-      }
-    }
+        component:
+          "Advanced voice interaction system with wake word detection, natural language processing, and hands-free glass UI control.",
+      },
+    },
   },
   argTypes: {
     position: {
-      control: { type: 'select', options: ['bottom-left', 'bottom-right', 'top-left', 'top-right'] },
-      description: 'Control panel position'
+      control: {
+        type: "select",
+        options: ["bottom-left", "bottom-right", "top-left", "top-right"],
+      },
+      description: "Control panel position",
     },
     autoEnable: {
-      control: 'boolean',
-      description: 'Automatically enable on mount'
+      control: "boolean",
+      description: "Automatically enable on mount",
     },
     showTranscript: {
-      control: 'boolean',
-      description: 'Display speech transcript'
+      control: "boolean",
+      description: "Display speech transcript",
     },
     wakeWord: {
-      control: 'text',
-      description: 'Wake word for activation'
+      control: "text",
+      description: "Wake word for activation",
     },
     enableFeedback: {
-      control: 'boolean',
-      description: 'Enable voice feedback'
+      control: "boolean",
+      description: "Enable voice feedback",
     },
     showHelp: {
-      control: 'boolean',
-      description: 'Show help button'
-    }
-  }
+      control: "boolean",
+      description: "Show help button",
+    },
+  },
+  decorators: [
+    (Story) => (
+      <>
+        <style>{voiceStoryStyles}</style>
+        <Story />
+      </>
+    ),
+  ],
 };
 
 export default meta;
@@ -46,26 +172,26 @@ type Story = StoryObj<typeof VoiceGlassControl>;
 
 export const Default: Story = {
   args: {
-    position: 'top-left',
+    position: "top-left",
     autoEnable: false,
     showTranscript: true,
-    wakeWord: 'Hey Genesis',
+    wakeWord: "Hey Genesis",
     enableFeedback: true,
-    showHelp: true
+    showHelp: true,
   },
   render: (args: any) => (
-    <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-p-8">
+    <div className="ag-voice-story glass-min-h-screen glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-p-8">
       <div className="max-w-4xl glass-mx-auto">
         <h1 className="glass-text-3xl glass-font-bold glass-text-secondary dark:glass-text-primary mb-8">
           Voice Control Demo
         </h1>
 
-        <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-2 glass-gap-6 mb-8">
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6 mb-8">
           <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Voice Commands
             </h3>
-            <div className="glass-space-y-2 glass-text-sm glass-text-secondary dark:text-gray-300">
+            <div className="glass-space-y-2 glass-text-sm glass-text-secondary">
               <p>Try saying: "Hey Genesis"</p>
               <p>• "Show navigation"</p>
               <p>• "Play music"</p>
@@ -82,15 +208,21 @@ export const Default: Story = {
             <div className="glass-space-y-3">
               <div className="glass-flex glass-items-center glass-gap-2">
                 <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full"></div>
-                <span className="glass-text-sm glass-text-secondary dark:text-gray-300">Wake word detection</span>
+                <span className="glass-text-sm glass-text-secondary">
+                  Wake word detection
+                </span>
               </div>
               <div className="glass-flex glass-items-center glass-gap-2">
                 <div className="glass-w-2 glass-h-2 glass-surface-blue glass-radius-full"></div>
-                <span className="glass-text-sm glass-text-secondary dark:text-gray-300">Natural language processing</span>
+                <span className="glass-text-sm glass-text-secondary">
+                  Natural language processing
+                </span>
               </div>
               <div className="glass-flex glass-items-center glass-gap-2">
                 <div className="glass-w-2 glass-h-2 glass-surface-primary glass-radius-full"></div>
-                <span className="glass-text-sm glass-text-secondary dark:text-gray-300">Voice feedback</span>
+                <span className="glass-text-sm glass-text-secondary">
+                  Voice feedback
+                </span>
               </div>
             </div>
           </div>
@@ -99,20 +231,20 @@ export const Default: Story = {
         <VoiceGlassControl {...args} />
       </div>
     </div>
-  )
+  ),
 };
 
 export const MusicPlayer: Story = {
   args: {
-    position: 'bottom-right',
+    position: "bottom-right",
     autoEnable: true,
     showTranscript: true,
-    wakeWord: 'Hey Music',
+    wakeWord: "Hey Music",
     enableFeedback: true,
-    showHelp: true
+    showHelp: true,
   },
   render: (args: any) => (
-    <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-pink-900 glass-gradient-primary glass-p-8">
+    <div className="ag-voice-story glass-min-h-screen glass-gradient-primary glass-gradient-primary via-pink-900 glass-gradient-primary glass-p-8">
       <div className="max-w-4xl glass-mx-auto">
         <h1 className="glass-text-3xl glass-font-bold glass-text-primary mb-8">
           Voice Music Player
@@ -121,8 +253,10 @@ export const MusicPlayer: Story = {
         <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
             <div>
-              <h3 className="glass-text-xl glass-font-semibold glass-text-primary">Now Playing</h3>
-              <p className="glass-text-primary/80">Song Title - Artist Name</p>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary">
+                Now Playing
+              </h3>
+              <p className="glass-text-primary">Song Title - Artist Name</p>
             </div>
             <div className="glass-flex glass-items-center glass-gap-4">
               <button className="glass-p-2 glass-surface-subtle/20 glass-radius-lg hover:glass-surface-subtle/30 transition-colors">
@@ -139,48 +273,54 @@ export const MusicPlayer: Story = {
 
           <div className="glass-mb-4">
             <div className="glass-w-full glass-surface-subtle/20 glass-radius-full glass-h-2">
-              <div className="glass-surface-subtle glass-h-2 glass-radius-full" style={{ width: '30%' }}></div>
+              <div
+                className="glass-surface-subtle glass-h-2 glass-radius-full"
+                style={{ width: "30%" }}
+              ></div>
             </div>
-            <div className="glass-flex glass-justify-between glass-text-sm glass-text-primary/60 mt-1">
+            <div className="glass-flex glass-justify-between glass-text-sm glass-text-primary mt-1">
               <span>1:23</span>
               <span>4:15</span>
             </div>
           </div>
 
-          <div className="glass-text-center glass-text-primary/80 glass-text-sm">
-            Try saying: "Play music", "Pause music", "Next track", "Increase volume"
+          <div className="glass-text-center glass-text-primary glass-text-sm">
+            Try saying: "Play music", "Pause music", "Next track", "Increase
+            volume"
           </div>
         </div>
 
         <VoiceGlassControl {...args} />
       </div>
     </div>
-  )
+  ),
 };
 
 export const SmartHome: Story = {
   args: {
-    position: 'top-right',
+    position: "top-right",
     autoEnable: true,
     showTranscript: true,
-    wakeWord: 'Hey Home',
+    wakeWord: "Hey Home",
     enableFeedback: true,
-    showHelp: true
+    showHelp: true,
   },
   render: (args: any) => (
-    <div className="glass-min-glass-glass-h-screen glass-gradient-primary glass-gradient-primary via-teal-900 glass-gradient-primary glass-p-8">
+    <div className="ag-voice-story glass-min-h-screen glass-gradient-primary glass-gradient-primary via-teal-900 glass-gradient-primary glass-p-8">
       <div className="max-w-6xl glass-mx-auto">
         <h1 className="glass-text-3xl glass-font-bold glass-text-primary mb-8">
           Smart Home Control
         </h1>
 
-        <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-3 glass-gap-6 mb-8">
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6 mb-8">
           <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Living Room</h3>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
+                Living Room
+              </h3>
               <div className="glass-w-3 glass-h-3 glass-surface-yellow glass-radius-full"></div>
             </div>
-            <div className="glass-space-y-2 glass-text-sm glass-text-primary/80">
+            <div className="glass-space-y-2 glass-text-sm glass-text-primary">
               <p>💡 Lights: On</p>
               <p>🌡️ Temperature: 72°F</p>
               <p>🎵 Music: Playing</p>
@@ -189,10 +329,12 @@ export const SmartHome: Story = {
 
           <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Kitchen</h3>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
+                Kitchen
+              </h3>
               <div className="glass-w-3 glass-h-3 glass-surface-green glass-radius-full"></div>
             </div>
-            <div className="glass-space-y-2 glass-text-sm glass-text-primary/80">
+            <div className="glass-space-y-2 glass-text-sm glass-text-primary">
               <p>💡 Lights: Off</p>
               <p>🌡️ Temperature: 70°F</p>
               <p>🔒 Security: Armed</p>
@@ -201,10 +343,12 @@ export const SmartHome: Story = {
 
           <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Bedroom</h3>
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
+                Bedroom
+              </h3>
               <div className="glass-w-3 glass-h-3 glass-surface-blue glass-radius-full"></div>
             </div>
-            <div className="glass-space-y-2 glass-text-sm glass-text-primary/80">
+            <div className="glass-space-y-2 glass-text-sm glass-text-primary">
               <p>💡 Lights: Dimmed</p>
               <p>🌡️ Temperature: 68°F</p>
               <p>😴 Sleep Mode: Active</p>
@@ -213,8 +357,10 @@ export const SmartHome: Story = {
         </div>
 
         <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
-          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">Voice Commands</h3>
-          <div className="glass-grid glass-glass-glass-grid-cols-2 md:glass-glass-glass-grid-cols-4 glass-gap-4 glass-text-sm glass-text-primary/80">
+          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
+            Voice Commands
+          </h3>
+          <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4 glass-text-sm glass-text-primary">
             <div>"Turn on lights"</div>
             <div>"Set temperature to 72"</div>
             <div>"Play music"</div>
@@ -229,26 +375,26 @@ export const SmartHome: Story = {
         <VoiceGlassControl {...args} />
       </div>
     </div>
-  )
+  ),
 };
 
 export const Accessibility: Story = {
   args: {
-    position: 'bottom-left',
+    position: "bottom-left",
     autoEnable: true,
     showTranscript: true,
-    wakeWord: 'Hey Assist',
+    wakeWord: "Hey Assist",
     enableFeedback: true,
-    showHelp: true
+    showHelp: true,
   },
   render: (args: any) => (
-    <div className="glass-min-glass-glass-h-screen glass-surface-subtle glass-p-8">
+    <div className="ag-voice-story glass-min-h-screen glass-surface-subtle glass-p-8">
       <div className="max-w-4xl glass-mx-auto">
         <h1 className="glass-text-3xl glass-font-bold glass-text-secondary mb-8">
           Accessibility Assistant
         </h1>
 
-        <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-2 glass-gap-6 mb-8">
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6 mb-8">
           <div className="glass-p-6 glass-surface-subtle glass-radius-xl glass-border glass-border-subtle">
             <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4">
               Screen Reader Support
@@ -278,7 +424,7 @@ export const Accessibility: Story = {
           <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
             Try These Commands
           </h3>
-          <div className="glass-grid glass-glass-glass-grid-cols-1 md:glass-glass-glass-grid-cols-2 glass-gap-4 glass-text-sm glass-text-primary">
+          <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4 glass-text-sm glass-text-primary">
             <div>"What's on this page?"</div>
             <div>"Read the main content"</div>
             <div>"Show navigation menu"</div>
@@ -291,20 +437,20 @@ export const Accessibility: Story = {
         <VoiceGlassControl {...args} />
       </div>
     </div>
-  )
+  ),
 };
 
 export const Minimal: Story = {
   args: {
-    position: 'top-left',
+    position: "top-left",
     autoEnable: false,
     showTranscript: false,
-    wakeWord: 'Hey',
+    wakeWord: "Hey",
     enableFeedback: false,
-    showHelp: false
+    showHelp: false,
   },
   render: (args: any) => (
-    <div className="glass-min-glass-glass-h-screen glass-surface-subtle glass-p-8">
+    <div className="ag-voice-story glass-min-h-screen glass-surface-subtle glass-p-8">
       <div className="max-w-4xl glass-mx-auto">
         <h1 className="glass-text-2xl glass-font-bold glass-text-secondary mb-8">
           Minimal Voice Control
@@ -326,6 +472,5 @@ export const Minimal: Story = {
         <VoiceGlassControl {...args} />
       </div>
     </div>
-  )
+  ),
 };
-

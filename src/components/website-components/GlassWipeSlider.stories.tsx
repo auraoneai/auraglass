@@ -4,7 +4,7 @@ import { GlassWipeSlider } from './GlassWipeSlider';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassWipeSlider> = {
-  title: 'Components/Website-components/GlassWipeSlider',
+  title: 'Reference/Legacy Components/Glass Wipe Slider',
   component: GlassWipeSlider,
   parameters: {
     layout: 'centered',

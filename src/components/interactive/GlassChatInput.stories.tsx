@@ -4,7 +4,7 @@ import { GlassChatInput } from './GlassChatInput';
 import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassChatInput> = {
-  title: 'Components/Interactive/GlassChatInput',
+  title: 'Workflows/Glass Chat Input',
   component: GlassChatInput,
   parameters: {
     layout: 'centered',

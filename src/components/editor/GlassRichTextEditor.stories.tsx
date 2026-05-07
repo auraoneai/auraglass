@@ -10,7 +10,7 @@ const componentName = "GlassRichTextEditor" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Editor/GlassRichTextEditor",
+  title: 'Reference/Legacy Components/Glass Rich Text Editor',
   component: Component,
   parameters: {
     layout: "centered",

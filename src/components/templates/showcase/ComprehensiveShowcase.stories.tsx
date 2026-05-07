@@ -10,7 +10,7 @@ import { Glass } from '../../../primitives';
 import { ANIMATION } from '../../../tokens/designConstants';
 
 const meta: Meta = {
-  title: 'Templates/Showcase/ComprehensiveShowcase',
+  title: 'Showcases/Comprehensive Showcase',
   parameters: {
     layout: 'fullscreen',
     docs: {
@@ -22,6 +22,30 @@ const meta: Meta = {
 };
 
 export default meta;
+
+const ShowcaseStoryFrame = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      height: '100dvh',
+      maxHeight: '100dvh',
+      minHeight: 0,
+      overflow: 'hidden',
+      contain: 'layout paint size',
+      background: 'linear-gradient(135deg, #eff6ff 0%, #f8fafc 45%, #ecfeff 100%)',
+    }}
+  >
+    <div
+      style={{
+        height: '100%',
+        maxHeight: '100%',
+        overflowY: 'auto',
+        overscrollBehavior: 'contain',
+      }}
+    >
+      {children}
+    </div>
+  </div>
+);
 
 const ShowcaseDemo: React.FC = () => {
   const { success, error, info } = useToastHelpers();
@@ -93,18 +117,21 @@ const ShowcaseDemo: React.FC = () => {
   };
 
   return (
-        <div className={`glass-min-glass-h-screen transition-colors duration-[${ANIMATION.DURATION.normal}ms] glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary`}>
-      <div className="glass-relative glass-z-10 glass-p-8">
+    <div
+      className={`transition-colors duration-[${ANIMATION.DURATION.normal}ms] glass-gradient-primary glass-gradient-primary via-blue-50 glass-gradient-primary`}
+      style={{ minHeight: '100%', overflow: 'clip' }}
+    >
+      <div className="glass-relative glass-z-10 glass-p-6 md:glass-p-8">
         <div className="max-w-7xl glass-mx-auto">
           {/* Header */}
-          <div className="glass-text-center mb-12">
-            <div className="glass-glass-inline-glass-flex glass-items-center glass-gap-3 mb-6 glass-px-6 glass-py-3 glass-radius-full glass-surface-subtle bg-opacity-60 glass-backdrop-blur glass-border glass-border-white glass-border-opacity-20">
+          <div className="glass-text-center mb-8">
+            <div className="glass-glass-inline-glass-flex glass-items-center glass-gap-3 mb-4 glass-px-5 glass-py-2 glass-radius-full glass-surface-subtle bg-opacity-60 glass-backdrop-blur glass-border glass-border-white glass-border-opacity-20">
               <div className="glass-w-3 glass-h-3 glass-surface-green glass-radius-full animate-pulse" />
               <span className="glass-text-sm glass-font-medium tracking-wide glass-text-secondary">
                 COMPREHENSIVE GLASS SYSTEM
               </span>
             </div>
-            <h1 className="glass-text-5xl glass-font-bold glass-mb-4 glass-text-secondary">
+            <h1 className="glass-text-4xl glass-font-bold glass-mb-3 glass-text-secondary">
               Complete UI/UX System
             </h1>
             <p className="glass-text-xl max-w-4xl glass-mx-auto leading-relaxed glass-text-secondary">
@@ -114,7 +141,7 @@ const ShowcaseDemo: React.FC = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="glass-grid glass-glass-grid-cols-2 md:glass-glass-grid-cols-4 glass-gap-4 mb-12">
+          <div className="glass-grid glass-glass-grid-cols-2 md:glass-glass-grid-cols-4 glass-gap-4 mb-8">
             <button
               onClick={showPerformanceDemo}
               className="glass-surface-blue hover:glass-surface-blue glass-text-primary glass-font-semibold glass-py-3 glass-px-4 glass-radius-lg transition-colors glass-shadow-lg hover:glass-shadow-xl glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
@@ -144,7 +171,7 @@ const ShowcaseDemo: React.FC = () => {
           </div>
 
           {/* Components Grid */}
-          <div className="glass-grid glass-glass-grid-cols-1 lg:glass-glass-grid-cols-2 glass-gap-8 mb-12">
+          <div className="glass-grid glass-glass-grid-cols-1 lg:glass-glass-grid-cols-2 glass-gap-6 mb-8">
             {/* Data Table */}
             <div className="glass-space-y-4">
               <h2 className="glass-text-2xl glass-font-semibold glass-text-secondary">📊 Smart Data Table</h2>
@@ -174,7 +201,7 @@ const ShowcaseDemo: React.FC = () => {
           </div>
 
           {/* Features Overview */}
-          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 mb-12">
+          <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 mb-8">
             <Glass className="glass-p-6 glass-text-center">
               <div className="glass-text-4xl glass-mb-4">⚡</div>
               <h3 className="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-2">Performance First</h3>
@@ -277,7 +304,9 @@ type Story = StoryObj;
 export const Complete: Story = {
   render: () => (
     <ToastProvider position="top-right" maxToasts={5}>
-      <ShowcaseDemo />
+      <ShowcaseStoryFrame>
+        <ShowcaseDemo />
+      </ShowcaseStoryFrame>
     </ToastProvider>
   ),
 };

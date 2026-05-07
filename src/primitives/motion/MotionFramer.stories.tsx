@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MotionFramer } from './MotionFramer';
 
 const meta: Meta<typeof MotionFramer> = {
-  title: 'Components/Motion/MotionFramer',
+  title: 'Foundations/Liquid Glass Primitives/Motion Framer',
   component: MotionFramer,
   parameters: {
     layout: 'centered',

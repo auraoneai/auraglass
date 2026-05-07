@@ -10,7 +10,7 @@ const componentName = "EnhancementShowcase" satisfies MissingComponentName;
 const Component = (ComponentModule as Record<string, any>)[componentName];
 
 const meta = {
-  title: "Components/Demo/EnhancementShowcase",
+  title: 'Reference/Legacy Components/Enhancement Showcase',
   component: Component,
   parameters: {
     layout: "centered",

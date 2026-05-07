@@ -379,6 +379,7 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     ) => (
       <Motion
         preset={isMotionSafe && respectMotionPreference ? "scaleIn" : "none"}
+        className="glass-inline-glass-block glass-flex-shrink-0"
       >
         <OptimizedGlass
           elevation="level2"

@@ -10,7 +10,7 @@ import {
 } from './EnhancedGlassButton';
 
 const meta: Meta<typeof EnhancedGlassButton> = {
-  title: 'Components/Button/EnhancedGlassButton',
+  title: 'Controls/Buttons/Enhanced Glass Button',
   component: EnhancedGlassButton,
   parameters: {
     layout: 'centered',
@@ -20,6 +20,29 @@ const meta: Meta<typeof EnhancedGlassButton> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-radius-2xl glass-border glass-border-subtle glass-surface-overlay glass-p-6"
+        style={{ width: 'min(760px, calc(100vw - 64px))' }}
+      >
+        <div className="glass-flex glass-flex-col glass-gap-4">
+          <div>
+            <h3 className="glass-text-base glass-font-semibold glass-text-primary">
+              Enhanced action preview
+            </h3>
+            <p className="glass-text-sm glass-text-secondary">
+              Physics, adaptive, and immersive states in a stable production
+              canvas.
+            </p>
+          </div>
+          <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
+            <Story />
+          </div>
+        </div>
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     variant: {
@@ -250,7 +273,7 @@ export const InteractiveDemo: Story = {
 
 export const Variants: Story = {
   render: () => (
-    <div className="space-x-4">
+    <div className="glass-flex glass-flex-wrap glass-gap-4">
       <EnhancedGlassButton variant="primary">Primary</EnhancedGlassButton>
       <EnhancedGlassButton variant="secondary">Secondary</EnhancedGlassButton>
       <EnhancedGlassButton variant="destructive">Destructive</EnhancedGlassButton>
@@ -269,7 +292,7 @@ export const Variants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="space-x-4 glass-flex glass-items-center">
+    <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
       <EnhancedGlassButton size="xs">XS</EnhancedGlassButton>
       <EnhancedGlassButton size="sm">Small</EnhancedGlassButton>
       <EnhancedGlassButton size="md">Medium</EnhancedGlassButton>

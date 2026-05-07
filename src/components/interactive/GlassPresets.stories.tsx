@@ -3,7 +3,7 @@ import { CleanGlassContainer } from './GlassPresets';
 
 import { cn } from '../../lib/utils';
 const meta: Meta<typeof CleanGlassContainer> = {
-  title: 'Components/Interactive/GlassPresets',
+  title: 'Effects + Advanced/Glass Presets',
   component: CleanGlassContainer,
   parameters: {
     layout: 'centered',
