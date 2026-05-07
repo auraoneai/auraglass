@@ -1,0 +1,14 @@
+import{j as s}from"./iframe-CToTmdO0.js";import{G as r}from"./GlassLabel-h_Yu_SRQ.js";import{G as i}from"./GlassInput-DV8_IkrI.js";import{C as l}from"./circle-check-DXD9R512.js";import{T as o}from"./triangle-alert-Bnnud45f.js";import{I as t}from"./info--xXCOzta.js";import"./preload-helper-PPVm8Dsz.js";import"./a11y-E_E8Udq3.js";import"./LiquidGlassMaterial-BG5wKcQI.js";import"./LiquidGlassLayerProvider-CSLyvOJZ.js";import"./GlassButton-DSNiUgOn.js";import"./index-BR2f0aCL.js";import"./GlassPredictiveEngine-fLxX_xo3.js";import"./GlassAchievementSystem-B-xkC3b-.js";import"./OptimizedGlassCore-tBAFSalT.js";import"./deviceCapabilities-BEZRvwEn.js";import"./GlassBiometricAdaptation-B0npAiDL.js";import"./MotionPreferenceContext-D7CbfrDA.js";import"./GlassEyeTracking-IHMCU-GA.js";import"./GlassSpatialAudio-pdJ1hzxm.js";import"./MotionFramer-BcMY4Q2P.js";import"./utilsCore-B3C7amq2.js";import"./createLucideIcon-CUGeHkPK.js";const y={title:"Controls/Inputs/Glass Label",component:r,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"A glass-aware form label with required, icon, description, and state variants."}}},args:{children:"Workspace slug",description:"Lowercase letters, numbers, and hyphens only.",required:!0,enhanced:!0,icon:s.jsx(t,{size:15})}},e={render:a=>s.jsxs("div",{className:"glass-grid glass-w-[min(520px,calc(100vw-48px))] glass-gap-5 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl",children:[s.jsxs("div",{children:[s.jsx(r,{...a,htmlFor:"workspace-slug"}),s.jsx(i,{id:"workspace-slug",placeholder:"revenue-ops",fullWidth:!0})]}),s.jsx(r,{variant:"success",icon:s.jsx(l,{size:15}),description:"The saved value passed validation.",children:"Approved setting"}),s.jsx(r,{variant:"warning",icon:s.jsx(o,{size:15}),description:"This label is readable in warning contexts.",children:"Needs review"})]})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  render: args => <div className="glass-grid glass-w-[min(520px,calc(100vw-48px))] glass-gap-5 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl">
+      <div>
+        <GlassLabel {...args} htmlFor="workspace-slug" />
+        <GlassInput id="workspace-slug" placeholder="revenue-ops" fullWidth />
+      </div>
+      <GlassLabel variant="success" icon={<CheckCircle2 size={15} />} description="The saved value passed validation.">
+        Approved setting
+      </GlassLabel>
+      <GlassLabel variant="warning" icon={<AlertTriangle size={15} />} description="This label is readable in warning contexts.">
+        Needs review
+      </GlassLabel>
+    </div>
+}`,...e.parameters?.docs?.source}}};const W=["Default"];export{e as Default,W as __namedExportsOrder,y as default};
