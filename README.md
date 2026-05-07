@@ -453,4 +453,5 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 - [SSR setup](./docs/guides/ssr-setup.md)
 - [Deployment](./docs/deployment.md)
 - [Reports](./reports/README.md)
-- [Release notes](./RELEASE_NOTES_3.0.0.md)
+- [3.0.1 release notes](./RELEASE_NOTES_3.0.1.md)
+- [3.0.0 release notes](./RELEASE_NOTES_3.0.0.md)

@@ -4,7 +4,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 
 ## Current Source Of Truth
 
-- Package version: 3.0.0
+- Package version: 3.0.1
 - Certified component inventory: 356 components in [reports/component_inventory.json](../reports/component_inventory.json)
 - Liquid Glass public surface: 32 value exports plus related type exports from the root package entrypoint.
 - Visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
@@ -20,7 +20,8 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 - [Component selection guide](./components/choosing.md): developer and AI-agent decision tree for choosing the right AuraGlass family without scanning every export.
 - [Storybook configuration guide](../.storybook/README.md): preview surfaces, taxonomy, maintenance rules, and QA gates.
 - [Installation guide](../INSTALLATION.md): peer dependencies, setup flows, SSR setup, and troubleshooting.
-- [3.0 release notes](../RELEASE_NOTES_3.0.0.md): public release highlights and verified gates.
+- [3.0.1 release notes](../RELEASE_NOTES_3.0.1.md): final release-readiness patch with Storybook taxonomy, exhaustive QA, and package evidence.
+- [3.0.0 release notes](../RELEASE_NOTES_3.0.0.md): public major-release highlights and verified gates.
 - [Component documentation](./components/readme.md): organized index for every component page.
 - [Liquid Glass hub](./liquid-glass/readme.md): Liquid Glass rules, migration, primitives, showcase, and component map.
 - [Reports index](../reports/README.md): certification, audit, TypeScript, accessibility, and tooling evidence.

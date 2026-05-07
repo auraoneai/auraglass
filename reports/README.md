@@ -8,6 +8,7 @@ This directory stores generated and hand-authored audit reports. The reports are
 - [Storybook visual certification JSON](./glassmorphism-storybook-visual-certification.json): 356/356 passed entries.
 - [Storybook visual certification Markdown](./glassmorphism-storybook-visual-certification.md): human-readable certification summary.
 - [Storybook exhaustive QA Markdown](./storybook-exhaustive-qa.md): 1,595 static Storybook stories crawled across desktop/mobile modes with zero hard failures and zero audit-run errors; remaining findings are visual heuristics retained for follow-up.
+- Release notes: [3.0.1 final QA patch](../RELEASE_NOTES_3.0.1.md) and [3.0.0 major release](../RELEASE_NOTES_3.0.0.md).
 - [Certification screenshots](./glassmorphism-storybook-visual-certification/screenshots): 712 screenshot artifacts.
 - [Public export audit JSON](./public-export-audit.json): root export source and declaration evidence.
 - [API surface audit JSON](./api-surface-audit.json): public declaration `any` and ref-forwarding follow-up evidence.

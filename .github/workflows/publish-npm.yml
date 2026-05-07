@@ -1,0 +1,54 @@
+name: Publish npm package
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Package version to publish, for example 3.0.1
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish aura-glass to npm
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify package version
+        run: |
+          actual="$(node -p "require('./package.json').version")"
+          expected="${{ inputs.version }}"
+          if [ "$actual" != "$expected" ]; then
+            echo "package.json version $actual does not match requested version $expected"
+            exit 1
+          fi
+
+      - name: Verify release gates
+        run: |
+          npm run typecheck -- --pretty false
+          npm run build
+          npm run verify:pack
+          npm run test:integration:next -- --skip-build
+
+      - name: Publish with npm provenance
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
