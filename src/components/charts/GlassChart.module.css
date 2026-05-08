@@ -119,7 +119,8 @@
   position: relative;
   width: 100%;
   height: calc(100% - 80px);
-  overflow: hidden;
+  min-height: 0;
+  overflow: auto;
 }
 
 .contentFocused {

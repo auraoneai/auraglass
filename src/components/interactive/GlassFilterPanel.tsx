@@ -199,10 +199,10 @@ const GlassFilterPanel = React.forwardRef<
     };
 
     const elevationClasses = {
-      low: "glass-glass-backdrop-blur-md bg-white/10 border border-white/20 glass-contrast-guard",
+      low: "glass-glass-backdrop-blur-md bg-slate-950/70 border border-white/20 glass-contrast-guard",
       medium:
-        "glass-glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-contrast-guard",
-      high: "glass-glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl glass-contrast-guard",
+        "glass-glass-backdrop-blur-md bg-slate-950/72 border border-white/30 shadow-lg glass-contrast-guard",
+      high: "glass-glass-backdrop-blur-md bg-slate-950/76 border border-white/40 shadow-2xl glass-contrast-guard",
     };
 
     return (
@@ -213,18 +213,33 @@ const GlassFilterPanel = React.forwardRef<
           elevationClasses[elevation],
           variantClasses[variant],
           sizeClasses[size],
+          "glass-w-full glass-max-w-md glass-text-white",
           className
         )}
         role="region"
         aria-label="Filter panel"
         data-testid={dataTestId}
+        style={{
+          backgroundColor:
+            elevation === "low"
+              ? "rgba(15, 23, 42, 0.7)"
+              : elevation === "high"
+                ? "rgba(15, 23, 42, 0.76)"
+                : "rgba(15, 23, 42, 0.72)",
+          color: "rgba(255, 255, 255, 0.95)",
+        }}
         {...props}
       >
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
           <div className="glass-flex glass-items-center glass-gap-2">
-            <Filter className="glass-w-5 glass-h-5 glass-text-primary-opacity-70" />
-            <h3 className="glass-font-semibold glass-text-primary">{title}</h3>
+            <Filter className="glass-w-5 glass-h-5 glass-text-white/85" />
+            <h3
+              className="glass-font-semibold glass-text-white"
+              style={lightOnDarkTextStyle}
+            >
+              {title}
+            </h3>
             {hasActiveFilters && (
               <span className="glass-px-2 glass-py-1 glass-text-xs glass-surface-blue/20 glass-text-secondary glass-radius-full">
                 Active
@@ -238,7 +253,8 @@ const GlassFilterPanel = React.forwardRef<
                 variant="ghost"
                 size="sm"
                 onClick={handleClearAll}
-                className="glass-text-primary-opacity-70 hover:glass-text-primary glass-focus glass-touch-target"
+                className="glass-text-white/85 hover:glass-text-white glass-focus glass-touch-target"
+                style={lightOnDarkTextStyle}
               >
                 <RotateCcw className="glass-w-4 glass-h-4 glass-mr-1" />
                 Clear
@@ -276,7 +292,7 @@ const GlassFilterPanel = React.forwardRef<
         {showPresets && presets.length > 0 && (
           <div className="glass-mb-6">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-2">
-              <span className="glass-text-sm glass-font-medium glass-text-primary-opacity-70">
+              <span className="glass-text-sm glass-font-medium glass-text-white/85">
                 Presets
               </span>
               {onSavePreset && (
@@ -284,7 +300,8 @@ const GlassFilterPanel = React.forwardRef<
                   variant="ghost"
                   size="sm"
                   onClick={(e) => setShowPresetDialog(true)}
-                  className="glass-text-primary-opacity-70 hover:glass-text-primary glass-focus glass-touch-target"
+                  className="glass-text-white/85 hover:glass-text-white glass-focus glass-touch-target"
+                  style={lightOnDarkTextStyle}
                 >
                   <Save className="glass-w-4 glass-h-4 glass-mr-1" />
                   Save
@@ -309,38 +326,37 @@ const GlassFilterPanel = React.forwardRef<
         )}
 
         {/* Filter Groups */}
-        <div className="glass-gap-4">
+        <div className="glass-space-y-4">
           <AnimatePresence>
             {filteredGroups.map((group) => (
               <motion.div
                 key={group.id}
-                initial={{ opacity: 0, height: 0 }}
-                animate={
-                  prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
-                }
-                exit={{ opacity: 0, height: 0 }}
+                initial={{ opacity: 0 }}
+                animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                exit={{ opacity: 0 }}
                 className="glass-radius-lg glass-overflow-hidden glass-ring-1 glass-ring-white-opacity-10"
               >
                 {/* Group Header */}
                 {collapsible && (
                   <button
                     onClick={(e) => toggleGroup(group.id)}
-                    className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                    className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left glass-text-white hover:glass-surface-subtle/10 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                    style={lightOnDarkTextStyle}
                   >
                     <div className="glass-flex glass-items-center glass-gap-2">
-                      <span className="glass-font-medium glass-text-primary">
+                      <span className="glass-font-medium glass-text-white">
                         {group.label}
                       </span>
                       {group.required && (
-                        <span className="glass-text-xs glass-text-primary">
+                        <span className="glass-text-xs glass-text-white">
                           *
                         </span>
                       )}
                     </div>
                     {expandedGroups[group.id] ? (
-                      <ChevronDown className="glass-w-4 glass-h-4 glass-text-primary-opacity-70" />
+                      <ChevronDown className="glass-w-4 glass-h-4 glass-text-white/85" />
                     ) : (
-                      <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-opacity-70" />
+                      <ChevronRight className="glass-w-4 glass-h-4 glass-text-white/85" />
                     )}
                   </button>
                 )}
@@ -352,7 +368,8 @@ const GlassFilterPanel = React.forwardRef<
                       initial={{ opacity: 0 }}
                       animate={prefersReducedMotion ? {} : { opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="glass-p-3 glass-border-t glass-border-white/10"
+                      className="glass-p-3 glass-border-t glass-border-white/10 glass-text-white"
+                      style={lightOnDarkTextStyle}
                     >
                       <FilterGroupContent
                         group={group}
@@ -431,6 +448,10 @@ const getNumberSliderValue = (
     ? value
     : fallback;
 
+const lightOnDarkTextStyle: React.CSSProperties = {
+  color: "rgba(255, 255, 255, 0.95)",
+};
+
 const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
   group,
   value,
@@ -444,6 +465,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
             <div
               key={option.id}
               className="glass-flex glass-items-center glass-justify-between"
+              style={lightOnDarkTextStyle}
             >
               <GlassCheckbox
                 id={option.id}
@@ -459,7 +481,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
                 label={option.label}
               />
               {option.count != null && (
-                <span className="glass-text-xs glass-text-primary-glass-opacity-50">
+                <span className="glass-text-xs glass-text-white/80">
                   ({option.count})
                 </span>
               )}
@@ -487,7 +509,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
                 <div className="glass-flex glass-items-center glass-justify-between glass-w-full">
                   <span>{option.label}</span>
                   {option.count != null && (
-                    <span className="glass-text-xs glass-text-primary-glass-opacity-50 glass-ml-2">
+                    <span className="glass-text-xs glass-text-white/80 glass-ml-2">
                       ({option.count})
                     </span>
                   )}
@@ -509,7 +531,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
             onValueChange={(newValue) => onChange(newValue)}
             className="glass-w-full"
           />
-          <div className="glass-flex glass-justify-between glass-text-sm glass-text-primary-opacity-70">
+          <div className="glass-flex glass-justify-between glass-text-sm glass-text-white/85">
             <span>{group.min || 0}</span>
             <span>{group.max || 100}</span>
           </div>

@@ -61,8 +61,24 @@ const searchFieldStyles = `
   }
 
   .liquid-glass-search-field-option {
-    color: #0f172a;
+    background: rgba(255, 255, 255, 0.72) !important;
+    color: #0f172a !important;
     border: 1px solid transparent;
+  }
+
+  .liquid-glass-search-field-option span {
+    color: #0f172a !important;
+  }
+
+  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option {
+    background: rgba(255, 255, 255, 0.78) !important;
+    color: #0f172a !important;
+  }
+
+  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option span,
+  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-block,
+  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-text-secondary {
+    color: #0f172a !important;
   }
 
   .liquid-glass-search-field-option:hover,

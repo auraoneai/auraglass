@@ -542,7 +542,10 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
         onClick={onToggle}
         className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
-        <span className="glass-font-medium glass-text-primary">
+        <span
+          className="glass-font-medium"
+          style={{ color: "rgba(255, 255, 255, 0.95)" }}
+        >
           {facet.label}
         </span>
         {expanded ? (

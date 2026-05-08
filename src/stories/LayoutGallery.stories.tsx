@@ -54,7 +54,7 @@ const styles: Record<string, React.CSSProperties> = {
   previewTile: { minHeight: 76, borderRadius: 6, background: 'rgba(15,23,42,0.06)', display: 'grid', placeItems: 'center', color: '#334155', fontWeight: 700, fontSize: 13, textAlign: 'center', padding: 8 },
   grid: { maxWidth: 1180, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 16 },
   card: { padding: 18, borderRadius: 8, border: '1px solid rgba(15,23,42,0.12)', background: 'rgba(255,255,255,0.70)', boxShadow: '0 14px 35px rgba(15,23,42,0.09)' },
-  cardTitle: { margin: '0 0 8px', fontSize: 18 },
+  cardTitle: { margin: '0 0 8px', fontSize: 18, color: '#0f172a' },
   cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { forwardRef, type CSSProperties } from "react";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { LiquidGlassBottomAccessory } from "../navigation/LiquidGlassBottomAccessory";
 
@@ -24,22 +25,10 @@ const nowPlayingMainButtonStyle: CSSProperties = {
   minWidth: 0,
 };
 
-const nowPlayingActionButtonStyle: CSSProperties = {
-  border: 0,
-  borderRadius: 999,
-  background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
-  color: "#0f172a",
-  cursor: "pointer",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  font: "inherit",
-  fontWeight: 700,
-  minWidth: 44,
-  height: 44,
-  padding: "0 14px",
-};
+const nowPlayingActionButtonStyle: CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
 export const LiquidGlassNowPlayingBar = forwardRef<
   HTMLDivElement,

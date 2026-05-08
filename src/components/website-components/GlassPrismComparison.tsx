@@ -586,7 +586,10 @@ export function GlassPrismComparison({
       </div>
 
       {/* Background Effects */}
-      <div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden">
+      <div
+        className="glass-absolute glass-inset-0 glass-pointer-events-none glass-overflow-hidden"
+        data-glass-overlay="true"
+      >
         {/* Floating particles */}
         {Array.from({ length: 20 }).map((_: any, i: any) => (
           <motion.div

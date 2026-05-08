@@ -88,7 +88,7 @@ export const GlassCollaborativeCursor = forwardRef<
       showActions = true,
       onCursorMove,
       onUserAction,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -388,6 +388,7 @@ export const GlassCollaborativeCursor = forwardRef<
               className={cn(
                 "glass-absolute glass-inset-0 glass-pointer-events-none"
               )}
+              data-glass-overlay="true"
               style={{ zIndex: 10 }}
             >
               {activeCursors.map((user: any) => (

@@ -498,7 +498,10 @@ export const GlassIslandLayout = forwardRef<
       const minimapHeight = 150;
 
       return (
-        <div className="glass-absolute glass-top-4 glass-right-4 glass-w-50 glass-h-38 glass-surface-dark/50 glass-border glass-border-white/20 glass-radius-lg glass-p-2">
+        <div
+          className="glass-island-layout-minimap glass-absolute glass-right-4 glass-w-50 glass-h-38 glass-surface-dark/50 glass-border glass-border-white/20 glass-radius-lg glass-p-2"
+          style={{ top: 96 }}
+        >
           <div className="glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
             Overview
           </div>
@@ -553,7 +556,10 @@ export const GlassIslandLayout = forwardRef<
     );
 
     const Controls = () => (
-      <div className="glass-absolute glass-top-4 glass-left-4 glass-flex glass-flex-col glass-space-y-2">
+      <div
+        className="glass-island-layout-controls glass-absolute glass-left-4 glass-flex glass-flex-col glass-space-y-2"
+        style={{ top: 96 }}
+      >
         <motion.button
           className="glass-p-2 glass-surface-subtle/10 hover:glass-surface-subtle/20 glass-border glass-border-white/20 glass-radius-lg glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
           whileHover={shouldAnimate ? { scale: 1.05 } : {}}
@@ -600,11 +606,13 @@ export const GlassIslandLayout = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        className={`relative overflow-hidden ${className}`}
+        className={`glass-island-layout relative overflow-auto ${className}`}
         style={{
           width: "min(1120px, calc(100vw - 48px))",
           maxWidth: "100%",
           height: "600px",
+          overflowX: "auto",
+          overflowY: "auto",
         }}
         {...props}
       >
@@ -633,8 +641,10 @@ export const GlassIslandLayout = forwardRef<
         {/* Main container */}
         <div
           ref={containerRef}
-          className="glass-absolute glass-inset-0 glass-overflow-hidden glass-cursor-move"
+          className="glass-absolute glass-inset-0 glass-overflow-visible glass-cursor-move"
           style={{
+            width: 2000,
+            height: 2000,
             transform: `scale(${currentZoom}) translate(${viewportOffset.x}px, ${viewportOffset.y}px)`,
             transformOrigin: "0 0",
           }}
@@ -689,14 +699,18 @@ export const GlassIslandLayout = forwardRef<
             >
               <OptimizedGlass
                 variant="frosted"
-                className={`w-full h-full p-4 hover:bg-white/10 transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
+                className={`w-full h-full box-border p-4 hover:bg-white/10 transition-all duration-[${ANIMATION.DURATION.fast}ms] ${
                   island.pinned ? "border-yellow-400/50" : ""
                 } ${connectionMode ? "hover:border-blue-400" : ""}`}
+                style={{ boxSizing: "border-box", overflow: "hidden" }}
               >
                 {!island.minimized && island.content}
 
                 {/* Island controls */}
-                <div className="glass-absolute glass-top-2 glass-right-2 glass-flex glass-space-x-1 glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity">
+                <div
+                  className="glass-absolute glass-top-2 glass-right-2 glass-flex glass-space-x-1 glass-opacity-0 glass-hover-opacity-100 glass-transition-opacity"
+                  data-glass-overlay="true"
+                >
                   {island.category && (
                     <span className="glass-px-2 glass-py-1 glass-surface-dark/30 glass-text-primary-opacity-70 glass-radius glass-text-xs">
                       {island.category}
@@ -704,6 +718,7 @@ export const GlassIslandLayout = forwardRef<
                   )}
 
                   <button
+                    tabIndex={-1}
                     onClick={(e) => {
                       e.stopPropagation();
                       setLayoutIslands((prev: any) =>

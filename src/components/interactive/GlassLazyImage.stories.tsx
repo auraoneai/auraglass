@@ -125,7 +125,7 @@ export const Variants: Story = {
     src: lazyImage('Variant', '#7c3aed', 500, 400),
     alt: 'Variant lazy image',
     title: 'High quality lazy image',
-    width: 500,
+    width: 'min(100%, 320px)',
     height: 400,
     objectFit: 'contain',
     blur: false,

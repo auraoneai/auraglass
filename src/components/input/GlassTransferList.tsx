@@ -334,9 +334,25 @@ export const GlassTransferList = forwardRef<
         ref={ref}
         elevation={elevation}
         data-testid={dataTestId || "glasstransferlist"}
-        className={cn("flex gap-4 glass-p-4 glass-radius-lg", className)}
+        className={cn(
+          "glass-transfer-list flex gap-4 glass-p-4 glass-radius-lg",
+          className
+        )}
         {...props}
       >
+        <style>{`
+          @media (max-width: 640px) {
+            .glass-transfer-list {
+              flex-direction: column;
+            }
+
+            .glass-transfer-list__actions {
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: center;
+            }
+          }
+        `}</style>
         {renderList(
           filteredAvailable,
           leftChecked,
@@ -348,7 +364,7 @@ export const GlassTransferList = forwardRef<
           true
         )}
 
-        <div className="glass-flex glass-flex-col glass-justify-center glass-gap-2 glass-p-2">
+        <div className="glass-transfer-list__actions glass-flex glass-flex-col glass-justify-center glass-gap-2 glass-p-2">
           <TransferButton
             onClick={handleMoveAllRight}
             disabled={availableItems.length === 0}

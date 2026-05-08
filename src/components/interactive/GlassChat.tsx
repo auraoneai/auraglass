@@ -659,7 +659,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
 
         <div className="glass-flex glass-flex-1 glass-overflow-hidden">
           {/* Messages Area */}
-          <div className="glass-flex-1 glass-flex glass-flex-col glass-overflow-hidden">
+          <div className="glass-flex-1 glass-flex glass-min-w-0 glass-flex-col glass-overflow-hidden">
             {/* Messages */}
             <CardContent className="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-4">
               {Object.entries(groupedMessages).map(([date, dateMessages]) => (
@@ -1015,14 +1015,14 @@ export const GlassChat: React.FC<GlassChatProps> = ({
               )}
 
               {/* Input area */}
-              <div className="glass-flex glass-items-end glass-gap-2">
+              <div className="glass-flex glass-flex-wrap glass-items-end glass-gap-2">
                 {/* File attachment */}
                 {enableAttachments && (
                   <GlassButton
                     variant="ghost"
                     size="sm"
                     onClick={handleFileAttachment}
-                    className="glass-p-2"
+                    className="glass-shrink-0 glass-p-2"
                     aria-label="Attach file"
                   >
                     <Paperclip className="glass-w-4 glass-h-4" />
@@ -1035,7 +1035,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                     variant={isRecording ? "destructive" : "ghost"}
                     size="sm"
                     onClick={handleVoiceToggle}
-                    className="glass-p-2"
+                    className="glass-shrink-0 glass-p-2"
                     aria-label={
                       isRecording ? "Stop recording" : "Start voice recording"
                     }
@@ -1049,7 +1049,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                 )}
 
                 {/* Text input */}
-                <div className="glass-flex-1 glass-relative">
+                <div className="glass-relative glass-min-w-0 glass-flex-1">
                   <textarea
                     ref={inputRef}
                     value={newMessage}
@@ -1063,7 +1063,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                           : "Type a message..."
                     }
                     className={cn(
-                      "w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none max-h-[120px]",
+                      "w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-pr-12 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none max-h-[120px]",
                       adaptive && "consciousness-adaptive-textarea",
                       predictive &&
                         conversationInsights?.urgency === "high" &&
@@ -1099,7 +1099,7 @@ export const GlassChat: React.FC<GlassChatProps> = ({
                   onClick={handleSendMessage}
                   disabled={!newMessage.trim() && attachments.length === 0}
                   className={cn(
-                    "glass-p-2",
+                    "glass-shrink-0 glass-p-2",
                     consciousness && "consciousness-send-button",
                     predictive &&
                       conversationInsights?.urgency === "high" &&

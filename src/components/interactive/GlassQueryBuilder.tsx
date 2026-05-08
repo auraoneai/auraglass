@@ -52,6 +52,10 @@ const getRuleInputValue = (value: unknown): string => {
   return "";
 };
 
+const lightOnDarkButtonStyle: React.CSSProperties = {
+  color: "rgba(255, 255, 255, 0.95)",
+};
+
 export function GlassQueryBuilder({
   fields = [],
   value = { combinator: "AND", rules: [] },
@@ -67,7 +71,7 @@ export function GlassQueryBuilder({
       <div
         data-glass-component
         key={idx}
-        className="glass-flex glass-items-center glass-gap-2"
+        className="glass-flex glass-flex-wrap glass-items-center glass-gap-2"
       >
         <GlassSelect
           value={rule.field}
@@ -142,7 +146,7 @@ export function GlassQueryBuilder({
               rule.value = e.target.value;
               update(value);
             }}
-            className="glass-bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-min-w-0 glass-flex-1 glass-bg-white/10 glass-border glass-border-white/35 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-text-white glass-placeholder-white/70 glass-focus glass-touch-target glass-contrast-guard"
           />
         )}
         <GlassButton
@@ -152,6 +156,8 @@ export function GlassQueryBuilder({
             parent.rules.splice(idx, 1);
             update(value);
           }}
+          className="glass-text-white hover:glass-text-white"
+          style={lightOnDarkButtonStyle}
         >
           Remove
         </GlassButton>
@@ -160,8 +166,8 @@ export function GlassQueryBuilder({
   };
 
   const renderGroup = (group: RuleGroup, parent?: RuleGroup) => (
-    <div className="glass-radius-xl glass-border glass-border-white/20 glass-p-3 glass-gap-2">
-      <div className="glass-flex glass-items-center glass-gap-2">
+    <div className="glass-radius-xl glass-border glass-border-white/25 glass-bg-slate-950/70 glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard">
+      <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-2">
         <GlassSelect
           value={group.combinator}
           onValueChange={(v) => {
@@ -197,6 +203,8 @@ export function GlassQueryBuilder({
             group.rules.push({ combinator: "AND", rules: [] });
             update(value);
           }}
+          className="glass-text-white hover:glass-text-white"
+          style={lightOnDarkButtonStyle}
         >
           + Group
         </GlassButton>
@@ -208,12 +216,14 @@ export function GlassQueryBuilder({
               parent.rules.splice(parent.rules.indexOf(group), 1);
               update(value);
             }}
+            className="glass-text-white hover:glass-text-white"
+            style={lightOnDarkButtonStyle}
           >
             Remove
           </GlassButton>
         )}
       </div>
-      <div className="glass-gap-2">
+      <div className="glass-space-y-2">
         {group.rules.map((r, i) =>
           isGroup(r) ? (
             <div key={i}>{renderGroup(r, group)}</div>
@@ -227,7 +237,10 @@ export function GlassQueryBuilder({
 
   return (
     <div
-      className={cn("glass-gap-2", className)}
+      className={cn(
+        "glass-w-full glass-max-w-3xl glass-space-y-2 glass-text-white",
+        className
+      )}
       data-testid={dataTestId}
       role="group"
       aria-label="Query builder"

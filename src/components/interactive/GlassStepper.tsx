@@ -40,7 +40,7 @@ export function GlassStepper({
   return (
     <div
       data-glass-component
-      className={cn("flex items-center glass-gap-3", className)}
+      className={cn("flex glass-flex-wrap items-center glass-gap-3", className)}
       {...htmlProps}
     >
       {steps.map((s, i) => {
@@ -56,6 +56,7 @@ export function GlassStepper({
                 `glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                 "ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple",
                 "glass-focus glass-touch-target glass-contrast-guard",
+                "glass-flex-shrink-0 whitespace-nowrap",
                 isActive ? "glass-text-primary" : "glass-text-primary/80"
               )}
               onClick={(e) => onChange?.(s.id)}

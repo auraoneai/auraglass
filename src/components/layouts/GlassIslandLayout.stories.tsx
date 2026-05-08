@@ -194,9 +194,23 @@ const meta = {
   title: 'Surfaces/App Shells + Layout/Glass Island Layout',
   component: GlassIslandLayout,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-min-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-8"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
+  args: {
+    className: 'glass-overflow-auto overflow-auto',
+  },
   argTypes: {
     showMinimap: {
       control: 'boolean',

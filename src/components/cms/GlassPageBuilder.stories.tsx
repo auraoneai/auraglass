@@ -326,7 +326,7 @@ const sampleDashboardData = {
                     level: 'h2',
                     fontSize: '28px',
                     fontWeight: '700',
-                    color: '#48bb78',
+                    color: '#166534',
                     textAlign: 'center',
                     margin: '0 0 10px 0'
                   },
@@ -341,7 +341,7 @@ const sampleDashboardData = {
                     content: 'Total Users',
                     fontSize: '14px',
                     fontWeight: '500',
-                    color: '#718096',
+                    color: '#334155',
                     textAlign: 'center',
                     lineHeight: '1.4',
                     fontFamily: 'system-ui, -apple-system, sans-serif'

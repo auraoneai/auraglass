@@ -43,7 +43,7 @@ const styles: Record<string, React.CSSProperties> = {
   card: { minHeight: 176, padding: 18, borderRadius: 8, border: '1px solid rgba(15,23,42,0.12)', background: 'rgba(255,255,255,0.72)', boxShadow: '0 16px 42px rgba(15,23,42,0.10)' },
   iconRow: { display: 'flex', gap: 8, marginBottom: 14 },
   iconBox: { width: 34, height: 34, borderRadius: 6, background: 'linear-gradient(135deg, #0284c7, #10b981)' },
-  cardTitle: { margin: '0 0 8px', fontSize: 19 },
+  cardTitle: { margin: '0 0 8px', fontSize: 19, color: '#0f172a' },
   cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
 };
 

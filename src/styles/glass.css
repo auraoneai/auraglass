@@ -1901,6 +1901,57 @@ svg.glass-touch-target {
   min-width: var(--glass-space-64);
 }
 
+.glass-golden-ratio-grid,
+.glass-golden-ratio-grid *,
+.glass-golden-ratio-grid *::before,
+.glass-golden-ratio-grid *::after {
+  box-sizing: border-box;
+}
+
+.glass-golden-ratio-grid [role="gridcell"] > * {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.glass-island-layout,
+.glass-island-layout *,
+.glass-island-layout *::before,
+.glass-island-layout *::after {
+  box-sizing: border-box;
+}
+
+.glass-tessellation,
+.glass-tessellation *,
+.glass-tessellation *::before,
+.glass-tessellation *::after,
+.glass-masonry-grid,
+.glass-masonry-grid *,
+.glass-masonry-grid *::before,
+.glass-masonry-grid *::after {
+  box-sizing: border-box;
+}
+
+.glass-tessellation svg {
+  overflow: visible;
+}
+
+.glass-mind-map,
+.glass-mind-map *,
+.glass-mind-map *::before,
+.glass-mind-map *::after {
+  box-sizing: border-box;
+}
+
+.glass-mind-map svg {
+  overflow: visible;
+}
+
+@media (max-width: 639px) {
+  .glass-island-layout-minimap {
+    display: none;
+  }
+}
+
 /* Common width/height token utilities */
 .glass-w-1 {
   width: var(--glass-space-1);

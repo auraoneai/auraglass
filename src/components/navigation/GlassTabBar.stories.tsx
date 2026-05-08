@@ -27,7 +27,8 @@ const meta: Meta<typeof GlassTabBar> = {
     tabs,
     activeTab: 1,
     onChange: fn(),
-    scrollable: true,
+    scrollable: false,
+    fullWidth: true,
     showLabels: true,
   },
 };

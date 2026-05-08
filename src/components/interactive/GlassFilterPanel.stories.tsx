@@ -7,13 +7,24 @@ const meta: Meta<typeof GlassFilterPanel> = {
   title: 'Effects + Advanced/Glass Filter Panel',
   component: GlassFilterPanel,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
     docs: {
       description: {
         component: 'A glass morphism glassfilterpanel component.',
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-min-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-8"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   argTypes: {
     filters: {
       control: 'object',

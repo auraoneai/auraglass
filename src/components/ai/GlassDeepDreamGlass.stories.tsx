@@ -195,6 +195,12 @@ const meta = {
             white-space: normal;
           }
 
+          .deep-dream-story-card label.glass-surface-blue {
+            background: #1d4ed8 !important;
+            border: 1px solid rgba(30, 64, 175, 0.42) !important;
+            color: #ffffff !important;
+          }
+
           [data-storybook-preview-mode="dark"] .deep-dream-story-card :where(h3, h4, h5, p, button, a, label, span) {
             color: #0f172a !important;
             border-color: rgba(15, 23, 42, 0.18);

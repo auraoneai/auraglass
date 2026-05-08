@@ -1137,6 +1137,18 @@ export const GlassTabBar = forwardRef<
             disabled={tab.disabled}
             active={isActive}
             onClick={(e) => handleTabClick(e, index)}
+            style={
+              effectiveFullWidth &&
+              !scrollable &&
+              effectiveOrientation === "horizontal"
+                ? {
+                    flex: "1 1 0",
+                    flexShrink: 1,
+                    justifyContent: "center",
+                    padding: effectiveShowLabels ? "8px 10px" : "8px",
+                  }
+                : undefined
+            }
           />
         );
       })}

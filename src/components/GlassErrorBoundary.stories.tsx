@@ -24,9 +24,15 @@ export const Default: Story = {
   },
   render: () => (
     <Component className="glass-p-4">
-      <div className="glass glass-p-4 glass-radius-lg">
+      <div
+        className="glass glass-p-4 glass-radius-lg"
+        style={{ color: "rgba(248, 250, 252, 0.96)" }}
+      >
         <strong>GlassErrorBoundary protected content</strong>
-        <p className="glass-text-sm glass-text-secondary">
+        <p
+          className="glass-text-sm"
+          style={{ color: "rgba(226, 232, 240, 0.86)" }}
+        >
           Component-owned story coverage sample.
         </p>
       </div>

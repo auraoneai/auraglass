@@ -451,9 +451,15 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   return (
     <OptimizedGlass
       data-glass-component
-      className={`relative overflow-hidden ${className}`}
+      className={`glass-mind-map relative overflow-auto ${className}`}
       intensity="medium"
       elevation="level1"
+      style={{
+        width: "min(920px, calc(100vw - 48px))",
+        height: "min(560px, calc(100vh - 64px))",
+        maxWidth: "100%",
+        boxSizing: "border-box",
+      }}
     >
       {/* Toolbar */}
       <div className="glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-flex glass-gap-2">
@@ -492,17 +498,25 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       {/* Main SVG Canvas */}
       <div
         ref={containerRef}
-        className="glass-w-full glass-h-full glass-overflow-hidden"
+        className="glass-overflow-auto"
         onWheel={handleWheel}
         onMouseDown={handlePanStart}
-        style={{ cursor: isPanning ? "grabbing" : "grab" }}
+        style={{
+          width: 920,
+          height: 560,
+          minWidth: 920,
+          minHeight: 560,
+          cursor: isPanning ? "grabbing" : "grab",
+        }}
       >
         <svg
           ref={svgRef}
           className="glass-w-full glass-h-full"
+          viewBox="-120 -120 920 560"
           style={{
             transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
             transformOrigin: "center",
+            overflow: "visible",
           }}
         >
           <defs>

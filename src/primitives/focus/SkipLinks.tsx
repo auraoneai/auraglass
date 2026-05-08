@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import { cn } from "@/design-system/utilsCore";
 
@@ -60,6 +60,8 @@ export function SkipLinks({
   zIndex = 9999,
   styles,
 }: SkipLinksProps) {
+  const [focusedLinkId, setFocusedLinkId] = React.useState<string | null>(null);
+
   const positionClasses = {
     "top-left": "left-4",
     "top-center": "left-1/2 -translate-x-1/2",
@@ -109,41 +111,57 @@ export function SkipLinks({
       }}
       aria-label="Skip links"
     >
-      {links.map((link) => (
-        <a
-          key={link.id}
-          id={link.id}
-          href={link.href}
-          onClick={(e) => handleClick(e, link.href)}
-          className={cn(
-            // Visually hidden by default
-            "absolute -left-[10000px] top-auto",
-            "w-[1px] h-[1px] overflow-hidden",
-            // Visible on focus
-            "focus:static focus:w-auto focus:h-auto",
-            "focus:overflow-visible",
-            // Styling when visible
-            "focus:inline-block",
-            "focus:px-4 focus:py-2",
-            "focus:bg-primary focus:text-primary-foreground",
-            "focus:rounded-md",
-            "focus:shadow-lg",
-            "focus:no-underline",
-            "focus:outline-none",
-            "focus:ring-2 focus:ring-primary focus:ring-offset-2",
-            // Animation
-            "transition-all duration-200 ease-out",
-            // High contrast mode
-            "forced-colors:focus:forced-color-adjust-none",
-            "forced-colors:focus:outline forced-colors:focus:outline-2",
-            "forced-colors:focus:outline-[ButtonText]",
-            // Glass classes
-            "glass-focus glass-touch-target glass-contrast-guard"
-          )}
-        >
-          {link.label}
-        </a>
-      ))}
+      {links.map((link, index) => {
+        const isFocused = focusedLinkId === link.id;
+
+        return (
+          <a
+            key={link.id}
+            id={link.id}
+            href={link.href}
+            style={
+              isFocused
+                ? undefined
+                : {
+                    position: "absolute",
+                    left: "-10000px",
+                    top: `${index * 48}px`,
+                    width: 1,
+                    height: 1,
+                    overflow: "hidden",
+                  }
+            }
+            onClick={(e) => handleClick(e, link.href)}
+            onFocus={() => setFocusedLinkId(link.id)}
+            onBlur={() =>
+              setFocusedLinkId((current) =>
+                current === link.id ? null : current
+              )
+            }
+            className={cn(
+              isFocused
+                ? [
+                    "static w-auto h-auto overflow-visible",
+                    "inline-block px-4 py-2",
+                    "bg-primary text-primary-foreground",
+                    "rounded-md shadow-lg no-underline",
+                    "outline-none ring-2 ring-primary ring-offset-2",
+                  ]
+                : "absolute",
+              // Animation
+              "transition-all duration-200 ease-out",
+              // High contrast mode
+              "forced-colors:focus:forced-color-adjust-none",
+              "forced-colors:focus:outline forced-colors:focus:outline-2",
+              "forced-colors:focus:outline-[ButtonText]",
+              // Glass classes
+              "glass-focus glass-touch-target glass-contrast-guard"
+            )}
+          >
+            {link.label}
+          </a>
+        );
+      })}
     </nav>
   );
 }
@@ -249,7 +267,7 @@ export function useSkipLinks() {
     anchor.id = link.id;
     anchor.href = link.href;
     anchor.textContent = link.label;
-    anchor.className="skip-link";
+    anchor.className = "skip-link";
 
     anchor.addEventListener("click", (e) => {
       e.preventDefault();

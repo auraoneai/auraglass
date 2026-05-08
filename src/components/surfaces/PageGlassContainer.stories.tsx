@@ -30,7 +30,10 @@ type Story = StoryObj<typeof PageGlassContainer>;
 
 export const Default: Story = {
   render: (args) => (
-    <div className="glass-min-h-screen glass-w-full glass-p-6">
+    <div
+      data-bg="light"
+      className="glass-on-light glass-min-h-screen glass-w-full glass-p-6"
+    >
       <PageGlassContainer
         {...args}
         borderRadius="xl"
@@ -39,7 +42,16 @@ export const Default: Story = {
         className="glass-mx-auto glass-shadow-2xl"
         style={{ minHeight: 620 }}
       >
-        <div className="glass-stack glass-stack-md">
+        <div
+          className="glass-stack glass-stack-md"
+          style={{
+            color: "#0f172a",
+            "--glass-text-primary": "#0f172a",
+            "--glass-text-secondary": "#475569",
+            "--typography-text-primary": "#0f172a",
+            "--typography-text-secondary": "#475569",
+          } as React.CSSProperties}
+        >
           <header className="glass-flex glass-items-center glass-justify-between glass-gap-4">
             <div>
               <p className="glass-text-sm glass-text-secondary">Page container</p>
@@ -95,7 +107,10 @@ export const Default: Story = {
 
 export const Variants: Story = {
   render: (args: any) => (
-    <div className="glass-grid glass-min-h-screen glass-w-full glass-place-items-center glass-p-6">
+    <div
+      data-bg="light"
+      className="glass-on-light glass-grid glass-min-h-screen glass-w-full glass-place-items-center glass-p-6"
+    >
       <div
         className="glass-grid glass-w-full glass-grid-cols-2 glass-gap-4"
         style={{ maxWidth: 1024 }}

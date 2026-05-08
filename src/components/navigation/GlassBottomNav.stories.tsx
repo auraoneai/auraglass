@@ -50,8 +50,8 @@ const renderCleanItem: React.ComponentProps<typeof GlassBottomNav>['renderItem']
       minHeight: 52,
       border: 0,
       borderRadius: 14,
-      background: active ? 'rgba(37, 99, 235, 0.14)' : 'transparent',
-      color: active ? '#1d4ed8' : '#475569',
+      background: active ? '#bfdbfe' : 'transparent',
+      color: active ? '#0f172a' : '#cbd5e1',
       font: 'inherit',
       display: 'grid',
       placeItems: 'center',
@@ -83,20 +83,41 @@ const renderCleanItem: React.ComponentProps<typeof GlassBottomNav>['renderItem']
 );
 
 const PhoneFrame = (props: React.ComponentProps<typeof GlassBottomNav>) => (
-  <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+  <div
+    data-bg="dark"
+    style={{
+      minHeight: '100vh',
+      display: 'grid',
+      placeItems: 'center',
+      padding: 16,
+      boxSizing: 'border-box',
+      background:
+        'linear-gradient(135deg, rgba(15,23,42,0.96) 0%, rgba(30,41,59,0.92) 48%, rgba(8,47,73,0.9) 100%)',
+    }}
+  >
   <div
     className="glass-flex glass-w-full glass-max-w-sm glass-flex-col glass-overflow-hidden glass-rounded-[2rem] glass-border glass-border-white/40 glass-shadow-2xl"
-    style={{ width: '100%', maxWidth: 390, minHeight: 560, background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}
+    style={{
+      width: '100%',
+      maxWidth: 390,
+      minHeight: 560,
+      background: 'rgba(15,23,42,0.78)',
+      color: '#f8fafc',
+    }}
   >
     <div className="glass-flex-1 glass-space-y-4 glass-p-5">
       <div>
-        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-secondary">
+        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide" style={{ color: '#cbd5e1' }}>
           Mobile shell
         </p>
-        <h3 className="glass-text-xl glass-font-semibold glass-text-primary">Daily overview</h3>
+        <h3 className="glass-text-xl glass-font-semibold" style={{ color: '#f8fafc' }}>Daily overview</h3>
       </div>
       {['Pipeline review', 'Saved accounts', 'Profile updates'].map((item) => (
-        <div key={item} className="glass-rounded-xl glass-bg-white/65 glass-p-4 glass-text-sm glass-text-primary">
+        <div
+          key={item}
+          className="glass-rounded-xl glass-p-4 glass-text-sm"
+          style={{ background: 'rgba(255,255,255,0.1)', color: '#f8fafc' }}
+        >
           {item}
         </div>
       ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { forwardRef, type CSSProperties } from "react";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 
@@ -18,22 +19,10 @@ export interface LiquidGlassMediaControlsProps
   compact?: boolean;
 }
 
-const mediaButtonStyle: CSSProperties = {
-  border: 0,
-  borderRadius: 999,
-  background:
-    '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
-  color: "#0f172a",
-  cursor: "pointer",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  font: "inherit",
-  fontWeight: 700,
-  minWidth: 44,
-  height: 44,
-  padding: "0 14px",
-};
+const mediaButtonStyle: CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
 const rangeStyle: CSSProperties = {
   accentColor: "#2563eb",

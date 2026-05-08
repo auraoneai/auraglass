@@ -332,11 +332,14 @@ export const GlassGoldenRatioGrid = forwardRef<
     return (
       <OptimizedGlass
         ref={ref}
-        className={`glass-golden-ratio-grid relative overflow-hidden ${className}`}
+        className={`glass-golden-ratio-grid relative overflow-auto ${className}`}
         style={{
           width: responsive ? "100%" : containerWidth,
+          minWidth: responsive ? undefined : containerWidth,
           height: responsive ? "100%" : containerHeight,
           minHeight: containerHeight,
+          overflowX: "auto",
+          overflowY: "auto",
           ...style,
         }}
         glassConfig={{
@@ -407,7 +410,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                 <motion.div
                   key={`section-${index}`}
                   className={`
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     ${hasItem ? "cursor-pointer" : "cursor-default"}
                   `}
                   style={{
@@ -415,6 +418,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                     top: section.y + spacing / 2,
                     width: section.width - spacing,
                     height: section.height - spacing,
+                    boxSizing: "border-box",
                   }}
                   custom={index}
                   variants={getItemVariants()}
@@ -431,15 +435,21 @@ export const GlassGoldenRatioGrid = forwardRef<
                   {hasItem ? (
                     <div
                       className={`
-                                          w-full h-full glass-surface rounded-lg border border-white/20
+                                          w-full h-full box-border glass-surface rounded-lg border border-white/20
                                           glass-backdrop-blur-md transition-all duration-200 p-3
-                                          flex items-center justify-center text-center
+                                          flex min-w-0 min-h-0 items-center justify-center text-center
                                           ${
                                             isHovered || isSelected
                                               ? "bg-white/20 border-white/40"
                                               : "bg-white/10 border-white/20"
                                           }
                                         `}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        boxSizing: "border-box",
+                        overflow: "hidden",
+                      }}
                       role="gridcell"
                     >
                       {section.item!.content}
@@ -447,6 +457,12 @@ export const GlassGoldenRatioGrid = forwardRef<
                   ) : (
                     <div
                       className="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        boxSizing: "border-box",
+                        overflow: "hidden",
+                      }}
                       role="gridcell"
                     >
                       <div className="glass-text-xs">Empty</div>
@@ -454,14 +470,20 @@ export const GlassGoldenRatioGrid = forwardRef<
                   )}
                   {/* Section info overlay */}
                   {(showGrid || isHovered) && (
-                    <div className="glass-absolute glass-top-1 glass-left-1 glass-surface-dark/50 glass-text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+                    <div
+                      className="glass-absolute glass-top-1 glass-left-1 glass-surface-dark/50 glass-text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
+                      data-glass-overlay="true"
+                    >
                       {section.ratio.toFixed(2)}
                     </div>
                   )}
 
                   {/* Golden ratio indicator */}
                   {Math.abs(section.ratio - goldenRatio) < 0.1 && (
-                    <div className="glass-absolute glass-top-1 glass-right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full glass-opacity-70" />
+                    <div
+                      className="glass-absolute glass-top-1 glass-right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full glass-opacity-70"
+                      data-glass-overlay="true"
+                    />
                   )}
                 </motion.div>
               );

@@ -231,10 +231,14 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       }
 
       const maxValue = Math.max(...data.dataPoints.map((d: any) => d.value));
+      const chartInset = 4;
+      const chartRange = 100 - chartInset * 2;
       const points = data?.dataPoints
         .map((point, index) => {
-          const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
-          const y = 100 - (point.value / maxValue) * 100;
+          const x =
+            chartInset +
+            (index / ((data.dataPoints?.length || 0) - 1)) * chartRange;
+          const y = chartInset + (1 - point.value / maxValue) * chartRange;
           return `${x},${y}`;
         })
         .join(" ");
@@ -274,8 +278,10 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
             {/* Data points */}
             {data?.dataPoints.map((point, index) => {
-              const x = (index / ((data.dataPoints?.length || 0) - 1)) * 100;
-              const y = 100 - (point.value / maxValue) * 100;
+              const x =
+                chartInset +
+                (index / ((data.dataPoints?.length || 0) - 1)) * chartRange;
+              const y = chartInset + (1 - point.value / maxValue) * chartRange;
 
               return (
                 <circle

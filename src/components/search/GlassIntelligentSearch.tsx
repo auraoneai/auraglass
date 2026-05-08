@@ -790,8 +790,8 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         }
 
         .glass-intelligent-search-panel button {
-          background-color: rgba(255, 255, 255, 0.58);
-          border: 1px solid rgba(15, 23, 42, 0.14);
+          background-color: rgba(255, 255, 255, 0.58) !important;
+          border: 1px solid rgba(15, 23, 42, 0.14) !important;
           color: #0f172a !important;
           border-radius: 12px;
         }

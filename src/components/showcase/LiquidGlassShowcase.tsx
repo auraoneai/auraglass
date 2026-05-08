@@ -212,9 +212,16 @@ export function LiquidGlassShowcase() {
               searchTabId="search"
               bottomAccessory={
                 <LiquidGlassNowPlayingBar
+                  className="liquid-glass-showcase-now-playing"
                   title="Liquid Study"
                   subtitle="Aura System"
                   progress={0.42}
+                  style={
+                    {
+                      color: "#f8fafc",
+                      "--glass-text-secondary": "rgba(226, 232, 240, 0.88)",
+                    } as React.CSSProperties
+                  }
                 />
               }
             />

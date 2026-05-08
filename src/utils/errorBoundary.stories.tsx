@@ -58,6 +58,20 @@ const ErrorStoryFrame = ({ children }: { children: React.ReactNode }) => (
     }}
   >
     <style>{`
+      .glass-error-boundary-story {
+        --glass-text-primary: rgba(15, 23, 42, 0.95);
+        --glass-text-secondary: rgba(51, 65, 85, 0.88);
+      }
+
+      .glass-error-boundary-story .glass-text-primary,
+      .glass-error-boundary-story .glass-text-primary-opacity-70 {
+        color: rgba(15, 23, 42, 0.95) !important;
+      }
+
+      .glass-error-boundary-story svg.glass-text-primary {
+        color: rgba(146, 64, 14, 0.95) !important;
+      }
+
       .glass-error-boundary-story button {
         min-height: 44px;
       }

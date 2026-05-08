@@ -70,7 +70,7 @@ export const Default: Story = {
         <main className="glass-min-h-[520px] glass-min-w-0 glass-flex-1 glass-p-5">
           <GlassResponsiveNav
             {...args}
-            config={{ mobileBreakpoint: 480, mobileNavType: 'bottom' }}
+            config={{ mobileBreakpoint: 360, mobileNavType: 'bottom' }}
             navigation={sections}
             bottomNavItems={bottomItems}
             activePath="/reports"
@@ -100,9 +100,9 @@ export const Variants: Story = {
             Bottom navigation is constrained to the phone frame and leaves content readable.
           </p>
         </div>
-        <GlassResponsiveNav
-          {...args}
-          config={{ mobileBreakpoint: 1200, mobileNavType: 'bottom' }}
+          <GlassResponsiveNav
+            {...args}
+            config={{ mobileBreakpoint: 1200, mobileNavType: 'bottom' }}
           navigation={sections}
           bottomNavItems={bottomItems}
           activePath="/home"

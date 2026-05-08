@@ -1,5 +1,34 @@
 # Changelog
 
+## [3.0.1] - 2026-05-08
+
+### Release Readiness
+
+- Published the final AuraGlass 3.0 release-readiness patch as `3.0.1`, the npm-safe semantic version corresponding to the requested `3.01` release.
+- Removed the internal `final.md` release-prep prompt from the working tree before publishing.
+- Refreshed README and changelog documentation for the completed static Storybook QA state.
+
+### Storybook QA
+
+- Brought the full static Storybook surface to a clean pass across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes.
+- Verified 1,595/1,595 stories with 1,595 passes, 0 risks, 0 failures, 0 audit findings, and 0 run errors.
+- Updated the exhaustive QA report to record the clean all-story run.
+- Hardened the Storybook QA harness so transient resource-level network resets do not mask real component failures.
+
+### Fixed
+
+- Improved Storybook contrast, clipping, overflow, overlap, and mobile layout behavior across navigation, media, interactive, layout, chart, gallery, surface, dashboard, and Liquid Glass stories.
+- Adjusted reduced-motion handling for animated orbital menu stories so QA snapshots settle deterministically.
+- Fixed invalid sound-event names in tessellation and orbital menu stories.
+- Tightened component/story sizing for transfer lists, tab bars, tree views, chart widgets, chat surfaces, media controls, and gallery cards.
+
+### Verification
+
+- `npm run typecheck -- --pretty false`
+- `npm run build-storybook`
+- `git diff --check`
+- `STORYBOOK_URL=http://127.0.0.1:6016 STORYBOOK_QA_CONCURRENCY=12 STORYBOOK_QA_TIMEOUT_MS=10000 STORYBOOK_QA_SETTLE_MS=350 node scripts/storybook-exhaustive-qa.js http://127.0.0.1:6016 --mobile-all`
+
 ## [3.0.0] - 2026-05-06
 
 ### Major Release

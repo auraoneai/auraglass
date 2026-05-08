@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, {
   forwardRef,
   useState,
@@ -28,7 +28,7 @@ import { useKeyboardNavigation } from "../../utils/a11yHooks";
 
 // Helper components
 const Badge = ({ children }: { children: React.ReactNode }) => (
-  <span className='glass-inline-glass-flex glass-items-center glass-justify-center glass-min-w-18px glass-h-18px glass-px-1.5 glass-text-xs glass-font-semibold glass-text-primary glass-surface-blue glass-radius-full'>
+  <span className="glass-inline-glass-flex glass-items-center glass-justify-center glass-min-w-18px glass-h-18px glass-px-1.5 glass-text-xs glass-font-semibold glass-text-primary glass-surface-blue glass-radius-full">
     {children}
   </span>
 );
@@ -59,20 +59,23 @@ const INITIAL_INDICATOR_STYLE = {
 const useIndicatorAnimation = (_prefersReducedMotion: boolean) => {
   const [indicatorStyle, setIndicatorStyle] = useState(INITIAL_INDICATOR_STYLE);
 
-  const animateIndicator = useCallback((nextStyle: typeof INITIAL_INDICATOR_STYLE) => {
-    setIndicatorStyle((prev) => {
-      if (
-        prev.left === nextStyle.left &&
-        prev.top === nextStyle.top &&
-        prev.width === nextStyle.width &&
-        prev.height === nextStyle.height &&
-        prev.opacity === nextStyle.opacity
-      ) {
-        return prev;
-      }
-      return nextStyle;
-    });
-  }, []);
+  const animateIndicator = useCallback(
+    (nextStyle: typeof INITIAL_INDICATOR_STYLE) => {
+      setIndicatorStyle((prev) => {
+        if (
+          prev.left === nextStyle.left &&
+          prev.top === nextStyle.top &&
+          prev.width === nextStyle.width &&
+          prev.height === nextStyle.height &&
+          prev.opacity === nextStyle.opacity
+        ) {
+          return prev;
+        }
+        return nextStyle;
+      });
+    },
+    []
+  );
 
   return { indicatorStyle, animateIndicator };
 };
@@ -290,9 +293,10 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
 
     const renderNavItem = useCallback(
       (item: NavigationItem, level = 0): ReactNode => {
+        const itemId = item?.id || item?.key;
         const isActive = Boolean(activeItem === item?.id || item?.active);
         const hasChildren = item?.children && item?.children.length > 0;
-        const isExpanded = item?.id ? expandedItems.includes(item?.id) : false;
+        const isExpanded = itemId ? expandedItems.includes(itemId) : false;
 
         const assignRef = (el: HTMLLIElement | null) => {
           if (item?.id) {
@@ -315,19 +319,19 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         const content = (
           <>
             {item?.icon && (
-              <span className='nav-item-icon' aria-hidden="true">
+              <span className="nav-item-icon" aria-hidden="true">
                 {item?.icon}
               </span>
             )}
 
             {(!collapsed || level > 0) && (
-              <span className='nav-item-label'>{item?.label}</span>
+              <span className="nav-item-label">{item?.label}</span>
             )}
 
             {item?.badge && <Badge>{String(item?.badge)}</Badge>}
 
             {hasChildren && !collapsed && (
-              <span className='nav-item-expand-icon' aria-hidden="true">
+              <span className="nav-item-expand-icon" aria-hidden="true">
                 <Icon name={isExpanded ? "expand_less" : "expand_more"} />
               </span>
             )}
@@ -350,12 +354,10 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
 
         // Create accessibility attributes for navigation items
         const itemA11yProps = createNavigationA11y({
-          id: item?.id || item?.key,
+          id: itemId,
           current: isActive ? "page" : undefined,
           expanded: hasChildren ? isExpanded : undefined,
-          controls: hasChildren
-            ? `${item?.id || item?.key}-submenu`
-            : undefined,
+          controls: hasChildren ? `${itemId}-submenu` : undefined,
           posinset:
             level === 0
               ? items.findIndex((i) => i.id === item?.id) + 1
@@ -406,8 +408,12 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
         return (
           <li
             ref={assignRef}
-            key={item?.id || item?.key}
-            className={cn("relative z-10", item?.className)}
+            key={itemId}
+            className={cn(
+              "relative z-10",
+              (position === "top" || position === "bottom") && "flex-none",
+              item?.className
+            )}
           >
             {item?.tooltip && !collapsed ? (
               <Tooltip title={item?.tooltip}>{navItem}</Tooltip>
@@ -419,6 +425,8 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
 
             {hasChildren && (
               <ul
+                id={`${itemId}-submenu`}
+                aria-hidden={!isExpanded || collapsed}
                 className={cn(
                   "list-none m-0 glass-p-2 glass-mt-1 glass-radius-md bg-white/5 overflow-hidden transition-all duration-300",
                   {
@@ -427,6 +435,9 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
                     "opacity-0 max-h-0 invisible": !isExpanded || collapsed,
                   }
                 )}
+                style={
+                  !isExpanded || collapsed ? { display: "none" } : undefined
+                }
               >
                 {item?.children?.map((child: any) =>
                   renderNavItem(child, level + 1)
@@ -532,7 +543,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
               {
                 "flex-col glass-gap-4":
                   position === "left" || position === "right",
-                "flex-row glass-gap-4":
+                "flex-row flex-wrap glass-gap-3":
                   position === "top" || position === "bottom",
                 "glass-gap-3": variant === "minimal",
                 "mt-6 w-full": position === "left" || position === "right",
@@ -549,7 +560,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
             {/* Active indicator */}
             {!prefersReducedMotion && (
               <div
-                className='glass-absolute glass-surface-blue glass-radius-sm glass-z-0 glass-pointer-events-none glass-transition-all glass-duration-300 glass-ease-out'
+                className="glass-absolute glass-surface-blue glass-radius-sm glass-z-0 glass-pointer-events-none glass-transition-all glass-duration-300 glass-ease-out"
                 style={{
                   left: `${indicatorStyle.left}px`,
                   top: `${indicatorStyle.top}px`,

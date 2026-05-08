@@ -70,10 +70,10 @@ const metricStyle = {
 const buttonStyle = {
   minHeight: 36,
   padding: '0 14px',
-  border: '1px solid rgba(255, 255, 255, 0.22)',
+  border: '1px solid rgba(45, 212, 191, 0.72)',
   borderRadius: 8,
   color: '#ffffff',
-  background: 'rgba(20, 184, 166, 0.32)',
+  background: '#0f766e',
   fontWeight: 700,
 } satisfies CSSProperties;
 

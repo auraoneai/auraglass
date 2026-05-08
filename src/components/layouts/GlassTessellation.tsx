@@ -333,6 +333,8 @@ export const GlassTessellation = forwardRef<
       () => generateTessellationPositions(),
       [generateTessellationPositions]
     );
+    const visualInset = Math.max(tileSize, 32);
+    const svgViewBox = `${-visualInset} ${-visualInset} ${containerWidth + visualInset * 2} ${containerHeight + visualInset * 2}`;
 
     const handleTileClick = useCallback(
       (tile: TessellationTile) => {
@@ -340,7 +342,7 @@ export const GlassTessellation = forwardRef<
         onTileClick?.(tile);
 
         if (soundEnabled) {
-          play("click");
+          play("tap");
         }
 
         setTimeout(() => setSelectedTile(null), ANIMATION.DURATION.normal);
@@ -475,10 +477,15 @@ export const GlassTessellation = forwardRef<
     return (
       <OptimizedGlass
         ref={ref}
-        className={`glass-tessellation relative overflow-hidden ${className}`}
+        className={`glass-tessellation relative overflow-auto ${className}`}
         style={{
-          width: containerWidth,
+          width: `min(${containerWidth}px, calc(100vw - 48px))`,
+          maxWidth: "100%",
           height: containerHeight,
+          minWidth: Math.min(containerWidth, 320),
+          overflowX: "auto",
+          overflowY: "auto",
+          boxSizing: "border-box",
           ...style,
         }}
         glassConfig={{
@@ -493,11 +500,25 @@ export const GlassTessellation = forwardRef<
         id={tessellationId}
         {...props}
       >
-        <div ref={containerRef} className="glass-absolute glass-inset-0">
+        <div
+          ref={containerRef}
+          className="glass-relative"
+          style={{
+            width: containerWidth,
+            height: containerHeight,
+            minWidth: containerWidth,
+            minHeight: containerHeight,
+            overflow: "visible",
+          }}
+        >
           {/* Grid overlay */}
           {showGrid && (
             <div className="glass-absolute glass-inset-0 glass-pointer-events-none">
-              <svg width={containerWidth} height={containerHeight}>
+              <svg
+                width={containerWidth}
+                height={containerHeight}
+                viewBox={`0 0 ${containerWidth} ${containerHeight}`}
+              >
                 <defs>
                   <pattern
                     id="grid"
@@ -523,7 +544,9 @@ export const GlassTessellation = forwardRef<
           <svg
             width={containerWidth}
             height={containerHeight}
-            className="glass-absolute glass-inset-0"
+            viewBox={svgViewBox}
+            className="glass-absolute glass-inset-0 glass-overflow-visible"
+            style={{ overflow: "visible" }}
           >
             <AnimatePresence>
               {tiles.map((tile, index) => {
@@ -563,7 +586,10 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Info panel */}
-        <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
+        <div
+          className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70"
+          data-glass-overlay="true"
+        >
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             Pattern: {tessellationType}
           </div>
@@ -581,7 +607,10 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Legend */}
-        <div className="glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70">
+        <div
+          className="glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70"
+          data-glass-overlay="true"
+        >
           <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
             {tessellationType.charAt(0).toUpperCase() +
               tessellationType.slice(1)}{" "}

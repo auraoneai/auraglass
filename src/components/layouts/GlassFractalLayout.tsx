@@ -352,16 +352,14 @@ export const GlassFractalLayout = forwardRef<
         <div
           ref={containerRef}
           className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
-          style={{
-            transform: `scale(${currentZoom})`,
-            transformOrigin: "center",
-          }}
         >
           <AnimatePresence>
             {allNodes.map((node, index) => {
               const isHovered = hoveredNode === node.id;
               const isSelected = selectedNode === node.id;
               const nodeScale = (node.scale || 1) * currentZoom;
+              const nodeX = (node.position?.x || 0) * currentZoom;
+              const nodeY = (node.position?.y || 0) * currentZoom;
 
               return (
                 <motion.div
@@ -370,7 +368,7 @@ export const GlassFractalLayout = forwardRef<
                   style={{
                     left: "50%",
                     top: "50%",
-                    transform: `translate(-50%, -50%) translate(${node.position?.x || 0}px, ${node.position?.y || 0}px) scale(${nodeScale}) rotate(${node.rotation || 0}deg)`,
+                    transform: `translate(-50%, -50%) translate(${nodeX}px, ${nodeY}px) scale(${nodeScale}) rotate(${node.rotation || 0}deg)`,
                   }}
                   custom={node.depth || 0}
                   variants={getNodeVariants()}
@@ -409,17 +407,19 @@ export const GlassFractalLayout = forwardRef<
                       style={{
                         left: "50%",
                         top: "50%",
-                        height: Math.sqrt(
-                          Math.pow(
-                            (child.position?.x || 0) - (node.position?.x || 0),
-                            2
-                          ) +
+                        height:
+                          Math.sqrt(
                             Math.pow(
-                              (child.position?.y || 0) -
-                                (node.position?.y || 0),
+                              (child.position?.x || 0) -
+                                (node.position?.x || 0),
                               2
-                            )
-                        ),
+                            ) +
+                              Math.pow(
+                                (child.position?.y || 0) -
+                                  (node.position?.y || 0),
+                                2
+                              )
+                          ) * currentZoom,
                         transformOrigin: "0 0",
                         transform: `rotate(${Math.atan2(
                           (child.position?.y || 0) - (node.position?.y || 0),

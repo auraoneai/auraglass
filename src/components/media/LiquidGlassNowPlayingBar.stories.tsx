@@ -11,7 +11,29 @@ type Story = StoryObj<typeof LiquidGlassNowPlayingBar>;
 
 export const Default: Story = {
   render: () => (
-    <div style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 32, boxSizing: "border-box" }}>
+    <div
+      className="ag-now-playing-stage"
+      style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: 32, boxSizing: "border-box" }}
+    >
+      <style>
+        {`
+          .ag-now-playing-stage .liquid-glass-now-playing-bar,
+          .ag-now-playing-stage .liquid-glass-now-playing-bar button {
+            color: #f8fafc;
+            -webkit-text-fill-color: currentColor;
+          }
+
+          .ag-now-playing-stage .liquid-glass-now-playing-bar .glass-text-secondary {
+            color: #dbeafe !important;
+            -webkit-text-fill-color: #dbeafe;
+          }
+
+          .ag-now-playing-stage .liquid-glass-now-playing-bar button[aria-label] {
+            color: #0f172a;
+            -webkit-text-fill-color: #0f172a;
+          }
+        `}
+      </style>
       <div
         style={{
           width: "min(760px, 100%)",

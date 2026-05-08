@@ -201,19 +201,19 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const sizeConfig = {
     sm: {
-      node: "h-8 glass-px-2 glass-text-sm",
+      node: "h-10 glass-px-2 glass-text-sm",
       icon: "w-4 h-4",
       checkbox: "w-3 h-3",
       expandIcon: "w-3 h-3",
     },
     md: {
-      node: "h-10 glass-px-3 glass-text-sm",
+      node: "h-12 glass-px-3 glass-text-sm",
       icon: "w-5 h-5",
       checkbox: "w-4 h-4",
       expandIcon: "w-4 h-4",
     },
     lg: {
-      node: "h-12 glass-px-4 glass-text-base",
+      node: "h-14 glass-px-4 glass-text-base",
       icon: "w-6 h-6",
       checkbox: "w-5 h-5",
       expandIcon: "w-5 h-5",
@@ -372,117 +372,118 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
       preset={shouldAnimate && respectMotionPreference ? "slideIn" : "none"}
       delay={level * 50}
     >
-      <OptimizedGlass
-        elevation="level1"
-        intensity="subtle"
-        depth={0.5}
-        tint="neutral"
-        border={variant === "bordered" ? "subtle" : "none"}
-        className={cn(
-          `glass-tree-node flex items-center cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-radius-md`,
-          config.node,
-          colors.node,
-          isSelected && colors.selected,
-          isDragOver && colors.dragOver,
-          node.disabled && "opacity-50 cursor-not-allowed",
-          variant === "bordered" && "border glass-radius-md"
-        )}
-        style={{ paddingLeft: `${level * indentation}px` }}
-        onClick={handleNodeClick}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        draggable={draggable && !node.disabled}
-        id={nodeId}
-        role="treeitem"
-        aria-selected={isSelected}
-        aria-expanded={hasChildren ? isExpanded : undefined}
-        aria-level={level + 1}
-        aria-disabled={node.disabled}
-        tabIndex={node.disabled ? -1 : 0}
-      >
-        {/* Connecting lines */}
-        {showLines && level > 0 && (
-          <div className="glass-absolute glass-left-0 glass-top-0 glass-h-full glass-flex glass-items-center">
-            <div
-              className="glass-border-l glass-border-glass-border/20 glass-h-full"
-              style={{
-                left: `${(level - 1) * indentation + indentation / 2}px`,
-              }}
-            />
-            <div
-              className="glass-border-t glass-border-glass-border/20 glass-w-2"
-              style={{
-                left: `${(level - 1) * indentation + indentation / 2}px`,
-              }}
-            />
-          </div>
-        )}
-
-        {/* Expand/collapse button */}
-        <div
+      <div data-glass-component>
+        <OptimizedGlass
+          elevation="level1"
+          intensity="subtle"
+          depth={0.5}
+          tint="neutral"
+          border={variant === "bordered" ? "subtle" : "none"}
           className={cn(
-            "flex items-center justify-center flex-shrink-0 glass-mr-1",
-            config.expandIcon
+            `glass-tree-node flex items-center cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-radius-md`,
+            config.node,
+            colors.node,
+            isSelected && colors.selected,
+            isDragOver && colors.dragOver,
+            node.disabled && "opacity-50 cursor-not-allowed",
+            variant === "bordered" && "border glass-radius-md"
           )}
+          style={{ paddingLeft: `${level * indentation}px` }}
+          onClick={handleNodeClick}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          draggable={draggable && !node.disabled}
+          id={nodeId}
+          role="treeitem"
+          aria-selected={isSelected}
+          aria-expanded={hasChildren ? isExpanded : undefined}
+          aria-level={level + 1}
+          aria-disabled={node.disabled}
+          tabIndex={node.disabled ? -1 : 0}
         >
-          {hasChildren ? (
-            <button
-              onClick={handleToggle}
-              className="glass-p-1 glass-radius-md hover:glass-surface-overlay glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
-              aria-label={isExpanded ? "Collapse" : "Expand"}
-            >
-              {isExpanded
-                ? collapseIcon || defaultCollapseIcon
-                : expandIcon || defaultExpandIcon}
-            </button>
-          ) : (
-            <div className={config.expandIcon} /> // Spacer
+          {/* Connecting lines */}
+          {showLines && level > 0 && (
+            <div className="glass-absolute glass-left-0 glass-top-0 glass-h-full glass-flex glass-items-center">
+              <div
+                className="glass-border-l glass-border-glass-border/20 glass-h-full"
+                style={{
+                  left: `${(level - 1) * indentation + indentation / 2}px`,
+                }}
+              />
+              <div
+                className="glass-border-t glass-border-glass-border/20 glass-w-2"
+                style={{
+                  left: `${(level - 1) * indentation + indentation / 2}px`,
+                }}
+              />
+            </div>
           )}
-        </div>
 
-        {/* Checkbox */}
-        {showCheckboxes && (
-          <input
-            type="checkbox"
-            checked={isChecked}
-            onChange={handleCheck}
-            disabled={node.disabled}
-            className={cn(
-              "flex-shrink-0 glass-mr-2 glass-radius-md",
-              config.checkbox
-            )}
-            onClick={(e) => e.stopPropagation()}
-          />
-        )}
-
-        {/* Icon */}
-        {showIcons && node.icon && (
-          <div className={cn("flex-shrink-0 glass-mr-2", config.icon)}>
-            {node.icon}
-          </div>
-        )}
-
-        {/* Label */}
-        <ContrastGuard>
-          <span className="glass-flex-1 glass-truncate">{node.label}</span>
-        </ContrastGuard>
-
-        {/* Drag indicator */}
-        {isDragOver && (
+          {/* Expand/collapse button */}
           <div
             className={cn(
-              "absolute left-0 right-0 h-0.5 bg-primary pointer-events-none",
-              isDragOver === "before" && "top-0",
-              isDragOver === "after" && "bottom-0",
-              isDragOver === "inside" &&
-                "top-1/2 transform -translate-y-1/2 h-full bg-primary/10"
+              "flex items-center justify-center flex-shrink-0 glass-mr-1",
+              config.expandIcon
             )}
-          />
-        )}
+          >
+            {hasChildren ? (
+              <button
+                onClick={handleToggle}
+                className="glass-p-1 glass-radius-md hover:glass-surface-overlay glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                aria-label={isExpanded ? "Collapse" : "Expand"}
+              >
+                {isExpanded
+                  ? collapseIcon || defaultCollapseIcon
+                  : expandIcon || defaultExpandIcon}
+              </button>
+            ) : (
+              <div className={config.expandIcon} /> // Spacer
+            )}
+          </div>
 
-        {/* Children */}
+          {/* Checkbox */}
+          {showCheckboxes && (
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheck}
+              disabled={node.disabled}
+              className={cn(
+                "flex-shrink-0 glass-mr-2 glass-radius-md",
+                config.checkbox
+              )}
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
+
+          {/* Icon */}
+          {showIcons && node.icon && (
+            <div className={cn("flex-shrink-0 glass-mr-2", config.icon)}>
+              {node.icon}
+            </div>
+          )}
+
+          {/* Label */}
+          <ContrastGuard>
+            <span className="glass-flex-1 glass-truncate">{node.label}</span>
+          </ContrastGuard>
+
+          {/* Drag indicator */}
+          {isDragOver && (
+            <div
+              className={cn(
+                "absolute left-0 right-0 h-0.5 bg-primary pointer-events-none",
+                isDragOver === "before" && "top-0",
+                isDragOver === "after" && "bottom-0",
+                isDragOver === "inside" &&
+                  "top-1/2 transform -translate-y-1/2 h-full bg-primary/10"
+              )}
+            />
+          )}
+        </OptimizedGlass>
+
         {hasChildren && isExpanded && (
           <Motion
             preset={
@@ -499,7 +500,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
             ))}
           </Motion>
         )}
-      </OptimizedGlass>
+      </div>
     </Motion>
   );
 };

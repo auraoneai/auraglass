@@ -416,7 +416,7 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
             )}
 
             {/* Big Play Button */}
-            {!isPlaying && !isLoading && !error && (
+            {!controls && !isPlaying && !isLoading && !error && (
               <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
                 <GlassButton
                   variant="secondary"
@@ -478,43 +478,45 @@ export const GlassVideoPlayer: React.FC<GlassVideoPlayerProps> = ({
                 </div>
 
                 {/* Center Controls */}
-                <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
-                  <div className="glass-flex glass-items-center glass-gap-3 sm:glass-gap-4 glass-transition-opacity sm:glass-opacity-0 sm:glass-group-glass-hover-opacity-100">
-                    <GlassButton
-                      variant="secondary"
-                      size="lg"
-                      onClick={() => handleSkip(-10)}
-                      className="glass-p-3"
-                      aria-label="Rewind 10 seconds"
-                    >
-                      <SkipBack className="glass-w-6 glass-h-6" />
-                    </GlassButton>
+                {isPlaying && (
+                  <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
+                    <div className="glass-flex glass-items-center glass-gap-3 sm:glass-gap-4 glass-transition-opacity sm:glass-opacity-0 sm:glass-group-glass-hover-opacity-100">
+                      <GlassButton
+                        variant="secondary"
+                        size="lg"
+                        onClick={() => handleSkip(-10)}
+                        className="glass-p-3"
+                        aria-label="Rewind 10 seconds"
+                      >
+                        <SkipBack className="glass-w-6 glass-h-6" />
+                      </GlassButton>
 
-                    <GlassButton
-                      variant="secondary"
-                      size="lg"
-                      onClick={handlePlayPause}
-                      className="glass-p-4"
-                      aria-label={isPlaying ? "Pause video" : "Play video"}
-                    >
-                      {isPlaying ? (
-                        <Pause className="glass-w-8 glass-h-8" />
-                      ) : (
-                        <Play className="glass-w-8 glass-h-8" />
-                      )}
-                    </GlassButton>
+                      <GlassButton
+                        variant="secondary"
+                        size="lg"
+                        onClick={handlePlayPause}
+                        className="glass-p-4"
+                        aria-label={isPlaying ? "Pause video" : "Play video"}
+                      >
+                        {isPlaying ? (
+                          <Pause className="glass-w-8 glass-h-8" />
+                        ) : (
+                          <Play className="glass-w-8 glass-h-8" />
+                        )}
+                      </GlassButton>
 
-                    <GlassButton
-                      variant="secondary"
-                      size="lg"
-                      onClick={() => handleSkip(10)}
-                      className="glass-p-3"
-                      aria-label="Forward 10 seconds"
-                    >
-                      <SkipForward className="glass-w-6 glass-h-6" />
-                    </GlassButton>
+                      <GlassButton
+                        variant="secondary"
+                        size="lg"
+                        onClick={() => handleSkip(10)}
+                        className="glass-p-3"
+                        aria-label="Forward 10 seconds"
+                      >
+                        <SkipForward className="glass-w-6 glass-h-6" />
+                      </GlassButton>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Bottom Controls */}
                 <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-4">

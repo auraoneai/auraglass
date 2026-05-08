@@ -125,7 +125,7 @@ const styles: Record<string, React.CSSProperties> = {
     gap: 10,
   },
   badge: { width: 'fit-content', borderRadius: 6, padding: '5px 9px', background: 'rgba(14,165,233,0.14)', color: '#075985', fontWeight: 800, fontSize: 12 },
-  cardTitle: { margin: 0, fontSize: 21, lineHeight: 1.2 },
+  cardTitle: { margin: 0, fontSize: 21, lineHeight: 1.2, color: '#0f172a' },
   cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
   pathList: { display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 4 },
   code: { borderRadius: 6, padding: '5px 7px', background: 'rgba(15,23,42,0.06)', color: '#0f172a', fontSize: 12, overflowWrap: 'anywhere' },

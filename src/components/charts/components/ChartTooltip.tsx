@@ -2,10 +2,7 @@
 // Typography tokens available via typography.css (imported in index.css)
 import { cn } from "../../../lib/utilsComprehensive";
 import React from "react";
-import {
-  ContrastGuard,
-  TextWithContrast,
-} from "@/components/accessibility/ContrastGuard";
+import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../../tokens/designConstants";
 
 export interface TooltipData {
@@ -54,7 +51,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       tooltipStyle === "frosted"
         ? "var(--glass-text-secondary-dark)"
         : tooltipStyle === "minimal"
-          ? "var(--glass-text-primary)"
+          ? "rgba(255, 255, 255, 0.96)"
           : "color-mix(in srgb, var(--glass-white) var(--glass-opacity-90), transparent)",
     // Use createGlassStyle() instead,
     border:
@@ -73,6 +70,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   };
 
   const headerMarginStyle: React.CSSProperties = { marginBottom: "4px" };
+  const tooltipTextColor = tooltipStyle === "frosted" ? "#ffffff" : "#000000";
 
   return (
     <ContrastGuard
@@ -80,21 +78,19 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       level="AA"
       data-glass-component
       style={{ ...(style ?? {}) }}
+      textColor={tooltipTextColor}
+      fallbackColor={tooltipTextColor}
       className={className}
       data-testid={dataTestId || "charttooltip"}
     >
-      <TextWithContrast
-        as="div"
-        className="glass-font-semibold"
-        style={{ ...headerMarginStyle }}
-      >
+      <div className="glass-font-semibold" style={{ ...headerMarginStyle }}>
         {tooltipData.value.dataset || "Dataset"}
-      </TextWithContrast>
+      </div>
 
-      <TextWithContrast as="div">
+      <div>
         <span style={{ color: tooltipData.value.color || color }}>●</span>{" "}
         {tooltipData.value.label || "Value"}: {tooltipData.value.value || "N/A"}
-      </TextWithContrast>
+      </div>
     </ContrastGuard>
   );
 };

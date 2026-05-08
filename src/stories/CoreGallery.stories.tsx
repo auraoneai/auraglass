@@ -38,7 +38,7 @@ const styles: Record<string, React.CSSProperties> = {
   copy: { margin: 0, maxWidth: 800, color: '#334155', fontSize: 16, lineHeight: 1.55 },
   grid: { maxWidth: 1120, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 },
   card: { minHeight: 166, padding: 20, borderRadius: 8, border: '1px solid rgba(15,23,42,0.12)', background: 'rgba(255,255,255,0.72)', boxShadow: '0 16px 42px rgba(15,23,42,0.10)' },
-  cardTitle: { margin: '0 0 8px', fontSize: 20 },
+  cardTitle: { margin: '0 0 8px', fontSize: 20, color: '#0f172a' },
   cardCopy: { margin: 0, color: '#475569', lineHeight: 1.5 },
 };
 

@@ -76,9 +76,9 @@ export const Variants: Story = {
       }}
     >
       {['subtle', 'nebula', 'aurora', 'particles'].map((type) => (
-        <div key={type} className="glass-relative glass-min-h-72 glass-overflow-hidden glass-rounded-2xl glass-bg-slate-950">
+        <div key={type} className="glass-relative glass-min-h-80 glass-overflow-hidden glass-rounded-2xl glass-bg-slate-950">
           <DynamicAtmosphere {...args} type={type as any} fullSize position="absolute" intensity={0.45} speed={0.2} />
-          <div className="glass-relative glass-z-10 glass-flex glass-h-full glass-items-end glass-p-5">
+          <div className="glass-relative glass-z-10 glass-flex glass-min-h-80 glass-items-end glass-p-5">
             <div className="glass-rounded-xl glass-bg-black/35 glass-p-4 glass-text-white glass-backdrop-blur-md">
               <h3 className="glass-text-base glass-font-semibold">{type}</h3>
               <p className="glass-mt-2 glass-text-sm glass-text-white/75">Bounded atmosphere preview.</p>

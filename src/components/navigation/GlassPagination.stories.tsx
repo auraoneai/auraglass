@@ -38,19 +38,37 @@ export default meta;
 type Story = StoryObj<typeof GlassPagination>;
 
 const PaginationFrame = (props: React.ComponentProps<typeof GlassPagination>) => (
-  <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box' }}>
+  <div
+    data-bg="dark"
+    style={{
+      minHeight: '100vh',
+      display: 'grid',
+      placeItems: 'center',
+      padding: 16,
+      boxSizing: 'border-box',
+      background:
+        'linear-gradient(135deg, rgba(15,23,42,0.96) 0%, rgba(30,41,59,0.92) 48%, rgba(8,47,73,0.9) 100%)',
+      color: '#f8fafc',
+    }}
+  >
     <section
       className="glass-w-full glass-max-w-xl glass-rounded-2xl glass-p-5 glass-shadow-xl"
-      style={{ width: '100%', maxWidth: 560, background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}
+      style={{
+        width: '100%',
+        maxWidth: 560,
+        background: 'rgba(15,23,42,0.78)',
+        border: '1px solid rgba(226,232,240,0.18)',
+        color: '#f8fafc',
+      }}
     >
     <div className="glass-mb-4 glass-flex glass-items-center glass-justify-between glass-gap-4">
       <div>
-        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-secondary">
+        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide" style={{ color: '#cbd5e1' }}>
           Results
         </p>
-        <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Renewal queue</h3>
+        <h3 className="glass-text-lg glass-font-semibold" style={{ color: '#f8fafc' }}>Renewal queue</h3>
       </div>
-      <span className="glass-rounded-full glass-bg-blue-100 glass-px-3 glass-py-1 glass-text-xs glass-font-medium glass-text-blue-800" style={{ color: '#1e40af' }}>
+      <span className="glass-rounded-full glass-px-3 glass-py-1 glass-text-xs glass-font-medium" style={{ background: 'rgba(191,219,254,0.18)', color: '#bfdbfe' }}>
         Page {props.currentPage}
       </span>
     </div>

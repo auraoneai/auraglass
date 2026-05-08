@@ -411,7 +411,10 @@ const ComponentRenderer: React.FC<{
 
       {/* Selection Overlay */}
       {isSelected && (
-        <div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-border-2 glass-radius glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard">
+        <div
+          className="glass-absolute glass-inset-0 glass-pointer-events-none glass-border-2 glass-radius glass-surface-overlay glass-focus glass-touch-target glass-contrast-guard"
+          data-glass-overlay="true"
+        >
           <div className="glass-absolute glass-top-2 glass-left-0 glass-surface-overlay glass-text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t glass-font-medium glass-contrast-guard">
             {component.type}
           </div>
@@ -420,7 +423,10 @@ const ComponentRenderer: React.FC<{
 
       {/* Hover Overlay */}
       {!isSelected && (
-        <div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-border-2 glass-border-blue glass-radius glass-surface-subtle glass-bg-opacity-5 glass-contrast-guard">
+        <div
+          className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity glass-border-2 glass-border-blue glass-radius glass-surface-subtle glass-bg-opacity-5 glass-contrast-guard"
+          data-glass-overlay="true"
+        >
           <div className="glass-absolute glass--top-6 glass-left-0 glass-surface-subtle glass-text-primary glass-px-2 glass-py-1 glass-text-xs glass-radius-t glass-font-medium glass-contrast-guard">
             {component.type}
           </div>

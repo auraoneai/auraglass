@@ -49,10 +49,10 @@ export const Default: Story = {
       style={{ width: '100%', maxWidth: 760, background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}
     >
       <div className="glass-min-w-0">
-        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-secondary">
+        <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide" style={{ color: '#475569' }}>
           Account
         </p>
-        <h3 className="glass-text-lg glass-font-semibold glass-text-primary">Workspace header</h3>
+        <h3 className="glass-text-lg glass-font-semibold" style={{ color: '#0f172a' }}>Workspace header</h3>
       </div>
       <HeaderUserMenu {...args} />
     </header>
@@ -70,7 +70,7 @@ export const Variants: Story = {
         { name: 'Iris Stone', status: 'busy' as const },
       ].map((variantUser) => (
         <header key={variantUser.name} className="glass-flex glass-items-center glass-justify-between glass-rounded-2xl glass-p-4 glass-shadow-lg" style={{ background: 'rgba(255,255,255,0.86)', color: '#0f172a' }}>
-          <span className="glass-text-sm glass-font-medium glass-text-primary">{variantUser.name}</span>
+          <span className="glass-text-sm glass-font-medium" style={{ color: '#0f172a' }}>{variantUser.name}</span>
           <HeaderUserMenu {...args} user={{ ...user, ...variantUser }} />
         </header>
       ))}

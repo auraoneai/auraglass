@@ -29,7 +29,7 @@ type Story = StoryObj<typeof ScrollButtons>;
 export const Default: Story = {
   render: (args) => (
     <div className="glass-relative glass-w-[min(640px,calc(100vw-48px))] glass-overflow-hidden glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
-      <div className="glass-flex glass-gap-3 glass-overflow-hidden glass-px-9">
+      <div className="glass-flex glass-gap-3 glass-overflow-x-auto glass-px-9">
         {["Overview", "Audience", "Delivery", "Creative", "Budget", "Review"].map((item) => (
           <span key={item} className="glass-whitespace-nowrap glass-rounded-full glass-border glass-border-white/20 glass-bg-white/25 glass-px-4 glass-py-2 glass-text-sm glass-text-primary">
             {item}
@@ -45,7 +45,7 @@ export const RightOnly: Story = {
   args: { showLeft: false, showRight: true },
   render: (args) => (
     <div className="glass-relative glass-w-[min(520px,calc(100vw-48px))] glass-overflow-hidden glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
-      <div className="glass-flex glass-gap-3 glass-overflow-hidden glass-pr-9">
+      <div className="glass-flex glass-gap-3 glass-overflow-x-auto glass-pr-9">
         {["Roadmap", "Launches", "Incidents", "Approvals"].map((item) => (
           <span key={item} className="glass-whitespace-nowrap glass-rounded-full glass-border glass-border-white/20 glass-bg-white/25 glass-px-4 glass-py-2 glass-text-sm glass-text-primary">
             {item}

@@ -72,9 +72,37 @@ const meta = {
   title: 'AI + Intelligence/Glass Live Filter',
   component: GlassLiveFilter,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   tags: ['autodocs'],
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          boxSizing: 'border-box',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 'clamp(12px, 2.5vw, 28px)',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            width: 'min(1180px, 100%)',
+            maxHeight: 'calc(100vh - 48px)',
+            overflow: 'auto',
+            borderRadius: 18,
+            boxSizing: 'border-box',
+          }}
+        >
+          <Story />
+        </div>
+      </div>
+    ),
+  ],
   argTypes: {
     canvasWidth: {
       control: { type: 'range', min: 400, max: 1200, step: 50 },

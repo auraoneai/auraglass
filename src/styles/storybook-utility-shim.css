@@ -125,6 +125,12 @@
 .w-full {
   width: 100%;
 }
+.h-full {
+  height: 100%;
+}
+.box-border {
+  box-sizing: border-box;
+}
 .max-w-md {
   max-width: 28rem;
 }
@@ -396,6 +402,36 @@
 .text-white {
   color: rgba(255, 255, 255, 0.95);
 }
+.glass-text-white {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+.glass-text-white\/90 {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+.glass-text-white\/85 {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.glass-text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+.glass-text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+.hover\:glass-text-white:hover {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+.glass-bg-slate-950\/70 {
+  background-color: rgba(15, 23, 42, 0.7);
+}
+.glass-bg-slate-950\/72 {
+  background-color: rgba(15, 23, 42, 0.72);
+}
+.glass-bg-slate-950\/76 {
+  background-color: rgba(15, 23, 42, 0.76);
+}
+.glass-placeholder-white\/70::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
 .text-red-600 {
   color: #dc2626;
 }
@@ -405,13 +441,18 @@ button.rounded-lg,
 button.rounded-xl,
 button[id^="glass-button-"]:not(.optimized-glass-surface),
 button[class*="bg-white/"],
-button[class*="glass-surface-subtle"],
+button[class*="glass-surface-"],
+button[class*="glass-border-"],
+button[class*="glass-text-"],
+button[class*="glass-radius"],
+[role="button"][class*="glass-surface-"],
+[role="button"][class*="glass-border-"],
 select[class*="glass-"],
 input[class*="glass-"],
 textarea[class*="glass-"] {
-  background-color: rgba(15, 23, 42, 0.72);
-  color: rgba(255, 255, 255, 0.95);
-  border-color: rgba(255, 255, 255, 0.24);
+  background-color: rgba(15, 23, 42, 0.72) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
 }
 
 select[class*="glass-"] option {

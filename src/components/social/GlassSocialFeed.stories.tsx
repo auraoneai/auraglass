@@ -129,8 +129,19 @@ const meta = {
   title: 'Workflows/Glass Social Feed',
   component: GlassSocialFeed,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-6"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     sortBy: {
@@ -154,6 +165,7 @@ export const Default: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: true,
@@ -165,6 +177,7 @@ export const CompactMode: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     compactMode: true,
     showInteractions: true,
     showTimestamps: true,
@@ -177,6 +190,7 @@ export const RealTimeUpdates: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     realTimeUpdates: true,
     showInteractions: true,
     showTimestamps: true,
@@ -189,6 +203,7 @@ export const SortByLikes: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     sortBy: 'likes',
     showInteractions: true,
     showTimestamps: true,
@@ -201,6 +216,7 @@ export const SortByEngagement: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     sortBy: 'engagement',
     showInteractions: true,
     showTimestamps: true,
@@ -225,6 +241,7 @@ export const NoMedia: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     showMedia: false,
     showInteractions: true,
     showTimestamps: true,
@@ -236,6 +253,7 @@ export const NoInteractions: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: false,
     showTimestamps: true,
     showMedia: true,
@@ -247,6 +265,7 @@ export const TextOnly: Story = {
   args: {
     posts: mockPosts.map(post => ({ ...post, media: undefined })),
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: false,
@@ -258,6 +277,7 @@ export const VerifiedUsers: Story = {
   args: {
     posts: mockPosts.filter(post => post.author.verified),
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: true,
@@ -271,6 +291,7 @@ export const HighEngagement: Story = {
       (post.likes + post.comments + post.shares) > 200
     ),
     currentUserId: 'current',
+    maxHeight: 720,
     sortBy: 'engagement',
     showInteractions: true,
     showTimestamps: true,
@@ -285,6 +306,7 @@ export const RecentPosts: Story = {
       Date.now() - post.timestamp.getTime() < 4 * 60 * 60 * 1000
     ),
     currentUserId: 'current',
+    maxHeight: 720,
     sortBy: 'timestamp',
     showInteractions: true,
     showTimestamps: true,
@@ -310,6 +332,7 @@ export const MinimalView: Story = {
   args: {
     posts: mockPosts,
     currentUserId: 'current',
+    maxHeight: 720,
     compactMode: true,
     showInteractions: false,
     showTimestamps: false,
@@ -322,6 +345,7 @@ export const EmptyFeed: Story = {
   args: {
     posts: [],
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: true,
@@ -333,6 +357,7 @@ export const SinglePost: Story = {
   args: {
     posts: [mockPosts[0]],
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: true,
@@ -355,6 +380,7 @@ export const LongContent: Story = {
       }
     ],
     currentUserId: 'current',
+    maxHeight: 720,
     showInteractions: true,
     showTimestamps: true,
     showMedia: true,

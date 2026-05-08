@@ -77,6 +77,7 @@ export const Default: Story = {
   ),
   args: {
     children: null,
+    size: 'md',
   },
 };
 

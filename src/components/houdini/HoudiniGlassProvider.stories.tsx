@@ -93,6 +93,10 @@ const HoudiniStoryFrame = ({
         color: #0f172a !important;
       }
 
+      [data-storybook-preview-mode="liquid"] .houdini-story-frame .glass-foundation-complete .glass-font-medium {
+        color: #0f172a !important;
+      }
+
       [data-storybook-preview-mode="liquid"] .houdini-story-frame button {
         background: rgba(255, 255, 255, 0.66) !important;
         background-color: rgba(255, 255, 255, 0.66) !important;

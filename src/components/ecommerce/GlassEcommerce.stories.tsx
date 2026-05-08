@@ -359,7 +359,7 @@ const EcommerceStoryWrapper: React.FC<{
           }
 
           .ecommerce-story-scope button.glass-text-secondary {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.88) !important;
             color: #0f172a !important;
           }
 

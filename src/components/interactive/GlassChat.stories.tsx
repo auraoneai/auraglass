@@ -85,6 +85,7 @@ export const Default: Story = {
       },
     ],
     title: 'GlassChat',
+    enableReactions: false,
   },
 };
 

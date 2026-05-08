@@ -12,24 +12,55 @@ export interface LiquidGlassSegment {
   disabled?: boolean;
 }
 
-export interface LiquidGlassSegmentedControlProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface LiquidGlassSegmentedControlProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   segments: LiquidGlassSegment[];
   value?: string;
   onValueChange?: (value: string) => void;
   density?: "compact" | "comfortable" | "spacious";
 }
 
-export const LiquidGlassSegmentedControl = forwardRef<HTMLDivElement, LiquidGlassSegmentedControlProps>(
-  ({ segments, value, onValueChange, density = "comfortable", className, ...props }, ref) => (
+export const LiquidGlassSegmentedControl = forwardRef<
+  HTMLDivElement,
+  LiquidGlassSegmentedControlProps
+>(
+  (
+    {
+      segments,
+      value,
+      onValueChange,
+      density = "comfortable",
+      className,
+      ...props
+    },
+    ref
+  ) => (
     <LiquidGlassMaterial
       ref={ref}
       material="liquid"
       radius="full"
-      className={cn("liquid-glass-segmented-control glass-inline-flex", className)}
+      className={cn(
+        "liquid-glass-segmented-control glass-inline-flex",
+        className
+      )}
       data-density={density}
       {...props}
     >
-      <LiquidGlassEffectGroup className="glass-flex glass-gap-1 glass-p-1" role="group">
+      <style>{`
+        .liquid-glass-segmented-control button {
+          background-color: rgba(15, 23, 42, 0.72) !important;
+          border: 1px solid rgba(255, 255, 255, 0.24) !important;
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+
+        .liquid-glass-segmented-control button span {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+      `}</style>
+      <LiquidGlassEffectGroup
+        className="glass-flex glass-gap-1 glass-p-1"
+        role="group"
+      >
         {segments.map((segment) => {
           const selected = segment.id === value;
           return (

@@ -96,6 +96,17 @@ export const LiquidGlassToolbar = forwardRef<
         interactive={false}
         className="glass-w-full glass-max-w-full"
       >
+        <style>{`
+          .liquid-glass-toolbar button {
+            background-color: rgba(15, 23, 42, 0.72) !important;
+            border: 1px solid rgba(255, 255, 255, 0.24) !important;
+            color: rgba(255, 255, 255, 0.95) !important;
+          }
+
+          .liquid-glass-toolbar button span {
+            color: rgba(255, 255, 255, 0.95) !important;
+          }
+        `}</style>
         <div className="glass-flex glass-w-full glass-max-w-full glass-flex-wrap glass-items-center glass-justify-between glass-gap-3">
           <div className="glass-flex glass-min-w-0 glass-flex-1 glass-items-center glass-gap-2 sm:glass-flex-none">
             {left}

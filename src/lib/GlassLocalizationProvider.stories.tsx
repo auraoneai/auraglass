@@ -65,6 +65,15 @@ const LocalizationStoryFrame = ({ children }: { children: React.ReactNode }) => 
         color: #0f172a;
       }
 
+      .glass-on-light button,
+      .glass-on-light button span,
+      .glass-on-light [data-liquid-glass-button="true"],
+      .glass-on-light [data-liquid-glass-button="true"] span,
+      .glass-on-light [data-glass-component="button"],
+      .glass-on-light [data-glass-component="button"] span {
+        color: #f8fafc !important;
+      }
+
       [data-storybook-preview-mode="dark"] .glass-on-light {
         background-color: rgba(15, 23, 42, 0.72) !important;
         background-image:
@@ -93,6 +102,15 @@ const LocalizationStoryFrame = ({ children }: { children: React.ReactNode }) => 
       [data-storybook-preview-mode="dark"] .glass-on-light label,
       [data-storybook-preview-mode="dark"] .glass-on-light span {
         color: #f8fafc;
+      }
+
+      [data-storybook-preview-mode="dark"] .glass-on-light button,
+      [data-storybook-preview-mode="dark"] .glass-on-light button span,
+      [data-storybook-preview-mode="dark"] .glass-on-light [data-liquid-glass-button="true"],
+      [data-storybook-preview-mode="dark"] .glass-on-light [data-liquid-glass-button="true"] span,
+      [data-storybook-preview-mode="dark"] .glass-on-light [data-glass-component="button"],
+      [data-storybook-preview-mode="dark"] .glass-on-light [data-glass-component="button"] span {
+        color: #f8fafc !important;
       }
     `}</style>
   </div>

@@ -118,7 +118,7 @@ export const GlassOrbitalMenu = forwardRef<
     const handleCenterClick = useCallback(() => {
       onOpenChange?.(!isOpen);
       if (soundEnabled) {
-        play(isOpen ? "close" : "open");
+        play("tap");
       }
     }, [isOpen, onOpenChange, soundEnabled, play]);
 
@@ -130,7 +130,7 @@ export const GlassOrbitalMenu = forwardRef<
         item.onClick?.();
 
         if (soundEnabled) {
-          play("click");
+          play("tap");
         }
 
         setTimeout(() => setActiveItem(null), 200);
@@ -280,10 +280,14 @@ export const GlassOrbitalMenu = forwardRef<
                       className="glass-absolute glass-pointer-events-auto"
                       custom={index}
                       variants={getItemVariants()}
-                      initial="hidden"
-                      animate="visible"
+                      initial={prefersReducedMotion ? false : "hidden"}
+                      animate={prefersReducedMotion ? false : "visible"}
                       exit="hidden"
-                      whileHover={!item.disabled ? "hover" : undefined}
+                      whileHover={
+                        !prefersReducedMotion && !item.disabled
+                          ? "hover"
+                          : undefined
+                      }
                       style={{
                         x: position.x,
                         y: position.y,

@@ -22,9 +22,10 @@ const categoryCount = (category: string) =>
   components.filter((component) => component.category === category).length;
 
 const shellStyle = {
-  minHeight: "100vh",
+  height: "100vh",
   padding: "32px",
   boxSizing: "border-box",
+  overflowY: "auto",
   color: "#102033",
   background:
     "linear-gradient(135deg, #f8fafc 0%, #eaf3ff 34%, #f4fbf7 100%)",

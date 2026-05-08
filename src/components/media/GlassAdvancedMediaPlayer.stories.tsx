@@ -409,8 +409,18 @@ function Stage({
 
             .ag-media-stage [data-testid="glassadvancedvideoplayer"] > .glass-relative > .glass-flex-1 {
               flex: 0 0 auto;
-              min-height: 220px;
-              aspect-ratio: 16 / 9;
+              min-height: 0;
+              aspect-ratio: auto;
+              overflow: visible !important;
+            }
+
+            .ag-media-stage [data-testid="glassadvancedvideoplayer"] > .glass-relative > .glass-flex-1 > img,
+            .ag-media-stage [data-testid="glassadvancedvideoplayer"] > .glass-relative > .glass-flex-1 > video {
+              position: relative !important;
+              height: auto !important;
+              min-height: 220px !important;
+              aspect-ratio: 16 / 9 !important;
+              flex: 0 0 auto;
             }
 
             .ag-media-stage [data-testid="glassadvancedvideoplayer"] .ag-video-controls {

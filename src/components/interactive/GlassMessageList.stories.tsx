@@ -69,7 +69,7 @@ const meta: Meta<typeof GlassMessageList> = {
           overflow: 'hidden',
           padding: 16,
           placeItems: 'center',
-          width: 'min(100%, calc(100vw - 64px))',
+          width: 'min(100%, 440px)',
         }}
       >
         <Story />

@@ -336,6 +336,7 @@ export const GlassSuperpositionalMenu = forwardRef<
     const EntanglementLines = () => (
       <svg
         className={cn("glass-absolute glass-inset-0 glass-pointer-events-none")}
+        data-glass-overlay="true"
         style={{ zIndex: 10 }}
       >
         {currentStates
@@ -533,7 +534,15 @@ export const GlassSuperpositionalMenu = forwardRef<
         data-glass-component
         ref={ref}
         variant="frosted"
-        className={cn("glass-relative glass-p-6 glass-space-y-4", className)}
+        className={cn(
+          "glass-relative glass-p-6 glass-space-y-4 glass-text-white",
+          className
+        )}
+        style={{
+          color: "rgba(255, 255, 255, 0.95)",
+          backgroundColor:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+        }}
         role="region"
         aria-label="Quantum superposition menu"
         {...props}
@@ -571,6 +580,12 @@ export const GlassSuperpositionalMenu = forwardRef<
                     createGlassStyle({ variant: "default" }),
                     "glass-text-primary hover:glass-text-white glass-border glass-border-primary hover:glass-border-white"
                   )}
+                  style={{
+                    color: "rgba(255, 255, 255, 0.95)",
+                    backgroundColor:
+                      '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                    borderColor: "rgba(255, 255, 255, 0.28)",
+                  }}
                 >
                   🔬 Measure
                 </button>
@@ -588,6 +603,12 @@ export const GlassSuperpositionalMenu = forwardRef<
                     createGlassStyle({ variant: "default" }),
                     "glass-text-accent hover:glass-text-accent-light glass-border glass-border-accent hover:glass-border-accent-light"
                   )}
+                  style={{
+                    color: "rgba(255, 255, 255, 0.95)",
+                    backgroundColor:
+                      '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                    borderColor: "rgba(236, 72, 153, 0.42)",
+                  }}
                 >
                   ⚛ Entangle
                 </button>
@@ -673,6 +694,12 @@ export const GlassSuperpositionalMenu = forwardRef<
               createGlassStyle({ variant: "default" }),
               "glass-text-info hover:glass-text-info-light glass-border glass-border-info hover:glass-border-info-light"
             )}
+            style={{
+              color: "rgba(255, 255, 255, 0.95)",
+              backgroundColor:
+                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              borderColor: "rgba(59, 130, 246, 0.42)",
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={respectMotionPreference({ delay: 0.5 })}

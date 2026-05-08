@@ -25,6 +25,10 @@ const broadLimit =
     : 0;
 const mobileAll = process.argv.includes("--mobile-all");
 const failOnFindings = process.argv.includes("--fail-on-findings");
+const filterArgIndex = process.argv.indexOf("--filter");
+const storyFilter =
+  process.env.STORYBOOK_QA_FILTER ||
+  (filterArgIndex >= 0 ? process.argv[filterArgIndex + 1] || "" : "");
 
 const reportDir = path.join(repoRoot, "reports");
 const jsonReportPath = path.join(reportDir, "storybook-exhaustive-qa.json");
@@ -76,6 +80,10 @@ const ignoredConsolePatterns = [
   /getStoryIndexFromServer/i,
   /storybook_internal_preview_runtime/i,
   /Failed to load resource: the server responded with a status of 404.*favicon/i,
+  /Failed to load resource: net::ERR_NETWORK_CHANGED/i,
+  /Failed to load resource: net::ERR_NAME_NOT_RESOLVED/i,
+  /Failed to load resource: net::ERR_CONNECTION_RESET/i,
+  /Failed to load resource: net::ERR_CONNECTION_CLOSED/i,
 ];
 
 const flagWeights = {
@@ -187,6 +195,11 @@ const storyUrl = (entry, check) => {
 
 const isIgnoredConsole = (text) =>
   ignoredConsolePatterns.some((pattern) => pattern.test(text));
+
+const isTransientNetworkFailure = (failure) =>
+  /net::ERR_(NETWORK_CHANGED|NAME_NOT_RESOLVED|CONNECTION_RESET|CONNECTION_CLOSED)/i.test(
+    failure?.error || failure?.message || ""
+  );
 
 const scoreFlags = (findings) =>
   findings.reduce((total, finding) => {
@@ -943,6 +956,7 @@ const runCheck = async (context, entry, check) => {
     const noisyResourceFailures = resourceFailures.filter((failure) => {
       if (failure.type === "font") return true;
       if (/favicon|fonts\.gstatic|fonts\.googleapis/i.test(failure.url || "")) return true;
+      if (isTransientNetworkFailure(failure)) return true;
       return false;
     });
     const severeResourceFailures = resourceFailures.filter(
@@ -1308,7 +1322,7 @@ const writeReports = (report) => {
     `STORYBOOK_URL=${report.storybookUrl} STORYBOOK_QA_CONCURRENCY=${report.config.concurrency} node scripts/storybook-exhaustive-qa.js`,
     "```",
     "",
-    "Useful options: `--broad-limit N`, `--limit N`, `--mobile-all`, `--fail-on-findings`.",
+    "Useful options: `--filter text`, `--broad-limit N`, `--limit N`, `--mobile-all`, `--fail-on-findings`.",
     "",
   ].join("\n");
 
@@ -1321,6 +1335,18 @@ const writeReports = (report) => {
     .filter((entry) => entry.type === "story" && entry.id)
     .sort((a, b) => String(a.id).localeCompare(String(b.id)));
 
+  if (storyFilter) {
+    const filters = storyFilter
+      .split(",")
+      .map((value) => value.trim().toLowerCase())
+      .filter(Boolean);
+    entries = entries.filter((entry) => {
+      const haystack = `${entry.id || ""} ${entry.title || ""} ${
+        entry.name || ""
+      } ${entry.importPath || ""}`.toLowerCase();
+      return filters.some((filter) => haystack.includes(filter));
+    });
+  }
   if (broadLimit > 0) entries = selectBroadEntries(entries, broadLimit);
   if (limit > 0) entries = entries.slice(0, limit);
 

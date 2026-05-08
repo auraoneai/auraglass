@@ -469,7 +469,11 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
         ref={ref}
         variant="frosted"
         className={`${className}`}
-        style={{ maxHeight }}
+        style={{
+          maxHeight,
+          overflowY: maxHeight ? "auto" : undefined,
+          overflowX: "hidden",
+        }}
         {...props}
       >
         <div className="glass-p-4 glass-space-y-4">

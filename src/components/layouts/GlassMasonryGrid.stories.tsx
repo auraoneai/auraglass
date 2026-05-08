@@ -6,39 +6,43 @@ import { cn } from '../../lib/utils';
 const generateMockItems = (count: number): MasonryItem[] => {
   const categories = ['photos', 'quotes', 'articles', 'videos', 'recipes'];
   const colors = ['from-red-400 to-pink-600', 'from-blue-400 to-purple-600', 'from-green-400 to-teal-600', 'from-yellow-400 to-orange-600', 'from-purple-400 to-indigo-600'];
+  const descriptions: Record<string, string> = {
+    photos: 'Landscape set',
+    quotes: 'Fresh beginning',
+    articles: 'Technology notes',
+    videos: 'Video content',
+    recipes: 'Home recipe',
+  };
 
   return Array.from({ length: count }, (_, i) => {
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    const height = 150 + Math.random() * 250;
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const category = categories[i % categories.length];
+    const height = 150 + ((i * 37) % 220);
+    const color = colors[i % colors.length];
+    const priority = i % 5;
 
     return {
       id: `item-${i + 1}`,
       height,
       category,
-      priority: Math.floor(Math.random() * 5),
+      priority,
       content: (
-        <div className={`h-full w-full bg-gradient-to-br ${color} rounded-lg flex items-center justify-center text-white relative overflow-hidden`}>
+        <div className={`glass-h-full glass-w-full bg-gradient-to-br ${color} rounded-lg flex items-center justify-center text-white relative glass-overflow-auto`}>
           <div className="glass-absolute glass-inset-0 glass-surface-dark/20" />
-          <div className="glass-relative glass-z-10 glass-text-center glass-p-4">
+          <div className="glass-relative glass-z-10 glass-text-center glass-p-2 glass-text-white">
             <h4 className="glass-font-semibold glass-mb-2">{category.charAt(0).toUpperCase() + category.slice(1)} {i + 1}</h4>
             <p className="glass-text-sm glass-opacity-90">
-              {category === 'photos' && 'Beautiful landscape photography'}
-              {category === 'quotes' && '"Every moment is a fresh beginning."'}
-              {category === 'articles' && 'Interesting article about technology and innovation in modern world.'}
-              {category === 'videos' && 'Watch this amazing video content'}
-              {category === 'recipes' && 'Delicious recipe for home cooking'}
+              {descriptions[category]}
             </p>
             <div className="mt-2 glass-text-xs opacity-75">
-              Priority: {Math.floor(Math.random() * 5)} • {Math.floor(height)}px
+              Priority: {priority} • {Math.floor(height)}px
             </div>
           </div>
         </div>
       ),
       metadata: {
-        author: `User ${Math.floor(Math.random() * 100)}`,
-        likes: Math.floor(Math.random() * 1000),
-        views: Math.floor(Math.random() * 5000),
+        author: `User ${(i * 7) % 100}`,
+        likes: (i * 53) % 1000,
+        views: (i * 211) % 5000,
       }
     };
   });
@@ -52,8 +56,19 @@ const meta = {
   title: 'Surfaces/App Shells + Layout/Glass Masonry Grid',
   component: GlassMasonryGrid,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
+    previewSurface: 'app',
   },
+  decorators: [
+    (Story) => (
+      <div
+        className="glass-flex glass-h-screen glass-w-full glass-items-start glass-justify-center glass-overflow-auto glass-p-8"
+        style={{ boxSizing: 'border-box' }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
   tags: ['autodocs'],
   argTypes: {
     showControls: {

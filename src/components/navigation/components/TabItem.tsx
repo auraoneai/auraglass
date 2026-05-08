@@ -44,6 +44,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
   totalTabs = 1,
   onKeyDown,
   className,
+  style,
   ...rest
 }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -117,6 +118,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
         fontSize: "0.875rem", // body text
         fontWeight: active ? 600 : 400,
         transition: "all 0.2s ease",
+        ...style,
       }}
       onClick={onClick}
       onKeyDown={handleKeyDown}

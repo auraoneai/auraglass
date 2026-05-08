@@ -38,7 +38,7 @@ export const Variants: Story = {
   render: (args: any) => (
     <div className="glass-flex glass-flex-wrap glass-gap-4">
       <DimensionalGlass {...args}>
-        Default
+        <span style={{ color: '#0f172a', fontWeight: 700 }}>Default</span>
       </DimensionalGlass>
     </div>
   ),

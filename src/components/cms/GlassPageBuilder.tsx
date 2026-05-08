@@ -327,7 +327,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
   return (
     <div
       className={cn(
-        "h-screen flex flex-col overflow-hidden bg-gray-100",
+        "h-screen flex flex-col overflow-auto bg-gray-100",
         className
       )}
       data-testid={dataTestId}
@@ -336,7 +336,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
       <Toolbar />
 
       {/* Main Content */}
-      <div className="glass-flex-1 glass-flex glass-overflow-hidden">
+      <div className="glass-flex-1 glass-flex glass-overflow-auto">
         {/* Left Panels */}
         <div className="glass-flex">
           {/* Left Panel Tabs */}

@@ -565,7 +565,15 @@ export const GlassMasonryGrid = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        className={`p-6 ${className}`}
+        className={`glass-masonry-grid p-6 ${className}`}
+        style={{
+          width: "min(1120px, calc(100vw - 48px))",
+          maxWidth: "100%",
+          maxHeight: "min(760px, calc(100vh - 64px))",
+          overflowX: "auto",
+          overflowY: "auto",
+          boxSizing: "border-box",
+        }}
         {...props}
       >
         {/* Header */}
@@ -600,6 +608,7 @@ export const GlassMasonryGrid = forwardRef<
           style={{
             height: enableVirtualization ? "600px" : "auto",
             maxHeight: enableVirtualization ? "600px" : "none",
+            minHeight: 200,
           }}
         >
           <div
@@ -657,7 +666,11 @@ export const GlassMasonryGrid = forwardRef<
                 <OptimizedGlass
                   variant="frosted"
                   className="glass-w-full glass-h-full hover:glass-surface-subtle/10 glass-transition-all glass-duration-200"
-                  style={{ padding: masonryConfig.itemPadding }}
+                  style={{
+                    padding: masonryConfig.itemPadding,
+                    boxSizing: "border-box",
+                    overflow: "auto",
+                  }}
                 >
                   {item.content}
                 </OptimizedGlass>

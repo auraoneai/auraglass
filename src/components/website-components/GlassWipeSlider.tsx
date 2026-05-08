@@ -572,7 +572,7 @@ const GlassWipeSliderComponent = ({
 
       {/* After content (clipped layer) */}
       <div
-        className={`glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[${ANIMATION.DURATION.fast / 4}ms] glass-ease-out`}
+        className={`glass-absolute glass-inset-0 glass-transition-all glass-duration-[${ANIMATION.DURATION.fast / 4}ms] glass-ease-out`}
         style={{
           clipPath,
           ...(isVertical
@@ -686,10 +686,12 @@ const GlassWipeSliderComponent = ({
         style={{
           ...(isVertical
             ? {
+                left: "50%",
                 top: `${position}%`,
                 transform: "translateY(-50%) translateX(-50%)",
               }
             : {
+                top: "50%",
                 left: `${position}%`,
                 transform: "translateX(-50%) translateY(-50%)",
               }),

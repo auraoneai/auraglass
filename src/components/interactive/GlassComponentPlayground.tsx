@@ -247,12 +247,12 @@ export const GlassComponentPlayground: React.FC<
 
   return (
     <OptimizedGlass
-      className={`flex flex-col h-full ${className}`}
+      className={`flex flex-col h-full min-w-0 min-h-0 ${className}`}
       intent="neutral"
       elevation="level1"
     >
       {/* Header */}
-      <div className="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-white/10">
+      <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-p-4 glass-border-b glass-border-white/10">
         <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
           Component Playground
         </h2>
@@ -274,9 +274,9 @@ export const GlassComponentPlayground: React.FC<
         </div>
       </div>
 
-      <div className="glass-flex glass-flex-1 glass-overflow-hidden">
+      <div className="glass-flex glass-flex-1 glass-min-h-0 glass-min-w-0 glass-flex-col md:flex-row">
         {/* Sidebar - Component List */}
-        <div className="glass-w-64 glass-border-r glass-border-white/10 glass-p-4 glass-overflow-y-auto">
+        <div className="glass-w-full md:glass-w-64 md:glass-flex-shrink-0 max-h-56 md:max-h-none glass-border-r glass-border-white/10 glass-p-4 glass-overflow-y-auto">
           <h3 className="glass-text-sm glass-font-semibold glass-text-primary glass-mb-4">
             Components
           </h3>
@@ -309,9 +309,9 @@ export const GlassComponentPlayground: React.FC<
         </div>
 
         {/* Main Content */}
-        <div className="glass-flex-1 glass-flex glass-flex-col">
+        <div className="glass-flex-1 glass-min-w-0 glass-min-h-0 glass-flex glass-flex-col">
           {/* Tabs */}
-          <div className="glass-flex glass-border-b glass-border-white/10">
+          <div className="glass-flex glass-flex-wrap glass-border-b glass-border-white/10">
             <button
               onClick={() => setActiveTab("preview")}
               className={`glass-px-4 glass-py-3 glass-text-sm font-medium transition-colors glass-focus glass-touch-target glass-contrast-guard ${
@@ -366,10 +366,10 @@ export const GlassComponentPlayground: React.FC<
           </div>
 
           {/* Tab Content */}
-          <div className="glass-flex-1 glass-overflow-hidden">
+          <div className="glass-flex-1 glass-min-h-0 glass-overflow-auto">
             {/* Preview Tab */}
             {activeTab === "preview" && (
-              <div className="glass-h-full glass-p-6 glass-overflow-auto">
+              <div className="glass-min-h-full glass-p-6">
                 <div className="glass-max-w-4xl glass-mx-auto">
                   {currentExample && PreviewComponent ? (
                     <div className="glass-space-y-6">
@@ -404,7 +404,7 @@ export const GlassComponentPlayground: React.FC<
 
             {/* Code Tab */}
             {activeTab === "code" && showCode && (
-              <div className="glass-h-full glass-p-6 glass-overflow-auto">
+              <div className="glass-min-h-full glass-p-6">
                 <div className="glass-gap-4">
                   <div className="glass-flex glass-items-center glass-justify-between">
                     <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
@@ -431,7 +431,7 @@ export const GlassComponentPlayground: React.FC<
 
             {/* Props Tab */}
             {activeTab === "props" && showProps && (
-              <div className="glass-h-full glass-p-6 glass-overflow-y-auto">
+              <div className="glass-min-h-full glass-p-6">
                 {renderPropEditor()}
               </div>
             )}
@@ -439,10 +439,7 @@ export const GlassComponentPlayground: React.FC<
             {/* Custom Tab Content */}
             {customTabs.map((tab) =>
               activeTab === tab.id ? (
-                <div
-                  key={tab.id}
-                  className="glass-h-full glass-p-6 glass-overflow-auto"
-                >
+                <div key={tab.id} className="glass-min-h-full glass-p-6">
                   {tab.content}
                 </div>
               ) : null

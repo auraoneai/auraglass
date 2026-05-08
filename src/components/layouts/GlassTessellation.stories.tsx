@@ -243,6 +243,7 @@ export const LargePattern: Story = {
     containerHeight: 800,
     tileSize: 50,
     spacing: 2,
+    soundEnabled: false,
   },
 };
 

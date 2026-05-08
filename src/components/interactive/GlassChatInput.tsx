@@ -454,7 +454,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
           )}
 
           {/* Input area */}
-          <div className="glass-flex glass-items-end glass-gap-3">
+          <div className="glass-flex glass-flex-wrap glass-items-end glass-gap-3">
             {/* Attachment button */}
             {enableAttachments && (
               <GlassButton
@@ -464,6 +464,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                 disabled={disabled || loading}
                 aria-label="Attach file"
                 className="glass-p-2 glass-flex-shrink-0"
+                style={{ order: 2 }}
               >
                 <Paperclip className="glass-w-4 glass-h-4" aria-hidden="true" />
               </GlassButton>
@@ -483,6 +484,7 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                 }
                 aria-pressed={isRecording}
                 className="glass-p-2 glass-flex-shrink-0"
+                style={{ order: 2 }}
               >
                 {isRecording ? (
                   <>
@@ -502,7 +504,10 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
 
             {/* Formatting toolbar */}
             {enableFormatting && showFormatting && (
-              <div className="glass-flex glass-gap-1 glass-p-2 glass-surface-subtle/10 glass-radius-lg glass-mb-2">
+              <div
+                className="glass-flex glass-gap-1 glass-p-2 glass-surface-subtle/10 glass-radius-lg glass-mb-2"
+                style={{ order: 2 }}
+              >
                 <GlassButton
                   variant="ghost"
                   size="sm"
@@ -539,7 +544,10 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
             )}
 
             {/* Main input */}
-            <div className="glass-flex-1 glass-relative">
+            <div
+              className="glass-flex-1 glass-min-w-0 glass-relative"
+              style={{ flex: "1 0 100%", minWidth: 0, order: 1 }}
+            >
               <textarea
                 ref={textareaRef}
                 id="chat-message-input"
@@ -555,9 +563,10 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
                 aria-multiline="true"
                 className={cn(
                   "w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-3 glass-text-primary placeholder-white/50",
-                  "focus:outline-none glass-focus-ring-white-opacity-30 resize-none min-h-[44px] max-h-[120px]",
+                  "block box-border focus:outline-none glass-focus-ring-white-opacity-30 resize-none min-h-[44px] max-h-[120px]",
                   "disabled:opacity-50 glass-disabled-cursor-not-allowed"
                 )}
+                style={{ boxSizing: "border-box" }}
                 rows={1}
               />
 
@@ -574,7 +583,10 @@ export const GlassChatInput: React.FC<GlassChatInputProps> = ({
             </div>
 
             {/* Action buttons */}
-            <div className="glass-flex glass-gap-1 glass-flex-shrink-0">
+            <div
+              className="glass-flex glass-gap-1 glass-flex-shrink-0"
+              style={{ marginLeft: "auto", order: 2 }}
+            >
               {/* Emoji button */}
               {enableEmoji && (
                 <GlassButton

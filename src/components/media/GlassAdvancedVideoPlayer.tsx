@@ -175,8 +175,8 @@ const videoComponentStyles = `
   }
 
   .ag-advanced-video-player .ag-video-side-panel {
-    flex: 1 1 20rem;
-    min-width: 18rem;
+    flex: 1 1 0;
+    min-width: 0;
     height: 100%;
     overflow: hidden;
   }
@@ -190,12 +190,14 @@ const videoComponentStyles = `
     min-height: 0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.78));
     border-radius: 0;
     color: #f8fafc;
   }
 
   .ag-advanced-video-player .ag-video-panel-scroll {
+    flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -253,9 +255,24 @@ const videoComponentStyles = `
   }
 
   @media (max-width: 640px) {
+    .ag-advanced-video-player {
+      overflow: visible !important;
+    }
+
+    .ag-advanced-video-player .ag-video-layout {
+      overflow: visible !important;
+    }
+
+    .ag-advanced-video-player .ag-video-surface {
+      display: flex;
+      flex-direction: column;
+      overflow: visible !important;
+    }
+
     .ag-advanced-video-player .ag-video-controls {
       position: relative !important;
       padding: 12px !important;
+      flex: 0 0 auto;
     }
 
     .ag-advanced-video-player .ag-video-surface {
@@ -268,6 +285,7 @@ const videoComponentStyles = `
       position: relative !important;
       aspect-ratio: 16 / 9;
       min-height: 220px;
+      flex: 0 0 auto;
     }
 
     .ag-advanced-video-player .ag-video-side-panels {
@@ -277,7 +295,15 @@ const videoComponentStyles = `
     .ag-advanced-video-player .ag-video-side-panel {
       width: 100%;
       min-width: 0;
-      max-height: 300px;
+      min-height: 420px;
+      height: auto;
+      max-height: none;
+      overflow: visible !important;
+    }
+
+    .ag-advanced-video-player .ag-video-panel-content {
+      height: auto;
+      max-height: 420px;
     }
   }
 `;
