@@ -7,6 +7,7 @@ exports[`GlassPhysicsEngine matches snapshot 1`] = `
 >
   <canvas
     class="glass-absolute glass-inset-0 glass-pointer-events-none glass-z-10"
+    data-glass-overlay="true"
     height="0"
     style="mix-blend-mode: screen;"
     width="0"

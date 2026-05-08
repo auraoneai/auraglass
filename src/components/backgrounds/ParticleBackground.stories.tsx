@@ -29,14 +29,20 @@ export const Default: Story = {
   render: (args) => (
     <ParticleBackground
       {...args}
-      className="glass-w-full glass-p-6 glass-flex glass-items-center glass-justify-center"
+      className="glass-w-full glass-flex glass-items-center glass-justify-center"
       style={{ minHeight: 'min(100vh, 760px)' }}
     >
-      <div className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md">
-        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70">
+      <div
+        className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md"
+        style={{ width: 'min(calc(100vw - 48px), 48rem)', maxWidth: '100%', minWidth: 0, color: '#f8fafc' }}
+      >
+        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70" style={{ color: 'rgba(248, 250, 252, 0.78)' }}>
           Background layer
         </p>
-        <h1 className="glass-mt-2 glass-text-3xl glass-font-semibold">
+        <h1
+          className="glass-mt-2 glass-font-semibold"
+          style={{ overflowWrap: 'anywhere', wordBreak: 'normal', color: '#ffffff', fontSize: 'clamp(1.45rem, 7vw, 1.875rem)', lineHeight: 1.1, maxWidth: '18ch' }}
+        >
           Signal processing monitor
         </h1>
         <div

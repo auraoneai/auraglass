@@ -1,6 +1,44 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { GlassWeatherGlass } from './GlassWeatherGlass';
 import { fn } from 'storybook/test';
+
+const useResponsiveAtmosphericLayout = (desktopWidth: number, desktopHeight: number) => {
+  const [layout, setLayout] = React.useState({
+    width: desktopWidth,
+    height: desktopHeight,
+    mobile: false,
+  });
+
+  React.useEffect(() => {
+    const updateLayout = () => {
+      const mobile = window.innerWidth < 520;
+      setLayout({
+        width: mobile ? Math.min(260, window.innerWidth - 96) : desktopWidth,
+        height: mobile ? 300 : desktopHeight,
+        mobile,
+      });
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, [desktopHeight, desktopWidth]);
+
+  return layout;
+};
+
+const ResponsiveWeatherGlass = (args: React.ComponentProps<typeof GlassWeatherGlass>) => {
+  const layout = useResponsiveAtmosphericLayout(args.width ?? 600, args.height ?? 400);
+  return (
+    <GlassWeatherGlass
+      {...args}
+      width={layout.width}
+      height={layout.height}
+      showControls={layout.mobile ? false : args.showControls}
+    />
+  );
+};
 
 const meta = {
   title: 'Effects + Advanced/Glass Weather Glass',
@@ -36,6 +74,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  render: (args) => <ResponsiveWeatherGlass {...args} />,
   args: {
     width: 600,
     height: 400,

@@ -551,9 +551,10 @@ describe("Glass Contrast Test Suite", () => {
         path.resolve(__dirname, "../styles/glass.css"),
         "utf8"
       );
+      const normalizedCss = css.replace(/\s+/g, " ");
 
-      expect(css).toContain(
-        "@supports not ((backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0)))"
+      expect(normalizedCss).toMatch(
+        /@supports not \(\s*\(backdrop-filter: blur\(0\)\) or \(-webkit-backdrop-filter: blur\(0\)\)\s*\)/
       );
       expect(css).toContain("@media (prefers-reduced-transparency: reduce)");
       expect(css).toContain("@media (forced-colors: active)");

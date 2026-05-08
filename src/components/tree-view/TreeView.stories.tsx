@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { TreeView } from './TreeView';
-import { cn } from '../../lib/utils';
+import { TreeItem } from './TreeItem';
 
 const meta: Meta<typeof TreeView> = {
   title: 'Controls/Inputs/Tree View',
@@ -29,9 +29,25 @@ export default meta;
 type Story = StoryObj<typeof TreeView>;
 
 export const Default: Story = {
-  args: {
-    
-  },
+  render: (args: any) => (
+    <TreeView
+      {...args}
+      className="glass-w-[min(20rem,calc(100vw-3rem))] !glass-text-slate-950"
+      expandedIds={['workspace', 'components']}
+      selectedIds={['charts']}
+      showIcons
+      showLines
+    >
+      <TreeItem nodeId="workspace" label="AuraGlass workspace" icon="[ ]">
+        <TreeItem nodeId="tokens" label="Design tokens" icon="T" />
+        <TreeItem nodeId="components" label="Components" icon="C">
+          <TreeItem nodeId="buttons" label="Buttons" icon="◼" />
+          <TreeItem nodeId="charts" label="Charts" icon="▦" />
+        </TreeItem>
+      </TreeItem>
+    </TreeView>
+  ),
+  args: {},
 };
 
 export const Variants: Story = {

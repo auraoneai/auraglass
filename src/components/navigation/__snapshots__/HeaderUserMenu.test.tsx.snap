@@ -11,6 +11,7 @@ exports[`HeaderUserMenu matches snapshot 1`] = `
     aria-label="User"
     class="flex items-center glass-gap-2 glass-px-1.5 glass-py-1 glass-radius-full bg-transparent text-foreground hover:bg-white/10 focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 glass-focus glass-touch-target glass-contrast-guard"
     id="user-menu-:rc:"
+    style="border: 0px; background: transparent;"
     type="button"
   >
     <div

@@ -165,6 +165,13 @@ const defaultProcessingSettings: ProcessingSettings = {
   batchSize: 4,
 };
 
+const readableGlassTextStyle = {
+  "--glass-text-primary": "rgba(15, 23, 42, 0.94)",
+  "--typography-text-primary": "rgba(15, 23, 42, 0.94)",
+  "--glass-theme-text": "rgba(15, 23, 42, 0.94)",
+  color: "rgba(15, 23, 42, 0.94)",
+} as React.CSSProperties;
+
 export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
   (
     {
@@ -977,6 +984,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       <OptimizedGlass
         ref={ref}
         variant="frosted"
+        style={readableGlassTextStyle}
         className={`p-6 space-y-6 ${className}`}
         {...props}
       >

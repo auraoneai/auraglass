@@ -316,11 +316,11 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                 >
                   {/* Segments */}
                   {processedData.segments.map((segment, index) => (
-                    <Motion
+                    <g
                       key={`${segment.label}-${index}`}
-                      preset="scaleIn"
-                      delay={index * 100}
-                      className="glass-relative"
+                      style={{
+                        animation: `pieSegment ${actualAnimationDuration}ms ease-out ${index * 100}ms both`,
+                      }}
                     >
                       <path
                         d={segment.path}
@@ -365,7 +365,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                           )}
                         </text>
                       )}
-                    </Motion>
+                    </g>
                   ))}
 
                   {/* Center text for donut chart */}

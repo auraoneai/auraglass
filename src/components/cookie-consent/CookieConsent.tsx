@@ -88,11 +88,12 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       animationConfig,
       disableAnimation,
       motionSensitivity,
+      forceVisible = false,
       ...rest
     }: CookieConsentProps,
     ref
   ) => {
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(forceVisible);
     const prefersReducedMotion = useReducedMotion();
     const { defaultSpring } = useAnimationContext();
 
@@ -100,6 +101,11 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
     const shouldAnimate = animate && !finalDisableAnimation;
 
     useEffect(() => {
+      if (forceVisible) {
+        setVisible(true);
+        return;
+      }
+
       // Check if user has already made a choice
       const consentValue = getCookie("cookie-consent");
       if (!consentValue) {
@@ -110,7 +116,7 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
 
         return () => clearTimeout(timer);
       }
-    }, [delay]);
+    }, [delay, forceVisible]);
 
     useEffect(() => {
       if (visible && timeout > 0) {

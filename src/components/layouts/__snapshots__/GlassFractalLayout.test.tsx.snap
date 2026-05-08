@@ -10,7 +10,6 @@ exports[`GlassFractalLayout matches snapshot 1`] = `
 >
   <div
     class="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
-    style="transform: scale(1); transform-origin: center;"
   />
   <div
     class="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-2"

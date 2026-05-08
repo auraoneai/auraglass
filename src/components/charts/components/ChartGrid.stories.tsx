@@ -1,7 +1,27 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChartGrid } from './ChartGrid';
-import { cn } from '../../../lib/utils';
+
+const GridPreview = (args: React.ComponentProps<typeof ChartGrid>) => (
+  <div
+    className="glass-relative glass-overflow-hidden glass-rounded-xl glass-border glass-border-white/40 glass-bg-white/55 glass-p-6 glass-shadow-xl"
+    style={{ width: 'min(260px, calc(100vw - 48px))', height: 220 }}
+  >
+    <ChartGrid {...args} />
+    <div className="glass-absolute glass-inset-6 glass-flex glass-items-end glass-justify-around glass-gap-3">
+      {[68, 46, 82, 58, 74].map((height, index) => (
+        <div
+          key={index}
+          className="glass-w-7 glass-rounded-t-lg glass-shadow-md"
+          style={{ height: `${height}%`, background: 'linear-gradient(180deg, rgba(14, 165, 233, 0.88), rgba(20, 184, 166, 0.76))' }}
+        />
+      ))}
+    </div>
+    <div className="glass-absolute glass-left-6 glass-top-5 glass-text-sm glass-font-semibold glass-text-primary">
+      Grid Example
+    </div>
+  </div>
+);
 
 const meta: Meta<typeof ChartGrid> = {
   title: 'Data + Visualization/Chart Grid',
@@ -45,6 +65,7 @@ export default meta;
 type Story = StoryObj<typeof ChartGrid>;
 
 export const Default: Story = {
+  render: (args) => <GridPreview {...args} />,
   args: {
     show: true,
   },
@@ -53,12 +74,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render: (args) => (
     <div className="glass-flex glass-flex-col glass-gap-4">
-      <div className="glass-relative glass-w-80 h-40 glass-surface-subtle/20 glass-radius-md glass-border glass-contrast-guard">
-        <ChartGrid {...args} />
-        <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-text-primary/50">
-          Grid Example
-        </div>
-      </div>
+      <GridPreview {...args} />
     </div>
   ),
 };

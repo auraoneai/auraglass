@@ -1,6 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useCollaboration } from "./GlassCollaborationProvider";
+import {
+  useCollaboration,
+  type CollaborationUser,
+} from "./GlassCollaborationProvider";
 import { cn } from "../../lib/utilsComprehensive";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -8,6 +11,7 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface CollaborativeCursorProps {
   className?: string;
+  previewUsers?: CollaborationUser[];
   "data-testid"?: string;
 }
 
@@ -44,6 +48,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
 
 export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   className,
+  previewUsers,
   "data-testid": dataTestId,
 }) => {
   const { users, currentUser, showCursors } = useCollaboration();
@@ -56,7 +61,8 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     }
 
     // Filter out current user and users without cursor data
-    const otherUsers = users.filter(
+    const sourceUsers = previewUsers ?? users;
+    const otherUsers = sourceUsers.filter(
       (user: any) =>
         user.id !== currentUser?.id &&
         user.cursor &&
@@ -64,7 +70,7 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     );
 
     setVisibleCursors(otherUsers);
-  }, [users, currentUser, showCursors]);
+  }, [users, previewUsers, currentUser, showCursors]);
 
   if (!showCursors) {
     return null;

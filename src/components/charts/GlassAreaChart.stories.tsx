@@ -1,7 +1,48 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassAreaChart } from './GlassAreaChart';
-import { cn } from '../../lib/utils';
+
+const useResponsiveChartSize = (desktopWidth: number, desktopHeight: number) => {
+  const [size, setSize] = React.useState({ width: desktopWidth, height: desktopHeight });
+
+  React.useEffect(() => {
+    const updateSize = () => {
+      const availableWidth = Math.max(300, Math.min(desktopWidth, window.innerWidth - 96));
+      setSize({
+        width: availableWidth,
+        height: availableWidth < 460 ? Math.min(desktopHeight, 320) : desktopHeight,
+      });
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [desktopHeight, desktopWidth]);
+
+  return size;
+};
+
+const ResponsiveAreaChart = (args: React.ComponentProps<typeof GlassAreaChart>) => {
+  const chartSize = useResponsiveChartSize(args.width ?? 600, args.height ?? 400);
+  const mobile = chartSize.width < 460;
+  const responsiveSeries = mobile
+    ? args.series?.map((series) => ({
+        ...series,
+        data: series.data.filter((_, index) => index % 2 === 0),
+      }))
+    : args.series;
+
+  return (
+    <GlassAreaChart
+      {...args}
+      series={responsiveSeries ?? []}
+      width={chartSize.width}
+      height={chartSize.height}
+      formatYValue={(value) => `${Math.round(value / 1000)}k`}
+      formatXValue={(value) => String(value).slice(0, 3)}
+    />
+  );
+};
 
 const meta: Meta<typeof GlassAreaChart> = {
   title: 'Data + Visualization/Glass Area Chart',
@@ -135,6 +176,7 @@ const sampleSeries = [
 ];
 
 export const Default: Story = {
+  render: (args) => <ResponsiveAreaChart {...args} />,
   args: {
     series: sampleSeries,
   },

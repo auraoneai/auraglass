@@ -3,14 +3,14 @@
 exports[`GlassQueryBuilder matches snapshot 1`] = `
 <div
   aria-label="Query builder"
-  class="glass-gap-2"
+  class="glass-w-full glass-max-w-3xl glass-space-y-2 glass-text-white"
   role="group"
 >
   <div
-    class="glass-radius-xl glass-border glass-border-white/20 glass-p-3 glass-gap-2"
+    class="glass-radius-xl glass-border glass-border-white/25 glass-bg-slate-950/70 glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard"
   >
     <div
-      class="glass-flex glass-items-center glass-gap-2"
+      class="glass-flex glass-flex-wrap glass-items-center glass-gap-2"
     >
       <button
         aria-autocomplete="none"
@@ -70,15 +70,16 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         data-glass-component="true"
       >
         <button
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-white hover:glass-text-white"
           id="glass-button-:rh:"
+          style="color: rgba(255, 255, 255, 0.95);"
         >
           + Group
         </button>
       </div>
     </div>
     <div
-      class="glass-gap-2"
+      class="glass-space-y-2"
     />
   </div>
 </div>

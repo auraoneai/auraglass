@@ -3,29 +3,114 @@
 exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
 <div>
   <div
-    class="glass-foundation-basic overflow-hidden"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    class="glass-foundation-basic ag-advanced-audio-player glass-overflow-hidden"
+    style="border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 12px; box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18); color: rgb(15, 23, 42); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
+    <style>
+
+  .ag-advanced-audio-player,
+  .ag-advanced-audio-player * {
+    box-sizing: border-box;
+  }
+
+  .ag-advanced-audio-player .ag-audio-layout {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .ag-advanced-audio-player .ag-audio-main {
+    flex: 1 1 26rem;
+    min-width: min(100%, 20rem);
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panels {
+    display: flex;
+    flex: 1 1 24rem;
+    min-width: min(100%, 20rem);
+    max-width: 44rem;
+    border-left: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panel {
+    flex: 1 1 20rem;
+    min-width: min(100%, 18rem);
+    height: 24rem;
+    max-height: 24rem;
+    overflow: hidden;
+  }
+
+  .ag-advanced-audio-player .ag-audio-side-panel + .ag-audio-side-panel {
+    border-left: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .ag-advanced-audio-player .ag-audio-panel-content {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 250, 252, 0.68));
+    color: #0f172a;
+  }
+
+  .ag-advanced-audio-player .ag-audio-panel-scroll {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 2px;
+  }
+
+  @media (max-width: 920px) {
+    .ag-advanced-audio-player .ag-audio-side-panels {
+      width: 100%;
+      max-width: none;
+      border-left: 0;
+      border-top: 1px solid rgba(15, 23, 42, 0.12);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ag-advanced-audio-player .ag-audio-side-panels {
+      flex-direction: column;
+    }
+
+    .ag-advanced-audio-player .ag-audio-side-panel {
+      width: 100%;
+      max-height: 20rem;
+    }
+  }
+
+    </style>
     <div
-      class="glass-flex"
+      class="ag-audio-layout glass-flex"
     >
       <div
-        class="glass-flex-1"
+        class="ag-audio-main glass-flex-1"
       >
         <audio
           preload="metadata"
         />
         <div
           class="glass-p-6 glass-space-y-6"
+          style="color: rgb(15, 23, 42);"
         >
           <div
-            class="glass-text-center"
+            class="glass-flex glass-items-center glass-gap-4"
+            style="align-items: center;"
           >
-            <h2
-              class="glass-text-xl glass-font-semibold glass-text-secondary"
-            >
-              Untitled Track
-            </h2>
+            <img
+              alt=""
+              class="glass-w-24 glass-h-24 glass-object-cover glass-radius-lg"
+              src="data:image/svg+xml,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20720%20720%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22cover%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%230f172a%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220.5%22%20stop-color%3D%22%237c3aed%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%230f766e%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%22720%22%20height%3D%22720%22%20fill%3D%22url(%23cover)%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22360%22%20cy%3D%22360%22%20r%3D%22170%22%20fill%3D%22rgba(255%2C255%2C255%2C0.16)%22%2F%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22360%22%20cy%3D%22360%22%20r%3D%2258%22%20fill%3D%22rgba(255%2C255%2C255%2C0.88)%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22112%22%20y%3D%22108%22%20width%3D%22408%22%20height%3D%2274%22%20rx%3D%2222%22%20fill%3D%22rgba(255%2C255%2C255%2C0.18)%22%2F%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22142%22%20y%3D%22158%22%20font-family%3D%22Inter%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2234%22%20font-weight%3D%22700%22%20fill%3D%22%23ffffff%22%3EAuraGlass%20Audio%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22116%22%20y%3D%22572%22%20width%3D%22488%22%20height%3D%2212%22%20rx%3D%226%22%20fill%3D%22rgba(255%2C255%2C255%2C0.24)%22%2F%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%22116%22%20y%3D%22572%22%20width%3D%22228%22%20height%3D%2212%22%20rx%3D%226%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%3C%2Fsvg%3E%0A%20%20"
+              style="flex: 0 0 auto; border: 1px solid rgba(148,163,184,0.34); box-shadow: 0 16px 34px rgba(2,6,23,0.18);"
+            />
+            <div>
+              <h2
+                class="glass-text-xl glass-font-semibold glass-text-secondary"
+              >
+                Untitled Track
+              </h2>
+            </div>
           </div>
           <canvas
             class="glass-w-full glass-h-24"
@@ -47,6 +132,7 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
             </div>
             <div
               class="glass-w-full glass-h-2 glass-surface-subtle glass-radius-full glass-cursor-pointer"
+              style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
                 class="glass-h-full glass-surface-blue glass-radius-full"
@@ -58,29 +144,38 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-justify-center glass-gap-6"
           >
             <button
+              aria-label="Rewind 10 seconds"
               class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
             >
               ⏪
             </button>
             <button
+              aria-label="Play audio"
               class="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
+              style="border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none; border-color: rgba(191, 219, 254, 0.7);"
             >
               ▶️
             </button>
             <button
+              aria-label="Forward 10 seconds"
               class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
             >
               ⏩
             </button>
           </div>
           <div
             class="glass-flex glass-items-center glass-justify-between"
+            style="gap: 16px; flex-wrap: wrap;"
           >
             <div
               class="glass-flex glass-items-center glass-gap-3"
             >
               <button
+                aria-label="Mute audio"
                 class="glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
               >
                 🔊
               </button>
@@ -90,6 +185,7 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
                 max="1"
                 min="0"
                 step="0.01"
+                style="appearance: none; color: rgb(14, 165, 233);"
                 type="range"
                 value="1"
               />
@@ -102,48 +198,19 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
               >
                 Speed:
               </span>
-              <select
-                aria-label="Playback speed"
-                class="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-2 glass-py-1 glass-focus glass-touch-target glass-contrast-guard"
+              <button
+                aria-label="Playback speed: 1x"
+                class="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-3 glass-py-2 glass-focus glass-touch-target glass-contrast-guard"
+                style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                type="button"
               >
-                <option
-                  value="0.5"
-                >
-                  0.5x
-                </option>
-                <option
-                  value="0.75"
-                >
-                  0.75x
-                </option>
-                <option
-                  value="1"
-                >
-                  1x
-                </option>
-                <option
-                  value="1.25"
-                >
-                  1.25x
-                </option>
-                <option
-                  value="1.5"
-                >
-                  1.5x
-                </option>
-                <option
-                  value="2"
-                >
-                  2x
-                </option>
-              </select>
+                1
+                x
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div
-        class="glass-flex"
-      />
     </div>
   </div>
 </div>

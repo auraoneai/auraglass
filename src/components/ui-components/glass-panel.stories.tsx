@@ -47,10 +47,20 @@ type Story = StoryObj<typeof GlassPanel>;
 
 export const Default: Story = {
   args: {
+    elevation: 'level3',
+    style: {
+      width: 'min(260px, calc(100vw - 32px))',
+      color: '#0f172a',
+      background: 'rgba(255, 255, 255, 0.86)',
+    },
     children: (
-      <div className="glass-text-center">
-        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">Default Panel</h3>
-        <p className="glass-text-sm opacity-80">This is a standard glass panel.</p>
+      <div className="glass-text-center" style={{ color: '#0f172a' }}>
+        <h3 className="glass-text-lg glass-font-semibold glass-mb-2">
+          Default Panel
+        </h3>
+        <p className="glass-text-sm" style={{ color: '#334155' }}>
+          This is a standard glass panel.
+        </p>
       </div>
     ),
   },

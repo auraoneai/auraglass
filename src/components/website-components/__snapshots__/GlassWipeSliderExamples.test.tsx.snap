@@ -93,7 +93,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[37.5ms] glass-ease-out"
+          class="glass-absolute glass-inset-0 glass-transition-all glass-duration-[37.5ms] glass-ease-out"
           style="clip-path: inset(0 25% 0 0); width: 100%; height: 100%;"
         >
           <div
@@ -154,7 +154,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </div>
         <div
           class="absolute cursor-grab glass-active-cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
-          style="left: 75%; transform: translateX(-50%) translateY(-50%);"
+          style="top: 50%; left: 75%; transform: translateX(-50%) translateY(-50%);"
           tabindex="0"
         >
           <div
@@ -611,7 +611,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[37.5ms] glass-ease-out"
+          class="glass-absolute glass-inset-0 glass-transition-all glass-duration-[37.5ms] glass-ease-out"
           style="clip-path: inset(70% 0 0 0); width: 100%; height: 100%;"
         >
           <div
@@ -794,7 +794,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </div>
         <div
           class="absolute cursor-grab glass-active-cursor-grabbing touch-target z-20 w-14 glass-h-14 left-1/2 -translate-x-1/2"
-          style="top: 30%; transform: translateY(-50%) translateX(-50%);"
+          style="left: 50%; top: 30%; transform: translateY(-50%) translateX(-50%);"
           tabindex="0"
         >
           <div
@@ -1038,7 +1038,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[37.5ms] glass-ease-out"
+          class="glass-absolute glass-inset-0 glass-transition-all glass-duration-[37.5ms] glass-ease-out"
           style="clip-path: inset(0 80% 0 0); width: 100%; height: 100%;"
         >
           <div
@@ -1142,7 +1142,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </div>
         <div
           class="absolute cursor-grab glass-active-cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
-          style="left: 20%; transform: translateX(-50%) translateY(-50%);"
+          style="top: 50%; left: 20%; transform: translateX(-50%) translateY(-50%);"
           tabindex="0"
         >
           <div
@@ -1437,7 +1437,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
           />
         </div>
         <div
-          class="glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[37.5ms] glass-ease-out"
+          class="glass-absolute glass-inset-0 glass-transition-all glass-duration-[37.5ms] glass-ease-out"
           style="clip-path: inset(0 50% 0 0); width: 100%; height: 100%;"
         >
           <img
@@ -1467,7 +1467,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </div>
         <div
           class="absolute cursor-grab glass-active-cursor-grabbing touch-target z-20 w-14 glass-h-14 top-1/2 -translate-y-1/2"
-          style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+          style="top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"
           tabindex="0"
         >
           <div
@@ -1728,7 +1728,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-absolute glass-inset-0 glass-overflow-hidden glass-transition-all glass-duration-[37.5ms] glass-ease-out"
+          class="glass-absolute glass-inset-0 glass-transition-all glass-duration-[37.5ms] glass-ease-out"
           style="clip-path: inset(0 50% 0 0); width: 100%; height: 100%;"
         >
           <div
@@ -1808,7 +1808,7 @@ exports[`GlassWipeSliderExamples matches snapshot 1`] = `
         </div>
         <div
           class="absolute cursor-grab glass-active-cursor-grabbing touch-target z-20 w-12 h-12 top-1/2 -translate-y-1/2"
-          style="left: 50%; transform: translateX(-50%) translateY(-50%);"
+          style="top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);"
           tabindex="0"
         >
           <div

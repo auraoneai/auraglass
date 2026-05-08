@@ -8,7 +8,7 @@ exports[`GlassStepper matches snapshot 1`] = `
     class="glass-stepper inline-flex items-center flex-row glass-gap-2"
   >
     <div
-      class="motion-primitive"
+      class="motion-primitive glass-inline-glass-block glass-flex-shrink-0"
     >
       <div
         aria-label="Decrease value"
@@ -49,7 +49,7 @@ exports[`GlassStepper matches snapshot 1`] = `
       />
     </div>
     <div
-      class="motion-primitive"
+      class="motion-primitive glass-inline-glass-block glass-flex-shrink-0"
     >
       <div
         aria-label="Increase value"

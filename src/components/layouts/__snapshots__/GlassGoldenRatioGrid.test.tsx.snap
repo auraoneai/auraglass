@@ -3,10 +3,10 @@
 exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
 <div
   aria-label="Golden ratio layout grid"
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-golden-ratio-grid relative overflow-hidden"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-golden-ratio-grid relative overflow-auto"
   id=":r2l:"
   role="grid"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; height: 100%; min-height: 600px;"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; height: 100%; min-height: 600px; overflow-x: auto; overflow-y: auto;"
 >
   <div
     class="glass-absolute glass-inset-0"
@@ -27,15 +27,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </svg>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 4px; top: 4px; width: 297.5856472533198px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+      style="left: 4px; top: 4px; width: 297.5856472533198px; height: 221.18923543998983px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -46,15 +47,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 4px; top: 233.18923543998983px; width: 297.5856472533198px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+      style="left: 4px; top: 233.18923543998983px; width: 297.5856472533198px; height: 133.63894750191372px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -65,15 +67,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 4px; top: 374.82818294190355px; width: 180.86628384012346px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
+      style="left: 4px; top: 374.82818294190355px; width: 180.86628384012346px; height: 221.17181705809645px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -84,15 +87,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 498.4375772558714px; top: 4px; width: 180.85193000255165px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+      style="left: 498.4375772558714px; top: 4px; width: 180.85193000255165px; height: 221.18923543998983px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -103,15 +107,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 309.5856472533198px; top: 4px; width: 180.85193000255163px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+      style="left: 309.5856472533198px; top: 4px; width: 180.85193000255163px; height: 221.18923543998983px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -122,15 +127,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 192.86628384012346px; top: 374.82818294190355px; width: 108.71936341319633px; height: 221.17181705809645px; opacity: 0; transform: scale(0);"
+      style="left: 192.86628384012346px; top: 374.82818294190355px; width: 108.71936341319633px; height: 221.17181705809645px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -141,15 +147,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 498.4375772558714px; top: 374.82818294190355px; width: 180.85193000255165px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+      style="left: 498.4375772558714px; top: 374.82818294190355px; width: 180.85193000255165px; height: 133.63894750191375px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -160,15 +167,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 309.5856472533198px; top: 374.82818294190355px; width: 180.85193000255163px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+      style="left: 309.5856472533198px; top: 374.82818294190355px; width: 180.85193000255163px; height: 133.63894750191375px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -179,15 +187,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 687.2895072584231px; top: 4px; width: 108.71049274157693px; height: 221.18923543998983px; opacity: 0; transform: scale(0);"
+      style="left: 687.2895072584231px; top: 4px; width: 108.71049274157693px; height: 221.18923543998983px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -198,15 +207,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 498.4375772558714px; top: 233.18923543998983px; width: 180.85193000255165px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+      style="left: 498.4375772558714px; top: 233.18923543998983px; width: 180.85193000255165px; height: 133.63894750191372px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -217,15 +227,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 309.5856472533198px; top: 233.18923543998983px; width: 180.85193000255163px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+      style="left: 309.5856472533198px; top: 233.18923543998983px; width: 180.85193000255163px; height: 133.63894750191372px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -236,15 +247,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 309.5856472533198px; top: 516.4671304438173px; width: 180.85193000255163px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+      style="left: 309.5856472533198px; top: 516.4671304438173px; width: 180.85193000255163px; height: 79.5328695561827px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -255,15 +267,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 498.4375772558714px; top: 516.4671304438173px; width: 180.85193000255165px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+      style="left: 498.4375772558714px; top: 516.4671304438173px; width: 180.85193000255165px; height: 79.5328695561827px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -274,15 +287,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 687.2895072584231px; top: 374.82818294190355px; width: 108.71049274157693px; height: 133.63894750191375px; opacity: 0; transform: scale(0);"
+      style="left: 687.2895072584231px; top: 374.82818294190355px; width: 108.71049274157693px; height: 133.63894750191375px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -293,15 +307,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 687.2895072584231px; top: 233.18923543998983px; width: 108.71049274157693px; height: 133.63894750191372px; opacity: 0; transform: scale(0);"
+      style="left: 687.2895072584231px; top: 233.18923543998983px; width: 108.71049274157693px; height: 133.63894750191372px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"
@@ -312,15 +327,16 @@ exports[`GlassGoldenRatioGrid matches snapshot 1`] = `
     </div>
     <div
       class="
-                    absolute overflow-hidden
+                    absolute overflow-visible
                     cursor-default
                   "
       role="row"
-      style="left: 687.2895072584231px; top: 516.4671304438173px; width: 108.71049274157693px; height: 79.5328695561827px; opacity: 0; transform: scale(0);"
+      style="left: 687.2895072584231px; top: 516.4671304438173px; width: 108.71049274157693px; height: 79.5328695561827px; box-sizing: border-box; opacity: 0; transform: scale(0);"
     >
       <div
         class="glass-w-full glass-h-full glass-border glass-border-dashed glass-border-white/10 glass-radius-lg glass-flex glass-items-center glass-justify-center glass-text-primary-glass-opacity-30"
         role="gridcell"
+        style="width: 100%; height: 100%; box-sizing: border-box; overflow: hidden;"
       >
         <div
           class="glass-text-xs"

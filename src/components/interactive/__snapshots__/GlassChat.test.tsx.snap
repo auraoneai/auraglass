@@ -209,7 +209,7 @@ exports[`GlassChat matches snapshot 1`] = `
         class="glass-flex glass-flex-1 glass-overflow-hidden"
       >
         <div
-          class="glass-flex-1 glass-flex glass-flex-col glass-overflow-hidden"
+          class="glass-flex-1 glass-flex glass-min-w-0 glass-flex-col glass-overflow-hidden"
         >
           <div
             class="card-content glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-4"
@@ -223,7 +223,7 @@ exports[`GlassChat matches snapshot 1`] = `
             data-has-suggestions="false"
           >
             <div
-              class="glass-flex glass-items-end glass-gap-2"
+              class="glass-flex glass-flex-wrap glass-items-end glass-gap-2"
             >
               <div
                 class="motion-primitive glass-inline-glass-block"
@@ -231,7 +231,7 @@ exports[`GlassChat matches snapshot 1`] = `
               >
                 <button
                   aria-label="Attach file"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-shrink-0 glass-p-2"
                   id="glass-button-:r17:"
                 >
                   <svg
@@ -254,10 +254,10 @@ exports[`GlassChat matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="glass-flex-1 glass-relative"
+                class="glass-relative glass-min-w-0 glass-flex-1"
               >
                 <textarea
-                  class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none max-h-[120px]"
+                  class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-2 glass-pr-12 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none max-h-[120px]"
                   data-adaptive-height="40"
                   data-consciousness-input="true"
                   data-eye-tracking="false"
@@ -317,7 +317,7 @@ exports[`GlassChat matches snapshot 1`] = `
                 <button
                   aria-disabled="true"
                   aria-label="Send message"
-                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
+                  class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-shrink-0 glass-p-2"
                   data-caustics="true"
                   data-consciousness-send="true"
                   data-has-attachments="false"

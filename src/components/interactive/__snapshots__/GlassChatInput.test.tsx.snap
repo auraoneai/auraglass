@@ -16,7 +16,7 @@ exports[`GlassChatInput matches snapshot 1`] = `
         class="card-content glass-p-4"
       >
         <div
-          class="glass-flex glass-items-end glass-gap-3"
+          class="glass-flex glass-flex-wrap glass-items-end glass-gap-3"
         >
           <div
             class="motion-primitive glass-inline-glass-block"
@@ -26,6 +26,7 @@ exports[`GlassChatInput matches snapshot 1`] = `
               aria-label="Attach file"
               class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-flex-shrink-0"
               id="glass-button-:rf:"
+              style="order: 2;"
             >
               <svg
                 aria-hidden="true"
@@ -47,20 +48,22 @@ exports[`GlassChatInput matches snapshot 1`] = `
             </button>
           </div>
           <div
-            class="glass-flex-1 glass-relative"
+            class="glass-flex-1 glass-min-w-0 glass-relative"
+            style="flex: 1 0 100%; min-width: 0; order: 1;"
           >
             <textarea
               aria-label="Chat message"
               aria-multiline="true"
-              class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-3 glass-text-primary placeholder-white/50 focus:outline-none glass-focus-ring-white-opacity-30 resize-none min-h-[44px] max-h-[120px] disabled:opacity-50 glass-disabled-cursor-not-allowed"
+              class="w-full bg-glass-fill ring-1 ring-white/10 glass-radius-lg glass-px-4 glass-py-3 glass-text-primary placeholder-white/50 block box-border focus:outline-none glass-focus-ring-white-opacity-30 resize-none min-h-[44px] max-h-[120px] disabled:opacity-50 glass-disabled-cursor-not-allowed"
               id="chat-message-input"
               placeholder="Type a message..."
               rows="1"
-              style="height: 0px;"
+              style="box-sizing: border-box; height: 0px;"
             />
           </div>
           <div
             class="glass-flex glass-gap-1 glass-flex-shrink-0"
+            style="margin-left: auto; order: 2;"
           >
             <div
               class="motion-primitive glass-inline-glass-block"

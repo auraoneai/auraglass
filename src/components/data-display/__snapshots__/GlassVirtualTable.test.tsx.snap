@@ -61,7 +61,7 @@ exports[`GlassVirtualTable matches snapshot 1`] = `
       class="glass-w-full glass-overflow-x-auto"
     >
       <table
-        class="glass-w-full"
+        class="glass-w-full glass-table-fixed"
         style="min-width: 100%;"
       >
         <thead

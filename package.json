@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "React Liquid Glass and glassmorphism component library with 356 certified UI components, Next.js/SSR support, TypeScript, accessibility, tokens, Storybook, and 3D/AR.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

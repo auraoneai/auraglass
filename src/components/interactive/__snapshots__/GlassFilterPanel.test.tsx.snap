@@ -3,8 +3,9 @@
 exports[`GlassFilterPanel matches snapshot 1`] = `
 <div
   aria-label="Filter panel"
-  class="glass-radius-xl glass-glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-contrast-guard glass-p-6 glass-text-base"
+  class="glass-radius-xl glass-glass-backdrop-blur-md bg-slate-950/72 border border-white/30 shadow-lg glass-contrast-guard glass-p-6 glass-text-base glass-w-full glass-max-w-md glass-text-white"
   role="region"
+  style="background-color: rgba(15, 23, 42, 0.72); color: rgba(255, 255, 255, 0.95);"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between glass-mb-6"
@@ -14,7 +15,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-funnel glass-w-5 glass-h-5 glass-text-primary-opacity-70"
+        class="lucide lucide-funnel glass-w-5 glass-h-5 glass-text-white/85"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -30,7 +31,8 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
         />
       </svg>
       <h3
-        class="glass-font-semibold glass-text-primary"
+        class="glass-font-semibold glass-text-white"
+        style="color: rgba(255, 255, 255, 0.95);"
       >
         Filters
       </h3>
@@ -113,7 +115,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-gap-4"
+    class="glass-space-y-4"
   />
 </div>
 `;

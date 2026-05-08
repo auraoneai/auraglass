@@ -3,7 +3,7 @@
 Certification complete: all inventory components were visually inspected and passed/fixed.
 
 - Inventory components: 356
-- Storybook entries discovered: 1629
+- Storybook entries discovered: 1643
 - Passed: 356
 - Fixed: 0
 - Blocked: 0

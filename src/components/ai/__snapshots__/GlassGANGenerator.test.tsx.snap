@@ -3,7 +3,7 @@
 exports[`GlassGANGenerator matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); color: rgba(15, 23, 42, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-text-primary: rgba(15, 23, 42, 0.94); --typography-text-primary: rgba(15, 23, 42, 0.94); --glass-theme-text: rgba(15, 23, 42, 0.94);"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between"

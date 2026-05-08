@@ -1,7 +1,24 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlobalCookieConsent } from './GlobalCookieConsent';
-import { cn } from '../../lib/utils';
+
+const CookieStoryFrame = ({ children }: { children: React.ReactNode }) => {
+  const [ready, setReady] = React.useState(false);
+
+  React.useEffect(() => {
+    document.cookie = 'cookie-consent=; Max-Age=0; path=/';
+    document.cookie = 'cookie-categories=; Max-Age=0; path=/';
+    setReady(true);
+  }, []);
+
+  if (!ready) return null;
+
+  return (
+    <div style={{ width: 'min(100%, 500px)' }}>
+      {children}
+    </div>
+  );
+};
 
 const meta: Meta<typeof GlobalCookieConsent> = {
   title: 'Workflows/Global Cookie Consent',
@@ -77,7 +94,23 @@ export default meta;
 type Story = StoryObj<typeof GlobalCookieConsent>;
 
 export const Default: Story = {
-  args: {},
+  render: (args) => (
+    <CookieStoryFrame>
+      <GlobalCookieConsent
+        {...args}
+        animate={false}
+        delay={0}
+        forceVisible
+        position="bottom"
+        style={{
+          position: 'static',
+          transform: 'none',
+          width: '100%',
+          maxWidth: '100%',
+        }}
+      />
+    </CookieStoryFrame>
+  ),
 };
 
 export const Variants: Story = {

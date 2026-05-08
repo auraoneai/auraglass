@@ -40,6 +40,31 @@ const ChartFrame = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+const useResponsiveChartSize = (desktopWidth: number, desktopHeight: number) => {
+  const [size, setSize] = React.useState({ width: desktopWidth, height: desktopHeight });
+
+  React.useEffect(() => {
+    const updateSize = () => {
+      const availableWidth = Math.max(300, Math.min(desktopWidth, window.innerWidth - 96));
+      setSize({
+        width: availableWidth,
+        height: availableWidth < 460 ? Math.min(desktopHeight, 320) : desktopHeight,
+      });
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, [desktopHeight, desktopWidth]);
+
+  return size;
+};
+
+const ResponsiveLineChart = (args: React.ComponentProps<typeof GlassLineChart>) => {
+  const chartSize = useResponsiveChartSize(args.width ?? 760, args.height ?? 360);
+  return <GlassLineChart {...args} width={chartSize.width} height={chartSize.height} />;
+};
+
 const meta: Meta<typeof GlassLineChart> = {
   title: 'Data + Visualization/Glass Line Chart',
   component: GlassLineChart,
@@ -78,7 +103,7 @@ type Story = StoryObj<typeof GlassLineChart>;
 export const Default: Story = {
   render: (args) => (
     <ChartFrame>
-      <GlassLineChart {...args} />
+      <ResponsiveLineChart {...args} />
     </ChartFrame>
   ),
 };

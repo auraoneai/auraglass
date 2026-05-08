@@ -10,12 +10,12 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
   >
     <div
       class="
-              flex items-center justify-between p-3 rounded-lg
+              flex items-center justify-between p-3 rounded-lg glass-flex-wrap glass-gap-3
               [object Object]
             "
     >
       <div
-        class="glass-flex glass-items-center glass-space-x-4"
+        class="glass-flex glass-items-center glass-flex-wrap glass-gap-3"
       >
         <div
           class="glass-flex glass-space-x-2"
@@ -218,7 +218,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="glass-flex glass-items-center glass-space-x-2"
+        class="glass-flex glass-items-center glass-flex-wrap glass-gap-2"
       >
         <button
           class="glass-px-3 glass-py-1 glass-text-sm glass-font-medium glass-text-primary-opacity-70 hover:glass-text-primary disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"

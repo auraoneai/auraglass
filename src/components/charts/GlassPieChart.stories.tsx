@@ -18,6 +18,37 @@ const ChartFrame = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+const useResponsivePieLayout = (desktopSize: number) => {
+  const [layout, setLayout] = React.useState<{
+    size: number;
+    legendPosition: React.ComponentProps<typeof GlassPieChart>['legendPosition'];
+  }>({
+    size: desktopSize,
+    legendPosition: 'right',
+  });
+
+  React.useEffect(() => {
+    const updateLayout = () => {
+      const mobile = window.innerWidth < 520;
+      setLayout({
+        size: mobile ? 220 : desktopSize,
+        legendPosition: mobile ? 'bottom' : 'right',
+      });
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, [desktopSize]);
+
+  return layout;
+};
+
+const ResponsivePieChart = (args: React.ComponentProps<typeof GlassPieChart>) => {
+  const layout = useResponsivePieLayout(args.size ?? 300);
+  return <GlassPieChart {...args} size={layout.size} legendPosition={layout.legendPosition} />;
+};
+
 const meta: Meta<typeof GlassPieChart> = {
   title: 'Data + Visualization/Glass Pie Chart',
   component: GlassPieChart,
@@ -55,7 +86,7 @@ type Story = StoryObj<typeof GlassPieChart>;
 export const Default: Story = {
   render: (args) => (
     <ChartFrame>
-      <GlassPieChart {...args} />
+      <ResponsivePieChart {...args} />
     </ChartFrame>
   ),
 };

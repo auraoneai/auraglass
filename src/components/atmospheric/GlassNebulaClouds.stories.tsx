@@ -1,5 +1,43 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { GlassNebulaClouds } from './GlassNebulaClouds';
+
+const useResponsiveAtmosphericLayout = (desktopWidth: number, desktopHeight: number) => {
+  const [layout, setLayout] = React.useState({
+    width: desktopWidth,
+    height: desktopHeight,
+    mobile: false,
+  });
+
+  React.useEffect(() => {
+    const updateLayout = () => {
+      const mobile = window.innerWidth < 520;
+      setLayout({
+        width: mobile ? Math.min(260, window.innerWidth - 96) : desktopWidth,
+        height: mobile ? 320 : desktopHeight,
+        mobile,
+      });
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, [desktopHeight, desktopWidth]);
+
+  return layout;
+};
+
+const ResponsiveNebulaClouds = (args: React.ComponentProps<typeof GlassNebulaClouds>) => {
+  const layout = useResponsiveAtmosphericLayout(args.width ?? 800, args.height ?? 600);
+  return (
+    <GlassNebulaClouds
+      {...args}
+      width={layout.width}
+      height={layout.height}
+      showControls={layout.mobile ? false : args.showControls}
+    />
+  );
+};
 
 const meta = {
   title: 'Effects + Advanced/Glass Nebula Clouds',
@@ -44,6 +82,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  render: (args) => <ResponsiveNebulaClouds {...args} />,
   args: {
     width: 800,
     height: 600,

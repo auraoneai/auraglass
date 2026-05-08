@@ -29,7 +29,11 @@ type Story = StoryObj<typeof GlassCheckboxUI>;
 
 export const Default: Story = {
   args: {
-    
+    label: 'Enable glass controls',
+    description: 'Checked state is visible in the default story.',
+    defaultChecked: true,
+    size: 'lg',
+    style: { color: '#0f172a' },
   },
 };
 

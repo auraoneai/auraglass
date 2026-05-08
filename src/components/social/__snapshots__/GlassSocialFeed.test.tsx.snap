@@ -3,7 +3,7 @@
 exports[`GlassSocialFeed matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level2 glass-tier-high"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow-x: hidden;"
 >
   <div
     class="glass-p-4 glass-space-y-4"

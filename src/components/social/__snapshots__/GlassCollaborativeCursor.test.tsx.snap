@@ -11,6 +11,7 @@ exports[`GlassCollaborativeCursor matches snapshot 1`] = `
   >
     <svg
       class="glass-absolute glass-inset-0 glass-pointer-events-none"
+      data-glass-overlay="true"
       style="z-index: 10;"
     />
   </div>

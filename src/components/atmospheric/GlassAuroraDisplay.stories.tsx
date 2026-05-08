@@ -1,6 +1,44 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 import { fn } from 'storybook/test';
 import { GlassAuroraDisplay } from './GlassAuroraDisplay';
+
+const useResponsiveAtmosphericLayout = (desktopWidth: number, desktopHeight: number) => {
+  const [layout, setLayout] = React.useState({
+    width: desktopWidth,
+    height: desktopHeight,
+    mobile: false,
+  });
+
+  React.useEffect(() => {
+    const updateLayout = () => {
+      const mobile = window.innerWidth < 520;
+      setLayout({
+        width: mobile ? Math.min(260, window.innerWidth - 96) : desktopWidth,
+        height: mobile ? 320 : desktopHeight,
+        mobile,
+      });
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, [desktopHeight, desktopWidth]);
+
+  return layout;
+};
+
+const ResponsiveAuroraDisplay = (args: React.ComponentProps<typeof GlassAuroraDisplay>) => {
+  const layout = useResponsiveAtmosphericLayout(args.width ?? 800, args.height ?? 500);
+  return (
+    <GlassAuroraDisplay
+      {...args}
+      width={layout.width}
+      height={layout.height}
+      showControls={layout.mobile ? false : args.showControls}
+    />
+  );
+};
 
 const meta = {
   title: 'Effects + Advanced/Glass Aurora Display',
@@ -50,6 +88,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  render: (args) => <ResponsiveAuroraDisplay {...args} />,
   args: {
     width: 800,
     height: 500,

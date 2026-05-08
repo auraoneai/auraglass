@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 export interface CookieCategory {
   id: string;
   name: string;
@@ -15,7 +15,13 @@ export interface CookieCategory {
 export interface GlobalCookieConsentProps {
   title?: string;
   message?: string;
-  position?: 'bottom' | 'top' | 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+  position?:
+    | "bottom"
+    | "top"
+    | "bottom-left"
+    | "bottom-right"
+    | "top-left"
+    | "top-right";
   acceptButtonText?: string;
   declineButtonText?: string;
   settingsButtonText?: string;
@@ -39,6 +45,7 @@ export interface GlobalCookieConsentProps {
   initiallyExpanded?: boolean;
   useModalForDetails?: boolean;
   defaultSelectedCategories?: string[];
+  forceVisible?: boolean;
   className?: string;
   style?: React.CSSProperties;
   animationConfig?: any;
@@ -47,11 +54,11 @@ export interface GlobalCookieConsentProps {
   theme?: any;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }

@@ -3,15 +3,17 @@
 exports[`Glass3DEngine matches snapshot 1`] = `
 <div
   class="glass-3d-container "
-  style="position: relative; overflow: hidden;"
+  style="position: relative; overflow: visible;"
   tabindex="0"
 >
   <div
     class="glass-3d-layers"
+    data-glass-overlay="true"
     style="position: absolute; inset: 0; transform: none;"
   >
     <div
       class="glass-3d-layer glass-layer-background"
+      data-glass-overlay="true"
       style="position: absolute; inset: 0; border-radius: inherit; z-index: 0; transform: translateZ(-20px) translateY(-2px); opacity: 0.3; mix-blend-mode: normal;"
     >
       <div
@@ -1223,6 +1225,7 @@ exports[`Glass3DEngine matches snapshot 1`] = `
     </div>
     <div
       class="glass-3d-layer glass-layer-midground"
+      data-glass-overlay="true"
       style="position: absolute; inset: 0; border-radius: inherit; z-index: 1; transform: translateZ(0px) translateY(-6px); opacity: 0.6; mix-blend-mode: multiply;"
     >
       <div
@@ -2434,6 +2437,7 @@ exports[`Glass3DEngine matches snapshot 1`] = `
     </div>
     <div
       class="glass-3d-layer glass-layer-foreground"
+      data-glass-overlay="true"
       style="position: absolute; inset: 0; border-radius: inherit; z-index: 2; transform: translateZ(20px) translateY(-12px); opacity: 0.9; mix-blend-mode: normal;"
     >
       <div
@@ -3645,6 +3649,7 @@ exports[`Glass3DEngine matches snapshot 1`] = `
     </div>
     <div
       class="glass-3d-layer glass-layer-surface"
+      data-glass-overlay="true"
       style="position: absolute; inset: 0; border-radius: inherit; z-index: 3; transform: translateZ(40px) translateY(-20px); opacity: 0.95; mix-blend-mode: multiply;"
     >
       <div
@@ -4865,6 +4870,7 @@ exports[`Glass3DEngine matches snapshot 1`] = `
   />
   <div
     class="glass-parallax-background"
+    data-glass-overlay="true"
     style="position: absolute; inset: -20%; transform: none;"
   />
   <style>

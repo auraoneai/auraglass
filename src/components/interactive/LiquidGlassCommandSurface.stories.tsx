@@ -23,7 +23,7 @@ export const Default: Story = {
       }}
     >
       <style>{`
-        .liquid-command-story-backdrop {
+        .glass-liquid-command-story-backdrop {
           min-height: calc(100vh - 64px);
           display: grid;
           grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
@@ -37,7 +37,7 @@ export const Default: Story = {
           box-shadow: 0 24px 80px rgba(15,23,42,.14);
         }
 
-        .liquid-command-story-card {
+        .glass-liquid-command-story-card {
           border-radius: 24px;
           padding: 22px;
           background: rgba(255,255,255,.52);
@@ -64,22 +64,22 @@ export const Default: Story = {
         }
 
         @media (max-width: 720px) {
-          .liquid-command-story-backdrop {
+          .glass-liquid-command-story-backdrop {
             min-height: calc(100vh - 40px);
             grid-template-columns: 1fr;
             padding: 20px;
           }
         }
       `}</style>
-      <div className="liquid-command-story-backdrop" aria-hidden="true">
-        <section className="liquid-command-story-card">
+      <div className="glass-liquid-command-story-backdrop" aria-hidden="true">
+        <section className="glass-liquid-command-story-card">
           <h2 style={{ margin: 0, fontSize: 28 }}>Workspace command center</h2>
           <p style={{ maxWidth: 520, color: "#475569" }}>
             The command surface floats over real app content with enough spacing
             for groups, shortcuts, hover states, and scroll edge treatment.
           </p>
         </section>
-        <section className="liquid-command-story-card">
+        <section className="glass-liquid-command-story-card">
           <strong>Recent activity</strong>
           <div style={{ display: "grid", gap: 10, marginTop: 16 }}>
             {["Media export finished", "Review room synced", "Design tokens updated"].map((item) => (

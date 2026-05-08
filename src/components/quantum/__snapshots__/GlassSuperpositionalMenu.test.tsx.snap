@@ -3,10 +3,10 @@
 exports[`GlassSuperpositionalMenu matches snapshot 1`] = `
 <div
   aria-label="Quantum superposition menu"
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-p-6 glass-space-y-4"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-p-6 glass-space-y-4 glass-text-white"
   data-glass-component="true"
   role="region"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); color: rgba(255, 255, 255, 0.95); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
     class="glass-absolute glass-inset-0 glass-pointer-events-none"
@@ -94,6 +94,7 @@ exports[`GlassSuperpositionalMenu matches snapshot 1`] = `
   </div>
   <svg
     class="glass-absolute glass-inset-0 glass-pointer-events-none"
+    data-glass-overlay="true"
     style="z-index: 10;"
   />
   <div
@@ -116,11 +117,13 @@ exports[`GlassSuperpositionalMenu matches snapshot 1`] = `
     >
       <button
         class="glass-px-4 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors glass-duration-200 position overflow borderRadius boxShadow background glass-text-primary hover:glass-text-white glass-border glass-border-primary hover:glass-border-white"
+        style="color: rgba(255, 255, 255, 0.95); border-color: rgba(255, 255, 255, 0.28);"
       >
         🔬 Measure
       </button>
       <button
         class="glass-px-4 glass-py-2 glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors glass-duration-200 position overflow borderRadius boxShadow background glass-text-accent hover:glass-text-accent-light glass-border glass-border-accent hover:glass-border-accent-light"
+        style="color: rgba(255, 255, 255, 0.95); border-color: rgba(236, 72, 153, 0.42);"
       >
         ⚛ Entangle
       </button>

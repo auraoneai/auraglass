@@ -48,7 +48,7 @@ export const Default: Story = {
   render: (args) => (
     <AtmosphericBackground
       {...args}
-      className="glass-w-full glass-flex glass-items-center glass-justify-center glass-p-6"
+      className="glass-w-full glass-flex glass-items-center glass-justify-center"
       style={{ minHeight: 'min(100vh, 760px)' }}
       baseColor="rgba(15, 23, 42, 0.92)"
       gradientColors={[
@@ -58,14 +58,20 @@ export const Default: Story = {
       ]}
       animate={false}
     >
-      <section className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md">
-        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70">
+      <section
+        className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md"
+        style={{ width: 'min(calc(100vw - 48px), 48rem)', maxWidth: '100%', minWidth: 0, color: '#f8fafc' }}
+      >
+        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70" style={{ color: 'rgba(248, 250, 252, 0.78)' }}>
           Atmospheric surface
         </p>
-        <h1 className="glass-mt-2 glass-text-3xl glass-font-semibold">
+        <h1
+          className="glass-mt-2 glass-font-semibold"
+          style={{ overflowWrap: 'anywhere', wordBreak: 'normal', color: '#ffffff', fontSize: 'clamp(1.45rem, 7vw, 1.875rem)', lineHeight: 1.1, maxWidth: '18ch' }}
+        >
           Command center backdrop
         </h1>
-        <p className="glass-mt-3 glass-max-w-2xl glass-text-sm glass-text-white/75">
+        <p className="glass-mt-3 glass-max-w-2xl glass-text-sm glass-text-white/75" style={{ color: 'rgba(248, 250, 252, 0.82)' }}>
           Foreground panels remain legible while the background demonstrates depth and color.
         </p>
       </section>

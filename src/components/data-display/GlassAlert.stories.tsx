@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassAlert } from './GlassAlert';
-import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof GlassAlert> = {
   title: 'Data + Visualization/Glass Alert',
@@ -47,7 +46,12 @@ type Story = StoryObj<typeof GlassAlert>;
 
 export const Default: Story = {
   args: {
-    children: 'This is a sample alert message with important information.',
+    animate: false,
+    children: 'Review notice: sample alert content is visible.',
+    style: {
+      width: 'min(280px, calc(100vw - 32px))',
+      color: '#0f172a',
+    },
   },
 };
 

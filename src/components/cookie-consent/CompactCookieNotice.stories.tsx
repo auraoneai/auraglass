@@ -1,7 +1,23 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { CompactCookieNotice } from './CompactCookieNotice';
-import { cn } from '../../lib/utils';
+
+const CookieStoryFrame = ({ children }: { children: React.ReactNode }) => {
+  const [ready, setReady] = React.useState(false);
+
+  React.useEffect(() => {
+    document.cookie = 'cookie-consent=; Max-Age=0; path=/';
+    setReady(true);
+  }, []);
+
+  if (!ready) return null;
+
+  return (
+    <div style={{ width: 'min(100%, 420px)' }}>
+      {children}
+    </div>
+  );
+};
 
 const meta: Meta<typeof CompactCookieNotice> = {
   title: 'Workflows/Compact Cookie Notice',
@@ -55,7 +71,22 @@ export default meta;
 type Story = StoryObj<typeof CompactCookieNotice>;
 
 export const Default: Story = {
-  args: {},
+  render: (args) => (
+    <CookieStoryFrame>
+      <CompactCookieNotice
+        {...args}
+        animate={false}
+        forceVisible
+        position="bottom"
+        style={{
+          position: 'static',
+          transform: 'none',
+          width: '100%',
+          maxWidth: '100%',
+        }}
+      />
+    </CookieStoryFrame>
+  ),
 };
 
 export const Variants: Story = {

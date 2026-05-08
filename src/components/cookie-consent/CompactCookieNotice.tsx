@@ -36,6 +36,7 @@ interface CompactCookieNoticeProps
   onMoreInfo?: () => void;
   theme?: unknown;
   animate?: boolean;
+  forceVisible?: boolean;
 }
 
 // Cookie management utility
@@ -93,24 +94,30 @@ export const CompactCookieNotice = forwardRef<
       glassIntensity = 0.6,
       position = "bottom-left",
       animate = true,
+      forceVisible = false,
       ...rest
     }: CompactCookieNoticeProps,
     ref
   ) => {
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(forceVisible);
     const prefersReducedMotion = useReducedMotion();
     const { defaultSpring } = useAnimationContext();
 
     const shouldAnimate = animate && !prefersReducedMotion;
 
     useEffect(() => {
+      if (forceVisible) {
+        setVisible(true);
+        return;
+      }
+
       // Check if user has already made a choice
       const consentValue = getCookie("cookie-consent");
       if (!consentValue) {
         // Show the notice
         setVisible(true);
       }
-    }, []);
+    }, [forceVisible]);
 
     const handleAccept = () => {
       setCookie("cookie-consent", "accepted", 365);

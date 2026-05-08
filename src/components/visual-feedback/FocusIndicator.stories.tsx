@@ -1,7 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import FocusIndicator from './FocusIndicator';
-import { cn } from '../../lib/utils';
 
 const meta: Meta<typeof FocusIndicator> = {
   title: 'Controls/Inputs/Focus Indicator',
@@ -29,9 +28,20 @@ export default meta;
 type Story = StoryObj<typeof FocusIndicator>;
 
 export const Default: Story = {
-  args: {
-    
-  },
+  render: (args: any) => (
+    <FocusIndicator
+      {...args}
+      visible
+      style="glow"
+      thickness={4}
+      className="glass-rounded-lg"
+    >
+      <button className="glass-rounded-lg glass-bg-slate-900 glass-px-4 glass-py-2 glass-text-sm glass-font-medium glass-text-white">
+        Focus target
+      </button>
+    </FocusIndicator>
+  ),
+  args: {},
 };
 
 export const Variants: Story = {

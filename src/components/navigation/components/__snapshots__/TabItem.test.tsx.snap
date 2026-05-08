@@ -8,10 +8,12 @@ exports[`TabItem matches snapshot 1`] = `
   data-glass-component="true"
   id="tab-overview"
   role="tab"
-  style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: transparent; border-radius: 6px; color: rgba(255, 255, 255, 0.88); cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 400; transition: all 0.2s ease;"
+  style="display: flex; align-items: center; flex-shrink: 0; max-width: 100%; min-width: 0; gap: 6px; padding: 8px 16px; background: transparent; border-radius: 6px; color: rgba(255, 255, 255, 0.88); cursor: pointer; opacity: 1; font-size: 0.875rem; font-weight: 400; transition: all 0.2s ease;"
   tabindex="-1"
 >
-  <span>
+  <span
+    style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+  >
     Overview
   </span>
 </button>

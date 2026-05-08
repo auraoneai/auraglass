@@ -1,5 +1,26 @@
 # Changelog
 
+## [3.0.2] - 2026-05-08
+
+### Storybook Screenshot Certification
+
+- Published the AuraGlass `3.0.2` patch for the final Storybook screenshot certification pass.
+- Regenerated the 356-component visual certification with 712/712 desktop and mobile screenshots passing.
+- Added 89 manual QA contact sheets and a manual screenshot QA report under `reports/component-screenshot-manual-qa/`.
+
+### Fixed
+
+- Added deterministic preview users for collaborative cursor Storybook defaults so cursor stories no longer render blank.
+- Added Storybook-only forced visibility support to cookie consent components so persisted consent state cannot hide default screenshots.
+- Reworked empty generated defaults for TreeView, GlassAccordionUI, GlassCheckboxUI, FocusIndicator, StateIndicator, and VisualFeedback so default screenshots show meaningful content.
+- Constrained and recolored GlassAlert and glass-panel default previews to avoid mobile clipping and low-contrast text.
+
+### Verification
+
+- `npm run typecheck -- --pretty false`
+- `npm run build-storybook`
+- `STORYBOOK_URL=http://127.0.0.1:6018 CERT_CONCURRENCY=8 CERT_RENDER_TIMEOUT_MS=20000 CERT_ROOT_WAIT_TIMEOUT_MS=8000 CERT_SETTLE_WAIT_MS=350 node scripts/audit/storybook-visual-certification.mjs`
+
 ## [3.0.1] - 2026-05-08
 
 ### Release Readiness

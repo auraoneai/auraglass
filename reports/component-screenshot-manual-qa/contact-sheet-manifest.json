@@ -1,0 +1,3658 @@
+{
+  "sourceReport": "reports/glassmorphism-storybook-visual-certification.json",
+  "generatedAt": "2026-05-08T07:47:05.458Z",
+  "componentCount": 356,
+  "expectedScreenshotCount": 712,
+  "screenshotCount": 712,
+  "sheets": [
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-001.png",
+      "components": [
+        {
+          "index": 1,
+          "name": "GlassErrorBoundary",
+          "storyId": "reference-legacy-components-glass-error-boundary--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-glasserrorboundary/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-glasserrorboundary/mobile.png"
+          ]
+        },
+        {
+          "index": 2,
+          "name": "AccessibilityProvider",
+          "storyId": "foundations-accessibility-accessibility-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-accessibilityprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-accessibilityprovider/mobile.png"
+          ]
+        },
+        {
+          "index": 3,
+          "name": "ContrastGuard",
+          "storyId": "foundations-accessibility-contrast-guard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-contrastguard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-contrastguard/mobile.png"
+          ]
+        },
+        {
+          "index": 4,
+          "name": "GlassA11y",
+          "storyId": "foundations-accessibility-glass-a11y--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-glassa11y/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-glassa11y/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-002.png",
+      "components": [
+        {
+          "index": 5,
+          "name": "GlassFocusIndicators",
+          "storyId": "foundations-accessibility-glass-focus-indicators--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-glassfocusindicators/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-accessibility-glassfocusindicators/mobile.png"
+          ]
+        },
+        {
+          "index": 6,
+          "name": "BrandColorIntegration",
+          "storyId": "effects-advanced-brand-color-integration--basic-integration",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-brandcolorintegration/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-brandcolorintegration/mobile.png"
+          ]
+        },
+        {
+          "index": 7,
+          "name": "GlassAchievementSystem",
+          "storyId": "effects-advanced-glass-achievement-system--interactive",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/mobile.png"
+          ]
+        },
+        {
+          "index": 8,
+          "name": "GlassAutoComposer",
+          "storyId": "ai-intelligence-glass-auto-composer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassautocomposer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassautocomposer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-003.png",
+      "components": [
+        {
+          "index": 9,
+          "name": "GlassBiometricAdaptation",
+          "storyId": "effects-advanced-glass-biometric-adaptation--interactive",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/mobile.png"
+          ]
+        },
+        {
+          "index": 10,
+          "name": "GlassContextAware",
+          "storyId": "ai-intelligence-glass-context-aware--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextaware/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextaware/mobile.png"
+          ]
+        },
+        {
+          "index": 11,
+          "name": "GlassContextualEngine",
+          "storyId": "ai-intelligence-glass-contextual-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/mobile.png"
+          ]
+        },
+        {
+          "index": 12,
+          "name": "GlassEngine",
+          "storyId": "effects-advanced-glass-engine--interactive-demo",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-004.png",
+      "components": [
+        {
+          "index": 13,
+          "name": "GlassEyeTracking",
+          "storyId": "effects-advanced-glass-eye-tracking--interactive",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/mobile.png"
+          ]
+        },
+        {
+          "index": 14,
+          "name": "GlassFoldableSupport",
+          "storyId": "effects-advanced-glass-foldable-support--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassfoldablesupport/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassfoldablesupport/mobile.png"
+          ]
+        },
+        {
+          "index": 15,
+          "name": "GlassLiquidTransition",
+          "storyId": "effects-advanced-glass-liquid-transition--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassliquidtransition/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassliquidtransition/mobile.png"
+          ]
+        },
+        {
+          "index": 16,
+          "name": "GlassLiveCursorPresence",
+          "storyId": "effects-advanced-glass-live-cursor-presence--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasslivecursorpresence/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasslivecursorpresence/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-005.png",
+      "components": [
+        {
+          "index": 17,
+          "name": "GlassMagneticCursor",
+          "storyId": "effects-advanced-glass-magnetic-cursor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmagneticcursor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmagneticcursor/mobile.png"
+          ]
+        },
+        {
+          "index": 18,
+          "name": "GlassMeshGradient",
+          "storyId": "effects-advanced-glass-mesh-gradient--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmeshgradient/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmeshgradient/mobile.png"
+          ]
+        },
+        {
+          "index": 19,
+          "name": "GlassMetaEngine",
+          "storyId": "effects-advanced-glass-meta-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmetaengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmetaengine/mobile.png"
+          ]
+        },
+        {
+          "index": 20,
+          "name": "GlassNeuroSync",
+          "storyId": "effects-advanced-glass-neuro-sync--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-006.png",
+      "components": [
+        {
+          "index": 21,
+          "name": "GlassOrientationEffects",
+          "storyId": "effects-advanced-glass-orientation-effects--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassorientationeffects/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassorientationeffects/mobile.png"
+          ]
+        },
+        {
+          "index": 22,
+          "name": "GlassParallaxLayers",
+          "storyId": "effects-advanced-glass-parallax-layers--hero-section",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparallaxlayers/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparallaxlayers/mobile.png"
+          ]
+        },
+        {
+          "index": 23,
+          "name": "GlassParticles",
+          "storyId": "effects-advanced-glass-particles--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparticles/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparticles/mobile.png"
+          ]
+        },
+        {
+          "index": 24,
+          "name": "GlassPerformanceOptimization",
+          "storyId": "effects-advanced-glass-performance-optimization--performance-dashboard",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassperformanceoptimization/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassperformanceoptimization/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-007.png",
+      "components": [
+        {
+          "index": 25,
+          "name": "GlassPredictiveEngine",
+          "storyId": "ai-intelligence-glass-predictive-engine--interactive",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasspredictiveengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasspredictiveengine/mobile.png"
+          ]
+        },
+        {
+          "index": 26,
+          "name": "GlassProgressiveEnhancement",
+          "storyId": "effects-advanced-glass-progressive-enhancement--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassprogressiveenhancement/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassprogressiveenhancement/mobile.png"
+          ]
+        },
+        {
+          "index": 27,
+          "name": "GlassQuantumStates",
+          "storyId": "effects-advanced-glass-quantum-states--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassquantumstates/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassquantumstates/mobile.png"
+          ]
+        },
+        {
+          "index": 28,
+          "name": "GlassReactions",
+          "storyId": "effects-advanced-glass-reactions--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassreactions/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassreactions/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-008.png",
+      "components": [
+        {
+          "index": 29,
+          "name": "GlassSelfHealingSystem",
+          "storyId": "effects-advanced-glass-self-healing-system--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassselfhealingsystem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassselfhealingsystem/mobile.png"
+          ]
+        },
+        {
+          "index": 30,
+          "name": "GlassSpatialAudio",
+          "storyId": "effects-advanced-glass-spatial-audio--interactive",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassspatialaudio/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassspatialaudio/mobile.png"
+          ]
+        },
+        {
+          "index": 31,
+          "name": "GlassTrophyCase",
+          "storyId": "effects-advanced-glass-trophy-case--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasstrophycase/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasstrophycase/mobile.png"
+          ]
+        },
+        {
+          "index": 32,
+          "name": "GlassWebGLShader",
+          "storyId": "effects-advanced-glass-web-glshader--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasswebglshader/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasswebglshader/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-009.png",
+      "components": [
+        {
+          "index": 33,
+          "name": "IntelligentColorSystem",
+          "storyId": "ai-intelligence-intelligent-color-system--interactive-demo",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-intelligentcolorsystem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-intelligentcolorsystem/mobile.png"
+          ]
+        },
+        {
+          "index": 34,
+          "name": "LiquidGlassGPU",
+          "storyId": "effects-advanced-liquid-glass-gpu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-liquidglassgpu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-liquidglassgpu/mobile.png"
+          ]
+        },
+        {
+          "index": 35,
+          "name": "AIGlassThemeProvider",
+          "storyId": "ai-intelligence-aiglass-theme-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-aiglassthemeprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-aiglassthemeprovider/mobile.png"
+          ]
+        },
+        {
+          "index": 36,
+          "name": "GlassDeepDreamGlass",
+          "storyId": "ai-intelligence-glass-deep-dream-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassdeepdreamglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassdeepdreamglass/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-010.png",
+      "components": [
+        {
+          "index": 37,
+          "name": "GlassGANGenerator",
+          "storyId": "ai-intelligence-glass-gangenerator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgangenerator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgangenerator/mobile.png"
+          ]
+        },
+        {
+          "index": 38,
+          "name": "GlassGenerativeArt",
+          "storyId": "ai-intelligence-glass-generative-art--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgenerativeart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgenerativeart/mobile.png"
+          ]
+        },
+        {
+          "index": 39,
+          "name": "GlassIntelligentFormBuilder",
+          "storyId": "ai-intelligence-glass-intelligent-form-builder--empty-builder",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassintelligentformbuilder/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassintelligentformbuilder/mobile.png"
+          ]
+        },
+        {
+          "index": 40,
+          "name": "GlassLiveFilter",
+          "storyId": "ai-intelligence-glass-live-filter--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glasslivefilter/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glasslivefilter/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-011.png",
+      "components": [
+        {
+          "index": 41,
+          "name": "GlassMusicVisualizer",
+          "storyId": "ai-intelligence-glass-music-visualizer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassmusicvisualizer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassmusicvisualizer/mobile.png"
+          ]
+        },
+        {
+          "index": 42,
+          "name": "GlassStyleTransfer",
+          "storyId": "ai-intelligence-glass-style-transfer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassstyletransfer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassstyletransfer/mobile.png"
+          ]
+        },
+        {
+          "index": 43,
+          "name": "ProductionAIIntegration",
+          "storyId": "ai-intelligence-production-aiintegration--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-productionaiintegration/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-productionaiintegration/mobile.png"
+          ]
+        },
+        {
+          "index": 44,
+          "name": "AIDemo",
+          "storyId": "ai-intelligence-aidemo--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-examples-aidemo/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-examples-aidemo/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-012.png",
+      "components": [
+        {
+          "index": 45,
+          "name": "AdvancedAnimations",
+          "storyId": "foundations-motion-advanced-animations--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-advancedanimations/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-advancedanimations/mobile.png"
+          ]
+        },
+        {
+          "index": 46,
+          "name": "GlassMotionController",
+          "storyId": "foundations-motion-glass-motion-controller--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glassmotioncontroller/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glassmotioncontroller/mobile.png"
+          ]
+        },
+        {
+          "index": 47,
+          "name": "GlassTransitions",
+          "storyId": "foundations-motion-glass-transitions--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glasstransitions/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glasstransitions/mobile.png"
+          ]
+        },
+        {
+          "index": 48,
+          "name": "OrganicAnimationEngine",
+          "storyId": "foundations-motion-organic-animation-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-organicanimationengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-organicanimationengine/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-013.png",
+      "components": [
+        {
+          "index": 49,
+          "name": "ARGlassEffects",
+          "storyId": "effects-advanced-arglass-effects--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ar-arglasseffects/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ar-arglasseffects/mobile.png"
+          ]
+        },
+        {
+          "index": 50,
+          "name": "GlassAuroraDisplay",
+          "storyId": "effects-advanced-glass-aurora-display--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassauroradisplay/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassauroradisplay/mobile.png"
+          ]
+        },
+        {
+          "index": 51,
+          "name": "GlassBiomeSimulator",
+          "storyId": "effects-advanced-glass-biome-simulator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassbiomesimulator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassbiomesimulator/mobile.png"
+          ]
+        },
+        {
+          "index": 52,
+          "name": "GlassNebulaClouds",
+          "storyId": "effects-advanced-glass-nebula-clouds--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassnebulaclouds/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassnebulaclouds/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-014.png",
+      "components": [
+        {
+          "index": 53,
+          "name": "GlassWeatherGlass",
+          "storyId": "effects-advanced-glass-weather-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassweatherglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-atmospheric-glassweatherglass/mobile.png"
+          ]
+        },
+        {
+          "index": 54,
+          "name": "AtmosphericBackground",
+          "storyId": "effects-advanced-atmospheric-background--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-atmosphericbackground/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-atmosphericbackground/mobile.png"
+          ]
+        },
+        {
+          "index": 55,
+          "name": "GlassDynamicAtmosphere",
+          "storyId": "effects-advanced-glass-dynamic-atmosphere--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-glassdynamicatmosphere/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-glassdynamicatmosphere/mobile.png"
+          ]
+        },
+        {
+          "index": 56,
+          "name": "ParticleBackground",
+          "storyId": "effects-advanced-particle-background--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-particlebackground/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-backgrounds-particlebackground/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-015.png",
+      "components": [
+        {
+          "index": 57,
+          "name": "EnhancedGlassButton",
+          "storyId": "controls-buttons-enhanced-glass-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-enhancedglassbutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-enhancedglassbutton/mobile.png"
+          ]
+        },
+        {
+          "index": 58,
+          "name": "GlassButton",
+          "storyId": "controls-buttons-glass-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassbutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassbutton/mobile.png"
+          ]
+        },
+        {
+          "index": 59,
+          "name": "GlassFab",
+          "storyId": "controls-buttons-glass-fab--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassfab/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassfab/mobile.png"
+          ]
+        },
+        {
+          "index": 60,
+          "name": "GlassMagneticButton",
+          "storyId": "controls-buttons-glass-magnetic-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassmagneticbutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-button-glassmagneticbutton/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-016.png",
+      "components": [
+        {
+          "index": 61,
+          "name": "GlassCalendar",
+          "storyId": "reference-legacy-components-glass-calendar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-calendar-glasscalendar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-calendar-glasscalendar/mobile.png"
+          ]
+        },
+        {
+          "index": 62,
+          "name": "GlassCard",
+          "storyId": "surfaces-cards-panels-glass-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glasscard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glasscard/mobile.png"
+          ]
+        },
+        {
+          "index": 63,
+          "name": "GlowingCard",
+          "storyId": "surfaces-cards-panels-glowing-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glowingcard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glowingcard/mobile.png"
+          ]
+        },
+        {
+          "index": 64,
+          "name": "div",
+          "storyId": "surfaces-cards-panels-div--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-div/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-div/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-017.png",
+      "components": [
+        {
+          "index": 65,
+          "name": "glass-card-link",
+          "storyId": "surfaces-cards-panels-glass-card-link--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glass-card-link/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-glass-card-link/mobile.png"
+          ]
+        },
+        {
+          "index": 66,
+          "name": "patterns",
+          "storyId": "surfaces-cards-panels-patterns--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-patterns/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-card-patterns/mobile.png"
+          ]
+        },
+        {
+          "index": 67,
+          "name": "GlassAreaChart",
+          "storyId": "data-visualization-glass-area-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassareachart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassareachart/mobile.png"
+          ]
+        },
+        {
+          "index": 68,
+          "name": "GlassBarChart",
+          "storyId": "data-visualization-glass-bar-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassbarchart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassbarchart/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-018.png",
+      "components": [
+        {
+          "index": 69,
+          "name": "GlassChart",
+          "storyId": "data-visualization-glass-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasschart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasschart/mobile.png"
+          ]
+        },
+        {
+          "index": 70,
+          "name": "GlassDataChart",
+          "storyId": "data-visualization-glass-data-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassdatachart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glassdatachart/mobile.png"
+          ]
+        },
+        {
+          "index": 71,
+          "name": "GlassLineChart",
+          "storyId": "data-visualization-glass-line-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasslinechart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasslinechart/mobile.png"
+          ]
+        },
+        {
+          "index": 72,
+          "name": "GlassPieChart",
+          "storyId": "data-visualization-glass-pie-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasspiechart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-glasspiechart/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-019.png",
+      "components": [
+        {
+          "index": 73,
+          "name": "ModularGlassDataChart",
+          "storyId": "data-visualization-modular-glass-data-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-modularglassdatachart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-modularglassdatachart/mobile.png"
+          ]
+        },
+        {
+          "index": 74,
+          "name": "AtmosphericEffects",
+          "storyId": "data-visualization-atmospheric-effects--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-atmosphericeffects/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-atmosphericeffects/mobile.png"
+          ]
+        },
+        {
+          "index": 75,
+          "name": "ChartAxis",
+          "storyId": "data-visualization-chart-axis--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartaxis/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartaxis/mobile.png"
+          ]
+        },
+        {
+          "index": 76,
+          "name": "ChartContainer",
+          "storyId": "data-visualization-chart-container--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartcontainer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartcontainer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-020.png",
+      "components": [
+        {
+          "index": 77,
+          "name": "ChartFilters",
+          "storyId": "data-visualization-chart-filters--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartfilters/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartfilters/mobile.png"
+          ]
+        },
+        {
+          "index": 78,
+          "name": "ChartGrid",
+          "storyId": "data-visualization-chart-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartgrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartgrid/mobile.png"
+          ]
+        },
+        {
+          "index": 79,
+          "name": "ChartLegend",
+          "storyId": "data-visualization-chart-legend--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartlegend/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartlegend/mobile.png"
+          ]
+        },
+        {
+          "index": 80,
+          "name": "ChartRenderer",
+          "storyId": "data-visualization-chart-renderer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartrenderer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-chartrenderer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-021.png",
+      "components": [
+        {
+          "index": 81,
+          "name": "ChartTooltip",
+          "storyId": "data-visualization-chart-tooltip--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-charttooltip/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-charttooltip/mobile.png"
+          ]
+        },
+        {
+          "index": 82,
+          "name": "KpiChart",
+          "storyId": "data-visualization-kpi-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-kpichart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-charts-components-kpichart/mobile.png"
+          ]
+        },
+        {
+          "index": 83,
+          "name": "GlassTypingIndicator",
+          "storyId": "workflows-glass-typing-indicator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-chat-glasstypingindicator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-chat-glasstypingindicator/mobile.png"
+          ]
+        },
+        {
+          "index": 84,
+          "name": "GlassCanvas",
+          "storyId": "workflows-glass-canvas--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasscanvas/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasscanvas/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-022.png",
+      "components": [
+        {
+          "index": 85,
+          "name": "GlassComponentPalette",
+          "storyId": "workflows-glass-component-palette--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasscomponentpalette/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasscomponentpalette/mobile.png"
+          ]
+        },
+        {
+          "index": 86,
+          "name": "GlassDragDropProvider",
+          "storyId": "workflows-glass-drag-drop-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glassdragdropprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glassdragdropprovider/mobile.png"
+          ]
+        },
+        {
+          "index": 87,
+          "name": "GlassPageBuilder",
+          "storyId": "workflows-glass-page-builder--empty-builder",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspagebuilder/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspagebuilder/mobile.png"
+          ]
+        },
+        {
+          "index": 88,
+          "name": "GlassPageStructure",
+          "storyId": "workflows-glass-page-structure--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspagestructure/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspagestructure/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-023.png",
+      "components": [
+        {
+          "index": 89,
+          "name": "GlassPropertyPanel",
+          "storyId": "workflows-glass-property-panel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspropertypanel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasspropertypanel/mobile.png"
+          ]
+        },
+        {
+          "index": 90,
+          "name": "CollaborativeGlassWorkspace",
+          "storyId": "workflows-collaborative-glass-workspace--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-collaborativeglassworkspace/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-collaborativeglassworkspace/mobile.png"
+          ]
+        },
+        {
+          "index": 91,
+          "name": "GlassCollaborationDashboard",
+          "storyId": "workflows-glass-collaboration-dashboard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborationdashboard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborationdashboard/mobile.png"
+          ]
+        },
+        {
+          "index": 92,
+          "name": "GlassCollaborationProvider",
+          "storyId": "workflows-glass-collaboration-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborationprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborationprovider/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-024.png",
+      "components": [
+        {
+          "index": 93,
+          "name": "GlassCollaborativeComments",
+          "storyId": "workflows-glass-collaborative-comments--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborativecomments/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborativecomments/mobile.png"
+          ]
+        },
+        {
+          "index": 94,
+          "name": "GlassCollaborativeCursor",
+          "storyId": "workflows-glass-collaborative-cursor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborativecursor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-collaboration-glasscollaborativecursor/mobile.png"
+          ]
+        },
+        {
+          "index": 95,
+          "name": "CompactCookieNotice",
+          "storyId": "workflows-compact-cookie-notice--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-compactcookienotice/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-compactcookienotice/mobile.png"
+          ]
+        },
+        {
+          "index": 96,
+          "name": "CookieConsent",
+          "storyId": "workflows-cookie-consent--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-cookieconsent/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-cookieconsent/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-025.png",
+      "components": [
+        {
+          "index": 97,
+          "name": "GlobalCookieConsent",
+          "storyId": "workflows-global-cookie-consent--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-globalcookieconsent/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-cookie-consent-globalcookieconsent/mobile.png"
+          ]
+        },
+        {
+          "index": 98,
+          "name": "DimensionalDashboardContainer",
+          "storyId": "reference-legacy-components-dimensional-dashboard-container--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-dimensionaldashboardcontainer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-dimensionaldashboardcontainer/mobile.png"
+          ]
+        },
+        {
+          "index": 99,
+          "name": "GlassActivityFeed",
+          "storyId": "reference-legacy-components-glass-activity-feed--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassactivityfeed/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassactivityfeed/mobile.png"
+          ]
+        },
+        {
+          "index": 100,
+          "name": "GlassChartWidget",
+          "storyId": "reference-legacy-components-glass-chart-widget--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glasschartwidget/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glasschartwidget/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-026.png",
+      "components": [
+        {
+          "index": 101,
+          "name": "GlassKPICard",
+          "storyId": "reference-legacy-components-glass-kpicard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glasskpicard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glasskpicard/mobile.png"
+          ]
+        },
+        {
+          "index": 102,
+          "name": "GlassMetricCard",
+          "storyId": "reference-legacy-components-glass-metric-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassmetriccard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassmetriccard/mobile.png"
+          ]
+        },
+        {
+          "index": 103,
+          "name": "GlassStatCard",
+          "storyId": "reference-legacy-components-glass-stat-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassstatcard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-dashboard-glassstatcard/mobile.png"
+          ]
+        },
+        {
+          "index": 104,
+          "name": "GlassAccordion",
+          "storyId": "data-visualization-glass-accordion--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassaccordion/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassaccordion/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-027.png",
+      "components": [
+        {
+          "index": 105,
+          "name": "GlassAlert",
+          "storyId": "data-visualization-glass-alert--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassalert/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassalert/mobile.png"
+          ]
+        },
+        {
+          "index": 106,
+          "name": "GlassAnimatedNumber",
+          "storyId": "data-visualization-glass-animated-number--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassanimatednumber/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassanimatednumber/mobile.png"
+          ]
+        },
+        {
+          "index": 107,
+          "name": "GlassAvatar",
+          "storyId": "data-visualization-glass-avatar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassavatar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassavatar/mobile.png"
+          ]
+        },
+        {
+          "index": 108,
+          "name": "GlassBadge",
+          "storyId": "data-visualization-glass-badge--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassbadge/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassbadge/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-028.png",
+      "components": [
+        {
+          "index": 109,
+          "name": "GlassBadgeLine",
+          "storyId": "data-visualization-glass-badge-line--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassbadgeline/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassbadgeline/mobile.png"
+          ]
+        },
+        {
+          "index": 110,
+          "name": "GlassChip",
+          "storyId": "data-visualization-glass-chip--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasschip/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasschip/mobile.png"
+          ]
+        },
+        {
+          "index": 111,
+          "name": "GlassDataGrid",
+          "storyId": "data-visualization-glass-data-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatagrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatagrid/mobile.png"
+          ]
+        },
+        {
+          "index": 112,
+          "name": "GlassDataGridPro",
+          "storyId": "data-visualization-glass-data-grid-pro--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatagridpro/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatagridpro/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-029.png",
+      "components": [
+        {
+          "index": 113,
+          "name": "GlassDataTable",
+          "storyId": "data-visualization-glass-data-table--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatatable/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdatatable/mobile.png"
+          ]
+        },
+        {
+          "index": 114,
+          "name": "GlassDiffViewer",
+          "storyId": "data-visualization-glass-diff-viewer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdiffviewer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdiffviewer/mobile.png"
+          ]
+        },
+        {
+          "index": 115,
+          "name": "GlassDivider",
+          "storyId": "data-visualization-glass-divider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdivider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassdivider/mobile.png"
+          ]
+        },
+        {
+          "index": 116,
+          "name": "GlassGanttChart",
+          "storyId": "data-visualization-glass-gantt-chart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassganttchart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassganttchart/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-030.png",
+      "components": [
+        {
+          "index": 117,
+          "name": "GlassHeatmap",
+          "storyId": "data-visualization-glass-heatmap--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassheatmap/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassheatmap/mobile.png"
+          ]
+        },
+        {
+          "index": 118,
+          "name": "GlassJSONViewer",
+          "storyId": "data-visualization-glass-jsonviewer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassjsonviewer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassjsonviewer/mobile.png"
+          ]
+        },
+        {
+          "index": 119,
+          "name": "GlassKanbanBoard",
+          "storyId": "data-visualization-glass-kanban-board--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasskanbanboard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasskanbanboard/mobile.png"
+          ]
+        },
+        {
+          "index": 120,
+          "name": "GlassLoadingSkeleton",
+          "storyId": "data-visualization-glass-loading-skeleton--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassloadingskeleton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassloadingskeleton/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-031.png",
+      "components": [
+        {
+          "index": 121,
+          "name": "GlassMetricChip",
+          "storyId": "data-visualization-glass-metric-chip--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassmetricchip/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassmetricchip/mobile.png"
+          ]
+        },
+        {
+          "index": 122,
+          "name": "GlassMetricsGrid",
+          "storyId": "data-visualization-glass-metrics-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassmetricsgrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassmetricsgrid/mobile.png"
+          ]
+        },
+        {
+          "index": 123,
+          "name": "GlassNotificationCenter",
+          "storyId": "data-visualization-glass-notification-center--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassnotificationcenter/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassnotificationcenter/mobile.png"
+          ]
+        },
+        {
+          "index": 124,
+          "name": "GlassProgress",
+          "storyId": "data-visualization-glass-progress--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassprogress/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassprogress/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-032.png",
+      "components": [
+        {
+          "index": 125,
+          "name": "GlassSchemaViewer",
+          "storyId": "data-visualization-glass-schema-viewer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassschemaviewer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassschemaviewer/mobile.png"
+          ]
+        },
+        {
+          "index": 126,
+          "name": "GlassSkeleton",
+          "storyId": "data-visualization-glass-skeleton--variants",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassskeleton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassskeleton/mobile.png"
+          ]
+        },
+        {
+          "index": 127,
+          "name": "GlassSkeletonLoader",
+          "storyId": "data-visualization-glass-skeleton-loader--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassskeletonloader/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassskeletonloader/mobile.png"
+          ]
+        },
+        {
+          "index": 128,
+          "name": "GlassSparkline",
+          "storyId": "data-visualization-glass-sparkline--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasssparkline/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasssparkline/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-033.png",
+      "components": [
+        {
+          "index": 129,
+          "name": "GlassStatusDot",
+          "storyId": "data-visualization-glass-status-dot--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassstatusdot/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassstatusdot/mobile.png"
+          ]
+        },
+        {
+          "index": 130,
+          "name": "GlassTimeline",
+          "storyId": "data-visualization-glass-timeline--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstimeline/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstimeline/mobile.png"
+          ]
+        },
+        {
+          "index": 131,
+          "name": "GlassToast",
+          "storyId": "data-visualization-glass-toast--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstoast/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstoast/mobile.png"
+          ]
+        },
+        {
+          "index": 132,
+          "name": "GlassTreeView",
+          "storyId": "data-visualization-glass-tree-view--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstreeview/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glasstreeview/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-034.png",
+      "components": [
+        {
+          "index": 133,
+          "name": "GlassVirtualTable",
+          "storyId": "data-visualization-glass-virtual-table--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassvirtualtable/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-glassvirtualtable/mobile.png"
+          ]
+        },
+        {
+          "index": 134,
+          "name": "Typography",
+          "storyId": "data-visualization-typography--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-typography/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-typography/mobile.png"
+          ]
+        },
+        {
+          "index": 135,
+          "name": "EnhancementShowcase",
+          "storyId": "reference-legacy-components-enhancement-showcase--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-demo-enhancementshowcase/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-demo-enhancementshowcase/mobile.png"
+          ]
+        },
+        {
+          "index": 136,
+          "name": "GlassEcommerceProvider",
+          "storyId": "workflows-glass-ecommerce-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glassecommerceprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glassecommerceprovider/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-035.png",
+      "components": [
+        {
+          "index": 137,
+          "name": "GlassProductRecommendations",
+          "storyId": "workflows-glass-product-recommendations--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glassproductrecommendations/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glassproductrecommendations/mobile.png"
+          ]
+        },
+        {
+          "index": 138,
+          "name": "GlassSmartShoppingCart",
+          "storyId": "workflows-glass-smart-shopping-cart--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glasssmartshoppingcart/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ecommerce-glasssmartshoppingcart/mobile.png"
+          ]
+        },
+        {
+          "index": 139,
+          "name": "GlassRichTextEditor",
+          "storyId": "reference-legacy-components-glass-rich-text-editor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-editor-glassrichtexteditor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-editor-glassrichtexteditor/mobile.png"
+          ]
+        },
+        {
+          "index": 140,
+          "name": "AuroraPro",
+          "storyId": "effects-advanced-aurora-pro--arctic-aurora",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-aurorapro/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-aurorapro/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-036.png",
+      "components": [
+        {
+          "index": 141,
+          "name": "Glass3DEngine",
+          "storyId": "effects-advanced-glass3-dengine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glass3dengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glass3dengine/mobile.png"
+          ]
+        },
+        {
+          "index": 142,
+          "name": "GlassMorphingEngine",
+          "storyId": "effects-advanced-glass-morphing-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassmorphingengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassmorphingengine/mobile.png"
+          ]
+        },
+        {
+          "index": 143,
+          "name": "GlassPhysicsEngine",
+          "storyId": "effects-advanced-glass-physics-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassphysicsengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassphysicsengine/mobile.png"
+          ]
+        },
+        {
+          "index": 144,
+          "name": "GlassShatterEffects",
+          "storyId": "effects-advanced-glass-shatter-effects--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassshattereffects/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-glassshattereffects/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-037.png",
+      "components": [
+        {
+          "index": 145,
+          "name": "SeasonalParticles",
+          "storyId": "effects-advanced-seasonal-particles--winter",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-seasonalparticles/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-effects-seasonalparticles/mobile.png"
+          ]
+        },
+        {
+          "index": 146,
+          "name": "GlassMoodRing",
+          "storyId": "reference-legacy-components-glass-mood-ring--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-experiential-glassmoodring/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-experiential-glassmoodring/mobile.png"
+          ]
+        },
+        {
+          "index": 147,
+          "name": "GlassToast",
+          "storyId": "reference-legacy-components-glass-toast--top-right",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-feedback-glasstoast/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-feedback-glasstoast/mobile.png"
+          ]
+        },
+        {
+          "index": 148,
+          "name": "HoudiniGlassCard",
+          "storyId": "effects-advanced-houdini-glass-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-houdini-houdiniglasscard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-houdini-houdiniglasscard/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-038.png",
+      "components": [
+        {
+          "index": 149,
+          "name": "HoudiniGlassProvider",
+          "storyId": "effects-advanced-houdini-glass-provider--showcase",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-houdini-houdiniglassprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-houdini-houdiniglassprovider/mobile.png"
+          ]
+        },
+        {
+          "index": 150,
+          "name": "ClearIcon",
+          "storyId": "reference-legacy-components-clear-icon--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-icons-clearicon/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-icons-clearicon/mobile.png"
+          ]
+        },
+        {
+          "index": 151,
+          "name": "GlassImageProcessingProvider",
+          "storyId": "reference-legacy-components-glass-image-processing-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-glassimageprocessingprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-glassimageprocessingprovider/mobile.png"
+          ]
+        },
+        {
+          "index": 152,
+          "name": "GlassIntelligentImageUploader",
+          "storyId": "ai-intelligence-glass-intelligent-image-uploader--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-glassintelligentimageuploader/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-glassintelligentimageuploader/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-039.png",
+      "components": [
+        {
+          "index": 153,
+          "name": "ImageList",
+          "storyId": "media-image-list--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelist/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelist/mobile.png"
+          ]
+        },
+        {
+          "index": 154,
+          "name": "ImageListItem",
+          "storyId": "media-image-list-item--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelistitem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelistitem/mobile.png"
+          ]
+        },
+        {
+          "index": 155,
+          "name": "ImageListItemBar",
+          "storyId": "media-image-list-item-bar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelistitembar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-image-list-imagelistitembar/mobile.png"
+          ]
+        },
+        {
+          "index": 156,
+          "name": "Glass360Viewer",
+          "storyId": "effects-advanced-glass360-viewer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glass360viewer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glass360viewer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-040.png",
+      "components": [
+        {
+          "index": 157,
+          "name": "GlassARPreview",
+          "storyId": "effects-advanced-glass-arpreview--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassarpreview/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassarpreview/mobile.png"
+          ]
+        },
+        {
+          "index": 158,
+          "name": "GlassFluidSimulation",
+          "storyId": "effects-advanced-glass-fluid-simulation--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassfluidsimulation/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassfluidsimulation/mobile.png"
+          ]
+        },
+        {
+          "index": 159,
+          "name": "GlassHologram",
+          "storyId": "effects-advanced-glass-hologram--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glasshologram/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glasshologram/mobile.png"
+          ]
+        },
+        {
+          "index": 160,
+          "name": "GlassParticleField",
+          "storyId": "effects-advanced-glass-particle-field--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassparticlefield/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassparticlefield/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-041.png",
+      "components": [
+        {
+          "index": 161,
+          "name": "GlassVortexPortal",
+          "storyId": "effects-advanced-glass-vortex-portal--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassvortexportal/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-immersive-glassvortexportal/mobile.png"
+          ]
+        },
+        {
+          "index": 162,
+          "name": "GlassCheckbox",
+          "storyId": "controls-inputs-glass-checkbox--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscheckbox/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscheckbox/mobile.png"
+          ]
+        },
+        {
+          "index": 163,
+          "name": "GlassCheckboxGroup",
+          "storyId": "controls-inputs-glass-checkbox-group--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscheckboxgroup/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscheckboxgroup/mobile.png"
+          ]
+        },
+        {
+          "index": 164,
+          "name": "GlassColorPicker",
+          "storyId": "controls-inputs-glass-color-picker--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscolorpicker/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasscolorpicker/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-042.png",
+      "components": [
+        {
+          "index": 165,
+          "name": "GlassDatePicker",
+          "storyId": "controls-inputs-glass-date-picker--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassdatepicker/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassdatepicker/mobile.png"
+          ]
+        },
+        {
+          "index": 166,
+          "name": "GlassDateRangePicker",
+          "storyId": "controls-inputs-glass-date-range-picker--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassdaterangepicker/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassdaterangepicker/mobile.png"
+          ]
+        },
+        {
+          "index": 167,
+          "name": "GlassFileUpload",
+          "storyId": "controls-inputs-glass-file-upload--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassfileupload/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassfileupload/mobile.png"
+          ]
+        },
+        {
+          "index": 168,
+          "name": "GlassForm",
+          "storyId": "controls-inputs-glass-form--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassform/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassform/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-043.png",
+      "components": [
+        {
+          "index": 169,
+          "name": "GlassFormStepper",
+          "storyId": "controls-inputs-glass-form-stepper--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassformstepper/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassformstepper/mobile.png"
+          ]
+        },
+        {
+          "index": 170,
+          "name": "GlassFormTable",
+          "storyId": "controls-inputs-glass-form-table--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassformtable/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassformtable/mobile.png"
+          ]
+        },
+        {
+          "index": 171,
+          "name": "GlassInput",
+          "storyId": "controls-inputs-glass-input--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassinput/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassinput/mobile.png"
+          ]
+        },
+        {
+          "index": 172,
+          "name": "GlassLabel",
+          "storyId": "controls-inputs-glass-label--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasslabel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasslabel/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-044.png",
+      "components": [
+        {
+          "index": 173,
+          "name": "GlassMultiSelect",
+          "storyId": "controls-inputs-glass-multi-select--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassmultiselect/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassmultiselect/mobile.png"
+          ]
+        },
+        {
+          "index": 174,
+          "name": "GlassMultiStepForm",
+          "storyId": "controls-inputs-glass-multi-step-form--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassmultistepform/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassmultistepform/mobile.png"
+          ]
+        },
+        {
+          "index": 175,
+          "name": "GlassRadioGroup",
+          "storyId": "controls-inputs-glass-radio-group--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassradiogroup/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassradiogroup/mobile.png"
+          ]
+        },
+        {
+          "index": 176,
+          "name": "GlassSelect",
+          "storyId": "controls-inputs-glass-select--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassselect/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassselect/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-045.png",
+      "components": [
+        {
+          "index": 177,
+          "name": "GlassSelectCompound",
+          "storyId": "controls-inputs-glass-select-compound--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassselectcompound/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassselectcompound/mobile.png"
+          ]
+        },
+        {
+          "index": 178,
+          "name": "GlassSlider",
+          "storyId": "controls-inputs-glass-slider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassslider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassslider/mobile.png"
+          ]
+        },
+        {
+          "index": 179,
+          "name": "GlassStep",
+          "storyId": "controls-inputs-glass-step--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstep/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstep/mobile.png"
+          ]
+        },
+        {
+          "index": 180,
+          "name": "GlassStepIcon",
+          "storyId": "controls-inputs-glass-step-icon--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstepicon/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstepicon/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-046.png",
+      "components": [
+        {
+          "index": 181,
+          "name": "GlassStepLabel",
+          "storyId": "controls-inputs-glass-step-label--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasssteplabel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasssteplabel/mobile.png"
+          ]
+        },
+        {
+          "index": 182,
+          "name": "GlassStepper",
+          "storyId": "controls-inputs-glass-stepper--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstepper/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassstepper/mobile.png"
+          ]
+        },
+        {
+          "index": 183,
+          "name": "GlassSwitch",
+          "storyId": "controls-inputs-glass-switch--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassswitch/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glassswitch/mobile.png"
+          ]
+        },
+        {
+          "index": 184,
+          "name": "GlassTextarea",
+          "storyId": "controls-inputs-glass-textarea--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstextarea/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstextarea/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-047.png",
+      "components": [
+        {
+          "index": 185,
+          "name": "GlassToggle",
+          "storyId": "controls-inputs-glass-toggle--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstoggle/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstoggle/mobile.png"
+          ]
+        },
+        {
+          "index": 186,
+          "name": "GlassTransferList",
+          "storyId": "controls-inputs-glass-transfer-list--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstransferlist/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstransferlist/mobile.png"
+          ]
+        },
+        {
+          "index": 187,
+          "name": "GlassTreeSelect",
+          "storyId": "controls-inputs-glass-tree-select--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstreeselect/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasstreeselect/mobile.png"
+          ]
+        },
+        {
+          "index": 188,
+          "name": "GlassWizard",
+          "storyId": "controls-inputs-glass-wizard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasswizard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-input-glasswizard/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-048.png",
+      "components": [
+        {
+          "index": 189,
+          "name": "ContextAwareGlass",
+          "storyId": "ai-intelligence-context-aware-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-contextawareglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-contextawareglass/mobile.png"
+          ]
+        },
+        {
+          "index": 190,
+          "name": "CursorGlow",
+          "storyId": "effects-advanced-cursor-glow--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-cursorglow/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-cursorglow/mobile.png"
+          ]
+        },
+        {
+          "index": 191,
+          "name": "GlassA11yAuditor",
+          "storyId": "effects-advanced-glass-a11y-auditor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassa11yauditor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassa11yauditor/mobile.png"
+          ]
+        },
+        {
+          "index": 192,
+          "name": "GlassAdvancedSearch",
+          "storyId": "effects-advanced-glass-advanced-search--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassadvancedsearch/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassadvancedsearch/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-049.png",
+      "components": [
+        {
+          "index": 193,
+          "name": "GlassAvatarGroup",
+          "storyId": "effects-advanced-glass-avatar-group--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassavatargroup/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassavatargroup/mobile.png"
+          ]
+        },
+        {
+          "index": 194,
+          "name": "GlassCardLink",
+          "storyId": "effects-advanced-glass-card-link--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscardlink/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscardlink/mobile.png"
+          ]
+        },
+        {
+          "index": 195,
+          "name": "GlassCarousel",
+          "storyId": "effects-advanced-glass-carousel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscarousel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscarousel/mobile.png"
+          ]
+        },
+        {
+          "index": 196,
+          "name": "GlassChat",
+          "storyId": "workflows-glass-chat--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasschat/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasschat/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-050.png",
+      "components": [
+        {
+          "index": 197,
+          "name": "GlassChatInput",
+          "storyId": "workflows-glass-chat-input--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasschatinput/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasschatinput/mobile.png"
+          ]
+        },
+        {
+          "index": 198,
+          "name": "GlassCoachmarks",
+          "storyId": "effects-advanced-glass-coachmarks--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscoachmarks/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscoachmarks/mobile.png"
+          ]
+        },
+        {
+          "index": 199,
+          "name": "GlassCodeEditor",
+          "storyId": "effects-advanced-glass-code-editor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscodeeditor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscodeeditor/mobile.png"
+          ]
+        },
+        {
+          "index": 200,
+          "name": "GlassColorSchemeGenerator",
+          "storyId": "effects-advanced-glass-color-scheme-generator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscolorschemegenerator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscolorschemegenerator/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-051.png",
+      "components": [
+        {
+          "index": 201,
+          "name": "GlassColorWheel",
+          "storyId": "effects-advanced-glass-color-wheel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscolorwheel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscolorwheel/mobile.png"
+          ]
+        },
+        {
+          "index": 202,
+          "name": "GlassCommand",
+          "storyId": "effects-advanced-glass-command--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommand/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommand/mobile.png"
+          ]
+        },
+        {
+          "index": 203,
+          "name": "GlassCommandPalette",
+          "storyId": "effects-advanced-glass-command-palette--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommandpalette/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommandpalette/mobile.png"
+          ]
+        },
+        {
+          "index": 204,
+          "name": "GlassCommentThread",
+          "storyId": "workflows-glass-comment-thread--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommentthread/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscommentthread/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-052.png",
+      "components": [
+        {
+          "index": 205,
+          "name": "GlassComponentPlayground",
+          "storyId": "workflows-glass-component-playground--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscomponentplayground/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasscomponentplayground/mobile.png"
+          ]
+        },
+        {
+          "index": 206,
+          "name": "GlassDraggable",
+          "storyId": "effects-advanced-glass-draggable--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassdraggable/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassdraggable/mobile.png"
+          ]
+        },
+        {
+          "index": 207,
+          "name": "GlassDrawingCanvas",
+          "storyId": "effects-advanced-glass-drawing-canvas--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassdrawingcanvas/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassdrawingcanvas/mobile.png"
+          ]
+        },
+        {
+          "index": 208,
+          "name": "GlassFacetSearch",
+          "storyId": "effects-advanced-glass-facet-search--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfacetsearch/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfacetsearch/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-053.png",
+      "components": [
+        {
+          "index": 209,
+          "name": "GlassFileExplorer",
+          "storyId": "effects-advanced-glass-file-explorer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfileexplorer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfileexplorer/mobile.png"
+          ]
+        },
+        {
+          "index": 210,
+          "name": "GlassFileTree",
+          "storyId": "effects-advanced-glass-file-tree--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfiletree/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfiletree/mobile.png"
+          ]
+        },
+        {
+          "index": 211,
+          "name": "GlassFileUpload",
+          "storyId": "workflows-glass-file-upload--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfileupload/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfileupload/mobile.png"
+          ]
+        },
+        {
+          "index": 212,
+          "name": "GlassFilterPanel",
+          "storyId": "effects-advanced-glass-filter-panel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfilterpanel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfilterpanel/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-054.png",
+      "components": [
+        {
+          "index": 213,
+          "name": "GlassFocusRing",
+          "storyId": "effects-advanced-glass-focus-ring--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfocusring/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassfocusring/mobile.png"
+          ]
+        },
+        {
+          "index": 214,
+          "name": "GlassFormBuilder",
+          "storyId": "workflows-glass-form-builder--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassformbuilder/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassformbuilder/mobile.png"
+          ]
+        },
+        {
+          "index": 215,
+          "name": "GlassGallery",
+          "storyId": "media-glass-gallery--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgallery/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgallery/mobile.png"
+          ]
+        },
+        {
+          "index": 216,
+          "name": "GlassGestureZone",
+          "storyId": "effects-advanced-glass-gesture-zone--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgesturezone/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgesturezone/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-055.png",
+      "components": [
+        {
+          "index": 217,
+          "name": "GlassGradientPicker",
+          "storyId": "effects-advanced-glass-gradient-picker--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgradientpicker/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassgradientpicker/mobile.png"
+          ]
+        },
+        {
+          "index": 218,
+          "name": "GlassImageViewer",
+          "storyId": "media-glass-image-viewer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassimageviewer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassimageviewer/mobile.png"
+          ]
+        },
+        {
+          "index": 219,
+          "name": "GlassInfiniteScroll",
+          "storyId": "effects-advanced-glass-infinite-scroll--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassinfinitescroll/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassinfinitescroll/mobile.png"
+          ]
+        },
+        {
+          "index": 220,
+          "name": "GlassInlineEdit",
+          "storyId": "effects-advanced-glass-inline-edit--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassinlineedit/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassinlineedit/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-056.png",
+      "components": [
+        {
+          "index": 221,
+          "name": "GlassKanban",
+          "storyId": "workflows-glass-kanban--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasskanban/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasskanban/mobile.png"
+          ]
+        },
+        {
+          "index": 222,
+          "name": "GlassKeyValueEditor",
+          "storyId": "workflows-glass-key-value-editor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasskeyvalueeditor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasskeyvalueeditor/mobile.png"
+          ]
+        },
+        {
+          "index": 223,
+          "name": "GlassLazyImage",
+          "storyId": "media-glass-lazy-image--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasslazyimage/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasslazyimage/mobile.png"
+          ]
+        },
+        {
+          "index": 224,
+          "name": "GlassMentionList",
+          "storyId": "effects-advanced-glass-mention-list--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmentionlist/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmentionlist/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-057.png",
+      "components": [
+        {
+          "index": 225,
+          "name": "GlassMessageList",
+          "storyId": "workflows-glass-message-list--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmessagelist/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmessagelist/mobile.png"
+          ]
+        },
+        {
+          "index": 226,
+          "name": "GlassMindMap",
+          "storyId": "workflows-glass-mind-map--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmindmap/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassmindmap/mobile.png"
+          ]
+        },
+        {
+          "index": 227,
+          "name": "GlassPatternBuilder",
+          "storyId": "effects-advanced-glass-pattern-builder--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasspatternbuilder/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasspatternbuilder/mobile.png"
+          ]
+        },
+        {
+          "index": 228,
+          "name": "GlassPresets",
+          "storyId": "effects-advanced-glass-presets--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasspresets/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasspresets/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-058.png",
+      "components": [
+        {
+          "index": 229,
+          "name": "GlassQueryBuilder",
+          "storyId": "workflows-glass-query-builder--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassquerybuilder/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassquerybuilder/mobile.png"
+          ]
+        },
+        {
+          "index": 230,
+          "name": "GlassReactionBar",
+          "storyId": "effects-advanced-glass-reaction-bar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassreactionbar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassreactionbar/mobile.png"
+          ]
+        },
+        {
+          "index": 231,
+          "name": "GlassSearchInterface",
+          "storyId": "effects-advanced-glass-search-interface--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasssearchinterface/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasssearchinterface/mobile.png"
+          ]
+        },
+        {
+          "index": 232,
+          "name": "GlassSignaturePad",
+          "storyId": "workflows-glass-signature-pad--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasssignaturepad/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasssignaturepad/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-059.png",
+      "components": [
+        {
+          "index": 233,
+          "name": "GlassSpotlight",
+          "storyId": "effects-advanced-glass-spotlight--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassspotlight/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassspotlight/mobile.png"
+          ]
+        },
+        {
+          "index": 234,
+          "name": "GlassStepper",
+          "storyId": "effects-advanced-glass-stepper--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassstepper/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassstepper/mobile.png"
+          ]
+        },
+        {
+          "index": 235,
+          "name": "GlassTagInput",
+          "storyId": "effects-advanced-glass-tag-input--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasstaginput/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasstaginput/mobile.png"
+          ]
+        },
+        {
+          "index": 236,
+          "name": "GlassThemeDemo",
+          "storyId": "effects-advanced-glass-theme-demo--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassthemedemo/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassthemedemo/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-060.png",
+      "components": [
+        {
+          "index": 237,
+          "name": "GlassThemeSwitcher",
+          "storyId": "effects-advanced-glass-theme-switcher--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassthemeswitcher/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassthemeswitcher/mobile.png"
+          ]
+        },
+        {
+          "index": 238,
+          "name": "GlassUserPresence",
+          "storyId": "effects-advanced-glass-user-presence--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassuserpresence/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassuserpresence/mobile.png"
+          ]
+        },
+        {
+          "index": 239,
+          "name": "GlassVideoPlayer",
+          "storyId": "media-glass-video-player--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvideoplayer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvideoplayer/mobile.png"
+          ]
+        },
+        {
+          "index": 240,
+          "name": "GlassVirtualList",
+          "storyId": "effects-advanced-glass-virtual-list--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvirtuallist/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvirtuallist/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-061.png",
+      "components": [
+        {
+          "index": 241,
+          "name": "GlassVoiceInput",
+          "storyId": "effects-advanced-glass-voice-input--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvoiceinput/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glassvoiceinput/mobile.png"
+          ]
+        },
+        {
+          "index": 242,
+          "name": "GlassWhiteboard",
+          "storyId": "workflows-glass-whiteboard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasswhiteboard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasswhiteboard/mobile.png"
+          ]
+        },
+        {
+          "index": 243,
+          "name": "PageTransitionDemo",
+          "storyId": "effects-advanced-page-transition-demo--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-pagetransitiondemo/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-pagetransitiondemo/mobile.png"
+          ]
+        },
+        {
+          "index": 244,
+          "name": "ThemedGlassComponents",
+          "storyId": "foundations-tokens-themed-glass-components--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-themedglasscomponents/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-themedglasscomponents/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-062.png",
+      "components": [
+        {
+          "index": 245,
+          "name": "Box",
+          "storyId": "surfaces-app-shells-layout-box--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-box/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-box/mobile.png"
+          ]
+        },
+        {
+          "index": 246,
+          "name": "GlassAppShell",
+          "storyId": "surfaces-app-shells-layout-glass-app-shell--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassappshell/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassappshell/mobile.png"
+          ]
+        },
+        {
+          "index": 247,
+          "name": "GlassBox",
+          "storyId": "surfaces-app-shells-layout-glass-box--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassbox/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassbox/mobile.png"
+          ]
+        },
+        {
+          "index": 248,
+          "name": "GlassContainer",
+          "storyId": "surfaces-app-shells-layout-glass-container--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glasscontainer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glasscontainer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-063.png",
+      "components": [
+        {
+          "index": 249,
+          "name": "GlassFlex",
+          "storyId": "surfaces-app-shells-layout-glass-flex--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassflex/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassflex/mobile.png"
+          ]
+        },
+        {
+          "index": 250,
+          "name": "GlassGrid",
+          "storyId": "surfaces-app-shells-layout-glass-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassgrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassgrid/mobile.png"
+          ]
+        },
+        {
+          "index": 251,
+          "name": "GlassMasonry",
+          "storyId": "surfaces-app-shells-layout-glass-masonry--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassmasonry/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassmasonry/mobile.png"
+          ]
+        },
+        {
+          "index": 252,
+          "name": "GlassScrollArea",
+          "storyId": "surfaces-app-shells-layout-glass-scroll-area--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassscrollarea/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassscrollarea/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-064.png",
+      "components": [
+        {
+          "index": 253,
+          "name": "GlassSeparator",
+          "storyId": "surfaces-app-shells-layout-glass-separator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassseparator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassseparator/mobile.png"
+          ]
+        },
+        {
+          "index": 254,
+          "name": "GlassSplitPane",
+          "storyId": "surfaces-app-shells-layout-glass-split-pane--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glasssplitpane/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glasssplitpane/mobile.png"
+          ]
+        },
+        {
+          "index": 255,
+          "name": "GlassStack",
+          "storyId": "surfaces-app-shells-layout-glass-stack--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassstack/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-glassstack/mobile.png"
+          ]
+        },
+        {
+          "index": 256,
+          "name": "HStack",
+          "storyId": "surfaces-app-shells-layout-hstack--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-hstack/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-hstack/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-065.png",
+      "components": [
+        {
+          "index": 257,
+          "name": "OptimizedGlassContainer",
+          "storyId": "surfaces-app-shells-layout-optimized-glass-container--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-optimizedglasscontainer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-optimizedglasscontainer/mobile.png"
+          ]
+        },
+        {
+          "index": 258,
+          "name": "VStack",
+          "storyId": "surfaces-app-shells-layout-vstack--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-vstack/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-vstack/mobile.png"
+          ]
+        },
+        {
+          "index": 259,
+          "name": "ZSpaceAppLayout",
+          "storyId": "surfaces-app-shells-layout-zspace-app-layout--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-zspaceapplayout/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layout-zspaceapplayout/mobile.png"
+          ]
+        },
+        {
+          "index": 260,
+          "name": "GlassFractalLayout",
+          "storyId": "surfaces-app-shells-layout-glass-fractal-layout--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassfractallayout/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassfractallayout/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-066.png",
+      "components": [
+        {
+          "index": 261,
+          "name": "GlassGoldenRatioGrid",
+          "storyId": "surfaces-app-shells-layout-glass-golden-ratio-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassgoldenratiogrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassgoldenratiogrid/mobile.png"
+          ]
+        },
+        {
+          "index": 262,
+          "name": "GlassIslandLayout",
+          "storyId": "surfaces-app-shells-layout-glass-island-layout--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassislandlayout/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassislandlayout/mobile.png"
+          ]
+        },
+        {
+          "index": 263,
+          "name": "GlassMasonryGrid",
+          "storyId": "surfaces-app-shells-layout-glass-masonry-grid--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassmasonrygrid/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassmasonrygrid/mobile.png"
+          ]
+        },
+        {
+          "index": 264,
+          "name": "GlassOrbitalMenu",
+          "storyId": "surfaces-app-shells-layout-glass-orbital-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassorbitalmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glassorbitalmenu/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-067.png",
+      "components": [
+        {
+          "index": 265,
+          "name": "GlassTessellation",
+          "storyId": "surfaces-app-shells-layout-glass-tessellation--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glasstessellation/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-layouts-glasstessellation/mobile.png"
+          ]
+        },
+        {
+          "index": 266,
+          "name": "GlassAdvancedAudioPlayer",
+          "storyId": "media-glass-advanced-audio-player--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassadvancedaudioplayer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassadvancedaudioplayer/mobile.png"
+          ]
+        },
+        {
+          "index": 267,
+          "name": "GlassAdvancedVideoPlayer",
+          "storyId": "media-glass-advanced-video-player--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassadvancedvideoplayer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassadvancedvideoplayer/mobile.png"
+          ]
+        },
+        {
+          "index": 268,
+          "name": "GlassMediaProvider",
+          "storyId": "media-glass-media-provider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassmediaprovider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-media-glassmediaprovider/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-068.png",
+      "components": [
+        {
+          "index": 269,
+          "name": "GlassActionSheet",
+          "storyId": "effects-advanced-glass-action-sheet--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-glassactionsheet/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-glassactionsheet/mobile.png"
+          ]
+        },
+        {
+          "index": 270,
+          "name": "GlassPullToRefresh",
+          "storyId": "effects-advanced-glass-pull-to-refresh--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-glasspulltorefresh/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-glasspulltorefresh/mobile.png"
+          ]
+        },
+        {
+          "index": 271,
+          "name": "TouchGlassOptimization",
+          "storyId": "effects-advanced-touch-glass-optimization--interactive-touch",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-touchglassoptimization/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-mobile-touchglassoptimization/mobile.png"
+          ]
+        },
+        {
+          "index": 272,
+          "name": "GlassBottomSheet",
+          "storyId": "surfaces-modals-glass-bottom-sheet--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassbottomsheet/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassbottomsheet/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-069.png",
+      "components": [
+        {
+          "index": 273,
+          "name": "GlassDialog",
+          "storyId": "surfaces-modals-glass-dialog--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassdialog/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassdialog/mobile.png"
+          ]
+        },
+        {
+          "index": 274,
+          "name": "GlassDrawer",
+          "storyId": "surfaces-modals-glass-drawer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassdrawer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassdrawer/mobile.png"
+          ]
+        },
+        {
+          "index": 275,
+          "name": "GlassHoverCard",
+          "storyId": "surfaces-modals-glass-hover-card--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasshovercard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasshovercard/mobile.png"
+          ]
+        },
+        {
+          "index": 276,
+          "name": "GlassModal",
+          "storyId": "surfaces-modals-glass-modal--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassmodal/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glassmodal/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-070.png",
+      "components": [
+        {
+          "index": 277,
+          "name": "GlassPopover",
+          "storyId": "surfaces-modals-glass-popover--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasspopover/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasspopover/mobile.png"
+          ]
+        },
+        {
+          "index": 278,
+          "name": "GlassTooltip",
+          "storyId": "surfaces-modals-glass-tooltip--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasstooltip/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-modal-glasstooltip/mobile.png"
+          ]
+        },
+        {
+          "index": 279,
+          "name": "EnhancedGlassTabs",
+          "storyId": "navigation-enhanced-glass-tabs--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-enhancedglasstabs/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-enhancedglasstabs/mobile.png"
+          ]
+        },
+        {
+          "index": 280,
+          "name": "GlassBottomNav",
+          "storyId": "navigation-glass-bottom-nav--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassbottomnav/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassbottomnav/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-071.png",
+      "components": [
+        {
+          "index": 281,
+          "name": "GlassBreadcrumb",
+          "storyId": "navigation-glass-breadcrumb--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassbreadcrumb/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassbreadcrumb/mobile.png"
+          ]
+        },
+        {
+          "index": 282,
+          "name": "GlassCommandBar",
+          "storyId": "navigation-glass-command-bar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasscommandbar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasscommandbar/mobile.png"
+          ]
+        },
+        {
+          "index": 283,
+          "name": "GlassContextMenu",
+          "storyId": "navigation-glass-context-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasscontextmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasscontextmenu/mobile.png"
+          ]
+        },
+        {
+          "index": 284,
+          "name": "GlassDropdownMenu",
+          "storyId": "navigation-glass-dropdown-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassdropdownmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassdropdownmenu/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-072.png",
+      "components": [
+        {
+          "index": 285,
+          "name": "GlassHeader",
+          "storyId": "navigation-glass-header--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassheader/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassheader/mobile.png"
+          ]
+        },
+        {
+          "index": 286,
+          "name": "GlassMenubar",
+          "storyId": "navigation-glass-menubar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassmenubar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassmenubar/mobile.png"
+          ]
+        },
+        {
+          "index": 287,
+          "name": "GlassMobileNav",
+          "storyId": "navigation-glass-mobile-nav--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassmobilenav/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassmobilenav/mobile.png"
+          ]
+        },
+        {
+          "index": 288,
+          "name": "GlassNavigation",
+          "storyId": "navigation-glass-navigation--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassnavigation/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassnavigation/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-073.png",
+      "components": [
+        {
+          "index": 289,
+          "name": "GlassNavigationMenu",
+          "storyId": "navigation-glass-navigation-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassnavigationmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassnavigationmenu/mobile.png"
+          ]
+        },
+        {
+          "index": 290,
+          "name": "GlassPagination",
+          "storyId": "navigation-glass-pagination--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasspagination/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasspagination/mobile.png"
+          ]
+        },
+        {
+          "index": 291,
+          "name": "GlassResponsiveNav",
+          "storyId": "navigation-glass-responsive-nav--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassresponsivenav/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glassresponsivenav/mobile.png"
+          ]
+        },
+        {
+          "index": 292,
+          "name": "GlassSegmentedControl",
+          "storyId": "navigation-glass-segmented-control--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasssegmentedcontrol/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasssegmentedcontrol/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-074.png",
+      "components": [
+        {
+          "index": 293,
+          "name": "GlassSidebar",
+          "storyId": "navigation-glass-sidebar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasssidebar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasssidebar/mobile.png"
+          ]
+        },
+        {
+          "index": 294,
+          "name": "GlassTabBar",
+          "storyId": "navigation-glass-tab-bar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabbar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabbar/mobile.png"
+          ]
+        },
+        {
+          "index": 295,
+          "name": "GlassTabItem",
+          "storyId": "navigation-glass-tab-item--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabitem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabitem/mobile.png"
+          ]
+        },
+        {
+          "index": 296,
+          "name": "GlassTabs",
+          "storyId": "navigation-glass-tabs--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabs/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstabs/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-075.png",
+      "components": [
+        {
+          "index": 297,
+          "name": "GlassToolbar",
+          "storyId": "navigation-glass-toolbar--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstoolbar/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-glasstoolbar/mobile.png"
+          ]
+        },
+        {
+          "index": 298,
+          "name": "HeaderUserMenu",
+          "storyId": "navigation-header-user-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-headerusermenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-headerusermenu/mobile.png"
+          ]
+        },
+        {
+          "index": 299,
+          "name": "CollapsedMenu",
+          "storyId": "navigation-collapsed-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-collapsedmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-collapsedmenu/mobile.png"
+          ]
+        },
+        {
+          "index": 300,
+          "name": "ScrollButtons",
+          "storyId": "navigation-scroll-buttons--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-scrollbuttons/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-scrollbuttons/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-076.png",
+      "components": [
+        {
+          "index": 301,
+          "name": "TabItem",
+          "storyId": "navigation-tab-item--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-tabitem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-navigation-components-tabitem/mobile.png"
+          ]
+        },
+        {
+          "index": 302,
+          "name": "GlassCoherenceIndicator",
+          "storyId": "effects-advanced-glass-coherence-indicator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasscoherenceindicator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasscoherenceindicator/mobile.png"
+          ]
+        },
+        {
+          "index": 303,
+          "name": "GlassProbabilityCloud",
+          "storyId": "effects-advanced-glass-probability-cloud--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassprobabilitycloud/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassprobabilitycloud/mobile.png"
+          ]
+        },
+        {
+          "index": 304,
+          "name": "GlassQuantumField",
+          "storyId": "effects-advanced-glass-quantum-field--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassquantumfield/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassquantumfield/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-077.png",
+      "components": [
+        {
+          "index": 305,
+          "name": "GlassQuantumTunnel",
+          "storyId": "effects-advanced-glass-quantum-tunnel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassquantumtunnel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glassquantumtunnel/mobile.png"
+          ]
+        },
+        {
+          "index": 306,
+          "name": "GlassSuperpositionalMenu",
+          "storyId": "effects-advanced-glass-superpositional-menu--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasssuperpositionalmenu/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasssuperpositionalmenu/mobile.png"
+          ]
+        },
+        {
+          "index": 307,
+          "name": "GlassWaveFunction",
+          "storyId": "effects-advanced-glass-wave-function--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasswavefunction/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-quantum-glasswavefunction/mobile.png"
+          ]
+        },
+        {
+          "index": 308,
+          "name": "GlassRating",
+          "storyId": "controls-buttons-glass-rating--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-rating-glassrating/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-rating-glassrating/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-078.png",
+      "components": [
+        {
+          "index": 309,
+          "name": "GlassIntelligentSearch",
+          "storyId": "controls-search-glass-intelligent-search--basic-search",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassintelligentsearch/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassintelligentsearch/mobile.png"
+          ]
+        },
+        {
+          "index": 310,
+          "name": "GlassSpotlightSearch",
+          "storyId": "controls-search-glass-spotlight-search--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassspotlightsearch/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassspotlightsearch/mobile.png"
+          ]
+        },
+        {
+          "index": 311,
+          "name": "GlassCollaborativeCursor",
+          "storyId": "workflows-social-glass-collaborative-cursor--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasscollaborativecursor/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasscollaborativecursor/mobile.png"
+          ]
+        },
+        {
+          "index": 312,
+          "name": "GlassPresenceIndicator",
+          "storyId": "workflows-glass-presence-indicator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasspresenceindicator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasspresenceindicator/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-079.png",
+      "components": [
+        {
+          "index": 313,
+          "name": "GlassReactionBubbles",
+          "storyId": "workflows-glass-reaction-bubbles--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassreactionbubbles/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassreactionbubbles/mobile.png"
+          ]
+        },
+        {
+          "index": 314,
+          "name": "GlassSharedWhiteboard",
+          "storyId": "workflows-glass-shared-whiteboard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssharedwhiteboard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssharedwhiteboard/mobile.png"
+          ]
+        },
+        {
+          "index": 315,
+          "name": "GlassSocialFeed",
+          "storyId": "workflows-glass-social-feed--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssocialfeed/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssocialfeed/mobile.png"
+          ]
+        },
+        {
+          "index": 316,
+          "name": "GlassVoiceWaveform",
+          "storyId": "workflows-glass-voice-waveform--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassvoicewaveform/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassvoicewaveform/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-080.png",
+      "components": [
+        {
+          "index": 317,
+          "name": "SpatialComputingEngine",
+          "storyId": "reference-legacy-components-spatial-computing-engine--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-spatial-spatialcomputingengine/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-spatial-spatialcomputingengine/mobile.png"
+          ]
+        },
+        {
+          "index": 318,
+          "name": "SpeedDial",
+          "storyId": "controls-buttons-speed-dial--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddial/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddial/mobile.png"
+          ]
+        },
+        {
+          "index": 319,
+          "name": "SpeedDialAction",
+          "storyId": "controls-buttons-speed-dial-action--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialaction/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialaction/mobile.png"
+          ]
+        },
+        {
+          "index": 320,
+          "name": "SpeedDialIcon",
+          "storyId": "controls-buttons-speed-dial-icon--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialicon/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialicon/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-081.png",
+      "components": [
+        {
+          "index": 321,
+          "name": "GlassConnectionStatus",
+          "storyId": "reference-legacy-components-glass-connection-status--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-status-glassconnectionstatus/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-status-glassconnectionstatus/mobile.png"
+          ]
+        },
+        {
+          "index": 322,
+          "name": "DimensionalGlass",
+          "storyId": "surfaces-cards-panels-dimensional-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-dimensionalglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-dimensionalglass/mobile.png"
+          ]
+        },
+        {
+          "index": 323,
+          "name": "FrostedGlass",
+          "storyId": "surfaces-cards-panels-frosted-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-frostedglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-frostedglass/mobile.png"
+          ]
+        },
+        {
+          "index": 324,
+          "name": "GlassDepthLayer",
+          "storyId": "surfaces-cards-panels-glass-depth-layer--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-glassdepthlayer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-glassdepthlayer/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-082.png",
+      "components": [
+        {
+          "index": 325,
+          "name": "HeatGlass",
+          "storyId": "surfaces-cards-panels-heat-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-heatglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-heatglass/mobile.png"
+          ]
+        },
+        {
+          "index": 326,
+          "name": "PageGlassContainer",
+          "storyId": "surfaces-cards-panels-page-glass-container--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-pageglasscontainer/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-pageglasscontainer/mobile.png"
+          ]
+        },
+        {
+          "index": 327,
+          "name": "WidgetGlass",
+          "storyId": "surfaces-cards-panels-widget-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-widgetglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-surfaces-widgetglass/mobile.png"
+          ]
+        },
+        {
+          "index": 328,
+          "name": "GlassDashboard",
+          "storyId": "workflows-glass-dashboard--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-glassdashboard/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-glassdashboard/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-083.png",
+      "components": [
+        {
+          "index": 329,
+          "name": "ChartWidget",
+          "storyId": "workflows-chart-widget--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-chartwidget/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-chartwidget/mobile.png"
+          ]
+        },
+        {
+          "index": 330,
+          "name": "MetricWidget",
+          "storyId": "workflows-metric-widget--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-metricwidget/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-metricwidget/mobile.png"
+          ]
+        },
+        {
+          "index": 331,
+          "name": "TableWidget",
+          "storyId": "workflows-table-widget--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-tablewidget/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-dashboard-widgets-tablewidget/mobile.png"
+          ]
+        },
+        {
+          "index": 332,
+          "name": "GlassDetailView",
+          "storyId": "workflows-glass-detail-view--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-detail-glassdetailview/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-detail-glassdetailview/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-084.png",
+      "components": [
+        {
+          "index": 333,
+          "name": "GlassFormTemplate",
+          "storyId": "workflows-glass-form-template--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glassformtemplate/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glassformtemplate/mobile.png"
+          ]
+        },
+        {
+          "index": 334,
+          "name": "GlassFormWizardSteps",
+          "storyId": "workflows-glass-form-wizard-steps--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glassformwizardsteps/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glassformwizardsteps/mobile.png"
+          ]
+        },
+        {
+          "index": 335,
+          "name": "GlassWizardTemplate",
+          "storyId": "workflows-glass-wizard-template--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glasswizardtemplate/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-forms-glasswizardtemplate/mobile.png"
+          ]
+        },
+        {
+          "index": 336,
+          "name": "GlassDataTable",
+          "storyId": "workflows-glass-data-table--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-interactive-glassdatatable/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-interactive-glassdatatable/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-085.png",
+      "components": [
+        {
+          "index": 337,
+          "name": "GlassListView",
+          "storyId": "workflows-glass-list-view--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-list-glasslistview/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-templates-list-glasslistview/mobile.png"
+          ]
+        },
+        {
+          "index": 338,
+          "name": "ToggleButton",
+          "storyId": "reference-legacy-components-toggle-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-toggle-button-togglebutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-toggle-button-togglebutton/mobile.png"
+          ]
+        },
+        {
+          "index": 339,
+          "name": "ToggleButtonGroup",
+          "storyId": "reference-legacy-components-toggle-button-group--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-toggle-button-togglebuttongroup/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-toggle-button-togglebuttongroup/mobile.png"
+          ]
+        },
+        {
+          "index": 340,
+          "name": "TreeItem",
+          "storyId": "controls-inputs-tree-item--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-tree-view-treeitem/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-tree-view-treeitem/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-086.png",
+      "components": [
+        {
+          "index": 341,
+          "name": "TreeView",
+          "storyId": "controls-inputs-tree-view--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-tree-view-treeview/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-tree-view-treeview/mobile.png"
+          ]
+        },
+        {
+          "index": 342,
+          "name": "GlassAccordionUI",
+          "storyId": "controls-inputs-glass-accordion-ui--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glassaccordionui/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glassaccordionui/mobile.png"
+          ]
+        },
+        {
+          "index": 343,
+          "name": "GlassCheckboxUI",
+          "storyId": "controls-inputs-glass-checkbox-ui--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glasscheckboxui/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glasscheckboxui/mobile.png"
+          ]
+        },
+        {
+          "index": 344,
+          "name": "glass-panel",
+          "storyId": "controls-inputs-glass-panel--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glass-panel/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-ui-components-glass-panel/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-087.png",
+      "components": [
+        {
+          "index": 345,
+          "name": "FocusIndicator",
+          "storyId": "controls-inputs-focus-indicator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-focusindicator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-focusindicator/mobile.png"
+          ]
+        },
+        {
+          "index": 346,
+          "name": "RippleButton",
+          "storyId": "controls-inputs-ripple-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-ripplebutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-ripplebutton/mobile.png"
+          ]
+        },
+        {
+          "index": 347,
+          "name": "StateIndicator",
+          "storyId": "controls-inputs-state-indicator--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-stateindicator/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-stateindicator/mobile.png"
+          ]
+        },
+        {
+          "index": 348,
+          "name": "VisualFeedback",
+          "storyId": "controls-inputs-visual-feedback--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-visualfeedback/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visual-feedback-visualfeedback/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-088.png",
+      "components": [
+        {
+          "index": 349,
+          "name": "GlassAdvancedDataViz",
+          "storyId": "data-visualization-glass-advanced-data-viz--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visualization-glassadvanceddataviz/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-visualization-glassadvanceddataviz/mobile.png"
+          ]
+        },
+        {
+          "index": 350,
+          "name": "VoiceGlassControl",
+          "storyId": "effects-advanced-voice-glass-control--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-voice-voiceglasscontrol/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-voice-voiceglasscontrol/mobile.png"
+          ]
+        },
+        {
+          "index": 351,
+          "name": "GlassChartsDemo",
+          "storyId": "reference-legacy-components-glass-charts-demo--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasschartsdemo/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasschartsdemo/mobile.png"
+          ]
+        },
+        {
+          "index": 352,
+          "name": "GlassLinkButton",
+          "storyId": "reference-legacy-components-glass-link-button--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasslinkbutton/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasslinkbutton/mobile.png"
+          ]
+        }
+      ]
+    },
+    {
+      "sheet": "reports/component-screenshot-manual-qa/contact-sheets/sheet-089.png",
+      "components": [
+        {
+          "index": 353,
+          "name": "GlassPrismComparison",
+          "storyId": "reference-legacy-components-glass-prism-comparison--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glassprismcomparison/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glassprismcomparison/mobile.png"
+          ]
+        },
+        {
+          "index": 354,
+          "name": "GlassWipeSlider",
+          "storyId": "reference-legacy-components-glass-wipe-slider--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasswipeslider/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasswipeslider/mobile.png"
+          ]
+        },
+        {
+          "index": 355,
+          "name": "GlassWipeSliderExamples",
+          "storyId": "reference-legacy-components-glass-wipe-slider-examples--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasswipesliderexamples/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-glasswipesliderexamples/mobile.png"
+          ]
+        },
+        {
+          "index": 356,
+          "name": "MotionAwareGlass",
+          "storyId": "reference-legacy-components-motion-aware-glass--default",
+          "screenshots": [
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-motionawareglass/desktop.png",
+            "reports/glassmorphism-storybook-visual-certification/screenshots/components-website-components-motionawareglass/mobile.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

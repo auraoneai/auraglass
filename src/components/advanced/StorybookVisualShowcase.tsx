@@ -181,6 +181,8 @@ const showcaseStyles = `
   font-size: 40px;
   line-height: 1.05;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 .ag-story-summary {
   margin: 14px 0 0;

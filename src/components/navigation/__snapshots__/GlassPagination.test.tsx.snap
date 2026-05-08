@@ -8,7 +8,7 @@ exports[`GlassPagination matches snapshot 1`] = `
   role="navigation"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high inline-flex items-center glass-gap-1 glass-p-1 glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-inline-flex glass-max-w-full glass-flex-wrap glass-items-center glass-justify-center glass-gap-1 glass-p-1 glass-backdrop-blur-md glass-ring-1 glass-ring-white/10 glass-bg-white/5"
     data-performance-mode="medium"
     style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
@@ -18,7 +18,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       <div
         aria-disabled="true"
         aria-label="First page"
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
         role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -51,7 +51,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       <div
         aria-disabled="true"
         aria-label="Previous page"
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
         role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -76,7 +76,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="glass-relative glass-inline-glass-flex glass-items-center glass-gap-1"
+      class="glass-relative glass-inline-flex glass-flex-wrap glass-items-center glass-justify-center glass-gap-1"
     >
       <div
         class="glass-absolute glass-bottom-0 glass-h-0-5 glass-surface-primary glass-transition-all glass-duration-200"
@@ -88,7 +88,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         <div
           aria-current="page"
           aria-label="Page 1"
-          class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/40 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30"
+          class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/40 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30"
           data-performance-mode="medium"
           role="button"
           style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -101,7 +101,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 2"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -114,7 +114,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 3"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -127,7 +127,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 4"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -140,7 +140,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 5"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -153,7 +153,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 6"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -167,7 +167,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         <div
           aria-disabled="true"
           aria-label="More pages"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -208,7 +208,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <div
           aria-label="Page 10"
-          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+          class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
           style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -222,7 +222,7 @@ exports[`GlassPagination matches snapshot 1`] = `
     >
       <div
         aria-label="Next page"
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
         role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -251,7 +251,7 @@ exports[`GlassPagination matches snapshot 1`] = `
     >
       <div
         aria-label="Last page"
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center justify-center font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
         role="button"
         style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"

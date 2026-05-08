@@ -10,7 +10,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
     data-glass-component="true"
   >
     <div
-      class="h-screen flex flex-col overflow-hidden bg-gray-100"
+      class="h-screen flex flex-col overflow-auto bg-gray-100"
     >
       <div
         class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle"
@@ -166,7 +166,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="glass-flex-1 glass-flex glass-overflow-hidden"
+        class="glass-flex-1 glass-flex glass-overflow-auto"
       >
         <div
           class="glass-flex"

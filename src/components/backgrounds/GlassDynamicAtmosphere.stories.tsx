@@ -45,14 +45,17 @@ export const Default: Story = {
         className="glass-relative glass-z-10 glass-flex glass-items-center glass-justify-center glass-p-6"
         style={{ minHeight: 'inherit' }}
       >
-        <div className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md">
-          <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70">
+        <div
+          className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md"
+          style={{ width: 'min(100%, 48rem)', maxWidth: '100%', minWidth: 0, color: '#f8fafc' }}
+        >
+          <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70" style={{ color: 'rgba(248, 250, 252, 0.78)' }}>
             Dynamic atmosphere
           </p>
-          <h1 className="glass-mt-2 glass-text-3xl glass-font-semibold">
+          <h1 className="glass-mt-2 glass-text-3xl glass-font-semibold" style={{ overflowWrap: 'anywhere', color: '#ffffff' }}>
             Aurora operations view
           </h1>
-          <p className="glass-mt-3 glass-text-sm glass-text-white/75">
+          <p className="glass-mt-3 glass-text-sm glass-text-white/75" style={{ color: 'rgba(248, 250, 252, 0.82)' }}>
             The animated layer fills the preview while foreground content proves readability.
           </p>
         </div>

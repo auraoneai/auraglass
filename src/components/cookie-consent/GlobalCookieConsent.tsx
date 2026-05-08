@@ -101,11 +101,12 @@ export const GlobalCookieConsent = forwardRef<
       initiallyExpanded = false,
       useModalForDetails = false,
       defaultSelectedCategories = [],
+      forceVisible = false,
       ...rest
     }: GlobalCookieConsentProps,
     ref
   ) => {
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(forceVisible);
     const [expanded, setExpanded] = useState(initiallyExpanded);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -143,6 +144,11 @@ export const GlobalCookieConsent = forwardRef<
 
     // Check if consent was previously given
     useEffect(() => {
+      if (forceVisible) {
+        setVisible(true);
+        return;
+      }
+
       const consentValue = getCookie("cookie-consent");
       if (!consentValue) {
         const timer = setTimeout(() => {
@@ -151,7 +157,7 @@ export const GlobalCookieConsent = forwardRef<
 
         return () => clearTimeout(timer);
       }
-    }, [delay]);
+    }, [delay, forceVisible]);
 
     // Handle timeout
     useEffect(() => {

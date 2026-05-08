@@ -49,7 +49,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
     top: tooltipData.y - 10,
     background:
       tooltipStyle === "frosted"
-        ? "var(--glass-text-secondary-dark)"
+        ? "rgba(15, 23, 42, 0.92)"
         : tooltipStyle === "minimal"
           ? "rgba(255, 255, 255, 0.96)"
           : "color-mix(in srgb, var(--glass-white) var(--glass-opacity-90), transparent)",

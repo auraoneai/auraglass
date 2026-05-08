@@ -1,7 +1,12 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassChart, ConsciousGlassChart, PredictiveGlassChart, AdaptiveGlassChart, ImmersiveGlassChart } from './GlassChart';
-import { cn } from '../../lib/utils';
+
+const ResponsiveGlassChart = (args: React.ComponentProps<typeof GlassChart>) => (
+  <div style={{ width: 'min(640px, calc(100vw - 48px))' }}>
+    <GlassChart {...args} width="100%" height={360} />
+  </div>
+);
 
 const meta: Meta<typeof GlassChart> = {
   title: 'Data + Visualization/Glass Chart',
@@ -111,6 +116,7 @@ export const ConsciousnessOverview: Story = {
 type Story = StoryObj<typeof GlassChart>;
 
 export const Default: Story = {
+  render: (args) => <ResponsiveGlassChart {...args} />,
   args: {
     data: [
       { x: 'Jan', y: 100 },
