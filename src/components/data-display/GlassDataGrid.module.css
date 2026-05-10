@@ -50,7 +50,7 @@
   outline: none;
   box-shadow: var(
     --glass-elev-datagrid-header-focus,
-    0 0 0 2px rgba(99, 102, 241, 0.5)
+    0 0 0 2px hsl(var(--glass-color-primary) / 0.5)
   );
 }
 
@@ -79,6 +79,7 @@
 }
 
 .row {
+  background: transparent;
   transition:
     background var(--aura-motion-duration-fast)
       var(--aura-motion-easing-standard),
@@ -86,6 +87,20 @@
       var(--aura-motion-easing-standard),
     box-shadow var(--aura-motion-duration-fast)
       var(--aura-motion-easing-standard);
+}
+
+.row:nth-child(even) {
+  background: var(
+    --glass-datagrid-row-even-bg,
+    color-mix(in srgb, var(--aura-color-global-text-primary) 3%, transparent)
+  );
+}
+
+.row:hover {
+  background: var(
+    --glass-datagrid-row-hover-bg,
+    color-mix(in srgb, var(--aura-color-global-text-primary) 6%, transparent)
+  );
 }
 
 .rowDragging {
@@ -127,7 +142,7 @@
   outline: none;
   box-shadow: var(
     --glass-elev-datagrid-handle-focus,
-    0 0 0 2px rgba(99, 102, 241, 0.45)
+    0 0 0 2px hsl(var(--glass-color-primary) / 0.45)
   );
 }
 

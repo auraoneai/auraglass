@@ -15,6 +15,7 @@ import { useGlassSound } from "../../utils/soundDesign";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { normalizeColorInputValue } from "../../utils/colorInput";
 
 export interface DrawingTool {
   type: "pen" | "brush" | "eraser" | "line" | "rectangle" | "circle" | "text";
@@ -525,7 +526,7 @@ export const GlassDrawingCanvas = forwardRef<
             <input
               id={`${drawingCanvasId}-color`}
               type="color"
-              value={currentTool.color}
+              value={normalizeColorInputValue(currentTool.color, "#000000")}
               onChange={(e) =>
                 setCurrentTool({ ...currentTool, color: e.target.value })
               }

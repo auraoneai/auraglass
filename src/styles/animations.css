@@ -59,26 +59,29 @@
 @keyframes glass-hover {
   from {
     transform: scale(1);
-    box-shadow: 0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10));
+    box-shadow: 0 8px 32px
+      rgba(var(--glass-color-black) / var(--glass-opacity-10));
   }
   to {
     transform: scale(1.02);
-    box-shadow: 0 12px 48px rgba(var(--glass-color-black) / var(--glass-opacity-15));
+    box-shadow: 0 12px 48px
+      rgba(var(--glass-color-black) / var(--glass-opacity-15));
   }
 }
 
 @keyframes glass-focus {
   0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    box-shadow: 0 0 0 0 hsl(var(--glass-color-primary) / 0);
   }
   100% {
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 0 4px hsl(var(--glass-color-primary) / 0.3);
   }
 }
 
 /* Glow Animations */
 @keyframes glow-pulse {
-  0%, 100% {
+  0%,
+  100% {
     filter: drop-shadow(0 0 5px currentColor);
     opacity: 0.8;
   }
@@ -101,11 +104,21 @@
 }
 
 @keyframes rainbow-glow {
-  0% { filter: hue-rotate(0deg) drop-shadow(0 0 10px currentColor); }
-  25% { filter: hue-rotate(90deg) drop-shadow(0 0 15px currentColor); }
-  50% { filter: hue-rotate(180deg) drop-shadow(0 0 20px currentColor); }
-  75% { filter: hue-rotate(270deg) drop-shadow(0 0 15px currentColor); }
-  100% { filter: hue-rotate(360deg) drop-shadow(0 0 10px currentColor); }
+  0% {
+    filter: hue-rotate(0deg) drop-shadow(0 0 10px currentColor);
+  }
+  25% {
+    filter: hue-rotate(90deg) drop-shadow(0 0 15px currentColor);
+  }
+  50% {
+    filter: hue-rotate(180deg) drop-shadow(0 0 20px currentColor);
+  }
+  75% {
+    filter: hue-rotate(270deg) drop-shadow(0 0 15px currentColor);
+  }
+  100% {
+    filter: hue-rotate(360deg) drop-shadow(0 0 10px currentColor);
+  }
 }
 
 @keyframes dual-glow {
@@ -162,7 +175,8 @@
 
 /* Particle Animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
   33% {
@@ -183,7 +197,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
     transform: scale(1);
   }
@@ -247,7 +262,8 @@
 }
 
 @keyframes loading-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -346,7 +362,9 @@
     box-shadow: 0 0 5px currentColor;
   }
   100% {
-    box-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
+    box-shadow:
+      0 0 20px currentColor,
+      0 0 30px currentColor;
   }
 }
 
@@ -357,13 +375,14 @@
     box-shadow: none;
   }
   to {
-    border-color: rgba(59, 130, 246, 0.5);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: hsl(var(--glass-color-primary) / 0.5);
+    box-shadow: 0 0 0 3px hsl(var(--glass-color-primary) / 0.1);
   }
 }
 
 @keyframes input-error {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   25% {
@@ -437,10 +456,10 @@
 /* Accessibility Animations */
 @keyframes focus-ring {
   0% {
-    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 0 0 hsl(var(--glass-color-primary) / 0.4);
   }
   100% {
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 4px hsl(var(--glass-color-primary) / 0.1);
   }
 }
 
@@ -491,7 +510,7 @@
 }
 
 .glass-ripple::after {
-  content: '';
+  content: "";
   position: absolute;
   border-radius: 50%;
   background: var(--glass-bg-hover);

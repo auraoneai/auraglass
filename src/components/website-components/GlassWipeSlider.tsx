@@ -644,7 +644,7 @@ const GlassWipeSliderComponent = ({
               }),
           boxShadow:
             isDragging || isHovered
-              ? '0 0 20px ${glassStyles.borderColor || "var(--glass-color-primary, 0.6)"}'
+              ? '0 0 20px ${glassStyles.borderColor || "hsl(var(--glass-color-primary)/0.6)"}'
               : '0 0 10px ${glassStyles.borderColor || "var(--glass-bg-hover)"}',
         }}
       >
@@ -704,7 +704,7 @@ const GlassWipeSliderComponent = ({
           animate: {
             boxShadow:
               isDragging || isFocused
-                ? '0 0 30px ${glassStyles.borderColor || "var(--glass-color-primary, 0.6)"}'
+                ? '0 0 30px ${glassStyles.borderColor || "hsl(var(--glass-color-primary)/0.6)"}'
                 : isHovered
                   ? "0 0 25px var(--glass-border-default)"
                   : '0 0 20px ${glassStyles.borderColor || "var(--glass-bg-hover)"}',

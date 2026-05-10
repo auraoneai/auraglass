@@ -445,7 +445,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
           : "glass-px-3 glass-py-2",
         "glass-text-sm font-medium",
         isActive
-          ? 'bg-primary/15 text-primary shadow-[0_0_0_2px_${glassStyles.borderColor || "var(--glass-color-primary, 0.2)"}]'
+          ? 'bg-primary/15 text-primary shadow-[0_0_0_2px_${glassStyles.borderColor || "hsl(var(--glass-color-primary)/0.2)"}]'
           : "",
         !isActive && "glass-text-secondary hover:text-foreground",
         item?.disabled && "opacity-50 cursor-not-allowed"

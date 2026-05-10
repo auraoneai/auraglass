@@ -1,5 +1,35 @@
 # Changelog
 
+## [3.0.3] - 2026-05-10
+
+### Fixed
+
+- Replaced malformed `var(--glass-color-*, 0.x)` alpha fallbacks with valid token-driven alpha colors across active source, styles, scripts, and generated glass outputs.
+- Removed hardcoded blue/purple primary and neutral glass values from generated CSS/token outputs and updated the glass CSS generator/persona tokens so future generation stays token-driven.
+- Fixed focus ring behavior so `.glass-focus` renders visible focus styling only on `:focus-visible`.
+- Stabilized controlled modal, dialog, drawer, popover, and hover-card state paths to avoid repeated same-value lifecycle updates and maximum-update-depth loops.
+- Added standalone fallback contexts for exported provider hooks including Houdini, collaboration, motion controller, accessibility, media, drag/drop, settings, consciousness stream, toast, NeuroSync, GlassEngine, and ecommerce hooks.
+- Corrected the root collaboration exports so `GlassCollaborationProvider` resolves to the real provider instead of the old workspace-local stub.
+- Normalized all native `<input type="color">` values to literal `#rrggbb` strings so token defaults such as `var(--glass-color-primary)` no longer trigger browser warnings.
+- Fixed `GlassMetricCard` value customization, dot badge labels, `GlassDataGrid` row backgrounds, and root dropdown-menu subcomponent exports.
+- Removed per-frame canvas pixel readback from the `GlassMusicVisualizer` spectrum renderer.
+- Updated contrast validation to resolve tokenized `hsl(var(--glass-color-*) / alpha)` colors correctly.
+
+### Added
+
+- Added regression sweeps for malformed glass color alpha usage, generated hardcoded primary/neutral colors, exported provider-hook crash strings, and standalone provider consumers.
+- Added regression sweeps for package-barrel collaboration provider exports and native color-input token normalization.
+- Added focused regression coverage for `GlassBadge`, `GlassMetricCard`, Houdini fallback rendering, controlled overlays, collaboration/motion/accessibility standalone rendering, and auto text contrast compositing.
+
+### Verification
+
+- `npm test -- --runInBand`
+- `npm run verify:pack`
+- `npm run release:dry-run`
+- `npm run glass:full-check`
+- Targeted release regression suite: 11 suites, 70 tests, 9 snapshots
+- `npm run test:glass-contrast` — 90 tests
+
 ## [3.0.2] - 2026-05-08
 
 ### Storybook Screenshot Certification

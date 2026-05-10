@@ -117,14 +117,32 @@ const CollaborationContext = createContext<CollaborationContextType | null>(
   null
 );
 
+const defaultCollaborationContext: CollaborationContextType = {
+  currentUser: null,
+  users: [],
+  setCurrentUser: () => {},
+  updateCursor: () => {},
+  updateSelection: () => {},
+  comments: [],
+  addComment: () => {},
+  resolveComment: () => {},
+  replyToComment: () => {},
+  edits: [],
+  applyEdit: () => {},
+  activities: [],
+  isConnected: false,
+  connectionStatus: "disconnected",
+  showCursors: true,
+  showComments: true,
+  showActivity: true,
+  toggleCursors: () => {},
+  toggleComments: () => {},
+  toggleActivity: () => {},
+};
+
 export const useCollaboration = () => {
   const context = useContext(CollaborationContext);
-  if (!context) {
-    throw new Error(
-      "useCollaboration must be used within a CollaborationProvider"
-    );
-  }
-  return context;
+  return context ?? defaultCollaborationContext;
 };
 
 interface CollaborationProviderProps {

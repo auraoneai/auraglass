@@ -41,7 +41,7 @@ export interface GlassFocusState {
 
 const DEFAULT_OPTIONS: Required<GlassFocusOptions> = {
   enabled: true,
-  color: "var(--glass-color-primary, 0.5)",
+  color: "hsl(var(--glass-color-primary)/0.5)",
   width: 2,
   blur: 4,
   spread: 2,

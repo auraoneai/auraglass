@@ -21,6 +21,7 @@ import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { CollaborationProvider } from "./GlassCollaborationProvider";
 
 type WorkspaceLayout = "split" | "tabs" | "canvas-focused" | "editor-focused";
 type WorkspaceTheme = "dark" | "light" | "auto";
@@ -147,9 +148,6 @@ interface WorkspaceSidebarProps {
   enableComments: boolean;
 }
 
-export interface GlassCollaborationProviderProps
-  extends React.PropsWithChildren<Record<string, unknown>> {}
-
 export interface GlassTeamCursorsProps {
   showNames?: boolean;
   showVoiceIndicators?: boolean;
@@ -192,24 +190,13 @@ interface WorkspaceFloatingActionsProps {
 export function CollaborativeGlassWorkspace(
   props: CollaborativeGlassWorkspaceProps
 ) {
-  // Wrap the workspace in providers - in real implementation this would use actual providers
   return (
-    <GlassCollaborationProvider
-      data-glass-component
-      workspaceId={props.workspaceId}
-      userId={props.userId}
-      userName={props.userName}
-      userEmail={props.userEmail}
-      userRole={props.userRole}
-      userAvatar={props.userAvatar}
-      autoConnect={true}
-      enableVoice={props.enableVoiceChat}
-      enableCursorTracking={props.showCursors}
-      enableComments={props.enableComments}
-      showDebugInfo={false}
+    <CollaborationProvider
+      roomId={props.workspaceId}
+      enableRealTime={props.enableRealTimeSync}
     >
       <WorkspaceContent {...props} />
-    </GlassCollaborationProvider>
+    </CollaborationProvider>
   );
 }
 
@@ -694,14 +681,6 @@ function WorkspaceContent({
       />
     </div>
   );
-}
-
-// Mock provider components - in real implementation these would be actual providers
-export function GlassCollaborationProvider({
-  children,
-  ...props
-}: GlassCollaborationProviderProps) {
-  return <>{children}</>;
 }
 
 // Workspace Header Component

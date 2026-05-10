@@ -84,13 +84,19 @@ const defaultConfig: GlassEngineConfig = {
 
 const GlassEngineContext = createContext<GlassEngineContextType | null>(null);
 
+const defaultGlassEngineContext: GlassEngineContextType = {
+  config: defaultConfig,
+  updateConfig: () => {},
+  createGlassStyle: (_variant, customProps) =>
+    createGlassStyle({ intent: "neutral", elevation: "level2" }),
+  getTexturePattern: () => "none",
+  adaptToEnvironment: () => {},
+};
+
 export const useGlassEngine = () => {
   const prefersReducedMotion = useReducedMotion();
   const context = useContext(GlassEngineContext);
-  if (!context) {
-    throw new Error("useGlassEngine must be used within GlassEngineProvider");
-  }
-  return context;
+  return context ?? defaultGlassEngineContext;
 };
 
 const generateTextureCSS = (type: string, intensity: number): string => {

@@ -4,6 +4,7 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -219,41 +220,72 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     } | null>(null);
 
     // Consciousness hooks (mock implementations)
-    const predictiveEngine = predictive
-      ? {
-          analyzeModalEngagement: async (context?: any) => ({
-            urgency: "low" as const,
-            complexity: 0.5,
-            userStress: 0.3,
-          }),
-        }
-      : null;
-    const eyeTracker = eyeTracking
-      ? {
-          startTracking: (handler: any) => {},
-          stopTracking: () => {},
-        }
-      : null;
-    const biometricAdapter = adaptive
-      ? {
-          getCurrentBiometrics: () => ({ stressLevel: 0.3 }),
-        }
-      : null;
-    const spatialAudioEngine = spatialAudio
-      ? {
-          playSound: (sound: string, config?: any) => {},
-        }
-      : null;
-    const interactionRecorder = consciousness
-      ? {
-          recordInteraction: (type: string, data?: any) => {},
-        }
-      : null;
-    const achievementTracker = trackAchievements
-      ? {
-          recordInteraction: (type: string, data?: any) => {},
-        }
-      : null;
+    const predictiveEngine = useMemo(
+      () =>
+        predictive
+          ? {
+              analyzeModalEngagement: async (context?: any) => ({
+                urgency: "low" as const,
+                complexity: 0.5,
+                userStress: 0.3,
+              }),
+            }
+          : null,
+      [predictive]
+    );
+    const eyeTracker = useMemo(
+      () =>
+        eyeTracking
+          ? {
+              startTracking: (handler: any) => {},
+              stopTracking: () => {},
+            }
+          : null,
+      [eyeTracking]
+    );
+    const biometricAdapter = useMemo(
+      () =>
+        adaptive
+          ? {
+              getCurrentBiometrics: () => ({ stressLevel: 0.3 }),
+            }
+          : null,
+      [adaptive]
+    );
+    const spatialAudioEngine = useMemo(
+      () =>
+        spatialAudio
+          ? {
+              playSound: (sound: string, config?: any) => {},
+            }
+          : null,
+      [spatialAudio]
+    );
+    const interactionRecorder = useMemo(
+      () =>
+        consciousness
+          ? {
+              recordInteraction: (type: string, data?: any) => {},
+            }
+          : null,
+      [consciousness]
+    );
+    const achievementTracker = useMemo(
+      () =>
+        trackAchievements
+          ? {
+              recordInteraction: (type: string, data?: any) => {},
+            }
+          : null,
+      [trackAchievements]
+    );
+    const wasOpenRef = useRef(false);
+    const modalFocusTimeRef = useRef(0);
+    const contentEngagementRef = useRef(contentEngagement);
+
+    useEffect(() => {
+      contentEngagementRef.current = contentEngagement;
+    }, [contentEngagement]);
 
     // Generate unique IDs for accessibility
     const modalId = useA11yId("glass-modal");
@@ -368,8 +400,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     useEffect(() => {
       if (!mounted) return;
 
-      if (open) {
+      if (open && !wasOpenRef.current) {
         const openTime = Date.now();
+        wasOpenRef.current = true;
+        modalFocusTimeRef.current = openTime;
         setModalFocusTime(openTime);
         setInteractionCount((prev: any) => prev + 1);
 
@@ -411,26 +445,28 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 };
           spatialAudioEngine.playSound(audioConfig.sound, audioConfig);
         }
-      } else if (modalFocusTime > 0) {
+      } else if (!open && wasOpenRef.current) {
         const closeTime = Date.now();
-        const timeSpent = closeTime - modalFocusTime;
+        const timeSpent = closeTime - modalFocusTimeRef.current;
+        const latestEngagement = contentEngagementRef.current;
+        wasOpenRef.current = false;
+        modalFocusTimeRef.current = 0;
 
         // Record modal closing interaction
         if (consciousness && interactionRecorder) {
           interactionRecorder.recordInteraction("modal_close", {
             title: title || "Untitled Modal",
             timeSpent,
-            interactions: contentEngagement.interactions,
-            scrollDepth: contentEngagement.scrollDepth,
+            interactions: latestEngagement.interactions,
+            scrollDepth: latestEngagement.scrollDepth,
             timestamp: closeTime,
           });
         }
 
         // Update content engagement
-        setContentEngagement((prev: any) => ({
-          ...prev,
-          timeSpent,
-        }));
+        setContentEngagement((prev: any) =>
+          prev.timeSpent === timeSpent ? prev : { ...prev, timeSpent }
+        );
 
         // Play spatial audio for modal closing
         if (spatialAudio && spatialAudioEngine) {
@@ -454,8 +490,6 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       size,
       variant,
       role,
-      modalFocusTime,
-      contentEngagement,
     ]);
 
     // Eye tracking for modal engagement

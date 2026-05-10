@@ -17,6 +17,7 @@ import { useGlassSound } from "../../utils/soundDesign";
 import { createGlassStyle } from "../../utils/createGlassStyle";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
+import { normalizeColorInputValue } from "../../utils/colorInput";
 
 export interface FilterEffect {
   id: string;
@@ -954,10 +955,12 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
                           ) : (
                             <input
                               type="color"
-                              value={
-                                filterParameters[filterId]?.[paramName] ??
-                                defaultValue
-                              }
+                              value={normalizeColorInputValue(
+                                String(
+                                  filterParameters[filterId]?.[paramName] ??
+                                    defaultValue
+                                )
+                              )}
                               onChange={(e) =>
                                 updateFilterParameter(
                                   filterId,

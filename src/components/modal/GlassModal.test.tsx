@@ -11,7 +11,7 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
@@ -110,6 +110,38 @@ describe("GlassModal", () => {
 
     expect(document.body.style.position).toBe("relative");
     expect(document.body.style.overflow).toBe("auto");
+  });
+
+  it("does not re-run open lifecycle updates on controlled parent rerenders", () => {
+    const consoleError = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    function ControlledHarness() {
+      const [tick, setTick] = useState(0);
+
+      useEffect(() => {
+        setTick((value) => value + 1);
+        setTick((value) => value + 1);
+      }, []);
+
+      return (
+        <GlassModal open={true} title={`Stable ${tick}`} onClose={() => {}}>
+          Stable content
+        </GlassModal>
+      );
+    }
+
+    render(<ControlledHarness />);
+
+    expect(screen.getByText("Stable content")).toBeInTheDocument();
+    expect(
+      consoleError.mock.calls.some((call) =>
+        call.join(" ").includes("Maximum update depth exceeded")
+      )
+    ).toBe(false);
+
+    consoleError.mockRestore();
   });
 
   /**

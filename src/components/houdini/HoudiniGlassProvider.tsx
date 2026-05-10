@@ -31,6 +31,22 @@ interface HoudiniGlassContextType {
 
 const HoudiniGlassContext = createContext<HoudiniGlassContextType | null>(null);
 
+const defaultHoudiniGlassContext: HoudiniGlassContextType = {
+  isSupported: false,
+  hasPropertyAPI: false,
+  hasPaintAPI: false,
+  globalPreset: "standard",
+  setGlobalPreset: () => {},
+  globalProperties: {},
+  updateGlobalProperty: () => {},
+  enabledEffects: [],
+  toggleEffect: () => {},
+  performanceMode: true,
+  setPerformanceMode: () => {},
+  debugMode: false,
+  setDebugMode: () => {},
+};
+
 // Glass presets with CSS custom properties
 export const glassPresets = {
   standard: {
@@ -319,12 +335,7 @@ HoudiniGlassProvider.displayName = "HoudiniGlassProvider";
 // Hook to use Houdini Glass context
 export function useHoudiniGlass() {
   const context = useContext(HoudiniGlassContext);
-  if (!context) {
-    throw new Error(
-      "useHoudiniGlass must be used within a HoudiniGlassProvider"
-    );
-  }
-  return context;
+  return context ?? defaultHoudiniGlassContext;
 }
 
 // Hook for component-specific glass effects

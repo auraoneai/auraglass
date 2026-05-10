@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { OptimizedGlass } from "../../primitives";
+import { normalizeColorInputValue } from "../../utils/colorInput";
 
 export interface ColorScheme {
   primary: string;
@@ -76,7 +77,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
       advanced = false,
       generateCSS = true,
       generateTailwind = false,
-      className="",
+      className = "",
       onSchemeChange,
       onExport,
       "data-testid": dataTestId,
@@ -295,30 +296,30 @@ const GlassColorSchemeGenerator = React.forwardRef<
           intensity="medium"
           elevation="level1"
         >
-          <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-4'>
+          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
             Base Color
           </h3>
 
-          <div className='glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6'>
+          <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
             {/* Color Input */}
             <div className="glass-gap-4">
               <div className="glass-flex glass-items-center glass-gap-4">
                 <input
                   type="color"
-                  value={baseColor}
+                  value={normalizeColorInputValue(baseColor)}
                   onChange={(e) => setBaseColor(e.target.value)}
-                  className='glass-w-16 glass-h-16 glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer'
+                  className="glass-w-16 glass-h-16 glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer"
                   aria-label="Base color picker"
                 />
                 <div>
-                  <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1'>
+                  <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-1">
                     Hex Color
                   </label>
                   <input
                     type="text"
                     value={baseColor}
                     onChange={(e) => setBaseColor(e.target.value)}
-                    className='glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md glass-text-primary glass-placeholder-white-opacity-50 glass-focus-outline-none focus:glass-border-white/40'
+                    className="glass-px-3 glass-py-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-md glass-text-primary glass-placeholder-white-opacity-50 glass-focus-outline-none focus:glass-border-white/40"
                     placeholder="#0066cc"
                   />
                 </div>
@@ -326,7 +327,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
 
               {/* Predefined Palettes */}
               <div>
-                <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2'>
+                <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
                   Quick Palettes
                 </label>
                 <div className="glass-flex glass-flex-wrap glass-gap-2">
@@ -354,7 +355,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
             {/* Harmony Selection */}
             <div className="glass-gap-4">
               <div>
-                <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2'>
+                <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
                   Color Harmony
                 </label>
                 <div className="glass-grid glass-grid-cols-2 glass-gap-2">
@@ -388,22 +389,22 @@ const GlassColorSchemeGenerator = React.forwardRef<
           intensity="medium"
           elevation="level1"
         >
-          <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-4'>
+          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
             Color Scheme Preview
           </h3>
 
-          <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4'>
+          <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4">
             {Object.entries(colorScheme).map(([key, color]) => (
               <div key={key} className="glass-gap-2">
                 <div
-                  className='glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20'
+                  className="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20"
                   style={{ backgroundColor: color }}
                 />
-                <div className='glass-text-center'>
-                  <div className='glass-text-xs glass-text-primary-opacity-70 glass-capitalize'>
+                <div className="glass-text-center">
+                  <div className="glass-text-xs glass-text-primary-opacity-70 glass-capitalize">
                     {key}
                   </div>
-                  <div className='glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono'>
+                  <div className="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono">
                     {color}
                   </div>
                 </div>
@@ -418,7 +419,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
           intensity="medium"
           elevation="level1"
         >
-          <h3 className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-4'>
+          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
             Export Options
           </h3>
 
@@ -426,7 +427,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
             {generateCSS && (
               <button
                 onClick={(e) => exportScheme("css")}
-                className='glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 glass-transition-colors'
+                className="glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 glass-transition-colors"
               >
                 Export CSS Variables
               </button>
@@ -434,14 +435,14 @@ const GlassColorSchemeGenerator = React.forwardRef<
             {generateTailwind && (
               <button
                 onClick={(e) => exportScheme("tailwind")}
-                className='glass-px-4 glass-py-2 glass-surface-green/20 glass-text-secondary glass-radius-md hover:glass-surface-green/30 glass-transition-colors'
+                className="glass-px-4 glass-py-2 glass-surface-green/20 glass-text-secondary glass-radius-md hover:glass-surface-green/30 glass-transition-colors"
               >
                 Export Tailwind Config
               </button>
             )}
             <button
               onClick={(e) => exportScheme("json")}
-              className='glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius-md hover:glass-surface-primary/30 glass-transition-colors'
+              className="glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius-md hover:glass-surface-primary/30 glass-transition-colors"
             >
               Export JSON
             </button>
@@ -449,10 +450,10 @@ const GlassColorSchemeGenerator = React.forwardRef<
 
           {generateCSS && (
             <div className="glass-mt-4">
-              <label className='glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2'>
+              <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
                 CSS Variables Preview
               </label>
-              <pre className='glass-p-3 glass-surface-dark/20 glass-radius-md glass-text-xs glass-text-primary-glass-opacity-80 glass-overflow-x-auto'>
+              <pre className="glass-p-3 glass-surface-dark/20 glass-radius-md glass-text-xs glass-text-primary-glass-opacity-80 glass-overflow-x-auto">
                 <code>{generateCSSVariables(colorScheme)}</code>
               </pre>
             </div>

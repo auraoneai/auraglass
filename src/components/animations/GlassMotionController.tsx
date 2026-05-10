@@ -84,14 +84,17 @@ interface MotionContextType {
 
 const MotionContext = createContext<MotionContextType | undefined>(undefined);
 
+const defaultMotionContext: MotionContextType = {
+  enabled: false,
+  speed: 1,
+  reduceMotion: true,
+  animate: async () => {},
+  batchAnimate: async () => {},
+};
+
 export const useMotionController = () => {
   const context = useContext(MotionContext);
-  if (!context) {
-    throw new Error(
-      "useMotionController must be used within a GlassMotionController"
-    );
-  }
-  return context;
+  return context ?? defaultMotionContext;
 };
 
 // Easing functions

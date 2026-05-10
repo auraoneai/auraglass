@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   createContext,
@@ -7,20 +7,20 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from 'react';
+} from "react";
 
-export type ThemeMode = 'light' | 'dark' | 'system';
-export type GlassIntensity = 'subtle' | 'balanced' | 'strong';
-export type ContrastMode = 'normal' | 'high';
-export type Density = 'comfortable' | 'compact';
+export type ThemeMode = "light" | "dark" | "system";
+export type GlassIntensity = "subtle" | "balanced" | "strong";
+export type ContrastMode = "normal" | "high";
+export type Density = "comfortable" | "compact";
 
 export interface Settings {
   themeMode: ThemeMode;
   glassIntensity: GlassIntensity;
   contrastMode: ContrastMode;
-  reducedMotion: 'system' | 'on' | 'off';
+  reducedMotion: "system" | "on" | "off";
   fontScale: 1 | 1.1 | 1.25 | 1.5;
-  focusStyle: 'default' | 'strong';
+  focusStyle: "default" | "strong";
   density: Density;
   locale: string;
   experiments: Record<string, boolean>;
@@ -42,18 +42,18 @@ export interface SettingsContextValue {
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  themeMode: 'system',
-  glassIntensity: 'balanced',
-  contrastMode: 'normal',
-  reducedMotion: 'system',
+  themeMode: "system",
+  glassIntensity: "balanced",
+  contrastMode: "normal",
+  reducedMotion: "system",
   fontScale: 1,
-  focusStyle: 'default',
-  density: 'comfortable',
-  locale: 'en',
+  focusStyle: "default",
+  density: "comfortable",
+  locale: "en",
   experiments: {},
 };
 
-const STORAGE_KEY = 'auraglass:settings:v1';
+const STORAGE_KEY = "auraglass:settings:v1";
 
 const noopStorage: SettingsStorageAdapter = {
   get: () => null,
@@ -61,7 +61,16 @@ const noopStorage: SettingsStorageAdapter = {
   remove: () => {},
 };
 
-const SettingsContext = createContext<SettingsContextValue | undefined>(undefined);
+const SettingsContext = createContext<SettingsContextValue | undefined>(
+  undefined
+);
+
+const defaultSettingsContext: SettingsContextValue = {
+  settings: DEFAULT_SETTINGS,
+  updateSettings: () => {},
+  resetSettings: () => {},
+  isReady: false,
+};
 
 export interface SettingsProviderProps {
   children: React.ReactNode;
@@ -74,23 +83,27 @@ export interface SettingsProviderProps {
  * SSR-safe feature detection
  */
 function canUseDOM(): boolean {
-  return typeof window !== 'undefined' && typeof document !== 'undefined';
+  return typeof window !== "undefined" && typeof document !== "undefined";
 }
 
 function getSystemThemeMode(): ThemeMode {
-  if (!canUseDOM()) return 'light';
+  if (!canUseDOM()) return "light";
   try {
-    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    return prefersDark ? 'dark' : 'light';
+    const prefersDark = window.matchMedia?.(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    return prefersDark ? "dark" : "light";
   } catch {
-    return 'light';
+    return "light";
   }
 }
 
 function getSystemReducedMotion(): boolean {
   if (!canUseDOM()) return false;
   try {
-    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    return (
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false
+    );
   } catch {
     return false;
   }
@@ -98,12 +111,12 @@ function getSystemReducedMotion(): boolean {
 
 function resolveEffectiveSettings(base: Settings): Settings {
   const themeMode =
-    base.themeMode === 'system' ? getSystemThemeMode() : base.themeMode;
+    base.themeMode === "system" ? getSystemThemeMode() : base.themeMode;
 
   const reducedMotionFlag =
-    base.reducedMotion === 'system'
+    base.reducedMotion === "system"
       ? getSystemReducedMotion()
-      : base.reducedMotion === 'on';
+      : base.reducedMotion === "on";
 
   return {
     ...base,
@@ -120,7 +133,8 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
   storageAdapter,
   onChange,
 }) => {
-  const adapter = storageAdapter ?? (canUseDOM() ? createLocalStorageAdapter() : noopStorage);
+  const adapter =
+    storageAdapter ?? (canUseDOM() ? createLocalStorageAdapter() : noopStorage);
 
   const [settings, setSettings] = useState<Settings>(() => {
     const base = {
@@ -184,12 +198,12 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
       }
       if (onChange) onChange(next);
     },
-    [adapter, onChange],
+    [adapter, onChange]
   );
 
   const updateSettings = useCallback(
     (patch: SettingsPatch) => {
-      setSettings(prev => {
+      setSettings((prev) => {
         const merged: Settings = resolveEffectiveSettings({
           ...prev,
           ...patch,
@@ -199,7 +213,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
         return merged;
       });
     },
-    [persistAndNotify],
+    [persistAndNotify]
   );
 
   const resetSettings = useCallback(() => {
@@ -225,7 +239,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
       resetSettings,
       isReady,
     }),
-    [settings, updateSettings, resetSettings, isReady],
+    [settings, updateSettings, resetSettings, isReady]
   );
 
   return (
@@ -238,7 +252,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({
 function safeParseSettings(raw: string): SettingsPatch {
   try {
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object') return {};
+    if (!parsed || typeof parsed !== "object") return {};
     return parsed as SettingsPatch;
   } catch {
     return {};
@@ -247,7 +261,7 @@ function safeParseSettings(raw: string): SettingsPatch {
 
 function createLocalStorageAdapter(): SettingsStorageAdapter {
   return {
-    get: key => {
+    get: (key) => {
       try {
         return window.localStorage.getItem(key);
       } catch {
@@ -261,7 +275,7 @@ function createLocalStorageAdapter(): SettingsStorageAdapter {
         // ignore
       }
     },
-    remove: key => {
+    remove: (key) => {
       try {
         window.localStorage.removeItem(key);
       } catch {
@@ -281,45 +295,45 @@ function applySettingsToDocument(settings: Settings) {
   const { documentElement } = document;
 
   // Theme mode
-  documentElement.setAttribute('data-theme', settings.themeMode);
+  documentElement.setAttribute("data-theme", settings.themeMode);
 
   // Glass intensity
-  documentElement.setAttribute('data-glass-intensity', settings.glassIntensity);
+  documentElement.setAttribute("data-glass-intensity", settings.glassIntensity);
 
   // Contrast
-  documentElement.setAttribute('data-contrast-mode', settings.contrastMode);
+  documentElement.setAttribute("data-contrast-mode", settings.contrastMode);
 
   // Density
-  documentElement.setAttribute('data-density', settings.density);
+  documentElement.setAttribute("data-density", settings.density);
 
   // Font scale
   documentElement.style.setProperty(
-    '--auraglass-font-scale',
-    String(settings.fontScale),
+    "--auraglass-font-scale",
+    String(settings.fontScale)
   );
 
   // Focus style
-  documentElement.setAttribute('data-focus-style', settings.focusStyle);
+  documentElement.setAttribute("data-focus-style", settings.focusStyle);
 
   // Reduced motion (boolean marker based on resolved behavior)
   const reduced =
-    settings.reducedMotion === 'system'
+    settings.reducedMotion === "system"
       ? getSystemReducedMotion()
-      : settings.reducedMotion === 'on';
+      : settings.reducedMotion === "on";
 
   documentElement.setAttribute(
-    'data-reduced-motion',
-    reduced ? 'true' : 'false',
+    "data-reduced-motion",
+    reduced ? "true" : "false"
   );
 
   // Locale
-  documentElement.setAttribute('lang', settings.locale || 'en');
+  documentElement.setAttribute("lang", settings.locale || "en");
 
   // Experiments as flags
   Object.entries(settings.experiments || {}).forEach(([key, enabled]) => {
     const attr = `data-exp-${key}`;
     if (enabled) {
-      documentElement.setAttribute(attr, 'true');
+      documentElement.setAttribute(attr, "true");
     } else {
       documentElement.removeAttribute(attr);
     }
@@ -331,10 +345,7 @@ function applySettingsToDocument(settings: Settings) {
  */
 export function useSettings(): SettingsContextValue {
   const ctx = useContext(SettingsContext);
-  if (!ctx) {
-    throw new Error('useSettings must be used within SettingsProvider');
-  }
-  return ctx;
+  return ctx ?? defaultSettingsContext;
 }
 
 /**

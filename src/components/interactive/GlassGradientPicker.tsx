@@ -17,6 +17,7 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { COLORS } from "../../tokens/designConstants";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { normalizeColorInputValue } from "../../utils/colorInput";
 
 export interface GradientStop {
   color: string;
@@ -427,7 +428,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                   >
                     <input
                       type="color"
-                      value={stop.color}
+                      value={normalizeColorInputValue(stop.color)}
                       onChange={(e) =>
                         handleStopChange(index, { color: e.target.value })
                       }

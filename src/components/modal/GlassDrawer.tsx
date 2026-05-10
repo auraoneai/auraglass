@@ -201,6 +201,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       complexity: number;
       userStress: number;
     } | null>(null);
+    const wasOpenRef = useRef(false);
+    const drawerFocusTimeRef = useRef(0);
 
     // Consciousness hooks
     const predictiveEngine = predictive ? usePredictiveEngine() : null;
@@ -290,8 +292,10 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     // Consciousness effects
     // Drawer opening/closing tracking with spatial audio
     useEffect(() => {
-      if (open) {
+      if (open && !wasOpenRef.current) {
         const openTime = Date.now();
+        wasOpenRef.current = true;
+        drawerFocusTimeRef.current = openTime;
         setDrawerFocusTime(openTime);
         setInteractionCount((prev: any) => prev + 1);
 
@@ -336,9 +340,11 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             }
           );
         }
-      } else if (drawerFocusTime > 0) {
+      } else if (!open && wasOpenRef.current) {
         const closeTime = Date.now();
-        const timeSpent = closeTime - drawerFocusTime;
+        const timeSpent = closeTime - drawerFocusTimeRef.current;
+        wasOpenRef.current = false;
+        drawerFocusTimeRef.current = 0;
 
         // Record drawer closing interaction
         if (consciousness && interactionRecorder) {
@@ -351,10 +357,9 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         }
 
         // Update content engagement
-        setContentEngagement((prev: any) => ({
-          ...prev,
-          timeSpent,
-        }));
+        setContentEngagement((prev: any) =>
+          prev.timeSpent === timeSpent ? prev : { ...prev, timeSpent }
+        );
 
         // Play spatial audio for drawer closing
         if (spatialAudio && spatialAudioEngine) {
@@ -390,8 +395,6 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       position,
       size,
       modal,
-      drawerFocusTime,
-      contentEngagement,
     ]);
 
     // Eye tracking for drawer engagement

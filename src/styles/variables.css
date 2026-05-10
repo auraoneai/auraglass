@@ -14,8 +14,11 @@
   --aura-color-global-text-secondary: rgba(248, 250, 252, 0.7);
   --aura-color-global-text-tertiary: rgba(248, 250, 252, 0.5);
   --aura-color-global-accent: #6366f1;
-  --aura-font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --aura-font-mono: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+  --aura-font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --aura-font-mono:
+    "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --aura-type-display-font-size: 3.5rem;
   --aura-type-display-line-height: 1.05;
   --aura-type-display-tracking: -0.04em;
@@ -73,7 +76,7 @@
   --aura-motion-duration-slow: 450ms;
   --aura-motion-easing-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
   --aura-motion-easing-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
-  --aura-motion-easing-decelerate: cubic-bezier(0.0, 0, 0.2, 1);
+  --aura-motion-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);
   --aura-motion-easing-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --aura-motion-stagger-micro: 25ms;
   --aura-motion-stagger-regular: 50ms;
@@ -104,496 +107,644 @@
 
 [data-aura-theme="auraglass-default"] {
   --aura-glass-neutral-level1-backdrop-blur: 8px;
-  --aura-glass-neutral-level1-surface-base: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%);
-  --aura-glass-neutral-level1-surface-overlay: rgba(255,255,255,0.08);
-  --aura-glass-neutral-level1-border-color: rgba(255,255,255,0.4);
+  --aura-glass-neutral-level1-surface-base: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  --aura-glass-neutral-level1-surface-overlay: rgba(255, 255, 255, 0.08);
+  --aura-glass-neutral-level1-border-color: rgba(255, 255, 255, 0.4);
   --aura-glass-neutral-level1-border-width: 1px;
   --aura-glass-neutral-level1-border-style: solid;
-  --aura-glass-neutral-level1-shadow-color: rgba(0,0,0,0.15);
+  --aura-glass-neutral-level1-shadow-color: rgba(0, 0, 0, 0.15);
   --aura-glass-neutral-level1-shadow-x: 0px;
   --aura-glass-neutral-level1-shadow-y: 4px;
   --aura-glass-neutral-level1-shadow-blur: 16px;
   --aura-glass-neutral-level1-shadow-spread: 0px;
   --aura-glass-neutral-level1-noise-opacity: 0.03;
   --aura-glass-neutral-level1-highlight-opacity: 0.15;
-  --aura-glass-neutral-level1-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-neutral-level1-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-neutral-level1-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-neutral-level1-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-neutral-level2-backdrop-blur: 12px;
-  --aura-glass-neutral-level2-surface-base: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(148,163,184,0.15) 100%);
-  --aura-glass-neutral-level2-border-color: rgba(255,255,255,0.5);
+  --aura-glass-neutral-level2-surface-base: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.35) 0%,
+    rgba(148, 163, 184, 0.15) 100%
+  );
+  --aura-glass-neutral-level2-border-color: rgba(255, 255, 255, 0.5);
   --aura-glass-neutral-level2-border-width: 1px;
   --aura-glass-neutral-level2-border-style: solid;
-  --aura-glass-neutral-level2-inner-glow-color: rgba(255,255,255,0.2);
+  --aura-glass-neutral-level2-inner-glow-color: rgba(255, 255, 255, 0.2);
   --aura-glass-neutral-level2-inner-glow-spread: 0px;
   --aura-glass-neutral-level2-inner-glow-blur: 8px;
-  --aura-glass-neutral-level2-shadow-color: rgba(15,23,42,0.2);
+  --aura-glass-neutral-level2-shadow-color: rgba(15, 23, 42, 0.2);
   --aura-glass-neutral-level2-shadow-x: 0px;
   --aura-glass-neutral-level2-shadow-y: 8px;
   --aura-glass-neutral-level2-shadow-blur: 24px;
   --aura-glass-neutral-level2-shadow-spread: 0px;
   --aura-glass-neutral-level2-noise-opacity: 0.05;
   --aura-glass-neutral-level2-highlight-opacity: 0.2;
-  --aura-glass-neutral-level2-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-neutral-level2-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-neutral-level2-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-neutral-level2-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-neutral-level3-backdrop-blur: 16px;
-  --aura-glass-neutral-level3-surface-base: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(99,102,241,0.15) 100%);
-  --aura-glass-neutral-level3-border-color: rgba(255,255,255,0.55);
+  --aura-glass-neutral-level3-surface-base: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  --aura-glass-neutral-level3-border-color: rgba(255, 255, 255, 0.55);
   --aura-glass-neutral-level3-border-width: 2px;
   --aura-glass-neutral-level3-border-style: solid;
-  --aura-glass-neutral-level3-inner-glow-color: rgba(255,255,255,0.25);
+  --aura-glass-neutral-level3-inner-glow-color: rgba(255, 255, 255, 0.25);
   --aura-glass-neutral-level3-inner-glow-spread: 1px;
   --aura-glass-neutral-level3-inner-glow-blur: 12px;
-  --aura-glass-neutral-level3-shadow-color: rgba(15,23,42,0.25);
+  --aura-glass-neutral-level3-shadow-color: rgba(15, 23, 42, 0.25);
   --aura-glass-neutral-level3-shadow-x: 0px;
   --aura-glass-neutral-level3-shadow-y: 12px;
   --aura-glass-neutral-level3-shadow-blur: 32px;
   --aura-glass-neutral-level3-shadow-spread: 0px;
   --aura-glass-neutral-level3-noise-opacity: 0.08;
   --aura-glass-neutral-level3-highlight-opacity: 0.25;
-  --aura-glass-neutral-level3-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-neutral-level3-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-neutral-level3-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-neutral-level3-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-neutral-level4-backdrop-blur: 20px;
-  --aura-glass-neutral-level4-surface-base: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(99,102,241,0.22) 100%);
-  --aura-glass-neutral-level4-border-color: rgba(255,255,255,0.6);
+  --aura-glass-neutral-level4-surface-base: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  --aura-glass-neutral-level4-border-color: rgba(255, 255, 255, 0.6);
   --aura-glass-neutral-level4-border-width: 2px;
   --aura-glass-neutral-level4-border-style: solid;
-  --aura-glass-neutral-level4-inner-glow-color: rgba(255,255,255,0.3);
+  --aura-glass-neutral-level4-inner-glow-color: rgba(255, 255, 255, 0.3);
   --aura-glass-neutral-level4-inner-glow-spread: 1px;
   --aura-glass-neutral-level4-inner-glow-blur: 16px;
-  --aura-glass-neutral-level4-shadow-color: rgba(15,23,42,0.3);
+  --aura-glass-neutral-level4-shadow-color: rgba(15, 23, 42, 0.3);
   --aura-glass-neutral-level4-shadow-x: 0px;
   --aura-glass-neutral-level4-shadow-y: 16px;
   --aura-glass-neutral-level4-shadow-blur: 40px;
   --aura-glass-neutral-level4-shadow-spread: 0px;
   --aura-glass-neutral-level4-noise-opacity: 0.1;
   --aura-glass-neutral-level4-highlight-opacity: 0.25;
-  --aura-glass-neutral-level4-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-neutral-level4-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-neutral-level4-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-neutral-level4-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-neutral-level5-backdrop-blur: 24px;
-  --aura-glass-neutral-level5-surface-base: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(99,102,241,0.28) 100%);
-  --aura-glass-neutral-level5-border-color: rgba(255,255,255,0.65);
+  --aura-glass-neutral-level5-surface-base: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  --aura-glass-neutral-level5-border-color: rgba(255, 255, 255, 0.65);
   --aura-glass-neutral-level5-border-width: 3px;
   --aura-glass-neutral-level5-border-style: solid;
-  --aura-glass-neutral-level5-inner-glow-color: rgba(255,255,255,0.35);
+  --aura-glass-neutral-level5-inner-glow-color: rgba(255, 255, 255, 0.35);
   --aura-glass-neutral-level5-inner-glow-spread: 2px;
   --aura-glass-neutral-level5-inner-glow-blur: 20px;
-  --aura-glass-neutral-level5-shadow-color: rgba(15,23,42,0.35);
+  --aura-glass-neutral-level5-shadow-color: rgba(15, 23, 42, 0.35);
   --aura-glass-neutral-level5-shadow-x: 0px;
   --aura-glass-neutral-level5-shadow-y: 20px;
   --aura-glass-neutral-level5-shadow-blur: 48px;
   --aura-glass-neutral-level5-shadow-spread: 0px;
   --aura-glass-neutral-level5-noise-opacity: 0.12;
   --aura-glass-neutral-level5-highlight-opacity: 0.3;
-  --aura-glass-neutral-level5-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-neutral-level5-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-neutral-level5-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-neutral-level5-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-primary-level1-backdrop-blur: 8px;
-  --aura-glass-primary-level1-surface-base: linear-gradient(135deg, rgba(99,102,241,0.3) 0%, rgba(59,130,246,0.22) 100%);
-  --aura-glass-primary-level1-border-color: rgba(99,102,241,0.5);
+  --aura-glass-primary-level1-surface-base: linear-gradient(
+    135deg,
+    hsl(var(--glass-color-primary) / 0.3) 0%,
+    hsl(var(--glass-color-primary) / 0.22) 100%
+  );
+  --aura-glass-primary-level1-border-color: hsl(
+    var(--glass-color-primary) / 0.5
+  );
   --aura-glass-primary-level1-border-width: 1px;
   --aura-glass-primary-level1-border-style: solid;
-  --aura-glass-primary-level1-shadow-color: rgba(99,102,241,0.15);
+  --aura-glass-primary-level1-shadow-color: hsl(
+    var(--glass-color-primary) / 0.15
+  );
   --aura-glass-primary-level1-shadow-x: 0px;
   --aura-glass-primary-level1-shadow-y: 4px;
   --aura-glass-primary-level1-shadow-blur: 16px;
   --aura-glass-primary-level1-shadow-spread: 0px;
   --aura-glass-primary-level1-noise-opacity: 0.03;
   --aura-glass-primary-level1-highlight-opacity: 0.15;
-  --aura-glass-primary-level1-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-primary-level1-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-primary-level1-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-primary-level1-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-primary-level2-backdrop-blur: 12px;
-  --aura-glass-primary-level2-surface-base: linear-gradient(135deg, rgba(99,102,241,0.4) 0%, rgba(59,130,246,0.28) 100%);
-  --aura-glass-primary-level2-border-color: rgba(99,102,241,0.6);
+  --aura-glass-primary-level2-surface-base: linear-gradient(
+    135deg,
+    hsl(var(--glass-color-primary) / 0.4) 0%,
+    hsl(var(--glass-color-primary) / 0.28) 100%
+  );
+  --aura-glass-primary-level2-border-color: hsl(
+    var(--glass-color-primary) / 0.6
+  );
   --aura-glass-primary-level2-border-width: 1px;
   --aura-glass-primary-level2-border-style: solid;
-  --aura-glass-primary-level2-inner-glow-color: rgba(99,102,241,0.22);
+  --aura-glass-primary-level2-inner-glow-color: hsl(
+    var(--glass-color-primary) / 0.22
+  );
   --aura-glass-primary-level2-inner-glow-spread: 0px;
   --aura-glass-primary-level2-inner-glow-blur: 8px;
-  --aura-glass-primary-level2-shadow-color: rgba(59,130,246,0.2);
+  --aura-glass-primary-level2-shadow-color: hsl(
+    var(--glass-color-primary) / 0.2
+  );
   --aura-glass-primary-level2-shadow-x: 0px;
   --aura-glass-primary-level2-shadow-y: 8px;
   --aura-glass-primary-level2-shadow-blur: 24px;
   --aura-glass-primary-level2-shadow-spread: 0px;
   --aura-glass-primary-level2-noise-opacity: 0.05;
   --aura-glass-primary-level2-highlight-opacity: 0.2;
-  --aura-glass-primary-level2-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-primary-level2-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-primary-level2-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-primary-level2-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-primary-level3-backdrop-blur: 16px;
-  --aura-glass-primary-level3-surface-base: linear-gradient(135deg, rgba(99,102,241,0.48) 0%, rgba(59,130,246,0.34) 100%);
-  --aura-glass-primary-level3-border-color: rgba(99,102,241,0.7);
+  --aura-glass-primary-level3-surface-base: linear-gradient(
+    135deg,
+    hsl(var(--glass-color-primary) / 0.48) 0%,
+    hsl(var(--glass-color-primary) / 0.34) 100%
+  );
+  --aura-glass-primary-level3-border-color: hsl(
+    var(--glass-color-primary) / 0.7
+  );
   --aura-glass-primary-level3-border-width: 2px;
   --aura-glass-primary-level3-border-style: solid;
-  --aura-glass-primary-level3-inner-glow-color: rgba(99,102,241,0.25);
+  --aura-glass-primary-level3-inner-glow-color: hsl(
+    var(--glass-color-primary) / 0.25
+  );
   --aura-glass-primary-level3-inner-glow-spread: 1px;
   --aura-glass-primary-level3-inner-glow-blur: 12px;
-  --aura-glass-primary-level3-shadow-color: rgba(59,130,246,0.24);
+  --aura-glass-primary-level3-shadow-color: hsl(
+    var(--glass-color-primary) / 0.24
+  );
   --aura-glass-primary-level3-shadow-x: 0px;
   --aura-glass-primary-level3-shadow-y: 12px;
   --aura-glass-primary-level3-shadow-blur: 32px;
   --aura-glass-primary-level3-shadow-spread: 0px;
   --aura-glass-primary-level3-noise-opacity: 0.08;
   --aura-glass-primary-level3-highlight-opacity: 0.25;
-  --aura-glass-primary-level3-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-primary-level3-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-primary-level3-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-primary-level3-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-primary-level4-backdrop-blur: 20px;
-  --aura-glass-primary-level4-surface-base: linear-gradient(135deg, rgba(99,102,241,0.56) 0%, rgba(59,130,246,0.4) 100%);
-  --aura-glass-primary-level4-border-color: rgba(99,102,241,0.78);
+  --aura-glass-primary-level4-surface-base: linear-gradient(
+    135deg,
+    hsl(var(--glass-color-primary) / 0.56) 0%,
+    hsl(var(--glass-color-primary) / 0.4) 100%
+  );
+  --aura-glass-primary-level4-border-color: hsl(
+    var(--glass-color-primary) / 0.78
+  );
   --aura-glass-primary-level4-border-width: 2px;
   --aura-glass-primary-level4-border-style: solid;
-  --aura-glass-primary-level4-inner-glow-color: rgba(99,102,241,0.28);
+  --aura-glass-primary-level4-inner-glow-color: hsl(
+    var(--glass-color-primary) / 0.28
+  );
   --aura-glass-primary-level4-inner-glow-spread: 1px;
   --aura-glass-primary-level4-inner-glow-blur: 16px;
-  --aura-glass-primary-level4-shadow-color: rgba(59,130,246,0.28);
+  --aura-glass-primary-level4-shadow-color: hsl(
+    var(--glass-color-primary) / 0.28
+  );
   --aura-glass-primary-level4-shadow-x: 0px;
   --aura-glass-primary-level4-shadow-y: 16px;
   --aura-glass-primary-level4-shadow-blur: 40px;
   --aura-glass-primary-level4-shadow-spread: 0px;
   --aura-glass-primary-level4-noise-opacity: 0.1;
   --aura-glass-primary-level4-highlight-opacity: 0.25;
-  --aura-glass-primary-level4-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-primary-level4-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-primary-level4-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-primary-level4-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-primary-level5-backdrop-blur: 24px;
-  --aura-glass-primary-level5-surface-base: linear-gradient(135deg, rgba(99,102,241,0.64) 0%, rgba(59,130,246,0.45) 100%);
-  --aura-glass-primary-level5-border-color: rgba(99,102,241,0.85);
+  --aura-glass-primary-level5-surface-base: linear-gradient(
+    135deg,
+    hsl(var(--glass-color-primary) / 0.64) 0%,
+    hsl(var(--glass-color-primary) / 0.45) 100%
+  );
+  --aura-glass-primary-level5-border-color: hsl(
+    var(--glass-color-primary) / 0.85
+  );
   --aura-glass-primary-level5-border-width: 3px;
   --aura-glass-primary-level5-border-style: solid;
-  --aura-glass-primary-level5-inner-glow-color: rgba(99,102,241,0.32);
+  --aura-glass-primary-level5-inner-glow-color: hsl(
+    var(--glass-color-primary) / 0.32
+  );
   --aura-glass-primary-level5-inner-glow-spread: 2px;
   --aura-glass-primary-level5-inner-glow-blur: 20px;
-  --aura-glass-primary-level5-shadow-color: rgba(59,130,246,0.32);
+  --aura-glass-primary-level5-shadow-color: hsl(
+    var(--glass-color-primary) / 0.32
+  );
   --aura-glass-primary-level5-shadow-x: 0px;
   --aura-glass-primary-level5-shadow-y: 20px;
   --aura-glass-primary-level5-shadow-blur: 48px;
   --aura-glass-primary-level5-shadow-spread: 0px;
   --aura-glass-primary-level5-noise-opacity: 0.12;
   --aura-glass-primary-level5-highlight-opacity: 0.3;
-  --aura-glass-primary-level5-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-primary-level5-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-primary-level5-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-primary-level5-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-success-level1-backdrop-blur: 8px;
-  --aura-glass-success-level1-surface-base: linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(22,163,74,0.18) 100%);
-  --aura-glass-success-level1-border-color: rgba(34,197,94,0.4);
+  --aura-glass-success-level1-surface-base: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.25) 0%,
+    rgba(22, 163, 74, 0.18) 100%
+  );
+  --aura-glass-success-level1-border-color: rgba(34, 197, 94, 0.4);
   --aura-glass-success-level1-border-width: 1px;
   --aura-glass-success-level1-border-style: solid;
-  --aura-glass-success-level1-shadow-color: rgba(34,197,94,0.12);
+  --aura-glass-success-level1-shadow-color: rgba(34, 197, 94, 0.12);
   --aura-glass-success-level1-shadow-x: 0px;
   --aura-glass-success-level1-shadow-y: 4px;
   --aura-glass-success-level1-shadow-blur: 16px;
   --aura-glass-success-level1-shadow-spread: 0px;
   --aura-glass-success-level1-noise-opacity: 0.03;
   --aura-glass-success-level1-highlight-opacity: 0.15;
-  --aura-glass-success-level1-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-success-level1-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-success-level1-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-success-level1-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-success-level2-backdrop-blur: 12px;
-  --aura-glass-success-level2-surface-base: linear-gradient(135deg, rgba(34,197,94,0.32) 0%, rgba(22,163,74,0.24) 100%);
-  --aura-glass-success-level2-border-color: rgba(34,197,94,0.5);
+  --aura-glass-success-level2-surface-base: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.32) 0%,
+    rgba(22, 163, 74, 0.24) 100%
+  );
+  --aura-glass-success-level2-border-color: rgba(34, 197, 94, 0.5);
   --aura-glass-success-level2-border-width: 1px;
   --aura-glass-success-level2-border-style: solid;
-  --aura-glass-success-level2-inner-glow-color: rgba(34,197,94,0.2);
+  --aura-glass-success-level2-inner-glow-color: rgba(34, 197, 94, 0.2);
   --aura-glass-success-level2-inner-glow-spread: 0px;
   --aura-glass-success-level2-inner-glow-blur: 8px;
-  --aura-glass-success-level2-shadow-color: rgba(34,197,94,0.16);
+  --aura-glass-success-level2-shadow-color: rgba(34, 197, 94, 0.16);
   --aura-glass-success-level2-shadow-x: 0px;
   --aura-glass-success-level2-shadow-y: 8px;
   --aura-glass-success-level2-shadow-blur: 24px;
   --aura-glass-success-level2-shadow-spread: 0px;
   --aura-glass-success-level2-noise-opacity: 0.05;
   --aura-glass-success-level2-highlight-opacity: 0.2;
-  --aura-glass-success-level2-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-success-level2-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-success-level2-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-success-level2-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-success-level3-backdrop-blur: 16px;
-  --aura-glass-success-level3-surface-base: linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(22,163,74,0.28) 100%);
-  --aura-glass-success-level3-border-color: rgba(34,197,94,0.6);
+  --aura-glass-success-level3-surface-base: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.4) 0%,
+    rgba(22, 163, 74, 0.28) 100%
+  );
+  --aura-glass-success-level3-border-color: rgba(34, 197, 94, 0.6);
   --aura-glass-success-level3-border-width: 2px;
   --aura-glass-success-level3-border-style: solid;
-  --aura-glass-success-level3-inner-glow-color: rgba(34,197,94,0.24);
+  --aura-glass-success-level3-inner-glow-color: rgba(34, 197, 94, 0.24);
   --aura-glass-success-level3-inner-glow-spread: 1px;
   --aura-glass-success-level3-inner-glow-blur: 12px;
-  --aura-glass-success-level3-shadow-color: rgba(34,197,94,0.2);
+  --aura-glass-success-level3-shadow-color: rgba(34, 197, 94, 0.2);
   --aura-glass-success-level3-shadow-x: 0px;
   --aura-glass-success-level3-shadow-y: 12px;
   --aura-glass-success-level3-shadow-blur: 32px;
   --aura-glass-success-level3-shadow-spread: 0px;
   --aura-glass-success-level3-noise-opacity: 0.08;
   --aura-glass-success-level3-highlight-opacity: 0.25;
-  --aura-glass-success-level3-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-success-level3-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-success-level3-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-success-level3-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-success-level4-backdrop-blur: 20px;
-  --aura-glass-success-level4-surface-base: linear-gradient(135deg, rgba(34,197,94,0.48) 0%, rgba(22,163,74,0.34) 100%);
-  --aura-glass-success-level4-border-color: rgba(34,197,94,0.7);
+  --aura-glass-success-level4-surface-base: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.48) 0%,
+    rgba(22, 163, 74, 0.34) 100%
+  );
+  --aura-glass-success-level4-border-color: rgba(34, 197, 94, 0.7);
   --aura-glass-success-level4-border-width: 2px;
   --aura-glass-success-level4-border-style: solid;
-  --aura-glass-success-level4-inner-glow-color: rgba(34,197,94,0.28);
+  --aura-glass-success-level4-inner-glow-color: rgba(34, 197, 94, 0.28);
   --aura-glass-success-level4-inner-glow-spread: 1px;
   --aura-glass-success-level4-inner-glow-blur: 16px;
-  --aura-glass-success-level4-shadow-color: rgba(34,197,94,0.24);
+  --aura-glass-success-level4-shadow-color: rgba(34, 197, 94, 0.24);
   --aura-glass-success-level4-shadow-x: 0px;
   --aura-glass-success-level4-shadow-y: 16px;
   --aura-glass-success-level4-shadow-blur: 40px;
   --aura-glass-success-level4-shadow-spread: 0px;
   --aura-glass-success-level4-noise-opacity: 0.1;
   --aura-glass-success-level4-highlight-opacity: 0.25;
-  --aura-glass-success-level4-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-success-level4-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-success-level4-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-success-level4-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-success-level5-backdrop-blur: 24px;
-  --aura-glass-success-level5-surface-base: linear-gradient(135deg, rgba(34,197,94,0.56) 0%, rgba(22,163,74,0.4) 100%);
-  --aura-glass-success-level5-border-color: rgba(34,197,94,0.78);
+  --aura-glass-success-level5-surface-base: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.56) 0%,
+    rgba(22, 163, 74, 0.4) 100%
+  );
+  --aura-glass-success-level5-border-color: rgba(34, 197, 94, 0.78);
   --aura-glass-success-level5-border-width: 3px;
   --aura-glass-success-level5-border-style: solid;
-  --aura-glass-success-level5-inner-glow-color: rgba(34,197,94,0.32);
+  --aura-glass-success-level5-inner-glow-color: rgba(34, 197, 94, 0.32);
   --aura-glass-success-level5-inner-glow-spread: 2px;
   --aura-glass-success-level5-inner-glow-blur: 20px;
-  --aura-glass-success-level5-shadow-color: rgba(34,197,94,0.28);
+  --aura-glass-success-level5-shadow-color: rgba(34, 197, 94, 0.28);
   --aura-glass-success-level5-shadow-x: 0px;
   --aura-glass-success-level5-shadow-y: 20px;
   --aura-glass-success-level5-shadow-blur: 48px;
   --aura-glass-success-level5-shadow-spread: 0px;
   --aura-glass-success-level5-noise-opacity: 0.12;
   --aura-glass-success-level5-highlight-opacity: 0.3;
-  --aura-glass-success-level5-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-success-level5-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-success-level5-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-success-level5-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-warning-level1-backdrop-blur: 8px;
-  --aura-glass-warning-level1-surface-base: linear-gradient(135deg, rgba(245,158,11,0.28) 0%, rgba(254,215,88,0.18) 100%);
-  --aura-glass-warning-level1-border-color: rgba(245,158,11,0.4);
+  --aura-glass-warning-level1-surface-base: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.28) 0%,
+    rgba(254, 215, 88, 0.18) 100%
+  );
+  --aura-glass-warning-level1-border-color: rgba(245, 158, 11, 0.4);
   --aura-glass-warning-level1-border-width: 1px;
   --aura-glass-warning-level1-border-style: solid;
-  --aura-glass-warning-level1-shadow-color: rgba(245,158,11,0.12);
+  --aura-glass-warning-level1-shadow-color: rgba(245, 158, 11, 0.12);
   --aura-glass-warning-level1-shadow-x: 0px;
   --aura-glass-warning-level1-shadow-y: 4px;
   --aura-glass-warning-level1-shadow-blur: 16px;
   --aura-glass-warning-level1-shadow-spread: 0px;
   --aura-glass-warning-level1-noise-opacity: 0.03;
   --aura-glass-warning-level1-highlight-opacity: 0.15;
-  --aura-glass-warning-level1-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-warning-level1-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-warning-level1-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-warning-level1-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-warning-level2-backdrop-blur: 12px;
-  --aura-glass-warning-level2-surface-base: linear-gradient(135deg, rgba(245,158,11,0.35) 0%, rgba(254,215,88,0.24) 100%);
-  --aura-glass-warning-level2-border-color: rgba(245,158,11,0.5);
+  --aura-glass-warning-level2-surface-base: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.35) 0%,
+    rgba(254, 215, 88, 0.24) 100%
+  );
+  --aura-glass-warning-level2-border-color: rgba(245, 158, 11, 0.5);
   --aura-glass-warning-level2-border-width: 1px;
   --aura-glass-warning-level2-border-style: solid;
-  --aura-glass-warning-level2-inner-glow-color: rgba(245,158,11,0.22);
+  --aura-glass-warning-level2-inner-glow-color: rgba(245, 158, 11, 0.22);
   --aura-glass-warning-level2-inner-glow-spread: 0px;
   --aura-glass-warning-level2-inner-glow-blur: 8px;
-  --aura-glass-warning-level2-shadow-color: rgba(245,158,11,0.16);
+  --aura-glass-warning-level2-shadow-color: rgba(245, 158, 11, 0.16);
   --aura-glass-warning-level2-shadow-x: 0px;
   --aura-glass-warning-level2-shadow-y: 8px;
   --aura-glass-warning-level2-shadow-blur: 24px;
   --aura-glass-warning-level2-shadow-spread: 0px;
   --aura-glass-warning-level2-noise-opacity: 0.05;
   --aura-glass-warning-level2-highlight-opacity: 0.2;
-  --aura-glass-warning-level2-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-warning-level2-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-warning-level2-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-warning-level2-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-warning-level3-backdrop-blur: 16px;
-  --aura-glass-warning-level3-surface-base: linear-gradient(135deg, rgba(245,158,11,0.44) 0%, rgba(254,215,88,0.3) 100%);
-  --aura-glass-warning-level3-border-color: rgba(245,158,11,0.6);
+  --aura-glass-warning-level3-surface-base: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.44) 0%,
+    rgba(254, 215, 88, 0.3) 100%
+  );
+  --aura-glass-warning-level3-border-color: rgba(245, 158, 11, 0.6);
   --aura-glass-warning-level3-border-width: 2px;
   --aura-glass-warning-level3-border-style: solid;
-  --aura-glass-warning-level3-inner-glow-color: rgba(245,158,11,0.26);
+  --aura-glass-warning-level3-inner-glow-color: rgba(245, 158, 11, 0.26);
   --aura-glass-warning-level3-inner-glow-spread: 1px;
   --aura-glass-warning-level3-inner-glow-blur: 12px;
-  --aura-glass-warning-level3-shadow-color: rgba(245,158,11,0.2);
+  --aura-glass-warning-level3-shadow-color: rgba(245, 158, 11, 0.2);
   --aura-glass-warning-level3-shadow-x: 0px;
   --aura-glass-warning-level3-shadow-y: 12px;
   --aura-glass-warning-level3-shadow-blur: 32px;
   --aura-glass-warning-level3-shadow-spread: 0px;
   --aura-glass-warning-level3-noise-opacity: 0.08;
   --aura-glass-warning-level3-highlight-opacity: 0.25;
-  --aura-glass-warning-level3-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-warning-level3-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-warning-level3-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-warning-level3-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-warning-level4-backdrop-blur: 20px;
-  --aura-glass-warning-level4-surface-base: linear-gradient(135deg, rgba(245,158,11,0.52) 0%, rgba(254,215,88,0.36) 100%);
-  --aura-glass-warning-level4-border-color: rgba(245,158,11,0.68);
+  --aura-glass-warning-level4-surface-base: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.52) 0%,
+    rgba(254, 215, 88, 0.36) 100%
+  );
+  --aura-glass-warning-level4-border-color: rgba(245, 158, 11, 0.68);
   --aura-glass-warning-level4-border-width: 2px;
   --aura-glass-warning-level4-border-style: solid;
-  --aura-glass-warning-level4-inner-glow-color: rgba(245,158,11,0.3);
+  --aura-glass-warning-level4-inner-glow-color: rgba(245, 158, 11, 0.3);
   --aura-glass-warning-level4-inner-glow-spread: 1px;
   --aura-glass-warning-level4-inner-glow-blur: 16px;
-  --aura-glass-warning-level4-shadow-color: rgba(245,158,11,0.24);
+  --aura-glass-warning-level4-shadow-color: rgba(245, 158, 11, 0.24);
   --aura-glass-warning-level4-shadow-x: 0px;
   --aura-glass-warning-level4-shadow-y: 16px;
   --aura-glass-warning-level4-shadow-blur: 40px;
   --aura-glass-warning-level4-shadow-spread: 0px;
   --aura-glass-warning-level4-noise-opacity: 0.1;
   --aura-glass-warning-level4-highlight-opacity: 0.25;
-  --aura-glass-warning-level4-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-warning-level4-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-warning-level4-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-warning-level4-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-warning-level5-backdrop-blur: 24px;
-  --aura-glass-warning-level5-surface-base: linear-gradient(135deg, rgba(245,158,11,0.6) 0%, rgba(254,215,88,0.42) 100%);
-  --aura-glass-warning-level5-border-color: rgba(245,158,11,0.75);
+  --aura-glass-warning-level5-surface-base: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.6) 0%,
+    rgba(254, 215, 88, 0.42) 100%
+  );
+  --aura-glass-warning-level5-border-color: rgba(245, 158, 11, 0.75);
   --aura-glass-warning-level5-border-width: 3px;
   --aura-glass-warning-level5-border-style: solid;
-  --aura-glass-warning-level5-inner-glow-color: rgba(245,158,11,0.34);
+  --aura-glass-warning-level5-inner-glow-color: rgba(245, 158, 11, 0.34);
   --aura-glass-warning-level5-inner-glow-spread: 2px;
   --aura-glass-warning-level5-inner-glow-blur: 20px;
-  --aura-glass-warning-level5-shadow-color: rgba(245,158,11,0.28);
+  --aura-glass-warning-level5-shadow-color: rgba(245, 158, 11, 0.28);
   --aura-glass-warning-level5-shadow-x: 0px;
   --aura-glass-warning-level5-shadow-y: 20px;
   --aura-glass-warning-level5-shadow-blur: 48px;
   --aura-glass-warning-level5-shadow-spread: 0px;
   --aura-glass-warning-level5-noise-opacity: 0.12;
   --aura-glass-warning-level5-highlight-opacity: 0.3;
-  --aura-glass-warning-level5-text-primary: rgba(15,23,42,0.95);
-  --aura-glass-warning-level5-text-secondary: rgba(15,23,42,0.75);
+  --aura-glass-warning-level5-text-primary: rgba(15, 23, 42, 0.95);
+  --aura-glass-warning-level5-text-secondary: rgba(15, 23, 42, 0.75);
   --aura-glass-danger-level1-backdrop-blur: 8px;
-  --aura-glass-danger-level1-surface-base: linear-gradient(135deg, rgba(239,68,68,0.28) 0%, rgba(248,113,113,0.18) 100%);
-  --aura-glass-danger-level1-border-color: rgba(239,68,68,0.4);
+  --aura-glass-danger-level1-surface-base: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.28) 0%,
+    rgba(248, 113, 113, 0.18) 100%
+  );
+  --aura-glass-danger-level1-border-color: rgba(239, 68, 68, 0.4);
   --aura-glass-danger-level1-border-width: 1px;
   --aura-glass-danger-level1-border-style: solid;
-  --aura-glass-danger-level1-shadow-color: rgba(239,68,68,0.12);
+  --aura-glass-danger-level1-shadow-color: rgba(239, 68, 68, 0.12);
   --aura-glass-danger-level1-shadow-x: 0px;
   --aura-glass-danger-level1-shadow-y: 4px;
   --aura-glass-danger-level1-shadow-blur: 16px;
   --aura-glass-danger-level1-shadow-spread: 0px;
   --aura-glass-danger-level1-noise-opacity: 0.03;
   --aura-glass-danger-level1-highlight-opacity: 0.15;
-  --aura-glass-danger-level1-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-danger-level1-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-danger-level1-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-danger-level1-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-danger-level2-backdrop-blur: 12px;
-  --aura-glass-danger-level2-surface-base: linear-gradient(135deg, rgba(239,68,68,0.36) 0%, rgba(248,113,113,0.24) 100%);
-  --aura-glass-danger-level2-border-color: rgba(239,68,68,0.5);
+  --aura-glass-danger-level2-surface-base: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.36) 0%,
+    rgba(248, 113, 113, 0.24) 100%
+  );
+  --aura-glass-danger-level2-border-color: rgba(239, 68, 68, 0.5);
   --aura-glass-danger-level2-border-width: 1px;
   --aura-glass-danger-level2-border-style: solid;
-  --aura-glass-danger-level2-inner-glow-color: rgba(239,68,68,0.22);
+  --aura-glass-danger-level2-inner-glow-color: rgba(239, 68, 68, 0.22);
   --aura-glass-danger-level2-inner-glow-spread: 0px;
   --aura-glass-danger-level2-inner-glow-blur: 8px;
-  --aura-glass-danger-level2-shadow-color: rgba(239,68,68,0.16);
+  --aura-glass-danger-level2-shadow-color: rgba(239, 68, 68, 0.16);
   --aura-glass-danger-level2-shadow-x: 0px;
   --aura-glass-danger-level2-shadow-y: 8px;
   --aura-glass-danger-level2-shadow-blur: 24px;
   --aura-glass-danger-level2-shadow-spread: 0px;
   --aura-glass-danger-level2-noise-opacity: 0.05;
   --aura-glass-danger-level2-highlight-opacity: 0.2;
-  --aura-glass-danger-level2-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-danger-level2-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-danger-level2-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-danger-level2-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-danger-level3-backdrop-blur: 16px;
-  --aura-glass-danger-level3-surface-base: linear-gradient(135deg, rgba(239,68,68,0.44) 0%, rgba(248,113,113,0.3) 100%);
-  --aura-glass-danger-level3-border-color: rgba(239,68,68,0.6);
+  --aura-glass-danger-level3-surface-base: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.44) 0%,
+    rgba(248, 113, 113, 0.3) 100%
+  );
+  --aura-glass-danger-level3-border-color: rgba(239, 68, 68, 0.6);
   --aura-glass-danger-level3-border-width: 2px;
   --aura-glass-danger-level3-border-style: solid;
-  --aura-glass-danger-level3-inner-glow-color: rgba(239,68,68,0.26);
+  --aura-glass-danger-level3-inner-glow-color: rgba(239, 68, 68, 0.26);
   --aura-glass-danger-level3-inner-glow-spread: 1px;
   --aura-glass-danger-level3-inner-glow-blur: 12px;
-  --aura-glass-danger-level3-shadow-color: rgba(239,68,68,0.2);
+  --aura-glass-danger-level3-shadow-color: rgba(239, 68, 68, 0.2);
   --aura-glass-danger-level3-shadow-x: 0px;
   --aura-glass-danger-level3-shadow-y: 12px;
   --aura-glass-danger-level3-shadow-blur: 32px;
   --aura-glass-danger-level3-shadow-spread: 0px;
   --aura-glass-danger-level3-noise-opacity: 0.08;
   --aura-glass-danger-level3-highlight-opacity: 0.25;
-  --aura-glass-danger-level3-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-danger-level3-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-danger-level3-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-danger-level3-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-danger-level4-backdrop-blur: 20px;
-  --aura-glass-danger-level4-surface-base: linear-gradient(135deg, rgba(239,68,68,0.52) 0%, rgba(248,113,113,0.36) 100%);
-  --aura-glass-danger-level4-border-color: rgba(239,68,68,0.68);
+  --aura-glass-danger-level4-surface-base: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.52) 0%,
+    rgba(248, 113, 113, 0.36) 100%
+  );
+  --aura-glass-danger-level4-border-color: rgba(239, 68, 68, 0.68);
   --aura-glass-danger-level4-border-width: 2px;
   --aura-glass-danger-level4-border-style: solid;
-  --aura-glass-danger-level4-inner-glow-color: rgba(239,68,68,0.3);
+  --aura-glass-danger-level4-inner-glow-color: rgba(239, 68, 68, 0.3);
   --aura-glass-danger-level4-inner-glow-spread: 1px;
   --aura-glass-danger-level4-inner-glow-blur: 16px;
-  --aura-glass-danger-level4-shadow-color: rgba(239,68,68,0.24);
+  --aura-glass-danger-level4-shadow-color: rgba(239, 68, 68, 0.24);
   --aura-glass-danger-level4-shadow-x: 0px;
   --aura-glass-danger-level4-shadow-y: 16px;
   --aura-glass-danger-level4-shadow-blur: 40px;
   --aura-glass-danger-level4-shadow-spread: 0px;
   --aura-glass-danger-level4-noise-opacity: 0.1;
   --aura-glass-danger-level4-highlight-opacity: 0.25;
-  --aura-glass-danger-level4-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-danger-level4-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-danger-level4-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-danger-level4-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-danger-level5-backdrop-blur: 24px;
-  --aura-glass-danger-level5-surface-base: linear-gradient(135deg, rgba(239,68,68,0.6) 0%, rgba(248,113,113,0.42) 100%);
-  --aura-glass-danger-level5-border-color: rgba(239,68,68,0.75);
+  --aura-glass-danger-level5-surface-base: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.6) 0%,
+    rgba(248, 113, 113, 0.42) 100%
+  );
+  --aura-glass-danger-level5-border-color: rgba(239, 68, 68, 0.75);
   --aura-glass-danger-level5-border-width: 3px;
   --aura-glass-danger-level5-border-style: solid;
-  --aura-glass-danger-level5-inner-glow-color: rgba(239,68,68,0.34);
+  --aura-glass-danger-level5-inner-glow-color: rgba(239, 68, 68, 0.34);
   --aura-glass-danger-level5-inner-glow-spread: 2px;
   --aura-glass-danger-level5-inner-glow-blur: 20px;
-  --aura-glass-danger-level5-shadow-color: rgba(239,68,68,0.28);
+  --aura-glass-danger-level5-shadow-color: rgba(239, 68, 68, 0.28);
   --aura-glass-danger-level5-shadow-x: 0px;
   --aura-glass-danger-level5-shadow-y: 20px;
   --aura-glass-danger-level5-shadow-blur: 48px;
   --aura-glass-danger-level5-shadow-spread: 0px;
   --aura-glass-danger-level5-noise-opacity: 0.12;
   --aura-glass-danger-level5-highlight-opacity: 0.3;
-  --aura-glass-danger-level5-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-danger-level5-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-danger-level5-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-danger-level5-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-info-level1-backdrop-blur: 8px;
-  --aura-glass-info-level1-surface-base: linear-gradient(135deg, rgba(14,165,233,0.28) 0%, rgba(56,189,248,0.18) 100%);
-  --aura-glass-info-level1-border-color: rgba(14,165,233,0.4);
+  --aura-glass-info-level1-surface-base: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.28) 0%,
+    rgba(56, 189, 248, 0.18) 100%
+  );
+  --aura-glass-info-level1-border-color: rgba(14, 165, 233, 0.4);
   --aura-glass-info-level1-border-width: 1px;
   --aura-glass-info-level1-border-style: solid;
-  --aura-glass-info-level1-shadow-color: rgba(14,165,233,0.12);
+  --aura-glass-info-level1-shadow-color: rgba(14, 165, 233, 0.12);
   --aura-glass-info-level1-shadow-x: 0px;
   --aura-glass-info-level1-shadow-y: 4px;
   --aura-glass-info-level1-shadow-blur: 16px;
   --aura-glass-info-level1-shadow-spread: 0px;
   --aura-glass-info-level1-noise-opacity: 0.03;
   --aura-glass-info-level1-highlight-opacity: 0.15;
-  --aura-glass-info-level1-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-info-level1-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-info-level1-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-info-level1-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-info-level2-backdrop-blur: 12px;
-  --aura-glass-info-level2-surface-base: linear-gradient(135deg, rgba(14,165,233,0.36) 0%, rgba(56,189,248,0.24) 100%);
-  --aura-glass-info-level2-border-color: rgba(14,165,233,0.5);
+  --aura-glass-info-level2-surface-base: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.36) 0%,
+    rgba(56, 189, 248, 0.24) 100%
+  );
+  --aura-glass-info-level2-border-color: rgba(14, 165, 233, 0.5);
   --aura-glass-info-level2-border-width: 1px;
   --aura-glass-info-level2-border-style: solid;
-  --aura-glass-info-level2-inner-glow-color: rgba(14,165,233,0.22);
+  --aura-glass-info-level2-inner-glow-color: rgba(14, 165, 233, 0.22);
   --aura-glass-info-level2-inner-glow-spread: 0px;
   --aura-glass-info-level2-inner-glow-blur: 8px;
-  --aura-glass-info-level2-shadow-color: rgba(14,165,233,0.16);
+  --aura-glass-info-level2-shadow-color: rgba(14, 165, 233, 0.16);
   --aura-glass-info-level2-shadow-x: 0px;
   --aura-glass-info-level2-shadow-y: 8px;
   --aura-glass-info-level2-shadow-blur: 24px;
   --aura-glass-info-level2-shadow-spread: 0px;
   --aura-glass-info-level2-noise-opacity: 0.05;
   --aura-glass-info-level2-highlight-opacity: 0.2;
-  --aura-glass-info-level2-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-info-level2-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-info-level2-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-info-level2-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-info-level3-backdrop-blur: 16px;
-  --aura-glass-info-level3-surface-base: linear-gradient(135deg, rgba(14,165,233,0.44) 0%, rgba(56,189,248,0.3) 100%);
-  --aura-glass-info-level3-border-color: rgba(14,165,233,0.6);
+  --aura-glass-info-level3-surface-base: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.44) 0%,
+    rgba(56, 189, 248, 0.3) 100%
+  );
+  --aura-glass-info-level3-border-color: rgba(14, 165, 233, 0.6);
   --aura-glass-info-level3-border-width: 2px;
   --aura-glass-info-level3-border-style: solid;
-  --aura-glass-info-level3-inner-glow-color: rgba(14,165,233,0.26);
+  --aura-glass-info-level3-inner-glow-color: rgba(14, 165, 233, 0.26);
   --aura-glass-info-level3-inner-glow-spread: 1px;
   --aura-glass-info-level3-inner-glow-blur: 12px;
-  --aura-glass-info-level3-shadow-color: rgba(14,165,233,0.2);
+  --aura-glass-info-level3-shadow-color: rgba(14, 165, 233, 0.2);
   --aura-glass-info-level3-shadow-x: 0px;
   --aura-glass-info-level3-shadow-y: 12px;
   --aura-glass-info-level3-shadow-blur: 32px;
   --aura-glass-info-level3-shadow-spread: 0px;
   --aura-glass-info-level3-noise-opacity: 0.08;
   --aura-glass-info-level3-highlight-opacity: 0.25;
-  --aura-glass-info-level3-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-info-level3-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-info-level3-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-info-level3-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-info-level4-backdrop-blur: 20px;
-  --aura-glass-info-level4-surface-base: linear-gradient(135deg, rgba(14,165,233,0.52) 0%, rgba(56,189,248,0.36) 100%);
-  --aura-glass-info-level4-border-color: rgba(14,165,233,0.68);
+  --aura-glass-info-level4-surface-base: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.52) 0%,
+    rgba(56, 189, 248, 0.36) 100%
+  );
+  --aura-glass-info-level4-border-color: rgba(14, 165, 233, 0.68);
   --aura-glass-info-level4-border-width: 2px;
   --aura-glass-info-level4-border-style: solid;
-  --aura-glass-info-level4-inner-glow-color: rgba(14,165,233,0.3);
+  --aura-glass-info-level4-inner-glow-color: rgba(14, 165, 233, 0.3);
   --aura-glass-info-level4-inner-glow-spread: 1px;
   --aura-glass-info-level4-inner-glow-blur: 16px;
-  --aura-glass-info-level4-shadow-color: rgba(14,165,233,0.24);
+  --aura-glass-info-level4-shadow-color: rgba(14, 165, 233, 0.24);
   --aura-glass-info-level4-shadow-x: 0px;
   --aura-glass-info-level4-shadow-y: 16px;
   --aura-glass-info-level4-shadow-blur: 40px;
   --aura-glass-info-level4-shadow-spread: 0px;
   --aura-glass-info-level4-noise-opacity: 0.1;
   --aura-glass-info-level4-highlight-opacity: 0.25;
-  --aura-glass-info-level4-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-info-level4-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-info-level4-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-info-level4-text-secondary: rgba(248, 250, 252, 0.78);
   --aura-glass-info-level5-backdrop-blur: 24px;
-  --aura-glass-info-level5-surface-base: linear-gradient(135deg, rgba(14,165,233,0.6) 0%, rgba(56,189,248,0.42) 100%);
-  --aura-glass-info-level5-border-color: rgba(14,165,233,0.75);
+  --aura-glass-info-level5-surface-base: linear-gradient(
+    135deg,
+    rgba(14, 165, 233, 0.6) 0%,
+    rgba(56, 189, 248, 0.42) 100%
+  );
+  --aura-glass-info-level5-border-color: rgba(14, 165, 233, 0.75);
   --aura-glass-info-level5-border-width: 3px;
   --aura-glass-info-level5-border-style: solid;
-  --aura-glass-info-level5-inner-glow-color: rgba(14,165,233,0.34);
+  --aura-glass-info-level5-inner-glow-color: rgba(14, 165, 233, 0.34);
   --aura-glass-info-level5-inner-glow-spread: 2px;
   --aura-glass-info-level5-inner-glow-blur: 20px;
-  --aura-glass-info-level5-shadow-color: rgba(14,165,233,0.28);
+  --aura-glass-info-level5-shadow-color: rgba(14, 165, 233, 0.28);
   --aura-glass-info-level5-shadow-x: 0px;
   --aura-glass-info-level5-shadow-y: 20px;
   --aura-glass-info-level5-shadow-blur: 48px;
   --aura-glass-info-level5-shadow-spread: 0px;
   --aura-glass-info-level5-noise-opacity: 0.12;
   --aura-glass-info-level5-highlight-opacity: 0.3;
-  --aura-glass-info-level5-text-primary: rgba(248,250,252,0.98);
-  --aura-glass-info-level5-text-secondary: rgba(248,250,252,0.78);
+  --aura-glass-info-level5-text-primary: rgba(248, 250, 252, 0.98);
+  --aura-glass-info-level5-text-secondary: rgba(248, 250, 252, 0.78);
 }

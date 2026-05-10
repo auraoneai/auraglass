@@ -2623,14 +2623,14 @@ svg.glass-touch-target {
   --glass-focus-ring-offset-color: transparent;
   --glass-focus-ring-opacity: 0.5;
   outline: none;
+}
+
+.glass-focus:focus-visible {
   box-shadow:
     0 0 0 var(--glass-focus-ring-offset-width, 2px)
       var(--glass-focus-ring-offset-color, transparent),
     0 0 0 calc(4px + var(--glass-focus-ring-offset-width, 2px))
-      rgba(59, 130, 246, var(--glass-focus-ring-opacity, 0.5));
-}
-
-.glass-focus:focus-visible {
+      hsl(var(--glass-color-primary) / var(--glass-focus-ring-opacity, 0.5));
   --glass-focus-ring-opacity: 1;
 }
 

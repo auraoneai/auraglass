@@ -1,6 +1,12 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import React, { useEffect, useRef, useState, forwardRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+} from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { useA11yId, announceToScreenReader } from "../../utils/a11y";
@@ -168,7 +174,20 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
     const { prefersReducedMotion } = useMotionPreferenceContext();
 
     const open = controlledOpen !== undefined ? controlledOpen : isOpen;
-    const setOpen = onOpenChange || setIsOpen;
+    const setOpen = useCallback(
+      (value: boolean) => {
+        if (value === open) {
+          return;
+        }
+
+        if (onOpenChange) {
+          onOpenChange(value);
+        } else {
+          setIsOpen(value);
+        }
+      },
+      [onOpenChange, open]
+    );
 
     // Generate unique IDs for accessibility
     const hoverCardId = useA11yId("glass-hover-card");

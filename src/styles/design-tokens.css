@@ -8,10 +8,11 @@
   --radius-xl: 24px;
 
   /* Shadows */
-  --shadow-soft: 0 6px 18px rgba(var(--glass-color-black) / var(--glass-opacity-10));
-  --shadow-medium: 0 12px 32px rgba(0,0,0,0.18);
-  --shadow-strong: 0 20px 56px rgba(0,0,0,0.28);
-  --shadow-glow: 0 0 24px rgba(59,130,246,0.35);
+  --shadow-soft: 0 6px 18px
+    rgba(var(--glass-color-black) / var(--glass-opacity-10));
+  --shadow-medium: 0 12px 32px rgba(0, 0, 0, 0.18);
+  --shadow-strong: 0 20px 56px rgba(0, 0, 0, 0.28);
+  --shadow-glow: 0 0 24px hsl(var(--glass-color-primary) / 0.35);
 
   /* Design blur levels (non-glass elements) */
   --design-blur-xs: blur(6px);
@@ -22,14 +23,14 @@
 
   /* Gradient stops (semantic) */
   --grad-primary-from: #22d3ee; /* cyan-400 */
-  --grad-primary-to: #a855f7;   /* purple-500 */
-  --grad-aurora-from: #60a5fa;  /* blue-400 */
-  --grad-aurora-via: #ec4899;   /* pink-500 */
-  --grad-aurora-to: #22c55e;    /* green-500 */
-  --grad-hero-from: #0ea5e9;    /* sky-500 */
-  --grad-hero-to: #9333ea;      /* violet-600 */
-  --grad-accent-from: #f59e0b;  /* amber-500 */
-  --grad-accent-to: #ef4444;    /* red-500 */
+  --grad-primary-to: #a855f7; /* purple-500 */
+  --grad-aurora-from: #60a5fa; /* blue-400 */
+  --grad-aurora-via: #ec4899; /* pink-500 */
+  --grad-aurora-to: #22c55e; /* green-500 */
+  --grad-hero-from: #0ea5e9; /* sky-500 */
+  --grad-hero-to: #9333ea; /* violet-600 */
+  --grad-accent-from: #f59e0b; /* amber-500 */
+  --grad-accent-to: #ef4444; /* red-500 */
 
   /* Section spacing */
   --section-xs-y: clamp(1.5rem, 4vw, 2rem);
@@ -42,30 +43,58 @@
   --prose-max: 65ch;
 
   /* Focus indicators (WCAG 3:1 contrast) */
-  --glass-focus-ring-color: #3b82f6;
+  --glass-focus-ring-color: hsl(var(--glass-color-primary));
   --glass-focus-ring-width: 2px;
   --glass-focus-ring-offset: 2px;
   --glass-focus-ring-opacity: 0.2;
-  --glass-focus-ring-blur: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  --glass-focus-ring-blur: 0 0 0 4px hsl(var(--glass-color-primary) / 0.2);
 }
 
 /* Utilities bound to tokens */
-.radius-xs { border-radius: var(--radius-xs); }
-.radius-sm { border-radius: var(--radius-sm); }
-.radius-md { border-radius: var(--radius-md); }
-.radius-lg { border-radius: var(--radius-lg); }
-.radius-xl { border-radius: var(--radius-xl); }
+.radius-xs {
+  border-radius: var(--radius-xs);
+}
+.radius-sm {
+  border-radius: var(--radius-sm);
+}
+.radius-md {
+  border-radius: var(--radius-md);
+}
+.radius-lg {
+  border-radius: var(--radius-lg);
+}
+.radius-xl {
+  border-radius: var(--radius-xl);
+}
 
-.shadow-soft { box-shadow: var(--shadow-soft); }
-.shadow-medium { box-shadow: var(--shadow-medium); }
-.shadow-strong { box-shadow: var(--shadow-strong); }
-.shadow-glow { box-shadow: var(--shadow-glow); }
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+.shadow-strong {
+  box-shadow: var(--shadow-strong);
+}
+.shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
 
-.design-blur-xs { backdrop-filter: var(--design-blur-xs); }
-.design-blur-sm { backdrop-filter: var(--design-blur-sm); }
-.design-blur-md { backdrop-filter: var(--design-blur-md); }
-.design-blur-lg { backdrop-filter: var(--design-blur-lg); }
-.design-blur-xl { backdrop-filter: var(--design-blur-xl); }
+.design-blur-xs {
+  backdrop-filter: var(--design-blur-xs);
+}
+.design-blur-sm {
+  backdrop-filter: var(--design-blur-sm);
+}
+.design-blur-md {
+  backdrop-filter: var(--design-blur-md);
+}
+.design-blur-lg {
+  backdrop-filter: var(--design-blur-lg);
+}
+.design-blur-xl {
+  backdrop-filter: var(--design-blur-xl);
+}
 
 /* REMOVED - No conflicts with unified glass system */
 
@@ -82,12 +111,14 @@
 
 /* Focus ring utility */
 .focus-ring:focus-visible {
-  outline: 3px solid rgba(59,130,246,0.6);
+  outline: 3px solid hsl(var(--glass-color-primary) / 0.6);
   outline-offset: 3px;
 }
 
 /* Utility to ensure pseudo-elements inherit radius */
-.rounded-inherit { border-radius: inherit; }
+.rounded-inherit {
+  border-radius: inherit;
+}
 
 /* ============================================================================
    REDUCED MOTION SUPPORT (WCAG 2.3.3 Animation from Interactions - AAA)

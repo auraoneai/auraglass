@@ -3,16 +3,16 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  useReducer
-} from 'react';
+  useReducer,
+} from "react";
 
 import type {
   ConsciousnessConfig,
-  ConsciousnessEventHandlers
-} from '@/types/consciousness';
-import { DEFAULT_CONSCIOUSNESS_CONFIG } from '@/types/consciousness';
+  ConsciousnessEventHandlers,
+} from "@/types/consciousness";
+import { DEFAULT_CONSCIOUSNESS_CONFIG } from "@/types/consciousness";
 
-type ConsciousnessFeatureKey = keyof ConsciousnessConfig['features'];
+type ConsciousnessFeatureKey = keyof ConsciousnessConfig["features"];
 
 export interface ConsciousnessStreamEvent {
   id: string;
@@ -20,7 +20,7 @@ export interface ConsciousnessStreamEvent {
   timestamp: number;
   payload?: Record<string, unknown>;
   confidence?: number;
-  status?: 'info' | 'success' | 'warning' | 'error';
+  status?: "info" | "success" | "warning" | "error";
 }
 
 interface ConsciousnessStreamState {
@@ -30,13 +30,16 @@ interface ConsciousnessStreamState {
 }
 
 type ConsciousnessStreamAction =
-  | { type: 'updateConfig'; payload: Partial<ConsciousnessConfig> }
-  | { type: 'updateFeature'; feature: ConsciousnessFeatureKey; value: boolean }
-  | { type: 'logEvent'; event: ConsciousnessStreamEvent }
-  | { type: 'clearEvents' }
-  | { type: 'mergeHandlers'; handlers: Partial<ConsciousnessEventHandlers> };
+  | { type: "updateConfig"; payload: Partial<ConsciousnessConfig> }
+  | { type: "updateFeature"; feature: ConsciousnessFeatureKey; value: boolean }
+  | { type: "logEvent"; event: ConsciousnessStreamEvent }
+  | { type: "clearEvents" }
+  | { type: "mergeHandlers"; handlers: Partial<ConsciousnessEventHandlers> };
 
-const mergeConfigs = (base: ConsciousnessConfig, update: Partial<ConsciousnessConfig>): ConsciousnessConfig => ({
+const mergeConfigs = (
+  base: ConsciousnessConfig,
+  update: Partial<ConsciousnessConfig>
+): ConsciousnessConfig => ({
   ...base,
   ...update,
   features: {
@@ -59,15 +62,15 @@ const mergeConfigs = (base: ConsciousnessConfig, update: Partial<ConsciousnessCo
 
 const streamReducer = (
   state: ConsciousnessStreamState,
-  action: ConsciousnessStreamAction,
+  action: ConsciousnessStreamAction
 ): ConsciousnessStreamState => {
   switch (action.type) {
-    case 'updateConfig':
+    case "updateConfig":
       return {
         ...state,
         config: mergeConfigs(state.config, action.payload),
       };
-    case 'updateFeature':
+    case "updateFeature":
       return {
         ...state,
         config: {
@@ -78,17 +81,17 @@ const streamReducer = (
           },
         },
       };
-    case 'logEvent':
+    case "logEvent":
       return {
         ...state,
         events: [...state.events, action.event].slice(-200),
       };
-    case 'clearEvents':
+    case "clearEvents":
       return {
         ...state,
         events: [],
       };
-    case 'mergeHandlers':
+    case "mergeHandlers":
       return {
         ...state,
         handlers: { ...state.handlers, ...action.handlers },
@@ -98,7 +101,8 @@ const streamReducer = (
   }
 };
 
-const createEventId = () => `cse-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+const createEventId = () =>
+  `cse-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 
 export interface ConsciousnessStreamContextValue {
   config: ConsciousnessConfig;
@@ -106,12 +110,36 @@ export interface ConsciousnessStreamContextValue {
   events: ConsciousnessStreamEvent[];
   updateConfig: (config: Partial<ConsciousnessConfig>) => void;
   updateFeature: (feature: ConsciousnessFeatureKey, enabled: boolean) => void;
-  logEvent: (event: Omit<ConsciousnessStreamEvent, 'id' | 'timestamp'> & { id?: string; timestamp?: number }) => ConsciousnessStreamEvent;
+  logEvent: (
+    event: Omit<ConsciousnessStreamEvent, "id" | "timestamp"> & {
+      id?: string;
+      timestamp?: number;
+    }
+  ) => ConsciousnessStreamEvent;
   clearEvents: () => void;
   registerHandlers: (handlers: Partial<ConsciousnessEventHandlers>) => void;
 }
 
-const ConsciousnessStreamContext = createContext<ConsciousnessStreamContextValue | null>(null);
+const ConsciousnessStreamContext =
+  createContext<ConsciousnessStreamContextValue | null>(null);
+
+const defaultConsciousnessStreamContext: ConsciousnessStreamContextValue = {
+  config: DEFAULT_CONSCIOUSNESS_CONFIG,
+  handlers: {},
+  events: [],
+  updateConfig: () => {},
+  updateFeature: () => {},
+  logEvent: (event) => ({
+    id: event.id ?? createEventId(),
+    timestamp: event.timestamp ?? Date.now(),
+    feature: event.feature,
+    payload: event.payload,
+    confidence: event.confidence,
+    status: event.status,
+  }),
+  clearEvents: () => {},
+  registerHandlers: () => {},
+};
 
 export interface ConsciousnessStreamProviderProps {
   children: React.ReactNode;
@@ -133,45 +161,66 @@ export function ConsciousnessStreamProvider({
   });
 
   const updateConfig = useCallback((partial: Partial<ConsciousnessConfig>) => {
-    dispatch({ type: 'updateConfig', payload: partial });
+    dispatch({ type: "updateConfig", payload: partial });
   }, []);
 
-  const updateFeature = useCallback((feature: ConsciousnessFeatureKey, enabled: boolean) => {
-    dispatch({ type: 'updateFeature', feature, value: enabled });
-  }, []);
+  const updateFeature = useCallback(
+    (feature: ConsciousnessFeatureKey, enabled: boolean) => {
+      dispatch({ type: "updateFeature", feature, value: enabled });
+    },
+    []
+  );
 
-  const logEvent: ConsciousnessStreamContextValue['logEvent'] = useCallback((eventInput) => {
-    const event: ConsciousnessStreamEvent = {
-      id: eventInput.id ?? createEventId(),
-      timestamp: eventInput.timestamp ?? Date.now(),
-      feature: eventInput.feature,
-      payload: eventInput.payload,
-      confidence: eventInput.confidence,
-      status: eventInput.status,
-    };
+  const logEvent: ConsciousnessStreamContextValue["logEvent"] = useCallback(
+    (eventInput) => {
+      const event: ConsciousnessStreamEvent = {
+        id: eventInput.id ?? createEventId(),
+        timestamp: eventInput.timestamp ?? Date.now(),
+        feature: eventInput.feature,
+        payload: eventInput.payload,
+        confidence: eventInput.confidence,
+        status: eventInput.status,
+      };
 
-    dispatch({ type: 'logEvent', event });
-    return event;
-  }, []);
+      dispatch({ type: "logEvent", event });
+      return event;
+    },
+    []
+  );
 
   const clearEvents = useCallback(() => {
-    dispatch({ type: 'clearEvents' });
+    dispatch({ type: "clearEvents" });
   }, []);
 
-  const registerHandlers = useCallback((partial: Partial<ConsciousnessEventHandlers>) => {
-    dispatch({ type: 'mergeHandlers', handlers: partial });
-  }, []);
+  const registerHandlers = useCallback(
+    (partial: Partial<ConsciousnessEventHandlers>) => {
+      dispatch({ type: "mergeHandlers", handlers: partial });
+    },
+    []
+  );
 
-  const value = useMemo<ConsciousnessStreamContextValue>(() => ({
-    config: state.config,
-    handlers: state.handlers,
-    events: state.events,
-    updateConfig,
-    updateFeature,
-    logEvent,
-    clearEvents,
-    registerHandlers,
-  }), [state.config, state.handlers, state.events, updateConfig, updateFeature, logEvent, clearEvents, registerHandlers]);
+  const value = useMemo<ConsciousnessStreamContextValue>(
+    () => ({
+      config: state.config,
+      handlers: state.handlers,
+      events: state.events,
+      updateConfig,
+      updateFeature,
+      logEvent,
+      clearEvents,
+      registerHandlers,
+    }),
+    [
+      state.config,
+      state.handlers,
+      state.events,
+      updateConfig,
+      updateFeature,
+      logEvent,
+      clearEvents,
+      registerHandlers,
+    ]
+  );
 
   return (
     <ConsciousnessStreamContext.Provider value={value}>
@@ -182,8 +231,5 @@ export function ConsciousnessStreamProvider({
 
 export function useConsciousnessStream(): ConsciousnessStreamContextValue {
   const context = useContext(ConsciousnessStreamContext);
-  if (!context) {
-    throw new Error('useConsciousnessStream must be used within a ConsciousnessStreamProvider');
-  }
-  return context;
+  return context ?? defaultConsciousnessStreamContext;
 }

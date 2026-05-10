@@ -873,10 +873,54 @@ DragDropProvider.displayName = "GlassDragDropProvider";
 
 export { DragDropProvider as GlassDragDropProvider };
 
+const defaultDragDropContext: DragDropContextValue = {
+  pageState: {
+    components: [],
+    history: [[]],
+    historyIndex: 0,
+    previewMode: false,
+    activeBreakpoint: "desktop",
+    showGrid: true,
+    snapToGrid: true,
+  },
+  componentLibrary: defaultComponentLibrary,
+  dragDropState: {
+    isDragging: false,
+    draggedType: null,
+  },
+  onDragStart: () => {},
+  onDragEnd: () => {},
+  onDragOver: () => {},
+  onDrop: () => {},
+  addComponent: () => {},
+  updateComponent: () => {},
+  deleteComponent: () => {},
+  duplicateComponent: () => {},
+  moveComponent: () => {},
+  selectComponent: () => {},
+  getSelectedComponent: () => undefined,
+  getComponentById: () => undefined,
+  undo: () => {},
+  redo: () => {},
+  canUndo: () => false,
+  canRedo: () => false,
+  saveToHistory: () => {},
+  copyComponent: () => {},
+  pasteComponent: () => {},
+  clearPage: () => {},
+  exportPage: () => ({
+    components: [],
+    timestamp: new Date(0).toISOString(),
+    version: "standalone",
+  }),
+  importPage: () => {},
+  togglePreviewMode: () => {},
+  setActiveBreakpoint: () => {},
+  toggleGrid: () => {},
+  toggleSnapToGrid: () => {},
+};
+
 export const useDragDrop = () => {
   const context = useContext(DragDropContext);
-  if (!context) {
-    throw new Error("useDragDrop must be used within a DragDropProvider");
-  }
-  return context;
+  return context ?? defaultDragDropContext;
 };

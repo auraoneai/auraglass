@@ -297,6 +297,80 @@ export interface EcommerceAnalytics {
 
 const EcommerceContext = createContext<EcommerceContextValue | null>(null);
 
+const emptyAnalytics: EcommerceAnalytics = {
+  totalViews: 0,
+  totalPurchases: 0,
+  conversionRate: 0,
+  averageOrderValue: 0,
+  popularProducts: [],
+  categoryPerformance: {},
+  searchQueries: [],
+};
+
+const defaultEcommerceContext: EcommerceContextValue = {
+  products: [],
+  addProduct: () => {},
+  updateProduct: () => {},
+  removeProduct: () => {},
+  getProduct: () => undefined,
+  getProductsByCategory: () => [],
+  searchProducts: () => [],
+  cart: [],
+  addToCart: () => {},
+  updateCartItem: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+  getCartTotal: () => 0,
+  getCartItemCount: () => 0,
+  cartSubtotal: 0,
+  cartTax: 0,
+  cartShipping: 0,
+  cartTotal: 0,
+  wishlist: [],
+  addToWishlist: () => {},
+  removeFromWishlist: () => {},
+  moveToCart: () => {},
+  shareWishlist: () => "",
+  recommendations: {},
+  getRecommendations: () => [],
+  generateRecommendations: async () => [],
+  comparisons: [],
+  createComparison: (productIds, title) => ({
+    id: "standalone-comparison",
+    products: [],
+    comparisonMatrix: [],
+    createdAt: new Date(0),
+    title,
+  }),
+  updateComparison: () => {},
+  removeComparison: () => {},
+  compareProducts: () => [],
+  reviews: {},
+  addReview: () => {},
+  updateReview: () => {},
+  removeReview: () => {},
+  getProductReviews: () => [],
+  getAverageRating: () => 0,
+  priceHistory: {},
+  trackPrice: () => {},
+  untrackPrice: () => {},
+  getPriceHistory: () => [],
+  getPriceAlerts: () => [],
+  searchQuery: "",
+  setSearchQuery: () => {},
+  filters: {},
+  setFilters: () => {},
+  sortBy: "relevance",
+  setSortBy: () => {},
+  viewProduct: () => {},
+  trackEvent: () => {},
+  getAnalytics: () => emptyAnalytics,
+  shippingOptions: [],
+  paymentMethods: [],
+  setShippingOption: () => {},
+  setPaymentMethod: () => {},
+};
+
 const isProduct = (product: Product | undefined): product is Product =>
   product !== undefined;
 
@@ -1015,8 +1089,5 @@ export { EcommerceProvider as GlassEcommerceProvider };
 
 export const useEcommerce = () => {
   const context = useContext(EcommerceContext);
-  if (!context) {
-    throw new Error("useEcommerce must be used within an EcommerceProvider");
-  }
-  return context;
+  return context ?? defaultEcommerceContext;
 };

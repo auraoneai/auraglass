@@ -772,7 +772,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
 
           <TouchRippleEffects
-            color="var(--glass-color-primary, 0.6)"
+            color="hsl(var(--glass-color-primary)/0.6)"
             maxRipples={5}
             rippleDuration={800}
           >
@@ -789,7 +789,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
 
           <TouchRippleEffects
-            color="var(--glass-color-success, 0.5)"
+            color="hsl(var(--glass-color-success)/0.5)"
             maxRipples={2}
             rippleDuration={400}
           >

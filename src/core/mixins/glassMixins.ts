@@ -159,7 +159,7 @@ export function createGlassFocusMixin(
 ): CSSProperties {
   return {
     outline: "none",
-    boxShadow: "0 0 0 3px var(--glass-color-primary, 0.3)",
+    boxShadow: "0 0 0 3px hsl(var(--glass-color-primary)/0.3)",
   };
 }
 

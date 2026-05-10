@@ -378,7 +378,7 @@ export function BrandGlassButton({
       background:
         '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
       border:
-        "1px solid var(--brand-border-primary, var(--glass-color-primary, 0.3))",
+        "1px solid var(--brand-border-primary, hsl(var(--glass-color-primary)/0.3))",
       boxShadow: "var(--glass-elev-2)",
       color: "var(--brand-primary, " + COLORS.semantic.primary + ")",
     },

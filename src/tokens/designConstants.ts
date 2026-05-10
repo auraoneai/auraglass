@@ -265,7 +265,7 @@ export const ACCESSIBILITY = {
   focusRing: {
     width: "2px",
     style: "solid",
-    color: "var(--glass-color-primary, 0.5)",
+    color: "hsl(var(--glass-color-primary)/0.5)",
     offset: "2px",
   },
 

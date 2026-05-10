@@ -30,6 +30,14 @@ export interface GlassMetricCardProps
    */
   value: string | number;
   /**
+   * Additional className for the rendered metric value.
+   */
+  valueClassName?: string;
+  /**
+   * Inline style for the rendered metric value.
+   */
+  valueStyle?: React.CSSProperties;
+  /**
    * Metric unit (e.g., '$', '%', 'users')
    */
   unit?: string;
@@ -116,6 +124,8 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
 
       title,
       value,
+      valueClassName,
+      valueStyle,
       unit = "",
       description,
       icon,
@@ -405,12 +415,13 @@ export const GlassMetricCard = forwardRef<HTMLDivElement, GlassMetricCardProps>(
                 <span
                   className={cn(
                     config.valueClass,
-                    variantConfig.valueColor,
+                    valueClassName || variantConfig.valueColor,
                     "relative z-10 font-bold tracking-tight",
                     "group-glass-hover-scale-105 group-hover:glass-text-primary",
                     `transition-all duration-[${ANIMATION.DURATION.normal}ms] ease-out`,
                     "drop-shadow-sm group-hover:drop-shadow-lg"
                   )}
+                  style={valueStyle}
                 >
                   {value}
                 </span>

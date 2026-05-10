@@ -186,13 +186,17 @@ export const GlassPopover = forwardRef<HTMLDivElement, GlassPopoverProps>(
     const isOpen = isControlled ? (open as boolean) : internalOpen;
     const setOpen = useCallback(
       (value: boolean) => {
-        if (typeof onOpenChange === "function") {
-          onOpenChange(value);
+        if (value === isOpen) {
+          return;
+        }
+
+        if (isControlled) {
+          onOpenChange?.(value);
         } else {
           setInternalOpen(value);
         }
       },
-      [onOpenChange]
+      [isControlled, isOpen, onOpenChange]
     );
 
     // Calculate position

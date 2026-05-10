@@ -46,6 +46,13 @@ const AccessibilityContext = createContext<
   AccessibilityContextType | undefined
 >(undefined);
 
+const defaultAccessibilityContext: AccessibilityContextType = {
+  settings: defaultSettings,
+  updateSettings: () => {},
+  resetToDefaults: () => {},
+  detectSystemPreferences: () => {},
+};
+
 interface AccessibilityProviderProps {
   children: ReactNode;
   initialSettings?: Partial<AccessibilitySettings>;
@@ -206,12 +213,7 @@ export function AccessibilityProvider({
 // Hook to use accessibility context
 export function useAccessibility() {
   const context = useContext(AccessibilityContext);
-  if (context === undefined) {
-    throw new Error(
-      "useAccessibility must be used within an AccessibilityProvider"
-    );
-  }
-  return context;
+  return context ?? defaultAccessibilityContext;
 }
 
 export default AccessibilityProvider;

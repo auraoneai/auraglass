@@ -351,7 +351,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 aria-label="Color stop 1 color picker"
                 class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
-                value="var(--glass-color-primary)"
+                value="#3b82f6"
               />
               <div
                 class="glass-flex-1"
@@ -380,7 +380,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 aria-label="Color stop 2 color picker"
                 class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
-                value="var(--glass-gray-500)"
+                value="#64748b"
               />
               <div
                 class="glass-flex-1"

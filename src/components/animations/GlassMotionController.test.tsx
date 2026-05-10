@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassMotionController Component Tests
  *
@@ -11,53 +11,70 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassMotionController } from '@/components/animations/GlassMotionController';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import {
+  GlassAnimationSequence,
+  GlassMotionController,
+} from "@/components/animations/GlassMotionController";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassMotionController', () => {
+describe("GlassMotionController", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassMotionController />);
     expect(container).toBeInTheDocument();
+  });
+
+  it("renders motion consumers without a GlassMotionController", () => {
+    render(
+      <GlassAnimationSequence data-testid="standalone-sequence">
+        <span>First</span>
+        <span>Second</span>
+      </GlassAnimationSequence>
+    );
+
+    expect(screen.getByTestId("standalone-sequence")).toBeInTheDocument();
+    expect(screen.getByText("First")).toBeInTheDocument();
   });
 
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassMotionController />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
-      const { container } = render(<GlassMotionController aria-label="Test component" />);
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
+      const { container } = render(
+        <GlassMotionController aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
 
-  
   /**
    * Focus Management Tests
    */
-  describe('Focus Management', () => {
-    it('can receive focus', () => {
+  describe("Focus Management", () => {
+    it("can receive focus", () => {
       render(<GlassMotionController />);
-      const element = document.querySelector('[tabindex]') || document.querySelector('button, a, input, select, textarea');
+      const element =
+        document.querySelector("[tabindex]") ||
+        document.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
@@ -65,32 +82,33 @@ describe('GlassMotionController', () => {
       }
     });
 
-    it('shows visible focus indicator', () => {
+    it("shows visible focus indicator", () => {
       const { container } = render(<GlassMotionController />);
-      const element = container.querySelector('[tabindex]') || container.querySelector('button, a, input, select, textarea');
+      const element =
+        container.querySelector("[tabindex]") ||
+        container.querySelector("button, a, input, select, textarea");
 
       if (element) {
         (element as HTMLElement).focus();
         // Check for focus-visible class or focus styles
         const hasFocusIndicator =
-          element.classList.contains('focus-visible') ||
-          window.getComputedStyle(element).outline !== 'none';
+          element.classList.contains("focus-visible") ||
+          window.getComputedStyle(element).outline !== "none";
         expect(hasFocusIndicator).toBe(true);
       }
     });
   });
 
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -104,11 +122,13 @@ describe('GlassMotionController', () => {
       const { container } = render(<GlassMotionController />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -120,7 +140,7 @@ describe('GlassMotionController', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassMotionController
         className="custom-class"
@@ -128,17 +148,19 @@ describe('GlassMotionController', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassmotioncontroller"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassmotioncontroller"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassMotionController />);
+    (container.firstChild as HTMLElement | null)?.removeAttribute("id");
     expect(container.firstChild).toMatchSnapshot();
   });
 });

@@ -105,12 +105,15 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
     const { prefersReducedMotion } = useMotionPreferenceContext();
     const shouldAnimate =
       animate && (!respectMotionPreference || !prefersReducedMotion);
+    const hasBadgeContent = React.Children.count(children) > 0;
+    const dotOnly =
+      dot && !hasBadgeContent && !leftIcon && !rightIcon && !removable;
 
     const sizeClasses = {
-      xs: dot ? "w-2 h-2" : "glass-px-1.5 glass-py-0.5 glass-text-xs",
-      sm: dot ? "w-2.5 h-2.5" : "glass-px-2 glass-py-1 glass-text-xs",
-      md: dot ? "w-3 h-3" : "glass-px-2.5 glass-py-1 glass-text-sm",
-      lg: dot ? "w-3.5 h-3.5" : "glass-px-3 glass-py-1.5 glass-text-sm",
+      xs: dotOnly ? "w-2 h-2" : "glass-px-1.5 glass-py-0.5 glass-text-xs",
+      sm: dotOnly ? "w-2.5 h-2.5" : "glass-px-2 glass-py-1 glass-text-xs",
+      md: dotOnly ? "w-3 h-3" : "glass-px-2.5 glass-py-1 glass-text-sm",
+      lg: dotOnly ? "w-3.5 h-3.5" : "glass-px-3 glass-py-1.5 glass-text-sm",
     };
 
     const shapeClasses = {
@@ -163,7 +166,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
       }
     };
 
-    if (dot) {
+    if (dotOnly) {
       const content = (
         <span
           ref={ref}
@@ -212,6 +215,22 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         }
         {...props}
       >
+        {dot && (
+          <span
+            className={cn(
+              "inline-block glass-radius-full flex-shrink-0",
+              {
+                xs: "w-1.5 h-1.5",
+                sm: "w-2 h-2",
+                md: "w-2.5 h-2.5",
+                lg: "w-3 h-3",
+              }[size],
+              (dotVariantClasses as any)[variant] ?? dotVariantClasses.default
+            )}
+            aria-hidden="true"
+          />
+        )}
+
         {leftIcon && (
           <span className={cn("flex-shrink-0", iconSize[size])}>
             {leftIcon}

@@ -91,11 +91,11 @@ export const createChartElementStyles = (
       cursor: "pointer",
     } as any,
     gradient: {
-      start: "var(--glass-color-primary, 0.2)",
-      end: "var(--glass-color-primary, 0.05)",
+      start: "hsl(var(--glass-color-primary)/0.2)",
+      end: "hsl(var(--glass-color-primary)/0.05)",
       stops: [
-        { offset: "0%", color: "var(--glass-color-primary, 0.2)" },
-        { offset: "100%", color: "var(--glass-color-primary, 0.05)" },
+        { offset: "0%", color: "hsl(var(--glass-color-primary)/0.2)" },
+        { offset: "100%", color: "hsl(var(--glass-color-primary)/0.05)" },
       ],
     },
   };

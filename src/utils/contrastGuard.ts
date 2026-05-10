@@ -391,27 +391,41 @@ export class ContrastGuard {
   }
 
   private estimateBackdropFromStyles(element: HTMLElement): BackdropSample {
-    const parent = element.parentElement || document.body;
-    const computedStyle = window.getComputedStyle(parent);
-    const backgroundColor = computedStyle.backgroundColor;
-    const backgroundImage = computedStyle.backgroundImage;
+    const stack: HTMLElement[] = [];
+    let current: HTMLElement | null = element;
 
-    let luminance = 0.5; // Default neutral
-
-    if (
-      backgroundColor &&
-      backgroundColor !== "transparent" &&
-      backgroundColor !== "rgba(0, 0, 0, 0)"
-    ) {
-      luminance = this.getRelativeLuminance(backgroundColor);
+    while (current) {
+      stack.unshift(current);
+      current = current.parentElement;
     }
+
+    let composed: RGBColor = { r: 0, g: 0, b: 0, a: 1 };
+    let confidence = 0.3;
+
+    for (const item of stack) {
+      const computedStyle = window.getComputedStyle(item);
+      const color =
+        this.parseColorOrNull(computedStyle.backgroundColor) ||
+        this.extractFirstBackgroundColor(computedStyle.backgroundImage);
+
+      if (color && (color.a ?? 1) > 0) {
+        composed = this.compositeColor(color, composed);
+        confidence = 0.65;
+      }
+    }
+
+    const luminance = this.getRelativeLuminanceFromRGB(
+      composed.r,
+      composed.g,
+      composed.b
+    );
 
     return {
       averageLuminance: luminance,
       dominantHue: 0,
       contrast: 4.5,
       timestamp: Date.now(),
-      confidence: 0.6, // Lower confidence for estimation
+      confidence,
     };
   }
 
@@ -530,6 +544,61 @@ export class ContrastGuard {
 
     // Default to white for unknown colors
     return { r: 255, g: 255, b: 255, a: 1 };
+  }
+
+  private parseColorOrNull(color: string): RGBColor | null {
+    if (!color || color === "transparent" || color === "rgba(0, 0, 0, 0)") {
+      return null;
+    }
+
+    if (color.startsWith("rgb")) {
+      const match = color.match(
+        /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+      );
+      if (match) {
+        return {
+          r: parseInt(match[1]),
+          g: parseInt(match[2]),
+          b: parseInt(match[3]),
+          a: match[4] ? parseFloat(match[4]) : 1,
+        };
+      }
+    }
+
+    return null;
+  }
+
+  private extractFirstBackgroundColor(
+    backgroundImage: string
+  ): RGBColor | null {
+    const match = backgroundImage.match(/rgba?\([^)]+\)/);
+    return match ? this.parseColorOrNull(match[0]) : null;
+  }
+
+  private compositeColor(foreground: RGBColor, background: RGBColor): RGBColor {
+    const fgAlpha = foreground.a ?? 1;
+    const bgAlpha = background.a ?? 1;
+    const alpha = fgAlpha + bgAlpha * (1 - fgAlpha);
+
+    if (alpha <= 0) {
+      return { r: 0, g: 0, b: 0, a: 0 };
+    }
+
+    return {
+      r: Math.round(
+        (foreground.r * fgAlpha + background.r * bgAlpha * (1 - fgAlpha)) /
+          alpha
+      ),
+      g: Math.round(
+        (foreground.g * fgAlpha + background.g * bgAlpha * (1 - fgAlpha)) /
+          alpha
+      ),
+      b: Math.round(
+        (foreground.b * fgAlpha + background.b * bgAlpha * (1 - fgAlpha)) /
+          alpha
+      ),
+      a: alpha,
+    };
   }
 
   private rgbToHsl(r: number, g: number, b: number): HSLColor {

@@ -6,6 +6,7 @@ import { useDragDrop, ComponentDefinition } from "./GlassDragDropProvider";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { normalizeColorInputValue } from "../../utils/colorInput";
 
 interface PropertyPanelProps {
   className?: string;
@@ -84,7 +85,10 @@ const PropertyInput: React.FC<PropertyInputProps> = ({
           <div className="glass-flex glass-items-center glass-gap-2">
             <input
               type="color"
-              value={value || "var(--glass-black)"}
+              value={normalizeColorInputValue(
+                value || "var(--glass-black)",
+                "#000000"
+              )}
               onChange={(e) => onChange(e.target.value)}
               className="glass-w-12 glass-h-8 glass-border glass-border-subtle glass-radius glass-cursor-pointer"
             />

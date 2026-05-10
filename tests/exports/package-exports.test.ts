@@ -15,6 +15,13 @@ const exportsMap: Record<
     verify: (mod) => {
       expect(mod).toHaveProperty("ThemeProvider");
       expect(mod).toHaveProperty("PersonaPicker");
+      expect(mod).toHaveProperty("GlassDropdownMenu");
+      expect(mod).toHaveProperty("GlassDropdownMenuTrigger");
+      expect(mod).toHaveProperty("GlassDropdownMenuContent");
+      expect(mod).toHaveProperty("GlassDropdownMenuItem");
+      expect(mod).toHaveProperty("GlassDropdownMenuCheckboxItem");
+      expect(mod).toHaveProperty("GlassDropdownMenuRadioGroup");
+      expect(mod).toHaveProperty("GlassDropdownMenuRadioItem");
     },
   },
   "./tokens": {

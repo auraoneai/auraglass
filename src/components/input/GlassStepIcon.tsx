@@ -27,7 +27,7 @@ interface GlassStepIconProps {
 // Get icon state classes
 const getIconStateClasses = (active: boolean, completed: boolean) => {
   if (active) {
-    return "bg-primary-500 glass-text-primary border-primary-300 shadow-[0_0_12px_3px_var(--glass-color-primary,0.5)]";
+    return "bg-primary-500 glass-text-primary border-primary-300 shadow-[0_0_12px_3px_hsl(var(--glass-color-primary)/0.5)]";
   }
   if (completed) {
     return "bg-success-500 glass-text-primary border-success-300";

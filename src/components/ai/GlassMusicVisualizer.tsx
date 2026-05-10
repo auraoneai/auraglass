@@ -458,47 +458,37 @@ export const GlassMusicVisualizer = forwardRef<
       colors: string[],
       beat: number
     ) => {
-      const imageData = ctx.getImageData(
+      const { width, height } = ctx.canvas;
+
+      // Shift existing data left without reading pixels back from the GPU.
+      ctx.drawImage(
+        ctx.canvas,
+        1,
+        0,
+        width - 1,
+        height,
         0,
         0,
-        ctx.canvas.width,
-        ctx.canvas.height
+        width - 1,
+        height
       );
-      const pixels = imageData.data;
-
-      // Shift existing data left
-      for (let x = 0; x < ctx.canvas.width - 1; x++) {
-        for (let y = 0; y < ctx.canvas.height; y++) {
-          const sourceIndex = (y * ctx.canvas.width + x + 1) * 4;
-          const targetIndex = (y * ctx.canvas.width + x) * 4;
-
-          pixels[targetIndex] = pixels[sourceIndex];
-          pixels[targetIndex + 1] = pixels[sourceIndex + 1];
-          pixels[targetIndex + 2] = pixels[sourceIndex + 2];
-          pixels[targetIndex + 3] = pixels[sourceIndex + 3];
-        }
-      }
+      ctx.clearRect(width - 1, 0, 1, height);
 
       // Add new column
-      const x = ctx.canvas.width - 1;
+      const x = width - 1;
       for (let i = 0; i < data.length; i++) {
-        const y = Math.floor((i / data.length) * ctx.canvas.height);
+        const y = Math.floor((i / data.length) * height);
         const intensity = data[i] / 255;
         const colorIndex = Math.floor(intensity * colors.length);
-        const color = colors[colorIndex] || "var(--glass-white)";
+        const color = colors[colorIndex] || "#ffffff";
 
-        const r = parseInt(color.slice(1, 3), 16);
-        const g = parseInt(color.slice(3, 5), 16);
-        const b = parseInt(color.slice(5, 7), 16);
-
-        const index = (y * ctx.canvas.width + x) * 4;
-        pixels[index] = r * intensity;
-        pixels[index + 1] = g * intensity;
-        pixels[index + 2] = b * intensity;
-        pixels[index + 3] = 255 * intensity;
+        ctx.fillStyle = color.startsWith("#")
+          ? `${color}${Math.round(intensity * 255)
+              .toString(16)
+              .padStart(2, "0")}`
+          : color;
+        ctx.fillRect(x, y, 1, Math.max(1, Math.ceil(height / data.length)));
       }
-
-      ctx.putImageData(imageData, 0, 0);
     };
 
     const renderParticles = (

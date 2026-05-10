@@ -37,6 +37,16 @@ describe("GlassCollaborativeCursor", () => {
     expect(container).toBeInTheDocument();
   });
 
+  it("renders without a CollaborationProvider", () => {
+    const { container } = render(
+      <GlassCollaborativeCursor data-testid="standalone-cursor" />
+    );
+
+    expect(
+      container.querySelector('[data-testid="standalone-cursor"]')
+    ).toBeInTheDocument();
+  });
+
   /**
    * Accessibility Test: No axe violations
    */

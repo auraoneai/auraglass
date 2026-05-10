@@ -188,6 +188,46 @@ export interface RecordingOptions {
 }
 
 const MediaContext = createContext<MediaContextValue | null>(null);
+
+const defaultMediaContext: MediaContextValue = {
+  mediaFiles: [],
+  addMediaFile: () => {},
+  removeMediaFile: () => {},
+  getMediaFile: () => undefined,
+  updateMediaFile: () => {},
+  playbackState: null,
+  setPlaybackState: () => {},
+  play: () => {},
+  pause: () => {},
+  stop: () => {},
+  seekTo: () => {},
+  setVolume: () => {},
+  setPlaybackRate: () => {},
+  toggleMute: () => {},
+  toggleFullscreen: () => {},
+  setQuality: () => {},
+  transcripts: {},
+  generateTranscript: async () => {},
+  searchTranscript: () => [],
+  getTranscriptAtTime: () => undefined,
+  setActiveChapter: () => {},
+  getChapterAtTime: () => undefined,
+  setActiveSubtitle: () => {},
+  generateSubtitles: async () => {},
+  analytics: {},
+  trackView: () => {},
+  trackEngagement: () => {},
+  generateSummary: async () => "",
+  identifySpeakers: async () => [],
+  extractKeywords: async () => [],
+  analyzeSentiment: async () => ({}),
+  isRecording: false,
+  recordingDevices: [],
+  startRecording: async () => {},
+  stopRecording: async () => null,
+  pauseRecording: () => {},
+  resumeRecording: () => {},
+};
 const transcriptSentiments: Array<NonNullable<TranscriptEntry["sentiment"]>> = [
   "positive",
   "neutral",
@@ -751,8 +791,5 @@ export { MediaProvider as GlassMediaProvider };
 
 export const useMedia = () => {
   const context = useContext(MediaContext);
-  if (!context) {
-    throw new Error("useMedia must be used within a MediaProvider");
-  }
-  return context;
+  return context ?? defaultMediaContext;
 };

@@ -4,7 +4,6 @@ exports[`GlassMotionController matches snapshot 1`] = `
 <div
   aria-busy="false"
   aria-label="Animation controller"
-  id="motion-controller-:r7:"
   role="region"
 />
 `;

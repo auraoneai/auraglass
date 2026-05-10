@@ -1,9 +1,9 @@
-'use client';
-import { useEffect } from 'react';
+"use client";
+import { useEffect } from "react";
 
 type Options = {
   threshold?: number; // 0..1 luminance threshold; below means dark bg
-  observe?: boolean;  // attach observers for dynamic changes
+  observe?: boolean; // attach observers for dynamic changes
 };
 
 // Parse rgb/rgba/hsl/hsla/hex color strings to [r,g,b,a]
@@ -12,7 +12,7 @@ function parseColor(input: string): [number, number, number, number] | null {
   const s = input.trim();
   const rgba = s.match(/^rgba?\(([^)]+)\)/i);
   if (rgba) {
-    const parts = rgba[1].split(',').map((v: any) => v.trim());
+    const parts = rgba[1].split(",").map((v: any) => v.trim());
     const r = parseFloat(parts[0]);
     const g = parseFloat(parts[1]);
     const b = parseFloat(parts[2]);
@@ -21,7 +21,7 @@ function parseColor(input: string): [number, number, number, number] | null {
   }
   const hsla = s.match(/^hsla?\(([^)]+)\)/i);
   if (hsla) {
-    const parts = hsla[1].split(',').map((v: any) => v.trim().replace('%',''));
+    const parts = hsla[1].split(",").map((v: any) => v.trim().replace("%", ""));
     const h = parseFloat(parts[0]);
     const ss = parseFloat(parts[1]) / 100;
     const l = parseFloat(parts[2]) / 100;
@@ -30,13 +30,34 @@ function parseColor(input: string): [number, number, number, number] | null {
     const c = (1 - Math.abs(2 * l - 1)) * ss;
     const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m = l - c / 2;
-    let r1 = 0, g1 = 0, b1 = 0;
-    if (0 <= h && h < 60) { r1 = c; g1 = x; b1 = 0; }
-    else if (60 <= h && h < 120) { r1 = x; g1 = c; b1 = 0; }
-    else if (120 <= h && h < 180) { r1 = 0; g1 = c; b1 = x; }
-    else if (180 <= h && h < 240) { r1 = 0; g1 = x; b1 = c; }
-    else if (240 <= h && h < 300) { r1 = x; g1 = 0; b1 = c; }
-    else { r1 = c; g1 = 0; b1 = x; }
+    let r1 = 0,
+      g1 = 0,
+      b1 = 0;
+    if (0 <= h && h < 60) {
+      r1 = c;
+      g1 = x;
+      b1 = 0;
+    } else if (60 <= h && h < 120) {
+      r1 = x;
+      g1 = c;
+      b1 = 0;
+    } else if (120 <= h && h < 180) {
+      r1 = 0;
+      g1 = c;
+      b1 = x;
+    } else if (180 <= h && h < 240) {
+      r1 = 0;
+      g1 = x;
+      b1 = c;
+    } else if (240 <= h && h < 300) {
+      r1 = x;
+      g1 = 0;
+      b1 = c;
+    } else {
+      r1 = c;
+      g1 = 0;
+      b1 = x;
+    }
     const r = Math.round((r1 + m) * 255);
     const g = Math.round((g1 + m) * 255);
     const b = Math.round((b1 + m) * 255);
@@ -45,8 +66,12 @@ function parseColor(input: string): [number, number, number, number] | null {
   const hex = s.match(/^#([0-9a-f]{3,8})$/i);
   if (hex) {
     let v = hex[1];
-    if (v.length === 3) v = v.split('').map((ch: any) => ch + ch).join('');
-    if (v.length === 6) v += 'ff';
+    if (v.length === 3)
+      v = v
+        .split("")
+        .map((ch: any) => ch + ch)
+        .join("");
+    if (v.length === 6) v += "ff";
     const num = parseInt(v, 16);
     const r = (num >> 24) & 0xff;
     const g = (num >> 16) & 0xff;
@@ -57,14 +82,23 @@ function parseColor(input: string): [number, number, number, number] | null {
   return null;
 }
 
-function relativeLuminance([r, g, b, _a]: [number, number, number, number]): number {
+function relativeLuminance([r, g, b, _a]: [
+  number,
+  number,
+  number,
+  number,
+]): number {
   // sRGB → linear
   const srgb = [r, g, b].map((v: any) => v / 255);
-  const lin = srgb.map((c: any) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
+  const lin = srgb.map((c: any) =>
+    c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  );
   return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
 }
 
-function extractFirstColorFromBackground(bg: string): [number, number, number, number] | null {
+function extractFirstColorFromBackground(
+  bg: string
+): [number, number, number, number] | null {
   if (!bg) return null;
   const re = /(rgba?\([^\)]+\)|hsla?\([^\)]+\)|#[0-9a-fA-F]{3,8})/g;
   const match = re.exec(bg);
@@ -72,7 +106,73 @@ function extractFirstColorFromBackground(bg: string): [number, number, number, n
   return null;
 }
 
-export function useAutoTextContrast(ref: React.RefObject<HTMLElement>, options: Options = {}) {
+function compositeColor(
+  foreground: [number, number, number, number],
+  background: [number, number, number, number]
+): [number, number, number, number] {
+  const alpha = foreground[3] + background[3] * (1 - foreground[3]);
+  if (alpha <= 0) return [0, 0, 0, 0];
+
+  return [
+    Math.round(
+      (foreground[0] * foreground[3] +
+        background[0] * background[3] * (1 - foreground[3])) /
+        alpha
+    ),
+    Math.round(
+      (foreground[1] * foreground[3] +
+        background[1] * background[3] * (1 - foreground[3])) /
+        alpha
+    ),
+    Math.round(
+      (foreground[2] * foreground[3] +
+        background[2] * background[3] * (1 - foreground[3])) /
+        alpha
+    ),
+    alpha,
+  ];
+}
+
+function elementSurfaceColor(
+  element: HTMLElement
+): [number, number, number, number] | null {
+  const cs = getComputedStyle(element);
+  let color = parseColor(cs.backgroundColor);
+  if (!color || color[3] === 0) {
+    color = extractFirstColorFromBackground(cs.backgroundImage);
+  }
+  return color;
+}
+
+function effectiveBackgroundColor(
+  element: HTMLElement
+): [number, number, number, number] | null {
+  const stack: HTMLElement[] = [];
+  let current: HTMLElement | null = element;
+
+  while (current) {
+    stack.unshift(current);
+    current = current.parentElement;
+  }
+
+  let composed: [number, number, number, number] = [0, 0, 0, 1];
+  let sawColor = false;
+
+  for (const item of stack) {
+    const color = elementSurfaceColor(item);
+    if (color && color[3] > 0) {
+      composed = compositeColor(color, composed);
+      sawColor = true;
+    }
+  }
+
+  return sawColor ? composed : null;
+}
+
+export function useAutoTextContrast(
+  ref: React.RefObject<HTMLElement>,
+  options: Options = {}
+) {
   const { threshold = 0.55, observe = true } = options;
 
   useEffect(() => {
@@ -80,19 +180,12 @@ export function useAutoTextContrast(ref: React.RefObject<HTMLElement>, options: 
     if (!el) return;
 
     const decide = () => {
-      const cs = getComputedStyle(el);
-      let color = parseColor(cs.backgroundColor);
-      if (!color || color[3] === 0) {
-        // try background-image
-        const bg = cs.backgroundImage;
-        const c2 = extractFirstColorFromBackground(bg);
-        if (c2) color = c2;
-      }
+      const color = effectiveBackgroundColor(el);
       if (!color) return; // bail if unknown
       const lum = relativeLuminance(color);
-      const mode = lum < threshold ? 'dark' : 'light';
-      if (el.getAttribute('data-bg') !== mode) {
-        el.setAttribute('data-bg', mode);
+      const mode = lum < threshold ? "dark" : "light";
+      if (el.getAttribute("data-bg") !== mode) {
+        el.setAttribute("data-bg", mode);
       }
     };
 
@@ -102,9 +195,13 @@ export function useAutoTextContrast(ref: React.RefObject<HTMLElement>, options: 
     const ro = new ResizeObserver(() => decide());
     ro.observe(el);
     const mo = new MutationObserver(() => decide());
-    mo.observe(el, { attributes: true, attributeFilter: ['style', 'class'] });
+    mo.observe(el, { attributes: true, attributeFilter: ["style", "class"] });
     const id = window.setInterval(decide, 1000);
-    return () => { ro.disconnect(); mo.disconnect(); window.clearInterval(id); };
+    return () => {
+      ro.disconnect();
+      mo.disconnect();
+      window.clearInterval(id);
+    };
   }, [ref, threshold, observe]);
 }
 

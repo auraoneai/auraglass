@@ -913,9 +913,6 @@ export function GlassNeuroSyncProvider({
 // Hook to use NeuroSync
 export function useNeuroSync() {
   const context = useContext(NeuroSyncContext);
-  if (!context) {
-    throw new Error("useNeuroSync must be used within GlassNeuroSyncProvider");
-  }
   return context;
 }
 

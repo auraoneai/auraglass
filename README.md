@@ -1,4 +1,4 @@
-# AuraGlass 3.0.1
+# AuraGlass 3.0.3
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -9,7 +9,7 @@
 
 **React Liquid Glass and glassmorphism UI components for Next.js, SaaS dashboards, AI products, media apps, and premium web interfaces.**
 
-AuraGlass 3.0.1 is the final release-readiness patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
+AuraGlass 3.0.3 is the upstream component hardening patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
 
 The 3.0 line is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes npm provenance publishing, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
 
@@ -32,12 +32,21 @@ import 'aura-glass/styles';
 | Accessible glassmorphism UI | ContrastGuard metadata, focus-management coverage, reduced-motion support |
 | AI and media products | AI surfaces, command palettes, search, media controls, 3D/AR and immersive entrypoints |
 
-## What Is New In 3.0.1
+## What Is New In 3.0.3
 
+- **Core upstream bug fixes:** fixed malformed glass color alpha fallbacks, tokenized primary/neutral generated glass surfaces, repaired focus-visible behavior, and updated the contrast test parser to understand tokenized HSL alpha colors.
+- **Safer standalone previews and docs:** exported provider hooks for Houdini, collaboration, motion, accessibility, media, CMS drag/drop, settings, consciousness streams, toast, NeuroSync, GlassEngine, and ecommerce now provide inert fallback contexts instead of crashing outside their providers.
+- **Correct collaboration package exports:** `GlassCollaborationProvider` now resolves from the real collaboration provider module at the root package entrypoint instead of the legacy workspace stub.
+- **Native color input cleanup:** color pickers, gradient stops, drawing tools, CMS property editors, live filters, and theme customization normalize token defaults to `#rrggbb` before rendering `<input type="color">`.
+- **Overlay stability:** controlled modal, dialog, drawer, popover, and hover-card flows avoid repeated same-value open/close updates and lifecycle feedback loops.
+- **Component API fixes:** `GlassMetricCard` supports explicit value styling, dot badges preserve text labels, `GlassDataGrid` row backgrounds are tokenized and readable, and dropdown subcomponents are exported from the root package entrypoint.
+- **Canvas performance:** the spectrum renderer in `GlassMusicVisualizer` no longer reads pixels back from the canvas every frame.
+- **Release regression coverage:** added package sweeps for malformed color-token alpha use, generated hardcoded primary/neutral colors, exported provider-hook crash strings, and standalone provider consumers.
+- **Final 3.0.3 regression locks:** package-barrel collaboration exports and every native color input are now covered by source-level regression sweeps.
 - **Liquid Glass system:** 32 public value exports spanning primitives, navigation surfaces, presentation layers, controls, media/data surfaces, source transitions, backdrop sampling, scroll-edge glass, layer policy, and a complete `LiquidGlassShowcase`.
 - **356-component certified inventory:** each canonical inventory component has direct Storybook coverage, direct documentation coverage, direct unit-test coverage, accessibility metadata, and Storybook visual certification evidence. The newer Liquid Glass public surface is additive to that certified inventory.
 - **Clean full Storybook QA:** the static all-story audit covers 1,595 stories across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes with 1,595 passes, 0 risks, 0 failures, 0 audit findings, and 0 run errors.
-- **Storybook taxonomy and visual QA refresh:** Storybook is organized by developer intent across Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification. Certification artifacts cover 356/356 passed entries and 712 desktop/mobile screenshots.
+- **Storybook taxonomy and visual QA refresh:** Storybook is organized by developer intent across Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification. Certification artifacts cover 356/356 passed entries, 712 desktop/mobile screenshots, and 89 manual QA contact sheets.
 - **React 18 and React 19 consumer validation:** `prepublishOnly` builds temporary Next 14 / React 18 and Next 15 / React 19 apps from the tarball and runs Playwright smoke tests.
 - **Release-grade npm pipeline:** npm provenance publishing, `prepublishOnly`, clean pack verification, package-metadata declaration checks, worker packaging, bundle-size limits, and no bundled React runtime.
 - **Public package surface audits:** export audits verify source/declaration coverage for the public export map, while API audits report declaration `any`, public-source `any`, and ref-forwarding follow-ups explicitly.
@@ -400,7 +409,7 @@ Expected complete-pass artifact state for the current inventory:
 
 Do not claim full certification from README text alone. Use the JSON report in `reports/glassmorphism-storybook-visual-certification.json` as the evidence source.
 
-For the public 3.0.1 Storybook, the static all-story QA pass also crawls `storybook-static/index.json` across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes. The current exhaustive report covers 1,595 stories with 1,595 passes, zero risks, zero failures, zero audit findings, zero audit-run errors, and zero occurrences of hard flags such as Storybook render errors, page errors, severe console errors, remote media failures, missing story roots, visible native controls, contrast findings, clipping, overlap, or overflow findings.
+For the public 3.0.2 Storybook, the static all-story QA pass also crawls `storybook-static/index.json` across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes. The current exhaustive report covers 1,595 stories with 1,595 passes, zero risks, zero failures, zero audit findings, zero audit-run errors, and zero occurrences of hard flags such as Storybook render errors, page errors, severe console errors, remote media failures, missing story roots, visible native controls, contrast findings, clipping, overlap, or overflow findings.
 
 ## Repository Map
 
@@ -454,5 +463,6 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 - [SSR setup](./docs/guides/ssr-setup.md)
 - [Deployment](./docs/deployment.md)
 - [Reports](./reports/README.md)
+- [3.0.2 release notes](./RELEASE_NOTES_3.0.2.md)
 - [3.0.1 release notes](./RELEASE_NOTES_3.0.1.md)
 - [3.0.0 release notes](./RELEASE_NOTES_3.0.0.md)

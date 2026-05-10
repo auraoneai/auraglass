@@ -38,6 +38,11 @@ function getContrastRatio(
 }
 
 function parseRGBA(color: string): [number, number, number, number] {
+  const resolvedTokenColor = resolveCssVariableColor(color);
+  if (resolvedTokenColor && resolvedTokenColor !== color) {
+    return parseRGBA(resolvedTokenColor);
+  }
+
   const rgbaMatch = color.match(
     /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
   );
@@ -84,7 +89,9 @@ function parseRGBA(color: string): [number, number, number, number] {
 }
 
 function extractFirstRgba(color: string): string | null {
-  const match = color.match(/rgba?\([^)]*\)/);
+  const match = color.match(
+    /rgba?\([^)]*\)|hsl\(var\(--[a-z0-9-]+\)\s*\/\s*[\d.]+\)/i
+  );
   return match ? match[0] : null;
 }
 
@@ -120,6 +127,19 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 function resolveCssVariableColor(value: string): string | null {
+  const hslVarMatch = value.match(
+    /hsl\(var\((--[a-z0-9-]+)\)\s*\/\s*([\d.]+)\)/i
+  );
+  if (hslVarMatch) {
+    const [, variableName, alphaValue] = hslVarMatch;
+    const base = CSS_VAR_FALLBACKS[variableName];
+    if (!base) {
+      return null;
+    }
+    const [r, g, b] = base.startsWith("#") ? hexToRgb(base) : parseRGBA(base);
+    return `rgba(${r}, ${g}, ${b}, ${Number(alphaValue)})`;
+  }
+
   const match = value.match(/var\((--[a-z0-9-]+)(?:,\s*([^\)]+))?\)/i);
   if (!match) {
     return null;
@@ -174,7 +194,8 @@ interface GradientStop {
 }
 
 function parseGradientStops(gradient: string): GradientStop[] {
-  const regex = /(rgba?\([^)]*\))(?:\s+(\d+(?:\.\d+)?)%?)?/g;
+  const regex =
+    /(rgba?\([^)]*\)|hsl\(var\(--[a-z0-9-]+\)\s*\/\s*[\d.]+\))(?:\s+(\d+(?:\.\d+)?)%?)?/gi;
   const stops: Array<{
     color: [number, number, number, number];
     position?: number;

@@ -62,6 +62,22 @@ describe("GlassMetricCard", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("allows consumers to override the rendered value class and style", () => {
+    render(
+      <GlassMetricCard
+        title="Revenue"
+        value="$42K"
+        valueClassName="custom-value-color"
+        valueStyle={{ color: "rgb(20, 120, 90)" }}
+      />
+    );
+
+    const value = screen.getByText("$42K");
+
+    expect(value).toHaveClass("custom-value-color");
+    expect(value).toHaveStyle({ color: "rgb(20, 120, 90)" });
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

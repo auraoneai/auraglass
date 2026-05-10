@@ -57,7 +57,10 @@ describe("HoudiniGlassCard", () => {
   it("accepts and renders with custom props", () => {
     const { container } = render(
       <HoudiniGlassProvider>
-        <HoudiniGlassCard className="custom-class" data-testid="houdiniglasscard">
+        <HoudiniGlassCard
+          className="custom-class"
+          data-testid="houdiniglasscard"
+        >
           <div>Custom content</div>
         </HoudiniGlassCard>
       </HoudiniGlassProvider>
@@ -66,6 +69,17 @@ describe("HoudiniGlassCard", () => {
     const element = container.querySelector('[data-testid="houdiniglasscard"]');
     expect(element).toBeInTheDocument();
     expect(element).toHaveClass("custom-class");
+  });
+
+  it("renders without a HoudiniGlassProvider", () => {
+    render(
+      <HoudiniGlassCard data-testid="standalone-houdini-card">
+        <div>Standalone content</div>
+      </HoudiniGlassCard>
+    );
+
+    expect(screen.getByTestId("standalone-houdini-card")).toBeInTheDocument();
+    expect(screen.getByText("Standalone content")).toBeInTheDocument();
   });
 
   /**
@@ -80,7 +94,9 @@ describe("HoudiniGlassCard", () => {
       </HoudiniGlassProvider>
     );
     // Get the card element, not the provider wrapper
-    const cardElement = container.querySelector('[data-glass-component]') || container.firstChild?.firstChild;
+    const cardElement =
+      container.querySelector("[data-glass-component]") ||
+      container.firstChild?.firstChild;
     expect(cardElement).toMatchSnapshot();
   });
 });

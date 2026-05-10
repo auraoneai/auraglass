@@ -190,6 +190,12 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
       complexity: number;
       userStress: number;
     } | null>(null);
+    const wasOpenRef = useRef(false);
+    const dialogEngagementRef = useRef(dialogEngagement);
+
+    useEffect(() => {
+      dialogEngagementRef.current = dialogEngagement;
+    }, [dialogEngagement]);
 
     // Consciousness hooks (mock implementations)
     const predictiveEngine = predictive
@@ -297,8 +303,9 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
     // Consciousness effects
     // Dialog lifecycle tracking with spatial audio
     useEffect(() => {
-      if (open) {
+      if (open && !wasOpenRef.current) {
         const openTime = Date.now();
+        wasOpenRef.current = true;
         setInteractionCount((prev: any) => prev + 1);
 
         // Record dialog opening
@@ -337,18 +344,20 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
         }, 1000);
 
         return () => clearInterval(timeTracker);
-      } else {
+      } else if (!open && wasOpenRef.current) {
+        const latestEngagement = dialogEngagementRef.current;
+        wasOpenRef.current = false;
         // Record dialog closing
         if (
           consciousness &&
           interactionRecorder &&
-          dialogEngagement.timeSpent > 0
+          latestEngagement.timeSpent > 0
         ) {
           interactionRecorder.recordInteraction("dialog_close", {
             title: title?.toString() || "Dialog",
-            timeSpent: dialogEngagement.timeSpent,
-            interactions: dialogEngagement.interactionCount,
-            contentScrolled: dialogEngagement.contentScrolled,
+            timeSpent: latestEngagement.timeSpent,
+            interactions: latestEngagement.interactionCount,
+            contentScrolled: latestEngagement.contentScrolled,
             timestamp: Date.now(),
           });
         }
@@ -373,7 +382,6 @@ export const GlassDialog = forwardRef<HTMLDivElement, GlassDialogProps>(
       title,
       size,
       variant,
-      dialogEngagement,
     ]);
 
     // Eye tracking for dialog engagement

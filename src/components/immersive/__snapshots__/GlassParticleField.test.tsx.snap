@@ -15,7 +15,7 @@ exports[`GlassParticleField matches snapshot 1`] = `
     <canvas
       class="glass-absolute glass-inset-0 glass-w-full glass-h-full"
       height="600"
-      style="filter: drop-shadow(0 0 10px var(--glass-color-primary, 0.3));"
+      style="filter: drop-shadow(0 0 10px hsl(var(--glass-color-primary)/0.3));"
       width="800"
     />
     <div

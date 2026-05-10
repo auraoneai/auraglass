@@ -411,10 +411,10 @@ export const IntelligentColorProvider: React.FC<{
         const timeBasePalette = { ...prev };
         if (hour >= 5 && hour < 9) {
           timeBasePalette.primary = "var(--glass-color-warning)";
-          timeBasePalette.glassBase = "var(--glass-color-warning, 0.1)";
+          timeBasePalette.glassBase = "hsl(var(--glass-color-warning)/0.1)";
         } else if (hour >= 9 && hour < 17) {
           timeBasePalette.primary = "var(--glass-color-primary)";
-          timeBasePalette.glassBase = "var(--glass-color-primary, 0.1)";
+          timeBasePalette.glassBase = "hsl(var(--glass-color-primary)/0.1)";
         } else if (hour >= 17 && hour < 21) {
           timeBasePalette.primary = "var(--glass-color-warning)";
           timeBasePalette.glassBase =
@@ -441,7 +441,7 @@ export const IntelligentColorProvider: React.FC<{
             seasonPalette.primary = "var(--glass-color-success)";
             seasonPalette.secondary = "var(--glass-color-warning)";
             seasonPalette.accent = "var(--glass-color-secondary)";
-            seasonPalette.glassBase = "var(--glass-color-success, 0.1)";
+            seasonPalette.glassBase = "hsl(var(--glass-color-success)/0.1)";
             break;
           case "summer":
             seasonPalette.primary = "var(--glass-color-info)";

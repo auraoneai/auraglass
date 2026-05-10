@@ -28,10 +28,10 @@ exports[`KpiChart matches snapshot 1`] = `
   </div>
   <div>
     ↑
-
+     
     5
     %
-
+     
     vs last month
   </div>
 </div>
