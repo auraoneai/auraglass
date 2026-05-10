@@ -3,7 +3,7 @@
 exports[`GlassBadgeLine matches snapshot 1`] = `
 <div
   aria-label="Badge list"
-  class="flex flex-wrap glass-gap-1"
+  class="glass-flex glass-flex-wrap glass-gap-1"
   data-glass-component="true"
   id="badge-line-:r4:"
   role="list"

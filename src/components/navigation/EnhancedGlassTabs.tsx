@@ -391,7 +391,7 @@ export const EnhancedGlassTabs = forwardRef<
         indicatorHeight: 2,
       },
       medium: {
-        padding: "glass-py-3 px-5",
+        padding: "glass-py-3 glass-px-5",
         text: "glass-text-base",
         indicatorHeight: 3,
       },
@@ -406,9 +406,9 @@ export const EnhancedGlassTabs = forwardRef<
 
     // Text alignment classes
     const alignmentClasses = {
-      left: "justify-start",
-      center: "justify-center",
-      right: "justify-end",
+      left: "glass-justify-start",
+      center: "glass-justify-center",
+      right: "glass-justify-end",
     };
 
     return (
@@ -429,17 +429,23 @@ export const EnhancedGlassTabs = forwardRef<
           animation={shouldReduceMotion ? "none" : "gentle"}
           performanceMode="medium"
           className={cn(
-            "flex relative overflow-hidden w-full glass-radius-lg",
+            "glass-flex glass-relative glass-overflow-hidden glass-w-full glass-radius-lg",
             {
-              "bg-transparent": variant === "text",
+              "glass-bg-transparent": variant === "text",
             }
           )}
-          style={{ ...style }}
+          style={{
+            display: "flex",
+            overflow: "hidden",
+            width: "100%",
+            ...style,
+          }}
         >
           <div
-            className={cn("flex w-full relative", {
-              "[&>*]:flex-1": fullWidth,
+            className={cn("glass-flex glass-w-full glass-relative", {
+              "[&>*]:glass-flex-1": fullWidth,
             })}
+            style={{ display: "flex", width: "100%" }}
             role="tablist"
             aria-orientation="horizontal"
             id={tablistId}
@@ -460,21 +466,30 @@ export const EnhancedGlassTabs = forwardRef<
                   aria-controls={`tabpanel-${tab.id}`}
                   disabled={tab.disabled}
                   className={cn(
-                    "relative flex items-center glass-gap-2 whitespace-nowrap border-none cursor-pointer",
-                    `outline-none transition-all duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`,
+                    "glass-relative glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap glass-border-none glass-cursor-pointer",
+                    `glass-outline-none glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`,
                     "glass-focus glass-touch-target glass-contrast-guard",
                     "focus-visible:ring-2 focus-visible:ring-offset-2",
                     sizeConfig.padding,
                     sizeConfig.text,
                     alignmentClasses[textAlign],
                     {
-                      "cursor-not-allowed opacity-50": tab.disabled,
-                      "bg-transparent": !isActive,
-                      "font-semibold": isActive,
-                      "font-medium": !isActive,
+                      "glass-cursor-not-allowed glass-opacity-50": tab.disabled,
+                      "glass-bg-transparent": !isActive,
+                      "glass-font-semibold": isActive,
+                      "glass-font-medium": !isActive,
                     }
                   )}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent:
+                      textAlign === "left"
+                        ? "flex-start"
+                        : textAlign === "right"
+                          ? "flex-end"
+                          : "center",
+                    whiteSpace: "nowrap",
                     color: tab.disabled
                       ? colors.disabledText
                       : isActive
@@ -515,13 +530,13 @@ export const EnhancedGlassTabs = forwardRef<
           {showIndicator && currentTab && (
             <div
               className={cn(
-                "absolute pointer-events-none",
+                "glass-absolute glass-pointer-events-none",
                 indicatorAnimation === "slide" &&
                   !shouldReduceMotion &&
-                  `transition-all duration-[${ANIMATION.DURATION.normal}ms] ${ANIMATION.EASING.easeOut}`,
+                  `glass-transition-all glass-duration-[${ANIMATION.DURATION.normal}ms] ${ANIMATION.EASING.easeOut}`,
                 indicatorAnimation === "fade" &&
                   !shouldReduceMotion &&
-                  `transition-opacity duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`
+                  `glass-transition-opacity glass-duration-[${ANIMATION.DURATION.fast}ms] ${ANIMATION.EASING.easeOut}`
               )}
               style={{
                 left: `${indicatorStyle.left}px`,

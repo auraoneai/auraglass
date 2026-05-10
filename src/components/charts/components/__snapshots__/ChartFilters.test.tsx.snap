@@ -91,12 +91,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-primary)"
+        stop-color="#70d6ff"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-primary)"
+        stop-color="#70d6ff"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -108,12 +108,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-primary)"
+        stop-color="#70d6ff"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-primary)"
+        stop-color="#70d6ff"
         stop-opacity="0"
       />
     </radialgradient>
@@ -126,12 +126,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-danger)"
+        stop-color="#a78bfa"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-danger)"
+        stop-color="#a78bfa"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -143,12 +143,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-danger)"
+        stop-color="#a78bfa"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-danger)"
+        stop-color="#a78bfa"
         stop-opacity="0"
       />
     </radialgradient>
@@ -161,12 +161,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-success)"
+        stop-color="#34d399"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-success)"
+        stop-color="#34d399"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -178,12 +178,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-success)"
+        stop-color="#34d399"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-success)"
+        stop-color="#34d399"
         stop-opacity="0"
       />
     </radialgradient>
@@ -196,12 +196,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-warning)"
+        stop-color="#fbbf24"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-warning)"
+        stop-color="#fbbf24"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -213,12 +213,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-warning)"
+        stop-color="#fbbf24"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-warning)"
+        stop-color="#fbbf24"
         stop-opacity="0"
       />
     </radialgradient>
@@ -231,12 +231,12 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-secondary)"
+        stop-color="#f87171"
         stop-opacity="0.8"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-secondary)"
+        stop-color="#f87171"
         stop-opacity="0.2"
       />
     </lineargradient>
@@ -248,12 +248,187 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <stop
         offset="0%"
-        stop-color="var(--glass-color-secondary)"
+        stop-color="#f87171"
         stop-opacity="0.6"
       />
       <stop
         offset="100%"
-        stop-color="var(--glass-color-secondary)"
+        stop-color="#f87171"
+        stop-opacity="0"
+      />
+    </radialgradient>
+    <lineargradient
+      id="chart-gradient-5"
+      x1="0%"
+      x2="100%"
+      y1="0%"
+      y2="100%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#22d3ee"
+        stop-opacity="0.8"
+      />
+      <stop
+        offset="100%"
+        stop-color="#22d3ee"
+        stop-opacity="0.2"
+      />
+    </lineargradient>
+    <radialgradient
+      cx="50%"
+      cy="50%"
+      id="chart-radial-5"
+      r="50%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#22d3ee"
+        stop-opacity="0.6"
+      />
+      <stop
+        offset="100%"
+        stop-color="#22d3ee"
+        stop-opacity="0"
+      />
+    </radialgradient>
+    <lineargradient
+      id="chart-gradient-6"
+      x1="0%"
+      x2="100%"
+      y1="0%"
+      y2="100%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#fb7185"
+        stop-opacity="0.8"
+      />
+      <stop
+        offset="100%"
+        stop-color="#fb7185"
+        stop-opacity="0.2"
+      />
+    </lineargradient>
+    <radialgradient
+      cx="50%"
+      cy="50%"
+      id="chart-radial-6"
+      r="50%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#fb7185"
+        stop-opacity="0.6"
+      />
+      <stop
+        offset="100%"
+        stop-color="#fb7185"
+        stop-opacity="0"
+      />
+    </radialgradient>
+    <lineargradient
+      id="chart-gradient-7"
+      x1="0%"
+      x2="100%"
+      y1="0%"
+      y2="100%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#c084fc"
+        stop-opacity="0.8"
+      />
+      <stop
+        offset="100%"
+        stop-color="#c084fc"
+        stop-opacity="0.2"
+      />
+    </lineargradient>
+    <radialgradient
+      cx="50%"
+      cy="50%"
+      id="chart-radial-7"
+      r="50%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#c084fc"
+        stop-opacity="0.6"
+      />
+      <stop
+        offset="100%"
+        stop-color="#c084fc"
+        stop-opacity="0"
+      />
+    </radialgradient>
+    <lineargradient
+      id="chart-gradient-8"
+      x1="0%"
+      x2="100%"
+      y1="0%"
+      y2="100%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#60a5fa"
+        stop-opacity="0.8"
+      />
+      <stop
+        offset="100%"
+        stop-color="#60a5fa"
+        stop-opacity="0.2"
+      />
+    </lineargradient>
+    <radialgradient
+      cx="50%"
+      cy="50%"
+      id="chart-radial-8"
+      r="50%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#60a5fa"
+        stop-opacity="0.6"
+      />
+      <stop
+        offset="100%"
+        stop-color="#60a5fa"
+        stop-opacity="0"
+      />
+    </radialgradient>
+    <lineargradient
+      id="chart-gradient-9"
+      x1="0%"
+      x2="100%"
+      y1="0%"
+      y2="100%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#94a3b8"
+        stop-opacity="0.8"
+      />
+      <stop
+        offset="100%"
+        stop-color="#94a3b8"
+        stop-opacity="0.2"
+      />
+    </lineargradient>
+    <radialgradient
+      cx="50%"
+      cy="50%"
+      id="chart-radial-9"
+      r="50%"
+    >
+      <stop
+        offset="0%"
+        stop-color="#94a3b8"
+        stop-opacity="0.6"
+      />
+      <stop
+        offset="100%"
+        stop-color="#94a3b8"
         stop-opacity="0"
       />
     </radialgradient>
@@ -266,7 +441,7 @@ exports[`ChartFilters matches snapshot 1`] = `
       <circle
         cx="2"
         cy="2"
-        fill="linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)"
+        fill="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
         r="1"
       />
     </pattern>
@@ -278,7 +453,7 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <path
         d="M0,8 L8,0"
-        stroke="linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)"
+        stroke="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
         stroke-width="1"
       />
     </pattern>
@@ -319,7 +494,7 @@ exports[`ChartFilters matches snapshot 1`] = `
         result="offset"
       />
       <feflood
-        flood-color="linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)"
+        flood-color="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
         result="color"
       />
       <fecomposite

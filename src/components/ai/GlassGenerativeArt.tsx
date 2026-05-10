@@ -122,10 +122,11 @@ const stylePresets = [
 ];
 
 const readableGlassTextStyle = {
-  "--glass-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--typography-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--glass-theme-text": "rgba(15, 23, 42, 0.94)",
-  color: "rgba(15, 23, 42, 0.94)",
+  "--glass-text-primary": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--typography-text-primary":
+    "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--glass-theme-text": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  color: "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
 } as React.CSSProperties;
 
 export const GlassGenerativeArt = forwardRef<
@@ -137,9 +138,9 @@ export const GlassGenerativeArt = forwardRef<
       prompt = "",
       suggestions = defaultPromptSuggestions,
       generationSettings = {},
-      showPromptLibrary = true,
-      showAdvancedSettings = true,
-      showGenerationHistory = true,
+      showPromptLibrary = false,
+      showAdvancedSettings = false,
+      showGenerationHistory = false,
       enableIterativeGeneration = true,
       enablePromptEnhancement = true,
       enableStyleMixing = false,
@@ -448,19 +449,19 @@ export const GlassGenerativeArt = forwardRef<
                   <div className="glass-flex glass-items-center glass-space-x-2">
                     <span
                       className={`
-                      px-2 py-0.5 rounded text-xs font-medium
+                      glass-px-2 glass-py-0.5 glass-radius glass-text-xs glass-font-medium
                       ${
                         suggestion.category === "abstract"
-                          ? "bg-purple-500/20 text-purple-300"
+                          ? "glass-surface-primary/20 glass-text-secondary"
                           : suggestion.category === "landscape"
-                            ? "bg-green-500/20 text-green-300"
+                            ? "glass-surface-green/20 glass-text-secondary"
                             : suggestion.category === "portrait"
-                              ? "bg-blue-500/20 text-blue-300"
+                              ? "glass-surface-blue/20 glass-text-secondary"
                               : suggestion.category === "architecture"
-                                ? "bg-gray-500/20 text-gray-300"
+                                ? "glass-surface-muted/20 glass-text-secondary"
                                 : suggestion.category === "nature"
-                                  ? "bg-emerald-500/20 text-emerald-300"
-                                  : "bg-pink-500/20 text-pink-300"
+                                  ? "glass-surface-green/20 glass-text-secondary"
+                                  : "glass-surface-primary/20 glass-text-secondary"
                       }
                     `}
                     >
@@ -649,14 +650,19 @@ export const GlassGenerativeArt = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        style={readableGlassTextStyle}
-        className={`p-6 space-y-6 ${className}`}
+        data-glass-component
+        style={{
+          ...readableGlassTextStyle,
+          maxHeight: "100%",
+          minWidth: 0,
+        }}
+        className={`glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0">
+          <div className="glass-min-w-0">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate">
               AI Art Generator
             </h3>
             <p className="glass-text-sm glass-text-primary-glass-opacity-60">
@@ -681,7 +687,7 @@ export const GlassGenerativeArt = forwardRef<
         </div>
 
         {/* Prompt input */}
-        <div className="glass-space-y-4">
+        <div className="glass-space-y-3">
           <div>
             <label className="glass-block glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2">
               Describe your artwork
@@ -693,11 +699,11 @@ export const GlassGenerativeArt = forwardRef<
                 onPromptChange?.(e.target.value);
               }}
               placeholder="A majestic dragon soaring through a cosmic nebula, digital art style, highly detailed..."
-              className="glass-w-full glass-h-24 glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-placeholder-white-opacity-50 glass-resize-none glass-focus-outline-none focus:glass-border-blue"
+              className="glass-w-full glass-h-20 glass-p-3 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-placeholder-white-opacity-50 glass-resize-none glass-focus-outline-none focus:glass-border-blue"
             />
           </div>
 
-          <div className="glass-flex glass-items-center glass-justify-between">
+          <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-flex-wrap">
             <div className="glass-flex glass-items-center glass-space-x-4">
               <label className="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer">
                 <input
@@ -715,7 +721,7 @@ export const GlassGenerativeArt = forwardRef<
             </div>
 
             <motion.button
-              className="glass-px-6 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-font-medium glass-transition-colors disabled:glass-opacity-50"
+              className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-font-medium glass-transition-colors disabled:glass-opacity-50"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
               whileTap={shouldAnimate ? { scale: 0.98 } : {}}
               onClick={() => generateArt(currentPrompt)}
@@ -730,7 +736,7 @@ export const GlassGenerativeArt = forwardRef<
         {isGenerating && (
           <div
             className={`
-            p-3 rounded-lg border border-blue-400/30
+            glass-p-3 glass-radius-lg glass-border glass-border-blue/30
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
@@ -800,7 +806,7 @@ export const GlassGenerativeArt = forwardRef<
           </div>
         )}
 
-        <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6">
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
           {/* Prompt library */}
           {showPromptLibrary && <PromptLibrary />}
 
@@ -829,7 +835,7 @@ export const GlassGenerativeArt = forwardRef<
                     alt="Generated"
                     className="glass-w-12 glass-h-12 glass-radius glass-object-cover"
                   />
-                  <div className="glass-flex-1 glass-min-glass-w-0">
+                  <div className="glass-flex-1 glass-min-w-0">
                     <p className="glass-text-sm glass-text-primary-glass-opacity-90 glass-truncate">
                       {entry.prompt}
                     </p>

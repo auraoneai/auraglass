@@ -21,7 +21,7 @@ exports[`GlassHoverCard matches snapshot 1`] = `
       <div
         class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-hover-sheen glass-tier-high glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/20 glass-shadow-2xl glass-radial-reveal glass-contrast-guard"
         data-performance-mode="medium"
-        style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.22); border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
           class="glass-p-4"

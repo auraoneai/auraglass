@@ -2,151 +2,143 @@
 
 exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
 <div
-  class="glass-w-full glass-container-6xl glass-mx-auto glass-p-6"
+  class="glass-w-full glass-p-3"
   data-glass-component="true"
 >
   <div
-    class="glass-foundation-basic glass-p-6"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    class="glass-foundation-basic glass-p-4 glass-overflow-hidden"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="glass-flex glass-items-center glass-justify-between glass-mb-6"
+      class="glass-flex glass-items-start glass-justify-between glass-gap-3 glass-mb-4"
     >
-      <div>
-        <h1
-          class="glass-text-2xl glass-font-bold glass-text-secondary"
+      <div
+        class="glass-min-w-0"
+      >
+        <p
+          class="glass-text-xs glass-uppercase glass-tracking-wider glass-text-primary-glass-opacity-60 glass-mb-1"
         >
-          🤖 Intelligent Form Builder
+          AI form builder
+        </p>
+        <h1
+          class="glass-text-xl glass-font-bold glass-text-primary glass-leading-tight"
+        >
+          Intelligent Form
         </h1>
         <p
-          class="glass-text-secondary glass-mt-1"
+          class="glass-text-sm glass-text-secondary glass-mt-1 glass-leading-snug"
         >
-          AI-powered form creation with real-time optimization
+          Draft, optimize, and preview form fields.
         </p>
       </div>
       <div
-        class="glass-flex glass-gap-3"
+        class="glass-flex glass-flex-col glass-gap-2 glass-shrink-0"
       >
         <button
-          class="glass-px-4 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-px-3 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
         >
-          Export Schema
+          Add
         </button>
         <button
-          class="glass-px-4 glass-py-2 glass-surface-green glass-text-primary glass-radius-lg hover:glass-surface-green glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          class="glass-px-3 glass-py-2 glass-surface-subtle glass-text-primary glass-radius-lg glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
         >
-          + Add Field
+          Export
         </button>
       </div>
     </div>
     <div
-      class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6 glass-mb-6"
+      class="glass-grid glass-grid-cols-1 glass-gap-2"
     >
-      <div>
-        <label
-          class="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
-        >
-          Form Title *
-        </label>
-        <input
-          class="glass-w-full glass-px-3 glass-py-2 glass-border glass-radius-lg glass-focus border-gray-300"
-          placeholder="Enter form title..."
-          type="text"
-          value="New Form"
-        />
-      </div>
-      <div>
-        <label
-          class="glass-block glass-text-sm glass-font-medium glass-text-secondary glass-mb-2"
-        >
-          Description
-        </label>
-        <input
-          class="glass-w-full glass-px-3 glass-py-2 glass-border glass-border-subtle glass-radius-lg glass-focus"
-          placeholder="Describe the purpose of this form..."
-          type="text"
-          value=""
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-8"
-  >
-    <div
-      class="glass-foundation-basic glass-p-6"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-    >
-      <h2
-        class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
-      >
-        Form Fields
-      </h2>
       <div
-        class="glass-space-y-4 glass-max-h-96 glass-overflow-y-auto"
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
       >
         <div
-          class="glass-text-center glass-py-8 glass-text-secondary"
+          class="glass-min-w-0"
         >
-          <div
-            class="glass-text-4xl glass-mb-2"
+          <p
+            class="glass-text-sm glass-font-medium glass-text-primary glass-truncate"
           >
-            📝
-          </div>
-          <p>
-            No fields yet. Click "Add Field" to get started.
+            Full name
+          </p>
+          <p
+            class="glass-text-xs glass-text-secondary glass-capitalize"
+          >
+            text
+             · required
           </p>
         </div>
+        <span
+          class="glass-rounded-full glass-border glass-border-white/15 glass-px-2 glass-py-1 glass-text-xs glass-text-secondary"
+        >
+          AI
+        </span>
       </div>
-    </div>
-    <div
-      class="glass-foundation-basic glass-p-6"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-    >
-      <h2
-        class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
-      >
-        Field Editor
-      </h2>
       <div
-        class="glass-text-center glass-py-8 glass-text-secondary"
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
       >
         <div
-          class="glass-text-4xl glass-mb-2"
+          class="glass-min-w-0"
         >
-          ⚙️
+          <p
+            class="glass-text-sm glass-font-medium glass-text-primary glass-truncate"
+          >
+            Email
+          </p>
+          <p
+            class="glass-text-xs glass-text-secondary glass-capitalize"
+          >
+            email
+             · required
+          </p>
         </div>
-        <p>
-          Select a field from the left to edit its properties
-        </p>
+        <span
+          class="glass-rounded-full glass-border glass-border-white/15 glass-px-2 glass-py-1 glass-text-xs glass-text-secondary"
+        >
+          AI
+        </span>
+      </div>
+      <div
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+      >
+        <div
+          class="glass-min-w-0"
+        >
+          <p
+            class="glass-text-sm glass-font-medium glass-text-primary glass-truncate"
+          >
+            Message
+          </p>
+          <p
+            class="glass-text-xs glass-text-secondary glass-capitalize"
+          >
+            textarea
+          </p>
+        </div>
+        <span
+          class="glass-rounded-full glass-border glass-border-white/15 glass-px-2 glass-py-1 glass-text-xs glass-text-secondary"
+        >
+          AI
+        </span>
       </div>
     </div>
-  </div>
-  <div
-    class="glass-foundation-basic glass-p-6"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-  >
-    <h2
-      class="glass-text-lg glass-font-semibold glass-text-secondary glass-mb-4"
-    >
-      Live Preview
-    </h2>
     <div
-      class="glass-surface-subtle glass-radius-lg glass-p-6"
+      class="glass-mt-4 glass-rounded-lg glass-border glass-border-cyan-400/20 glass-bg-cyan-950/20 glass-px-3 glass-py-2"
     >
-      <form
-        class="glass-max-w-2xl glass-mx-auto glass-space-y-6"
+      <div
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3"
       >
-        <div
-          class="glass-text-center glass-mb-8"
+        <span
+          class="glass-text-xs glass-text-secondary"
         >
-          <h2
-            class="glass-text-2xl glass-font-bold glass-text-secondary"
-          >
-            New Form
-          </h2>
-        </div>
-      </form>
+          Accessibility
+        </span>
+        <span
+          class="glass-text-sm glass-font-semibold glass-text-cyan-200"
+        >
+          100
+          %
+        </span>
+      </div>
     </div>
   </div>
 </div>

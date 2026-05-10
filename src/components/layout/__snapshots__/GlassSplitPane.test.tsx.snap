@@ -4,10 +4,10 @@ exports[`GlassSplitPane matches snapshot 1`] = `
 <div
   aria-label="Split pane"
   aria-labelledby="split-pane-label-:r15:"
-  class="relative w-full h-full grid grid-cols-[var(--a)_12px_1fr] motion-safe:transition-all motion-reduce:transition-none"
+  class="glass-relative glass-grid glass-w-full glass-h-full motion-safe:transition-all motion-reduce:transition-none"
   id=":r13:"
   role="group"
-  style="--a: 50%;"
+  style="--a: 50%; display: grid; grid-template-columns: var(--a) 12px minmax(0, 1fr); min-width: 0; min-height: 0;"
 >
   <span
     class="glass-sr-only"
@@ -35,7 +35,7 @@ exports[`GlassSplitPane matches snapshot 1`] = `
     aria-valuemax="80"
     aria-valuemin="20"
     aria-valuenow="50"
-    class="select-none glass-radius-full focus:outline-none focus:ring-2 focus:ring-primary/50 w-3 h-full cursor-col-resize bg-white/10 hover:bg-white/20 transition-colors duration-200"
+    class="glass-select-none glass-radius-full glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary/50 glass-w-3 glass-h-full glass-cursor-col-resize glass-bg-white/10 hover:glass-bg-white/20 glass-transition-colors glass-duration-200"
     id=":r14:"
     role="separator"
     tabindex="0"

@@ -69,8 +69,7 @@ export interface GlassGridProps extends React.HTMLAttributes<HTMLDivElement> {
   role?: string;
 }
 
-export interface GlassGridItemProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassGridItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Column span (1-12)
    */
@@ -150,10 +149,44 @@ export const GlassGrid = forwardRef<HTMLDivElement, GlassGridProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       ...props
     },
     ref
   ) => {
+    const gapValues = {
+      none: "0",
+      xs: "var(--glass-space-1, 0.25rem)",
+      sm: "var(--glass-space-2, 0.5rem)",
+      md: "var(--glass-space-4, 1rem)",
+      lg: "var(--glass-space-6, 1.5rem)",
+      xl: "var(--glass-space-8, 2rem)",
+      "2xl": "var(--glass-space-12, 3rem)",
+    } as const;
+
+    const flowValues = {
+      row: "row",
+      col: "column",
+      "row-dense": "row dense",
+      "col-dense": "column dense",
+    } as const;
+
+    const alignValues = {
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      stretch: "stretch",
+    } as const;
+
+    const justifyValues = {
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      between: "space-between",
+      around: "space-around",
+      evenly: "space-evenly",
+    } as const;
+
     const gapClasses = {
       none: "glass-gap-0",
       xs: "glass-gap-1",
@@ -236,7 +269,28 @@ export const GlassGrid = forwardRef<HTMLDivElement, GlassGridProps>(
       ? {
           gridTemplateColumns: `repeat(auto-fit, minmax(${minColWidth}, 1fr))`,
         }
-      : undefined;
+      : {
+          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+        };
+
+    const layoutStyle: React.CSSProperties = {
+      display: "grid",
+      gridAutoFlow: flowValues[flow],
+      alignItems: alignValues[align],
+      justifyContent: justifyValues[justify],
+      ...gridStyle,
+      ...(gapX
+        ? { columnGap: gapValues[gapX] }
+        : gapY
+          ? {}
+          : { columnGap: gapValues[gap] }),
+      ...(gapY
+        ? { rowGap: gapValues[gapY] }
+        : gapX
+          ? {}
+          : { rowGap: gapValues[gap] }),
+      ...style,
+    };
 
     const gridId = useA11yId();
     const { prefersReducedMotion } = useMotionPreferenceContext();
@@ -265,7 +319,7 @@ export const GlassGrid = forwardRef<HTMLDivElement, GlassGridProps>(
           ...responsiveClasses,
           className
         )}
-        style={{ ...(gridStyle || {}) }}
+        style={layoutStyle}
         {...a11yProps}
         {...props}
       />
@@ -295,10 +349,30 @@ export const GlassGridItem = forwardRef<HTMLDivElement, GlassGridItemProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       ...props
     },
     ref
   ) => {
+    const spanValue = (value: number | "full" | "auto") => {
+      if (value === "auto") return undefined;
+      if (value === "full") return "1 / -1";
+      return `span ${value} / span ${value}`;
+    };
+
+    const rowSpanValue = (value: number | "auto") => {
+      if (value === "auto") return undefined;
+      return `span ${value} / span ${value}`;
+    };
+
+    const selfValues = {
+      auto: "auto",
+      start: "start",
+      end: "end",
+      center: "center",
+      stretch: "stretch",
+    } as const;
+
     const colSpanClasses = {
       1: "col-span-1",
       2: "col-span-2",
@@ -418,6 +492,19 @@ export const GlassGridItem = forwardRef<HTMLDivElement, GlassGridItemProps>(
       ...(role && { role }),
     };
 
+    const itemStyle: React.CSSProperties = {
+      ...(colSpan !== "auto" ? { gridColumn: spanValue(colSpan) } : {}),
+      ...(rowSpan !== "auto" ? { gridRow: rowSpanValue(rowSpan) } : {}),
+      ...(colStart !== "auto" ? { gridColumnStart: colStart } : {}),
+      ...(colEnd !== "auto" ? { gridColumnEnd: colEnd } : {}),
+      ...(rowStart !== "auto" ? { gridRowStart: rowStart } : {}),
+      ...(rowEnd !== "auto" ? { gridRowEnd: rowEnd } : {}),
+      alignSelf: selfValues[alignSelf],
+      justifySelf: selfValues[justifySelf],
+      minWidth: 0,
+      ...style,
+    };
+
     return (
       <div
         ref={ref}
@@ -436,6 +523,7 @@ export const GlassGridItem = forwardRef<HTMLDivElement, GlassGridItemProps>(
           ...responsiveClasses,
           className
         )}
+        style={itemStyle}
         {...a11yProps}
         {...props}
       />

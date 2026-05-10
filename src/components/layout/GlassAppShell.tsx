@@ -12,8 +12,7 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 
-export interface GlassAppShellProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAppShellProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * App shell variant
    */
@@ -249,6 +248,23 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
       minimal: "bg-transparent",
     };
 
+    const getElementName = (element: React.ReactElement) => {
+      const elementType = element.type as
+        | string
+        | { displayName?: string; name?: string };
+
+      if (typeof elementType === "string") return elementType;
+      return elementType.displayName || elementType.name || "";
+    };
+
+    const canEnhanceElement = (
+      element: React.ReactNode,
+      supportedNames: string[]
+    ): element is React.ReactElement => {
+      if (!React.isValidElement(element)) return false;
+      return supportedNames.includes(getElementName(element));
+    };
+
     // Clone sidebar with props (align with GlassSidebar API)
     const sidebarExtraProps: any = {
       collapsed: isMobile ? false : sidebarCollapsed,
@@ -261,20 +277,21 @@ export const GlassAppShell = forwardRef<HTMLDivElement, GlassAppShellProps>(
       sidebarExtraProps.onOpenChange = setSidebarOverlay;
     }
     const sidebarElement = sidebar
-      ? React.cloneElement(sidebar as React.ReactElement, sidebarExtraProps)
+      ? canEnhanceElement(sidebar, ["GlassSidebar"])
+        ? React.cloneElement(sidebar, sidebarExtraProps)
+        : sidebar
       : null;
 
     // Clone header with props (align with GlassHeader API)
     const headerElement = header
-      ? React.cloneElement(
-          header as React.ReactElement,
-          {
+      ? canEnhanceElement(header, ["GlassHeader"])
+        ? React.cloneElement(header, {
             mobileMenuOpen: Boolean(
               isMobile && mobileOverlay && sidebarOverlay
             ),
             onMobileMenuToggle: () => setSidebarOverlay((v) => !v),
-          } as any
-        )
+          } as any)
+        : header
       : null;
 
     return (

@@ -389,7 +389,8 @@ export const GlassAdvancedSearch = forwardRef<
         <GlassCard
           ref={ref}
           id={componentId}
-          className={cn("overflow-hidden", className)}
+          className={cn("glass-overflow-hidden", className)}
+          data-glass-component
           role="search"
           aria-label={ariaLabel || "Advanced search interface"}
           aria-describedby={`${componentId}-description`}
@@ -735,7 +736,7 @@ export const GlassAdvancedSearch = forwardRef<
                   <div
                     className={cn(
                       viewMode === "grid"
-                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 glass-gap-4"
+                        ? "glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-4"
                         : "glass-auto-gap glass-auto-gap-md"
                     )}
                   >
@@ -744,9 +745,9 @@ export const GlassAdvancedSearch = forwardRef<
                         key={result.id}
                         preset="fadeIn"
                         className={cn(
-                          "cursor-pointer transition-all duration-200 hover:scale-[1.02]",
+                          "glass-cursor-pointer glass-transition glass-hover-lift",
                           viewMode === "list" &&
-                            "glass-p-4 bg-white/5 glass-radius-lg"
+                            "glass-p-4 glass-surface-subtle/10 glass-radius-lg"
                         )}
                         onClick={(e) => handleResultClick(result)}
                       >
@@ -763,7 +764,7 @@ export const GlassAdvancedSearch = forwardRef<
                           )}
 
                           {/* Content */}
-                          <div className="glass-flex-1 glass-min-glass-w-0">
+                          <div className="glass-flex-1 glass-min-w-0">
                             <div className="glass-flex glass-items-start glass-justify-between glass-gap-2">
                               <div className="glass-flex-1">
                                 <h3 className="glass-text-primary glass-font-medium glass-truncate">

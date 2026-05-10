@@ -256,13 +256,17 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
     };
 
     return (
-      <div data-glass-component className="glass-relative">
+      <div
+        data-glass-component
+        className="glass-relative glass-w-full glass-min-w-0 glass-max-h-full glass-overflow-auto"
+        style={{ minWidth: 0, maxHeight: "100%" }}
+      >
         {/* Label */}
         {label && (
           <label
             id={labelId}
             className={cn(
-              "block glass-text-sm font-medium text-foreground mb-3",
+              "glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2",
               required &&
                 'after:content-["*"] after:glass-ml-1 after:text-destructive'
             )}
@@ -287,14 +291,15 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
             {...a11yProps}
             data-testid={dataTestId || "glassradiogroup"}
             className={cn(
-              "flex glass-gap-3",
+              "glass-flex glass-gap-2 glass-w-full glass-min-w-0 glass-max-h-full",
               {
-                "flex-col": orientation === "vertical",
-                "flex-row flex-wrap": orientation === "horizontal",
+                "glass-flex-col": orientation === "vertical",
+                "glass-flex-row glass-flex-wrap": orientation === "horizontal",
               },
               error && "ring-2 ring-destructive/50 glass-radius-lg glass-p-2",
               className
             )}
+            style={{ minWidth: 0, maxHeight: "100%", overflowY: "auto" }}
             role="radiogroup"
             aria-invalid={isInvalid || undefined}
             aria-required={required || undefined}
@@ -429,8 +434,8 @@ export const GlassRadioGroupItem = forwardRef<
           duration={200}
         >
           <OptimizedGlass
-            elevation={isSelected ? "level3" : "level1"}
-            intensity="medium"
+            elevation={isSelected ? "level2" : "level1"}
+            intensity="subtle"
             depth={2}
             tint="neutral"
             border="subtle"
@@ -439,12 +444,18 @@ export const GlassRadioGroupItem = forwardRef<
             liftOnHover
             press
             className={cn(
-              "relative cursor-pointer transition-all duration-200 glass-p-4 glass-radius-xl",
+              "glass-radio-card glass-relative glass-w-full glass-min-w-0 glass-cursor-pointer glass-transition glass-p-2 glass-radius-lg",
               {
                 "opacity-50 cursor-not-allowed": isDisabled,
               },
               className
             )}
+            style={{
+              boxSizing: "border-box",
+              background: isSelected
+                ? "rgba(56, 189, 248, 0.12)"
+                : "rgba(5, 11, 24, 0.22)",
+            }}
             ref={ref}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
@@ -454,17 +465,18 @@ export const GlassRadioGroupItem = forwardRef<
             aria-disabled={isDisabled}
             {...itemA11yProps}
           >
-            <div className="glass-flex glass-items-start glass-gap-3">
+            <div className="glass-flex glass-items-start glass-gap-3 glass-min-w-0">
               {/* Custom radio indicator */}
               <div
                 className={cn(
-                  "relative flex items-center justify-center glass-radius-full border-2",
-                  "transition-all duration-200 mt-0.5",
+                  "glass-relative glass-flex glass-items-center glass-justify-center glass-radius-full glass-border",
+                  "glass-transition glass-mt-0-5",
                   sizeClasses[size],
                   {
-                    "border-white/40 bg-white/10": !isSelected,
-                    "border-white bg-white/20": isSelected && !isDisabled,
-                    "border-white/20 bg-white/5": isDisabled,
+                    "glass-border-white/20 glass-surface-subtle/5": !isSelected,
+                    "glass-border-white/30 glass-surface-subtle/20":
+                      isSelected && !isDisabled,
+                    "glass-border-white/10 glass-surface-subtle/5": isDisabled,
                   }
                 )}
               >
@@ -491,7 +503,7 @@ export const GlassRadioGroupItem = forwardRef<
                   )}
                   <span
                     className={cn(
-                      "font-medium glass-text-primary",
+                      "glass-font-medium glass-text-primary",
                       textSizeClasses[size]
                     )}
                   >
@@ -500,7 +512,7 @@ export const GlassRadioGroupItem = forwardRef<
                 </div>
 
                 {option.description && (
-                  <p className="glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1 glass-leading-relaxed">
+                  <p className="glass-text-secondary glass-text-xs glass-mt-1 glass-leading-snug">
                     {option.description}
                   </p>
                 )}
@@ -527,13 +539,19 @@ export const GlassRadioGroupItem = forwardRef<
         liftOnHover={!isDisabled}
         press
         className={cn(
-          "flex items-center glass-gap-3 cursor-pointer group",
-          "transition-all duration-200 glass-p-3 glass-radius-lg",
+          "glass-flex glass-items-center glass-gap-2 glass-w-full glass-min-w-0 glass-cursor-pointer glass-group",
+          "glass-transition glass-p-2 glass-radius-lg",
           {
             "opacity-50 cursor-not-allowed": isDisabled,
           },
           className
         )}
+        style={{
+          boxSizing: "border-box",
+          background: isSelected
+            ? "rgba(56, 189, 248, 0.12)"
+            : "rgba(5, 11, 24, 0.18)",
+        }}
         onClick={handleClick}
         onKeyDown={handleKeyDown}
         tabIndex={isDisabled ? -1 : 0}
@@ -545,13 +563,14 @@ export const GlassRadioGroupItem = forwardRef<
         {/* Custom radio indicator */}
         <div
           className={cn(
-            "relative flex items-center justify-center glass-radius-full border-2",
-            "transition-all duration-200",
+            "glass-relative glass-flex glass-items-center glass-justify-center glass-radius-full glass-border",
+            "glass-transition",
             sizeClasses[size],
             {
-              "border-white/40 bg-white/10": !isSelected,
-              "border-white bg-white/20": isSelected && !isDisabled,
-              "border-white/20 bg-white/5": isDisabled,
+              "glass-border-white/20 glass-surface-subtle/5": !isSelected,
+              "glass-border-white/30 glass-surface-subtle/20":
+                isSelected && !isDisabled,
+              "glass-border-white/10 glass-surface-subtle/5": isDisabled,
             }
           )}
         >
@@ -575,16 +594,20 @@ export const GlassRadioGroupItem = forwardRef<
               </div>
             )}
             <span
-              className={cn("glass-text-primary/90", textSizeClasses[size], {
-                "font-medium": isSelected,
-              })}
+              className={cn(
+                "glass-text-primary-opacity-90",
+                textSizeClasses[size],
+                {
+                  "glass-font-medium": isSelected,
+                }
+              )}
             >
               {option.label}
             </span>
           </div>
 
           {option.description && (
-            <p className="glass-text-primary-glass-opacity-60 glass-text-sm glass-mt-1">
+            <p className="glass-text-secondary glass-text-xs glass-mt-1">
               {option.description}
             </p>
           )}

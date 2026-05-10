@@ -443,10 +443,10 @@ export const GlassIntelligentImageUploader: React.FC<
     "image/gif",
   ],
   maxFileSize = 10, // MB
-  showEditor = true,
-  showOptimization = true,
+  showEditor = false,
+  showOptimization = false,
   showTemplates = true,
-  showAIFeatures = true,
+  showAIFeatures = false,
   onImagesUploaded,
   onImageEdited,
   "data-testid": dataTestId,
@@ -543,18 +543,23 @@ export const GlassIntelligentImageUploader: React.FC<
 
   return (
     <Glass
-      className={cn("p-6", className)}
+      className={cn(
+        "glass-intelligent-image-uploader glass-p-4 glass-max-w-full glass-overflow-auto",
+        className
+      )}
+      data-glass-component
       data-testid={dataTestId}
       aria-label={ariaLabel}
+      style={{ maxHeight: "100%", minWidth: 0 }}
     >
-      <div className="glass-space-y-6">
+      <div className="glass-space-y-3">
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h2 className="glass-text-xl glass-font-semibold glass-text-secondary">
+        <div className="glass-flex glass-items-start glass-justify-between glass-gap-3">
+          <div className="glass-min-w-0">
+            <h2 className="glass-text-lg glass-font-semibold glass-text-primary glass-leading-tight">
               🤖 Intelligent Image Uploader
             </h2>
-            <p className="glass-text-secondary glass-mt-1">
+            <p className="glass-text-secondary glass-mt-1 glass-text-sm">
               AI-powered image optimization and editing
             </p>
           </div>
@@ -562,7 +567,7 @@ export const GlassIntelligentImageUploader: React.FC<
           {showOptimization && (
             <button
               onClick={() => setShowStats(!showStats)}
-              className="glass-px-4 glass-py-2 glass-surface-subtle glass-text-primary glass-radius-lg hover:glass-surface-subtle glass-transition-colors"
+              className="glass-px-3 glass-py-2 glass-surface-subtle glass-text-primary glass-radius-lg hover:glass-surface-subtle glass-transition-colors"
             >
               📊 Stats
             </button>
@@ -607,36 +612,36 @@ export const GlassIntelligentImageUploader: React.FC<
         {/* Upload Area */}
         <div
           className={cn(
-            "relative border-2 border-dashed rounded-lg p-12 text-center transition-colors",
+            "glass-relative glass-border glass-border-dashed glass-radius-lg glass-p-4 glass-text-center glass-transition-colors glass-overflow-hidden",
             dragActive
-              ? "border-blue-500 bg-blue-50"
-              : "border-gray-300 hover:border-gray-400"
+              ? "glass-border-blue glass-surface-blue"
+              : "glass-border-white/20 glass-surface-subtle/5 hover:glass-border-white/30"
           )}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
-          <div className="glass-space-y-4">
-            <div className="glass-text-6xl">📸</div>
+          <div className="glass-space-y-2">
+            <div className="glass-text-2xl">📸</div>
             <div>
-              <h3 className="glass-text-lg glass-font-medium glass-text-secondary">
+              <h3 className="glass-text-base glass-font-medium glass-text-primary glass-leading-snug">
                 Drop images here or click to upload
               </h3>
-              <p className="glass-text-secondary glass-mt-1">
+              <p className="glass-text-secondary glass-mt-1 glass-text-xs">
                 Supports JPEG, PNG, WebP, GIF up to {maxFileSize}MB each
               </p>
             </div>
 
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors"
+              className="glass-px-3 glass-py-1.5 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-text-sm"
             >
               Choose Files
             </button>
 
-            {autoOptimize && (
-              <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-sm glass-text-primary">
+            {showOptimization && autoOptimize && (
+              <div className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-xs glass-text-secondary">
                 <span>✅</span>
                 <span>Auto-optimization enabled</span>
               </div>

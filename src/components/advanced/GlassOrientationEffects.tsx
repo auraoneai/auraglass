@@ -42,6 +42,7 @@ interface GlassOrientationEffectsProps {
   className?: string;
   sensitivity?: number; // 0-1
   smoothing?: number; // 0-1
+  showDebugHud?: boolean;
   effectTypes?: Array<
     "tilt" | "parallax" | "refraction" | "liquid" | "shimmer"
   >;
@@ -61,6 +62,7 @@ export function GlassOrientationEffects({
   gyroscopeEnabled = true,
   accelerometerEnabled = true,
   compassEnabled = true,
+  showDebugHud = false,
   onOrientationChange,
   onMotionChange,
 }: GlassOrientationEffectsProps) {
@@ -425,7 +427,7 @@ export function GlassOrientationEffects({
       )}
 
       {/* Debug info */}
-      {process.env.NODE_ENV === "development" && (
+      {showDebugHud && (
         <div
           className="glass-absolute glass-bottom-2 glass-left-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50"
           role="status"

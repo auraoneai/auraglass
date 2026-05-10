@@ -385,6 +385,7 @@ export function ReducedMotionGlass({
 interface BatteryAwareGlassProps {
   children: React.ReactNode;
   className?: string;
+  showDebugHud?: boolean;
   energyThresholds?: {
     high: number; // Above this percentage, use full effects
     medium: number; // Between medium and high, use reduced effects
@@ -395,6 +396,7 @@ interface BatteryAwareGlassProps {
 export function BatteryAwareGlass({
   children,
   className = "",
+  showDebugHud = false,
   energyThresholds = { high: 50, medium: 25, low: 10 },
 }: BatteryAwareGlassProps) {
   const { batteryLevel, performanceMode } = useGlassPerformance();
@@ -426,8 +428,8 @@ export function BatteryAwareGlass({
     >
       {children}
 
-      {/* Battery indicator for development */}
-      {process.env.NODE_ENV === "development" && batteryLevel !== undefined && (
+      {/* Battery indicator */}
+      {showDebugHud && batteryLevel !== undefined && (
         <div
           className={cn(
             "glass-absolute glass-top-2 glass-left-2 glass-text-xs glass-surface-debug glass-text-on-debug glass-px-2 glass-py-1 glass-radius-sm glass-opacity-50"
@@ -630,8 +632,7 @@ function PerformanceSummaryCard() {
   );
 }
 
-interface GlassPerformanceOptimizationProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassPerformanceOptimizationProps extends React.HTMLAttributes<HTMLDivElement> {
   adaptivePerformance?: boolean;
   showMonitor?: boolean;
   children?: React.ReactNode;

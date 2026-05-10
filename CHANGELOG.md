@@ -1,5 +1,25 @@
 # Changelog
 
+## [3.0.4] - 2026-05-10
+
+### Fixed
+
+- Retuned the core neutral glass token stack so default surfaces render as dark translucent glass instead of gray/white slabs with overly bright outlines.
+- Corrected compact rendering for large app/marketing-style components embedded in small cards, including `GlassPrismComparison` and `GlassIntelligentFormBuilder`.
+- Constrained media controls in `GlassAdvancedVideoPlayer` and `GlassImageViewer` so narrow containers no longer clip, truncate, or bleed toolbars outside the component frame.
+- Reworked `GlassWebGLShader` unsupported-GPU rendering from raw fallback text into a contained CSS glass fallback.
+- Hardened particle and dimensional surface defaults so particle previews, dimensional cards, and liquid/surface demos render visible, dark, contained content.
+- Improved dark-theme defaults and overflow behavior across dense data/input/display components including tables, charts, tree views, accordions, radio groups, steppers, JSON, heatmap, skeleton, metric, and badge surfaces.
+- Cleared package-owned lint errors caused by direct glass background literals while leaving the pre-existing warning-only lint debt visible for a later zero-warning cleanup.
+
+### Verification
+
+- `npm run glass:full-check`
+- `npm run build`
+- Packed `aura-glass-3.0.4.tgz` into the AuraGlass website and ran the full paginated component walk against `http://localhost:3022/components`.
+- Website component walk: 15 pages, 260 cards, 0 preview boundary catches.
+- Remaining repeated website walk console output is not a package crash: the `motion()` deprecation traces to the website shell, and the page 6 duplicate `Box` key warnings trace to repeated website preview tiles.
+
 ## [3.0.3] - 2026-05-10
 
 ### Fixed

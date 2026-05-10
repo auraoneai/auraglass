@@ -4,6 +4,7 @@ import { cn } from "../../../lib/utilsComprehensive";
 import React from "react";
 import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../../tokens/designConstants";
+import { resolveChartColor } from "../utils/chartColors";
 
 export interface TooltipData {
   datasetIndex: number;
@@ -34,7 +35,7 @@ export interface ChartTooltipProps {
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   tooltipData,
   datasets = [],
-  color = "var(--glass-color-primary)",
+  color = "#70d6ff",
   qualityTier = "medium",
   tooltipStyle = "frosted",
   followCursor = false,
@@ -42,6 +43,10 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   "data-testid": dataTestId,
 }) => {
   if (!tooltipData) return null;
+  const markerColor = resolveChartColor(
+    tooltipData.value.color || color,
+    "#70d6ff"
+  );
 
   const style: React.CSSProperties = {
     position: "fixed",
@@ -52,12 +57,12 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
         ? "rgba(15, 23, 42, 0.92)"
         : tooltipStyle === "minimal"
           ? "rgba(255, 255, 255, 0.96)"
-          : "color-mix(in srgb, var(--glass-white) var(--glass-opacity-90), transparent)",
+          : "rgba(255, 255, 255, 0.9)",
     // Use createGlassStyle() instead,
     border:
       tooltipStyle === "frosted"
-        ? "1px solid color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
-        : "1px solid color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+        ? "1px solid rgba(255, 255, 255, 0.2)"
+        : "1px solid rgba(15, 23, 42, 0.1)",
     borderRadius: "var(--glass-radius-md)",
     padding: "8px 12px",
     fontSize: "0.75rem", // caption
@@ -88,7 +93,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       </div>
 
       <div>
-        <span style={{ color: tooltipData.value.color || color }}>●</span>{" "}
+        <span style={{ color: markerColor }}>●</span>{" "}
         {tooltipData.value.label || "Value"}: {tooltipData.value.value || "N/A"}
       </div>
     </ContrastGuard>

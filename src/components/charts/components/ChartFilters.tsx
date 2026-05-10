@@ -7,6 +7,10 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import {
+  DEFAULT_CHART_COLORS,
+  resolveChartPalette,
+} from "../utils/chartColors";
 export interface ChartFiltersProps {
   palette?: string[];
   qualityTier?: "low" | "medium" | "high" | "ultra";
@@ -28,13 +32,7 @@ export interface ChartFiltersProps {
 export const ChartFilters: React.FC<ChartFiltersProps> = ({
   // ContrastGuard chart text coverage is tracked in the manual accessibility QA report.
 
-  palette = [
-    "var(--glass-color-primary)",
-    "var(--glass-color-danger)",
-    "var(--glass-color-success)",
-    "var(--glass-color-warning)",
-    "var(--glass-color-secondary)",
-  ],
+  palette = DEFAULT_CHART_COLORS,
   qualityTier = "medium",
   className,
   "data-testid": dataTestId,
@@ -56,6 +54,8 @@ export const ChartFilters: React.FC<ChartFiltersProps> = ({
         : qualityTier === "high"
           ? 6
           : 8;
+
+  const resolvedPalette = resolveChartPalette(palette);
 
   return (
     <svg
@@ -103,7 +103,7 @@ export const ChartFilters: React.FC<ChartFiltersProps> = ({
         </filter>
 
         {/* Gradient definitions for each palette color */}
-        {palette.map((color, index) => (
+        {resolvedPalette.map((color, index) => (
           <React.Fragment key={index}>
             <linearGradient
               id={`chart-gradient-${index}`}

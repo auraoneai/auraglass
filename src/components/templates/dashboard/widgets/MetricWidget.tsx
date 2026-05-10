@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "@/lib/utils";
 import React, { forwardRef } from "react";
 import { Motion } from "../../../../primitives";
@@ -18,8 +18,7 @@ export interface MetricData {
   description?: string;
 }
 
-export interface MetricWidgetProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface MetricWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Metric data
    */
@@ -96,7 +95,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
         padding: "glass-p-4",
       },
       lg: {
-        value: "text-3xl",
+        value: "glass-text-3xl",
         label: "glass-text-base",
         icon: "glass-text-2xl",
         padding: "glass-p-6",
@@ -105,54 +104,54 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
 
     const colorSchemes = {
       default: {
-        value: "text-foreground",
+        value: "glass-text-primary",
         change: {
-          up: "text-success",
-          down: "text-destructive",
+          up: "glass-text-success",
+          down: "glass-text-danger",
           neutral: "glass-text-secondary",
         },
         icon: "glass-text-secondary",
         background: "",
       },
       primary: {
-        value: "text-primary",
+        value: "glass-text-primary",
         change: {
-          up: "text-success",
-          down: "text-destructive",
+          up: "glass-text-success",
+          down: "glass-text-danger",
           neutral: "glass-text-secondary",
         },
-        icon: "text-primary/70",
-        background: "bg-primary/5",
+        icon: "glass-text-primary/70",
+        background: "glass-surface-primary/5",
       },
       success: {
-        value: "text-success",
+        value: "glass-text-success",
         change: {
-          up: "text-success",
-          down: "text-destructive",
+          up: "glass-text-success",
+          down: "glass-text-danger",
           neutral: "glass-text-secondary",
         },
-        icon: "text-success/70",
-        background: "bg-success/5",
+        icon: "glass-text-success/70",
+        background: "glass-surface-success/5",
       },
       warning: {
-        value: "text-warning",
+        value: "glass-text-warning",
         change: {
-          up: "text-success",
-          down: "text-destructive",
+          up: "glass-text-success",
+          down: "glass-text-danger",
           neutral: "glass-text-secondary",
         },
-        icon: "text-warning/70",
-        background: "bg-warning/5",
+        icon: "glass-text-warning/70",
+        background: "glass-surface-warning/5",
       },
       destructive: {
-        value: "text-destructive",
+        value: "glass-text-danger",
         change: {
-          up: "text-success",
-          down: "text-destructive",
+          up: "glass-text-success",
+          down: "glass-text-danger",
           neutral: "glass-text-secondary",
         },
-        icon: "text-destructive/70",
-        background: "bg-destructive/5",
+        icon: "glass-text-danger/70",
+        background: "glass-surface-danger/5",
       },
     };
 
@@ -201,7 +200,9 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                 <div className={cn(config.icon, colors.icon)}>{data?.icon}</div>
               )}
               <VStack space="none">
-                <div className={cn("font-bold", config.value, colors.value)}>
+                <div
+                  className={cn("glass-font-bold", config.value, colors.value)}
+                >
                   {formatValue(data?.value)}
                   {data?.unit}
                 </div>
@@ -237,24 +238,26 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
               </HStack>
 
               <VStack space="xs">
-                <div className={cn("font-bold", config.value, colors.value)}>
+                <div
+                  className={cn("glass-font-bold", config.value, colors.value)}
+                >
                   {formatValue(data?.value)}
                   {data?.unit}
                 </div>
 
                 {showTarget && data?.target && (
                   <div className="glass-w-full">
-                    <div className='glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mb-1'>
+                    <div className="glass-flex glass-justify-between glass-text-xs glass-text-secondary glass-mb-1">
                       <span>Progress</span>
                       <span>{Math.round(getTargetProgress())}%</span>
                     </div>
-                    <div className='glass-w-full glass-surface-subtle glass-radius-full glass-h-2'>
+                    <div className="glass-w-full glass-surface-subtle glass-radius-full glass-h-2">
                       <Motion
                         className={cn(
-                          "h-full glass-radius-full transition-all duration-500",
+                          "glass-h-full glass-radius-full glass-transition-all glass-duration-500",
                           getTargetProgress() >= 100
-                            ? "bg-success"
-                            : "bg-primary"
+                            ? "glass-surface-success"
+                            : "glass-surface-primary"
                         )}
                         style={{ width: `${getTargetProgress()}%` }}
                       />
@@ -268,7 +271,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                   {data?.change && (
                     <div
                       className={cn(
-                        "glass-text-xs font-medium flex items-center glass-gap-1",
+                        "glass-text-xs glass-font-medium glass-flex glass-items-center glass-gap-1",
                         getChangeColor()
                       )}
                     >
@@ -299,7 +302,9 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
           return (
             <HStack space="sm" align="center" justify="between">
               <VStack space="none">
-                <div className={cn("font-bold glass-text-lg", colors.value)}>
+                <div
+                  className={cn("glass-font-bold glass-text-lg", colors.value)}
+                >
                   {formatValue(data?.value)}
                   {data?.unit}
                 </div>
@@ -329,7 +334,9 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                 )}
               </HStack>
 
-              <div className={cn("font-bold", config.value, colors.value)}>
+              <div
+                className={cn("glass-font-bold", config.value, colors.value)}
+              >
                 {formatValue(data?.value)}
                 {data?.unit}
               </div>
@@ -338,7 +345,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
                 <HStack space="sm" align="center">
                   <div
                     className={cn(
-                      "glass-text-sm font-medium flex items-center glass-gap-1",
+                      "glass-text-sm glass-font-medium glass-flex glass-items-center glass-gap-1",
                       getChangeColor()
                     )}
                   >
@@ -364,7 +371,7 @@ export const MetricWidget = forwardRef<HTMLDivElement, MetricWidgetProps>(
       <GlassCore
         ref={ref}
         className={cn(
-          "w-full h-full glass-radius-lg",
+          "glass-w-full glass-h-full glass-radius-lg glass-min-w-0",
           config.padding,
           colors.background,
           className

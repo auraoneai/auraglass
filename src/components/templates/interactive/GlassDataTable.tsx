@@ -16,8 +16,9 @@ export interface ColumnDef<T> {
   width?: string;
 }
 
-export interface GlassDataTableProps<T>
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassDataTableProps<
+  T,
+> extends React.HTMLAttributes<HTMLDivElement> {
   data: T[];
   columns: ColumnDef<T>[];
   loading?: boolean;
@@ -161,10 +162,10 @@ export function GlassDataTable<T extends Record<string, any>>({
                 key={page}
                 onClick={() => setCurrentPage(page)}
                 className={cn(
-                  "glass-px-3 glass-py-1 glass-radius-md border transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                  "glass-px-3 glass-py-1 glass-radius-md glass-border glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
                   currentPage === page
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "border-border hover:bg-muted"
+                    ? "glass-surface-primary glass-text-primary glass-border-primary"
+                    : "glass-border-glass-border hover:glass-surface-subtle"
                 )}
               >
                 {page}
@@ -188,7 +189,7 @@ export function GlassDataTable<T extends Record<string, any>>({
 
   return (
     <Glass
-      className={cn("glass-radius-xl overflow-hidden", className)}
+      className={cn("glass-radius-xl glass-overflow-hidden", className)}
       {...props}
     >
       {/* Header with search */}
@@ -221,11 +222,15 @@ export function GlassDataTable<T extends Record<string, any>>({
                 <th
                   key={String(column.key)}
                   className={cn(
-                    "glass-px-4 glass-py-3 text-left text-sm font-medium glass-text-secondary",
+                    "glass-px-4 glass-py-3 glass-text-left glass-text-sm glass-font-medium glass-text-secondary",
                     column.sortable &&
-                      "cursor-pointer hover:bg-muted/80 transition-colors select-none",
-                    column.width && `w-${column.width}`
+                      "glass-cursor-pointer hover:glass-surface-subtle glass-transition-colors glass-select-none"
                   )}
+                  style={{
+                    textAlign: "left",
+                    width: column.width,
+                    fontWeight: 500,
+                  }}
                   onClick={() => handleSort(column.key)}
                 >
                   <div className="glass-flex glass-items-center glass-gap-2">
@@ -234,9 +239,9 @@ export function GlassDataTable<T extends Record<string, any>>({
                       <div className="glass-flex glass-flex-col">
                         <div
                           className={cn(
-                            "text-xs transition-colors",
+                            "glass-text-xs glass-transition-colors",
                             sortColumn === column.key && sortDirection === "asc"
-                              ? "text-primary"
+                              ? "glass-text-primary"
                               : "glass-text-secondary/50"
                           )}
                         >
@@ -244,10 +249,10 @@ export function GlassDataTable<T extends Record<string, any>>({
                         </div>
                         <div
                           className={cn(
-                            "text-xs transition-colors -mt-1",
+                            "glass-text-xs glass-transition-colors glass--mt-1",
                             sortColumn === column.key &&
                               sortDirection === "desc"
-                              ? "text-primary"
+                              ? "glass-text-primary"
                               : "glass-text-secondary/50"
                           )}
                         >

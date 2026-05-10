@@ -5,7 +5,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
   <div>
     <div
       aria-live="polite"
-      class="glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-dark"
+      class="glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-overlay"
       role="main"
     >
       <style>
@@ -45,7 +45,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
           color: #f8fafc !important;
         }
 
-        .glass-collaborative-workspace .workspace-glass-panel .glass-surface-blue,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-surface-primary,
         .glass-collaborative-workspace .workspace-glass-button-primary {
           background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
           background-color: rgba(3, 105, 161, 0.96) !important;
@@ -118,7 +118,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
       </style>
       <div
         class="workspace-header workspace-glass-panel glass-flex glass-items-center glass-justify-between glass-px-4 glass-py-3 glass-border-b glass-border-white/10"
-        style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
           class="glass-flex glass-items-center glass-gap-4"
@@ -191,7 +191,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="workspace-glass-button-primary glass-px-3 glass-py-2 glass-text-sm glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue"
+            class="workspace-glass-button-primary glass-px-3 glass-py-2 glass-text-sm glass-surface-primary glass-text-primary glass-radius"
             title="Create Snapshot"
           >
             📷 Snapshot
@@ -215,22 +215,25 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <div
-              class="glass-flex glass--space-x-2"
+              class="glass-flex"
             >
               <div
                 class="glass-w-8 glass-h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary"
+                style="margin-left: 0px;"
                 title="Alice Johnson"
               >
                 A
               </div>
               <div
                 class="glass-w-8 glass-h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary"
+                style="margin-left: -8px;"
                 title="Bob Smith"
               >
                 B
               </div>
               <div
                 class="glass-w-8 glass-h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary"
+                style="margin-left: -8px;"
                 title="Carol Davis"
               >
                 C
@@ -310,11 +313,11 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
         class="glass-flex-1 glass-flex glass-min-h-0 glass-flex-row"
       >
         <div
-          class="flex-1 glass-min-w-0 glass-p-4"
+          class="glass-flex-1 glass-min-w-0 glass-p-4"
         >
           <div
             class="collaborative-canvas workspace-glass-panel relative glass-h-full"
-            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
           >
             <div
               class="glass-absolute glass-inset-0 glass-opacity-20"
@@ -346,11 +349,11 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="flex-1 glass-min-w-0 glass-p-4"
+          class="glass-flex-1 glass-min-w-0 glass-p-4"
         >
           <div
             class="multi-user-editor workspace-glass-panel glass-h-full"
-            style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
           >
             <div
               class="glass-p-4"
@@ -491,7 +494,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
         </div>
         <div
           class="workspace-sidebar workspace-glass-panel glass-w-80 glass-border-l glass-border-white/20 glass-p-4 glass-space-y-4"
-          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
             class="glass-space-y-2"
@@ -502,7 +505,7 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
               Mini Map
             </h3>
             <div
-              class="workspace-glass-inset glass-aspect-video glass-surface-dark glass-border glass-border-white/20 glass-radius glass-p-2"
+              class="workspace-glass-inset glass-aspect-video glass-surface-overlay glass-border glass-border-white/20 glass-radius glass-p-2"
             >
               <div
                 class="glass-text-xs glass-text-primary glass-text-center glass-mt-8"
@@ -714,11 +717,12 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
         class="glass-fixed glass-bottom-6 glass-right-6"
       >
         <div
-          class="flex flex-col gap-2 opacity-0 pointer-events-none transition-opacity"
+          class="glass-flex glass-flex-col glass-gap-2 glass-pointer-events-none"
+          style="opacity: 0; pointer-events: none; transition: opacity 160ms ease;"
         >
           <button
             aria-label="Open version control panel"
-            class="glass-w-12 glass-h-12 glass-radius-full glass-surface-blue glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            class="glass-w-12 glass-h-12 glass-radius-full glass-surface-primary glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             title="Version Control"
           >
             <svg
@@ -779,8 +783,8 @@ exports[`CollaborativeGlassWorkspace matches snapshot 1`] = `
         </div>
         <button
           aria-label="Open floating actions menu"
-          class="glass-w-14 glass-h-14 glass-radius-full glass-surface-dark glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-hover-bg-slate-600 glass-mt-2"
-          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          class="glass-w-14 glass-h-14 glass-radius-full glass-surface-overlay glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-hover-bg-slate-600 glass-mt-2"
+          style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           ⚡
         </button>

@@ -56,6 +56,7 @@ interface GlassContextAwareProps {
   className?: string;
   adaptationSpeed?: number; // 0-1, how quickly to adapt
   sensitivity?: number; // 0-1, sensitivity to context changes
+  showDebugHud?: boolean;
   override?: Partial<{
     intensity: number;
     blur: number;
@@ -125,6 +126,7 @@ export function GlassContextAware({
   sensitivity = 0.7,
   override,
   onContextChange,
+  showDebugHud = false,
 }: GlassContextAwareProps) {
   const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -471,16 +473,16 @@ export function GlassContextAware({
     <motion.div
       ref={containerRef}
       className={cn(
-        "relative OptimizedGlass intensity={0.2} glassBlur={6}",
-        !prefersReducedMotion && "transform-gpu will-change-transform",
+        "glass-relative glass-foundation-complete",
+        !prefersReducedMotion && "glass-transform-gpu",
         className
       )}
       style={{ ...adaptiveStyle }}
     >
       {children}
 
-      {/* Context debug overlay (development only) */}
-      {process.env.NODE_ENV === "development" && (
+      {/* Context debug overlay */}
+      {showDebugHud && (
         <ContrastGuard>
           <div
             className="glass-absolute glass-top-2 glass-right-2 glass-text-xs glass-surface-primary glass-p-2 glass-radius-sm glass-opacity-50"

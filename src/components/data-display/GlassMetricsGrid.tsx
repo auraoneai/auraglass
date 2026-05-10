@@ -71,8 +71,7 @@ export interface MetricGridLayout {
   };
 }
 
-export interface GlassMetricsGridProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassMetricsGridProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Metrics configuration */
   metrics?: MetricConfig[];
   /** Grid layout */
@@ -120,6 +119,22 @@ export interface GlassMetricsGridProps
   respectMotionPreference?: boolean;
 }
 
+const metricsSurfaceStyle: React.CSSProperties = {
+  background:
+    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+  border: "1px solid rgba(148, 163, 184, 0.2)",
+  boxShadow:
+    "0 12px 30px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.07)",
+};
+
+const metricsCardSurfaceStyle: React.CSSProperties = {
+  background:
+    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+  border: "1px solid rgba(148, 163, 184, 0.2)",
+  boxShadow:
+    "0 10px 24px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+};
+
 export const GlassMetricsGrid = forwardRef<
   HTMLDivElement,
   GlassMetricsGridProps
@@ -148,6 +163,7 @@ export const GlassMetricsGrid = forwardRef<
       onExport,
       respectMotionPreference = true,
       className,
+      style,
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       ...props
@@ -237,19 +253,19 @@ export const GlassMetricsGrid = forwardRef<
 
     // Status colors
     const statusColors = {
-      success: "border-green-500/30 bg-green-500/5",
-      warning: "border-yellow-500/30 bg-yellow-500/5",
-      error: "border-red-500/30 bg-red-500/5",
-      info: "border-blue-500/30 bg-blue-500/5",
-      neutral: "border-border/30 bg-background/5",
+      success: "glass-border-green-500/30 bg-green-500/5",
+      warning: "glass-border-yellow-500/30 bg-yellow-500/5",
+      error: "glass-border-red-500/30 bg-red-500/5",
+      info: "glass-border-blue-500/30 bg-blue-500/5",
+      neutral: "glass-border-glass-border/30 bg-background/5",
     };
 
     // Priority indicators
     const priorityIndicators = {
-      low: "w-1 h-1",
-      medium: "w-1.5 h-1.5",
-      high: "w-2 h-2",
-      critical: "w-2.5 h-2.5 animate-pulse",
+      low: "glass-w-1 glass-h-1",
+      medium: "glass-w-2 glass-h-2",
+      high: "glass-w-2 glass-h-2",
+      critical: "glass-w-3 glass-h-3 animate-pulse",
     };
 
     // Format metric value
@@ -297,7 +313,7 @@ export const GlassMetricsGrid = forwardRef<
         return (
           <div
             className={cn(
-              "flex items-center glass-gap-1 glass-text-xs",
+              "glass-flex glass-items-center glass-gap-1 glass-text-xs",
               isPositive && "text-green-600",
               isNegative && "text-red-600",
               direction === "neutral" && "glass-text-secondary"
@@ -403,14 +419,15 @@ export const GlassMetricsGrid = forwardRef<
             tint="neutral"
             border="subtle"
             className={cn(
-              "glass-metric-card relative transition-all duration-300",
-              "glass-backdrop-blur-md border border-border/20 glass-radius-lg",
+              "glass-metric-card glass-relative glass-transition glass-min-w-0",
+              "glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-surface-dark/40",
               config.padding,
               metric.status && statusColors[metric.status],
               metric.clickable &&
-                "cursor-pointer hover:scale-[1.02] hover:shadow-lg",
+                "glass-cursor-pointer hover:scale-[1.02] hover:shadow-lg",
               loading && "animate-pulse opacity-50"
             )}
+            style={metricsCardSurfaceStyle}
             onClick={() => {
               if (metric.clickable && metric.onClick) {
                 metric.onClick();
@@ -428,7 +445,7 @@ export const GlassMetricsGrid = forwardRef<
             {metric.priority && (
               <div
                 className={cn(
-                  "absolute top-2 right-2 glass-radius-full bg-current opacity-60",
+                  "glass-absolute top-2 right-2 glass-radius-full bg-current opacity-60",
                   priorityIndicators[metric.priority]
                 )}
                 style={{ color: metric.color || "currentColor" }}
@@ -437,7 +454,7 @@ export const GlassMetricsGrid = forwardRef<
 
             {/* Header */}
             <div className="glass-flex glass-items-start glass-justify-between glass-mb-2">
-              <div className="glass-flex-1 glass-min-glass-w-0">
+              <div className="glass-flex-1 glass-min-w-0">
                 <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
                   {metric.icon && (
                     <div
@@ -449,7 +466,7 @@ export const GlassMetricsGrid = forwardRef<
                   )}
                   <h3
                     className={cn(
-                      "font-semibold text-foreground truncate",
+                      "glass-font-semibold glass-text-primary glass-truncate",
                       config.title
                     )}
                   >
@@ -473,7 +490,7 @@ export const GlassMetricsGrid = forwardRef<
             {/* Value */}
             <div
               className={cn(
-                "font-bold text-foreground glass-mb-2",
+                "glass-font-bold glass-text-primary glass-mb-2 glass-break-words",
                 config.value
               )}
             >
@@ -563,26 +580,13 @@ export const GlassMetricsGrid = forwardRef<
 
     // Grid styles
     const gridStyle = useMemo(() => {
-      const { columns, gap, responsive } = layout;
+      const { columns, gap } = layout;
+      const minColumnWidth = columns >= 4 ? 132 : 148;
 
       return {
         display: "grid",
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gridTemplateColumns: `repeat(auto-fit, minmax(min(${minColumnWidth}px, 100%), 1fr))`,
         gap: `${gap}px`,
-        ...(responsive && {
-          "@media (max-width: 640px)": {
-            gridTemplateColumns: `repeat(${responsive.sm || 1}, 1fr)`,
-          },
-          "@media (max-width: 768px)": {
-            gridTemplateColumns: `repeat(${responsive.md || 2}, 1fr)`,
-          },
-          "@media (max-width: 1024px)": {
-            gridTemplateColumns: `repeat(${responsive.lg || 3}, 1fr)`,
-          },
-          "@media (min-width: 1280px)": {
-            gridTemplateColumns: `repeat(${responsive.xl || columns}, 1fr)`,
-          },
-        }),
       };
     }, [layout]);
 
@@ -596,12 +600,16 @@ export const GlassMetricsGrid = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-metrics-grid glass-radius-lg glass-backdrop-blur-md border border-border/20",
+          "glass-metrics-grid glass-radius-lg glass-backdrop-blur-md glass-border glass-border-white/10 glass-w-full glass-min-w-0 glass-overflow-hidden glass-surface-dark/40",
           className
         )}
         role="region"
         aria-label={ariaLabel || "Metrics Grid"}
         data-testid={dataTestId}
+        style={{
+          ...metricsSurfaceStyle,
+          ...style,
+        }}
         {...props}
       >
         <Motion
@@ -610,7 +618,7 @@ export const GlassMetricsGrid = forwardRef<
               ? "fadeIn"
               : "none"
           }
-          className="glass-p-6"
+          className="glass-p-4 glass-min-w-0"
         >
           {/* Header */}
           {(searchable || exportable || autoRefresh) && (
@@ -631,7 +639,7 @@ export const GlassMetricsGrid = forwardRef<
                       value={internalSearchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                       className={cn(
-                        "w-64 glass-px-4 glass-py-2 bg-transparent border-0 glass-radius-md",
+                        "glass-w-64 glass-px-4 glass-py-2 bg-transparent glass-border-0 glass-radius-md",
                         "placeholder:glass-text-secondary focus:outline-none focus:ring-2 focus:ring-primary/50",
                         "glass-text-sm"
                       )}

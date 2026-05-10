@@ -1,11 +1,12 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useId, useRef } from "react";
 import { cn } from "../../../lib/utilsComprehensive";
 import { createGlassStyle } from "../../../core/mixins/glassMixins";
 import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
+import { resolveChartColor } from "../utils/chartColors";
 
 export interface ChartGridProps {
   show?: boolean;
@@ -34,11 +35,13 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
     intent: "neutral",
     elevation: "level1",
   });
-  const gridColor =
-    color ||
-    glassStyles.borderColor ||
-    '${glassStyles.surface?.base || "var(--glass-bg-default)"}';
+  const gridColor = resolveChartColor(
+    color || glassStyles.borderColor,
+    "rgba(148, 163, 184, 0.28)"
+  );
   const gridRef = useRef<SVGSVGElement>(null);
+  const patternId = useId();
+  const gradientId = useId();
 
   if (!show) return null;
 
@@ -81,7 +84,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
     >
       <defs>
         <pattern
-          id="grid-pattern"
+          id={patternId}
           width="100"
           height="100"
           patternUnits="userSpaceOnUse"
@@ -131,7 +134,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
             y1={`${line.y}%`}
             x2="100%"
             y2={`${line.y}%`}
-            stroke={color}
+            stroke={gridColor}
             strokeWidth="1"
             strokeDasharray={strokeDashArray}
             opacity={line.y === 0 || line.y === 100 ? 0.6 : 0.3}
@@ -146,7 +149,7 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
             y1="0%"
             x2={`${line.x}%`}
             y2="100%"
-            stroke={color}
+            stroke={gridColor}
             strokeWidth="1"
             strokeDasharray={strokeDashArray}
             opacity={line.x === 0 || line.x === 100 ? 0.6 : 0.3}
@@ -156,12 +159,12 @@ export const ChartGrid: React.FC<ChartGridProps> = ({
 
       {/* Subtle gradient overlay for depth */}
       <defs>
-        <radialGradient id="grid-gradient" cx="50%" cy="50%" r="70%">
+        <radialGradient id={gradientId} cx="50%" cy="50%" r="70%">
           <stop offset="0%" stopColor="transparent" />
-          <stop offset="100%" stopColor={color} stopOpacity="0.1" />
+          <stop offset="100%" stopColor={gridColor} stopOpacity="0.1" />
         </radialGradient>
       </defs>
-      <rect width="100%" height="100%" fill="url(#grid-gradient)" />
+      <rect width="100%" height="100%" fill={`url(#${gradientId})`} />
     </svg>
   );
 };

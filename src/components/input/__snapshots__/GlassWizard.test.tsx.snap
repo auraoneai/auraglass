@@ -2,27 +2,29 @@
 
 exports[`GlassWizard matches snapshot 1`] = `
 <div
-  class="motion-primitive glass-w-full glass-max-w-4xl glass-mx-auto"
+  class="motion-primitive glass-w-full glass-max-w-4xl glass-mx-auto glass-min-w-0"
 >
   <div
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-3 glass-overflow-hidden glass-min-w-0"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; max-width: 100%; box-sizing: border-box;"
   >
     <div
       class="glass-relative glass-z-10"
     >
       <div
-        class="card-header glass-border-b glass-border-white/10"
+        class="card-header glass-border-b glass-border-white/10 glass-p-4"
       >
         <div
-          class="glass-flex glass-items-center glass-justify-between"
+          class="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-min-w-0"
         >
-          <div />
           <div
-            class="glass-flex glass-items-center glass-gap-3"
+            class="glass-min-w-0"
+          />
+          <div
+            class="glass-flex glass-items-center glass-gap-2 glass-min-w-0"
           >
             <span
-              class="glass-text-sm glass-text-primary-glass-opacity-60"
+              class="glass-text-sm glass-text-secondary glass-whitespace-nowrap"
             >
               Step 
               1
@@ -30,10 +32,10 @@ exports[`GlassWizard matches snapshot 1`] = `
               0
             </span>
             <div
-              class="glass-w-24"
+              class="glass-w-20 glass-max-w-full"
             >
               <div
-                class="w-full"
+                class="glass-w-full"
                 data-testid="glassprogress"
               >
                 <div
@@ -41,14 +43,14 @@ exports[`GlassWizard matches snapshot 1`] = `
                   aria-valuemax="100"
                   aria-valuemin="0"
                   aria-valuenow="0"
-                  class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative w-full overflow-hidden bg-muted/30 glass-backdrop-blur-md h-2 glass-radius-md"
+                  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-w-full glass-overflow-hidden bg-muted/30 glass-backdrop-blur-md glass-h-2 glass-radius-md"
                   data-performance-mode="medium"
                   id="progress-:r9:"
                   role="progressbar"
-                  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
                 >
                   <div
-                    class="h-full transition-all ease-out relative glass-surface-primary"
+                    class="glass-h-full transition-all ease-out glass-relative glass-surface-primary"
                     style="width: 0%; transition-duration: 500ms;"
                   >
                     <div
@@ -62,14 +64,14 @@ exports[`GlassWizard matches snapshot 1`] = `
         </div>
         <nav
           aria-label="Wizard steps"
-          class="glass-flex glass-items-center glass-gap-2 glass-mt-6 glass-overflow-x-auto glass-pb-2"
+          class="glass-flex glass-items-center glass-gap-1 glass-mt-4 glass-overflow-x-auto glass-pb-1 glass-min-w-0"
         />
       </div>
       <div
-        class="card-content glass-p-6"
+        class="card-content glass-p-4"
       >
         <div
-          class="motion-primitive glass-min-h-300px"
+          class="motion-primitive glass-min-h-160px glass-min-w-0"
         >
           <div
             class="glass-flex glass-items-center glass-justify-center glass-p-8"
@@ -83,16 +85,16 @@ exports[`GlassWizard matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="glass-border-t glass-border-white/10 glass-p-6"
+        class="glass-border-t glass-border-white/10 glass-p-4"
       >
         <div
-          class="glass-flex glass-items-center glass-justify-between"
+          class="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3"
         >
           <div
-            class="glass-flex glass-gap-3"
+            class="glass-flex glass-gap-2"
           />
           <div
-            class="glass-flex glass-gap-3"
+            class="glass-flex glass-gap-2"
           >
             <div
               class="motion-primitive glass-inline-glass-block"
@@ -114,7 +116,7 @@ exports[`GlassWizard matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 id="glass-button-:rb:"
-                style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
                   class="glass-relative glass-z-10"

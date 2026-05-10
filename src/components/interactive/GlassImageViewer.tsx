@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import {
   ChevronLeft,
@@ -383,10 +383,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
       if (safeImageCount === 0) {
         return prevIndex === 0 ? prevIndex : 0;
       }
-      const boundedIndex = Math.min(
-        Math.max(prevIndex, 0),
-        safeImageCount - 1
-      );
+      const boundedIndex = Math.min(Math.max(prevIndex, 0), safeImageCount - 1);
       return boundedIndex;
     });
   }, [safeImageCount]);
@@ -401,7 +398,9 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   if (!currentImage) {
     return (
       <GlassCard data-glass-component className={cn("p-8", className)}>
-        <div className='glass-text-center glass-text-primary-glass-opacity-60'>No image to display</div>
+        <div className="glass-text-center glass-text-primary-glass-opacity-60">
+          No image to display
+        </div>
       </GlassCard>
     );
   }
@@ -439,7 +438,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
           >
             {/* Loading State */}
             {imageLoading && (
-              <div className='glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center'>
+              <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center">
                 <div
                   className={cn(
                     "glass-radius-full h-8 w-8 border-2 border-white/20 border-t-white/60",
@@ -451,8 +450,8 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
             {/* Error State */}
             {imageError && (
-              <div className='glass-absolute glass-inset-0 glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-primary-glass-opacity-60'>
-                <X className='glass-w-12 glass-h-12 glass-mb-4' />
+              <div className="glass-absolute glass-inset-0 glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-primary-glass-opacity-60">
+                <X className="glass-w-12 glass-h-12 glass-mb-4" />
                 <p>Failed to load image</p>
               </div>
             )}
@@ -487,12 +486,12 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
             {/* Image Info Overlay */}
             {showImageInfo && currentImage.title && (
-              <div className='glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-p-4 glass-contrast-guard'>
-                <h3 className='glass-text-primary glass-font-medium'>
+              <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-p-4 glass-contrast-guard">
+                <h3 className="glass-text-primary glass-font-medium">
                   {currentImage.title}
                 </h3>
                 {currentImage.description && (
-                  <p className='glass-text-primary-glass-opacity-80 glass-text-sm glass-mt-1'>
+                  <p className="glass-text-primary-glass-opacity-80 glass-text-sm glass-mt-1">
                     {currentImage.description}
                   </p>
                 )}
@@ -501,9 +500,15 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
           </div>
 
           {/* Controls Overlay */}
-          <div className='glass-absolute glass-top-4 glass-left-4 glass-right-4 glass-flex glass-justify-between glass-items-start'>
+          <div
+            className="glass-absolute glass-top-4 glass-left-4 glass-right-4 glass-flex glass-justify-between glass-items-start"
+            style={{ gap: 8, minWidth: 0, pointerEvents: "none" }}
+          >
             {/* Left Controls */}
-            <div className="glass-flex glass-items-center glass-gap-2">
+            <div
+              className="glass-flex glass-items-center glass-gap-2"
+              style={{ flex: "0 1 auto", minWidth: 0, pointerEvents: "auto" }}
+            >
               {enableNavigation && safeImageCount > 1 && (
                 <>
                   <GlassButton
@@ -514,7 +519,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Previous image"
                   >
-                    <ChevronLeft className='glass-w-4 glass-h-4' />
+                    <ChevronLeft className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
                   <GlassButton
@@ -522,16 +527,15 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     size="sm"
                     onClick={(e) => handleImageChange(currentIndex + 1)}
                     disabled={
-                      safeImageCount === 0 ||
-                      currentIndex >= safeImageCount - 1
+                      safeImageCount === 0 || currentIndex >= safeImageCount - 1
                     }
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Next image"
                   >
-                    <ChevronRight className='glass-w-4 glass-h-4' />
+                    <ChevronRight className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
-                  <span className='glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2'>
+                  <span className="glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2">
                     {safeImageCount > 0
                       ? `${currentIndex + 1} / ${safeImageCount}`
                       : "0 / 0"}
@@ -541,7 +545,17 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
             </div>
 
             {/* Right Controls */}
-            <div className="glass-flex glass-items-center glass-gap-2">
+            <div
+              className="glass-flex glass-items-center glass-gap-2"
+              style={{
+                flex: "1 1 auto",
+                minWidth: 0,
+                maxWidth: "100%",
+                flexWrap: "wrap",
+                justifyContent: "flex-end",
+                pointerEvents: "auto",
+              }}
+            >
               {enableZoom && showZoomControls && (
                 <>
                   <GlassButton
@@ -552,10 +566,10 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Zoom out"
                   >
-                    <ZoomOut className='glass-w-4 glass-h-4' />
+                    <ZoomOut className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
-                  <span className='glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2 glass-min-w-16 glass-text-center'>
+                  <span className="glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2 glass-min-w-16 glass-text-center">
                     {Math.round(zoom * 100)}%
                   </span>
 
@@ -567,7 +581,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Zoom in"
                   >
-                    <ZoomIn className='glass-w-4 glass-h-4' />
+                    <ZoomIn className="glass-w-4 glass-h-4" />
                   </GlassButton>
                 </>
               )}
@@ -581,7 +595,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Rotate counter-clockwise"
                   >
-                    <RotateCcw className='glass-w-4 glass-h-4' />
+                    <RotateCcw className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
                   <GlassButton
@@ -591,7 +605,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     className="glass-p-2 glass-focus glass-touch-target"
                     aria-label="Rotate clockwise"
                   >
-                    <RotateCw className='glass-w-4 glass-h-4' />
+                    <RotateCw className="glass-w-4 glass-h-4" />
                   </GlassButton>
                 </>
               )}
@@ -604,7 +618,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   className="glass-p-2 glass-focus glass-touch-target"
                   aria-label="Download image"
                 >
-                  <Download className='glass-w-4 glass-h-4' />
+                  <Download className="glass-w-4 glass-h-4" />
                 </GlassButton>
               )}
 
@@ -617,9 +631,9 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   aria-label="Toggle fullscreen"
                 >
                   {isFullscreen ? (
-                    <Minimize2 className='glass-w-4 glass-h-4' />
+                    <Minimize2 className="glass-w-4 glass-h-4" />
                   ) : (
-                    <Maximize2 className='glass-w-4 glass-h-4' />
+                    <Maximize2 className="glass-w-4 glass-h-4" />
                   )}
                 </GlassButton>
               )}
@@ -628,19 +642,21 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
           {/* Auto-play Controls */}
           {enableNavigation && safeImageCount > 1 && (
-            <div className='glass-absolute glass-bottom-4 glass--left-1-2 glass-transform glass--translate-x-1-2'>
+            <div className="glass-absolute glass-bottom-4 glass--left-1-2 glass-transform glass--translate-x-1-2">
               <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-px-4 glass-py-2 glass-contrast-guard">
                 <GlassButton
                   variant="ghost"
                   size="sm"
                   onClick={(e) => setIsAutoPlaying(!isAutoPlaying)}
                   className="glass-p-1 glass-focus glass-touch-target"
-                  aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
+                  aria-label={
+                    isAutoPlaying ? "Pause slideshow" : "Play slideshow"
+                  }
                 >
                   {isAutoPlaying ? (
-                    <Pause className='glass-w-4 glass-h-4' />
+                    <Pause className="glass-w-4 glass-h-4" />
                   ) : (
-                    <Play className='glass-w-4 glass-h-4' />
+                    <Play className="glass-w-4 glass-h-4" />
                   )}
                 </GlassButton>
 
@@ -663,7 +679,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
           {/* Reset Controls */}
           {(zoom !== 1 || rotation !== 0 || pan.x !== 0 || pan.y !== 0) && (
-            <div className='glass-absolute glass-top-1/2 glass-left-4 glass-transform glass--translate-y-1-2'>
+            <div className="glass-absolute glass-top-1/2 glass-left-4 glass-transform glass--translate-y-1-2">
               <GlassButton
                 variant="secondary"
                 size="sm"
@@ -675,7 +691,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                 className="glass-p-2 glass-focus glass-touch-target"
                 aria-label="Reset view"
               >
-                <Home className='glass-w-4 glass-h-4' />
+                <Home className="glass-w-4 glass-h-4" />
               </GlassButton>
             </div>
           )}

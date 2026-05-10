@@ -29,6 +29,21 @@ describe("GlassCommand", () => {
     expect(container).toBeInTheDocument();
   });
 
+  it("renders without an items prop without entering an update loop", () => {
+    const errorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
+    try {
+      const { container } = render(<GlassCommand />);
+
+      expect(container).toBeInTheDocument();
+      expect(errorSpy).not.toHaveBeenCalledWith(
+        expect.stringContaining("Maximum update depth exceeded")
+      );
+    } finally {
+      errorSpy.mockRestore();
+    }
+  });
+
   /**
    * Accessibility Test: No axe violations
    */

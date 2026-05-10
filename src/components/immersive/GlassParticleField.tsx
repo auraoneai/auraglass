@@ -61,8 +61,7 @@ export interface ParticleForce {
   enabled: boolean;
 }
 
-export interface GlassParticleFieldProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassParticleFieldProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Particle emitters */
   emitters?: ParticleEmitter[];
   /** Environmental forces */
@@ -120,13 +119,41 @@ export interface GlassParticleFieldProps
   respectMotionPreference?: boolean;
 }
 
+const defaultParticleEmitters: ParticleEmitter[] = [
+  {
+    id: "default-center",
+    x: 180,
+    y: 120,
+    z: 0,
+    rate: 42,
+    velocity: { min: 12, max: 34 },
+    angle: { min: 0, max: Math.PI * 2 },
+    size: { min: 2, max: 5 },
+    life: { min: 2.6, max: 4.8 },
+    colors: [
+      "rgba(125, 211, 252, 0.95)",
+      "rgba(56, 189, 248, 0.9)",
+      "rgba(139, 92, 246, 0.85)",
+    ],
+    enabled: true,
+  },
+];
+
+const resolveCanvasColor = (
+  color: string,
+  fallback = "rgba(125, 211, 252, 0.9)"
+) =>
+  !color || color.includes("var(") || color.includes("hsl(var(")
+    ? fallback
+    : color;
+
 export const GlassParticleField = forwardRef<
   HTMLDivElement,
   GlassParticleFieldProps
 >(
   (
     {
-      emitters = [],
+      emitters = defaultParticleEmitters,
       forces = [],
       maxParticles = 1000,
       physics = true,
@@ -134,7 +161,7 @@ export const GlassParticleField = forwardRef<
       trails = false,
       interactive = true,
       mouseForce,
-      bounds = { width: 800, height: 600, depth: 100 },
+      bounds = { width: 360, height: 240, depth: 80 },
       performance: performanceConfig = {
         culling: true,
         lodDistance: 200,
@@ -156,6 +183,7 @@ export const GlassParticleField = forwardRef<
       renderParticle,
       respectMotionPreference = true,
       className,
+      style,
       ...props
     },
     ref
@@ -179,7 +207,7 @@ export const GlassParticleField = forwardRef<
     // Color schemes
     const colorSchemes = {
       warm: ["#FF6B35", "#F7931E", "#FFD23F", "#FF0080"],
-      cool: ["#06B6D4", "var(--glass-color-primary)", "#8B5CF6", "#06FFA5"],
+      cool: ["#06B6D4", "#38BDF8", "#8B5CF6", "#06FFA5"],
       rainbow: [
         "#FF0080",
         "#FF8000",
@@ -190,10 +218,10 @@ export const GlassParticleField = forwardRef<
         "#8000FF",
       ],
       monochrome: [
-        "var(--glass-white)",
-        "var(--glass-gray-200)",
-        "var(--glass-gray-400)",
-        "var(--glass-gray-500)",
+        "rgba(248, 250, 252, 0.95)",
+        "rgba(226, 232, 240, 0.86)",
+        "rgba(148, 163, 184, 0.78)",
+        "rgba(100, 116, 139, 0.72)",
       ],
       neon: ["#39FF14", "#FF073A", "#FF4081", "#00FFFF", "#FF10F0"],
     };
@@ -220,8 +248,9 @@ export const GlassParticleField = forwardRef<
         const life =
           emitter.life.min +
           Math.random() * (emitter.life.max - emitter.life.min);
-        const color =
-          emitter.colors[Math.floor(Math.random() * emitter.colors.length)];
+        const color = resolveCanvasColor(
+          emitter.colors[Math.floor(Math.random() * emitter.colors.length)]
+        );
 
         const vx = Math.cos(angle) * velocity;
         const vy = Math.sin(angle) * velocity;
@@ -645,7 +674,14 @@ export const GlassParticleField = forwardRef<
           "glass-particle-field relative glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden",
           className
         )}
-        style={{ width: bounds.width, height: bounds.height }}
+        style={{
+          width: typeof style?.width === "undefined" ? "100%" : style.width,
+          maxWidth: bounds.width,
+          height: bounds.height,
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          ...(style || {}),
+        }}
         onMouseMove={handleMouseMove}
         role="region"
         aria-label="Particle field visualization"

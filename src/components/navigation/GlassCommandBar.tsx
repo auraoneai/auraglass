@@ -14,8 +14,7 @@ export interface CommandItem {
   disabled?: boolean;
 }
 
-export interface GlassCommandBarProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassCommandBarProps extends React.HTMLAttributes<HTMLDivElement> {
   items?: CommandItem[];
   position?: "top" | "bottom";
   /**
@@ -48,7 +47,7 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
     return (
       <div
         className={cn(
-          "w-full",
+          "glass-w-full",
           position === "top" ? "glass-mt-2" : "glass-mb-2"
         )}
       >
@@ -61,9 +60,14 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
           id={commandBarId}
           className={cn(
             // Let child buttons render without being clipped by the glass container rounding
-            "glass-radius-xl glass-px-2 glass-py-1 flex flex-wrap glass-gap-1 overflow-visible",
+            "glass-radius-xl glass-px-2 glass-py-1 glass-flex glass-flex-wrap glass-gap-1 glass-overflow-visible",
             className
           )}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            overflow: "visible",
+          }}
           {...rest}
         >
           {items.map((it) => (
@@ -73,13 +77,17 @@ export const GlassCommandBar = forwardRef<HTMLDivElement, GlassCommandBarProps>(
               onClick={it.onSelect}
               className={cn(
                 // Avoid text cropping and keep shape consistent
-                "glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-text-primary/90 hover:bg-white/10 border border-white/10 whitespace-nowrap leading-normal",
+                "glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-text-primary/90 hover:glass-bg-white/10 glass-border glass-border-white/10 glass-whitespace-nowrap glass-leading-normal",
                 "glass-focus glass-touch-target glass-contrast-guard",
                 "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30",
                 !shouldReduceMotion &&
-                  "transition-all duration-200 glass-hover-scale-105",
-                it.disabled && "opacity-50 cursor-not-allowed"
+                  "glass-transition-all glass-duration-200 glass-hover-scale-105",
+                it.disabled && "glass-opacity-50 glass-cursor-not-allowed"
               )}
+              style={{
+                whiteSpace: "nowrap",
+                lineHeight: "normal",
+              }}
             >
               <span className="glass-inline-flex glass-items-center glass-gap-2">
                 {it.icon}

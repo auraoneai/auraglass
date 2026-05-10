@@ -9,8 +9,7 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassBadgeLineProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassBadgeLineProps extends React.HTMLAttributes<HTMLDivElement> {
   items: {
     label: string;
     intent?: "default" | "success" | "warning" | "danger";
@@ -40,7 +39,7 @@ export const GlassBadgeLine = forwardRef<HTMLDivElement, GlassBadgeLineProps>(
         data-glass-component
         ref={ref}
         id={badgeLineId}
-        className={cn("flex flex-wrap glass-gap-1", className)}
+        className={cn("glass-flex glass-flex-wrap glass-gap-1", className)}
         role="list"
         aria-label={ariaLabel || "Badge list"}
         {...props}
@@ -49,14 +48,14 @@ export const GlassBadgeLine = forwardRef<HTMLDivElement, GlassBadgeLineProps>(
           <span
             key={i}
             className={cn(
-              "glass-px-2 glass-py-0.5 glass-text-xs glass-radius-full border",
+              "glass-px-2 glass-py-1 glass-text-xs glass-radius-full glass-border",
               it.intent === "success"
-                ? "bg-emerald-500/15 text-emerald-300 border-emerald-400/30"
+                ? "bg-emerald-500/15 text-emerald-300 glass-border-emerald-400/30"
                 : it.intent === "warning"
-                  ? "bg-amber-500/15 text-amber-300 border-amber-400/30"
+                  ? "bg-amber-500/15 text-amber-300 glass-border-amber-400/30"
                   : it.intent === "danger"
-                    ? "bg-red-500/15 text-red-300 border-red-400/30"
-                    : "bg-white/10 glass-text-primary/80 border-white/20"
+                    ? "bg-red-500/15 text-red-300 glass-border-red-400/30"
+                    : "bg-white/10 glass-text-primary/80 glass-border-white/20"
             )}
             role="listitem"
             aria-label={`${it.intent || "default"} badge: ${it.label}`}

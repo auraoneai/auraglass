@@ -2,17 +2,15 @@
 
 exports[`GlassSharedWhiteboard matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
     class="glass-flex glass-flex-col glass-space-y-4"
   >
     <div
-      class="
-              flex items-center justify-between p-3 rounded-lg glass-flex-wrap glass-gap-3
-              [object Object]
-            "
+      class="glass-flex glass-items-center glass-justify-between glass-p-3 glass-radius-lg glass-flex-wrap glass-gap-3"
+      style="position: relative; overflow: hidden; border-radius: 16px; box-shadow: 0 4px 16px rgba(0 0 0 / 0.16);"
     >
       <div
         class="glass-flex glass-items-center glass-flex-wrap glass-gap-3"
@@ -21,37 +19,25 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           class="glass-flex glass-space-x-2"
         >
           <button
-            class="
-                        p-2 rounded text-sm font-medium transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        bg-white/20 text-white
-                      "
+            class="glass-p-2 glass-radius glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-surface-subtle/20 glass-text-primary"
             title="Pen"
           >
             ✏️
           </button>
           <button
-            class="
-                        p-2 rounded text-sm font-medium transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-p-2 glass-radius glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
             title="Marker"
           >
             🖍️
           </button>
           <button
-            class="
-                        p-2 rounded text-sm font-medium transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-p-2 glass-radius glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
             title="Eraser"
           >
             🧽
           </button>
           <button
-            class="
-                        p-2 rounded text-sm font-medium transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-p-2 glass-radius glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
             title="Shape"
           >
             📐
@@ -62,81 +48,52 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
         >
           <button
             aria-label="Select color var(--glass-black)"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white scale-110
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white"
+            style="transform: scale(1.1);"
           />
           <button
             aria-label="Select color #FF0000"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(255, 0, 0);"
           />
           <button
             aria-label="Select color #00FF00"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(0, 255, 0);"
           />
           <button
             aria-label="Select color #0000FF"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(0, 0, 255);"
           />
           <button
             aria-label="Select color #FFFF00"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(255, 255, 0);"
           />
           <button
             aria-label="Select color #FF00FF"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(255, 0, 255);"
           />
           <button
             aria-label="Select color #00FFFF"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(0, 255, 255);"
           />
           <button
             aria-label="Select color #FF8000"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(255, 128, 0);"
           />
           <button
             aria-label="Select color #8000FF"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(128, 0, 255);"
           />
           <button
             aria-label="Select color #FF0080"
-            class="
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        border-white/30 glass-hover-scale-105
-                      "
+            class="glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard glass-border-white/30"
             style="background-color: rgb(255, 0, 128);"
           />
         </div>
@@ -145,10 +102,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
         >
           <button
             aria-label="Select brush size 2px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -157,10 +111,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           </button>
           <button
             aria-label="Select brush size 4px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        bg-white/20 text-white
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-surface-subtle/20 glass-text-primary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -169,10 +120,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           </button>
           <button
             aria-label="Select brush size 8px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -181,10 +129,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           </button>
           <button
             aria-label="Select brush size 12px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -193,10 +138,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           </button>
           <button
             aria-label="Select brush size 16px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -205,10 +147,7 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
           </button>
           <button
             aria-label="Select brush size 24px"
-            class="
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        text-white/70 hover:text-white hover:bg-white/10
-                      "
+            class="glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
           >
             <div
               class="glass-bg-transparent glass-radius-full"
@@ -240,17 +179,15 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="glass-flex glass-space-x-4"
+      class="glass-flex glass-flex-wrap glass-gap-4"
     >
       <div
-        class="glass-relative glass-flex-1"
+        class="glass-relative glass-flex-1 glass-min-w-0"
       >
         <canvas
-          class="
-                  border border-white/20 rounded-lg cursor-crosshair
-                  
-                "
+          class="glass-border glass-border-white/20 glass-radius-lg glass-cursor-crosshair"
           height="600"
+          style="width: 100%; max-width: 800px; height: auto; display: block;"
           width="800"
         />
         <button
@@ -261,10 +198,8 @@ exports[`GlassSharedWhiteboard matches snapshot 1`] = `
         </button>
       </div>
       <div
-        class="
-                w-48 p-3 rounded-lg space-y-2
-                [object Object]
-              "
+        class="glass-w-48 glass-p-3 glass-radius-lg glass-space-y-2"
+        style="position: relative; overflow: hidden; border-radius: 16px; box-shadow: 0 4px 16px rgba(0 0 0 / 0.16);"
       >
         <h3
           class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-mb-3"

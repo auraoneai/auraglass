@@ -4,7 +4,7 @@ exports[`GlassAccordionUI matches snapshot 1`] = `
 <div
   aria-label="Accordion"
   aria-multiselectable="false"
-  class="glass-accordion w-full"
+  class="glass-accordion glass-w-full glass-min-w-0"
   id="accordion-:r3:"
   role="tablist"
 />

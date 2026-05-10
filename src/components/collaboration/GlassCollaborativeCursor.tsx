@@ -79,7 +79,10 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   return (
     <div
       data-glass-component
-      className={cn("fixed inset-0 pointer-events-none z-50", className)}
+      className={cn(
+        "glass-fixed glass-inset-0 glass-pointer-events-none glass-z-50",
+        className
+      )}
       data-testid={dataTestId}
     >
       {visibleCursors.length > 0 &&
@@ -89,11 +92,12 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
           return (
             <div
               key={user.id}
-              className={`glass-absolute glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] glass-ease-out`}
+              className="glass-absolute"
               style={{
                 left: user.cursor.x,
                 top: user.cursor.y,
                 transform: "translate(-2px, -2px)",
+                transition: `all ${ANIMATION.DURATION.fast}ms ease-out`,
               }}
             >
               <CursorIcon color={user.color} name={user.name} />

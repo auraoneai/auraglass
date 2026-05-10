@@ -2,15 +2,18 @@
 
 exports[`GlassStyleTransfer matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); color: rgba(15, 23, 42, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-text-primary: rgba(15, 23, 42, 0.94); --typography-text-primary: rgba(15, 23, 42, 0.94); --glass-theme-text: rgba(15, 23, 42, 0.94);"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto"
+  data-glass-component="true"
+  style="--glass-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-theme-text: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); max-height: 100%; min-width: 0;"
 >
   <div
-    class="glass-flex glass-items-center glass-justify-between"
+    class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0"
   >
-    <div>
+    <div
+      class="glass-min-w-0"
+    >
       <h3
-        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
+        class="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate"
       >
         Style Transfer AI
       </h3>
@@ -38,10 +41,10 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6"
+    class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3"
   >
     <div
-      class="glass-space-y-4"
+      class="glass-space-y-2"
     >
       <h4
         class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
@@ -49,7 +52,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         Source Image
       </h4>
       <div
-        class="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border-2 glass-border-dashed glass-border-white/30 glass-radius-lg glass-overflow-hidden glass-cursor-pointer hover:glass-border-white/50 glass-transition-colors"
+        class="glass-relative glass-aspect-video glass-surface-subtle/5 glass-border glass-border-dashed glass-border-white/30 glass-radius-lg glass-overflow-hidden glass-cursor-pointer hover:glass-border-white/50 glass-transition-colors"
       >
         <div
           class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50"
@@ -58,7 +61,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
             class="glass-text-center"
           >
             <div
-              class="glass-text-4xl glass-mb-2"
+              class="glass-text-2xl glass-mb-2"
             >
               📷
             </div>
@@ -81,7 +84,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="glass-space-y-4"
+      class="glass-space-y-2"
     >
       <div
         class="glass-flex glass-items-center glass-justify-between"
@@ -93,7 +96,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
         </h4>
       </div>
       <div
-        class="glass-relative glass-aspect-square glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
+        class="glass-relative glass-aspect-video glass-surface-subtle/5 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
       >
         <div
           class="glass-flex glass-items-center glass-justify-center glass-h-full glass-text-primary-glass-opacity-50"
@@ -102,7 +105,7 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
             class="glass-text-center"
           >
             <div
-              class="glass-text-4xl glass-mb-2"
+              class="glass-text-2xl glass-mb-2"
             >
               🎨
             </div>
@@ -120,394 +123,10 @@ exports[`GlassStyleTransfer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-space-y-4"
-  >
-    <h4
-      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
-    >
-      Style Library
-    </h4>
-    <div
-      class="glass-grid glass-grid-cols-2 md:glass-grid-cols-3 glass-gap-3"
-    >
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-red-400 to-blue-400
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Van Gogh Starry Night
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          Impressionistic swirls and bold brushstrokes
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-red-500/20 text-red-300
-                "
-          >
-            artistic
-          </div>
-        </div>
-      </div>
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-red-400 to-blue-400
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Picasso Cubism
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          Geometric fragmentation and multiple perspectives
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-red-500/20 text-red-300
-                "
-          >
-            artistic
-          </div>
-        </div>
-      </div>
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-red-400 to-blue-400
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Monet Water Lilies
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          Soft impressionistic light and color
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-red-500/20 text-red-300
-                "
-          >
-            artistic
-          </div>
-        </div>
-      </div>
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-gray-600 to-gray-800
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Film Noir
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          High contrast black and white cinematography
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-gray-500/20 text-gray-300
-                "
-          >
-            photographic
-          </div>
-        </div>
-      </div>
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-blue-400 to-purple-600
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Synthwave
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          Retro-futuristic neon aesthetics
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-blue-500/20 text-blue-300
-                "
-          >
-            modern
-          </div>
-        </div>
-      </div>
-      <div
-        class="
-                relative p-3 rounded-lg border cursor-pointer transition-all duration-200
-                border-white/20 hover:border-white/40 bg-white/5
-              "
-        tabindex="0"
-      >
-        <div
-          class="glass-aspect-square glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-radius-lg glass-mb-2 glass-overflow-hidden"
-        >
-          <div
-            class="
-                  w-full h-full bg-gradient-to-br 
-                  from-purple-400 to-pink-400
-                "
-          />
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-90 glass-font-medium glass-mb-1"
-        >
-          Kandinsky Abstract
-        </div>
-        <div
-          class="glass-text-xs glass-text-primary-glass-opacity-60"
-        >
-          Geometric abstraction with vibrant colors
-        </div>
-        <div
-          class="glass-absolute glass-top-2 glass-right-2"
-        >
-          <div
-            class="
-                  px-1.5 py-0.5 rounded text-xs font-medium
-                  bg-purple-500/20 text-purple-300
-                "
-          >
-            abstract
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="glass-space-y-4"
-  >
-    <h4
-      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
-    >
-      Advanced Controls
-    </h4>
-    <div
-      class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4"
-    >
-      <div>
-        <label
-          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
-        >
-          Transfer Strength: 
-          70
-          %
-        </label>
-        <input
-          aria-label="Transfer Strength: 70%"
-          class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-slider"
-          max="1"
-          min="0"
-          step="0.1"
-          type="range"
-          value="0.7"
-        />
-      </div>
-      <div>
-        <label
-          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
-        >
-          Resolution
-        </label>
-        <select
-          aria-label="Resolution"
-          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-        >
-          <option
-            value="low"
-          >
-            Low (512px)
-          </option>
-          <option
-            value="medium"
-          >
-            Medium (1024px)
-          </option>
-          <option
-            value="high"
-          >
-            High (2048px)
-          </option>
-          <option
-            value="ultra"
-          >
-            Ultra (4096px)
-          </option>
-        </select>
-      </div>
-      <div>
-        <label
-          class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
-        >
-          Blend Mode
-        </label>
-        <select
-          aria-label="Blend Mode"
-          class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-        >
-          <option
-            value="normal"
-          >
-            Normal
-          </option>
-          <option
-            value="multiply"
-          >
-            Multiply
-          </option>
-          <option
-            value="screen"
-          >
-            Screen
-          </option>
-          <option
-            value="overlay"
-          >
-            Overlay
-          </option>
-          <option
-            value="soft-light"
-          >
-            Soft Light
-          </option>
-        </select>
-      </div>
-    </div>
-    <div
-      class="glass-flex glass-items-center glass-space-x-6"
-    >
-      <label
-        class="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer"
-      >
-        <input
-          class="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
-          type="checkbox"
-        />
-        <span
-          class="glass-text-sm glass-text-primary-glass-opacity-80"
-        >
-          Preserve Colors
-        </span>
-      </label>
-      <label
-        class="glass-flex glass-items-center glass-space-x-2 glass-cursor-pointer"
-      >
-        <input
-          checked=""
-          class="glass-w-4 glass-h-4 glass-radius glass-border-white/30"
-          type="checkbox"
-        />
-        <span
-          class="glass-text-sm glass-text-primary-glass-opacity-80"
-        >
-          Enhance Details
-        </span>
-      </label>
-    </div>
-  </div>
-  <div
-    class="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10"
+    class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex-wrap"
   >
     <div
-      class="glass-flex glass-items-center glass-space-x-4"
+      class="glass-flex glass-items-center glass-gap-2 glass-flex-wrap"
     >
       <button
         class="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"

@@ -86,6 +86,7 @@ interface GlassProgressiveEnhancementProps {
   adaptToBattery?: boolean;
   respectUserPreferences?: boolean;
   monitorPerformance?: boolean;
+  showDebugHud?: boolean;
   onTierChange?: (tier: QualityTier) => void;
   onCapabilitiesDetected?: (capabilities: DeviceCapabilities) => void;
 }
@@ -224,6 +225,7 @@ export function GlassProgressiveEnhancement({
   adaptToBattery = true,
   respectUserPreferences = true,
   monitorPerformance = true,
+  showDebugHud = false,
   onTierChange,
   onCapabilitiesDetected,
 }: GlassProgressiveEnhancementProps) {
@@ -709,7 +711,7 @@ export function GlassProgressiveEnhancement({
         {children}
 
         {/* Quality indicator */}
-        {process.env.NODE_ENV === "development" && (
+        {showDebugHud && (
           <div className="glass-fixed glass-bottom-2 glass-left-2 glass-surface-primary glass-p-2 glass-radius-sm glass-text-xs glass-opacity-50 glass-z-50">
             <div>Quality: {currentTier.name}</div>
             <div>FPS: {Math.round(performanceMonitor.current.fps)}</div>

@@ -2,7 +2,7 @@
 
 exports[`GlassTrophyCase matches snapshot 1`] = `
 <div
-  class="w-full max-w-7xl mx-auto "
+  class="glass-w-full glass-max-w-7xl glass-mx-auto "
 >
   <div
     class="glass-flex glass-flex-col lg:glass-flex-row lg:glass-items-center lg:glass-justify-between glass-gap-6 glass-mb-8"
@@ -265,7 +265,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
     >
       <button
         aria-label="Grid view"
-        class="p-2 rounded-lg transition-all bg-white/20 text-white"
+        class="glass-p-2 glass-radius-lg glass-transition-all glass-surface-subtle/20 glass-text-primary"
         tabindex="0"
       >
         <svg
@@ -304,7 +304,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </button>
       <button
         aria-label="List view"
-        class="p-2 rounded-lg transition-all text-white/60"
+        class="glass-p-2 glass-radius-lg glass-transition-all glass-text-primary-opacity-60"
         tabindex="0"
       >
         <svg
@@ -343,7 +343,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
     </div>
     <button
       aria-label="Hide locked achievements"
-      class="px-4 py-3 border border-white/20 rounded-xl transition-all bg-white/10 text-white"
+      class="glass-px-4 glass-py-3 glass-border glass-border-white/20 glass-radius-xl glass-transition-all glass-surface-subtle/10 glass-text-primary"
       tabindex="0"
     >
       <svg
@@ -374,10 +374,10 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
     </button>
   </div>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 xl:glass-grid-cols-4 glass-gap-6"
   >
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/40 bg-white/10 hover:bg-white/15"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/40 glass-surface-subtle/10 hover:glass-surface-subtle/20"
       style="box-shadow: 0 0 20px var(--glass-bg-hover)40, inset 0 0 20px var(--glass-border-default)10; opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -394,11 +394,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/40"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/40"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-book-open w-8 h-8 text-white"
+            class="lucide lucide-book-open glass-w-8 glass-h-8 glass-text-primary"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -423,13 +423,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary"
           role="heading"
         >
           First Steps
         </div>
         <p
-          class="text-sm text-white/80"
+          class="glass-text-sm glass-text-primary-opacity-80"
         >
           Read your first article
         </p>
@@ -519,7 +519,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -561,11 +561,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-zap w-8 h-8 text-white/50"
+            class="lucide lucide-zap glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -587,13 +587,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Speed Reader
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Read 50 articles
         </p>
@@ -701,7 +701,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -743,11 +743,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-book-open w-8 h-8 text-white/50"
+            class="lucide lucide-book-open glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -772,13 +772,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Bookworm
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Read 500 articles
         </p>
@@ -886,7 +886,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -928,11 +928,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-flame w-8 h-8 text-white/50"
+            class="lucide lucide-flame glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -954,13 +954,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Streak Master
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Maintain a 30-day reading streak
         </p>
@@ -1068,7 +1068,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -1110,11 +1110,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-calendar w-8 h-8 text-white/50"
+            class="lucide lucide-calendar glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1149,13 +1149,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Early Bird
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Read 10 articles before 8 AM
         </p>
@@ -1263,7 +1263,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -1305,11 +1305,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-share2 lucide-share-2 w-8 h-8 text-white/50"
+            class="lucide lucide-share2 lucide-share-2 glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1355,13 +1355,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Social Butterfly
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Share 25 articles
         </p>
@@ -1469,7 +1469,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -1511,11 +1511,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-target w-8 h-8 text-white/50"
+            class="lucide lucide-target glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1549,13 +1549,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Curator
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Bookmark 100 articles
         </p>
@@ -1663,7 +1663,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -1705,11 +1705,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-eye w-8 h-8 text-white/50"
+            class="lucide lucide-eye glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1736,13 +1736,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Explorer
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Read articles from 10 different categories
         </p>
@@ -1850,7 +1850,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -1892,11 +1892,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-trending-up w-8 h-8 text-white/50"
+            class="lucide lucide-trending-up glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -1921,13 +1921,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Trendsetter
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Be among first 10 to read 5 trending articles
         </p>
@@ -2035,7 +2035,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -2077,11 +2077,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-crown w-8 h-8 text-white/50"
+            class="lucide lucide-crown glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -2106,13 +2106,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Perfectionist
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Complete 50 article quizzes with 100% score
         </p>
@@ -2220,7 +2220,7 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="relative p-6 rounded-xl border-2 cursor-pointer transition-all border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+      class="glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
       style="opacity: 0; transform: translateY(20px);"
       tabindex="0"
     >
@@ -2262,11 +2262,11 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-justify-center glass-mb-4"
       >
         <div
-          class="p-4 rounded-full border-2 border-white/20"
+          class="glass-p-4 glass-radius-full glass-border-2 glass-border-white/20"
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-calendar w-8 h-8 text-white/50"
+            class="lucide lucide-calendar glass-w-8 glass-h-8 glass-text-primary-opacity-50"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -2301,13 +2301,13 @@ exports[`GlassTrophyCase matches snapshot 1`] = `
       >
         <div
           aria-level="2"
-          class="text-lg font-bold mb-2 text-white/60"
+          class="glass-text-lg glass-font-bold glass-mb-2 glass-text-primary-opacity-60"
           role="heading"
         >
           Night Owl
         </div>
         <p
-          class="text-sm text-white/50"
+          class="glass-text-sm glass-text-primary-opacity-50"
         >
           Read 20 articles after midnight
         </p>

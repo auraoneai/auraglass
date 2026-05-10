@@ -167,9 +167,18 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
 
   // Size configurations
   const sizeConfigs = {
-    sm: { trigger: "h-8 glass-px-3 glass-text-sm", calendar: "w-64" },
-    md: { trigger: "h-10 glass-px-4 glass-text-base", calendar: "w-80" },
-    lg: { trigger: "h-12 glass-px-6 glass-text-lg", calendar: "w-96" },
+    sm: {
+      trigger: "glass-h-8 glass-px-3 glass-text-sm",
+      calendar: "glass-w-64",
+    },
+    md: {
+      trigger: "glass-h-10 glass-px-4 glass-text-base",
+      calendar: "glass-w-80",
+    },
+    lg: {
+      trigger: "glass-h-12 glass-px-6 glass-text-lg",
+      calendar: "glass-w-96",
+    },
   };
 
   // Update current range when value prop changes
@@ -362,18 +371,17 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
   return (
     <div
       data-glass-component
-      className={cn("relative", className)}
+      className={cn("glass-relative glass-w-full glass-min-w-0", className)}
       data-testid={dataTestId}
     >
       {/* Trigger */}
       <div
         ref={triggerRef}
         className={cn(
-          "relative flex items-center justify-between bg-white/10 glass-backdrop-blur-md border border-white/20",
-          "glass-radius-lg cursor-pointer transition-all duration-200",
-          "hover:bg-white/15 hover:border-white/30 focus-within:bg-white/15 focus-within:border-white/30",
+          "glass-relative glass-flex glass-items-center glass-justify-between glass-surface-subtle/10 glass-backdrop-blur-md glass-border glass-border-white/20",
+          "glass-radius-lg glass-cursor-pointer glass-transition",
           config.trigger,
-          disabled && "opacity-50 cursor-not-allowed"
+          disabled && "glass-opacity-50"
         )}
         onClick={(e) => !disabled && setIsOpen(!isOpen)}
       >
@@ -381,7 +389,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
           <Calendar className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60 glass-flex-shrink-0" />
           <span
             className={cn(
-              "truncate",
+              "glass-truncate",
               !currentRange.from && !currentRange.to
                 ? "glass-text-primary/50"
                 : "glass-text-primary"
@@ -416,7 +424,7 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
           <div
             ref={popoverRef}
             className={cn(
-              "bg-black/20 glass-backdrop-blur-md border border-white/20 glass-radius-xl shadow-2xl",
+              "glass-surface-dark/30 glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-xl glass-shadow-2xl",
               config.calendar,
               popoverClassName
             )}
@@ -511,20 +519,19 @@ export const GlassDateRangePicker: React.FC<GlassDateRangePickerProps> = ({
                                 }
                                 disabled={isDisabledDate}
                                 className={cn(
-                                  "w-full h-full glass-radius-lg glass-text-sm font-medium transition-all duration-200",
-                                  "flex items-center justify-center",
-                                  "hover:bg-white/20 focus:bg-white/25 focus:outline-none",
-                                  "disabled:opacity-50 glass-disabled-cursor-not-allowed",
+                                  "glass-w-full glass-h-full glass-radius-lg glass-text-sm glass-font-medium",
+                                  "glass-flex glass-items-center glass-justify-center glass-focus",
                                   {
                                     "glass-text-primary/60":
                                       !isCurrentMonthDate,
                                     "glass-text-primary": isCurrentMonthDate,
-                                    "bg-primary/20 text-primary-foreground":
-                                      isBoundary,
-                                    "bg-primary/10": isInRange && !isBoundary,
-                                    "bg-white/10 glass-text-primary font-semibold":
+                                    "glass-surface-primary": isBoundary,
+                                    "glass-surface-subtle/20":
+                                      isInRange && !isBoundary,
+                                    "glass-surface-subtle/10 glass-text-primary glass-font-semibold":
                                       isTodayDate && !isInRange && !isBoundary,
-                                    "ring-2 ring-primary/50": isBoundary,
+                                    "glass-ring-2 glass-ring-primary":
+                                      isBoundary,
                                   }
                                 )}
                               >

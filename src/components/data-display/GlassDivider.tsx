@@ -12,8 +12,7 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassDividerProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassDividerProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Orientation of the divider */
   orientation?: "horizontal" | "vertical";
   /** Visual variant */
@@ -75,49 +74,49 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
         label: "glass-text-sm glass-px-3",
       },
       md: {
-        horizontal: "h-1",
-        vertical: "w-1",
+        horizontal: "glass-h-1",
+        vertical: "glass-w-1",
         label: "glass-text-sm glass-px-4",
       },
       lg: {
-        horizontal: "h-1.5",
-        vertical: "w-1.5",
+        horizontal: "glass-h-2",
+        vertical: "glass-w-2",
         label: "glass-text-base glass-px-4",
       },
       xl: {
-        horizontal: "h-2",
-        vertical: "w-2",
+        horizontal: "glass-h-2",
+        vertical: "glass-w-2",
         label: "glass-text-lg glass-px-6",
       },
     };
 
     const colorConfig = {
       default: {
-        base: "border-border/30 bg-border/20",
-        gradient: "from-transparent via-border/40 to-transparent",
-        glow: "shadow-border/20",
-        text: "text-foreground",
+        base: "glass-border-glass-border/30 bg-glass-border/20",
+        gradient: "from-transparent via-glass-border/40 to-transparent",
+        glow: "shadow-glass-border/20",
+        text: "glass-text-primary",
       },
       primary: {
-        base: "border-primary/30 bg-primary/20",
+        base: "glass-border-primary bg-primary/20",
         gradient: "from-transparent via-primary/40 to-transparent",
         glow: "shadow-primary/20",
-        text: "text-primary",
+        text: "glass-text-primary",
       },
       secondary: {
-        base: "border-secondary/30 bg-secondary/20",
+        base: "glass-border-secondary/30 bg-secondary/20",
         gradient: "from-transparent via-secondary/40 to-transparent",
         glow: "shadow-secondary/20",
-        text: "text-secondary",
+        text: "glass-text-secondary",
       },
       muted: {
-        base: "border-muted/30 bg-muted/20",
+        base: "glass-border-muted/30 bg-muted/20",
         gradient: "from-transparent via-muted/40 to-transparent",
         glow: "shadow-muted/20",
         text: "glass-text-secondary",
       },
       accent: {
-        base: "border-accent/30 bg-accent/20",
+        base: "glass-border-accent/30 bg-accent/20",
         gradient: "from-transparent via-accent/40 to-transparent",
         glow: "shadow-accent/20",
         text: "text-accent-foreground",
@@ -143,7 +142,8 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
     const colors = colorConfig[color];
 
     const getDividerClass = () => {
-      const baseClass = orientation === "horizontal" ? "w-full" : "h-full";
+      const baseClass =
+        orientation === "horizontal" ? "glass-w-full" : "glass-h-full";
       const sizeClass =
         orientation === "horizontal" ? config.horizontal : config.vertical;
 
@@ -160,8 +160,8 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           return cn(
             baseClass,
             orientation === "horizontal"
-              ? "border-t border-dashed"
-              : "border-l border-dashed",
+              ? "glass-border-t glass-border-dashed"
+              : "glass-border-l glass-border-dashed",
             colors.base,
             opacityConfig[opacity]
           );
@@ -169,8 +169,8 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           return cn(
             baseClass,
             orientation === "horizontal"
-              ? "border-t border-dotted border-2"
-              : "border-l border-dotted border-2",
+              ? "glass-border-t glass-border-dotted glass-border-2"
+              : "glass-border-l glass-border-dotted glass-border-2",
             colors.base,
             opacityConfig[opacity]
           );
@@ -187,8 +187,8 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           return cn(
             baseClass,
             orientation === "horizontal"
-              ? "border-t-4 border-double"
-              : "border-l-4 border-double",
+              ? "glass-border-t-4 glass-border-double"
+              : "glass-border-l-4 glass-border-double",
             colors.base,
             opacityConfig[opacity]
           );
@@ -240,7 +240,11 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
     const renderDividerLine = (key: string) => (
       <div
         key={key}
-        className={cn("flex-1", getDividerClass(), animationClass[animation])}
+        className={cn(
+          "glass-flex-1",
+          getDividerClass(),
+          animationClass[animation]
+        )}
       />
     );
 
@@ -255,11 +259,11 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            "glass-divider-label flex-shrink-0 glass-radius-full glass-backdrop-blur-md",
-            "bg-background/50 border border-border/20",
+            "glass-divider-label glass-flex-shrink-0 glass-radius-full glass-backdrop-blur-md",
+            "bg-background/50 glass-border glass-border-glass-border/20",
             config.label,
             colors.text,
-            "font-medium"
+            "glass-font-medium"
           )}
         >
           <ContrastGuard>{label}</ContrastGuard>
@@ -276,7 +280,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           id={dividerId}
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
           className={cn(
-            "glass-divider flex items-center",
+            "glass-divider glass-flex glass-items-center",
             spacingConfig[spacing],
             className
           )}
@@ -314,7 +318,7 @@ export const GlassDivider = forwardRef<HTMLDivElement, GlassDividerProps>(
           id={dividerId}
           preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
           className={cn(
-            "glass-divider flex flex-col items-center",
+            "glass-divider glass-flex glass-flex-col glass-items-center",
             "glass-mx-4", // Default horizontal spacing for vertical dividers
             className
           )}

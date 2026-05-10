@@ -1,6 +1,5 @@
 "use client";
 import React, { forwardRef } from "react";
-import { glassTokenUtils } from "../../tokens/glass";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
@@ -13,8 +12,7 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassLoadingSkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassLoadingSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of skeleton rows to display */
   rows?: number;
   /** Height of each row */
@@ -68,29 +66,28 @@ export const GlassLoadingSkeleton = forwardRef<
       shimmer && (!respectMotionPreference || !prefersReducedMotion);
 
     const avatarSizes = {
-      sm: "w-8 h-8",
-      md: "w-12 h-12",
-      lg: "w-16 h-16",
-      xl: "w-20 h-20",
+      sm: "glass-w-8 glass-h-8",
+      md: "glass-w-12 glass-h-12",
+      lg: "glass-w-16 glass-h-16",
+      xl: "glass-w-20 glass-h-20",
     };
 
     const baseClasses = cn(
       "glass-skeleton",
       "glass-radius-md",
-      shouldShimmer && shouldAnimate && "animate-pulse",
+      shouldShimmer && shouldAnimate && "glass-animate-pulse",
       "glass-backdrop-blur-md"
     );
 
     // Consistent glassmorphism styling for all skeleton elements
     const getSkeletonStyle = () => ({
       background: `
-        linear-gradient(135deg, color-mix(in srgb, var(--glass-white) 1.5%, transparent) 0%, color-mix(in srgb, var(--glass-white) 0.5%, transparent) 50%, color-mix(in srgb, var(--glass-white) 1.5%, transparent) 100%),
-        linear-gradient(135deg, ${glassTokenUtils.getSurface("neutral", "level1").border.color} 0%, color-mix(in srgb, rgb(147,51,234) 10%, transparent) 100%)
+        linear-gradient(135deg, rgba(71, 85, 105, 0.58) 0%, rgba(30, 41, 59, 0.48) 50%, rgba(71, 85, 105, 0.52) 100%),
+        linear-gradient(135deg, rgba(15, 23, 42, 0.72) 0%, rgba(8, 13, 25, 0.68) 100%)
       `,
-      border:
-        "1px solid color-mix(in srgb, var(--glass-white) 4%, transparent)",
+      border: "1px solid rgba(148, 163, 184, 0.18)",
       boxShadow:
-        "0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset",
+        "0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
     });
 
     const renderBasicSkeleton = () => (
@@ -136,6 +133,13 @@ export const GlassLoadingSkeleton = forwardRef<
         animation="none"
         performanceMode="medium"
         className="glass-p-6"
+        style={{
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          border: "1px solid rgba(148, 163, 184, 0.18)",
+          boxShadow:
+            "0 12px 28px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+        }}
       >
         <div className="glass-auto-gap glass-auto-gap-lg">
           {/* Header */}
@@ -152,11 +156,11 @@ export const GlassLoadingSkeleton = forwardRef<
             )}
             <div className="glass-auto-gap glass-auto-gap-sm glass-flex-1">
               <div
-                className={cn(baseClasses, "h-5 w-3/4")}
+                className={cn(baseClasses, "glass-h-5 glass-w-3/4")}
                 style={{ ...getSkeletonStyle() }}
               />
               <div
-                className={cn(baseClasses, "h-4 w-1/2")}
+                className={cn(baseClasses, "glass-h-4 glass-w-1/2")}
                 style={{ ...getSkeletonStyle() }}
               />
             </div>
@@ -167,7 +171,7 @@ export const GlassLoadingSkeleton = forwardRef<
             {Array.from({ length: rows }, (_, index) => (
               <div
                 key={index}
-                className={cn(baseClasses, "h-4")}
+                className={cn(baseClasses, "glass-h-4")}
                 style={{
                   width: index === rows - 1 ? "60%" : "100%",
                   ...getSkeletonStyle(),
@@ -179,12 +183,12 @@ export const GlassLoadingSkeleton = forwardRef<
           {/* Actions */}
           <div className="glass-flex glass-gap-3 glass-pt-2">
             <div
-              className={cn(baseClasses, "h-9 w-20 glass-radius-lg")}
-              style={{ ...getSkeletonStyle() }}
+              className={cn(baseClasses, "glass-w-20 glass-radius-lg")}
+              style={{ height: 36, ...getSkeletonStyle() }}
             />
             <div
-              className={cn(baseClasses, "h-9 w-16 glass-radius-lg")}
-              style={{ ...getSkeletonStyle() }}
+              className={cn(baseClasses, "glass-w-16 glass-radius-lg")}
+              style={{ height: 36, ...getSkeletonStyle() }}
             />
           </div>
         </div>
@@ -199,21 +203,28 @@ export const GlassLoadingSkeleton = forwardRef<
             className="glass-flex glass-items-center glass-gap-4 glass-p-3"
           >
             <div
-              className={cn("glass-radius-full", baseClasses, "w-10 h-10")}
+              className={cn(
+                "glass-radius-full",
+                baseClasses,
+                "glass-w-10 glass-h-10"
+              )}
               style={{ ...getSkeletonStyle() }}
             />
             <div className="glass-auto-gap glass-auto-gap-sm glass-flex-1">
               <div
-                className={cn(baseClasses, "h-4 w-3/4")}
+                className={cn(baseClasses, "glass-h-4 glass-w-3/4")}
                 style={{ ...getSkeletonStyle() }}
               />
               <div
-                className={cn(baseClasses, "h-3 w-1/2")}
+                className={cn(baseClasses, "glass-h-3 glass-w-1/2")}
                 style={{ ...getSkeletonStyle() }}
               />
             </div>
             <div
-              className={cn(baseClasses, "h-6 w-16 glass-radius-md")}
+              className={cn(
+                baseClasses,
+                "glass-h-6 glass-w-16 glass-radius-md"
+              )}
               style={{ ...getSkeletonStyle() }}
             />
           </div>
@@ -228,7 +239,7 @@ export const GlassLoadingSkeleton = forwardRef<
           {Array.from({ length: 4 }, (_, index) => (
             <div
               key={index}
-              className={cn(baseClasses, "h-4 w-16")}
+              className={cn(baseClasses, "glass-h-4 glass-w-16")}
               style={{ ...getSkeletonStyle() }}
             />
           ))}
@@ -243,7 +254,7 @@ export const GlassLoadingSkeleton = forwardRef<
             {Array.from({ length: 4 }, (_, colIndex) => (
               <div
                 key={colIndex}
-                className={cn(baseClasses, "h-4")}
+                className={cn(baseClasses, "glass-h-4")}
                 style={{ ...getSkeletonStyle() }}
               />
             ))}
@@ -257,11 +268,14 @@ export const GlassLoadingSkeleton = forwardRef<
         {Array.from({ length: rows }, (_, index) => (
           <div key={index} className="glass-auto-gap glass-auto-gap-sm">
             <div
-              className={cn(baseClasses, "h-4 w-24")}
+              className={cn(baseClasses, "glass-h-4 glass-w-24")}
               style={{ ...getSkeletonStyle() }}
             />
             <div
-              className={cn(baseClasses, "h-10 w-full glass-radius-lg")}
+              className={cn(
+                baseClasses,
+                "glass-h-10 glass-w-full glass-radius-lg"
+              )}
               style={{ ...getSkeletonStyle() }}
             />
           </div>
@@ -269,11 +283,11 @@ export const GlassLoadingSkeleton = forwardRef<
 
         <div className="glass-flex glass-gap-3 glass-pt-4">
           <div
-            className={cn(baseClasses, "h-10 w-24 glass-radius-lg")}
+            className={cn(baseClasses, "glass-h-10 glass-w-24 glass-radius-lg")}
             style={{ ...getSkeletonStyle() }}
           />
           <div
-            className={cn(baseClasses, "h-10 w-20 glass-radius-lg")}
+            className={cn(baseClasses, "glass-h-10 glass-w-20 glass-radius-lg")}
             style={{ ...getSkeletonStyle() }}
           />
         </div>
@@ -293,31 +307,41 @@ export const GlassLoadingSkeleton = forwardRef<
             performanceMode="medium"
             key={index}
             className="glass-p-6"
+            style={{
+              background:
+                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              border: "1px solid rgba(148, 163, 184, 0.18)",
+              boxShadow:
+                "0 12px 28px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+            }}
           >
             <div className="glass-auto-gap glass-auto-gap-lg">
               <div className="glass-flex glass-items-center glass-justify-between">
                 <div
-                  className={cn(baseClasses, "h-5 w-24")}
+                  className={cn(baseClasses, "glass-h-5 glass-w-24")}
                   style={{ ...getSkeletonStyle() }}
                 />
                 <div
-                  className={cn(baseClasses, "h-6 w-6 glass-radius-md")}
+                  className={cn(
+                    baseClasses,
+                    "glass-h-6 glass-w-6 glass-radius-md"
+                  )}
                   style={{ ...getSkeletonStyle() }}
                 />
               </div>
 
               <div
-                className={cn(baseClasses, "h-8 w-16")}
+                className={cn(baseClasses, "glass-h-8 glass-w-16")}
                 style={{ ...getSkeletonStyle() }}
               />
 
               <div className="glass-auto-gap glass-auto-gap-sm">
                 <div
-                  className={cn(baseClasses, "h-3 w-full")}
+                  className={cn(baseClasses, "glass-h-3 glass-w-full")}
                   style={{ ...getSkeletonStyle() }}
                 />
                 <div
-                  className={cn(baseClasses, "h-3 w-3/4")}
+                  className={cn(baseClasses, "glass-h-3 glass-w-3/4")}
                   style={{ ...getSkeletonStyle() }}
                 />
               </div>
@@ -360,7 +384,7 @@ export const GlassLoadingSkeleton = forwardRef<
           aria-label={ariaLabel || "Loading content"}
           aria-busy="true"
           aria-live="polite"
-          className="glass-relative"
+          className="glass-relative glass-overflow-hidden glass-radius-md"
           data-testid={dataTestId}
           {...props}
         >
@@ -368,7 +392,14 @@ export const GlassLoadingSkeleton = forwardRef<
 
           {/* Premium Shimmer overlay */}
           {shouldShimmer && (
-            <div className="glass-absolute glass-inset-0 glass--skew-x-12 glass-gradient-primary glass-gradient-primary glass-via-blue-glass-opacity-10 glass-gradient-primary glass-animate-glass-shimmer" />
+            <div
+              className="glass-absolute glass-inset-0 glass-pointer-events-none glass-animate-glass-shimmer"
+              style={{
+                transform: "skewX(-12deg)",
+                background:
+                  "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--glass-white) 16%, transparent) 45%, transparent 100%)",
+              }}
+            />
           )}
         </div>
       </Motion>

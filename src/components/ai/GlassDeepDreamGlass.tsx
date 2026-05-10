@@ -122,6 +122,14 @@ const defaultSettings: DeepDreamSettings = {
   tileSize: 512,
 };
 
+const readableGlassTextStyle: React.CSSProperties = {
+  "--glass-text-primary": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--typography-text-primary":
+    "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--glass-theme-text": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  color: "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+} as React.CSSProperties;
+
 export const GlassDeepDreamGlass = forwardRef<
   HTMLDivElement,
   GlassDeepDreamGlassProps
@@ -132,9 +140,9 @@ export const GlassDeepDreamGlass = forwardRef<
       availableLayers = defaultNeuralLayers,
       selectedLayers = ["mixed3a"],
       dreamSettings = {},
-      showLayerSelector = true,
+      showLayerSelector = false,
       showPreview = true,
-      showSettings = true,
+      showSettings = false,
       enableRealTime = false,
       enableAnimation = true,
       enableTiling = true,
@@ -734,13 +742,15 @@ export const GlassDeepDreamGlass = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        className={`p-6 space-y-6 ${className}`}
+        data-glass-component
+        style={{ ...readableGlassTextStyle, maxHeight: "100%", minWidth: 0 }}
+        className={`glass-deep-dream-glass glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+          <div className="glass-min-w-0">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90">
               DeepDream Glass
             </h3>
             <p className="glass-text-sm glass-text-primary-glass-opacity-60">
@@ -856,13 +866,12 @@ export const GlassDeepDreamGlass = forwardRef<
           </div>
         )}
 
-        <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6">
-          {/* Layer selector */}
-          {showLayerSelector && <LayerSelector />}
-
-          {/* Settings */}
-          {showSettings && <SettingsPanel />}
-        </div>
+        {(showLayerSelector || showSettings) && (
+          <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-4">
+            {showLayerSelector && <LayerSelector />}
+            {showSettings && <SettingsPanel />}
+          </div>
+        )}
 
         {/* Action buttons */}
         <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">

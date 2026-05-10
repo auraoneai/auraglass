@@ -3,52 +3,50 @@
 exports[`GlassIntelligentImageUploader matches snapshot 1`] = `
 <div>
   <div
-    class="glass-foundation-basic p-6"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    class="glass-foundation-basic glass-intelligent-image-uploader glass-p-4 glass-max-w-full glass-overflow-auto"
+    data-glass-component="true"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 100%; min-width: 0;"
   >
     <div
-      class="glass-space-y-6"
+      class="glass-space-y-3"
     >
       <div
-        class="glass-flex glass-items-center glass-justify-between"
+        class="glass-flex glass-items-start glass-justify-between glass-gap-3"
       >
-        <div>
+        <div
+          class="glass-min-w-0"
+        >
           <h2
-            class="glass-text-xl glass-font-semibold glass-text-secondary"
+            class="glass-text-lg glass-font-semibold glass-text-primary glass-leading-tight"
           >
             🤖 Intelligent Image Uploader
           </h2>
           <p
-            class="glass-text-secondary glass-mt-1"
+            class="glass-text-secondary glass-mt-1 glass-text-sm"
           >
             AI-powered image optimization and editing
           </p>
         </div>
-        <button
-          class="glass-px-4 glass-py-2 glass-surface-subtle glass-text-primary glass-radius-lg hover:glass-surface-subtle glass-transition-colors"
-        >
-          📊 Stats
-        </button>
       </div>
       <div
-        class="relative border-2 border-dashed rounded-lg p-12 text-center transition-colors border-gray-300 hover:border-gray-400"
+        class="glass-relative glass-border glass-border-dashed glass-radius-lg glass-p-4 glass-text-center glass-transition-colors glass-overflow-hidden glass-border-white/20 glass-surface-subtle/5 hover:glass-border-white/30"
       >
         <div
-          class="glass-space-y-4"
+          class="glass-space-y-2"
         >
           <div
-            class="glass-text-6xl"
+            class="glass-text-2xl"
           >
             📸
           </div>
           <div>
             <h3
-              class="glass-text-lg glass-font-medium glass-text-secondary"
+              class="glass-text-base glass-font-medium glass-text-primary glass-leading-snug"
             >
               Drop images here or click to upload
             </h3>
             <p
-              class="glass-text-secondary glass-mt-1"
+              class="glass-text-secondary glass-mt-1 glass-text-xs"
             >
               Supports JPEG, PNG, WebP, GIF up to 
               10
@@ -56,20 +54,10 @@ exports[`GlassIntelligentImageUploader matches snapshot 1`] = `
             </p>
           </div>
           <button
-            class="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors"
+            class="glass-px-3 glass-py-1.5 glass-surface-blue glass-text-primary glass-radius-lg hover:glass-surface-blue glass-transition-colors glass-text-sm"
           >
             Choose Files
           </button>
-          <div
-            class="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-text-sm glass-text-primary"
-          >
-            <span>
-              ✅
-            </span>
-            <span>
-              Auto-optimization enabled
-            </span>
-          </div>
         </div>
         <input
           accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
@@ -78,67 +66,6 @@ exports[`GlassIntelligentImageUploader matches snapshot 1`] = `
           multiple=""
           type="file"
         />
-      </div>
-      <div
-        class="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-4"
-      >
-        <div
-          class="glass-text-center glass-p-4 glass-surface-subtle glass-radius-lg"
-        >
-          <div
-            class="glass-text-2xl glass-mb-2"
-          >
-            🤖
-          </div>
-          <h3
-            class="glass-font-medium glass-text-primary"
-          >
-            AI Enhancement
-          </h3>
-          <p
-            class="glass-text-sm glass-text-primary glass-mt-1"
-          >
-            Automatic brightness, contrast, and sharpness optimization
-          </p>
-        </div>
-        <div
-          class="glass-text-center glass-p-4 glass-surface-subtle glass-radius-lg"
-        >
-          <div
-            class="glass-text-2xl glass-mb-2"
-          >
-            ✂️
-          </div>
-          <h3
-            class="glass-font-medium glass-text-primary"
-          >
-            Smart Tools
-          </h3>
-          <p
-            class="glass-text-sm glass-text-primary glass-mt-1"
-          >
-            Background removal, face detection, and smart cropping
-          </p>
-        </div>
-        <div
-          class="glass-text-center glass-p-4 glass-surface-subtle glass-radius-lg"
-        >
-          <div
-            class="glass-text-2xl glass-mb-2"
-          >
-            ⚡
-          </div>
-          <h3
-            class="glass-font-medium glass-text-primary"
-          >
-            Optimization
-          </h3>
-          <p
-            class="glass-text-sm glass-text-primary glass-mt-1"
-          >
-            Reduce file sizes by up to 80% while maintaining quality
-          </p>
-        </div>
       </div>
     </div>
   </div>

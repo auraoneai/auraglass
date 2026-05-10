@@ -591,7 +591,7 @@ const GlassDataTableInnerBase = <
     <div
       data-glass-component
       ref={setContainerRef}
-      className={cn("w-full", className)}
+      className={cn("glass-w-full", className)}
       aria-label={ariaLabel}
       {...restProps}
     >
@@ -646,7 +646,7 @@ const GlassDataTableInnerBase = <
           "glass-overflow-hidden glass-contrast-guard",
           !prefersReducedMotion &&
             `transition-all duration-[${ANIMATION.DURATION.slow}ms]`,
-          variant === "bordered" && "border border-border/20"
+          variant === "bordered" && "glass-border glass-border-glass-border/20"
         )}
       >
         <div className="glass-w-full glass-overflow-x-auto">
@@ -662,13 +662,15 @@ const GlassDataTableInnerBase = <
             {/* Table header */}
             <thead
               className={cn(
-                "relative bg-muted/20 border-b border-border/20",
+                "glass-relative bg-muted/20 glass-border-b glass-border-glass-border/20",
                 stickyHeader && "sticky top-0 z-10"
               )}
             >
               <tr>
                 {selectable && (
-                  <th className={cn("w-12", cellPaddingClasses[validSize])}>
+                  <th
+                    className={cn("glass-w-12", cellPaddingClasses[validSize])}
+                  >
                     <GlassInput
                       type="checkbox"
                       checked={isAllSelected}
@@ -698,15 +700,15 @@ const GlassDataTableInnerBase = <
                           : "none"
                       }
                       className={cn(
-                        "font-semibold text-foreground border-b border-border/10",
+                        "glass-font-semibold glass-text-primary glass-border-b glass-border-glass-border/10",
                         !prefersReducedMotion &&
                           `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                         cellPaddingClasses[validSize],
                         sizeClasses[validSize],
                         {
-                          "text-center": column.align === "center",
-                          "text-right": column.align === "right",
-                          "cursor-pointer hover:bg-muted/10 hover:text-foreground":
+                          "glass-text-center": column.align === "center",
+                          "glass-text-right": column.align === "right",
+                          "glass-cursor-pointer hover:bg-muted/10 hover:glass-text-primary":
                             canSort,
                         }
                       )}
@@ -724,11 +726,11 @@ const GlassDataTableInnerBase = <
                           <div className="glass-flex glass-flex-col">
                             <svg
                               className={cn(
-                                "w-3 h-3 -glass-mb-1",
+                                "glass-w-3 glass-h-3 -glass-mb-1",
                                 !prefersReducedMotion && "transition-colors",
                                 sortState?.id === columnId && !sortState.desc
-                                  ? "text-primary"
-                                  : "glass-text-secondary hover:text-foreground"
+                                  ? "glass-text-primary"
+                                  : "glass-text-secondary hover:glass-text-primary"
                               )}
                               fill="currentColor"
                               viewBox="0 0 20 20"
@@ -737,11 +739,11 @@ const GlassDataTableInnerBase = <
                             </svg>
                             <svg
                               className={cn(
-                                "w-3 h-3 rotate-180",
+                                "glass-w-3 glass-h-3 rotate-180",
                                 !prefersReducedMotion && "transition-colors",
                                 sortState?.id === columnId && sortState.desc
-                                  ? "text-primary"
-                                  : "glass-text-secondary hover:text-foreground"
+                                  ? "glass-text-primary"
+                                  : "glass-text-secondary hover:glass-text-primary"
                               )}
                               fill="currentColor"
                               viewBox="0 0 20 20"
@@ -763,7 +765,10 @@ const GlassDataTableInnerBase = <
                 <tr>
                   <td
                     colSpan={columns.length + (selectable ? 1 : 0)}
-                    className={cn("text-center", cellPaddingClasses[validSize])}
+                    className={cn(
+                      "glass-text-center",
+                      cellPaddingClasses[validSize]
+                    )}
                   >
                     <div
                       className="glass-flex glass-items-center glass-justify-center glass-gap-2 glass-py-8"
@@ -787,7 +792,7 @@ const GlassDataTableInnerBase = <
                   <td
                     colSpan={columns.length + (selectable ? 1 : 0)}
                     className={cn(
-                      "text-center glass-text-secondary py-8 glass-break-words",
+                      "glass-text-center glass-text-secondary py-8 glass-break-words",
                       cellPaddingClasses[validSize]
                     )}
                   >
@@ -830,9 +835,9 @@ const GlassDataTableInnerBase = <
                             variant === "striped" && index % 2 === 1,
                           "bg-primary/10 shadow-md shadow-primary/20 ring-1 ring-primary/20":
                             isSelected,
-                          "hover:bg-muted/10 cursor-pointer hover:shadow-lg hover:shadow-primary/10 glass-hover--translate-y-0-5 hover:ring-1 hover:ring-white/10":
+                          "hover:bg-muted/10 glass-cursor-pointer hover:shadow-lg hover:shadow-primary/10 glass-hover--translate-y-0-5 hover:ring-1 hover:ring-white/10":
                             onRowClick && !prefersReducedMotion,
-                          "hover:bg-muted/10 cursor-pointer hover:ring-1 hover:ring-white/10":
+                          "hover:bg-muted/10 glass-cursor-pointer hover:ring-1 hover:ring-white/10":
                             onRowClick && prefersReducedMotion,
                           // Consciousness feature styles
                           "ring-1 ring-blue-400/20 bg-blue-400/5":
@@ -874,13 +879,13 @@ const GlassDataTableInnerBase = <
                           <td
                             key={columnId}
                             className={cn(
-                              "border-b border-border/5 text-foreground/80 glass-align-top glass-break-words group-hover:text-foreground",
+                              "glass-border-b glass-border-glass-border/5 glass-text-primary/80 glass-align-top glass-break-words group-hover:glass-text-primary",
                               !prefersReducedMotion && "transition-colors",
                               cellPaddingClasses[validSize],
                               sizeClasses[validSize],
                               {
-                                "text-center": column.align === "center",
-                                "text-right": column.align === "right",
+                                "glass-text-center": column.align === "center",
+                                "glass-text-right": column.align === "right",
                               }
                             )}
                           >

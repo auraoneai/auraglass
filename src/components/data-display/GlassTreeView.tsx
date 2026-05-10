@@ -51,11 +51,10 @@ const DEFAULT_TREE_DATA: GlassTreeNode[] = [
   },
 ];
 
-export interface GlassTreeViewProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "onSelect" | "onDragStart" | "onDrop"
-  > {
+export interface GlassTreeViewProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onSelect" | "onDragStart" | "onDrop"
+> {
   /** Tree data */
   data?: GlassTreeNode[];
   /** Currently selected node */
@@ -201,45 +200,46 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
   const sizeConfig = {
     sm: {
-      node: "h-10 glass-px-2 glass-text-sm",
-      icon: "w-4 h-4",
-      checkbox: "w-3 h-3",
-      expandIcon: "w-3 h-3",
+      node: "glass-h-10 glass-px-2 glass-text-sm",
+      icon: "glass-w-4 glass-h-4",
+      checkbox: "glass-w-3 glass-h-3",
+      expandIcon: "glass-w-3 glass-h-3",
     },
     md: {
-      node: "h-12 glass-px-3 glass-text-sm",
-      icon: "w-5 h-5",
-      checkbox: "w-4 h-4",
-      expandIcon: "w-4 h-4",
+      node: "glass-h-10 glass-px-3 glass-text-sm",
+      icon: "glass-w-5 glass-h-5",
+      checkbox: "glass-w-4 glass-h-4",
+      expandIcon: "glass-w-4 glass-h-4",
     },
     lg: {
-      node: "h-14 glass-px-4 glass-text-base",
-      icon: "w-6 h-6",
-      checkbox: "w-5 h-5",
-      expandIcon: "w-5 h-5",
+      node: "glass-h-12 glass-px-4 glass-text-base",
+      icon: "glass-w-6 glass-h-6",
+      checkbox: "glass-w-5 glass-h-5",
+      expandIcon: "glass-w-5 glass-h-5",
     },
   };
 
   const variantConfig = {
     default: {
-      node: "hover:bg-background/20 focus:bg-background/30",
-      selected: "bg-primary/20 text-primary",
-      dragOver: "bg-primary/10 border-primary/30",
+      node: "hover:glass-surface-subtle/10 focus:glass-surface-subtle/10",
+      selected: "glass-surface-primary/15 glass-text-primary",
+      dragOver: "glass-surface-primary/10 glass-border-primary",
     },
     minimal: {
-      node: "hover:bg-transparent focus:bg-transparent hover:text-foreground",
-      selected: "text-primary font-medium",
+      node: "hover:glass-surface-transparent focus:glass-surface-transparent hover:glass-text-primary",
+      selected: "glass-text-primary glass-font-medium",
       dragOver: "bg-primary/5",
     },
     bordered: {
-      node: "border border-transparent hover:border-border/20 focus:border-primary/30",
-      selected: "border-primary/50 bg-primary/10 text-primary",
-      dragOver: "border-primary/50 bg-primary/5",
+      node: "glass-border glass-border-transparent hover:glass-border-glass-border/20 focus:glass-border-primary",
+      selected:
+        "glass-border-primary glass-surface-primary/10 glass-text-primary",
+      dragOver: "glass-border-primary glass-surface-primary/5",
     },
     filled: {
-      node: "bg-background/10 hover:bg-background/20 focus:bg-background/30",
-      selected: "bg-primary/20 text-primary",
-      dragOver: "bg-primary/15 border-primary/30",
+      node: "glass-surface-dark/20 hover:glass-surface-subtle/10 focus:glass-surface-subtle/10",
+      selected: "glass-surface-primary/15 glass-text-primary",
+      dragOver: "glass-surface-primary/10 glass-border-primary",
     },
   };
 
@@ -380,15 +380,21 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           tint="neutral"
           border={variant === "bordered" ? "subtle" : "none"}
           className={cn(
-            `glass-tree-node flex items-center cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-radius-md`,
+            `glass-tree-node glass-flex glass-items-center glass-cursor-pointer glass-transition glass-radius-md glass-min-w-0`,
             config.node,
             colors.node,
             isSelected && colors.selected,
             isDragOver && colors.dragOver,
             node.disabled && "opacity-50 cursor-not-allowed",
-            variant === "bordered" && "border glass-radius-md"
+            variant === "bordered" && "glass-border glass-radius-md"
           )}
-          style={{ paddingLeft: `${level * indentation}px` }}
+          style={{
+            paddingLeft: `${level * indentation}px`,
+            background:
+              variant === "filled"
+                ? "rgba(5, 11, 24, 0.28)"
+                : "rgba(5, 11, 24, 0.12)",
+          }}
           onClick={handleNodeClick}
           onDragStart={handleDragStart}
           onDragOver={handleDragOver}
@@ -424,7 +430,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {/* Expand/collapse button */}
           <div
             className={cn(
-              "flex items-center justify-center flex-shrink-0 glass-mr-1",
+              "glass-flex glass-items-center glass-justify-center glass-flex-shrink-0 glass-mr-1",
               config.expandIcon
             )}
           >
@@ -451,7 +457,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
               onChange={handleCheck}
               disabled={node.disabled}
               className={cn(
-                "flex-shrink-0 glass-mr-2 glass-radius-md",
+                "glass-flex-shrink-0 glass-mr-2 glass-radius-md",
                 config.checkbox
               )}
               onClick={(e) => e.stopPropagation()}
@@ -460,7 +466,7 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
 
           {/* Icon */}
           {showIcons && node.icon && (
-            <div className={cn("flex-shrink-0 glass-mr-2", config.icon)}>
+            <div className={cn("glass-flex-shrink-0 glass-mr-2", config.icon)}>
               {node.icon}
             </div>
           )}
@@ -474,11 +480,11 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
           {isDragOver && (
             <div
               className={cn(
-                "absolute left-0 right-0 h-0.5 bg-primary pointer-events-none",
+                "glass-absolute left-0 right-0 h-0.5 bg-primary pointer-events-none",
                 isDragOver === "before" && "top-0",
                 isDragOver === "after" && "bottom-0",
                 isDragOver === "inside" &&
-                  "top-1/2 transform -translate-y-1/2 h-full bg-primary/10"
+                  "top-1/2 transform -translate-y-1/2 glass-h-full bg-primary/10"
               )}
             />
           )}
@@ -654,10 +660,15 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            "glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md",
-            "border border-border/20",
+            "glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md glass-w-full glass-min-w-0 glass-overflow-auto",
+            "glass-border glass-border-white/10",
             className
           )}
+          style={{
+            maxHeight: "100%",
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          }}
           role="tree"
           aria-multiselectable={selectionMode === "multiple"}
           {...props}

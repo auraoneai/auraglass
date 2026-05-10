@@ -3,29 +3,87 @@
 exports[`GlassCollaborationDashboard matches snapshot 1`] = `
 <div>
   <div
-    class="fixed z-40 top-4 right-4"
+    class="glass-relative glass-inline-flex glass-z-0"
   >
     <div
       class="glass-foundation-basic glass-p-3 glass-contrast-guard"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <button
         class="glass-flex glass-items-center glass-gap-3 hover:glass-surface-subtle glass-radius glass-p-2 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         <div
-          class="glass-flex glass--space-x-2"
-        />
+          class="glass-flex"
+        >
+          <span
+            style="margin-left: 0px;"
+          >
+            <div
+              class="glass-relative"
+              data-glass-component="true"
+            >
+              <div
+                class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-medium glass-border-2 glass-w-6 glass-h-6 glass-text-xs glass-border-success"
+                style="background-color: rgb(56, 189, 248);"
+              >
+                A
+              </div>
+              <div
+                class="glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-success"
+                style="right: -2px; bottom: -2px;"
+              />
+            </div>
+          </span>
+          <span
+            style="margin-left: -8px;"
+          >
+            <div
+              class="glass-relative"
+              data-glass-component="true"
+            >
+              <div
+                class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-medium glass-border-2 glass-w-6 glass-h-6 glass-text-xs glass-border-success"
+                style="background-color: rgb(163, 230, 53);"
+              >
+                L
+              </div>
+              <div
+                class="glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-success"
+                style="right: -2px; bottom: -2px;"
+              />
+            </div>
+          </span>
+          <span
+            style="margin-left: -8px;"
+          >
+            <div
+              class="glass-relative"
+              data-glass-component="true"
+            >
+              <div
+                class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-medium glass-border-2 glass-w-6 glass-h-6 glass-text-xs glass-border-subtle"
+                style="background-color: rgb(245, 158, 11);"
+              >
+                O
+              </div>
+              <div
+                class="glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-subtle"
+                style="right: -2px; bottom: -2px;"
+              />
+            </div>
+          </span>
+        </div>
         <div
           class="glass-text-left"
         >
           <div
             class="glass-text-sm glass-font-medium glass-text-secondary"
           >
-            0
+            3
              online
           </div>
           <div
-            class="flex items-center gap-2 text-sm text-red-600"
+            class="glass-flex glass-items-center glass-gap-2 glass-text-sm glass-text-danger"
           >
             <span>
               🔴

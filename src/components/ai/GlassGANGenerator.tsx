@@ -162,10 +162,11 @@ const defaultTrainingConfig: TrainingConfig = {
 };
 
 const readableGlassTextStyle = {
-  "--glass-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--typography-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--glass-theme-text": "rgba(15, 23, 42, 0.94)",
-  color: "rgba(15, 23, 42, 0.94)",
+  "--glass-text-primary": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--typography-text-primary":
+    "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--glass-theme-text": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  color: "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
 } as React.CSSProperties;
 
 export const GlassGANGenerator = forwardRef<
@@ -179,9 +180,9 @@ export const GlassGANGenerator = forwardRef<
       generationParams = {},
       trainingConfig = {},
       showModelSelector = true,
-      showGenerationControls = true,
-      showTrainingControls = true,
-      showLatentSpace = true,
+      showGenerationControls = false,
+      showTrainingControls = false,
+      showLatentSpace = false,
       showProgress = true,
       enableInterpolation = true,
       enableRealTime = false,
@@ -603,11 +604,11 @@ export const GlassGANGenerator = forwardRef<
             <motion.div
               key={ganModel.id}
               className={`
-                p-3 rounded-lg border cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]
+                glass-p-3 glass-radius-lg glass-border glass-cursor-pointer glass-transition-all duration-[${ANIMATION.DURATION.fast}ms]
                 ${
                   currentModel === ganModel.id
-                    ? "border-blue-400 bg-blue-400/20"
-                    : "border-white/20 hover:border-white/40 bg-white/5"
+                    ? "glass-border-blue glass-surface-blue/20"
+                    : "glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5"
                 }
               `}
               whileHover={shouldAnimate ? { scale: 1.01 } : {}}
@@ -643,17 +644,17 @@ export const GlassGANGenerator = forwardRef<
 
                     <span
                       className={`
-                      px-2 py-0.5 rounded text-xs font-medium
+                      glass-px-2 glass-py-0.5 glass-radius glass-text-xs glass-font-medium
                       ${
                         ganModel.type === "stylegan"
-                          ? "bg-purple-500/20 text-purple-300"
+                          ? "glass-surface-primary/20 glass-text-secondary"
                           : ganModel.type === "dcgan"
-                            ? "bg-blue-500/20 text-blue-300"
+                            ? "glass-surface-blue/20 glass-text-secondary"
                             : ganModel.type === "biggan"
-                              ? "bg-green-500/20 text-green-300"
+                              ? "glass-surface-green/20 glass-text-secondary"
                               : ganModel.type === "cyclegan"
-                                ? "bg-red-500/20 text-red-300"
-                                : "bg-gray-500/20 text-gray-300"
+                                ? "glass-surface-red/20 glass-text-secondary"
+                                : "glass-surface-muted/20 glass-text-secondary"
                       }
                     `}
                     >
@@ -768,14 +769,19 @@ export const GlassGANGenerator = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        style={readableGlassTextStyle}
-        className={`p-6 space-y-6 ${className}`}
+        data-glass-component
+        style={{
+          ...readableGlassTextStyle,
+          maxHeight: "100%",
+          minWidth: 0,
+        }}
+        className={`glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0">
+          <div className="glass-min-w-0">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate">
               GAN Generator
             </h3>
             <p className="glass-text-sm glass-text-primary-glass-opacity-60">
@@ -861,7 +867,7 @@ export const GlassGANGenerator = forwardRef<
         {isGenerating && showProgress && (
           <div
             className={`
-            p-3 rounded-lg border border-blue-400/30
+            glass-p-3 glass-radius-lg glass-border glass-border-blue/30
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
@@ -885,7 +891,7 @@ export const GlassGANGenerator = forwardRef<
           </div>
         )}
 
-        <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-6">
+        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
           {/* Model selector */}
           {showModelSelector && <ModelSelector />}
 
@@ -935,7 +941,7 @@ export const GlassGANGenerator = forwardRef<
         {isTraining && showTrainingControls && (
           <div
             className={`
-            p-3 rounded-lg border border-orange-400/30
+            glass-p-3 glass-radius-lg glass-border glass-border-orange/30
             ${createGlassStyle({ blur: "sm", opacity: 0.8 }).background}
           `}
           >
@@ -960,8 +966,8 @@ export const GlassGANGenerator = forwardRef<
         )}
 
         {/* Action buttons */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">
-          <div className="glass-flex glass-items-center glass-space-x-4">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex-wrap">
+          <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
             <motion.button
               className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
@@ -996,7 +1002,7 @@ export const GlassGANGenerator = forwardRef<
             )}
           </div>
 
-          <div className="glass-flex glass-items-center glass-space-x-2 glass-text-xs glass-text-primary-glass-opacity-60">
+          <div className="glass-flex glass-items-center glass-gap-2 glass-text-xs glass-text-primary-glass-opacity-60 glass-min-w-0 glass-flex-wrap">
             <span>Generated: {generatedImages.length}</span>
             <span>•</span>
             <span>Model: {model.name}</span>

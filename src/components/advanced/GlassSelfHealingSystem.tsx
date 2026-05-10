@@ -1055,6 +1055,7 @@ export function GlassSelfHealingWrapper({
   componentType = "unknown",
   monitoringEnabled = true,
   healingEnabled = true,
+  showDebugHud = false,
   className,
 }: {
   children: React.ReactNode;
@@ -1062,6 +1063,7 @@ export function GlassSelfHealingWrapper({
   componentType?: string;
   monitoringEnabled?: boolean;
   healingEnabled?: boolean;
+  showDebugHud?: boolean;
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
@@ -1145,18 +1147,16 @@ export function GlassSelfHealingWrapper({
     >
       {children}
 
-      {/* Health indicator (development mode only) */}
-      {process.env.NODE_ENV === "development" &&
-        monitoringEnabled &&
-        health && (
-          <motion.div
-            className="glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20"
-            style={{ backgroundColor: statusColor }}
-            initial={{ scale: 0 }}
-            animate={prefersReducedMotion ? {} : { scale: 1 }}
-            title={`Health: ${(health.healthScore * 100).toFixed(1)}% | Status: ${health.status} | Issues: ${health.issues.length}`}
-          />
-        )}
+      {/* Health indicator */}
+      {showDebugHud && monitoringEnabled && health && (
+        <motion.div
+          className="glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20"
+          style={{ backgroundColor: statusColor }}
+          initial={{ scale: 0 }}
+          animate={prefersReducedMotion ? {} : { scale: 1 }}
+          title={`Health: ${(health.healthScore * 100).toFixed(1)}% | Status: ${health.status} | Issues: ${health.issues.length}`}
+        />
+      )}
     </div>
   );
 }

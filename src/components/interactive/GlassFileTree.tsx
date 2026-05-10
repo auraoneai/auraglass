@@ -75,10 +75,13 @@ export interface GlassFileTreeProps {
   "data-testid"?: string;
 }
 
+const EMPTY_TREE_NODES: TreeNode[] = [];
+const EMPTY_EXPANDED_NODES: string[] = [];
+
 const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
   (
     {
-      nodes = [],
+      nodes = EMPTY_TREE_NODES,
       onNodeSelect,
       onNodeToggle,
       onNodeCreate,
@@ -87,7 +90,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       onNodeMove,
       onNodeCopy,
       selectedNodeId,
-      expandedNodes = [],
+      expandedNodes = EMPTY_EXPANDED_NODES,
       onExpandedChange,
       searchQuery = "",
       onSearchChange,
@@ -380,10 +383,10 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
     };
 
     const elevationClasses = {
-      low: "glass-glass-backdrop-blur-md bg-white/10 border border-white/20 glass-contrast-guard",
+      low: "glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/10 glass-contrast-guard",
       medium:
-        "glass-glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg glass-contrast-guard",
-      high: "glass-glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl glass-contrast-guard",
+        "glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/10 glass-shadow-lg glass-contrast-guard",
+      high: "glass-backdrop-blur-md glass-surface-dark/40 glass-border glass-border-white/20 glass-shadow-2xl glass-contrast-guard",
     };
 
     const TreeNodeComponent = ({
@@ -403,12 +406,12 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         <div>
           <div
             className={cn(
-              "flex items-center glass-gap-1 glass-py-1 glass-px-2 glass-radius-md cursor-pointer hover:bg-white/10 transition-all duration-200 group relative",
+              "glass-flex glass-items-center glass-gap-1 glass-py-1 glass-px-2 glass-radius-md glass-cursor-pointer hover:glass-surface-subtle/10 glass-transition-all glass-duration-200 glass-group glass-relative",
               "glass-hover--translate-y-0-5 glass-press",
-              isSelected && "bg-blue-500/20 text-blue-300",
+              isSelected && "glass-surface-primary/20 glass-text-secondary",
               isDragOver &&
-                "bg-green-500/20 ring-1 ring-green-400 glass-pulse-ring",
-              renamingNode === node.id && "bg-white/5"
+                "glass-surface-green/10 glass-ring-1 glass-ring-green-400 glass-pulse-ring",
+              renamingNode === node.id && "glass-surface-subtle/5"
             )}
             style={{ paddingLeft: `${indent + 8}px` }}
             onClick={(e) => handleSelect(node)}
@@ -553,7 +556,7 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
       <div
         ref={ref}
         className={cn(
-          "glass-radius-xl overflow-hidden",
+          "glass-radius-xl glass-overflow-hidden glass-max-w-full glass-min-w-0",
           elevationClasses[elevation],
           variantClasses[variant],
           sizeClasses[size],
@@ -561,7 +564,9 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
         )}
         role="region"
         aria-label="File tree"
+        data-glass-component
         data-testid={dataTestId}
+        style={{ maxHeight: "100%", minWidth: 0 }}
         {...props}
       >
         {/* Search */}

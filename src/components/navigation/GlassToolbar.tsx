@@ -6,8 +6,7 @@ import { useA11yId } from "@/utils/a11y";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { LiquidGlassToolbar } from "./LiquidGlassToolbar";
 
-export interface GlassToolbarProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassToolbarProps extends React.HTMLAttributes<HTMLDivElement> {
   left?: React.ReactNode;
   center?: React.ReactNode;
   right?: React.ReactNode;
@@ -72,11 +71,20 @@ export const GlassToolbar = forwardRef<HTMLDivElement, GlassToolbarProps>(
         aria-label={ariaLabel || "Toolbar"}
         id={toolbarId}
         className={cn(
-          "w-full max-w-full flex flex-wrap items-center justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl",
-          sticky && "sticky top-0 z-30",
-          floating && "shadow-xl",
+          "glass-w-full glass-max-w-full glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-px-3 glass-py-2 glass-radius-xl",
+          sticky && "glass-sticky glass-top-0 glass-z-30",
+          floating && "glass-shadow-xl",
           className
         )}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%",
+          maxWidth: "100%",
+          ...(sticky ? { position: "sticky", top: 0, zIndex: 30 } : {}),
+        }}
         {...rest}
       >
         <div className="glass-min-w-0 glass-flex glass-flex-1 glass-items-center glass-gap-2 sm:glass-flex-none">

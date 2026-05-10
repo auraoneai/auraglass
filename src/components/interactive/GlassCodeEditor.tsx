@@ -107,8 +107,16 @@ const syntaxPatterns = {
   },
 };
 
+const escapeHtml = (code: string) =>
+  code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
 export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
-  value = "",
+  value,
   language = "plaintext",
   readOnly = false,
   placeholder = "Enter your code here...",
@@ -119,21 +127,26 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
   tabSize = 2,
   autoComplete = false,
   theme = "dark",
-  maxHeight = "400px",
-  minHeight = "200px",
+  maxHeight = "320px",
+  minHeight = "180px",
   className = "",
   onChange,
   onFocus,
   onBlur,
   onMount,
 }) => {
-  const [internalValue, setInternalValue] = useState(value);
+  const defaultValue =
+    value === undefined && !onChange
+      ? "import { GlassCard } from 'aura-glass';\n\nexport function Preview() {\n  return <GlassCard intensity=\"medium\">Live surface</GlassCard>;\n}"
+      : "";
+  const [internalValue, setInternalValue] = useState(value ?? defaultValue);
   const [isFocused, setIsFocused] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ line: 1, column: 1 });
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
 
   const currentValue = value !== undefined ? value : internalValue;
+  const lineHeight = `${Math.round(fontSize * 1.55)}px`;
 
   // Handle value changes
   const handleChange = useCallback(
@@ -158,40 +171,18 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
 
   // Syntax highlighting function
   const highlightCode = useCallback((code: string, lang: Language) => {
-    if (lang === "plaintext") return code;
+    const escapedCode = escapeHtml(code);
+    if (lang === "plaintext") return escapedCode;
 
     const patterns = syntaxPatterns[lang as keyof typeof syntaxPatterns];
-    if (!patterns) return code;
+    if (!patterns) return escapedCode;
 
-    let highlighted = code;
-
-    // Apply highlighting based on patterns
-    Object.entries(patterns).forEach(([type, pattern]) => {
-      highlighted = highlighted.replace(pattern, (match, ...groups) => {
-        const colorClass = getHighlightColor(type);
-        return `<span class="${colorClass}">${match}</span>`;
-      });
-    });
-
-    return highlighted;
+    // The editor previously performed regex replacement directly into HTML.
+    // That caused later patterns to match inside generated class names and render
+    // fragments like "400" as code. Keep the preview readable until a tokenized
+    // highlighter is introduced.
+    return escapedCode;
   }, []);
-
-  // Get highlight color classes
-  const getHighlightColor = (type: string) => {
-    const colors = {
-      keywords: "glass-text-blue-400",
-      strings: "glass-text-green-400",
-      comments: "glass-text-secondary",
-      numbers: "glass-text-purple-400",
-      functions: "glass-text-yellow-400",
-      types: "glass-text-cyan-400",
-      properties: "glass-text-blue-300",
-      values: "glass-text-green-300",
-      selectors: "glass-text-orange-400",
-      keys: "glass-text-blue-300",
-    };
-    return colors[type as keyof typeof colors] || "glass-text-primary";
-  };
 
   // Handle keyboard shortcuts
   const handleKeyDown = useCallback(
@@ -273,27 +264,36 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
   return (
     <OptimizedGlass
       data-glass-component
-      className={cn("glass-relative glass-overflow-hidden", className)}
-      style={{ maxHeight, minHeight }}
+      className={cn(
+        "glass-code-editor glass-relative glass-overflow-hidden glass-max-w-full glass-surface-dark/30 glass-border glass-border-white/10",
+        className
+      )}
+      style={{
+        maxHeight,
+        minHeight,
+        minWidth: 0,
+        background:
+          '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+      }}
       blur="medium"
       elevation={"level1"}
     >
       {/* Toolbar */}
       <div
         className={cn(
-          "glass-flex glass-items-center glass-justify-between glass-p-3 glass-border-b glass-border-white-10"
+          "glass-flex glass-items-center glass-justify-between glass-px-3 glass-py-2 glass-border-b glass-border-white/10 glass-surface-dark/30"
         )}
       >
         <div className={cn("glass-flex glass-items-center glass-gap-4")}>
           <span
             className={cn(
-              "glass-text-sm glass-text-primary-70 glass-font-medium"
+              "glass-text-sm glass-text-primary-opacity-70 glass-font-medium"
             )}
           >
             {language.toUpperCase()}
           </span>
           {lineNumbers && (
-            <span className={cn("glass-text-xs glass-text-primary-50")}>
+            <span className={cn("glass-text-xs glass-text-primary-opacity-50")}>
               Ln {cursorPosition.line}, Col {cursorPosition.column}
             </span>
           )}
@@ -304,7 +304,7 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
             <>
               <button
                 className={cn(
-                  "glass-px-2 glass-py-1 glass-text-xs glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors"
+                  "glass-px-2 glass-py-1 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle glass-radius-md glass-transition-colors"
                 )}
                 onClick={(e) => {
                   const textarea = textareaRef.current;
@@ -319,7 +319,7 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
               </button>
               <button
                 className={cn(
-                  "glass-px-2 glass-py-1 glass-text-xs glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors"
+                  "glass-px-2 glass-py-1 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle glass-radius-md glass-transition-colors"
                 )}
                 onClick={(e) => {
                   navigator.clipboard?.writeText(currentValue);
@@ -333,15 +333,24 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
       </div>
 
       {/* Editor Container */}
-      <div className={cn("glass-relative")}>
+      <div
+        className={cn("glass-relative glass-min-h-0 glass-overflow-hidden")}
+        style={{
+          minHeight: "160px",
+          height: "160px",
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+        }}
+      >
         {/* Syntax Highlighted Background */}
         <pre
           ref={preRef}
           className={cn(
-            "glass-absolute glass-inset-0 glass-p-4 glass-font-mono glass-text-sm glass-overflow-auto glass-pointer-events-none glass-whitespace-pre-wrap glass-break-words",
+            "glass-absolute glass-inset-0 glass-p-3 glass-font-mono glass-text-sm glass-overflow-auto glass-pointer-events-none glass-whitespace-pre-wrap glass-break-words",
+            lineNumbers ? "glass-pl-16" : "",
             wordWrap ? "glass-break-words" : "glass-whitespace-pre"
           )}
-          style={{ fontSize, lineHeight: "1.5" }}
+          style={{ fontSize, lineHeight, tabSize }}
         >
           <code
             dangerouslySetInnerHTML={{ __html: highlightedCode || placeholder }}
@@ -353,13 +362,12 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
         {lineNumbers && (
           <div
             className={cn(
-              "glass-absolute glass-left-0 glass-top-0 glass-bottom-0 glass-w-12 glass-surface-black-20 glass-border-r glass-border-white-10 glass-p-4 glass-text-right glass-text-primary-50 glass-text-sm glass-font-mono glass-select-none"
+              "glass-absolute glass-left-0 glass-top-0 glass-bottom-0 glass-w-12 glass-surface-dark/40 glass-border-r glass-border-white/10 glass-p-3 glass-text-right glass-text-secondary glass-text-sm glass-font-mono glass-select-none"
             )}
+            style={{ fontSize, lineHeight }}
           >
             {lines.map((_, index) => (
-              <div key={index} className={cn("glass-leading-6")}>
-                {index + 1}
-              </div>
+              <div key={index}>{index + 1}</div>
             ))}
           </div>
         )}
@@ -377,15 +385,18 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
           readOnly={readOnly}
           placeholder={placeholder}
           className={cn(
-            "glass-w-full glass-p-4 glass-font-mono glass-text-sm glass-bg-transparent glass-text-transparent glass-caret-white glass-outline-none glass-resize-none glass-overflow-auto",
+            "glass-w-full glass-p-3 glass-font-mono glass-text-sm glass-bg-transparent glass-caret-white glass-outline-none glass-resize-none glass-overflow-auto",
             wordWrap ? "glass-break-words" : "glass-whitespace-pre",
             lineNumbers ? "glass-pl-16" : ""
           )}
           style={{
+            color: "transparent",
+            WebkitTextFillColor: "transparent",
             fontSize,
-            lineHeight: "1.5",
-            minHeight: "100%",
-            height: "100%",
+            lineHeight,
+            tabSize,
+            minHeight: "160px",
+            height: "160px",
           }}
           spellCheck={false}
           autoComplete={autoComplete ? "on" : "off"}

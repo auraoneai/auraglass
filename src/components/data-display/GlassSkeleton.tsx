@@ -14,8 +14,7 @@ export type SkeletonVariant =
   | "circular"
   | "glass-radius-md";
 
-export interface GlassSkeletonProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Shape variant of the skeleton */
   variant?: SkeletonVariant;
   /** Width of the skeleton */
@@ -50,6 +49,22 @@ const skeletonKeyframes = `
     }
   }
 `;
+
+const skeletonSurfaceStyle: React.CSSProperties = {
+  background:
+    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+  border: "1px solid rgba(148, 163, 184, 0.18)",
+  boxShadow:
+    "0 8px 20px rgba(2, 6, 23, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+};
+
+const skeletonContainerStyle: React.CSSProperties = {
+  background:
+    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+  border: "1px solid rgba(148, 163, 184, 0.18)",
+  boxShadow:
+    "0 12px 28px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+};
 
 /**
  * GlassSkeleton component
@@ -115,7 +130,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
             position: "relative",
             overflow: "hidden",
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
             backgroundSize: "200% 100%",
             animation: `skeleton-wave ${ANIMATION.DURATION.slower * 2}ms infinite`,
           };
@@ -157,6 +172,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
                     animation === "pulse" && "animate-pulse"
                   )}
                   style={{
+                    ...skeletonSurfaceStyle,
                     ...getBaseStyles(),
                     width: lineWidth,
                     ...getAnimationStyles(),
@@ -191,6 +207,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
             className
           )}
           style={{
+            ...skeletonSurfaceStyle,
             ...getBaseStyles(),
             ...getAnimationStyles(),
           }}
@@ -210,10 +227,10 @@ export const GlassSkeletonAvatar: React.FC<{
   className?: string;
 }> = ({ size = "md", className = "" }) => {
   const sizeClasses = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-12 h-12",
-    xl: "w-16 h-16",
+    sm: "glass-w-8 glass-h-8",
+    md: "glass-w-10 glass-h-10",
+    lg: "glass-w-12 glass-h-12",
+    xl: "glass-w-16 glass-h-16",
   };
 
   return (
@@ -253,6 +270,7 @@ export const GlassSkeletonCard: React.FC<{
       animation="none"
       performanceMode="medium"
       className={cn("glass-p-6 glass-gap-4", className)}
+      style={skeletonContainerStyle}
     >
       {/* Header skeleton */}
       <div className="glass-flex glass-items-center glass-gap-4">
@@ -293,7 +311,8 @@ export const GlassSkeletonTable: React.FC<{
       border="subtle"
       animation="none"
       performanceMode="medium"
-      className={cn("overflow-hidden", className)}
+      className={cn("glass-overflow-hidden", className)}
+      style={skeletonContainerStyle}
     >
       {/* Table header */}
       <div className="glass-p-4 glass-border-b glass-border-white/10">

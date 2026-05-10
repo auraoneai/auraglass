@@ -240,7 +240,7 @@ export const auraTokens = {
                 overlay: "rgba(255,255,255,0.08)",
               },
               border: {
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(255,255,255,0.12)",
                 width: 1,
                 style: "solid",
               },
@@ -266,7 +266,7 @@ export const auraTokens = {
                 base: "linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(148,163,184,0.15) 100%)",
               },
               border: {
-                color: "rgba(255,255,255,0.5)",
+                color: "rgba(255,255,255,0.14)",
                 width: 1,
                 style: "solid",
               },
@@ -297,8 +297,8 @@ export const auraTokens = {
                 base: "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%)",
               },
               border: {
-                color: "rgba(255,255,255,0.55)",
-                width: 2,
+                color: "rgba(255,255,255,0.16)",
+                width: 1,
                 style: "solid",
               },
               innerGlow: {
@@ -328,8 +328,8 @@ export const auraTokens = {
                 base: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 100%)",
               },
               border: {
-                color: "rgba(255,255,255,0.6)",
-                width: 2,
+                color: "rgba(255,255,255,0.18)",
+                width: 1,
                 style: "solid",
               },
               innerGlow: {
@@ -359,8 +359,8 @@ export const auraTokens = {
                 base: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.12) 100%)",
               },
               border: {
-                color: "rgba(255,255,255,0.65)",
-                width: 3,
+                color: "rgba(255,255,255,0.2)",
+                width: 1,
                 style: "solid",
               },
               innerGlow: {

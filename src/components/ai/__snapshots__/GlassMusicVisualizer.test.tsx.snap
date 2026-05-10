@@ -2,15 +2,18 @@
 
 exports[`GlassMusicVisualizer matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-6 space-y-6"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); color: rgba(15, 23, 42, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-text-primary: rgba(15, 23, 42, 0.94); --typography-text-primary: rgba(15, 23, 42, 0.94); --glass-theme-text: rgba(15, 23, 42, 0.94);"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-music-visualizer glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto"
+  data-glass-component="true"
+  style="--glass-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-theme-text: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); max-height: 100%; min-width: 0;"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between"
   >
-    <div>
+    <div
+      class="glass-min-w-0"
+    >
       <h3
-        class="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90"
+        class="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90"
       >
         Music Visualizer
       </h3>
@@ -101,10 +104,11 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
   >
     <canvas
       class="
-              w-full border border-white/20 rounded-lg bg-black/20
-              cursor-pointer
+              glass-w-full glass-border glass-border-white/20 glass-radius-lg glass-surface-dark/20
+              glass-cursor-pointer
             "
       height="400"
+      style="display: block;"
       width="800"
     />
     <div
@@ -114,263 +118,6 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
         class="glass-w-4 glass-h-4 glass-radius-full glass-surface-red"
         style="opacity: 0; transform: scale(1);"
       />
-    </div>
-  </div>
-  <div
-    class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6"
-  >
-    <div
-      class="glass-space-y-4"
-    >
-      <h4
-        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
-      >
-        Visualization
-      </h4>
-      <div
-        class="glass-space-y-3"
-      >
-        <div>
-          <label
-            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-            for="glass-music-mode-:ri:"
-          >
-            Mode
-          </label>
-          <select
-            aria-label="Visualization mode"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-            id="glass-music-mode-:ri:"
-          >
-            <option
-              value="bars"
-            >
-              Frequency Bars
-            </option>
-            <option
-              value="wave"
-            >
-              Waveform
-            </option>
-            <option
-              value="circular"
-            >
-              Circular
-            </option>
-            <option
-              value="spectrum"
-            >
-              Spectrum
-            </option>
-            <option
-              value="particles"
-            >
-              Particles
-            </option>
-            <option
-              value="ripples"
-            >
-              Ripples
-            </option>
-          </select>
-        </div>
-        <div>
-          <label
-            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-            for="glass-music-color-scheme-:rj:"
-          >
-            Color Scheme
-          </label>
-          <select
-            aria-label="Color scheme"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-            id="glass-music-color-scheme-:rj:"
-          >
-            <option
-              value="rainbow"
-            >
-              Rainbow
-            </option>
-            <option
-              value="monochrome"
-            >
-              Monochrome
-            </option>
-            <option
-              value="neon"
-            >
-              Neon
-            </option>
-            <option
-              value="fire"
-            >
-              Fire
-            </option>
-            <option
-              value="ice"
-            >
-              Ice
-            </option>
-            <option
-              value="galaxy"
-            >
-              Galaxy
-            </option>
-          </select>
-        </div>
-        <div>
-          <label
-            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-          >
-            Sensitivity: 
-            1.0
-          </label>
-          <input
-            aria-label="Sensitivity"
-            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
-            max="3.0"
-            min="0.1"
-            step="0.1"
-            type="range"
-            value="1"
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      class="glass-space-y-4"
-    >
-      <h4
-        class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80"
-      >
-        Audio Settings
-      </h4>
-      <div
-        class="glass-space-y-3"
-      >
-        <div>
-          <label
-            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-          >
-            Smoothing: 
-            0.8
-          </label>
-          <input
-            aria-label="Smoothing"
-            class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
-            max="1.0"
-            min="0.0"
-            step="0.1"
-            type="range"
-            value="0.8"
-          />
-        </div>
-        <div>
-          <label
-            class="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-          >
-            FFT Size
-          </label>
-          <select
-            aria-label="FFT size"
-            class="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-          >
-            <option
-              value="128"
-            >
-              128
-            </option>
-            <option
-              value="256"
-            >
-              256
-            </option>
-            <option
-              value="512"
-            >
-              512
-            </option>
-            <option
-              value="1024"
-            >
-              1024
-            </option>
-            <option
-              value="2048"
-            >
-              2048
-            </option>
-          </select>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="
-            p-3 rounded-lg border border-white/10
-            linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
-          "
-  >
-    <h4
-      class="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80 glass-mb-2"
-    >
-      Frequency Analysis
-    </h4>
-    <div
-      class="glass-grid glass-grid-cols-4 glass-gap-4 glass-text-sm"
-    >
-      <div>
-        <span
-          class="glass-text-primary-glass-opacity-60"
-        >
-          Bass:
-        </span>
-        <div
-          class="glass-text-primary-glass-opacity-90 glass-font-medium"
-        >
-          0
-          %
-        </div>
-      </div>
-      <div>
-        <span
-          class="glass-text-primary-glass-opacity-60"
-        >
-          Mid:
-        </span>
-        <div
-          class="glass-text-primary-glass-opacity-90 glass-font-medium"
-        >
-          0
-          %
-        </div>
-      </div>
-      <div>
-        <span
-          class="glass-text-primary-glass-opacity-60"
-        >
-          Treble:
-        </span>
-        <div
-          class="glass-text-primary-glass-opacity-90 glass-font-medium"
-        >
-          0
-          %
-        </div>
-      </div>
-      <div>
-        <span
-          class="glass-text-primary-glass-opacity-60"
-        >
-          Beat:
-        </span>
-        <div
-          class="glass-text-primary-glass-opacity-90 glass-font-medium"
-        >
-          0
-          %
-        </div>
-      </div>
     </div>
   </div>
 </div>

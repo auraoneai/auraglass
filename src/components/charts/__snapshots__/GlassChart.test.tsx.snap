@@ -25,8 +25,8 @@ exports[`GlassChart matches snapshot 1`] = `
         class="motion-primitive glass-w-full"
       >
         <div
-          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none overflow-hidden"
-          style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+          class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl overflow-hidden glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset duration-[300ms] ease-out glass-p-4 transition-none glass-overflow-hidden"
+          style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <div
             class="glass-relative glass-z-10"
@@ -35,13 +35,15 @@ exports[`GlassChart matches snapshot 1`] = `
               class="glass-text-primary glass-auto-gap glass-auto-gap-md glass-p-4"
             >
               <div
-                class="glass-relative"
+                class="glass-relative glass-w-full glass-overflow-hidden"
               >
                 <svg
-                  class="glass-overflow-visible"
+                  class="glass-overflow-hidden"
                   height="400"
-                  style="max-width: 100%; height: auto;"
-                  width="640"
+                  preserveAspectRatio="none"
+                  style="display: block; max-width: 100%; min-width: 0; min-height: 400px;"
+                  viewBox="0 0 640 400"
+                  width="100%"
                 >
                   <g
                     class="glass-opacity-20"
@@ -92,9 +94,7 @@ exports[`GlassChart matches snapshot 1`] = `
                       y2="20"
                     />
                   </g>
-                  <div
-                    class="motion-primitive glass-relative"
-                  >
+                  <g>
                     <rect
                       class="glass-cursor-pointer glass-transition-all glass-duration-[150ms] hover:glass-opacity-80"
                       fill="#6366F1"
@@ -105,10 +105,8 @@ exports[`GlassChart matches snapshot 1`] = `
                       x="86"
                       y="313.3333333333333"
                     />
-                  </div>
-                  <div
-                    class="motion-primitive glass-relative"
-                  >
+                  </g>
+                  <g>
                     <rect
                       class="glass-cursor-pointer glass-transition-all glass-duration-[150ms] hover:glass-opacity-80"
                       fill="#6366F1"
@@ -119,7 +117,7 @@ exports[`GlassChart matches snapshot 1`] = `
                       x="346"
                       y="46.666666666666686"
                     />
-                  </div>
+                  </g>
                   <line
                     class="glass-text-primary-glass-opacity-50"
                     stroke="currentColor"
@@ -139,8 +137,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     y2="340"
                   />
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="middle"
                     x="190"
                     y="360"
@@ -148,8 +146,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     A
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="middle"
                     x="450"
                     y="360"
@@ -157,8 +155,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     B
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="end"
                     x="50"
                     y="344"
@@ -166,8 +164,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     9
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="end"
                     x="50"
                     y="264"
@@ -175,8 +173,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     12
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="end"
                     x="50"
                     y="184"
@@ -184,8 +182,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     15
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="end"
                     x="50"
                     y="104"
@@ -193,8 +191,8 @@ exports[`GlassChart matches snapshot 1`] = `
                     18
                   </text>
                   <text
-                    class="glass-text-xs glass-fill-white/70"
-                    style="font-size: 0.625rem;"
+                    class="glass-text-xs"
+                    style="fill: rgba(226, 232, 240, 0.78); font-size: 0.625rem;"
                     text-anchor="end"
                     x="50"
                     y="24"
@@ -210,7 +208,7 @@ exports[`GlassChart matches snapshot 1`] = `
               >
                 <div
                   aria-label="Series 1 data series"
-                  class="flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[150ms] glass-hover--translate-y-0-5 opacity-100"
+                  class="glass-flex glass-items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md glass-transition-all glass-duration-[150ms] glass-hover--translate-y-0-5 glass-opacity-100"
                   role="listitem"
                   tabindex="0"
                 >

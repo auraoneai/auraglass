@@ -7,6 +7,7 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../../tokens/designConstants";
+import { DEFAULT_CHART_COLORS, resolveChartColor } from "../utils/chartColors";
 
 export interface ChartLegendProps {
   datasets?: any[];
@@ -106,10 +107,10 @@ export const ChartLegend: React.FC<ChartLegendProps> = ({
               width: style === "compact" ? "8px" : "12px",
               height: style === "compact" ? "8px" : "12px",
               borderRadius: "var(--glass-radius-sm)",
-              background:
-                dataset.backgroundColor ||
-                dataset.borderColor ||
-                "var(--glass-color-primary)",
+              background: resolveChartColor(
+                dataset.backgroundColor || dataset.borderColor,
+                DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+              ),
               border: "1px solid var(--glass-border-subtle)",
             }}
           />

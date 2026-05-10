@@ -5,6 +5,7 @@ import { BORDER_RADIUS } from "../../../tokens/designConstants";
 
 import styles from "./ChartElementStyles.module.css";
 import { createGlassStyle } from "../../../core/mixins/glassMixins";
+import { DEFAULT_CHART_COLORS, resolveChartColor } from "../utils/chartColors";
 export interface ChartElementStyles {
   line: CSSProperties;
   area: CSSProperties;
@@ -26,14 +27,14 @@ export interface ChartElementStyles {
 
 export const createChartElementStyles = (
   theme: "light" | "dark" | "glass" = "glass",
-  colorScheme: string[] = [
-    "var(--glass-color-primary)",
-    "var(--glass-color-danger)",
-    "var(--glass-color-success)",
-    "var(--glass-color-warning)",
-    "var(--glass-color-secondary)",
-  ]
+  colorScheme: string[] = DEFAULT_CHART_COLORS
 ): ChartElementStyles => {
+  const resolvedColorScheme = colorScheme.map((color, index) =>
+    resolveChartColor(
+      color,
+      DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+    )
+  );
   const baseStyles: ChartElementStyles = {
     line: {
       strokeWidth: 2,
@@ -56,10 +57,10 @@ export const createChartElementStyles = (
       strokeWidth: 2,
       stroke:
         theme === "glass"
-          ? "color-mix(in srgb, var(--glass-white) 20%, transparent)"
+          ? "rgba(255, 255, 255, 0.2)"
           : theme === "dark"
-            ? "var(--glass-gray-700)"
-            : "var(--glass-white)",
+            ? "#334155"
+            : "#ffffff",
     },
     scatter: {
       r: 4,
@@ -68,15 +69,13 @@ export const createChartElementStyles = (
     } as any,
     axis: {
       line: {
-        stroke:
-          theme === "dark" ? "var(--glass-gray-600)" : "var(--glass-gray-300)",
+        stroke: theme === "dark" ? "#475569" : "#cbd5e1",
         strokeWidth: 1,
       },
       text: {
         fontSize: "12px",
         fontWeight: 400,
-        fill:
-          theme === "dark" ? "var(--glass-gray-300)" : "var(--glass-gray-600)",
+        fill: theme === "dark" ? "#cbd5e1" : "#475569",
       },
       tick: {
         stroke:
@@ -91,40 +90,40 @@ export const createChartElementStyles = (
       cursor: "pointer",
     } as any,
     gradient: {
-      start: "hsl(var(--glass-color-primary)/0.2)",
-      end: "hsl(var(--glass-color-primary)/0.05)",
+      start: "rgba(112, 214, 255, 0.2)",
+      end: "rgba(112, 214, 255, 0.05)",
       stops: [
-        { offset: "0%", color: "hsl(var(--glass-color-primary)/0.2)" },
-        { offset: "100%", color: "hsl(var(--glass-color-primary)/0.05)" },
+        { offset: "0%", color: "rgba(112, 214, 255, 0.2)" },
+        { offset: "100%", color: "rgba(112, 214, 255, 0.05)" },
       ],
     },
   };
 
   // Apply theme-specific color adjustments
   if (theme === "glass") {
-    baseStyles.line.stroke = colorScheme[0];
+    baseStyles.line.stroke = resolvedColorScheme[0];
     baseStyles.area.fill = `url(#area-gradient-${theme})`;
-    baseStyles.bar.fill = colorScheme[0];
-    baseStyles.pie.fill = colorScheme[0];
-    baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = "var(--glass-border-hover)";
-    baseStyles.dataPoint.stroke = "var(--glass-border-hover)";
+    baseStyles.bar.fill = resolvedColorScheme[0];
+    baseStyles.pie.fill = resolvedColorScheme[0];
+    baseStyles.scatter.fill = resolvedColorScheme[0];
+    baseStyles.scatter.stroke = "rgba(226, 232, 240, 0.42)";
+    baseStyles.dataPoint.stroke = "rgba(226, 232, 240, 0.42)";
   } else if (theme === "dark") {
-    baseStyles.line.stroke = colorScheme[0];
-    baseStyles.area.fill = colorScheme[0];
-    baseStyles.bar.fill = colorScheme[0];
-    baseStyles.pie.fill = colorScheme[0];
-    baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = "var(--glass-white)";
-    baseStyles.dataPoint.stroke = "var(--glass-white)";
+    baseStyles.line.stroke = resolvedColorScheme[0];
+    baseStyles.area.fill = resolvedColorScheme[0];
+    baseStyles.bar.fill = resolvedColorScheme[0];
+    baseStyles.pie.fill = resolvedColorScheme[0];
+    baseStyles.scatter.fill = resolvedColorScheme[0];
+    baseStyles.scatter.stroke = "#ffffff";
+    baseStyles.dataPoint.stroke = "#ffffff";
   } else {
-    baseStyles.line.stroke = colorScheme[0];
-    baseStyles.area.fill = colorScheme[0];
-    baseStyles.bar.fill = colorScheme[0];
-    baseStyles.pie.fill = colorScheme[0];
-    baseStyles.scatter.fill = colorScheme[0];
-    baseStyles.scatter.stroke = "var(--glass-white)";
-    baseStyles.dataPoint.stroke = "var(--glass-white)";
+    baseStyles.line.stroke = resolvedColorScheme[0];
+    baseStyles.area.fill = resolvedColorScheme[0];
+    baseStyles.bar.fill = resolvedColorScheme[0];
+    baseStyles.pie.fill = resolvedColorScheme[0];
+    baseStyles.scatter.fill = resolvedColorScheme[0];
+    baseStyles.scatter.stroke = "#ffffff";
+    baseStyles.dataPoint.stroke = "#ffffff";
   }
 
   return baseStyles;
@@ -142,8 +141,7 @@ export const ChartTypeSelector: React.FC<
   <div className={cn(styles.typeSelector, className)} {...props} />
 );
 
-interface TypeButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface TypeButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   $active?: boolean;
 }
 
@@ -274,7 +272,7 @@ export const LegendColor: React.FC<LegendColorProps> = ({
     <div
       className={cn(styles.legendColor, className)}
       style={{
-        background: $color || "var(--glass-color-primary)",
+        background: resolveChartColor($color, DEFAULT_CHART_COLORS[0]),
         opacity: $active ? 1 : 0.5,
         ...style,
       }}
@@ -306,37 +304,10 @@ export const getColorPalette = (
   theme: "light" | "dark" | "glass" = "glass"
 ): string[] => {
   if (theme === "glass") {
-    return [
-      "var(--glass-color-primary)", // Blue
-      "var(--glass-color-danger)", // Red
-      "var(--glass-color-success)", // Green
-      "var(--glass-color-warning)", // Yellow
-      "var(--glass-color-secondary)", // Purple
-      "var(--glass-color-danger)", // Pink
-      "var(--glass-color-info)", // Cyan
-      "var(--glass-color-success)", // Lime
-    ];
+    return DEFAULT_CHART_COLORS.slice(0, 8);
   } else if (theme === "dark") {
-    return [
-      "var(--glass-color-primary-light)", // Light blue
-      "var(--glass-color-danger-light)", // Light red
-      "var(--glass-color-success-light)", // Light green
-      "var(--glass-color-warning-light)", // Light yellow
-      "var(--glass-color-secondary)", // Light purple
-      "var(--glass-color-danger)", // Light pink
-      "var(--glass-color-info)", // Light cyan
-      "var(--glass-color-success)", // Light lime
-    ];
+    return DEFAULT_CHART_COLORS.slice(0, 8);
   } else {
-    return [
-      "var(--glass-color-primary-dark)", // Dark blue
-      "var(--glass-color-danger-dark)", // Dark red
-      "var(--glass-color-success-dark)", // Dark green
-      "var(--glass-color-warning-dark)", // Dark yellow
-      "var(--glass-color-secondary)", // Dark purple
-      "var(--glass-color-danger)", // Dark pink
-      "var(--glass-color-info)", // Dark cyan
-      "var(--glass-color-success)", // Dark lime
-    ];
+    return DEFAULT_CHART_COLORS.slice(0, 8);
   }
 };

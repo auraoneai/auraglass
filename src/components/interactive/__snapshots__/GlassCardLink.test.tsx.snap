@@ -14,7 +14,7 @@ exports[`GlassCardLink matches snapshot 1`] = `
     <div
       class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high group relative block overflow-hidden glass-radius-xl glass-p-6 text-decoration-none transform-gpu transition-all duration-500 ease-out perspective-1000 transform-style-preserve-3d hover:-translate-y-2 glass-hover-scale-1-01 hover:rotate-x-1 hover:shadow-2xl hover:shadow-blue-500/20 before:absolute before:inset-0 before:z-0 before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent before:opacity-0 before:transition-opacity before:duration-500 hover:before:opacity-100 focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent"
       data-performance-mode="medium"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
         class="glass-sr-only"

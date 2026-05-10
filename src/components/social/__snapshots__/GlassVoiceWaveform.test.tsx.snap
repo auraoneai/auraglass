@@ -2,8 +2,8 @@
 
 exports[`GlassVoiceWaveform matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high p-4 space-y-4"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-p-4 glass-space-y-4"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between"
@@ -22,7 +22,7 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-space-x-1"
       >
         <div
-          class="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse"
+          class="glass-w-2 glass-h-2 glass-surface-success glass-radius-full glass-animate-pulse"
         />
         <span>
           1
@@ -32,54 +32,38 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="
-          space-y-2
-          
-        "
+    class="glass-space-y-2"
   >
     <div
-      class="
-          flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors duration-200
-          linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
-          ring-2 ring-green-400/50
-          hover:bg-white/10
-        "
+      class="glass-flex glass-items-center glass-space-x-3 glass-p-3 glass-radius-lg glass-cursor-pointer glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+      style="box-shadow: 0 0 0 2px color-mix(in srgb, var(--glass-color-success, #22c55e) 55%, transparent); transition-duration: 200ms;"
       tabindex="0"
     >
       <div
         class="glass-relative"
       >
         <div
-          class="
-              w-12 h-12
-              rounded-full bg-gradient-to-br from-gray-300 to-gray-500 
-              flex items-center justify-center text-white font-semibold
-              linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
-            "
+          class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-semibold glass-overflow-hidden glass-w-12 glass-h-12"
         >
           U
         </div>
         <div
-          class="
-                absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white
-                bg-green-400
-              "
+          class="glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-success"
+          style="right: -4px; bottom: -4px;"
         />
         <div
-          class="glass-absolute glass-top-1 glass--right-1 glass-w-4 glass-h-4 glass-surface-green glass-radius-full"
+          class="glass-absolute glass-top-1 glass-w-4 glass-h-4 glass-surface-success glass-radius-full"
+          style="right: -4px;"
         />
       </div>
       <div
-        class="glass-flex-1 glass-min-glass-w-0"
+        class="glass-flex-1 glass-min-w-0"
       >
         <div
           class="glass-flex glass-items-center glass-space-x-2"
         >
           <p
-            class="
-                font-medium text-white/90 truncate
-                text-base
-              "
+            class="glass-font-medium glass-text-primary glass-truncate glass-text-base"
           >
             User 2
           </p>
@@ -91,34 +75,24 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
             class="glass-flex glass-space-x-0.5"
           >
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-green-400
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(74, 222, 128, 0.92); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
           </div>
           <span
@@ -135,184 +109,167 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
           class="glass-flex glass-items-end glass-space-x-1 glass-h-12"
         >
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(78, 205, 196); opacity: 0.8;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(78, 205, 196); opacity: 0.8;"
           />
         </div>
         <button
-          class="
-                p-1 rounded text-sm transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                text-white/60 hover:text-white
-              "
+          class="glass-p-1 glass-radius glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
         >
           🎤
         </button>
       </div>
     </div>
     <div
-      class="
-          flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors duration-200
-          linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
-          
-          hover:bg-white/10
-        "
+      class="glass-flex glass-items-center glass-space-x-3 glass-p-3 glass-radius-lg glass-cursor-pointer glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+      style="transition-duration: 200ms;"
       tabindex="0"
     >
       <div
         class="glass-relative"
       >
         <div
-          class="
-              w-12 h-12
-              rounded-full bg-gradient-to-br from-gray-300 to-gray-500 
-              flex items-center justify-center text-white font-semibold
-              linear-gradient(135deg, rgba(255 255 255 / 0.25) 0%, rgba(255 255 255 / 0.15) 50%, rgba(255 255 255 / 0.10) 100%)
-            "
+          class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-semibold glass-overflow-hidden glass-w-12 glass-h-12"
         >
           U
         </div>
         <div
-          class="
-                absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white
-                bg-green-400
-              "
+          class="glass-absolute glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-success"
+          style="right: -4px; bottom: -4px;"
         />
       </div>
       <div
-        class="glass-flex-1 glass-min-glass-w-0"
+        class="glass-flex-1 glass-min-w-0"
       >
         <div
           class="glass-flex glass-items-center glass-space-x-2"
         >
           <p
-            class="
-                font-medium text-white/90 truncate
-                text-base
-              "
+            class="glass-font-medium glass-text-primary glass-truncate glass-text-base"
           >
             User 1
           </p>
@@ -324,34 +281,24 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
             class="glass-flex glass-space-x-0.5"
           >
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
             <div
-              class="
-                  w-1 h-3 rounded-full transition-all duration-300
-                  bg-white/20
-                "
+              class="glass-w-1 glass-h-3 glass-radius-full"
+              style="background: rgba(255, 255, 255, 0.2); transition: all 300ms ease;"
             />
           </div>
           <span
@@ -368,139 +315,136 @@ exports[`GlassVoiceWaveform matches snapshot 1`] = `
           class="glass-flex glass-items-end glass-space-x-1 glass-h-12"
         >
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
           <div
-            class="glass-bg-transparent glass-radius-full"
-            style="width: 3px; color: rgb(255, 107, 107); opacity: 0.3;"
+            class="glass-radius-full"
+            style="width: 3px; background-color: rgb(255, 107, 107); opacity: 0.3;"
           />
         </div>
         <button
-          class="
-                p-1 rounded text-sm transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                text-white/60 hover:text-white
-              "
+          class="glass-p-1 glass-radius glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
         >
           🎤
         </button>

@@ -2,6 +2,7 @@
 
 exports[`GlassFlex matches snapshot 1`] = `
 <div
-  class="flex flex-row flex-nowrap justify-start items-stretch content-start glass-gap-0 motion-safe:transition-all motion-reduce:transition-none"
+  class="glass-flex glass-min-w-0 glass-flex-row glass-flex-nowrap glass-justify-start glass-items-stretch glass-content-start glass-gap-0 motion-safe:transition-all motion-reduce:transition-none"
+  style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; align-items: stretch; align-content: flex-start; gap: 0; min-width: 0;"
 />
 `;

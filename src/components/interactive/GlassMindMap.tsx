@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { cn } from "@/lib/utils";
 import { OptimizedGlass } from "../../primitives";
 
@@ -62,7 +68,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   data,
   connections = [],
   editable = false,
-  showMinimap = true,
+  showMinimap = false,
   zoomable = true,
   direction = "horizontal",
   nodeSpacing = 120,
@@ -87,53 +93,88 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
   // Calculate positions for all nodes
   const calculatePositions = useCallback(
-    (node: MindMapNode, level = 0, parentId?: string): PositionedNode[] => {
+    (node: MindMapNode): PositionedNode[] => {
       const positionedNodes: PositionedNode[] = [];
+      const spacing = Math.max(nodeSpacing, 150);
+      const rowSpacing = 88;
+      const root = { x: 80, y: 180 };
 
-      // Calculate position based on direction and level
-      let x = 0,
-        y = 0;
+      const visit = (
+        current: MindMapNode,
+        level: number,
+        siblingIndex: number,
+        siblingCount: number,
+        parentId: string | undefined,
+        parentPosition: { x: number; y: number }
+      ) => {
+        const offset = (siblingIndex - (siblingCount - 1) / 2) * rowSpacing;
+        let position = current.position;
 
-      switch (direction) {
-        case "horizontal":
-          x = level * nodeSpacing;
-          y = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
-          break;
-        case "vertical":
-          x = positionedNodes.length * 60 - (node.children?.length || 1) * 30;
-          y = level * nodeSpacing;
-          break;
-        case "radial":
-          const angle =
-            (positionedNodes.length / (node.children?.length || 1)) *
-            Math.PI *
-            2;
-          const radius = level * nodeSpacing;
-          x = Math.cos(angle) * radius;
-          y = Math.sin(angle) * radius;
-          break;
-      }
+        if (!position) {
+          if (direction === "vertical") {
+            position = {
+              x: parentPosition.x + offset,
+              y: root.y + level * spacing,
+            };
+          } else if (direction === "radial" && level > 0) {
+            const angle = (siblingIndex / siblingCount) * Math.PI * 2;
+            const radius = spacing * level;
+            position = {
+              x: root.x + Math.cos(angle) * radius,
+              y: root.y + Math.sin(angle) * radius,
+            };
+          } else {
+            position = {
+              x: root.x + level * spacing,
+              y: parentPosition.y + offset,
+            };
+          }
+        }
 
-      const positionedNode: PositionedNode = {
-        ...node,
-        position: node.position || { x, y },
-        level,
-        parentId,
+        const positionedNode: PositionedNode = {
+          ...current,
+          position,
+          level,
+          parentId,
+        };
+
+        positionedNodes.push(positionedNode);
+
+        current.children?.forEach((child, index) => {
+          visit(
+            child,
+            level + 1,
+            index,
+            current.children?.length || 1,
+            current.id,
+            position
+          );
+        });
       };
 
-      positionedNodes.push(positionedNode);
-
-      // Process children
-      node.children?.forEach((child: any) => {
-        positionedNodes.push(...calculatePositions(child, level + 1, node.id));
-      });
-
+      visit(node, 0, 0, 1, undefined, root);
       return positionedNodes;
     },
     [direction, nodeSpacing]
   );
 
   const positionedNodes = calculatePositions(data);
+  const svgViewBox = useMemo(() => {
+    if (positionedNodes.length === 0) return "-40 0 760 320";
+
+    const minX = Math.min(...positionedNodes.map((node) => node.position.x));
+    const minY = Math.min(...positionedNodes.map((node) => node.position.y));
+    const maxX = Math.max(
+      ...positionedNodes.map((node) => node.position.x + 140)
+    );
+    const maxY = Math.max(
+      ...positionedNodes.map((node) => node.position.y + 80)
+    );
+    const width = Math.max(360, maxX - minX + 160);
+    const height = Math.max(240, maxY - minY + 140);
+
+    return `${minX - 80} ${minY - 70} ${width} ${height}`;
+  }, [positionedNodes]);
 
   // Handle node click
   const handleNodeClick = (node: PositionedNode) => {
@@ -266,7 +307,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       const connection = connections.find(
         (c) => c.from === fromNode.id && c.to === toNode.id
       );
-      const color = connection?.color || "var(--glass-white)40";
+      const color = connection?.color || "rgba(255, 255, 255, 0.28)";
       const strokeDasharray =
         connection?.type === "dashed"
           ? "5,5"
@@ -337,8 +378,12 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
       const isEditing = editingNode === node.id;
       const isDragged = draggedNode === node.id;
 
-      const nodeSize = node.size === "lg" ? 100 : node.size === "sm" ? 60 : 80;
+      const nodeSize = node.size === "lg" ? 92 : node.size === "sm" ? 58 : 74;
       const nodeHeight = nodeSize * 0.5;
+      const fill = node.color || "rgba(14, 25, 46, 0.86)";
+      const stroke = isSelected
+        ? "rgba(109, 211, 255, 0.72)"
+        : "rgba(255, 255, 255, 0.22)";
 
       let nodeElement;
 
@@ -374,10 +419,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 width={nodeSize}
                 height={nodeHeight}
                 rx="8"
-                fill={node.color || "var(--glass-white)20"}
-                stroke={
-                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
-                }
+                fill={fill}
+                stroke={stroke}
                 strokeWidth={isSelected ? "2" : "1"}
               />
             );
@@ -388,10 +431,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
             shapeElement = (
               <polygon
                 points={`${centerX},${centerY - nodeHeight / 2} ${centerX + nodeSize / 2},${centerY} ${centerX},${centerY + nodeHeight / 2} ${centerX - nodeSize / 2},${centerY}`}
-                fill={node.color || "var(--glass-white)20"}
-                stroke={
-                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
-                }
+                fill={fill}
+                stroke={stroke}
                 strokeWidth={isSelected ? "2" : "1"}
               />
             );
@@ -402,10 +443,8 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 cx={node.position.x + nodeSize / 2}
                 cy={node.position.y + nodeHeight / 2}
                 r={Math.min(nodeSize, nodeHeight) / 2}
-                fill={node.color || "var(--glass-white)20"}
-                stroke={
-                  isSelected ? "var(--glass-white)60" : "var(--glass-white)30"
-                }
+                fill={fill}
+                stroke={stroke}
                 strokeWidth={isSelected ? "2" : "1"}
               />
             );
@@ -413,7 +452,10 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
 
         nodeElement = (
           <g
-            className={`cursor-pointer glass-focus glass-touch-target glass-contrast-guard ${isDragged ? "cursor-grabbing" : "cursor-grab"}`}
+            className={cn(
+              "glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard",
+              isDragged ? "glass-cursor-grabbing" : "glass-cursor-grab"
+            )}
             onMouseDown={(e) => handleMouseDown(e, node.id)}
             onClick={(e) => handleNodeClick(node)}
             onDoubleClick={() => handleNodeDoubleClick(node)}
@@ -424,6 +466,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
               y={node.position.y + nodeHeight / 2 + 4}
               textAnchor="middle"
               className="glass-text-sm glass-fill-white glass-font-medium glass-pointer-events-none glass-select-none"
+              fill="rgba(255, 255, 255, 0.94)"
             >
               {node.icon && (
                 <tspan x={node.position.x + nodeSize / 2 - 15}>
@@ -451,27 +494,32 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
   return (
     <OptimizedGlass
       data-glass-component
-      className={`glass-mind-map relative overflow-auto ${className}`}
-      intensity="medium"
+      className={cn(
+        "glass-mind-map glass-relative glass-overflow-hidden glass-max-w-full glass-surface-dark/30 glass-border glass-border-white/10",
+        className
+      )}
+      intensity="subtle"
       elevation="level1"
       style={{
-        width: "min(920px, calc(100vw - 48px))",
-        height: "min(560px, calc(100vh - 64px))",
+        width: "100%",
+        height: "clamp(200px, 32vw, 300px)",
         maxWidth: "100%",
         boxSizing: "border-box",
+        background:
+          '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
       }}
     >
       {/* Toolbar */}
-      <div className="glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-flex glass-gap-2">
+      <div className="glass-absolute glass-top-2 glass-left-2 glass-z-10 glass-flex glass-gap-2">
         <OptimizedGlass
-          className="glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
+          className="glass-px-2 glass-py-1 glass-radius-md glass-text-xs glass-cursor-pointer glass-surface-dark/40 hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
           intensity="subtle"
           onClick={(e: React.MouseEvent) => setZoom(1)}
         >
           Reset Zoom
         </OptimizedGlass>
         <OptimizedGlass
-          className="glass-px-3 glass-py-1 glass-radius-md glass-text-sm"
+          className="glass-px-2 glass-py-1 glass-radius-md glass-text-xs glass-surface-dark/40"
           intensity="subtle"
         >
           Zoom: {(zoom * 100).toFixed(0)}%
@@ -488,7 +536,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
                 cx={(node.position.x + 160) / 3}
                 cy={(node.position.y + 120) / 3}
                 r="2"
-                fill="var(--glass-white)60"
+                fill="rgba(255, 255, 255, 0.48)"
               />
             ))}
           </svg>
@@ -502,17 +550,20 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
         onWheel={handleWheel}
         onMouseDown={handlePanStart}
         style={{
-          width: 920,
-          height: 560,
-          minWidth: 920,
-          minHeight: 560,
+          width: "100%",
+          height: "100%",
+          minWidth: 0,
+          minHeight: 0,
           cursor: isPanning ? "grabbing" : "grab",
+          background:
+            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
         }}
       >
         <svg
           ref={svgRef}
           className="glass-w-full glass-h-full"
-          viewBox="-120 -120 920 560"
+          viewBox={svgViewBox}
+          preserveAspectRatio="xMidYMid meet"
           style={{
             transform: `scale(${zoom}) translate(${pan.x / zoom}px, ${pan.y / zoom}px)`,
             transformOrigin: "center",
@@ -528,7 +579,10 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
               refY="3.5"
               orient="auto"
             >
-              <polygon points="0 0, 10 3.5, 0 7" fill="var(--glass-white)40" />
+              <polygon
+                points="0 0, 10 3.5, 0 7"
+                fill="rgba(255, 255, 255, 0.32)"
+              />
             </marker>
           </defs>
 

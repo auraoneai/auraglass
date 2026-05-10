@@ -19,28 +19,14 @@
   );
 
   /* === BORDER TOKENS === */
-  --glass-border-default: rgba(
-    var(--glass-color-white) / var(--glass-opacity-70)
-  );
-  --glass-border-hover: rgba(
-    var(--glass-color-white) / var(--glass-opacity-80)
-  );
-  --glass-border-active: rgba(
-    var(--glass-color-white) / var(--glass-opacity-90)
-  );
-  --glass-border-disabled: rgba(
-    var(--glass-color-white) / var(--glass-opacity-30)
-  );
+  --glass-border-default: rgba(var(--glass-color-black) / 0.1);
+  --glass-border-hover: rgba(var(--glass-color-black) / 0.16);
+  --glass-border-active: rgba(var(--glass-color-black) / 0.22);
+  --glass-border-disabled: rgba(var(--glass-color-black) / 0.08);
 
-  --glass-border-subtle: rgba(
-    var(--glass-color-white) / var(--glass-opacity-50)
-  );
-  --glass-border-strong: rgba(
-    var(--glass-color-white) / var(--glass-opacity-95)
-  );
-  --glass-backdrop-fallback-border: rgba(
-    var(--glass-color-black) / var(--glass-opacity-30)
-  );
+  --glass-border-subtle: rgba(var(--glass-color-black) / 0.08);
+  --glass-border-strong: rgba(var(--glass-color-black) / 0.2);
+  --glass-backdrop-fallback-border: rgba(var(--glass-color-black) / 0.18);
 
   /* === TEXT TOKENS (WCAG AA on light backgrounds) === */
   --glass-text-primary: rgba(

@@ -9,6 +9,25 @@
    BASE GLASS FOUNDATION
    ======================================== */
 
+[data-glass-component],
+[data-glass-component] *,
+[data-glass-component] *::before,
+[data-glass-component] *::after {
+  box-sizing: border-box;
+}
+
+[data-glass-component] {
+  max-width: 100%;
+  min-width: 0;
+}
+
+[data-glass-component] img,
+[data-glass-component] canvas,
+[data-glass-component] svg,
+[data-glass-component] video {
+  max-width: 100%;
+}
+
 .glass,
 .glass-foundation-complete {
   position: relative;
@@ -21,10 +40,22 @@
     --glass-theme-background-surface,
     var(--glass-gradient-default)
   );
-  --glass-text-primary: var(--glass-theme-text, currentColor);
-  --glass-text-secondary: var(--glass-theme-text, currentColor);
-  --glass-text-tertiary: var(--glass-theme-text, currentColor);
-  border: 2px solid var(--glass-border-default);
+  --glass-text-primary: var(
+    --glass-theme-text,
+    rgba(var(--glass-color-white) / var(--glass-opacity-95))
+  );
+  --glass-text-secondary: var(
+    --glass-theme-text-secondary,
+    rgba(var(--glass-color-white) / var(--glass-opacity-80))
+  );
+  --glass-text-tertiary: var(
+    --glass-theme-text-tertiary,
+    rgba(var(--glass-color-white) / var(--glass-opacity-60))
+  );
+  --typography-text-primary: var(--glass-text-primary);
+  --typography-text-secondary: var(--glass-text-secondary);
+  --typography-text-tertiary: var(--glass-text-tertiary);
+  border: 1px solid var(--glass-border-default);
   box-shadow: var(--glass-theme-shadow-panel, var(--glass-elev-2));
   border-radius: var(--glass-theme-panel-radius, var(--glass-radius-lg));
   transition: var(--glass-transition);
@@ -116,6 +147,10 @@
   border: 2px solid var(--glass-border-default);
 }
 
+.glass-border-t-white\/60 {
+  border-top-color: rgba(var(--glass-color-white) / 0.6);
+}
+
 .glass-border-4 {
   border: 4px solid var(--glass-border-default);
 }
@@ -137,16 +172,21 @@
 }
 
 /* Border color utilities */
-.glass-border-white\/10 {
-  border-color: var(--glass-bg-default);
+.glass-border-white\/10,
+.glass-border-white\/12 {
+  border-color: var(--glass-border-subtle);
 }
 
 .glass-border-white\/20 {
-  border-color: rgba(var(--glass-color-white) / var(--glass-opacity-20));
+  border-color: var(--glass-border-subtle);
 }
 
 .glass-border-white\/30 {
-  border-color: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+}
+
+.glass-border-white {
+  border-color: var(--glass-border-strong);
 }
 
 /* ========================================
@@ -216,6 +256,9 @@
 
 .glass-radius-sm {
   border-radius: var(--glass-radius-sm);
+}
+.glass-radius {
+  border-radius: var(--glass-radius-md);
 }
 
 .glass-radius-md {
@@ -448,6 +491,10 @@
   border-color: var(--glass-accent-primary-border);
 }
 
+.glass-surface-transparent {
+  background: transparent;
+}
+
 .glass-surface-success {
   background: var(--glass-gradient-success);
   border-color: var(--glass-accent-success-border);
@@ -489,8 +536,18 @@
   color: var(--glass-text-primary);
 }
 
+.glass-surface-dark\/20 {
+  background-color: rgba(var(--glass-color-black) / 0.2);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
 .glass-surface-dark\/30 {
   background-color: rgba(var(--glass-color-black) / 0.3);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-dark\/40 {
+  background-color: rgba(var(--glass-color-black) / 0.4);
   color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
 }
 
@@ -499,16 +556,128 @@
   color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
 }
 
+.glass-surface-dark {
+  background-color: rgba(var(--glass-color-black) / 0.32);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-blue,
+.glass-surface-indigo {
+  background-color: rgba(
+    var(--glass-theme-accent-primary-rgb, 56 189 248) / 0.18
+  );
+  border-color: rgba(var(--glass-theme-accent-primary-rgb, 56 189 248) / 0.32);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-green {
+  background-color: rgba(34 197 94 / 0.16);
+  border-color: rgba(34 197 94 / 0.3);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-red {
+  background-color: rgba(239 68 68 / 0.16);
+  border-color: rgba(239 68 68 / 0.3);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-red\/20 {
+  background-color: rgba(239 68 68 / 0.2);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
+.glass-surface-yellow {
+  background-color: rgba(245 158 11 / 0.16);
+  border-color: rgba(245 158 11 / 0.3);
+  color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
+}
+
 .glass-surface-blue\/20,
-.glass-surface-green\/10 {
+.glass-surface-green\/10,
+.glass-surface-primary\/20,
+.glass-surface-primary\/15,
+.glass-surface-primary\/10,
+.glass-surface-primary\/5 {
   background-color: rgba(
     var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.2
   );
   color: rgba(var(--glass-color-white) / var(--glass-opacity-95));
 }
 
+.glass-surface-primary\/15 {
+  background-color: rgba(
+    var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.15
+  );
+}
+
+.glass-surface-primary\/10 {
+  background-color: rgba(
+    var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.1
+  );
+}
+
+.glass-surface-primary\/5 {
+  background-color: rgba(
+    var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.05
+  );
+}
+
 .glass-border-blue\/50 {
   border-color: rgba(var(--glass-theme-accent-primary-rgb, 59 130 246) / 0.5);
+}
+
+.glass-border-blue,
+.glass-border-green,
+.glass-border-indigo {
+  border-color: rgba(var(--glass-theme-accent-primary-rgb, 56 189 248) / 0.42);
+}
+
+.glass-border-red {
+  border-color: rgba(239 68 68 / 0.48);
+}
+
+.glass-border-yellow {
+  border-color: rgba(245 158 11 / 0.5);
+}
+
+.glass-border-transparent {
+  border-color: transparent;
+}
+
+.hover\:glass-text-primary:hover {
+  color: var(--glass-theme-text, var(--glass-text-primary));
+}
+
+.hover\:glass-surface-subtle:hover,
+.hover\:glass-surface-subtle\/10:hover {
+  background-color: rgba(var(--glass-color-white) / 0.1);
+}
+
+.hover\:glass-border-white\/30:hover {
+  border-color: var(--glass-border-hover);
+}
+
+.hover\:glass-border-white\/40:hover,
+.hover\:glass-border-white\/50:hover {
+  border-color: var(--glass-border-strong);
+}
+
+.hover\:glass-border-blue:hover,
+.focus\:glass-border-blue:focus {
+  border-color: rgba(var(--glass-theme-accent-primary-rgb, 56 189 248) / 0.5);
+}
+
+.focus\:glass-border-red:focus {
+  border-color: rgba(239 68 68 / 0.58);
+}
+
+.focus\:glass-border-yellow:focus {
+  border-color: rgba(245 158 11 / 0.62);
+}
+
+.focus\:glass-border-green:focus {
+  border-color: rgba(74 222 128 / 0.56);
 }
 
 /* Neutral/light frosted surface intended for controls and pills.
@@ -522,8 +691,6 @@
 
 /* Override text tokens for neutral/light frosted surfaces in light contexts.
    Dark mode keeps the dark theme text tokens so tinted surfaces stay readable. */
-:root:not([data-theme="dark"]) .glass-surface-secondary,
-:root:not([data-theme="dark"]) .glass-surface-neutral,
 [data-theme="light"] .glass-surface-secondary,
 [data-theme="light"] .glass-surface-neutral,
 .glass-on-light.glass-surface-secondary,
@@ -550,11 +717,14 @@
 
 /* Explicit utilities to force contrast-aware text tokens on any element */
 .glass-text-primary {
-  color: var(--glass-text-primary) !important;
+  color: var(--glass-theme-text, var(--glass-text-primary)) !important;
 }
 
 .glass-text-secondary {
-  color: var(--glass-text-secondary) !important;
+  color: var(
+    --glass-theme-text-secondary,
+    var(--glass-theme-text, var(--glass-text-secondary))
+  ) !important;
 }
 
 :is(.glass, .glass-foundation-complete, .optimized-glass-surface)
@@ -812,15 +982,48 @@
    ======================================== */
 
 .glass-text-primary {
-  color: var(--glass-text-primary) !important;
+  color: var(--glass-theme-text, var(--glass-text-primary)) !important;
 }
 
 .glass-text-secondary {
-  color: var(--glass-text-secondary) !important;
+  color: var(
+    --glass-theme-text-secondary,
+    var(--glass-theme-text, var(--glass-text-secondary))
+  ) !important;
 }
 
 .glass-text-tertiary {
-  color: var(--glass-text-tertiary) !important;
+  color: var(
+    --glass-theme-text-tertiary,
+    var(
+      --glass-theme-text-secondary,
+      var(--glass-theme-text, var(--glass-text-tertiary))
+    )
+  ) !important;
+}
+
+[class*="glass-text-primary-opacity"],
+[class*="glass-text-primary-glass-opacity"] {
+  color: var(--glass-theme-text, var(--glass-text-primary)) !important;
+}
+
+[class*="glass-text-secondary-opacity"],
+[class*="glass-text-secondary-glass-opacity"] {
+  color: var(
+    --glass-theme-text-secondary,
+    var(--glass-theme-text, var(--glass-text-secondary))
+  ) !important;
+}
+
+[class*="glass-text-tertiary-opacity"],
+[class*="glass-text-tertiary-glass-opacity"] {
+  color: var(
+    --glass-theme-text-tertiary,
+    var(
+      --glass-theme-text-secondary,
+      var(--glass-theme-text, var(--glass-text-tertiary))
+    )
+  ) !important;
 }
 
 .glass-text-disabled {
@@ -846,6 +1049,97 @@
   color: var(
     --glass-text-muted,
     rgba(var(--glass-color-gray-500) / var(--glass-opacity-80))
+  ) !important;
+}
+
+/* Consumer-safe aliases for package components that still compose a few
+   legacy utility names internally. Scoped under AuraGlass roots so these do
+   not become a global Tailwind replacement in host apps. */
+[data-glass-component] .text-foreground,
+[data-glass-component].text-foreground {
+  color: var(--glass-theme-text, var(--glass-text-primary)) !important;
+}
+
+[data-glass-component] .text-foreground\/80,
+[data-glass-component].text-foreground\/80 {
+  color: var(
+    --glass-theme-text-secondary,
+    var(--glass-theme-text, var(--glass-text-secondary))
+  ) !important;
+}
+
+[data-glass-component] .text-primary,
+[data-glass-component].text-primary,
+[data-glass-component] .text-primary-foreground,
+[data-glass-component].text-primary-foreground {
+  color: var(--glass-theme-text, var(--glass-text-primary)) !important;
+}
+
+[data-glass-component] .text-destructive,
+[data-glass-component].text-destructive,
+[data-glass-component] .text-red-300,
+[data-glass-component].text-red-300 {
+  color: var(--glass-color-danger, #ef4444) !important;
+}
+
+[data-glass-component] .bg-primary,
+[data-glass-component].bg-primary,
+[data-glass-component] .bg-primary\/20,
+[data-glass-component].bg-primary\/20 {
+  background: color-mix(
+    in srgb,
+    var(--glass-color-primary, #38bdf8) 24%,
+    transparent
+  ) !important;
+}
+
+[data-glass-component] .bg-green-500,
+[data-glass-component].bg-green-500,
+[data-glass-component] .bg-green-500\/20,
+[data-glass-component].bg-green-500\/20 {
+  background: color-mix(
+    in srgb,
+    var(--glass-color-success, #22c55e) 24%,
+    transparent
+  ) !important;
+}
+
+[data-glass-component] .bg-white\/5,
+[data-glass-component].bg-white\/5 {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+[data-glass-component] .bg-white\/10,
+[data-glass-component].bg-white\/10 {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+[data-glass-component] .bg-white\/20,
+[data-glass-component].bg-white\/20,
+[data-glass-component] .bg-muted\/10,
+[data-glass-component].bg-muted\/10,
+[data-glass-component] .bg-muted\/20,
+[data-glass-component].bg-muted\/20 {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+[data-glass-component] .border-border\/5,
+[data-glass-component].border-border\/5,
+[data-glass-component] .border-border\/10,
+[data-glass-component].border-border\/10,
+[data-glass-component] .border-border\/20,
+[data-glass-component].border-border\/20,
+[data-glass-component] .border-white\/10,
+[data-glass-component].border-white\/10,
+[data-glass-component] .border-white\/20,
+[data-glass-component].border-white\/20,
+[data-glass-component] .border-white\/30,
+[data-glass-component].border-white\/30,
+[data-glass-component] .border-white\/40,
+[data-glass-component].border-white\/40 {
+  border-color: var(
+    --glass-border-subtle,
+    rgba(255, 255, 255, 0.12)
   ) !important;
 }
 
@@ -892,6 +1186,30 @@
 }
 .glass-border-2 {
   border-width: 2px;
+}
+
+.glass-border-primary {
+  border-color: color-mix(
+    in srgb,
+    var(--glass-color-primary, #38bdf8) 72%,
+    rgba(255, 255, 255, 0.28)
+  );
+}
+
+.glass-border-success {
+  border-color: color-mix(
+    in srgb,
+    var(--glass-color-success, #22c55e) 72%,
+    rgba(255, 255, 255, 0.28)
+  );
+}
+
+.glass-border-danger {
+  border-color: color-mix(
+    in srgb,
+    var(--glass-color-danger, #ef4444) 72%,
+    rgba(255, 255, 255, 0.28)
+  );
 }
 .glass-border-dashed {
   border-style: dashed;
@@ -1012,8 +1330,61 @@
 .glass-shadow-xl {
   box-shadow: var(--glass-shadow-xl);
 }
+.glass-shadow-2xl {
+  box-shadow: var(--glass-shadow-2xl, 0 25px 50px -12px rgb(0 0 0 / 0.35));
+}
+.glass-scale-110 {
+  transform: scale(1.1);
+}
+.glass-ring-2 {
+  box-shadow:
+    0 0 0 2px var(--glass-ring-color, rgba(var(--glass-color-white) / 0.35)),
+    var(--glass-shadow-md);
+}
+.glass-ring-1 {
+  box-shadow:
+    0 0 0 1px var(--glass-ring-color, rgba(var(--glass-color-white) / 0.24)),
+    var(--glass-shadow-sm);
+}
+.glass-ring-blue-400 {
+  --glass-ring-color: rgba(96 165 250 / 0.62);
+}
+.glass-ring-green-400 {
+  --glass-ring-color: rgba(74 222 128 / 0.58);
+}
+.glass-ring-green {
+  --glass-ring-color: rgba(74 222 128 / 0.52);
+}
+.glass-ring-red {
+  --glass-ring-color: rgba(248 113 113 / 0.56);
+}
+.glass-ring-yellow {
+  --glass-ring-color: rgba(251 191 36 / 0.56);
+}
+.glass-ring-danger {
+  --glass-ring-color: var(
+    --glass-accent-danger-border,
+    rgba(248 113 113 / 0.65)
+  );
+}
+.glass-ring-primary {
+  --glass-ring-color: var(
+    --glass-accent-primary-border,
+    rgba(112 214 255 / 0.65)
+  );
+}
+.glass-ring-white\/50 {
+  --glass-ring-color: rgba(var(--glass-color-white) / var(--glass-opacity-50));
+}
 .glass-transition {
   transition: var(--glass-transition);
+}
+.glass-transition-all {
+  transition: all var(--glass-transition-duration)
+    var(--glass-transition-easing);
+}
+.glass-duration-200 {
+  transition-duration: 200ms;
 }
 
 /* Color picker helpers */
@@ -1131,6 +1502,9 @@
   padding-left: var(--glass-space-8);
   padding-right: var(--glass-space-8);
 }
+.glass-pr-8 {
+  padding-right: var(--glass-space-8);
+}
 
 .glass-py-0 {
   padding-top: var(--glass-space-0);
@@ -1139,6 +1513,10 @@
 .glass-py-1 {
   padding-top: var(--glass-space-1);
   padding-bottom: var(--glass-space-1);
+}
+.glass-py-1\.5 {
+  padding-top: var(--glass-space-1-5);
+  padding-bottom: var(--glass-space-1-5);
 }
 .glass-py-2 {
   padding-top: var(--glass-space-2);
@@ -1163,6 +1541,19 @@
 .glass-py-8 {
   padding-top: var(--glass-space-8);
   padding-bottom: var(--glass-space-8);
+}
+
+.glass-pb-1 {
+  padding-bottom: var(--glass-space-1);
+}
+.glass-pb-2 {
+  padding-bottom: var(--glass-space-2);
+}
+.glass-pb-3 {
+  padding-bottom: var(--glass-space-3);
+}
+.glass-pb-4 {
+  padding-bottom: var(--glass-space-4);
 }
 
 /* Margin utilities */
@@ -1676,7 +2067,7 @@ svg.glass-touch-target {
   padding: var(--glass-space-3) var(--glass-space-6);
   min-height: var(--glass-touch-target-min);
   background: var(--glass-gradient-default);
-  border: 2px solid var(--glass-border-default);
+  border: 1px solid var(--glass-border-default);
   border-radius: var(--glass-radius-lg);
   color: var(--glass-text-primary);
   font-weight: var(--glass-font-medium);
@@ -1772,7 +2163,7 @@ svg.glass-touch-target {
   background: var(--glass-bg-strong);
   backdrop-filter: blur(var(--glass-blur-xl)) var(--glass-filter-base);
   -webkit-backdrop-filter: blur(var(--glass-blur-xl)) var(--glass-filter-base);
-  border: 2px solid var(--glass-border-strong);
+  border: 1px solid var(--glass-border-strong);
   box-shadow: var(--glass-elev-5);
   z-index: var(--glass-z-50);
 }
@@ -1821,8 +2212,20 @@ svg.glass-touch-target {
 .glass-inline-flex {
   display: inline-flex;
 }
+.glass-flex-row {
+  flex-direction: row;
+}
+.glass-flex-col {
+  flex-direction: column;
+}
 .glass-inline-glass-block {
   display: inline-block;
+}
+.glass-inline-block {
+  display: inline-block;
+}
+.glass-hidden {
+  display: none;
 }
 .glass-grid {
   display: grid;
@@ -1830,8 +2233,26 @@ svg.glass-touch-target {
 .glass-inline-grid {
   display: inline-grid;
 }
+
+@media (min-width: 640px) {
+  .sm\:glass-inline {
+    display: inline;
+  }
+}
 .glass-cursor-pointer {
   cursor: pointer;
+}
+.glass-cursor-not-allowed {
+  cursor: not-allowed;
+}
+.glass-cursor-crosshair {
+  cursor: crosshair;
+}
+.glass-cursor-grab {
+  cursor: grab;
+}
+.glass-cursor-grabbing {
+  cursor: grabbing;
 }
 
 /* Flex utilities */
@@ -1888,11 +2309,59 @@ svg.glass-touch-target {
 .glass-h-full {
   height: 100%;
 }
+.glass-max-w-full {
+  max-width: 100%;
+}
+.glass-max-h-full {
+  max-height: 100%;
+}
+.glass-max-h-90vh {
+  max-height: 90vh;
+}
+.glass-max-w-20 {
+  max-width: 5rem;
+}
+.glass-max-w-24 {
+  max-width: 6rem;
+}
+.glass-max-w-xs {
+  max-width: 20rem;
+}
+.glass-max-w-4xl {
+  max-width: 56rem;
+}
+.glass-max-w-6xl {
+  max-width: 72rem;
+}
 .glass-min-w-0 {
   min-width: 0;
 }
+.glass-shrink-0 {
+  flex-shrink: 0;
+}
+.glass-min-w-120px {
+  min-width: 120px;
+}
 .glass-min-h-0 {
   min-height: 0;
+}
+.glass-min-h-16 {
+  min-height: var(--glass-space-16);
+}
+.glass-min-h-20 {
+  min-height: var(--glass-space-20);
+}
+.glass-min-h-32 {
+  min-height: var(--glass-space-32);
+}
+.glass-min-h-160px {
+  min-height: 160px;
+}
+.glass-min-h-220px {
+  min-height: 220px;
+}
+.glass-min-h-300px {
+  min-height: 300px;
 }
 .glass-min-h-full {
   min-height: 100%;
@@ -2099,6 +2568,10 @@ svg.glass-touch-target {
   display: block;
 }
 
+.glass-focus-outline-none:focus {
+  outline: none;
+}
+
 /* Screen reader only */
 .glass-sr-only,
 .sr-only {
@@ -2217,12 +2690,50 @@ svg.glass-touch-target {
 .glass-bg-transparent {
   background: transparent;
 }
+.glass-outline-none {
+  outline: none;
+}
 .glass-bg-clip-text {
   -webkit-background-clip: text;
   background-clip: text;
 }
 .glass-text-transparent {
   color: transparent;
+}
+.glass-text-danger {
+  color: var(--glass-accent-danger-foreground, #fecaca);
+}
+
+.glass-aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.glass-aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.glass-object-cover {
+  object-fit: cover;
+}
+
+.glass-object-contain {
+  object-fit: contain;
+}
+
+.glass-fill-white\/70 {
+  fill: rgba(var(--glass-color-white) / var(--glass-opacity-70));
+}
+
+.glass-fill-white\/60 {
+  fill: rgba(var(--glass-color-white) / var(--glass-opacity-60));
+}
+
+.glass-fill-white-opacity-80 {
+  fill: rgba(var(--glass-color-white) / var(--glass-opacity-80));
+}
+
+.glass-fill-white {
+  fill: rgba(var(--glass-color-white) / var(--glass-opacity-95));
 }
 
 /* Larger typography helpers */
@@ -2233,6 +2744,9 @@ svg.glass-touch-target {
 /* Vertical spacing helpers */
 .glass-space-y-2 > * + * {
   margin-top: var(--glass-space-2);
+}
+.glass-space-y-1\.5 > * + * {
+  margin-top: calc(var(--glass-space-1) * 1.5);
 }
 .glass-space-y-3 > * + * {
   margin-top: var(--glass-space-3);
@@ -2319,6 +2833,19 @@ svg.glass-touch-target {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.glass-whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.glass-break-words {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.glass-overflow-wrap-anywhere {
+  overflow-wrap: anywhere;
 }
 
 /* Overflow */

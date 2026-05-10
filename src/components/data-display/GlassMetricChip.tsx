@@ -9,6 +9,14 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
+const metricChipSurfaceStyle: React.CSSProperties = {
+  background:
+    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+  border: "1px solid rgba(148, 163, 184, 0.22)",
+  boxShadow:
+    "0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.07)",
+};
+
 export interface GlassMetricChipProps {
   label: string;
   value: string | number;
@@ -39,9 +47,10 @@ export function GlassMetricChip({
       data-glass-component
       elevation={"level1"}
       className={cn(
-        "inline-flex items-center glass-gap-2 glass-px-3 glass-py-1.5 glass-radius-xl border border-white/15",
+        "glass-inline-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2 glass-radius-xl glass-border glass-border-white/10 glass-surface-dark/40",
         className
       )}
+      style={metricChipSurfaceStyle}
     >
       {icon && <span className="glass-opacity-80">{icon}</span>}
       <ContrastGuard>
@@ -50,7 +59,7 @@ export function GlassMetricChip({
         </span>
       </ContrastGuard>
       <ContrastGuard>
-        <span className={cn("font-semibold", intentColor)}>{value}</span>
+        <span className={cn("glass-font-semibold", intentColor)}>{value}</span>
       </ContrastGuard>
       {delta && (
         <ContrastGuard>

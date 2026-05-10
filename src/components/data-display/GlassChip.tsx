@@ -12,8 +12,10 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassChipProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
+export interface GlassChipProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onSelect"
+> {
   /** Chip content */
   children: React.ReactNode;
   /** Visual variant */
@@ -84,53 +86,54 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
 
     const sizeConfig = {
       xs: {
-        height: "h-6",
+        height: "glass-h-6",
         padding: "glass-px-2",
         text: "glass-text-xs",
-        iconSize: "w-3 h-3",
-        avatarSize: "w-4 h-4",
+        iconSize: "glass-w-3 glass-h-3",
+        avatarSize: "glass-w-4 glass-h-4",
         gap: "glass-gap-1",
       },
       sm: {
-        height: "h-7",
-        padding: "glass-px-2.5",
+        height: "glass-h-8",
+        padding: "glass-px-3",
         text: "glass-text-sm",
-        iconSize: "w-3.5 h-3.5",
-        avatarSize: "w-5 h-5",
+        iconSize: "glass-w-4 glass-h-4",
+        avatarSize: "glass-w-5 glass-h-5",
         gap: "glass-gap-1.5",
       },
       md: {
-        height: "h-8",
+        height: "glass-h-8",
         padding: "glass-px-3",
         text: "glass-text-sm",
-        iconSize: "w-4 h-4",
-        avatarSize: "w-6 h-6",
+        iconSize: "glass-w-4 glass-h-4",
+        avatarSize: "glass-w-6 glass-h-6",
         gap: "glass-gap-2",
       },
       lg: {
-        height: "h-10",
+        height: "glass-h-10",
         padding: "glass-px-4",
         text: "glass-text-base",
-        iconSize: "w-5 h-5",
-        avatarSize: "w-7 h-7",
+        iconSize: "glass-w-5 glass-h-5",
+        avatarSize: "w-7 glass-h-8",
         gap: "glass-gap-2",
       },
     };
 
     const variantConfig = {
       default: {
-        base: "bg-background/50 border-border/20 text-foreground",
-        selected: "bg-primary/20 border-primary/40 text-primary",
+        base: "bg-background/50 glass-border-glass-border/20 glass-text-primary",
+        selected: "bg-primary/20 glass-border-primary glass-text-primary",
         hover: "hover:bg-background/70",
       },
       primary: {
-        base: "bg-primary/10 border-primary/20 text-primary",
-        selected: "bg-primary/90 border-primary text-primary-foreground",
+        base: "bg-primary/10 glass-border-primary glass-text-primary",
+        selected: "bg-primary/90 glass-border-primary glass-text-primary",
         hover: "hover:bg-primary/20",
       },
       secondary: {
-        base: "bg-secondary/10 border-secondary/20 text-secondary",
-        selected: "bg-secondary/90 border-secondary text-secondary-foreground",
+        base: "bg-secondary/10 glass-border-secondary/20 glass-text-secondary",
+        selected:
+          "bg-secondary/90 glass-border-secondary glass-text-secondary-foreground",
         hover: "hover:bg-secondary/20",
       },
       success: {
@@ -157,13 +160,13 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         hover: "hover:glass-surface-info/20",
       },
       outline: {
-        base: "bg-transparent border-border text-foreground",
-        selected: "bg-primary/10 border-primary text-primary",
+        base: "bg-transparent glass-border-glass-border glass-text-primary",
+        selected: "bg-primary/10 glass-border-primary glass-text-primary",
         hover: "hover:bg-background/10",
       },
       filled: {
-        base: "bg-muted border-muted glass-text-secondary",
-        selected: "bg-primary border-primary text-primary-foreground",
+        base: "bg-muted glass-border-muted glass-text-secondary",
+        selected: "bg-primary glass-border-primary glass-text-primary",
         hover: "hover:bg-muted/80",
       },
     };
@@ -215,7 +218,7 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
         {avatar && (
           <div
             className={cn(
-              "flex-shrink-0 glass-radius-full overflow-hidden",
+              "glass-flex-shrink-0 glass-radius-full glass-overflow-hidden",
               config.avatarSize
             )}
           >
@@ -225,11 +228,13 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
 
         {/* Icon */}
         {icon && !avatar && (
-          <div className={cn("flex-shrink-0", config.iconSize)}>{icon}</div>
+          <div className={cn("glass-flex-shrink-0", config.iconSize)}>
+            {icon}
+          </div>
         )}
 
         {/* Content */}
-        <span className="glass-flex-1 glass-min-glass-w-0 glass-truncate glass-font-medium">
+        <span className="glass-flex-1 glass-min-w-0 glass-truncate glass-font-medium">
           {children}
         </span>
 
@@ -240,9 +245,9 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
             onClick={handleRemove}
             disabled={disabled}
             className={cn(
-              "flex-shrink-0 glass-ml-1 glass-radius-full transition-colors",
+              "glass-flex-shrink-0 glass-ml-1 glass-radius-full transition-colors",
               "hover:bg-current/20 focus:outline-none focus:ring-1 focus:ring-current",
-              "flex items-center justify-center",
+              "glass-flex glass-items-center glass-justify-center",
               config.iconSize,
               disabled && "opacity-50 cursor-not-allowed",
               "glass-focus glass-touch-target glass-contrast-guard"
@@ -280,14 +285,14 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
           liftOnHover={isInteractive && !disabled}
           press={isInteractive ? true : false}
           className={cn(
-            "glass-chip relative inline-flex items-center glass-radius-full border glass-backdrop-blur-md",
+            "glass-chip glass-relative glass-inline-flex glass-items-center glass-radius-full glass-border glass-backdrop-blur-md",
             "transition-all duration-200 select-none",
             config.height,
             config.padding,
             config.text,
             config.gap,
             selected ? colors.selected : colors.base,
-            isInteractive && !disabled && "cursor-pointer",
+            isInteractive && !disabled && "glass-cursor-pointer",
             isInteractive && !disabled && colors.hover,
             isInteractive &&
               !disabled &&
@@ -324,8 +329,10 @@ export const GlassChip = forwardRef<HTMLDivElement, GlassChipProps>(
 GlassChip.displayName = "GlassChip";
 
 // Chip Group Component
-export interface GlassChipGroupProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface GlassChipGroupProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   /** Array of chip data */
   chips: Array<{
     id: string;
@@ -424,9 +431,9 @@ export const GlassChipGroup = forwardRef<HTMLDivElement, GlassChipGroupProps>(
       <div
         ref={ref}
         className={cn(
-          "glass-chip-group flex items-center",
+          "glass-chip-group glass-flex glass-items-center",
           spacingConfig[spacing],
-          wrap && "flex-wrap",
+          wrap && "glass-flex-wrap",
           className
         )}
         role={selectionMode !== "none" ? "group" : undefined}

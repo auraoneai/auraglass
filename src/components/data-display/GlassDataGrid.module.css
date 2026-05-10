@@ -1,6 +1,6 @@
 .table {
   width: 100%;
-  min-width: max(640px, 100%);
+  min-width: var(--glass-datagrid-min-width, 100%);
   border-collapse: separate;
   border-spacing: 0;
   font-family: var(--aura-font-sans);

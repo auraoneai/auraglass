@@ -1110,6 +1110,7 @@ export const GlassTabBar = forwardRef<
       {/* Tab buttons */}
       {visibleTabs.map((tab, index) => {
         const isActive = index === activeTab;
+        const tabKey = tab.value ?? tab.id ?? index;
 
         // Check if this specific tab represents the "More" menu trigger
         const isMoreTab =
@@ -1124,12 +1125,12 @@ export const GlassTabBar = forwardRef<
 
         // Conditionally render using renderTab prop or default TabItemComponent
         return renderTab ? (
-          <React.Fragment key={`tab-${tab.value}`}>
+          <React.Fragment key={`tab-${tabKey}`}>
             {renderTab(tab, index, isActive)}
           </React.Fragment>
         ) : (
           <TabItemComponent
-            key={`tab-${tab.value}`}
+            key={`tab-${tabKey}`}
             id={tab.id || `tab-${index}`}
             label={tab.label}
             icon={tab.icon}

@@ -38,6 +38,7 @@ export interface GlassMusicVisualizerProps {
   showFrequencyDisplay?: boolean;
   showWaveform?: boolean;
   showSpectrum?: boolean;
+  showSettings?: boolean;
   realTimeAnalysis?: boolean;
   enableInteraction?: boolean;
   enableRecording?: boolean;
@@ -134,10 +135,11 @@ const colorSchemes = {
 };
 
 const readableGlassTextStyle: React.CSSProperties = {
-  "--glass-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--typography-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--glass-theme-text": "rgba(15, 23, 42, 0.94)",
-  color: "rgba(15, 23, 42, 0.94)",
+  "--glass-text-primary": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--typography-text-primary":
+    "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--glass-theme-text": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  color: "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
 } as React.CSSProperties;
 
 export const GlassMusicVisualizer = forwardRef<
@@ -150,9 +152,10 @@ export const GlassMusicVisualizer = forwardRef<
       audioSettings = {},
       visualSettings = {},
       showControls = true,
-      showFrequencyDisplay = true,
+      showFrequencyDisplay = false,
       showWaveform = true,
       showSpectrum = true,
+      showSettings = false,
       realTimeAnalysis = true,
       enableInteraction = true,
       enableRecording = false,
@@ -221,8 +224,9 @@ export const GlassMusicVisualizer = forwardRef<
     const initializeAudio = useCallback(async () => {
       try {
         if (!audioContextRef.current) {
-          audioContextRef.current = new (window.AudioContext ||
-            (window as any).webkitAudioContext)();
+          audioContextRef.current = new (
+            window.AudioContext || (window as any).webkitAudioContext
+          )();
         }
 
         const context = audioContextRef.current;
@@ -726,14 +730,15 @@ export const GlassMusicVisualizer = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        className={`p-6 space-y-6 ${className}`}
-        style={readableGlassTextStyle}
+        data-glass-component
+        className={`glass-music-visualizer glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
+        style={{ ...readableGlassTextStyle, maxHeight: "100%", minWidth: 0 }}
         {...props}
       >
         {/* Header */}
         <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+          <div className="glass-min-w-0">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90">
               Music Visualizer
             </h3>
             <p className="glass-text-sm glass-text-primary-glass-opacity-60">
@@ -786,9 +791,13 @@ export const GlassMusicVisualizer = forwardRef<
             width={canvasWidth}
             height={canvasHeight}
             className={`
-              w-full border border-white/20 rounded-lg bg-black/20
-              ${enableInteraction ? "cursor-pointer" : ""}
+              glass-w-full glass-border glass-border-white/20 glass-radius-lg glass-surface-dark/20
+              ${enableInteraction ? "glass-cursor-pointer" : ""}
             `}
+            style={{
+              height: "clamp(120px, 26vw, 220px)",
+              display: "block",
+            }}
             onClick={
               enableInteraction
                 ? isPlaying
@@ -811,151 +820,153 @@ export const GlassMusicVisualizer = forwardRef<
         </div>
 
         {/* Visualization controls */}
-        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
-          <div className="glass-space-y-4">
-            <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
-              Visualization
-            </h4>
+        {showSettings && (
+          <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
+            <div className="glass-space-y-4">
+              <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
+                Visualization
+              </h4>
 
-            <div className="glass-space-y-3">
-              <div>
-                <label
-                  htmlFor={modeSelectId}
-                  className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-                >
-                  Mode
-                </label>
-                <select
-                  id={modeSelectId}
-                  value={visualConfig.mode}
-                  onChange={(e) =>
-                    setVisualConfig((prev: any) => ({
-                      ...prev,
-                      mode: e.target.value as any,
-                    }))
-                  }
-                  className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-                  aria-label="Visualization mode"
-                >
-                  <option value="bars">Frequency Bars</option>
-                  <option value="wave">Waveform</option>
-                  <option value="circular">Circular</option>
-                  <option value="spectrum">Spectrum</option>
-                  <option value="particles">Particles</option>
-                  <option value="ripples">Ripples</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor={colorSchemeSelectId}
-                  className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
-                >
-                  Color Scheme
-                </label>
-                <select
-                  id={colorSchemeSelectId}
-                  value={visualConfig.colorScheme}
-                  onChange={(e) =>
-                    setVisualConfig((prev: any) => ({
-                      ...prev,
-                      colorScheme: e.target.value as any,
-                    }))
-                  }
-                  className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-                  aria-label="Color scheme"
-                >
-                  <option value="rainbow">Rainbow</option>
-                  <option value="monochrome">Monochrome</option>
-                  <option value="neon">Neon</option>
-                  <option value="fire">Fire</option>
-                  <option value="ice">Ice</option>
-                  <option value="galaxy">Galaxy</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
-                  Sensitivity: {visualConfig.sensitivity.toFixed(1)}
-                </label>
-                <input
-                  type="range"
-                  min="0.1"
-                  max="3.0"
-                  step="0.1"
-                  value={visualConfig.sensitivity}
-                  onChange={(e) =>
-                    setVisualConfig((prev: any) => ({
-                      ...prev,
-                      sensitivity: parseFloat(e.target.value),
-                    }))
-                  }
-                  className="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
-                  aria-label="Sensitivity"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="glass-space-y-4">
-            <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
-              Audio Settings
-            </h4>
-
-            <div className="glass-space-y-3">
-              <div>
-                <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
-                  Smoothing: {audioConfig.smoothing.toFixed(1)}
-                </label>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="1.0"
-                  step="0.1"
-                  value={audioConfig.smoothing}
-                  onChange={(e) => {
-                    const smoothing = parseFloat(e.target.value);
-                    setAudioConfig((prev: any) => ({ ...prev, smoothing }));
-                    if (analyserRef.current) {
-                      analyserRef.current.smoothingTimeConstant = smoothing;
+              <div className="glass-space-y-3">
+                <div>
+                  <label
+                    htmlFor={modeSelectId}
+                    className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
+                  >
+                    Mode
+                  </label>
+                  <select
+                    id={modeSelectId}
+                    value={visualConfig.mode}
+                    onChange={(e) =>
+                      setVisualConfig((prev: any) => ({
+                        ...prev,
+                        mode: e.target.value as any,
+                      }))
                     }
-                  }}
-                  className="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
-                  aria-label="Smoothing"
-                />
-              </div>
+                    className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
+                    aria-label="Visualization mode"
+                  >
+                    <option value="bars">Frequency Bars</option>
+                    <option value="wave">Waveform</option>
+                    <option value="circular">Circular</option>
+                    <option value="spectrum">Spectrum</option>
+                    <option value="particles">Particles</option>
+                    <option value="ripples">Ripples</option>
+                  </select>
+                </div>
 
-              <div>
-                <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
-                  FFT Size
-                </label>
-                <select
-                  value={audioConfig.fftSize}
-                  onChange={(e) =>
-                    setAudioConfig((prev: any) => ({
-                      ...prev,
-                      fftSize: parseInt(e.target.value),
-                    }))
-                  }
-                  className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
-                  aria-label="FFT size"
-                >
-                  <option value="128">128</option>
-                  <option value="256">256</option>
-                  <option value="512">512</option>
-                  <option value="1024">1024</option>
-                  <option value="2048">2048</option>
-                </select>
+                <div>
+                  <label
+                    htmlFor={colorSchemeSelectId}
+                    className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1"
+                  >
+                    Color Scheme
+                  </label>
+                  <select
+                    id={colorSchemeSelectId}
+                    value={visualConfig.colorScheme}
+                    onChange={(e) =>
+                      setVisualConfig((prev: any) => ({
+                        ...prev,
+                        colorScheme: e.target.value as any,
+                      }))
+                    }
+                    className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
+                    aria-label="Color scheme"
+                  >
+                    <option value="rainbow">Rainbow</option>
+                    <option value="monochrome">Monochrome</option>
+                    <option value="neon">Neon</option>
+                    <option value="fire">Fire</option>
+                    <option value="ice">Ice</option>
+                    <option value="galaxy">Galaxy</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
+                    Sensitivity: {visualConfig.sensitivity.toFixed(1)}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.1"
+                    max="3.0"
+                    step="0.1"
+                    value={visualConfig.sensitivity}
+                    onChange={(e) =>
+                      setVisualConfig((prev: any) => ({
+                        ...prev,
+                        sensitivity: parseFloat(e.target.value),
+                      }))
+                    }
+                    className="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
+                    aria-label="Sensitivity"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-space-y-4">
+              <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
+                Audio Settings
+              </h4>
+
+              <div className="glass-space-y-3">
+                <div>
+                  <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
+                    Smoothing: {audioConfig.smoothing.toFixed(1)}
+                  </label>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="1.0"
+                    step="0.1"
+                    value={audioConfig.smoothing}
+                    onChange={(e) => {
+                      const smoothing = parseFloat(e.target.value);
+                      setAudioConfig((prev: any) => ({ ...prev, smoothing }));
+                      if (analyserRef.current) {
+                        analyserRef.current.smoothingTimeConstant = smoothing;
+                      }
+                    }}
+                    className="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
+                    aria-label="Smoothing"
+                  />
+                </div>
+
+                <div>
+                  <label className="glass-block glass-text-xs glass-text-primary-opacity-70 glass-mb-1">
+                    FFT Size
+                  </label>
+                  <select
+                    value={audioConfig.fftSize}
+                    onChange={(e) =>
+                      setAudioConfig((prev: any) => ({
+                        ...prev,
+                        fftSize: parseInt(e.target.value),
+                      }))
+                    }
+                    className="glass-w-full glass-p-2 glass-surface-subtle/10 glass-border glass-border-white/20 glass-radius-lg glass-text-primary-glass-opacity-90 glass-text-sm"
+                    aria-label="FFT size"
+                  >
+                    <option value="128">128</option>
+                    <option value="256">256</option>
+                    <option value="512">512</option>
+                    <option value="1024">1024</option>
+                    <option value="2048">2048</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Frequency display */}
         {showFrequencyDisplay && (
           <div
             className={`
-            p-3 rounded-lg border border-white/10
+            glass-p-3 glass-radius-lg glass-border glass-border-white/10
             ${createGlassStyle({ blur: "sm", opacity: 0.6 }).background}
           `}
           >

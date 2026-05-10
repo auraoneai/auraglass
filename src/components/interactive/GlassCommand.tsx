@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { GlassInput } from "../input/GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
@@ -102,8 +102,10 @@ export interface GlassCommandDialogProps extends GlassCommandProps {
   description?: string;
 }
 
-export interface GlassCommandInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface GlassCommandInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
   /**
    * Custom className
    */
@@ -124,6 +126,33 @@ export interface GlassCommandListProps {
    */
   className?: string;
 }
+
+const DEFAULT_COMMAND_ITEMS: CommandItem[] = [
+  {
+    id: "open-file",
+    label: "Open file",
+    description: "Open a workspace file",
+    keywords: ["open", "file"],
+    group: "Quick actions",
+    action: () => {},
+  },
+  {
+    id: "save",
+    label: "Save",
+    description: "Persist current changes",
+    keywords: ["save", "write"],
+    group: "Quick actions",
+    action: () => {},
+  },
+  {
+    id: "find",
+    label: "Find",
+    description: "Search the current view",
+    keywords: ["search", "find"],
+    group: "Navigation",
+    action: () => {},
+  },
+];
 
 // Context for command state
 const CommandContext = createContext<{
@@ -148,7 +177,7 @@ const useCommandContext = () => {
  * A glassmorphism command palette with search functionality
  */
 export const GlassCommand: React.FC<GlassCommandProps> = ({
-  items = [],
+  items = DEFAULT_COMMAND_ITEMS,
   placeholder = "Search commands...",
   emptyMessage = "No commands found",
   loading = false,
@@ -220,10 +249,12 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
+        if (totalItems === 0) break;
         setSelectedIndex((prev: any) => (prev + 1) % totalItems);
         break;
       case "ArrowUp":
         e.preventDefault();
+        if (totalItems === 0) break;
         setSelectedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);
         break;
       case "Enter":
@@ -253,18 +284,28 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
     >
       <OptimizedGlass
         intent="neutral"
-        elevation="level3"
-        intensity="strong"
+        elevation="level1"
+        intensity="subtle"
         depth={2}
         tint="neutral"
         border="subtle"
-        animation="pulse"
-        performanceMode="high"
-        className={cn("glass-radius-lg", className)}
+        animation="none"
+        performanceMode="medium"
+        className={cn(
+          "glass-radius-lg glass-surface-dark/30 glass-border glass-border-white/10 glass-overflow-hidden",
+          className
+        )}
+        style={{
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+          border: "1px solid rgba(148, 163, 184, 0.18)",
+          boxShadow:
+            "0 18px 44px rgba(2, 6, 23, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+        }}
         aria-label={ariaLabel}
         data-testid={dataTestId}
       >
-        <div className="glass-p-4">
+        <div className="glass-p-3">
           {/* Search Input */}
           <GlassCommandInput
             placeholder={placeholder}
@@ -278,13 +319,13 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
           <GlassCommandList maxHeight={maxHeight}>
             {loading ? (
               <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
-                <div className='glass-w-6 glass-h-6 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin' />
+                <div className="glass-w-6 glass-h-6 glass-border-2 glass-border-white/30 glass-border-t-white/60 glass-radius-full glass-animate-spin" />
               </div>
             ) : (filteredItems?.length || 0) === 0 ? (
               renderEmpty ? (
                 renderEmpty()
               ) : (
-                <div className='glass-text-center glass-py-8 glass-text-primary-glass-opacity-50'>
+                <div className="glass-text-center glass-py-6 glass-text-secondary">
                   {emptyMessage}
                 </div>
               )
@@ -292,7 +333,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
               Object.entries(groupedItems).map(([groupName, groupItems]) => (
                 <div key={groupName}>
                   {groupName && (
-                    <div className='glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-primary-glass-opacity-60 glass-border-b glass-border-white/10'>
+                    <div className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-border-b glass-border-white/10">
                       {groupName}
                     </div>
                   )}
@@ -304,12 +345,13 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
                       <div
                         key={item?.id}
                         className={cn(
-                          "flex items-center glass-px-3 glass-py-2 cursor-pointer transition-all duration-200 glass-radius-md",
-                          "hover:bg-white/10 glass-hover--translate-y-0-5",
+                          "glass-flex glass-items-center glass-px-3 glass-py-2 glass-cursor-pointer glass-transition-all glass-duration-200 glass-radius-md",
+                          "hover:glass-surface-subtle/10 glass-hover--translate-y-0-5",
                           {
-                            "bg-white/20 glass-text-primary shadow-md ring-1 ring-white/20":
+                            "glass-surface-primary/20 glass-text-primary glass-ring-1 glass-ring-primary":
                               isSelected,
-                            "opacity-50 cursor-not-allowed": item?.disabled,
+                            "glass-opacity-50 glass-cursor-not-allowed":
+                              item?.disabled,
                           }
                         )}
                         onClick={(e) => handleSelect(item)}
@@ -319,16 +361,16 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
                         ) : (
                           <>
                             {item?.icon && (
-                              <div className='glass-flex glass-items-center glass-justify-center glass-w-5 glass-h-5 glass-mr-3 glass-text-primary-opacity-70'>
+                              <div className="glass-flex glass-items-center glass-justify-center glass-w-5 glass-h-5 glass-mr-3 glass-text-secondary">
                                 {item?.icon}
                               </div>
                             )}
-                            <div className="glass-flex-1 glass-min-glass-w-0">
-                              <div className='glass-text-primary-glass-opacity-90 glass-font-medium glass-truncate'>
+                            <div className="glass-flex-1 glass-min-w-0">
+                              <div className="glass-text-primary glass-font-medium glass-truncate">
                                 {item?.label}
                               </div>
                               {item?.description && (
-                                <div className='glass-text-primary-glass-opacity-60 glass-text-sm glass-truncate'>
+                                <div className="glass-text-secondary glass-text-sm glass-truncate">
                                   {item?.description}
                                 </div>
                               )}
@@ -392,10 +434,10 @@ export const GlassCommandDialog: React.FC<GlassCommandDialogProps> = ({
   if (!open) return null;
 
   return (
-    <div className='glass-fixed glass-inset-0 glass-z-9999 glass-flex glass-items-center glass-justify-center glass-p-4 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard'>
+    <div className="glass-fixed glass-inset-0 glass-z-9999 glass-flex glass-items-center glass-justify-center glass-p-4 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard">
       <Motion
         preset="scaleIn"
-        className='glass-w-full glass-max-w-lg'
+        className="glass-w-full glass-max-w-lg"
         onAnimationEnd={() => {
           // Focus first input when animation completes
           const input = dialogRef.current?.querySelector("input");
@@ -438,21 +480,35 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
   };
 
   return (
-    <div className='glass-relative glass-mb-4'>
-      <Search className='glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50' />
+    <div className="glass-relative glass-mb-3">
+      <Search className="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-secondary" />
       <OptimizedGlass
-        variant="clear"
         elevation={"level1"}
-        className="glass-backdrop-blur-md glass-radius-lg glass-contrast-guard"
+        intensity="subtle"
+        animation="none"
+        className="glass-backdrop-blur-md glass-radius-lg glass-border glass-border-white/10 glass-surface-dark/40 glass-contrast-guard"
+        style={{
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          border: "1px solid rgba(148, 163, 184, 0.2)",
+          boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+        }}
       >
         <GlassInput
+          {...inputProps}
           className={cn(
-            "w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none",
-            "glass-text-primary placeholder-white/50",
-            "focus:ring-2 glass-focus-ring-white-opacity-30",
+            "glass-w-full glass-py-2 glass-bg-transparent glass-border-0 glass-outline-none",
+            "glass-text-primary",
             className
           )}
-          {...inputProps}
+          style={{
+            paddingLeft: "2.5rem",
+            paddingRight: "1rem",
+            background: "transparent",
+            border: 0,
+            boxShadow: "none",
+            ...(inputProps.style || {}),
+          }}
         />
       </OptimizedGlass>
     </div>
@@ -469,7 +525,10 @@ export const GlassCommandList: React.FC<GlassCommandListProps> = ({
   className,
 }) => {
   return (
-    <div className={cn("overflow-y-auto", className)} style={{ maxHeight }}>
+    <div
+      className={cn("glass-overflow-y-auto", className)}
+      style={{ maxHeight }}
+    >
       {children}
     </div>
   );

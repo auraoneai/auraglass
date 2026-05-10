@@ -8,8 +8,7 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 
-export interface GlassSplitPaneProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Split direction
    */
@@ -67,6 +66,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
       "aria-label": ariaLabel = "Split pane",
       onSplitChange,
       className,
+      style,
       ...props
     },
     ref
@@ -146,10 +146,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         ref={ref}
         id={splitPaneId}
         className={cn(
-          "relative w-full h-full",
-          direction === "horizontal"
-            ? "grid grid-cols-[var(--a)_12px_1fr]"
-            : "grid grid-rows-[var(--a)_12px_1fr]",
+          "glass-relative glass-grid glass-w-full glass-h-full",
           // Motion preferences
           shouldRespectMotion &&
             "motion-safe:transition-all motion-reduce:transition-none",
@@ -158,6 +155,18 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         style={{
           // @ts-ignore custom var
           ["--a" as any]: `${pct}%`,
+          display: "grid",
+          gridTemplateColumns:
+            direction === "horizontal"
+              ? "var(--a) 12px minmax(0, 1fr)"
+              : undefined,
+          gridTemplateRows:
+            direction === "vertical"
+              ? "var(--a) 12px minmax(0, 1fr)"
+              : undefined,
+          minWidth: 0,
+          minHeight: 0,
+          ...style,
         }}
         role="group"
         aria-label={ariaLabel}
@@ -196,15 +205,15 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           onMouseDown={onDown}
           onKeyDown={handleKeyDown}
           className={cn(
-            "select-none glass-radius-full focus:outline-none focus:ring-2 focus:ring-primary/50",
+            "glass-select-none glass-radius-full glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary/50",
             direction === "horizontal"
-              ? "w-3 h-full cursor-col-resize"
-              : "h-3 w-full cursor-row-resize",
-            "bg-white/10",
+              ? "glass-w-3 glass-h-full glass-cursor-col-resize"
+              : "glass-h-3 glass-w-full glass-cursor-row-resize",
+            "glass-bg-white/10",
             shouldRespectMotion
-              ? "hover:bg-white/20 transition-colors duration-200"
-              : "hover:bg-white/20",
-            dragging.current && "bg-white/30"
+              ? "hover:glass-bg-white/20 glass-transition-colors glass-duration-200"
+              : "hover:glass-bg-white/20",
+            dragging.current && "glass-bg-white/30"
           )}
         />
 

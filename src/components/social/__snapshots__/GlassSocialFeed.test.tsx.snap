@@ -3,7 +3,7 @@
 exports[`GlassSocialFeed matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level2 glass-tier-high"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow-x: hidden;"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow-x: hidden;"
 >
   <div
     class="glass-p-4 glass-space-y-4"
@@ -51,18 +51,11 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="
-              space-y-4 
-              
-            "
+      class="glass-space-y-4"
     >
       <div
-        class="
-            relative p-4 rounded-lg cursor-pointer transition-all duration-[150ms]
-            [object Object]
-            hover:bg-white/5 border border-white/10
-          "
-        style="opacity: 0; transform: translateY(20px);"
+        class="glass-relative glass-p-4 glass-radius-lg glass-cursor-pointer glass-transition-all glass-border glass-border-white/10"
+        style="position: relative; overflow: hidden; transition-duration: 150ms; border-radius: 16px; box-shadow: 0 4px 16px rgba(0 0 0 / 0.16); opacity: 0; transform: translateY(20px);"
       >
         <div
           class="glass-flex glass-items-start glass-space-x-3 glass-mb-3"
@@ -72,35 +65,25 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
             tabindex="0"
           >
             <div
-              class="
-                w-12 h-12
-                rounded-full bg-gradient-to-br from-gray-300 to-gray-500
-                flex items-center justify-center text-white font-semibold
-                [object Object]
-              "
+              class="glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-semibold glass-overflow-hidden glass-w-12 glass-h-12"
+              style="position: relative; overflow: hidden; border-radius: 9999px; box-shadow: 0 4px 16px rgba(0 0 0 / 0.16);"
             >
               U
             </div>
           </div>
           <div
-            class="glass-flex-1 glass-min-glass-w-0"
+            class="glass-flex-1 glass-min-w-0"
           >
             <div
               class="glass-flex glass-items-center glass-space-x-2"
             >
               <h3
-                class="
-                  font-semibold text-white/90 truncate
-                  text-base
-                "
+                class="glass-font-semibold glass-text-primary glass-truncate glass-text-base"
               >
                 User 1
               </h3>
               <span
-                class="
-                  text-white/60
-                  text-sm
-                "
+                class="glass-text-secondary glass-text-sm"
               >
                 @
                 user1
@@ -111,10 +94,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
               />
             </div>
             <p
-              class="
-                  text-white/50
-                  text-sm
-                "
+              class="glass-text-tertiary glass-text-sm"
             >
               Just now
             </p>
@@ -124,10 +104,7 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
           class="glass-mb-3"
         >
           <p
-            class="
-              text-white/90 leading-relaxed
-              text-base
-            "
+            class="glass-text-primary glass-leading-relaxed glass-text-base"
           >
             Test post
           </p>
@@ -139,10 +116,8 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-space-x-6"
           >
             <button
-              class="
-                    flex items-center space-x-2 text-sm transition-colors duration-[150ms]
-                    text-white/60 hover:text-red-400
-                  "
+              class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
+              style="transition-duration: 150ms;"
               tabindex="0"
             >
               <span>
@@ -153,7 +128,8 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
               </span>
             </button>
             <button
-              class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-primary-glass-opacity-60 hover:glass-text-primary glass-transition-colors glass-duration-200 glass-focus glass-touch-target glass-contrast-guard"
+              class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-text-secondary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+              style="transition-duration: 200ms;"
             >
               <span>
                 💬
@@ -163,10 +139,8 @@ exports[`GlassSocialFeed matches snapshot 1`] = `
               </span>
             </button>
             <button
-              class="
-                    flex items-center space-x-2 text-sm transition-colors duration-[150ms]
-                    text-white/60 hover:text-green-400
-                  "
+              class="glass-flex glass-items-center glass-space-x-2 glass-text-sm glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-secondary"
+              style="transition-duration: 150ms;"
               tabindex="0"
             >
               <span>

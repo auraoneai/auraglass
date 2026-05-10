@@ -16,8 +16,10 @@ export interface LiquidGlassSearchResult {
   group?: string;
 }
 
-export interface LiquidGlassSearchFieldProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect" | "results"> {
+export interface LiquidGlassSearchFieldProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onSelect" | "results"
+> {
   value?: string;
   onValueChange?: (value: string) => void;
   onSelect?: (result: LiquidGlassSearchResult) => void;
@@ -45,46 +47,46 @@ const searchFieldStyles = `
   }
 
   .liquid-glass-search-field-control {
-    color: #0f172a;
+    color: rgba(248, 250, 252, 0.96);
   }
 
   .liquid-glass-search-field-control input::placeholder {
-    color: rgba(51, 65, 85, 0.7);
+    color: rgba(226, 232, 240, 0.68);
   }
 
   .liquid-glass-search-field-dropdown {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.78)) !important;
-    border: 1px solid rgba(15, 23, 42, 0.14);
-    color: #0f172a;
-    box-shadow: 0 22px 56px rgba(15, 23, 42, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.84)) !important;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    color: rgba(248, 250, 252, 0.96);
+    box-shadow: 0 22px 56px rgba(2, 6, 23, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12);
     overflow: hidden;
   }
 
   .liquid-glass-search-field-option {
-    background: rgba(255, 255, 255, 0.72) !important;
-    color: #0f172a !important;
+    background: rgba(15, 23, 42, 0.62) !important;
+    color: rgba(248, 250, 252, 0.96) !important;
     border: 1px solid transparent;
   }
 
   .liquid-glass-search-field-option span {
-    color: #0f172a !important;
+    color: rgba(248, 250, 252, 0.96) !important;
   }
 
   [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option {
-    background: rgba(255, 255, 255, 0.78) !important;
-    color: #0f172a !important;
+    background: rgba(15, 23, 42, 0.7) !important;
+    color: rgba(248, 250, 252, 0.96) !important;
   }
 
   [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option span,
   [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-block,
   [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-text-secondary {
-    color: #0f172a !important;
+    color: rgba(248, 250, 252, 0.96) !important;
   }
 
   .liquid-glass-search-field-option:hover,
   .liquid-glass-search-field-option:focus-visible {
-    background: rgba(219, 234, 254, 0.78) !important;
-    border-color: rgba(37, 99, 235, 0.18);
+    background: rgba(56, 189, 248, 0.2) !important;
+    border-color: rgba(125, 211, 252, 0.28);
   }
 `;
 
@@ -139,7 +141,20 @@ export const LiquidGlassSearchField = forwardRef<
           material="liquid"
           radius="full"
           interactive
+          elevation="level1"
+          sheen={0}
+          adaptToContent={false}
+          enableRefraction={false}
+          enableReflection={false}
+          performanceLevel="efficient"
           className="liquid-glass-search-field-control"
+          style={{
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            border: "1px solid rgba(148, 163, 184, 0.24)",
+            boxShadow:
+              "0 10px 28px rgba(2, 6, 23, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+          }}
         >
           <label className="glass-flex glass-items-center glass-gap-2 glass-px-3 glass-py-2">
             <span className="glass-sr-only">{placeholder}</span>
@@ -163,7 +178,7 @@ export const LiquidGlassSearchField = forwardRef<
                 onChange={(event) => updateQuery(event.target.value)}
                 placeholder={placeholder}
                 className="glass-min-w-0 glass-flex-1 glass-bg-transparent glass-outline-none"
-                style={{ ...searchControlStyle, minWidth: 0, color: "#0f172a" }}
+                style={{ ...searchControlStyle, minWidth: 0 }}
                 role="combobox"
                 aria-expanded={visibleResults.length > 0}
               />
@@ -175,7 +190,19 @@ export const LiquidGlassSearchField = forwardRef<
             <LiquidGlassMaterial
               material="liquid"
               radius="xl"
+              elevation="level1"
+              sheen={0}
+              adaptToContent={false}
+              enableRefraction={false}
+              enableReflection={false}
+              performanceLevel="efficient"
               className="liquid-glass-search-field-dropdown glass-absolute glass-left-0 glass-right-0 glass-top-full glass-z-50 glass-mt-2"
+              style={{
+                background:
+                  '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                border: "1px solid rgba(148, 163, 184, 0.2)",
+                boxShadow: "0 18px 44px rgba(2, 6, 23, 0.34)",
+              }}
             >
               <div
                 role="listbox"

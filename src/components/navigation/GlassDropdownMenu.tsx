@@ -7,8 +7,9 @@ import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 
 // DropdownMenu Root component
-export interface GlassDropdownMenuProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> {
+export interface GlassDropdownMenuProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Root
+> {
   className?: string;
   "data-testid"?: string;
 }
@@ -29,8 +30,9 @@ export const GlassDropdownMenu = React.forwardRef<
 GlassDropdownMenu.displayName = "GlassDropdownMenu";
 
 // DropdownMenuTrigger component
-export interface GlassDropdownMenuTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger> {
+export interface GlassDropdownMenuTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Trigger
+> {
   variant?: "default" | "outline" | "ghost" | "minimal";
   size?: "sm" | "md" | "lg";
   asChild?: boolean;
@@ -58,17 +60,18 @@ export const GlassDropdownMenuTrigger = forwardRef<
     };
 
     const variantStyles = {
-      default: "bg-primary text-primary-foreground hover:bg-primary/90",
+      default:
+        "glass-surface-primary glass-text-primary hover:glass-surface-primary/90",
       outline:
-        "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
-      ghost: "hover:bg-accent hover:text-accent-foreground",
-      minimal: "glass-text-secondary hover:text-foreground",
+        "glass-border glass-border-glass-border glass-surface-transparent hover:glass-surface-subtle hover:glass-text-primary",
+      ghost: "hover:glass-surface-subtle hover:glass-text-primary",
+      minimal: "glass-text-secondary hover:glass-text-primary",
     };
 
     const baseStyles = cn(
-      "inline-flex items-center justify-center glass-gap-2",
-      "whitespace-nowrap glass-radius-lg font-medium",
-      "transition-all duration-200",
+      "glass-inline-flex glass-items-center glass-justify-center glass-gap-2",
+      "glass-whitespace-nowrap glass-radius-lg glass-font-medium",
+      "glass-transition-all glass-duration-200",
       "focus-visible:outline-none focus-visible:ring-2",
       "focus-visible:ring-primary focus-visible:ring-offset-2",
       "disabled:pointer-events-none disabled:opacity-50",
@@ -95,8 +98,9 @@ export const GlassDropdownMenuTrigger = forwardRef<
 GlassDropdownMenuTrigger.displayName = "GlassDropdownMenuTrigger";
 
 // DropdownMenuContent component
-export interface GlassDropdownMenuContentProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> {
+export interface GlassDropdownMenuContentProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Content
+> {
   align?: "start" | "center" | "end";
   sideOffset?: number;
 }
@@ -113,8 +117,8 @@ export const GlassDropdownMenuContent = forwardRef<
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            "z-50 min-w-[8rem] overflow-hidden glass-radius-xl glass-p-1",
-            "shadow-lg border border-border/20",
+            "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
+            "glass-shadow-lg glass-border glass-border-glass-border/20",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
             "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -146,8 +150,9 @@ export const GlassDropdownMenuContent = forwardRef<
 GlassDropdownMenuContent.displayName = "GlassDropdownMenuContent";
 
 // DropdownMenuItem component
-export interface GlassDropdownMenuItemProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
+export interface GlassDropdownMenuItemProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Item
+> {
   variant?: "default" | "destructive";
   icon?: React.ReactNode;
   shortcut?: string;
@@ -162,18 +167,19 @@ export const GlassDropdownMenuItem = forwardRef<
     ref
   ) => {
     const variantStyles = {
-      default: "text-foreground focus:bg-accent focus:text-accent-foreground",
+      default:
+        "glass-text-primary focus:glass-surface-subtle focus:glass-text-primary",
       destructive:
-        "text-destructive focus:bg-destructive/10 focus:text-destructive",
+        "glass-text-danger focus:glass-surface-danger/10 focus:glass-text-danger",
     };
 
     return (
       <DropdownMenuPrimitive.Item
         ref={ref}
         className={cn(
-          "relative flex cursor-default select-none items-center glass-radius-lg glass-px-3 glass-py-2 glass-text-sm outline-none",
-          "transition-all duration-200 glass-hover--translate-y-0-5",
-          "focus:bg-accent focus:text-accent-foreground ring-0",
+          "glass-relative glass-flex glass-cursor-default glass-select-none glass-items-center glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-outline-none",
+          "glass-transition-all glass-duration-200 glass-hover--translate-y-0-5",
+          "focus:glass-surface-subtle focus:glass-text-primary glass-ring-0",
           "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
           variantStyles?.[variant],
           className
@@ -181,13 +187,13 @@ export const GlassDropdownMenuItem = forwardRef<
         {...props}
       >
         {icon && (
-          <span className='glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center'>
+          <span className="glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center">
             {icon}
           </span>
         )}
         <span className="glass-flex-1">{children}</span>
         {shortcut && (
-          <span className='glass-ml-auto glass-text-xs glass-text-secondary'>
+          <span className="glass-ml-auto glass-text-xs glass-text-secondary">
             {shortcut}
           </span>
         )}
@@ -199,10 +205,9 @@ export const GlassDropdownMenuItem = forwardRef<
 GlassDropdownMenuItem.displayName = "GlassDropdownMenuItem";
 
 // DropdownMenuCheckboxItem component
-export interface GlassDropdownMenuCheckboxItemProps
-  extends React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.CheckboxItem
-  > {
+export interface GlassDropdownMenuCheckboxItemProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.CheckboxItem
+> {
   checked?: boolean | "indeterminate";
   icon?: React.ReactNode;
 }
@@ -215,21 +220,21 @@ export const GlassDropdownMenuCheckboxItem = forwardRef<
     <DropdownMenuPrimitive.CheckboxItem
       ref={ref}
       className={cn(
-        "relative flex cursor-default select-none items-center",
+        "glass-relative glass-flex glass-cursor-default glass-select-none glass-items-center",
         "glass-radius-lg glass-px-3 glass-py-2 glass-text-sm outline-none",
-        "transition-colors duration-200",
-        "focus:bg-accent focus:text-accent-foreground",
+        "glass-transition-colors glass-duration-200",
+        "focus:glass-surface-subtle focus:glass-text-primary",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
       checked={checked}
       {...props}
     >
-      <DropdownMenuPrimitive.ItemIndicator className='glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center'>
-        <Check className='glass-h-3 glass-w-3' />
+      <DropdownMenuPrimitive.ItemIndicator className="glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center">
+        <Check className="glass-h-3 glass-w-3" />
       </DropdownMenuPrimitive.ItemIndicator>
       {icon && (
-        <span className='glass-ml-6 glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center'>
+        <span className="glass-ml-6 glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center">
           {icon}
         </span>
       )}
@@ -244,10 +249,9 @@ GlassDropdownMenuCheckboxItem.displayName = "GlassDropdownMenuCheckboxItem";
 export const GlassDropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 // DropdownMenuRadioItem component
-export interface GlassDropdownMenuRadioItemProps
-  extends React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.RadioItem
-  > {
+export interface GlassDropdownMenuRadioItemProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.RadioItem
+> {
   icon?: React.ReactNode;
 }
 
@@ -259,20 +263,20 @@ export const GlassDropdownMenuRadioItem = forwardRef<
     <DropdownMenuPrimitive.RadioItem
       ref={ref}
       className={cn(
-        "relative flex cursor-default select-none items-center",
+        "glass-relative glass-flex glass-cursor-default glass-select-none glass-items-center",
         "glass-radius-lg glass-px-3 glass-py-2 glass-text-sm outline-none",
-        "transition-colors duration-200",
-        "focus:bg-accent focus:text-accent-foreground",
+        "glass-transition-colors glass-duration-200",
+        "focus:glass-surface-subtle focus:glass-text-primary",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
       {...props}
     >
-      <DropdownMenuPrimitive.ItemIndicator className='glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center'>
-        <div className='glass-h-2 glass-w-2 glass-radius-full glass-bg-transparent' />
+      <DropdownMenuPrimitive.ItemIndicator className="glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center">
+        <div className="glass-h-2 glass-w-2 glass-radius-full glass-bg-transparent" />
       </DropdownMenuPrimitive.ItemIndicator>
       {icon && (
-        <span className='glass-ml-6 glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center'>
+        <span className="glass-ml-6 glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center">
           {icon}
         </span>
       )}
@@ -284,8 +288,9 @@ export const GlassDropdownMenuRadioItem = forwardRef<
 GlassDropdownMenuRadioItem.displayName = "GlassDropdownMenuRadioItem";
 
 // DropdownMenuLabel component
-export interface GlassDropdownMenuLabelProps
-  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> {
+export interface GlassDropdownMenuLabelProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Label
+> {
   inset?: boolean;
 }
 
@@ -297,7 +302,7 @@ export const GlassDropdownMenuLabel = forwardRef<
     <DropdownMenuPrimitive.Label
       ref={ref}
       className={cn(
-        "glass-px-2 glass-py-1.5 glass-text-sm font-semibold",
+        "glass-px-2 glass-py-1.5 glass-text-sm glass-font-semibold glass-text-primary",
         inset && "pl-8",
         className
       )}
@@ -309,10 +314,9 @@ export const GlassDropdownMenuLabel = forwardRef<
 GlassDropdownMenuLabel.displayName = "GlassDropdownMenuLabel";
 
 // DropdownMenuSeparator component
-export interface GlassDropdownMenuSeparatorProps
-  extends React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.Separator
-  > {}
+export interface GlassDropdownMenuSeparatorProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.Separator
+> {}
 
 export const GlassDropdownMenuSeparator = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
@@ -321,7 +325,10 @@ export const GlassDropdownMenuSeparator = forwardRef<
   return (
     <DropdownMenuPrimitive.Separator
       ref={ref}
-      className={cn("-glass-mx-1 glass-my-1 h-px bg-border/20", className)}
+      className={cn(
+        "-glass-mx-1 glass-my-1 glass-h-px glass-surface-subtle/20",
+        className
+      )}
       {...props}
     />
   );
@@ -330,8 +337,7 @@ export const GlassDropdownMenuSeparator = forwardRef<
 GlassDropdownMenuSeparator.displayName = "GlassDropdownMenuSeparator";
 
 // DropdownMenuShortcut component (for keyboard shortcuts)
-export interface GlassDropdownMenuShortcutProps
-  extends React.HTMLAttributes<HTMLSpanElement> {}
+export interface GlassDropdownMenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {}
 
 export const GlassDropdownMenuShortcut = forwardRef<
   HTMLSpanElement,
@@ -341,7 +347,7 @@ export const GlassDropdownMenuShortcut = forwardRef<
     <span
       ref={ref}
       className={cn(
-        "ml-auto glass-text-xs tracking-widest glass-text-secondary",
+        "glass-ml-auto glass-text-xs glass-tracking-widest glass-text-secondary",
         className
       )}
       {...props}
@@ -355,10 +361,9 @@ GlassDropdownMenuShortcut.displayName = "GlassDropdownMenuShortcut";
 export const GlassDropdownMenuSub = DropdownMenuPrimitive.Sub;
 
 // DropdownMenuSubTrigger component
-export interface GlassDropdownMenuSubTriggerProps
-  extends React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.SubTrigger
-  > {
+export interface GlassDropdownMenuSubTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.SubTrigger
+> {
   icon?: React.ReactNode;
 }
 
@@ -370,21 +375,21 @@ export const GlassDropdownMenuSubTrigger = forwardRef<
     <DropdownMenuPrimitive.SubTrigger
       ref={ref}
       className={cn(
-        "flex cursor-default select-none items-center glass-radius-lg glass-px-3 glass-py-2 glass-text-sm outline-none",
-        "focus:bg-accent focus:text-accent-foreground",
-        "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+        "glass-flex glass-cursor-default glass-select-none glass-items-center glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-outline-none",
+        "focus:glass-surface-subtle focus:glass-text-primary",
+        "data-[state=open]:glass-surface-subtle data-[state=open]:glass-text-primary",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         className
       )}
       {...props}
     >
       {icon && (
-        <span className='glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center'>
+        <span className="glass-mr-3 glass-flex glass-h-4 glass-w-4 glass-items-center glass-justify-center">
           {icon}
         </span>
       )}
       <span className="glass-flex-1">{children}</span>
-      <ChevronRight className='glass-ml-auto glass-h-4 glass-w-4' />
+      <ChevronRight className="glass-ml-auto glass-h-4 glass-w-4" />
     </DropdownMenuPrimitive.SubTrigger>
   );
 });
@@ -392,10 +397,9 @@ export const GlassDropdownMenuSubTrigger = forwardRef<
 GlassDropdownMenuSubTrigger.displayName = "GlassDropdownMenuSubTrigger";
 
 // DropdownMenuSubContent component
-export interface GlassDropdownMenuSubContentProps
-  extends React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.SubContent
-  > {}
+export interface GlassDropdownMenuSubContentProps extends React.ComponentPropsWithoutRef<
+  typeof DropdownMenuPrimitive.SubContent
+> {}
 
 export const GlassDropdownMenuSubContent = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
@@ -405,8 +409,8 @@ export const GlassDropdownMenuSubContent = forwardRef<
     <DropdownMenuPrimitive.SubContent
       ref={ref}
       className={cn(
-        "z-50 min-w-[8rem] overflow-hidden glass-radius-xl glass-p-1",
-        "shadow-lg border border-border/20",
+        "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
+        "glass-shadow-lg glass-border glass-border-glass-border/20",
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",

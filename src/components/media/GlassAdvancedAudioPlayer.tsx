@@ -290,7 +290,7 @@ const Waveform: React.FC<WaveformProps> = ({
       />
       {isHovering && (
         <div
-          className="glass-absolute glass-bottom-24 glass-surface-dark glass-text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius glass-pointer-events-none"
+          className="glass-absolute glass-bottom-24 glass-surface-overlay glass-text-primary glass-text-xs glass-px-2 glass-py-1 glass-radius glass-pointer-events-none"
           style={{
             left: `${(hoverTime / duration) * 100}%`,
             transform: "translateX(-50%)",
@@ -499,12 +499,7 @@ const PlaylistPanel: React.FC<{
           <button
             key={media.id}
             onClick={() => onMediaSelect(media)}
-            className={cn(
-              "glass-flex glass-items-center glass-gap-3 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
-              media.id === currentMediaId
-                ? "bg-blue-100 border border-blue-200"
-                : "bg-white hover:bg-gray-50 border border-gray-200"
-            )}
+            className="glass-flex glass-items-center glass-gap-3 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
             style={{
               background:
                 media.id === currentMediaId
@@ -620,12 +615,7 @@ const TranscriptPanel: React.FC<{
             <button
               key={entry.id}
               onClick={() => onTranscriptClick(entry)}
-              className={cn(
-                "glass-flex glass-flex-col glass-items-start glass-gap-2 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
-                isActive
-                  ? "bg-blue-100 border border-blue-200"
-                  : "bg-white hover:bg-gray-50"
-              )}
+              className="glass-flex glass-flex-col glass-items-start glass-gap-2 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
               style={{
                 background: isActive
                   ? "rgba(219, 234, 254, 0.9)"
@@ -729,8 +719,9 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     )
       return;
     try {
-      audioContextRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      audioContextRef.current = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       analyzerRef.current = audioContextRef.current.createAnalyser();
       analyzerRef.current.fftSize = 256;
       const source = audioContextRef.current.createMediaElementSource(
@@ -898,7 +889,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
       />
       <button
         onClick={handlePlayPause}
-        className="glass-w-12 glass-h-12 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        className="glass-w-12 glass-h-12 glass-flex glass-items-center glass-justify-center glass-surface-primary glass-text-primary glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
         style={audioPrimaryButtonStyle}
         aria-label={isPlaying ? "Pause audio" : "Play audio"}
       >
@@ -994,7 +985,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
           }}
         >
           <div
-            className="glass-h-full glass-surface-blue glass-radius-full"
+            className="glass-h-full glass-surface-primary glass-radius-full"
             style={{
               width: `${clampPercent(currentTime, duration)}%`,
             }}
@@ -1015,7 +1006,7 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
 
         <button
           onClick={handlePlayPause}
-          className="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
+          className="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-primary glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
           style={audioPrimaryButtonStyle}
           aria-label={isPlaying ? "Pause audio" : "Play audio"}
         >

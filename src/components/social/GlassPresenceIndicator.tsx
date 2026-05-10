@@ -81,7 +81,7 @@ export const GlassPresenceIndicator = forwardRef<
       theme = "auto",
       onUserClick,
       onStatusChange,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -173,24 +173,24 @@ export const GlassPresenceIndicator = forwardRef<
     const getSizeClasses = () => {
       switch (size) {
         case "small":
-          return "text-xs";
+          return "glass-text-xs";
         case "large":
-          return "text-lg";
+          return "glass-text-lg";
         default:
-          return "text-sm";
+          return "glass-text-sm";
       }
     };
 
     const getLayoutClasses = () => {
       switch (layout) {
         case "vertical":
-          return "flex flex-col space-y-2";
+          return "glass-flex glass-flex-col glass-space-y-2";
         case "grid":
-          return "grid grid-cols-2 gap-2";
+          return "glass-grid glass-grid-cols-2 glass-gap-2";
         case "stack":
-          return "flex flex-col space-y-1";
+          return "glass-flex glass-flex-col glass-space-y-1";
         default:
-          return "flex flex-wrap gap-2";
+          return "glass-flex glass-flex-wrap glass-gap-2";
       }
     };
 
@@ -211,28 +211,31 @@ export const GlassPresenceIndicator = forwardRef<
           duration: 0.3,
           delay: index * 0.05,
         })}
-        className={`
-          flex items-center space-x-2 p-2 rounded-lg cursor-pointer
-          ${createGlassStyle({ variant: "default" })}
-          hover:bg-white/10 transition-colors duration-200
-        `}
+        className="glass-flex glass-items-center glass-space-x-2 glass-p-2 glass-radius-lg glass-cursor-pointer glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        style={{
+          ...createGlassStyle({ variant: "default", radius: "lg" }),
+          transitionDuration: "200ms",
+        }}
         onClick={() => onUserClick?.(user.id)}
       >
         {showAvatars && (
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <div
-              className={`
-              ${size === "small" ? "w-6 h-6" : size === "large" ? "w-12 h-12" : "w-8 h-8"}
-              rounded-full bg-gradient-to-br from-gray-300 to-gray-500 
-              flex items-center justify-center text-white font-semibold
-              ${createGlassStyle({ variant: "default" })}
-            `}
+              className={cn(
+                "glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-font-semibold glass-overflow-hidden",
+                size === "small"
+                  ? "glass-w-6 glass-h-6"
+                  : size === "large"
+                    ? "glass-w-12 glass-h-12"
+                    : "glass-w-8 glass-h-8"
+              )}
+              style={createGlassStyle({ variant: "default", radius: "full" })}
             >
               {user.avatar ? (
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className='glass-w-full glass-h-full glass-radius-full glass-object-cover'
+                  className="glass-w-full glass-h-full glass-radius-full glass-object-cover"
                 />
               ) : (
                 user.name.charAt(0).toUpperCase()
@@ -241,12 +244,17 @@ export const GlassPresenceIndicator = forwardRef<
 
             {showStatus && (
               <motion.div
-                className={`
-                  absolute -bottom-0.5 -right-0.5 
-                  ${size === "small" ? "w-3 h-3" : size === "large" ? "w-4 h-4" : "w-3 h-3"}
-                  rounded-full border-2 border-white
-                `}
-                style={{ backgroundColor: statusColors[user.status] }}
+                className={cn(
+                  "glass-absolute glass-radius-full glass-border-2 glass-border-white",
+                  size === "large"
+                    ? "glass-w-4 glass-h-4"
+                    : "glass-w-3 glass-h-3"
+                )}
+                style={{
+                  backgroundColor: statusColors[user.status],
+                  right: -2,
+                  bottom: -2,
+                }}
                 animate={user.status === "online" ? { scale: [1, 1.2, 1] } : {}}
                 transition={respectMotionPreference({
                   duration: 2,
@@ -258,11 +266,14 @@ export const GlassPresenceIndicator = forwardRef<
           </div>
         )}
 
-        <div className="glass-flex-1 glass-min-glass-w-0">
+        <div className="glass-flex-1 glass-min-w-0">
           {showNames && (
-            <div className='glass-flex glass-items-center glass-space-x-1'>
+            <div className="glass-flex glass-items-center glass-space-x-1">
               <p
-                className={`font-medium text-white/90 truncate ${getSizeClasses()}`}
+                className={cn(
+                  "glass-font-medium glass-text-primary glass-truncate",
+                  getSizeClasses()
+                )}
               >
                 {user.name}
               </p>
@@ -274,7 +285,10 @@ export const GlassPresenceIndicator = forwardRef<
 
           {showActivity && user.activity && (
             <p
-              className={`text-white/60 truncate ${size === "large" ? "text-sm" : "text-xs"}`}
+              className={cn(
+                "glass-text-secondary glass-truncate",
+                size === "large" ? "glass-text-sm" : "glass-text-xs"
+              )}
             >
               {user.activity}
             </p>
@@ -282,7 +296,10 @@ export const GlassPresenceIndicator = forwardRef<
 
           {user.customStatus?.text && (
             <p
-              className={`text-white/60 truncate ${size === "large" ? "text-sm" : "text-xs"}`}
+              className={cn(
+                "glass-text-secondary glass-truncate",
+                size === "large" ? "glass-text-sm" : "glass-text-xs"
+              )}
             >
               {user.customStatus.text}
             </p>
@@ -290,7 +307,10 @@ export const GlassPresenceIndicator = forwardRef<
 
           {showLastSeen && user.status === "offline" && (
             <p
-              className={`text-white/40 ${size === "large" ? "text-sm" : "text-xs"}`}
+              className={cn(
+                "glass-text-tertiary",
+                size === "large" ? "glass-text-sm" : "glass-text-xs"
+              )}
             >
               {formatLastSeen(user.lastSeen)}
             </p>
@@ -299,7 +319,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && user.isTyping && (
           <motion.div
-            className='glass-flex glass-space-x-1'
+            className="glass-flex glass-space-x-1"
             animate={prefersReducedMotion ? {} : { opacity: [0.4, 1, 0.4] }}
             transition={respectMotionPreference({
               duration: 1.5,
@@ -310,7 +330,7 @@ export const GlassPresenceIndicator = forwardRef<
             {[0, 1, 2].map((i: any) => (
               <motion.div
                 key={i}
-                className='glass-w-1.5 glass-h-1.5 glass-surface-blue glass-radius-full'
+                className="glass-w-1.5 glass-h-1.5 glass-surface-primary glass-radius-full"
                 animate={prefersReducedMotion ? {} : { y: [-2, 0, -2] }}
                 transition={respectMotionPreference({
                   duration: 0.6,
@@ -325,7 +345,7 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showStatus && !showAvatars && (
           <div
-            className='glass-w-3 glass-h-3 glass-radius-full'
+            className="glass-w-3 glass-h-3 glass-radius-full"
             style={{ backgroundColor: statusColors[user.status] }}
           />
         )}
@@ -336,7 +356,7 @@ export const GlassPresenceIndicator = forwardRef<
       <OptimizedGlass
         ref={ref}
         intensity="subtle"
-        className={`p-4 ${className}`}
+        className={cn("glass-p-4", className)}
         {...props}
       >
         <div className={getLayoutClasses()}>
@@ -346,20 +366,22 @@ export const GlassPresenceIndicator = forwardRef<
 
           {processedUsers.hiddenCount > 0 && (
             <motion.div
-              className={`
-                flex items-center space-x-2 p-2 rounded-lg text-white/60
-                ${createGlassStyle({ variant: "default" })}
-              `}
+              className="glass-flex glass-items-center glass-space-x-2 glass-p-2 glass-radius-lg glass-text-secondary"
+              style={createGlassStyle({ variant: "default", radius: "lg" })}
               initial={{ opacity: 0 }}
               animate={prefersReducedMotion ? {} : { opacity: 1 }}
               transition={respectMotionPreference({ delay: 0.3 })}
             >
               <div
-                className={`
-                ${size === "small" ? "w-6 h-6" : size === "large" ? "w-12 h-12" : "w-8 h-8"}
-                rounded-full bg-white/20 flex items-center justify-center
-                ${getSizeClasses()} font-medium
-              `}
+                className={cn(
+                  "glass-radius-full glass-surface-subtle/20 glass-flex glass-items-center glass-justify-center glass-font-medium",
+                  size === "small"
+                    ? "glass-w-6 glass-h-6"
+                    : size === "large"
+                      ? "glass-w-12 glass-h-12"
+                      : "glass-w-8 glass-h-8",
+                  getSizeClasses()
+                )}
               >
                 +{processedUsers.hiddenCount}
               </div>
@@ -373,12 +395,12 @@ export const GlassPresenceIndicator = forwardRef<
 
         {showTypingIndicator && typingUsers.length > 0 && (
           <motion.div
-            className='glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10'
+            className="glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10"
             initial={{ opacity: 0, y: 10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
           >
-            <p className='glass-text-xs glass-text-primary-glass-opacity-60'>
+            <p className="glass-text-xs glass-text-primary-glass-opacity-60">
               {typingUsers.length === 1
                 ? `${presenceData.find((u) => u.id === typingUsers[0])?.name} is typing...`
                 : typingUsers.length === 2
@@ -389,7 +411,7 @@ export const GlassPresenceIndicator = forwardRef<
         )}
 
         <motion.div
-          className='glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50'
+          className="glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50"
           initial={{ opacity: 0 }}
           animate={prefersReducedMotion ? {} : { opacity: 1 }}
           transition={respectMotionPreference({ delay: 0.5 })}

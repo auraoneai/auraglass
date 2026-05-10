@@ -6,18 +6,18 @@ exports[`HoudiniGlassCard matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="glass-foundation-complete glass-radius-xl glass-p-lg relative overflow-hidden houdini-glass houdini-glass-fallback cursor-pointer glass-press glass-magnet glass-overlay-specular glass-parallax glass-transition glass-focus"
+    class="glass-foundation-complete glass-radius-xl glass-p-4 relative overflow-hidden glass-min-w-0 glass-max-w-full houdini-glass houdini-glass-fallback cursor-pointer glass-press glass-magnet glass-overlay-specular glass-parallax glass-transition glass-focus"
     tabindex="0"
   >
     <div
-      class="glass-relative glass-z-10"
+      class="glass-relative glass-z-10 glass-min-w-0 glass-break-words"
     >
       <div>
         Test content
       </div>
     </div>
     <div
-      class="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-pointer-events-none"
+      class="glass-absolute glass-inset-0 glass-z-0 glass-gradient-primary glass-pointer-events-none"
       style="opacity: 0;"
     />
     <div

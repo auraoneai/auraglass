@@ -91,6 +91,11 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION, COLORS } from "../../tokens/designConstants";
+import {
+  DEFAULT_CHART_COLORS,
+  resolveChartColor,
+  resolveChartPalette,
+} from "./utils/chartColors";
 
 // Import modular components
 import {
@@ -222,23 +227,14 @@ export const ModularGlassDataChart = React.forwardRef<
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor: '${glassStyles.borderColor || "var(--glass-bg-hover)"}',
-      gridColor: '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
+      axisColor: "rgba(226, 232, 240, 0.86)",
+      gridColor: "rgba(148, 163, 184, 0.2)",
       gridStyle: "solid",
     },
     initialSelection,
     showToolbar = true,
     allowDownload = true,
-    palette = [
-      COLORS.semantic.secondary, // primary
-      COLORS.semantic.secondary, // secondary
-      "var(--glass-color-primary)", // blue
-      "var(--glass-color-success)", // green
-      "var(--glass-color-warning)", // yellow
-      "var(--glass-color-danger)", // red
-      COLORS.semantic.error, // pink
-      "var(--glass-gray-500)", // gray
-    ],
+    palette = DEFAULT_CHART_COLORS,
     allowTypeSwitch = true,
     backgroundColor,
     borderRadius = 12,
@@ -331,6 +327,7 @@ export const ModularGlassDataChart = React.forwardRef<
 
   // Determine if we're using physics-based animations
   const enablePhysicsAnimation = animation.physicsEnabled && !isReducedMotion;
+  const resolvedPalette = resolveChartPalette(palette);
 
   // Animation state management with physics support
   const [animationValues, setAnimationValues] = useState<
@@ -723,8 +720,11 @@ export const ModularGlassDataChart = React.forwardRef<
           dataset: dataset.label,
           label: dataPoint.label || dataPoint.x,
           value: dataPoint.y,
-          color:
-            dataset.style?.lineColor || palette[datasetIndex % palette.length],
+          color: resolveChartColor(
+            dataset.style?.lineColor ||
+              resolvedPalette[datasetIndex % resolvedPalette.length],
+            DEFAULT_CHART_COLORS[datasetIndex % DEFAULT_CHART_COLORS.length]
+          ),
           extra: dataPoint.extra,
         },
       });
@@ -767,14 +767,13 @@ export const ModularGlassDataChart = React.forwardRef<
 
     // Add title if needed
     if (exportOptions.includeTitle && title) {
-      ctx.fillStyle = "var(--glass-white)";
+      ctx.fillStyle = "#ffffff";
       ctx.font = "bold 16px Inter, sans-serif";
       ctx.textAlign = "center";
       ctx.fillText(title, tempCanvas.width / 2, 25);
 
       if (subtitle) {
-        ctx.fillStyle =
-          '${glassStyles.text?.secondary || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"}';
+        ctx.fillStyle = "rgba(226, 232, 240, 0.72)";
         ctx.font = "12px Inter, sans-serif";
         ctx.fillText(subtitle, tempCanvas.width / 2, 45);
       }
@@ -1096,8 +1095,11 @@ export const ModularGlassDataChart = React.forwardRef<
           $glassEffect={legend.glassEffect || false}
         >
           {datasets?.map((dataset, index) => {
-            const color =
-              dataset.style?.lineColor || palette[index % palette.length];
+            const color = resolveChartColor(
+              dataset.style?.lineColor ||
+                resolvedPalette[index % resolvedPalette.length],
+              DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+            );
             const isActive = selectedIndices.includes(index);
             return (
               <LegendItem
@@ -1132,7 +1134,7 @@ export const ModularGlassDataChart = React.forwardRef<
                     : (chartType as ChartType)
         }
         datasets={datasets || []}
-        palette={palette}
+        palette={resolvedPalette}
         qualityTier={
           typeof activeQuality === "object" ? activeQuality.tier : activeQuality
         }
@@ -1157,8 +1159,11 @@ export const ModularGlassDataChart = React.forwardRef<
           $glassEffect={legend.glassEffect || false}
         >
           {datasets?.map((dataset, index) => {
-            const color =
-              dataset.style?.lineColor || palette[index % palette.length];
+            const color = resolveChartColor(
+              dataset.style?.lineColor ||
+                resolvedPalette[index % resolvedPalette.length],
+              DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+            );
             const isActive = selectedIndices.includes(index);
             return (
               <LegendItem

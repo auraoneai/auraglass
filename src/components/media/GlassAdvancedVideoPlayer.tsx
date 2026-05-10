@@ -218,6 +218,73 @@ const videoComponentStyles = `
     min-width: 0;
   }
 
+  .ag-advanced-video-player.ag-video-compact {
+    overflow: hidden !important;
+    min-height: 0 !important;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-layout {
+    flex-direction: column;
+    height: auto;
+    overflow: hidden !important;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-surface {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+    aspect-ratio: auto;
+    min-height: 0;
+    overflow: hidden !important;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-surface > img,
+  .ag-advanced-video-player.ag-video-compact .ag-video-surface > video {
+    position: relative !important;
+    aspect-ratio: 16 / 9;
+    min-height: 160px;
+    flex: 0 0 auto;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-controls {
+    position: relative !important;
+    padding: 8px !important;
+    flex: 0 0 auto;
+    overflow: hidden;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-control-row {
+    gap: 8px !important;
+    align-items: flex-start !important;
+    flex-direction: row;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-control-group {
+    gap: 6px !important;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-control-group:last-child {
+    display: none;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-controls button {
+    min-width: 34px !important;
+    min-height: 34px !important;
+    max-width: 44px;
+    padding: 6px !important;
+    font-size: 12px !important;
+  }
+
+  .ag-advanced-video-player.ag-video-compact .ag-video-controls [aria-label^="Playback speed"],
+  .ag-advanced-video-player.ag-video-compact .ag-video-controls [aria-label^="Video quality"] {
+    min-width: 42px !important;
+    max-width: 52px;
+  }
+
   @media (max-width: 980px) {
     .ag-advanced-video-player {
       min-height: 0 !important;
@@ -256,23 +323,54 @@ const videoComponentStyles = `
 
   @media (max-width: 640px) {
     .ag-advanced-video-player {
-      overflow: visible !important;
+      overflow: hidden !important;
     }
 
     .ag-advanced-video-player .ag-video-layout {
-      overflow: visible !important;
+      overflow: hidden !important;
     }
 
     .ag-advanced-video-player .ag-video-surface {
       display: flex;
       flex-direction: column;
-      overflow: visible !important;
+      overflow: hidden !important;
     }
 
     .ag-advanced-video-player .ag-video-controls {
       position: relative !important;
-      padding: 12px !important;
+      padding: 8px !important;
       flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .ag-advanced-video-player .ag-video-control-row {
+      gap: 8px !important;
+      align-items: flex-start !important;
+      flex-direction: column;
+    }
+
+    .ag-advanced-video-player .ag-video-control-group {
+      gap: 6px !important;
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .ag-advanced-video-player .ag-video-control-group:last-child {
+      justify-content: flex-start;
+    }
+
+    .ag-advanced-video-player .ag-video-controls button {
+      min-width: 34px !important;
+      min-height: 34px !important;
+      max-width: 44px;
+      padding: 6px !important;
+      font-size: 12px !important;
+    }
+
+    .ag-advanced-video-player .ag-video-controls [aria-label^="Playback speed"],
+    .ag-advanced-video-player .ag-video-controls [aria-label^="Video quality"] {
+      min-width: 42px !important;
+      max-width: 52px;
     }
 
     .ag-advanced-video-player .ag-video-surface {
@@ -386,7 +484,7 @@ const VideoControls: React.FC<ControlsProps> = ({
 
         {/* Played Progress */}
         <div
-          className="glass-absolute glass-top-0 glass-left-0 glass-h-full glass-surface-blue glass-radius-full"
+          className="glass-absolute glass-top-0 glass-left-0 glass-h-full glass-surface-primary glass-radius-full"
           style={{
             width: `${playedPercent}%`,
           }}
@@ -394,7 +492,7 @@ const VideoControls: React.FC<ControlsProps> = ({
 
         {/* Progress Handle */}
         <div
-          className="glass-absolute glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-surface-blue glass-radius-full glass-border-2 glass-border-white glass-shadow-md"
+          className="glass-absolute glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-surface-primary glass-radius-full glass-border-2 glass-border-white glass-shadow-md"
           style={{ left: `calc(${playedPercent}% - 8px)` }}
         />
       </div>
@@ -495,7 +593,7 @@ const VideoControls: React.FC<ControlsProps> = ({
 
             {showSpeedMenu && (
               <div
-                className="glass-absolute glass-bottom-12 glass-right-0 glass-radius-lg glass-p-2 glass-min-glass-w-20"
+                className="glass-absolute glass-bottom-12 glass-right-0 glass-radius-lg glass-p-2 glass-min-w-20"
                 style={menuStyle}
               >
                 {playbackSpeeds.map((speed: any) => (
@@ -506,8 +604,8 @@ const VideoControls: React.FC<ControlsProps> = ({
                       setShowSpeedMenu(false);
                     }}
                     className={cn(
-                      "block w-full text-left px-3 py-2 text-sm rounded hover:bg-white/20 transition-colors glass-focus glass-touch-target glass-contrast-guard",
-                      speed === playbackRate && "bg-blue-500"
+                      "glass-block glass-w-full glass-text-left glass-px-3 glass-py-2 glass-text-sm glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                      speed === playbackRate && "glass-surface-primary"
                     )}
                     style={{
                       color: "#f8fafc",
@@ -537,7 +635,7 @@ const VideoControls: React.FC<ControlsProps> = ({
 
             {showQualityMenu && (
               <div
-                className="glass-absolute glass-bottom-12 glass-right-0 glass-radius-lg glass-p-2 glass-min-glass-w-20"
+                className="glass-absolute glass-bottom-12 glass-right-0 glass-radius-lg glass-p-2 glass-min-w-20"
                 style={menuStyle}
               >
                 {qualities.map((q: any) => (
@@ -548,8 +646,8 @@ const VideoControls: React.FC<ControlsProps> = ({
                       setShowQualityMenu(false);
                     }}
                     className={cn(
-                      "block w-full text-left px-3 py-2 text-sm rounded hover:bg-white/20 transition-colors glass-focus glass-touch-target glass-contrast-guard",
-                      q === quality && "bg-blue-500"
+                      "glass-block glass-w-full glass-text-left glass-px-3 glass-py-2 glass-text-sm glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                      q === quality && "glass-surface-primary"
                     )}
                     style={{
                       color: "#f8fafc",
@@ -600,7 +698,7 @@ const ChapterList: React.FC<{
               onClick={() => onChapterClick(chapter)}
               className={cn(
                 "glass-flex glass-items-center glass-gap-3 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
-                isActive ? "glass-surface-blue" : "glass-surface-dark"
+                isActive ? "glass-surface-primary" : "glass-surface-overlay"
               )}
               style={{
                 background: isActive
@@ -700,7 +798,7 @@ const TranscriptPanel: React.FC<{
           placeholder="Search transcript..."
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="glass-w-full glass-px-3 glass-py-2 glass-surface-dark glass-text-primary glass-border glass-border-gray-700 glass-radius-lg glass-placeholder-gray-400 glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-blue-500 glass-focus glass-touch-target glass-contrast-guard"
+          className="glass-w-full glass-px-3 glass-py-2 glass-surface-overlay glass-text-primary glass-border glass-border-subtle glass-radius-lg glass-focus glass-touch-target glass-contrast-guard"
         />
         {searchQuery && (
           <div className="glass-text-sm glass-text-primary glass-mt-2">
@@ -722,7 +820,7 @@ const TranscriptPanel: React.FC<{
               onClick={() => onTranscriptClick(entry)}
               className={cn(
                 "glass-flex glass-flex-col glass-items-start glass-gap-2 glass-w-full glass-p-3 glass-radius-lg glass-text-left glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
-                isActive ? "glass-surface-blue" : "glass-surface-dark"
+                isActive ? "glass-surface-primary" : "glass-surface-overlay"
               )}
               style={{
                 background: isActive
@@ -747,12 +845,12 @@ const TranscriptPanel: React.FC<{
                   {confidence > 0 && (
                     <div
                       className={cn(
-                        "text-xs px-2 py-1 rounded",
+                        "glass-text-xs glass-px-2 glass-py-1 glass-radius",
                         confidence > 0.9
-                          ? "bg-green-600"
+                          ? "glass-surface-success"
                           : confidence > 0.7
-                            ? "bg-yellow-600"
-                            : "bg-red-600"
+                            ? "glass-surface-warning"
+                            : "glass-surface-danger"
                       )}
                     >
                       {Math.round(confidence * 100)}%
@@ -838,6 +936,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [showControlsOverlay, setShowControlsOverlay] = useState(showControls);
+  const [isCompact, setIsCompact] = useState(false);
   const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(
     null
   );
@@ -866,6 +965,21 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
     poster || mediaFile.poster || mediaFile.thumbnail || fallbackPoster;
   const usePosterSurface =
     !mediaFile.src || isStorybookDataMedia(mediaFile.src);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element || typeof ResizeObserver === "undefined") return;
+
+    const updateCompactState = () => {
+      setIsCompact(element.getBoundingClientRect().width < 560);
+    };
+
+    updateCompactState();
+    const observer = new ResizeObserver(updateCompactState);
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   // Initialize transcript
   useEffect(() => {
@@ -1027,6 +1141,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
     <div
       className={cn(
         "ag-advanced-video-player glass-relative glass-radius-lg glass-overflow-hidden",
+        isCompact && "ag-video-compact",
         className
       )}
       data-testid={dataTestId || "glassadvancedvideoplayer"}
@@ -1081,14 +1196,26 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
 
           {/* Loading Overlay */}
           {playbackState?.isLoading && (
-            <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/50">
+            <div
+              className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
+              style={{
+                background:
+                  '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+              }}
+            >
               <div className="glass-animate-spin glass-radius-full glass-h-16 glass-w-16 glass-border-4 glass-border-white glass-border-t-transparent" />
             </div>
           )}
 
           {/* Error Overlay */}
           {playbackState?.isError && (
-            <div className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-surface-dark/80 glass-text-primary">
+            <div
+              className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-text-primary"
+              style={{
+                background:
+                  '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+              }}
+            >
               <div className="glass-text-center">
                 <div className="glass-text-4xl glass-mb-4">⚠️</div>
                 <h3 className="glass-text-xl glass-font-semibold glass-mb-2">

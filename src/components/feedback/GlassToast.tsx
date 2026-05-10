@@ -98,14 +98,18 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
     setToasts([]);
   }, []);
 
-  const getPositionClasses = () => {
+  const getPositionStyle = (): React.CSSProperties => {
     const positions = {
-      "top-right": "top-4 right-4",
-      "top-left": "top-4 left-4",
-      "bottom-right": "bottom-4 right-4",
-      "bottom-left": "bottom-4 left-4",
-      "top-center": "top-4 left-1/2 -translate-x-1/2",
-      "bottom-center": "bottom-4 left-1/2 -translate-x-1/2",
+      "top-right": { top: 16, right: 16 },
+      "top-left": { top: 16, left: 16 },
+      "bottom-right": { bottom: 16, right: 16 },
+      "bottom-left": { bottom: 16, left: 16 },
+      "top-center": { top: 16, left: "50%", transform: "translateX(-50%)" },
+      "bottom-center": {
+        bottom: 16,
+        left: "50%",
+        transform: "translateX(-50%)",
+      },
     };
     return positions[position];
   };
@@ -118,10 +122,16 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
 
       {/* Toast Container */}
       <div
-        className={cn("fixed z-50 flex flex-col gap-2", getPositionClasses())}
+        className="glass-fixed glass-z-50 glass-flex glass-flex-col glass-gap-2"
+        style={getPositionStyle()}
       >
         {toasts.map((toast) => (
-          <ToastItem key={toast.id} toast={toast} onRemove={removeToast} />
+          <ToastItem
+            key={toast.id}
+            toast={toast}
+            position={position}
+            onRemove={removeToast}
+          />
         ))}
       </div>
     </ToastContext.Provider>
@@ -130,10 +140,11 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
 
 interface ToastItemProps {
   toast: Toast;
+  position: ToastProviderProps["position"];
   onRemove: (id: string) => void;
 }
 
-const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
+const ToastItem: React.FC<ToastItemProps> = ({ toast, position, onRemove }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemoving, setIsRemoving] = useState(false);
   const prefersReducedMotion = useReducedMotion();
@@ -163,25 +174,37 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
     return icons[toast.type];
   };
 
-  const getToastColors = () => {
+  const getToastClasses = () => {
     const colors = {
-      success: "border-green-200 bg-green-50 text-green-900",
-      error: "border-red-200 bg-red-50 text-red-900",
-      warning: "border-yellow-200 bg-yellow-50 text-yellow-900",
-      info: "border-blue-200 bg-blue-50 text-blue-900",
+      success: "glass-surface-success glass-border-success glass-text-primary",
+      error: "glass-surface-danger glass-border-danger glass-text-primary",
+      warning: "glass-surface-warning glass-border-primary glass-text-primary",
+      info: "glass-surface-info glass-border-primary glass-text-primary",
     };
     return colors[toast.type];
   };
 
-  const getProgressBarColor = () => {
+  const getProgressBarClasses = () => {
     const colors = {
-      success: "bg-green-500",
-      error: "bg-red-500",
-      warning: "bg-yellow-500",
-      info: "bg-blue-500",
+      success: "glass-surface-success",
+      error: "glass-surface-danger",
+      warning: "glass-surface-warning",
+      info: "glass-surface-info",
     };
     return colors[toast.type];
   };
+
+  const visibleTransform = "translateX(0)";
+  const hiddenTransform =
+    position === "top-left" || position === "bottom-left"
+      ? "translateX(-100%)"
+      : "translateX(100%)";
+  const currentTransform =
+    isVisible && !isRemoving
+      ? visibleTransform
+      : prefersReducedMotion
+        ? visibleTransform
+        : hiddenTransform;
 
   return (
     <Glass
@@ -190,24 +213,22 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
       data-glass-toast="true"
       data-toast-type={toast.type}
       className={cn(
-        "w-96 max-w-sm glass-p-4 glass-radius-lg border-2 shadow-lg transform",
-        !prefersReducedMotion && "transition-all duration-300",
-        getToastColors(),
-        isVisible && !isRemoving
-          ? "translate-x-0 opacity-100"
-          : prefersReducedMotion
-            ? "opacity-100"
-            : "translate-x-full opacity-0",
-        isRemoving &&
-          (prefersReducedMotion ? "opacity-0" : "-translate-x-full opacity-0")
+        "glass-w-96 glass-max-w-sm glass-p-4 glass-radius-lg glass-border-2 glass-shadow-lg",
+        !prefersReducedMotion && "glass-transition-all",
+        getToastClasses()
       )}
+      style={{
+        transform: currentTransform,
+        opacity: isVisible && !isRemoving ? 1 : prefersReducedMotion ? 1 : 0,
+        transitionDuration: prefersReducedMotion ? undefined : "300ms",
+      }}
     >
       <div className="glass-flex glass-items-start glass-gap-3">
         <div className="glass-text-lg glass-flex-shrink-0 glass-mt-0-5">
           {getToastIcon()}
         </div>
 
-        <div className="glass-flex-1 glass-min-glass-w-0">
+        <div className="glass-flex-1 glass-min-w-0">
           <div className="glass-flex glass-items-center glass-justify-between">
             <h4 className="glass-font-semibold glass-text-sm glass-truncate glass-pr-2">
               {toast.title}
@@ -215,7 +236,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
             {toast.dismissible && (
               <button
                 onClick={handleRemove}
-                className="glass-flex-shrink-0 glass-w-5 glass-h-5 glass-flex glass-items-center glass-justify-center glass-radius-full hover:glass-surface-dark/10 glass-transition-colors glass-text-xs glass-opacity-70 glass-hover-opacity-100 glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                className="glass-flex-shrink-0 glass-w-5 glass-h-5 glass-flex glass-items-center glass-justify-center glass-radius-full glass-surface-transparent glass-transition-colors glass-text-xs glass-opacity-70 glass-hover-opacity-100 glass-focus glass-touch-target glass-contrast-guard"
               >
                 ✕
               </button>
@@ -244,14 +265,21 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onRemove }) => {
 
       {/* Progress bar */}
       {toast.duration && toast.duration > 0 && !prefersReducedMotion && (
-        <div className="glass-mt-3 glass-w-full glass-h-1 glass-surface-dark/10 glass-radius-full glass-overflow-hidden">
+        <div
+          className="glass-mt-3 glass-w-full glass-h-1 glass-radius-full glass-overflow-hidden"
+          style={{
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          }}
+        >
           <div
             className={cn(
-              "h-full glass-radius-full transition-all ease-linear",
-              getProgressBarColor()
+              "glass-h-full glass-radius-full glass-transition-all",
+              getProgressBarClasses()
             )}
             style={{
               animation: `shrink ${toast.duration}ms linear forwards`,
+              transitionTimingFunction: "linear",
             }}
           />
         </div>

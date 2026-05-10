@@ -50,8 +50,7 @@ export interface DragState {
   dragPosition?: number;
 }
 
-export interface GlassKanbanBoardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassKanbanBoardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Board columns */
   columns?: KanbanColumn[];
   /** Board title */
@@ -108,6 +107,54 @@ export interface GlassKanbanBoardProps
   /** Respect motion preferences */
   respectMotionPreference?: boolean;
 }
+
+const DEFAULT_KANBAN_COLUMNS: KanbanColumn[] = [
+  {
+    id: "todo",
+    title: "To do",
+    color: "#38bdf8",
+    limit: 3,
+    cards: [
+      {
+        id: "demo-card-1",
+        title: "Sketch hero",
+        description: "Tighten layout and copy.",
+        priority: "medium",
+        tags: ["design"],
+      },
+    ],
+  },
+  {
+    id: "doing",
+    title: "Doing",
+    color: "#a3e635",
+    limit: 3,
+    cards: [
+      {
+        id: "demo-card-2",
+        title: "Wire previews",
+        description: "Validate component states.",
+        priority: "high",
+        tags: ["qa"],
+      },
+    ],
+  },
+  {
+    id: "done",
+    title: "Done",
+    color: "#f59e0b",
+    limit: 4,
+    cards: [
+      {
+        id: "demo-card-3",
+        title: "Token pass",
+        description: "Ship stable glass colors.",
+        priority: "low",
+        tags: ["tokens"],
+      },
+    ],
+  },
+];
 
 export const GlassKanbanBoard = forwardRef<
   HTMLDivElement,
@@ -182,13 +229,15 @@ export const GlassKanbanBoard = forwardRef<
     };
 
     const config = cardSizeConfig[cardSize];
+    const boardColumns =
+      columns.length === 0 && !emptyState ? DEFAULT_KANBAN_COLUMNS : columns;
 
     // Priority colors
     const priorityColors = {
-      low: "border-green-500/30 bg-green-500/5",
-      medium: "border-yellow-500/30 bg-yellow-500/5",
-      high: "border-orange-500/30 bg-orange-500/5",
-      urgent: "border-red-500/30 bg-red-500/5",
+      low: "glass-border-green-500/30 bg-green-500/5",
+      medium: "glass-border-yellow-500/30 bg-yellow-500/5",
+      high: "glass-border-orange-500/30 bg-orange-500/5",
+      urgent: "glass-border-red-500/30 bg-red-500/5",
     };
 
     // Handle drag start
@@ -263,7 +312,7 @@ export const GlassKanbanBoard = forwardRef<
       return (
         <div
           className={cn(
-            "w-1 h-full absolute left-0 top-0 rounded-l-md",
+            "glass-w-1 glass-h-full glass-absolute left-0 top-0 rounded-l-md",
             colors[priority]
           )}
         />
@@ -277,7 +326,8 @@ export const GlassKanbanBoard = forwardRef<
           <OptimizedGlass
             key={card.id}
             draggable={
-              enableDrag && !columns.find((c) => c.id === columnId)?.readOnly
+              enableDrag &&
+              !boardColumns.find((c) => c.id === columnId)?.readOnly
             }
             onDragStart={(e: React.DragEvent) =>
               handleDragStart(card, columnId)
@@ -291,8 +341,8 @@ export const GlassKanbanBoard = forwardRef<
             tint="neutral"
             border="subtle"
             className={cn(
-              `glass-kanban-card relative cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
-              "glass-backdrop-blur-md border border-border/20 glass-radius-md",
+              `glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
+              "glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md",
               config.padding,
               config.minHeight,
               "hover:scale-[1.02] hover:shadow-lg",
@@ -313,11 +363,11 @@ export const GlassKanbanBoard = forwardRef<
           >
             {getPriorityIndicator(card.priority)}
 
-            <div className={cn("relative", config.spacing)}>
+            <div className={cn("glass-relative", config.spacing)}>
               {/* Card Title */}
               <h3
                 className={cn(
-                  "font-semibold text-foreground line-clamp-2",
+                  "glass-font-semibold glass-text-primary line-clamp-2",
                   config.text
                 )}
               >
@@ -405,7 +455,7 @@ export const GlassKanbanBoard = forwardRef<
       },
       [
         enableDrag,
-        columns,
+        boardColumns,
         handleDragStart,
         handleDragEnd,
         onCardClick,
@@ -458,9 +508,9 @@ export const GlassKanbanBoard = forwardRef<
                 <button
                   onClick={() => onCardAdd?.(column.id)}
                   className={cn(
-                    "w-6 h-6 glass-radius-full bg-primary/10 hover:bg-primary/20",
-                    "text-primary glass-text-sm font-bold transition-colors",
-                    "flex items-center justify-center glass-focus glass-touch-target glass-contrast-guard"
+                    "glass-w-6 glass-h-6 glass-radius-full bg-primary/10 hover:bg-primary/20",
+                    "glass-text-primary glass-text-sm glass-font-bold transition-colors",
+                    "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
                   )}
                   title="Add card"
                   aria-label={`Add card to ${column.title}`}
@@ -473,9 +523,9 @@ export const GlassKanbanBoard = forwardRef<
                 <button
                   onClick={() => onColumnDelete(column.id)}
                   className={cn(
-                    "w-6 h-6 glass-radius-full bg-red-500/10 hover:bg-red-500/20",
+                    "glass-w-6 glass-h-6 glass-radius-full bg-red-500/10 hover:bg-red-500/20",
                     "text-red-500 glass-text-sm transition-colors",
-                    "flex items-center justify-center glass-focus glass-touch-target glass-contrast-guard"
+                    "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
                   )}
                   title="Delete column"
                   aria-label={`Delete ${column.title} column`}
@@ -502,7 +552,9 @@ export const GlassKanbanBoard = forwardRef<
     );
 
     const maxHeightStyle = maxHeight ? { maxHeight } : undefined;
-    const columnsContainerStyle = { minWidth: "fit-content" };
+    const columnsContainerStyle = {
+      minWidth: boardColumns.length > 0 ? "fit-content" : "100%",
+    };
 
     return (
       <OptimizedGlass
@@ -514,7 +566,7 @@ export const GlassKanbanBoard = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-kanban-board glass-radius-lg glass-backdrop-blur-md border border-border/20",
+          "glass-kanban-board glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20",
           className
         )}
         style={{ ...(maxHeightStyle ?? {}) }}
@@ -545,7 +597,7 @@ export const GlassKanbanBoard = forwardRef<
 
           {/* Kanban Columns */}
           <div className="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden">
-            {columns.length === 0 && emptyState ? (
+            {boardColumns.length === 0 && emptyState ? (
               <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-p-8">
                 {emptyState}
               </div>
@@ -554,7 +606,7 @@ export const GlassKanbanBoard = forwardRef<
                 className="glass-flex glass-gap-6 glass-p-6 glass-h-full"
                 style={{ ...columnsContainerStyle }}
               >
-                {columns.map((column) => (
+                {boardColumns.map((column) => (
                   <Motion
                     key={column.id}
                     preset={
@@ -562,7 +614,7 @@ export const GlassKanbanBoard = forwardRef<
                         ? "slideUp"
                         : "none"
                     }
-                    delay={columns.indexOf(column) * 100}
+                    delay={boardColumns.indexOf(column) * 100}
                   >
                     <OptimizedGlass
                       elevation="level2"
@@ -571,8 +623,8 @@ export const GlassKanbanBoard = forwardRef<
                       tint="neutral"
                       border="subtle"
                       className={cn(
-                        "glass-kanban-column flex flex-col h-full",
-                        "glass-backdrop-blur-md border border-border/20 glass-radius-lg",
+                        "glass-kanban-column glass-flex glass-flex-col glass-h-full",
+                        "glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg",
                         dragState.dragOverColumn === column.id &&
                           "ring-2 ring-primary/50"
                       )}
@@ -629,7 +681,7 @@ export const GlassKanbanBoard = forwardRef<
                         {enableDrag && dragState.isDragging && (
                           <div
                             className={cn(
-                              "h-2 glass-radius-md border-2 border-dashed border-primary/30 transition-all",
+                              "glass-h-2 glass-radius-md glass-border-2 glass-border-dashed glass-border-primary transition-all",
                               dragState.dragOverColumn === column.id &&
                                 "bg-primary/10"
                             )}
@@ -663,15 +715,15 @@ export const GlassKanbanBoard = forwardRef<
                         ? "slideUp"
                         : "none"
                     }
-                    delay={columns.length * 100}
+                    delay={boardColumns.length * 100}
                   >
                     <button
                       onClick={onColumnAdd}
                       className={cn(
-                        "flex flex-col items-center justify-center h-full min-w-[280px]",
-                        "border-2 border-dashed border-border/30 glass-radius-lg",
-                        "hover:border-primary/50 hover:bg-primary/5 transition-all",
-                        "glass-text-secondary hover:text-primary glass-focus glass-touch-target glass-contrast-guard"
+                        "glass-flex glass-flex-col glass-items-center glass-justify-center glass-h-full min-w-[280px]",
+                        "glass-border-2 glass-border-dashed glass-border-glass-border/30 glass-radius-lg",
+                        "hover:glass-border-primary hover:bg-primary/5 transition-all",
+                        "glass-text-secondary hover:glass-text-primary glass-focus glass-touch-target glass-contrast-guard"
                       )}
                       aria-label="Add new column"
                     >

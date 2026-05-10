@@ -25,7 +25,12 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../../tokens/designConstants";
-import { COLORS } from "../../../tokens/designConstants";
+import {
+  chartColorWithAlpha,
+  DEFAULT_CHART_COLORS,
+  resolveChartColor,
+  resolveChartPalette,
+} from "../utils/chartColors";
 
 // Ensure required Chart.js elements/scales are registered once for all tests/usages
 ChartJS.register(
@@ -75,13 +80,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
 
   chartType,
   datasets,
-  palette = [
-    COLORS.semantic.primary,
-    COLORS.semantic.error,
-    COLORS.semantic.success,
-    COLORS.semantic.warning,
-    COLORS.semantic.secondary,
-  ],
+  palette = DEFAULT_CHART_COLORS,
   qualityTier = "medium",
   animation,
   interaction,
@@ -101,9 +100,29 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const [isLoaded, setIsLoaded] = useState(false);
+  const resolvedPalette = useMemo(
+    () => resolveChartPalette(palette),
+    [palette]
+  );
 
   // Chart configuration based on quality tier
   const chartConfig = useMemo(() => {
+    const xGridColor = resolveChartColor(
+      axis?.x?.gridColor,
+      "rgba(148, 163, 184, 0.2)"
+    );
+    const yGridColor = resolveChartColor(
+      axis?.y?.gridColor,
+      "rgba(148, 163, 184, 0.2)"
+    );
+    const xTickColor = resolveChartColor(
+      axis?.x?.tickColor,
+      "rgba(226, 232, 240, 0.78)"
+    );
+    const yTickColor = resolveChartColor(
+      axis?.y?.tickColor,
+      "rgba(226, 232, 240, 0.78)"
+    );
     const baseConfig = {
       responsive: true,
       maintainAspectRatio: false,
@@ -136,20 +155,20 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
           display: axis?.x?.show !== false,
           grid: {
             display: axis?.x?.grid !== false,
-            color: axis?.x?.gridColor || "var(--glass-bg-default)",
+            color: xGridColor,
           },
           ticks: {
-            color: axis?.x?.tickColor || "var(--glass-text-secondary)",
+            color: xTickColor,
           },
         },
         y: {
           display: axis?.y?.show !== false,
           grid: {
             display: axis?.y?.grid !== false,
-            color: axis?.y?.gridColor || "var(--glass-bg-default)",
+            color: yGridColor,
           },
           ticks: {
-            color: axis?.y?.tickColor || "var(--glass-text-secondary)",
+            color: yTickColor,
           },
         },
       },
@@ -174,9 +193,14 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
       datasets: datasets.map((dataset, index) => ({
         label: dataset.name,
         data: dataset.data?.map((point: any) => point.y),
-        backgroundColor:
-          dataset.color || palette[index % (palette?.length || 1)],
-        borderColor: dataset.color || palette[index % palette.length],
+        backgroundColor: chartColorWithAlpha(
+          dataset.color || resolvedPalette[index % resolvedPalette.length],
+          chartType === "area" ? 0.22 : 0.72
+        ),
+        borderColor: resolveChartColor(
+          dataset.color || resolvedPalette[index % resolvedPalette.length],
+          DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+        ),
         borderWidth: 2,
         fill: chartType === "area",
         tension: 0.4,
@@ -184,7 +208,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({
         pointHoverRadius: qualityTier === "low" ? 4 : 6,
       })),
     };
-  }, [datasets, palette, chartType, qualityTier]);
+  }, [datasets, resolvedPalette, chartType, qualityTier]);
 
   // Handle chart interactions
   const handleChartClick = useCallback(

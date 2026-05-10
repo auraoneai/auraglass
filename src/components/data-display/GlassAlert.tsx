@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 
 import { GlassButton } from "../button/GlassButton";
@@ -16,11 +16,11 @@ import {
 
 // Glass Alert text color variants
 const alertTextVariants = {
-  default: "text-foreground [&>svg]:text-foreground",
-  success: "text-green-400 [&>svg]:text-green-400",
-  warning: "text-amber-400 [&>svg]:text-amber-400",
-  error: "text-red-400 [&>svg]:text-red-400",
-  info: "text-blue-400 [&>svg]:text-blue-400",
+  default: "glass-text-primary",
+  success: "glass-text-success",
+  warning: "glass-text-warning",
+  error: "glass-text-error",
+  info: "glass-text-primary",
 };
 
 // Glass Alert Component
@@ -147,16 +147,16 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
     const getDefaultIcon = () => {
       switch (variant) {
         case "success":
-          return <CheckCircle className='glass-h-4 glass-w-4' />;
+          return <CheckCircle className="glass-h-4 glass-w-4" />;
         case "warning":
-          return <AlertTriangle className='glass-h-4 glass-w-4' />;
+          return <AlertTriangle className="glass-h-4 glass-w-4" />;
         case "error":
         case "destructive":
-          return <AlertCircle className='glass-h-4 glass-w-4' />;
+          return <AlertCircle className="glass-h-4 glass-w-4" />;
         case "info":
-          return <Info className='glass-h-4 glass-w-4' />;
+          return <Info className="glass-h-4 glass-w-4" />;
         default:
-          return <Info className='glass-h-4 glass-w-4' />;
+          return <Info className="glass-h-4 glass-w-4" />;
       }
     };
 
@@ -185,11 +185,9 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
         performanceMode={performanceMode}
         ref={ref}
         className={cn(
-          "relative w-full transition-all duration-200",
+          "glass-relative glass-w-full glass-flex glass-items-start glass-gap-3 glass-transition",
           sizeStyles[size],
           alertTextVariants[displayVariant],
-          "[&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px]",
-          "[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-current",
           className
         )}
         role="alert"
@@ -198,24 +196,26 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
         id={alertId}
         {...props}
       >
-        {/* Icon */}
-        {showIcon && (icon || getDefaultIcon())}
+        {showIcon && (
+          <span className="glass-flex-shrink-0 glass-mt-0-5" aria-hidden="true">
+            {icon || getDefaultIcon()}
+          </span>
+        )}
 
         {/* Content */}
-        <div className="glass-flex-1">{children}</div>
+        <div className="glass-flex-1 glass-min-w-0">{children}</div>
 
         {/* Dismiss button */}
         {dismissible && (
           <GlassButton
             onClick={handleDismiss}
             className={cn(
-              "absolute right-4 top-4 glass-radius-md glass-p-1",
-              "opacity-70 hover:opacity-100 transition-opacity",
-              "focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-2"
+              "glass-flex-shrink-0 glass-radius-md glass-p-1 glass-opacity-75",
+              "glass-transition glass-focus glass-touch-target glass-contrast-guard"
             )}
             aria-label="Dismiss alert"
           >
-            <X className='glass-h-4 glass-w-4' />
+            <X className="glass-h-4 glass-w-4" />
           </GlassButton>
         )}
       </OptimizedGlass>
@@ -231,8 +231,7 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
 GlassAlert.displayName = "GlassAlert";
 
 // Glass Alert Title
-export interface GlassAlertTitleProps
-  extends React.HTMLAttributes<HTMLHeadingElement> {
+export interface GlassAlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
   /** Title size variant */
   size?: "sm" | "md" | "lg";
 }
@@ -251,7 +250,7 @@ const GlassAlertTitle = React.forwardRef<
     <h5
       ref={ref}
       className={cn(
-        "glass-alert-title glass-mb-1 font-semibold leading-none tracking-tight",
+        "glass-alert-title glass-mb-1 glass-font-semibold leading-none tracking-tight",
         sizeConfig[size],
         className
       )}
@@ -262,8 +261,7 @@ const GlassAlertTitle = React.forwardRef<
 GlassAlertTitle.displayName = "GlassAlertTitle";
 
 // Glass Alert Description
-export interface GlassAlertDescriptionProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAlertDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Description size variant */
   size?: "xs" | "sm" | "md";
 }
@@ -293,8 +291,7 @@ const GlassAlertDescription = React.forwardRef<
 GlassAlertDescription.displayName = "GlassAlertDescription";
 
 // Glass Alert Actions (for action buttons)
-export interface GlassAlertActionsProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAlertActionsProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Actions alignment */
   align?: "left" | "right" | "center";
   /** Actions spacing */
@@ -306,9 +303,9 @@ const GlassAlertActions = React.forwardRef<
   GlassAlertActionsProps
 >(({ className, align = "right", spacing = "md", ...props }, ref) => {
   const alignConfig = {
-    left: "justify-start",
-    right: "justify-end",
-    center: "justify-center",
+    left: "glass-justify-start",
+    right: "glass-justify-end",
+    center: "glass-justify-center",
   };
 
   const spacingConfig = {
@@ -321,7 +318,7 @@ const GlassAlertActions = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "glass-alert-actions flex items-center",
+        "glass-alert-actions glass-flex glass-items-center",
         alignConfig[align],
         spacingConfig[spacing],
         className

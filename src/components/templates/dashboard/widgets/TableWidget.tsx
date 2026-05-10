@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "@/lib/utils";
 import React, { forwardRef, useState } from "react";
 import { Glass } from "../../../../primitives";
@@ -217,7 +217,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       if (loading) {
         return (
           <div className="glass-flex glass-items-center glass-justify-center glass-py-8">
-            <div className='glass-w-6 glass-h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin' />
+            <div className="glass-w-6 glass-h-6 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full glass-animate-spin" />
           </div>
         );
       }
@@ -231,7 +231,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       }
 
       return (
-        <div className='glass-overflow-x-auto'>
+        <div className="glass-overflow-x-auto">
           <table className="glass-w-full">
             {/* Header */}
             {showHeader && (
@@ -241,7 +241,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
                     <th
                       className={cn(
                         config.header,
-                        "w-12 text-left font-medium glass-text-secondary"
+                        "glass-w-12 glass-text-left glass-font-medium glass-text-secondary"
                       )}
                     >
                       #
@@ -252,16 +252,21 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
                       key={column.id}
                       className={cn(
                         config.header,
-                        "font-medium glass-text-secondary",
+                        "glass-font-medium glass-text-secondary",
                         {
-                          "text-left": column.align === "left" || !column.align,
-                          "text-center": column.align === "center",
-                          "text-right": column.align === "right",
-                          "cursor-pointer hover:text-foreground":
+                          "glass-text-left":
+                            column.align === "left" || !column.align,
+                          "glass-text-center": column.align === "center",
+                          "glass-text-right": column.align === "right",
+                          "glass-cursor-pointer hover:glass-text-primary":
                             column.sortable || sortable,
                         }
                       )}
-                      style={{ width: column.width }}
+                      style={{
+                        width: column.width,
+                        textAlign: column.align || "left",
+                        fontWeight: 500,
+                      }}
                       onClick={(e) => handleSort(column.id)}
                     >
                       <HStack
@@ -274,20 +279,20 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
                           <div className="glass-flex glass-flex-col">
                             <div
                               className={cn(
-                                "w-0 h-0 border-l-[3px] border-r-[3px] border-b-[4px] border-transparent",
+                                "glass-w-0 glass-h-0 glass-border-l-[3px] glass-border-r-[3px] glass-border-b-[4px] glass-border-transparent",
                                 sortColumn === column.id &&
                                   sortDirection === "asc"
-                                  ? "border-b-primary"
-                                  : "border-b-muted-foreground/30"
+                                  ? "glass-border-b-primary"
+                                  : "glass-border-b-muted-foreground/30"
                               )}
                             />
                             <div
                               className={cn(
-                                "w-0 h-0 border-l-[3px] border-r-[3px] border-t-[4px] border-transparent mt-0.5",
+                                "glass-w-0 glass-h-0 glass-border-l-[3px] glass-border-r-[3px] glass-border-t-[4px] glass-border-transparent glass-mt-0.5",
                                 sortColumn === column.id &&
                                   sortDirection === "desc"
-                                  ? "border-t-primary"
-                                  : "border-t-muted-foreground/30"
+                                  ? "glass-border-t-primary"
+                                  : "glass-border-t-muted-foreground/30"
                               )}
                             />
                           </div>
@@ -304,11 +309,14 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
               {displayRows.map((row, index) => (
                 <tr
                   key={row.id}
-                  className={cn("transition-colors animate-fade-in", {
-                    "bg-muted/20": striped && index % 2 === 1,
-                    "hover:bg-muted/30": hoverable,
-                    "cursor-pointer": onRowClick,
-                  })}
+                  className={cn(
+                    "glass-transition-colors glass-animate-fade-in",
+                    {
+                      "glass-surface-subtle/20": striped && index % 2 === 1,
+                      "hover:glass-surface-subtle/30": hoverable,
+                      "glass-cursor-pointer": onRowClick,
+                    }
+                  )}
                   style={{
                     animationDelay: `${Math.min(index, 15) * 50}ms`,
                     animationFillMode: "both",
@@ -323,11 +331,13 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
                   {(data?.columns || []).map((column) => (
                     <td
                       key={column.id}
-                      className={cn(config.cell, "text-foreground", {
-                        "text-left": column.align === "left" || !column.align,
-                        "text-center": column.align === "center",
-                        "text-right": column.align === "right",
+                      className={cn(config.cell, "glass-text-primary", {
+                        "glass-text-left":
+                          column.align === "left" || !column.align,
+                        "glass-text-center": column.align === "center",
+                        "glass-text-right": column.align === "right",
                       })}
+                      style={{ textAlign: column.align || "left" }}
                     >
                       {renderCellContent(column, row)}
                     </td>
@@ -349,7 +359,12 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
           return (
             <VStack space="sm">
               <HStack space="sm" align="center" justify="between">
-                <h3 className={cn("font-medium text-foreground", config.title)}>
+                <h3
+                  className={cn(
+                    "glass-font-medium glass-text-primary",
+                    config.title
+                  )}
+                >
                   {data?.title || "Table"}
                 </h3>
                 {actions}
@@ -365,7 +380,10 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
               <HStack space="sm" align="center" justify="between">
                 <VStack space="xs">
                   <h3
-                    className={cn("font-medium text-foreground", config.title)}
+                    className={cn(
+                      "glass-font-medium glass-text-primary",
+                      config.title
+                    )}
                   >
                     {data?.title || "Table"}
                   </h3>
@@ -423,7 +441,7 @@ export const TableWidget = forwardRef<HTMLDivElement, TableWidgetProps>(
       <Glass
         ref={ref}
         className={cn(
-          "w-full h-full glass-radius-lg",
+          "glass-w-full glass-h-full glass-radius-lg glass-min-w-0",
           config.padding,
           className
         )}

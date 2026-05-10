@@ -743,7 +743,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
       {children}
 
       {/* Animation state indicators for debugging */}
-      {(showDebugHud || process.env.NODE_ENV === "development") && (
+      {showDebugHud && (
         <div
           className="animation-debug-info glass-focus glass-touch-target glass-contrast-guard"
           style={{

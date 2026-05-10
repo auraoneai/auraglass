@@ -84,6 +84,7 @@ export interface GlassFilterPanelProps {
    * Custom data-testid for testing
    */
   "data-testid"?: string;
+  style?: React.CSSProperties;
 }
 
 const GlassFilterPanel = React.forwardRef<
@@ -110,6 +111,7 @@ const GlassFilterPanel = React.forwardRef<
       size = "md",
       elevation = "medium",
       "data-testid": dataTestId,
+      style,
       ...props
     },
     ref
@@ -199,21 +201,22 @@ const GlassFilterPanel = React.forwardRef<
     };
 
     const elevationClasses = {
-      low: "glass-glass-backdrop-blur-md bg-slate-950/70 border border-white/20 glass-contrast-guard",
+      low: "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/20 glass-contrast-guard",
       medium:
-        "glass-glass-backdrop-blur-md bg-slate-950/72 border border-white/30 shadow-lg glass-contrast-guard",
-      high: "glass-glass-backdrop-blur-md bg-slate-950/76 border border-white/40 shadow-2xl glass-contrast-guard",
+        "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/30 glass-shadow-lg glass-contrast-guard",
+      high: "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/40 glass-shadow-2xl glass-contrast-guard",
     };
 
     return (
       <div
         ref={ref}
+        data-glass-component
         className={cn(
           "glass-radius-xl",
           elevationClasses[elevation],
           variantClasses[variant],
           sizeClasses[size],
-          "glass-w-full glass-max-w-md glass-text-white",
+          "glass-w-full glass-text-primary",
           className
         )}
         role="region"
@@ -227,6 +230,8 @@ const GlassFilterPanel = React.forwardRef<
                 ? "rgba(15, 23, 42, 0.76)"
                 : "rgba(15, 23, 42, 0.72)",
           color: "rgba(255, 255, 255, 0.95)",
+          maxWidth: "28rem",
+          ...style,
         }}
         {...props}
       >

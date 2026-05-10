@@ -2,7 +2,7 @@
 
 exports[`GlassProgress matches snapshot 1`] = `
 <div
-  class="w-full"
+  class="glass-w-full"
   data-testid="glassprogress"
 >
   <div
@@ -10,14 +10,14 @@ exports[`GlassProgress matches snapshot 1`] = `
     aria-valuemax="100"
     aria-valuemin="0"
     aria-valuenow="0"
-    class="optimized-glass-surface glass-neutral-level2 glass-tier-high relative w-full overflow-hidden bg-muted/30 glass-backdrop-blur-md h-3 glass-radius-md"
+    class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-relative glass-w-full glass-overflow-hidden bg-muted/30 glass-backdrop-blur-md glass-h-3 glass-radius-md"
     data-performance-mode="medium"
     id="progress-:r5:"
     role="progressbar"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="h-full transition-all ease-out relative glass-surface-primary"
+      class="glass-h-full transition-all ease-out glass-relative glass-surface-primary"
       style="width: 0%; transition-duration: 500ms;"
     >
       <div

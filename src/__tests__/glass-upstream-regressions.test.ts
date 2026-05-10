@@ -136,4 +136,128 @@ describe("upstream glass regressions", () => {
 
     expect(rawColorInputs).toEqual([]);
   });
+
+  it("keeps glass surfaces from inheriting page-level light text tokens", () => {
+    const tokenSource = fs.readFileSync(
+      path.join(repoRoot, "src/tokens/glass.ts"),
+      "utf8"
+    );
+    const glassCss = fs.readFileSync(
+      path.join(repoRoot, "src/styles/glass.css"),
+      "utf8"
+    );
+
+    expect(tokenSource).toContain(
+      '"--glass-text-primary": surface.text.primary'
+    );
+    expect(tokenSource).toContain(
+      '"--glass-text-secondary": surface.text.secondary'
+    );
+    expect(tokenSource).toContain(
+      '"--typography-text-primary": surface.text.primary'
+    );
+    expect(glassCss).toContain(
+      "rgba(var(--glass-color-white) / var(--glass-opacity-95))"
+    );
+    expect(glassCss).not.toContain(
+      "--glass-text-primary: var(--glass-theme-text, currentColor)"
+    );
+  });
+
+  it("does not show debug HUDs in consumer development builds unless opted in", () => {
+    const sourceFiles = collectFiles(
+      path.join(repoRoot, "src"),
+      new Set([".ts", ".tsx"])
+    );
+    const implicitDebugHud = sourceFiles.flatMap((file) => {
+      const content = fs.readFileSync(file, "utf8");
+      return /showDebugHud\s*\|\|\s*process\.env\.NODE_ENV\s*===\s*["']development["']/.test(
+        content
+      )
+        ? [path.relative(repoRoot, file)]
+        : [];
+    });
+
+    expect(implicitDebugHud).toEqual([]);
+  });
+
+  it("does not hard-code a desktop minimum width into the data grid table", () => {
+    const dataGridCss = fs.readFileSync(
+      path.join(
+        repoRoot,
+        "src/components/data-display/GlassDataGrid.module.css"
+      ),
+      "utf8"
+    );
+
+    expect(dataGridCss).not.toContain("min-width: max(640px, 100%)");
+    expect(dataGridCss).toContain(
+      "min-width: var(--glass-datagrid-min-width, 100%)"
+    );
+  });
+
+  it("does not force light-context text tokens onto neutral glass surfaces by default", () => {
+    const glassCss = fs.readFileSync(
+      path.join(repoRoot, "src/styles/glass.css"),
+      "utf8"
+    );
+    const typographyCss = fs.readFileSync(
+      path.join(repoRoot, "src/styles/typography.css"),
+      "utf8"
+    );
+
+    expect(glassCss).not.toContain(
+      ':root:not([data-theme="dark"]) .glass-surface-neutral'
+    );
+    expect(glassCss).not.toContain(
+      ':root:not([data-theme="dark"]) .glass-surface-secondary'
+    );
+    expect(glassCss).toContain(".glass-on-light.glass-surface-neutral");
+    expect(glassCss).toContain(
+      "color: var(--glass-theme-text, var(--glass-text-primary)) !important;"
+    );
+    expect(typographyCss).toContain(
+      "color: var(--glass-theme-text, var(--typography-text-primary)) !important;"
+    );
+  });
+
+  it("uses stable tab keys when tab value is omitted", () => {
+    const tabBarSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/navigation/GlassTabBar.tsx"),
+      "utf8"
+    );
+
+    expect(tabBarSource).toContain(
+      "const tabKey = tab.value ?? tab.id ?? index"
+    );
+    expect(tabBarSource).not.toContain("key={`tab-${tab.value}`}");
+  });
+
+  it("does not clone shell control props into arbitrary header or sidebar nodes", () => {
+    const shellSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/layout/GlassAppShell.tsx"),
+      "utf8"
+    );
+
+    expect(shellSource).toContain(
+      'canEnhanceElement(sidebar, ["GlassSidebar"])'
+    );
+    expect(shellSource).toContain('canEnhanceElement(header, ["GlassHeader"])');
+  });
+
+  it("does not mirror fresh default arrays into state in file components", () => {
+    const uploadSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/interactive/GlassFileUpload.tsx"),
+      "utf8"
+    );
+    const treeSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/interactive/GlassFileTree.tsx"),
+      "utf8"
+    );
+
+    expect(uploadSource).toContain("const EMPTY_UPLOADED_FILES");
+    expect(uploadSource).toContain("files = EMPTY_UPLOADED_FILES");
+    expect(treeSource).toContain("const EMPTY_EXPANDED_NODES");
+    expect(treeSource).toContain("expandedNodes = EMPTY_EXPANDED_NODES");
+  });
 });

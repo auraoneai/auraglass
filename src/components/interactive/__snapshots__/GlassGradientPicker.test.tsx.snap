@@ -7,7 +7,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
 >
   <div
     class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
       class="glass-relative glass-z-10"
@@ -164,7 +164,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             class="glass-w-full glass-h-32 glass-radius-lg glass-border glass-border-white/20"
           />
           <div
-            class="glass-flex glass-items-center glass-justify-between"
+            class="glass-flex glass-items-center glass-justify-between glass-gap-2"
           >
             <span
               class="contrast-guard"
@@ -172,7 +172,8 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               data-glass-component="true"
             >
               <code
-                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-truncate glass-flex-1 glass-mr-2"
+                class="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-flex-1 glass-min-w-0"
+                style="display: -webkit-box; overflow: hidden; overflow-wrap: anywhere; word-break: break-word;"
               >
                 linear-gradient(45deg, var(--glass-color-primary) 0%, var(--glass-gray-500) 100%)
               </code>
@@ -231,7 +232,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 id="glass-button-:ro:"
-                style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
                   class="glass-relative glass-z-10"

@@ -114,10 +114,10 @@ const DEFAULT_CONFIG: Required<GalileoInteractionConfig> = {
   magneticStrength: 0.3,
   magneticRange: 50,
   rippleEffect: true,
-  rippleColor: "var(--glass-border-hover)",
+  rippleColor: "rgba(226, 232, 240, 0.42)",
   rippleDuration: 600,
   hoverGlow: true,
-  glowColor: "hsl(var(--glass-color-primary)/0.4)",
+  glowColor: "rgba(112, 214, 255, 0.4)",
   glowIntensity: 0.6,
   physicsAnimations: true,
   springConfig: {
@@ -426,7 +426,7 @@ function drawMagneticEffects(
     // Draw connection line
     ctx.save();
     ctx.globalAlpha = influence * 0.3;
-    ctx.strokeStyle = "var(--glass-border-hover)";
+    ctx.strokeStyle = "rgba(226, 232, 240, 0.42)";
     ctx.lineWidth = 1;
     ctx.setLineDash([2, 4]);
     ctx.beginPath();

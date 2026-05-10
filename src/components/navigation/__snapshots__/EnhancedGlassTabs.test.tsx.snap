@@ -6,15 +6,16 @@ exports[`EnhancedGlassTabs matches snapshot 1`] = `
   class=""
 >
   <div
-    class="optimized-glass-surface glass-neutral-level1 glass-tier-medium flex relative overflow-hidden w-full glass-radius-lg"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-medium glass-flex glass-relative glass-overflow-hidden glass-w-full glass-radius-lg"
     data-performance-mode="medium"
-    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); display: flex; overflow: hidden; width: 100%;"
   >
     <div
       aria-orientation="horizontal"
-      class="flex w-full relative"
+      class="glass-flex glass-w-full glass-relative"
       id="tablist-:rg:"
       role="tablist"
+      style="display: flex; width: 100%;"
     />
   </div>
 </nav>

@@ -43,8 +43,10 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
 // Base button props (simplified for integration)
-interface BaseGlassButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
+interface BaseGlassButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "size"
+> {
   variant?: "primary" | "secondary" | "destructive" | "ghost" | "outline";
   size?: "xs" | "sm" | "md" | "lg" | "xl";
 }
@@ -149,14 +151,14 @@ export const EnhancedGlassButton = forwardRef<
           ...enhancedFeatures.physics,
         },
         morphing: {
-          enabled: true,
+          enabled: false,
           environmentalAdaptation: true,
           userActivityAdaptation: true,
           contentTypeAdaptation: true,
           ...enhancedFeatures.morphing,
         },
         spatial3D: {
-          enabled: true,
+          enabled: false,
           layers: 4,
           parallax: true,
           depthOfField: true,
@@ -164,14 +166,14 @@ export const EnhancedGlassButton = forwardRef<
           ...enhancedFeatures.spatial3D,
         },
         organicMotion: {
-          enabled: true,
+          enabled: false,
           patterns: ["gentle", "interactive"],
           emotionalContext: "calm",
           enableMicroInteractions: true,
           ...enhancedFeatures.organicMotion,
         },
         emotionalAdaptation: {
-          enabled: true,
+          enabled: false,
           biometricTracking: true,
           behaviorAnalysis: true,
           uiAdaptation: true,
@@ -185,7 +187,7 @@ export const EnhancedGlassButton = forwardRef<
           ...enhancedFeatures.spatialComputing,
         },
         aiPersonalization: {
-          enabled: true,
+          enabled: false,
           learningMode: "adaptive",
           recommendationLevel: "moderate",
           ...enhancedFeatures.aiPersonalization,

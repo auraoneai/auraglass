@@ -8,11 +8,10 @@ export interface Step {
   label: string;
   optional?: boolean;
 }
-export interface GlassStepperProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "steps" | "active" | "onChange"
-  > {
+export interface GlassStepperProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "steps" | "active" | "onChange"
+> {
   steps?: Step[];
   active?: string;
   onChange?: (id: string) => void;
@@ -40,7 +39,10 @@ export function GlassStepper({
   return (
     <div
       data-glass-component
-      className={cn("flex glass-flex-wrap items-center glass-gap-3", className)}
+      className={cn(
+        "glass-flex glass-flex-wrap glass-items-center glass-justify-center glass-gap-3 glass-w-full glass-min-w-0",
+        className
+      )}
       {...htmlProps}
     >
       {steps.map((s, i) => {
@@ -56,7 +58,7 @@ export function GlassStepper({
                 `glass-px-3 glass-py-1.5 glass-radius-full glass-text-sm transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                 "ring-1 ring-white/10 bg-glass-fill glass-hover--translate-y-0-5 glass-press glass-ripple",
                 "glass-focus glass-touch-target glass-contrast-guard",
-                "glass-flex-shrink-0 whitespace-nowrap",
+                "glass-flex-shrink-0 glass-whitespace-nowrap",
                 isActive ? "glass-text-primary" : "glass-text-primary/80"
               )}
               onClick={(e) => onChange?.(s.id)}

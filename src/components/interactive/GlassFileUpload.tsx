@@ -31,8 +31,10 @@ export interface UploadedFile {
   error?: string;
 }
 
-export interface GlassFileUploadProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
+export interface GlassFileUploadProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onChange"
+> {
   /**
    * File input accept attribute
    */
@@ -115,6 +117,8 @@ export interface GlassFileUploadProps
   children?: React.ReactNode;
 }
 
+const EMPTY_UPLOADED_FILES: UploadedFile[] = [];
+
 /**
  * GlassFileUpload component
  * File upload with drag-and-drop functionality and glassmorphism styling
@@ -126,17 +130,17 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       multiple = false,
       maxSize = 10 * 1024 * 1024, // 10MB
       maxFiles = 10,
-      variant = "default",
-      size = "md",
+      variant = "compact",
+      size = "sm",
       disabled = false,
-      files = [],
+      files = EMPTY_UPLOADED_FILES,
       onChange,
       onUpload,
       onRemove,
       onPreview,
       showPreviews = true,
       showProgress = true,
-      instruction = "Drag and drop files here, or click to select",
+      instruction = "Drop files or click to select",
       helperText,
       error,
       autoUpload = false,
@@ -155,15 +159,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
     const sizeClasses = {
       sm: "glass-p-4 glass-text-sm",
-      md: "glass-p-6 glass-text-base",
-      lg: "p-8 glass-text-lg",
+      md: "glass-p-5 glass-text-base",
+      lg: "glass-p-6 glass-text-lg",
     };
 
     const variantClasses = {
-      default: "min-h-32",
-      compact: "min-h-20",
-      minimal: "min-h-16",
-      grid: "min-h-40",
+      default: "glass-min-h-32",
+      compact: "glass-min-h-20",
+      minimal: "glass-min-h-16",
+      grid: "glass-min-h-32",
     };
 
     // Sync internal files with props
@@ -561,7 +565,8 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     return (
       <div
         ref={ref}
-        className={cn("w-full", className)}
+        data-glass-component
+        className={cn("glass-w-full glass-max-w-full glass-min-w-0", className)}
         data-testid={props["data-testid"] || "glassfileupload"}
         {...props}
       >
@@ -588,15 +593,16 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           performanceMode="medium"
           ref={dropZoneRef}
           className={cn(
-            "relative border-2 border-dashed cursor-pointer transition-all",
-            "hover:border-primary/50 focus:border-primary focus:outline-none",
+            "glass-relative glass-border glass-border-dashed glass-cursor-pointer glass-transition-all glass-overflow-hidden",
+            "hover:glass-border-blue focus:glass-border-blue glass-focus-outline-none",
             sizeClasses[size],
             variantClasses[variant],
             {
-              "border-primary bg-primary/5": isDragOver,
-              "border-border/30": !isDragOver && !error,
-              "border-destructive bg-destructive/5": error,
-              "opacity-50 cursor-not-allowed": disabled,
+              "glass-border-blue glass-surface-blue/20": isDragOver,
+              "glass-border-white/20 glass-surface-dark/20":
+                !isDragOver && !error,
+              "glass-border-red glass-surface-red/20": error,
+              "glass-opacity-50 glass-cursor-not-allowed": disabled,
             }
           )}
           onDragEnter={handleDragEnter}
@@ -611,14 +617,11 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
           {children || (
             <div className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center">
               <svg
-                className={cn(
-                  "mx-auto mb-3 glass-text-secondary",
-                  size === "sm"
-                    ? "w-8 h-8"
-                    : size === "lg"
-                      ? "w-12 h-12"
-                      : "w-10 h-10"
-                )}
+                className={cn("glass-mx-auto glass-mb-2 glass-text-secondary", {
+                  "glass-w-8 glass-h-8": size === "sm",
+                  "glass-w-10 glass-h-10": size === "md",
+                  "glass-w-12 glass-h-12": size === "lg",
+                })}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

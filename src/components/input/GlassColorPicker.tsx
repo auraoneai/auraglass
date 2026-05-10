@@ -262,9 +262,9 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
 
   // Size configurations
   const sizeConfigs = {
-    sm: { trigger: "w-8 h-8", popover: "w-64" },
-    md: { trigger: "w-10 h-10", popover: "w-80" },
-    lg: { trigger: "w-12 h-12", popover: "w-96" },
+    sm: { trigger: "glass-w-8 glass-h-8", popover: "glass-w-64" },
+    md: { trigger: "glass-w-10 glass-h-10", popover: "glass-w-80" },
+    lg: { trigger: "glass-w-12 glass-h-12", popover: "glass-w-96" },
   };
 
   // Update color when value prop changes
@@ -407,10 +407,10 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
       <div
         ref={triggerRef}
         className={cn(
-          "glass-radius-lg border-2 border-white/20 cursor-pointer transition-all duration-200",
-          "hover:border-white/40 focus:border-white/60 focus:outline-none",
+          "glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer",
+          "glass-focus",
           config.trigger,
-          disabled && "opacity-50 cursor-not-allowed",
+          disabled && "glass-opacity-50",
           className
         )}
         onClick={(e) => !disabled && setIsOpen(!isOpen)}
@@ -447,7 +447,7 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
             aria-modal="true"
             aria-label="Color picker"
             className={cn(
-              "glass-radius-xl border border-white/20 shadow-2xl glass-backdrop-blur-md bg-black/20",
+              "glass-radius-xl glass-border glass-border-white/20 glass-shadow-2xl glass-backdrop-blur-md glass-surface-dark/30",
               config.popover
             )}
           >
@@ -708,10 +708,10 @@ export const GlassColorPicker: React.FC<GlassColorPickerProps> = ({
                         <button
                           key={`${color}-${i}`}
                           className={cn(
-                            "w-8 h-8 glass-radius-lg border-2 transition-all duration-200 glass-focus",
+                            "glass-w-8 glass-h-8 glass-radius-lg glass-border-2 glass-focus",
                             currentColor === color
-                              ? "border-white scale-110"
-                              : "border-white/20 hover:border-white/40"
+                              ? "glass-border-white glass-scale-110"
+                              : "glass-border-white/20"
                           )}
                           ref={(el) => {
                             if (el) el.style.backgroundColor = color;
@@ -816,9 +816,9 @@ export const GlassColorPalette: React.FC<GlassColorPaletteProps> = ({
   className,
 }) => {
   const sizeConfigs = {
-    sm: "w-6 h-6",
-    md: "w-8 h-8",
-    lg: "w-10 h-10",
+    sm: "glass-w-6 glass-h-6",
+    md: "glass-w-8 glass-h-8",
+    lg: "glass-w-10 glass-h-10",
   };
 
   return (
@@ -827,11 +827,11 @@ export const GlassColorPalette: React.FC<GlassColorPaletteProps> = ({
         <button
           key={`${color}-${i}`}
           className={cn(
-            "glass-radius-lg border-2 transition-all duration-200",
+            "glass-radius-lg glass-border-2",
             sizeConfigs[size],
             selectedColor === color
-              ? "border-white scale-110 ring-2 ring-white/50"
-              : "border-white/20 hover:border-white/40 glass-hover-scale-105"
+              ? "glass-border-white glass-scale-110 glass-ring-2 glass-ring-white/50"
+              : "glass-border-white/20 glass-hover-scale-105"
           )}
           ref={(el) => {
             if (el) el.style.backgroundColor = color;

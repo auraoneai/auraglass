@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useId } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "@/lib/utils";
 import {
@@ -116,11 +116,146 @@ export interface GlassChartsDemoProps {
 }
 
 export function GlassChartsDemo({ className, children }: GlassChartsDemoProps) {
+  const gradientId = useId().replace(/:/g, "");
+  const lineGradient = `${gradientId}-line`;
+  const areaGradient = `${gradientId}-area`;
+  const bars = [38, 58, 44, 72, 62, 84];
+  const linePoints = [
+    [0, 72],
+    [48, 48],
+    [96, 58],
+    [144, 32],
+    [192, 42],
+    [240, 24],
+  ];
+  const path = linePoints
+    .map(([x, y], index) => `${index === 0 ? "M" : "L"} ${x} ${y}`)
+    .join(" ");
+
   return (
-    <ContrastGuard as="div" level="AA" className={className}>
-      <TextWithContrast as="h3" className="glass-text-lg glass-font-semibold">
-        Glass Charts Demo
-      </TextWithContrast>
+    <ContrastGuard
+      as="div"
+      level="AA"
+      className={cn("glass-w-full glass-auto-gap glass-auto-gap-md", className)}
+    >
+      <div className="glass-flex glass-items-center glass-justify-between glass-gap-3">
+        <div>
+          <TextWithContrast
+            as="h3"
+            className="glass-text-base glass-font-semibold"
+          >
+            Glass Charts Demo
+          </TextWithContrast>
+          <TextWithContrast
+            as="p"
+            className="glass-text-xs glass-text-primary-opacity-70"
+          >
+            Live chart primitives
+          </TextWithContrast>
+        </div>
+        <div className="glass-radius-full glass-border glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-80">
+          3 views
+        </div>
+      </div>
+      <div
+        className="glass-grid glass-gap-3"
+        style={{ gridTemplateColumns: "repeat(3, minmax(0, 1fr))" }}
+      >
+        <div className="glass-radius-lg glass-border glass-surface-subtle glass-p-3">
+          <svg
+            viewBox="0 0 240 96"
+            width="100%"
+            height="96"
+            role="img"
+            aria-label="Line trend"
+          >
+            <defs>
+              <linearGradient id={lineGradient} x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stopColor="#70d6ff" />
+                <stop offset="100%" stopColor="#a78bfa" />
+              </linearGradient>
+            </defs>
+            {[24, 48, 72].map((y) => (
+              <line
+                key={y}
+                x1="0"
+                y1={y}
+                x2="240"
+                y2={y}
+                stroke="rgba(226,232,240,0.14)"
+              />
+            ))}
+            <path
+              d={path}
+              fill="none"
+              stroke={`url(#${lineGradient})`}
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {linePoints.map(([x, y]) => (
+              <circle key={`${x}-${y}`} cx={x} cy={y} r="4" fill="#70d6ff" />
+            ))}
+          </svg>
+        </div>
+        <div className="glass-radius-lg glass-border glass-surface-subtle glass-p-3">
+          <svg
+            viewBox="0 0 240 96"
+            width="100%"
+            height="96"
+            role="img"
+            aria-label="Bar comparison"
+          >
+            {bars.map((value, index) => (
+              <rect
+                key={index}
+                x={index * 38 + 8}
+                y={96 - value}
+                width="24"
+                height={value}
+                rx="7"
+                fill={index % 2 === 0 ? "#70d6ff" : "#34d399"}
+                opacity="0.88"
+              />
+            ))}
+          </svg>
+        </div>
+        <div className="glass-radius-lg glass-border glass-surface-subtle glass-p-3">
+          <svg
+            viewBox="0 0 120 96"
+            width="100%"
+            height="96"
+            role="img"
+            aria-label="Donut split"
+          >
+            <defs>
+              <linearGradient id={areaGradient} x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stopColor="#70d6ff" />
+                <stop offset="100%" stopColor="#a78bfa" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="60"
+              cy="48"
+              r="32"
+              fill="none"
+              stroke="rgba(226,232,240,0.16)"
+              strokeWidth="16"
+            />
+            <circle
+              cx="60"
+              cy="48"
+              r="32"
+              fill="none"
+              stroke={`url(#${areaGradient})`}
+              strokeWidth="16"
+              strokeDasharray="145 56"
+              strokeLinecap="round"
+              transform="rotate(-90 60 48)"
+            />
+          </svg>
+        </div>
+      </div>
       {children}
     </ContrastGuard>
   );

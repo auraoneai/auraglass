@@ -31,7 +31,7 @@ export function GlassStatusDot({
             : "bg-slate-400";
   return (
     <span
-      className={cn("inline-block glass-radius-full", color, className)}
+      className={cn("glass-inline-block glass-radius-full", color, className)}
       style={{ width: size, height: size }}
     />
   );

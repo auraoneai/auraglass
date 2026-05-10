@@ -140,4 +140,10 @@ describe("OrganicAnimationEngine", () => {
     expect(debug).toBeInTheDocument();
     expect(debug?.textContent || "").toContain("Emotion");
   });
+
+  it("does not render the debug overlay unless explicitly requested", () => {
+    const { container } = render(<OrganicAnimationEngine />);
+
+    expect(container.querySelector(".animation-debug-info")).toBeNull();
+  });
 });

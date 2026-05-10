@@ -2,18 +2,18 @@
 
 exports[`GlassGanttChart matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gantt-chart glass-radius-lg glass-backdrop-blur-md border border-border/20 overflow-hidden"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gantt-chart glass-radius-lg glass-backdrop-blur-md glass-border glass-border-subtle glass-overflow-hidden glass-max-w-full"
   id="glass-gantt-chart-:r3:"
-  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); height: 600px;"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); min-width: 0;"
 >
   <div
     class="motion-primitive glass-h-full glass-flex glass-flex-col"
   >
     <div
-      class="glass-flex glass-border-b glass-border-glass-border/20"
+      class="glass-flex glass-border-b glass-border-subtle"
     >
       <div
-        class="glass-w-64 glass-p-4 glass-border-r glass-border-glass-border/20 glass-surface-overlay"
+        class="glass-w-32 glass-p-3 glass-border-r glass-border-subtle glass-surface-dark/20"
       >
         <span
           class="contrast-guard"
@@ -28,19 +28,368 @@ exports[`GlassGanttChart matches snapshot 1`] = `
         </span>
       </div>
       <div
-        class="glass-flex-1 glass-overflow-x-hidden glass-surface-overlay"
+        class="glass-flex-1 glass-overflow-x-hidden glass-surface-dark/20"
       >
         <div
           class="glass-flex glass-h-16"
-          style="width: 0px;"
-        />
+          style="width: 1160px;"
+        >
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              3
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              4
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              5
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              6
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              7
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              8
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              9
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs glass-surface-primary/10 glass-text-primary glass-font-semibold"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              10
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              11
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              12
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              13
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              14
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              15
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              16
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              17
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              18
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              19
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              20
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              21
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              22
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              23
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              24
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              25
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              26
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              27
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              28
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              29
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              30
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              31
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div
       class="glass-flex glass-flex-1 glass-overflow-hidden"
     >
       <div
-        class="glass-w-64 glass-border-r glass-border-glass-border/20 glass-overflow-y-glass-hidden glass-surface-overlay"
+        class="glass-w-32 glass-border-r glass-border-subtle glass-overflow-y-hidden glass-surface-dark/20"
       >
         <div />
       </div>
@@ -49,11 +398,128 @@ exports[`GlassGanttChart matches snapshot 1`] = `
       >
         <div
           class="glass-relative"
-          style="width: 0px; height: 0px;"
+          style="width: 1160px; height: 0px;"
         >
           <div
             class="glass-absolute glass-inset-0"
-          />
+          >
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 0px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 40px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 80px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 120px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 160px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 200px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 240px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-primary glass-surface-primary/5"
+              style="left: 280px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 320px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 360px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 400px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 440px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 480px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 520px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 560px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 600px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 640px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 680px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 720px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 760px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 800px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 840px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 880px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 920px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 960px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 1000px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 1040px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 1080px;"
+            />
+            <div
+              class="glass-absolute glass-top-0 glass-bottom-0 glass-border-r glass-border-subtle"
+              style="left: 1120px;"
+            />
+          </div>
         </div>
       </div>
     </div>

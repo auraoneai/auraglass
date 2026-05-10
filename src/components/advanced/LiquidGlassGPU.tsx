@@ -633,6 +633,8 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
   const [isGPUSupported, setIsGPUSupported] = useState(false);
   const [deviceTilt, setDeviceTilt] = useState({ x: 0, y: 0 });
   const startTimeRef = useRef(Date.now());
+  const lastBackdropUpdateRef = useRef(0);
+  const backdropUpdateInFlightRef = useRef(false);
 
   // Initialize GPU renderer
   useEffect(() => {
@@ -705,9 +707,19 @@ export const LiquidGlassGPURenderer: React.FC<LiquidGlassGPUProps> = ({
           time,
         });
 
-        // Update backdrop periodically
-        if (containerRef.current && Math.floor(time * 10) % 5 === 0) {
-          gpuRef.current.updateBackdrop(containerRef.current);
+        // Texture capture performs a CPU readback; throttle it outside the render cadence.
+        if (
+          containerRef.current &&
+          time - lastBackdropUpdateRef.current >= 1 &&
+          !backdropUpdateInFlightRef.current
+        ) {
+          lastBackdropUpdateRef.current = time;
+          backdropUpdateInFlightRef.current = true;
+          void gpuRef.current
+            .updateBackdrop(containerRef.current)
+            .finally(() => {
+              backdropUpdateInFlightRef.current = false;
+            });
         }
       }
 

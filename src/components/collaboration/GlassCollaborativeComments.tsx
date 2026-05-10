@@ -4,11 +4,9 @@ import { Glass } from "../../primitives";
 import {
   useCollaboration,
   CollaborationComment,
+  CollaborationUser,
 } from "./GlassCollaborationProvider";
 import { cn } from "../../lib/utilsComprehensive";
-import { ContrastGuard } from "../accessibility/ContrastGuard";
-import { ANIMATION } from "../../tokens/designConstants";
-import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 interface CollaborativeCommentsProps {
   className?: string;
@@ -16,6 +14,34 @@ interface CollaborativeCommentsProps {
   "aria-label"?: string;
   "data-testid"?: string;
 }
+
+const DEMO_COMMENT_USER: CollaborationUser = {
+  id: "demo-reviewer",
+  name: "Lumen",
+  email: "lumen@example.com",
+  color: "#38bdf8",
+  lastActive: Date.now(),
+};
+
+const DEMO_COMMENTS: CollaborationComment[] = [
+  {
+    id: "demo-comment-1",
+    userId: "demo-reviewer",
+    content: "Tighten this surface copy before launch.",
+    position: { x: 188, y: 128 },
+    timestamp: Date.now() - 90000,
+    resolved: false,
+    replies: [
+      {
+        id: "demo-reply-1",
+        userId: "demo-reviewer",
+        content: "Keeping the note visible for review.",
+        position: { x: 188, y: 128 },
+        timestamp: Date.now() - 45000,
+      },
+    ],
+  },
+];
 
 const CommentBubble: React.FC<{
   comment: CollaborationComment;
@@ -82,20 +108,21 @@ const CommentBubble: React.FC<{
     <div
       data-glass-component
       ref={bubbleRef}
-      className={cn(
-        "glass-absolute glass-z-40 glass-container-xs",
-        comment.resolved && "opacity-60"
-      )}
+      className="glass-absolute glass-z-40 glass-container-xs"
+      style={{ opacity: comment.resolved ? 0.6 : 1 }}
     >
       <div className="glass-relative">
         {/* Main comment */}
         <Glass
           className={cn(
-            "p-3 mb-2 shadow-lg border-l-4 glass-contrast-guard",
-            comment.resolved
-              ? "border-gray-400"
-              : "border-[var(--glass-color-primary)]"
+            "glass-p-3 glass-mb-2 glass-shadow-lg glass-border-l glass-contrast-guard"
           )}
+          style={{
+            borderLeftWidth: 4,
+            borderLeftColor: comment.resolved
+              ? "rgba(148, 163, 184, 0.8)"
+              : "var(--glass-color-primary)",
+          }}
         >
           <div className="glass-flex glass-items-start glass-justify-between glass-mb-2">
             <div className="glass-flex glass-items-center glass-gap-2">
@@ -162,7 +189,8 @@ const CommentBubble: React.FC<{
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               placeholder="Write a reply..."
-              className="glass-w-full glass-p-2 glass-text-sm glass-border glass-border-subtle glass-radius glass-resize-none glass-focus-ring-2 glass-focus-ring-blue-500 focus:glass-border-blue"
+              className="glass-w-full glass-p-2 glass-text-sm glass-border glass-border-subtle glass-radius glass-focus glass-touch-target glass-contrast-guard"
+              style={{ resize: "none" }}
               rows={2}
               autoFocus
             />
@@ -176,7 +204,7 @@ const CommentBubble: React.FC<{
               <button
                 onClick={handleReply}
                 disabled={!replyText.trim()}
-                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-primary glass-text-primary glass-radius disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               >
                 Reply
               </button>
@@ -224,7 +252,14 @@ const CommentBubble: React.FC<{
         {/* Comment pointer */}
         <div
           ref={pointerRef}
-          className="glass-absolute glass-w-0 glass-h-0 glass-border-l-4 glass-border-r-4 glass-border-t-4 glass-border-transparent glass-border-t-white"
+          className="glass-absolute"
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "4px solid transparent",
+            borderRight: "4px solid transparent",
+            borderTop: "4px solid rgba(255, 255, 255, 0.9)",
+          }}
         />
       </div>
     </div>
@@ -251,9 +286,9 @@ const CommentDot: React.FC<{
     <button
       ref={ref}
       className={cn(
-        "glass-absolute glass-z-30 glass-w-6 glass-h-6 glass-radius-full glass-border glass-shadow-lg glass-transition glass-focus glass-touch-target glass-contrast-guard",
-        resolved ? "opacity-60" : "animate-pulse"
+        "glass-absolute glass-z-30 glass-w-6 glass-h-6 glass-radius-full glass-border glass-shadow-lg glass-transition glass-focus glass-touch-target glass-contrast-guard"
       )}
+      style={{ opacity: resolved ? 0.6 : 1 }}
       onClick={onClick}
       aria-label={resolved ? "Resolved comment" : "Comment"}
     >
@@ -294,6 +329,14 @@ export const GlassCollaborativeComments: React.FC<
   const newBubbleRef = useRef<HTMLDivElement>(null);
   const newAvatarRef = useRef<HTMLDivElement>(null);
   const newPointerRef = useRef<HTMLDivElement>(null);
+  const shouldUseDemoContent =
+    comments.length === 0 && users.length === 0 && !currentUser;
+  const resolvedComments = shouldUseDemoContent ? DEMO_COMMENTS : comments;
+  const resolvedUsers = shouldUseDemoContent ? [DEMO_COMMENT_USER] : users;
+  const resolvedCurrentUser = currentUser ?? resolvedUsers[0] ?? null;
+  const visibleSelectedComment =
+    selectedComment ??
+    (shouldUseDemoContent ? (resolvedComments[0]?.id ?? null) : null);
 
   // Position and color for the new comment bubble (no JSX style attr)
   useEffect(() => {
@@ -307,9 +350,9 @@ export const GlassCollaborativeComments: React.FC<
   useEffect(() => {
     if (newAvatarRef.current) {
       newAvatarRef.current.style.backgroundColor =
-        currentUser?.color || "var(--glass-gray-500)";
+        resolvedCurrentUser?.color || "var(--glass-gray-500)";
     }
-  }, [currentUser?.color]);
+  }, [resolvedCurrentUser?.color]);
 
   useEffect(() => {
     if (newPointerRef.current) {
@@ -326,7 +369,7 @@ export const GlassCollaborativeComments: React.FC<
     if (!allowComments || !showComments) return;
 
     const handleDoubleClick = (e: MouseEvent) => {
-      if (!currentUser) return;
+      if (!resolvedCurrentUser) return;
 
       // Don't add comments on UI elements
       const target = e.target as HTMLElement;
@@ -354,13 +397,14 @@ export const GlassCollaborativeComments: React.FC<
         container.removeEventListener("dblclick", handleDoubleClick);
       }
     };
-  }, [allowComments, showComments, currentUser]);
+  }, [allowComments, showComments, resolvedCurrentUser]);
 
   const handleAddComment = () => {
-    if (!newCommentText.trim() || !newCommentPosition || !currentUser) return;
+    if (!newCommentText.trim() || !newCommentPosition || !resolvedCurrentUser)
+      return;
 
     addComment({
-      userId: currentUser.id,
+      userId: resolvedCurrentUser.id,
       content: newCommentText.trim(),
       position: newCommentPosition,
     });
@@ -371,10 +415,10 @@ export const GlassCollaborativeComments: React.FC<
   };
 
   const handleReply = (commentId: string, content: string) => {
-    if (!currentUser) return;
+    if (!resolvedCurrentUser) return;
 
     replyToComment(commentId, {
-      userId: currentUser.id,
+      userId: resolvedCurrentUser.id,
       content,
     });
   };
@@ -387,14 +431,14 @@ export const GlassCollaborativeComments: React.FC<
   const groupedComments = React.useMemo(() => {
     const groups: { [key: string]: CollaborationComment[] } = {};
 
-    comments.forEach((comment: any) => {
+    resolvedComments.forEach((comment: any) => {
       const key = `${Math.floor(comment.position.x / 50)}-${Math.floor(comment.position.y / 50)}`;
       if (!groups[key]) groups[key] = [];
       groups[key].push(comment);
     });
 
     return Object.values(groups);
-  }, [comments]);
+  }, [resolvedComments]);
 
   if (!showComments || !allowComments) {
     return null;
@@ -403,7 +447,10 @@ export const GlassCollaborativeComments: React.FC<
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full h-full", className)}
+      className={cn(
+        "glass-relative glass-w-full glass-h-full glass-min-h-48",
+        className
+      )}
       aria-label={ariaLabel}
       data-testid={dataTestId}
     >
@@ -411,7 +458,8 @@ export const GlassCollaborativeComments: React.FC<
       {groupedComments.map((group, index) => {
         const firstComment = group[0];
         const user =
-          users.find((u) => u.id === firstComment.userId) || currentUser;
+          resolvedUsers.find((u) => u.id === firstComment.userId) ||
+          resolvedCurrentUser;
         const hasUnresolved = group.some((c) => !c.resolved);
 
         return (
@@ -431,19 +479,20 @@ export const GlassCollaborativeComments: React.FC<
       })}
 
       {/* Selected comment bubble */}
-      {selectedComment && (
+      {visibleSelectedComment && (
         <>
-          {comments
+          {resolvedComments
             .filter((comment: any) =>
               groupedComments.find(
                 (group) =>
-                  group.some((c) => c.id === selectedComment) &&
+                  group.some((c) => c.id === visibleSelectedComment) &&
                   group.includes(comment)
               )
             )
             .map((comment: any) => {
               const user =
-                users.find((u) => u.id === comment.userId) || currentUser;
+                resolvedUsers.find((u) => u.id === comment.userId) ||
+                resolvedCurrentUser;
 
               return (
                 <CommentBubble
@@ -452,7 +501,7 @@ export const GlassCollaborativeComments: React.FC<
                   user={user}
                   onReply={handleReply}
                   onResolve={handleResolve}
-                  isOwner={currentUser?.id === comment.userId}
+                  isOwner={resolvedCurrentUser?.id === comment.userId}
                 />
               );
             })}
@@ -465,16 +514,22 @@ export const GlassCollaborativeComments: React.FC<
           ref={newBubbleRef}
           className="glass-absolute glass-z-40 glass-container-xs"
         >
-          <Glass className="glass-p-3 glass-shadow-lg glass-border-l-4 glass-border-blue glass-contrast-guard">
+          <Glass
+            className="glass-p-3 glass-shadow-lg glass-border-l glass-contrast-guard"
+            style={{
+              borderLeftWidth: 4,
+              borderLeftColor: "var(--glass-color-primary)",
+            }}
+          >
             <div className="glass-flex glass-items-center glass-gap-2 glass-mb-2">
               <div
                 ref={newAvatarRef}
                 className="glass-w-6 glass-h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-text-xs glass-font-medium"
               >
-                {currentUser?.name?.[0]?.toUpperCase() || "?"}
+                {resolvedCurrentUser?.name?.[0]?.toUpperCase() || "?"}
               </div>
               <span className="glass-text-sm glass-font-medium glass-text-secondary">
-                {currentUser?.name || "You"}
+                {resolvedCurrentUser?.name || "You"}
               </span>
             </div>
 
@@ -482,7 +537,8 @@ export const GlassCollaborativeComments: React.FC<
               value={newCommentText}
               onChange={(e) => setNewCommentText(e.target.value)}
               placeholder="Write a comment..."
-              className="glass-w-full glass-p-2 glass-text-sm glass-border glass-border-subtle glass-radius glass-resize-none glass-focus-ring-2 glass-focus-ring-blue-500 focus:glass-border-blue"
+              className="glass-w-full glass-p-2 glass-text-sm glass-border glass-border-subtle glass-radius glass-focus glass-touch-target glass-contrast-guard"
+              style={{ resize: "none" }}
               rows={3}
               autoFocus
             />
@@ -501,7 +557,7 @@ export const GlassCollaborativeComments: React.FC<
               <button
                 onClick={handleAddComment}
                 disabled={!newCommentText.trim()}
-                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
+                className="glass-px-3 glass-py-1 glass-text-xs glass-surface-primary glass-text-primary glass-radius disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
               >
                 Comment
               </button>
@@ -511,7 +567,14 @@ export const GlassCollaborativeComments: React.FC<
           {/* Comment pointer */}
           <div
             ref={newPointerRef}
-            className="glass-absolute glass-w-0 glass-h-0 glass-border-l-4 glass-border-r-4 glass-border-t-4 glass-border-transparent glass-border-t-white"
+            className="glass-absolute"
+            style={{
+              width: 0,
+              height: 0,
+              borderLeft: "4px solid transparent",
+              borderRight: "4px solid transparent",
+              borderTop: "4px solid rgba(255, 255, 255, 0.9)",
+            }}
           />
         </div>
       )}
@@ -532,7 +595,7 @@ export const GlassCollaborativeComments: React.FC<
       )}
 
       {/* Helper text */}
-      {comments.length === 0 && currentUser && (
+      {resolvedComments.length === 0 && resolvedCurrentUser && (
         <div className="glass-absolute glass-bottom-4 glass-right-4 glass-surface-subtle glass-text-primary glass-p-3 glass-radius-lg glass-text-sm glass-max-w-xs">
           💡 Double-click anywhere to add a comment
         </div>

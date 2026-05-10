@@ -167,10 +167,11 @@ const defaultProcessingSettings: ProcessingSettings = {
 };
 
 const readableGlassTextStyle = {
-  "--glass-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--typography-text-primary": "rgba(15, 23, 42, 0.94)",
-  "--glass-theme-text": "rgba(15, 23, 42, 0.94)",
-  color: "rgba(15, 23, 42, 0.94)",
+  "--glass-text-primary": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--typography-text-primary":
+    "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  "--glass-theme-text": "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
+  color: "var(--glass-theme-text, rgba(255, 255, 255, 0.95))",
 } as React.CSSProperties;
 
 export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
@@ -183,13 +184,13 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       processingSettings = {},
       showFilterLibrary = true,
       showPreview = true,
-      showControls = true,
+      showControls = false,
       enableRealTimeProcessing = true,
       enableChaining = true,
       enableCustomFilters = false,
       maxFilters = 5,
-      canvasWidth = 800,
-      canvasHeight = 600,
+      canvasWidth = 640,
+      canvasHeight = 360,
       onFilterApply,
       onProcessingComplete,
       onError,
@@ -805,11 +806,11 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             <motion.div
               key={filter.id}
               className={`
-                p-3 rounded-lg border cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]
+                glass-p-3 glass-radius-lg glass-border glass-cursor-pointer glass-transition-all duration-[${ANIMATION.DURATION.fast}ms]
                 ${
                   activeFilters.includes(filter.id)
-                    ? "border-blue-400 bg-blue-400/20"
-                    : "border-white/20 hover:border-white/40 bg-white/5"
+                    ? "glass-border-blue glass-surface-blue/20"
+                    : "glass-border-white/20 hover:glass-border-white/40 glass-surface-subtle/5"
                 }
               `}
               whileHover={shouldAnimate ? { scale: 1.02 } : {}}
@@ -832,19 +833,19 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
               <div className="glass-flex glass-items-center glass-justify-between">
                 <span
                   className={`
-                  px-2 py-0.5 rounded text-xs font-medium
+                  glass-px-2 glass-py-0.5 glass-radius glass-text-xs glass-font-medium
                   ${
                     filter.category === "artistic"
-                      ? "bg-purple-500/20 text-purple-300"
+                      ? "glass-surface-primary/20 glass-text-secondary"
                       : filter.category === "color"
-                        ? "bg-blue-500/20 text-blue-300"
+                        ? "glass-surface-blue/20 glass-text-secondary"
                         : filter.category === "blur"
-                          ? "bg-gray-500/20 text-gray-300"
+                          ? "glass-surface-muted/20 glass-text-secondary"
                           : filter.category === "distortion"
-                            ? "bg-red-500/20 text-red-300"
+                            ? "glass-surface-red/20 glass-text-secondary"
                             : filter.category === "vintage"
-                              ? "bg-orange-500/20 text-orange-300"
-                              : "bg-green-500/20 text-green-300"
+                              ? "glass-surface-amber/20 glass-text-secondary"
+                              : "glass-surface-green/20 glass-text-secondary"
                   }
                 `}
                 >
@@ -987,14 +988,19 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        style={readableGlassTextStyle}
-        className={`p-6 space-y-6 ${className}`}
+        data-glass-component
+        style={{
+          ...readableGlassTextStyle,
+          maxHeight: "100%",
+          minWidth: 0,
+        }}
+        className={`glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0">
+          <div className="glass-min-w-0">
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate">
               Live Image Filter
             </h3>
             <p className="glass-text-sm glass-text-primary-glass-opacity-60">
@@ -1002,7 +1008,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
             </p>
           </div>
 
-          <div className="glass-flex glass-items-center glass-space-x-2">
+          <div className="glass-flex glass-items-center glass-gap-2 glass-flex-shrink-0">
             {enableRealTimeProcessing && (
               <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
                 <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
@@ -1020,7 +1026,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
 
         {/* Preview area */}
         {showPreview && (
-          <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-4">
+          <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3">
             {/* Original */}
             <div className="glass-space-y-2">
               <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
@@ -1145,8 +1151,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         {showFilterLibrary && <FilterLibrary />}
 
         {/* Action buttons */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">
-          <div className="glass-flex glass-items-center glass-space-x-4">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex-wrap">
+          <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
             <input
               type="file"
               accept="image/*"

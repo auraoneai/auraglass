@@ -10,8 +10,7 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassAvatarProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface GlassAvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   /**
    * Avatar variant
    */
@@ -105,18 +104,18 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     const [isLoading, setIsLoading] = React.useState(!!src);
 
     const sizeClasses = {
-      xs: "w-6 h-6 glass-text-xs",
-      sm: "w-8 h-8 glass-text-sm",
-      md: "w-10 h-10 glass-text-base",
-      lg: "w-12 h-12 glass-text-lg",
-      xl: "w-16 h-16 glass-text-xl",
-      "2xl": "w-20 h-20 glass-text-2xl",
+      xs: "glass-w-6 glass-h-6 glass-text-xs",
+      sm: "glass-w-8 glass-h-8 glass-text-sm",
+      md: "glass-w-10 glass-h-10 glass-text-base",
+      lg: "glass-w-12 glass-h-12 glass-text-lg",
+      xl: "glass-w-16 glass-h-16 glass-text-xl",
+      "2xl": "glass-w-20 glass-h-20 glass-text-2xl",
     };
 
     const variantClasses = {
       default: "glass-radius-md",
       circle: "glass-radius-full",
-      square: "rounded-none",
+      square: "glass-radius-none",
       "glass-radius-md": "glass-radius-lg",
     };
 
@@ -173,7 +172,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
     return (
       <div
         data-glass-component
-        className={cn("relative inline-block", className)}
+        className={cn("glass-relative glass-inline-block", className)}
         data-testid={dataTestId || "glassavatar"}
       >
         <OptimizedGlass
@@ -194,10 +193,10 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
           performanceMode="medium"
           id={avatarId}
           className={cn(
-            "relative overflow-hidden",
+            "glass-relative glass-overflow-hidden glass-flex glass-items-center glass-justify-center",
             sizeClasses[size],
             variantClasses[variant],
-            "glass-backdrop-blur-md bg-white/10 border border-white/20",
+            "glass-backdrop-blur-md bg-white/10 glass-border glass-border-white/20",
             className
           )}
           role="img"
@@ -233,7 +232,7 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
         {showStatus && status && (
           <div
             className={cn(
-              "absolute bottom-0 right-0 w-3 h-3 glass-radius-full border-2 border-white",
+              "glass-absolute bottom-0 right-0 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white",
               statusColors[status]
             )}
             role="status"
@@ -268,7 +267,9 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
   };
 
   return (
-    <div className={cn("flex items-center", spacingClasses[spacing])}>
+    <div
+      className={cn("glass-flex glass-items-center", spacingClasses[spacing])}
+    >
       {childArray.slice(0, visibleCount).map((child, index) => (
         <div key={index} className="glass-relative">
           {React.cloneElement(child as React.ReactElement, {

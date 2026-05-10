@@ -36,6 +36,40 @@ export interface SearchCategory {
   count?: number;
 }
 
+const DEFAULT_SEARCH_RESULTS: SearchResult[] = [
+  {
+    id: "surface-system",
+    title: "Surface system",
+    description: "Glass primitives, tokens, and elevation recipes.",
+    category: "Components",
+  },
+  {
+    id: "live-filters",
+    title: "Live filters",
+    description: "Keyboard-friendly filters with visible selected state.",
+    category: "Patterns",
+  },
+];
+
+const DEFAULT_SEARCH_SUGGESTIONS = ["glass surface", "data grid", "navigation"];
+const DEFAULT_RECENT_SEARCHES = ["accessibility", "charts"];
+const DEFAULT_SEARCH_CATEGORIES: SearchCategory[] = [
+  { id: "components", label: "Components", count: 126 },
+  { id: "patterns", label: "Patterns", count: 34 },
+];
+
+const DEFAULT_SEARCH_FILTERS: Record<string, SearchFilter[]> = {
+  type: [
+    { id: "stable", label: "Stable", value: "stable", count: 84 },
+    {
+      id: "interactive",
+      label: "Interactive",
+      value: "interactive",
+      count: 29,
+    },
+  ],
+};
+
 export interface GlassSearchInterfaceProps {
   /**
    * Search placeholder text
@@ -126,6 +160,7 @@ export interface GlassSearchInterfaceProps {
    */
   debounceDelay?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -161,6 +196,7 @@ export const GlassSearchInterface = forwardRef<
       maxResults = 10,
       debounceDelay = 300,
       className,
+      style,
       ...props
     },
     ref
@@ -172,7 +208,31 @@ export const GlassSearchInterface = forwardRef<
     const resultsRef = useRef<HTMLDivElement>(null);
     const debounceRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-    const displayResults = results.slice(0, maxResults);
+    const shouldUseDemoContent =
+      !value &&
+      !loading &&
+      results.length === 0 &&
+      suggestions.length === 0 &&
+      recentSearches.length === 0 &&
+      categories.length === 0 &&
+      Object.keys(filters).length === 0;
+    const searchResults = shouldUseDemoContent
+      ? DEFAULT_SEARCH_RESULTS
+      : results;
+    const searchSuggestions = shouldUseDemoContent
+      ? DEFAULT_SEARCH_SUGGESTIONS
+      : suggestions;
+    const searchRecentSearches = shouldUseDemoContent
+      ? DEFAULT_RECENT_SEARCHES
+      : recentSearches;
+    const searchCategories = shouldUseDemoContent
+      ? DEFAULT_SEARCH_CATEGORIES
+      : categories;
+    const searchFilters = shouldUseDemoContent
+      ? DEFAULT_SEARCH_FILTERS
+      : filters;
+    const effectiveShowFilters = showFilters && !shouldUseDemoContent;
+    const displayResults = searchResults.slice(0, maxResults);
     const hasActiveFilters = Object.values(selectedFilters).some(
       (arr) => arr.length > 0
     );
@@ -235,7 +295,10 @@ export const GlassSearchInterface = forwardRef<
       if (!isOpen) return;
 
       const totalItems =
-        suggestions.length + displayResults.length + recentSearches.length;
+        searchSuggestions.length +
+        displayResults.length +
+        searchRecentSearches.length;
+      if (totalItems <= 0) return;
 
       switch (event.key) {
         case "ArrowDown":
@@ -268,26 +331,26 @@ export const GlassSearchInterface = forwardRef<
       let currentIndex = 0;
 
       // Check suggestions
-      if (index < suggestions.length) {
-        const suggestion = suggestions[index];
+      if (index < searchSuggestions.length) {
+        const suggestion = searchSuggestions[index];
         setInternalValue(suggestion);
         onChange?.(suggestion);
         onSearch?.(suggestion, selectedFilters);
         setIsOpen(false);
         return;
       }
-      currentIndex += suggestions.length;
+      currentIndex += searchSuggestions.length;
 
       // Check recent searches
-      if (index < currentIndex + recentSearches.length) {
-        const recent = recentSearches[index - currentIndex];
+      if (index < currentIndex + searchRecentSearches.length) {
+        const recent = searchRecentSearches[index - currentIndex];
         setInternalValue(recent);
         onChange?.(recent);
         onSearch?.(recent, selectedFilters);
         setIsOpen(false);
         return;
       }
-      currentIndex += recentSearches.length;
+      currentIndex += searchRecentSearches.length;
 
       // Check results
       if (index < currentIndex + displayResults.length) {
@@ -314,21 +377,36 @@ export const GlassSearchInterface = forwardRef<
     };
 
     const variantClasses = {
-      default: "max-w-2xl",
-      modal: "w-full max-w-4xl",
-      inline: "w-full",
-      compact: "max-w-md",
+      default: "glass-w-full",
+      modal: "glass-w-full",
+      inline: "glass-w-full",
+      compact: "glass-w-full",
+    };
+
+    const variantStyles: Record<
+      NonNullable<GlassSearchInterfaceProps["variant"]>,
+      React.CSSProperties
+    > = {
+      default: { maxWidth: "42rem" },
+      modal: { maxWidth: "56rem" },
+      inline: {},
+      compact: { maxWidth: "28rem" },
     };
 
     return (
       <div
         data-glass-component
         ref={ref}
-        className={cn("relative", variantClasses[variant], className)}
+        className={cn(
+          "glass-relative glass-min-w-0 glass-max-w-full",
+          variantClasses[variant],
+          className
+        )}
+        style={{ minWidth: 0, ...variantStyles[variant], ...style }}
         {...props}
       >
         {/* Categories */}
-        {showCategories && categories.length > 0 && (
+        {showCategories && searchCategories.length > 0 && (
           <div className="glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-overflow-x-auto">
             <GlassButton
               variant={!activeCategory ? "primary" : "ghost"}
@@ -337,7 +415,7 @@ export const GlassSearchInterface = forwardRef<
             >
               All
             </GlassButton>
-            {categories.map((category) => (
+            {searchCategories.map((category) => (
               <GlassButton
                 key={category.id}
                 variant={activeCategory === category.id ? "primary" : "ghost"}
@@ -424,7 +502,7 @@ export const GlassSearchInterface = forwardRef<
               border="subtle"
               animation="none"
               performanceMode="medium"
-              className="glass-border glass-border-glass-border/20 glass-max-h-96 glass-overflow-hidden"
+              className="glass-border glass-border-white/10 glass-surface-dark/30 glass-max-h-96 glass-overflow-hidden"
             >
               <FocusTrap active={isOpen} onEscape={() => setIsOpen(false)}>
                 <div
@@ -432,18 +510,18 @@ export const GlassSearchInterface = forwardRef<
                   className="glass-overflow-y-auto glass-max-h-96"
                 >
                   {/* Suggestions */}
-                  {suggestions.length > 0 && (
-                    <div className="glass-p-2 glass-border-b glass-border-glass-border/20">
+                  {searchSuggestions.length > 0 && (
+                    <div className="glass-p-2 glass-border-b glass-border-white/20">
                       <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                         Suggestions
                       </h4>
-                      {suggestions.map((suggestion, index) => (
+                      {searchSuggestions.map((suggestion, index) => (
                         <GlassButton
                           key={suggestion}
                           className={cn(
-                            "w-full flex items-center glass-gap-3 glass-px-3 glass-py-2 glass-radius-md text-left",
-                            "hover:bg-muted/50 transition-colors",
-                            focusedIndex === index && "bg-muted/50"
+                            "glass-w-full glass-flex glass-items-center glass-gap-3 glass-px-3 glass-py-2 glass-radius-md glass-text-left",
+                            "glass-transition",
+                            focusedIndex === index && "glass-surface-subtle/20"
                           )}
                           onClick={(e) => handleItemSelect(index)}
                         >
@@ -467,20 +545,21 @@ export const GlassSearchInterface = forwardRef<
                   )}
 
                   {/* Recent Searches */}
-                  {recentSearches.length > 0 && (
-                    <div className="glass-p-2 glass-border-b glass-border-glass-border/20">
+                  {searchRecentSearches.length > 0 && (
+                    <div className="glass-p-2 glass-border-b glass-border-white/20">
                       <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
                         Recent Searches
                       </h4>
-                      {recentSearches.map((recent, index) => {
-                        const globalIndex = suggestions.length + index;
+                      {searchRecentSearches.map((recent, index) => {
+                        const globalIndex = searchSuggestions.length + index;
                         return (
                           <GlassButton
                             key={recent}
                             className={cn(
-                              "w-full flex items-center glass-gap-3 glass-px-3 glass-py-2 glass-radius-md text-left",
-                              "hover:bg-muted/50 transition-colors",
-                              focusedIndex === globalIndex && "bg-muted/50"
+                              "glass-w-full glass-flex glass-items-center glass-gap-3 glass-px-3 glass-py-2 glass-radius-md glass-text-left",
+                              "glass-transition",
+                              focusedIndex === globalIndex &&
+                                "glass-surface-subtle/20"
                             )}
                             onClick={(e) => handleItemSelect(globalIndex)}
                           >
@@ -508,18 +587,21 @@ export const GlassSearchInterface = forwardRef<
                   {displayResults.length > 0 ? (
                     <div className="glass-p-2">
                       <h4 className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-secondary glass-uppercase glass-tracking-wide">
-                        Results ({results.length})
+                        Results ({searchResults.length})
                       </h4>
                       {displayResults.map((result, index) => {
                         const globalIndex =
-                          suggestions.length + recentSearches.length + index;
+                          searchSuggestions.length +
+                          searchRecentSearches.length +
+                          index;
                         return (
                           <GlassButton
                             key={result.id}
                             className={cn(
-                              "w-full flex items-start glass-gap-3 glass-px-3 glass-py-3 glass-radius-md text-left",
-                              "hover:bg-muted/50 transition-colors",
-                              focusedIndex === globalIndex && "bg-muted/50"
+                              "glass-w-full glass-flex glass-items-start glass-gap-3 glass-px-3 glass-py-3 glass-radius-md glass-text-left",
+                              "glass-transition",
+                              focusedIndex === globalIndex &&
+                                "glass-surface-subtle/20"
                             )}
                             onClick={(e) => handleItemSelect(globalIndex)}
                           >
@@ -542,7 +624,7 @@ export const GlassSearchInterface = forwardRef<
                                     />
                                   </svg>
                                 </div>
-                                <div className="glass-flex-1 glass-min-glass-w-0">
+                                <div className="glass-flex-1 glass-min-w-0">
                                   <h5 className="glass-font-medium glass-text-primary">
                                     {result.highlighted?.title || result.title}
                                   </h5>
@@ -568,7 +650,7 @@ export const GlassSearchInterface = forwardRef<
                         );
                       })}
 
-                      {results.length > maxResults && (
+                      {searchResults.length > maxResults && (
                         <div className="glass-px-3 glass-py-2 glass-text-center">
                           <GlassButton
                             variant="ghost"
@@ -577,7 +659,7 @@ export const GlassSearchInterface = forwardRef<
                               onSearch?.(internalValue, selectedFilters)
                             }
                           >
-                            View all {results.length} results
+                            View all {searchResults.length} results
                           </GlassButton>
                         </div>
                       )}
@@ -609,22 +691,22 @@ export const GlassSearchInterface = forwardRef<
         )}
 
         {/* Filters Sidebar */}
-        {showFilters &&
-          Object.keys(filters).length > 0 &&
+        {effectiveShowFilters &&
+          Object.keys(searchFilters).length > 0 &&
           variant !== "compact" && (
             <OptimizedGlass
               intent="neutral"
               elevation={"level1"}
-              intensity="medium"
+              intensity="subtle"
               depth={2}
               tint="neutral"
               border="subtle"
               animation="none"
               performanceMode="medium"
-              className="glass-mt-4 glass-p-4 glass-border glass-border-glass-border/20"
+              className="glass-mt-3 glass-p-3 glass-border glass-border-white/10 glass-surface-dark/30 glass-max-h-52 glass-overflow-auto"
             >
-              <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-                <h3 className="glass-font-medium glass-text-primary">
+              <div className="glass-flex glass-items-center glass-justify-between glass-mb-3 glass-gap-2">
+                <h3 className="glass-font-medium glass-text-primary glass-text-sm">
                   Filters
                 </h3>
                 {hasActiveFilters && (
@@ -634,17 +716,17 @@ export const GlassSearchInterface = forwardRef<
                 )}
               </div>
 
-              <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-4">
-                {Object.entries(filters).map(([filterId, options]) => (
+              <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-3">
+                {Object.entries(searchFilters).map(([filterId, options]) => (
                   <div key={filterId}>
                     <h4 className="glass-font-medium glass-text-sm glass-text-primary glass-mb-2">
                       {filterId.charAt(0).toUpperCase() + filterId.slice(1)}
                     </h4>
-                    <div className="glass-gap-2">
+                    <div className="glass-space-y-1.5">
                       {options.map((option) => (
                         <label
                           key={option.id}
-                          className="glass-flex glass-items-center glass-gap-2 glass-cursor-pointer"
+                          className="glass-flex glass-items-center glass-gap-2 glass-cursor-pointer glass-min-w-0"
                         >
                           <GlassInput
                             type="checkbox"
@@ -660,9 +742,9 @@ export const GlassSearchInterface = forwardRef<
                                 e.target.checked
                               )
                             }
-                            className="glass-radius-md glass-border-glass-border glass-focus-ring-primary"
+                            className="glass-radius-md glass-border-white/20 glass-focus-ring-primary glass-shrink-0"
                           />
-                          <span className="glass-text-sm glass-text-primary glass-flex-1">
+                          <span className="glass-text-sm glass-text-primary glass-flex-1 glass-min-w-0 glass-truncate">
                             {option.label}
                           </span>
                           {option.count && (

@@ -63,8 +63,10 @@ export interface SearchResult {
   metadata?: SearchResultMetadata;
 }
 
-export interface GlassFacetSearchProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "results"> {
+export interface GlassFacetSearchProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "results"
+> {
   query?: string;
   onQueryChange?: (query: string) => void;
   facets?: Facet[];
@@ -166,7 +168,9 @@ const GlassFacetSearch = React.forwardRef<
     const [expandedFacets, setExpandedFacets] = useState<
       Record<string, boolean>
     >(createExpandedFacetState(facets));
-    const [showFacetPanel, setShowFacetPanel] = useState(showFilters);
+    const [showFacetPanel, setShowFacetPanel] = useState(
+      showFilters && variant !== "default"
+    );
 
     const handleQueryChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,17 +245,19 @@ const GlassFacetSearch = React.forwardRef<
     };
 
     const elevationClasses = {
-      low: "glass-backdrop-blur-md bg-white/10 border border-white/20",
+      low: "glass-backdrop-blur-md glass-surface-dark/20 glass-border glass-border-white/10",
       medium:
-        "glass-backdrop-blur-md bg-white/20 border border-white/30 shadow-lg",
-      high: "glass-backdrop-blur-md bg-white/30 border border-white/40 shadow-2xl",
+        "glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/12 glass-shadow-lg",
+      high: "glass-backdrop-blur-md glass-surface-dark/40 glass-border glass-border-white/20 glass-shadow-2xl",
     };
 
     return (
       <div
         ref={ref}
+        data-glass-component
         className={cn(
           "glass-radius-xl",
+          "glass-max-h-full glass-min-w-0 glass-overflow-auto",
           elevationClasses[elevation],
           variantClasses[variant],
           sizeClasses[size],
@@ -260,6 +266,7 @@ const GlassFacetSearch = React.forwardRef<
         data-testid={dataTestId}
         aria-label={ariaLabel || "Faceted search"}
         role="search"
+        style={{ maxWidth: "100%", boxSizing: "border-box", minWidth: 0 }}
         {...props}
       >
         {/* Search Input */}
@@ -291,8 +298,8 @@ const GlassFacetSearch = React.forwardRef<
                 size="sm"
                 onClick={(e) => setShowFacetPanel(!showFacetPanel)}
                 className={cn(
-                  "transition-colors",
-                  hasActiveFilters && "text-blue-400"
+                  "glass-transition",
+                  hasActiveFilters && "glass-text-primary"
                 )}
                 aria-label="Toggle filters"
                 aria-pressed={showFacetPanel}
@@ -372,10 +379,10 @@ const GlassFacetSearch = React.forwardRef<
                 prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
               }
               exit={{ opacity: 0, height: 0 }}
-              className="glass-mb-6 glass-border glass-border-white/20 glass-radius-lg glass-overflow-hidden"
+              className="glass-mb-4 glass-border glass-border-white/10 glass-surface-dark/20 glass-radius-lg glass-overflow-hidden"
             >
-              <div className="glass-p-4">
-                <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
+              <div className="glass-p-3">
+                <div className="glass-flex glass-items-center glass-justify-between glass-mb-3 glass-gap-2">
                   <h3 className="glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2">
                     <Filter className="glass-w-4 glass-h-4" />
                     Filters
@@ -392,7 +399,7 @@ const GlassFacetSearch = React.forwardRef<
                   )}
                 </div>
 
-                <div className="glass-auto-gap glass-auto-gap-lg">
+                <div className="glass-auto-gap glass-auto-gap-sm">
                   {facets.map((facet) => (
                     <FacetGroup
                       key={facet.id}
@@ -410,10 +417,10 @@ const GlassFacetSearch = React.forwardRef<
         </AnimatePresence>
 
         {/* Results */}
-        {showResults && (
+        {showResults && (loading || displayedResults.length > 0 || query) && (
           <div className="glass-auto-gap glass-auto-gap-sm">
             <div className="glass-flex glass-items-center glass-justify-between">
-              <h3 className="glass-font-semibold glass-text-primary">
+              <h3 className="glass-text-base glass-font-semibold glass-text-primary">
                 Results {results.length > 0 && `(${results.length})`}
               </h3>
               {results.length > maxResults && (
@@ -450,7 +457,7 @@ const GlassFacetSearch = React.forwardRef<
                           ? { duration: 0 }
                           : { duration: 0.3 }
                       }
-                      className="glass-p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg glass-cursor-pointer glass-transition-all glass-duration-200 glass-hover--translate-y-0-5 glass-ring-1 glass-ring-white-opacity-10 glass-hover-ring-white-opacity-20 glass-border glass-border-white/10 hover:glass-border-white/20"
+                      className="glass-p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg glass-cursor-pointer glass-transition-all glass-duration-200 glass-border glass-border-white/10 hover:glass-border-white/20"
                       onClick={(e) => onResultSelect?.(result)}
                     >
                       <div className="glass-flex glass-items-start glass-justify-between">
@@ -537,10 +544,10 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
 }) => {
   const prefersReducedMotion = useReducedMotion();
   return (
-    <div className="glass-border glass-border-white/10 glass-radius-lg glass-overflow-hidden">
+    <div className="glass-border glass-border-white/10 glass-surface-dark/20 glass-radius-lg glass-overflow-hidden">
       <button
         onClick={onToggle}
-        className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+        className="glass-w-full glass-flex glass-items-center glass-justify-between glass-gap-2 glass-p-2 glass-text-left hover:glass-surface-subtle/5 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
       >
         <span
           className="glass-font-medium"

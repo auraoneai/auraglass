@@ -10,7 +10,7 @@ exports[`GlassPagination matches snapshot 1`] = `
   <div
     class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-inline-flex glass-max-w-full glass-flex-wrap glass-items-center glass-justify-center glass-gap-1 glass-p-1 glass-backdrop-blur-md glass-ring-1 glass-ring-white/10 glass-bg-white/5"
     data-performance-mode="medium"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
       class="motion-primitive"
@@ -21,7 +21,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
         role="button"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
           aria-hidden="true"
@@ -54,7 +54,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
         data-performance-mode="medium"
         role="button"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
           aria-hidden="true"
@@ -91,7 +91,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level3 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/40 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.22); border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           1
         </div>
@@ -104,7 +104,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           2
         </div>
@@ -117,7 +117,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           3
         </div>
@@ -130,7 +130,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           4
         </div>
@@ -143,7 +143,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           5
         </div>
@@ -156,7 +156,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           6
         </div>
@@ -170,7 +170,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border border-white/20 transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           <svg
             aria-hidden="true"
@@ -211,7 +211,7 @@ exports[`GlassPagination matches snapshot 1`] = `
           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
           data-performance-mode="medium"
           role="button"
-          style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         >
           10
         </div>
@@ -225,7 +225,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
         role="button"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
           aria-hidden="true"
@@ -254,7 +254,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-justify-center glass-font-medium glass-radius-md glass-backdrop-blur-md border transition-all duration-200 glass-sheen focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none h-10 w-10 glass-text-base bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30"
         data-performance-mode="medium"
         role="button"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <svg
           aria-hidden="true"

@@ -7,7 +7,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
-import { ANIMATION, COLORS } from "../../tokens/designConstants";
+import { ANIMATION } from "../../tokens/designConstants";
 
 const toFiniteNumber = (value: unknown, fallback = 0): number => {
   const numericValue =
@@ -23,10 +23,24 @@ const getSegmentColor = (
   explicitColor: string | undefined,
   colors: string[],
   index: number
-) =>
-  explicitColor ||
-  colors[index % Math.max(1, colors.length)] ||
-  "var(--glass-color-primary)";
+) => explicitColor || colors[index % Math.max(1, colors.length)] || "#70d6ff";
+
+const DEFAULT_CHART_COLORS = [
+  "#70d6ff",
+  "#a78bfa",
+  "#34d399",
+  "#fbbf24",
+  "#f87171",
+  "#22d3ee",
+  "#fb7185",
+  "#c084fc",
+  "#60a5fa",
+  "#94a3b8",
+];
+
+const LABEL_FILL = "rgba(226, 232, 240, 0.86)";
+const LABEL_MUTED_FILL = "rgba(203, 213, 225, 0.72)";
+const CENTER_FILL = "rgba(248, 250, 252, 0.95)";
 
 export interface PieDataPoint {
   label: string;
@@ -123,19 +137,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
     },
     ref
   ) {
-    const defaultColors = [
-      "var(--glass-color-primary)",
-      "var(--glass-color-danger)",
-      "var(--glass-color-success)",
-      "var(--glass-color-warning)",
-      COLORS.semantic.secondary,
-      COLORS.semantic.info,
-      COLORS.semantic.success,
-      COLORS.semantic.warning,
-      COLORS.semantic.error,
-      "var(--glass-gray-500)",
-    ];
-    const actualColors = colors || defaultColors;
+    const actualColors = colors || DEFAULT_CHART_COLORS;
     const actualAnimationDuration = animationDuration;
     const actualShowTooltips = showTooltips;
     const actualFormatValue = formatValue || ((value) => value.toString());
@@ -289,7 +291,10 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
 
     return (
       <Motion ref={ref} preset="fadeIn" className="glass-w-full">
-        <GlassCard className={cn("overflow-hidden", className)} {...props}>
+        <GlassCard
+          className={cn("glass-overflow-hidden", className)}
+          {...props}
+        >
           {title && (
             <CardHeader>
               <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold">
@@ -301,18 +306,22 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
           <CardContent className="glass-p-4">
             <div
               className={cn(
-                "flex",
-                legendPosition === "right" ? "flex-row" : "flex-col",
-                "items-center glass-gap-6"
+                "glass-flex",
+                legendPosition === "right"
+                  ? "glass-flex-row glass-flex-wrap"
+                  : "glass-flex-col",
+                "glass-items-center glass-justify-center glass-gap-6"
               )}
             >
               {/* Chart */}
-              <div className="glass-relative glass-flex-shrink-0">
+              <div className="glass-relative glass-w-full glass-flex-shrink-0 glass-overflow-hidden">
                 <svg
-                  width={size}
+                  width="100%"
                   height={size}
-                  className="glass-overflow-visible"
-                  style={{ maxWidth: "100%", height: "auto" }}
+                  viewBox={`0 0 ${size} ${size}`}
+                  preserveAspectRatio="xMidYMid meet"
+                  className="glass-overflow-hidden"
+                  style={{ display: "block", maxWidth: size, margin: "0 auto" }}
                 >
                   {/* Segments */}
                   {processedData.segments.map((segment, index) => (
@@ -348,15 +357,19 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                           textAnchor={
                             segment.labelX > centerX ? "start" : "end"
                           }
-                          className="glass-text-xs glass-fill-white-opacity-80 glass-font-medium"
-                          style={{ fontSize: "var(--typography-caption-size)" }}
+                          className="glass-text-xs glass-font-medium"
+                          style={{
+                            fill: LABEL_FILL,
+                            fontSize: "var(--typography-caption-size)",
+                          }}
                         >
                           <ContrastGuard>{segment.label}</ContrastGuard>
                           {showPercentages && (
                             <tspan
                               x={segment.labelX}
                               dy="14"
-                              className="glass-text-xs glass-fill-white/60"
+                              className="glass-text-xs"
+                              style={{ fill: LABEL_MUTED_FILL }}
                             >
                               <ContrastGuard>
                                 {actualFormatPercentage(segment.percentage)}
@@ -383,7 +396,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                         x={centerX}
                         y={centerY - 5}
                         textAnchor="middle"
-                        className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
+                        className="glass-text-sm glass-font-medium"
+                        style={{ fill: LABEL_FILL }}
                       >
                         <ContrastGuard>Total</ContrastGuard>
                       </text>
@@ -391,7 +405,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                         x={centerX}
                         y={centerY + 15}
                         textAnchor="middle"
-                        className="glass-text-lg glass-fill-white glass-font-semibold"
+                        className="glass-text-lg glass-font-semibold"
+                        style={{ fill: CENTER_FILL }}
                       >
                         <ContrastGuard>
                           {actualFormatValue(processedData.total)}
@@ -406,8 +421,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                   <Motion preset="fadeIn" className="glass-absolute glass-z-10">
                     <div
                       className={cn(
-                        "absolute glass-radius-xl glass-p-3 shadow-xl",
-                        "bg-black/70 glass-backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift"
+                        "glass-absolute glass-radius-xl glass-p-3 glass-shadow-xl",
+                        "glass-surface-overlay glass-backdrop-blur-md glass-border glass-border-subtle glass-radial-reveal glass-lift"
                       )}
                       style={{
                         left: hoveredSegment.x + 10,
@@ -438,8 +453,10 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
               {showLegend && (legendItems?.length || 0) > 0 && (
                 <div
                   className={cn(
-                    "flex flex-wrap glass-gap-3",
-                    legendPosition === "right" ? "flex-col" : "justify-center"
+                    "glass-flex glass-flex-wrap glass-gap-3",
+                    legendPosition === "right"
+                      ? "glass-flex-col"
+                      : "glass-justify-center"
                   )}
                 >
                   {legendItems.map((item) => (
@@ -448,11 +465,11 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                       preset="slideUp"
                       delay={item?.index * 50}
                       className={cn(
-                        `flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
+                        `glass-flex glass-items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
                         hoveredLegendIndex !== null &&
                           hoveredLegendIndex !== item?.index
-                          ? "opacity-50"
-                          : "opacity-100"
+                          ? "glass-opacity-50"
+                          : "glass-opacity-100"
                       )}
                       onMouseEnter={() => setHoveredLegendIndex(item?.index)}
                       onMouseLeave={() => setHoveredLegendIndex(null)}
@@ -487,8 +504,10 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
 GlassPieChart.displayName = "GlassPieChart";
 
 // Donut Chart variant
-export interface GlassDonutChartProps
-  extends Omit<GlassPieChartProps, "innerRadius"> {
+export interface GlassDonutChartProps extends Omit<
+  GlassPieChartProps,
+  "innerRadius"
+> {
   /**
    * Inner radius as percentage of outer radius (0-1)
    */

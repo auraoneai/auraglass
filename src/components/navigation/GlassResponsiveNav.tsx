@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef, useState, useEffect } from "react";
 import {
   GlassMobileNav,
@@ -184,10 +184,25 @@ export const GlassResponsiveNav = forwardRef<
       return false;
     };
 
+    const desktopItems = navigation.flatMap((section) => section.items ?? []);
+    const shouldShowDesktopNav =
+      screenSize === "desktop" &&
+      !children &&
+      (desktopItems.length > 0 || bottomNavItems.length > 0);
+    const renderedDesktopItems =
+      desktopItems.length > 0
+        ? desktopItems
+        : bottomNavItems.map((item) => ({
+            id: item.id,
+            label: item.label,
+            icon: item.icon,
+            href: "#",
+          }));
+
     return (
       <div
         ref={ref}
-        className={cn("relative", className)}
+        className={cn("glass-relative glass-w-full", className)}
         id={navId}
         role="navigation"
         aria-label={ariaLabel || "Responsive navigation"}
@@ -215,8 +230,60 @@ export const GlassResponsiveNav = forwardRef<
             onActiveChange={onBottomNavActiveChange}
             elevation={elevation as 0 | 1 | 2 | 3 | 4 | "float" | "modal"}
             variant="default"
-            className='glass-z-40'
+            className="glass-z-40"
           />
+        )}
+
+        {shouldShowDesktopNav && (
+          <div
+            className="glass-flex glass-max-w-full glass-min-w-0 glass-flex-wrap glass-items-center glass-justify-center glass-gap-2 glass-overflow-hidden glass-p-2 glass-radius-xl glass-border glass-surface-overlay"
+            style={{ maxWidth: "100%" }}
+          >
+            {logo && (
+              <div className="glass-flex glass-min-w-0 glass-items-center">
+                {logo}
+              </div>
+            )}
+            {title && (
+              <div className="glass-min-w-0 glass-truncate glass-text-sm glass-font-semibold glass-text-primary">
+                {title}
+              </div>
+            )}
+            {renderedDesktopItems.map((item) => {
+              const active =
+                "href" in item && typeof item.href === "string"
+                  ? (isActive?.(item.href, activePath) ??
+                    item.href === activePath)
+                  : item.id === activeBottomNavId;
+
+              return (
+                <a
+                  key={item.id}
+                  href={"href" in item && item.href ? item.href : "#"}
+                  className={cn(
+                    "glass-flex glass-min-w-0 glass-items-center glass-gap-2 glass-radius-lg glass-px-2 glass-py-1.5 glass-text-sm glass-transition-all",
+                    active
+                      ? "glass-surface-primary glass-text-primary"
+                      : "glass-text-primary-opacity-80"
+                  )}
+                  style={{
+                    maxWidth: "8rem",
+                    transition:
+                      "background-color var(--glass-motion-duration-fast, 160ms) var(--glass-motion-easing-standard, ease), color var(--glass-motion-duration-fast, 160ms) var(--glass-motion-easing-standard, ease)",
+                  }}
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.icon && (
+                    <span className="glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4">
+                      {item.icon}
+                    </span>
+                  )}
+                  <span className="glass-truncate">{item.label}</span>
+                </a>
+              );
+            })}
+            {footer && <div style={{ marginLeft: "auto" }}>{footer}</div>}
+          </div>
         )}
 
         {/* Custom content */}

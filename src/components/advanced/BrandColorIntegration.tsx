@@ -394,7 +394,7 @@ export function BrandGlassButton({
 
   return (
     <motion.button
-      className={`relative px-4 py-2 rounded-lg font-medium transition-all ${className}`}
+      className={`glass-relative glass-px-4 glass-py-2 glass-radius-lg glass-font-medium glass-transition-all ${className}`}
       style={{
         transitionDuration: "var(--glass-motion-duration-fast)",
         ...buttonStyles[variant],

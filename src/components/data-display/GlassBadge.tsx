@@ -110,28 +110,37 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
       dot && !hasBadgeContent && !leftIcon && !rightIcon && !removable;
 
     const sizeClasses = {
-      xs: dotOnly ? "w-2 h-2" : "glass-px-1.5 glass-py-0.5 glass-text-xs",
-      sm: dotOnly ? "w-2.5 h-2.5" : "glass-px-2 glass-py-1 glass-text-xs",
-      md: dotOnly ? "w-3 h-3" : "glass-px-2.5 glass-py-1 glass-text-sm",
-      lg: dotOnly ? "w-3.5 h-3.5" : "glass-px-3 glass-py-1.5 glass-text-sm",
+      xs: dotOnly
+        ? "glass-w-2 glass-h-2"
+        : "glass-px-2 glass-py-1 glass-text-xs",
+      sm: dotOnly
+        ? "glass-w-3 glass-h-3"
+        : "glass-px-2 glass-py-1 glass-text-xs",
+      md: dotOnly
+        ? "glass-w-3 glass-h-3"
+        : "glass-px-3 glass-py-1 glass-text-sm",
+      lg: dotOnly
+        ? "glass-w-4 glass-h-4"
+        : "glass-px-3 glass-py-2 glass-text-sm",
     };
 
     const shapeClasses = {
       "glass-radius-md": "glass-radius-md",
       pill: "glass-radius-full",
-      square: "rounded-none",
+      square: "glass-radius-none",
     };
 
     const variantClasses = {
-      default: "bg-muted/50 glass-text-secondary border-0",
-      primary: "glass-surface-primary/10 glass-text-primary border-0",
-      secondary: "bg-secondary/10 glass-text-primary/90 border-0",
-      success: "glass-surface-success/10 glass-text-success border-0",
-      warning: "glass-surface-warning/10 glass-text-primary border-0",
-      error: "glass-surface-danger/10 glass-text-danger border-0",
-      info: "glass-surface-info/10 glass-text-primary border-0",
-      outline: "bg-transparent text-foreground border border-white/10",
-      ghost: "bg-transparent glass-text-primary/70 border-0",
+      default: "bg-muted/50 glass-text-secondary glass-border-0",
+      primary: "glass-surface-primary/10 glass-text-primary glass-border-0",
+      secondary: "bg-secondary/10 glass-text-primary/90 glass-border-0",
+      success: "glass-surface-success/10 glass-text-success glass-border-0",
+      warning: "glass-surface-warning/10 glass-text-primary glass-border-0",
+      error: "glass-surface-danger/10 glass-text-danger glass-border-0",
+      info: "glass-surface-info/10 glass-text-primary glass-border-0",
+      outline:
+        "bg-transparent glass-text-primary glass-border glass-border-white/10",
+      ghost: "bg-transparent glass-text-primary/70 glass-border-0",
     };
 
     const dotVariantClasses = {
@@ -147,10 +156,10 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
     };
 
     const iconSize = {
-      xs: "w-3 h-3",
-      sm: "w-3 h-3",
-      md: "w-4 h-4",
-      lg: "w-4 h-4",
+      xs: "glass-w-3 glass-h-3",
+      sm: "glass-w-3 glass-h-3",
+      md: "glass-w-4 glass-h-4",
+      lg: "glass-w-4 glass-h-4",
     };
 
     const getAnimationPreset = () => {
@@ -172,7 +181,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
           ref={ref}
           id={badgeId}
           className={cn(
-            "inline-block glass-radius-full flex-shrink-0",
+            "glass-inline-block glass-radius-full glass-flex-shrink-0",
             sizeClasses[size],
             (dotVariantClasses as any)[variant] ?? dotVariantClasses.default,
             className
@@ -202,7 +211,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         ref={ref as any}
         id={badgeId}
         className={cn(
-          "inline-flex items-center glass-gap-1 font-medium",
+          "glass-inline-flex glass-items-center glass-gap-1 glass-font-medium",
           `transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
           sizeClasses[size],
           shapeClasses[shape],
@@ -218,12 +227,12 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         {dot && (
           <span
             className={cn(
-              "inline-block glass-radius-full flex-shrink-0",
+              "glass-inline-block glass-radius-full glass-flex-shrink-0",
               {
-                xs: "w-1.5 h-1.5",
-                sm: "w-2 h-2",
-                md: "w-2.5 h-2.5",
-                lg: "w-3 h-3",
+                xs: "glass-w-2 glass-h-2",
+                sm: "glass-w-2 glass-h-2",
+                md: "glass-w-3 glass-h-3",
+                lg: "glass-w-3 glass-h-3",
               }[size],
               (dotVariantClasses as any)[variant] ?? dotVariantClasses.default
             )}
@@ -232,7 +241,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         )}
 
         {leftIcon && (
-          <span className={cn("flex-shrink-0", iconSize[size])}>
+          <span className={cn("glass-flex-shrink-0", iconSize[size])}>
             {leftIcon}
           </span>
         )}
@@ -244,7 +253,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
         )}
 
         {rightIcon && !removable && (
-          <span className={cn("flex-shrink-0", iconSize[size])}>
+          <span className={cn("glass-flex-shrink-0", iconSize[size])}>
             {rightIcon}
           </span>
         )}
@@ -254,7 +263,7 @@ export const GlassBadge = forwardRef<HTMLSpanElement, GlassBadgeProps>(
             type="button"
             onClick={onRemove}
             className={cn(
-              "flex-shrink-0 flex items-center justify-center",
+              "glass-flex-shrink-0 glass-flex glass-items-center glass-justify-center",
               "hover:bg-current/20 glass-radius-full transition-colors",
               "focus:outline-none focus:ring-1 focus:ring-current",
               iconSize[size]
@@ -292,8 +301,10 @@ GlassBadge.displayName = "GlassBadge";
 /**
  * StatusBadge component
  */
-export interface StatusBadgeProps
-  extends Omit<GlassBadgeProps, "variant" | "dot"> {
+export interface StatusBadgeProps extends Omit<
+  GlassBadgeProps,
+  "variant" | "dot"
+> {
   /**
    * Status type
    */
@@ -419,9 +430,9 @@ export function BadgeGroup({
   return (
     <div
       className={cn(
-        "flex items-center",
+        "glass-flex glass-items-center",
         spacingClasses[spacing],
-        wrap ? "flex-wrap" : "overflow-hidden",
+        wrap ? "glass-flex-wrap" : "glass-overflow-hidden",
         className
       )}
     >

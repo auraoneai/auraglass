@@ -24,13 +24,15 @@ exports[`GlassDashboard matches snapshot 1`] = `
         class="glass-flex-shrink-0"
       >
         <div
-          class="flex flex-row glass-gap-2 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+          class="glass-flex glass-min-w-0 glass-flex-row glass-gap-2 glass-items-stretch glass-justify-start motion-safe:transition-all motion-reduce:transition-none"
+          style="display: flex; flex-direction: row; gap: var(--glass-space-2, 0.5rem); align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
         />
       </div>
     </div>
   </div>
   <div
     class="grid grid-cols-4 glass-gap-4 grid-flow-row items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none glass-min-glass-h-96"
+    style="display: grid; grid-auto-flow: row; align-items: stretch; justify-content: flex-start; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--glass-space-4, 1rem); row-gap: var(--glass-space-4, 1rem);"
   />
 </div>
 `;

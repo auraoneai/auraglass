@@ -7,7 +7,7 @@ import {
   ContrastGuard,
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
-import { ANIMATION, COLORS } from "../../tokens/designConstants";
+import { ANIMATION } from "../../tokens/designConstants";
 
 const toFiniteNumber = (value: unknown, fallback = 0): number => {
   const numericValue =
@@ -23,10 +23,24 @@ const getSeriesColor = (
   explicitColor: string | undefined,
   colors: string[],
   index: number
-) =>
-  explicitColor ||
-  colors[index % Math.max(1, colors.length)] ||
-  "var(--glass-color-primary)";
+) => explicitColor || colors[index % Math.max(1, colors.length)] || "#70d6ff";
+
+const DEFAULT_CHART_COLORS = [
+  "#70d6ff",
+  "#a78bfa",
+  "#34d399",
+  "#fbbf24",
+  "#f87171",
+  "#22d3ee",
+  "#fb7185",
+  "#c084fc",
+  "#60a5fa",
+  "#94a3b8",
+];
+
+const AXIS_TEXT_FILL = "rgba(226, 232, 240, 0.78)";
+const AXIS_TITLE_FILL = "rgba(226, 232, 240, 0.88)";
+const CROSSHAIR_STROKE = "rgba(255, 255, 255, 0.28)";
 
 export interface ChartDataPoint {
   x: number | string;
@@ -123,18 +137,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
   showLegend = true,
   xAxisLabel,
   yAxisLabel,
-  colors = [
-    "var(--glass-color-primary)",
-    "var(--glass-color-danger)",
-    "var(--glass-color-success)",
-    "var(--glass-color-warning)",
-    COLORS.semantic.secondary,
-    COLORS.semantic.info,
-    COLORS.semantic.success,
-    COLORS.semantic.warning,
-    COLORS.semantic.error,
-    "var(--glass-gray-500)",
-  ],
+  colors = DEFAULT_CHART_COLORS,
   animationDuration = ANIMATION.DURATION.normal,
   showTooltips = true,
   formatYValue = (value) => value.toString(),
@@ -315,7 +318,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
   return (
     <Motion preset="fadeIn" className="glass-w-full">
-      <GlassCard className={cn("overflow-hidden", className)} {...props}>
+      <GlassCard className={cn("glass-overflow-hidden", className)} {...props}>
         {title && (
           <CardHeader>
             <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold">
@@ -325,12 +328,19 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
         )}
 
         <CardContent className="glass-p-4">
-          <div className="glass-relative">
+          <div className="glass-relative glass-w-full glass-overflow-hidden">
             <svg
-              width={width}
+              width="100%"
               height={height}
-              className="glass-overflow-visible"
-              style={{ maxWidth: "100%", height: "auto" }}
+              viewBox={`0 0 ${width} ${height}`}
+              preserveAspectRatio="none"
+              className="glass-overflow-hidden"
+              style={{
+                display: "block",
+                maxWidth: "100%",
+                minWidth: 0,
+                minHeight: height,
+              }}
             >
               {/* Grid lines */}
               {showGrid && (
@@ -366,12 +376,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
 
               {/* Chart lines */}
               {processedData.scaledSeries.map((s, seriesIndex) => (
-                <Motion
-                  key={s.id}
-                  preset="slideUp"
-                  delay={seriesIndex * 100}
-                  className="glass-relative"
-                >
+                <g key={s.id}>
                   {/* Line */}
                   <path
                     d={generatePath(s.points)}
@@ -430,7 +435,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                         }}
                       />
                     ))}
-                </Motion>
+                </g>
               ))}
 
               {/* Crosshair when hovering a point */}
@@ -441,7 +446,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                     y1={padding.top}
                     x2={hoveredPoint.x}
                     y2={height - padding.bottom}
-                    stroke="white"
+                    stroke={CROSSHAIR_STROKE}
                     strokeOpacity={0.25}
                     strokeDasharray="4 4"
                   />
@@ -450,7 +455,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                     y1={hoveredPoint.y}
                     x2={width - padding.right}
                     y2={hoveredPoint.y}
-                    stroke="white"
+                    stroke={CROSSHAIR_STROKE}
                     strokeOpacity={0.25}
                     strokeDasharray="4 4"
                   />
@@ -460,7 +465,7 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                     cy={hoveredPoint.y}
                     r="8"
                     fill="none"
-                    stroke="white"
+                    stroke={CROSSHAIR_STROKE}
                     strokeOpacity={0.35}
                   />
                 </g>
@@ -495,8 +500,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                   x={label.x}
                   y={label.y}
                   textAnchor="middle"
-                  className="glass-text-xs glass-fill-white/70"
-                  style={{ fontSize: "0.625rem" }}
+                  className="glass-text-xs"
+                  style={{ fill: AXIS_TEXT_FILL, fontSize: "0.625rem" }}
                 >
                   {label.label}
                 </text>
@@ -508,8 +513,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                   x={label.x}
                   y={label.y + 4}
                   textAnchor="end"
-                  className="glass-text-xs glass-fill-white/70"
-                  style={{ fontSize: "0.625rem" }}
+                  className="glass-text-xs"
+                  style={{ fill: AXIS_TEXT_FILL, fontSize: "0.625rem" }}
                 >
                   {label.label}
                 </text>
@@ -521,7 +526,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                   x={width / 2}
                   y={height - 10}
                   textAnchor="middle"
-                  className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
+                  className="glass-text-sm glass-font-medium"
+                  style={{ fill: AXIS_TITLE_FILL }}
                 >
                   <ContrastGuard>{xAxisLabel}</ContrastGuard>
                 </text>
@@ -533,7 +539,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                   y={height / 2}
                   textAnchor="middle"
                   transform={`rotate(-90, 15, ${height / 2})`}
-                  className="glass-text-sm glass-fill-white-opacity-80 glass-font-medium"
+                  className="glass-text-sm glass-font-medium"
+                  style={{ fill: AXIS_TITLE_FILL }}
                 >
                   <ContrastGuard>{yAxisLabel}</ContrastGuard>
                 </text>
@@ -545,8 +552,8 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
               <Motion preset="fadeIn" className="glass-absolute glass-z-10">
                 <div
                   className={cn(
-                    "absolute glass-radius-xl glass-p-3 shadow-xl",
-                    "bg-black/70 glass-backdrop-blur-md ring-1 ring-white/10 glass-radial-reveal glass-lift"
+                    "glass-absolute glass-radius-xl glass-p-3 glass-shadow-xl",
+                    "glass-surface-overlay glass-backdrop-blur-md glass-border glass-border-subtle glass-radial-reveal glass-lift"
                   )}
                   style={{
                     left: hoveredPoint.x + 10,
@@ -594,10 +601,10 @@ export const GlassLineChart: React.FC<GlassLineChartProps> = ({
                 <div
                   key={s.id}
                   className={cn(
-                    `flex items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
+                    `glass-flex glass-items-center glass-gap-2 glass-px-2 glass-py-1 glass-radius-md glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] glass-hover--translate-y-0-5`,
                     hoveredSeriesId && hoveredSeriesId !== s.id
-                      ? "opacity-50"
-                      : "opacity-100"
+                      ? "glass-opacity-50"
+                      : "glass-opacity-100"
                   )}
                   role="listitem"
                   tabIndex={0}

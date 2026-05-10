@@ -9,13 +9,14 @@ exports[`GlassMobileNav matches snapshot 1`] = `
   inert=""
   items=""
   role="dialog"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-border-b glass-border-glass-border/20"
   >
     <div
-      class="flex flex-row glass-gap-2 items-center justify-start motion-safe:transition-all motion-reduce:transition-none glass-flex-1 glass-min-w-0"
+      class="glass-flex glass-min-w-0 glass-flex-row glass-gap-2 glass-items-center glass-justify-start motion-safe:transition-all motion-reduce:transition-none glass-flex-1 glass-min-w-0"
+      style="display: flex; flex-direction: row; gap: var(--glass-space-2, 0.5rem); align-items: center; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
     />
     <div
       class="motion-primitive glass-inline-glass-block"
@@ -33,7 +34,8 @@ exports[`GlassMobileNav matches snapshot 1`] = `
     class="glass-flex-1 glass-p-4 glass-overflow-y-auto glass-overscroll-contain"
   >
     <div
-      class="flex flex-col glass-gap-6 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+      class="glass-flex glass-min-w-0 glass-flex-col glass-gap-6 glass-items-stretch glass-justify-start motion-safe:transition-all motion-reduce:transition-none"
+      style="display: flex; flex-direction: column; gap: var(--glass-space-6, 1.5rem); align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
     />
   </nav>
 </div>

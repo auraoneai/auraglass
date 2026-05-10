@@ -69,9 +69,9 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
       mouseRadius = 150,
       colorScheme = "gradient",
       colors = [
-        COLORS.semantic.primary,
-        COLORS.semantic.primary,
-        COLORS.semantic.primary,
+        "rgba(125, 211, 252, 0.95)",
+        "rgba(56, 189, 248, 0.9)",
+        "rgba(139, 92, 246, 0.85)",
       ],
       blur = true,
       glow = true,
@@ -175,8 +175,12 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
           ctx.shadowColor = color;
         }
 
+        const lifeAlpha = Number.isFinite(particle.maxLife)
+          ? Math.max(0, Math.min(1, particle.life / particle.maxLife))
+          : 1;
+
         ctx.fillStyle = color;
-        ctx.globalAlpha = particle.opacity * (particle.life / particle.maxLife);
+        ctx.globalAlpha = particle.opacity * lifeAlpha;
 
         switch (shape) {
           case "circle":
@@ -229,9 +233,16 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
     // Get particle color
     const getParticleColor = useCallback(
       (particle: Particle, index: number) => {
+        const resolveCanvasColor = (color: string, fallback: string) => {
+          if (!color || color.includes("var(") || color.includes("hsl(var(")) {
+            return fallback;
+          }
+          return color;
+        };
+
         switch (colorScheme) {
           case "monochrome":
-            return `hsla(220, 70%, 60%, ${particle.opacity})`;
+            return `hsla(199, 90%, 72%, ${particle.opacity})`;
 
           case "rainbow":
             return `hsla(${particle.hue}, 70%, 60%, ${particle.opacity})`;
@@ -240,10 +251,16 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
             const colorIndex = Math.floor(
               (index / particles.current.length) * colors.length
             );
-            return colors[Math.min(colorIndex, colors.length - 1)];
+            return resolveCanvasColor(
+              colors[Math.min(colorIndex, colors.length - 1)],
+              `hsla(${195 + colorIndex * 28}, 92%, 70%, ${particle.opacity})`
+            );
 
           case "custom":
-            return colors[index % colors.length];
+            return resolveCanvasColor(
+              colors[index % colors.length],
+              `hsla(199, 92%, 70%, ${particle.opacity})`
+            );
 
           default:
             return `hsla(220, 70%, 60%, ${particle.opacity})`;
@@ -417,7 +434,7 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
 
             // Draw connection
             const opacity = (1 - distance / connectionDistance) * 0.2;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.strokeStyle = `rgba(125, 211, 252, ${Math.min(0.34, opacity + 0.06)})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);

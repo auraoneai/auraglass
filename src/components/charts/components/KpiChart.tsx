@@ -8,6 +8,7 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION, BORDER_RADIUS } from "../../../tokens/designConstants";
+import { resolveChartColor } from "../utils/chartColors";
 
 export interface KpiData {
   value: number | string;
@@ -36,7 +37,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   kpi,
   animation,
   qualityTier = "medium",
-  color = "var(--glass-color-primary)",
+  color = "#70d6ff",
   isReducedMotion = false,
   className,
   "data-testid": dataTestId,
@@ -58,11 +59,14 @@ export const KpiChart: React.FC<KpiChartProps> = ({
   };
 
   const style = createGlassStyle({ intent: "neutral", elevation: "level2" });
+  const resolvedColor = resolveChartColor(color, "#70d6ff");
 
   return (
     <div
       data-glass-component
-      style={{ ...style }}
+      style={
+        { ...style, "--glass-kpi-accent": resolvedColor } as React.CSSProperties
+      }
       className={className}
       data-testid={dataTestId || "kpichart"}
     >
@@ -83,10 +87,7 @@ export const KpiChart: React.FC<KpiChartProps> = ({
         <div
           style={{
             fontSize: "var(--typography-caption-size)",
-            color:
-              kpi.change >= 0
-                ? "var(--glass-color-success)"
-                : "var(--glass-color-danger)",
+            color: kpi.change >= 0 ? "#34d399" : "#f87171",
             marginTop: `${BORDER_RADIUS.sm}px`,
           }}
         >

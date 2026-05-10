@@ -2,13 +2,15 @@
 
 exports[`GlassRadioGroup matches snapshot 1`] = `
 <div
-  class="glass-relative"
+  class="glass-relative glass-w-full glass-min-w-0 glass-max-h-full glass-overflow-auto"
   data-glass-component="true"
+  style="min-width: 0; max-height: 100%;"
 >
   <div
-    class="flex glass-gap-3 flex-col"
+    class="glass-flex glass-gap-2 glass-w-full glass-min-w-0 glass-max-h-full glass-flex-col"
     data-testid="glassradiogroup"
     role="radiogroup"
+    style="min-width: 0; max-height: 100%; overflow-y: auto;"
   />
 </div>
 `;

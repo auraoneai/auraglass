@@ -2,22 +2,22 @@
 
 exports[`GlassMindMap matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-mind-map relative overflow-auto"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-mind-map glass-relative glass-overflow-hidden glass-max-w-full glass-surface-dark/30 glass-border glass-border-white/10"
   data-glass-component="true"
-  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-width: 100%; box-sizing: border-box;"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 100%; max-width: 100%; box-sizing: border-box;"
 >
   <div
-    class="glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-flex glass-gap-2"
+    class="glass-absolute glass-top-2 glass-left-2 glass-z-10 glass-flex glass-gap-2"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm glass-cursor-pointer hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-2 glass-py-1 glass-radius-md glass-text-xs glass-cursor-pointer glass-surface-dark/40 hover:glass-surface-subtle/10 glass-focus glass-touch-target glass-contrast-guard"
+      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       Reset Zoom
     </div>
     <div
-      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-3 glass-py-1 glass-radius-md glass-text-sm"
-      style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-px-2 glass-py-1 glass-radius-md glass-text-xs glass-surface-dark/40"
+      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       Zoom: 
       100
@@ -25,28 +25,14 @@ exports[`GlassMindMap matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-absolute glass-bottom-4 glass-right-4 glass-z-10 glass-w-32 glass-h-24 glass-surface-dark/20 glass-radius-md glass-border glass-border-white/20"
-  >
-    <svg
-      class="glass-w-full glass-h-full"
-      viewBox="0 0 320 240"
-    >
-      <circle
-        cx="53.333333333333336"
-        cy="30"
-        fill="var(--glass-white)60"
-        r="2"
-      />
-    </svg>
-  </div>
-  <div
     class="glass-overflow-auto"
-    style="width: 920px; height: 560px; min-width: 920px; min-height: 560px; cursor: grab;"
+    style="width: 100%; height: 100%; min-width: 0; min-height: 0; cursor: grab;"
   >
     <svg
       class="glass-w-full glass-h-full"
+      preserveAspectRatio="xMidYMid meet"
       style="transform: scale(1) translate(0px, 0px); transform-origin: center; overflow: visible;"
-      viewBox="-120 -120 920 560"
+      viewBox="0 110 360 240"
     >
       <defs>
         <marker
@@ -58,31 +44,32 @@ exports[`GlassMindMap matches snapshot 1`] = `
           refY="3.5"
         >
           <polygon
-            fill="var(--glass-white)40"
+            fill="rgba(255, 255, 255, 0.32)"
             points="0 0, 10 3.5, 0 7"
           />
         </marker>
       </defs>
       <g>
         <g
-          class="cursor-pointer glass-focus glass-touch-target glass-contrast-guard cursor-grab"
+          class="glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard glass-cursor-grab"
         >
           <circle
-            cx="40"
-            cy="-10"
-            fill="var(--glass-white)20"
-            r="20"
-            stroke="var(--glass-white)30"
+            cx="117"
+            cy="198.5"
+            fill="rgba(14, 25, 46, 0.86)"
+            r="18.5"
+            stroke="rgba(255, 255, 255, 0.22)"
             stroke-width="1"
           />
           <text
             class="glass-text-sm glass-fill-white glass-font-medium glass-pointer-events-none glass-select-none"
+            fill="rgba(255, 255, 255, 0.94)"
             text-anchor="middle"
-            x="40"
-            y="-6"
+            x="117"
+            y="202.5"
           >
             <tspan
-              x="40"
+              x="117"
             >
               Root
             </tspan>

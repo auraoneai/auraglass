@@ -3,10 +3,10 @@
 exports[`GlassTreeView matches snapshot 1`] = `
 <div
   aria-multiselectable="false"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md border border-border/20"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md glass-w-full glass-min-w-0 glass-overflow-auto glass-border glass-border-white/10"
   id="glass-tree-:ri:"
   role="tree"
-  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 100%;"
 >
   <div
     class="motion-primitive"
@@ -18,15 +18,15 @@ exports[`GlassTreeView matches snapshot 1`] = `
         aria-expanded="false"
         aria-level="1"
         aria-selected="false"
-        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-[150ms] glass-radius-md h-12 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node glass-flex glass-items-center glass-cursor-pointer glass-transition glass-radius-md glass-min-w-0 glass-h-10 glass-px-3 glass-text-sm hover:glass-surface-subtle/10 focus:glass-surface-subtle/10"
         draggable="false"
         id="tree-node-:rj:"
         role="treeitem"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
+        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
         tabindex="0"
       >
         <div
-          class="flex items-center justify-center flex-shrink-0 glass-mr-1 w-4 h-4"
+          class="glass-flex glass-items-center glass-justify-center glass-flex-shrink-0 glass-mr-1 glass-w-4 glass-h-4"
         >
           <button
             aria-label="Expand"
@@ -71,15 +71,15 @@ exports[`GlassTreeView matches snapshot 1`] = `
         aria-expanded="false"
         aria-level="1"
         aria-selected="false"
-        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node flex items-center cursor-pointer transition-all duration-[150ms] glass-radius-md h-12 glass-px-3 glass-text-sm hover:bg-background/20 focus:bg-background/30"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-node glass-flex glass-items-center glass-cursor-pointer glass-transition glass-radius-md glass-min-w-0 glass-h-10 glass-px-3 glass-text-sm hover:glass-surface-subtle/10 focus:glass-surface-subtle/10"
         draggable="false"
         id="tree-node-:rk:"
         role="treeitem"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
+        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px;"
         tabindex="0"
       >
         <div
-          class="flex items-center justify-center flex-shrink-0 glass-mr-1 w-4 h-4"
+          class="glass-flex glass-items-center glass-justify-center glass-flex-shrink-0 glass-mr-1 glass-w-4 glass-h-4"
         >
           <button
             aria-label="Expand"

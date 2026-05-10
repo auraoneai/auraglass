@@ -3,7 +3,7 @@
 exports[`GlassCollaborativeCursor matches snapshot 1`] = `
 <div>
   <div
-    class="fixed inset-0 pointer-events-none z-50"
+    class="glass-fixed glass-inset-0 glass-pointer-events-none glass-z-50"
     data-glass-component="true"
   />
 </div>

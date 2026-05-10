@@ -2,22 +2,23 @@
 
 exports[`GlassFileUpload matches snapshot 1`] = `
 <div
-  class="w-full"
+  class="glass-w-full glass-max-w-full glass-min-w-0"
+  data-glass-component="true"
   data-testid="glassfileupload"
 >
   <div
-    class="relative glass-hidden"
+    class="glass-relative glass-min-w-0 glass-hidden"
     data-glass-component="true"
     data-testid="glassinput"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50 glass-hidden"
+      class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue glass-hidden"
       data-performance-mode="medium"
-      style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <input
         aria-label="Input field"
-        class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
+        class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
         id="glass-input-:r8:"
         type="file"
       />
@@ -28,17 +29,17 @@ exports[`GlassFileUpload matches snapshot 1`] = `
   </div>
   <div
     aria-label="File upload area"
-    class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative border-2 border-dashed cursor-pointer transition-all hover:border-primary/50 focus:border-primary focus:outline-none glass-p-6 glass-text-base min-h-32 border-border/30"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-relative glass-border glass-border-dashed glass-cursor-pointer glass-transition-all glass-overflow-hidden hover:glass-border-blue focus:glass-border-blue glass-focus-outline-none glass-p-4 glass-text-sm glass-min-h-20 glass-border-white/20 glass-surface-dark/20"
     data-performance-mode="medium"
     role="button"
-    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     tabindex="0"
   >
     <div
       class="glass-flex glass-flex-col glass-items-center glass-justify-center glass-text-center"
     >
       <svg
-        class="mx-auto mb-3 glass-text-secondary w-10 h-10"
+        class="glass-mx-auto glass-mb-2 glass-text-secondary glass-w-8 glass-h-8"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -53,7 +54,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
       <p
         class="glass-text-primary glass-font-medium glass-mb-1"
       >
-        Drag and drop files here, or click to select
+        Drop files or click to select
       </p>
       <p
         class="glass-text-xs glass-text-secondary glass-mt-2"

@@ -8,7 +8,7 @@ exports[`GlassLoadingSkeleton matches snapshot 1`] = `
     aria-busy="true"
     aria-label="Loading content"
     aria-live="polite"
-    class="glass-relative"
+    class="glass-relative glass-overflow-hidden glass-radius-md"
     id="skeleton-:r5:"
     role="status"
   >
@@ -16,20 +16,21 @@ exports[`GlassLoadingSkeleton matches snapshot 1`] = `
       class="glass-auto-gap glass-auto-gap-md"
     >
       <div
-        class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 100%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
+        class="glass-skeleton glass-radius-md glass-animate-pulse glass-backdrop-blur-md"
+        style="height: 1rem; width: 100%; border: 1px solid rgba(148, 163, 184, 0.18); box-shadow: 0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06);"
       />
       <div
-        class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 100%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
+        class="glass-skeleton glass-radius-md glass-animate-pulse glass-backdrop-blur-md"
+        style="height: 1rem; width: 100%; border: 1px solid rgba(148, 163, 184, 0.18); box-shadow: 0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06);"
       />
       <div
-        class="glass-skeleton glass-radius-md animate-pulse glass-backdrop-blur-md"
-        style="height: 1rem; width: 80%; box-shadow: 0 4px 16px color-mix(in srgb, var(--glass-black) 10%, transparent), 0 1px 0 color-mix(in srgb, var(--glass-white) 3%, transparent) inset;"
+        class="glass-skeleton glass-radius-md glass-animate-pulse glass-backdrop-blur-md"
+        style="height: 1rem; width: 80%; border: 1px solid rgba(148, 163, 184, 0.18); box-shadow: 0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.06);"
       />
     </div>
     <div
-      class="glass-absolute glass-inset-0 glass--skew-x-12 glass-gradient-primary glass-gradient-primary glass-via-blue-glass-opacity-10 glass-gradient-primary glass-animate-glass-shimmer"
+      class="glass-absolute glass-inset-0 glass-pointer-events-none glass-animate-glass-shimmer"
+      style="transform: skewX(-12deg);"
     />
   </div>
 </div>

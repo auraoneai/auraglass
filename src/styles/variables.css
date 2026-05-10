@@ -113,7 +113,7 @@
     rgba(255, 255, 255, 0.15) 100%
   );
   --aura-glass-neutral-level1-surface-overlay: rgba(255, 255, 255, 0.08);
-  --aura-glass-neutral-level1-border-color: rgba(255, 255, 255, 0.4);
+  --aura-glass-neutral-level1-border-color: rgba(255, 255, 255, 0.12);
   --aura-glass-neutral-level1-border-width: 1px;
   --aura-glass-neutral-level1-border-style: solid;
   --aura-glass-neutral-level1-shadow-color: rgba(0, 0, 0, 0.15);
@@ -131,7 +131,7 @@
     rgba(255, 255, 255, 0.35) 0%,
     rgba(148, 163, 184, 0.15) 100%
   );
-  --aura-glass-neutral-level2-border-color: rgba(255, 255, 255, 0.5);
+  --aura-glass-neutral-level2-border-color: rgba(255, 255, 255, 0.14);
   --aura-glass-neutral-level2-border-width: 1px;
   --aura-glass-neutral-level2-border-style: solid;
   --aura-glass-neutral-level2-inner-glow-color: rgba(255, 255, 255, 0.2);
@@ -152,8 +152,8 @@
     rgba(255, 255, 255, 0.14) 0%,
     rgba(255, 255, 255, 0.08) 100%
   );
-  --aura-glass-neutral-level3-border-color: rgba(255, 255, 255, 0.55);
-  --aura-glass-neutral-level3-border-width: 2px;
+  --aura-glass-neutral-level3-border-color: rgba(255, 255, 255, 0.16);
+  --aura-glass-neutral-level3-border-width: 1px;
   --aura-glass-neutral-level3-border-style: solid;
   --aura-glass-neutral-level3-inner-glow-color: rgba(255, 255, 255, 0.25);
   --aura-glass-neutral-level3-inner-glow-spread: 1px;
@@ -173,8 +173,8 @@
     rgba(255, 255, 255, 0.18) 0%,
     rgba(255, 255, 255, 0.1) 100%
   );
-  --aura-glass-neutral-level4-border-color: rgba(255, 255, 255, 0.6);
-  --aura-glass-neutral-level4-border-width: 2px;
+  --aura-glass-neutral-level4-border-color: rgba(255, 255, 255, 0.18);
+  --aura-glass-neutral-level4-border-width: 1px;
   --aura-glass-neutral-level4-border-style: solid;
   --aura-glass-neutral-level4-inner-glow-color: rgba(255, 255, 255, 0.3);
   --aura-glass-neutral-level4-inner-glow-spread: 1px;
@@ -194,8 +194,8 @@
     rgba(255, 255, 255, 0.22) 0%,
     rgba(255, 255, 255, 0.12) 100%
   );
-  --aura-glass-neutral-level5-border-color: rgba(255, 255, 255, 0.65);
-  --aura-glass-neutral-level5-border-width: 3px;
+  --aura-glass-neutral-level5-border-color: rgba(255, 255, 255, 0.2);
+  --aura-glass-neutral-level5-border-width: 1px;
   --aura-glass-neutral-level5-border-style: solid;
   --aura-glass-neutral-level5-inner-glow-color: rgba(255, 255, 255, 0.35);
   --aura-glass-neutral-level5-inner-glow-spread: 2px;
@@ -212,16 +212,14 @@
   --aura-glass-primary-level1-backdrop-blur: 8px;
   --aura-glass-primary-level1-surface-base: linear-gradient(
     135deg,
-    hsl(var(--glass-color-primary) / 0.3) 0%,
-    hsl(var(--glass-color-primary) / 0.22) 100%
+    hsl(var(--glass-color-primary)/0.3) 0%,
+    hsl(var(--glass-color-primary)/0.22) 100%
   );
-  --aura-glass-primary-level1-border-color: hsl(
-    var(--glass-color-primary) / 0.5
-  );
+  --aura-glass-primary-level1-border-color: hsl(var(--glass-color-primary)/0.5);
   --aura-glass-primary-level1-border-width: 1px;
   --aura-glass-primary-level1-border-style: solid;
   --aura-glass-primary-level1-shadow-color: hsl(
-    var(--glass-color-primary) / 0.15
+    var(--glass-color-primary)/0.15
   );
   --aura-glass-primary-level1-shadow-x: 0px;
   --aura-glass-primary-level1-shadow-y: 4px;
@@ -234,22 +232,18 @@
   --aura-glass-primary-level2-backdrop-blur: 12px;
   --aura-glass-primary-level2-surface-base: linear-gradient(
     135deg,
-    hsl(var(--glass-color-primary) / 0.4) 0%,
-    hsl(var(--glass-color-primary) / 0.28) 100%
+    hsl(var(--glass-color-primary)/0.4) 0%,
+    hsl(var(--glass-color-primary)/0.28) 100%
   );
-  --aura-glass-primary-level2-border-color: hsl(
-    var(--glass-color-primary) / 0.6
-  );
+  --aura-glass-primary-level2-border-color: hsl(var(--glass-color-primary)/0.6);
   --aura-glass-primary-level2-border-width: 1px;
   --aura-glass-primary-level2-border-style: solid;
   --aura-glass-primary-level2-inner-glow-color: hsl(
-    var(--glass-color-primary) / 0.22
+    var(--glass-color-primary)/0.22
   );
   --aura-glass-primary-level2-inner-glow-spread: 0px;
   --aura-glass-primary-level2-inner-glow-blur: 8px;
-  --aura-glass-primary-level2-shadow-color: hsl(
-    var(--glass-color-primary) / 0.2
-  );
+  --aura-glass-primary-level2-shadow-color: hsl(var(--glass-color-primary)/0.2);
   --aura-glass-primary-level2-shadow-x: 0px;
   --aura-glass-primary-level2-shadow-y: 8px;
   --aura-glass-primary-level2-shadow-blur: 24px;
@@ -261,21 +255,19 @@
   --aura-glass-primary-level3-backdrop-blur: 16px;
   --aura-glass-primary-level3-surface-base: linear-gradient(
     135deg,
-    hsl(var(--glass-color-primary) / 0.48) 0%,
-    hsl(var(--glass-color-primary) / 0.34) 100%
+    hsl(var(--glass-color-primary)/0.48) 0%,
+    hsl(var(--glass-color-primary)/0.34) 100%
   );
-  --aura-glass-primary-level3-border-color: hsl(
-    var(--glass-color-primary) / 0.7
-  );
+  --aura-glass-primary-level3-border-color: hsl(var(--glass-color-primary)/0.7);
   --aura-glass-primary-level3-border-width: 2px;
   --aura-glass-primary-level3-border-style: solid;
   --aura-glass-primary-level3-inner-glow-color: hsl(
-    var(--glass-color-primary) / 0.25
+    var(--glass-color-primary)/0.25
   );
   --aura-glass-primary-level3-inner-glow-spread: 1px;
   --aura-glass-primary-level3-inner-glow-blur: 12px;
   --aura-glass-primary-level3-shadow-color: hsl(
-    var(--glass-color-primary) / 0.24
+    var(--glass-color-primary)/0.24
   );
   --aura-glass-primary-level3-shadow-x: 0px;
   --aura-glass-primary-level3-shadow-y: 12px;
@@ -288,21 +280,21 @@
   --aura-glass-primary-level4-backdrop-blur: 20px;
   --aura-glass-primary-level4-surface-base: linear-gradient(
     135deg,
-    hsl(var(--glass-color-primary) / 0.56) 0%,
-    hsl(var(--glass-color-primary) / 0.4) 100%
+    hsl(var(--glass-color-primary)/0.56) 0%,
+    hsl(var(--glass-color-primary)/0.4) 100%
   );
   --aura-glass-primary-level4-border-color: hsl(
-    var(--glass-color-primary) / 0.78
+    var(--glass-color-primary)/0.78
   );
   --aura-glass-primary-level4-border-width: 2px;
   --aura-glass-primary-level4-border-style: solid;
   --aura-glass-primary-level4-inner-glow-color: hsl(
-    var(--glass-color-primary) / 0.28
+    var(--glass-color-primary)/0.28
   );
   --aura-glass-primary-level4-inner-glow-spread: 1px;
   --aura-glass-primary-level4-inner-glow-blur: 16px;
   --aura-glass-primary-level4-shadow-color: hsl(
-    var(--glass-color-primary) / 0.28
+    var(--glass-color-primary)/0.28
   );
   --aura-glass-primary-level4-shadow-x: 0px;
   --aura-glass-primary-level4-shadow-y: 16px;
@@ -315,21 +307,21 @@
   --aura-glass-primary-level5-backdrop-blur: 24px;
   --aura-glass-primary-level5-surface-base: linear-gradient(
     135deg,
-    hsl(var(--glass-color-primary) / 0.64) 0%,
-    hsl(var(--glass-color-primary) / 0.45) 100%
+    hsl(var(--glass-color-primary)/0.64) 0%,
+    hsl(var(--glass-color-primary)/0.45) 100%
   );
   --aura-glass-primary-level5-border-color: hsl(
-    var(--glass-color-primary) / 0.85
+    var(--glass-color-primary)/0.85
   );
   --aura-glass-primary-level5-border-width: 3px;
   --aura-glass-primary-level5-border-style: solid;
   --aura-glass-primary-level5-inner-glow-color: hsl(
-    var(--glass-color-primary) / 0.32
+    var(--glass-color-primary)/0.32
   );
   --aura-glass-primary-level5-inner-glow-spread: 2px;
   --aura-glass-primary-level5-inner-glow-blur: 20px;
   --aura-glass-primary-level5-shadow-color: hsl(
-    var(--glass-color-primary) / 0.32
+    var(--glass-color-primary)/0.32
   );
   --aura-glass-primary-level5-shadow-x: 0px;
   --aura-glass-primary-level5-shadow-y: 20px;

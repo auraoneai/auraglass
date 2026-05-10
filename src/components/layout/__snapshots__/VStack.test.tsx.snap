@@ -7,7 +7,8 @@ exports[`VStack matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="flex flex-col glass-gap-4 items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+    class="glass-flex glass-min-w-0 glass-flex-col glass-gap-4 glass-items-stretch glass-justify-start motion-safe:transition-all motion-reduce:transition-none"
+    style="display: flex; flex-direction: column; gap: var(--glass-space-4, 1rem); align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
   />
 </div>
 `;

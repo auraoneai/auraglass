@@ -80,8 +80,7 @@ export interface GlassFlexProps extends React.HTMLAttributes<HTMLDivElement> {
   role?: string;
 }
 
-export interface GlassFlexItemProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassFlexItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Flex grow
    */
@@ -176,48 +175,99 @@ export const GlassFlex = forwardRef<HTMLDivElement, GlassFlexProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       ...props
     },
     ref
   ) => {
+    const directionValues = {
+      row: "row",
+      "row-reverse": "row-reverse",
+      col: "column",
+      "col-reverse": "column-reverse",
+    } as const;
+
+    const wrapValues = {
+      nowrap: "nowrap",
+      wrap: "wrap",
+      "wrap-reverse": "wrap-reverse",
+    } as const;
+
+    const justifyValues = {
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      between: "space-between",
+      around: "space-around",
+      evenly: "space-evenly",
+    } as const;
+
+    const alignValues = {
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      baseline: "baseline",
+      stretch: "stretch",
+    } as const;
+
+    const alignContentValues = {
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      between: "space-between",
+      around: "space-around",
+      evenly: "space-evenly",
+      stretch: "stretch",
+    } as const;
+
+    const gapValues = {
+      none: "0",
+      xs: "var(--glass-space-1, 0.25rem)",
+      sm: "var(--glass-space-2, 0.5rem)",
+      md: "var(--glass-space-4, 1rem)",
+      lg: "var(--glass-space-6, 1.5rem)",
+      xl: "var(--glass-space-8, 2rem)",
+      "2xl": "var(--glass-space-12, 3rem)",
+    } as const;
+
     const directionClasses = {
-      row: "flex-row",
-      "row-reverse": "flex-row-reverse",
-      col: "flex-col",
-      "col-reverse": "flex-col-reverse",
+      row: "glass-flex-row",
+      "row-reverse": "glass-flex-row-reverse",
+      col: "glass-flex-col",
+      "col-reverse": "glass-flex-col-reverse",
     };
 
     const wrapClasses = {
-      nowrap: "flex-nowrap",
-      wrap: "flex-wrap",
-      "wrap-reverse": "flex-wrap-reverse",
+      nowrap: "glass-flex-nowrap",
+      wrap: "glass-flex-wrap",
+      "wrap-reverse": "glass-flex-wrap-reverse",
     };
 
     const justifyClasses = {
-      start: "justify-start",
-      end: "justify-end",
-      center: "justify-center",
-      between: "justify-between",
-      around: "justify-around",
-      evenly: "justify-evenly",
+      start: "glass-justify-start",
+      end: "glass-justify-end",
+      center: "glass-justify-center",
+      between: "glass-justify-between",
+      around: "glass-justify-around",
+      evenly: "glass-justify-evenly",
     };
 
     const alignClasses = {
-      start: "items-start",
-      end: "items-end",
-      center: "items-center",
-      baseline: "items-baseline",
-      stretch: "items-stretch",
+      start: "glass-items-start",
+      end: "glass-items-end",
+      center: "glass-items-center",
+      baseline: "glass-items-baseline",
+      stretch: "glass-items-stretch",
     };
 
     const alignContentClasses = {
-      start: "content-start",
-      end: "content-end",
-      center: "content-center",
-      between: "content-between",
-      around: "content-around",
-      evenly: "content-evenly",
-      stretch: "content-stretch",
+      start: "glass-content-start",
+      end: "glass-content-end",
+      center: "glass-content-center",
+      between: "glass-content-between",
+      around: "glass-content-around",
+      evenly: "glass-content-evenly",
+      stretch: "glass-content-stretch",
     };
 
     const gapClasses = {
@@ -226,7 +276,7 @@ export const GlassFlex = forwardRef<HTMLDivElement, GlassFlexProps>(
       sm: "glass-gap-2",
       md: "glass-gap-4",
       lg: "glass-gap-6",
-      xl: "gap-8",
+      xl: "glass-gap-8",
       "2xl": "glass-gap-12",
     };
 
@@ -270,11 +320,30 @@ export const GlassFlex = forwardRef<HTMLDivElement, GlassFlexProps>(
       ...(role && { role }),
     };
 
+    const flexStyle: React.CSSProperties = {
+      display: "flex",
+      flexDirection: directionValues[direction],
+      flexWrap: wrapValues[wrap],
+      justifyContent: justifyValues[justify],
+      alignItems: alignValues[align],
+      alignContent: alignContentValues[alignContent],
+      ...(gapX
+        ? { columnGap: gapValues[gapX] }
+        : gapY
+          ? {}
+          : { gap: gapValues[gap] }),
+      ...(gapY ? { rowGap: gapValues[gapY] } : {}),
+      ...(fullWidth ? { width: "100%" } : {}),
+      ...(fullHeight ? { height: "100%" } : {}),
+      minWidth: 0,
+      ...style,
+    };
+
     return (
       <div
         ref={ref}
         className={cn(
-          "flex",
+          "glass-flex glass-min-w-0",
           directionClasses[direction],
           wrapClasses[wrap],
           justifyClasses[justify],
@@ -282,14 +351,15 @@ export const GlassFlex = forwardRef<HTMLDivElement, GlassFlexProps>(
           alignContentClasses[alignContent],
           gapX ? gapXClasses[gapX] : gapY ? gapYClasses[gapY] : gapClasses[gap],
           gapX && gapY && [gapXClasses[gapX], gapYClasses[gapY]],
-          fullWidth && "w-full",
-          fullHeight && "h-full",
+          fullWidth && "glass-w-full",
+          fullHeight && "glass-h-full",
           // Motion preferences
           shouldRespectMotion &&
             "motion-safe:transition-all motion-reduce:transition-none",
           ...responsiveClasses,
           className
         )}
+        style={flexStyle}
         {...a11yProps}
         {...props}
       />
@@ -316,6 +386,7 @@ export const GlassFlexItem = forwardRef<HTMLDivElement, GlassFlexItemProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       ...props
     },
     ref
@@ -398,6 +469,42 @@ export const GlassFlexItem = forwardRef<HTMLDivElement, GlassFlexItemProps>(
       ...(role && { role }),
     };
 
+    const basisValues = {
+      auto: "auto",
+      full: "100%",
+      "1/2": "50%",
+      "1/3": "33.333333%",
+      "2/3": "66.666667%",
+      "1/4": "25%",
+      "3/4": "75%",
+      "1/5": "20%",
+      "2/5": "40%",
+      "3/5": "60%",
+      "4/5": "80%",
+      "1/6": "16.666667%",
+      "5/6": "83.333333%",
+      "1/12": "8.333333%",
+      "5/12": "41.666667%",
+      "7/12": "58.333333%",
+      "11/12": "91.666667%",
+    } as const;
+
+    const alignSelfValues = {
+      auto: "auto",
+      start: "flex-start",
+      end: "flex-end",
+      center: "center",
+      baseline: "baseline",
+      stretch: "stretch",
+    } as const;
+
+    const flexValues = {
+      none: "none",
+      auto: "1 1 auto",
+      initial: "0 1 auto",
+      "1": "1 1 0%",
+    } as const;
+
     return (
       <div
         ref={ref}
@@ -416,6 +523,18 @@ export const GlassFlexItem = forwardRef<HTMLDivElement, GlassFlexItemProps>(
             "motion-safe:transition-all motion-reduce:transition-none",
           className
         )}
+        style={{
+          ...(flex
+            ? { flex: flexValues[flex] }
+            : {
+                flexGrow: grow ? 1 : 0,
+                flexShrink: shrink ? 1 : 0,
+                flexBasis: basisValues[basis],
+              }),
+          alignSelf: alignSelfValues[alignSelf],
+          minWidth: 0,
+          ...style,
+        }}
         {...a11yProps}
         {...props}
       />

@@ -27,8 +27,7 @@ export interface BottomNavItem {
   disabled?: boolean;
 }
 
-export interface GlassBottomNavProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassBottomNavProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Navigation items
    */
@@ -115,13 +114,13 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
         labelSize: "glass-text-xs",
       },
       md: {
-        height: "h-16",
+        height: "glass-h-16",
         padding: "glass-px-4 glass-py-3",
         iconSize: "glass-text-lg",
         labelSize: "glass-text-xs",
       },
       lg: {
-        height: "h-20",
+        height: "glass-h-20",
         padding: "glass-px-6 glass-py-4",
         iconSize: "glass-text-xl",
         labelSize: "glass-text-sm",
@@ -129,9 +128,10 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
     };
 
     const variantClasses = {
-      default: "border-t border-border/20",
-      floating: "glass-mx-4 glass-mb-4 glass-radius-xl border border-border/20",
-      minimal: "border-t border-border/10",
+      default: "glass-border-t glass-border-glass-border/20",
+      floating:
+        "glass-mx-4 glass-mb-4 glass-radius-xl glass-border glass-border-glass-border/20",
+      minimal: "glass-border-t glass-border-glass-border/10",
     };
 
     const config = sizeClasses?.[size];
@@ -167,22 +167,28 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             aria-controls={`nav-panel-${item.id}`}
             tabIndex={active ? 0 : -1}
             className={cn(
-              "w-full h-full flex flex-col items-center justify-center glass-gap-1 relative",
-              labelPosition === "beside" && "flex-row glass-gap-2",
+              "glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative",
+              labelPosition === "beside" && "glass-flex-row glass-gap-2",
               !showLabels && "glass-gap-0"
             )}
             style={{
               border: 0,
               background: active ? undefined : "transparent",
               font: "inherit",
+              display: "flex",
+              flexDirection: labelPosition === "beside" ? "row" : "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              height: "100%",
             }}
           >
             {/* Icon */}
             <div
               className={cn(
-                "flex-shrink-0 transition-all duration-200",
+                "glass-flex-shrink-0 glass-transition-all glass-duration-200",
                 config.iconSize,
-                active && !shouldReduceMotion && "scale-110"
+                active && !shouldReduceMotion && "glass-scale-110"
               )}
             >
               {iconToShow}
@@ -192,10 +198,11 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
             {showLabels && (
               <span
                 className={cn(
-                  "font-medium transition-all duration-200 truncate",
+                  "glass-font-medium glass-transition-all glass-duration-200 glass-truncate",
                   config.labelSize,
-                  active ? "text-primary-foreground" : "glass-text-secondary"
+                  active ? "glass-text-primary" : "glass-text-secondary"
                 )}
+                style={{ maxWidth: "100%" }}
               >
                 {item?.label}
               </span>
@@ -236,14 +243,20 @@ export const GlassBottomNav = forwardRef<HTMLDivElement, GlassBottomNavProps>(
         performanceMode="medium"
         ref={ref}
         className={cn(
-          "w-full flex items-center",
+          "glass-w-full glass-flex glass-items-center",
           config.height,
           config.padding,
           variantClasses?.[variant],
-          sticky && "sticky bottom-0",
+          sticky && "glass-sticky glass-bottom-0",
           safeArea && "pb-safe",
           className
         )}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: "100%",
+          ...(sticky ? { position: "sticky", bottom: 0 } : {}),
+        }}
         role="tablist"
         aria-label="Bottom navigation"
         id={navId}

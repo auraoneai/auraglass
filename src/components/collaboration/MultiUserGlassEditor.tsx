@@ -12,8 +12,7 @@ export interface CollaborationParticipant {
   cursorLabel?: string;
 }
 
-export interface MultiUserGlassEditorProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface MultiUserGlassEditorProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   users?: CollaborationParticipant[];
   className?: string;
   header?: string;
@@ -24,11 +23,20 @@ export interface MultiUserGlassEditorProps
 
 const statusAccent: Record<
   NonNullable<CollaborationParticipant["presence"]>,
-  string
+  React.CSSProperties
 > = {
-  active: "bg-emerald-400/90",
-  idle: "bg-amber-300/90",
-  offline: "bg-slate-500/80",
+  active: {
+    background:
+      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+  },
+  idle: {
+    background:
+      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+  },
+  offline: {
+    background:
+      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+  },
 };
 
 const DEFAULT_USERS: CollaborationParticipant[] = [
@@ -125,10 +133,13 @@ export function MultiUserGlassEditor({
       role="region"
       aria-label={header}
       className={cn(
-        "glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6",
-        "bg-gradient-to-br from-slate-950/80 via-slate-900/60 to-slate-900/40",
+        "glass-radius-2xl glass-border glass-border-subtle glass-p-6 glass-space-y-4",
         className
       )}
+      style={{
+        background:
+          '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+      }}
     >
       <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
         <div>
@@ -152,8 +163,10 @@ export function MultiUserGlassEditor({
             style={{ boxShadow: `0 0 25px -12px ${user.color}` }}
           >
             <span
-              className="glass-flex glass-h-2-5 glass-w-2-5 glass-radius-full"
+              className="glass-flex glass-radius-full"
               style={{
+                width: 10,
+                height: 10,
                 backgroundColor: user.presence
                   ? undefined
                   : "var(--glass-gray-500)",
@@ -161,17 +174,19 @@ export function MultiUserGlassEditor({
             >
               {user.presence && (
                 <span
-                  className={cn(
-                    "h-2.5 w-2.5 rounded-full",
-                    statusAccent[user.presence]
-                  )}
+                  className="glass-radius-full"
+                  style={{
+                    width: 10,
+                    height: 10,
+                    ...statusAccent[user.presence],
+                  }}
                 />
               )}
             </span>
             <span className="glass-font-medium" style={{ color: user.color }}>
               {user.name}
             </span>
-            <span className="glass-text-primary-glass-opacity-50">
+            <span className="glass-text-primary-opacity-50">
               {user.presence ?? "active"}
             </span>
           </span>
@@ -184,11 +199,11 @@ export function MultiUserGlassEditor({
         value={displayValue}
         onChange={handleChange}
         className={cn(
-          "glass-min-h-200px w-full resize-y rounded-3xl border border-white/10 bg-white/5 p-5 text-sm text-primary shadow-inner backdrop-blur transition",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
-          readOnly ? "opacity-70 cursor-not-allowed" : "hover:border-white/30",
+          "glass-w-full glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-5 glass-text-sm glass-text-primary glass-blur-backdrop glass-focus glass-touch-target glass-contrast-guard",
+          readOnly && "glass-opacity-70 glass-disabled-cursor-not-allowed",
           textareaClassName
         )}
+        style={{ minHeight: 200, resize: "vertical" }}
       />
     </OptimizedGlass>
   );

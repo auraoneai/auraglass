@@ -15,8 +15,10 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
+export interface GlassInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size"
+> {
   /**
    * GlassInput variant
    */
@@ -179,29 +181,29 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
     }, [errorText]);
 
     const sizeClasses = {
-      sm: "h-8 glass-px-3 glass-text-sm",
-      md: "h-10 glass-px-4 glass-text-sm",
-      lg: "h-12 px-5 glass-text-base",
+      sm: "glass-h-8 glass-px-3 glass-text-sm",
+      md: "glass-h-10 glass-px-4 glass-text-sm",
+      lg: "glass-h-12 glass-px-5 glass-text-base",
     };
 
     const variantClasses = {
-      default: "bg-background/50 border border-border/30",
-      filled: "bg-muted/50 border border-transparent",
-      outlined: "bg-transparent border-2 border-border",
-      minimal: "bg-transparent border-0 border-b border-border",
+      default: "glass-surface-dark/30 glass-border glass-border-white/10",
+      filled: "glass-surface-dark/40 glass-border glass-border-transparent",
+      outlined: "glass-bg-transparent glass-border glass-border-white/20",
+      minimal: "glass-bg-transparent glass-border-0",
     };
 
     const stateClasses = {
-      default: "border-border/30 focus:border-primary/50",
-      error: "border-destructive/50 focus:border-destructive",
-      warning: "border-warning/50 focus:border-warning",
-      success: "border-success/50 focus:border-success",
+      default: "focus:glass-border-blue",
+      error: "glass-border-red focus:glass-border-red",
+      warning: "glass-border-yellow focus:glass-border-yellow",
+      success: "glass-border-green focus:glass-border-green",
     };
 
     const iconSize = {
-      sm: "w-4 h-4",
-      md: "w-4 h-4",
-      lg: "w-5 h-5",
+      sm: "glass-w-4 glass-h-4",
+      md: "glass-w-4 glass-h-4",
+      lg: "glass-w-5 glass-h-5",
     };
     const accessibleName =
       label || props["aria-label"] || props.placeholder || "input";
@@ -242,7 +244,11 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
       <div
         data-glass-component
         data-testid={dataTestId || "glassinput"}
-        className={cn("relative", { "w-full": fullWidth }, className)}
+        className={cn(
+          "glass-relative glass-min-w-0",
+          { "glass-w-full": fullWidth },
+          className
+        )}
       >
         {/* Label */}
         {label && (
@@ -250,7 +256,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             id={labelId}
             htmlFor={inputId}
             className={cn(
-              "block glass-text-sm font-medium text-foreground glass-mb-2",
+              "glass-block glass-text-sm glass-font-medium glass-text-primary glass-mb-2",
               isRequired &&
                 'after:content-["*"] after:glass-ml-1 after:text-destructive'
             )}
@@ -282,19 +288,19 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             motionResponsive={false}
             interactive
             className={cn(
-              "relative flex items-center transition-all duration-200 liquid-glass-input-surface",
+              "glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 liquid-glass-input-surface",
               sizeClasses?.[size],
               variantClasses?.[variant],
               stateClasses?.[currentState],
               {
-                "opacity-50": disabled,
-                "ring-2 ring-primary/20":
+                "glass-opacity-50": disabled,
+                "glass-ring-2 glass-ring-primary":
                   isFocused && currentState === "default",
-                "ring-2 ring-destructive/20":
+                "glass-ring-2 glass-ring-red":
                   isFocused && currentState === "error",
-                "ring-2 ring-warning/20":
+                "glass-ring-2 glass-ring-yellow":
                   isFocused && currentState === "warning",
-                "ring-2 ring-success/20":
+                "glass-ring-2 glass-ring-green":
                   isFocused && currentState === "success",
               },
               className
@@ -304,6 +310,11 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 "--liquid-glass-input-density": isFocused ? "0.95" : "0.92",
                 "--liquid-glass-focus-refraction": "1.15",
               } as React.CSSProperties),
+              background:
+                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              border: "1px solid rgba(148, 163, 184, 0.24)",
+              boxShadow:
+                "0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
             }}
             data-liquid-glass-input="true"
             data-input-state={currentState}
@@ -313,7 +324,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             {leftIcon && (
               <div
                 className={cn(
-                  "flex items-center justify-center mr-3 glass-text-secondary",
+                  "glass-flex glass-items-center glass-justify-center glass-mr-3 glass-text-secondary",
                   iconSize?.[size]
                 )}
               >
@@ -325,12 +336,9 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               ref={setInputRef}
               {...a11yProps}
               className={cn(
-                "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
-                "placeholder:glass-text-secondary",
-                "text-foreground",
-                "glass-disabled-cursor-not-allowed",
+                "glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0",
                 {
-                  "pr-8": clearable || rightIcon || loading,
+                  "glass-pr-8": clearable || rightIcon || loading,
                 }
               )}
               disabled={disabled || loading}
@@ -375,7 +383,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 disabled
                 aria-label="Loading"
                 className={cn(
-                  "flex items-center justify-center glass-text-secondary",
+                  "glass-flex glass-items-center glass-justify-center glass-text-secondary",
                   iconSize?.[size]
                 )}
               >
@@ -391,7 +399,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 onClick={handleClear}
                 aria-label={`Clear ${accessibleName}`}
                 className={cn(
-                  "flex items-center justify-center glass-text-secondary hover:text-foreground transition-colors",
+                  "glass-flex glass-items-center glass-justify-center glass-text-secondary hover:glass-text-primary glass-transition-colors",
                   iconSize?.[size]
                 )}
               >
@@ -402,7 +410,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             {rightIcon && !loading && (
               <div
                 className={cn(
-                  "flex items-center justify-center glass-text-secondary",
+                  "glass-flex glass-items-center glass-justify-center glass-text-secondary",
                   iconSize?.[size]
                 )}
               >
@@ -413,7 +421,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
         ) : (
           <OptimizedGlass
             elevation={isFocused ? "level2" : "level1"}
-            intensity="medium"
+            intensity="subtle"
             depth={2}
             tint="neutral"
             border="subtle"
@@ -421,20 +429,27 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             performanceMode="medium"
             liftOnHover
             press
+            style={{
+              background:
+                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              border: "1px solid rgba(148, 163, 184, 0.24)",
+              boxShadow:
+                "0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+            }}
             className={cn(
-              "relative flex items-center transition-all duration-200 rounded-2xl",
+              "glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10",
               sizeClasses?.[size],
               variantClasses?.[variant],
               stateClasses?.[currentState],
               {
-                "opacity-50": disabled,
-                "ring-2 ring-primary/20":
+                "glass-opacity-50": disabled,
+                "glass-ring-2 glass-ring-primary":
                   isFocused && currentState === "default",
-                "ring-2 ring-destructive/20":
+                "glass-ring-2 glass-ring-red":
                   isFocused && currentState === "error",
-                "ring-2 ring-warning/20":
+                "glass-ring-2 glass-ring-yellow":
                   isFocused && currentState === "warning",
-                "ring-2 ring-success/20":
+                "glass-ring-2 glass-ring-green":
                   isFocused && currentState === "success",
               },
               className
@@ -444,7 +459,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             {leftIcon && (
               <div
                 className={cn(
-                  "flex items-center justify-center mr-3 glass-text-secondary",
+                  "glass-flex glass-items-center glass-justify-center glass-mr-3 glass-text-secondary",
                   iconSize?.[size]
                 )}
               >
@@ -456,12 +471,9 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               ref={setInputRef}
               {...a11yProps}
               className={cn(
-                "flex-1 bg-transparent border-0 outline-none glass-pulse-ring",
-                "placeholder:glass-text-secondary",
-                "text-foreground",
-                "glass-disabled-cursor-not-allowed",
+                "glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0",
                 {
-                  "pr-8": clearable || rightIcon || loading,
+                  "glass-pr-8": clearable || rightIcon || loading,
                 }
               )}
               disabled={disabled || loading}
@@ -498,7 +510,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               {loading && (
                 <div
                   className={cn(
-                    "animate-spin glass-radius-full border-2 border-current border-t-transparent",
+                    "glass-animate-spin glass-radius-full glass-border-2 glass-border-white/30 glass-border-t-white/60",
                     iconSize?.[size]
                   )}
                 />
@@ -513,7 +525,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                   iconOnly
                   aria-label={`Clear ${accessibleName}`}
                   className={cn(
-                    "flex items-center justify-center glass-text-secondary hover:text-foreground transition-colors",
+                    "glass-flex glass-items-center glass-justify-center glass-text-secondary hover:glass-text-primary glass-transition-colors",
                     iconSize?.[size]
                   )}
                 >
@@ -524,7 +536,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               {rightIcon && !loading && (
                 <div
                   className={cn(
-                    "flex items-center justify-center glass-text-secondary",
+                    "glass-flex glass-items-center glass-justify-center glass-text-secondary",
                     iconSize?.[size]
                   )}
                 >

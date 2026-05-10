@@ -3,51 +3,36 @@
 exports[`GlassWhiteboard matches snapshot 1`] = `
 <div
   aria-label="Drawing whiteboard"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-relative"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-relative glass-max-w-full glass-overflow-hidden"
   data-glass-component="true"
   role="application"
-  style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 100%; min-width: 0;"
 >
   <div
-    class="glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-p-4 glass-border-b glass-border-white-10"
+    class="glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-p-3 glass-border-b glass-border-white/10"
   >
     <div
       class="glass-flex glass-gap-1"
     >
       <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-surface-elevated glass-text-primary"
+        class="glass-px-2 glass-py-1.5 glass-radius-md glass-text-xs glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-surface-subtle/20 glass-text-primary"
       >
         Pen
       </button>
       <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
+        class="glass-px-2 glass-py-1.5 glass-radius-md glass-text-xs glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10"
       >
         Eraser
       </button>
       <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
+        class="glass-px-2 glass-py-1.5 glass-radius-md glass-text-xs glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10"
       >
         Rectangle
       </button>
       <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
+        class="glass-px-2 glass-py-1.5 glass-radius-md glass-text-xs glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10"
       >
         Circle
-      </button>
-      <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
-      >
-        Line
-      </button>
-      <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
-      >
-        Text
-      </button>
-      <button
-        class="glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
-      >
-        Select
       </button>
     </div>
     <div
@@ -56,42 +41,42 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
       <button
         aria-label="Select color var(--glass-white)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-black)"
         aria-pressed="true"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white glass-scale-110"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white"
       />
       <button
         aria-label="Select color var(--glass-color-danger)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-color-success)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-color-primary)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-color-warning)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-color-accent)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
         aria-label="Select color var(--glass-color-info)"
         aria-pressed="false"
-        class="glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white-30 glass-hover-border-white-60"
+        class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
     </div>
     <div
@@ -145,33 +130,33 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
       </span>
     </div>
     <div
-      class="glass-flex glass-gap-1 glass-ml-4"
+      class="glass-flex glass-gap-1"
     >
       <button
-        class="glass-px-3 glass-py-2 glass-text-sm glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-px-2 glass-py-1.5 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         Clear
       </button>
       <button
-        class="glass-px-3 glass-py-2 glass-text-sm glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+        class="glass-px-2 glass-py-1.5 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
       >
         Export
       </button>
     </div>
   </div>
   <div
-    class="glass-relative glass-overflow-hidden glass-surface-black-20"
-    style="width: 800px; height: 600px;"
+    class="glass-relative glass-overflow-hidden glass-surface-dark/20"
+    style="width: 100%; max-width: 480px;"
   >
     <canvas
       class="glass-absolute glass-inset-0 glass-cursor-crosshair"
-      height="600"
-      width="800"
+      height="300"
+      width="480"
     />
     <canvas
       class="glass-absolute glass-inset-0 glass-pointer-events-none"
-      height="600"
-      width="800"
+      height="300"
+      width="480"
     />
   </div>
 </div>

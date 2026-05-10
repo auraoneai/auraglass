@@ -4,7 +4,7 @@ exports[`KpiChart matches snapshot 1`] = `
 <div
   data-glass-component="true"
   data-testid="kpichart"
-  style="border: 1px solid rgba(255,255,255,0.5); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-kpi-accent: #70d6ff;"
 >
   <div
     style="font-size: 2.25rem;"
@@ -26,7 +26,9 @@ exports[`KpiChart matches snapshot 1`] = `
       Test KPI
     </span>
   </div>
-  <div>
+  <div
+    style="color: rgb(52, 211, 153);"
+  >
     ↑
      
     5

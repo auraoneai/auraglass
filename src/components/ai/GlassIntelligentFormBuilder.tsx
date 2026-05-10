@@ -237,10 +237,28 @@ export const GlassIntelligentFormBuilder: React.FC<
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [isCompact, setIsCompact] = useState(false);
 
+  const rootRef = useRef<HTMLDivElement>(null);
   const accessibility = useAccessibility();
   const performance = usePerformance();
   const analysisTimeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    const element = rootRef.current;
+    if (!element || typeof ResizeObserver === "undefined") return;
+
+    const updateCompactState = () => {
+      const rect = element.getBoundingClientRect();
+      setIsCompact(rect.width < 720 || rect.height < 520);
+    };
+
+    updateCompactState();
+    const observer = new ResizeObserver(updateCompactState);
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
 
   // Real-time AI analysis
   useEffect(() => {
@@ -416,8 +434,110 @@ export const GlassIntelligentFormBuilder: React.FC<
     URL.revokeObjectURL(url);
   }, [schema, validateForm]);
 
+  const compactFields =
+    schema.fields.length > 0
+      ? schema.fields.slice(0, 3)
+      : [
+          {
+            id: "compact-name",
+            type: "text" as const,
+            label: "Full name",
+            required: true,
+          },
+          {
+            id: "compact-email",
+            type: "email" as const,
+            label: "Email",
+            required: true,
+          },
+          {
+            id: "compact-message",
+            type: "textarea" as const,
+            label: "Message",
+          },
+        ];
+
+  if (isCompact) {
+    return (
+      <div
+        ref={rootRef}
+        data-glass-component
+        className={cn("glass-w-full glass-p-3", className)}
+        data-testid={dataTestId}
+        aria-label={ariaLabel}
+      >
+        <Glass className="glass-p-4 glass-overflow-hidden">
+          <div className="glass-flex glass-items-start glass-justify-between glass-gap-3 glass-mb-4">
+            <div className="glass-min-w-0">
+              <p className="glass-text-xs glass-uppercase glass-tracking-wider glass-text-primary-glass-opacity-60 glass-mb-1">
+                AI form builder
+              </p>
+              <h1 className="glass-text-xl glass-font-bold glass-text-primary glass-leading-tight">
+                {schema.title === "New Form"
+                  ? "Intelligent Form"
+                  : schema.title}
+              </h1>
+              <p className="glass-text-sm glass-text-secondary glass-mt-1 glass-leading-snug">
+                {schema.description ||
+                  "Draft, optimize, and preview form fields."}
+              </p>
+            </div>
+            <div className="glass-flex glass-flex-col glass-gap-2 glass-shrink-0">
+              <button
+                onClick={addField}
+                className="glass-px-3 glass-py-2 glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+              >
+                Add
+              </button>
+              <button
+                onClick={exportSchema}
+                className="glass-px-3 glass-py-2 glass-surface-subtle glass-text-primary glass-radius-lg glass-text-sm glass-focus glass-touch-target glass-contrast-guard"
+              >
+                Export
+              </button>
+            </div>
+          </div>
+
+          <div className="glass-grid glass-grid-cols-1 glass-gap-2">
+            {compactFields.map((field) => (
+              <div
+                key={field.id}
+                className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+              >
+                <div className="glass-min-w-0">
+                  <p className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">
+                    {field.label}
+                  </p>
+                  <p className="glass-text-xs glass-text-secondary glass-capitalize">
+                    {field.type}
+                    {field.required ? " · required" : ""}
+                  </p>
+                </div>
+                <span className="glass-rounded-full glass-border glass-border-white/15 glass-px-2 glass-py-1 glass-text-xs glass-text-secondary">
+                  {enableAIAssistance ? "AI" : "Field"}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="glass-mt-4 glass-rounded-lg glass-border glass-border-cyan-400/20 glass-bg-cyan-950/20 glass-px-3 glass-py-2">
+            <div className="glass-flex glass-items-center glass-justify-between glass-gap-3">
+              <span className="glass-text-xs glass-text-secondary">
+                Accessibility
+              </span>
+              <span className="glass-text-sm glass-font-semibold glass-text-cyan-200">
+                {schema.aiAnalysis?.accessibilityScore ?? 100}%
+              </span>
+            </div>
+          </div>
+        </Glass>
+      </div>
+    );
+  }
+
   return (
     <div
+      ref={rootRef}
       data-glass-component
       className={cn(
         "glass-w-full glass-container-6xl glass-mx-auto glass-p-6",

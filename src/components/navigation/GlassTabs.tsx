@@ -146,8 +146,7 @@ export const GlassTabs = forwardRef<HTMLDivElement, GlassTabsProps>(
 GlassTabs.displayName = "GlassTabs";
 
 // TabsList component
-export interface GlassTabsListProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassTabsListProps extends React.HTMLAttributes<HTMLDivElement> {
   loop?: boolean;
 }
 
@@ -160,8 +159,8 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
       pills: cn("glass-tabs-list-pills", "rounded-2xl glass-p-1.5 glass-gap-1"),
       underline: cn(
         "glass-tabs-list-underline",
-        "border-b border-border/20",
-        "gap-8 glass-px-1"
+        "glass-border-b glass-border-glass-border/20",
+        "glass-gap-8 glass-px-1"
       ),
       minimal: cn("glass-tabs-list-minimal", "glass-gap-4"),
     };
@@ -223,10 +222,10 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
         animation="none"
         performanceMode="medium"
         className={cn(
-          "max-w-full items-center justify-start",
+          "glass-max-w-full glass-items-center glass-justify-start",
           orientation === "horizontal"
-            ? "flex flex-row overflow-x-auto overflow-y-hidden"
-            : "inline-flex flex-col overflow-y-auto",
+            ? "glass-flex glass-flex-row glass-overflow-x-auto glass-overflow-y-hidden"
+            : "glass-inline-flex glass-flex-col glass-overflow-y-auto",
           variantStyles[variant],
           variant === "pills" ? "rounded-2xl" : "glass-radius-xl",
           className
@@ -255,10 +254,10 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
               node as any;
         }}
         className={cn(
-          "max-w-full items-center justify-start",
+          "glass-max-w-full glass-items-center glass-justify-start",
           orientation === "horizontal"
-            ? "flex flex-row overflow-x-auto overflow-y-hidden"
-            : "inline-flex flex-col overflow-y-auto",
+            ? "glass-flex glass-flex-row glass-overflow-x-auto glass-overflow-y-hidden"
+            : "glass-inline-flex glass-flex-col glass-overflow-y-auto",
           variantStyles[variant],
           className
         )}
@@ -275,8 +274,7 @@ export const GlassTabsList = forwardRef<HTMLDivElement, GlassTabsListProps>(
 GlassTabsList.displayName = "GlassTabsList";
 
 // TabsTrigger component
-export interface GlassTabsTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlassTabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
   icon?: React.ReactNode;
   badge?: string | number;
@@ -355,9 +353,9 @@ export const GlassTabsTrigger = forwardRef<
     };
 
     const baseStyles = cn(
-      "inline-flex min-w-max max-w-full flex-shrink-0 items-center justify-center glass-gap-2",
-      "whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2",
-      "glass-text-sm font-medium transition-all duration-200",
+      "glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2",
+      "glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2",
+      "glass-text-sm glass-font-medium glass-transition-all glass-duration-200",
       "focus-visible:outline-none focus-visible:ring-2",
       "focus-visible:ring-primary focus-visible:ring-offset-2",
       "disabled:pointer-events-none disabled:opacity-50"
@@ -366,25 +364,25 @@ export const GlassTabsTrigger = forwardRef<
     const variantStyles = {
       default: cn(
         isSelected
-          ? "bg-background/90 text-foreground shadow-md border border-border/20"
-          : "glass-text-secondary hover:text-foreground hover:bg-muted/50"
+          ? "glass-surface-subtle glass-text-primary glass-shadow-md glass-border glass-border-glass-border/20"
+          : "glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
       ),
       pills: cn(
         isSelected
-          ? "bg-primary text-primary-foreground shadow-lg"
-          : "glass-text-secondary hover:text-foreground hover:bg-background/50"
+          ? "glass-surface-primary glass-text-primary glass-shadow-lg"
+          : "glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
       ),
       underline: cn(
         "relative glass-px-1 glass-py-3 rounded-none",
         isSelected
-          ? "text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
-          : "glass-text-secondary hover:text-foreground"
+          ? "glass-text-primary after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary"
+          : "glass-text-secondary hover:glass-text-primary"
       ),
       minimal: cn(
         "glass-px-2 glass-py-1 glass-radius-md",
         isSelected
-          ? "text-primary bg-primary/10"
-          : "glass-text-secondary hover:text-foreground hover:bg-muted/30"
+          ? "glass-text-primary glass-surface-primary/10"
+          : "glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/30"
       ),
     };
 
@@ -444,8 +442,8 @@ export const GlassTabsTrigger = forwardRef<
               className={cn(
                 "glass-ml-2 glass-radius-full glass-px-2 glass-py-0.5 glass-text-xs",
                 isSelected
-                  ? "bg-primary-foreground/20 text-primary-foreground"
-                  : "bg-background/50 glass-text-secondary"
+                  ? "glass-surface-primary/20 glass-text-primary"
+                  : "glass-surface-subtle/50 glass-text-secondary"
               )}
             >
               {badge}
@@ -468,8 +466,7 @@ export const GlassTabsTrigger = forwardRef<
 GlassTabsTrigger.displayName = "GlassTabsTrigger";
 
 // TabsContent component
-export interface GlassTabsContentProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassTabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
   forceMount?: boolean;
 }

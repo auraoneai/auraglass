@@ -155,8 +155,7 @@ export interface GlassTeamCursorsProps {
   glassLevel?: CursorGlassLevel;
 }
 
-export interface GlassTeamCursorsWithEffectsProps
-  extends GlassTeamCursorsProps {
+export interface GlassTeamCursorsWithEffectsProps extends GlassTeamCursorsProps {
   enableRippleEffect?: boolean;
   enableGlowEffect?: boolean;
 }
@@ -341,29 +340,29 @@ function WorkspaceContent({
     switch (activeLayout) {
       case "canvas-focused":
         return {
-          canvasSize: "flex-1",
-          editorSize: "w-80",
+          canvasSize: "glass-flex-1",
+          editorSize: "glass-w-80",
           direction: "row",
           canvasFirst: true,
         };
       case "editor-focused":
         return {
-          canvasSize: "w-80",
-          editorSize: "flex-1",
+          canvasSize: "glass-w-80",
+          editorSize: "glass-flex-1",
           direction: "row",
           canvasFirst: false,
         };
       case "tabs":
         return {
-          canvasSize: "w-full",
-          editorSize: "w-full",
+          canvasSize: "glass-w-full",
+          editorSize: "glass-w-full",
           direction: "col",
           canvasFirst: true,
         };
       default: // 'split'
         return {
-          canvasSize: "flex-1",
-          editorSize: "flex-1",
+          canvasSize: "glass-flex-1",
+          editorSize: "glass-flex-1",
           direction: "row",
           canvasFirst: true,
         };
@@ -391,7 +390,7 @@ function WorkspaceContent({
   return (
     <div
       className={cn(
-        "glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-dark",
+        "glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-overlay",
         className
       )}
       role="main"
@@ -434,7 +433,7 @@ function WorkspaceContent({
           color: #f8fafc !important;
         }
 
-        .glass-collaborative-workspace .workspace-glass-panel .glass-surface-blue,
+        .glass-collaborative-workspace .workspace-glass-panel .glass-surface-primary,
         .glass-collaborative-workspace .workspace-glass-button-primary {
           background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
           background-color: rgba(3, 105, 161, 0.96) !important;
@@ -753,7 +752,7 @@ function WorkspaceHeader({
             </button>
             <button
               onClick={() => onCreateSnapshot(`Snapshot ${Date.now()}`)}
-              className="workspace-glass-button-primary glass-px-3 glass-py-2 glass-text-sm glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue"
+              className="workspace-glass-button-primary glass-px-3 glass-py-2 glass-text-sm glass-surface-primary glass-text-primary glass-radius"
               title="Create Snapshot"
             >
               📷 Snapshot
@@ -772,7 +771,7 @@ function WorkspaceHeader({
             🔀
           </button>
           {showLayoutMenu && (
-            <div className="glass-absolute glass-top-full glass-left-0 glass-mt-2 glass-p-2 glass-surface-dark glass-border glass-border-white/20 glass-radius glass-shadow-lg glass-z-50">
+            <div className="glass-absolute glass-top-full glass-left-0 glass-mt-2 glass-p-2 glass-surface-overlay glass-border glass-border-white/20 glass-radius glass-shadow-lg glass-z-50">
               {(
                 ["split", "tabs", "canvas-focused", "editor-focused"] as const
               ).map((layout) => (
@@ -782,9 +781,12 @@ function WorkspaceHeader({
                     onLayoutChange(layout);
                     setShowLayoutMenu(false);
                   }}
-                  className={`block w-full text-left px-3 py-2 text-sm rounded hover:bg-white/10 text-white ${
-                    activeLayout === layout ? "bg-blue-600" : ""
-                  }`}
+                  className={cn(
+                    "glass-block glass-w-full glass-text-left glass-px-3 glass-py-2 glass-text-sm glass-radius glass-text-primary",
+                    activeLayout === layout
+                      ? "glass-surface-primary"
+                      : "glass-surface-transparent"
+                  )}
                 >
                   {layout.charAt(0).toUpperCase() +
                     layout.slice(1).replace("-", " ")}
@@ -798,11 +800,12 @@ function WorkspaceHeader({
         {enableVoiceChat && (
           <button
             onClick={onToggleVoice}
-            className={`p-2 rounded ${
+            className={cn(
+              "glass-p-2 glass-radius glass-text-primary",
               isVoiceActive
-                ? "bg-green-600 text-white"
-                : "hover:bg-white/10 text-white"
-            }`}
+                ? "glass-surface-success"
+                : "glass-surface-transparent"
+            )}
             title={isVoiceActive ? "Leave Voice Chat" : "Join Voice Chat"}
             aria-label={isVoiceActive ? "Leave voice chat" : "Join voice chat"}
           >
@@ -821,12 +824,15 @@ function WorkspaceHeader({
         {/* Online Users */}
         {showOnlineUsers && (
           <div className="glass-flex glass-items-center glass-gap-2">
-            <div className="glass-flex glass--space-x-2">
-              {onlineUsers.slice(0, 5).map((user) => (
+            <div className="glass-flex">
+              {onlineUsers.slice(0, 5).map((user, index) => (
                 <div
                   key={user.id}
                   className="glass-w-8 glass-h-8 glass-radius-full glass-border-2 glass-border-white glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-bold glass-text-primary"
-                  style={{ backgroundColor: user.color }}
+                  style={{
+                    backgroundColor: user.color,
+                    marginLeft: index === 0 ? 0 : -8,
+                  }}
                   title={user.name}
                 >
                   {user.name[0]}
@@ -886,12 +892,12 @@ function WorkspaceTabs({
   return (
     <div className="glass-flex glass-flex-col glass-h-full">
       {/* Tab Navigation */}
-      <div className="glass-flex glass-border-b glass-border-white/20 glass-surface-dark">
+      <div className="glass-flex glass-border-b glass-border-white/20 glass-surface-overlay">
         <button
           onClick={() => setActiveTab("canvas")}
           className={`glass-px-6 glass-py-3 glass-font-medium ${
             activeTab === "canvas"
-              ? "glass-text-white glass-border-b-2 glass-border-blue-400 glass-surface-dark"
+              ? "glass-text-white glass-border-b-2 glass-border-blue-400 glass-surface-overlay"
               : "glass-text-white-opacity-70 glass-hover-text-white"
           }`}
         >
@@ -901,7 +907,7 @@ function WorkspaceTabs({
           onClick={() => setActiveTab("editor")}
           className={`glass-px-6 glass-py-3 glass-font-medium ${
             activeTab === "editor"
-              ? "glass-text-white glass-border-b-2 glass-border-blue-400 glass-surface-dark"
+              ? "glass-text-white glass-border-b-2 glass-border-blue-400 glass-surface-overlay"
               : "glass-text-white-opacity-70 glass-hover-text-white"
           }`}
         >
@@ -1086,7 +1092,7 @@ function WorkspaceSidebar({
           <h3 className="glass-text-sm glass-font-semibold glass-text-primary-glass-opacity-80 glass-uppercase">
             Mini Map
           </h3>
-          <div className="workspace-glass-inset glass-aspect-video glass-surface-dark glass-border glass-border-white/20 glass-radius glass-p-2">
+          <div className="workspace-glass-inset glass-aspect-video glass-surface-overlay glass-border glass-border-white/20 glass-radius glass-p-2">
             <div className="glass-text-xs glass-text-primary glass-text-center glass-mt-8">
               Canvas overview
             </div>
@@ -1201,7 +1207,7 @@ function VoiceChatPanel({
             key={userId}
             className="glass-flex glass-items-center glass-gap-2 glass-text-primary glass-text-sm"
           >
-            <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
+            <div className="glass-w-2 glass-h-2 glass-surface-success glass-radius-full glass-animate-pulse" />
             User {userId}
           </div>
         ))}
@@ -1209,11 +1215,10 @@ function VoiceChatPanel({
 
       <button
         onClick={onToggleVoice}
-        className={`w-full py-2 rounded ${
-          isActive
-            ? "bg-red-600 hover:bg-red-700"
-            : "bg-green-600 hover:bg-green-700"
-        } text-white transition-colors`}
+        className={cn(
+          "glass-w-full glass-py-2 glass-radius glass-text-primary glass-transition",
+          isActive ? "glass-surface-danger" : "glass-surface-success"
+        )}
       >
         {isActive ? "🔇 Leave" : "🎤 Join"} Voice Chat
       </button>
@@ -1269,7 +1274,7 @@ function VersionControlPanel({
 
         <button
           onClick={() => onCreateSnapshot(`Manual snapshot ${Date.now()}`)}
-          className="glass-w-full glass-py-2 glass-px-3 glass-radius glass-surface-blue glass-text-primary hover:glass-surface-blue"
+          className="glass-w-full glass-py-2 glass-px-3 glass-radius glass-surface-primary glass-text-primary"
         >
           <Save className="glass-w-4 glass-h-4 glass-inline glass-mr-1" />
           Create Snapshot
@@ -1293,12 +1298,20 @@ function WorkspaceFloatingActions({
   return (
     <div className="glass-fixed glass-bottom-6 glass-right-6">
       <div
-        className={`flex flex-col gap-2 ${isExpanded ? "opacity-100" : "opacity-0 pointer-events-none"} transition-opacity`}
+        className={cn(
+          "glass-flex glass-flex-col glass-gap-2",
+          !isExpanded && "glass-pointer-events-none"
+        )}
+        style={{
+          opacity: isExpanded ? 1 : 0,
+          pointerEvents: isExpanded ? "auto" : "none",
+          transition: "opacity 160ms ease",
+        }}
       >
         {enableVoiceChat && (
           <button
             onClick={onShowVoicePanel}
-            className="glass-w-12 glass-h-12 glass-radius-full glass-surface-green glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-green glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-w-12 glass-h-12 glass-radius-full glass-surface-success glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             title="Voice Chat"
             aria-label="Open voice chat panel"
           >
@@ -1309,7 +1322,7 @@ function WorkspaceFloatingActions({
         {enableVersionControl && (
           <button
             onClick={onShowVersionPanel}
-            className="glass-w-12 glass-h-12 glass-radius-full glass-surface-blue glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:glass-surface-blue glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+            className="glass-w-12 glass-h-12 glass-radius-full glass-surface-primary glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
             title="Version Control"
             aria-label="Open version control panel"
           >
@@ -1330,7 +1343,7 @@ function WorkspaceFloatingActions({
       {/* Main FAB */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="glass-w-14 glass-h-14 glass-radius-full glass-surface-dark glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-hover-bg-slate-600 glass-mt-2"
+        className="glass-w-14 glass-h-14 glass-radius-full glass-surface-overlay glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-hover-bg-slate-600 glass-mt-2"
         style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
         aria-label={
           isExpanded
@@ -1351,7 +1364,7 @@ function WorkspaceLoadingState({
   message?: string;
 }) {
   return (
-    <div className="glass-h-screen glass-flex glass-items-center glass-justify-center glass-surface-dark">
+    <div className="glass-h-screen glass-flex glass-items-center glass-justify-center glass-surface-overlay">
       <div className="glass-text-center glass-space-y-4">
         <div className="glass-w-16 glass-h-16 glass-border-4 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin glass-mx-auto" />
         <div className="glass-text-primary glass-text-lg">{message}</div>
@@ -1371,7 +1384,7 @@ function WorkspaceConnectionError({
   error: string;
 }) {
   return (
-    <div className="glass-h-screen glass-flex glass-items-center glass-justify-center glass-surface-dark">
+    <div className="glass-h-screen glass-flex glass-items-center glass-justify-center glass-surface-overlay">
       <div className="glass-text-center glass-space-y-4 glass-max-w-md">
         <div className="glass-text-primary glass-text-6xl glass-mb-4">⚠️</div>
         <div className="glass-text-primary glass-text-xl glass-font-semibold">
@@ -1380,7 +1393,7 @@ function WorkspaceConnectionError({
         <div className="glass-text-primary-opacity-70">{error}</div>
         <button
           onClick={onRetry}
-          className="glass-px-6 glass-py-3 glass-surface-blue glass-text-primary glass-radius hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+          className="glass-px-6 glass-py-3 glass-surface-primary glass-text-primary glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
         >
           Retry Connection
         </button>

@@ -472,12 +472,49 @@ export function GlassWebGLShader({
       <div
         data-glass-component
         className={cn(
-          "OptimizedGlass intensity={0.2} glassBlur={6} glass-p-4",
+          "glass-relative glass-overflow-hidden glass-rounded-2xl glass-border glass-p-4",
           className
         )}
         role="status"
+        style={{
+          minHeight: 220,
+          background:
+            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          borderColor: "rgba(148, 163, 184, 0.22)",
+          color: "#e5f4ff",
+        }}
       >
-        <p className="glass-text-secondary">WebGL not supported</p>
+        <div
+          className="glass-absolute glass-inset-x-6 glass-top-8 glass-h-px"
+          style={{
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+          }}
+        />
+        <div
+          className="glass-absolute glass-left-1/2 glass-top-1/2 glass-h-20 glass-w-20 glass-rounded-2xl glass-border"
+          style={{
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            borderColor: "rgba(226,232,240,0.26)",
+            boxShadow:
+              "0 24px 80px rgba(56,189,248,0.2), inset 0 1px 0 rgba(255,255,255,0.18)",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+        <div className="glass-relative glass-z-10 glass-flex glass-h-full glass-min-h-48 glass-flex-col glass-justify-between">
+          <div>
+            <p className="glass-text-xs glass-uppercase glass-tracking-widest glass-text-primary-glass-opacity-60">
+              GPU fallback
+            </p>
+            <p className="glass-mt-1 glass-text-base glass-font-semibold glass-text-primary">
+              Shader preview unavailable
+            </p>
+          </div>
+          <p className="glass-text-sm glass-text-secondary">
+            CSS glass fallback active.
+          </p>
+        </div>
       </div>
     );
   }

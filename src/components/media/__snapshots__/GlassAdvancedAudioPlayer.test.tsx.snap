@@ -4,7 +4,7 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
 <div>
   <div
     class="glass-foundation-basic ag-advanced-audio-player glass-overflow-hidden"
-    style="border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 12px; box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18); color: rgb(15, 23, 42); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.28); border-radius: 12px; box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18); color: rgb(15, 23, 42); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <style>
       
@@ -132,10 +132,10 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
             </div>
             <div
               class="glass-w-full glass-h-2 glass-surface-subtle glass-radius-full glass-cursor-pointer"
-              style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 12px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+              style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 12px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
             >
               <div
-                class="glass-h-full glass-surface-blue glass-radius-full"
+                class="glass-h-full glass-surface-primary glass-radius-full"
                 style="width: 0%;"
               />
             </div>
@@ -146,21 +146,21 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
             <button
               aria-label="Rewind 10 seconds"
               class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-              style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+              style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
             >
               ⏪
             </button>
             <button
               aria-label="Play audio"
-              class="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
-              style="border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none; border-color: rgba(191, 219, 254, 0.7);"
+              class="glass-w-16 glass-h-16 glass-flex glass-items-center glass-justify-center glass-surface-primary glass-text-primary glass-radius-full glass-transition-colors glass-text-xl glass-focus glass-touch-target glass-contrast-guard"
+              style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none; border-color: rgba(191, 219, 254, 0.7);"
             >
               ▶️
             </button>
             <button
               aria-label="Forward 10 seconds"
               class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-              style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+              style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
             >
               ⏩
             </button>
@@ -175,7 +175,7 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
               <button
                 aria-label="Mute audio"
                 class="glass-w-8 glass-h-8 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
               >
                 🔊
               </button>
@@ -201,7 +201,7 @@ exports[`GlassAdvancedAudioPlayer matches snapshot 1`] = `
               <button
                 aria-label="Playback speed: 1x"
                 class="glass-text-sm glass-border glass-border-subtle glass-radius glass-px-3 glass-py-2 glass-focus glass-touch-target glass-contrast-guard"
-                style="border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.38); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
                 type="button"
               >
                 1

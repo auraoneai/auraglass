@@ -8,13 +8,13 @@ exports[`ChartGrid matches snapshot 1`] = `
   <defs>
     <pattern
       height="100"
-      id="grid-pattern"
+      id=":r6:"
       patternUnits="userSpaceOnUse"
       width="100"
     >
       <g>
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -23,7 +23,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="0"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -32,7 +32,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="20"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -41,7 +41,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="40"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -50,7 +50,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="60"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -61,7 +61,7 @@ exports[`ChartGrid matches snapshot 1`] = `
       </g>
       <g>
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="0"
@@ -70,7 +70,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="100"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="20"
@@ -79,7 +79,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="100"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="40"
@@ -88,7 +88,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="100"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="60"
@@ -97,7 +97,7 @@ exports[`ChartGrid matches snapshot 1`] = `
           y2="100"
         />
         <line
-          stroke="\${glassStyles.surface?.base || "var(--glass-bg-default)"}"
+          stroke="rgba(148, 163, 184, 0.28)"
           stroke-dasharray="none"
           stroke-width="0.5"
           x1="80"
@@ -111,6 +111,7 @@ exports[`ChartGrid matches snapshot 1`] = `
   <g>
     <line
       opacity="0.6"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -120,6 +121,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -129,6 +131,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -138,6 +141,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -147,6 +151,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -156,6 +161,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.6"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -165,6 +171,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.6"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="0%"
@@ -174,6 +181,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="14.285714285714285%"
@@ -183,6 +191,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="28.57142857142857%"
@@ -192,6 +201,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="42.857142857142854%"
@@ -201,6 +211,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="57.14285714285714%"
@@ -210,6 +221,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="71.42857142857143%"
@@ -219,6 +231,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.3"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="85.71428571428571%"
@@ -228,6 +241,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     />
     <line
       opacity="0.6"
+      stroke="rgba(148, 163, 184, 0.28)"
       stroke-dasharray="none"
       stroke-width="1"
       x1="100%"
@@ -240,7 +254,7 @@ exports[`ChartGrid matches snapshot 1`] = `
     <radialgradient
       cx="50%"
       cy="50%"
-      id="grid-gradient"
+      id=":r7:"
       r="70%"
     >
       <stop
@@ -249,12 +263,13 @@ exports[`ChartGrid matches snapshot 1`] = `
       />
       <stop
         offset="100%"
+        stop-color="rgba(148, 163, 184, 0.28)"
         stop-opacity="0.1"
       />
     </radialgradient>
   </defs>
   <rect
-    fill="url(#grid-gradient)"
+    fill="url(#:r7:)"
     height="100%"
     width="100%"
   />

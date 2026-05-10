@@ -2,24 +2,109 @@
 
 exports[`GlassSearchInterface matches snapshot 1`] = `
 <div
-  class="relative max-w-2xl"
+  class="glass-relative glass-min-w-0 glass-max-w-full glass-w-full"
   data-glass-component="true"
+  style="min-width: 0; max-width: 42rem;"
 >
+  <div
+    class="glass-flex glass-items-center glass-gap-2 glass-mb-4 glass-overflow-x-auto"
+  >
+    <div
+      class="motion-primitive glass-inline-glass-block"
+    >
+      <button
+        class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        data-caustics="true"
+        data-magnet="true"
+        data-performance-mode="ultra"
+        id="glass-button-:ru:"
+        style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+      >
+        <span
+          class="glass-relative glass-z-10"
+        >
+          All
+        </span>
+      </button>
+    </div>
+    <div
+      class="motion-primitive glass-inline-glass-block"
+      data-glass-component="true"
+    >
+      <button
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+        id="glass-button-:rv:"
+      >
+        Components
+        <div
+          aria-label="Badge: 126"
+          class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-inline-flex glass-items-center glass-gap-1 glass-font-medium transition-all duration-[150ms] glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-transparent glass-text-primary glass-border glass-border-white/10 glass-ml-2"
+          data-performance-mode="medium"
+          id="badge-:r10:"
+          role="status"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
+          >
+            <span
+              class="glass-whitespace-nowrap"
+            >
+              126
+            </span>
+          </span>
+        </div>
+      </button>
+    </div>
+    <div
+      class="motion-primitive glass-inline-glass-block"
+      data-glass-component="true"
+    >
+      <button
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+        id="glass-button-:r11:"
+      >
+        Patterns
+        <div
+          aria-label="Badge: 34"
+          class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-inline-flex glass-items-center glass-gap-1 glass-font-medium transition-all duration-[150ms] glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-transparent glass-text-primary glass-border glass-border-white/10 glass-ml-2"
+          data-performance-mode="medium"
+          id="badge-:r12:"
+          role="status"
+          style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        >
+          <span
+            class="contrast-guard"
+            data-contrast-level="AA"
+            data-glass-component="true"
+          >
+            <span
+              class="glass-whitespace-nowrap"
+            >
+              34
+            </span>
+          </span>
+        </div>
+      </button>
+    </div>
+  </div>
   <div
     class="glass-relative"
   >
     <div
-      class="relative w-full"
+      class="glass-relative glass-min-w-0 glass-w-full"
       data-glass-component="true"
       data-testid="glassinput"
     >
       <div
-        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm bg-background/50 border border-border/30 focus:border-primary/50"
+        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue"
         data-performance-mode="medium"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
-          class="flex items-center justify-center mr-3 glass-text-secondary w-4 h-4"
+          class="glass-flex glass-items-center glass-justify-center glass-mr-3 glass-text-secondary glass-w-4 glass-h-4"
         >
           <svg
             class="glass-w-4 glass-h-4"
@@ -37,8 +122,8 @@ exports[`GlassSearchInterface matches snapshot 1`] = `
         </div>
         <input
           aria-label="Search..."
-          class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed pr-8"
-          id="glass-input-:r5:"
+          class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0 glass-pr-8"
+          id="glass-input-:r13:"
           placeholder="Search..."
           value=""
         />

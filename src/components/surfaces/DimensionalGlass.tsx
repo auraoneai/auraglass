@@ -39,7 +39,7 @@ export const DimensionalGlass = forwardRef<
       dynamicShadow = true,
       animate = false,
       zIndex = 1,
-      backgroundColor = "var(--glass-bg-default)",
+      backgroundColor,
       maxTilt = 5,
       hoverScale = 1.02,
       animationConfig,

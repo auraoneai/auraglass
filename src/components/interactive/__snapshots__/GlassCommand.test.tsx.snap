@@ -2,19 +2,19 @@
 
 exports[`GlassCommand matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level3 glass-tier-high glass-radius-lg"
-  data-performance-mode="high"
-  style="border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-surface-dark/30 glass-border glass-border-white/10 glass-overflow-hidden"
+  data-performance-mode="medium"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 8px; box-shadow: 0 18px 44px rgba(2, 6, 23, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
-    class="glass-p-4"
+    class="glass-p-3"
   >
     <div
-      class="glass-relative glass-mb-4"
+      class="glass-relative glass-mb-3"
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50"
+        class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-secondary"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -35,24 +35,25 @@ exports[`GlassCommand matches snapshot 1`] = `
         />
       </svg>
       <div
-        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-backdrop-blur-md glass-radius-lg glass-contrast-guard"
-        style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-backdrop-blur-md glass-radius-lg glass-border glass-border-white/10 glass-surface-dark/40 glass-contrast-guard"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
-          class="relative w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 glass-focus-ring-white-opacity-30"
+          class="glass-relative glass-min-w-0 glass-w-full glass-py-2 glass-bg-transparent glass-border-0 glass-outline-none glass-text-primary"
           data-glass-component="true"
           data-testid="glassinput"
         >
           <div
-            class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high relative flex items-center transition-all duration-200 rounded-2xl h-10 glass-px-4 glass-text-sm border-border/30 focus:border-primary/50 ring-2 ring-primary/20 w-full pl-10 pr-4 glass-py-3 bg-transparent border-0 outline-none glass-text-primary placeholder-white/50 focus:ring-2 glass-focus-ring-white-opacity-30"
+            class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue glass-ring-2 glass-ring-primary glass-w-full glass-py-2 glass-bg-transparent glass-border-0 glass-outline-none glass-text-primary"
             data-performance-mode="medium"
-            style="border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); border: 1px solid rgba(255,255,255,0.5);"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
           >
             <input
               aria-label="Search commands..."
-              class="flex-1 bg-transparent border-0 outline-none glass-pulse-ring placeholder:glass-text-secondary text-foreground glass-disabled-cursor-not-allowed"
-              id="glass-input-:r6:"
+              class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
+              id="glass-input-:r7:"
               placeholder="Search commands..."
+              style="padding-left: 2.5rem; padding-right: 1rem; background: transparent; border: 0px; box-shadow: none;"
               value=""
             />
             <div
@@ -63,11 +64,11 @@ exports[`GlassCommand matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="overflow-y-auto"
+      class="glass-overflow-y-auto"
       style="max-height: 300px;"
     >
       <div
-        class="glass-text-center glass-py-8 glass-text-primary-glass-opacity-50"
+        class="glass-text-center glass-py-6 glass-text-secondary"
       >
         No commands found
       </div>

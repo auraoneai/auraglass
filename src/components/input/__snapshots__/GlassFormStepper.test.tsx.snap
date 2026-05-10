@@ -3,10 +3,11 @@
 exports[`GlassFormStepper matches snapshot 1`] = `
 <nav
   aria-label="Form steps"
-  class="flex items-center justify-center glass-gap-6"
+  class="glass-flex glass-items-start glass-justify-center glass-w-full glass-min-w-0 glass-gap-6"
+  style="min-width: 0;"
 >
   <div
-    class="glass-flex glass-flex-col glass-items-center glass-group"
+    class="glass-flex glass-flex-col glass-items-center glass-group glass-min-w-0"
   >
     <div
       aria-current="step"
@@ -17,19 +18,19 @@ exports[`GlassFormStepper matches snapshot 1`] = `
       tabindex="0"
     >
       <div
-        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-primary border-primary glass-text-primary"
+        class="glass-relative glass-radius-full glass-border-2 glass-flex glass-items-center glass-justify-center glass-transition glass-hover-lift glass-w-10 glass-h-10 glass-surface-primary glass-border-primary glass-text-primary"
       >
         <span
-          class="font-medium glass-text-base glass-text-primary"
+          class="glass-font-medium glass-text-base glass-text-primary"
         >
           1
         </span>
       </div>
       <div
-        class="glass-mt-3 glass-text-center glass-max-w-24"
+        class="glass-mt-3 glass-text-center glass-max-w-24 glass-min-w-0"
       >
         <h3
-          class="font-medium leading-tight glass-text-base glass-text-primary"
+          class="glass-font-medium glass-leading-tight glass-break-words glass-text-base glass-text-primary"
         >
           Step 1
         </h3>
@@ -37,10 +38,10 @@ exports[`GlassFormStepper matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="flex-1 glass-mx-2 transition-all duration-300 h-0.5 bg-white/20"
+    class="glass-flex-1 glass-mx-2 glass-transition glass-h-0-5 glass-surface-subtle/20"
   />
   <div
-    class="glass-flex glass-flex-col glass-items-center glass-group"
+    class="glass-flex glass-flex-col glass-items-center glass-group glass-min-w-0"
   >
     <div
       aria-disabled="false"
@@ -50,19 +51,19 @@ exports[`GlassFormStepper matches snapshot 1`] = `
       tabindex="0"
     >
       <div
-        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-white/10 border-white/30 glass-text-primary/60"
+        class="glass-relative glass-radius-full glass-border-2 glass-flex glass-items-center glass-justify-center glass-transition glass-hover-lift glass-w-10 glass-h-10 glass-surface-subtle/10 glass-border-white/30 glass-text-secondary"
       >
         <span
-          class="font-medium glass-text-base glass-text-primary/60"
+          class="glass-font-medium glass-text-base glass-text-primary/60"
         >
           2
         </span>
       </div>
       <div
-        class="glass-mt-3 glass-text-center glass-max-w-24"
+        class="glass-mt-3 glass-text-center glass-max-w-24 glass-min-w-0"
       >
         <h3
-          class="font-medium leading-tight glass-text-base glass-text-primary/60"
+          class="glass-font-medium glass-leading-tight glass-break-words glass-text-base glass-text-primary/60"
         >
           Step 2
         </h3>
@@ -70,10 +71,10 @@ exports[`GlassFormStepper matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="flex-1 glass-mx-2 transition-all duration-300 h-0.5 bg-white/20"
+    class="glass-flex-1 glass-mx-2 glass-transition glass-h-0-5 glass-surface-subtle/20"
   />
   <div
-    class="glass-flex glass-flex-col glass-items-center glass-group"
+    class="glass-flex glass-flex-col glass-items-center glass-group glass-min-w-0"
   >
     <div
       aria-disabled="false"
@@ -83,19 +84,19 @@ exports[`GlassFormStepper matches snapshot 1`] = `
       tabindex="0"
     >
       <div
-        class="relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 group-hover:shadow-lg w-10 h-10 bg-white/10 border-white/30 glass-text-primary/60"
+        class="glass-relative glass-radius-full glass-border-2 glass-flex glass-items-center glass-justify-center glass-transition glass-hover-lift glass-w-10 glass-h-10 glass-surface-subtle/10 glass-border-white/30 glass-text-secondary"
       >
         <span
-          class="font-medium glass-text-base glass-text-primary/60"
+          class="glass-font-medium glass-text-base glass-text-primary/60"
         >
           3
         </span>
       </div>
       <div
-        class="glass-mt-3 glass-text-center glass-max-w-24"
+        class="glass-mt-3 glass-text-center glass-max-w-24 glass-min-w-0"
       >
         <h3
-          class="font-medium leading-tight glass-text-base glass-text-primary/60"
+          class="glass-font-medium glass-leading-tight glass-break-words glass-text-base glass-text-primary/60"
         >
           Step 3
         </h3>

@@ -49,8 +49,7 @@ export interface DrawingShape {
   timestamp: number;
 }
 
-export interface GlassWhiteboardProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassWhiteboardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Initial drawing data */
   initialData?: Array<DrawingPath | DrawingShape>;
   /** Whether the whiteboard is collaborative */
@@ -110,10 +109,10 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
       initialData = [],
       collaborative = false,
       userId = "user",
-      enabledTools = defaultTools,
+      enabledTools = defaultTools.slice(0, 4),
       availableColors = defaultColors,
-      width = 800,
-      height = 600,
+      width = 480,
+      height = 300,
       backgroundPattern = "grid",
       showToolbar = true,
       showMinimap = false,
@@ -635,7 +634,11 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
       <OptimizedGlass
         ref={ref}
         data-glass-component
-        className={cn("glass-relative", className)}
+        className={cn(
+          "glass-relative glass-max-w-full glass-overflow-hidden",
+          className
+        )}
+        style={{ maxHeight: "100%", minWidth: 0 }}
         intent="neutral"
         elevation="level1"
         data-testid={dataTestId}
@@ -647,7 +650,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
         {showToolbar && (
           <div
             className={cn(
-              "glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-p-4 glass-border-b glass-border-white-10"
+              "glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-p-3 glass-border-b glass-border-white/10"
             )}
           >
             {/* Tools */}
@@ -657,11 +660,11 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
                   key={tool}
                   onClick={(e) => handleToolChange(tool)}
                   className={cn(
-                    "glass-px-3 glass-py-2 glass-radius-md glass-text-sm glass-font-medium glass-transition-colors",
+                    "glass-px-2 glass-py-1.5 glass-radius-md glass-text-xs glass-font-medium glass-transition-colors",
                     "glass-focus glass-touch-target glass-contrast-guard",
                     currentTool === tool
-                      ? "glass-surface-elevated glass-text-primary"
-                      : "glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle"
+                      ? "glass-surface-subtle/20 glass-text-primary"
+                      : "glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10"
                   )}
                 >
                   {tool.charAt(0).toUpperCase() + tool.slice(1)}
@@ -676,11 +679,11 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
                   key={`${color}-${i}`}
                   onClick={(e) => handleColorChange(color)}
                   className={cn(
-                    "glass-w-8 glass-h-8 glass-radius-md glass-border-2 glass-transition-all",
+                    "glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all",
                     "glass-focus glass-touch-target glass-contrast-guard",
                     currentColor === color
-                      ? "glass-border-white glass-scale-110"
-                      : "glass-border-white-30 glass-hover-border-white-60"
+                      ? "glass-border-white"
+                      : "glass-border-white/20 hover:glass-border-white/30"
                   )}
                   style={{ backgroundColor: color }}
                   aria-label={`Select color ${color}`}
@@ -745,11 +748,11 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
             </div>
 
             {/* Actions */}
-            <div className={cn("glass-flex glass-gap-1 glass-ml-4")}>
+            <div className={cn("glass-flex glass-gap-1")}>
               <button
                 onClick={clearCanvas}
                 className={cn(
-                  "glass-px-3 glass-py-2 glass-text-sm glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  "glass-px-2 glass-py-1.5 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 )}
               >
                 Clear
@@ -767,7 +770,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
               <button
                 onClick={exportAsImage}
                 className={cn(
-                  "glass-px-3 glass-py-2 glass-text-sm glass-text-primary-70 glass-hover-text-primary glass-hover-surface-subtle glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                  "glass-px-2 glass-py-1.5 glass-text-xs glass-text-primary-opacity-70 hover:glass-text-primary hover:glass-surface-subtle/10 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
                 )}
               >
                 Export
@@ -810,9 +813,13 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
         <div
           ref={containerRef}
           className={cn(
-            "glass-relative glass-overflow-hidden glass-surface-black-20"
+            "glass-relative glass-overflow-hidden glass-surface-dark/20"
           )}
-          style={{ width, height }}
+          style={{
+            width: "100%",
+            maxWidth: width,
+            height: "clamp(180px, 32vw, 300px)",
+          }}
         >
           <canvas
             ref={canvasRef}

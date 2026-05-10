@@ -23,7 +23,7 @@ export function GlassDiffViewer({
   className,
 }: GlassDiffViewerProps) {
   return (
-    <div data-glass-component className={cn("w-full", className)}>
+    <div data-glass-component className={cn("glass-w-full", className)}>
       {sideBySide ? (
         <div className="glass-grid glass-grid-cols-2 glass-gap-3">
           <OptimizedGlass

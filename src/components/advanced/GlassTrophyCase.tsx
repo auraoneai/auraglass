@@ -434,8 +434,9 @@ export function GlassTrophyCase({
     if (!enableSound) return;
 
     try {
-      const audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const audioContext = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 
@@ -493,10 +494,10 @@ export function GlassTrophyCase({
 
     return (
       <motion.div
-        className={`relative p-6 rounded-xl border-2 cursor-pointer transition-all ${
+        className={`glass-relative glass-p-6 glass-radius-xl glass-border-2 glass-cursor-pointer glass-transition-all ${
           achievement.unlocked
-            ? "border-white/40 bg-white/10 hover:bg-white/15"
-            : "border-white/20 bg-white/5 hover:bg-white/10 opacity-70"
+            ? "glass-border-white/40 glass-surface-subtle/10 hover:glass-surface-subtle/20"
+            : "glass-border-white/20 glass-surface-subtle/5 hover:glass-surface-subtle/10 glass-opacity-70"
         }`}
         style={{
           borderColor: achievement.unlocked ? tierColor.primary : undefined,
@@ -557,8 +558,10 @@ export function GlassTrophyCase({
         {/* Achievement icon */}
         <div className="glass-flex glass-items-center glass-justify-center glass-mb-4">
           <div
-            className={`p-4 rounded-full border-2 ${
-              achievement.unlocked ? "border-white/40" : "border-white/20"
+            className={`glass-p-4 glass-radius-full glass-border-2 ${
+              achievement.unlocked
+                ? "glass-border-white/40"
+                : "glass-border-white/20"
             }`}
             style={{
               backgroundColor: `${tierColor.primary}20`,
@@ -566,8 +569,10 @@ export function GlassTrophyCase({
             }}
           >
             <achievement.icon
-              className={`w-8 h-8 ${
-                achievement.unlocked ? "text-white" : "text-white/50"
+              className={`glass-w-8 glass-h-8 ${
+                achievement.unlocked
+                  ? "glass-text-primary"
+                  : "glass-text-primary-opacity-50"
               }`}
             />
           </div>
@@ -578,15 +583,19 @@ export function GlassTrophyCase({
           <div
             role="heading"
             aria-level={2}
-            className={`text-lg font-bold mb-2 ${
-              achievement.unlocked ? "text-white" : "text-white/60"
+            className={`glass-text-lg glass-font-bold glass-mb-2 ${
+              achievement.unlocked
+                ? "glass-text-primary"
+                : "glass-text-primary-opacity-60"
             }`}
           >
             {achievement.title}
           </div>
           <p
-            className={`text-sm ${
-              achievement.unlocked ? "text-white/80" : "text-white/50"
+            className={`glass-text-sm ${
+              achievement.unlocked
+                ? "glass-text-primary-opacity-80"
+                : "glass-text-primary-opacity-50"
             }`}
           >
             {achievement.description}
@@ -649,7 +658,7 @@ export function GlassTrophyCase({
   };
 
   return (
-    <div className={`w-full max-w-7xl mx-auto ${className}`}>
+    <div className={`glass-w-full glass-max-w-7xl glass-mx-auto ${className}`}>
       {/* Header */}
       <div className="glass-flex glass-flex-col lg:glass-flex-row lg:glass-items-center lg:glass-justify-between glass-gap-6 glass-mb-8">
         <div>
@@ -771,8 +780,10 @@ export function GlassTrophyCase({
           <motion.button
             onClick={() => setViewMode("grid")}
             aria-label="Grid view"
-            className={`p-2 rounded-lg transition-all ${
-              viewMode === "grid" ? "bg-white/20 text-white" : "text-white/60"
+            className={`glass-p-2 glass-radius-lg glass-transition-all ${
+              viewMode === "grid"
+                ? "glass-surface-subtle/20 glass-text-primary"
+                : "glass-text-primary-opacity-60"
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -782,8 +793,10 @@ export function GlassTrophyCase({
           <motion.button
             onClick={() => setViewMode("list")}
             aria-label="List view"
-            className={`p-2 rounded-lg transition-all ${
-              viewMode === "list" ? "bg-white/20 text-white" : "text-white/60"
+            className={`glass-p-2 glass-radius-lg glass-transition-all ${
+              viewMode === "list"
+                ? "glass-surface-subtle/20 glass-text-primary"
+                : "glass-text-primary-opacity-60"
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -798,8 +811,10 @@ export function GlassTrophyCase({
           aria-label={
             showLocked ? "Hide locked achievements" : "Show locked achievements"
           }
-          className={`px-4 py-3 border border-white/20 rounded-xl transition-all ${
-            showLocked ? "bg-white/10 text-white" : "bg-white/5 text-white/60"
+          className={`glass-px-4 glass-py-3 glass-border glass-border-white/20 glass-radius-xl glass-transition-all ${
+            showLocked
+              ? "glass-surface-subtle/10 glass-text-primary"
+              : "glass-surface-subtle/5 glass-text-primary-opacity-60"
           }`}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -816,8 +831,8 @@ export function GlassTrophyCase({
       <motion.div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-            : "space-y-4"
+            ? "glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 xl:glass-grid-cols-4 glass-gap-6"
+            : "glass-space-y-4"
         }
         layout
       >

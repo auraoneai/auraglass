@@ -85,4 +85,18 @@ describe("EnhancedGlassButton", () => {
     expect(debug).toBeInTheDocument();
     expect(debug?.textContent || "").toContain("Emotion");
   });
+
+  it("does not render animation debug chrome by default", () => {
+    const { container } = render(
+      <EnhancedGlassButton
+        enhancedFeatures={{
+          organicMotion: { enabled: true },
+        }}
+      >
+        Snapshot Button
+      </EnhancedGlassButton>
+    );
+
+    expect(container.querySelector(".animation-debug-info")).toBeNull();
+  });
 });

@@ -503,7 +503,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
       <Glass
         ref={ref}
         className={cn(
-          "w-full h-full glass-radius-lg",
+          "glass-w-full glass-h-full glass-radius-lg glass-min-w-0",
           config.padding,
           className
         )}
@@ -513,7 +513,12 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           {/* Header */}
           <HStack space="sm" align="center" justify="between">
             <VStack space="xs">
-              <h3 className={cn("font-medium text-foreground", config.title)}>
+              <h3
+                className={cn(
+                  "glass-font-medium glass-text-primary",
+                  config.title
+                )}
+              >
                 {data?.title || "Chart"}
               </h3>
               {data?.subtitle && (
@@ -555,9 +560,9 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           {/* Chart */}
           <div
             className={cn(
-              "flex-1",
+              "glass-flex-1",
               config.height,
-              type === "sparkline" && "h-auto"
+              type === "sparkline" && "glass-h-auto"
             )}
           >
             {renderChartContent()}

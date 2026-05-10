@@ -23,9 +23,10 @@ export function GlassSparkline({
   data,
   width = 120,
   height = 32,
-  stroke = "currentColor",
+  stroke = "#70d6ff",
   fill = "none",
   className,
+  style,
   ...rest
 }: GlassSparklineProps) {
   const sparklineData =
@@ -46,7 +47,8 @@ export function GlassSparkline({
       viewBox={`0 0 ${width} ${height}`}
       width={width}
       height={height}
-      className={cn("text-blue-300/90", className)}
+      className={cn("glass-text-primary", className)}
+      style={{ maxWidth: "100%", height: "auto", ...style }}
       {...rest}
     >
       <path

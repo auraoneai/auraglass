@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import { AlertCircle, Check, Circle } from "lucide-react";
 import React from "react";
@@ -59,7 +59,7 @@ export interface GlassFormStepperProps {
   /**
    * Test ID for the component
    */
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 /**
@@ -77,31 +77,31 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
   allowClickCompleted = true,
   showProgressLine = true,
   className,
-  'data-testid': dataTestId,
+  "data-testid": dataTestId,
   ...props
 }) => {
   // Size configurations
   const sizeConfigs = {
     sm: {
-      stepSize: "w-8 h-8",
-      iconSize: "w-4 h-4",
+      stepSize: "glass-w-8 glass-h-8",
+      iconSize: "glass-w-4 glass-h-4",
       fontSize: "glass-text-sm",
-      lineHeight: "h-px",
+      lineHeight: "glass-h-px",
       spacing: "glass-gap-4",
     },
     md: {
-      stepSize: "w-10 h-10",
-      iconSize: "w-5 h-5",
+      stepSize: "glass-w-10 glass-h-10",
+      iconSize: "glass-w-5 glass-h-5",
       fontSize: "glass-text-base",
-      lineHeight: "h-0.5",
+      lineHeight: "glass-h-0-5",
       spacing: "glass-gap-6",
     },
     lg: {
-      stepSize: "w-12 h-12",
-      iconSize: "w-6 h-6",
+      stepSize: "glass-w-12 glass-h-12",
+      iconSize: "glass-w-6 glass-h-6",
       fontSize: "glass-text-lg",
-      lineHeight: "h-1",
-      spacing: "gap-8",
+      lineHeight: "glass-h-1",
+      spacing: "glass-gap-8",
     },
   };
 
@@ -122,37 +122,41 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
     switch (state) {
       case "completed":
         return {
-          circle: "bg-green-500 border-green-500 glass-text-primary",
+          circle:
+            "glass-surface-success glass-border-success glass-text-primary",
           icon: "glass-text-primary",
-          line: "bg-green-500",
+          line: "glass-surface-success",
           text: "glass-text-primary",
         };
       case "active":
         return {
-          circle: "bg-primary border-primary glass-text-primary",
+          circle:
+            "glass-surface-primary glass-border-primary glass-text-primary",
           icon: "glass-text-primary",
-          line: "bg-primary/50",
+          line: "glass-surface-primary",
           text: "glass-text-primary",
         };
       case "error":
         return {
-          circle: "bg-red-500 border-red-500 glass-text-primary",
+          circle: "glass-surface-danger glass-border-danger glass-text-primary",
           icon: "glass-text-primary",
-          line: "bg-red-500/50",
-          text: "text-red-300",
+          line: "glass-surface-danger",
+          text: "glass-text-danger",
         };
       case "disabled":
         return {
-          circle: "bg-white/10 border-white/30 glass-text-primary/50",
+          circle:
+            "glass-surface-subtle/10 glass-border-white/30 glass-text-secondary",
           icon: "glass-text-primary/50",
-          line: "bg-white/30",
+          line: "glass-surface-subtle/20",
           text: "glass-text-primary/50",
         };
       default:
         return {
-          circle: "bg-white/10 border-white/30 glass-text-primary/60",
+          circle:
+            "glass-surface-subtle/10 glass-border-white/30 glass-text-secondary",
           icon: "glass-text-primary/60",
-          line: "bg-white/30",
+          line: "glass-surface-subtle/20",
           text: "glass-text-primary/60",
         };
     }
@@ -173,10 +177,11 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
     <nav
       aria-label="Form steps"
       className={cn(
-        "flex items-center justify-center",
+        "glass-flex glass-items-start glass-justify-center glass-w-full glass-min-w-0",
         config.spacing,
         className
       )}
+      style={{ minWidth: 0 }}
     >
       {steps.map((step, index) => {
         const state = getStepState(index, step);
@@ -186,10 +191,10 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
         return (
           <React.Fragment key={step.id}>
             {/* Step */}
-            <div className='glass-flex glass-flex-col glass-items-center glass-group'>
+            <div className="glass-flex glass-flex-col glass-items-center glass-group glass-min-w-0">
               <Motion
                 preset={state === "active" ? "scaleIn" : "fadeIn"}
-                className='glass-flex glass-flex-col glass-items-center glass-cursor-pointer'
+                className="glass-flex glass-flex-col glass-items-center glass-cursor-pointer"
                 onClick={(e) => handleStepClick(index, step)}
                 role="button"
                 aria-label={`Step ${index + 1}: ${step.title}${state === "completed" ? " (completed)" : state === "active" ? " (current)" : ""}`}
@@ -206,8 +211,8 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                 {/* Step Circle */}
                 <div
                   className={cn(
-                    "relative glass-radius-full border-2 flex items-center justify-center transition-all duration-200",
-                    "hover:scale-110 group-hover:shadow-lg",
+                    "glass-relative glass-radius-full glass-border-2 glass-flex glass-items-center glass-justify-center glass-transition",
+                    "glass-hover-lift",
                     config.stepSize,
                     styles.circle
                   )}
@@ -223,7 +228,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                   ) : showNumbers ? (
                     <span
                       className={cn(
-                        "font-medium",
+                        "glass-font-medium",
                         config.fontSize.replace("text-", "text-"),
                         styles.icon
                       )}
@@ -236,15 +241,15 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                   {/* Optional indicator */}
                   {step.optional && (
-                    <div className='glass-absolute glass-top-1 glass--right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full' />
+                    <div className="glass-absolute glass-top-1 glass--right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full" />
                   )}
                 </div>
 
                 {/* Step Label */}
-                <div className='glass-mt-3 glass-text-center glass-max-w-24'>
+                <div className="glass-mt-3 glass-text-center glass-max-w-24 glass-min-w-0">
                   <h3
                     className={cn(
-                      "font-medium leading-tight",
+                      "glass-font-medium glass-leading-tight glass-break-words",
                       config.fontSize,
                       styles.text
                     )}
@@ -254,7 +259,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
                   {showDescriptions && step.description && (
                     <p
                       className={cn(
-                        "glass-text-xs glass-mt-1 leading-tight",
+                        "glass-text-xs glass-mt-1 glass-leading-tight glass-break-words",
                         state === "active"
                           ? "glass-text-primary/80"
                           : "glass-text-primary/50"
@@ -271,9 +276,9 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
             {!isLast && showProgressLine && (
               <div
                 className={cn(
-                  "flex-1 glass-mx-2 transition-all duration-300",
+                  "glass-flex-1 glass-mx-2 glass-transition",
                   config.lineHeight,
-                  index < currentStep ? styles.line : "bg-white/20"
+                  index < currentStep ? styles.line : "glass-surface-subtle/20"
                 )}
               />
             )}
@@ -288,7 +293,7 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
     <nav
       aria-label="Form steps"
       className={cn("flex flex-col", config.spacing, className)}
-      data-testid={dataTestId || 'glassformstepper'}
+      data-testid={dataTestId || "glassformstepper"}
     >
       {steps.map((step, index) => {
         const state = getStepState(index, step);
@@ -297,10 +302,10 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
         return (
           <React.Fragment key={step.id}>
-            <div className='glass-flex glass-items-start glass-group'>
+            <div className="glass-flex glass-items-start glass-group">
               <Motion
                 preset={state === "active" ? "slideRight" : "fadeIn"}
-                className='glass-flex glass-items-start glass-cursor-pointer'
+                className="glass-flex glass-items-start glass-cursor-pointer"
                 onClick={(e) => handleStepClick(index, step)}
                 role="button"
                 aria-label={`Step ${index + 1}: ${step.title}${state === "completed" ? " (completed)" : state === "active" ? " (current)" : ""}`}
@@ -347,12 +352,12 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 
                   {/* Optional indicator */}
                   {step.optional && (
-                    <div className='glass-absolute glass-top-1 glass--right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full' />
+                    <div className="glass-absolute glass-top-1 glass--right-1 glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full" />
                   )}
                 </div>
 
                 {/* Step Content */}
-                <div className='glass-flex-1 glass-pt-1'>
+                <div className="glass-flex-1 glass-pt-1">
                   <h3
                     className={cn(
                       "font-medium leading-tight",
@@ -405,8 +410,10 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 };
 
 // Compact stepper variant
-export interface GlassCompactStepperProps
-  extends Omit<GlassFormStepperProps, "orientation" | "showDescriptions"> {
+export interface GlassCompactStepperProps extends Omit<
+  GlassFormStepperProps,
+  "orientation" | "showDescriptions"
+> {
   /**
    * Show labels
    */

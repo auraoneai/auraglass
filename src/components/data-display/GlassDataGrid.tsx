@@ -287,7 +287,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
               })}
             </tr>
           </thead>
-          {/* Use a relative positioned div for tbody content if rows are absolute */}
+          {/* Use a glass-relative positioned div for tbody content if rows are glass-absolute */}
           <tbody className={styles.body}>
             {hasData ? (
               displayData.map((row, displayIndex) => {

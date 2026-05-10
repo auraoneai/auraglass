@@ -7,15 +7,15 @@ exports[`GlassChip matches snapshot 1`] = `
 >
   <div
     aria-disabled="false"
-    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-chip relative inline-flex items-center glass-radius-full border glass-backdrop-blur-md transition-all duration-200 select-none h-8 glass-px-3 glass-text-sm glass-gap-2 bg-background/50 border-border/20 text-foreground"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-chip glass-relative glass-inline-flex glass-items-center glass-radius-full glass-border glass-backdrop-blur-md transition-all duration-200 select-none glass-h-8 glass-px-3 glass-text-sm glass-gap-2 bg-background/50 glass-border-glass-border/20 glass-text-primary"
     data-performance-mode="high"
     id="glass-chip-:r6:"
     role="status"
-    style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     tabindex="-1"
   >
     <span
-      class="glass-flex-1 glass-min-glass-w-0 glass-truncate glass-font-medium"
+      class="glass-flex-1 glass-min-w-0 glass-truncate glass-font-medium"
     />
     <div
       class="glass-absolute glass-inset-0 glass-radius-full glass-gradient-primary glass-gradient-primary glass-via-transparent glass-gradient-primary glass-pointer-events-none"

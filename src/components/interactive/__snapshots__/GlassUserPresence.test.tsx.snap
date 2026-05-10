@@ -7,7 +7,7 @@ exports[`GlassUserPresence matches snapshot 1`] = `
 >
   <div
     class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-foundation-complete relative glass-radius-xl glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset transition-all duration-[300ms] ease-out glass-p-4 overflow-hidden"
-    style="border: 1px solid rgba(255,255,255,0.5); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
       class="glass-relative glass-z-10"
@@ -53,11 +53,11 @@ exports[`GlassUserPresence matches snapshot 1`] = `
           </h2>
           <div
             aria-label="Badge: 0, online"
-            class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-gap-1 font-medium transition-all duration-[150ms] glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 border-0"
+            class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-inline-flex glass-items-center glass-gap-1 glass-font-medium transition-all duration-[150ms] glass-px-2 glass-py-1 glass-text-xs glass-radius-md bg-secondary/10 glass-text-primary/90 glass-border-0"
             data-performance-mode="medium"
             id="badge-:r3:"
             role="status"
-            style="background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.4); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+            style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
           >
             <span
               class="contrast-guard"

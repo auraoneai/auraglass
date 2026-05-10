@@ -49,6 +49,12 @@ import {
   getQualityBasedGlassParams,
 } from "../charts/hooks/useQualityTier";
 import { glassTokenUtils } from "../../tokens/glass";
+import {
+  chartColorWithAlpha,
+  DEFAULT_CHART_COLORS,
+  resolveChartColor,
+  resolveChartPalette,
+} from "./utils/chartColors";
 
 type QualityHookChartType = Parameters<typeof useQualityTier>[1];
 
@@ -122,14 +128,39 @@ const convertToChartJsDatasetWithEffects = (
   palette: string[],
   _animation: unknown
 ) => {
-  const paletteColor = palette[index % (palette?.length || 0)];
+  const safePalette = palette.length > 0 ? palette : DEFAULT_CHART_COLORS;
+  const fallbackColor =
+    DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length];
+  const paletteColor = resolveChartColor(
+    safePalette[index % safePalette.length],
+    fallbackColor
+  );
+  const seriesColor = resolveChartColor(
+    dataset.style?.lineColor || dataset.style?.pointColor || paletteColor,
+    fallbackColor
+  );
+  const fillColor = dataset.style?.fillColor
+    ? resolveChartColor(dataset.style.fillColor, seriesColor)
+    : chartColorWithAlpha(seriesColor, chartType === "area" ? 0.24 : 0.72);
+  const normalizedPoints = Array.isArray(dataset.data) ? dataset.data : [];
+  const processedLabels = normalizedPoints.map(
+    (point, pointIndex) => point?.label ?? String(point?.x ?? pointIndex + 1)
+  );
+  const numericData = normalizedPoints.map((point) =>
+    Number.isFinite(Number(point?.y)) ? Number(point.y) : 0
+  );
   return {
     ...dataset,
-    backgroundColor: dataset.style?.fillColor || paletteColor + "40",
-    borderColor: dataset.style?.lineColor || paletteColor,
+    data: numericData,
+    processedLabels,
+    backgroundColor: fillColor,
+    borderColor: seriesColor,
     borderWidth: dataset.style?.borderWidth || 2,
-    pointBackgroundColor: dataset.style?.pointColor || paletteColor,
-    pointBorderColor: dataset.style?.pointColor || paletteColor,
+    pointBackgroundColor: resolveChartColor(
+      dataset.style?.pointColor,
+      seriesColor
+    ),
+    pointBorderColor: resolveChartColor(dataset.style?.pointColor, seriesColor),
     pointRadius: dataset.style?.pointRadius || 4,
     tension: dataset.style?.tension || 0.4,
     fill: chartType === "area",
@@ -933,25 +964,14 @@ const GlassDataChartComponent = React.forwardRef<
       showYGrid: true,
       showXLabels: true,
       showYLabels: true,
-      axisColor:
-        "color-mix(in srgb, var(--aura-color-global-text-secondary) 85%, transparent)",
-      gridColor:
-        "color-mix(in srgb, var(--aura-color-global-border-soft) 55%, transparent)",
+      axisColor: "rgba(226, 232, 240, 0.86)",
+      gridColor: "rgba(148, 163, 184, 0.2)",
       gridStyle: "solid",
     },
     initialSelection,
     showToolbar = true,
     allowDownload = true,
-    palette = [
-      COLORS.semantic.secondary, // primary
-      COLORS.semantic.secondary, // secondary
-      "var(--glass-color-primary)", // blue
-      "var(--glass-color-success)", // green
-      "var(--glass-color-warning)", // yellow
-      "var(--glass-color-danger)", // red
-      COLORS.semantic.error, // pink
-      "var(--glass-gray-500)", // gray
-    ],
+    palette = DEFAULT_CHART_COLORS,
     allowTypeSwitch = true,
     borderRadius = "var(--glass-radius-md)",
     borderColor,
@@ -1087,6 +1107,10 @@ const GlassDataChartComponent = React.forwardRef<
 
   // Determine if we're using physics-based animations
   const enablePhysicsAnimation = animation.physicsEnabled && !isReducedMotion;
+  const resolvedPalette = useMemo(
+    () => resolveChartPalette(palette),
+    [palette]
+  );
 
   // Apply initial animations based on quality tier
   useEffect(() => {
@@ -1125,9 +1149,12 @@ const GlassDataChartComponent = React.forwardRef<
       >
         <defs>
           {/* Gradient definitions */}
-          {palette.map((color, i) => {
+          {resolvedPalette.map((color, i) => {
             // Ensure color is a valid value to prevent SVG errors
-            const safeColor = color || COLORS.semantic.secondary; // Default to primary color if undefined
+            const safeColor = resolveChartColor(
+              color,
+              DEFAULT_CHART_COLORS[i % DEFAULT_CHART_COLORS.length]
+            );
 
             return (
               <React.Fragment key={`gradient-${i}`}>
@@ -1138,8 +1165,14 @@ const GlassDataChartComponent = React.forwardRef<
                   x2="0%"
                   y2="100%"
                 >
-                  <stop offset="0%" stopColor={`${safeColor}CC`} />
-                  <stop offset="100%" stopColor={`${safeColor}00`} />
+                  <stop
+                    offset="0%"
+                    stopColor={chartColorWithAlpha(safeColor, 0.8)}
+                  />
+                  <stop
+                    offset="100%"
+                    stopColor={chartColorWithAlpha(safeColor, 0)}
+                  />
                 </linearGradient>
 
                 {/* Glow filter for lines */}
@@ -1177,7 +1210,7 @@ const GlassDataChartComponent = React.forwardRef<
         </defs>
       </svg>
     ),
-    [palette, activeQualityTier]
+    [resolvedPalette, activeQualityTier]
   );
 
   // Memoize the converted datasets to prevent unnecessary recalculations
@@ -1194,11 +1227,11 @@ const GlassDataChartComponent = React.forwardRef<
         dataset,
         i,
         chartType,
-        palette,
+        resolvedPalette,
         animation
       );
     });
-  }, [datasets, chartType, palette, animation]);
+  }, [datasets, chartType, resolvedPalette, animation]);
 
   // Memoize chart labels preparation
   const chartLabels = useMemo(() => {
@@ -1221,6 +1254,10 @@ const GlassDataChartComponent = React.forwardRef<
       // Use original labels for polarArea
       labels =
         datasets[0]?.data?.map((point) => point.label || String(point.x)) || [];
+    } else if (datasets && datasets[0]?.data) {
+      labels = datasets[0].data.map(
+        (point, pointIndex) => point.label || String(point.x ?? pointIndex + 1)
+      );
     }
     return labels;
   }, [chartType, convertedDatasets, datasets]);
@@ -1272,7 +1309,7 @@ const GlassDataChartComponent = React.forwardRef<
   // Memoized hex to RGB conversion function
   const hexToRgb = useCallback((hex: string) => {
     // Provide a default color if hex is undefined
-    const safeHex = hex || "var(--glass-white)";
+    const safeHex = resolveChartColor(hex, "#ffffff");
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(safeHex);
     return result
       ? `${parseInt(result?.[1], 16)}, ${parseInt(result?.[2], 16)}, ${parseInt(result?.[3], 16)}`
@@ -1283,21 +1320,24 @@ const GlassDataChartComponent = React.forwardRef<
   const legendItems = useMemo(() => {
     if (!datasets) return [];
     return datasets.map((dataset, index) => {
-      const color =
-        dataset.style?.lineColor || palette[index % (palette?.length || 0)];
+      const color = resolveChartColor(
+        dataset.style?.lineColor ||
+          resolvedPalette[index % resolvedPalette.length],
+        DEFAULT_CHART_COLORS[index % DEFAULT_CHART_COLORS.length]
+      );
       const rgbColor = hexToRgb(color);
       const isActive = !selectedDatasets.includes(index);
 
       return {
         id: dataset.id,
         label: dataset.label,
-        color: color || "var(--glass-white)",
+        color,
         rgbColor,
         isActive,
         index,
       };
     });
-  }, [datasets, palette, selectedDatasets, hexToRgb]);
+  }, [datasets, resolvedPalette, selectedDatasets, hexToRgb]);
 
   // Optimized legend item click handler
   const handleLegendClick = useCallback(
@@ -1514,9 +1554,11 @@ const GlassDataChartComponent = React.forwardRef<
               dataset: dataset.label,
               label: dataPoint.label || dataPoint.x,
               value: dataPoint.y,
-              color:
+              color: resolveChartColor(
                 dataset.style?.lineColor ||
-                palette[datasetIndex % (palette?.length || 0)],
+                  resolvedPalette[datasetIndex % resolvedPalette.length],
+                DEFAULT_CHART_COLORS[datasetIndex % DEFAULT_CHART_COLORS.length]
+              ),
               extra: dataPoint.extra,
               formatType: dataPoint.formatType,
               formatOptions: dataPoint.formatOptions,
@@ -1554,7 +1596,7 @@ const GlassDataChartComponent = React.forwardRef<
       getElementPhysicsOptions,
       datasets,
       chartType,
-      palette,
+      resolvedPalette,
     ]
   );
 
@@ -1639,7 +1681,7 @@ const GlassDataChartComponent = React.forwardRef<
 
       if (title) {
         exportContext.font = `bold ${16 * devicePixelRatio}px Inter, sans-serif`;
-        exportContext.fillStyle = "var(--glass-white)";
+        exportContext.fillStyle = "#ffffff";
         exportContext.fillText(
           title,
           exportCanvas.width / 2,
@@ -1880,9 +1922,7 @@ const GlassDataChartComponent = React.forwardRef<
                 top: `${hoveredPoint.y ?? 0}px`,
               }}
             >
-              <TooltipHeader
-                $color={hoveredPoint.value?.color || "var(--glass-white)"}
-              >
+              <TooltipHeader $color={hoveredPoint.value?.color || "#ffffff"}>
                 {hoveredPoint.value?.dataset || "Data"}
               </TooltipHeader>
 
@@ -1916,7 +1956,7 @@ const GlassDataChartComponent = React.forwardRef<
                 <div>
                   <div
                     style={{
-                      color: hoveredPoint.value?.color || "var(--glass-white)",
+                      color: hoveredPoint.value?.color || "#ffffff",
                     }}
                   >
                     {String(hoveredPoint.value?.dataset ?? "Dataset")}

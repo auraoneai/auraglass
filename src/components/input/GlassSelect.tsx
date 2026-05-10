@@ -30,8 +30,10 @@ export interface SelectOption {
 export type SelectValue = SelectOption["value"];
 export type SelectValueChange = SelectValue | SelectValue[];
 
-export interface GlassSelectProps
-  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
+export interface GlassSelectProps extends Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "size"
+> {
   /**
    * Select variant
    */
@@ -583,14 +585,14 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                   performanceMode="medium"
                   className={cn(
                     "max-h-60 overflow-hidden",
-                    "glass-glass-backdrop-blur-md bg-black/20 border border-white/20 glass-contrast-guard",
+                    "glass-glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/20 glass-contrast-guard",
                     "shadow-2xl shadow-black/50",
                     "ring-1 ring-white/10"
                   )}
                 >
                   <FocusTrap active={isOpen}>
                     {searchable && (
-                      <div className="glass-p-2 glass-border-b glass-border-glass-border/20">
+                      <div className="glass-p-2 glass-border-b glass-border-white/20">
                         <GlassInput
                           ref={searchInputRef}
                           type="text"

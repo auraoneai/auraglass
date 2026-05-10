@@ -588,7 +588,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       animate={controls}
     >
       {/* Spatial bounds visualization */}
-      {bounds && process.env.NODE_ENV === "development" && (
+      {bounds && showDebugHud && (
         <div
           className="spatial-bounds-debug"
           style={{
@@ -659,7 +659,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
       {children}
 
       {/* Debug information */}
-      {(showDebugHud || process.env.NODE_ENV === "development") && (
+      {showDebugHud && (
         <div
           className="spatial-debug-info"
           style={{

@@ -2,16 +2,249 @@
 
 exports[`GlassChartsDemo matches snapshot 1`] = `
 <div
-  class="contrast-guard"
+  class="contrast-guard glass-w-full glass-auto-gap glass-auto-gap-md"
   data-contrast-level="AA"
   data-glass-component="true"
 >
-  <h3
-    class="contrast-guard glass-text-lg glass-font-semibold"
-    data-contrast-level="AA"
-    data-glass-component="true"
+  <div
+    class="glass-flex glass-items-center glass-justify-between glass-gap-3"
   >
-    Glass Charts Demo
-  </h3>
+    <div>
+      <h3
+        class="contrast-guard glass-text-base glass-font-semibold"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        Glass Charts Demo
+      </h3>
+      <p
+        class="contrast-guard glass-text-xs glass-text-primary-opacity-70"
+        data-contrast-level="AA"
+        data-glass-component="true"
+      >
+        Live chart primitives
+      </p>
+    </div>
+    <div
+      class="glass-radius-full glass-border glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-80"
+    >
+      3 views
+    </div>
+  </div>
+  <div
+    class="glass-grid glass-gap-3"
+    style="grid-template-columns: repeat(3, minmax(0, 1fr));"
+  >
+    <div
+      class="glass-radius-lg glass-border glass-surface-subtle glass-p-3"
+    >
+      <svg
+        aria-label="Line trend"
+        height="96"
+        role="img"
+        viewBox="0 0 240 96"
+        width="100%"
+      >
+        <defs>
+          <lineargradient
+            id="r3-line"
+            x1="0"
+            x2="1"
+            y1="0"
+            y2="0"
+          >
+            <stop
+              offset="0%"
+              stop-color="#70d6ff"
+            />
+            <stop
+              offset="100%"
+              stop-color="#a78bfa"
+            />
+          </lineargradient>
+        </defs>
+        <line
+          stroke="rgba(226,232,240,0.14)"
+          x1="0"
+          x2="240"
+          y1="24"
+          y2="24"
+        />
+        <line
+          stroke="rgba(226,232,240,0.14)"
+          x1="0"
+          x2="240"
+          y1="48"
+          y2="48"
+        />
+        <line
+          stroke="rgba(226,232,240,0.14)"
+          x1="0"
+          x2="240"
+          y1="72"
+          y2="72"
+        />
+        <path
+          d="M 0 72 L 48 48 L 96 58 L 144 32 L 192 42 L 240 24"
+          fill="none"
+          stroke="url(#r3-line)"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="5"
+        />
+        <circle
+          cx="0"
+          cy="72"
+          fill="#70d6ff"
+          r="4"
+        />
+        <circle
+          cx="48"
+          cy="48"
+          fill="#70d6ff"
+          r="4"
+        />
+        <circle
+          cx="96"
+          cy="58"
+          fill="#70d6ff"
+          r="4"
+        />
+        <circle
+          cx="144"
+          cy="32"
+          fill="#70d6ff"
+          r="4"
+        />
+        <circle
+          cx="192"
+          cy="42"
+          fill="#70d6ff"
+          r="4"
+        />
+        <circle
+          cx="240"
+          cy="24"
+          fill="#70d6ff"
+          r="4"
+        />
+      </svg>
+    </div>
+    <div
+      class="glass-radius-lg glass-border glass-surface-subtle glass-p-3"
+    >
+      <svg
+        aria-label="Bar comparison"
+        height="96"
+        role="img"
+        viewBox="0 0 240 96"
+        width="100%"
+      >
+        <rect
+          fill="#70d6ff"
+          height="38"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="8"
+          y="58"
+        />
+        <rect
+          fill="#34d399"
+          height="58"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="46"
+          y="38"
+        />
+        <rect
+          fill="#70d6ff"
+          height="44"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="84"
+          y="52"
+        />
+        <rect
+          fill="#34d399"
+          height="72"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="122"
+          y="24"
+        />
+        <rect
+          fill="#70d6ff"
+          height="62"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="160"
+          y="34"
+        />
+        <rect
+          fill="#34d399"
+          height="84"
+          opacity="0.88"
+          rx="7"
+          width="24"
+          x="198"
+          y="12"
+        />
+      </svg>
+    </div>
+    <div
+      class="glass-radius-lg glass-border glass-surface-subtle glass-p-3"
+    >
+      <svg
+        aria-label="Donut split"
+        height="96"
+        role="img"
+        viewBox="0 0 120 96"
+        width="100%"
+      >
+        <defs>
+          <lineargradient
+            id="r3-area"
+            x1="0"
+            x2="1"
+            y1="0"
+            y2="1"
+          >
+            <stop
+              offset="0%"
+              stop-color="#70d6ff"
+            />
+            <stop
+              offset="100%"
+              stop-color="#a78bfa"
+            />
+          </lineargradient>
+        </defs>
+        <circle
+          cx="60"
+          cy="48"
+          fill="none"
+          r="32"
+          stroke="rgba(226,232,240,0.16)"
+          stroke-width="16"
+        />
+        <circle
+          cx="60"
+          cy="48"
+          fill="none"
+          r="32"
+          stroke="url(#r3-area)"
+          stroke-dasharray="145 56"
+          stroke-linecap="round"
+          stroke-width="16"
+          transform="rotate(-90 60 48)"
+        />
+      </svg>
+    </div>
+  </div>
 </div>
 `;

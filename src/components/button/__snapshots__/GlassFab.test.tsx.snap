@@ -10,7 +10,7 @@ exports[`GlassFab matches snapshot 1`] = `
     data-caustics="true"
     data-refraction="true"
     id="glass-fab-:r5:"
-    style="border-radius: 8px; box-shadow: 0px 16px 40px 0px hsl(var(--glass-color-primary)/0.3); transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; z-index: 1050;"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 8px; box-shadow: 0px 16px 40px 0px hsl(var(--glass-color-primary)/0.3); transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; z-index: 1050;"
     type="button"
   >
     <span

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { useA11yId } from "@/utils/a11y";
@@ -75,8 +75,7 @@ export interface GlassStackProps extends React.HTMLAttributes<HTMLDivElement> {
   role?: string;
 }
 
-export interface GlassStackItemProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassStackItemProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Whether this item should grow to fill available space
    */
@@ -124,41 +123,74 @@ export const GlassStack = forwardRef<HTMLDivElement, GlassStackProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       children,
       ...props
     },
     ref
   ) => {
+    const spaceValues = {
+      none: "0",
+      xs: "var(--glass-space-1, 0.25rem)",
+      sm: "var(--glass-space-2, 0.5rem)",
+      md: "var(--glass-space-4, 1rem)",
+      lg: "var(--glass-space-6, 1.5rem)",
+      xl: "var(--glass-space-8, 2rem)",
+      "2xl": "var(--glass-space-12, 3rem)",
+    } as const;
+
+    const alignValues = {
+      start: "flex-start",
+      center: "center",
+      end: "flex-end",
+      stretch: "stretch",
+      baseline: "baseline",
+    } as const;
+
+    const justifyValues = {
+      start: "flex-start",
+      center: "center",
+      end: "flex-end",
+      between: "space-between",
+      around: "space-around",
+      evenly: "space-evenly",
+    } as const;
+
+    const directionValues = {
+      vertical: "column",
+      horizontal: "row",
+    } as const;
+
     const spaceClasses = {
       none: "glass-gap-0",
       xs: "glass-gap-1",
       sm: "glass-gap-2",
       md: "glass-gap-4",
       lg: "glass-gap-6",
-      xl: "gap-8",
+      xl: "glass-gap-8",
       "2xl": "glass-gap-12",
     };
 
     const alignClasses = {
-      start: "items-start",
-      center: "items-center",
-      end: "items-end",
-      stretch: "items-stretch",
-      baseline: "items-baseline",
+      start: "glass-items-start",
+      center: "glass-items-center",
+      end: "glass-items-end",
+      stretch: "glass-items-stretch",
+      baseline: "glass-items-baseline",
     };
 
     const justifyClasses = {
-      start: "justify-start",
-      center: "justify-center",
-      end: "justify-end",
-      between: "justify-between",
-      around: "justify-around",
-      evenly: "justify-evenly",
+      start: "glass-justify-start",
+      center: "glass-justify-center",
+      end: "glass-justify-end",
+      between: "glass-justify-between",
+      around: "glass-justify-around",
+      evenly: "glass-justify-evenly",
     };
 
     const directionClasses = {
-      vertical: "flex-col",
-      horizontal: "flex-row",
+      vertical: "glass-flex-col",
+      horizontal: "glass-flex-row",
     };
 
     const responsiveDirectionClasses = responsive
@@ -218,23 +250,35 @@ export const GlassStack = forwardRef<HTMLDivElement, GlassStackProps>(
       ...(role && { role }),
     };
 
+    const stackStyle: React.CSSProperties = {
+      display: "flex",
+      flexDirection: directionValues[direction],
+      gap: spaceValues[spacing ?? space],
+      alignItems: alignValues[align],
+      justifyContent: justifyValues[justify],
+      flexWrap: wrap ? "wrap" : "nowrap",
+      minWidth: 0,
+      ...style,
+    };
+
     return (
       <div
         ref={ref}
         className={cn(
-          "flex",
+          "glass-flex glass-min-w-0",
           directionClasses[direction],
           ...responsiveDirectionClasses,
           spaceClasses[spacing ?? space],
           ...responsiveSpaceClasses,
           alignClasses[align],
           justifyClasses[justify],
-          wrap && "flex-wrap",
+          wrap && "glass-flex-wrap",
           // Motion preferences
           shouldRespectMotion &&
             "motion-safe:transition-all motion-reduce:transition-none",
           className
         )}
+        style={stackStyle}
         {...a11yProps}
         {...props}
       >
@@ -260,18 +304,28 @@ export const GlassStackItem = forwardRef<HTMLDivElement, GlassStackItemProps>(
       "aria-label": ariaLabel,
       role,
       className,
+      style,
       ...props
     },
     ref
   ) => {
     const alignSelfClasses = {
-      auto: "self-auto",
-      start: "self-start",
-      center: "self-center",
-      end: "self-end",
-      stretch: "self-stretch",
-      baseline: "self-baseline",
+      auto: "glass-self-auto",
+      start: "glass-self-start",
+      center: "glass-self-center",
+      end: "glass-self-end",
+      stretch: "glass-self-stretch",
+      baseline: "glass-self-baseline",
     };
+
+    const alignSelfValues = {
+      auto: "auto",
+      start: "flex-start",
+      center: "center",
+      end: "flex-end",
+      stretch: "stretch",
+      baseline: "baseline",
+    } as const;
 
     const itemId = useA11yId();
     const { prefersReducedMotion } = useMotionPreferenceContext();
@@ -287,14 +341,21 @@ export const GlassStackItem = forwardRef<HTMLDivElement, GlassStackItemProps>(
       <div
         ref={ref}
         className={cn(
-          grow && "flex-grow",
-          !shrink && "flex-shrink-0",
+          grow && "glass-flex-grow",
+          !shrink && "glass-flex-shrink-0",
           alignSelfClasses[alignSelf],
           // Motion preferences
           shouldRespectMotion &&
             "motion-safe:transition-all motion-reduce:transition-none",
           className
         )}
+        style={{
+          flexGrow: grow ? 1 : undefined,
+          flexShrink: shrink ? 1 : 0,
+          alignSelf: alignSelfValues[alignSelf],
+          minWidth: 0,
+          ...style,
+        }}
         {...a11yProps}
         {...props}
       />

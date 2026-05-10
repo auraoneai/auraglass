@@ -329,9 +329,19 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
               style={{ background: currentGradient }}
             />
 
-            <div className="glass-flex glass-items-center glass-justify-between">
+            <div className="glass-flex glass-items-center glass-justify-between glass-gap-2">
               <ContrastGuard>
-                <code className="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-truncate glass-flex-1 glass-mr-2">
+                <code
+                  className="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-flex-1 glass-min-w-0"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    overflowWrap: "anywhere",
+                    wordBreak: "break-word",
+                  }}
+                >
                   {currentGradient}
                 </code>
               </ContrastGuard>

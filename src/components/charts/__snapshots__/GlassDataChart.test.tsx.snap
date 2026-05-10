@@ -22,11 +22,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-gray-500)CC"
+          stop-color="rgba(112, 214, 255, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-gray-500)00"
+          stop-color="rgba(112, 214, 255, 0)"
         />
       </lineargradient>
       <filter
@@ -72,11 +72,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-gray-500)CC"
+          stop-color="rgba(167, 139, 250, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-gray-500)00"
+          stop-color="rgba(167, 139, 250, 0)"
         />
       </lineargradient>
       <filter
@@ -122,11 +122,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-color-primary)CC"
+          stop-color="rgba(52, 211, 153, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-color-primary)00"
+          stop-color="rgba(52, 211, 153, 0)"
         />
       </lineargradient>
       <filter
@@ -172,11 +172,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-color-success)CC"
+          stop-color="rgba(251, 191, 36, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-color-success)00"
+          stop-color="rgba(251, 191, 36, 0)"
         />
       </lineargradient>
       <filter
@@ -222,11 +222,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-color-warning)CC"
+          stop-color="rgba(248, 113, 113, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-color-warning)00"
+          stop-color="rgba(248, 113, 113, 0)"
         />
       </lineargradient>
       <filter
@@ -272,11 +272,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-color-danger)CC"
+          stop-color="rgba(34, 211, 238, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-color-danger)00"
+          stop-color="rgba(34, 211, 238, 0)"
         />
       </lineargradient>
       <filter
@@ -322,11 +322,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-color-danger)CC"
+          stop-color="rgba(251, 113, 133, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-color-danger)00"
+          stop-color="rgba(251, 113, 133, 0)"
         />
       </lineargradient>
       <filter
@@ -372,11 +372,11 @@ exports[`GlassDataChart matches snapshot 1`] = `
       >
         <stop
           offset="0%"
-          stop-color="var(--glass-gray-500)CC"
+          stop-color="rgba(192, 132, 252, 0.8)"
         />
         <stop
           offset="100%"
-          stop-color="var(--glass-gray-500)00"
+          stop-color="rgba(192, 132, 252, 0)"
         />
       </lineargradient>
       <filter
@@ -399,6 +399,106 @@ exports[`GlassDataChart matches snapshot 1`] = `
       <filter
         height="200%"
         id="pointGlow7"
+        width="200%"
+        x="-50%"
+        y="-50%"
+      >
+        <fegaussianblur
+          result="blur"
+          stdDeviation="3"
+        />
+        <fecomposite
+          in="SourceGraphic"
+          in2="blur"
+          operator="over"
+        />
+      </filter>
+      <lineargradient
+        id="areaGradient8"
+        x1="0%"
+        x2="0%"
+        y1="0%"
+        y2="100%"
+      >
+        <stop
+          offset="0%"
+          stop-color="rgba(96, 165, 250, 0.8)"
+        />
+        <stop
+          offset="100%"
+          stop-color="rgba(96, 165, 250, 0)"
+        />
+      </lineargradient>
+      <filter
+        height="140%"
+        id="glow8"
+        width="140%"
+        x="-20%"
+        y="-20%"
+      >
+        <fegaussianblur
+          result="blur"
+          stdDeviation="2"
+        />
+        <fecomposite
+          in="SourceGraphic"
+          in2="blur"
+          operator="over"
+        />
+      </filter>
+      <filter
+        height="200%"
+        id="pointGlow8"
+        width="200%"
+        x="-50%"
+        y="-50%"
+      >
+        <fegaussianblur
+          result="blur"
+          stdDeviation="3"
+        />
+        <fecomposite
+          in="SourceGraphic"
+          in2="blur"
+          operator="over"
+        />
+      </filter>
+      <lineargradient
+        id="areaGradient9"
+        x1="0%"
+        x2="0%"
+        y1="0%"
+        y2="100%"
+      >
+        <stop
+          offset="0%"
+          stop-color="rgba(148, 163, 184, 0.8)"
+        />
+        <stop
+          offset="100%"
+          stop-color="rgba(148, 163, 184, 0)"
+        />
+      </lineargradient>
+      <filter
+        height="140%"
+        id="glow9"
+        width="140%"
+        x="-20%"
+        y="-20%"
+      >
+        <fegaussianblur
+          result="blur"
+          stdDeviation="2"
+        />
+        <fecomposite
+          in="SourceGraphic"
+          in2="blur"
+          operator="over"
+        />
+      </filter>
+      <filter
+        height="200%"
+        id="pointGlow9"
         width="200%"
         x="-50%"
         y="-50%"

@@ -11,8 +11,7 @@ import {
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
-export interface GlassProgressProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Progress value (0-100)
    */
@@ -138,17 +137,17 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
       : Math.min(Math.max((animatedValue / max) * 100, 0), 100);
 
     const sizeClasses = {
-      xs: "h-1",
-      sm: "h-2",
-      md: "h-3",
-      lg: "h-4",
-      xl: "h-6",
+      xs: "glass-h-1",
+      sm: "glass-h-2",
+      md: "glass-h-3",
+      lg: "glass-h-4",
+      xl: "glass-h-6",
     };
 
     const shapeClasses = {
       "glass-radius-md": "glass-radius-md",
       pill: "glass-radius-full",
-      square: "rounded-none",
+      square: "glass-radius-none",
     };
 
     const variantClasses = {
@@ -161,14 +160,14 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
     };
 
     const trackClasses = cn(
-      "relative w-full overflow-hidden",
+      "glass-relative glass-w-full glass-overflow-hidden",
       "bg-muted/30 glass-backdrop-blur-md",
       sizeClasses[size],
       shapeClasses[shape]
     );
 
     const fillClasses = cn(
-      "h-full transition-all ease-out relative",
+      "glass-h-full transition-all ease-out glass-relative",
       variantClasses[variant],
       {
         "bg-stripes": striped,
@@ -197,7 +196,7 @@ export const GlassProgress = forwardRef<HTMLDivElement, GlassProgressProps>(
     return (
       <div
         ref={ref}
-        className={cn("w-full", className)}
+        className={cn("glass-w-full", className)}
         data-testid={resolvedDataTestId}
         {...props}
       >
@@ -292,8 +291,10 @@ GlassProgress.displayName = "GlassProgress";
 /**
  * CircularProgress component
  */
-export interface CircularProgressProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "size"> {
+export interface CircularProgressProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "size"
+> {
   /**
    * Progress value (0-100)
    */
@@ -382,7 +383,7 @@ export const CircularProgress = forwardRef<
       <div
         ref={ref}
         className={cn(
-          "relative inline-flex items-center justify-center",
+          "glass-relative glass-inline-flex glass-items-center glass-justify-center",
           className
         )}
         style={{ width: config.size, height: config.size }}
@@ -515,18 +516,18 @@ export function StepProgress({
 }: StepProgressProps) {
   const sizeClasses = {
     sm: {
-      indicator: "w-6 h-6 glass-text-xs",
+      indicator: "glass-w-6 glass-h-6 glass-text-xs",
       line: orientation === "horizontal" ? "h-0.5" : "w-0.5",
       label: "glass-text-xs",
     },
     md: {
-      indicator: "w-8 h-8 glass-text-sm",
-      line: orientation === "horizontal" ? "h-1" : "w-1",
+      indicator: "glass-w-8 glass-h-8 glass-text-sm",
+      line: orientation === "horizontal" ? "glass-h-1" : "glass-w-1",
       label: "glass-text-sm",
     },
     lg: {
-      indicator: "w-10 h-10 glass-text-base",
-      line: orientation === "horizontal" ? "h-1.5" : "w-1.5",
+      indicator: "glass-w-10 glass-h-10 glass-text-base",
+      line: orientation === "horizontal" ? "glass-h-2" : "glass-w-2",
       label: "glass-text-base",
     },
   };
@@ -548,8 +549,8 @@ export function StepProgress({
   return (
     <div
       className={cn(
-        "flex",
-        orientation === "horizontal" ? "items-center" : "flex-col",
+        "glass-flex",
+        orientation === "horizontal" ? "glass-items-center" : "glass-flex-col",
         className
       )}
     >
@@ -562,25 +563,25 @@ export function StepProgress({
           <div
             key={index}
             className={cn(
-              "flex items-center",
-              orientation === "vertical" && "flex-col",
-              !isLast && orientation === "horizontal" && "flex-1"
+              "glass-flex glass-items-center",
+              orientation === "vertical" && "glass-flex-col",
+              !isLast && orientation === "horizontal" && "glass-flex-1"
             )}
           >
             {/* Step indicator */}
             <div
               className={cn(
-                "flex items-center justify-center glass-radius-full font-medium",
-                `border-2 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
+                "glass-flex glass-items-center glass-justify-center glass-radius-full glass-font-medium",
+                `glass-border-2 transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
                 config.indicator,
                 {
-                  "bg-primary border-primary text-primary-foreground":
+                  "bg-primary glass-border-primary glass-text-primary":
                     status === "completed",
-                  "bg-primary border-primary text-primary-foreground ring-2 ring-primary/20":
+                  "bg-primary glass-border-primary glass-text-primary ring-2 ring-primary/20":
                     status === "current",
-                  "bg-background border-muted glass-text-secondary":
+                  "bg-background glass-border-muted glass-text-secondary":
                     status === "pending",
-                  "cursor-pointer hover:border-primary/50":
+                  "glass-cursor-pointer hover:glass-border-primary":
                     clickable && index <= currentStep,
                 }
               )}
@@ -605,7 +606,7 @@ export function StepProgress({
               ) : (
                 <div
                   className={cn(
-                    "w-2 h-2 glass-radius-full",
+                    "glass-w-2 glass-h-2 glass-radius-full",
                     status === "completed"
                       ? "bg-primary-foreground"
                       : status === "current"
@@ -619,11 +620,13 @@ export function StepProgress({
             {/* Step label */}
             {stepLabel && orientation === "horizontal" && (
               <span
-                className={cn("glass-ml-2 font-medium", config.label, {
-                  "text-primary": status === "current",
-                  "text-foreground": status === "completed",
-                  "glass-text-secondary": status === "pending",
-                })}
+                className={cn(
+                  "glass-ml-2 glass-font-medium",
+                  config.label,
+                  status === "current" || status === "completed"
+                    ? "glass-text-primary"
+                    : "glass-text-secondary"
+                )}
               >
                 {stepLabel}
               </span>
@@ -633,7 +636,7 @@ export function StepProgress({
             {!isLast && (
               <div
                 className={cn(
-                  "flex-1 bg-muted",
+                  "glass-flex-1 bg-muted",
                   config.line,
                   orientation === "horizontal" ? "glass-mx-4" : "glass-my-4",
                   {
@@ -647,13 +650,11 @@ export function StepProgress({
             {stepLabel && orientation === "vertical" && (
               <span
                 className={cn(
-                  "glass-mt-2 text-center font-medium",
+                  "glass-mt-2 glass-text-center glass-font-medium",
                   config.label,
-                  {
-                    "text-primary": status === "current",
-                    "text-foreground": status === "completed",
-                    "glass-text-secondary": status === "pending",
-                  }
+                  status === "current" || status === "completed"
+                    ? "glass-text-primary"
+                    : "glass-text-secondary"
                 )}
               >
                 {stepLabel}

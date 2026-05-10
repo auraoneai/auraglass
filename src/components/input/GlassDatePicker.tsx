@@ -444,7 +444,10 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
       <div
         data-glass-component
         ref={containerRef}
-        className={cn("glass-datepicker relative", className)}
+        className={cn(
+          "glass-datepicker glass-relative glass-w-full glass-min-w-0",
+          className
+        )}
         data-testid={dataTestId}
         {...props}
       >
@@ -467,13 +470,13 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
             rightIcon={
               <GlassButton
                 type="button"
-                className='glass-p-1 glass-radius-md hover:glass-surface-subtle glass-transition-colors'
+                className="glass-p-1 glass-radius-md hover:glass-surface-subtle glass-transition-colors"
                 onClick={(e) => setIsOpen(!isOpen)}
                 disabled={disabled}
                 aria-label="Open calendar"
               >
                 <svg
-                  className='glass-w-4 glass-h-4'
+                  className="glass-w-4 glass-h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -500,10 +503,10 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
         {/* Calendar Popup */}
         {isOpen && (
-          <Motion className='glass-absolute glass-top-full glass-left-0 glass-z-50 glass-mt-2'>
-            <Glass className='glass-w-80 glass-border glass-border-glass-border/20 glass-p-4 glass-radius-lg'>
+          <Motion className="glass-absolute glass-top-full glass-left-0 glass-z-50 glass-mt-2">
+            <Glass className="glass-w-80 glass-border glass-border-white/20 glass-p-4 glass-radius-lg">
               {/* Calendar Header */}
-              <div className='glass-flex glass-items-center glass-justify-between glass-mb-4'>
+              <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
                 <IconButton
                   icon="‹"
                   variant="ghost"
@@ -524,7 +527,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                         )
                       )
                     }
-                    className='glass-bg-transparent glass-border glass-border-glass-border/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus-ring-2 glass-focus-ring-primary/20'
+                    className="glass-bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus-ring-2 glass-focus-ring-primary/20"
                   >
                     {monthNames.map((month, index) => (
                       <option key={month} value={index}>
@@ -544,7 +547,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                         )
                       )
                     }
-                    className='glass-bg-transparent glass-border glass-border-glass-border/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus-ring-2 glass-focus-ring-primary/20'
+                    className="glass-bg-transparent glass-border glass-border-white/20 glass-radius-md glass-px-2 glass-py-1 glass-text-sm glass-focus-ring-2 glass-focus-ring-primary/20"
                   >
                     {Array.from({ length: 201 }, (_, i) => 1900 + i).map(
                       (year: any) => (
@@ -566,16 +569,16 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
               </div>
 
               {/* Day Headers */}
-              <div className='glass-grid glass-grid-cols-7 glass-gap-1 glass-mb-2'>
+              <div className="glass-grid glass-grid-cols-7 glass-gap-1 glass-mb-2">
                 {showWeekNumbers && (
-                  <div className='glass-text-xs glass-text-secondary glass-p-2 glass-text-center'>
+                  <div className="glass-text-xs glass-text-secondary glass-p-2 glass-text-center">
                     Wk
                   </div>
                 )}
                 {dayNames.map((day: any) => (
                   <div
                     key={day}
-                    className='glass-text-xs glass-text-secondary glass-p-2 glass-text-center glass-font-medium'
+                    className="glass-text-xs glass-text-secondary glass-p-2 glass-text-center glass-font-medium"
                   >
                     {day}
                   </div>
@@ -587,7 +590,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                 {Array.from({ length: 6 }, (_, weekIndex) => (
                   <React.Fragment key={weekIndex}>
                     {showWeekNumbers && (
-                      <div className='glass-text-xs glass-text-secondary glass-p-2 glass-text-center'>
+                      <div className="glass-text-xs glass-text-secondary glass-p-2 glass-text-center">
                         {/* Week number calculation would go here */}
                         {weekIndex + 1}
                       </div>
@@ -608,15 +611,13 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                             key={date.toISOString()}
                             type="button"
                             className={cn(
-                              "glass-p-2 glass-text-sm glass-radius-md transition-colors relative",
-                              "hover:bg-muted/20 focus:bg-muted/20 focus:outline-none focus:ring-2 focus:ring-primary/20",
+                              "glass-p-2 glass-text-sm glass-radius-md glass-relative glass-text-primary glass-focus",
                               {
                                 "glass-text-secondary": !isCurrentMonth,
-                                "bg-primary text-primary-foreground":
-                                  isSelected,
-                                "bg-primary/20": isInRange,
-                                "opacity-50 cursor-not-allowed": isDisabled,
-                                "font-bold": isToday,
+                                "glass-surface-primary": isSelected,
+                                "glass-surface-subtle/20": isInRange,
+                                "glass-opacity-50": isDisabled,
+                                "glass-font-bold": isToday,
                               }
                             )}
                             onClick={(e) => handleDateSelect(date)}
@@ -627,7 +628,10 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
                               ? renderDate(date, isSelected, isDisabled)
                               : date.getDate()}
                             {isToday && !isSelected && (
-                              <div className='glass-absolute glass-bottom-1 glass--left-1-2 glass-transform glass--translate-x-1-2 glass-w-1 glass-h-1 glass-surface-primary glass-radius-full' />
+                              <div
+                                className="glass-absolute glass-bottom-1 glass-left-1-2 glass-w-1 glass-h-1 glass-surface-primary glass-radius-full"
+                                style={{ transform: "translateX(-50%)" }}
+                              />
                             )}
                           </GlassButton>
                         );
@@ -638,7 +642,7 @@ export const GlassDatePicker = forwardRef<HTMLDivElement, GlassDatePickerProps>(
 
               {/* Footer Actions */}
               {(showTodayButton || showClearButton) && (
-                <div className='glass-flex glass-items-center glass-justify-between glass-mt-4 glass-pt-4 glass-border-t glass-border-glass-border/20'>
+                <div className="glass-flex glass-items-center glass-justify-between glass-mt-4 glass-pt-4 glass-border-t glass-border-white/20">
                   {showTodayButton && (
                     <GlassButton
                       variant="ghost"

@@ -3,5 +3,6 @@
 exports[`GlassGrid matches snapshot 1`] = `
 <div
   class="grid grid-cols-12 glass-gap-4 grid-flow-row items-stretch justify-start motion-safe:transition-all motion-reduce:transition-none"
+  style="display: grid; grid-auto-flow: row; align-items: stretch; justify-content: flex-start; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--glass-space-4, 1rem); row-gap: var(--glass-space-4, 1rem);"
 />
 `;

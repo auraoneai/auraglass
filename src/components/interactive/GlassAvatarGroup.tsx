@@ -54,7 +54,10 @@ export const GlassAvatarGroup = forwardRef<
         data-glass-component
         ref={ref}
         id={componentId}
-        className={cn("flex items-center", className)}
+        className={cn(
+          "glass-flex glass-items-center glass-justify-center glass-min-w-0",
+          className
+        )}
         role="group"
         aria-label={ariaLabel || defaultAriaLabel}
         {...props}
@@ -74,6 +77,7 @@ export const GlassAvatarGroup = forwardRef<
                 width={s}
                 height={s}
                 className="glass-radius-full glass-object-cover glass-border glass-border-white/20"
+                style={{ display: "block" }}
               />
             ) : (
               <div
@@ -81,7 +85,7 @@ export const GlassAvatarGroup = forwardRef<
                 style={{ width: s, height: s }}
               >
                 <span
-                  className="glass-text-xs glass-text-primary-glass-opacity-80"
+                  className="glass-text-xs glass-text-primary"
                   aria-hidden="true"
                 >
                   {u.name.charAt(0)}
@@ -114,7 +118,7 @@ export const GlassAvatarGroup = forwardRef<
             aria-label={`${rest} more users`}
           >
             <span
-              className="glass-text-xs glass-text-primary-glass-opacity-80"
+              className="glass-text-xs glass-text-primary"
               aria-hidden="true"
             >
               +{rest}

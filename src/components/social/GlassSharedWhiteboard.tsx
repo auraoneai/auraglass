@@ -458,10 +458,8 @@ export const GlassSharedWhiteboard = forwardRef<
           />
         </svg>
         <div
-          className={`
-          mt-2 px-2 py-1 text-xs font-medium text-white rounded
-          ${createGlassStyle({ variant: "default" })}
-        `}
+          className="glass-mt-2 glass-px-2 glass-py-1 glass-text-xs glass-font-medium glass-text-primary glass-radius"
+          style={createGlassStyle({ variant: "default", radius: "sm" })}
         >
           {user.name}
         </div>
@@ -472,17 +470,15 @@ export const GlassSharedWhiteboard = forwardRef<
       <OptimizedGlass
         ref={ref}
         intensity="subtle"
-        className={`relative ${className}`}
+        className={cn("glass-relative", className)}
         {...props}
       >
         <div className="glass-flex glass-flex-col glass-space-y-4">
           {/* Toolbar */}
           {showToolbar && !readOnly && (
             <div
-              className={`
-              flex items-center justify-between p-3 rounded-lg glass-flex-wrap glass-gap-3
-              ${createGlassStyle({ variant: "default" })}
-            `}
+              className="glass-flex glass-items-center glass-justify-between glass-p-3 glass-radius-lg glass-flex-wrap glass-gap-3"
+              style={createGlassStyle({ variant: "default", radius: "lg" })}
             >
               <div className="glass-flex glass-items-center glass-flex-wrap glass-gap-3">
                 {/* Tools */}
@@ -491,14 +487,12 @@ export const GlassSharedWhiteboard = forwardRef<
                     <button
                       key={tool.id}
                       onClick={() => setSelectedTool(tool.id)}
-                      className={`
-                        p-2 rounded text-sm font-medium transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        ${
-                          selectedTool === tool.id
-                            ? "bg-white/20 text-white"
-                            : "text-white/70 hover:text-white hover:bg-white/10"
-                        }
-                      `}
+                      className={cn(
+                        "glass-p-2 glass-radius glass-text-sm glass-font-medium glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                        selectedTool === tool.id
+                          ? "glass-surface-subtle/20 glass-text-primary"
+                          : "glass-text-secondary"
+                      )}
                       title={tool.name}
                     >
                       {tool.icon}
@@ -512,15 +506,17 @@ export const GlassSharedWhiteboard = forwardRef<
                     <button
                       key={`${color}-${i}`}
                       onClick={() => setSelectedColor(color)}
-                      className={`
-                        w-6 h-6 rounded border-2 transition-transform duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        ${
-                          selectedColor === color
-                            ? "border-white scale-110"
-                            : "border-white/30 glass-hover-scale-105"
-                        }
-                      `}
-                      style={{ backgroundColor: color }}
+                      className={cn(
+                        "glass-w-6 glass-h-6 glass-radius glass-border-2 glass-transition-transform glass-focus glass-touch-target glass-contrast-guard",
+                        selectedColor === color
+                          ? "glass-border-white"
+                          : "glass-border-white/30"
+                      )}
+                      style={{
+                        backgroundColor: color,
+                        transform:
+                          selectedColor === color ? "scale(1.1)" : undefined,
+                      }}
                       aria-label={`Select color ${color}`}
                     />
                   ))}
@@ -532,14 +528,12 @@ export const GlassSharedWhiteboard = forwardRef<
                     <button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`
-                        w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 glass-focus glass-touch-target glass-contrast-guard
-                        ${
-                          selectedSize === size
-                            ? "bg-white/20 text-white"
-                            : "text-white/70 hover:text-white hover:bg-white/10"
-                        }
-                      `}
+                      className={cn(
+                        "glass-w-8 glass-h-8 glass-radius glass-flex glass-items-center glass-justify-center glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                        selectedSize === size
+                          ? "glass-surface-subtle/20 glass-text-primary"
+                          : "glass-text-secondary"
+                      )}
                       aria-label={`Select brush size ${size}px`}
                     >
                       <div
@@ -584,17 +578,23 @@ export const GlassSharedWhiteboard = forwardRef<
             </div>
           )}
 
-          <div className="glass-flex glass-space-x-4">
+          <div className="glass-flex glass-flex-wrap glass-gap-4">
             {/* Whiteboard Canvas */}
-            <div className="glass-relative glass-flex-1">
+            <div className="glass-relative glass-flex-1 glass-min-w-0">
               <canvas
                 ref={canvasRef}
                 width={width}
                 height={height}
-                className={`
-                  border border-white/20 rounded-lg cursor-crosshair
-                  ${readOnly ? "cursor-not-allowed" : ""}
-                `}
+                className={cn(
+                  "glass-border glass-border-white/20 glass-radius-lg glass-cursor-crosshair",
+                  readOnly && "glass-cursor-not-allowed"
+                )}
+                style={{
+                  width: "100%",
+                  maxWidth: width,
+                  height: "auto",
+                  display: "block",
+                }}
                 onMouseDown={startDrawing}
                 onMouseMove={draw}
                 onMouseUp={stopDrawing}
@@ -627,10 +627,8 @@ export const GlassSharedWhiteboard = forwardRef<
             {/* User List */}
             {showUserList && (
               <div
-                className={`
-                w-48 p-3 rounded-lg space-y-2
-                ${createGlassStyle({ variant: "default" })}
-              `}
+                className="glass-w-48 glass-p-3 glass-radius-lg glass-space-y-2"
+                style={createGlassStyle({ variant: "default", radius: "lg" })}
               >
                 <h3 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-90 glass-mb-3">
                   Active Users ({simulatedUsers.length})
@@ -665,7 +663,7 @@ export const GlassSharedWhiteboard = forwardRef<
               <span>{localStrokes.length} strokes</span>
               {realTimeSync && (
                 <span className="glass-flex glass-items-center glass-space-x-1">
-                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
+                  <div className="glass-w-2 glass-h-2 glass-surface-success glass-radius-full glass-animate-pulse" />
                   <span>Synced</span>
                 </span>
               )}

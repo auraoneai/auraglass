@@ -30,8 +30,7 @@ export interface GlassNotification {
   persistent?: boolean;
 }
 
-export interface GlassNotificationCenterProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassNotificationCenterProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Position of the notification center */
   position?:
     | "top-right"
@@ -161,26 +160,26 @@ export const GlassNotificationCenter = forwardRef<
         case "success":
           return {
             icon: "✓",
-            bgClass: "border-green-500/20 bg-green-500/10",
+            bgClass: "glass-border-green-500/20 bg-green-500/10",
             iconClass: "text-green-400",
           };
         case "error":
           return {
             icon: "✕",
-            bgClass: "border-red-500/20 bg-red-500/10",
+            bgClass: "glass-border-red-500/20 bg-red-500/10",
             iconClass: "text-red-400",
           };
         case "warning":
           return {
             icon: "⚠",
-            bgClass: "border-yellow-500/20 bg-yellow-500/10",
+            bgClass: "glass-border-yellow-500/20 bg-yellow-500/10",
             iconClass: "text-yellow-400",
           };
         case "info":
         default:
           return {
             icon: "ℹ",
-            bgClass: "border-blue-500/20 bg-blue-500/10",
+            bgClass: "glass-border-blue-500/20 bg-blue-500/10",
             iconClass: "text-blue-400",
           };
       }
@@ -261,20 +260,20 @@ export const GlassNotificationCenter = forwardRef<
                 animation="none"
                 performanceMode="medium"
                 className={cn(
-                  "min-w-80 max-w-sm glass-p-4 glass-radius-lg border glass-backdrop-blur-md",
+                  "min-w-80 max-w-sm glass-p-4 glass-radius-lg glass-border glass-backdrop-blur-md",
                   typeStyles.bgClass
                 )}
               >
                 <div className="glass-flex glass-items-start glass-gap-3">
                   {/* Icon */}
                   <div
-                    className={`flex-shrink-0 w-6 h-6 glass-radius-full flex items-center justify-center glass-text-sm font-bold ${typeStyles.iconClass}`}
+                    className={`glass-flex-shrink-0 glass-w-6 glass-h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-sm glass-font-bold ${typeStyles.iconClass}`}
                   >
                     {typeStyles.icon}
                   </div>
 
                   {/* Content */}
-                  <div className="glass-flex-1 glass-min-glass-w-0">
+                  <div className="glass-flex-1 glass-min-w-0">
                     <ContrastGuard>
                       <h4 className="glass-text-sm glass-font-semibold glass-text-primary">
                         {notification.title}
@@ -335,8 +334,7 @@ GlassNotificationCenter.displayName = "GlassNotificationCenter";
 /**
  * Helper component for creating individual notifications
  */
-export interface GlassNotificationItemProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassNotificationItemProps extends React.HTMLAttributes<HTMLDivElement> {
   notification: GlassNotification;
   onClose: () => void;
 }
@@ -358,7 +356,7 @@ export const GlassNotificationItem = forwardRef<
       animation="none"
       performanceMode="medium"
       className={cn(
-        "glass-p-4 glass-radius-lg border",
+        "glass-p-4 glass-radius-lg glass-border",
         typeStyles.bgClass,
         className
       )}
@@ -366,7 +364,7 @@ export const GlassNotificationItem = forwardRef<
     >
       <div className="glass-flex glass-items-start glass-gap-3">
         <div
-          className={`w-6 h-6 glass-radius-full flex items-center justify-center glass-text-sm ${typeStyles.iconClass}`}
+          className={`glass-w-6 glass-h-6 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-sm ${typeStyles.iconClass}`}
         >
           {typeStyles.icon}
         </div>
@@ -401,26 +399,26 @@ const getTypeStyles = (type: NotificationType) => {
     case "success":
       return {
         icon: "✓",
-        bgClass: "border-green-500/20 bg-green-500/10",
+        bgClass: "glass-border-green-500/20 bg-green-500/10",
         iconClass: "text-green-400",
       };
     case "error":
       return {
         icon: "✕",
-        bgClass: "border-red-500/20 bg-red-500/10",
+        bgClass: "glass-border-red-500/20 bg-red-500/10",
         iconClass: "text-red-400",
       };
     case "warning":
       return {
         icon: "⚠",
-        bgClass: "border-yellow-500/20 bg-yellow-500/10",
+        bgClass: "glass-border-yellow-500/20 bg-yellow-500/10",
         iconClass: "text-yellow-400",
       };
     case "info":
     default:
       return {
         icon: "ℹ",
-        bgClass: "border-blue-500/20 bg-blue-500/10",
+        bgClass: "glass-border-blue-500/20 bg-blue-500/10",
         iconClass: "text-blue-400",
       };
   }

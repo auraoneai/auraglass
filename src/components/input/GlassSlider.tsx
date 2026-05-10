@@ -12,11 +12,10 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassSliderProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    "onChange" | "defaultValue"
-  > {
+export interface GlassSliderProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "onChange" | "defaultValue"
+> {
   /** Current value(s) of the slider */
   value?: number | number[];
   /** Default value(s) (uncontrolled) */
@@ -174,50 +173,50 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
 
     const sizeConfig = {
       sm: {
-        track: orientation === "horizontal" ? "h-1.5" : "w-1.5",
-        thumb: "h-4 w-4",
+        track: orientation === "horizontal" ? "glass-h-1" : "glass-w-1",
+        thumb: "glass-h-4 glass-w-4",
         label: "glass-text-xs",
-        tick: "h-1 w-px",
+        tick: "glass-h-1 glass-w-px",
       },
       md: {
-        track: orientation === "horizontal" ? "h-2" : "w-2",
-        thumb: "h-5 w-5",
+        track: orientation === "horizontal" ? "glass-h-2" : "glass-w-2",
+        thumb: "glass-h-5 glass-w-5",
         label: "glass-text-sm",
-        tick: "h-1.5 w-px",
+        tick: "glass-h-1 glass-w-px",
       },
       lg: {
-        track: orientation === "horizontal" ? "h-3" : "w-3",
-        thumb: "h-6 w-6",
+        track: orientation === "horizontal" ? "glass-h-3" : "glass-w-3",
+        thumb: "glass-h-6 glass-w-6",
         label: "glass-text-base",
-        tick: "h-2 w-px",
+        tick: "glass-h-2 glass-w-px",
       },
     };
 
     const variantConfig = {
       default: {
-        track: "bg-muted/50",
-        fill: "bg-primary",
-        thumb: "bg-white border-primary/20 shadow-lg",
+        track: "glass-surface-subtle",
+        fill: "glass-surface-primary",
+        thumb: "glass-border-primary glass-shadow-lg",
       },
       success: {
-        track: "bg-muted/50",
-        fill: "bg-green-500",
-        thumb: "bg-white border-green-400/20 shadow-lg",
+        track: "glass-surface-subtle",
+        fill: "glass-surface-success",
+        thumb: "glass-border-success glass-shadow-lg",
       },
       warning: {
-        track: "bg-muted/50",
-        fill: "bg-amber-500",
-        thumb: "bg-white border-amber-400/20 shadow-lg",
+        track: "glass-surface-subtle",
+        fill: "glass-surface-warning",
+        thumb: "glass-border-primary glass-shadow-lg",
       },
       error: {
-        track: "bg-muted/50",
-        fill: "bg-red-500",
-        thumb: "bg-white border-red-400/20 shadow-lg",
+        track: "glass-surface-subtle",
+        fill: "glass-surface-danger",
+        thumb: "glass-border-danger glass-shadow-lg",
       },
       info: {
-        track: "bg-muted/50",
-        fill: "bg-blue-500",
-        thumb: "bg-white border-blue-400/20 shadow-lg",
+        track: "glass-surface-subtle",
+        fill: "glass-surface-primary",
+        thumb: "glass-border-primary glass-shadow-lg",
       },
     };
 
@@ -416,24 +415,30 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             liftOnHover={!disabled}
             press
             className={cn(
-              "glass-slider-thumb absolute flex items-center justify-center",
-              "glass-radius-full cursor-grab transition-all duration-200 glass-focus",
-              "transform -translate-x-1/2 -translate-y-1/2",
+              "glass-slider-thumb glass-absolute glass-flex glass-items-center glass-justify-center",
+              "glass-radius-full glass-cursor-pointer glass-transition-all glass-duration-200 glass-focus",
+              colors.thumb,
 
               // Size
               config.thumb,
 
               // States
-              disabled && "opacity-50 cursor-not-allowed",
+              disabled && "glass-opacity-50",
               isDragging &&
                 dragIndex === index &&
-                (shouldAnimate && respectMotionPreference ? "scale-110" : "") +
-                  " cursor-grabbing",
+                (shouldAnimate && respectMotionPreference
+                  ? "glass-scale-110"
+                  : ""),
 
               // Position
-              orientation === "horizontal" ? "top-1/2" : "left-1/2"
+              orientation === "horizontal" ? "glass-top-1-2" : "glass-left-1-2"
             )}
-            style={{ ...position }}
+            style={{
+              ...position,
+              transform: "translate(-50%, -50%)",
+              background:
+                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+            }}
             onPointerDown={(e: React.PointerEvent) =>
               handlePointerDown(e, index)
             }
@@ -463,11 +468,13 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             {showValue && (
               <div
                 className={cn(
-                  "absolute whitespace-nowrap glass-px-2 glass-py-1 glass-radius-md",
-                  "bg-background/80 border border-border/20",
-                  "text-foreground font-medium glass-backdrop-blur-md",
+                  "glass-absolute glass-whitespace-nowrap glass-px-2 glass-py-1 glass-radius-md",
+                  "glass-surface-subtle glass-border glass-border-white/20",
+                  "glass-text-primary glass-font-medium glass-backdrop-blur-md",
                   config.label,
-                  orientation === "horizontal" ? "-top-10" : "-left-16"
+                  orientation === "horizontal"
+                    ? "glass-slider-value-top"
+                    : "glass-slider-value-left"
                 )}
               >
                 {formatValue(val)}
@@ -495,10 +502,10 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             id={labelId}
             htmlFor={finalId}
             className={cn(
-              "glass-slider-label block font-medium text-foreground glass-mb-2",
+              "glass-slider-label glass-block glass-font-medium glass-text-primary glass-mb-2",
               config.label,
               required &&
-                'after:content-["*"] after:glass-ml-1 after:text-destructive'
+                'after:content-["*"] after:glass-ml-1 after:glass-text-danger'
             )}
           >
             {label}
@@ -509,10 +516,12 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
         <div
           id={finalId}
           className={cn(
-            "glass-slider relative flex items-center",
-            orientation === "horizontal" ? "w-full h-6" : "h-32 w-6",
-            disabled && "opacity-50",
-            error && "ring-2 ring-destructive/50 glass-radius-lg"
+            "glass-slider glass-relative glass-flex glass-items-center",
+            orientation === "horizontal"
+              ? "glass-w-full glass-h-6"
+              : "glass-h-32 glass-w-6",
+            disabled && "glass-opacity-50",
+            error && "glass-ring-2 glass-ring-danger glass-radius-lg"
           )}
           {...a11yProps}
           role={isRange ? undefined : "group"}
@@ -521,11 +530,11 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
           <div
             ref={trackRef}
             className={cn(
-              "glass-slider-track relative glass-backdrop-blur-md glass-radius-full border border-border/20",
-              orientation === "horizontal" ? "w-full" : "h-full",
+              "glass-slider-track glass-relative glass-backdrop-blur-md glass-radius-full glass-border glass-border-white/20",
+              orientation === "horizontal" ? "glass-w-full" : "glass-h-full",
               config.track,
               colors.track,
-              "cursor-pointer"
+              "glass-cursor-pointer"
             )}
             onPointerDown={handleTrackClick}
           >
@@ -543,20 +552,20 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
                     <div
                       key={index}
                       className={cn(
-                        "absolute bg-foreground/30",
+                        "glass-absolute glass-surface-subtle",
                         orientation === "horizontal"
-                          ? cn(
-                              config.tick,
-                              "top-1/2 transform -translate-y-1/2"
-                            )
+                          ? cn(config.tick, "glass-top-1-2")
                           : cn(
                               config.tick
-                                .replace("h-", "w-")
-                                .replace("w-px", "h-px"),
-                              "left-1/2 transform -translate-x-1/2"
+                                .replace("glass-h-", "glass-w-")
+                                .replace("glass-w-px", "glass-h-px"),
+                              "glass-left-1-2"
                             )
                       )}
-                      style={{ ...position }}
+                      style={{
+                        ...position,
+                        transform: "translate(-50%, -50%)",
+                      }}
                     />
                   );
                 })}
@@ -566,11 +575,13 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
             {/* Fill */}
             <div
               className={cn(
-                "glass-slider-fill absolute glass-radius-full transition-all duration-150",
-                orientation === "horizontal" ? "h-full top-0" : "w-full left-0",
+                "glass-slider-fill glass-absolute glass-radius-full",
+                orientation === "horizontal"
+                  ? "glass-h-full glass-top-0"
+                  : "glass-w-full glass-left-0",
                 colors.fill
               )}
-              style={{ ...getFillStyle() }}
+              style={{ ...getFillStyle(), transition: "all 150ms ease" }}
             >
               {/* Sheen sweep */}
               <div className="glass-absolute glass-inset-0 glass-sheen" />
@@ -616,7 +627,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
         {showValue && (
           <div
             className={cn(
-              "flex justify-between glass-mt-2",
+              "glass-flex glass-justify-between glass-mt-2",
               config.label,
               "glass-text-secondary"
             )}
