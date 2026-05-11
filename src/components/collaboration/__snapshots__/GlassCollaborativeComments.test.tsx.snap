@@ -79,9 +79,9 @@ exports[`GlassCollaborativeComments matches snapshot 1`] = `
               class="glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
             >
               Show
-
+               
               1
-
+               
               replies
             </button>
           </div>

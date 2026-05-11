@@ -1,4 +1,4 @@
-# AuraGlass 3.0.4
+# AuraGlass 3.0.5
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -9,9 +9,9 @@
 
 **React Liquid Glass and glassmorphism UI components for Next.js, SaaS dashboards, AI products, media apps, and premium web interfaces.**
 
-AuraGlass 3.0.4 is the visual and runtime hardening patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
+AuraGlass 3.0.5 is the visual and runtime hardening patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
 
-The 3.0 line is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes npm provenance publishing, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
+The 3.0 line is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes the npm release pipeline, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
 
 ```bash
 npm install aura-glass
@@ -32,15 +32,20 @@ import 'aura-glass/styles';
 | Accessible glassmorphism UI | ContrastGuard metadata, focus-management coverage, reduced-motion support |
 | AI and media products | AI surfaces, command palettes, search, media controls, 3D/AR and immersive entrypoints |
 
-## What Is New In 3.0.4
+## What Is New In 3.0.5
 
-- **Catalog-scale component hardening:** the package was repacked into the AuraGlass website and walked across all 15 `/components` pages: 260 rendered cards, 0 preview boundary catches, and the remaining repeated console issues traced to website preview/shell code rather than package crashes.
+- **Catalog-scale component hardening:** the package was repacked into the AuraGlass website and walked across all 15 `/components` pages at `http://localhost:3023/components`: 260 rendered cards, 0 console/page errors, 0 preview boundary catches, 0 unavailable previews, and 0 empty/no-data preview hits.
 - **Core visual token repair:** neutral glass surfaces were retuned back to dark translucent glass instead of gray/white slab output, removing the broad white-outline and washed-panel regressions that affected component previews.
 - **Compact rendering fixes:** full-page and app-scale components now adapt when embedded in small surfaces, including `GlassPrismComparison`, `GlassAdvancedVideoPlayer`, `GlassImageViewer`, and `GlassIntelligentFormBuilder`.
-- **Data and input polish:** data grids, data tables, charts, tree views, accordions, avatars, badges, radio groups, steppers, JSON/heatmap/skeleton/metric components, and related dense controls were corrected for dark-theme contrast, spacing, overflow, and default preview content.
+- **Data and input polish:** data grids, data tables, charts, tree views, accordions, avatars, badges, radio groups, steppers, JSON/heatmap/skeleton/metric components, and related dense controls were corrected for dark-theme contrast, spacing, overflow, tokenized glass backgrounds, and default preview content.
 - **Motion, particle, and GPU fallback cleanup:** `GlassParticles`, `GlassParticleField`, `DimensionalGlass`, and `GlassWebGLShader` now render meaningful dark, contained defaults with safe CSS/canvas fallback behavior.
 - **Media containment:** advanced media controls now collapse appropriately inside narrow containers instead of bleeding out of preview frames, while normal-size players keep the richer control set.
-- **Release gates:** `npm run glass:full-check` passes for typecheck, lint with warnings only, token/style audits, glass pipeline validation, contrast tests, export tests, and package type fixtures.
+- **Release gates:** `npm run release:dry-run` passes the package quality path through typecheck, lint with warnings only, token/style audits, glass pipeline validation, contrast tests, export tests, package type fixtures, 404 Jest suites, 2161 tests, 339 snapshots, pack verification, and React 18/19 Next.js smoke tests.
+
+## What Was Hardened In 3.0.4
+
+- **Preview-scale visual repair:** retuned the first pass of dark surface, compact rendering, media containment, data-display, and particle/GPU fallback fixes that exposed the remaining tokenization and snapshot gaps fixed in 3.0.5.
+- **Website evidence loop:** used the paginated AuraGlass website component grid as the release QA surface instead of relying only on isolated unit tests.
 
 ## What Was Hardened In 3.0.3
 

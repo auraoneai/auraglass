@@ -68,6 +68,7 @@ interface CollaborativeGlassWorkspaceProps {
   showOnlineUsers?: boolean;
   showCursors?: boolean;
   enableAdvancedEffects?: boolean;
+  compact?: boolean;
 
   // Canvas configuration
   canvasWidth?: number;
@@ -155,7 +156,8 @@ export interface GlassTeamCursorsProps {
   glassLevel?: CursorGlassLevel;
 }
 
-export interface GlassTeamCursorsWithEffectsProps extends GlassTeamCursorsProps {
+export interface GlassTeamCursorsWithEffectsProps
+  extends GlassTeamCursorsProps {
   enableRippleEffect?: boolean;
   enableGlowEffect?: boolean;
 }
@@ -207,6 +209,7 @@ function WorkspaceContent({
   showOnlineUsers = true,
   showCursors = true,
   enableAdvancedEffects = true,
+  compact = false,
   canvasWidth = 1200,
   canvasHeight = 800,
   gridSize = 20,
@@ -313,8 +316,8 @@ function WorkspaceContent({
   const [selectedElementId, setSelectedElementId] = useState<string | null>(
     null
   );
-  const [showSidebar, setShowSidebar] = useState(true);
-  const [showToolbar, setShowToolbar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(!compact);
+  const [showToolbar, setShowToolbar] = useState(!compact);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showVoicePanel, setShowVoicePanel] = useState(false);
   const [showVersionPanel, setShowVersionPanel] = useState(false);
@@ -390,7 +393,8 @@ function WorkspaceContent({
   return (
     <div
       className={cn(
-        "glass-collaborative-workspace workspace-glass-shell glass-h-screen glass-flex glass-flex-col glass-surface-overlay",
+        "glass-collaborative-workspace workspace-glass-shell glass-relative glass-flex glass-flex-col glass-surface-overlay",
+        compact ? "glass-h-full glass-min-h-0" : "glass-h-screen",
         className
       )}
       role="main"
@@ -573,19 +577,24 @@ function WorkspaceContent({
             )}
 
             {/* Editor Section */}
-            <div
-              className={cn(layoutConfig.editorSize, "glass-min-w-0 glass-p-4")}
-            >
-              <MultiUserGlassEditor
-                target={selectedElementId || "global"}
-                showPreview={true}
-                showHistory={enableVersionControl}
-                showComments={enableComments}
-                enableRealTimeSync={enableRealTimeSync}
-                layout="vertical"
-                className="glass-h-full"
-              />
-            </div>
+            {!compact && (
+              <div
+                className={cn(
+                  layoutConfig.editorSize,
+                  "glass-min-w-0 glass-p-4"
+                )}
+              >
+                <MultiUserGlassEditor
+                  target={selectedElementId || "global"}
+                  showPreview={true}
+                  showHistory={enableVersionControl}
+                  showComments={enableComments}
+                  enableRealTimeSync={enableRealTimeSync}
+                  layout="vertical"
+                  className="glass-h-full"
+                />
+              </div>
+            )}
 
             {/* Canvas Section (if not first) */}
             {!layoutConfig.canvasFirst && (
@@ -1165,7 +1174,58 @@ export function GlassTeamCursors({
   cursorSize,
   glassLevel,
 }: GlassTeamCursorsProps) {
-  return null; // Mock component
+  const size = cursorSize === "lg" ? 18 : cursorSize === "sm" ? 12 : 15;
+  const users = [
+    { id: "aurora", name: "Aurora", color: "#38bdf8", x: "24%", y: "34%" },
+    { id: "lumen", name: "Lumen", color: "#c084fc", x: "58%", y: "48%" },
+    { id: "orbit", name: "Orbit", color: "#facc15", x: "72%", y: "26%" },
+  ];
+
+  return (
+    <div className="glass-pointer-events-none glass-absolute glass-inset-0 glass-z-30">
+      {users.map((user) => (
+        <div
+          key={user.id}
+          className="glass-absolute glass-flex glass-items-start glass-gap-1.5"
+          style={{ left: user.x, top: user.y }}
+        >
+          <svg
+            width={size}
+            height={Math.round(size * 1.32)}
+            viewBox="0 0 18 24"
+            aria-hidden="true"
+            style={{
+              color: user.color,
+              filter:
+                glassLevel === "high"
+                  ? `drop-shadow(0 0 12px ${user.color})`
+                  : `drop-shadow(0 4px 10px rgba(0,0,0,0.35))`,
+            }}
+          >
+            <path
+              d="M2 2L16 14.5L10.3 15.2L7.4 22L2 2Z"
+              fill="currentColor"
+              stroke="rgba(255,255,255,0.88)"
+              strokeWidth="1.4"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {showNames && (
+            <span
+              className="glass-radius-full glass-px-2 glass-py-0.5 glass-text-xs glass-font-medium glass-text-primary glass-shadow-lg glass-backdrop-blur-md"
+              style={{
+                ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+                border: `1px solid ${user.color}`,
+              }}
+            >
+              {user.name}
+              {showVoiceIndicators ? " mic" : ""}
+            </span>
+          )}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export function GlassTeamCursorsWithEffects({
@@ -1176,7 +1236,43 @@ export function GlassTeamCursorsWithEffects({
   enableRippleEffect,
   enableGlowEffect,
 }: GlassTeamCursorsWithEffectsProps) {
-  return null; // Mock component
+  return (
+    <>
+      {enableRippleEffect && (
+        <>
+          <span
+            className="glass-pointer-events-none glass-absolute glass-z-20 glass-radius-full"
+            style={{
+              left: "48%",
+              top: "52%",
+              width: 72,
+              height: 72,
+              border: "1px solid rgba(56,189,248,0.42)",
+              boxShadow: "0 0 38px rgba(56,189,248,0.16)",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          <span
+            className="glass-pointer-events-none glass-absolute glass-z-20 glass-radius-full"
+            style={{
+              left: "48%",
+              top: "52%",
+              width: 34,
+              height: 34,
+              border: "1px solid rgba(192,132,252,0.5)",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        </>
+      )}
+      <GlassTeamCursors
+        showNames={showNames}
+        showVoiceIndicators={showVoiceIndicators}
+        cursorSize={cursorSize}
+        glassLevel={enableGlowEffect ? "high" : glassLevel}
+      />
+    </>
+  );
 }
 
 function VoiceChatPanel({

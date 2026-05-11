@@ -78,6 +78,8 @@ function SpeedDialComponent(
     onClose,
     onActionClick,
     hideOnScroll = false,
+    positionStrategy = "fixed",
+    showBackdrop = true,
     position = { bottom: 16, right: 16 },
     size = "medium",
     color = "default",
@@ -224,11 +226,13 @@ function SpeedDialComponent(
   return (
     <>
       {/* Backdrop */}
-      <div
-        className={cn(styles.backdrop, open && styles.backdropVisible)}
-        onClick={handleBackdropClick}
-        aria-hidden="true"
-      />
+      {showBackdrop && (
+        <div
+          className={cn(styles.backdrop, open && styles.backdropVisible)}
+          onClick={handleBackdropClick}
+          aria-hidden="true"
+        />
+      )}
 
       {/* SpeedDial */}
       <div
@@ -239,7 +243,11 @@ function SpeedDialComponent(
           !visible && styles.hidden,
           className
         )}
-        style={{ ...resolvePositionStyle(position), ...(style ?? {}) }}
+        style={{
+          position: positionStrategy,
+          ...resolvePositionStyle(position),
+          ...(style ?? {}),
+        }}
         {...rest}
       >
         <div className={styles.container}>

@@ -7,23 +7,189 @@ exports[`GlassProductRecommendations matches snapshot 1`] = `
     style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <div
-      class="glass-text-center glass-py-12"
+      class="glass-flex glass-items-center glass-justify-between glass-mb-6"
+    >
+      <div>
+        <h2
+          class="glass-text-xl glass-font-semibold glass-text-secondary"
+        >
+          Recommended for You
+        </h2>
+      </div>
+    </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
     >
       <div
-        class="glass-text-4xl glass-mb-4"
+        class="glass-cursor-pointer"
+        data-glass-component="true"
       >
-        🤖
+        <div
+          class="glass-group glass-relative glass-surface-subtle glass-border glass-border-subtle glass-radius-lg glass-overflow-hidden hover:glass-shadow-lg glass-transition-all glass-duration-300"
+        >
+          <div
+            class="glass-relative glass-aspect-square glass-overflow-hidden"
+          >
+            <img
+              alt="Product 1"
+              class="glass-w-full glass-h-full glass-object-cover glass-group-glass-hover-scale-105 glass-transition-transform glass-duration-300"
+            />
+            <div
+              class="glass-absolute glass-top-2 glass-left-2 glass-flex glass-flex-col glass-gap-1"
+            />
+            <div
+              class="glass-absolute glass-top-2 glass-right-2"
+            >
+              <div
+                class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-800"
+              >
+                🎯
+              </div>
+            </div>
+            <div
+              class="absolute inset-0 bg-opacity-50 flex items-center justify-center gap-3 transition-opacity duration-300 opacity-0"
+            >
+              <button
+                class="glass-p-2 glass-surface-subtle glass-radius-full glass-text-secondary hover:glass-text-primary glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                title="Add to wishlist"
+              >
+                ♡
+              </button>
+              <button
+                class="glass-p-2 glass-surface-blue glass-text-primary glass-radius-full hover:glass-surface-blue glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                title="Add to cart"
+              >
+                🛒
+              </button>
+            </div>
+          </div>
+          <div
+            class="glass-p-4"
+          >
+            <h3
+              class="glass-font-medium glass-text-secondary glass-mb-2 glass-line-clamp-2"
+            >
+              Product 1
+            </h3>
+            <div
+              class="glass-flex glass-items-center glass-gap-1 glass-mb-3"
+            >
+              <div
+                class="glass-flex glass-text-primary"
+              >
+                <span
+                  class="text-gray-300"
+                >
+                  ★
+                </span>
+                <span
+                  class="text-gray-300"
+                >
+                  ★
+                </span>
+                <span
+                  class="text-gray-300"
+                >
+                  ★
+                </span>
+                <span
+                  class="text-gray-300"
+                >
+                  ★
+                </span>
+                <span
+                  class="text-gray-300"
+                >
+                  ★
+                </span>
+              </div>
+              <span
+                class="glass-text-sm glass-text-secondary"
+              >
+                (
+                0
+                )
+              </span>
+            </div>
+            <div
+              class="glass-flex glass-items-center glass-gap-2 glass-mb-3"
+            >
+              <span
+                class="glass-text-lg glass-font-semibold glass-text-secondary"
+              >
+                $
+                99.00
+              </span>
+            </div>
+            <p
+              class="glass-text-xs glass-text-secondary glass-mb-3"
+            >
+              Provided directly to the recommendations surface.
+            </p>
+            <div
+              class="glass-flex glass-items-center glass-gap-2"
+            >
+              <span
+                class="glass-text-xs glass-text-secondary"
+              >
+                Match:
+              </span>
+              <div
+                class="glass-flex-1 glass-surface-subtle glass-radius-full glass-h-1"
+              >
+                <div
+                  class="glass-surface-blue glass-h-1 glass-radius-full"
+                  style="width: 92%;"
+                />
+              </div>
+              <span
+                class="glass-text-xs glass-text-secondary"
+              >
+                92
+                %
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-      <h3
-        class="glass-text-lg glass-font-medium glass-text-secondary glass-mb-2"
+    </div>
+    <div
+      class="glass-mt-6 glass-p-4 glass-surface-subtle glass-radius-lg"
+    >
+      <div
+        class="glass-flex glass-items-start glass-gap-3"
       >
-        No recommendations available
-      </h3>
-      <p
-        class="glass-text-secondary"
-      >
-        We're still learning about your preferences. Check back later!
-      </p>
+        <div
+          class="glass-text-2xl"
+        >
+          🤖
+        </div>
+        <div>
+          <h3
+            class="glass-font-medium glass-text-primary glass-mb-1"
+          >
+            AI Insights
+          </h3>
+          <p
+            class="glass-text-sm glass-text-primary"
+          >
+            These recommendations are personalized based on your browsing history, purchase patterns, and preferences similar to users like you. Our AI analyzes 
+            1
+             factors to suggest the best products for you.
+          </p>
+          <div
+            class="glass-flex glass-flex-wrap glass-gap-2 glass-mt-3"
+          >
+            <span
+              class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-800"
+            >
+              🎯
+               
+              personalized
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

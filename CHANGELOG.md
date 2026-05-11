@@ -1,5 +1,22 @@
 # Changelog
 
+## [3.0.5] - 2026-05-10
+
+### Fixed
+
+- Published the final visual/runtime hardening train as `3.0.5` because npm already contains an immutable `aura-glass@3.0.4` tarball.
+- Routed the last direct inline glass background fixes through `createGlassStyle()` or token-based `color-mix(...)` expressions so release lint has 0 errors while preserving the compact visual repairs.
+- Updated inherited snapshots for tokenized data-table, virtual-table, heatmap, JSON/schema viewer, code editor, collaboration cursor label, kanban tag, tree-view, and prism-comparison surfaces.
+- Kept undefined ad hoc CSS variable names out of the package by replacing `*-soft` preview backgrounds with expressions based on existing glass color tokens.
+
+### Verification
+
+- `npm run lint:check` — 0 errors, 133 existing warnings.
+- `npm run release:dry-run` package gates passed through typecheck, lint, token/style audits, glass pipeline validation, contrast tests, token/export/type checks, build, pack verification, React 18 Next.js smoke, and React 19 Next.js smoke. The final dry-publish step confirmed `3.0.4` is already published and immutable, which is why this release is `3.0.5`.
+- Published `aura-glass@3.0.5` to npm with `latest`; local provenance was disabled for the publish command because npm automatic provenance generation is not supported outside a recognized CI provider.
+- `npm run test:coverage` — 404 suites, 2161 tests, 339 snapshots passed.
+- Website sweep evidence: `http://localhost:3023/components`, 15 pages, 260 rendered cards, 0 console/page errors, 0 preview boundary catches, 0 unavailable previews, 0 empty/no-data hits. Evidence is in `auraglasswebsite/reports/website-3.0.2-rebuild/current-full-sweep-3023g/`.
+
 ## [3.0.4] - 2026-05-10
 
 ### Fixed

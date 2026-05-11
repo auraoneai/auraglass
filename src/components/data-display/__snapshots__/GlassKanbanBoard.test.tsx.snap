@@ -6,16 +6,17 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-kanban-board glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20"
   id="glass-kanban-board-:r7:"
   role="region"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); color: rgba(248, 250, 252, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
 >
   <div
     class="motion-primitive glass-flex glass-flex-col glass-h-full"
   >
     <div
       class="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden"
+      style="overflow-x: auto; overflow-y: hidden; min-height: 0;"
     >
       <div
-        class="glass-flex glass-gap-6 glass-p-6 glass-h-full"
+        class="glass-flex glass-h-full glass-gap-6 glass-p-6"
         style="min-width: fit-content;"
       >
         <div
@@ -25,20 +26,23 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: To do"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px;"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
+              style="border-bottom: 1px solid rgba(255,255,255,0.08);"
             >
               <div
                 class="glass-flex glass-items-center glass-justify-between"
+                style="display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0;"
               >
                 <div
                   class="glass-flex glass-items-center glass-gap-2"
+                  style="display: flex; align-items: center; gap: 6px; min-width: 0;"
                 >
                   <div
                     class="glass-w-3 glass-h-3 glass-radius-full"
-                    style="background-color: rgb(56, 189, 248);"
+                    style="background-color: rgb(56, 189, 248); width: 12px; height: 12px; border-radius: 999px; flex: 0 0 auto;"
                   />
                   <span
                     class="contrast-guard"
@@ -47,6 +51,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   >
                     <h2
                       class="glass-font-semibold glass-text-primary"
+                      style="margin: 0px; min-width: 0; color: rgba(248, 250, 252, 0.96); font-size: 0.9rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                     >
                       To do
                     </h2>
@@ -79,6 +84,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             </div>
             <div
               class="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3"
+              style="display: grid; align-content: start; gap: 12px; overflow-y: auto; min-height: 0;"
             >
               <div
                 class="motion-primitive"
@@ -88,7 +94,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-yellow-500/30 bg-yellow-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div
@@ -96,9 +102,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   />
                   <div
                     class="glass-relative glass-gap-3"
+                    style="display: grid; min-width: 0;"
                   >
                     <h3
                       class="glass-font-semibold glass-text-primary line-clamp-2 glass-text-sm"
+                      style="margin: 0px; color: rgba(248, 250, 252, 0.96); overflow-wrap: anywhere;"
                     >
                       <span
                         class="contrast-guard"
@@ -121,9 +129,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                     </span>
                     <div
                       class="glass-flex glass-flex-wrap glass-gap-1"
+                      style="display: flex; flex-wrap: wrap;"
                     >
                       <span
                         class="glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full"
+                        style="max-width: 100%; border-radius: 999px; color: rgba(191, 232, 255, 0.92); line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                       >
                         <span
                           class="contrast-guard"
@@ -150,20 +160,23 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: Doing"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px;"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
+              style="border-bottom: 1px solid rgba(255,255,255,0.08);"
             >
               <div
                 class="glass-flex glass-items-center glass-justify-between"
+                style="display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0;"
               >
                 <div
                   class="glass-flex glass-items-center glass-gap-2"
+                  style="display: flex; align-items: center; gap: 6px; min-width: 0;"
                 >
                   <div
                     class="glass-w-3 glass-h-3 glass-radius-full"
-                    style="background-color: rgb(163, 230, 53);"
+                    style="background-color: rgb(163, 230, 53); width: 12px; height: 12px; border-radius: 999px; flex: 0 0 auto;"
                   />
                   <span
                     class="contrast-guard"
@@ -172,6 +185,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   >
                     <h2
                       class="glass-font-semibold glass-text-primary"
+                      style="margin: 0px; min-width: 0; color: rgba(248, 250, 252, 0.96); font-size: 0.9rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                     >
                       Doing
                     </h2>
@@ -204,6 +218,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             </div>
             <div
               class="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3"
+              style="display: grid; align-content: start; gap: 12px; overflow-y: auto; min-height: 0;"
             >
               <div
                 class="motion-primitive"
@@ -213,7 +228,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-orange-500/30 bg-orange-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div
@@ -221,9 +236,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   />
                   <div
                     class="glass-relative glass-gap-3"
+                    style="display: grid; min-width: 0;"
                   >
                     <h3
                       class="glass-font-semibold glass-text-primary line-clamp-2 glass-text-sm"
+                      style="margin: 0px; color: rgba(248, 250, 252, 0.96); overflow-wrap: anywhere;"
                     >
                       <span
                         class="contrast-guard"
@@ -246,9 +263,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                     </span>
                     <div
                       class="glass-flex glass-flex-wrap glass-gap-1"
+                      style="display: flex; flex-wrap: wrap;"
                     >
                       <span
                         class="glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full"
+                        style="max-width: 100%; border-radius: 999px; color: rgba(191, 232, 255, 0.92); line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                       >
                         <span
                           class="contrast-guard"
@@ -275,20 +294,23 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: Done"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px;"
+            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
+              style="border-bottom: 1px solid rgba(255,255,255,0.08);"
             >
               <div
                 class="glass-flex glass-items-center glass-justify-between"
+                style="display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0;"
               >
                 <div
                   class="glass-flex glass-items-center glass-gap-2"
+                  style="display: flex; align-items: center; gap: 6px; min-width: 0;"
                 >
                   <div
                     class="glass-w-3 glass-h-3 glass-radius-full"
-                    style="background-color: rgb(245, 158, 11);"
+                    style="background-color: rgb(245, 158, 11); width: 12px; height: 12px; border-radius: 999px; flex: 0 0 auto;"
                   />
                   <span
                     class="contrast-guard"
@@ -297,6 +319,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   >
                     <h2
                       class="glass-font-semibold glass-text-primary"
+                      style="margin: 0px; min-width: 0; color: rgba(248, 250, 252, 0.96); font-size: 0.9rem; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                     >
                       Done
                     </h2>
@@ -329,6 +352,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             </div>
             <div
               class="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3"
+              style="display: grid; align-content: start; gap: 12px; overflow-y: auto; min-height: 0;"
             >
               <div
                 class="motion-primitive"
@@ -338,7 +362,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-green-500/30 bg-green-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div
@@ -346,9 +370,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   />
                   <div
                     class="glass-relative glass-gap-3"
+                    style="display: grid; min-width: 0;"
                   >
                     <h3
                       class="glass-font-semibold glass-text-primary line-clamp-2 glass-text-sm"
+                      style="margin: 0px; color: rgba(248, 250, 252, 0.96); overflow-wrap: anywhere;"
                     >
                       <span
                         class="contrast-guard"
@@ -371,9 +397,11 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                     </span>
                     <div
                       class="glass-flex glass-flex-wrap glass-gap-1"
+                      style="display: flex; flex-wrap: wrap;"
                     >
                       <span
                         class="glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full"
+                        style="max-width: 100%; border-radius: 999px; color: rgba(191, 232, 255, 0.92); line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                       >
                         <span
                           class="contrast-guard"

@@ -10,7 +10,8 @@ import {
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassAvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+export interface GlassAvatarProps
+  extends React.ImgHTMLAttributes<HTMLImageElement> {
   /**
    * Avatar variant
    */
@@ -112,11 +113,33 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
       "2xl": "glass-w-20 glass-h-20 glass-text-2xl",
     };
 
+    const sizeStyles: Record<
+      NonNullable<GlassAvatarProps["size"]>,
+      React.CSSProperties
+    > = {
+      xs: { width: 24, height: 24, fontSize: 12 },
+      sm: { width: 32, height: 32, fontSize: 14 },
+      md: { width: 40, height: 40, fontSize: 16 },
+      lg: { width: 48, height: 48, fontSize: 18 },
+      xl: { width: 64, height: 64, fontSize: 20 },
+      "2xl": { width: 80, height: 80, fontSize: 24 },
+    };
+
     const variantClasses = {
       default: "glass-radius-md",
       circle: "glass-radius-full",
       square: "glass-radius-none",
       "glass-radius-md": "glass-radius-lg",
+    };
+
+    const variantStyles: Record<
+      NonNullable<GlassAvatarProps["variant"]>,
+      React.CSSProperties
+    > = {
+      default: { borderRadius: 10 },
+      circle: { borderRadius: 9999 },
+      square: { borderRadius: 0 },
+      "glass-radius-md": { borderRadius: 12 },
     };
 
     const statusColors = {
@@ -173,6 +196,13 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
       <div
         data-glass-component
         className={cn("glass-relative glass-inline-block", className)}
+        style={{
+          position: "relative",
+          display: "inline-block",
+          width: sizeStyles[size].width,
+          height: sizeStyles[size].height,
+          flex: "0 0 auto",
+        }}
         data-testid={dataTestId || "glassavatar"}
       >
         <OptimizedGlass
@@ -199,6 +229,16 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
             "glass-backdrop-blur-md bg-white/10 glass-border glass-border-white/20",
             className
           )}
+          style={{
+            ...sizeStyles[size],
+            ...variantStyles[variant],
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+            boxSizing: "border-box",
+          }}
           role="img"
           aria-label={
             ariaLabel ||
@@ -235,6 +275,15 @@ export const GlassAvatar = forwardRef<HTMLImageElement, GlassAvatarProps>(
               "glass-absolute bottom-0 right-0 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white",
               statusColors[status]
             )}
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              width: 12,
+              height: 12,
+              borderRadius: 999,
+              border: "2px solid rgba(15, 23, 42, 0.92)",
+            }}
             role="status"
             aria-label={`Status: ${status}`}
           />
@@ -269,9 +318,28 @@ export const GlassAvatarGroup: React.FC<GlassAvatarGroupProps> = ({
   return (
     <div
       className={cn("glass-flex glass-items-center", spacingClasses[spacing])}
+      style={{
+        display: "flex",
+        alignItems: "center",
+      }}
     >
       {childArray.slice(0, visibleCount).map((child, index) => (
-        <div key={index} className="glass-relative">
+        <div
+          key={index}
+          className="glass-relative"
+          style={{
+            position: "relative",
+            marginLeft:
+              index === 0
+                ? 0
+                : spacing === "tight"
+                  ? -4
+                  : spacing === "loose"
+                    ? -12
+                    : -8,
+            zIndex: visibleCount - index,
+          }}
+        >
           {React.cloneElement(child as React.ReactElement, {
             size,
             elevation: "level2",

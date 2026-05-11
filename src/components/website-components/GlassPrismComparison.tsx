@@ -8,6 +8,7 @@ import useAutoTextContrast from "../../hooks/useAutoTextContrast";
 import { ArrowRight, Zap, Target, Sparkles } from "lucide-react";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 // Deterministic seed-based random generator for consistent server/client rendering
 function seededRandom(seed: number) {
@@ -181,6 +182,143 @@ export function GlassPrismComparison({
             typeof rotateY === "number" ? rotateY : (rotateY?.get?.() ?? 0),
         }),
   } as React.CSSProperties;
+
+  if (isCompact) {
+    return (
+      <section
+        ref={sectionRef}
+        className={cn(
+          "glass-relative glass-overflow-hidden glass-radius-2xl glass-border glass-border-white/20 glass-contrast-guard",
+          className
+        )}
+        style={{
+          ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+          width: "100%",
+          minHeight: 220,
+          padding: 16,
+        }}
+        data-testid={dataTestId}
+        {...props}
+      >
+        <div
+          className="glass-relative glass-h-full glass-min-w-0"
+          style={{ display: "grid", gap: 14 }}
+        >
+          <div style={{ display: "grid", gap: 4 }}>
+            <div
+              style={{
+                fontSize: "0.68rem",
+                letterSpacing: "0.16em",
+                textTransform: "uppercase",
+                color: "rgba(124, 211, 255, 0.82)",
+              }}
+            >
+              Prism comparison
+            </div>
+            <div
+              style={{
+                fontSize: "1.2rem",
+                lineHeight: 1.05,
+                fontWeight: 800,
+                color: "rgba(248, 250, 252, 0.96)",
+              }}
+            >
+              {currentData.category}
+            </div>
+          </div>
+
+          <div
+            style={{
+              position: "relative",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              minHeight: 118,
+              overflow: "hidden",
+              borderRadius: 16,
+              border: "1px solid rgba(148, 163, 184, 0.22)",
+              background:
+                "color-mix(in srgb, var(--glass-surface) 68%, transparent)",
+            }}
+          >
+            <div
+              style={{
+                display: "grid",
+                alignContent: "center",
+                gap: 4,
+                padding: "0.8rem",
+                background:
+                  "color-mix(in srgb, var(--glass-text-primary) 8%, transparent)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "1.25rem",
+                  lineHeight: 1,
+                  fontWeight: 820,
+                  color: "rgba(203, 213, 225, 0.92)",
+                }}
+              >
+                {currentData.competitor.value}
+              </span>
+              <span
+                style={{
+                  fontSize: "0.68rem",
+                  color: "rgba(203, 213, 225, 0.66)",
+                  lineHeight: 1.35,
+                }}
+              >
+                {currentData.competitor.description}
+              </span>
+            </div>
+            <div
+              style={{
+                display: "grid",
+                alignContent: "center",
+                gap: 4,
+                padding: "0.8rem",
+                background:
+                  "linear-gradient(135deg, color-mix(in srgb, var(--glass-color-primary) 14%, transparent), color-mix(in srgb, var(--glass-color-secondary, var(--glass-color-primary)) 16%, transparent))",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "1.25rem",
+                  lineHeight: 1,
+                  fontWeight: 820,
+                  color: "rgba(125, 211, 252, 0.98)",
+                }}
+              >
+                {currentData.auraone.value}
+              </span>
+              <span
+                style={{
+                  fontSize: "0.68rem",
+                  color: "rgba(226, 232, 240, 0.78)",
+                  lineHeight: 1.35,
+                }}
+              >
+                {currentData.auraone.description}
+              </span>
+            </div>
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: "50%",
+                width: 2,
+                transform: "translateX(-50%)",
+                background:
+                  "linear-gradient(180deg, transparent, var(--glass-color-primary), var(--glass-color-secondary), transparent)",
+                boxShadow: "0 0 24px rgba(125, 211, 252, 0.6)",
+              }}
+            />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

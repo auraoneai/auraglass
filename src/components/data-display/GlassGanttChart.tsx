@@ -61,7 +61,8 @@ export interface GanttViewOptions {
   showResources?: boolean;
 }
 
-export interface GlassGanttChartProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassGanttChartProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Tasks data */
   tasks?: GanttTask[];
   /** Chart start date */
@@ -178,12 +179,15 @@ export const GlassGanttChart = forwardRef<HTMLDivElement, GlassGanttChartProps>(
           ? new Date(Math.max(...taskDates.map((d: any) => d.getTime())))
           : new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000));
 
-      // Add some padding
       const paddedStart = new Date(minDate);
-      paddedStart.setDate(paddedStart.getDate() - 7);
+      if (!startDate) {
+        paddedStart.setDate(paddedStart.getDate() - 7);
+      }
 
       const paddedEnd = new Date(maxDate);
-      paddedEnd.setDate(paddedEnd.getDate() + 7);
+      if (!endDate) {
+        paddedEnd.setDate(paddedEnd.getDate() + 7);
+      }
 
       return { start: paddedStart, end: paddedEnd };
     }, [tasks, startDate, endDate]);

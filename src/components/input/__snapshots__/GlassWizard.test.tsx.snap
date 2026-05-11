@@ -65,6 +65,7 @@ exports[`GlassWizard matches snapshot 1`] = `
         <nav
           aria-label="Wizard steps"
           class="glass-flex glass-items-center glass-gap-1 glass-mt-4 glass-overflow-x-auto glass-pb-1 glass-min-w-0"
+          style="overflow-x: auto;"
         />
       </div>
       <div

@@ -15,6 +15,7 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface HeatmapDataPoint {
   x: number;
@@ -49,7 +50,8 @@ export interface HeatmapAxis {
 
 type PreventableEvent = Pick<React.SyntheticEvent, "preventDefault">;
 
-export interface GlassHeatmapProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassHeatmapProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Heatmap data */
   data: HeatmapDataPoint[] | number[][];
   /** X-axis configuration */
@@ -101,18 +103,27 @@ export interface GlassHeatmapProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const heatmapSurfaceStyle: React.CSSProperties = {
-  background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
-  border: "1px solid rgba(148, 163, 184, 0.2)",
+  ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+  border: "1px solid rgba(148, 163, 184, 0.22)",
   boxShadow:
     "0 12px 30px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.07)",
+  color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
 };
 
 const heatmapInsetStyle: React.CSSProperties = {
-  background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
-  border: "1px solid rgba(148, 163, 184, 0.16)",
+  ...createGlassStyle({ intent: "neutral", elevation: "level1" }),
+  border: "1px solid rgba(148, 163, 184, 0.14)",
   boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+};
+
+const heatmapLegendStyle: React.CSSProperties = {
+  ...createGlassStyle({ intent: "neutral", elevation: "level3" }),
+  border: "1px solid rgba(124, 211, 255, 0.14)",
+  boxShadow:
+    "0 10px 24px rgba(2, 6, 23, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
+  color: "rgba(248, 250, 252, 0.9)",
+  maxWidth: "100%",
+  minWidth: 0,
 };
 
 export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
@@ -383,18 +394,11 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         const cellColor = getColor(cell.normalizedValue);
 
         return (
-          <OptimizedGlass
-            elevation="level1"
-            intensity="subtle"
-            depth={1}
-            tint="neutral"
-            border="subtle"
+          <button
+            type="button"
             className={cn(
-              "glass-heatmap-cell glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-medium transition-all",
-              "glass-cursor-pointer hover:scale-110 hover:z-10",
-              isSelected && "ring-2 ring-primary ring-offset-1",
-              isHovered && "shadow-lg scale-110 z-20",
-              showGrid && "glass-border glass-border-glass-border/20"
+              "glass-heatmap-cell glass-flex glass-items-center glass-justify-center glass-text-xs glass-font-medium",
+              "glass-cursor-pointer glass-border-0 glass-p-0"
             )}
             style={{
               backgroundColor: cellColor,
@@ -405,6 +409,17 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
               width: cellSize * internalZoomLevel,
               height: cellSize * internalZoomLevel,
               fontSize: `${Math.max(8, cellSize * internalZoomLevel * 0.4)}px`,
+              borderRadius: Math.max(4, cellSize * internalZoomLevel * 0.22),
+              border: showGrid
+                ? "1px solid rgba(15, 23, 42, 0.26)"
+                : "1px solid transparent",
+              boxShadow: isSelected
+                ? "0 0 0 2px rgba(124, 211, 255, 0.75), 0 8px 18px rgba(2, 6, 23, 0.2)"
+                : "inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+              transform: isHovered ? "scale(1.08)" : "scale(1)",
+              zIndex: isHovered ? 2 : 1,
+              transition:
+                "transform var(--glass-motion-duration-fast, 120ms) ease, box-shadow var(--glass-motion-duration-fast, 120ms) ease",
             }}
             onClick={(e: React.MouseEvent) => handleCellClick(cell, e)}
             onMouseEnter={(e: React.MouseEvent) => handleCellHover(cell, e)}
@@ -417,7 +432,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
                   : cell.value}
               </span>
             )}
-          </OptimizedGlass>
+          </button>
         );
       },
       [
@@ -488,18 +503,43 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           tint="neutral"
           border="subtle"
           className={cn(
-            "glass-heatmap-legend glass-p-3 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-white/10 glass-surface-dark/50",
+            "glass-heatmap-legend glass-p-3 glass-radius-lg glass-backdrop-blur-md glass-border",
             isHorizontal
-              ? "glass-flex glass-items-center glass-gap-3"
+              ? "glass-flex glass-flex-col glass-gap-2"
               : "glass-flex glass-flex-col glass-gap-3"
           )}
-          style={heatmapSurfaceStyle}
+          style={heatmapLegendStyle}
         >
-          <ContrastGuard>
-            <div className="glass-text-sm glass-font-medium glass-text-primary">
-              Legend
+          {isHorizontal && (
+            <div
+              className="glass-flex glass-items-center glass-justify-between glass-gap-2"
+              style={{ minWidth: 0 }}
+            >
+              <ContrastGuard>
+                <div
+                  className="glass-text-xs glass-font-medium"
+                  style={{
+                    color: "rgba(248, 250, 252, 0.82)",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  Legend
+                </div>
+              </ContrastGuard>
+              <ContrastGuard>
+                <div
+                  className="glass-text-xs"
+                  style={{
+                    color: "rgba(203, 213, 225, 0.72)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {processedData.minValue.toFixed(1)} -{" "}
+                  {processedData.maxValue.toFixed(1)}
+                </div>
+              </ContrastGuard>
             </div>
-          </ContrastGuard>
+          )}
 
           <div
             className={cn(
@@ -509,8 +549,24 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
                 : "glass-flex-col glass-gap-1"
             )}
           >
+            {!isHorizontal && (
+              <ContrastGuard>
+                <div className="glass-text-sm glass-font-medium glass-text-primary">
+                  Legend
+                </div>
+              </ContrastGuard>
+            )}
+
             <ContrastGuard>
-              <div className="glass-text-xs glass-text-secondary">
+              <div
+                className="glass-text-xs"
+                style={{
+                  color: "rgba(203, 213, 225, 0.72)",
+                  minWidth: isHorizontal ? 28 : undefined,
+                  textAlign: isHorizontal ? "right" : undefined,
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {processedData.minValue.toFixed(1)}
               </div>
             </ContrastGuard>
@@ -520,13 +576,20 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
                 "glass-flex",
                 isHorizontal ? "glass-flex-row" : "glass-flex-col"
               )}
+              style={{
+                flex: isHorizontal ? "1 1 auto" : undefined,
+                minWidth: 0,
+                overflow: "hidden",
+                borderRadius: 999,
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+              }}
             >
               {Array.from({ length: legendSteps }, (_, i) => (
                 <div
                   key={i}
                   className={cn(
                     "glass-flex-1",
-                    isHorizontal ? "glass-w-3 glass-h-6" : "glass-w-6 glass-h-3"
+                    isHorizontal ? "glass-h-4" : "glass-w-6 glass-h-3"
                   )}
                   style={{
                     backgroundColor: getColor(i / (legendSteps - 1)),
@@ -536,7 +599,14 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             </div>
 
             <ContrastGuard>
-              <div className="glass-text-xs glass-text-secondary">
+              <div
+                className="glass-text-xs"
+                style={{
+                  color: "rgba(203, 213, 225, 0.72)",
+                  minWidth: isHorizontal ? 32 : undefined,
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {processedData.maxValue.toFixed(1)}
               </div>
             </ContrastGuard>
@@ -602,7 +672,10 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           >
             {/* Legend */}
             {showLegend && (
-              <div className="glass-flex-shrink-0 glass-p-3">
+              <div
+                className="glass-flex-shrink-0 glass-p-3"
+                style={{ minWidth: 0, maxWidth: "100%" }}
+              >
                 {renderLegend()}
               </div>
             )}
@@ -610,7 +683,10 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             {/* Main Content */}
             <div
               className="glass-flex-1 glass-p-3 glass-overflow-auto glass-min-w-0 glass-radius-lg"
-              style={heatmapInsetStyle}
+              style={{
+                ...heatmapInsetStyle,
+                maxWidth: "100%",
+              }}
             >
               {!hasCells ? (
                 <ContrastGuard>

@@ -14,7 +14,6 @@ import { Motion } from "../../primitives";
 import { GlassButton } from "../button";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
-import { COLORS } from "../../tokens/designConstants";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { normalizeColorInputValue } from "../../utils/colorInput";
@@ -102,8 +101,8 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
   >("linear");
   const [angle, setAngle] = useState(45);
   const [stops, setStops] = useState<GradientStop[]>([
-    { color: "var(--glass-color-primary)", position: 0 },
-    { color: COLORS.semantic.secondary, position: 100 },
+    { color: "#7CD3FF", position: 0 },
+    { color: "#A78BFA", position: 100 },
   ]);
   const [selectedStopIndex, setSelectedStopIndex] = useState<number | null>(
     null
@@ -118,9 +117,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
       type: "linear",
       angle: 45,
       stops: [
-        { color: "var(--glass-color-danger)", position: 0 },
-        { color: "var(--glass-color-warning)", position: 50 },
-        { color: "var(--glass-color-secondary)", position: 100 },
+        { color: "#FB7185", position: 0 },
+        { color: "#FBBF24", position: 50 },
+        { color: "#A78BFA", position: 100 },
       ],
     },
     {
@@ -129,9 +128,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
       type: "linear",
       angle: 90,
       stops: [
-        { color: "var(--glass-color-info)", position: 0 },
-        { color: "var(--glass-color-info)", position: 50 },
-        { color: "var(--glass-color-info)", position: 100 },
+        { color: "#7CD3FF", position: 0 },
+        { color: "#22D3EE", position: 50 },
+        { color: "#60A5FA", position: 100 },
       ],
     },
     {
@@ -139,9 +138,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
       name: "Forest",
       type: "radial",
       stops: [
-        { color: "var(--glass-color-success)", position: 0 },
-        { color: "var(--glass-color-success)", position: 70 },
-        { color: "var(--glass-color-success)", position: 100 },
+        { color: "#86EFAC", position: 0 },
+        { color: "#34D399", position: 70 },
+        { color: "#059669", position: 100 },
       ],
     },
     {
@@ -149,10 +148,10 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
       name: "Fire",
       type: "conic",
       stops: [
-        { color: "var(--glass-color-danger)", position: 0 },
-        { color: "var(--glass-color-warning)", position: 25 },
-        { color: "var(--glass-color-warning)", position: 50 },
-        { color: "var(--glass-color-danger)", position: 100 },
+        { color: "#FB7185", position: 0 },
+        { color: "#FBBF24", position: 25 },
+        { color: "#F97316", position: 50 },
+        { color: "#DC2626", position: 100 },
       ],
     },
   ];
@@ -269,8 +268,8 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
     setSelectedType("linear");
     setAngle(45);
     setStops([
-      { color: "var(--glass-color-primary)", position: 0 },
-      { color: COLORS.semantic.secondary, position: 100 },
+      { color: "#7CD3FF", position: 0 },
+      { color: "#A78BFA", position: 100 },
     ]);
     setSelectedStopIndex(null);
   }, []);

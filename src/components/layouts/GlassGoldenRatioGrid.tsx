@@ -49,6 +49,7 @@ export interface GlassGoldenRatioGridProps {
   animateLayout?: boolean;
   showGrid?: boolean;
   showRatioLines?: boolean;
+  showEmptyLabels?: boolean;
   responsive?: boolean;
   onItemClick?: (item: GoldenRatioItem) => void;
   onItemHover?: (item: GoldenRatioItem | null) => void;
@@ -82,6 +83,7 @@ export const GlassGoldenRatioGrid = forwardRef<
       animateLayout = true,
       showGrid = false,
       showRatioLines = true,
+      showEmptyLabels = false,
       responsive = true,
       onItemClick,
       onItemHover,
@@ -465,7 +467,9 @@ export const GlassGoldenRatioGrid = forwardRef<
                       }}
                       role="gridcell"
                     >
-                      <div className="glass-text-xs">Empty</div>
+                      {showEmptyLabels && (
+                        <div className="glass-text-xs">Empty</div>
+                      )}
                     </div>
                   )}
                   {/* Section info overlay */}

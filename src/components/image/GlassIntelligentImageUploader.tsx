@@ -20,6 +20,7 @@ export interface IntelligentImageUploaderProps {
   showOptimization?: boolean;
   showTemplates?: boolean;
   showAIFeatures?: boolean;
+  compact?: boolean;
   onImagesUploaded?: (images: ImageFile[]) => void;
   onImageEdited?: (image: ImageFile) => void;
   "data-testid"?: string;
@@ -447,6 +448,7 @@ export const GlassIntelligentImageUploader: React.FC<
   showOptimization = false,
   showTemplates = true,
   showAIFeatures = false,
+  compact = false,
   onImagesUploaded,
   onImageEdited,
   "data-testid": dataTestId,
@@ -550,11 +552,22 @@ export const GlassIntelligentImageUploader: React.FC<
       data-glass-component
       data-testid={dataTestId}
       aria-label={ariaLabel}
-      style={{ maxHeight: "100%", minWidth: 0 }}
+      style={{
+        maxHeight: "100%",
+        minWidth: 0,
+        padding: compact ? 12 : undefined,
+        overflow: "hidden",
+      }}
     >
-      <div className="glass-space-y-3">
+      <div
+        className="glass-space-y-3"
+        style={{ display: "grid", gap: compact ? 10 : 12 }}
+      >
         {/* Header */}
-        <div className="glass-flex glass-items-start glass-justify-between glass-gap-3">
+        <div
+          className="glass-flex glass-items-start glass-justify-between glass-gap-3"
+          style={{ display: compact ? "none" : undefined }}
+        >
           <div className="glass-min-w-0">
             <h2 className="glass-text-lg glass-font-semibold glass-text-primary glass-leading-tight">
               🤖 Intelligent Image Uploader
@@ -617,13 +630,25 @@ export const GlassIntelligentImageUploader: React.FC<
               ? "glass-border-blue glass-surface-blue"
               : "glass-border-white/20 glass-surface-subtle/5 hover:glass-border-white/30"
           )}
+          style={{
+            padding: compact ? 14 : undefined,
+            minHeight: compact ? 150 : undefined,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onDragEnter={handleDragEnter}
           onDragLeave={handleDragLeave}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
         >
           <div className="glass-space-y-2">
-            <div className="glass-text-2xl">📸</div>
+            <div
+              className="glass-text-2xl"
+              style={{ fontSize: compact ? 22 : undefined }}
+            >
+              📸
+            </div>
             <div>
               <h3 className="glass-text-base glass-font-medium glass-text-primary glass-leading-snug">
                 Drop images here or click to upload

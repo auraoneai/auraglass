@@ -65,6 +65,9 @@ export interface GlassIslandLayoutProps {
   enableResizing?: boolean;
   enableZooming?: boolean;
   zoomLevel?: number;
+  width?: string | number;
+  height?: string | number;
+  compact?: boolean;
   centerOnLoad?: boolean;
   onIslandMove?: (island: Island, x: number, y: number) => void;
   onIslandResize?: (island: Island, width: number, height: number) => void;
@@ -112,6 +115,9 @@ export const GlassIslandLayout = forwardRef<
       enableResizing = false,
       enableZooming = true,
       zoomLevel = 1.0,
+      width = "min(1120px, calc(100vw - 48px))",
+      height = 600,
+      compact = false,
       centerOnLoad = true,
       onIslandMove,
       onIslandResize,
@@ -608,35 +614,37 @@ export const GlassIslandLayout = forwardRef<
         variant="frosted"
         className={`glass-island-layout relative overflow-auto ${className}`}
         style={{
-          width: "min(1120px, calc(100vw - 48px))",
+          width,
           maxWidth: "100%",
-          height: "600px",
+          height,
           overflowX: "auto",
           overflowY: "auto",
         }}
         {...props}
       >
         {/* Header */}
-        <div className="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-z-10">
-          <div className="glass-flex glass-items-center glass-justify-between">
-            <div>
-              <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
-                Island Layout
-              </h3>
-              <p className="glass-text-sm glass-text-primary-glass-opacity-60">
-                Floating content islands with connections
-              </p>
-            </div>
-
-            {connectionMode && (
-              <div className="glass-px-3 glass-py-1 glass-surface-blue/20 glass-border glass-border-blue/50 glass-radius-lg glass-text-secondary glass-text-sm">
-                {pendingConnection
-                  ? "Select target island"
-                  : "Select source island"}
+        {!compact && (
+          <div className="glass-absolute glass-top-0 glass-left-0 glass-right-0 glass-p-4 glass-z-10">
+            <div className="glass-flex glass-items-center glass-justify-between">
+              <div>
+                <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+                  Island Layout
+                </h3>
+                <p className="glass-text-sm glass-text-primary-glass-opacity-60">
+                  Floating content islands with connections
+                </p>
               </div>
-            )}
+
+              {connectionMode && (
+                <div className="glass-px-3 glass-py-1 glass-surface-blue/20 glass-border glass-border-blue/50 glass-radius-lg glass-text-secondary glass-text-sm">
+                  {pendingConnection
+                    ? "Select target island"
+                    : "Select source island"}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main container */}
         <div
@@ -753,7 +761,7 @@ export const GlassIslandLayout = forwardRef<
         </div>
 
         {/* Controls */}
-        <Controls />
+        {enableZooming && <Controls />}
 
         {/* Minimap */}
         {showMinimap && <Minimap />}

@@ -2,9 +2,9 @@
 
 exports[`GlassSchemaViewer matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-overflow-auto glass-border glass-border-white/10 glass-surface-dark/40 glass-schema-viewer"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-json-viewer glass-radius-lg glass-p-3 glass-overflow-auto glass-border glass-schema-viewer"
   data-glass-component="true"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 8px; box-shadow: 0 12px 28px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.07); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(124, 211, 255, 0.18); border-radius: 12px; box-shadow: 0 12px 28px rgba(2, 6, 23, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06); color: rgba(248, 250, 252, 0.92); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-width: 100%; min-width: 0;"
 >
   <span
     class="contrast-guard"
@@ -12,7 +12,8 @@ exports[`GlassSchemaViewer matches snapshot 1`] = `
     data-glass-component="true"
   >
     <pre
-      class="glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all"
+      class="glass-text-xs glass-whitespace-pre-wrap"
+      style="margin: 0px; color: rgba(248, 250, 252, 0.9); white-space: pre-wrap; overflow-wrap: break-word; word-break: normal; line-height: 1.55; font-family: var(--glass-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);"
     />
   </span>
 </div>

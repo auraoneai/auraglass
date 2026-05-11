@@ -24,6 +24,7 @@ import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export type GlassDataTableRow = Record<string, unknown>;
 export type GlassDataTableCellValue = unknown;
@@ -592,6 +593,9 @@ const GlassDataTableInnerBase = <
       data-glass-component
       ref={setContainerRef}
       className={cn("glass-w-full", className)}
+      style={{
+        color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
+      }}
       aria-label={ariaLabel}
       {...restProps}
     >
@@ -648,11 +652,17 @@ const GlassDataTableInnerBase = <
             `transition-all duration-[${ANIMATION.DURATION.slow}ms]`,
           variant === "bordered" && "glass-border glass-border-glass-border/20"
         )}
+        style={{
+          ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
+          borderColor: "rgba(148, 163, 184, 0.24)",
+          color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
+        }}
       >
         <div className="glass-w-full glass-overflow-x-auto">
           <table
             className="glass-w-full glass-table-fixed"
             style={{
+              color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
               minWidth:
                 columns.length > 3
                   ? `${Math.max(640, columns.length * 152)}px`
@@ -712,7 +722,11 @@ const GlassDataTableInnerBase = <
                             canSort,
                         }
                       )}
-                      style={{ width: column.width }}
+                      style={{
+                        width: column.width,
+                        color:
+                          "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
+                      }}
                       onClick={() => canSort && handleSort(columnId)}
                     >
                       <div className="glass-flex glass-items-center glass-gap-2 glass-min-w-0">
@@ -888,6 +902,10 @@ const GlassDataTableInnerBase = <
                                 "glass-text-right": column.align === "right",
                               }
                             )}
+                            style={{
+                              color:
+                                "var(--glass-text-primary, rgba(248, 250, 252, 0.86))",
+                            }}
                           >
                             <div className="glass-min-w-0 glass-max-w-full glass-break-words">
                               <ContrastGuard>

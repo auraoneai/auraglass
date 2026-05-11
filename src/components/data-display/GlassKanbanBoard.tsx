@@ -50,7 +50,8 @@ export interface DragState {
   dragPosition?: number;
 }
 
-export interface GlassKanbanBoardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassKanbanBoardProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Board columns */
   columns?: KanbanColumn[];
   /** Board title */
@@ -71,6 +72,8 @@ export interface GlassKanbanBoardProps extends React.HTMLAttributes<HTMLDivEleme
   columnWidth?: string | number;
   /** Maximum board height */
   maxHeight?: string | number;
+  /** Compact rendering for embedded previews and narrow containers */
+  compact?: boolean;
   /** Custom card renderer */
   renderCard?: (card: KanbanCard, columnId: string) => React.ReactNode;
   /** Custom column header renderer */
@@ -172,6 +175,7 @@ export const GlassKanbanBoard = forwardRef<
       virtualized = false,
       columnWidth = "300px",
       maxHeight,
+      compact = false,
       renderCard,
       renderColumnHeader,
       onCardMove,
@@ -228,6 +232,14 @@ export const GlassKanbanBoard = forwardRef<
       },
     };
 
+    const numericColumnWidth =
+      typeof columnWidth === "number"
+        ? columnWidth
+        : Number.parseFloat(String(columnWidth));
+    const isCompact =
+      compact ||
+      cardSize === "sm" ||
+      (!!numericColumnWidth && numericColumnWidth <= 160);
     const config = cardSizeConfig[cardSize];
     const boardColumns =
       columns.length === 0 && !emptyState ? DEFAULT_KANBAN_COLUMNS : columns;
@@ -343,7 +355,7 @@ export const GlassKanbanBoard = forwardRef<
             className={cn(
               `glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
               "glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md",
-              config.padding,
+              !isCompact && config.padding,
               config.minHeight,
               "hover:scale-[1.02] hover:shadow-lg",
               dragState.isDragging &&
@@ -355,6 +367,11 @@ export const GlassKanbanBoard = forwardRef<
             role="article"
             aria-label={`Card: ${card.title}`}
             tabIndex={0}
+            style={{
+              padding: isCompact ? "0.55rem 0.6rem" : undefined,
+              minHeight: isCompact ? 64 : undefined,
+              overflow: "hidden",
+            }}
             onKeyDown={(e: React.KeyboardEvent) => {
               if (e.key === "Enter" || e.key === " ") {
                 onCardClick?.(card, columnId);
@@ -363,19 +380,33 @@ export const GlassKanbanBoard = forwardRef<
           >
             {getPriorityIndicator(card.priority)}
 
-            <div className={cn("glass-relative", config.spacing)}>
+            <div
+              className={cn("glass-relative", !isCompact && config.spacing)}
+              style={{
+                display: "grid",
+                gap: isCompact ? "0.35rem" : undefined,
+                minWidth: 0,
+              }}
+            >
               {/* Card Title */}
               <h3
                 className={cn(
                   "glass-font-semibold glass-text-primary line-clamp-2",
-                  config.text
+                  !isCompact && config.text
                 )}
+                style={{
+                  margin: 0,
+                  color: "rgba(248,250,252,0.96)",
+                  fontSize: isCompact ? "0.78rem" : undefined,
+                  lineHeight: isCompact ? 1.25 : undefined,
+                  overflowWrap: "anywhere",
+                }}
               >
                 <ContrastGuard>{card.title}</ContrastGuard>
               </h3>
 
               {/* Card Description */}
-              {card.description && (
+              {card.description && !isCompact && (
                 <ContrastGuard>
                   <p className="glass-text-secondary glass-text-sm glass-line-clamp-3">
                     {card.description}
@@ -390,11 +421,31 @@ export const GlassKanbanBoard = forwardRef<
 
               {/* Tags */}
               {card.tags && card.tags.length > 0 && (
-                <div className="glass-flex glass-flex-wrap glass-gap-1">
+                <div
+                  className="glass-flex glass-flex-wrap glass-gap-1"
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: isCompact ? 4 : undefined,
+                  }}
+                >
                   {card.tags.slice(0, 3).map((tag, index) => (
                     <span
                       key={index}
                       className="glass-px-2 glass-py-1 glass-text-xs glass-surface-primary/10 glass-text-primary glass-radius-full"
+                      style={{
+                        maxWidth: "100%",
+                        padding: isCompact ? "0.15rem 0.35rem" : undefined,
+                        borderRadius: 999,
+                        background:
+                          "color-mix(in srgb, var(--glass-color-primary) 10%, transparent)",
+                        color: "rgba(191,232,255,0.92)",
+                        fontSize: isCompact ? "0.62rem" : undefined,
+                        lineHeight: 1.1,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
                     >
                       <ContrastGuard>{tag}</ContrastGuard>
                     </span>
@@ -410,7 +461,10 @@ export const GlassKanbanBoard = forwardRef<
               )}
 
               {/* Footer */}
-              <div className="glass-flex glass-items-center glass-justify-between glass-pt-2">
+              <div
+                className="glass-flex glass-items-center glass-justify-between glass-pt-2"
+                style={{ display: isCompact ? "none" : undefined }}
+              >
                 {/* Assignee */}
                 {card.assignee && (
                   <div className="glass-flex glass-items-center glass-gap-2">
@@ -463,6 +517,7 @@ export const GlassKanbanBoard = forwardRef<
         config,
         dragState,
         priorityColors,
+        isCompact,
       ]
     );
 
@@ -473,16 +528,49 @@ export const GlassKanbanBoard = forwardRef<
         const isOverLimit = column.limit && cardCount > column.limit;
 
         return (
-          <div className="glass-flex glass-items-center glass-justify-between">
-            <div className="glass-flex glass-items-center glass-gap-2">
+          <div
+            className="glass-flex glass-items-center glass-justify-between"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 6,
+              minWidth: 0,
+            }}
+          >
+            <div
+              className="glass-flex glass-items-center glass-gap-2"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                minWidth: 0,
+              }}
+            >
               <div
                 className="glass-w-3 glass-h-3 glass-radius-full"
                 style={{
                   backgroundColor: column.color || "var(--glass-gray-500)",
+                  width: isCompact ? 7 : 12,
+                  height: isCompact ? 7 : 12,
+                  borderRadius: 999,
+                  flex: "0 0 auto",
                 }}
               />
               <ContrastGuard>
-                <h2 className="glass-font-semibold glass-text-primary">
+                <h2
+                  className="glass-font-semibold glass-text-primary"
+                  style={{
+                    margin: 0,
+                    minWidth: 0,
+                    color: "rgba(248,250,252,0.96)",
+                    fontSize: isCompact ? "0.74rem" : "0.9rem",
+                    lineHeight: 1.2,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   {column.title}
                 </h2>
               </ContrastGuard>
@@ -537,7 +625,14 @@ export const GlassKanbanBoard = forwardRef<
           </div>
         );
       },
-      [showCardCounts, showColumnLimits, showAddCard, onCardAdd, onColumnDelete]
+      [
+        showCardCounts,
+        showColumnLimits,
+        showAddCard,
+        onCardAdd,
+        onColumnDelete,
+        isCompact,
+      ]
     );
 
     // Handle column scroll
@@ -554,6 +649,8 @@ export const GlassKanbanBoard = forwardRef<
     const maxHeightStyle = maxHeight ? { maxHeight } : undefined;
     const columnsContainerStyle = {
       minWidth: boardColumns.length > 0 ? "fit-content" : "100%",
+      gap: isCompact ? 8 : undefined,
+      padding: isCompact ? 10 : undefined,
     };
 
     return (
@@ -569,7 +666,11 @@ export const GlassKanbanBoard = forwardRef<
           "glass-kanban-board glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20",
           className
         )}
-        style={{ ...(maxHeightStyle ?? {}) }}
+        style={{
+          ...(maxHeightStyle ?? {}),
+          overflow: "hidden",
+          color: "rgba(248,250,252,0.94)",
+        }}
         role="region"
         aria-label={ariaLabel || "Kanban Board"}
         data-testid={dataTestId}
@@ -596,14 +697,20 @@ export const GlassKanbanBoard = forwardRef<
           )}
 
           {/* Kanban Columns */}
-          <div className="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden">
+          <div
+            className="glass-flex-1 glass-overflow-x-auto glass-overflow-y-glass-hidden"
+            style={{ overflowX: "auto", overflowY: "hidden", minHeight: 0 }}
+          >
             {boardColumns.length === 0 && emptyState ? (
               <div className="glass-flex glass-items-center glass-justify-center glass-h-full glass-p-8">
                 {emptyState}
               </div>
             ) : (
               <div
-                className="glass-flex glass-gap-6 glass-p-6 glass-h-full"
+                className={cn(
+                  "glass-flex glass-h-full",
+                  !isCompact && "glass-gap-6 glass-p-6"
+                )}
                 style={{ ...columnsContainerStyle }}
               >
                 {boardColumns.map((column) => (
@@ -628,7 +735,12 @@ export const GlassKanbanBoard = forwardRef<
                         dragState.dragOverColumn === column.id &&
                           "ring-2 ring-primary/50"
                       )}
-                      style={{ width: columnWidth, minWidth: columnWidth }}
+                      style={{
+                        width: columnWidth,
+                        minWidth: columnWidth,
+                        maxWidth: columnWidth,
+                        overflow: "hidden",
+                      }}
                       onDragOver={(e: React.DragEvent) =>
                         handleDragOver(e, column.id)
                       }
@@ -637,7 +749,13 @@ export const GlassKanbanBoard = forwardRef<
                       aria-label={`Column: ${column.title}`}
                     >
                       {/* Column Header */}
-                      <div className="glass-p-4 glass-border-b glass-border-glass-border/20">
+                      <div
+                        className="glass-p-4 glass-border-b glass-border-glass-border/20"
+                        style={{
+                          padding: isCompact ? "0.5rem 0.55rem" : undefined,
+                          borderBottom: "1px solid rgba(255,255,255,0.08)",
+                        }}
+                      >
                         {renderColumnHeader
                           ? renderColumnHeader(column)
                           : defaultRenderColumnHeader(column)}
@@ -654,6 +772,14 @@ export const GlassKanbanBoard = forwardRef<
                           if (el) columnRefs.current[column.id] = el;
                         }}
                         className="glass-flex-1 glass-overflow-y-auto glass-p-4 glass-gap-3"
+                        style={{
+                          display: "grid",
+                          alignContent: "start",
+                          gap: isCompact ? 8 : 12,
+                          padding: isCompact ? "0.5rem" : undefined,
+                          overflowY: "auto",
+                          minHeight: 0,
+                        }}
                         onScroll={(e: React.UIEvent) =>
                           handleColumnScroll(
                             column.id,

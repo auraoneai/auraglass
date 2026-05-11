@@ -5,13 +5,7 @@
  */
 
 import { cn } from "../../lib/utilsComprehensive";
-import {
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import React, {
   forwardRef,
   useCallback,
@@ -73,10 +67,23 @@ export const GlassParallaxLayers = forwardRef<
     },
     ref
   ) => {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const [isHovered, setIsHovered] = useState(false);
     const componentId = useA11yId("parallax-layers");
     const prefersReducedMotion = useReducedMotion();
+    const setContainerRefs = useCallback(
+      (node: HTMLDivElement | null) => {
+        containerRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (
+            ref as unknown as React.MutableRefObject<HTMLDivElement | null>
+          ).current = node;
+        }
+      },
+      [ref]
+    );
 
     // Reduced motion is handled by useReducedMotion hook
 
@@ -89,11 +96,43 @@ export const GlassParallaxLayers = forwardRef<
     const smoothMouseX = useSpring(mouseX, springConfig);
     const smoothMouseY = useSpring(mouseY, springConfig);
 
-    // Scroll progress
-    const { scrollYProgress } = useScroll({
-      target: containerRef,
-      offset: ["start end", "end start"],
-    });
+    // Scroll progress, scoped locally so Framer does not warn while refs settle.
+    const scrollYProgress = useMotionValue(0);
+
+    useEffect(() => {
+      if (scrollIntensity === 0 || typeof window === "undefined") return;
+
+      let frame = 0;
+      const updateScrollProgress = () => {
+        if (frame) return;
+        frame = window.requestAnimationFrame(() => {
+          frame = 0;
+          const element = containerRef.current;
+          if (!element) return;
+
+          const rect = element.getBoundingClientRect();
+          const viewportHeight =
+            window.innerHeight || document.documentElement.clientHeight || 1;
+          const total = viewportHeight + rect.height;
+          const progress = (viewportHeight - rect.top) / total;
+          scrollYProgress.set(Math.max(0, Math.min(1, progress)));
+        });
+      };
+
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, {
+        passive: true,
+      });
+      window.addEventListener("resize", updateScrollProgress);
+
+      return () => {
+        if (frame) {
+          window.cancelAnimationFrame(frame);
+        }
+        window.removeEventListener("scroll", updateScrollProgress);
+        window.removeEventListener("resize", updateScrollProgress);
+      };
+    }, [scrollIntensity, scrollYProgress]);
 
     // Auto rotation
     const [rotation, setRotation] = useState(0);
@@ -138,14 +177,18 @@ export const GlassParallaxLayers = forwardRef<
 
     return (
       <div
-        ref={ref || containerRef}
+        ref={setContainerRefs}
         id={componentId}
         className={cn(
-          "relative overflow-hidden",
-          "transform-gpu will-change-transform",
+          "glass-relative glass-overflow-hidden",
+          "glass-transform-gpu glass-will-change-transform",
           className
         )}
         style={{
+          position: "relative",
+          overflow: "hidden",
+          width: "100%",
+          height: "100%",
           perspective: prefersReducedMotion ? "none" : `${perspective}px`,
           transformStyle: prefersReducedMotion ? "flat" : "preserve-3d",
         }}
@@ -283,8 +326,8 @@ export const GlassParallaxLayers = forwardRef<
                 glassBlur={finalBlur}
                 depth={Math.min(layer.depth, 5)}
                 className={cn(
-                  "absolute inset-0",
-                  "transition-all",
+                  "glass-absolute glass-inset-0",
+                  "glass-transition-all",
                   { transitionDuration: "var(--glass-motion-duration-normal)" },
                   layer.className
                 )}

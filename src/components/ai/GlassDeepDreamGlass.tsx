@@ -39,6 +39,9 @@ export interface GlassDeepDreamGlassProps {
   availableLayers?: NeuralLayer[];
   selectedLayers?: string[];
   dreamSettings?: Partial<DeepDreamSettings>;
+  compact?: boolean;
+  showHeader?: boolean;
+  showActions?: boolean;
   showLayerSelector?: boolean;
   showPreview?: boolean;
   showSettings?: boolean;
@@ -140,6 +143,9 @@ export const GlassDeepDreamGlass = forwardRef<
       availableLayers = defaultNeuralLayers,
       selectedLayers = ["mixed3a"],
       dreamSettings = {},
+      compact = false,
+      showHeader = !compact,
+      showActions = !compact,
       showLayerSelector = false,
       showPreview = true,
       showSettings = false,
@@ -743,40 +749,55 @@ export const GlassDeepDreamGlass = forwardRef<
         ref={ref}
         variant="frosted"
         data-glass-component
-        style={{ ...readableGlassTextStyle, maxHeight: "100%", minWidth: 0 }}
-        className={`glass-deep-dream-glass glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
+        style={{
+          ...readableGlassTextStyle,
+          maxHeight: "100%",
+          minWidth: 0,
+          height: compact ? "100%" : undefined,
+          overflow: compact ? "hidden" : undefined,
+        }}
+        className={`glass-deep-dream-glass ${compact ? "glass-p-3 glass-space-y-3" : "glass-p-4 glass-space-y-4"} glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
-          <div className="glass-min-w-0">
-            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90">
-              DeepDream Glass
-            </h3>
-            <p className="glass-text-sm glass-text-primary-glass-opacity-60">
-              Neural network-powered surreal image generation
-            </p>
-          </div>
+        {showHeader && (
+          <div className="glass-flex glass-items-center glass-justify-between">
+            <div className="glass-min-w-0">
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90">
+                DeepDream Glass
+              </h3>
+              <p className="glass-text-sm glass-text-primary-glass-opacity-60">
+                Neural network-powered surreal image generation
+              </p>
+            </div>
 
-          <div className="glass-flex glass-items-center glass-space-x-2">
-            {enableRealTime && (
-              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-                <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
-                <span className="glass-text-xs">Real-time</span>
-              </div>
-            )}
-            {isGenerating && (
-              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-                <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin" />
-                <span className="glass-text-xs">Dreaming...</span>
-              </div>
-            )}
+            <div className="glass-flex glass-items-center glass-space-x-2">
+              {enableRealTime && (
+                <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
+                  <span className="glass-text-xs">Real-time</span>
+                </div>
+              )}
+              {isGenerating && (
+                <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                  <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin" />
+                  <span className="glass-text-xs">Dreaming...</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Preview area */}
         {showPreview && (
-          <div className="glass-grid glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-4">
+          <div
+            className={`glass-grid ${compact ? "glass-grid-cols-2 glass-gap-3" : "glass-grid-cols-1 lg:glass-grid-cols-2 glass-gap-4"}`}
+            style={
+              compact
+                ? { gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 }
+                : undefined
+            }
+          >
             {/* Original */}
             <div className="glass-space-y-2">
               <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
@@ -874,69 +895,71 @@ export const GlassDeepDreamGlass = forwardRef<
         )}
 
         {/* Action buttons */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">
-          <div className="glass-flex glass-items-center glass-space-x-4">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const url = URL.createObjectURL(file);
-                  setOriginalImage(url);
-                  play("upload");
+        {showActions && (
+          <div className="glass-flex glass-items-center glass-justify-between glass-pt-4 glass-border-t glass-border-white/10">
+            <div className="glass-flex glass-items-center glass-space-x-4">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const url = URL.createObjectURL(file);
+                    setOriginalImage(url);
+                    play("upload");
 
-                  // Load image to canvas
-                  const canvas = canvasRef.current;
-                  if (canvas) {
-                    const ctx = canvas.getContext("2d");
-                    if (ctx) {
-                      const img = new Image();
-                      img.onload = () => {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                      };
-                      img.src = url;
+                    // Load image to canvas
+                    const canvas = canvasRef.current;
+                    if (canvas) {
+                      const ctx = canvas.getContext("2d");
+                      if (ctx) {
+                        const img = new Image();
+                        img.onload = () => {
+                          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        };
+                        img.src = url;
+                      }
                     }
                   }
+                }}
+                className="glass-hidden"
+                id="dream-image-upload"
+              />
+              <motion.label
+                htmlFor="dream-image-upload"
+                className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-cursor-pointer glass-transition-colors"
+                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+              >
+                Upload Image
+              </motion.label>
+
+              <motion.button
+                className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors disabled:glass-opacity-50"
+                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                onClick={generateDeepDream}
+                disabled={
+                  isGenerating || !originalImage || settings.layers.length === 0
                 }
-              }}
-              className="glass-hidden"
-              id="dream-image-upload"
-            />
-            <motion.label
-              htmlFor="dream-image-upload"
-              className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-cursor-pointer glass-transition-colors"
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-            >
-              Upload Image
-            </motion.label>
+              >
+                {isGenerating ? "Generating..." : "Generate Dream"}
+              </motion.button>
+            </div>
 
-            <motion.button
-              className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors disabled:glass-opacity-50"
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-              onClick={generateDeepDream}
-              disabled={
-                isGenerating || !originalImage || settings.layers.length === 0
-              }
-            >
-              {isGenerating ? "Generating..." : "Generate Dream"}
-            </motion.button>
+            {dreamedImage && (
+              <motion.a
+                href={dreamedImage}
+                download="deep-dream.png"
+                className="glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
+                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+              >
+                Download Dream
+              </motion.a>
+            )}
           </div>
-
-          {dreamedImage && (
-            <motion.a
-              href={dreamedImage}
-              download="deep-dream.png"
-              className="glass-px-4 glass-py-2 glass-surface-green hover:glass-surface-green glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors"
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-            >
-              Download Dream
-            </motion.a>
-          )}
-        </div>
+        )}
       </OptimizedGlass>
     );
   }

@@ -137,11 +137,6 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
   const [isError, setIsError] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [showActionsMenu, setShowActionsMenu] = useState(false);
-  const [imageDimensions, setImageDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
-
   const imgRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -176,14 +171,6 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
     setIsError(false);
-
-    // Get natural dimensions
-    if (imgRef.current) {
-      setImageDimensions({
-        width: imgRef.current.naturalWidth,
-        height: imgRef.current.naturalHeight,
-      });
-    }
 
     onLoad?.();
   }, [onLoad]);
@@ -445,13 +432,6 @@ export const GlassLazyImage: React.FC<GlassLazyImageProps> = ({
               </Motion>
             )}
           </div>
-        </div>
-      )}
-
-      {/* Image Dimensions Info (dev mode) */}
-      {process.env.NODE_ENV === "development" && imageDimensions.width > 0 && (
-        <div className="glass-absolute glass-top-2 glass-left-2 glass-px-2 glass-py-1 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-md glass-text-primary-glass-opacity-60 glass-text-xs glass-contrast-guard">
-          {imageDimensions.width} × {imageDimensions.height}
         </div>
       )}
     </Motion>

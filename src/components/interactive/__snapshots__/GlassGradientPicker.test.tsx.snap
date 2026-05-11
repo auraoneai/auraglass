@@ -175,7 +175,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 class="glass-text-xs glass-text-primary-glass-opacity-60 glass-surface-subtle/10 glass-px-2 glass-py-1 glass-radius-md glass-font-mono glass-flex-1 glass-min-w-0"
                 style="display: -webkit-box; overflow: hidden; overflow-wrap: anywhere; word-break: break-word;"
               >
-                linear-gradient(45deg, var(--glass-color-primary) 0%, var(--glass-gray-500) 100%)
+                linear-gradient(45deg, #7CD3FF 0%, #A78BFA 100%)
               </code>
             </span>
             <div
@@ -352,7 +352,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 aria-label="Color stop 1 color picker"
                 class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
-                value="#3b82f6"
+                value="#7cd3ff"
               />
               <div
                 class="glass-flex-1"
@@ -381,7 +381,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 aria-label="Color stop 2 color picker"
                 class="glass-w-8 glass-h-8 glass-radius-md glass-border glass-border-white/20 glass-cursor-pointer glass-focus glass-touch-target glass-contrast-guard"
                 type="color"
-                value="#64748b"
+                value="#a78bfa"
               />
               <div
                 class="glass-flex-1"

@@ -4,8 +4,9 @@ exports[`GlassParallaxLayers matches snapshot 1`] = `
 <div
   aria-hidden="true"
   aria-label="Parallax layers with interactive effects"
-  class="relative overflow-hidden transform-gpu will-change-transform"
+  class="glass-relative glass-overflow-hidden glass-transform-gpu glass-will-change-transform"
   id="parallax-layers-:r5:"
   role="presentation"
+  style="position: relative; overflow: hidden; width: 100%; height: 100%;"
 />
 `;

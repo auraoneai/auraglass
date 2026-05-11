@@ -268,9 +268,10 @@ export class LiquidGlassGPUDriver {
     if (!this.gl || !this.isInitialized) return;
 
     try {
-      // Capture element as image data
-      const imageData = await this.captureElementAsImageData(element);
-      if (!imageData) return;
+      // Render a lightweight backdrop canvas and upload it directly to WebGL.
+      // Returning ImageData here forces a CPU pixel readback and stalls Chrome.
+      const backdropCanvas = await this.captureElementBackdrop(element);
+      if (!backdropCanvas) return;
 
       // Update texture
       if (!this.backdropTexture) {
@@ -284,7 +285,7 @@ export class LiquidGlassGPUDriver {
         this.gl.RGBA,
         this.gl.RGBA,
         this.gl.UNSIGNED_BYTE,
-        imageData
+        backdropCanvas
       );
 
       // Set texture parameters
@@ -557,9 +558,9 @@ export class LiquidGlassGPUDriver {
     }
   }
 
-  private async captureElementAsImageData(
+  private async captureElementBackdrop(
     element: HTMLElement
-  ): Promise<ImageData | null> {
+  ): Promise<HTMLCanvasElement | null> {
     try {
       // In a real implementation, this would use various techniques:
       // - html2canvas for DOM elements
@@ -588,7 +589,7 @@ export class LiquidGlassGPUDriver {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      return ctx.getImageData(0, 0, canvas.width, canvas.height);
+      return canvas;
     } catch {
       return null;
     }

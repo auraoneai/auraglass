@@ -5,6 +5,7 @@ exports[`GlassAvatar matches snapshot 1`] = `
   class="glass-relative glass-inline-block"
   data-glass-component="true"
   data-testid="glassavatar"
+  style="position: relative; display: inline-block; width: 40px; height: 40px; flex: 0 0 auto;"
 >
   <div
     aria-label="Avatar"
@@ -12,7 +13,7 @@ exports[`GlassAvatar matches snapshot 1`] = `
     data-performance-mode="medium"
     id="avatar-:r4:"
     role="img"
-    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 9999px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 40px; height: 40px; font-size: 16px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box;"
   >
     <div
       class="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full"

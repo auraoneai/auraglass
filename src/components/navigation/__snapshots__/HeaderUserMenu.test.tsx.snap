@@ -18,6 +18,7 @@ exports[`HeaderUserMenu matches snapshot 1`] = `
       class="glass-relative glass-inline-block"
       data-glass-component="true"
       data-testid="glassavatar"
+      style="position: relative; display: inline-block; width: 32px; height: 32px; flex: 0 0 auto;"
     >
       <div
         aria-label="Avatar for User"
@@ -25,7 +26,7 @@ exports[`HeaderUserMenu matches snapshot 1`] = `
         data-performance-mode="medium"
         id="avatar-:rd:"
         role="img"
-        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 9999px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 32px; height: 32px; font-size: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-sizing: border-box;"
       >
         <div
           class="glass-flex glass-items-center glass-justify-center glass-w-full glass-h-full"
@@ -47,6 +48,7 @@ exports[`HeaderUserMenu matches snapshot 1`] = `
         aria-label="Status: offline"
         class="glass-absolute bottom-0 right-0 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white glass-surface-primary"
         role="status"
+        style="position: absolute; right: 0px; bottom: 0px; width: 12px; height: 12px; border-radius: 999px; border: 2px solid rgba(15, 23, 42, 0.92);"
       />
     </div>
   </button>

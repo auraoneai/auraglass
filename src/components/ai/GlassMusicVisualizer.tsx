@@ -34,6 +34,7 @@ export interface GlassMusicVisualizerProps {
   audioSource?: string | MediaStream;
   audioSettings?: Partial<AudioSettings>;
   visualSettings?: Partial<VisualizationSettings>;
+  compact?: boolean;
   showControls?: boolean;
   showFrequencyDisplay?: boolean;
   showWaveform?: boolean;
@@ -151,6 +152,7 @@ export const GlassMusicVisualizer = forwardRef<
       audioSource,
       audioSettings = {},
       visualSettings = {},
+      compact = false,
       showControls = true,
       showFrequencyDisplay = false,
       showWaveform = true,
@@ -224,9 +226,8 @@ export const GlassMusicVisualizer = forwardRef<
     const initializeAudio = useCallback(async () => {
       try {
         if (!audioContextRef.current) {
-          audioContextRef.current = new (
-            window.AudioContext || (window as any).webkitAudioContext
-          )();
+          audioContextRef.current = new (window.AudioContext ||
+            (window as any).webkitAudioContext)();
         }
 
         const context = audioContextRef.current;
@@ -662,10 +663,69 @@ export const GlassMusicVisualizer = forwardRef<
       }
     }, [canvasWidth, canvasHeight]);
 
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas || analyserRef.current) return;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const { width, height } = canvas;
+      const gradient = ctx.createLinearGradient(0, 0, width, height);
+      gradient.addColorStop(0, "rgba(56, 189, 248, 0.16)");
+      gradient.addColorStop(0.48, "rgba(168, 85, 247, 0.16)");
+      gradient.addColorStop(1, "rgba(244, 63, 94, 0.18)");
+      ctx.fillStyle = "rgba(8, 13, 28, 0.86)";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      const colors =
+        colorSchemes[visualConfig.colorScheme] || colorSchemes.rainbow;
+      const barCount = compact ? 32 : 56;
+      const gap = compact ? 3 : 4;
+      const barWidth = Math.max(3, (width - gap * (barCount - 1)) / barCount);
+
+      for (let index = 0; index < barCount; index += 1) {
+        const t = index / Math.max(1, barCount - 1);
+        const wave =
+          0.25 +
+          Math.abs(Math.sin(t * Math.PI * 3.2)) * 0.48 +
+          Math.abs(Math.cos(t * Math.PI * 8.4)) * 0.16;
+        const barHeight = Math.min(height * 0.82, height * wave);
+        const x = index * (barWidth + gap);
+        const y = height - barHeight - height * 0.08;
+        ctx.fillStyle = colors[index % colors.length];
+        ctx.globalAlpha = 0.74;
+        ctx.fillRect(x, y, barWidth, barHeight);
+      }
+
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "rgba(255,255,255,0.14)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, height * 0.5);
+      for (let x = 0; x <= width; x += 8) {
+        const y =
+          height * 0.5 +
+          Math.sin((x / width) * Math.PI * 4) * (compact ? 10 : 18);
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }, [canvasWidth, canvasHeight, compact, visualConfig.colorScheme]);
+
     const Controls = () => (
-      <div className="glass-flex glass-items-center glass-space-x-4">
+      <div
+        className={cn(
+          "glass-flex glass-items-center glass-gap-2",
+          compact ? "glass-flex-wrap" : "glass-space-x-4"
+        )}
+      >
         <motion.button
-          className="glass-p-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-transition-colors"
+          className={cn(
+            "glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-transition-colors",
+            compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
+          )}
           whileHover={shouldAnimate ? { scale: 1.1 } : {}}
           whileTap={shouldAnimate ? { scale: 0.9 } : {}}
           onClick={isPlaying ? handlePause : handlePlay}
@@ -674,7 +734,10 @@ export const GlassMusicVisualizer = forwardRef<
         </motion.button>
 
         <motion.button
-          className="glass-p-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-transition-colors"
+          className={cn(
+            "glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-transition-colors",
+            compact ? "glass-p-1.5 glass-text-xs" : "glass-p-2"
+          )}
           whileHover={shouldAnimate ? { scale: 1.1 } : {}}
           whileTap={shouldAnimate ? { scale: 0.9 } : {}}
           onClick={handleStop}
@@ -682,7 +745,7 @@ export const GlassMusicVisualizer = forwardRef<
           ⏹️
         </motion.button>
 
-        <div className="glass-flex glass-items-center glass-space-x-2">
+        <div className="glass-flex glass-items-center glass-gap-1">
           <span className="glass-text-xs glass-text-primary-glass-opacity-60">
             {Math.floor(currentTime / 60)}:
             {Math.floor(currentTime % 60)
@@ -698,12 +761,12 @@ export const GlassMusicVisualizer = forwardRef<
           </span>
         </div>
 
-        <div className="glass-flex glass-items-center glass-space-x-2">
+        <div className="glass-flex glass-items-center glass-gap-1">
           <label
             htmlFor={volumeControlId}
             className="glass-text-xs glass-text-primary-glass-opacity-80"
           >
-            Volume:
+            {compact ? "Vol" : "Volume:"}
           </label>
           <input
             type="range"
@@ -718,7 +781,10 @@ export const GlassMusicVisualizer = forwardRef<
                 audioRef.current.volume = volume;
               }
             }}
-            className="glass-w-16 glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
+            className={cn(
+              "glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer",
+              compact ? "glass-w-12" : "glass-w-16"
+            )}
             aria-label="Volume"
             id={volumeControlId}
           />
@@ -731,17 +797,31 @@ export const GlassMusicVisualizer = forwardRef<
         ref={ref}
         variant="frosted"
         data-glass-component
-        className={`glass-music-visualizer glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
+        className={cn(
+          "glass-music-visualizer glass-max-w-full glass-overflow-auto",
+          compact ? "glass-p-3 glass-space-y-2" : "glass-p-4 glass-space-y-4",
+          className
+        )}
         style={{ ...readableGlassTextStyle, maxHeight: "100%", minWidth: 0 }}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between">
+        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3">
           <div className="glass-min-w-0">
-            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90">
+            <h3
+              className={cn(
+                "glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate",
+                compact ? "glass-text-sm" : "glass-text-lg"
+              )}
+            >
               Music Visualizer
             </h3>
-            <p className="glass-text-sm glass-text-primary-glass-opacity-60">
+            <p
+              className={cn(
+                "glass-text-primary-glass-opacity-60 glass-truncate",
+                compact ? "glass-text-xs" : "glass-text-sm"
+              )}
+            >
               Real-time audio visualization and analysis
             </p>
           </div>
@@ -795,7 +875,7 @@ export const GlassMusicVisualizer = forwardRef<
               ${enableInteraction ? "glass-cursor-pointer" : ""}
             `}
             style={{
-              height: "clamp(120px, 26vw, 220px)",
+              height: compact ? "130px" : "clamp(120px, 26vw, 220px)",
               display: "block",
             }}
             onClick={

@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export type Language =
   | "javascript"
@@ -269,11 +270,13 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
         className
       )}
       style={{
+        ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
         maxHeight,
         minHeight,
         minWidth: 0,
-        background:
-          '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
       blur="medium"
       elevation={"level1"}
@@ -336,10 +339,10 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
       <div
         className={cn("glass-relative glass-min-h-0 glass-overflow-hidden")}
         style={{
-          minHeight: "160px",
-          height: "160px",
-          background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          ...createGlassStyle({ intent: "neutral", elevation: "level1" }),
+          minHeight: 0,
+          height: "auto",
+          flex: "1 1 auto",
         }}
       >
         {/* Syntax Highlighted Background */}
@@ -395,8 +398,8 @@ export const GlassCodeEditor: React.FC<GlassCodeEditorProps> = ({
             fontSize,
             lineHeight,
             tabSize,
-            minHeight: "160px",
-            height: "160px",
+            minHeight: "100%",
+            height: "100%",
           }}
           spellCheck={false}
           autoComplete={autoComplete ? "on" : "off"}

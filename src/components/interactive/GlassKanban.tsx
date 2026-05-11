@@ -74,6 +74,10 @@ export interface GlassKanbanProps extends ConsciousnessFeatures {
    * Card move handler
    */
   onCardMove?: (cardId: string, fromColumn: string, toColumn: string) => void;
+  /**
+   * Reduces column width, padding, and chrome for embedded previews.
+   */
+  compact?: boolean;
 }
 
 /**
@@ -88,6 +92,7 @@ export function GlassKanban({
   enableDragDrop = true,
   showLimits = true,
   showMetrics = false,
+  compact = false,
   onCardClick,
   onColumnClick,
   onCardMove,
@@ -397,7 +402,10 @@ export function GlassKanban({
           className
         )}
         style={{
-          gridTemplateColumns: `repeat(${columns.length}, minmax(280px, 1fr))`,
+          gridTemplateColumns: `repeat(${columns.length}, minmax(${compact ? 96 : 280}px, 1fr))`,
+          gap: compact ? 8 : undefined,
+          padding: compact ? 8 : undefined,
+          minWidth: compact ? 0 : undefined,
         }}
         data-consciousness-kanban="true"
         data-consciousness-active={String(!!consciousness)}
@@ -478,6 +486,11 @@ export function GlassKanban({
                 interactionCount > 0 && "consciousness-column-interacted",
                 consciousness && "consciousness-enhanced-column"
               )}
+              style={{
+                minHeight: compact ? 120 : undefined,
+                padding: compact ? 10 : undefined,
+                overflow: "hidden",
+              }}
               data-consciousness-column="true"
               data-column-id={column.id}
               data-interaction-count={interactionCount}
@@ -501,7 +514,7 @@ export function GlassKanban({
                 </div>
 
                 <div className="glass-flex glass-items-center glass-gap-2">
-                  {showLimits && column.limit && (
+                  {!compact && showLimits && column.limit && (
                     <span
                       className={cn(
                         "glass-text-xs glass-px-2 glass-py-1 glass-radius-md",
@@ -514,29 +527,33 @@ export function GlassKanban({
                     </span>
                   )}
 
-                  <GlassButton
-                    variant="ghost"
-                    size="sm"
-                    className="glass-p-1"
-                    consciousness={consciousness}
-                    adaptive={adaptive}
-                    spatialAudio={spatialAudio}
-                    trackAchievements={trackAchievements}
-                  >
-                    <Plus className="glass-w-3 glass-h-3" />
-                  </GlassButton>
+                  {!compact && (
+                    <GlassButton
+                      variant="ghost"
+                      size="sm"
+                      className="glass-p-1"
+                      consciousness={consciousness}
+                      adaptive={adaptive}
+                      spatialAudio={spatialAudio}
+                      trackAchievements={trackAchievements}
+                    >
+                      <Plus className="glass-w-3 glass-h-3" />
+                    </GlassButton>
+                  )}
 
-                  <GlassButton
-                    variant="ghost"
-                    size="sm"
-                    className="glass-p-1"
-                    consciousness={consciousness}
-                    adaptive={adaptive}
-                    spatialAudio={spatialAudio}
-                    trackAchievements={trackAchievements}
-                  >
-                    <MoreHorizontal className="glass-w-3 glass-h-3" />
-                  </GlassButton>
+                  {!compact && (
+                    <GlassButton
+                      variant="ghost"
+                      size="sm"
+                      className="glass-p-1"
+                      consciousness={consciousness}
+                      adaptive={adaptive}
+                      spatialAudio={spatialAudio}
+                      trackAchievements={trackAchievements}
+                    >
+                      <MoreHorizontal className="glass-w-3 glass-h-3" />
+                    </GlassButton>
+                  )}
                 </div>
               </div>
 
@@ -571,6 +588,7 @@ export function GlassKanban({
                       style={{
                         animationDelay: `${cardIndex * 50}ms`,
                         animationFillMode: "both",
+                        padding: compact ? 8 : undefined,
                       }}
                       data-consciousness-card="true"
                       data-card-id={card.id}
@@ -596,7 +614,10 @@ export function GlassKanban({
                       </div>
 
                       {card.description && (
-                        <div className="glass-text-xs glass-text-primary-opacity-70 glass-mb-2">
+                        <div
+                          className="glass-text-xs glass-text-primary-opacity-70 glass-mb-2"
+                          style={{ display: compact ? "none" : undefined }}
+                        >
                           {card.description}
                         </div>
                       )}

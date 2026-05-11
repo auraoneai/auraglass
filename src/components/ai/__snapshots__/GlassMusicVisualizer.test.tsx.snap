@@ -2,23 +2,23 @@
 
 exports[`GlassMusicVisualizer matches snapshot 1`] = `
 <div
-  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-music-visualizer glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto"
+  class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-music-visualizer glass-max-w-full glass-overflow-auto glass-p-4 glass-space-y-4"
   data-glass-component="true"
   style="--glass-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-theme-text: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); max-height: 100%; min-width: 0;"
 >
   <div
-    class="glass-flex glass-items-center glass-justify-between"
+    class="glass-flex glass-items-center glass-justify-between glass-gap-3"
   >
     <div
       class="glass-min-w-0"
     >
       <h3
-        class="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90"
+        class="glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate glass-text-lg"
       >
         Music Visualizer
       </h3>
       <p
-        class="glass-text-sm glass-text-primary-glass-opacity-60"
+        class="glass-text-primary-glass-opacity-60 glass-truncate glass-text-sm"
       >
         Real-time audio visualization and analysis
       </p>
@@ -41,22 +41,22 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="glass-flex glass-items-center glass-space-x-4"
+    class="glass-flex glass-items-center glass-gap-2 glass-space-x-4"
   >
     <button
-      class="glass-p-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-transition-colors"
+      class="glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-transition-colors glass-p-2"
       tabindex="0"
     >
       ▶️
     </button>
     <button
-      class="glass-p-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-transition-colors"
+      class="glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-transition-colors glass-p-2"
       tabindex="0"
     >
       ⏹️
     </button>
     <div
-      class="glass-flex glass-items-center glass-space-x-2"
+      class="glass-flex glass-items-center glass-gap-1"
     >
       <span
         class="glass-text-xs glass-text-primary-glass-opacity-60"
@@ -79,7 +79,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </span>
     </div>
     <div
-      class="glass-flex glass-items-center glass-space-x-2"
+      class="glass-flex glass-items-center glass-gap-1"
     >
       <label
         class="glass-text-xs glass-text-primary-glass-opacity-80"
@@ -89,7 +89,7 @@ exports[`GlassMusicVisualizer matches snapshot 1`] = `
       </label>
       <input
         aria-label="Volume"
-        class="glass-w-16 glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer"
+        class="glass-h-2 glass-surface-subtle/20 glass-radius-lg glass-appearance-none glass-cursor-pointer glass-w-16"
         id="glass-music-volume-:rm:"
         max="1"
         min="0"

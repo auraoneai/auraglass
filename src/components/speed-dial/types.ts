@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 export interface SpeedDialProps {
   /**
    * Additional CSS class
@@ -33,7 +33,7 @@ export interface SpeedDialProps {
   /**
    * The direction of the speed dial actions
    */
-  direction?: 'up' | 'down' | 'left' | 'right';
+  direction?: "up" | "down" | "left" | "right";
 
   /**
    * If true, the speed dial is disabled
@@ -53,12 +53,26 @@ export interface SpeedDialProps {
   /**
    * Callback fired when an action is clicked
    */
-  onActionClick?: (event: React.MouseEvent<HTMLDivElement>, index: number) => void;
+  onActionClick?: (
+    event: React.MouseEvent<HTMLDivElement>,
+    index: number
+  ) => void;
 
   /**
    * If true, the speed dial hides when scrolling
    */
   hideOnScroll?: boolean;
+
+  /**
+   * CSS positioning strategy for the root control. Use "absolute" when the
+   * speed dial is rendered inside a bounded surface or card.
+   */
+  positionStrategy?: "fixed" | "absolute";
+
+  /**
+   * Whether to render the full-screen backdrop while open.
+   */
+  showBackdrop?: boolean;
 
   /**
    * The position of the speed dial
@@ -68,26 +82,26 @@ export interface SpeedDialProps {
     bottom?: number | string;
     left?: number | string;
     right?: number | string;
-  
-  /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
-  /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
-  /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
-};
+
+    /** Glass surface intent */
+    intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
+    /** Glass surface elevation */
+    elevation?: "level1" | "level2" | "level3" | "level4";
+
+    /** Performance tier */
+    tier?: "low" | "medium" | "high";
+  };
 
   /**
    * The size of the speed dial
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 
   /**
    * The color theme of the speed dial
    */
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'default';
+  color?: "primary" | "secondary" | "success" | "warning" | "error" | "default";
 
   /**
    * If true, glass morphism styling is applied
@@ -129,7 +143,7 @@ export interface SpeedDialActionProps {
   /**
    * The direction of the speed dial
    */
-  direction?: 'up' | 'down' | 'left' | 'right';
+  direction?: "up" | "down" | "left" | "right";
 
   /**
    * The index of this action in the speed dial
@@ -144,7 +158,7 @@ export interface SpeedDialActionProps {
   /**
    * The size of the action button
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 
   /**
    * If true, the action is disabled
@@ -214,12 +228,12 @@ export interface SpeedDialActionProps {
   /**
    * Accessible label for the action
    */
-  'aria-label'?: string;
+  "aria-label"?: string;
 
   /**
    * Test ID for the component
    */
-  'data-testid'?: string;
+  "data-testid"?: string;
 }
 
 export interface SpeedDialIconProps {

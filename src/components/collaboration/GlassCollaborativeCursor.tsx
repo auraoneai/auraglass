@@ -12,6 +12,7 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 interface CollaborativeCursorProps {
   className?: string;
   previewUsers?: CollaborationUser[];
+  positionStrategy?: "fixed" | "absolute";
   "data-testid"?: string;
 }
 
@@ -49,6 +50,7 @@ const CursorIcon: React.FC<{ color: string; name: string }> = ({
 export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
   className,
   previewUsers,
+  positionStrategy = "fixed",
   "data-testid": dataTestId,
 }) => {
   const { users, currentUser, showCursors } = useCollaboration();
@@ -80,7 +82,8 @@ export const GlassCollaborativeCursor: React.FC<CollaborativeCursorProps> = ({
     <div
       data-glass-component
       className={cn(
-        "glass-fixed glass-inset-0 glass-pointer-events-none glass-z-50",
+        positionStrategy === "absolute" ? "glass-absolute" : "glass-fixed",
+        "glass-inset-0 glass-pointer-events-none glass-z-50",
         className
       )}
       data-testid={dataTestId}

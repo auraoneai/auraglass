@@ -36,6 +36,7 @@ export interface ZSpaceAppLayoutProps {
   sidebarPosition?: "left" | "right";
   collapsedSidebar?: boolean;
   onSidebarToggle?: () => void;
+  positionStrategy?: "fixed" | "absolute";
   "aria-label"?: string; // Add aria-label to props
 }
 
@@ -66,6 +67,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       sidebarPosition = "left",
       collapsedSidebar = false,
       onSidebarToggle,
+      positionStrategy = "fixed",
       "aria-label": ariaLabel, // Destructure aria-label
     },
     ref
@@ -87,7 +89,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
       ...style,
       position: "relative",
       width: "100%",
-      height: "100vh",
+      height: style.height ?? "100vh",
       perspective: `${perspective}px`,
       transformStyle: "preserve-3d",
       overflow: "hidden",
@@ -105,7 +107,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Header styles
      */
     const headerStyles: CSSProperties = {
-      position: "fixed",
+      position: positionStrategy,
       top: 0,
       left: 0,
       right: 0,
@@ -119,7 +121,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Sidebar styles
      */
     const sidebarStyles: CSSProperties = {
-      position: "fixed",
+      position: positionStrategy,
       top: header ? headerHeightPx : 0,
       [sidebarPosition]: 0,
       bottom: footer ? footerHeightPx : 0,
@@ -136,7 +138,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Main content styles
      */
     const mainStyles: CSSProperties = {
-      position: "fixed",
+      position: positionStrategy,
       top: header ? headerHeightPx : 0,
       bottom: footer ? footerHeightPx : 0,
       left:
@@ -164,7 +166,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Footer styles
      */
     const footerStyles: CSSProperties = {
-      position: "fixed",
+      position: positionStrategy,
       bottom: 0,
       left: 0,
       right: 0,
@@ -178,7 +180,7 @@ export const ZSpaceAppLayout = forwardRef<HTMLDivElement, ZSpaceAppLayoutProps>(
      * Overlay styles
      */
     const overlayStyles: CSSProperties = {
-      position: "fixed",
+      position: positionStrategy,
       inset: 0,
       transform: getLayerTransform(overlayDepth),
       transformStyle: "preserve-3d",

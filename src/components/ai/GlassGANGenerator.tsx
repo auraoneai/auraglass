@@ -60,6 +60,9 @@ export interface GlassGANGeneratorProps {
   selectedModel?: string;
   generationParams?: Partial<GenerationParams>;
   trainingConfig?: Partial<TrainingConfig>;
+  compact?: boolean;
+  showHeader?: boolean;
+  showActions?: boolean;
   showModelSelector?: boolean;
   showGenerationControls?: boolean;
   showTrainingControls?: boolean;
@@ -179,6 +182,9 @@ export const GlassGANGenerator = forwardRef<
       selectedModel = "stylegan2-faces",
       generationParams = {},
       trainingConfig = {},
+      compact = false,
+      showHeader = !compact,
+      showActions = !compact,
       showModelSelector = true,
       showGenerationControls = false,
       showTrainingControls = false,
@@ -594,12 +600,17 @@ export const GlassGANGenerator = forwardRef<
     }, [latentVectors, visualizeLatentSpace]);
 
     const ModelSelector = () => (
-      <div className="glass-space-y-4">
-        <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
-          GAN Models
-        </h4>
+      <div className={compact ? "glass-space-y-3" : "glass-space-y-4"}>
+        {!compact && (
+          <h4 className="glass-text-sm glass-font-medium glass-text-primary-glass-opacity-80">
+            GAN Models
+          </h4>
+        )}
 
-        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3">
+        <div
+          className={`glass-grid ${compact ? "glass-grid-cols-1 glass-gap-2" : "glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3"}`}
+          style={compact ? { gridTemplateColumns: "1fr", gap: 8 } : undefined}
+        >
           {availableModels.map((ganModel) => (
             <motion.div
               key={ganModel.id}
@@ -774,42 +785,46 @@ export const GlassGANGenerator = forwardRef<
           ...readableGlassTextStyle,
           maxHeight: "100%",
           minWidth: 0,
+          height: compact ? "100%" : undefined,
+          overflow: compact ? "hidden" : undefined,
         }}
-        className={`glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto ${className}`}
+        className={`${compact ? "glass-p-3 glass-space-y-3" : "glass-p-4 glass-space-y-4"} glass-max-w-full glass-overflow-auto ${className}`}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0">
-          <div className="glass-min-w-0">
-            <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate">
-              GAN Generator
-            </h3>
-            <p className="glass-text-sm glass-text-primary-glass-opacity-60">
-              Generative Adversarial Networks for image synthesis
-            </p>
-          </div>
+        {showHeader && (
+          <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0">
+            <div className="glass-min-w-0">
+              <h3 className="glass-text-lg glass-font-semibold glass-text-primary-glass-opacity-90 glass-truncate">
+                GAN Generator
+              </h3>
+              <p className="glass-text-sm glass-text-primary-glass-opacity-60">
+                Generative Adversarial Networks for image synthesis
+              </p>
+            </div>
 
-          <div className="glass-flex glass-items-center glass-space-x-2">
-            {enableRealTime && model.trained && (
-              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-                <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
-                <span className="glass-text-xs">Auto-gen</span>
-              </div>
-            )}
-            {isGenerating && (
-              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-                <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin" />
-                <span className="glass-text-xs">Generating...</span>
-              </div>
-            )}
-            {isTraining && (
-              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-                <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-orange-400 glass-border-t-transparent glass-radius-full glass-animate-spin" />
-                <span className="glass-text-xs">Training...</span>
-              </div>
-            )}
+            <div className="glass-flex glass-items-center glass-space-x-2">
+              {enableRealTime && model.trained && (
+                <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                  <div className="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse" />
+                  <span className="glass-text-xs">Auto-gen</span>
+                </div>
+              )}
+              {isGenerating && (
+                <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                  <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-blue glass-border-t-transparent glass-radius-full glass-animate-spin" />
+                  <span className="glass-text-xs">Generating...</span>
+                </div>
+              )}
+              {isTraining && (
+                <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                  <div className="glass-w-4 glass-h-4 glass-border-2 glass-border-orange-400 glass-border-t-transparent glass-radius-full glass-animate-spin" />
+                  <span className="glass-text-xs">Training...</span>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Generated images grid */}
         {generatedImages.length > 0 && (
@@ -891,7 +906,10 @@ export const GlassGANGenerator = forwardRef<
           </div>
         )}
 
-        <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4">
+        <div
+          className={`glass-grid ${compact ? "glass-grid-cols-1 glass-gap-2" : "glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4"}`}
+          style={compact ? { gridTemplateColumns: "1fr", gap: 8 } : undefined}
+        >
           {/* Model selector */}
           {showModelSelector && <ModelSelector />}
 
@@ -966,48 +984,50 @@ export const GlassGANGenerator = forwardRef<
         )}
 
         {/* Action buttons */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex-wrap">
-          <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
-            <motion.button
-              className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
-              whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-              whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-              onClick={generateImages}
-              disabled={isGenerating || !model.trained}
-            >
-              {isGenerating ? "Generating..." : "Generate Images"}
-            </motion.button>
-
-            {enableInterpolation && latentVectors.length >= 2 && (
+        {showActions && (
+          <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex-wrap">
+            <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
               <motion.button
-                className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
+                className="glass-px-4 glass-py-2 glass-surface-blue hover:glass-surface-blue glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
                 whileHover={shouldAnimate ? { scale: 1.02 } : {}}
                 whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-                onClick={generateInterpolation}
+                onClick={generateImages}
+                disabled={isGenerating || !model.trained}
               >
-                Interpolate
+                {isGenerating ? "Generating..." : "Generate Images"}
               </motion.button>
-            )}
 
-            {showTrainingControls && !model.trained && (
-              <motion.button
-                className="glass-px-4 glass-py-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
-                whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                whileTap={shouldAnimate ? { scale: 0.98 } : {}}
-                onClick={trainModel}
-                disabled={isTraining}
-              >
-                {isTraining ? "Training..." : "Train Model"}
-              </motion.button>
-            )}
-          </div>
+              {enableInterpolation && latentVectors.length >= 2 && (
+                <motion.button
+                  className="glass-px-4 glass-py-2 glass-border glass-border-white/30 hover:glass-border-white/50 glass-text-primary-glass-opacity-80 glass-radius-lg glass-text-sm glass-transition-colors"
+                  whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                  whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                  onClick={generateInterpolation}
+                >
+                  Interpolate
+                </motion.button>
+              )}
 
-          <div className="glass-flex glass-items-center glass-gap-2 glass-text-xs glass-text-primary-glass-opacity-60 glass-min-w-0 glass-flex-wrap">
-            <span>Generated: {generatedImages.length}</span>
-            <span>•</span>
-            <span>Model: {model.name}</span>
+              {showTrainingControls && !model.trained && (
+                <motion.button
+                  className="glass-px-4 glass-py-2 glass-surface-primary hover:glass-surface-primary glass-text-primary glass-radius-lg glass-text-sm glass-font-medium glass-transition-colors disabled:glass-opacity-50"
+                  whileHover={shouldAnimate ? { scale: 1.02 } : {}}
+                  whileTap={shouldAnimate ? { scale: 0.98 } : {}}
+                  onClick={trainModel}
+                  disabled={isTraining}
+                >
+                  {isTraining ? "Training..." : "Train Model"}
+                </motion.button>
+              )}
+            </div>
+
+            <div className="glass-flex glass-items-center glass-gap-2 glass-text-xs glass-text-primary-glass-opacity-60 glass-min-w-0 glass-flex-wrap">
+              <span>Generated: {generatedImages.length}</span>
+              <span>•</span>
+              <span>Model: {model.name}</span>
+            </div>
           </div>
-        </div>
+        )}
       </OptimizedGlass>
     );
   }

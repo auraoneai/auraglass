@@ -49,7 +49,8 @@ export interface DrawingShape {
   timestamp: number;
 }
 
-export interface GlassWhiteboardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassWhiteboardProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Initial drawing data */
   initialData?: Array<DrawingPath | DrawingShape>;
   /** Whether the whiteboard is collaborative */
@@ -150,6 +151,20 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const overlayCanvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    const resolveCanvasColor = useCallback((color: string) => {
+      if (!color.startsWith("var(")) return color;
+      if (typeof window === "undefined") return color;
+
+      const tokenName = color.match(/var\((--[^,\s)]+)/)?.[1];
+      if (!tokenName) return color;
+
+      const host = containerRef.current ?? document.documentElement;
+      const resolved = getComputedStyle(host)
+        .getPropertyValue(tokenName)
+        .trim();
+      return resolved || color;
+    }, []);
 
     // Update drawing data and notify parent
     const updateDrawingData = useCallback(
@@ -354,7 +369,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
 
         switch (backgroundPattern) {
           case "grid":
-            ctx.strokeStyle = "var(--glass-white)10";
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.10)";
             ctx.lineWidth = 1;
             for (let x = 0; x < width; x += 20) {
               ctx.beginPath();
@@ -370,7 +385,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
             }
             break;
           case "dots":
-            ctx.fillStyle = "var(--glass-white)20";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.20)";
             for (let x = 20; x < width; x += 20) {
               for (let y = 20; y < height; y += 20) {
                 ctx.beginPath();
@@ -380,7 +395,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
             }
             break;
           case "lines":
-            ctx.strokeStyle = "var(--glass-white)10";
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.10)";
             ctx.lineWidth = 1;
             for (let y = 0; y < height; y += 40) {
               ctx.beginPath();
@@ -406,7 +421,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
           if ("points" in element) {
             // Draw path
             if ((element.points?.length || 0) > 1) {
-              ctx.strokeStyle = element.color;
+              ctx.strokeStyle = resolveCanvasColor(element.color);
               ctx.lineWidth = element.width;
               ctx.lineCap = "round";
               ctx.lineJoin = "round";
@@ -422,9 +437,10 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
             }
           } else {
             // Draw shape
-            ctx.strokeStyle = element.color;
+            const resolvedColor = resolveCanvasColor(element.color);
+            ctx.strokeStyle = resolvedColor;
             ctx.lineWidth = element.width;
-            ctx.fillStyle = element.color;
+            ctx.fillStyle = resolvedColor;
 
             const width = Math.abs(element.endX - element.startX);
             const height = Math.abs(element.endY - element.startY);
@@ -462,7 +478,7 @@ const GlassWhiteboard = React.forwardRef<HTMLDivElement, GlassWhiteboardProps>(
           ctx.globalAlpha = 1;
         });
       },
-      []
+      [resolveCanvasColor]
     );
 
     // Draw selection highlights

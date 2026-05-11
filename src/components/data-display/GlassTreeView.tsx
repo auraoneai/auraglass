@@ -18,6 +18,7 @@ import {
 } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface GlassTreeNode {
   id: string;
@@ -51,10 +52,11 @@ const DEFAULT_TREE_DATA: GlassTreeNode[] = [
   },
 ];
 
-export interface GlassTreeViewProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "onSelect" | "onDragStart" | "onDrop"
-> {
+export interface GlassTreeViewProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onSelect" | "onDragStart" | "onDrop"
+  > {
   /** Tree data */
   data?: GlassTreeNode[];
   /** Currently selected node */
@@ -394,6 +396,13 @@ const GlassTreeNodeComponent = ({ node, level }: GlassTreeNodeProps) => {
               variant === "filled"
                 ? "rgba(5, 11, 24, 0.28)"
                 : "rgba(5, 11, 24, 0.12)",
+            borderColor: isSelected
+              ? "rgba(124, 211, 255, 0.44)"
+              : "rgba(148, 163, 184, 0.18)",
+            boxShadow: isSelected
+              ? "inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 8px 18px rgba(2, 6, 23, 0.22)"
+              : "inset 0 1px 0 rgba(255, 255, 255, 0.035)",
+            color: "var(--glass-text-primary, rgba(248, 250, 252, 0.9))",
           }}
           onClick={handleNodeClick}
           onDragStart={handleDragStart}
@@ -665,9 +674,12 @@ export const GlassTreeView = forwardRef<HTMLDivElement, GlassTreeViewProps>(
             className
           )}
           style={{
+            ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
             maxHeight: "100%",
-            background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            borderColor: "rgba(148, 163, 184, 0.22)",
+            boxShadow:
+              "inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 12px 28px rgba(2, 6, 23, 0.24)",
+            color: "var(--glass-text-primary, rgba(248, 250, 252, 0.9))",
           }}
           role="tree"
           aria-multiselectable={selectionMode === "multiple"}
