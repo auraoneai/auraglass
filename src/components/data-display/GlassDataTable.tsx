@@ -105,6 +105,16 @@ export interface GlassDataTableProps<
    * Initial page size
    */
   initialPageSize?: number;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain the table in a bounded vertical viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Hide the search/actions header in compact mode if desired. */
+  showHeader?: boolean;
+  /** Hide pagination controls in compact mode if desired. */
+  showFooter?: boolean;
   /**
    * Enable row selection
    */
@@ -203,6 +213,11 @@ const GlassDataTableInnerBase = <
     pagination = true,
     pageSizeOptions: incomingPageSizeOptions = [10, 25, 50, 100],
     initialPageSize = 10,
+    compact = false,
+    contained = false,
+    maxHeight,
+    showHeader = true,
+    showFooter = true,
     selectable = false,
     selectionMode = "multiple",
     selectedRows: incomingSelectedRows = [],
@@ -234,10 +249,13 @@ const GlassDataTableInnerBase = <
 ) => {
   const data = Array.isArray(incomingData) ? incomingData : [];
   const columns = Array.isArray(incomingColumns) ? incomingColumns : [];
+  const effectiveInitialPageSize = compact
+    ? Math.min(initialPageSize, 4)
+    : initialPageSize;
   const pageSizeOptions =
     Array.isArray(incomingPageSizeOptions) && incomingPageSizeOptions.length
       ? incomingPageSizeOptions
-      : [initialPageSize];
+      : [effectiveInitialPageSize];
   const selectedRows = Array.isArray(incomingSelectedRows)
     ? incomingSelectedRows
     : [];
@@ -247,7 +265,9 @@ const GlassDataTableInnerBase = <
   const [predictedSortColumn, setPredictedSortColumn] = useState<string | null>(
     null
   );
-  const [adaptivePageSize, setAdaptivePageSize] = useState(initialPageSize);
+  const [adaptivePageSize, setAdaptivePageSize] = useState(
+    effectiveInitialPageSize
+  );
   const [interactionHeatmap, setInteractionHeatmap] = useState<
     Record<string, number>
   >({});
@@ -266,7 +286,7 @@ const GlassDataTableInnerBase = <
   const [filterState, setFilterState] = useState<FilterState>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(initialPageSize);
+  const [pageSize, setPageSize] = useState(effectiveInitialPageSize);
   const activePageSize = Math.max(
     1,
     Number.isFinite(biometricResponsive ? adaptivePageSize : pageSize)
@@ -289,7 +309,13 @@ const GlassDataTableInnerBase = <
   );
 
   // Ensure size is always valid
-  const validSize = size && ["sm", "md", "lg"].includes(size) ? size : "md";
+  const validSize = compact
+    ? "sm"
+    : size && ["sm", "md", "lg"].includes(size)
+      ? size
+      : "md";
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
   // Biometric adaptation for table density and pagination
   useEffect(() => {
@@ -600,8 +626,13 @@ const GlassDataTableInnerBase = <
       {...restProps}
     >
       {/* Table header with search and actions */}
-      {(searchable || actions || filterable) && (
-        <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-mb-4">
+      {showHeader && (searchable || actions || filterable) && (
+        <div
+          className={cn(
+            "glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3",
+            compact ? "glass-mb-2" : "glass-mb-4"
+          )}
+        >
           <div className="glass-flex glass-min-w-0 glass-flex-1 glass-items-center glass-gap-3">
             {searchable && (
               <GlassInput
@@ -624,7 +655,10 @@ const GlassDataTableInnerBase = <
                   </svg>
                 }
                 clearable
-                className="glass-w-full sm:glass-w-64"
+                className={cn(
+                  "glass-w-full",
+                  compact ? "sm:glass-w-48" : "sm:glass-w-64"
+                )}
               />
             )}
           </div>
@@ -656,6 +690,10 @@ const GlassDataTableInnerBase = <
           ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
           borderColor: "rgba(148, 163, 184, 0.24)",
           color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
+          maxHeight:
+            resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+          overflow:
+            compact || contained || resolvedMaxHeight ? "auto" : undefined,
         }}
       >
         <div className="glass-w-full glass-overflow-x-auto">
@@ -663,8 +701,9 @@ const GlassDataTableInnerBase = <
             className="glass-w-full glass-table-fixed"
             style={{
               color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
-              minWidth:
-                columns.length > 3
+              minWidth: compact
+                ? "100%"
+                : columns.length > 3
                   ? `${Math.max(640, columns.length * 152)}px`
                   : "100%",
             }}
@@ -936,87 +975,95 @@ const GlassDataTableInnerBase = <
         </div>
 
         {/* Pagination */}
-        {pagination && !loading && (paginatedData || []).length > 0 && (
-          <div className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-px-4 glass-py-3 glass-border-t glass-border-glass-border/10 glass-surface-subtle">
-            <div className="glass-flex glass-items-center glass-gap-2">
-              <span
-                className="glass-text-sm glass-text-secondary"
-                role="status"
-              >
-                Showing {(currentPage - 1) * activePageSize + 1} to{" "}
-                {Math.min(
-                  currentPage * activePageSize,
-                  (sortedData || []).length
-                )}{" "}
-                of {(sortedData || []).length} results
-              </span>
-            </div>
-
-            <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
+        {showFooter &&
+          pagination &&
+          !loading &&
+          (paginatedData || []).length > 0 && (
+            <div
+              className={cn(
+                "glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-3 glass-border-t glass-border-glass-border/10 glass-surface-subtle",
+                compact ? "glass-px-2 glass-py-2" : "glass-px-4 glass-py-3"
+              )}
+            >
               <div className="glass-flex glass-items-center glass-gap-2">
-                <ContrastGuard>
-                  <span className="glass-text-sm glass-text-secondary">
-                    Rows per page:
-                  </span>
-                </ContrastGuard>
-                <GlassSelect
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                    setCurrentPage(1);
-                  }}
-                  options={(pageSizeOptions || []).map((size) => ({
-                    value: size,
-                    label: size.toString(),
-                  }))}
-                  size="sm"
-                />
+                <span
+                  className="glass-text-sm glass-text-secondary"
+                  role="status"
+                >
+                  Showing {(currentPage - 1) * activePageSize + 1} to{" "}
+                  {Math.min(
+                    currentPage * activePageSize,
+                    (sortedData || []).length
+                  )}{" "}
+                  of {(sortedData || []).length} results
+                </span>
               </div>
 
-              <div className="glass-flex glass-items-center glass-gap-1">
-                <IconButton
-                  icon="←"
-                  variant="ghost"
-                  size="sm"
-                  disabled={currentPage === 1}
-                  onClick={(e) => setCurrentPage(1)}
-                  aria-label="First page"
-                />
-                <IconButton
-                  icon="‹"
-                  variant="ghost"
-                  size="sm"
-                  disabled={currentPage === 1}
-                  onClick={(e) => setCurrentPage((p) => p - 1)}
-                  aria-label="Previous page"
-                />
+              <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-4">
+                <div className="glass-flex glass-items-center glass-gap-2">
+                  <ContrastGuard>
+                    <span className="glass-text-sm glass-text-secondary">
+                      Rows per page:
+                    </span>
+                  </ContrastGuard>
+                  <GlassSelect
+                    value={pageSize}
+                    onChange={(e) => {
+                      setPageSize(Number(e.target.value));
+                      setCurrentPage(1);
+                    }}
+                    options={(pageSizeOptions || []).map((size) => ({
+                      value: size,
+                      label: size.toString(),
+                    }))}
+                    size="sm"
+                  />
+                </div>
 
-                <ContrastGuard>
-                  <span className="glass-px-3 glass-py-1 glass-text-sm">
-                    {currentPage} of {totalPages}
-                  </span>
-                </ContrastGuard>
+                <div className="glass-flex glass-items-center glass-gap-1">
+                  <IconButton
+                    icon="←"
+                    variant="ghost"
+                    size="sm"
+                    disabled={currentPage === 1}
+                    onClick={(e) => setCurrentPage(1)}
+                    aria-label="First page"
+                  />
+                  <IconButton
+                    icon="‹"
+                    variant="ghost"
+                    size="sm"
+                    disabled={currentPage === 1}
+                    onClick={(e) => setCurrentPage((p) => p - 1)}
+                    aria-label="Previous page"
+                  />
 
-                <IconButton
-                  icon="›"
-                  variant="ghost"
-                  size="sm"
-                  disabled={currentPage === totalPages}
-                  onClick={(e) => setCurrentPage((p) => p + 1)}
-                  aria-label="Next page"
-                />
-                <IconButton
-                  icon="→"
-                  variant="ghost"
-                  size="sm"
-                  disabled={currentPage === totalPages}
-                  onClick={(e) => setCurrentPage(totalPages)}
-                  aria-label="Last page"
-                />
+                  <ContrastGuard>
+                    <span className="glass-px-3 glass-py-1 glass-text-sm">
+                      {currentPage} of {totalPages}
+                    </span>
+                  </ContrastGuard>
+
+                  <IconButton
+                    icon="›"
+                    variant="ghost"
+                    size="sm"
+                    disabled={currentPage === totalPages}
+                    onClick={(e) => setCurrentPage((p) => p + 1)}
+                    aria-label="Next page"
+                  />
+                  <IconButton
+                    icon="→"
+                    variant="ghost"
+                    size="sm"
+                    disabled={currentPage === totalPages}
+                    onClick={(e) => setCurrentPage(totalPages)}
+                    aria-label="Last page"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
       </OptimizedGlass>
     </div>
   );

@@ -52,6 +52,14 @@ export interface GlassScrollAreaProps
    */
   smoothScrolling?: boolean;
   /**
+   * Compact preview/card layout.
+   */
+  compact?: boolean;
+  /**
+   * Bound the scroll area inside its parent container.
+   */
+  contained?: boolean;
+  /**
    * Whether to respect user's motion preferences
    */
   respectMotionPreference?: boolean;
@@ -105,6 +113,8 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
       className,
       onScroll,
       smoothScrolling = false,
+      compact = false,
+      contained = false,
       respectMotionPreference = true,
       "aria-label": ariaLabel = "Scrollable content area",
       role = "region",
@@ -126,6 +136,8 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
     const { prefersReducedMotion, isMotionSafe } = useMotionPreferenceContext();
     const shouldRespectMotion =
       respectMotionPreference && !prefersReducedMotion && isMotionSafe;
+    const effectiveMaxHeight =
+      maxHeight ?? (compact || contained ? 200 : "200px");
 
     // Update dimensions when content changes
     useEffect(() => {
@@ -233,7 +245,9 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
         )}
         style={{
           maxHeight:
-            typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight,
+            typeof effectiveMaxHeight === "number"
+              ? `${effectiveMaxHeight}px`
+              : effectiveMaxHeight,
           maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
         }}
         {...props}

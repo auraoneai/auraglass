@@ -612,7 +612,7 @@ console.log('A11y violations:', validation.violations);
 
 - **Documentation**: [consciousness.aura.glass](https://consciousness.aura.glass)
 - **Examples**: [github.com/VeerOneGPT/consciousness-examples](https://github.com/VeerOneGPT/consciousness-examples)
-- **Issues**: [github.com/VeerOneGPT/auraglass/issues](https://github.com/VeerOneGPT/auraglass/issues)
+- **Issues**: [github.com/auraoneai/auraglass/issues](https://github.com/auraoneai/auraglass/issues)
 
 ---
 

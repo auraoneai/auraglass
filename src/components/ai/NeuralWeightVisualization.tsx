@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useMemo } from "react";
 
 import { cn } from "@/lib/utils";
@@ -16,6 +16,9 @@ export interface NeuralWeightVisualizationProps {
   className?: string;
   highlightThreshold?: number;
   precision?: number;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
 }
 
 const DEFAULT_LAYERS: NeuralWeightMatrix[] = [
@@ -69,6 +72,9 @@ export function NeuralWeightVisualization({
   className,
   highlightThreshold = 0.75,
   precision = 2,
+  compact = false,
+  contained = false,
+  maxHeight,
 }: NeuralWeightVisualizationProps) {
   const normalizedLayers = useMemo(() => {
     const fallback = layers.length > 0 ? layers : DEFAULT_LAYERS;
@@ -88,101 +94,123 @@ export function NeuralWeightVisualization({
       className={cn(
         "glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6",
         "bg-gradient-to-br from-slate-950/80 via-slate-900/60 to-slate-900/40",
+        (compact || contained) && "glass-overflow-auto",
         className
       )}
+      style={{
+        ...(maxHeight !== undefined || compact || contained
+          ? {
+              maxHeight:
+                typeof (maxHeight ?? 240) === "number"
+                  ? `${maxHeight ?? 240}px`
+                  : maxHeight,
+            }
+          : null),
+      }}
     >
-      <header>
-        <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
-          Neural Weight Visualization
-        </h2>
-        <p className='glass-text-sm glass-text-primary-opacity-70'>
-          Inspect synaptic strengths with polarity-aware colour mapping and
-          activation overlays.
-        </p>
-      </header>
+      {!compact && (
+        <header>
+          <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
+            Neural Weight Visualization
+          </h2>
+          <p className="glass-text-sm glass-text-primary-opacity-70">
+            Inspect synaptic strengths with polarity-aware colour mapping and
+            activation overlays.
+          </p>
+        </header>
+      )}
 
-      <div className='glass-grid glass-gap-4 lg:glass-grid-cols-3'>
-        {normalizedLayers.map((layer) => (
-          <div
-            key={layer.id}
-            className="glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur"
-          >
-            <div className='glass-flex glass-items-center glass-justify-between glass-text-sm glass-text-primary-glass-opacity-80'>
-              <h3 className='glass-font-semibold glass-text-primary'>{layer.label}</h3>
-              {layer.activation && (
-                <span className='glass-text-xs glass-text-primary-glass-opacity-60'>
-                  Activation avg{" "}
-                  {(
-                    layer.activation.reduce((sum, value) => sum + value, 0) /
-                    layer.activation.length
-                  ).toFixed(2)}
-                </span>
+      <div
+        className={cn(
+          "glass-grid glass-gap-4",
+          compact ? "glass-grid-cols-1" : "lg:glass-grid-cols-3"
+        )}
+      >
+        {(compact ? normalizedLayers.slice(0, 1) : normalizedLayers).map(
+          (layer) => (
+            <div
+              key={layer.id}
+              className="glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur"
+            >
+              <div className="glass-flex glass-items-center glass-justify-between glass-text-sm glass-text-primary-glass-opacity-80">
+                <h3 className="glass-font-semibold glass-text-primary">
+                  {layer.label}
+                </h3>
+                {layer.activation && (
+                  <span className="glass-text-xs glass-text-primary-glass-opacity-60">
+                    Activation avg{" "}
+                    {(
+                      layer.activation.reduce((sum, value) => sum + value, 0) /
+                      layer.activation.length
+                    ).toFixed(2)}
+                  </span>
+                )}
+              </div>
+
+              <div className="glass-mt-3 glass-overflow-hidden glass-radius-xl glass-border glass-border-white/10">
+                <table className="glass-min-w-full glass-border-collapse">
+                  <tbody>
+                    {layer.weights.map((row, rowIndex) => (
+                      <tr
+                        key={`${layer.id}-row-${rowIndex}`}
+                        className="glass-divide-x glass-divide-white-opacity-5"
+                      >
+                        {row.map((weight, columnIndex) => {
+                          const magnitude = Math.abs(weight);
+                          const strong = magnitude >= highlightThreshold;
+                          const color = getWeightColor(weight, 1);
+                          return (
+                            <td
+                              key={`${layer.id}-${rowIndex}-${columnIndex}`}
+                              className={cn(
+                                "px-2 py-3 text-center text-xs font-medium text-white/90 transition",
+                                strong
+                                  ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)] text-white"
+                                  : "text-white/80"
+                              )}
+                              style={{
+                                background: `linear-gradient(135deg, ${color} 0%, rgba(15,23,42,0.75) 100%)`,
+                              }}
+                            >
+                              {weight.toFixed(precision)}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {!compact && layer.activation && (
+                <div className="glass-mt-4 glass-space-y-2 glass-text-xs glass-text-primary-opacity-70">
+                  <div className="glass-flex glass-items-center glass-justify-between glass-uppercase glass-tracking-wide">
+                    <span>Activation Levels</span>
+                    <span>Max {Math.max(...layer.activation).toFixed(2)}</span>
+                  </div>
+                  <div className="glass-flex glass-gap-2">
+                    {layer.activation.map((activation, index) => (
+                      <div
+                        key={`${layer.id}-activation-${index}`}
+                        className="glass-flex-1"
+                      >
+                        <div className="glass-h-16 glass-overflow-hidden glass-radius-full glass-surface-subtle/10">
+                          <div
+                            className="glass-h-full glass-w-full glass-radius-full glass-surface-primary/70"
+                            style={{ height: `${activation * 100}%` }}
+                          />
+                        </div>
+                        <div className="glass-mt-1 glass-text-center glass-text-10px glass-text-primary-glass-opacity-60">
+                          n{index + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
-
-            <div className='glass-mt-3 glass-overflow-hidden glass-radius-xl glass-border glass-border-white/10'>
-              <table className='glass-min-w-full glass-border-collapse'>
-                <tbody>
-                  {layer.weights.map((row, rowIndex) => (
-                    <tr
-                      key={`${layer.id}-row-${rowIndex}`}
-                      className='glass-divide-x glass-divide-white-opacity-5'
-                    >
-                      {row.map((weight, columnIndex) => {
-                        const magnitude = Math.abs(weight);
-                        const strong = magnitude >= highlightThreshold;
-                        const color = getWeightColor(weight, 1);
-                        return (
-                          <td
-                            key={`${layer.id}-${rowIndex}-${columnIndex}`}
-                            className={cn(
-                              "px-2 py-3 text-center text-xs font-medium text-white/90 transition",
-                              strong
-                                ? "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)] text-white"
-                                : "text-white/80"
-                            )}
-                            style={{
-                              background: `linear-gradient(135deg, ${color} 0%, rgba(15,23,42,0.75) 100%)`,
-                            }}
-                          >
-                            {weight.toFixed(precision)}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {layer.activation && (
-              <div className='glass-mt-4 glass-space-y-2 glass-text-xs glass-text-primary-opacity-70'>
-                <div className='glass-flex glass-items-center glass-justify-between glass-uppercase glass-tracking-wide'>
-                  <span>Activation Levels</span>
-                  <span>Max {Math.max(...layer.activation).toFixed(2)}</span>
-                </div>
-                <div className="glass-flex glass-gap-2">
-                  {layer.activation.map((activation, index) => (
-                    <div
-                      key={`${layer.id}-activation-${index}`}
-                      className="glass-flex-1"
-                    >
-                      <div className='glass-h-16 glass-overflow-hidden glass-radius-full glass-surface-subtle/10'>
-                        <div
-                          className='glass-h-full glass-w-full glass-radius-full glass-surface-primary/70'
-                          style={{ height: `${activation * 100}%` }}
-                        />
-                      </div>
-                      <div className='glass-mt-1 glass-text-center glass-text-10px glass-text-primary-glass-opacity-60'>
-                        n{index + 1}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+          )
+        )}
       </div>
     </OptimizedGlass>
   );

@@ -30,6 +30,12 @@ export interface GlassColorSchemeGeneratorProps
   generateTailwind?: boolean;
   /** Custom className */
   className?: string;
+  /** Compact preview/card layout */
+  compact?: boolean;
+  /** Bound the generator inside its parent container */
+  contained?: boolean;
+  /** Maximum height for compact/contained generators */
+  maxHeight?: number | string;
   /** Change handler */
   onSchemeChange?: (scheme: ColorScheme) => void;
   /** Export handler */
@@ -78,6 +84,9 @@ const GlassColorSchemeGenerator = React.forwardRef<
       generateCSS = true,
       generateTailwind = false,
       className = "",
+      compact = false,
+      contained = false,
+      maxHeight,
       onSchemeChange,
       onExport,
       "data-testid": dataTestId,
@@ -219,6 +228,7 @@ const GlassColorSchemeGenerator = React.forwardRef<
       () => generateScheme(baseColor, harmony),
       [baseColor, harmony, generateScheme]
     );
+    const boundedHeight = maxHeight ?? (compact || contained ? 240 : undefined);
 
     // Update parent when scheme changes
     React.useEffect(() => {
@@ -284,7 +294,22 @@ const GlassColorSchemeGenerator = React.forwardRef<
       <div
         ref={ref}
         data-glass-component
-        className={`space-y-6 ${className}`}
+        className={cn(
+          compact ? "glass-space-y-3" : "space-y-6",
+          (compact || contained) && "glass-overflow-auto",
+          className
+        )}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+              }
+            : null),
+          ...(props.style as React.CSSProperties | undefined),
+        }}
         data-testid={dataTestId}
         aria-label={ariaLabel || "Color scheme generator"}
         role="region"
@@ -296,11 +321,21 @@ const GlassColorSchemeGenerator = React.forwardRef<
           intensity="medium"
           elevation="level1"
         >
-          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
+          <h3
+            className={cn(
+              "glass-font-semibold glass-text-primary glass-mb-4",
+              compact ? "glass-text-sm" : "glass-text-lg"
+            )}
+          >
             Base Color
           </h3>
 
-          <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6">
+          <div
+            className={cn(
+              "glass-grid glass-grid-cols-1",
+              compact ? "glass-gap-3" : "md:glass-grid-cols-2 glass-gap-6"
+            )}
+          >
             {/* Color Input */}
             <div className="glass-gap-4">
               <div className="glass-flex glass-items-center glass-gap-4">
@@ -308,7 +343,10 @@ const GlassColorSchemeGenerator = React.forwardRef<
                   type="color"
                   value={normalizeColorInputValue(baseColor)}
                   onChange={(e) => setBaseColor(e.target.value)}
-                  className="glass-w-16 glass-h-16 glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer"
+                  className={cn(
+                    "glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer",
+                    compact ? "glass-w-10 glass-h-10" : "glass-w-16 glass-h-16"
+                  )}
                   aria-label="Base color picker"
                 />
                 <div>
@@ -326,139 +364,149 @@ const GlassColorSchemeGenerator = React.forwardRef<
               </div>
 
               {/* Predefined Palettes */}
-              <div>
-                <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
-                  Quick Palettes
-                </label>
-                <div className="glass-flex glass-flex-wrap glass-gap-2">
-                  {Object.entries(predefinedPalettes).map(([name, colors]) => (
-                    <button
-                      key={name}
-                      onClick={(e) =>
-                        handlePredefinedPalette(
-                          name as keyof typeof predefinedPalettes
-                        )
-                      }
-                      className={`glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors ${
-                        palette === name
-                          ? "bg-white/20 glass-text-primary"
-                          : "bg-white/10 glass-text-primary/70 hover:bg-white/15"
-                      }`}
-                    >
-                      {name.charAt(0).toUpperCase() + name.slice(1)}
-                    </button>
-                  ))}
+              {!compact && (
+                <div>
+                  <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
+                    Quick Palettes
+                  </label>
+                  <div className="glass-flex glass-flex-wrap glass-gap-2">
+                    {Object.entries(predefinedPalettes).map(
+                      ([name, colors]) => (
+                        <button
+                          key={name}
+                          onClick={(e) =>
+                            handlePredefinedPalette(
+                              name as keyof typeof predefinedPalettes
+                            )
+                          }
+                          className={`glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors ${
+                            palette === name
+                              ? "bg-white/20 glass-text-primary"
+                              : "bg-white/10 glass-text-primary/70 hover:bg-white/15"
+                          }`}
+                        >
+                          {name.charAt(0).toUpperCase() + name.slice(1)}
+                        </button>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Harmony Selection */}
-            <div className="glass-gap-4">
-              <div>
-                <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
-                  Color Harmony
-                </label>
-                <div className="glass-grid glass-grid-cols-2 glass-gap-2">
-                  {[
-                    { value: "analogous", label: "Analogous" },
-                    { value: "complementary", label: "Complementary" },
-                    { value: "triadic", label: "Triadic" },
-                    { value: "monochromatic", label: "Monochromatic" },
-                  ].map(({ value, label }) => (
-                    <button
-                      key={value}
-                      onClick={(e) => setHarmony(value as typeof harmony)}
-                      className={`glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors ${
-                        harmony === value
-                          ? "bg-white/20 glass-text-primary"
-                          : "bg-white/10 glass-text-primary/70 hover:bg-white/15"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+            {!compact && (
+              <div className="glass-gap-4">
+                <div>
+                  <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
+                    Color Harmony
+                  </label>
+                  <div className="glass-grid glass-grid-cols-2 glass-gap-2">
+                    {[
+                      { value: "analogous", label: "Analogous" },
+                      { value: "complementary", label: "Complementary" },
+                      { value: "triadic", label: "Triadic" },
+                      { value: "monochromatic", label: "Monochromatic" },
+                    ].map(({ value, label }) => (
+                      <button
+                        key={value}
+                        onClick={(e) => setHarmony(value as typeof harmony)}
+                        className={`glass-px-3 glass-py-2 glass-radius-md glass-text-sm font-medium transition-colors ${
+                          harmony === value
+                            ? "bg-white/20 glass-text-primary"
+                            : "bg-white/10 glass-text-primary/70 hover:bg-white/15"
+                        }`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </OptimizedGlass>
 
         {/* Color Preview */}
-        <OptimizedGlass
-          className="glass-p-6"
-          intensity="medium"
-          elevation="level1"
-        >
-          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
-            Color Scheme Preview
-          </h3>
+        {!compact && (
+          <OptimizedGlass
+            className="glass-p-6"
+            intensity="medium"
+            elevation="level1"
+          >
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
+              Color Scheme Preview
+            </h3>
 
-          <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4">
-            {Object.entries(colorScheme).map(([key, color]) => (
-              <div key={key} className="glass-gap-2">
-                <div
-                  className="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20"
-                  style={{ backgroundColor: color }}
-                />
-                <div className="glass-text-center">
-                  <div className="glass-text-xs glass-text-primary-opacity-70 glass-capitalize">
-                    {key}
-                  </div>
-                  <div className="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono">
-                    {color}
+            <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4">
+              {Object.entries(colorScheme).map(([key, color]) => (
+                <div key={key} className="glass-gap-2">
+                  <div
+                    className="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20"
+                    style={{ backgroundColor: color }}
+                  />
+                  <div className="glass-text-center">
+                    <div className="glass-text-xs glass-text-primary-opacity-70 glass-capitalize">
+                      {key}
+                    </div>
+                    <div className="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono">
+                      {color}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </OptimizedGlass>
+              ))}
+            </div>
+          </OptimizedGlass>
+        )}
 
         {/* Export Options */}
-        <OptimizedGlass
-          className="glass-p-6"
-          intensity="medium"
-          elevation="level1"
-        >
-          <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
-            Export Options
-          </h3>
+        {!compact && (
+          <OptimizedGlass
+            className="glass-p-6"
+            intensity="medium"
+            elevation="level1"
+          >
+            <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
+              Export Options
+            </h3>
 
-          <div className="glass-flex glass-flex-wrap glass-gap-3">
-            {generateCSS && (
+            <div className="glass-flex glass-flex-wrap glass-gap-3">
+              {generateCSS && (
+                <button
+                  onClick={(e) => exportScheme("css")}
+                  className="glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 glass-transition-colors"
+                >
+                  Export CSS Variables
+                </button>
+              )}
+              {generateTailwind && (
+                <button
+                  onClick={(e) => exportScheme("tailwind")}
+                  className="glass-px-4 glass-py-2 glass-surface-green/20 glass-text-secondary glass-radius-md hover:glass-surface-green/30 glass-transition-colors"
+                >
+                  Export Tailwind Config
+                </button>
+              )}
               <button
-                onClick={(e) => exportScheme("css")}
-                className="glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 glass-transition-colors"
+                onClick={(e) => exportScheme("json")}
+                className="glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius-md hover:glass-surface-primary/30 glass-transition-colors"
               >
-                Export CSS Variables
+                Export JSON
               </button>
-            )}
-            {generateTailwind && (
-              <button
-                onClick={(e) => exportScheme("tailwind")}
-                className="glass-px-4 glass-py-2 glass-surface-green/20 glass-text-secondary glass-radius-md hover:glass-surface-green/30 glass-transition-colors"
-              >
-                Export Tailwind Config
-              </button>
-            )}
-            <button
-              onClick={(e) => exportScheme("json")}
-              className="glass-px-4 glass-py-2 glass-surface-primary/20 glass-text-secondary glass-radius-md hover:glass-surface-primary/30 glass-transition-colors"
-            >
-              Export JSON
-            </button>
-          </div>
-
-          {generateCSS && (
-            <div className="glass-mt-4">
-              <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
-                CSS Variables Preview
-              </label>
-              <pre className="glass-p-3 glass-surface-dark/20 glass-radius-md glass-text-xs glass-text-primary-glass-opacity-80 glass-overflow-x-auto">
-                <code>{generateCSSVariables(colorScheme)}</code>
-              </pre>
             </div>
-          )}
-        </OptimizedGlass>
+
+            {generateCSS && (
+              <div className="glass-mt-4">
+                <label className="glass-block glass-text-sm glass-text-primary-opacity-70 glass-mb-2">
+                  CSS Variables Preview
+                </label>
+                <pre className="glass-p-3 glass-surface-dark/20 glass-radius-md glass-text-xs glass-text-primary-glass-opacity-80 glass-overflow-x-auto">
+                  <code>{generateCSSVariables(colorScheme)}</code>
+                </pre>
+              </div>
+            )}
+          </OptimizedGlass>
+        )}
       </div>
     );
   }

@@ -381,7 +381,7 @@ git revert <migration-commit-hash>
 ## Getting Help
 
 - 📚 [Documentation](https://aura-glass.auraone.com)
-- 🐛 [Report Issues](https://github.com/VeerOneGPT/auraglass/issues)
+- 🐛 [Report Issues](https://github.com/auraoneai/auraglass/issues)
 - 📧 [Email Support](mailto:support@auraone.com)
 
 ## FAQ

@@ -62,6 +62,9 @@ export interface GlassGoldenRatioGridProps {
     contrast?: number;
   };
   soundEnabled?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -90,6 +93,9 @@ export const GlassGoldenRatioGrid = forwardRef<
       onLayoutChange,
       glassConfig = {},
       soundEnabled = true,
+      compact = false,
+      contained = false,
+      maxHeight,
       className = "",
       style = {},
       ...props
@@ -107,6 +113,15 @@ export const GlassGoldenRatioGrid = forwardRef<
     const { prefersReducedMotion } = useMotionPreference();
     const gridId = useA11yId();
     const { play } = useGlassSound();
+    const effectiveWidth = compact ? 360 : containerWidth;
+    const effectiveHeight = compact ? 220 : containerHeight;
+    const effectiveLevels = compact
+      ? Math.min(subdivisionLevels, 3)
+      : subdivisionLevels;
+    const effectiveShowGrid = compact ? false : showGrid;
+    const effectiveShowRatioLines = compact ? false : showRatioLines;
+    const boundedHeight =
+      maxHeight ?? (compact || contained ? effectiveHeight : undefined);
 
     // Responsive dimension handling
     useEffect(() => {
@@ -136,19 +151,19 @@ export const GlassGoldenRatioGrid = forwardRef<
         {
           x: 0,
           y: 0,
-          width: dimensions.width,
-          height: dimensions.height,
+          width: compact ? effectiveWidth : dimensions.width,
+          height: compact ? effectiveHeight : dimensions.height,
           level: 0,
         },
       ];
 
       while (
         queue.length > 0 &&
-        sections.length < Math.pow(2, subdivisionLevels)
+        sections.length < Math.pow(2, effectiveLevels)
       ) {
         const current = queue.shift()!;
 
-        if (current.level >= subdivisionLevels) {
+        if (current.level >= effectiveLevels) {
           sections.push({
             ...current,
             ratio: current.width / current.height,
@@ -203,7 +218,14 @@ export const GlassGoldenRatioGrid = forwardRef<
       }
 
       return sections;
-    }, [dimensions, goldenRatio, subdivisionLevels]);
+    }, [
+      compact,
+      dimensions,
+      effectiveHeight,
+      effectiveLevels,
+      effectiveWidth,
+      goldenRatio,
+    ]);
 
     // Assign items to sections based on priority and size requirements
     const assignItemsToSections = useCallback(
@@ -336,10 +358,18 @@ export const GlassGoldenRatioGrid = forwardRef<
         ref={ref}
         className={`glass-golden-ratio-grid relative overflow-auto ${className}`}
         style={{
-          width: responsive ? "100%" : containerWidth,
-          minWidth: responsive ? undefined : containerWidth,
-          height: responsive ? "100%" : containerHeight,
-          minHeight: containerHeight,
+          width: responsive ? "100%" : effectiveWidth,
+          minWidth: responsive || compact ? undefined : effectiveWidth,
+          height: compact
+            ? effectiveHeight
+            : responsive
+              ? "100%"
+              : effectiveHeight,
+          minHeight: compact ? effectiveHeight : effectiveHeight,
+          maxHeight:
+            typeof boundedHeight === "number"
+              ? `${boundedHeight}px`
+              : boundedHeight,
           overflowX: "auto",
           overflowY: "auto",
           ...style,
@@ -359,10 +389,13 @@ export const GlassGoldenRatioGrid = forwardRef<
         <div
           ref={containerRef}
           className="glass-absolute glass-inset-0"
-          style={{ width: dimensions.width, height: dimensions.height }}
+          style={{
+            width: compact ? effectiveWidth : dimensions.width,
+            height: compact ? effectiveHeight : dimensions.height,
+          }}
         >
           {/* Golden spiral overlay */}
-          {showRatioLines && (
+          {effectiveShowRatioLines && (
             <svg
               className="glass-absolute glass-inset-0 glass-pointer-events-none"
               width={dimensions.width}
@@ -379,7 +412,7 @@ export const GlassGoldenRatioGrid = forwardRef<
           )}
 
           {/* Grid lines */}
-          {showGrid && (
+          {effectiveShowGrid && (
             <svg
               className="glass-absolute glass-inset-0 glass-pointer-events-none"
               width={dimensions.width}
@@ -473,7 +506,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                     </div>
                   )}
                   {/* Section info overlay */}
-                  {(showGrid || isHovered) && (
+                  {(effectiveShowGrid || (isHovered && !compact)) && (
                     <div
                       className="glass-absolute glass-top-1 glass-left-1 glass-surface-dark/50 glass-text-primary glass-text-xs glass-px-1 glass-py-0.5 glass-radius glass-backdrop-blur-sm glass-contrast-guard"
                       data-glass-overlay="true"
@@ -496,40 +529,44 @@ export const GlassGoldenRatioGrid = forwardRef<
         </div>
 
         {/* Statistics panel */}
-        <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Sections: {sections.length}
+        {!compact && (
+          <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Sections: {sections.length}
+            </div>
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Items: {items.length}
+            </div>
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Golden Ratio: {goldenRatio}
+            </div>
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Levels: {effectiveLevels}
+            </div>
           </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Items: {items.length}
-          </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Golden Ratio: {goldenRatio}
-          </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Levels: {subdivisionLevels}
-          </div>
-        </div>
+        )}
 
         {/* Legend */}
-        <div className="glass-absolute glass-top-4 glass-right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
-          <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            <div className="glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full" />
-            Golden Ratio
-          </div>
-          {showRatioLines && (
+        {!compact && (
+          <div className="glass-absolute glass-top-4 glass-right-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70">
             <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-              <div
-                className="glass-w-4 glass-h-0-5 glass-surface-yellow glass-opacity-50"
-                style={{
-                  background:
-                    "repeating-linear-gradient(to right, var(--glass-color-warning-light) 0, var(--glass-color-warning-light) 3px, transparent 3px, transparent 6px)",
-                }}
-              />
-              Spiral
+              <div className="glass-w-2 glass-h-2 glass-surface-yellow glass-radius-full" />
+              Golden Ratio
             </div>
-          )}
-        </div>
+            {effectiveShowRatioLines && (
+              <div className="glass-flex glass-items-center glass-gap-2 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+                <div
+                  className="glass-w-4 glass-h-0-5 glass-surface-yellow glass-opacity-50"
+                  style={{
+                    background:
+                      "repeating-linear-gradient(to right, var(--glass-color-warning-light) 0, var(--glass-color-warning-light) 3px, transparent 3px, transparent 6px)",
+                  }}
+                />
+                Spiral
+              </div>
+            )}
+          </div>
+        )}
       </OptimizedGlass>
     );
   }

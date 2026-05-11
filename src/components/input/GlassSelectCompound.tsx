@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
@@ -94,7 +94,7 @@ const GlassSelectTrigger = React.forwardRef<
       >
         {children}
         <SelectPrimitive.Icon asChild>
-          <ChevronDown className='glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180' />
+          <ChevronDown className="glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180" />
         </SelectPrimitive.Icon>
       </SelectPrimitive.Trigger>
     );
@@ -107,6 +107,14 @@ export interface GlassSelectContentProps
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
   /** Content variant */
   variant?: "default" | "minimal";
+  /** Optional portal container. */
+  portalContainer?: HTMLElement | null;
+  /** Whether to portal content. Defaults to true. */
+  portalled?: boolean;
+  /** Overlay positioning strategy. */
+  positionStrategy?: "fixed" | "absolute" | "contained";
+  /** Render content without a portal for constrained surfaces. */
+  contained?: boolean;
 }
 
 const GlassSelectContent = React.forwardRef<
@@ -114,10 +122,22 @@ const GlassSelectContent = React.forwardRef<
   GlassSelectContentProps
 >(
   (
-    { className, children, position = "popper", variant = "default", ...props },
+    {
+      className,
+      children,
+      position = "popper",
+      variant = "default",
+      portalContainer,
+      portalled = true,
+      positionStrategy = "fixed",
+      contained = false,
+      ...props
+    },
     ref
-  ) => (
-    <SelectPrimitive.Portal>
+  ) => {
+    const isContained =
+      contained || portalled === false || positionStrategy === "contained";
+    const content = (
       <Motion preset="scaleIn">
         <SelectPrimitive.Content
           ref={ref}
@@ -146,6 +166,7 @@ const GlassSelectContent = React.forwardRef<
           )}
           position={position}
           {...props}
+          data-position-strategy={isContained ? "contained" : positionStrategy}
         >
           <GlassSelectScrollUpButton />
           <SelectPrimitive.Viewport
@@ -162,8 +183,15 @@ const GlassSelectContent = React.forwardRef<
           <GlassSelectScrollDownButton />
         </SelectPrimitive.Content>
       </Motion>
-    </SelectPrimitive.Portal>
-  )
+    );
+
+    if (isContained) return content;
+    return (
+      <SelectPrimitive.Portal container={portalContainer ?? undefined}>
+        {content}
+      </SelectPrimitive.Portal>
+    );
+  }
 );
 GlassSelectContent.displayName = SelectPrimitive.Content.displayName;
 
@@ -205,9 +233,9 @@ const GlassSelectItem = React.forwardRef<
       )}
       {...props}
     >
-      <span className='glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center'>
+      <span className="glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center">
         <SelectPrimitive.ItemIndicator>
-          <Check className='glass-h-4 glass-w-4' />
+          <Check className="glass-h-4 glass-w-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
 
@@ -263,7 +291,7 @@ const GlassSelectScrollUpButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronUp className='glass-h-4 glass-w-4' />
+    <ChevronUp className="glass-h-4 glass-w-4" />
   </SelectPrimitive.ScrollUpButton>
 ));
 GlassSelectScrollUpButton.displayName =
@@ -282,7 +310,7 @@ const GlassSelectScrollDownButton = React.forwardRef<
     )}
     {...props}
   >
-    <ChevronDown className='glass-h-4 glass-w-4' />
+    <ChevronDown className="glass-h-4 glass-w-4" />
   </SelectPrimitive.ScrollDownButton>
 ));
 GlassSelectScrollDownButton.displayName =

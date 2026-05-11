@@ -4,6 +4,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
 <div
   class="glass-w-full glass-p-3"
   data-glass-component="true"
+  style="max-height: 260px;"
 >
   <div
     class="glass-foundation-basic glass-p-4 glass-overflow-hidden"

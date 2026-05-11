@@ -69,6 +69,8 @@ interface CollaborativeGlassWorkspaceProps {
   showCursors?: boolean;
   enableAdvancedEffects?: boolean;
   compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
 
   // Canvas configuration
   canvasWidth?: number;
@@ -210,6 +212,8 @@ function WorkspaceContent({
   showCursors = true,
   enableAdvancedEffects = true,
   compact = false,
+  contained = false,
+  maxHeight,
   canvasWidth = 1200,
   canvasHeight = 800,
   gridSize = 20,
@@ -321,6 +325,7 @@ function WorkspaceContent({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showVoicePanel, setShowVoicePanel] = useState(false);
   const [showVersionPanel, setShowVersionPanel] = useState(false);
+  const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
 
   // Handle workspace events
   useEffect(() => {
@@ -394,9 +399,25 @@ function WorkspaceContent({
     <div
       className={cn(
         "glass-collaborative-workspace workspace-glass-shell glass-relative glass-flex glass-flex-col glass-surface-overlay",
-        compact ? "glass-h-full glass-min-h-0" : "glass-h-screen",
+        compact || contained
+          ? "glass-h-full glass-min-h-0 glass-overflow-hidden"
+          : "glass-h-screen",
         className
       )}
+      style={{
+        ...(boundedHeight !== undefined
+          ? {
+              maxHeight:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+              height:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+            }
+          : null),
+      }}
       role="main"
       aria-live="polite"
       aria-label={ariaLabel}
@@ -636,7 +657,8 @@ function WorkspaceContent({
       </div>
 
       {/* Floating Elements */}
-      {showCursors &&
+      {!compact &&
+        showCursors &&
         (enableAdvancedEffects ? (
           <GlassTeamCursorsWithEffects
             showNames={true}
@@ -656,7 +678,7 @@ function WorkspaceContent({
         ))}
 
       {/* Voice Chat Panel */}
-      {showVoicePanel && enableVoiceChat && (
+      {!compact && showVoicePanel && enableVoiceChat && (
         <VoiceChatPanel
           isActive={isVoiceActive}
           voiceUsers={voiceUsers}
@@ -666,7 +688,7 @@ function WorkspaceContent({
       )}
 
       {/* Version Control Panel */}
-      {showVersionPanel && enableVersionControl && (
+      {!compact && showVersionPanel && enableVersionControl && (
         <VersionControlPanel
           onClose={() => setShowVersionPanel(false)}
           onCreateSnapshot={createSnapshot}

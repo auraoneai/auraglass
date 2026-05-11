@@ -6,36 +6,75 @@ exports[`GlassDiffViewer matches snapshot 1`] = `
   data-glass-component="true"
 >
   <div
-    class="glass-grid glass-grid-cols-2 glass-gap-3"
+    class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-border glass-border-white/15 glass-overflow-hidden"
+    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding: 0.5rem;"
   >
-    <div
-      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-border glass-border-white/15 glass-overflow-auto"
-      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    <table
+      aria-label="Code diff"
+      role="table"
+      style="width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.78rem; line-height: 1.5;"
     >
-      <span
-        class="contrast-guard"
-        data-contrast-level="AA"
-        data-glass-component="true"
-      >
-        <pre
-          class="glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all"
-        />
-      </span>
-    </div>
-    <div
-      class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-lg glass-p-3 glass-border glass-border-white/15 glass-overflow-auto"
-      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
-    >
-      <span
-        class="contrast-guard"
-        data-contrast-level="AA"
-        data-glass-component="true"
-      >
-        <pre
-          class="glass-text-xs glass-text-primary-glass-opacity-80 glass-whitespace-pre-wrap glass-break-all"
-        />
-      </span>
-    </div>
+      <tbody>
+        <tr
+          aria-label="Removed line"
+          data-diff-kind="removed"
+        >
+          <td
+            aria-hidden="true"
+            style="width: 26px; padding: 2px 6px; text-align: center; user-select: none;"
+          >
+            -
+          </td>
+          <td
+            aria-hidden="true"
+            style="width: 56px; padding: 2px 6px; user-select: none; white-space: nowrap;"
+          >
+            1
+
+          </td>
+          <td
+            style="padding: 2px 8px;"
+          >
+            <pre
+              style="margin: 0px; white-space: pre-wrap; overflow-wrap: anywhere;"
+            >
+              <code>
+                export const greet = () =&gt; "hello";
+              </code>
+            </pre>
+          </td>
+        </tr>
+        <tr
+          aria-label="Added line"
+          data-diff-kind="added"
+        >
+          <td
+            aria-hidden="true"
+            style="width: 26px; padding: 2px 6px; text-align: center; user-select: none;"
+          >
+            +
+          </td>
+          <td
+            aria-hidden="true"
+            style="width: 56px; padding: 2px 6px; user-select: none; white-space: nowrap;"
+          >
+
+            1
+          </td>
+          <td
+            style="padding: 2px 8px;"
+          >
+            <pre
+              style="margin: 0px; white-space: pre-wrap; overflow-wrap: anywhere;"
+            >
+              <code>
+                export const greet = (name: string) =&gt; \`hello, \${name}\`;
+              </code>
+            </pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 `;

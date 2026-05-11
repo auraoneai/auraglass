@@ -50,6 +50,8 @@ export interface GlassMenubarProps {
    * Test ID for testing
    */
   "data-testid"?: string;
+  positionStrategy?: "absolute" | "contained";
+  contained?: boolean;
 }
 
 export interface GlassMenubarContentProps {
@@ -73,6 +75,7 @@ export interface GlassMenubarContentProps {
    * Custom className
    */
   className?: string;
+  positionStrategy?: "absolute" | "contained";
 }
 
 export interface GlassMenubarItemProps {
@@ -128,6 +131,8 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
   size = "md",
   className,
   disabled = false,
+  positionStrategy = "absolute",
+  contained = false,
   "aria-label": ariaLabel = "Menu bar",
   "data-testid": dataTestId,
 }) => {
@@ -229,6 +234,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
             <GlassMenubarContent
               isOpen={true}
               onClose={() => setOpenMenus(new Set())}
+              positionStrategy={contained ? "contained" : positionStrategy}
               className={cn(
                 "absolute glass-z-9999",
                 orientation === "horizontal"
@@ -241,6 +247,8 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
                 orientation="vertical"
                 size={size}
                 disabled={disabled}
+                positionStrategy={contained ? "contained" : positionStrategy}
+                contained={contained}
               />
             </GlassMenubarContent>
           )}
@@ -260,6 +268,7 @@ export const GlassMenubarContent: React.FC<GlassMenubarContentProps> = ({
   isOpen,
   onClose,
   className,
+  positionStrategy = "absolute",
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -327,6 +336,7 @@ export const GlassMenubarContent: React.FC<GlassMenubarContentProps> = ({
           "min-w-48 glass-py-1",
           className
         )}
+        data-position-strategy={positionStrategy}
       >
         {children}
       </OptimizedGlass>

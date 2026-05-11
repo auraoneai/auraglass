@@ -29,6 +29,12 @@ export interface GlassDataGridProps<T extends DataDisplayRow = DataDisplayRow>
   sortable?: boolean;
   onSort?: (sortState: SortState) => void;
   height?: string | number;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain the grid in a bounded viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: string | number;
   initialSort?: SortState;
   enableRowDragging?: boolean;
   onRowOrderChange?: (newOrder: T[]) => void;

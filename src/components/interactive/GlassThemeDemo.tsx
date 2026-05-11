@@ -80,6 +80,9 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
       interactive = true,
       includedCategories = Object.keys(COMPONENT_CATEGORIES),
       minimal = false,
+      compact = false,
+      contained = false,
+      maxHeight,
       animation,
       ...rest
     }: GlassThemeDemoProps,
@@ -90,6 +93,76 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
 
     // Map glass intensity to elevation level
     const elevation = mapIntensityToElevation(glassIntensity);
+    const isCompact = compact || minimal;
+    const boundedHeight =
+      maxHeight ?? (isCompact || contained ? 240 : undefined);
+
+    if (isCompact) {
+      return (
+        <OptimizedGlass
+          ref={ref}
+          elevation={elevation}
+          tier="medium"
+          className={cn(
+            "glass-theme-demo glass-theme-demo--compact glass-radius-xl glass-p-4 glass-overflow-hidden glass-w-full",
+            className
+          )}
+          style={{
+            maxHeight:
+              typeof boundedHeight === "number"
+                ? `${boundedHeight}px`
+                : boundedHeight,
+            ...(style ?? {}),
+          }}
+          {...rest}
+        >
+          <div className="glass-flex glass-items-start glass-justify-between glass-gap-3 glass-mb-3">
+            <div className="glass-min-w-0">
+              <Typography
+                variant="h3"
+                className="glass-text-base glass-font-semibold glass-mb-1"
+              >
+                {title}
+              </Typography>
+              {description && (
+                <Typography
+                  variant="p"
+                  className="glass-text-xs glass-text-secondary glass-line-clamp-2"
+                >
+                  {description}
+                </Typography>
+              )}
+            </div>
+            <div className="glass-flex glass-gap-1 glass-shrink-0">
+              {["#7dd3fc", "#a78bfa", "#34d399"].map((color) => (
+                <span
+                  key={color}
+                  aria-hidden
+                  className="glass-block glass-h-5 glass-w-5 glass-radius-full glass-ring-1 glass-ring-white/20"
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="glass-grid glass-grid-cols-2 glass-gap-2">
+            <Card className="glass-p-3 glass-min-w-0">
+              <Typography variant="p" className="glass-text-xs glass-mb-2">
+                Surface
+              </Typography>
+              <Button size="sm" variant="primary">
+                Primary
+              </Button>
+            </Card>
+            <Card className="glass-p-3 glass-min-w-0">
+              <Typography variant="p" className="glass-text-xs glass-mb-2">
+                Signal
+              </Typography>
+              <Progress variant="primary" value={68} />
+            </Card>
+          </div>
+        </OptimizedGlass>
+      );
+    }
 
     // Example components by category
     const categoryExamples = {
@@ -553,7 +626,18 @@ export const GlassThemeDemo = forwardRef<HTMLDivElement, GlassThemeDemoProps>(
           "relative overflow-hidden",
           className
         )}
-        style={{ ...(style ?? {}) }}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+                overflow: "auto",
+              }
+            : null),
+          ...(style ?? {}),
+        }}
         {...rest}
       >
         {/* Local cursor glow overlay for theme showcase */}

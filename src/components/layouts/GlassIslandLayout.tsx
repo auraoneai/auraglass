@@ -68,6 +68,8 @@ export interface GlassIslandLayoutProps {
   width?: string | number;
   height?: string | number;
   compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   centerOnLoad?: boolean;
   onIslandMove?: (island: Island, x: number, y: number) => void;
   onIslandResize?: (island: Island, width: number, height: number) => void;
@@ -118,6 +120,8 @@ export const GlassIslandLayout = forwardRef<
       width = "min(1120px, calc(100vw - 48px))",
       height = 600,
       compact = false,
+      contained = false,
+      maxHeight,
       centerOnLoad = true,
       onIslandMove,
       onIslandResize,
@@ -154,6 +158,12 @@ export const GlassIslandLayout = forwardRef<
     const id = useA11yId("glass-island-layout");
     const { shouldAnimate } = useMotionPreference();
     const { play } = useGlassSound();
+    const effectiveHeight = maxHeight ?? (compact || contained ? 240 : height);
+    const effectiveWidth = compact ? "100%" : width;
+    const effectiveShowMinimap = compact ? false : showMinimap;
+    const effectiveShowStats = compact ? false : showStats;
+    const effectiveEnableZooming = compact ? false : enableZooming;
+    const effectiveShowConnections = compact ? false : showConnections;
 
     // Auto-arrange islands in a spiral pattern
     const autoArrange = useCallback(() => {
@@ -289,7 +299,7 @@ export const GlassIslandLayout = forwardRef<
 
     // Draw connections on canvas
     const drawConnections = useCallback(() => {
-      if (!showConnections || !canvasRef.current) return;
+      if (!effectiveShowConnections || !canvasRef.current) return;
 
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
@@ -353,7 +363,7 @@ export const GlassIslandLayout = forwardRef<
 
       ctx.restore();
     }, [
-      showConnections,
+      effectiveShowConnections,
       connections,
       layoutIslands,
       currentZoom,
@@ -614,9 +624,16 @@ export const GlassIslandLayout = forwardRef<
         variant="frosted"
         className={`glass-island-layout relative overflow-auto ${className}`}
         style={{
-          width,
+          width: effectiveWidth,
           maxWidth: "100%",
-          height,
+          height:
+            typeof effectiveHeight === "number"
+              ? `${effectiveHeight}px`
+              : effectiveHeight,
+          maxHeight:
+            typeof effectiveHeight === "number"
+              ? `${effectiveHeight}px`
+              : effectiveHeight,
           overflowX: "auto",
           overflowY: "auto",
         }}
@@ -761,13 +778,13 @@ export const GlassIslandLayout = forwardRef<
         </div>
 
         {/* Controls */}
-        {enableZooming && <Controls />}
+        {effectiveEnableZooming && <Controls />}
 
         {/* Minimap */}
-        {showMinimap && <Minimap />}
+        {effectiveShowMinimap && <Minimap />}
 
         {/* Stats */}
-        {showStats && <StatsPanel />}
+        {effectiveShowStats && <StatsPanel />}
       </OptimizedGlass>
     );
   }

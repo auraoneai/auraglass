@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassDropdownMenu Component Tests
  *
@@ -11,20 +11,24 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassDropdownMenu } from '@/components/navigation/GlassDropdownMenu';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import {
+  GlassDropdownMenu,
+  GlassDropdownMenuContent,
+  GlassDropdownMenuItem,
+  GlassDropdownMenuTrigger,
+} from "@/components/navigation/GlassDropdownMenu";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassDropdownMenu', () => {
+describe("GlassDropdownMenu", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassDropdownMenu />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +36,16 @@ describe('GlassDropdownMenu', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassDropdownMenu />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassDropdownMenu
         className="custom-class"
@@ -55,17 +53,37 @@ describe('GlassDropdownMenu', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassdropdownmenu"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassdropdownmenu"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassDropdownMenu />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("supports contained content without portalling to document.body", () => {
+    const { container } = render(
+      <GlassDropdownMenu defaultOpen>
+        <GlassDropdownMenuTrigger>Open menu</GlassDropdownMenuTrigger>
+        <GlassDropdownMenuContent
+          portalled={false}
+          contained
+          data-testid="contained-menu"
+        >
+          <GlassDropdownMenuItem>Contained action</GlassDropdownMenuItem>
+        </GlassDropdownMenuContent>
+      </GlassDropdownMenu>
+    );
+
+    const content = screen.getByTestId("contained-menu");
+    expect(container).toContainElement(content);
+    expect(content).toHaveAttribute("data-position-strategy", "contained");
   });
 });

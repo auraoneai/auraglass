@@ -1,5 +1,28 @@
 # Changelog
 
+## [3.0.6] - 2026-05-11
+
+### Fixed
+
+- Added native compact/contained rendering paths for dense components that previously required website-only `CompactPreview` wrappers, including tables/grids, heatmaps, calendars, carousels, code and gradient tools, theme/persona controls, advanced media, layout systems, ecommerce carts, activity feeds, form/detail templates, collaboration workspaces, reaction clusters, and AI/media visualizations.
+- Added contained overlay controls for dropdown/menu/select/context/menubar families so content can stay inside constrained surfaces without disabling the existing portalled default.
+- Rebuilt `GlassDiffViewer` around real semantic line-level diff rendering with accessible add/remove rows, tokenized colors, compact mode, bounded height, and long-line containment.
+- Strengthened `GlassAdvanced` defaults so simple usage renders a visible polished glass surface, while adding compact/preview/minHeight controls for constrained contexts.
+- Added package-owned `ContrastGuard` preview affordances through `demoBackdrop` and `showIndicator` so docs/catalogs can demonstrate contrast behavior without custom website staging.
+- Updated package metadata, support links, and npm-facing documentation to the organization repository: `https://github.com/auraoneai/auraglass`.
+
+### Verification
+
+- Focused regression suite: 26 suites, 128 tests, 24 snapshots passed after updating intentional compact/contained snapshots.
+- `npm test -- --runInBand` — 405 suites, 2169 tests, 339 snapshots passed.
+- `npm run typecheck -- --pretty false`
+- `npm run glass:full-check` — passed with 132 existing lint warnings and 0 lint errors.
+- `npm run verify:pack`
+- `npm run release:dry-run` — passed package CI, coverage, pack verification, React 18/Next smoke, React 19/Next smoke, and npm dry publish for `aura-glass@3.0.6`.
+- Local package artifact `aura-glass-3.0.6.tgz` created; `npm pack --dry-run --json` reports `aura-glass@3.0.6`, 2,011 packaged entries, no bundled dependencies, and updated README/package metadata in the tarball.
+- Repository-link audit, excluding `node_modules`, `dist`, `coverage`, and source-map files, found no legacy AuraGlass GitHub owner URLs in the package repo.
+- Website workaround removal and website 13-step catalog verification remain release blockers before publishing.
+
 ## [3.0.5] - 2026-05-10
 
 ### Fixed
@@ -551,4 +574,4 @@ See [INSTALLATION.md](./INSTALLATION.md#upgrading-from-v1x) for complete upgrade
 
 For issues or questions:
 - 📖 Read [INSTALLATION.md](./INSTALLATION.md)
-- 🐛 File issues at [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
+- 🐛 File issues at [GitHub Issues](https://github.com/auraoneai/auraglass/issues)

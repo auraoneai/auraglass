@@ -8,7 +8,8 @@ import {
   TextWithContrast,
 } from "@/components/accessibility/ContrastGuard";
 
-export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassSplitPaneProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Split direction
    */
@@ -45,6 +46,22 @@ export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement
    * Callback when split percentage changes
    */
   onSplitChange?: (percentage: number) => void;
+  /**
+   * Compact density for constrained previews and embedded panels.
+   */
+  compact?: boolean;
+  /**
+   * Keep the split pane visually bounded inside its parent.
+   */
+  contained?: boolean;
+  /**
+   * Maximum rendered height for contained/compact contexts.
+   */
+  maxHeight?: number | string;
+  /**
+   * Maximum rendered width for contained/compact contexts.
+   */
+  maxWidth?: number | string;
 }
 
 /**
@@ -65,6 +82,10 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
       respectMotionPreference = true,
       "aria-label": ariaLabel = "Split pane",
       onSplitChange,
+      compact = false,
+      contained = false,
+      maxHeight,
+      maxWidth,
       className,
       style,
       ...props
@@ -147,6 +168,7 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
         id={splitPaneId}
         className={cn(
           "glass-relative glass-grid glass-w-full glass-h-full",
+          compact && "glass-text-sm",
           // Motion preferences
           shouldRespectMotion &&
             "motion-safe:transition-all motion-reduce:transition-none",
@@ -166,6 +188,9 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
               : undefined,
           minWidth: 0,
           minHeight: 0,
+          maxHeight,
+          maxWidth,
+          overflow: contained || compact ? "hidden" : style?.overflow,
           ...style,
         }}
         role="group"
@@ -207,8 +232,12 @@ export const GlassSplitPane = forwardRef<HTMLDivElement, GlassSplitPaneProps>(
           className={cn(
             "glass-select-none glass-radius-full glass-focus-outline-none glass-focus-ring-2 glass-focus-ring-primary/50",
             direction === "horizontal"
-              ? "glass-w-3 glass-h-full glass-cursor-col-resize"
-              : "glass-h-3 glass-w-full glass-cursor-row-resize",
+              ? compact
+                ? "glass-w-2 glass-h-full glass-cursor-col-resize"
+                : "glass-w-3 glass-h-full glass-cursor-col-resize"
+              : compact
+                ? "glass-h-2 glass-w-full glass-cursor-row-resize"
+                : "glass-h-3 glass-w-full glass-cursor-row-resize",
             "glass-bg-white/10",
             shouldRespectMotion
               ? "hover:glass-bg-white/20 glass-transition-colors glass-duration-200"

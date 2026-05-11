@@ -43,18 +43,6 @@ exports[`GlassGanttChart matches snapshot 1`] = `
               data-contrast-level="AA"
               data-glass-component="true"
             >
-              3
-            </span>
-          </div>
-          <div
-            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
-            style="width: 40px;"
-          >
-            <span
-              class="contrast-guard"
-              data-contrast-level="AA"
-              data-glass-component="true"
-            >
               4
             </span>
           </div>
@@ -119,7 +107,7 @@ exports[`GlassGanttChart matches snapshot 1`] = `
             </span>
           </div>
           <div
-            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs glass-surface-primary/10 glass-text-primary glass-font-semibold"
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
             style="width: 40px;"
           >
             <span
@@ -131,7 +119,7 @@ exports[`GlassGanttChart matches snapshot 1`] = `
             </span>
           </div>
           <div
-            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs glass-surface-primary/10 glass-text-primary glass-font-semibold"
             style="width: 40px;"
           >
             <span
@@ -380,6 +368,18 @@ exports[`GlassGanttChart matches snapshot 1`] = `
               data-glass-component="true"
             >
               31
+            </span>
+          </div>
+          <div
+            class="glass-flex-shrink-0 glass-border-r glass-border-subtle glass-flex glass-items-center glass-justify-center glass-text-xs"
+            style="width: 40px;"
+          >
+            <span
+              class="contrast-guard"
+              data-contrast-level="AA"
+              data-glass-component="true"
+            >
+              1
             </span>
           </div>
         </div>

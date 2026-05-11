@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef } from "react";
 import { OptimizedGlass } from "../../primitives";
@@ -39,6 +39,18 @@ export interface GlassBreadcrumbProps
    * Whether to respect motion preferences for animations
    */
   respectMotionPreference?: boolean;
+  /**
+   * Render a tighter breadcrumb for cards, toolbars, and preview surfaces.
+   */
+  compact?: boolean;
+  /**
+   * Bound long breadcrumb trails inside their parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum width used when contained. Defaults to 100%.
+   */
+  maxWidth?: number | string;
 }
 
 export interface GlassBreadcrumbItemProps
@@ -100,6 +112,9 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
       elevation = "level1",
       size = "md",
       respectMotionPreference = true,
+      compact = false,
+      contained = false,
+      maxWidth,
       className,
       ...props
     },
@@ -133,6 +148,23 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
       md: "glass-text-sm",
       lg: "glass-text-base",
     };
+    const effectiveSize = compact ? "sm" : size;
+    const effectiveMaxItems =
+      maxItems ?? (compact && childArray.length > 3 ? 3 : undefined);
+    if (effectiveMaxItems && (childArray?.length || 0) > effectiveMaxItems) {
+      const startItems = childArray.slice(0, Math.ceil(effectiveMaxItems / 2));
+      const endItems = childArray.slice(-Math.floor(effectiveMaxItems / 2));
+      itemsToRender = [
+        ...startItems,
+        ...(showEllipsis ? [ellipsisComponent] : []),
+        ...endItems,
+      ].filter(
+        (item): item is React.ReactElement =>
+          React.isValidElement(item) ||
+          typeof item === "string" ||
+          typeof item === "number"
+      );
+    }
 
     return (
       <OptimizedGlass
@@ -145,19 +177,47 @@ export const GlassBreadcrumb = forwardRef<HTMLElement, GlassBreadcrumbProps>(
         animation={shouldReduceMotion ? "none" : "gentle"}
         performanceMode="medium"
         className={cn(
-          "inline-flex items-center glass-px-3 glass-py-1.5 glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5",
-          sizeClasses?.[size],
+          "inline-flex items-center glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5",
+          compact ? "glass-px-2 glass-py-1" : "glass-px-3 glass-py-1.5",
+          (compact || contained) && "glass-max-w-full glass-overflow-hidden",
+          sizeClasses?.[effectiveSize],
           className
         )}
+        style={{
+          ...(maxWidth || contained
+            ? {
+                maxWidth:
+                  typeof maxWidth === "number"
+                    ? `${maxWidth}px`
+                    : (maxWidth ?? "100%"),
+              }
+            : null),
+          ...(props.style as React.CSSProperties | undefined),
+        }}
         {...props}
       >
-        <nav aria-label={props['aria-label'] || "Breadcrumb"} id={navId}>
-          <ol className="glass-flex glass-items-center glass-gap-2">
+        <nav aria-label={props["aria-label"] || "Breadcrumb"} id={navId}>
+          <ol
+            className={cn(
+              "glass-flex glass-items-center glass-min-w-0",
+              compact ? "glass-gap-1" : "glass-gap-2",
+              (compact || contained) && "glass-overflow-hidden"
+            )}
+          >
             {itemsToRender.map((item, index) => (
-              <li key={index} className="glass-flex glass-items-center">
+              <li
+                key={index}
+                className={cn(
+                  "glass-flex glass-items-center",
+                  (compact || contained) && "glass-min-w-0"
+                )}
+              >
                 {index > 0 && (
                   <span
-                    className='glass-mx-2 glass-text-primary-glass-opacity-40'
+                    className={cn(
+                      compact ? "glass-mx-1" : "glass-mx-2",
+                      "glass-text-primary-glass-opacity-40"
+                    )}
                     aria-hidden="true"
                   >
                     {separator}
@@ -200,7 +260,9 @@ export const GlassBreadcrumbItem = forwardRef<
         ref={ref}
         className={cn(
           "glass-text-primary/80 transition-all duration-200",
-          !isCurrentPage && !shouldReduceMotion && "glass-hover--translate-y-0-5",
+          !isCurrentPage &&
+            !shouldReduceMotion &&
+            "glass-hover--translate-y-0-5",
           isCurrentPage && "glass-text-primary font-medium",
           className
         )}

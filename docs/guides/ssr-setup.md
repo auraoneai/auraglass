@@ -243,5 +243,5 @@ If upgrading from 2.0.12:
 ## Support
 
 For issues or questions:
-- [GitHub Issues](https://github.com/VeerOneGPT/auraglass/issues)
+- [GitHub Issues](https://github.com/auraoneai/auraglass/issues)
 - [Documentation](https://aura-glass.auraone.com/docs/ssr)

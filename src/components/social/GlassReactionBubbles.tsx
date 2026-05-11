@@ -47,6 +47,9 @@ export interface GlassReactionBubblesProps {
   soundEnabled?: boolean;
   realTimeMode?: boolean;
   interactive?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   onReactionAdd?: (emoji: string, x?: number, y?: number) => void;
   onReactionClick?: (reaction: ReactionBubble) => void;
   className?: string;
@@ -161,6 +164,9 @@ export const GlassReactionBubbles = forwardRef<
       soundEnabled = true,
       realTimeMode = false,
       interactive = true,
+      compact = false,
+      contained = false,
+      maxHeight,
       onReactionAdd,
       onReactionClick,
       className = "",
@@ -407,7 +413,7 @@ export const GlassReactionBubbles = forwardRef<
         >
           <span className={cn("glass-text-2xl")}>{bubble.emoji}</span>
 
-          {showUserNames && (
+          {effectiveShowUserNames && (
             <motion.div
               className={cn(
                 "glass-absolute glass-bottom-8-neg glass-left-1/2 glass-transform glass-translate-x-1/2-neg"
@@ -501,11 +507,17 @@ export const GlassReactionBubbles = forwardRef<
       ([, a], [, b]) => b - a
     )[0];
 
+    const effectiveHeight = maxHeight ?? (compact || contained ? 220 : height);
+    const numericHeight =
+      typeof effectiveHeight === "number" ? effectiveHeight : height;
+    const effectiveShowControls = compact ? false : showControls;
+    const effectiveShowUserNames = compact ? false : showUserNames;
+
     const ambientParticles = useMemo(() => {
       if (isTestEnv) {
         return Array.from({ length: 5 }, (_, i) => ({
           left: (width / 6) * (i + 1),
-          top: (height / 6) * (i + 1),
+          top: (numericHeight / 6) * (i + 1),
           duration: 3 + i * 0.25,
           delay: i * 0.2,
         }));
@@ -513,25 +525,36 @@ export const GlassReactionBubbles = forwardRef<
 
       return Array.from({ length: 5 }, () => ({
         left: random() * width,
-        top: random() * height,
+        top: random() * numericHeight,
         duration: 3 + random() * 2,
         delay: random() * 2,
       }));
-    }, [height, isTestEnv, random, width]);
+    }, [numericHeight, isTestEnv, random, width]);
 
     return (
       <OptimizedGlass
         ref={ref}
         intensity="subtle"
         className={cn("glass-relative glass-overflow-hidden", className)}
-        style={{ width: "100%", maxWidth: "100%", height }}
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          height:
+            typeof effectiveHeight === "number"
+              ? `${effectiveHeight}px`
+              : effectiveHeight,
+          maxHeight:
+            typeof effectiveHeight === "number"
+              ? `${effectiveHeight}px`
+              : effectiveHeight,
+        }}
         {...props}
       >
         {/* Main reaction area */}
         <div
           className={cn("glass-absolute glass-inset-0 glass-cursor-crosshair")}
           onClick={handleCanvasClick}
-          style={{ width: "100%", height }}
+          style={{ width: "100%", height: numericHeight }}
         >
           <AnimatePresence>
             {bubbles.map((bubble: any) => (
@@ -574,7 +597,7 @@ export const GlassReactionBubbles = forwardRef<
         </div>
 
         {/* Controls */}
-        {showControls && (
+        {effectiveShowControls && (
           <div
             className={cn(
               "glass-absolute glass-top-4 glass-left-4 glass-z-20 glass-max-w-48"
@@ -585,46 +608,50 @@ export const GlassReactionBubbles = forwardRef<
         )}
 
         {/* Stats */}
-        <motion.div
-          className={cn(
-            "glass-absolute glass-top-4 glass-right-4 glass-z-20 glass-p-3 glass-radius-lg",
-            createGlassStyle({ blur: "sm", opacity: 0.8 }).background
-          )}
-          initial={{ opacity: 0, x: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
-          transition={shouldAnimate ? { delay: 0.5 } : { duration: 0 }}
-        >
-          <div
-            className={cn("glass-text-sm glass-text-secondary glass-space-y-1")}
+        {!compact && (
+          <motion.div
+            className={cn(
+              "glass-absolute glass-top-4 glass-right-4 glass-z-20 glass-p-3 glass-radius-lg",
+              createGlassStyle({ blur: "sm", opacity: 0.8 }).background
+            )}
+            initial={{ opacity: 0, x: 20 }}
+            animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+            transition={shouldAnimate ? { delay: 0.5 } : { duration: 0 }}
           >
             <div
               className={cn(
-                "glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap"
+                "glass-text-sm glass-text-secondary glass-space-y-1"
               )}
             >
-              <span>{stats.totalReactions}</span>
-              <span className={cn("glass-text-muted")}>total</span>
-            </div>
-            <div
-              className={cn(
-                "glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap"
-              )}
-            >
-              <span>{stats.recentReactions}</span>
-              <span className={cn("glass-text-muted")}>recent</span>
-            </div>
-            {mostUsed && (
               <div
                 className={cn(
                   "glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap"
                 )}
               >
-                <span>{mostUsed[0]}</span>
-                <span className={cn("glass-text-muted")}>{mostUsed[1]}x</span>
+                <span>{stats.totalReactions}</span>
+                <span className={cn("glass-text-muted")}>total</span>
               </div>
-            )}
-          </div>
-        </motion.div>
+              <div
+                className={cn(
+                  "glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap"
+                )}
+              >
+                <span>{stats.recentReactions}</span>
+                <span className={cn("glass-text-muted")}>recent</span>
+              </div>
+              {mostUsed && (
+                <div
+                  className={cn(
+                    "glass-flex glass-items-center glass-gap-2 glass-whitespace-nowrap"
+                  )}
+                >
+                  <span>{mostUsed[0]}</span>
+                  <span className={cn("glass-text-muted")}>{mostUsed[1]}x</span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
 
         {/* Instructions */}
         {interactive && showControls && height >= 300 && (

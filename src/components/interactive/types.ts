@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 
 // Base interactive component types
-export interface GlassInteractiveProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassInteractiveProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Interactive state */
   interactive?: boolean;
@@ -36,13 +37,13 @@ export interface GlassInteractiveProps extends React.HTMLAttributes<HTMLDivEleme
   glassStyles?: React.CSSProperties;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }
 
 export interface InteractiveAnimationConfig {
@@ -50,7 +51,7 @@ export interface InteractiveAnimationConfig {
   entrance?: boolean;
 
   /** Entrance animation type */
-  entranceType?: 'fadeIn' | 'slideIn' | 'scaleIn' | 'bounceIn' | 'elasticIn';
+  entranceType?: "fadeIn" | "slideIn" | "scaleIn" | "bounceIn" | "elasticIn";
 
   /** Entrance duration */
   entranceDuration?: number;
@@ -59,7 +60,7 @@ export interface InteractiveAnimationConfig {
   hoverAnimations?: boolean;
 
   /** Hover animation type */
-  hoverType?: 'lift' | 'glow' | 'scale' | 'tilt' | 'pulse';
+  hoverType?: "lift" | "glow" | "scale" | "tilt" | "pulse";
 
   /** Hover duration */
   hoverDuration?: number;
@@ -68,7 +69,7 @@ export interface InteractiveAnimationConfig {
   clickAnimations?: boolean;
 
   /** Click animation type */
-  clickType?: 'scale' | 'ripple' | 'bounce' | 'shake';
+  clickType?: "scale" | "ripple" | "bounce" | "shake";
 
   /** Click duration */
   clickDuration?: number;
@@ -87,10 +88,10 @@ export interface InteractiveAnimationConfig {
 
 export interface InteractiveAccessibilityConfig {
   /** ARIA label */
-  'aria-label'?: string;
+  "aria-label"?: string;
 
   /** ARIA description */
-  'aria-describedby'?: string;
+  "aria-describedby"?: string;
 
   /** ARIA role */
   role?: string;
@@ -111,7 +112,7 @@ export interface InteractiveAccessibilityConfig {
 // Context aware glass types
 export interface ContextAwareGlassProps extends GlassInteractiveProps {
   /** Context sensitivity */
-  contextSensitivity?: 'low' | 'medium' | 'high';
+  contextSensitivity?: "low" | "medium" | "high";
 
   /** Context triggers */
   contextTriggers?: ContextTrigger[];
@@ -124,7 +125,14 @@ export interface ContextAwareGlassProps extends GlassInteractiveProps {
 }
 
 export interface ContextTrigger {
-  type: 'hover' | 'focus' | 'click' | 'scroll' | 'resize' | 'time' | 'user-activity';
+  type:
+    | "hover"
+    | "focus"
+    | "click"
+    | "scroll"
+    | "resize"
+    | "time"
+    | "user-activity";
   condition: (context: ContextState) => boolean;
   action: (element: HTMLElement) => void;
 }
@@ -132,8 +140,8 @@ export interface ContextTrigger {
 export interface AdaptationRule {
   condition: (context: ContextState) => boolean;
   adaptations: {
-    glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
-    blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+    glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
+    blurStrength?: "none" | "light" | "standard" | "heavy";
     opacity?: number;
     scale?: number;
     glow?: boolean;
@@ -142,10 +150,10 @@ export interface AdaptationRule {
 }
 
 export interface ContextState {
-  userActivity: 'idle' | 'active' | 'focused';
+  userActivity: "idle" | "active" | "focused";
   scrollPosition: number;
   viewportSize: { width: number; height: number };
-  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
+  timeOfDay: "morning" | "afternoon" | "evening" | "night";
   userPreferences: {
     reducedMotion: boolean;
     highContrast: boolean;
@@ -164,7 +172,7 @@ export interface InteractionEvent {
 // A11y auditor types
 export interface GlassA11yAuditorProps extends GlassInteractiveProps {
   /** Audit scope */
-  scope?: 'element' | 'component' | 'page' | 'application';
+  scope?: "element" | "component" | "page" | "application";
 
   /** Audit rules */
   auditRules?: A11yAuditRule[];
@@ -186,7 +194,7 @@ export interface A11yAuditRule {
   id: string;
   name: string;
   description: string;
-  category: 'critical' | 'serious' | 'moderate' | 'minor';
+  category: "critical" | "serious" | "moderate" | "minor";
   check: (element: HTMLElement) => A11yViolation | null;
   fix?: (element: HTMLElement, violation: A11yViolation) => void;
 }
@@ -195,7 +203,7 @@ export interface A11yViolation {
   ruleId: string;
   message: string;
   element: HTMLElement;
-  severity: 'critical' | 'serious' | 'moderate' | 'minor';
+  severity: "critical" | "serious" | "moderate" | "minor";
   suggestion?: string;
 }
 
@@ -233,7 +241,7 @@ export interface GlassThemeDemoProps extends GlassInteractiveProps {
   onThemeChange?: (themeId: string) => void;
 
   /** Demo layout */
-  layout?: 'grid' | 'list' | 'tabs' | 'carousel';
+  layout?: "grid" | "list" | "tabs" | "carousel";
 
   /** Show theme switcher */
   showThemeSwitcher?: boolean;
@@ -270,6 +278,15 @@ export interface GlassThemeDemoProps extends GlassInteractiveProps {
 
   /** Minimal layout */
   minimal?: boolean;
+
+  /** Compact preview/card layout */
+  compact?: boolean;
+
+  /** Bound the demo inside its parent container */
+  contained?: boolean;
+
+  /** Maximum height for compact/contained demos */
+  maxHeight?: number | string;
 }
 
 export interface ThemeDemo {
@@ -289,8 +306,8 @@ export interface ThemeDemo {
     };
     border: string;
   };
-  glassVariant: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
-  blurStrength: 'none' | 'light' | 'standard' | 'heavy';
+  glassVariant: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
+  blurStrength: "none" | "light" | "standard" | "heavy";
   preview: React.ReactNode;
 }
 
@@ -314,7 +331,7 @@ export interface ThemedGlassComponentsProps extends GlassInteractiveProps {
   activeVariant?: string;
 
   /** Component size */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
 
   /** Enable theming */
   themingEnabled?: boolean;
@@ -366,7 +383,8 @@ export interface ComponentVariant {
 }
 
 // Focus ring types
-export interface GlassFocusRingProps extends Omit<GlassInteractiveProps, 'style'> {
+export interface GlassFocusRingProps
+  extends Omit<GlassInteractiveProps, "style"> {
   /** Focus target element */
   target?: HTMLElement | React.RefObject<HTMLElement>;
 
@@ -377,10 +395,10 @@ export interface GlassFocusRingProps extends Omit<GlassInteractiveProps, 'style'
   width?: number;
 
   /** Focus ring style */
-  ringStyle?: 'solid' | 'dashed' | 'dotted' | 'glow';
+  ringStyle?: "solid" | "dashed" | "dotted" | "glow";
 
   /** Focus ring shape */
-  shape?: 'rectangle' | 'rounded' | 'circle' | 'pill';
+  shape?: "rectangle" | "rounded" | "circle" | "pill";
 
   /** Focus ring offset */
   offset?: number;
@@ -431,8 +449,8 @@ export interface GlassPreset {
   description?: string;
   category: string;
   config: {
-    glassVariant: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
-    blurStrength: 'none' | 'light' | 'standard' | 'heavy';
+    glassVariant: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
+    blurStrength: "none" | "light" | "standard" | "heavy";
     colors: {
       primary: string;
       secondary: string;

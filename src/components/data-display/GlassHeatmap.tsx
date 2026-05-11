@@ -64,6 +64,12 @@ export interface GlassHeatmapProps
   cellSize?: number;
   /** Gap between cells */
   cellGap?: number;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain the visualization in a bounded vertical viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
   /** Whether to show cell values */
   showValues?: boolean;
   /** Whether to show grid lines */
@@ -136,8 +142,11 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         min: "#38bdf8",
         max: "#f43f5e",
       },
-      cellSize = 12,
-      cellGap = 1,
+      cellSize: incomingCellSize = 12,
+      cellGap: incomingCellGap = 1,
+      compact = false,
+      contained = false,
+      maxHeight,
       showValues = false,
       showGrid = true,
       showTooltips = true,
@@ -168,6 +177,15 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
       : [];
     const { prefersReducedMotion } = useMotionPreferenceContext();
     const heatmapId = useA11yId("glass-heatmap");
+    const cellSize = compact ? Math.min(incomingCellSize, 8) : incomingCellSize;
+    const cellGap = compact ? Math.min(incomingCellGap, 1) : incomingCellGap;
+    const effectiveShowValues = compact ? false : showValues;
+    const effectiveShowLegend =
+      compact && (legendPosition === "left" || legendPosition === "right")
+        ? false
+        : showLegend;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
     const [hoveredCell, setHoveredCell] = useState<HeatmapCell | null>(null);
     const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -425,7 +443,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             onMouseEnter={(e: React.MouseEvent) => handleCellHover(cell, e)}
             onMouseLeave={() => handleCellHover(null)}
           >
-            {showValues && (
+            {effectiveShowValues && (
               <span className="glass-select-none">
                 {typeof cell.value === "number"
                   ? cell.value.toFixed(1)
@@ -442,7 +460,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         cellSize,
         internalZoomLevel,
         showGrid,
-        showValues,
+        effectiveShowValues,
         handleCellClick,
         handleCellHover,
       ]
@@ -489,9 +507,9 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
     // Render legend
     const renderLegend = useCallback(() => {
-      if (!showLegend) return null;
+      if (!effectiveShowLegend) return null;
 
-      const legendSteps = 20;
+      const legendSteps = compact ? 10 : 20;
       const isHorizontal =
         legendPosition === "top" || legendPosition === "bottom";
 
@@ -613,7 +631,7 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
           </div>
         </OptimizedGlass>
       );
-    }, [showLegend, legendPosition, processedData, getColor]);
+    }, [effectiveShowLegend, legendPosition, processedData, getColor, compact]);
 
     // Create grid matrix for rendering
     const gridMatrix = useMemo(() => {
@@ -648,6 +666,10 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
         style={{
           ...heatmapSurfaceStyle,
           ...style,
+          maxHeight:
+            resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+          overflow:
+            compact || contained || resolvedMaxHeight ? "auto" : undefined,
         }}
         {...props}
       >
@@ -671,9 +693,12 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
             style={{ minWidth: 0 }}
           >
             {/* Legend */}
-            {showLegend && (
+            {effectiveShowLegend && (
               <div
-                className="glass-flex-shrink-0 glass-p-3"
+                className={cn(
+                  "glass-flex-shrink-0",
+                  compact ? "glass-p-2" : "glass-p-3"
+                )}
                 style={{ minWidth: 0, maxWidth: "100%" }}
               >
                 {renderLegend()}
@@ -682,7 +707,10 @@ export const GlassHeatmap = forwardRef<HTMLDivElement, GlassHeatmapProps>(
 
             {/* Main Content */}
             <div
-              className="glass-flex-1 glass-p-3 glass-overflow-auto glass-min-w-0 glass-radius-lg"
+              className={cn(
+                "glass-flex-1 glass-overflow-auto glass-min-w-0 glass-radius-lg",
+                compact ? "glass-p-2" : "glass-p-3"
+              )}
               style={{
                 ...heatmapInsetStyle,
                 maxWidth: "100%",

@@ -23,22 +23,47 @@ const codeSurfaceStyle: React.CSSProperties = {
 export interface GlassJSONViewerProps {
   value: unknown;
   className?: string;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
 }
 
-export function GlassJSONViewer({ value, className }: GlassJSONViewerProps) {
+export function GlassJSONViewer({
+  value,
+  className,
+  compact = false,
+  contained = false,
+  maxHeight,
+}: GlassJSONViewerProps) {
+  const boundedHeight = maxHeight ?? (compact || contained ? 220 : undefined);
+
   return (
     <OptimizedGlass
       data-glass-component
       elevation={"level1"}
       className={cn(
-        "glass-json-viewer glass-radius-lg glass-p-3 glass-overflow-auto glass-border",
+        "glass-json-viewer glass-radius-lg glass-overflow-auto glass-border",
+        compact ? "glass-p-2" : "glass-p-3",
         className
       )}
-      style={codeSurfaceStyle}
+      style={{
+        ...codeSurfaceStyle,
+        ...(boundedHeight !== undefined
+          ? {
+              maxHeight:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+            }
+          : null),
+      }}
     >
       <ContrastGuard>
         <pre
-          className="glass-text-xs glass-whitespace-pre-wrap"
+          className={cn(
+            compact ? "glass-text-[11px]" : "glass-text-xs",
+            "glass-whitespace-pre-wrap"
+          )}
           style={{
             margin: 0,
             color: "rgba(248, 250, 252, 0.9)",

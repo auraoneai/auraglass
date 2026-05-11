@@ -182,6 +182,22 @@ export interface GlassAdvancedSearchProps {
    * ARIA label for accessibility
    */
   "aria-label"?: string;
+  /**
+   * Compact density for constrained previews and embedded panels.
+   */
+  compact?: boolean;
+  /**
+   * Keep the search panel visually bounded inside its parent.
+   */
+  contained?: boolean;
+  /**
+   * Maximum rendered height for contained/compact contexts.
+   */
+  maxHeight?: number | string;
+  /**
+   * Maximum rendered width for contained/compact contexts.
+   */
+  maxWidth?: number | string;
 }
 
 /**
@@ -212,6 +228,10 @@ export const GlassAdvancedSearch = forwardRef<
       id,
       "data-testid": dataTestId,
       "aria-label": ariaLabel,
+      compact = false,
+      contained = false,
+      maxHeight,
+      maxWidth,
       ...props
     },
     ref
@@ -389,7 +409,16 @@ export const GlassAdvancedSearch = forwardRef<
         <GlassCard
           ref={ref}
           id={componentId}
-          className={cn("glass-overflow-hidden", className)}
+          className={cn(
+            "glass-overflow-hidden",
+            compact && "glass-text-sm",
+            className
+          )}
+          style={{
+            maxHeight,
+            maxWidth,
+            overflow: contained || compact ? "hidden" : undefined,
+          }}
           data-glass-component
           role="search"
           aria-label={ariaLabel || "Advanced search interface"}
@@ -401,11 +430,20 @@ export const GlassAdvancedSearch = forwardRef<
             Advanced search interface with filters, suggestions, and result
             management
           </div>
-          <CardHeader className="glass-pb-3">
+          <CardHeader className={compact ? "glass-pb-2" : "glass-pb-3"}>
             <div className="glass-flex glass-items-center glass-justify-between">
-              <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2">
-                <Search className="glass-w-5 glass-h-5" />
-                Advanced Search
+              <CardTitle
+                className={cn(
+                  "glass-text-primary glass-font-semibold glass-flex glass-items-center glass-gap-2",
+                  compact ? "glass-text-sm" : "glass-text-lg"
+                )}
+              >
+                <Search
+                  className={
+                    compact ? "glass-w-4 glass-h-4" : "glass-w-5 glass-h-5"
+                  }
+                />
+                {compact ? "Search" : "Advanced Search"}
               </CardTitle>
 
               <div className="glass-flex glass-items-center glass-gap-2">
@@ -444,7 +482,12 @@ export const GlassAdvancedSearch = forwardRef<
             </div>
           </CardHeader>
 
-          <CardContent className="glass-pt-0 glass-auto-gap glass-auto-gap-lg">
+          <CardContent
+            className={cn(
+              "glass-pt-0 glass-auto-gap",
+              compact ? "glass-auto-gap-sm" : "glass-auto-gap-lg"
+            )}
+          >
             {/* Search Input */}
             <div className="glass-relative">
               <div className="glass-relative">
@@ -455,7 +498,10 @@ export const GlassAdvancedSearch = forwardRef<
                   value={query}
                   onChange={handleSearchInput}
                   placeholder={placeholder}
-                  className="glass-w-full glass-pl-10 glass-pr-4 glass-py-3 glass-surface-subtle/10 glass-ring-1 glass-ring-white-opacity-10 glass-radius-lg glass-text-primary glass-placeholder-white-opacity-50 glass-focus-outline-none glass-focus-ring-white-opacity-30 glass-touch-target glass-contrast-guard"
+                  className={cn(
+                    "glass-w-full glass-pl-10 glass-pr-4 glass-surface-subtle/10 glass-ring-1 glass-ring-white-opacity-10 glass-radius-lg glass-text-primary glass-placeholder-white-opacity-50 glass-focus-outline-none glass-focus-ring-white-opacity-30 glass-touch-target glass-contrast-guard",
+                    compact ? "glass-py-2 glass-text-sm" : "glass-py-3"
+                  )}
                 />
                 {query && (
                   <GlassButton
@@ -562,7 +608,7 @@ export const GlassAdvancedSearch = forwardRef<
             )}
 
             {/* Advanced Filters Panel */}
-            {showFilters && enableAdvancedFilters && (
+            {!compact && showFilters && enableAdvancedFilters && (
               <Motion
                 preset="slideDown"
                 className="glass-auto-gap glass-auto-gap-lg glass-p-4 glass-surface-subtle/5 glass-radius-lg"
@@ -626,33 +672,36 @@ export const GlassAdvancedSearch = forwardRef<
             )}
 
             {/* Search History */}
-            {enableHistory && searchHistory.length > 0 && !query && (
-              <div className="glass-auto-gap glass-auto-gap-sm">
-                <h4 className="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium glass-flex glass-items-center glass-gap-2">
-                  <History className="glass-w-4 glass-h-4" />
-                  Recent Searches
-                </h4>
-                <div className="glass-flex glass-flex-wrap glass-gap-2">
-                  {searchHistory.slice(0, 5).map((search, index) => (
-                    <GlassButton
-                      key={index}
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => {
-                        setQuery(search);
-                        onSearch?.(search, activeFilters);
-                      }}
-                      className="glass-text-sm"
-                    >
-                      {search}
-                    </GlassButton>
-                  ))}
+            {!compact &&
+              enableHistory &&
+              searchHistory.length > 0 &&
+              !query && (
+                <div className="glass-auto-gap glass-auto-gap-sm">
+                  <h4 className="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium glass-flex glass-items-center glass-gap-2">
+                    <History className="glass-w-4 glass-h-4" />
+                    Recent Searches
+                  </h4>
+                  <div className="glass-flex glass-flex-wrap glass-gap-2">
+                    {searchHistory.slice(0, 5).map((search, index) => (
+                      <GlassButton
+                        key={index}
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => {
+                          setQuery(search);
+                          onSearch?.(search, activeFilters);
+                        }}
+                        className="glass-text-sm"
+                      >
+                        {search}
+                      </GlassButton>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* Results Header */}
-            {query && (
+            {!compact && query && (
               <div className="glass-flex glass-items-center glass-justify-between">
                 <div className="glass-flex glass-items-center glass-gap-4">
                   {showStats && (
@@ -719,7 +768,7 @@ export const GlassAdvancedSearch = forwardRef<
             )}
 
             {/* Search Results */}
-            {query && (
+            {!compact && query && (
               <div className="glass-auto-gap glass-auto-gap-md">
                 {loading ? (
                   <div className="glass-flex glass-items-center glass-justify-center glass-py-12">

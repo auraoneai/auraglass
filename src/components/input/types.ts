@@ -69,7 +69,9 @@ export interface MultiSelectProps<T extends string | number = string> {
   clearable?: boolean;
   grouped?: boolean;
   virtualized?: boolean;
-  maxHeight?: number;
+  maxHeight?: number | string;
+  compact?: boolean;
+  contained?: boolean;
   renderOption?: (
     option: MultiSelectOption<T>,
     selected: boolean

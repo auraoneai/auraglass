@@ -7,9 +7,8 @@ import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 
 // DropdownMenu Root component
-export interface GlassDropdownMenuProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Root
-> {
+export interface GlassDropdownMenuProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root> {
   className?: string;
   "data-testid"?: string;
 }
@@ -30,9 +29,8 @@ export const GlassDropdownMenu = React.forwardRef<
 GlassDropdownMenu.displayName = "GlassDropdownMenu";
 
 // DropdownMenuTrigger component
-export interface GlassDropdownMenuTriggerProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Trigger
-> {
+export interface GlassDropdownMenuTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Trigger> {
   variant?: "default" | "outline" | "ghost" | "minimal";
   size?: "sm" | "md" | "lg";
   asChild?: boolean;
@@ -98,24 +96,44 @@ export const GlassDropdownMenuTrigger = forwardRef<
 GlassDropdownMenuTrigger.displayName = "GlassDropdownMenuTrigger";
 
 // DropdownMenuContent component
-export interface GlassDropdownMenuContentProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Content
-> {
+export interface GlassDropdownMenuContentProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content> {
   align?: "start" | "center" | "end";
   sideOffset?: number;
+  portalContainer?: HTMLElement | null;
+  portalled?: boolean;
+  positionStrategy?: "fixed" | "absolute" | "contained";
+  contained?: boolean;
 }
 
 export const GlassDropdownMenuContent = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   GlassDropdownMenuContentProps
->(({ className, align = "end", sideOffset = 4, children, ...props }, ref) => {
-  return (
-    <DropdownMenuPrimitive.Portal>
+>(
+  (
+    {
+      className,
+      align = "end",
+      sideOffset = 4,
+      children,
+      portalContainer,
+      portalled = true,
+      positionStrategy = "fixed",
+      contained = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
+    const renderContent = (
       <Motion preset="scaleIn">
         <DropdownMenuPrimitive.Content
           ref={ref}
           align={align}
-          sideOffset={sideOffset}
+          sideOffset={
+            contained || positionStrategy === "contained" ? 0 : sideOffset
+          }
+          data-position-strategy={contained ? "contained" : positionStrategy}
           className={cn(
             "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
             "glass-shadow-lg glass-border glass-border-glass-border/20",
@@ -124,8 +142,22 @@ export const GlassDropdownMenuContent = forwardRef<
             "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
             "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+            contained && "glass-w-full glass-max-w-full",
             className
           )}
+          style={{
+            ...(contained || positionStrategy === "contained"
+              ? {
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  top: "calc(100% + 0.25rem)",
+                  transform: "none",
+                  maxWidth: "100%",
+                }
+              : undefined),
+            ...(style as React.CSSProperties | undefined),
+          }}
           {...props}
         >
           <OptimizedGlass
@@ -143,16 +175,25 @@ export const GlassDropdownMenuContent = forwardRef<
           </OptimizedGlass>
         </DropdownMenuPrimitive.Content>
       </Motion>
-    </DropdownMenuPrimitive.Portal>
-  );
-});
+    );
+
+    if (!portalled || contained || positionStrategy === "contained") {
+      return renderContent;
+    }
+
+    return (
+      <DropdownMenuPrimitive.Portal container={portalContainer ?? undefined}>
+        {renderContent}
+      </DropdownMenuPrimitive.Portal>
+    );
+  }
+);
 
 GlassDropdownMenuContent.displayName = "GlassDropdownMenuContent";
 
 // DropdownMenuItem component
-export interface GlassDropdownMenuItemProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Item
-> {
+export interface GlassDropdownMenuItemProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
   variant?: "default" | "destructive";
   icon?: React.ReactNode;
   shortcut?: string;
@@ -205,9 +246,10 @@ export const GlassDropdownMenuItem = forwardRef<
 GlassDropdownMenuItem.displayName = "GlassDropdownMenuItem";
 
 // DropdownMenuCheckboxItem component
-export interface GlassDropdownMenuCheckboxItemProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.CheckboxItem
-> {
+export interface GlassDropdownMenuCheckboxItemProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.CheckboxItem
+  > {
   checked?: boolean | "indeterminate";
   icon?: React.ReactNode;
 }
@@ -249,9 +291,10 @@ GlassDropdownMenuCheckboxItem.displayName = "GlassDropdownMenuCheckboxItem";
 export const GlassDropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 // DropdownMenuRadioItem component
-export interface GlassDropdownMenuRadioItemProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.RadioItem
-> {
+export interface GlassDropdownMenuRadioItemProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.RadioItem
+  > {
   icon?: React.ReactNode;
 }
 
@@ -288,9 +331,8 @@ export const GlassDropdownMenuRadioItem = forwardRef<
 GlassDropdownMenuRadioItem.displayName = "GlassDropdownMenuRadioItem";
 
 // DropdownMenuLabel component
-export interface GlassDropdownMenuLabelProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Label
-> {
+export interface GlassDropdownMenuLabelProps
+  extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label> {
   inset?: boolean;
 }
 
@@ -314,9 +356,10 @@ export const GlassDropdownMenuLabel = forwardRef<
 GlassDropdownMenuLabel.displayName = "GlassDropdownMenuLabel";
 
 // DropdownMenuSeparator component
-export interface GlassDropdownMenuSeparatorProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.Separator
-> {}
+export interface GlassDropdownMenuSeparatorProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.Separator
+  > {}
 
 export const GlassDropdownMenuSeparator = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
@@ -337,7 +380,8 @@ export const GlassDropdownMenuSeparator = forwardRef<
 GlassDropdownMenuSeparator.displayName = "GlassDropdownMenuSeparator";
 
 // DropdownMenuShortcut component (for keyboard shortcuts)
-export interface GlassDropdownMenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {}
+export interface GlassDropdownMenuShortcutProps
+  extends React.HTMLAttributes<HTMLSpanElement> {}
 
 export const GlassDropdownMenuShortcut = forwardRef<
   HTMLSpanElement,
@@ -361,9 +405,10 @@ GlassDropdownMenuShortcut.displayName = "GlassDropdownMenuShortcut";
 export const GlassDropdownMenuSub = DropdownMenuPrimitive.Sub;
 
 // DropdownMenuSubTrigger component
-export interface GlassDropdownMenuSubTriggerProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.SubTrigger
-> {
+export interface GlassDropdownMenuSubTriggerProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.SubTrigger
+  > {
   icon?: React.ReactNode;
 }
 
@@ -397,9 +442,10 @@ export const GlassDropdownMenuSubTrigger = forwardRef<
 GlassDropdownMenuSubTrigger.displayName = "GlassDropdownMenuSubTrigger";
 
 // DropdownMenuSubContent component
-export interface GlassDropdownMenuSubContentProps extends React.ComponentPropsWithoutRef<
-  typeof DropdownMenuPrimitive.SubContent
-> {}
+export interface GlassDropdownMenuSubContentProps
+  extends React.ComponentPropsWithoutRef<
+    typeof DropdownMenuPrimitive.SubContent
+  > {}
 
 export const GlassDropdownMenuSubContent = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,

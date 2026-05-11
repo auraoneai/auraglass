@@ -21,6 +21,9 @@ export interface GlassDataGridProProps<
   rows?: T[];
   grouping?: string[];
   density?: "compact" | "normal" | "spacious";
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
 }
 
 // Lightweight wrapper around GlassDataTable; placeholder for advanced features
@@ -33,6 +36,10 @@ export const GlassDataGridPro = React.forwardRef<
       columns = [],
       rows = [],
       className,
+      density = "normal",
+      compact = false,
+      contained = false,
+      maxHeight,
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       ...props
@@ -59,7 +66,13 @@ export const GlassDataGridPro = React.forwardRef<
         data-testid={dataTestId}
         {...props}
       >
-        <GlassDataTable columns={normalizedColumns} data={rows} />
+        <GlassDataTable
+          columns={normalizedColumns}
+          data={rows}
+          compact={compact || density === "compact"}
+          contained={contained}
+          maxHeight={maxHeight}
+        />
       </div>
     );
   }

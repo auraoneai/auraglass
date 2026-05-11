@@ -30,10 +30,8 @@ export interface SelectOption {
 export type SelectValue = SelectOption["value"];
 export type SelectValueChange = SelectValue | SelectValue[];
 
-export interface GlassSelectProps extends Omit<
-  React.SelectHTMLAttributes<HTMLSelectElement>,
-  "size"
-> {
+export interface GlassSelectProps
+  extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "size"> {
   /**
    * Select variant
    */
@@ -102,6 +100,22 @@ export interface GlassSelectProps extends Omit<
    * Value change callback (preferred over onChange)
    */
   onValueChange?: (value: SelectValueChange) => void;
+  /**
+   * Optional portal container for the custom dropdown.
+   */
+  portalContainer?: HTMLElement | null;
+  /**
+   * Whether to portal dropdown content. Defaults to true.
+   */
+  portalled?: boolean;
+  /**
+   * Overlay positioning strategy.
+   */
+  positionStrategy?: "fixed" | "absolute" | "contained";
+  /**
+   * Render dropdown content inside the local select boundary.
+   */
+  contained?: boolean;
 
   // Accessibility props
   /**
@@ -159,6 +173,10 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
       value,
       onChange,
       onValueChange,
+      portalContainer,
+      portalled = true,
+      positionStrategy = "fixed",
+      contained = false,
       ...props
     },
     ref
@@ -204,6 +222,8 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
 
     const currentState = errorText ? "error" : state;
     const displayHelperText = errorText || helperText;
+    const isContainedOverlay =
+      contained || positionStrategy === "contained" || portalled === false;
 
     // Filter options based on search query
     const filteredOptions =
@@ -330,8 +350,8 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
       const rect = el.getBoundingClientRect();
       // Add a small offset so the popup doesn't overlap the trigger border
       setDropdownPos({
-        top: rect.bottom + 6,
-        left: rect.left,
+        top: isContainedOverlay ? 0 : rect.bottom + 6,
+        left: isContainedOverlay ? 0 : rect.left,
         width: rect.width,
       });
     };
@@ -343,12 +363,14 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
       const onScroll = () => updateDropdownPosition();
       window.addEventListener("resize", onResize);
       // Capture scroll from any scrollable ancestor
-      window.addEventListener("scroll", onScroll, true);
+      if (!isContainedOverlay) {
+        window.addEventListener("scroll", onScroll, true);
+      }
       return () => {
         window.removeEventListener("resize", onResize);
         window.removeEventListener("scroll", onScroll, true);
       };
-    }, [isOpen]);
+    }, [isOpen, isContainedOverlay]);
 
     // Render selected value
     const renderSelectedValue = () => {
@@ -563,141 +585,158 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
         {/* Dropdown */}
         {isOpen &&
           portalReady &&
-          createPortal(
-            <Motion preset="slideDown" className="glass-pointer-events-auto">
-              <div
-                style={{
-                  position: "fixed",
-                  top: dropdownPos.top,
-                  left: dropdownPos.left,
-                  width: dropdownPos.width,
-                  zIndex: 10000,
-                }}
-              >
-                <OptimizedGlass
-                  intent="neutral"
-                  elevation={"level3"}
-                  intensity="strong"
-                  depth={2}
-                  tint="neutral"
-                  border="subtle"
-                  animation="none"
-                  performanceMode="medium"
-                  className={cn(
-                    "max-h-60 overflow-hidden",
-                    "glass-glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/20 glass-contrast-guard",
-                    "shadow-2xl shadow-black/50",
-                    "ring-1 ring-white/10"
-                  )}
+          (isContainedOverlay && !triggerRef.current?.parentElement
+            ? null
+            : createPortal(
+                <Motion
+                  preset="slideDown"
+                  className="glass-pointer-events-auto"
                 >
-                  <FocusTrap active={isOpen}>
-                    {searchable && (
-                      <div className="glass-p-2 glass-border-b glass-border-white/20">
-                        <GlassInput
-                          ref={searchInputRef}
-                          type="text"
-                          placeholder="Search options..."
-                          value={searchQuery}
-                          onChange={(e) => {
-                            setSearchQuery(e.target.value);
-                            onSearch?.(e.target.value);
-                          }}
-                          className={cn(
-                            "w-full glass-px-3 glass-py-2 glass-radius-md outline-none",
-                            "glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10",
-                            "glass-text-primary/90 placeholder-white/50",
-                            "focus:ring-2 glass-focus-ring-white-opacity-30 focus:bg-white/15",
-                            "transition-all duration-200"
-                          )}
-                        />
-                      </div>
-                    )}
-
-                    <ul
-                      ref={listRef}
-                      className="glass-max-h-48 glass-overflow-y-auto"
-                      role="listbox"
-                      aria-multiselectable={multiple}
+                  <div
+                    style={{
+                      position: isContainedOverlay ? "absolute" : "fixed",
+                      top: isContainedOverlay
+                        ? "calc(100% + 6px)"
+                        : dropdownPos.top,
+                      left: isContainedOverlay ? 0 : dropdownPos.left,
+                      width: isContainedOverlay ? "100%" : dropdownPos.width,
+                      zIndex: isContainedOverlay ? 50 : 10000,
+                    }}
+                    data-position-strategy={
+                      isContainedOverlay ? "contained" : positionStrategy
+                    }
+                  >
+                    <OptimizedGlass
+                      intent="neutral"
+                      elevation={"level3"}
+                      intensity="strong"
+                      depth={2}
+                      tint="neutral"
+                      border="subtle"
+                      animation="none"
+                      performanceMode="medium"
+                      className={cn(
+                        "max-h-60 overflow-hidden",
+                        "glass-glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/20 glass-contrast-guard",
+                        "shadow-2xl shadow-black/50",
+                        "ring-1 ring-white/10"
+                      )}
                     >
-                      {Object.entries(groupedOptions).map(
-                        ([group, groupOptions]) => (
-                          <React.Fragment key={group}>
-                            {group && (
-                              <li className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-primary-glass-opacity-60 glass-surface-subtle/5 glass-border-b glass-border-white/10">
-                                {group}
-                              </li>
-                            )}
+                      <FocusTrap active={isOpen}>
+                        {searchable && (
+                          <div className="glass-p-2 glass-border-b glass-border-white/20">
+                            <GlassInput
+                              ref={searchInputRef}
+                              type="text"
+                              placeholder="Search options..."
+                              value={searchQuery}
+                              onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                onSearch?.(e.target.value);
+                              }}
+                              className={cn(
+                                "w-full glass-px-3 glass-py-2 glass-radius-md outline-none",
+                                "glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10",
+                                "glass-text-primary/90 placeholder-white/50",
+                                "focus:ring-2 glass-focus-ring-white-opacity-30 focus:bg-white/15",
+                                "transition-all duration-200"
+                              )}
+                            />
+                          </div>
+                        )}
 
-                            {groupOptions.map((option, index) => {
-                              const isSelected = multiple
-                                ? Array.isArray(value) &&
-                                  value.includes(option.value)
-                                : value === option.value;
-                              const isFocused =
-                                filteredOptions.indexOf(option) ===
-                                focusedIndex;
+                        <ul
+                          ref={listRef}
+                          className="glass-max-h-48 glass-overflow-y-auto"
+                          role="listbox"
+                          aria-multiselectable={multiple}
+                        >
+                          {Object.entries(groupedOptions).map(
+                            ([group, groupOptions]) => (
+                              <React.Fragment key={group}>
+                                {group && (
+                                  <li className="glass-px-3 glass-py-2 glass-text-xs glass-font-medium glass-text-primary-glass-opacity-60 glass-surface-subtle/5 glass-border-b glass-border-white/10">
+                                    {group}
+                                  </li>
+                                )}
 
-                              return (
-                                <li
-                                  key={option.value}
-                                  className={cn(
-                                    "glass-px-3 glass-py-2 cursor-pointer transition-all duration-200",
-                                    "hover:bg-white/10 hover:glass-glass-backdrop-blur-md glass-contrast-guard",
-                                    "glass-text-primary/90",
-                                    "glass-focus glass-touch-target",
-                                    {
-                                      "bg-white/20 glass-text-primary shadow-md":
-                                        isSelected,
-                                      "bg-white/5 ring-1 ring-white/20":
-                                        isFocused,
-                                      "opacity-50 cursor-not-allowed hover:bg-transparent":
-                                        option.disabled,
-                                    }
-                                  )}
-                                  onClick={(e) => handleOptionSelect(option)}
-                                  onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                      e.preventDefault();
-                                      handleOptionSelect(option);
-                                    }
-                                  }}
-                                  role="option"
-                                  aria-selected={isSelected}
-                                >
-                                  <div className="glass-flex glass-items-center glass-justify-between">
-                                    {renderOption ? (
-                                      renderOption(option)
-                                    ) : (
-                                      <span className="glass-flex-1">
-                                        {option.label}
-                                      </span>
-                                    )}
+                                {groupOptions.map((option, index) => {
+                                  const isSelected = multiple
+                                    ? Array.isArray(value) &&
+                                      value.includes(option.value)
+                                    : value === option.value;
+                                  const isFocused =
+                                    filteredOptions.indexOf(option) ===
+                                    focusedIndex;
 
-                                    {multiple && isSelected && (
-                                      <span className="glass-ml-2 glass-text-primary">
-                                        ✓
-                                      </span>
-                                    )}
-                                  </div>
-                                </li>
-                              );
-                            })}
-                          </React.Fragment>
-                        )
-                      )}
+                                  return (
+                                    <li
+                                      key={option.value}
+                                      className={cn(
+                                        "glass-px-3 glass-py-2 cursor-pointer transition-all duration-200",
+                                        "hover:bg-white/10 hover:glass-glass-backdrop-blur-md glass-contrast-guard",
+                                        "glass-text-primary/90",
+                                        "glass-focus glass-touch-target",
+                                        {
+                                          "bg-white/20 glass-text-primary shadow-md":
+                                            isSelected,
+                                          "bg-white/5 ring-1 ring-white/20":
+                                            isFocused,
+                                          "opacity-50 cursor-not-allowed hover:bg-transparent":
+                                            option.disabled,
+                                        }
+                                      )}
+                                      onClick={(e) =>
+                                        handleOptionSelect(option)
+                                      }
+                                      onKeyDown={(e) => {
+                                        if (
+                                          e.key === "Enter" ||
+                                          e.key === " "
+                                        ) {
+                                          e.preventDefault();
+                                          handleOptionSelect(option);
+                                        }
+                                      }}
+                                      role="option"
+                                      aria-selected={isSelected}
+                                    >
+                                      <div className="glass-flex glass-items-center glass-justify-between">
+                                        {renderOption ? (
+                                          renderOption(option)
+                                        ) : (
+                                          <span className="glass-flex-1">
+                                            {option.label}
+                                          </span>
+                                        )}
 
-                      {filteredOptions.length === 0 && (
-                        <li className="glass-px-3 glass-py-4 glass-text-primary-glass-opacity-50 glass-text-center glass-text-sm">
-                          No options found
-                        </li>
-                      )}
-                    </ul>
-                  </FocusTrap>
-                </OptimizedGlass>
-              </div>
-            </Motion>,
-            document.body
-          )}
+                                        {multiple && isSelected && (
+                                          <span className="glass-ml-2 glass-text-primary">
+                                            ✓
+                                          </span>
+                                        )}
+                                      </div>
+                                    </li>
+                                  );
+                                })}
+                              </React.Fragment>
+                            )
+                          )}
+
+                          {filteredOptions.length === 0 && (
+                            <li className="glass-px-3 glass-py-4 glass-text-primary-glass-opacity-50 glass-text-center glass-text-sm">
+                              No options found
+                            </li>
+                          )}
+                        </ul>
+                      </FocusTrap>
+                    </OptimizedGlass>
+                  </div>
+                </Motion>,
+                isContainedOverlay
+                  ? triggerRef.current!.parentElement!
+                  : (portalContainer ?? document.body)
+              ))}
 
         {displayHelperText && (
           <p

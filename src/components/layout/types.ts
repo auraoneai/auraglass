@@ -1,25 +1,26 @@
-import React from 'react';
+import React from "react";
 
 export interface GlassContainerVariant {
-  default: 'default';
-  fluid: 'fluid';
-  fixed: 'fixed';
-  responsive: 'responsive';
+  default: "default";
+  fluid: "fluid";
+  fixed: "fixed";
+  responsive: "responsive";
 }
 
 export type GlassContainerVariantType = keyof GlassContainerVariant;
 
 export interface GlassContainerSize {
-  sm: 'sm';
-  md: 'md';
-  lg: 'lg';
-  xl: 'xl';
-  xxl: 'xxl';
+  sm: "sm";
+  md: "md";
+  lg: "lg";
+  xl: "xl";
+  xxl: "xxl";
 }
 
 export type GlassContainerSizeType = keyof GlassContainerSize;
 
-export interface GlassContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassContainerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Container variant */
   variant?: GlassContainerVariantType;
 
@@ -30,16 +31,16 @@ export interface GlassContainerProps extends React.HTMLAttributes<HTMLDivElement
   maxWidth?: string | number;
 
   /** Container padding */
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
 
   /** Enable centering */
   centered?: boolean;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -48,27 +49,28 @@ export interface GlassContainerProps extends React.HTMLAttributes<HTMLDivElement
   children?: React.ReactNode;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }
 
-export interface GlassFlexProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'direction'> {
+export interface GlassFlexProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "direction"> {
   /** Flex direction */
-  direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
+  direction?: "row" | "column" | "row-reverse" | "column-reverse";
 
   /** Justify content */
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  justify?: "start" | "center" | "end" | "between" | "around" | "evenly";
 
   /** Align items */
-  align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+  align?: "start" | "center" | "end" | "stretch" | "baseline";
 
   /** Flex wrap */
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
+  wrap?: "nowrap" | "wrap" | "wrap-reverse";
 
   /** Gap between items */
   gap?: string | number;
@@ -77,10 +79,10 @@ export interface GlassFlexProps extends Omit<React.HTMLAttributes<HTMLDivElement
   responsive?: boolean;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -91,37 +93,53 @@ export interface GlassFlexProps extends Omit<React.HTMLAttributes<HTMLDivElement
 
 export interface GlassGridProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Grid template columns */
-  columns?: number | string | { sm: number | string; md: number | string; lg: number | string; xl: number | string };
+  columns?:
+    | number
+    | string
+    | {
+        sm: number | string;
+        md: number | string;
+        lg: number | string;
+        xl: number | string;
+      };
 
   /** Grid template rows */
-  rows?: number | string | { sm: number | string; md: number | string; lg: number | string; xl: number | string };
+  rows?:
+    | number
+    | string
+    | {
+        sm: number | string;
+        md: number | string;
+        lg: number | string;
+        xl: number | string;
+      };
 
   /** Grid gap */
   gap?: string | number;
 
   /** Grid auto flow */
-  flow?: 'row' | 'column' | 'dense' | 'row-dense' | 'column-dense';
+  flow?: "row" | "column" | "dense" | "row-dense" | "column-dense";
 
   /** Justify items */
-  justifyItems?: 'start' | 'center' | 'end' | 'stretch';
+  justifyItems?: "start" | "center" | "end" | "stretch";
 
   /** Align items */
-  alignItems?: 'start' | 'center' | 'end' | 'stretch';
+  alignItems?: "start" | "center" | "end" | "stretch";
 
   /** Justify content */
-  justifyContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  justifyContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
 
   /** Align content */
-  alignContent?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  alignContent?: "start" | "center" | "end" | "between" | "around" | "evenly";
 
   /** Enable responsive behavior */
   responsive?: boolean;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -132,10 +150,17 @@ export interface GlassGridProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export interface GlassBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Box display type */
-  display?: 'block' | 'inline-block' | 'inline' | 'flex' | 'inline-flex' | 'grid' | 'inline-grid';
+  display?:
+    | "block"
+    | "inline-block"
+    | "inline"
+    | "flex"
+    | "inline-flex"
+    | "grid"
+    | "inline-grid";
 
   /** Box position */
-  position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
+  position?: "static" | "relative" | "absolute" | "fixed" | "sticky";
 
   /** Box dimensions */
   width?: string | number;
@@ -146,8 +171,24 @@ export interface GlassBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   maxHeight?: string | number;
 
   /** Box spacing */
-  margin?: string | number | { top?: string | number; right?: string | number; bottom?: string | number; left?: string | number };
-  padding?: string | number | { top?: string | number; right?: string | number; bottom?: string | number; left?: string | number };
+  margin?:
+    | string
+    | number
+    | {
+        top?: string | number;
+        right?: string | number;
+        bottom?: string | number;
+        left?: string | number;
+      };
+  padding?:
+    | string
+    | number
+    | {
+        top?: string | number;
+        right?: string | number;
+        bottom?: string | number;
+        left?: string | number;
+      };
 
   /** Box border */
   border?: string;
@@ -161,15 +202,15 @@ export interface GlassBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   backgroundImage?: string;
   backgroundSize?: string;
   backgroundPosition?: string;
-  backgroundRepeat?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+  backgroundRepeat?: "repeat" | "repeat-x" | "repeat-y" | "no-repeat";
 
   /** Box shadow */
   boxShadow?: string;
 
   /** Box overflow */
-  overflow?: 'visible' | 'hidden' | 'scroll' | 'auto';
-  overflowX?: 'visible' | 'hidden' | 'scroll' | 'auto';
-  overflowY?: 'visible' | 'hidden' | 'scroll' | 'auto';
+  overflow?: "visible" | "hidden" | "scroll" | "auto";
+  overflowX?: "visible" | "hidden" | "scroll" | "auto";
+  overflowY?: "visible" | "hidden" | "scroll" | "auto";
 
   /** Box opacity */
   opacity?: number;
@@ -182,10 +223,10 @@ export interface GlassBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   transition?: string;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Enable hover effects */
   hoverable?: boolean;
@@ -197,7 +238,8 @@ export interface GlassBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export interface GlassMasonryProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassMasonryProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Number of columns */
   columns?: number | { sm: number; md: number; lg: number; xl: number };
 
@@ -221,24 +263,25 @@ export interface GlassMasonryProps extends React.HTMLAttributes<HTMLDivElement> 
   };
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
 }
 
-export interface GlassScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassScrollAreaProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Scroll direction */
-  direction?: 'vertical' | 'horizontal' | 'both';
+  direction?: "vertical" | "horizontal" | "both";
 
   /** Enable smooth scrolling */
   smooth?: boolean;
 
   /** Scroll behavior */
-  behavior?: 'auto' | 'smooth';
+  behavior?: "auto" | "smooth";
 
   /** Enable custom scrollbar */
   customScrollbar?: boolean;
@@ -253,7 +296,7 @@ export interface GlassScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
   scrollSnap?: boolean;
 
   /** Scroll snap type */
-  scrollSnapType?: 'x' | 'y' | 'both' | 'mandatory' | 'proximity';
+  scrollSnapType?: "x" | "y" | "both" | "mandatory" | "proximity";
 
   /** Enable infinite scroll */
   infinite?: boolean;
@@ -265,10 +308,10 @@ export interface GlassScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
   loadMoreThreshold?: number;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -277,12 +320,13 @@ export interface GlassScrollAreaProps extends React.HTMLAttributes<HTMLDivElemen
   children?: React.ReactNode;
 }
 
-export interface GlassSeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassSeparatorProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Separator orientation */
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
 
   /** Separator variant */
-  variant?: 'solid' | 'dashed' | 'dotted' | 'gradient';
+  variant?: "solid" | "dashed" | "dotted" | "gradient";
 
   /** Separator color */
   color?: string;
@@ -297,15 +341,16 @@ export interface GlassSeparatorProps extends React.HTMLAttributes<HTMLDivElement
   glass?: boolean;
 
   /** Glass variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Custom styles */
   styles?: React.CSSProperties;
 }
 
-export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassSplitPaneProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Split direction */
-  direction?: 'horizontal' | 'vertical';
+  direction?: "horizontal" | "vertical";
 
   /** Initial split position */
   initialSplit?: number;
@@ -334,11 +379,23 @@ export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement
   /** Collapse callback */
   onCollapse?: (collapsed: boolean) => void;
 
+  /** Compact density for constrained previews and embedded panels */
+  compact?: boolean;
+
+  /** Keep the split pane visually bounded inside its parent */
+  contained?: boolean;
+
+  /** Maximum rendered height for contained/compact contexts */
+  maxHeight?: number | string;
+
+  /** Maximum rendered width for contained/compact contexts */
+  maxWidth?: number | string;
+
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -349,16 +406,16 @@ export interface GlassSplitPaneProps extends React.HTMLAttributes<HTMLDivElement
 
 export interface GlassStackProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Stack direction */
-  direction?: 'vertical' | 'horizontal';
+  direction?: "vertical" | "horizontal";
 
   /** Stack spacing */
   spacing?: string | number;
 
   /** Stack alignment */
-  align?: 'start' | 'center' | 'end' | 'stretch';
+  align?: "start" | "center" | "end" | "stretch";
 
   /** Stack justification */
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
+  justify?: "start" | "center" | "end" | "between" | "around" | "evenly";
 
   /** Enable wrapping */
   wrap?: boolean;
@@ -370,10 +427,10 @@ export interface GlassStackProps extends React.HTMLAttributes<HTMLDivElement> {
   responsive?: boolean;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -385,7 +442,7 @@ export interface GlassStackProps extends React.HTMLAttributes<HTMLDivElement> {
 // Layout system types
 export interface LayoutSystem {
   /** Layout type */
-  type: 'grid' | 'flex' | 'absolute' | 'masonry';
+  type: "grid" | "flex" | "absolute" | "masonry";
 
   /** Layout configuration */
   config: LayoutConfig;
@@ -437,14 +494,18 @@ export interface LayoutThemeTokens {
     xxl: string;
   };
   effects: {
-    borderRadius: Record<NonNullable<GlassContainerProps['padding']>, string>;
+    borderRadius: Record<NonNullable<GlassContainerProps["padding"]>, string>;
     boxShadow: string;
-    backdropFilter: Record<NonNullable<GlassContainerProps['blurStrength']>, string>;
+    backdropFilter: Record<
+      NonNullable<GlassContainerProps["blurStrength"]>,
+      string
+    >;
   };
 }
 
 // Utility types
-export type LayoutComponentProps<T = {}> = React.HTMLAttributes<HTMLDivElement> & T;
+export type LayoutComponentProps<T = {}> =
+  React.HTMLAttributes<HTMLDivElement> & T;
 export type LayoutRef = React.RefObject<HTMLDivElement>;
 
 // All types are already exported individually above

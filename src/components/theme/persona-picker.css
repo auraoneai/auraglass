@@ -48,6 +48,23 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
+.persona-picker--compact {
+  gap: 0.65rem;
+}
+
+.persona-picker--compact .persona-picker__header {
+  gap: 0.2rem;
+}
+
+.persona-picker--compact .persona-picker__active-name {
+  font-size: 0.95rem;
+}
+
+.persona-picker--compact .persona-picker__grid {
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+}
+
 .persona-picker-card {
   --card-accent: var(--glass-persona-card-accent, rgba(255, 255, 255, 0.4));
   --card-hover: var(--glass-theme-motion-hover, 180ms);
@@ -68,6 +85,29 @@
   color: inherit;
   backdrop-filter: var(--glass-persona-card-filter, blur(10px));
   -webkit-backdrop-filter: var(--glass-persona-card-filter, blur(10px));
+}
+
+.persona-picker--compact .persona-picker-card {
+  gap: 0.45rem;
+  padding: 0.62rem 0.7rem;
+  min-width: 0;
+}
+
+.persona-picker--compact .persona-picker-card__name {
+  font-size: 0.85rem;
+}
+
+.persona-picker--compact .persona-picker-card__pill {
+  font-size: 0.58rem;
+  padding: 0.15rem 0.35rem;
+}
+
+.persona-picker--compact .persona-picker-card__swatches {
+  gap: 0.35rem;
+}
+
+.persona-picker--compact .persona-picker-card__swatch {
+  height: 10px;
 }
 
 .persona-picker-card:hover {

@@ -227,7 +227,7 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
     class="glass-mb-4"
   >
     <div
-      class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-px-3 glass-py-1.5 glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 glass-text-sm"
+      class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 glass-px-3 glass-py-1.5 glass-text-sm"
       data-performance-mode="medium"
       style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
@@ -236,7 +236,7 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
         id="breadcrumb-:r1d:"
       >
         <ol
-          class="glass-flex glass-items-center glass-gap-2"
+          class="glass-flex glass-items-center glass-min-w-0 glass-gap-2"
         >
           <li
             class="glass-flex glass-items-center"

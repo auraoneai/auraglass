@@ -48,6 +48,9 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
       className,
       style,
       height,
+      compact = false,
+      contained = false,
+      maxHeight,
       initialSort,
       enableRowDragging = false,
       onRowOrderChange,
@@ -157,6 +160,9 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
 
     const totalColumns = safeColumns.length + (enableRowDragging ? 1 : 0);
     const hasData = displayData.length > 0;
+    const resolvedHeight = typeof height === "number" ? `${height}px` : height;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
     if (!safeColumns.length) {
       return (
@@ -206,9 +212,11 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         )}
         style={{
           ...style,
-          ...(height && {
-            height: typeof height === "number" ? `${height}px` : height,
-          }),
+          ...(height && { height: resolvedHeight }),
+          maxHeight:
+            resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+          overflowY:
+            compact || contained || resolvedMaxHeight ? "auto" : undefined,
           perspective: "1000px",
         }}
         data-testid={dataTestId}

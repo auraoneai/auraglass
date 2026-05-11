@@ -3,7 +3,7 @@
 exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
 <div
   aria-label="Color scheme generator"
-  class="space-y-6 "
+  class="space-y-6"
   data-glass-component="true"
   role="region"
 >
@@ -12,7 +12,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
     style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
   >
     <h3
-      class="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4"
+      class="glass-font-semibold glass-text-primary glass-mb-4 glass-text-lg"
     >
       Base Color
     </h3>
@@ -27,7 +27,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
         >
           <input
             aria-label="Base color picker"
-            class="glass-w-16 glass-h-16 glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer"
+            class="glass-radius-lg glass-border-2 glass-border-white/20 glass-cursor-pointer glass-w-16 glass-h-16"
             type="color"
             value="#0066cc"
           />

@@ -57,6 +57,10 @@ export interface GlassFractalLayoutProps {
     contrast?: number;
   };
   soundEnabled?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
+  height?: number | string;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -84,6 +88,10 @@ export const GlassFractalLayout = forwardRef<
       onNodeHover,
       glassConfig = {},
       soundEnabled = true,
+      compact = false,
+      contained = false,
+      maxHeight,
+      height,
       className = "",
       style = {},
       ...props
@@ -100,6 +108,9 @@ export const GlassFractalLayout = forwardRef<
     const { prefersReducedMotion } = useMotionPreference();
     const layoutId = useA11yId();
     const { play } = useGlassSound();
+    const boundedHeight =
+      maxHeight ?? height ?? (compact || contained ? 240 : 600);
+    const displayMaxDepth = compact ? Math.min(maxDepth, 3) : maxDepth;
 
     useEffect(() => {
       if (animateGrowth && !prefersReducedMotion) {
@@ -136,7 +147,11 @@ export const GlassFractalLayout = forwardRef<
         parentAngle: number = -90,
         parentScale: number = initialScale
       ): FractalNode[] => {
-        if (depth >= maxDepth || depth >= growthProgress * maxDepth) return [];
+        if (
+          depth >= displayMaxDepth ||
+          depth >= growthProgress * displayMaxDepth
+        )
+          return [];
 
         return nodes.map((node, index) => {
           const currentScale = parentScale * Math.pow(scaleFactor, depth);
@@ -227,7 +242,7 @@ export const GlassFractalLayout = forwardRef<
         });
       },
       [
-        maxDepth,
+        displayMaxDepth,
         fractalType,
         scaleFactor,
         branchAngle,
@@ -333,7 +348,14 @@ export const GlassFractalLayout = forwardRef<
         className={`glass-fractal-layout relative overflow-hidden ${className}`}
         style={{
           width: "100%",
-          height: "600px",
+          height:
+            typeof boundedHeight === "number"
+              ? `${boundedHeight}px`
+              : boundedHeight,
+          maxHeight:
+            typeof boundedHeight === "number"
+              ? `${boundedHeight}px`
+              : boundedHeight,
           ...style,
         }}
         glassConfig={{
@@ -442,25 +464,27 @@ export const GlassFractalLayout = forwardRef<
         </div>
 
         {/* Controls */}
-        <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-2">
-          <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Type: {fractalType}
-          </div>
-          <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Depth: {Math.floor(growthProgress * maxDepth)}/{maxDepth}
-          </div>
-          <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Nodes: {allNodes.length}
-          </div>
-          {interactiveZoom && (
+        {!compact && (
+          <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-2">
             <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-              Zoom: {(currentZoom * 100).toFixed(0)}%
+              Type: {fractalType}
             </div>
-          )}
-        </div>
+            <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Depth: {Math.floor(growthProgress * maxDepth)}/{maxDepth}
+            </div>
+            <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Nodes: {allNodes.length}
+            </div>
+            {interactiveZoom && (
+              <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+                Zoom: {(currentZoom * 100).toFixed(0)}%
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Growth progress indicator */}
-        {animateGrowth && growthProgress < 1 && (
+        {!compact && animateGrowth && growthProgress < 1 && (
           <div className="glass-absolute glass-top-4 glass-right-4">
             <div className="glass-w-32 glass-h-2 glass-surface-dark/20 glass-radius-full glass-backdrop-blur-sm glass-contrast-guard">
               <div

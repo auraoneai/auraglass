@@ -17,6 +17,9 @@ export interface SmartShoppingCartProps {
   showPromoCode?: boolean;
   showSavedItems?: boolean;
   maxItems?: number;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   onCheckout?: () => void;
   onClose?: () => void;
   "data-testid"?: string;
@@ -395,6 +398,9 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   showPromoCode = true,
   showSavedItems = false,
   maxItems = 20,
+  compact = false,
+  contained = false,
+  maxHeight,
   onCheckout,
   onClose,
   "data-testid": dataTestId,
@@ -492,10 +498,18 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   const itemCount = items
     ? items.reduce((sum, item) => sum + item.quantity, 0)
     : getCartItemCount();
+  const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
+  const effectiveMaxItems = compact ? Math.min(maxItems, 3) : maxItems;
+  const effectiveShowShipping = compact ? false : showShippingCalculator;
+  const effectiveShowPromo = compact ? false : showPromoCode;
+  const effectiveShowSaved = compact ? false : showSavedItems;
 
   if (displayCart.length === 0) {
     return (
-      <Glass className={cn("p-6", className)} data-testid={dataTestId}>
+      <Glass
+        className={cn(compact ? "glass-p-4" : "p-6", className)}
+        data-testid={dataTestId}
+      >
         <div className="glass-text-center">
           <div className="glass-text-6xl glass-mb-4">🛒</div>
           <h2 className="glass-text-xl glass-font-semibold glass-text-secondary glass-mb-2">
@@ -518,11 +532,27 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
   return (
     <Glass
       className={cn("overflow-hidden", className)}
+      style={{
+        ...(boundedHeight !== undefined
+          ? {
+              maxHeight:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+            }
+          : null),
+        overflow: compact || contained ? "auto" : undefined,
+      }}
       data-testid={dataTestId}
     >
       <div className="glass-flex glass-flex-col glass-h-full">
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-p-6 glass-border-b glass-border-subtle">
+        <div
+          className={cn(
+            "glass-flex glass-items-center glass-justify-between glass-border-b glass-border-subtle",
+            compact ? "glass-p-3" : "glass-p-6"
+          )}
+        >
           <div>
             <h2 className="glass-text-xl glass-font-semibold glass-text-secondary">
               Shopping Cart
@@ -543,8 +573,13 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
 
         {/* Cart Items */}
         <div className="glass-flex-1 glass-overflow-y-auto">
-          <div className="glass-max-h-96 glass-overflow-y-auto">
-            {displayCart.slice(0, maxItems).map((item: any) => (
+          <div
+            className={cn(
+              compact ? "glass-max-h-44" : "glass-max-h-96",
+              "glass-overflow-y-auto"
+            )}
+          >
+            {displayCart.slice(0, effectiveMaxItems).map((item: any) => (
               <CartItemCard
                 key={item.id}
                 item={item}
@@ -552,19 +587,19 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
                 onRemove={handleRemove}
                 onMoveToWishlist={handleMoveToWishlist}
                 onSaveForLater={handleSaveForLater}
-                compact={variant === "dropdown"}
+                compact={compact || variant === "dropdown"}
               />
             ))}
 
-            {displayCart.length > maxItems && (
+            {displayCart.length > effectiveMaxItems && (
               <div className="glass-p-4 glass-text-center glass-text-secondary">
-                And {displayCart.length - maxItems} more items...
+                And {displayCart.length - effectiveMaxItems} more items...
               </div>
             )}
           </div>
 
           {/* Saved Items */}
-          {showSavedItems && savedItems.length > 0 && (
+          {effectiveShowSaved && savedItems.length > 0 && (
             <div className="glass-border-t glass-border-subtle glass-p-4">
               <h3 className="glass-font-medium glass-text-secondary glass-mb-3">
                 Saved for Later ({savedItems.length})
@@ -591,9 +626,14 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="glass-border-t glass-border-subtle glass-p-6 glass-space-y-4">
+        <div
+          className={cn(
+            "glass-border-t glass-border-subtle glass-space-y-4",
+            compact ? "glass-p-3" : "glass-p-6"
+          )}
+        >
           {/* Shipping Calculator */}
-          {showShippingCalculator && (
+          {effectiveShowShipping && (
             <ShippingCalculator
               shippingOptions={shippingOptions}
               selectedShipping={selectedShipping}
@@ -603,7 +643,7 @@ export const GlassSmartShoppingCart: React.FC<SmartShoppingCartProps> = ({
           )}
 
           {/* Promo Code */}
-          {showPromoCode && (
+          {effectiveShowPromo && (
             <PromoCodeInput
               onApplyPromo={handleApplyPromo}
               appliedPromo={appliedPromo}

@@ -66,6 +66,9 @@ export interface IntelligentFormBuilderProps {
   initialSchema?: Partial<FormSchema>;
   enableAIAssistance?: boolean;
   enableRealTimeOptimization?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   className?: string;
   "data-testid"?: string;
   "aria-label"?: string;
@@ -217,6 +220,9 @@ export const GlassIntelligentFormBuilder: React.FC<
   initialSchema,
   enableAIAssistance = true,
   enableRealTimeOptimization = true,
+  compact = false,
+  contained = false,
+  maxHeight,
   className = "",
   "data-testid": dataTestId,
   "aria-label": ariaLabel,
@@ -250,7 +256,7 @@ export const GlassIntelligentFormBuilder: React.FC<
 
     const updateCompactState = () => {
       const rect = element.getBoundingClientRect();
-      setIsCompact(rect.width < 720 || rect.height < 520);
+      setIsCompact(compact || rect.width < 720 || rect.height < 520);
     };
 
     updateCompactState();
@@ -258,7 +264,7 @@ export const GlassIntelligentFormBuilder: React.FC<
     observer.observe(element);
 
     return () => observer.disconnect();
-  }, []);
+  }, [compact]);
 
   // Real-time AI analysis
   useEffect(() => {
@@ -457,12 +463,29 @@ export const GlassIntelligentFormBuilder: React.FC<
           },
         ];
 
-  if (isCompact) {
+  const boundedHeight =
+    maxHeight ?? (compact || contained || isCompact ? 260 : undefined);
+
+  if (isCompact || compact) {
     return (
       <div
         ref={rootRef}
         data-glass-component
-        className={cn("glass-w-full glass-p-3", className)}
+        className={cn(
+          "glass-w-full glass-p-3",
+          (compact || contained) && "glass-overflow-auto",
+          className
+        )}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+              }
+            : null),
+        }}
         data-testid={dataTestId}
         aria-label={ariaLabel}
       >
@@ -541,8 +564,19 @@ export const GlassIntelligentFormBuilder: React.FC<
       data-glass-component
       className={cn(
         "glass-w-full glass-container-6xl glass-mx-auto glass-p-6",
+        contained && "glass-overflow-auto",
         className
       )}
+      style={{
+        ...(boundedHeight !== undefined
+          ? {
+              maxHeight:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+            }
+          : null),
+      }}
       data-testid={dataTestId}
       aria-label={ariaLabel}
     >

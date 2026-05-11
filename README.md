@@ -1,4 +1,4 @@
-# AuraGlass 3.0.5
+# AuraGlass 3.0.6
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -9,7 +9,7 @@
 
 **React Liquid Glass and glassmorphism UI components for Next.js, SaaS dashboards, AI products, media apps, and premium web interfaces.**
 
-AuraGlass 3.0.5 is the visual and runtime hardening patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
+AuraGlass 3.0.6 is the component containment and catalog-credibility patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
 
 The 3.0 line is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes the npm release pipeline, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
 
@@ -32,7 +32,18 @@ import 'aura-glass/styles';
 | Accessible glassmorphism UI | ContrastGuard metadata, focus-management coverage, reduced-motion support |
 | AI and media products | AI surfaces, command palettes, search, media controls, 3D/AR and immersive entrypoints |
 
-## What Is New In 3.0.5
+## What Is New In 3.0.6
+
+- **Native compact and contained modes:** dense components now expose package-owned compact/contained sizing paths so dashboards, docs cards, drawers, and embedded surfaces can show real components without website-only clipping wrappers. The first 3.0.6 tranche covers data tables/grids, heatmaps, calendars, carousels, code and gradient tools, theme/persona controls, advanced media, layout systems, ecommerce carts, activity feeds, form/detail templates, collaboration workspaces, reaction clusters, and AI/media visualizations.
+- **Overlay containment APIs:** dropdown/menu/select/context/menubar families now support contained rendering controls such as `contained`, `portalled`, `portalContainer`, and `positionStrategy`, while preserving the existing portalled default for normal app usage.
+- **Real semantic diff rendering:** `GlassDiffViewer` now renders its own accessible line-level diff using semantic code/table structure, add/remove tokens, compact mode, bounded height, and long-line containment. Website previews no longer need a hand-built diff mock.
+- **Stronger default glass primitives:** `GlassAdvanced` now renders as a visible polished glass surface with simple default usage, plus compact/preview/minHeight controls for constrained contexts.
+- **Demonstrable contrast tooling:** `ContrastGuard` now includes package-owned preview affordances with `demoBackdrop` and `showIndicator`, so docs and catalogs can demonstrate contrast behavior without custom staging UI.
+- **Repository ownership migration:** package metadata, issue links, and npm-facing docs now point to the organization repository at `https://github.com/auraoneai/auraglass`.
+
+Package-side release readiness for 3.0.6 is complete through `npm run release:dry-run`, `npm run verify:pack`, `npm pack --dry-run --json`, repository-link audit, and creation of the local `aura-glass-3.0.6.tgz` tarball. Website workaround removal, website typecheck/catalog gate, npm publish, and npm `latest` verification remain intentionally unclaimed until those gates run against the packed package.
+
+## What Was Hardened In 3.0.5
 
 - **Catalog-scale component hardening:** the package was repacked into the AuraGlass website and walked across all 15 `/components` pages at `http://localhost:3023/components`: 260 rendered cards, 0 console/page errors, 0 preview boundary catches, 0 unavailable previews, and 0 empty/no-data preview hits.
 - **Core visual token repair:** neutral glass surfaces were retuned back to dark translucent glass instead of gray/white slab output, removing the broad white-outline and washed-panel regressions that affected component previews.
@@ -40,7 +51,7 @@ import 'aura-glass/styles';
 - **Data and input polish:** data grids, data tables, charts, tree views, accordions, avatars, badges, radio groups, steppers, JSON/heatmap/skeleton/metric components, and related dense controls were corrected for dark-theme contrast, spacing, overflow, tokenized glass backgrounds, and default preview content.
 - **Motion, particle, and GPU fallback cleanup:** `GlassParticles`, `GlassParticleField`, `DimensionalGlass`, and `GlassWebGLShader` now render meaningful dark, contained defaults with safe CSS/canvas fallback behavior.
 - **Media containment:** advanced media controls now collapse appropriately inside narrow containers instead of bleeding out of preview frames, while normal-size players keep the richer control set.
-- **Release gates:** `npm run release:dry-run` passes the package quality path through typecheck, lint with warnings only, token/style audits, glass pipeline validation, contrast tests, export tests, package type fixtures, 404 Jest suites, 2161 tests, 339 snapshots, pack verification, and React 18/19 Next.js smoke tests.
+- **Release gates:** `npm run release:dry-run` passes the package quality path through typecheck, lint with warnings only, token/style audits, glass pipeline validation, contrast tests, export tests, package type fixtures, 405 Jest suites, 2169 tests, 339 snapshots, pack verification, and React 18/19 Next.js smoke tests.
 
 ## What Was Hardened In 3.0.4
 
@@ -470,6 +481,8 @@ npx playwright test tests/visual/design-system/glass-audit-coverage.spec.ts --pr
 
 ## More Documentation
 
+- [GitHub repository](https://github.com/auraoneai/auraglass)
+- [Report issues](https://github.com/auraoneai/auraglass/issues)
 - [Documentation home](./docs/readme.md)
 - [Installation guide](./INSTALLATION.md)
 - [Component documentation](./docs/components/readme.md)

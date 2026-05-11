@@ -102,6 +102,12 @@ export interface GlassCarouselProps
    * Carousel height
    */
   height?: string | number;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain carousel height in a bounded viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
   /**
    * Gap between slides
    */
@@ -144,6 +150,9 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
       animationDuration = 500,
       pauseOnHover = true,
       height = "400px",
+      compact = false,
+      contained = false,
+      maxHeight,
       gap = "1rem",
       showFullscreen = false,
       className,
@@ -532,6 +541,14 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
 
     // Check if navigation is needed
     const needsNavigation = totalItems > slidesToShow;
+    const effectiveHeight = compact ? "180px" : height;
+    const effectiveShowDots = compact ? false : showDots;
+    const effectiveShowIndicators = compact ? false : showIndicators;
+    const effectiveShowArrows = compact
+      ? showArrows && needsNavigation
+      : showArrows;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
     if (totalItems === 0) {
       return (
@@ -572,7 +589,13 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                 adaptive && "consciousness-adaptive"
               )}
               style={{
-                height: typeof height === "number" ? `${height}px` : height,
+                height:
+                  typeof effectiveHeight === "number"
+                    ? `${effectiveHeight}px`
+                    : effectiveHeight,
+                maxHeight:
+                  resolvedMaxHeight ??
+                  (compact || contained ? "240px" : undefined),
               }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -646,7 +669,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
               </div>
 
               {/* Navigation Arrows */}
-              {showArrows && needsNavigation && (
+              {effectiveShowArrows && needsNavigation && (
                 <>
                   {/* Previous Arrow */}
                   <div className="glass-absolute glass-left-4 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-z-10">
@@ -658,10 +681,19 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                         size="lg"
                         onClick={goToPrev}
                         disabled={!infinite && currentIndex === 0}
-                        className="glass-p-3 glass-shadow-lg glass-hover--translate-y-0-5 glass-ripple"
+                        className={cn(
+                          "glass-shadow-lg glass-hover--translate-y-0-5 glass-ripple",
+                          compact ? "glass-p-2" : "glass-p-3"
+                        )}
                         data-consciousness-nav="prev"
                       >
-                        <ChevronLeft className="glass-w-6 glass-h-6" />
+                        <ChevronLeft
+                          className={
+                            compact
+                              ? "glass-w-4 glass-h-4"
+                              : "glass-w-6 glass-h-6"
+                          }
+                        />
                       </GlassButton>
                     )}
                   </div>
@@ -676,10 +708,19 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                         size="lg"
                         onClick={goToNext}
                         disabled={!infinite && currentIndex >= maxIndex}
-                        className="glass-p-3 glass-shadow-lg glass-hover--translate-y-0-5 glass-ripple"
+                        className={cn(
+                          "glass-shadow-lg glass-hover--translate-y-0-5 glass-ripple",
+                          compact ? "glass-p-2" : "glass-p-3"
+                        )}
                         data-consciousness-nav="next"
                       >
-                        <ChevronRight className="glass-w-6 glass-h-6" />
+                        <ChevronRight
+                          className={
+                            compact
+                              ? "glass-w-4 glass-h-4"
+                              : "glass-w-6 glass-h-6"
+                          }
+                        />
                       </GlassButton>
                     )}
                   </div>
@@ -727,7 +768,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
             </div>
 
             {/* Indicators */}
-            {showIndicators && needsNavigation && (
+            {effectiveShowIndicators && needsNavigation && (
               <div
                 className="glass-px-6 glass-py-4"
                 data-consciousness-indicators="true"
@@ -772,7 +813,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
             )}
 
             {/* Dots Navigation */}
-            {showDots && needsNavigation && (
+            {effectiveShowDots && needsNavigation && (
               <div
                 className="glass-px-6 glass-py-4"
                 data-consciousness-dots="true"

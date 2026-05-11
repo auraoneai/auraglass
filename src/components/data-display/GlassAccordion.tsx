@@ -92,10 +92,23 @@ export interface GlassAccordionProps {
    */
   respectMotionPreference?: boolean;
   /**
+   * Render a denser layout for previews, sidebars, and compact surfaces.
+   */
+  compact?: boolean;
+  /**
+   * Bound the accordion inside its parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained surfaces.
+   */
+  maxHeight?: number | string;
+  /**
    * ARIA label for the accordion
    */
   "aria-label"?: string;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -121,8 +134,12 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
       animated = true,
       collapsible = true,
       respectMotionPreference = true,
+      compact = false,
+      contained = false,
+      maxHeight,
       "aria-label": ariaLabel,
       className,
+      style,
       ...props
     },
     ref
@@ -241,6 +258,9 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
       lastButton?.focus();
     };
 
+    const effectiveSize = compact ? "sm" : size;
+    const boundedHeight = maxHeight ?? (compact || contained ? 240 : undefined);
+
     // Size classes
     const sizeClasses = {
       sm: {
@@ -303,7 +323,22 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
       <div
         ref={ref}
         id={accordionId}
-        className={cn("glass-accordion glass-w-full glass-min-w-0", className)}
+        className={cn(
+          "glass-accordion glass-w-full glass-min-w-0",
+          (compact || contained) && "glass-overflow-auto",
+          className
+        )}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+              }
+            : null),
+          ...(style ?? {}),
+        }}
         role="tablist"
         aria-label={ariaLabel || "Accordion"}
         aria-multiselectable={multiple}
@@ -343,7 +378,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                   "glass-transition glass-radius-md glass-border-0 glass-surface-transparent",
                   "hover:glass-surface-subtle/10 focus:glass-surface-subtle/10",
                   "glass-focus glass-contrast-guard glass-cursor-pointer",
-                  sizeClasses[size].trigger,
+                  sizeClasses[effectiveSize].trigger,
                   {
                     "glass-surface-subtle/10": isOpen,
                     "opacity-50 cursor-not-allowed": item?.disabled,
@@ -392,7 +427,7 @@ export const GlassAccordion = forwardRef<HTMLDivElement, GlassAccordionProps>(
                 isOpen={isOpen}
                 animated={shouldAnimate}
                 duration={animationDuration}
-                className={sizeClasses[size].content}
+                className={sizeClasses[effectiveSize].content}
                 role="tabpanel"
                 aria-labelledby={`accordion-trigger-${item?.id}`}
               >

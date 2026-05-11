@@ -24,7 +24,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             data-glass-component="true"
           >
             <h2
-              class="card-title glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2"
+              class="card-title glass-text-primary glass-font-semibold glass-flex glass-items-center glass-gap-2 glass-text-lg"
             >
               <svg
                 aria-hidden="true"
@@ -161,7 +161,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
           class="glass-auto-gap glass-auto-gap-md"
         >
           <div
-            class="glass-w-full glass-h-32 glass-radius-lg glass-border glass-border-white/20"
+            class="glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-h-32"
           />
           <div
             class="glass-flex glass-items-center glass-justify-between glass-gap-2"
@@ -429,7 +429,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               tabindex="0"
             >
               <div
-                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
+                class="glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all glass-h-16"
               />
               <span
                 class="contrast-guard"
@@ -450,7 +450,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               tabindex="0"
             >
               <div
-                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
+                class="glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all glass-h-16"
               />
               <span
                 class="contrast-guard"
@@ -471,7 +471,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               tabindex="0"
             >
               <div
-                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
+                class="glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all glass-h-16"
               />
               <span
                 class="contrast-guard"
@@ -492,7 +492,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               tabindex="0"
             >
               <div
-                class="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
+                class="glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all glass-h-16"
               />
               <span
                 class="contrast-guard"

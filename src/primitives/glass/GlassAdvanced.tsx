@@ -2,6 +2,8 @@
 import React, { forwardRef, HTMLAttributes, KeyboardEvent } from "react";
 import { cn } from "@/design-system/utilsCore";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
+import type { GlassElevation, GlassIntent } from "../../tokens/glass";
 
 export interface GlassProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -75,6 +77,22 @@ export interface GlassProps extends HTMLAttributes<HTMLDivElement> {
     | "warning"
     | "danger"
     | "info";
+
+  /**
+   * Compact surface treatment for docs, cards, drawers, and preview slots.
+   */
+  compact?: boolean;
+
+  /**
+   * Preview preset that makes the surface visibly glassy in small frames
+   * without requiring callers to hand-tune blur/elevation/min-height.
+   */
+  preview?: boolean;
+
+  /**
+   * Optional minimum height for constrained demos or embedded panels.
+   */
+  minHeight?: number | string;
 }
 
 /**
@@ -97,8 +115,12 @@ export const GlassAdvanced = forwardRef<HTMLDivElement, GlassProps>(
       specular = false,
       edge = false,
       glow = "none",
+      compact = false,
+      preview = false,
+      minHeight,
       className,
       children,
+      style,
       onKeyDown,
       onClick,
       role,
@@ -182,12 +204,36 @@ export const GlassAdvanced = forwardRef<HTMLDivElement, GlassProps>(
     // TOUCH_TARGET: Ensure minimum touch target for interactive elements
     const touchTargetClasses =
       isClickable || interactive ? "glass-touch-target" : "";
+    const resolvedMinHeight =
+      typeof minHeight === "number" ? `${minHeight}px` : minHeight;
+    const glassIntent: GlassIntent =
+      variant === "default" ? "neutral" : variant;
+    const glassElevation: GlassElevation = `level${Math.max(
+      preview ? 3 : elev,
+      1
+    )}` as GlassElevation;
+    const defaultSurfaceStyle: React.CSSProperties = {
+      ...createGlassStyle({
+        intent: glassIntent,
+        elevation: glassElevation,
+        tier: "high",
+        interactive: isClickable || interactive,
+        focusRing: isClickable || interactive,
+      }),
+      position: "relative",
+      overflow: "hidden",
+      minHeight:
+        resolvedMinHeight ??
+        (preview ? (compact ? "96px" : "128px") : undefined),
+      ...style,
+    };
 
     return React.createElement(
       Component,
       {
         ref,
         className: cn(classes, touchTargetClasses),
+        style: defaultSurfaceStyle,
         role: computedRole,
         tabIndex: computedTabIndex,
         "aria-disabled": disabled || undefined,

@@ -53,6 +53,9 @@ export interface GlassMasonryGridProps {
   onItemsReorder?: (items: MasonryItem[]) => void;
   onLoadMore?: () => void;
   onFilterChange?: (filter: string) => void;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   className?: string;
 }
 
@@ -105,6 +108,9 @@ export const GlassMasonryGrid = forwardRef<
       onItemsReorder,
       onLoadMore,
       onFilterChange,
+      compact = false,
+      contained = false,
+      maxHeight,
       className = "",
       ...props
     },
@@ -139,6 +145,13 @@ export const GlassMasonryGrid = forwardRef<
     const id = useA11yId("glass-masonry-grid");
     const { shouldAnimate } = useMotionPreference();
     const { play } = useGlassSound();
+    const effectiveShowControls = compact ? false : showControls;
+    const effectiveShowFilters = compact ? false : showFilters;
+    const effectiveShowStats = compact ? false : showStats;
+    const effectiveEnableSearch = compact ? false : enableSearch;
+    const boundedHeight =
+      maxHeight ??
+      (compact || contained ? 240 : "min(760px, calc(100vh - 64px))");
 
     // Calculate optimal number of columns
     const calculateColumns = useCallback(
@@ -565,11 +578,18 @@ export const GlassMasonryGrid = forwardRef<
       <OptimizedGlass
         ref={ref}
         variant="frosted"
-        className={`glass-masonry-grid p-6 ${className}`}
+        className={cn(
+          "glass-masonry-grid",
+          compact ? "glass-p-3" : "p-6",
+          className
+        )}
         style={{
-          width: "min(1120px, calc(100vw - 48px))",
+          width: compact ? "100%" : "min(1120px, calc(100vw - 48px))",
           maxWidth: "100%",
-          maxHeight: "min(760px, calc(100vh - 64px))",
+          maxHeight:
+            typeof boundedHeight === "number"
+              ? `${boundedHeight}px`
+              : boundedHeight,
           overflowX: "auto",
           overflowY: "auto",
           boxSizing: "border-box",
@@ -577,38 +597,42 @@ export const GlassMasonryGrid = forwardRef<
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
-          <div>
-            <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
-              Masonry Grid
-            </h3>
-            <p className="glass-text-sm glass-text-primary-glass-opacity-60">
-              Pinterest-style dynamic layout system
-            </p>
-          </div>
-
-          {enableVirtualization && (
-            <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
-              <div className="glass-w-2 glass-h-2 glass-surface-blue glass-radius-full" />
-              <span className="glass-text-xs">Virtualized</span>
+        {!compact && (
+          <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
+            <div>
+              <h3 className="glass-text-xl glass-font-semibold glass-text-primary-glass-opacity-90">
+                Masonry Grid
+              </h3>
+              <p className="glass-text-sm glass-text-primary-glass-opacity-60">
+                Pinterest-style dynamic layout system
+              </p>
             </div>
-          )}
-        </div>
+
+            {enableVirtualization && (
+              <div className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
+                <div className="glass-w-2 glass-h-2 glass-surface-blue glass-radius-full" />
+                <span className="glass-text-xs">Virtualized</span>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Stats */}
-        {showStats && <StatsPanel />}
+        {effectiveShowStats && <StatsPanel />}
 
         {/* Controls */}
-        {(showControls || showFilters || enableSearch) && <FilterControls />}
+        {(effectiveShowControls ||
+          effectiveShowFilters ||
+          effectiveEnableSearch) && <FilterControls />}
 
         {/* Masonry Container */}
         <div
           ref={containerRef}
           className="glass-relative glass-overflow-auto"
           style={{
-            height: enableVirtualization ? "600px" : "auto",
-            maxHeight: enableVirtualization ? "600px" : "none",
-            minHeight: 200,
+            height: compact ? 180 : enableVirtualization ? "600px" : "auto",
+            maxHeight: compact ? 180 : enableVirtualization ? "600px" : "none",
+            minHeight: compact ? 160 : 200,
           }}
         >
           <div
@@ -714,17 +738,19 @@ export const GlassMasonryGrid = forwardRef<
         </div>
 
         {/* Footer info */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-mt-6 glass-pt-4 glass-border-t glass-border-white/10 glass-text-xs glass-text-primary-glass-opacity-60">
-          <div className="glass-flex glass-items-center glass-space-x-4">
-            {enableDragReorder && <span>Drag items to reorder</span>}
-            {enableInfiniteScroll && <span>Scroll to load more</span>}
-            {enableVirtualization && <span>Virtualized for performance</span>}
-          </div>
+        {!compact && (
+          <div className="glass-flex glass-items-center glass-justify-between glass-mt-6 glass-pt-4 glass-border-t glass-border-white/10 glass-text-xs glass-text-primary-glass-opacity-60">
+            <div className="glass-flex glass-items-center glass-space-x-4">
+              {enableDragReorder && <span>Drag items to reorder</span>}
+              {enableInfiniteScroll && <span>Scroll to load more</span>}
+              {enableVirtualization && <span>Virtualized for performance</span>}
+            </div>
 
-          <div>
-            Grid: {containerDimensions.width}×{containerDimensions.height}px
+            <div>
+              Grid: {containerDimensions.width}×{containerDimensions.height}px
+            </div>
           </div>
-        </div>
+        )}
       </OptimizedGlass>
     );
   }

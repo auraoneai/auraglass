@@ -9,6 +9,9 @@ export interface AdvancedAudioPlayerProps {
   mediaFile: MediaFile;
   className?: string;
   variant?: "compact" | "full" | "podcast" | "music";
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   showTranscript?: boolean;
   showPlaylist?: boolean;
   showWaveform?: boolean;
@@ -655,6 +658,9 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     mediaFile,
     className,
     variant = "full",
+    compact = false,
+    contained = false,
+    maxHeight,
     showTranscript = false,
     showPlaylist = false,
     showWaveform = false,
@@ -709,6 +715,9 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
   const isMuted = playbackState?.isMuted || false;
   const coverSrc = mediaFile.thumbnail || mediaFile.poster || fallbackCover;
   const playbackSpeeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+  const resolvedVariant = compact ? "compact" : variant;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
   // Lazily create audio context when user initiates playback
   const ensureAudioContext = useCallback(() => {
@@ -719,9 +728,8 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
     )
       return;
     try {
-      audioContextRef.current = new (
-        window.AudioContext || (window as any).webkitAudioContext
-      )();
+      audioContextRef.current = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
       analyzerRef.current = audioContextRef.current.createAnalyser();
       analyzerRef.current.fftSize = 256;
       const source = audioContextRef.current.createMediaElementSource(
@@ -1078,6 +1086,10 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
         color: "#0f172a",
         border: "1px solid rgba(148, 163, 184, 0.28)",
         boxShadow: "0 24px 70px rgba(15, 23, 42, 0.18)",
+        maxHeight:
+          resolvedMaxHeight ?? (compact || contained ? "220px" : undefined),
+        overflow:
+          compact || contained || resolvedMaxHeight ? "auto" : undefined,
       }}
     >
       <style>{audioComponentStyles}</style>
@@ -1096,14 +1108,19 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
             onError={() => onError?.("Audio playback error occurred")}
           />
 
-          {variant === "compact" ? renderCompactPlayer() : renderFullPlayer()}
+          {resolvedVariant === "compact"
+            ? renderCompactPlayer()
+            : renderFullPlayer()}
         </div>
 
         {/* Side Panels */}
-        {(showPlaylist && playlist.length > 0) ||
-        (showTranscript && hasTranscript && visibleTranscript.length > 0) ? (
+        {(!compact && showPlaylist && playlist.length > 0) ||
+        (!compact &&
+          showTranscript &&
+          hasTranscript &&
+          visibleTranscript.length > 0) ? (
           <div className="ag-audio-side-panels glass-flex">
-            {showPlaylist && playlist.length > 0 && (
+            {!compact && showPlaylist && playlist.length > 0 && (
               <div className="ag-audio-side-panel glass-border-l glass-border-subtle">
                 <PlaylistPanel
                   playlist={playlist}

@@ -77,6 +77,12 @@ export interface GlassGradientPickerProps {
    * Custom className
    */
   className?: string;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain the picker in a bounded viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
 }
 
 /**
@@ -94,6 +100,9 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
   onChange,
   onPresetSelect,
   className,
+  compact = false,
+  contained = false,
+  maxHeight,
   ...props
 }) => {
   const [selectedType, setSelectedType] = useState<
@@ -275,15 +284,39 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
   }, []);
 
   const currentGradient = generateGradient();
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const effectiveShowTypeSelector = compact ? false : showTypeSelector;
+  const effectiveShowAngleControl = compact ? false : showAngleControl;
+  const effectiveShowStopsEditor = compact ? false : showStopsEditor;
+  const effectivePresets = compact ? allPresets.slice(0, 4) : allPresets;
 
   return (
     <Motion data-glass-component preset="fadeIn" className="glass-w-full">
-      <GlassCard className={cn("overflow-hidden", className)} {...props}>
-        <CardHeader className="glass-pb-3">
+      <GlassCard
+        className={cn("overflow-hidden", className)}
+        style={{
+          maxHeight:
+            resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+          overflow:
+            compact || contained || resolvedMaxHeight ? "auto" : undefined,
+        }}
+        {...props}
+      >
+        <CardHeader className={compact ? "glass-p-3 glass-pb-2" : "glass-pb-3"}>
           <div className="glass-flex glass-items-center glass-justify-between">
             <ContrastGuard>
-              <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2">
-                <Palette className="glass-w-5 glass-h-5" />
+              <CardTitle
+                className={cn(
+                  "glass-text-primary glass-font-semibold glass-flex glass-items-center glass-gap-2",
+                  compact ? "glass-text-sm" : "glass-text-lg"
+                )}
+              >
+                <Palette
+                  className={
+                    compact ? "glass-w-4 glass-h-4" : "glass-w-5 glass-h-5"
+                  }
+                />
                 Gradient Picker
               </CardTitle>
             </ContrastGuard>
@@ -320,11 +353,21 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className="glass-pt-0 glass-auto-gap glass-auto-gap-2xl">
+        <CardContent
+          className={cn(
+            "glass-pt-0 glass-auto-gap",
+            compact
+              ? "glass-px-3 glass-pb-3 glass-auto-gap-md"
+              : "glass-auto-gap-2xl"
+          )}
+        >
           {/* Current Gradient Preview */}
           <div className="glass-auto-gap glass-auto-gap-md">
             <div
-              className="glass-w-full glass-h-32 glass-radius-lg glass-border glass-border-white/20"
+              className={cn(
+                "glass-w-full glass-radius-lg glass-border glass-border-white/20",
+                compact ? "glass-h-16" : "glass-h-32"
+              )}
               style={{ background: currentGradient }}
             />
 
@@ -359,7 +402,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           </div>
 
           {/* Gradient Type Selector */}
-          {showTypeSelector && (
+          {effectiveShowTypeSelector && (
             <div className="glass-auto-gap glass-auto-gap-md">
               <h3 className="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium">
                 Type
@@ -381,7 +424,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           )}
 
           {/* Angle Control for Linear */}
-          {showAngleControl && selectedType === "linear" && (
+          {effectiveShowAngleControl && selectedType === "linear" && (
             <div className="glass-auto-gap glass-auto-gap-md">
               <ContrastGuard>
                 <h3 className="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium">
@@ -401,7 +444,7 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
           )}
 
           {/* Color Stops Editor */}
-          {showStopsEditor && enableCustom && (
+          {effectiveShowStopsEditor && enableCustom && (
             <div className="glass-auto-gap glass-auto-gap-md">
               <div className="glass-flex glass-items-center glass-justify-between">
                 <ContrastGuard>
@@ -489,8 +532,15 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                   Presets
                 </h3>
               </ContrastGuard>
-              <div className="glass-grid glass-grid-cols-2 glass-gap-3">
-                {allPresets.map((preset) => (
+              <div
+                className={cn(
+                  "glass-grid",
+                  compact
+                    ? "glass-grid-cols-4 glass-gap-2"
+                    : "glass-grid-cols-2 glass-gap-3"
+                )}
+              >
+                {effectivePresets.map((preset) => (
                   <div
                     key={preset.id}
                     className="glass-cursor-pointer glass-group glass-focus glass-touch-target"
@@ -506,7 +556,10 @@ export const GlassGradientPicker: React.FC<GlassGradientPickerProps> = ({
                     }}
                   >
                     <div
-                      className="glass-w-full glass-h-16 glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all"
+                      className={cn(
+                        "glass-w-full glass-radius-lg glass-border glass-border-white/20 glass-group-hover:glass-border-white/40 glass-transition-all",
+                        compact ? "glass-h-8" : "glass-h-16"
+                      )}
                       style={{
                         background:
                           preset.stops.length > 0

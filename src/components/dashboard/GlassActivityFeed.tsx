@@ -92,6 +92,14 @@ export interface GlassActivityFeedProps {
    */
   compact?: boolean;
   /**
+   * Bound the feed inside its parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained feeds.
+   */
+  maxHeight?: number | string;
+  /**
    * Loading state
    */
   loading?: boolean;
@@ -123,6 +131,10 @@ export interface GlassActivityFeedProps {
    * Custom className
    */
   className?: string;
+  /**
+   * Custom style
+   */
+  style?: React.CSSProperties;
 }
 
 /**
@@ -139,6 +151,8 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
   showTimestamps = true,
   showAvatars = true,
   compact = false,
+  contained = false,
+  maxHeight,
   loading = false,
   emptyMessage = "No recent activity",
   filterBy = [],
@@ -147,10 +161,14 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
   onLoadMore,
   onActivityClick,
   className,
+  style,
   ...props
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
   const [visibleCount, setVisibleCount] = useState(maxItems || 10);
+  const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
+  const effectiveShowFilters = compact ? false : showFilters;
+  const effectiveGroupByDate = compact ? false : groupByDate;
 
   // Get activity type icon and color
   const getActivityTypeConfig = (type: ActivityItem["type"]) => {
@@ -225,7 +243,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
   // Group activities by date
   const groupedActivities = useMemo(() => {
-    if (!groupByDate) return { "All Activities": activities };
+    if (!effectiveGroupByDate) return { "All Activities": activities };
 
     const groups: Record<string, ActivityItem[]> = {};
 
@@ -238,7 +256,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
     });
 
     return groups;
-  }, [activities, groupByDate]);
+  }, [activities, effectiveGroupByDate]);
 
   // Filter activities
   const filteredActivities = useMemo(() => {
@@ -295,8 +313,23 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
   return (
     <Motion preset="fadeIn" className="glass-w-full">
-      <GlassCard className={cn("overflow-hidden", className)} {...props}>
-        <CardHeader className="glass-pb-4">
+      <GlassCard
+        className={cn("overflow-hidden", className)}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+                overflow: "auto",
+              }
+            : null),
+          ...(style ?? {}),
+        }}
+        {...props}
+      >
+        <CardHeader className={cn(compact ? "glass-pb-2" : "glass-pb-4")}>
           <div className="glass-flex glass-items-center glass-justify-between">
             <div>
               <CardTitle className="glass-text-primary glass-text-xl glass-font-semibold">
@@ -312,7 +345,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
             </div>
 
             {/* Filters */}
-            {showFilters && filterOptions.length > 1 && (
+            {effectiveShowFilters && filterOptions.length > 1 && (
               <div className="glass-flex glass-items-center glass-gap-2">
                 <Filter className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-60" />
                 <select
@@ -333,7 +366,9 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className="glass-pt-0">
+        <CardContent
+          className={cn("glass-pt-0", compact && "glass-px-3 glass-pb-3")}
+        >
           {filteredActivities.length === 0 ? (
             <div className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-py-12">
               <Activity className="glass-w-12 glass-h-12 glass-text-primary-glass-opacity-40 glass-mb-4" />
@@ -343,7 +378,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
             </div>
           ) : (
             <div className="glass-auto-gap glass-auto-gap-lg">
-              {groupByDate ? (
+              {effectiveGroupByDate ? (
                 Object.entries(groupedActivities).map(([date, items]) => (
                   <div key={date}>
                     {groupByDate && items.length > 0 && (

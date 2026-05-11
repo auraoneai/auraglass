@@ -127,6 +127,18 @@ export interface GlassFormTemplateProps
    * Previous button text
    */
   previousText?: string;
+  /**
+   * Compact preview/card layout.
+   */
+  compact?: boolean;
+  /**
+   * Bound the template inside its parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained templates.
+   */
+  maxHeight?: number | string;
 }
 
 /**
@@ -163,6 +175,9 @@ export const GlassFormTemplate = forwardRef<
       cancelText = "Cancel",
       nextText = "Next",
       previousText = "Previous",
+      compact = false,
+      contained = false,
+      maxHeight,
       className,
       ...props
     },
@@ -182,6 +197,13 @@ export const GlassFormTemplate = forwardRef<
       ? steps[currentStep]
       : null;
     const currentSchema = isMultiStep ? currentStepData?.sections : schema;
+    const compactSchema = compact
+      ? (currentSchema || []).slice(0, 1).map((section) => ({
+          ...section,
+          fields: section.fields?.slice(0, 3) ?? [],
+        }))
+      : currentSchema;
+    const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
 
     // Handle value change
     const handleValueChange = (newValues: GlassFormTemplateValues) => {
@@ -354,10 +376,10 @@ export const GlassFormTemplate = forwardRef<
     const renderFormContent = () => (
       <VStack space="lg">
         {/* Step indicator */}
-        {renderStepIndicator()}
+        {!compact && renderStepIndicator()}
 
         {/* Current step header */}
-        {isMultiStep && currentStepData && (
+        {!compact && isMultiStep && currentStepData && (
           <VStack space="sm">
             <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
               {currentStepData.title}
@@ -373,7 +395,7 @@ export const GlassFormTemplate = forwardRef<
         {/* Form */}
         <div className="glass-flex-1">
           <GlassFormBuilder
-            schema={currentSchema || []}
+            schema={compactSchema || []}
             values={internalValues}
             errors={internalErrors}
             onChange={handleValueChange}
@@ -388,7 +410,7 @@ export const GlassFormTemplate = forwardRef<
         </div>
 
         {/* Actions */}
-        {renderFormActions()}
+        {!compact && renderFormActions()}
       </VStack>
     );
 
@@ -398,7 +420,10 @@ export const GlassFormTemplate = forwardRef<
         case "centered":
           return (
             <div className="glass-max-w-2xl glass-mx-auto">
-              <GlassCard variant="default" className="glass-p-8">
+              <GlassCard
+                variant="default"
+                className={compact ? "glass-p-4" : "glass-p-8"}
+              >
                 {renderFormContent()}
               </GlassCard>
             </div>
@@ -408,7 +433,10 @@ export const GlassFormTemplate = forwardRef<
           return (
             <div className="glass-grid glass-grid-cols-12 glass-gap-8">
               <div className="glass-col-span-8">
-                <GlassCard variant="default" className="glass-p-6">
+                <GlassCard
+                  variant="default"
+                  className={compact ? "glass-p-4" : "glass-p-6"}
+                >
                   {renderFormContent()}
                 </GlassCard>
               </div>
@@ -418,7 +446,10 @@ export const GlassFormTemplate = forwardRef<
 
         default:
           return (
-            <GlassCard variant="default" className="glass-p-6">
+            <GlassCard
+              variant="default"
+              className={compact ? "glass-p-4" : "glass-p-6"}
+            >
               {renderFormContent()}
             </GlassCard>
           );
@@ -428,15 +459,35 @@ export const GlassFormTemplate = forwardRef<
     return (
       <div
         ref={ref}
-        className={cn("w-full glass-auto-gap glass-auto-gap-3xl", className)}
+        className={cn(
+          "w-full",
+          compact
+            ? "glass-auto-gap glass-auto-gap-md"
+            : "glass-auto-gap glass-auto-gap-3xl",
+          (compact || contained) && "glass-overflow-auto",
+          className
+        )}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+              }
+            : null),
+          ...(props.style as React.CSSProperties | undefined),
+        }}
         {...props}
       >
         {/* Header */}
-        <PageHeader
-          title={title}
-          description={description}
-          variant={layout === "centered" ? "centered" : "default"}
-        />
+        {!compact && (
+          <PageHeader
+            title={title}
+            description={description}
+            variant={layout === "centered" ? "centered" : "default"}
+          />
+        )}
 
         {/* Form */}
         <Motion preset="fadeIn">{renderLayout()}</Motion>

@@ -18,6 +18,7 @@ import {
 } from "../../utils/contrastGuard";
 import type { LiquidGlassMaterial, MaterialVariant } from "../../tokens/glass";
 import { cn } from "../../lib/utilsComprehensive";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 type ContrastGuardElement = keyof HTMLElementTagNameMap;
 
@@ -25,7 +26,7 @@ export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * Content to be rendered with contrast protection
    */
-  children: React.ReactNode;
+  children?: React.ReactNode;
 
   /**
    * Target WCAG compliance level
@@ -86,6 +87,57 @@ export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
    * Callback when contrast adjustment is applied
    */
   onAdjustment?: (meetsRequirement: boolean, ratio: number) => void;
+
+  /**
+   * Show a small contrast status indicator. Useful in docs, previews, and
+   * audit tooling where the component's behavior should be visible.
+   */
+  showIndicator?: boolean;
+
+  /**
+   * Optional package-owned demo backdrop for docs/previews. Normal app usage
+   * should leave this as `none`.
+   * @default 'none'
+   */
+  demoBackdrop?: "none" | "busy-light" | "busy-dark";
+}
+
+function demoBackdropStyle(
+  demoBackdrop: NonNullable<ContrastGuardProps["demoBackdrop"]>
+): React.CSSProperties {
+  if (demoBackdrop === "busy-light") {
+    return {
+      ...createGlassStyle({
+        intent: "info",
+        elevation: "level1",
+        tier: "high",
+      }),
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      padding: "0.65rem 0.75rem",
+      borderRadius: "0.75rem",
+      color: "#0f172a",
+    };
+  }
+
+  if (demoBackdrop === "busy-dark") {
+    return {
+      ...createGlassStyle({
+        intent: "neutral",
+        elevation: "level3",
+        tier: "high",
+      }),
+      display: "inline-flex",
+      alignItems: "center",
+      gap: "0.5rem",
+      padding: "0.65rem 0.75rem",
+      borderRadius: "0.75rem",
+      color: "#f8fafc",
+    };
+  }
+
+  return {};
 }
 
 /**
@@ -107,6 +159,8 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
       className,
       as: Component = "span",
       onAdjustment,
+      showIndicator = false,
+      demoBackdrop = "none",
       style,
       ...rest
     },
@@ -147,6 +201,30 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
         : undefined
     );
 
+    const indicator = showIndicator
+      ? React.createElement(
+          "span",
+          {
+            "aria-hidden": true,
+            className: "contrast-guard__indicator",
+            style: {
+              marginLeft: "0.5rem",
+              padding: "0.12rem 0.4rem",
+              borderRadius: "999px",
+              fontSize: "0.64rem",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: adjustment?.meetsRequirement ? "#052e16" : "#451a03",
+              background: adjustment?.meetsRequirement
+                ? "rgba(134,239,172,0.92)"
+                : "rgba(253,186,116,0.92)",
+            },
+          },
+          adjustment?.meetsRequirement ? "AA" : "Check"
+        )
+      : null;
+
     return React.createElement(
       Component,
       {
@@ -159,6 +237,7 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
           className
         ),
         style: {
+          ...demoBackdropStyle(demoBackdrop),
           ...style,
           ...appliedStyles,
           ...(backgroundColor && { backgroundColor }),
@@ -166,9 +245,13 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
         "data-contrast-level": level,
         "data-contrast-ratio": adjustment?.adjustedContrast?.toFixed(2),
         "data-meets-wcag": adjustment?.meetsRequirement,
+        "data-demo-backdrop":
+          demoBackdrop === "none" ? undefined : demoBackdrop,
         ...rest,
       },
-      children
+      indicator
+        ? React.createElement(React.Fragment, null, children, indicator)
+        : children
     );
   }
 );
@@ -178,7 +261,7 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
  */
 export interface TextWithContrastProps
   extends React.HTMLAttributes<HTMLElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   level?: "AA" | "AAA";
   className?: string;
   as?: ContrastGuardElement;

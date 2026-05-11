@@ -121,6 +121,18 @@ export interface GlassDetailViewProps
    * Print action
    */
   onPrint?: () => void;
+  /**
+   * Compact preview/card layout.
+   */
+  compact?: boolean;
+  /**
+   * Bound the detail view inside its parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained detail views.
+   */
+  maxHeight?: number | string;
 }
 
 /**
@@ -146,6 +158,9 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       onBack,
       onShare,
       onPrint,
+      compact = false,
+      contained = false,
+      maxHeight,
       className,
       children,
       "aria-label": ariaLabel,
@@ -175,6 +190,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
       )
     );
     const [currentTab, setCurrentTab] = useState(activeTab || tabs[0]?.id);
+    const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
 
     // Toggle section expansion
     const toggleSection = (sectionId: string) => {
@@ -289,7 +305,10 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
 
       return (
         <Motion key={section.id} type="slide" direction="down">
-          <GlassCard variant="default">
+          <GlassCard
+            variant="default"
+            className={compact ? "glass-p-3" : undefined}
+          >
             {/* Section header */}
             <div
               className={cn(
@@ -332,8 +351,18 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
                 {section.component ? (
                   section.component
                 ) : section.fields ? (
-                  <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-6">
-                    {section.fields.map(renderField)}
+                  <div
+                    className={cn(
+                      "glass-grid glass-grid-cols-1",
+                      compact
+                        ? "glass-gap-3"
+                        : "md:glass-grid-cols-2 lg:glass-grid-cols-3 glass-gap-6"
+                    )}
+                  >
+                    {(compact
+                      ? section.fields.slice(0, 4)
+                      : section.fields
+                    ).map(renderField)}
                   </div>
                 ) : null}
               </Motion>
@@ -423,7 +452,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
 
           {/* Actions */}
           <HStack space="sm" align="center">
-            {onShare && (
+            {!compact && onShare && (
               <GlassButton
                 leftIcon="📤"
                 variant="ghost"
@@ -434,7 +463,7 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               />
             )}
 
-            {onPrint && (
+            {!compact && onPrint && (
               <GlassButton
                 leftIcon="🖨️"
                 variant="ghost"
@@ -445,20 +474,21 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
               />
             )}
 
-            {actions.map((action) => (
-              <GlassButton
-                key={action.id}
-                variant={action.variant}
-                size="sm"
-                leftIcon={action.icon}
-                onClick={action.onClick}
-                disabled={action.disabled}
-                loading={action.loading}
-                className="glass-focus glass-touch-target"
-              >
-                {action.label}
-              </GlassButton>
-            ))}
+            {!compact &&
+              actions.map((action) => (
+                <GlassButton
+                  key={action.id}
+                  variant={action.variant}
+                  size="sm"
+                  leftIcon={action.icon}
+                  onClick={action.onClick}
+                  disabled={action.disabled}
+                  loading={action.loading}
+                  className="glass-focus glass-touch-target"
+                >
+                  {action.label}
+                </GlassButton>
+              ))}
           </HStack>
         </HStack>
       </VStack>
@@ -529,7 +559,25 @@ export const GlassDetailView = forwardRef<HTMLDivElement, GlassDetailViewProps>(
     return (
       <div
         ref={ref}
-        className={cn("w-full glass-auto-gap glass-auto-gap-3xl", className)}
+        className={cn(
+          "w-full",
+          compact
+            ? "glass-auto-gap glass-auto-gap-md"
+            : "glass-auto-gap glass-auto-gap-3xl",
+          (compact || contained) && "glass-overflow-auto",
+          className
+        )}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+              }
+            : null),
+          ...(props.style as React.CSSProperties | undefined),
+        }}
         role="article"
         aria-label={ariaLabel || title || "Detail View"}
         data-testid={dataTestId}

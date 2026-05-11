@@ -12,6 +12,9 @@ export interface PersonaPickerProps {
   orientation?: "auto" | "horizontal" | "vertical";
   onPersonaChange?: (personaId: PersonaId) => void;
   showMeta?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
 }
 
 export const PersonaPicker: React.FC<PersonaPickerProps> = ({
@@ -20,8 +23,13 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
   orientation = "auto",
   onPersonaChange,
   showMeta = true,
+  compact = false,
+  contained = false,
+  maxHeight,
 }) => {
   const { personaId, persona, personas, setPersona } = usePersonaTheme();
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
   const handleSelect = (nextId: PersonaId) => {
     if (nextId === personaId) return;
@@ -35,8 +43,15 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
       className={clsx(
         "persona-picker",
         `persona-picker--${orientation}`,
+        compact && "persona-picker--compact",
         className
       )}
+      style={{
+        maxHeight:
+          resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+        overflow:
+          compact || contained || resolvedMaxHeight ? "auto" : undefined,
+      }}
       aria-label="Persona selector"
     >
       <header className="persona-picker__header">
@@ -45,7 +60,7 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
           <strong className="persona-picker__active-name">
             {persona.meta.name}
           </strong>
-          {showMeta && (
+          {showMeta && !compact && (
             <span className="persona-picker__active-context">
               {persona.meta.primaryContext}
             </span>
@@ -107,7 +122,7 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
                 />
               </div>
 
-              {showMeta && (
+              {showMeta && !compact && (
                 <div className="persona-picker-card__meta">
                   <p className="persona-picker-card__context">
                     {entry.meta.paletteAnchor}
@@ -118,11 +133,13 @@ export const PersonaPicker: React.FC<PersonaPickerProps> = ({
                 </div>
               )}
 
-              <footer className="persona-picker-card__footer">
-                <span className="persona-picker-card__signal">
-                  {entry.meta.motionSignals}
-                </span>
-              </footer>
+              {!compact && (
+                <footer className="persona-picker-card__footer">
+                  <span className="persona-picker-card__signal">
+                    {entry.meta.motionSignals}
+                  </span>
+                </footer>
+              )}
             </button>
           );
         })}

@@ -78,6 +78,12 @@ export interface GlassCalendarProps {
    * Custom className
    */
   className?: string;
+  /** Compact mode for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Contain calendar height in a bounded viewport. */
+  contained?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
   /**
    * Loading state
    */
@@ -101,6 +107,9 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   minDate,
   maxDate,
   className,
+  compact = false,
+  contained = false,
+  maxHeight,
   loading = false,
   ...props
 }) => {
@@ -109,6 +118,9 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
     selectedDate || null
   );
+  const effectiveShowEvents = compact ? false : showEvents;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
   useEffect(() => {
     if (selectedDate) {
@@ -298,17 +310,48 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
       <GlassCard
         variant="elevated"
         className={cn("overflow-hidden", className)}
+        style={{
+          maxHeight:
+            resolvedMaxHeight ?? (compact || contained ? "260px" : undefined),
+          overflow:
+            compact || contained || resolvedMaxHeight ? "auto" : undefined,
+        }}
         {...props}
       >
         {/* Calendar Header */}
-        <CardHeader className="glass-border-b glass-border-white/10">
-          <div className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-flex-wrap">
-            <CardTitle className="glass-subheading glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2 glass-min-w-0">
-              <CalendarIcon className="glass-w-6 glass-h-6 glass-flex-shrink-0" />
+        <CardHeader
+          className={cn(
+            "glass-border-b glass-border-white/10",
+            compact && "glass-p-3"
+          )}
+        >
+          <div
+            className={cn(
+              "glass-flex glass-items-center glass-justify-between glass-flex-wrap",
+              compact ? "glass-gap-2" : "glass-gap-3"
+            )}
+          >
+            <CardTitle
+              className={cn(
+                "glass-font-semibold glass-text-primary glass-flex glass-items-center glass-gap-2 glass-min-w-0",
+                compact ? "glass-text-base" : "glass-subheading"
+              )}
+            >
+              <CalendarIcon
+                className={cn(
+                  "glass-flex-shrink-0",
+                  compact ? "glass-w-4 glass-h-4" : "glass-w-6 glass-h-6"
+                )}
+              />
               {monthData.monthName} {monthData.year}
             </CardTitle>
 
-            <div className="glass-flex glass-items-center glass-gap-2 glass-flex-wrap">
+            <div
+              className={cn(
+                "glass-flex glass-items-center glass-flex-wrap",
+                compact ? "glass-gap-1" : "glass-gap-2"
+              )}
+            >
               {/* Month navigation: glass morphism buttons */}
               <GlassButton
                 variant="tertiary"
@@ -324,18 +367,20 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                 <ChevronLeft className="glass-w-4 glass-h-4 glass-focus glass-touch-target glass-contrast-guard" />
               </GlassButton>
 
-              <GlassButton
-                variant="tertiary"
-                size="sm"
-                onClick={(e) => setCurrentDate(new Date())}
-                disabled={loading}
-                elevation="level1"
-                intensity="medium"
-                tint="neutral"
-                border="subtle"
-              >
-                Today
-              </GlassButton>
+              {!compact && (
+                <GlassButton
+                  variant="tertiary"
+                  size="sm"
+                  onClick={(e) => setCurrentDate(new Date())}
+                  disabled={loading}
+                  elevation="level1"
+                  intensity="medium"
+                  tint="neutral"
+                  border="subtle"
+                >
+                  Today
+                </GlassButton>
+              )}
 
               <GlassButton
                 variant="tertiary"
@@ -355,10 +400,13 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
         </CardHeader>
 
         {/* Calendar Grid */}
-        <CardContent className="glass-p-4">
+        <CardContent className={compact ? "glass-p-2" : "glass-p-4"}>
           {/* Week day headers */}
           <div
-            className="glass-grid glass-gap-2 glass-mb-4"
+            className={cn(
+              "glass-grid",
+              compact ? "glass-gap-1 glass-mb-2" : "glass-gap-2 glass-mb-4"
+            )}
             style={{
               gridTemplateColumns: `repeat(${showWeekends ? 7 : 5}, minmax(0, 1fr))`,
             }}
@@ -372,7 +420,8 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                   <div
                     key={day}
                     className={cn(
-                      "text-center glass-body font-medium glass-py-2 glass-radius-lg",
+                      "text-center glass-body font-medium glass-radius-lg",
+                      compact ? "glass-py-1 glass-text-xs" : "glass-py-2",
                       isWeekend
                         ? "glass-text-primary/60"
                         : "glass-text-primary/80"
@@ -387,7 +436,10 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
 
           {/* Calendar days */}
           <div
-            className="glass-grid glass-gap-2"
+            className={cn(
+              "glass-grid",
+              compact ? "glass-gap-1" : "glass-gap-2"
+            )}
             style={{
               gridTemplateColumns: `repeat(${showWeekends ? 7 : 5}, minmax(0, 1fr))`,
             }}
@@ -410,7 +462,8 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                     disabled={isDisabled(date)}
                     className={cn(
                       "w-full h-full glass-radius-lg glass-focus glass-accent-primary glass-touch-target glass-contrast-guard",
-                      "flex flex-col items-center justify-start glass-p-1",
+                      "flex flex-col items-center justify-start",
+                      compact ? "glass-p-0.5" : "glass-p-1",
                       prefersReducedMotion
                         ? "transition-none hover:bg-white/10 focus:bg-white/15 focus:outline-none"
                         : "transition-all duration-200 hover:bg-white/10 focus:bg-white/15 focus:outline-none glass-hover-scale-105",
@@ -430,7 +483,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                     </span>
 
                     {/* Events indicator */}
-                    {showEvents && hasEvents && (
+                    {effectiveShowEvents && hasEvents && (
                       <div className="glass-flex glass-flex-col glass-gap-0.5 glass-mt-1 glass-w-full">
                         {dayEvents.slice(0, 2).map((event) => (
                           <div
@@ -455,7 +508,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
           </div>
 
           {/* Selected date events */}
-          {selectedDateState && showEvents && (
+          {selectedDateState && effectiveShowEvents && (
             <div className="glass-mt-6 glass-pt-4 glass-border-t glass-border-white/10">
               <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-3">
                 Events for{" "}

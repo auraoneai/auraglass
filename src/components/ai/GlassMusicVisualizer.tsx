@@ -35,6 +35,8 @@ export interface GlassMusicVisualizerProps {
   audioSettings?: Partial<AudioSettings>;
   visualSettings?: Partial<VisualizationSettings>;
   compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   showControls?: boolean;
   showFrequencyDisplay?: boolean;
   showWaveform?: boolean;
@@ -153,6 +155,8 @@ export const GlassMusicVisualizer = forwardRef<
       audioSettings = {},
       visualSettings = {},
       compact = false,
+      contained = false,
+      maxHeight,
       showControls = true,
       showFrequencyDisplay = false,
       showWaveform = true,
@@ -221,6 +225,7 @@ export const GlassMusicVisualizer = forwardRef<
     const id = useA11yId("glass-music-visualizer");
     const { shouldAnimate } = useMotionPreference();
     const { play } = useGlassSound();
+    const boundedHeight = maxHeight ?? (compact || contained ? 240 : undefined);
 
     // Initialize audio context and analyser
     const initializeAudio = useCallback(async () => {
@@ -802,7 +807,17 @@ export const GlassMusicVisualizer = forwardRef<
           compact ? "glass-p-3 glass-space-y-2" : "glass-p-4 glass-space-y-4",
           className
         )}
-        style={{ ...readableGlassTextStyle, maxHeight: "100%", minWidth: 0 }}
+        style={{
+          ...readableGlassTextStyle,
+          maxHeight:
+            boundedHeight !== undefined
+              ? typeof boundedHeight === "number"
+                ? `${boundedHeight}px`
+                : boundedHeight
+              : "100%",
+          overflow: compact || contained ? "auto" : undefined,
+          minWidth: 0,
+        }}
         {...props}
       >
         {/* Header */}

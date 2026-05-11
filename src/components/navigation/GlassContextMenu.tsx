@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, {
   useEffect,
@@ -25,8 +25,7 @@ export interface ContextMenuItem {
   onClick?: () => void;
 }
 
-export interface GlassContextMenuProps
-  extends HTMLAttributes<HTMLDivElement> {
+export interface GlassContextMenuProps extends HTMLAttributes<HTMLDivElement> {
   /**
    * Menu items
    */
@@ -67,6 +66,8 @@ export interface GlassContextMenuProps
    * Whether to respect motion preferences for animations
    */
   respectMotionPreference?: boolean;
+  positionStrategy?: "fixed" | "absolute" | "contained";
+  contained?: boolean;
 }
 
 export interface GlassContextMenuContentProps {
@@ -90,6 +91,7 @@ export interface GlassContextMenuContentProps {
    * Custom className
    */
   className?: string;
+  positionStrategy?: "fixed" | "absolute" | "contained";
 }
 
 export interface GlassContextMenuItemProps {
@@ -127,6 +129,8 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
   onOpenChange,
   align = "start",
   side = "bottom",
+  positionStrategy = "fixed",
+  contained = false,
   className,
   menuClassName,
   ...rest
@@ -145,17 +149,19 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
 
     const rect = triggerRef.current?.getBoundingClientRect();
     if (rect) {
-      let x = e.clientX;
-      let y = e.clientY;
+      const isContained = contained || positionStrategy === "contained";
+      let x = isContained ? e.clientX - rect.left : e.clientX;
+      let y = isContained ? e.clientY - rect.top : e.clientY;
 
       // Adjust position based on alignment and side
-      if (align === "end") x = rect.right;
-      else if (align === "center") x = rect.left + rect.width / 2;
+      if (align === "end") x = isContained ? rect.width : rect.right;
+      else if (align === "center")
+        x = isContained ? rect.width / 2 : rect.left + rect.width / 2;
 
-      if (side === "top") y = rect.top;
-      else if (side === "bottom") y = rect.bottom;
-      else if (side === "left") x = rect.left;
-      else if (side === "right") x = rect.right;
+      if (side === "top") y = isContained ? 0 : rect.top;
+      else if (side === "bottom") y = isContained ? rect.height : rect.bottom;
+      else if (side === "left") x = isContained ? 0 : rect.left;
+      else if (side === "right") x = isContained ? rect.width : rect.right;
 
       setPosition({ x, y });
       setOpen(true);
@@ -194,7 +200,11 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
       <div
         ref={triggerRef}
         onContextMenu={handleContextMenu}
-        className={cn("cursor-context-menu", className)}
+        className={cn(
+          "cursor-context-menu",
+          (contained || positionStrategy === "contained") && "glass-relative",
+          className
+        )}
         {...rest}
       >
         {trigger || children}
@@ -205,6 +215,11 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
           items={items}
           position={position}
           onClose={() => setOpen(false)}
+          positionStrategy={
+            contained || positionStrategy === "contained"
+              ? "contained"
+              : positionStrategy
+          }
           className={menuClassName ?? className}
         />
       )}
@@ -218,7 +233,14 @@ export const GlassContextMenu: React.FC<GlassContextMenuProps> = ({
  */
 export const GlassContextMenuContent: React.FC<
   GlassContextMenuContentProps
-> = ({ items, position, onClose, maxWidth = "200px", className }) => {
+> = ({
+  items,
+  position,
+  onClose,
+  maxWidth = "200px",
+  className,
+  positionStrategy = "fixed",
+}) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [submenuOpen, setSubmenuOpen] = useState<string | null>(null);
 
@@ -251,7 +273,13 @@ export const GlassContextMenuContent: React.FC<
   }, [position]);
 
   return (
-    <Motion preset="scaleIn" className='glass-fixed glass-z-9999'>
+    <Motion
+      preset="scaleIn"
+      className={cn(
+        positionStrategy === "fixed" ? "glass-fixed" : "glass-absolute",
+        "glass-z-9999"
+      )}
+    >
       <OptimizedGlass
         intent="neutral"
         elevation="level4"
@@ -277,13 +305,14 @@ export const GlassContextMenuContent: React.FC<
           top: position.y,
           maxWidth,
         }}
+        data-position-strategy={positionStrategy}
       >
         <div className="glass-py-1">
           {items.map((item, index) => (
             <React.Fragment key={item?.id}>
               {item?.separator && index > 0 && (
                 <div
-                  className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+                  className="glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
                   role="separator"
                 />
               )}
@@ -304,11 +333,12 @@ export const GlassContextMenuContent: React.FC<
                 isSubmenu={false}
               />
               {item?.children && submenuOpen === item?.id && (
-                <div className='glass-absolute glass-left-full glass-top-0 glass-ml-1'>
+                <div className="glass-absolute glass-left-full glass-top-0 glass-ml-1">
                   <GlassContextMenuContent
                     items={item?.children}
                     position={{ x: 0, y: 0 }}
                     onClose={() => setSubmenuOpen(null)}
+                    positionStrategy="absolute"
                   />
                 </div>
               )}
@@ -337,7 +367,7 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
   if (item?.separator) {
     return (
       <div
-        className='glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1'
+        className="glass-h-px glass-surface-subtle/20 glass-mx-2 glass-my-1"
         role="separator"
       />
     );
@@ -422,23 +452,26 @@ export const GlassContextMenuItem: React.FC<GlassContextMenuItemProps> = ({
       onKeyDown={handleKeyDown}
     >
       {item?.icon && (
-        <div className='glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4 glass-mr-3'>
+        <div className="glass-flex glass-items-center glass-justify-center glass-w-4 glass-h-4 glass-mr-3">
           {item?.icon}
         </div>
       )}
 
-      <span className='glass-flex-1 glass-text-sm glass-font-medium glass-truncate'>
+      <span className="glass-flex-1 glass-text-sm glass-font-medium glass-truncate">
         {item?.label}
       </span>
 
       {item?.shortcut && (
-        <span className='glass-ml-6 glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono'>
+        <span className="glass-ml-6 glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono">
           {item?.shortcut}
         </span>
       )}
 
       {item?.children && (
-        <div className='glass-ml-3 glass-text-primary-glass-opacity-50' aria-hidden="true">
+        <div
+          className="glass-ml-3 glass-text-primary-glass-opacity-50"
+          aria-hidden="true"
+        >
           ▶
         </div>
       )}

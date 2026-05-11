@@ -139,6 +139,8 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     renderGroup,
     maxSelections,
     maxHeight = 280,
+    compact = false,
+    contained = false,
     openUp,
     ariaLabel,
     autoFocus,
@@ -519,8 +521,12 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     inputRef.current?.focus();
   }, [disabled, handleOpen]);
 
+  const effectiveSize = compact ? "small" : size;
+  const effectiveMaxHeight = maxHeight ?? (compact || contained ? 180 : 280);
   const dropdownMaxHeight =
-    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    typeof effectiveMaxHeight === "number"
+      ? `${effectiveMaxHeight}px`
+      : effectiveMaxHeight;
 
   const renderTokens = () => {
     if (renderValue) {
@@ -577,7 +583,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
   const containerClassName = cn(
     styles.container,
-    styles[`size${size.charAt(0).toUpperCase()}${size.slice(1)}`],
+    styles[
+      `size${effectiveSize.charAt(0).toUpperCase()}${effectiveSize.slice(1)}`
+    ],
     error && styles.containerError,
     disabled && styles.containerDisabled,
     !disabled && isOpen && styles.containerFocused
@@ -599,6 +607,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
   const inlineStyle: React.CSSProperties = {
     ...(style ?? {}),
+    ...(contained || compact ? { maxWidth: "100%" } : null),
   };
 
   if (resolvedWidthValue) {

@@ -54,6 +54,14 @@ export interface GlassThemeSwitcherProps {
    */
   compact?: boolean;
   /**
+   * Bound the switcher inside the parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained switchers.
+   */
+  maxHeight?: number | string;
+  /**
    * Theme change handler
    */
   onThemeChange?: (themeId: string) => void;
@@ -65,6 +73,10 @@ export interface GlassThemeSwitcherProps {
    * Custom className
    */
   className?: string;
+  /**
+   * Custom style
+   */
+  style?: React.CSSProperties;
 }
 
 /**
@@ -78,9 +90,12 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
   showPreview = true,
   showCustomOption = false,
   compact = false,
+  contained = false,
+  maxHeight,
   onThemeChange,
   onCustomThemeSave,
   className,
+  style,
   ...props
 }) => {
   const [selectedTheme, setSelectedTheme] = useState(currentTheme);
@@ -170,14 +185,39 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
       }) as React.CSSProperties,
     []
   );
+  const boundedHeight = maxHeight ?? (compact || contained ? 240 : undefined);
 
   return (
     <Motion data-glass-component preset="fadeIn" className="glass-w-full">
-      <GlassCard className={cn("overflow-hidden", className)} {...props}>
-        <CardHeader className="glass-pb-3">
+      <GlassCard
+        className={cn("overflow-hidden", className)}
+        style={{
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+                overflow: "auto",
+              }
+            : null),
+          ...(style ?? {}),
+        }}
+        {...props}
+      >
+        <CardHeader className={cn(compact ? "glass-pb-2" : "glass-pb-3")}>
           <div className="glass-flex glass-items-center glass-justify-between">
-            <CardTitle className="glass-text-primary glass-text-lg glass-font-semibold glass-flex glass-items-center glass-gap-2">
-              <Palette className="glass-w-5 glass-h-5" />
+            <CardTitle
+              className={cn(
+                "glass-text-primary glass-font-semibold glass-flex glass-items-center glass-gap-2",
+                compact ? "glass-text-sm" : "glass-text-lg"
+              )}
+            >
+              <Palette
+                className={
+                  compact ? "glass-w-4 glass-h-4" : "glass-w-5 glass-h-5"
+                }
+              />
               Theme
             </CardTitle>
 
@@ -194,7 +234,9 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
           </div>
         </CardHeader>
 
-        <CardContent className="glass-pt-0">
+        <CardContent
+          className={cn("glass-pt-0", compact && "glass-px-3 glass-pb-3")}
+        >
           {/* System Themes */}
           <div
             className={cn(
@@ -213,7 +255,8 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
                   key={theme.id}
                   preset="scaleIn"
                   className={cn(
-                    "relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200",
+                    "relative glass-radius-lg cursor-pointer transition-all duration-200",
+                    compact ? "glass-p-2" : "glass-p-4",
                     "hover:scale-[1.02] hover:shadow-lg",
                     "glass-focus glass-touch-target glass-contrast-guard",
                     isSelected
@@ -225,7 +268,12 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
                   {/* Preview */}
                   {showPreview && (
                     <div
-                      className="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-ring-1 glass-ring-white-opacity-10"
+                      className={cn(
+                        "glass-w-full glass-radius-md glass-ring-1 glass-ring-white-opacity-10",
+                        compact
+                          ? "glass-h-8 glass-mb-2"
+                          : "glass-h-16 glass-mb-3"
+                      )}
                       style={getPreviewStyle(theme.preview)}
                     >
                       <div className="glass-p-2 glass-gap-1">
@@ -286,7 +334,8 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
                       key={theme.id}
                       preset="scaleIn"
                       className={cn(
-                        "relative glass-p-4 glass-radius-lg cursor-pointer transition-all duration-200",
+                        "relative glass-radius-lg cursor-pointer transition-all duration-200",
+                        compact ? "glass-p-2" : "glass-p-4",
                         "hover:scale-[1.02] hover:shadow-lg",
                         "glass-focus glass-touch-target glass-contrast-guard",
                         isSelected
@@ -298,7 +347,12 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
                       {/* Preview */}
                       {showPreview && (
                         <div
-                          className="glass-w-full glass-h-16 glass-radius-md glass-mb-3 glass-border glass-border-white/20"
+                          className={cn(
+                            "glass-w-full glass-radius-md glass-border glass-border-white/20",
+                            compact
+                              ? "glass-h-8 glass-mb-2"
+                              : "glass-h-16 glass-mb-3"
+                          )}
                           style={getPreviewStyle(theme.preview)}
                         >
                           <div className="glass-p-2 glass-gap-1">
