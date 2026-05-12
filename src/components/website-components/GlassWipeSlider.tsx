@@ -102,6 +102,12 @@ interface GlassWipeSliderProps
       gradientOverlay?: boolean;
       height?: string | number;
       minHeight?: string | number;
+      compact?: boolean;
+      contained?: boolean;
+      preview?: boolean;
+      maxHeight?: string | number;
+      maxWidth?: string | number;
+      density?: "compact" | "comfortable" | "spacious";
       onPositionChange?: (position: number) => void;
       onSnapToPreset?: (preset: PresetPosition) => void;
       onDragStart?: () => void;
@@ -138,6 +144,18 @@ interface GlassWipeSliderProps
   // Layout
   height?: string | number;
   minHeight?: string | number;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the slider inside a bounded local surface. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: string | number;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: string | number;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
 
   // Callbacks
   onPositionChange?: (position: number) => void;
@@ -167,6 +185,12 @@ const GlassWipeSliderComponent = ({
   gradientOverlay = true,
   height = "24rem", // h-96
   minHeight,
+  compact = false,
+  contained = false,
+  preview = false,
+  maxHeight,
+  maxWidth,
+  density = "comfortable",
   onPositionChange,
   onSnapToPreset,
   onDragStart,
@@ -487,18 +511,33 @@ const GlassWipeSliderComponent = ({
     }),
     []
   );
+  const isCompact = compact || preview || density === "compact";
+  const bounded = contained || isCompact;
+  const effectiveHeight = isCompact && height === "24rem" ? "180px" : height;
+  const effectiveHandleSize = isCompact ? "sm" : handleSize;
+  const effectiveShowLabels = isCompact ? false : showLabels;
+  const effectiveShowProgress = isCompact ? false : showProgress;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
   // Memoized dynamic styles based on props
   const containerStyles = React.useMemo(
     () => ({
-      height: typeof height === "string" ? height : `${height}px`,
+      height:
+        typeof effectiveHeight === "string"
+          ? effectiveHeight
+          : `${effectiveHeight}px`,
       minHeight: minHeight
         ? typeof minHeight === "string"
           ? minHeight
           : `${minHeight}px`
         : undefined,
+      maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+      maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
     }),
-    [height, minHeight]
+    [effectiveHeight, minHeight, resolvedMaxHeight, resolvedMaxWidth, bounded]
   );
 
   // Clean up on unmount
@@ -531,6 +570,7 @@ const GlassWipeSliderComponent = ({
       ref={containerRef}
       className={cn(
         "relative w-full overflow-hidden glass-radius-lg select-none glass-card-motion-aware",
+        bounded && "glass-w-full",
         cursorClass,
         {
           "h-96": !height || height === "24rem",
@@ -677,7 +717,7 @@ const GlassWipeSliderComponent = ({
         ref={handleRef}
         className={cn(
           "absolute cursor-grab glass-active-cursor-grabbing touch-target z-20",
-          handleSizes?.[handleSize],
+          handleSizes?.[effectiveHandleSize],
           {
             "top-1/2 -translate-y-1/2": !isVertical,
             "left-1/2 -translate-x-1/2": isVertical,
@@ -765,7 +805,7 @@ const GlassWipeSliderComponent = ({
       </motion.div>
 
       {/* Labels */}
-      {showLabels && (
+      {effectiveShowLabels && (
         <>
           <motion.div
             className={cn(
@@ -812,7 +852,7 @@ const GlassWipeSliderComponent = ({
       )}
 
       {/* Progress indicator */}
-      {showProgress && (
+      {effectiveShowProgress && (
         <motion.div
           className={cn(
             "absolute chip chip-muted glass-text-xs pointer-events-none z-10",

@@ -63,13 +63,15 @@ exports[`GlassFacetSearch matches snapshot 1`] = `
       class="glass-absolute glass-right-3 glass-top-1/2 glass--translate-y-1-2 glass-flex glass-items-center glass-gap-2"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-label="Toggle filters"
           aria-pressed="false"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-transition"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-transition"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:rb:"
         >
           <svg

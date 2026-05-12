@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassFormTemplate Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassFormTemplate } from '@/components/templates/forms/GlassFormTemplate';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassFormTemplate } from "@/components/templates/forms/GlassFormTemplate";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassFormTemplate', () => {
+describe("GlassFormTemplate", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassFormTemplate />);
     expect(container).toBeInTheDocument();
   });
@@ -32,22 +32,16 @@ describe('GlassFormTemplate', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassFormTemplate />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassFormTemplate
         className="custom-class"
@@ -55,16 +49,46 @@ describe('GlassFormTemplate', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassformtemplate"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassformtemplate"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
+  });
+
+  it("bounds compact contained previews and caps visible fields", () => {
+    render(
+      <GlassFormTemplate
+        title="Profile"
+        compact
+        contained
+        maxHeight={180}
+        data-testid="compact-form-template"
+        schema={[
+          {
+            id: "account",
+            title: "Account",
+            fields: [
+              { id: "name", type: "text", label: "Name" },
+              { id: "email", type: "email", label: "Email" },
+              { id: "role", type: "text", label: "Role" },
+            ],
+          },
+        ]}
+      />
+    );
+
+    const root = screen.getByTestId("compact-form-template");
+    expect(root).toHaveStyle({ maxHeight: "180px", overflow: "hidden" });
+    expect(screen.getByText("Name")).toBeInTheDocument();
+    expect(screen.getByText("Email")).toBeInTheDocument();
+    expect(screen.queryByText("Role")).not.toBeInTheDocument();
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassFormTemplate />);
     expect(container.firstChild).toMatchSnapshot();
   });

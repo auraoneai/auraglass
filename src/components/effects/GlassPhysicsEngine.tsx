@@ -57,7 +57,11 @@ interface GlassPhysicsEngineProps {
   enabled?: boolean;
   intensity?: number;
   autoTrigger?: boolean;
+  /** Repeat autoTrigger for catalog/docs demos instead of firing only once. */
+  autoRepeat?: boolean;
   triggerDelay?: number;
+  /** Whether to honor reduced-motion settings for animation. */
+  respectMotionPreference?: boolean;
   onInteractionStart?: (type: GlassInteraction) => void;
   onInteractionEnd?: (type: GlassInteraction) => void;
 }
@@ -79,11 +83,14 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
   enabled = true,
   intensity = 1,
   autoTrigger = false,
+  autoRepeat = false,
   triggerDelay = 2000,
+  respectMotionPreference = true,
   onInteractionStart,
   onInteractionEnd,
 }) => {
   const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = respectMotionPreference ? !prefersReducedMotion : true;
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number>();
@@ -278,7 +285,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
       clientY: number,
       interactionType: GlassInteraction = interaction
     ) => {
-      if (!enabled || !containerRef.current) return;
+      if (!enabled || !shouldAnimate || !containerRef.current) return;
 
       const bounds = containerRef.current.getBoundingClientRect();
       const x = clientX - bounds.left;
@@ -376,6 +383,7 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
     },
     [
       enabled,
+      shouldAnimate,
       interaction,
       intensity,
       controls,
@@ -412,8 +420,8 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
 
   // Auto-trigger effect
   useEffect(() => {
-    if (autoTrigger && enabled) {
-      const timer = setTimeout(() => {
+    if (autoTrigger && enabled && shouldAnimate) {
+      const run = () => {
         if (containerRef.current) {
           const bounds = containerRef.current.getBoundingClientRect();
           triggerInteraction(
@@ -421,11 +429,26 @@ export const GlassPhysicsEngine: React.FC<GlassPhysicsEngineProps> = ({
             bounds.top + bounds.height / 2
           );
         }
-      }, triggerDelay);
+      };
 
-      return () => clearTimeout(timer);
+      const timer = setTimeout(run, triggerDelay);
+      const interval = autoRepeat
+        ? setInterval(run, Math.max(triggerDelay * 3, 900))
+        : undefined;
+
+      return () => {
+        clearTimeout(timer);
+        if (interval) clearInterval(interval);
+      };
     }
-  }, [autoTrigger, enabled, triggerDelay, triggerInteraction]);
+  }, [
+    autoTrigger,
+    autoRepeat,
+    enabled,
+    shouldAnimate,
+    triggerDelay,
+    triggerInteraction,
+  ]);
 
   // Setup canvas
   useEffect(() => {

@@ -81,6 +81,25 @@ describe("GlassCollaborativeComments", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("keeps compact demo comments bounded inside the container", () => {
+    render(
+      <GlassCollaborativeComments
+        compact
+        contained
+        maxHeight={180}
+        data-testid="compact-comments"
+      />,
+      { wrapper: TestWrapper }
+    );
+
+    const root = screen.getByTestId("compact-comments");
+    expect(root).toHaveStyle({ maxHeight: "180px", overflow: "hidden" });
+    const bubble = screen
+      .getByText("Tighten this surface copy before launch.")
+      .closest("[data-glass-component]");
+    expect(bubble).toHaveStyle({ top: "28px", transform: "translateX(-50%)" });
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

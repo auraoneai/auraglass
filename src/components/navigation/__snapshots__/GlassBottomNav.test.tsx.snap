@@ -17,13 +17,15 @@ exports[`GlassBottomNav matches snapshot 1`] = `
       class="glass-relative glass-flex-1"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-controls="nav-panel-1"
           aria-selected="false"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:r1a:"
           role="tab"
           style="border: 0px; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;"
@@ -49,13 +51,15 @@ exports[`GlassBottomNav matches snapshot 1`] = `
       class="glass-relative glass-flex-1"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-controls="nav-panel-2"
           aria-selected="false"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:r1b:"
           role="tab"
           style="border: 0px; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;"
@@ -81,13 +85,15 @@ exports[`GlassBottomNav matches snapshot 1`] = `
       class="glass-relative glass-flex-1"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-controls="nav-panel-3"
           aria-selected="false"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-w-full glass-h-full glass-flex glass-flex-col glass-items-center glass-justify-center glass-gap-1 glass-relative"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:r1c:"
           role="tab"
           style="border: 0px; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%;"

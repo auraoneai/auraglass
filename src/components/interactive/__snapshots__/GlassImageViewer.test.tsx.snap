@@ -56,12 +56,15 @@ exports[`GlassImageViewer matches snapshot 1`] = `
             style="flex: 0 1 auto; min-width: 0; pointer-events: auto;"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-disabled="true"
                 aria-label="Previous image"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -93,11 +96,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Next image"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -138,11 +144,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
             style="flex: 1 1 auto; min-width: 0; max-width: 100%; flex-wrap: wrap; justify-content: flex-end; pointer-events: auto;"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Zoom out"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -193,11 +202,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               %
             </span>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Zoom in"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -248,11 +260,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Rotate counter-clockwise"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -286,11 +301,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Rotate clockwise"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -324,11 +342,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Download image"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -365,11 +386,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-label="Toggle fullscreen"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="secondary"
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
@@ -417,12 +441,14 @@ exports[`GlassImageViewer matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-radius-full glass-px-4 glass-py-2 glass-contrast-guard"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Play slideshow"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:r13:"
               >
                 <svg

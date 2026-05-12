@@ -55,7 +55,9 @@ describe("GlassChart", () => {
    */
   describe("ARIA Attributes", () => {
     it("supports aria-label", () => {
-      const { container } = render(<GlassChart type="bar" data={mockData} aria-label="Test component" />);
+      const { container } = render(
+        <GlassChart type="bar" data={mockData} aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
@@ -117,6 +119,31 @@ describe("GlassChart", () => {
       container.firstChild;
 
     expect(element).toHaveClass("custom-class");
+  });
+
+  it("honors compact contained sizing and keeps semantic chart content", () => {
+    const { container } = render(
+      <GlassChart
+        type="line"
+        data={mockData}
+        compact
+        contained
+        maxHeight={180}
+        title="Visits"
+        aria-label="Compact visits chart"
+      />
+    );
+
+    const chart = container.querySelector('[role="img"]') as HTMLElement;
+    expect(chart).toBeInTheDocument();
+    expect(chart).toHaveAttribute("aria-label", "Compact visits chart");
+    expect(chart).toHaveStyle({
+      height: "180px",
+      maxHeight: "180px",
+      overflow: "hidden",
+    });
+    expect(screen.getByText("Visits")).toBeInTheDocument();
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 
   /**

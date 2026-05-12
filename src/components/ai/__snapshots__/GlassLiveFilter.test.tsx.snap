@@ -25,20 +25,7 @@ exports[`GlassLiveFilter matches snapshot 1`] = `
     </div>
     <div
       class="glass-flex glass-items-center glass-gap-2 glass-flex-shrink-0"
-    >
-      <div
-        class="glass-flex glass-items-center glass-space-x-1 glass-text-primary"
-      >
-        <div
-          class="glass-w-2 glass-h-2 glass-surface-green glass-radius-full glass-animate-pulse"
-        />
-        <span
-          class="glass-text-xs"
-        >
-          Real-time
-        </span>
-      </div>
-    </div>
+    />
   </div>
   <div
     class="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-3"

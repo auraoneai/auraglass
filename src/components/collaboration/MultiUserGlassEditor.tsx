@@ -12,13 +12,26 @@ export interface CollaborationParticipant {
   cursorLabel?: string;
 }
 
-export interface MultiUserGlassEditorProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface MultiUserGlassEditorProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   users?: CollaborationParticipant[];
   className?: string;
   header?: string;
   lastUpdatedAt?: Date | string;
   onContentChange?: (value: string) => void;
   textareaClassName?: string;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the editor inside a bounded local surface. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
 }
 
 const statusAccent: Record<
@@ -70,6 +83,12 @@ export function MultiUserGlassEditor({
   defaultValue,
   readOnly,
   textareaClassName,
+  compact = false,
+  contained = false,
+  preview = false,
+  maxHeight,
+  maxWidth,
+  density = "comfortable",
   ...textareaProps
 }: MultiUserGlassEditorProps) {
   const normalizeValue = (
@@ -127,39 +146,77 @@ export function MultiUserGlassEditor({
     if (Number.isNaN(date.getTime())) return "live";
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }, [lastUpdatedAt]);
+  const isCompact = compact || preview || density === "compact";
+  const bounded = contained || isCompact;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
   return (
     <OptimizedGlass
       role="region"
       aria-label={header}
       className={cn(
-        "glass-radius-2xl glass-border glass-border-subtle glass-p-6 glass-space-y-4",
+        "glass-radius-2xl glass-border glass-border-subtle",
+        isCompact ? "glass-p-3 glass-space-y-2" : "glass-p-6 glass-space-y-4",
+        bounded && "glass-overflow-hidden glass-w-full",
         className
       )}
       style={{
         background:
           '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+        maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+        maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
       }}
     >
-      <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
+      <header
+        className={cn(
+          "glass-flex glass-flex-wrap glass-items-center glass-justify-between",
+          isCompact ? "glass-gap-2" : "glass-gap-4"
+        )}
+      >
         <div>
-          <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
+          <h2
+            className={cn(
+              "glass-font-semibold glass-text-primary",
+              isCompact ? "glass-text-sm" : "glass-text-xl"
+            )}
+          >
             {header}
           </h2>
-          <p className="glass-text-sm glass-text-primary-opacity-70">
+          <p
+            className={cn(
+              "glass-text-primary-opacity-70",
+              isCompact ? "glass-sr-only" : "glass-text-sm"
+            )}
+          >
             Synced presence across team members with glass awareness.
           </p>
         </div>
-        <span className="glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-opacity-70">
+        <span
+          className={cn(
+            "glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-text-xs glass-text-primary-opacity-70",
+            isCompact ? "glass-px-2 glass-py-0.5" : "glass-px-3 glass-py-1"
+          )}
+        >
           Updated {formattedTimestamp}
         </span>
       </header>
 
-      <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-3">
-        {participants.map((user) => (
+      <div
+        className={cn(
+          "glass-flex glass-flex-wrap glass-items-center",
+          isCompact ? "glass-gap-1" : "glass-gap-3"
+        )}
+      >
+        {(isCompact ? participants.slice(0, 3) : participants).map((user) => (
           <span
             key={user.id}
-            className="glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-px-3 glass-py-1 glass-text-xs glass-text-primary"
+            className={cn(
+              "glass-flex glass-items-center glass-gap-2 glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/5 glass-text-xs glass-text-primary",
+              isCompact ? "glass-px-2 glass-py-0.5" : "glass-px-3 glass-py-1"
+            )}
             style={{ boxShadow: `0 0 25px -12px ${user.color}` }}
           >
             <span
@@ -186,7 +243,12 @@ export function MultiUserGlassEditor({
             <span className="glass-font-medium" style={{ color: user.color }}>
               {user.name}
             </span>
-            <span className="glass-text-primary-opacity-50">
+            <span
+              className={cn(
+                "glass-text-primary-opacity-50",
+                isCompact && "glass-sr-only"
+              )}
+            >
               {user.presence ?? "active"}
             </span>
           </span>
@@ -200,10 +262,11 @@ export function MultiUserGlassEditor({
         onChange={handleChange}
         className={cn(
           "glass-w-full glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-5 glass-text-sm glass-text-primary glass-blur-backdrop glass-focus glass-touch-target glass-contrast-guard",
+          isCompact && "glass-p-3 glass-text-xs",
           readOnly && "glass-opacity-70 glass-disabled-cursor-not-allowed",
           textareaClassName
         )}
-        style={{ minHeight: 200, resize: "vertical" }}
+        style={{ minHeight: isCompact ? 92 : 200, resize: "vertical" }}
       />
     </OptimizedGlass>
   );

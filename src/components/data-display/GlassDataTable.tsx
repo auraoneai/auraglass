@@ -111,6 +111,8 @@ export interface GlassDataTableProps<
   contained?: boolean;
   /** Maximum rendered height when contained or compact. */
   maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
   /** Hide the search/actions header in compact mode if desired. */
   showHeader?: boolean;
   /** Hide pagination controls in compact mode if desired. */
@@ -216,6 +218,7 @@ const GlassDataTableInnerBase = <
     compact = false,
     contained = false,
     maxHeight,
+    maxWidth,
     showHeader = true,
     showFooter = true,
     selectable = false,
@@ -316,6 +319,8 @@ const GlassDataTableInnerBase = <
       : "md";
   const resolvedMaxHeight =
     typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
   // Biometric adaptation for table density and pagination
   useEffect(() => {
@@ -692,6 +697,8 @@ const GlassDataTableInnerBase = <
           color: "var(--glass-text-primary, rgba(248, 250, 252, 0.92))",
           maxHeight:
             resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
+          maxWidth:
+            resolvedMaxWidth ?? (compact || contained ? "320px" : undefined),
           overflow:
             compact || contained || resolvedMaxHeight ? "auto" : undefined,
         }}

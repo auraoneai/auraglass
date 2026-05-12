@@ -513,7 +513,7 @@ export function ARGlassEffects({
         gl={{
           antialias: true,
           alpha: true,
-          preserveDrawingBuffer: true,
+          preserveDrawingBuffer: false,
         }}
       >
         {/* Camera setup */}

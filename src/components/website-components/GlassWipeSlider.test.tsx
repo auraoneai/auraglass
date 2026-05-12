@@ -128,6 +128,30 @@ describe("GlassWipeSlider", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("renders compact slider inside a bounded preview surface", () => {
+    const { container } = render(
+      <GlassWipeSlider
+        compact
+        contained
+        maxHeight={220}
+        maxWidth={320}
+        beforeContent={<div>Before content</div>}
+        afterContent={<div>After content</div>}
+        data-testid="glasswipeslider"
+      />
+    );
+
+    const element =
+      container.querySelector('[data-testid="glasswipeslider"]') ||
+      container.firstChild;
+
+    expect(element).toHaveStyle({
+      height: "180px",
+      maxHeight: "220px",
+      maxWidth: "320px",
+    });
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

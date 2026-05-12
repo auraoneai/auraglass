@@ -14,10 +14,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
 import {
   GlassDropdownMenu,
   GlassDropdownMenuContent,
   GlassDropdownMenuItem,
+  GlassDropdownMenuSub,
+  GlassDropdownMenuSubContent,
+  GlassDropdownMenuSubTrigger,
   GlassDropdownMenuTrigger,
 } from "@/components/navigation/GlassDropdownMenu";
 
@@ -83,6 +87,32 @@ describe("GlassDropdownMenu", () => {
     );
 
     const content = screen.getByTestId("contained-menu");
+    expect(container).toContainElement(content);
+    expect(content).toHaveAttribute("data-position-strategy", "contained");
+  });
+
+  it("supports contained submenu content parity", async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <GlassDropdownMenu defaultOpen>
+        <GlassDropdownMenuTrigger>Open menu</GlassDropdownMenuTrigger>
+        <GlassDropdownMenuContent portalled={false} contained>
+          <GlassDropdownMenuSub defaultOpen>
+            <GlassDropdownMenuSubTrigger>More</GlassDropdownMenuSubTrigger>
+            <GlassDropdownMenuSubContent
+              portalled={false}
+              contained
+              data-testid="contained-submenu"
+            >
+              <GlassDropdownMenuItem>Nested action</GlassDropdownMenuItem>
+            </GlassDropdownMenuSubContent>
+          </GlassDropdownMenuSub>
+        </GlassDropdownMenuContent>
+      </GlassDropdownMenu>
+    );
+
+    await user.hover(screen.getByText("More"));
+    const content = await screen.findByTestId("contained-submenu");
     expect(container).toContainElement(content);
     expect(content).toHaveAttribute("data-position-strategy", "contained");
   });

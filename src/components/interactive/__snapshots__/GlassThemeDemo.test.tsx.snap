@@ -12,7 +12,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
     <div
       aria-hidden="true"
       class="glass-absolute glass-inset-0 glass-pointer-events-none glass-z-2"
-      id="cursor-glow-:r3j:"
+      id="cursor-glow-:r3l:"
       style="mix-blend-mode: screen; filter: blur(18px) saturate(136%);"
     />
   </div>
@@ -336,12 +336,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           class="motion-primitive glass-relative glass-inline-glass-block glass-flex-shrink-0"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
+            data-glass-component="true"
           >
             <button
               aria-controls="content-inputs"
               aria-selected="true"
               class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2 glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-font-medium glass-transition-all glass-duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-surface-subtle glass-text-primary glass-shadow-md glass-border glass-border-glass-border/20"
+              data-button-size="md"
+              data-button-variant="default"
               data-magnet="true"
               data-performance-mode="ultra"
               data-state="active"
@@ -366,12 +369,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           class="motion-primitive glass-relative glass-inline-glass-block glass-flex-shrink-0"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
+            data-glass-component="true"
           >
             <button
               aria-controls="content-feedback"
               aria-selected="false"
               class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2 glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-font-medium glass-transition-all glass-duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
+              data-button-size="md"
+              data-button-variant="default"
               data-magnet="true"
               data-performance-mode="ultra"
               data-state="inactive"
@@ -396,12 +402,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           class="motion-primitive glass-relative glass-inline-glass-block glass-flex-shrink-0"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
+            data-glass-component="true"
           >
             <button
               aria-controls="content-layout"
               aria-selected="false"
               class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2 glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-font-medium glass-transition-all glass-duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
+              data-button-size="md"
+              data-button-variant="default"
               data-magnet="true"
               data-performance-mode="ultra"
               data-state="inactive"
@@ -426,12 +435,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           class="motion-primitive glass-relative glass-inline-glass-block glass-flex-shrink-0"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
+            data-glass-component="true"
           >
             <button
               aria-controls="content-navigation"
               aria-selected="false"
               class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2 glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-font-medium glass-transition-all glass-duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
+              data-button-size="md"
+              data-button-variant="default"
               data-magnet="true"
               data-performance-mode="ultra"
               data-state="inactive"
@@ -456,12 +468,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
           class="motion-primitive glass-relative glass-inline-glass-block glass-flex-shrink-0"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
+            data-glass-component="true"
           >
             <button
               aria-controls="content-display"
               aria-selected="false"
               class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-inline-flex glass-min-w-max glass-max-w-full glass-flex-shrink-0 glass-items-center glass-justify-center glass-gap-2 glass-whitespace-nowrap glass-radius-lg glass-px-3 glass-py-2 glass-text-sm glass-font-medium glass-transition-all glass-duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 glass-text-secondary hover:glass-text-primary hover:glass-surface-subtle/50"
+              data-button-size="md"
+              data-button-variant="default"
               data-magnet="true"
               data-performance-mode="ultra"
               data-state="inactive"
@@ -513,14 +528,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   style="display: flex; flex-direction: column; gap: 8px;"
                 >
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
+                    data-glass-component="true"
                   >
                     <button
                       class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      data-button-size="md"
+                      data-button-variant="primary"
                       data-caustics="true"
                       data-magnet="true"
                       data-performance-mode="ultra"
-                      id="glass-button-:r3q:"
+                      id="glass-button-:r3s:"
                       style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
@@ -531,14 +549,17 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     </button>
                   </div>
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
+                    data-glass-component="true"
                   >
                     <button
                       class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
                       data-adaptive="true"
+                      data-button-size="md"
+                      data-button-variant="outline"
                       data-magnet="true"
                       data-performance-mode="ultra"
-                      id="glass-button-:r3r:"
+                      id="glass-button-:r3t:"
                       style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     >
                       <span
@@ -549,12 +570,14 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     </button>
                   </div>
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
-                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
-                      id="glass-button-:r3s:"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press"
+                      data-button-size="md"
+                      data-button-variant="ghost"
+                      id="glass-button-:r3u:"
                     >
                       Ghost
                     </button>
@@ -591,7 +614,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       <input
                         aria-label="Standard"
                         class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
-                        id="glass-input-:r3u:"
+                        id="glass-input-:r40:"
                         placeholder="Standard"
                       />
                       <div
@@ -612,7 +635,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       <input
                         aria-label="With placeholder"
                         class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
-                        id="glass-input-:r3v:"
+                        id="glass-input-:r41:"
                         placeholder="With placeholder"
                       />
                       <div
@@ -635,7 +658,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         aria-label="Disabled"
                         class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
                         disabled=""
-                        id="glass-input-:r40:"
+                        id="glass-input-:r42:"
                         placeholder="Disabled"
                       />
                       <div
@@ -687,16 +710,19 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     class="relative inline-block h-10 glass-px-4 glass-text-sm"
                   >
                     <div
-                      class="motion-primitive glass-inline-glass-block"
+                      class="glass-inline-glass-block"
+                      data-glass-component="true"
                     >
                       <button
                         aria-expanded="false"
                         aria-haspopup="listbox"
                         aria-label="Select Option"
                         class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
+                        data-button-size="md"
+                        data-button-variant="default"
                         data-magnet="true"
                         data-performance-mode="ultra"
-                        id="glass-button-:r41:"
+                        id="glass-button-:r43:"
                         style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                         type="button"
                       >
@@ -757,15 +783,15 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                       >
                         <input
                           aria-label="Checkbox Option"
-                          aria-labelledby="glass-checkbox-label-:r44:"
+                          aria-labelledby="glass-checkbox-label-:r46:"
                           class="glass-sr-only glass-touch-target glass-contrast-guard"
-                          id="glass-checkbox-:r43:"
+                          id="glass-checkbox-:r45:"
                           type="checkbox"
                         />
                         <div
                           aria-checked="false"
                           aria-label="Checkbox Option"
-                          aria-labelledby="glass-checkbox-label-:r44:"
+                          aria-labelledby="glass-checkbox-label-:r46:"
                           class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-checkbox-box relative inline-flex items-center justify-center cursor-pointer group glass-radius-lg transition-all duration-200 glass-h-5 glass-w-5 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-primary focus-within:ring-offset-background"
                           data-performance-mode="medium"
                           role="checkbox"
@@ -782,8 +808,8 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <label
                         class="glass-checkbox-label cursor-pointer font-medium text-foreground glass-text-sm"
-                        for="glass-checkbox-:r43:"
-                        id="glass-checkbox-label-:r44:"
+                        for="glass-checkbox-:r45:"
+                        id="glass-checkbox-label-:r46:"
                       >
                         Checkbox Option
                       </label>
@@ -806,7 +832,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                         aria-label="Radio Option"
                         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-flex glass-items-center glass-gap-2 glass-w-full glass-min-w-0 glass-cursor-pointer glass-group glass-transition glass-p-2 glass-radius-lg"
                         data-performance-mode="medium"
-                        id="glass-radio-item-:r46:"
+                        id="glass-radio-item-:r48:"
                         role="radio"
                         style="background: rgba(5, 11, 24, 0.18); background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); box-sizing: border-box;"
                         tabindex="0"
@@ -838,11 +864,11 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <button
                         aria-checked="false"
-                        aria-labelledby="glass-switch-label-:r48:"
-                        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 glass-focus"
+                        aria-labelledby="glass-switch-label-:r4a:"
+                        class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 glass-overflow-hidden glass-focus"
                         data-liquid-glass-switch="false"
                         data-performance-mode="medium"
-                        id="glass-switch-:r47:"
+                        id="glass-switch-:r49:"
                         role="switch"
                         style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); width: 44px; height: 24px;"
                         type="button"
@@ -858,8 +884,8 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                     >
                       <label
                         class="glass-switch-label cursor-pointer font-medium text-foreground glass-text-sm"
-                        for="glass-switch-:r47:"
-                        id="glass-switch-label-:r48:"
+                        for="glass-switch-:r49:"
+                        id="glass-switch-label-:r4a:"
                       >
                         Switch Option
                       </label>
@@ -890,7 +916,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
                   <div
                     aria-labelledby="glass-theme-demo-slider-label"
                     class="glass-slider glass-relative glass-flex glass-items-center glass-w-full glass-h-6"
-                    id="glass-slider-:r49:"
+                    id="glass-slider-:r4b:"
                     role="group"
                   >
                     <div

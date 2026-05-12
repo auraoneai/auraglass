@@ -15,13 +15,15 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-gap-2"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-disabled="true"
           aria-label="Navigate to root"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          data-button-size="sm"
+          data-button-variant="ghost"
           disabled=""
           id="glass-button-:r18:"
         >
@@ -48,13 +50,15 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
         </button>
       </div>
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-disabled="true"
           aria-label="Navigate up"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          data-button-size="sm"
+          data-button-variant="ghost"
           disabled=""
           id="glass-button-:r19:"
         >
@@ -81,12 +85,14 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
         </button>
       </div>
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
           aria-label="Refresh"
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary-opacity-70 hover:glass-text-primary"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:r1a:"
         >
           <svg
@@ -125,12 +131,15 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
         class="glass-flex glass-items-center glass-border glass-border-white/20 glass-radius-lg"
       >
         <div
-          class="motion-primitive glass-inline-glass-block"
+          class="glass-inline-glass-block"
+          data-glass-component="true"
         >
           <button
             aria-label="List view"
             aria-pressed="true"
             class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-radius-r-none glass-border-r glass-border-white/20"
+            data-button-size="sm"
+            data-button-variant="secondary"
             data-magnet="true"
             data-performance-mode="ultra"
             data-refraction="true"
@@ -176,13 +185,15 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
           </button>
         </div>
         <div
-          class="motion-primitive glass-inline-glass-block"
+          class="glass-inline-glass-block"
           data-glass-component="true"
         >
           <button
             aria-label="Grid view"
             aria-pressed="false"
-            class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-radius-l-none"
+            class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-radius-l-none"
+            data-button-size="sm"
+            data-button-variant="ghost"
             id="glass-button-:r1c:"
           >
             <svg
@@ -245,11 +256,13 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
               class="glass-text-primary/80 transition-all duration-200 glass-hover--translate-y-0-5"
             >
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press"
+                  data-button-size="sm"
+                  data-button-variant="ghost"
                   id="glass-button-:r1e:"
                 >
                   Root

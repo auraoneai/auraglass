@@ -1,9 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import React, { useRef, useState, useCallback } from 'react';
-import { GalileoElementInteractionPlugin } from './GalileoElementInteractionPlugin';
-import { cn } from '../../../lib/utils';
+import type { Meta, StoryObj } from "@storybook/react";
+import React, { useRef, useState, useCallback } from "react";
+import { cn } from "../../../lib/utils";
+import { AuraElementInteractionPlugin } from "./GalileoElementInteractionPlugin";
+
 // Mock implementation for Storybook - the actual plugin may not be fully implemented
-interface GalileoInteractionConfig {
+interface AuraInteractionConfig {
   enabled: boolean;
   magneticEffect: boolean;
   rippleEffect: boolean;
@@ -22,16 +23,22 @@ interface GalileoInteractionConfig {
 }
 
 // Safe mock function that won't crash
-const createGalileoPlugin = (config?: Partial<GalileoInteractionConfig>) => {
-  console.log('Mock Galileo plugin created with config:', config);
+const createAuraPlugin = (config?: Partial<AuraInteractionConfig>) => {
+  console.log("Mock Aura plugin created with config:", config);
   return {
-    id: 'galileo-interaction',
-    beforeInit: () => console.log('Plugin beforeInit called'),
-    afterInit: () => console.log('Plugin afterInit called'),
-    beforeUpdate: () => console.log('Plugin beforeUpdate called'),
-    afterUpdate: () => console.log('Plugin afterUpdate called'),
-    destroy: () => console.log('Plugin destroy called'),
-    config: { enabled: true, magneticEffect: true, rippleEffect: true, glowEffect: true, ...config }
+    id: AuraElementInteractionPlugin.id,
+    beforeInit: () => console.log("Plugin beforeInit called"),
+    afterInit: () => console.log("Plugin afterInit called"),
+    beforeUpdate: () => console.log("Plugin beforeUpdate called"),
+    afterUpdate: () => console.log("Plugin afterUpdate called"),
+    destroy: () => console.log("Plugin destroy called"),
+    config: {
+      enabled: true,
+      magneticEffect: true,
+      rippleEffect: true,
+      glowEffect: true,
+      ...config,
+    },
   };
 };
 
@@ -44,34 +51,35 @@ type PluginArgs = {
 };
 
 const meta: Meta = {
-  title: 'Data + Visualization/Galileo Element Interaction Plugin',
+  title: "Data + Visualization/Aura Element Interaction Plugin",
   parameters: {
-    layout: 'centered',
+    layout: "centered",
     docs: {
       description: {
-        component: 'A chart plugin that adds interactive effects like magnetic attraction, ripple effects, and glow to chart elements.',
+        component:
+          "A chart plugin that adds interactive effects like magnetic attraction, ripple effects, and glow to chart elements.",
       },
     },
   },
   argTypes: {
     enabled: {
-      control: 'boolean',
-      description: 'Enable/disable the plugin',
+      control: "boolean",
+      description: "Enable/disable the plugin",
       defaultValue: true,
     },
     magneticEffect: {
-      control: 'boolean',
-      description: 'Enable magnetic attraction effect on hover',
+      control: "boolean",
+      description: "Enable magnetic attraction effect on hover",
       defaultValue: true,
     },
     rippleEffect: {
-      control: 'boolean',
-      description: 'Enable ripple effect on click',
+      control: "boolean",
+      description: "Enable ripple effect on click",
       defaultValue: true,
     },
     glowEffect: {
-      control: 'boolean',
-      description: 'Enable glow effect',
+      control: "boolean",
+      description: "Enable glow effect",
       defaultValue: true,
     },
   },
@@ -96,7 +104,7 @@ type Story = StoryObj<PluginArgs>;
 export const Default: Story = {
   render: (args: PluginArgs) => {
     // Create plugin instance with story args
-    const config: Partial<GalileoInteractionConfig> = {
+    const config: Partial<AuraInteractionConfig> = {
       enabled: args.enabled ?? true,
       magneticEffect: args.magneticEffect ?? true,
       rippleEffect: args.rippleEffect ?? true,
@@ -113,16 +121,22 @@ export const Default: Story = {
         rippleSize: 2,
       },
     };
-    const plugin = createGalileoPlugin(config);
+    const plugin = createAuraPlugin(config);
 
     // Simple hover lens card for demo elements
-    const LensCard: React.FC<{ className: string; label: string; dotColor: string }> = ({ className, label, dotColor }) => {
+    const LensCard: React.FC<{
+      className: string;
+      label: string;
+      dotColor: string;
+    }> = ({ className, label, dotColor }) => {
       const ref = useRef<HTMLDivElement | null>(null);
       const [style, setStyle] = useState<React.CSSProperties>({});
       const onMove = useCallback((e: React.MouseEvent) => {
-        const el = ref.current; if (!el) return;
+        const el = ref.current;
+        if (!el) return;
         const r = el.getBoundingClientRect();
-        const x = e.clientX - r.left; const y = e.clientY - r.top;
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
         const size = Math.max(r.width, r.height) * 0.8;
         setStyle({
           backgroundImage: `radial-gradient(${size}px ${size}px at ${x}px ${y}px, rgba(255,255,255,0.18), rgba(255,255,255,0.06) 45%, rgba(255,255,255,0) 60%)`,
@@ -136,11 +150,17 @@ export const Default: Story = {
           onMouseMove={onMove}
           onMouseLeave={onLeave}
           className={`chart-element relative overflow-hidden ${className}`}
-          style={{ transition: 'transform 180ms ease, box-shadow 180ms ease' }}
+          style={{ transition: "transform 180ms ease, box-shadow 180ms ease" }}
         >
-          <div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={{ ...(style ?? {}) }} />
+          <div
+            className="glass-absolute glass-inset-0 glass-pointer-events-none"
+            style={{ ...(style ?? {}) }}
+          />
           <div className="glass-relative glass-text-center">
-            <div className="glass-w-8 glass-h-8 glass-radius-full glass-mx-auto glass-mb-2" style={{ backgroundColor: dotColor }} />
+            <div
+              className="glass-w-8 glass-h-8 glass-radius-full glass-mx-auto glass-mb-2"
+              style={{ backgroundColor: dotColor }}
+            />
             <p className="glass-text-sm glass-font-medium">{label}</p>
           </div>
         </div>
@@ -150,22 +170,40 @@ export const Default: Story = {
     return (
       <div className="glass-p-8 space-y-6">
         <div className="glass-text-center">
-          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">Galileo Element Interaction Plugin</h3>
+          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">
+            Aura Element Interaction Plugin
+          </h3>
           <p className="glass-text-sm opacity-80 glass-mb-4">
-            Hover over and click the elements below to see the interactive effects.
+            Hover over and click the elements below to see the interactive
+            effects.
           </p>
         </div>
 
         <div className="glass-flex glass-flex-wrap glass-gap-4 glass-justify-center">
-          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 1" dotColor="var(--glass-color-primary)" />
-          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 2" dotColor="var(--glass-color-success)" />
-          <LensCard className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard" label="Data Point 3" dotColor="#6366F1" />
+          <LensCard
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            label="Data Point 1"
+            dotColor="var(--glass-color-primary)"
+          />
+          <LensCard
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            label="Data Point 2"
+            dotColor="var(--glass-color-success)"
+          />
+          <LensCard
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            label="Data Point 3"
+            dotColor="#6366F1"
+          />
         </div>
 
         <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
-          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">Plugin Status:</h4>
+          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">
+            Plugin Status:
+          </h4>
           <p className="glass-text-xs opacity-75">
-            Plugin created successfully with effects: Magnetic, Ripple, Glow
+            {plugin.id} created successfully with effects: Magnetic, Ripple,
+            Glow
           </p>
         </div>
       </div>
@@ -181,7 +219,7 @@ export const Default: Story = {
 
 export const DisabledEffects: Story = {
   render: (args: PluginArgs) => {
-    const config: Partial<GalileoInteractionConfig> = {
+    const config: Partial<AuraInteractionConfig> = {
       enabled: args.enabled ?? true,
       magneticEffect: false,
       rippleEffect: false,
@@ -198,14 +236,17 @@ export const DisabledEffects: Story = {
         rippleSize: 2,
       },
     };
-    const plugin = createGalileoPlugin(config);
+    const plugin = createAuraPlugin(config);
 
     return (
       <div className="glass-p-8 space-y-6">
         <div className="glass-text-center">
-          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">Disabled Effects</h3>
+          <h3 className="glass-text-xl glass-font-semibold glass-mb-2">
+            Disabled Effects
+          </h3>
           <p className="glass-text-sm opacity-80 glass-mb-4">
-            All interactive effects are disabled. Elements won't respond to hover or click.
+            All interactive effects are disabled. Elements won't respond to
+            hover or click.
           </p>
         </div>
 
@@ -219,9 +260,11 @@ export const DisabledEffects: Story = {
         </div>
 
         <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
-          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">Plugin Status:</h4>
+          <h4 className="glass-text-sm glass-font-semibold glass-mb-2">
+            Plugin Status:
+          </h4>
           <p className="glass-text-xs opacity-75">
-            Plugin created with all effects disabled
+            {plugin.id} created with all effects disabled
           </p>
         </div>
       </div>

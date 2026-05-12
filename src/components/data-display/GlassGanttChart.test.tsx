@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassGanttChart Component Tests
  *
@@ -11,20 +11,20 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassGanttChart } from '@/components/data-display/GlassGanttChart';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassGanttChart } from "@/components/data-display/GlassGanttChart";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassGanttChart', () => {
+describe("GlassGanttChart", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassGanttChart />);
     expect(container).toBeInTheDocument();
   });
@@ -32,40 +32,37 @@ describe('GlassGanttChart', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassGanttChart />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
-      <GlassGanttChart
-        className="custom-class"
-        data-testid="glassganttchart"
-      />
+      <GlassGanttChart className="custom-class" data-testid="glassganttchart" />
     );
 
-    const element = container.querySelector('[data-testid="glassganttchart"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassganttchart"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
-    const { container } = render(<GlassGanttChart />);
-    expect(container.firstChild).toMatchSnapshot();
+  it("matches snapshot", () => {
+    jest.useFakeTimers().setSystemTime(new Date("2026-05-11T12:00:00.000Z"));
+    try {
+      const { container } = render(<GlassGanttChart />);
+      expect(container.firstChild).toMatchSnapshot();
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });

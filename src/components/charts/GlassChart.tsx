@@ -96,6 +96,19 @@ export interface ConsciousnessFeatures {
 interface BaseChartProps {
   width?: string | number;
   height?: number;
+  /**
+   * Render a denser chart shell for cards, previews, and dashboard widgets.
+   * Default/full-size behavior is unchanged unless compact/contained is set.
+   */
+  compact?: boolean;
+  /**
+   * Bounded rendering mode for constrained surfaces.
+   */
+  contained?: boolean;
+  /**
+   * Maximum outer chart height when compact/contained.
+   */
+  maxHeight?: number | string;
   glass?: boolean;
   title?: string;
   description?: string;
@@ -339,6 +352,18 @@ const getElevationShadow = (level: number) => {
   }
 };
 
+const toCssSize = (value?: number | string): string | undefined =>
+  typeof value === "number" ? `${value}px` : value;
+
+const toNumericSize = (value?: number | string): number | undefined => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string") {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  }
+  return undefined;
+};
+
 interface ChartContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   zElevation: number;
   height?: string | number;
@@ -453,6 +478,164 @@ const FooterContent: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   ...props
 }) => <div className={cn(chartStyles.footer, className)} {...props} />;
+
+interface SimplifiedChartViewProps {
+  type: GlassChartProps["type"];
+  series: NormalizedChartSeries[];
+}
+
+const SimplifiedChartView: React.FC<SimplifiedChartViewProps> = ({
+  type,
+  series,
+}) => {
+  const primarySeries = series[0];
+  const points = primarySeries?.data ?? [];
+  const values = points.map((point) => point.y).filter(Number.isFinite);
+
+  if (values.length === 0) {
+    return (
+      <div
+        aria-label={`${type} chart has no data`}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
+          height: "100%",
+          minHeight: 120,
+          color: "rgba(255,255,255,0.72)",
+          fontSize: "0.875rem",
+        }}
+      >
+        No chart data
+      </div>
+    );
+  }
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const width = 320;
+  const height = 132;
+  const padX = 20;
+  const padY = 18;
+  const plotWidth = width - padX * 2;
+  const plotHeight = height - padY * 2;
+  const color = primarySeries?.color ?? "rgba(124, 211, 255, 0.95)";
+  const fillColor = "rgba(124, 211, 255, 0.18)";
+  const coords = values.map((value, index) => {
+    const x =
+      padX +
+      (values.length === 1
+        ? plotWidth / 2
+        : (index / (values.length - 1)) * plotWidth);
+    const y = padY + plotHeight - ((value - min) / range) * plotHeight;
+    return { x, y, value };
+  });
+  const linePath = coords
+    .map(
+      (point, index) =>
+        `${index === 0 ? "M" : "L"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`
+    )
+    .join(" ");
+  const areaPath = `${linePath} L ${coords[coords.length - 1].x.toFixed(1)} ${(
+    height - padY
+  ).toFixed(1)} L ${coords[0].x.toFixed(1)} ${(height - padY).toFixed(1)} Z`;
+  const barWidth = Math.max(10, plotWidth / values.length - 8);
+  const gridLines = [0.25, 0.5, 0.75].map((ratio) => padY + plotHeight * ratio);
+
+  return (
+    <svg
+      role="img"
+      aria-label={`${type} chart showing ${values.length} points from ${min} to ${max}`}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: 120,
+        display: "block",
+      }}
+    >
+      <defs>
+        <linearGradient
+          id="glass-chart-simplified-fill"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+        >
+          <stop offset="0%" stopColor="rgba(124, 211, 255, 0.28)" />
+          <stop offset="100%" stopColor="rgba(124, 211, 255, 0.03)" />
+        </linearGradient>
+      </defs>
+      {gridLines.map((y) => (
+        <line
+          key={y}
+          x1={padX}
+          x2={width - padX}
+          y1={y}
+          y2={y}
+          stroke="rgba(255,255,255,0.08)"
+          strokeWidth="1"
+        />
+      ))}
+      {type === "bar" ? (
+        coords.map((point, index) => {
+          const barHeight = height - padY - point.y;
+          return (
+            <rect
+              key={`${point.x}-${index}`}
+              x={point.x - barWidth / 2}
+              y={point.y}
+              width={barWidth}
+              height={Math.max(2, barHeight)}
+              rx="5"
+              fill={color}
+              opacity={0.85}
+            />
+          );
+        })
+      ) : (
+        <>
+          {type === "area" ? (
+            <path d={areaPath} fill="url(#glass-chart-simplified-fill)" />
+          ) : null}
+          <path
+            d={linePath}
+            fill="none"
+            stroke={color}
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          {type === "scatter"
+            ? coords.map((point, index) => (
+                <circle
+                  key={`${point.x}-${index}`}
+                  cx={point.x}
+                  cy={point.y}
+                  r="4"
+                  fill={color}
+                  stroke="rgba(255,255,255,0.55)"
+                  strokeWidth="1"
+                />
+              ))
+            : null}
+        </>
+      )}
+      <text
+        x={padX}
+        y={height - 4}
+        fill="rgba(255,255,255,0.52)"
+        fontSize="10"
+        fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+      >
+        {primarySeries?.name ?? "Series"}
+      </text>
+    </svg>
+  );
+};
 
 /**
  * Chart SVG icons for type switching
@@ -787,6 +970,9 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       data,
       width = "100%",
       height = 400,
+      compact = false,
+      contained = false,
+      maxHeight,
       glass = true,
       title,
       description,
@@ -827,6 +1013,23 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     },
     ref
   ) => {
+    const isCompact = compact || contained;
+    const explicitMaxHeight = toNumericSize(maxHeight);
+    const outerHeight =
+      explicitMaxHeight ?? (isCompact ? Math.min(height, 220) : height);
+    const hasHeader = Boolean(title || description);
+    const hasControls = Boolean(
+      tabs?.length || allowTypeSwitch || toolbarItems
+    );
+    const verticalChrome =
+      (hasHeader ? (isCompact ? 34 : 56) : 0) +
+      (hasControls ? (isCompact ? 34 : 48) : 0) +
+      (isCompact ? 20 : 32);
+    const innerChartHeight = Math.max(
+      isCompact ? 96 : 160,
+      outerHeight - verticalChrome
+    );
+
     // Get theme from context or use the provided theme, and ensure it's valid
     const theme = ensureValidTheme(providedTheme);
 
@@ -1344,16 +1547,23 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
     };
 
     // Memoized chart props to prevent unnecessary re-renders
-    const commonProps = useMemo(
-      () => ({
+    const commonProps = useMemo(() => {
+      const resolvedChartHeight = !isCompact
+        ? typeof height === "number"
+          ? height
+          : 320
+        : typeof chartProps.height === "number"
+          ? chartProps.height
+          : innerChartHeight;
+
+      return {
         width: typeof width === "number" ? width : 640,
-        height: typeof height === "number" ? height : 320,
+        height: resolvedChartHeight,
         title: undefined,
         description: undefined,
         ...chartProps,
-      }),
-      [width, height, chartProps]
-    );
+      };
+    }, [width, height, isCompact, innerChartHeight, chartProps]);
 
     // Memoized pie data processing
     const pieData = useMemo<PieDataPoint[]>(() => {
@@ -1412,8 +1622,12 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       const chartDataForOtherTypes = chartSeriesData;
 
       if (useSimplified) {
-        // Use default chart type when simplified
-        return <div>Simplified chart view - {currentType}</div>;
+        return (
+          <SimplifiedChartView
+            type={currentType}
+            series={chartDataForOtherTypes}
+          />
+        );
       }
 
       switch (currentType) {
@@ -1491,9 +1705,11 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
         }}
         zElevation={zElevation}
         width={width}
-        height={height}
+        height={isCompact ? outerHeight : height}
         focused={isFocused}
         style={{
+          maxHeight: toCssSize(maxHeight),
+          overflow: isCompact ? "hidden" : undefined,
           ...style,
           ...(magneticProps ? magneticProps.style : {}),
           ...(isFocused && depthAnimation ? depthStyles : {}),
@@ -1520,7 +1736,8 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
       >
         <div
           style={{
-            padding: "16px",
+            padding: isCompact ? "10px" : "16px",
+            gap: isCompact ? "8px" : undefined,
             height: "100%",
             display: "flex",
             flexDirection: "column",
@@ -1700,6 +1917,9 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
             }
             data-adaptive-complexity={adaptiveComplexity}
             style={{
+              height: isCompact ? `${innerChartHeight}px` : undefined,
+              minHeight: isCompact ? 0 : undefined,
+              overflow: isCompact ? "hidden" : undefined,
               filter:
                 currentDataFocus && gazeResponsive
                   ? "brightness(1.1) saturate(1.2)"

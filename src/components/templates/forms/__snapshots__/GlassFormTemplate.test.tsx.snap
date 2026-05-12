@@ -50,14 +50,17 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8"
               >
                 <div
-                  class="motion-primitive glass-inline-glass-block"
+                  class="glass-inline-glass-block"
+                  data-glass-component="true"
                 >
                   <button
                     aria-label="Submit form"
                     class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                    data-button-size="md"
+                    data-button-variant="default"
                     data-magnet="true"
                     data-performance-mode="ultra"
-                    id="glass-button-:rj:"
+                    id="glass-button-:rp:"
                     style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                     type="submit"
                   >
@@ -82,13 +85,16 @@ exports[`GlassFormTemplate matches snapshot 1`] = `
               style="display: flex; flex-direction: row; gap: var(--glass-space-2, 0.5rem); align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
             >
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
+                data-glass-component="true"
               >
                 <button
                   class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                  data-button-size="md"
+                  data-button-variant="default"
                   data-magnet="true"
                   data-performance-mode="ultra"
-                  id="glass-button-:rn:"
+                  id="glass-button-:rt:"
                   style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
                   type="submit"
                 >

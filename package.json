@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "description": "React Liquid Glass and glassmorphism component library with 356 certified UI components, Next.js/SSR support, TypeScript, accessibility, tokens, Storybook, and 3D/AR.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -173,7 +173,8 @@
     "prepublishOnly": "npm run build && npm run verify:pack && npm run test:integration:next -- --skip-build",
     "verify:pack": "node scripts/ci/verify-pack.js",
     "size-check": "bundlesize",
-    "analyze": "npm run build && npx bundle-analyzer dist/index.mjs"
+    "analyze": "npm run build && npx bundle-analyzer dist/index.mjs",
+    "audit:3.0.7-source": "node scripts/audit/3.0.7-source-audit.js"
   },
   "keywords": [
     "react",
@@ -185,11 +186,15 @@
     "glassmorphism-ui",
     "liquid-glass",
     "apple-liquid-glass",
+    "aurora-ui",
     "glass-ui",
     "design-system",
+    "marketing-ui",
+    "landing-page",
     "component-library",
     "ui-components",
     "ui-library",
+    "ai-ui",
     "typescript",
     "accessibility",
     "accessible-ui",

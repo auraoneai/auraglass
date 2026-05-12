@@ -14,13 +14,16 @@ exports[`GlassSelect matches snapshot 1`] = `
     class="relative inline-block h-10 glass-px-4 glass-text-sm"
   >
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
+      data-glass-component="true"
     >
       <button
         aria-expanded="false"
         aria-haspopup="listbox"
         aria-label="Select an option..."
         class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-w-full glass-flex glass-items-center glass-justify-between glass-surface-dark/20 hover:glass-surface-dark/30 glass-border glass-border-white/20 hover:glass-border-white/30 glass-radius-xl glass-outline-none glass-text-left glass-text-primary-glass-opacity-90 hover:glass-text-primary glass-backdrop-blur-sm glass-focus glass-touch-target glass-contrast-guard"
+        data-button-size="md"
+        data-button-variant="default"
         data-magnet="true"
         data-performance-mode="ultra"
         id="glass-button-:r8:"

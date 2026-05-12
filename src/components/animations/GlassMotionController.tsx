@@ -429,7 +429,18 @@ export interface GlassAnimatedProps {
   animation?: AnimationConfig;
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   trigger?: "mount" | "hover" | "click" | "manual";
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the animated surface inside a bounded local viewport. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
   /** Whether to respect motion preferences */
   respectMotionPreference?: boolean;
   /** ARIA label for the animated element */
@@ -442,7 +453,13 @@ export const GlassAnimated = forwardRef<HTMLDivElement, GlassAnimatedProps>(
       animation,
       children,
       className = "",
+      style,
       trigger = "mount",
+      compact = false,
+      contained = false,
+      preview = false,
+      maxHeight,
+      maxWidth,
       respectMotionPreference = true,
       "aria-label": ariaLabel,
       ...props
@@ -469,6 +486,28 @@ export const GlassAnimated = forwardRef<HTMLDivElement, GlassAnimatedProps>(
     const shouldReduceMotion = respectMotionPreference
       ? reduceMotion || motionPreference.prefersReducedMotion
       : reduceMotion;
+    const continuousAnimation =
+      animation?.repeat === Infinity &&
+      trigger === "mount" &&
+      !shouldReduceMotion
+        ? animation
+        : undefined;
+    const continuousAnimationStyle: React.CSSProperties | undefined =
+      continuousAnimation?.type === "pulse"
+        ? {
+            animation: `ag-glass-animated-pulse ${continuousAnimation.duration ?? 1200}ms ease-in-out infinite`,
+          }
+        : continuousAnimation?.type === "rotate"
+          ? {
+              animation: `ag-glass-animated-rotate ${continuousAnimation.duration ?? 1200}ms linear infinite`,
+            }
+          : undefined;
+    const isCompact = compact || preview;
+    const bounded = contained || isCompact;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
     useEffect(() => {
       if (!enabled || !animation || !elementRef.current || hasAnimated) return;
@@ -522,7 +561,16 @@ export const GlassAnimated = forwardRef<HTMLDivElement, GlassAnimatedProps>(
       <div
         ref={combinedRef}
         id={animatedId}
-        className={className}
+        className={cn(
+          bounded && "glass-overflow-hidden glass-w-full",
+          className
+        )}
+        style={{
+          maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+          maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
+          ...continuousAnimationStyle,
+          ...(style ?? {}),
+        }}
         onClick={trigger === "click" ? handleTrigger : undefined}
         onMouseEnter={trigger === "hover" ? handleHover : undefined}
         onKeyDown={trigger === "click" ? handleKeyDown : undefined}
@@ -547,6 +595,18 @@ export const GlassAnimated = forwardRef<HTMLDivElement, GlassAnimatedProps>(
             Motion animations are disabled due to accessibility preferences
           </div>
         )}
+        {continuousAnimationStyle ? (
+          <style>{`
+            @keyframes ag-glass-animated-pulse {
+              0%, 100% { transform: scale(1); filter: brightness(1); }
+              50% { transform: scale(${1 + (continuousAnimation?.amplitude ?? 1) * 0.05}); filter: brightness(1.18); }
+            }
+            @keyframes ag-glass-animated-rotate {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+        ) : null}
       </div>
     );
   }
@@ -559,6 +619,17 @@ export interface GlassAnimationSequenceProps {
   children: React.ReactNode;
   staggerDelay?: number;
   className?: string;
+  style?: React.CSSProperties;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the sequence inside a bounded local viewport. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
   /** Whether to respect motion preferences */
   respectMotionPreference?: boolean;
   /** ARIA label for the sequence */
@@ -574,6 +645,12 @@ export const GlassAnimationSequence = forwardRef<
       children,
       staggerDelay = 100,
       className = "",
+      style,
+      compact = false,
+      contained = false,
+      preview = false,
+      maxHeight,
+      maxWidth,
       respectMotionPreference = true,
       "aria-label": ariaLabel,
       ...props
@@ -599,6 +676,12 @@ export const GlassAnimationSequence = forwardRef<
     const shouldReduceMotion = respectMotionPreference
       ? reduceMotion || motionPreference.prefersReducedMotion
       : reduceMotion;
+    const isCompact = compact || preview;
+    const bounded = contained || isCompact;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
     useEffect(() => {
       if (!enabled || !containerRef.current) return;
@@ -625,7 +708,12 @@ export const GlassAnimationSequence = forwardRef<
       <div
         ref={combinedRef}
         id={sequenceId}
-        className={className}
+        className={cn(bounded && "glass-overflow-auto glass-w-full", className)}
+        style={{
+          maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+          maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
+          ...(style ?? {}),
+        }}
         role="region"
         aria-label={ariaLabel || "Animation sequence"}
         aria-busy={isAnimating}
@@ -710,6 +798,17 @@ export interface GlassAnimationTimelineProps {
   }>;
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the timeline inside a bounded local viewport. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
   /** Whether to respect motion preferences */
   respectMotionPreference?: boolean;
   /** ARIA label for the timeline */
@@ -725,6 +824,12 @@ export const GlassAnimationTimeline = forwardRef<
       timeline,
       children,
       className = "",
+      style,
+      compact = false,
+      contained = false,
+      preview = false,
+      maxHeight,
+      maxWidth,
       respectMotionPreference = true,
       "aria-label": ariaLabel,
       ...props
@@ -750,6 +855,12 @@ export const GlassAnimationTimeline = forwardRef<
     const shouldReduceMotion = respectMotionPreference
       ? reduceMotion || motionPreference.prefersReducedMotion
       : reduceMotion;
+    const isCompact = compact || preview;
+    const bounded = contained || isCompact;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
     useEffect(() => {
       if (!enabled || !containerRef.current) return;
@@ -783,7 +894,12 @@ export const GlassAnimationTimeline = forwardRef<
       <div
         ref={combinedRef}
         id={timelineId}
-        className={className}
+        className={cn(bounded && "glass-overflow-auto glass-w-full", className)}
+        style={{
+          maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+          maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
+          ...(style ?? {}),
+        }}
         role="region"
         aria-label={ariaLabel || "Animation timeline"}
         aria-busy={isAnimating}

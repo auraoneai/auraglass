@@ -1,5 +1,38 @@
 # Changelog
 
+## [3.0.7] - Unreleased
+
+### Added
+
+- Added `GlassButton variant="aurora"` as a real typed button API for premium landing-page and product-hero CTAs, with focused test, Storybook, and component-doc coverage.
+- Added generated Marketing Kit design tokens for aurora palettes, display text, showcase surfaces, hero orb styling, backgrounds, and aurora button treatment.
+- Wired Marketing Kit root exports for `AuroraBackground`, `AuroraOrb`, `DisplayText`, `LogoMark`, `ShowcaseCard`, `FeatureTile`, and `InstallCommand`.
+- Added npm keywords for aurora UI, marketing UI, landing pages, and AI UI while keeping repository and bug metadata pointed at `auraoneai/auraglass`.
+
+### Fixed
+
+- Hardened SSR/hydration behavior for homepage-safe `GlassButton` rendering so production Next routes do not emit React hydration mismatch `#418` errors.
+- Completed compact/contained APIs for the remaining 3.0.6 catalog blockers: `GlassA11y`, `GlassA11yAuditor`, `GlassMessageList`, `MultiUserGlassEditor`, `GlassAnimated`, `GlassAnimationSequence`, `GlassAnimationTimeline`, `GlassMagneticCursor`, `GlassWipeSlider`, `GlassDataGrid`, `GlassThemeDemo`, `GlassVirtualTable`, and `GlassMultiSelect`.
+- Added package-owned visible preview/default state for `GlassReactionBubbles`.
+- Tightened `GlassCalendar compact` with bounded row controls for 220px catalog previews.
+- Verified `GlassDropdownMenuSubContent` containment parity with top-level dropdown content APIs.
+- Re-locked color-input normalization, WebGL readback/source audit checks, debug-string checks, and data-grid contrast coverage for 3.0.7.
+- Fixed `GlassParticleField` low-rate emitters by carrying fractional particle emission between frames, so package-owned particle-field motion is visible in compact catalog/demo surfaces instead of appearing static at 60fps.
+- Fixed `ParticleBackground` blank compact previews by guaranteeing nonzero canvas dimensions and a sensible default minimum height when consumers do not pass explicit sizing.
+
+### Verification
+
+- `npm test -- --runInBand` — 414 suites, 2207 tests, 339 snapshots passed.
+- `npm run typecheck -- --pretty false`
+- `npm run audit:3.0.7-source`
+- `npm run lint:tokens`
+- `npm run glass:full-check`
+- `npm run verify:pack`
+- `npm run release:dry-run` — passed package CI, coverage, pack verification, React 18/Next smoke, React 19/Next smoke, and npm dry publish for `aura-glass@3.0.7`.
+- `npm pack --dry-run --json` — reports `aura-glass@3.0.7`, 2,038 packaged entries, 8.0 MB package size, 42.7 MB unpacked size, and shasum `1d793ccb1a4bba8dcbcec4861a1279bc3a9427a0`.
+- Website proof gate against the rebuilt local tarball passed with `[verify] ALL THIRTEEN CHECKS PASSED` under `/Users/gurbakshchahal/auraglasswebsite/reports/website-3.0.7-final/`.
+- Focused website motion sweep passed across 14 motion targets with 0 missing targets, 0 console errors, and 0 page errors under `/Users/gurbakshchahal/auraglasswebsite/reports/website-3.0.7-motion/motion-sweep.json`.
+
 ## [3.0.6] - 2026-05-11
 
 ### Fixed
@@ -337,7 +370,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🌟 Major Accessibility Achievement
 
 #### 100% Reduced Motion Coverage (WCAG 2.1 AAA)
-- ✅ **All 356 components** now support `prefers-reduced-motion` 
+- ✅ **All 356 components** now support `prefers-reduced-motion`
 - ✅ **WCAG 2.1 Level AAA** Success Criterion 2.3.3 (Animation from Interactions) - fully compliant
 - ✅ **Real-time adaptation** - Components respond instantly to system preference changes
 - ✅ **Zero functionality loss** - Full component functionality maintained without animations
@@ -377,7 +410,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 📁 Reports & Documentation
 New comprehensive reports added to `/reports/`:
 - `REDUCED_MOTION_100_COMPLETE.md` - Full accessibility implementation report
-- `TYPESCRIPT_FIX_PROGRESS.md` - TypeScript error reduction progress  
+- `TYPESCRIPT_FIX_PROGRESS.md` - TypeScript error reduction progress
 - `reduced-motion-final-report.json` - Automated accessibility audit results
 - Updated `component_inventory.json` - Complete component metadata
 

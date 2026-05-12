@@ -24,6 +24,7 @@ interface MeshPoint {
 
 interface GlassMeshGradientProps {
   className?: string;
+  style?: React.CSSProperties;
   colors?: string[];
   points?: number;
   speed?: number;
@@ -33,6 +34,12 @@ interface GlassMeshGradientProps {
   interactive?: boolean;
   complexity?: "simple" | "moderate" | "complex";
   variant?: "ambient" | "vibrant" | "subtle" | "dark";
+  respectMotionPreference?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  preview?: boolean;
+  height?: number | string;
+  maxHeight?: number | string;
   "aria-label"?: string;
 }
 
@@ -76,9 +83,22 @@ export function GlassMeshGradient({
   interactive = false,
   complexity = "moderate",
   variant = "ambient",
+  respectMotionPreference = true,
+  compact = false,
+  contained = false,
+  preview = false,
+  height,
+  maxHeight,
+  style,
   "aria-label": ariaLabel,
 }: GlassMeshGradientProps) {
   const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate =
+    animate && (respectMotionPreference ? !prefersReducedMotion : true);
+  const isBounded = compact || contained || preview;
+  const resolvedHeight = typeof height === "number" ? `${height}px` : height;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const meshPoints = useRef<MeshPoint[]>([]);
   const mousePos = useRef({ x: 0, y: 0 });
@@ -145,7 +165,7 @@ export function GlassMeshGradient({
 
   // Animation loop
   useAnimationFrame((time) => {
-    if (!animate) return;
+    if (!shouldAnimate) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
@@ -159,7 +179,7 @@ export function GlassMeshGradient({
     // Update and draw mesh points
     meshPoints.current.forEach((point, i) => {
       // Update position
-      if (animate) {
+      if (shouldAnimate) {
         point.x += point.vx;
         point.y += point.vy;
 
@@ -236,6 +256,12 @@ export function GlassMeshGradient({
   return (
     <div
       className={cn("relative overflow-hidden", className)}
+      style={{
+        width: "100%",
+        minHeight: resolvedHeight ?? (isBounded ? 220 : undefined),
+        maxHeight: resolvedMaxHeight ?? (isBounded ? 240 : undefined),
+        ...(style ?? {}),
+      }}
       aria-label={ariaLabel}
     >
       <canvas
@@ -246,6 +272,46 @@ export function GlassMeshGradient({
           opacity,
         }}
       />
+      {shouldAnimate ? (
+        <>
+          <div
+            aria-hidden="true"
+            className="ag-glass-mesh-gradient-motion-layer"
+            style={{
+              position: "absolute",
+              inset: "-30%",
+              filter: `blur(${Math.max(12, Math.round(blur * 0.28))}px)`,
+              opacity: Math.min(0.78, Math.max(0.38, opacity * 0.68)),
+              mixBlendMode: variant === "dark" ? "screen" : "plus-lighter",
+              pointerEvents: "none",
+              animation:
+                "ag-glass-mesh-gradient-motion 2.8s ease-in-out infinite alternate",
+            }}
+          />
+          <style>{`
+            .ag-glass-mesh-gradient-motion-layer {
+              background:
+                radial-gradient(circle at 22% 32%, rgba(124,211,255,0.72), transparent 28%),
+                radial-gradient(circle at 78% 42%, rgba(216,111,255,0.64), transparent 32%),
+                radial-gradient(circle at 48% 76%, rgba(99,255,218,0.48), transparent 30%);
+            }
+            @keyframes ag-glass-mesh-gradient-motion {
+              0% {
+                transform: translate3d(-8%, -4%, 0) rotate(-7deg) scale(0.96);
+                opacity: ${Math.min(0.72, Math.max(0.34, opacity * 0.56))};
+              }
+              50% {
+                transform: translate3d(7%, 5%, 0) rotate(8deg) scale(1.06);
+                opacity: ${Math.min(0.9, Math.max(0.48, opacity * 0.82))};
+              }
+              100% {
+                transform: translate3d(2%, -7%, 0) rotate(-2deg) scale(1);
+                opacity: ${Math.min(0.8, Math.max(0.42, opacity * 0.68))};
+              }
+            }
+          `}</style>
+        </>
+      ) : null}
     </div>
   );
 }

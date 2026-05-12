@@ -70,8 +70,11 @@ export interface MultiSelectProps<T extends string | number = string> {
   grouped?: boolean;
   virtualized?: boolean;
   maxHeight?: number | string;
+  maxWidth?: number | string;
   compact?: boolean;
   contained?: boolean;
+  preview?: boolean;
+  density?: "compact" | "comfortable" | "spacious";
   renderOption?: (
     option: MultiSelectOption<T>,
     selected: boolean

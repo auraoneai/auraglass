@@ -61,7 +61,8 @@ export interface ParticleForce {
   enabled: boolean;
 }
 
-export interface GlassParticleFieldProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassParticleFieldProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Particle emitters */
   emitters?: ParticleEmitter[];
   /** Environmental forces */
@@ -189,7 +190,9 @@ export const GlassParticleField = forwardRef<
     ref
   ) => {
     const { prefersReducedMotion } = useMotionPreferenceContext();
-    const shouldAnimate = !prefersReducedMotion;
+    const shouldAnimate = respectMotionPreference
+      ? !prefersReducedMotion
+      : true;
     const particleFieldId = useA11yId("glass-particle-field");
 
     const [particles, setParticles] = useState<Particle[]>([]);
@@ -203,6 +206,7 @@ export const GlassParticleField = forwardRef<
     const animationFrameRef = useRef<number>();
     const lastTimeRef = useRef(0);
     const frameCountRef = useRef(0);
+    const emissionCarryRef = useRef<Record<string, number>>({});
 
     // Color schemes
     const colorSchemes = {
@@ -412,7 +416,11 @@ export const GlassParticleField = forwardRef<
           return [];
 
         const newParticles: Particle[] = [];
-        const particlesToEmit = Math.floor(emitter.rate * deltaTime);
+        const carry = emissionCarryRef.current[emitter.id] ?? 0;
+        const desiredParticles = emitter.rate * deltaTime + carry;
+        const particlesToEmit = Math.floor(desiredParticles);
+        emissionCarryRef.current[emitter.id] =
+          desiredParticles - particlesToEmit;
 
         for (
           let i = 0;
@@ -688,7 +696,7 @@ export const GlassParticleField = forwardRef<
         {...props}
       >
         <Motion
-          preset={shouldAnimate && respectMotionPreference ? "fadeIn" : "none"}
+          preset={shouldAnimate ? "fadeIn" : "none"}
           className="glass-relative glass-w-full glass-h-full"
         >
           {/* Canvas */}

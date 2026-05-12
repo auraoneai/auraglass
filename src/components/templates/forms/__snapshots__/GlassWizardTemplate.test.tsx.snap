@@ -36,9 +36,9 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
             <span
               class="glass-text-sm glass-font-medium glass-text-primary"
             >
-              Step 
+              Step
               1
-               of 
+               of
               2
             </span>
             <span
@@ -201,11 +201,14 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
                   class="glass-flex glass-items-center glass-justify-end glass-gap-3 glass-mt-8"
                 >
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
+                    data-glass-component="true"
                   >
                     <button
                       aria-label="Submit form"
                       class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                      data-button-size="md"
+                      data-button-variant="default"
                       data-magnet="true"
                       data-performance-mode="ultra"
                       id="glass-button-:r27:"
@@ -234,10 +237,13 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
               style="display: flex; flex-direction: row; gap: var(--glass-space-2, 0.5rem); align-items: stretch; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
             >
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
+                data-glass-component="true"
               >
                 <button
                   class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+                  data-button-size="md"
+                  data-button-variant="default"
                   data-magnet="true"
                   data-performance-mode="ultra"
                   id="glass-button-:r2b:"

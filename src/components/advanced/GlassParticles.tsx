@@ -35,6 +35,7 @@ interface Particle {
 
 interface GlassParticlesProps {
   className?: string;
+  style?: React.CSSProperties;
   count?: number;
   maxSize?: number;
   minSize?: number;
@@ -54,6 +55,16 @@ interface GlassParticlesProps {
   "aria-label"?: string;
   /** Reduced motion preference */
   respectMotionPreference?: boolean;
+  /** Compact preview mode for constrained cards and docs examples. */
+  compact?: boolean;
+  /** Keep the particle field inside a bounded local viewport. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Optional viewport height. */
+  height?: number | string;
+  /** Optional maximum viewport height. */
+  maxHeight?: number | string;
 }
 
 export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
@@ -81,6 +92,12 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
       lifetime = 0,
       "aria-label": ariaLabel,
       respectMotionPreference = true,
+      compact = false,
+      contained = false,
+      preview = false,
+      height,
+      maxHeight,
+      style,
     },
     ref
   ) => {
@@ -92,6 +109,13 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const componentId = useA11yId("glass-particles");
     const prefersReducedMotion = useReducedMotion();
+    const shouldAnimate = respectMotionPreference
+      ? !prefersReducedMotion
+      : true;
+    const isBounded = compact || contained || preview;
+    const resolvedHeight = typeof height === "number" ? `${height}px` : height;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
 
     // Initialize particles
     const initParticles = useCallback(() => {
@@ -400,7 +424,7 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
 
     // Animation loop
     useAnimationFrame((time) => {
-      if (prefersReducedMotion) return; // Skip animation if user prefers reduced motion
+      if (!shouldAnimate) return; // Skip animation if user prefers reduced motion
 
       const canvas = canvasRef.current;
       const ctx = canvas?.getContext("2d");
@@ -480,6 +504,12 @@ export const GlassParticles = forwardRef<HTMLDivElement, GlassParticlesProps>(
         ref={ref}
         id={componentId}
         className={cn("relative overflow-hidden", className)}
+        style={{
+          minHeight: resolvedHeight ?? (isBounded ? 220 : undefined),
+          maxHeight: resolvedMaxHeight ?? (isBounded ? 240 : undefined),
+          width: "100%",
+          ...(style ?? {}),
+        }}
         role="presentation"
         aria-label={ariaLabel || "Interactive particle effects"}
         aria-hidden={!ariaLabel}

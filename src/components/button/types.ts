@@ -1,33 +1,35 @@
-import React from 'react';
+import React from "react";
 
 export interface GlassButtonVariant {
-  default: 'default';
-  primary: 'primary';
-  secondary: 'secondary';
-  tertiary: 'tertiary';
-  ghost: 'ghost';
-  destructive: 'destructive';
-  error: 'error';
-  outline: 'outline';
-  link: 'link';
-  gradient: 'gradient';
-  success: 'success';
-  warning: 'warning';
+  default: "default";
+  primary: "primary";
+  secondary: "secondary";
+  tertiary: "tertiary";
+  ghost: "ghost";
+  destructive: "destructive";
+  error: "error";
+  outline: "outline";
+  link: "link";
+  gradient: "gradient";
+  aurora: "aurora";
+  success: "success";
+  warning: "warning";
 }
 
 export type GlassButtonVariantType = keyof GlassButtonVariant;
 
 export interface GlassButtonSize {
-  xs: 'xs';
-  sm: 'sm';
-  md: 'md';
-  lg: 'lg';
-  xl: 'xl';
+  xs: "xs";
+  sm: "sm";
+  md: "md";
+  lg: "lg";
+  xl: "xl";
 }
 
 export type GlassButtonSizeType = keyof GlassButtonSize;
 
-export interface GlassButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
+export interface GlassButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
   /** Button variant */
   variant?: GlassButtonVariantType;
 
@@ -35,10 +37,10 @@ export interface GlassButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBu
   size?: GlassButtonSizeType;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Blur strength */
-  blurStrength?: 'none' | 'light' | 'standard' | 'heavy';
+  blurStrength?: "none" | "light" | "standard" | "heavy";
 
   /** Enable ripple effect */
   ripple?: boolean;
@@ -53,13 +55,13 @@ export interface GlassButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBu
   loadingText?: string;
 
   /** Icon position */
-  iconPosition?: 'left' | 'right';
+  iconPosition?: "left" | "right";
 
   /** Full width */
   fullWidth?: boolean;
 
   /** Border radius */
-  borderRadius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
 
   /** Custom styles */
   glassStyles?: React.CSSProperties;
@@ -68,21 +70,22 @@ export interface GlassButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBu
   children?: React.ReactNode;
 
   /** Glass surface intent */
-  intent?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
-  
+  intent?: "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+
   /** Glass surface elevation */
-  elevation?: 'level1' | 'level2' | 'level3' | 'level4';
-  
+  elevation?: "level1" | "level2" | "level3" | "level4";
+
   /** Performance tier */
-  tier?: 'low' | 'medium' | 'high';
+  tier?: "low" | "medium" | "high";
 }
 
-export interface GlassFabProps extends Omit<GlassButtonProps, 'size' | 'fullWidth'> {
+export interface GlassFabProps
+  extends Omit<GlassButtonProps, "size" | "fullWidth"> {
   /** FAB size */
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 
   /** FAB position */
-  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+  position?: "bottom-right" | "bottom-left" | "top-right" | "top-left";
 
   /** Always visible */
   alwaysVisible?: boolean;
@@ -125,13 +128,13 @@ export interface ButtonGroupProps {
   size?: GlassButtonSizeType;
 
   /** Button group orientation */
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: "horizontal" | "vertical";
 
   /** Full width */
   fullWidth?: boolean;
 
   /** Glass morphism variant */
-  glassVariant?: 'frosted' | 'dynamic' | 'clear' | 'tinted' | 'luminous';
+  glassVariant?: "frosted" | "dynamic" | "clear" | "tinted" | "luminous";
 
   /** Children buttons */
   children: React.ReactNode;
@@ -140,7 +143,7 @@ export interface ButtonGroupProps {
   containerStyles?: React.CSSProperties;
 
   /** Spacing between buttons */
-  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  spacing?: "none" | "sm" | "md" | "lg";
 }
 
 export interface ButtonIconProps {
@@ -157,12 +160,12 @@ export interface ButtonIconProps {
   animated?: boolean;
 
   /** Animation type */
-  animationType?: 'spin' | 'pulse' | 'bounce' | 'shake';
+  animationType?: "spin" | "pulse" | "bounce" | "shake";
 }
 
 export interface LoadingSpinnerProps {
   /** Spinner size */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: "xs" | "sm" | "md" | "lg";
 
   /** Spinner color */
   color?: string;
@@ -202,9 +205,12 @@ export interface ButtonThemeTokens {
     fontWeight: Record<GlassButtonSizeType, string | number>;
   };
   effects: {
-    borderRadius: Record<NonNullable<GlassButtonProps['borderRadius']>, string>;
+    borderRadius: Record<NonNullable<GlassButtonProps["borderRadius"]>, string>;
     boxShadow: Record<GlassButtonVariantType, string>;
-    backdropFilter: Record<NonNullable<GlassButtonProps['blurStrength']>, string>;
+    backdropFilter: Record<
+      NonNullable<GlassButtonProps["blurStrength"]>,
+      string
+    >;
   };
 }
 
@@ -214,7 +220,7 @@ export interface ButtonAnimationConfig {
   entrance?: boolean;
 
   /** Entrance animation type */
-  entranceType?: 'fadeIn' | 'slideIn' | 'scaleIn' | 'bounceIn';
+  entranceType?: "fadeIn" | "slideIn" | "scaleIn" | "bounceIn";
 
   /** Entrance animation duration */
   entranceDuration?: number;
@@ -243,19 +249,19 @@ export interface ButtonAnimationConfig {
 
 export interface ButtonAccessibilityProps {
   /** ARIA label */
-  'aria-label'?: string;
+  "aria-label"?: string;
 
   /** ARIA description */
-  'aria-describedby'?: string;
+  "aria-describedby"?: string;
 
   /** ARIA expanded */
-  'aria-expanded'?: boolean;
+  "aria-expanded"?: boolean;
 
   /** ARIA pressed */
-  'aria-pressed'?: boolean;
+  "aria-pressed"?: boolean;
 
   /** Role */
-  role?: 'button' | 'link' | 'menuitem' | 'tab';
+  role?: "button" | "link" | "menuitem" | "tab";
 
   /** Tab index */
   tabIndex?: number;
@@ -268,9 +274,11 @@ export interface ButtonAccessibilityProps {
 }
 
 // Utility types
-export type GlassButtonComponentProps = GlassButtonProps & ButtonAccessibilityProps;
+export type GlassButtonComponentProps = GlassButtonProps &
+  ButtonAccessibilityProps;
 export type GlassFabComponentProps = GlassFabProps & ButtonAccessibilityProps;
-export type GlassMagneticButtonComponentProps = GlassMagneticButtonProps & ButtonAccessibilityProps;
+export type GlassMagneticButtonComponentProps = GlassMagneticButtonProps &
+  ButtonAccessibilityProps;
 
 // Event handler types
 export interface ButtonEventHandlers {

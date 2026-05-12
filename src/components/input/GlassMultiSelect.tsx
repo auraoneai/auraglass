@@ -139,8 +139,11 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     renderGroup,
     maxSelections,
     maxHeight = 280,
+    maxWidth,
     compact = false,
     contained = false,
+    preview = false,
+    density = "comfortable",
     openUp,
     ariaLabel,
     autoFocus,
@@ -521,8 +524,9 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     inputRef.current?.focus();
   }, [disabled, handleOpen]);
 
-  const effectiveSize = compact ? "small" : size;
-  const effectiveMaxHeight = maxHeight ?? (compact || contained ? 180 : 280);
+  const isCompact = compact || preview || density === "compact";
+  const effectiveSize = isCompact ? "small" : size;
+  const effectiveMaxHeight = maxHeight ?? (isCompact || contained ? 180 : 280);
   const dropdownMaxHeight =
     typeof effectiveMaxHeight === "number"
       ? `${effectiveMaxHeight}px`
@@ -586,6 +590,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
     styles[
       `size${effectiveSize.charAt(0).toUpperCase()}${effectiveSize.slice(1)}`
     ],
+    isCompact && styles.containerCompact,
     error && styles.containerError,
     disabled && styles.containerDisabled,
     !disabled && isOpen && styles.containerFocused
@@ -594,6 +599,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
   const rootClassName = cn(
     styles.root,
     fullWidth && styles.rootFullWidth,
+    (isCompact || contained) && styles.rootContained,
     className
   );
 
@@ -607,12 +613,20 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
 
   const inlineStyle: React.CSSProperties = {
     ...(style ?? {}),
-    ...(contained || compact ? { maxWidth: "100%" } : null),
+    ...(contained || isCompact ? { maxWidth: "100%" } : null),
   };
 
   if (resolvedWidthValue) {
     (inlineStyle as Record<string, unknown>)["--multi-select-width"] =
       resolvedWidthValue;
+  }
+
+  if (maxWidth !== undefined) {
+    (inlineStyle as Record<string, unknown>)["--multi-select-max-width"] =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+  } else if (contained || isCompact) {
+    (inlineStyle as Record<string, unknown>)["--multi-select-max-width"] =
+      "320px";
   }
 
   (inlineStyle as Record<string, unknown>)["--multi-select-dropdown-height"] =

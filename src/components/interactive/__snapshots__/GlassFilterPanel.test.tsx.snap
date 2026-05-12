@@ -16,7 +16,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-funnel glass-w-5 glass-h-5 glass-text-white/85"
+        class="lucide lucide-funnel glass-text-white/85 glass-w-5 glass-h-5"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -42,16 +42,19 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
       class="glass-flex glass-items-center glass-gap-2"
     >
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
+        data-glass-component="true"
       >
         <button
           aria-disabled="true"
           class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-focus glass-touch-target"
+          data-button-size="sm"
+          data-button-variant="primary"
           data-caustics="true"
           data-magnet="true"
           data-performance-mode="ultra"
           disabled=""
-          id="glass-button-:r6:"
+          id="glass-button-:rh:"
           style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
         >
           <span
@@ -105,7 +108,7 @@ exports[`GlassFilterPanel matches snapshot 1`] = `
         <input
           aria-label="Search filters..."
           class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
-          id="glass-input-:r7:"
+          id="glass-input-:ri:"
           placeholder="Search filters..."
           value=""
         />

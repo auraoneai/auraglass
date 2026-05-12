@@ -15,21 +15,26 @@ exports[`CompactCookieNotice matches snapshot 1`] = `
     class="buttonGroup"
   >
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
-        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md overflow-visible glass-magnet glass-ripple glass-press"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-link hover:glass-text-link-hover underline-offset-4 hover:underline glass-radius-md glass-magnet glass-ripple glass-press"
+        data-button-size="sm"
+        data-button-variant="link"
         id="glass-button-:ra:"
       >
         More Info
       </button>
     </div>
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
+      data-glass-component="true"
     >
       <button
         class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+        data-button-size="sm"
+        data-button-variant="primary"
         data-caustics="true"
         data-magnet="true"
         data-performance-mode="ultra"

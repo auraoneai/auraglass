@@ -47,6 +47,7 @@ export interface GlassFractalLayoutProps {
   zoomLevel?: number;
   centerNode?: boolean;
   interactiveZoom?: boolean;
+  showControls?: boolean;
   onNodeClick?: (node: FractalNode) => void;
   onNodeHover?: (node: FractalNode | null) => void;
   glassConfig?: {
@@ -84,6 +85,7 @@ export const GlassFractalLayout = forwardRef<
       zoomLevel = 1,
       centerNode = true,
       interactiveZoom = true,
+      showControls,
       onNodeClick,
       onNodeHover,
       glassConfig = {},
@@ -98,9 +100,25 @@ export const GlassFractalLayout = forwardRef<
     },
     ref
   ) => {
+    const isCompactLike = compact || contained;
+    const displayMaxDepth = isCompactLike ? Math.min(maxDepth, 2) : maxDepth;
+    const displayInitialScale = isCompactLike
+      ? Math.min(initialScale, 0.58)
+      : initialScale;
+    const displayScaleFactor = isCompactLike
+      ? Math.min(scaleFactor, 0.5)
+      : scaleFactor;
+    const displayZoomLevel = isCompactLike
+      ? Math.min(zoomLevel, 0.72)
+      : zoomLevel;
+    const nodeDistance = isCompactLike ? 56 : 100;
+    const spiralDistance = isCompactLike ? 30 : 50;
+    const triangleRadius = isCompactLike ? 48 : 80;
+    const rowDistance = isCompactLike ? 42 : 60;
+    const columnDistance = isCompactLike ? 50 : 80;
     const [hoveredNode, setHoveredNode] = useState<string | null>(null);
     const [selectedNode, setSelectedNode] = useState<string | null>(null);
-    const [currentZoom, setCurrentZoom] = useState(zoomLevel);
+    const [currentZoom, setCurrentZoom] = useState(displayZoomLevel);
     const [growthProgress, setGrowthProgress] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
     const animationRef = useRef<number>();
@@ -110,7 +128,11 @@ export const GlassFractalLayout = forwardRef<
     const { play } = useGlassSound();
     const boundedHeight =
       maxHeight ?? height ?? (compact || contained ? 240 : 600);
-    const displayMaxDepth = compact ? Math.min(maxDepth, 3) : maxDepth;
+    const shouldShowControls = showControls ?? !compact;
+
+    useEffect(() => {
+      setCurrentZoom(displayZoomLevel);
+    }, [displayZoomLevel]);
 
     useEffect(() => {
       if (animateGrowth && !prefersReducedMotion) {
@@ -145,7 +167,7 @@ export const GlassFractalLayout = forwardRef<
         depth: number = 0,
         parentPos: { x: number; y: number } = { x: 0, y: 0 },
         parentAngle: number = -90,
-        parentScale: number = initialScale
+        parentScale: number = displayInitialScale
       ): FractalNode[] => {
         if (
           depth >= displayMaxDepth ||
@@ -154,7 +176,8 @@ export const GlassFractalLayout = forwardRef<
           return [];
 
         return nodes.map((node, index) => {
-          const currentScale = parentScale * Math.pow(scaleFactor, depth);
+          const currentScale =
+            parentScale * Math.pow(displayScaleFactor, depth);
           let position = { x: 0, y: 0 };
           let rotation = 0;
 
@@ -163,7 +186,7 @@ export const GlassFractalLayout = forwardRef<
               const angleOffset =
                 (index - (nodes.length - 1) / 2) * branchAngle;
               const currentAngle = parentAngle + angleOffset;
-              const distance = 100 * currentScale;
+              const distance = nodeDistance * currentScale;
               position = {
                 x:
                   parentPos.x +
@@ -177,7 +200,7 @@ export const GlassFractalLayout = forwardRef<
 
             case "spiral":
               const spiralAngle = parentAngle + index * 137.5; // Golden angle
-              const spiralRadius = depth * 50 * currentScale;
+              const spiralRadius = depth * spiralDistance * currentScale;
               position = {
                 x:
                   parentPos.x +
@@ -192,7 +215,7 @@ export const GlassFractalLayout = forwardRef<
             case "sierpinski":
               // Sierpinski triangle pattern
               const triAngle = index * 120 + parentAngle;
-              const triRadius = 80 * currentScale;
+              const triRadius = triangleRadius * currentScale;
               position = {
                 x:
                   parentPos.x +
@@ -215,8 +238,10 @@ export const GlassFractalLayout = forwardRef<
 
             default:
               position = {
-                x: parentPos.x + (index - nodes.length / 2) * 80 * currentScale,
-                y: parentPos.y + depth * 60 * currentScale,
+                x:
+                  parentPos.x +
+                  (index - nodes.length / 2) * columnDistance * currentScale,
+                y: parentPos.y + depth * rowDistance * currentScale,
               };
           }
 
@@ -244,11 +269,16 @@ export const GlassFractalLayout = forwardRef<
       [
         displayMaxDepth,
         fractalType,
-        scaleFactor,
+        displayScaleFactor,
         branchAngle,
-        initialScale,
+        displayInitialScale,
         recursive,
         growthProgress,
+        nodeDistance,
+        spiralDistance,
+        triangleRadius,
+        columnDistance,
+        rowDistance,
       ]
     );
 
@@ -311,11 +341,9 @@ export const GlassFractalLayout = forwardRef<
 
     const getNodeVariants = () => ({
       hidden: {
-        scale: 0,
         opacity: 0,
       },
       visible: (delay: number) => ({
-        scale: 1,
         opacity: 1,
         transition: {
           type: "spring",
@@ -325,7 +353,7 @@ export const GlassFractalLayout = forwardRef<
         },
       }),
       hover: {
-        scale: 1.1,
+        opacity: 1,
         transition: {
           type: "spring",
           tension: 400,
@@ -333,7 +361,7 @@ export const GlassFractalLayout = forwardRef<
         },
       },
       selected: {
-        scale: 1.2,
+        opacity: 1,
         transition: {
           type: "spring",
           tension: 400,
@@ -406,7 +434,8 @@ export const GlassFractalLayout = forwardRef<
                   <div
                     className={`
                       glass-surface rounded-lg border border-white/20 glass-backdrop-blur-md
-                      transition-all duration-200 p-2 min-w-[40px] min-h-[40px]
+                      transition-all duration-200
+                      ${isCompactLike ? "p-1 min-w-[28px] min-h-[28px] text-[10px]" : "p-2 min-w-[40px] min-h-[40px]"}
                       flex items-center justify-center
                       ${
                         isHovered || isSelected
@@ -452,7 +481,7 @@ export const GlassFractalLayout = forwardRef<
                   ))}
 
                   {/* Depth indicator */}
-                  {(node.depth || 0) > 0 && (
+                  {!isCompactLike && (node.depth || 0) > 0 && (
                     <div className="glass-absolute glass-top-1 glass--right-1 glass-surface-dark/50 glass-text-primary glass-text-xs glass-radius-full glass-w-4 glass-h-4 glass-flex glass-items-center glass-justify-center">
                       {node.depth}
                     </div>
@@ -464,7 +493,7 @@ export const GlassFractalLayout = forwardRef<
         </div>
 
         {/* Controls */}
-        {!compact && (
+        {shouldShowControls && (
           <div className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-2">
             <div className="glass-text-xs glass-text-primary-opacity-70 glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
               Type: {fractalType}

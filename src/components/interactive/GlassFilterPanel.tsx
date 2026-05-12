@@ -81,6 +81,14 @@ export interface GlassFilterPanelProps {
   size?: "sm" | "md" | "lg";
   elevation?: "low" | "medium" | "high";
   /**
+   * Bound the panel inside its parent container.
+   */
+  contained?: boolean;
+  /**
+   * Maximum height for compact/contained panels.
+   */
+  maxHeight?: number | string;
+  /**
    * Custom data-testid for testing
    */
   "data-testid"?: string;
@@ -110,6 +118,8 @@ const GlassFilterPanel = React.forwardRef<
       variant = "default",
       size = "md",
       elevation = "medium",
+      contained = false,
+      maxHeight,
       "data-testid": dataTestId,
       style,
       ...props
@@ -188,6 +198,16 @@ const GlassFilterPanel = React.forwardRef<
       );
     }, [values]);
 
+    const isCompactMode = variant === "compact" || contained;
+    const boundedHeight = maxHeight ?? (isCompactMode ? 220 : undefined);
+    const visibleGroups = isCompactMode
+      ? filteredGroups.slice(0, 1)
+      : filteredGroups;
+    const effectiveShowPresets = isCompactMode ? false : showPresets;
+    const effectiveShowClearButton = isCompactMode ? false : showClearButton;
+    const effectiveShowApplyButton = showApplyButton;
+    const effectiveSize = isCompactMode ? "sm" : size;
+
     const sizeClasses = {
       sm: "glass-text-sm",
       md: "glass-text-base",
@@ -196,7 +216,7 @@ const GlassFilterPanel = React.forwardRef<
 
     const variantClasses = {
       default: "glass-p-6",
-      compact: "glass-p-4",
+      compact: "glass-p-3",
       minimal: "glass-p-2",
     };
 
@@ -215,7 +235,7 @@ const GlassFilterPanel = React.forwardRef<
           "glass-radius-xl",
           elevationClasses[elevation],
           variantClasses[variant],
-          sizeClasses[size],
+          sizeClasses[effectiveSize],
           "glass-w-full glass-text-primary",
           className
         )}
@@ -230,17 +250,39 @@ const GlassFilterPanel = React.forwardRef<
                 ? "rgba(15, 23, 42, 0.76)"
                 : "rgba(15, 23, 42, 0.72)",
           color: "rgba(255, 255, 255, 0.95)",
-          maxWidth: "28rem",
+          maxWidth: isCompactMode ? "100%" : "28rem",
+          ...(boundedHeight !== undefined
+            ? {
+                maxHeight:
+                  typeof boundedHeight === "number"
+                    ? `${boundedHeight}px`
+                    : boundedHeight,
+                overflow: "hidden",
+              }
+            : null),
           ...style,
         }}
         {...props}
       >
         {/* Header */}
-        <div className="glass-flex glass-items-center glass-justify-between glass-mb-6">
+        <div
+          className={cn(
+            "glass-flex glass-items-center glass-justify-between",
+            isCompactMode ? "glass-mb-3" : "glass-mb-6"
+          )}
+        >
           <div className="glass-flex glass-items-center glass-gap-2">
-            <Filter className="glass-w-5 glass-h-5 glass-text-white/85" />
+            <Filter
+              className={cn(
+                "glass-text-white/85",
+                isCompactMode ? "glass-w-4 glass-h-4" : "glass-w-5 glass-h-5"
+              )}
+            />
             <h3
-              className="glass-font-semibold glass-text-white"
+              className={cn(
+                "glass-font-semibold glass-text-white",
+                isCompactMode ? "glass-text-lg" : undefined
+              )}
               style={lightOnDarkTextStyle}
             >
               {title}
@@ -253,7 +295,7 @@ const GlassFilterPanel = React.forwardRef<
           </div>
 
           <div className="glass-flex glass-items-center glass-gap-2">
-            {showClearButton && hasActiveFilters && (
+            {effectiveShowClearButton && hasActiveFilters && (
               <GlassButton
                 variant="ghost"
                 size="sm"
@@ -266,7 +308,7 @@ const GlassFilterPanel = React.forwardRef<
               </GlassButton>
             )}
 
-            {showApplyButton && (
+            {effectiveShowApplyButton && (
               <GlassButton
                 variant="primary"
                 size="sm"
@@ -274,7 +316,7 @@ const GlassFilterPanel = React.forwardRef<
                 disabled={!hasActiveFilters}
                 className="glass-focus glass-touch-target"
               >
-                Apply Filters
+                {isCompactMode ? "Apply" : "Apply Filters"}
               </GlassButton>
             )}
           </div>
@@ -282,7 +324,7 @@ const GlassFilterPanel = React.forwardRef<
 
         {/* Search */}
         {showSearch && (
-          <div className="glass-mb-4">
+          <div className={cn(isCompactMode ? "glass-mb-3" : "glass-mb-4")}>
             <GlassInput
               placeholder="Search filters..."
               value={searchQuery}
@@ -294,7 +336,7 @@ const GlassFilterPanel = React.forwardRef<
         )}
 
         {/* Presets */}
-        {showPresets && presets.length > 0 && (
+        {effectiveShowPresets && presets.length > 0 && (
           <div className="glass-mb-6">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-2">
               <span className="glass-text-sm glass-font-medium glass-text-white/85">
@@ -331,13 +373,15 @@ const GlassFilterPanel = React.forwardRef<
         )}
 
         {/* Filter Groups */}
-        <div className="glass-space-y-4">
+        <div
+          className={cn(isCompactMode ? "glass-space-y-2" : "glass-space-y-4")}
+        >
           <AnimatePresence>
-            {filteredGroups.map((group) => (
+            {visibleGroups.map((group) => (
               <motion.div
                 key={group.id}
-                initial={{ opacity: 0 }}
-                animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                initial={prefersReducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="glass-radius-lg glass-overflow-hidden glass-ring-1 glass-ring-white-opacity-10"
               >
@@ -345,7 +389,10 @@ const GlassFilterPanel = React.forwardRef<
                 {collapsible && (
                   <button
                     onClick={(e) => toggleGroup(group.id)}
-                    className="glass-w-full glass-flex glass-items-center glass-justify-between glass-p-3 glass-text-left glass-text-white hover:glass-surface-subtle/10 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
+                    className={cn(
+                      "glass-w-full glass-flex glass-items-center glass-justify-between glass-text-left glass-text-white hover:glass-surface-subtle/10 glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                      isCompactMode ? "glass-p-2" : "glass-p-3"
+                    )}
                     style={lightOnDarkTextStyle}
                   >
                     <div className="glass-flex glass-items-center glass-gap-2">
@@ -370,10 +417,13 @@ const GlassFilterPanel = React.forwardRef<
                 <AnimatePresence>
                   {(!collapsible || expandedGroups[group.id]) && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                      initial={prefersReducedMotion ? false : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="glass-p-3 glass-border-t glass-border-white/10 glass-text-white"
+                      className={cn(
+                        "glass-border-t glass-border-white/10 glass-text-white",
+                        isCompactMode ? "glass-p-2" : "glass-p-3"
+                      )}
                       style={lightOnDarkTextStyle}
                     >
                       <FilterGroupContent
@@ -382,6 +432,7 @@ const GlassFilterPanel = React.forwardRef<
                         onChange={(value) =>
                           handleFilterChange(group.id, value)
                         }
+                        compact={isCompactMode}
                       />
                     </motion.div>
                   )}
@@ -436,6 +487,7 @@ interface FilterGroupContentProps {
   group: FilterGroup;
   value: FilterValue | undefined;
   onChange: (value: FilterValue) => void;
+  compact?: boolean;
 }
 
 const isDateRange = (value: FilterValue | undefined): value is DateRange =>
@@ -461,12 +513,19 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
   group,
   value,
   onChange,
+  compact = false,
 }) => {
+  const options = compact ? group.options?.slice(0, 3) : group.options;
+  const hiddenOptionCount = Math.max(
+    (group.options?.length ?? 0) - (options?.length ?? 0),
+    0
+  );
+
   switch (group.type) {
     case "checkbox":
       return (
-        <div className="glass-gap-2">
-          {group.options?.map((option) => (
+        <div className={cn(compact ? "glass-gap-1" : "glass-gap-2")}>
+          {options?.map((option) => (
             <div
               key={option.id}
               className="glass-flex glass-items-center glass-justify-between"
@@ -492,6 +551,11 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
               )}
             </div>
           ))}
+          {hiddenOptionCount > 0 && (
+            <div className="glass-text-xs glass-text-white/65 glass-pt-1">
+              +{hiddenOptionCount} more
+            </div>
+          )}
         </div>
       );
 
@@ -505,7 +569,7 @@ const FilterGroupContent: React.FC<FilterGroupContentProps> = ({
             <GlassSelectValue placeholder={group.placeholder || "Select..."} />
           </GlassSelectTrigger>
           <GlassSelectContent>
-            {group.options?.map((option) => (
+            {options?.map((option) => (
               <GlassSelectItem
                 key={option.id}
                 value={option.value}

@@ -1,0 +1,39 @@
+# AuraGlass
+
+AuraGlass is a production React and Next.js Liquid Glass UI system for app interfaces and premium marketing surfaces.
+
+Use AuraGlass when a project needs accessible glassmorphism components, SSR-safe React components, TypeScript APIs, dark glass dashboards, AI/product UIs, or launch-page visuals.
+
+Install:
+
+```bash
+npm i aura-glass
+```
+
+Core imports:
+
+```tsx
+import {
+  AuroraBackground,
+  AuroraOrb,
+  DisplayText,
+  ShowcaseCard,
+  FeatureTile,
+  InstallCommand,
+  GlassButton,
+  GlassCard,
+  GlassInput,
+  GlassTabs,
+  GlassDataTable,
+  ContrastGuard,
+} from 'aura-glass';
+import 'aura-glass/styles';
+```
+
+For landing pages and product heroes, prefer `AuroraBackground`, `AuroraOrb`, `DisplayText`, `ShowcaseCard`, `FeatureTile`, `InstallCommand`, and `GlassButton variant="aurora"`.
+
+For app UIs, prefer `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, `GlassCalendar`, `GlassDropdownMenu`, `GlassToast`, and `ContrastGuard`.
+
+Canonical repository: https://github.com/auraoneai/auraglass
+Package name: `aura-glass`
+Current release track: `3.0.x`

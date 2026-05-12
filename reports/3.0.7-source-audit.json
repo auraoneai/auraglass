@@ -1,0 +1,4057 @@
+{
+  "objective": "Source-only 3.0.7 audit for B14 GPU/canvas readback, B15 debug text leakage, and B16 color input value safety.",
+  "summary": {
+    "generatedAt": "2026-05-12T05:34:08.103Z",
+    "scannedRoot": "src",
+    "scannedFileCount": 671,
+    "findingCount": 445,
+    "b14FindingCount": 24,
+    "b15FindingCount": 415,
+    "b16FindingCount": 6,
+    "failCount": 0,
+    "reviewRequiredCount": 6,
+    "countsByIssue": {
+      "B15": 415,
+      "B14": 24,
+      "B16": 6
+    },
+    "countsByKind": {
+      "B15:score": 166,
+      "B15:debug": 68,
+      "B15:fps": 68,
+      "B15:stats": 68,
+      "B15:FPS": 23,
+      "B14:toDataURL": 13,
+      "B15:Score": 12,
+      "B15:Debug": 8,
+      "B14:getImageData": 7,
+      "B16:color-input-site": 6,
+      "B14:preserveDrawingBuffer": 4,
+      "B15:Stats": 2
+    }
+  },
+  "strict": false,
+  "exclusions": {
+    "fileGlobs": [
+      "*.stories.*",
+      "*.test.*",
+      "*.spec.*",
+      "**/__snapshots__/**",
+      "src/docs/**",
+      "src/scripts/**"
+    ],
+    "basenames": [
+      "testSetup.ts",
+      "testSetup.tsx",
+      "testingUtils.ts",
+      "testingUtils.tsx"
+    ]
+  },
+  "findings": [
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/animations/physics/galileoPhysicsSystem.ts",
+      "line": 55,
+      "excerpt": "timeStep: 1 / 60, // 60 FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/animations/physics/galileoPhysicsSystem.ts",
+      "line": 122,
+      "excerpt": "const deltaTime = Math.min((currentTime - this.lastTime) / 1000, 1 / 30); // Cap at 30 FPS minimum",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/animations/types/animation.ts",
+      "line": 461,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/animations/types/animation.ts",
+      "line": 543,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 33,
+      "excerpt": "stats?: HeroStat[];",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 51,
+      "excerpt": "stats,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 70,
+      "excerpt": "const hasStats = Array.isArray(stats) && stats.length > 0;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 70,
+      "excerpt": "const hasStats = Array.isArray(stats) && stats.length > 0;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 146,
+      "excerpt": "<div className={styles.stats} data-testid=\"hero-stats\">",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 146,
+      "excerpt": "<div className={styles.stats} data-testid=\"hero-stats\">",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/components/HeroSection/HeroSection.tsx",
+      "line": 147,
+      "excerpt": "{stats!.map((stat) => (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/pages/AccessibilityPage.tsx",
+      "line": 53,
+      "excerpt": "stats={accessibilityStats}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/pages/ComponentsPage.tsx",
+      "line": 70,
+      "excerpt": "stats={componentStats}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/pages/PersonasPage.tsx",
+      "line": 53,
+      "excerpt": "stats={personaStats}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/client/pages/PlaygroundPage.tsx",
+      "line": 53,
+      "excerpt": "stats={playgroundStats}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 48,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 250,
+      "excerpt": "score: 95,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 256,
+      "excerpt": "score: config.enhanceKeyboardNavigation ? 100 : 75,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 264,
+      "excerpt": "score: 100,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 270,
+      "excerpt": "score: config.provideLongDescriptions ? 95 : 80,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 278,
+      "excerpt": "score: config.useColorBlindFriendlyPalette ? 100 : 85,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/accessibility/GlassA11y.tsx",
+      "line": 805,
+      "excerpt": "{result.score}%",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 60,
+      "excerpt": "score?: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 79,
+      "excerpt": "stats: UserStats;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 113,
+      "excerpt": "type AchievementDashboardTab = \"progress\" | \"achievements\" | \"stats\";",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 314,
+      "excerpt": "stats: {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 397,
+      "excerpt": "this.progress.stats.highestStreak = Math.max(",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 398,
+      "excerpt": "this.progress.stats.highestStreak,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 413,
+      "excerpt": "this.progress.stats.totalInteractions++;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 420,
+      "excerpt": "// Update specific stats",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 422,
+      "excerpt": "if (!this.progress.stats.componentsExplored.includes(context.component)) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 423,
+      "excerpt": "this.progress.stats.componentsExplored.push(context.component);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 428,
+      "excerpt": "this.progress.stats.customizationsUnlocked++;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 432,
+      "excerpt": "this.progress.stats.socialInteractions++;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 486,
+      "excerpt": "this.progress.stats.componentsExplored.length / 10",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 547,
+      "excerpt": "this.progress.stats.timeSpent = sessionTime;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1017,
+      "excerpt": "\"progress\" | \"achievements\" | \"stats\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1036,
+      "excerpt": "id: \"stats\",",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1037,
+      "excerpt": "label: \"Stats\",",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1038,
+      "excerpt": "count: progress.stats.totalInteractions,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1041,
+      "excerpt": "const stats: Array<{ label: string; value: string | number }> = [",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1044,
+      "excerpt": "value: progress.stats.totalInteractions,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1048,
+      "excerpt": "value: progress.stats.componentsExplored.length,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1053,
+      "excerpt": "value: progress.stats.sessionsCompleted,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1057,
+      "excerpt": "value: `${Math.floor(progress.stats.timeSpent / 60000)}m`,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1059,
+      "excerpt": "{ label: \"Social\", value: progress.stats.socialInteractions },",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1237,
+      "excerpt": "{activeTab === \"stats\" && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1240,
+      "excerpt": "{stats.map((stat) => (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAchievementSystem.tsx",
+      "line": 1373,
+      "excerpt": "{progress ? progress.stats.totalInteractions : \"Calibrating\"}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAutoComposer.tsx",
+      "line": 237,
+      "excerpt": "{stats.map((stat, index) => (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassAutoComposer.tsx",
+      "line": 616,
+      "excerpt": "const score = feedback[index] || 0.5; // Default neutral feedback",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassAutoComposer.tsx",
+      "line": 617,
+      "excerpt": "this.fitnessScores.set(layout.id, score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassAutoComposer.tsx",
+      "line": 897,
+      "excerpt": "placeholder=\"e.g., Create a modern dashboard with charts, stats cards, and a sidebar navigation\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassContextAware.tsx",
+      "line": 487,
+      "excerpt": "aria-label=\"Context debug information\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 512,
+      "excerpt": "const score = this.calculateAdaptationScore(metrics, adaptation.trigger);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 514,
+      "excerpt": "if (score > bestScore && score > 0.6) {",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 514,
+      "excerpt": "if (score > bestScore && score > 0.6) {",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 516,
+      "excerpt": "bestScore = score;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 517,
+      "excerpt": "bestAdaptation = { ...adaptation, confidence: score };",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 566,
+      "excerpt": "const score = similarity * weight;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassNeuroSync.tsx",
+      "line": 568,
+      "excerpt": "totalScore += score;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassOrientationEffects.tsx",
+      "line": 431,
+      "excerpt": "aria-label=\"Orientation debug information\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassParallaxLayers.tsx",
+      "line": 40,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassParallaxLayers.tsx",
+      "line": 61,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassParallaxLayers.tsx",
+      "line": 334,
+      "excerpt": "{debug && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "line": 84,
+      "excerpt": "const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "line": 85,
+      "excerpt": "const load = Math.max(0, Math.min(100, 100 - (fps / 60) * 100));",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "line": 435,
+      "excerpt": "\"glass-absolute glass-top-2 glass-left-2 glass-text-xs glass-surface-debug glass-text-on-debug glass-px-2 glass-py-1 glass-radius-sm glass-opacity-50\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/advanced/GlassPerformanceOptimization.tsx",
+      "line": 435,
+      "excerpt": "\"glass-absolute glass-top-2 glass-left-2 glass-text-xs glass-surface-debug glass-text-on-debug glass-px-2 glass-py-1 glass-radius-sm glass-opacity-50\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 239,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 240,
+      "excerpt": "}>({ frameCount: 0, lastTime: 0, fps: 60 });",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "preserveDrawingBuffer",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 282,
+      "excerpt": "preserveDrawingBuffer: false,",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 457,
+      "excerpt": "let score = 50; // Base score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 457,
+      "excerpt": "let score = 50; // Base score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 462,
+      "excerpt": "score += 30;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 465,
+      "excerpt": "score += 15;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 468,
+      "excerpt": "score -= 15;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 472,
+      "excerpt": "if (caps.gpu.webgl2Support) score += 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 473,
+      "excerpt": "if (!caps.gpu.webglSupport) score -= 20;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 478,
+      "excerpt": "score += 20;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 481,
+      "excerpt": "score += 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 484,
+      "excerpt": "score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 491,
+      "excerpt": "score += 15;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 494,
+      "excerpt": "score += 5;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 497,
+      "excerpt": "score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 502,
+      "excerpt": "if (caps.display.pixelRatio > 2) score += 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 503,
+      "excerpt": "if (caps.display.hdr) score += 5;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 509,
+      "excerpt": "score += 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 512,
+      "excerpt": "score += 5;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 515,
+      "excerpt": "score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 518,
+      "excerpt": "score -= 20;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 522,
+      "excerpt": "if (caps.network.saveData) score -= 15;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 531,
+      "excerpt": "score -= 20;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 536,
+      "excerpt": "if (caps.preferences.reducedMotion) score -= 25;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 537,
+      "excerpt": "if (caps.preferences.forcedColors) score -= 15;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 540,
+      "excerpt": "// Determine tier based on score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 541,
+      "excerpt": "if (score >= 90) return \"ultra\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 542,
+      "excerpt": "if (score >= 70) return \"premium\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 543,
+      "excerpt": "if (score >= 50) return \"standard\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 544,
+      "excerpt": "if (score >= 30) return \"basic\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 569,
+      "excerpt": "performanceMonitor.current.fps =",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 575,
+      "excerpt": "performanceMonitor.current.fps < 30 &&",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 714,
+      "excerpt": "<div>FPS: {Math.round(performanceMonitor.current.fps)}</div>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/advanced/GlassProgressiveEnhancement.tsx",
+      "line": 714,
+      "excerpt": "<div>FPS: {Math.round(performanceMonitor.current.fps)}</div>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "line": 740,
+      "excerpt": "// Calculate health score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "line": 1141,
+      "excerpt": "data-health-score={health?.healthScore}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 245,
+      "excerpt": "description: \"Complete 50 article quizzes with 100% score\",",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 385,
+      "excerpt": "// Calculate stats",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 386,
+      "excerpt": "const stats = useMemo(() => {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 680,
+      "excerpt": "{stats.unlocked}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 688,
+      "excerpt": "{stats.total}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/advanced/GlassTrophyCase.tsx",
+      "line": 696,
+      "excerpt": "{stats.totalPoints}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/components/ai/GlassDeepDreamGlass.tsx",
+      "line": 342,
+      "excerpt": "let currentImageData = ctx.getImageData(",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/ai/GlassDeepDreamGlass.tsx",
+      "line": 405,
+      "excerpt": "const dreamUrl = dreamCanvas.toDataURL();",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/ai/GlassGANGenerator.tsx",
+      "line": 384,
+      "excerpt": "return canvas.toDataURL();",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/components/ai/GlassGenerativeArt.tsx",
+      "line": 379,
+      "excerpt": "const imageData = ctx.getImageData(0, 0, 512, 512);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/ai/GlassGenerativeArt.tsx",
+      "line": 389,
+      "excerpt": "const imageUrl = canvas.toDataURL(\"image/png\");",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 330,
+      "excerpt": "let score = 100;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 333,
+      "excerpt": "if (!field.label || field.label.trim() === \"\") score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 334,
+      "excerpt": "if (field.required && !field.validation) score -= 5;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 339,
+      "excerpt": "score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 342,
+      "excerpt": "return Math.max(0, score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 681,
+      "excerpt": "Accessibility Score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+      "line": 689,
+      "excerpt": "Performance Score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 37,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 167,
+      "excerpt": "fps: 30,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 693,
+      "excerpt": "imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 698,
+      "excerpt": "const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 739,
+      "excerpt": "const processedUrl = ctx.canvas.toDataURL();",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 1133,
+      "excerpt": "FPS: {settings.fps}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 1133,
+      "excerpt": "FPS: {settings.fps}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 1139,
+      "excerpt": "value={settings.fps}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 1143,
+      "excerpt": "fps: parseInt(e.target.value),",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/ai/GlassStyleTransfer.tsx",
+      "line": 262,
+      "excerpt": "const resultUrl = canvas.toDataURL();",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/ai/ProductionAIIntegration.tsx",
+      "line": 384,
+      "excerpt": "Score: {result.score.toFixed(3)}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/ProductionAIIntegration.tsx",
+      "line": 384,
+      "excerpt": "Score: {result.score.toFixed(3)}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/ai/examples/AIDemo.tsx",
+      "line": 345,
+      "excerpt": "<span>Score: {result.score.toFixed(3)}</span>",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ai/examples/AIDemo.tsx",
+      "line": 345,
+      "excerpt": "<span>Score: {result.score.toFixed(3)}</span>",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/animations/OrganicAnimationEngine.tsx",
+      "line": 743,
+      "excerpt": "className=\"animation-debug-info glass-focus glass-touch-target glass-contrast-guard\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "preserveDrawingBuffer",
+      "filePath": "src/components/ar/ARGlassEffects.r3f.tsx",
+      "line": 516,
+      "excerpt": "preserveDrawingBuffer: false,",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/card/patterns.tsx",
+      "line": 212,
+      "excerpt": "stats?: Array<{ label: string; value: string | number }>;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/card/patterns.tsx",
+      "line": 222,
+      "excerpt": "stats,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/card/patterns.tsx",
+      "line": 252,
+      "excerpt": "{stats && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/card/patterns.tsx",
+      "line": 254,
+      "excerpt": "{stats.map((stat, index) => (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/charts/GlassDataChart.tsx",
+      "line": 1724,
+      "excerpt": "const dataUrl = exportCanvas.toDataURL(format, quality);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/charts/ModularGlassDataChart.tsx",
+      "line": 786,
+      "excerpt": "const dataUrl = tempCanvas.toDataURL(",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/charts/hooks/useQualityTier.ts",
+      "line": 97,
+      "excerpt": "// Calculate complexity score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/charts/types/ChartTypes.ts",
+      "line": 186,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/dashboard/GlassStatCard.tsx",
+      "line": 485,
+      "excerpt": "stats: Array<Omit<GlassStatCardProps, \"size\">>;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/dashboard/GlassStatCard.tsx",
+      "line": 492,
+      "excerpt": "stats,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/dashboard/GlassStatCard.tsx",
+      "line": 512,
+      "excerpt": "{stats.map((stat, index) => (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 137,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 405,
+      "excerpt": "score: 0.8 + Math.random() * 0.2,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 421,
+      "excerpt": "score: 0.7 + Math.random() * 0.2,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 444,
+      "excerpt": "score: 0.6 + Math.random() * 0.3,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 451,
+      "excerpt": "return recommendations.sort((a, b) => b.score - a.score).slice(0, 8);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+      "line": 451,
+      "excerpt": "return recommendations.sort((a, b) => b.score - a.score).slice(0, 8);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassProductRecommendations.tsx",
+      "line": 54,
+      "excerpt": "const { product, score, reason, explanation, confidence } = recommendation;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/ecommerce/GlassProductRecommendations.tsx",
+      "line": 467,
+      "excerpt": "score: Math.max(0.65, 0.96 - index * 0.08),",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/houdini/HoudiniGlassProvider.tsx",
+      "line": 311,
+      "excerpt": "aria-label=\"Houdini Glass Debug Information\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/houdini/HoudiniGlassProvider.tsx",
+      "line": 315,
+      "excerpt": "<strong>Houdini Glass Debug</strong>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/houdini/HoudiniGlassProvider.tsx",
+      "line": 552,
+      "excerpt": ".houdini-glass-debug {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/image/GlassImageProcessingProvider.tsx",
+      "line": 1234,
+      "excerpt": "complexity: Math.random() * 100, // Mock complexity score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Stats",
+      "filePath": "src/components/image/GlassIntelligentImageUploader.tsx",
+      "line": 585,
+      "excerpt": "📊 Stats",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/Glass360Viewer.tsx",
+      "line": 90,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/Glass360Viewer.tsx",
+      "line": 131,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/Glass360Viewer.tsx",
+      "line": 796,
+      "excerpt": "{debug && !isLoading && !hasError && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 93,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 158,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 326,
+      "excerpt": "// Render debug info",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 327,
+      "excerpt": "if (debug) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 337,
+      "excerpt": "debug,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassARPreview.tsx",
+      "line": 456,
+      "excerpt": "// Render debug information",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 77,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 120,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 145,
+      "excerpt": "const [fps, setFps] = useState(60);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 491,
+      "excerpt": "// Draw debug info",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 492,
+      "excerpt": "if (debug) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 496,
+      "excerpt": "ctx.fillText(`FPS: ${fps}`, 10, 20);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 496,
+      "excerpt": "ctx.fillText(`FPS: ${fps}`, 10, 20);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 519,
+      "excerpt": "debug,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 520,
+      "excerpt": "fps,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 772,
+      "excerpt": "checked={debug}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/immersive/GlassFluidSimulation.tsx",
+      "line": 776,
+      "excerpt": "Debug",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassHologram.tsx",
+      "line": 105,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassHologram.tsx",
+      "line": 134,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassHologram.tsx",
+      "line": 757,
+      "excerpt": "{debug && !loading && !error && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 111,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 179,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 633,
+      "excerpt": "// Render debug info",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 634,
+      "excerpt": "if (debug) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 639,
+      "excerpt": "ctx.fillText(`FPS: ${frameRate}`, 10, 40);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 657,
+      "excerpt": "debug,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 748,
+      "excerpt": "{debug && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/immersive/GlassParticleField.tsx",
+      "line": 750,
+      "excerpt": "FPS: {frameRate}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 104,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 174,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 606,
+      "excerpt": "// Debug info",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 607,
+      "excerpt": "if (debug) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 632,
+      "excerpt": "debug,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 830,
+      "excerpt": "checked={debug}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/immersive/GlassVortexPortal.tsx",
+      "line": 834,
+      "excerpt": "Debug",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/ContextAwareGlass.tsx",
+      "line": 102,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/ContextAwareGlass.tsx",
+      "line": 166,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/ContextAwareGlass.tsx",
+      "line": 595,
+      "excerpt": "{debug && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 22,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 279,
+      "excerpt": "// Calculate score (0-100)",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 290,
+      "excerpt": "const score = Math.max(0, 100 - totalWeight);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 293,
+      "excerpt": "score,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 344,
+      "excerpt": "// Get score color",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 345,
+      "excerpt": "const getScoreColor = (score: number) => {",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 346,
+      "excerpt": "if (score >= 90) return \"text-green-400\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 347,
+      "excerpt": "if (score >= 70) return \"text-yellow-400\";",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 424,
+      "excerpt": "className={`glass-text-2xl font-bold ${getScoreColor(auditResult.score)}`}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 426,
+      "excerpt": "{auditResult.score}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 429,
+      "excerpt": "Score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 661,
+      "excerpt": "const score = Math.max(0, 100 - issues.length * 10);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassA11yAuditor.tsx",
+      "line": 664,
+      "excerpt": "score,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/interactive/GlassDrawingCanvas.tsx",
+      "line": 445,
+      "excerpt": "const dataUrl = canvas.toDataURL(`image/${format}`);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassFacetSearch.tsx",
+      "line": 62,
+      "excerpt": "score?: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassFacetSearch.tsx",
+      "line": 491,
+      "excerpt": "{result.score && (",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/GlassFacetSearch.tsx",
+      "line": 493,
+      "excerpt": "{Math.round(result.score * 100)}%",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 83,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 121,
+      "excerpt": "debug = false,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 681,
+      "excerpt": "// Debug info",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 682,
+      "excerpt": "if (debug) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 710,
+      "excerpt": "debug,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 827,
+      "excerpt": "checked={debug}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/components/interactive/GlassGestureZone.tsx",
+      "line": 831,
+      "excerpt": "Debug",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 51,
+      "excerpt": "stats?: {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 84,
+      "excerpt": "stats,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 301,
+      "excerpt": "{showStats && stats && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 303,
+      "excerpt": "{stats.views && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 306,
+      "excerpt": "<span>{stats.views}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 310,
+      "excerpt": "{stats.likes && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 313,
+      "excerpt": "<span>{stats.likes}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 317,
+      "excerpt": "{stats.downloads && (",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/interactive/GlassLazyImage.tsx",
+      "line": 320,
+      "excerpt": "<span>{stats.downloads}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/interactive/GlassPatternBuilder.tsx",
+      "line": 491,
+      "excerpt": "const pngData = canvas.toDataURL(\"image/png\");",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/interactive/GlassSignaturePad.tsx",
+      "line": 287,
+      "excerpt": "const dataUrl = canvas.toDataURL(",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/interactive/GlassSignaturePad.tsx",
+      "line": 332,
+      "excerpt": "const dataUrl = canvas.toDataURL(`image/${exportFormat}`, exportQuality);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/components/interactive/GlassWhiteboard.tsx",
+      "line": 645,
+      "excerpt": "link.href = canvas.toDataURL();",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/interactive/types.ts",
+      "line": 214,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/layout/OptimizedGlassContainer.tsx",
+      "line": 67,
+      "excerpt": "const fps =",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/layout/OptimizedGlassContainer.tsx",
+      "line": 69,
+      "excerpt": "setCurrentFps(fps);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/components/layout/OptimizedGlassContainer.tsx",
+      "line": 70,
+      "excerpt": "setPerformanceScore(fps / targetFps);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/components/layout/OptimizedGlassContainer.tsx",
+      "line": 244,
+      "excerpt": "FPS:{\" \"}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/layout/OptimizedGlassContainer.tsx",
+      "line": 254,
+      "excerpt": "Score:{\" \"}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 20,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 278,
+      "excerpt": "let score = 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 297,
+      "excerpt": "score = titleMatch * 3 + descriptionMatch + tagMatch;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 303,
+      "excerpt": "score += item.metadata.rating * 0.5;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 312,
+      "excerpt": "score += 1;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 322,
+      "excerpt": "score += keywordMatches * 0.3;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 362,
+      "excerpt": "score = 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 367,
+      "excerpt": "if (score > 0) {",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 382,
+      "excerpt": "score,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 386,
+      "excerpt": ".filter((item) => item.score > 0)",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 387,
+      "excerpt": ".sort((a, b) => b.score - a.score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 387,
+      "excerpt": ".sort((a, b) => b.score - a.score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 1247,
+      "excerpt": "Score: {result.score.toFixed(1)}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/components/search/GlassIntelligentSearch.tsx",
+      "line": 1247,
+      "excerpt": "Score: {result.score.toFixed(1)}",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/social/GlassReactionBubbles.tsx",
+      "line": 505,
+      "excerpt": "const stats = {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/social/GlassReactionBubbles.tsx",
+      "line": 517,
+      "excerpt": "const mostUsed = Object.entries(stats.mostUsedEmoji).sort(",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/social/GlassReactionBubbles.tsx",
+      "line": 642,
+      "excerpt": "<span>{stats.totalReactions}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/components/social/GlassReactionBubbles.tsx",
+      "line": 650,
+      "excerpt": "<span>{stats.recentReactions}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/spatial/SpatialComputingEngine.tsx",
+      "line": 588,
+      "excerpt": "className=\"spatial-bounds-debug\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/components/spatial/SpatialComputingEngine.tsx",
+      "line": 659,
+      "excerpt": "className=\"spatial-debug-info\"",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/core/productionCore.ts",
+      "line": 252,
+      "excerpt": "// Monitor FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/core/productionCore.ts",
+      "line": 266,
+      "excerpt": "let fps = 60;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/core/productionCore.ts",
+      "line": 272,
+      "excerpt": "fps = Math.round((frameCount * 1000) / (currentTime - lastTime));",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/core/productionCore.ts",
+      "line": 276,
+      "excerpt": "// Optimize if FPS is too low",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/core/productionCore.ts",
+      "line": 278,
+      "excerpt": "fps < this.config.performance.targetFPS * 0.8 &&",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/core/productionCore.ts",
+      "line": 427,
+      "excerpt": "\"--aura-target-fps\",",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 624,
+      "excerpt": "// Enable debug mode",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 629,
+      "excerpt": "doc.documentElement.classList.add(\"aura-glass-debug\");",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 632,
+      "excerpt": "debugStyle.id = \"aura-glass-debug-styles\";",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 634,
+      "excerpt": ".aura-glass-debug .glass-surface {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 637,
+      "excerpt": ".aura-glass-debug .glass-surface::before {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 653,
+      "excerpt": "// Disable debug mode",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 657,
+      "excerpt": "doc.documentElement.classList.remove(\"aura-glass-debug\");",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/core/productionCore.ts",
+      "line": 658,
+      "excerpt": "const debugStyle = doc.getElementById(\"aura-glass-debug-styles\");",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/extended/useGalileoSprings.ts",
+      "line": 459,
+      "excerpt": "const interval = setInterval(updateOrbits, 1000 / 60); // 60 FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 35,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 63,
+      "excerpt": "fps: 0,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 94,
+      "excerpt": "// FPS monitoring",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 106,
+      "excerpt": "const fps = Math.round((frameCountRef.current * 1000) / deltaTime);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 111,
+      "excerpt": "fps,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 120,
+      "excerpt": "adjustQuality(fps);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 128,
+      "excerpt": "(fps: number) => {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 134,
+      "excerpt": "if (fps < threshold) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 137,
+      "excerpt": "} else if (fps > targetFPS * 0.9) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 182,
+      "excerpt": "isThrottled: prev.fps < finalOptions.qualityThreshold,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 208,
+      "excerpt": "const currentFPS = metrics.fps;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 219,
+      "excerpt": "}, [metrics.fps, metrics.memoryUsage, finalOptions.memoryLimit]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 226,
+      "excerpt": "isLowPerformance: metrics.fps < finalOptions.qualityThreshold,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 227,
+      "excerpt": "isHighPerformance: metrics.fps > finalOptions.targetFPS * 0.9,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 279,
+      "excerpt": "const fps = performance.metrics.fps;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 279,
+      "excerpt": "const fps = performance.metrics.fps;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 281,
+      "excerpt": "if (fps < thresholds.low) return \"low\";",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 282,
+      "excerpt": "if (fps < thresholds.medium) return \"medium\";",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 283,
+      "excerpt": "if (fps < thresholds.high) return \"high\";",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 285,
+      "excerpt": "}, [performance.metrics.fps, thresholds]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 326,
+      "excerpt": "if (performance.metrics.fps >= minFPS) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 333,
+      "excerpt": "}, [performance.metrics.fps, minFPS, loadDelay]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 356,
+      "excerpt": "(feature) => performance.metrics.fps >= feature.minFPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 358,
+      "excerpt": "}, [features, performance.metrics.fps]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 380,
+      "excerpt": "performance.metrics.fps >= 50",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/extended/useGlassPerformance.ts",
+      "line": 382,
+      "excerpt": ": performance.metrics.fps >= 30",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/extended/useSortableData.ts",
+      "line": 425,
+      "excerpt": "let score = 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/extended/useSortableData.ts",
+      "line": 434,
+      "excerpt": "score += (aValue - bValue) * criterion.weight * multiplier;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/extended/useSortableData.ts",
+      "line": 436,
+      "excerpt": "score += aValue.localeCompare(bValue) * criterion.weight * multiplier;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/extended/useSortableData.ts",
+      "line": 440,
+      "excerpt": "return score;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 13,
+      "excerpt": "fps: number; // Frames per second",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 39,
+      "excerpt": "fps: 60,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 65,
+      "excerpt": "// FPS monitoring",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 71,
+      "excerpt": "const fps = Math.round((frameCount.current * 1000) / (now - lastFrameTime.current));",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 72,
+      "excerpt": "setMetrics((prev: any) => ({ ...prev, fps }));",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 77,
+      "excerpt": "// Alert on low FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 78,
+      "excerpt": "if (fps < 30) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 79,
+      "excerpt": "setAlerts((prev: any) => [...prev, `Low FPS detected: ${fps}`]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 79,
+      "excerpt": "setAlerts((prev: any) => [...prev, `Low FPS detected: ${fps}`]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 205,
+      "excerpt": "if (metrics.fps < 30) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 232,
+      "excerpt": "// Performance score calculation",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 234,
+      "excerpt": "let score = 100;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 236,
+      "excerpt": "// FPS penalty",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 237,
+      "excerpt": "if (metrics.fps < 60) score -= (60 - metrics.fps) * 0.5;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 237,
+      "excerpt": "if (metrics.fps < 60) score -= (60 - metrics.fps) * 0.5;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 237,
+      "excerpt": "if (metrics.fps < 60) score -= (60 - metrics.fps) * 0.5;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 240,
+      "excerpt": "if (metrics.memoryUsage > 50) score -= (metrics.memoryUsage - 50) * 0.2;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 243,
+      "excerpt": "if (metrics.domElements > 1000) score -= (metrics.domElements - 1000) * 0.01;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 246,
+      "excerpt": "if (metrics.cls > 0.1) score -= metrics.cls * 100;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 247,
+      "excerpt": "if (metrics.lcp > 2500) score -= (metrics.lcp - 2500) * 0.01;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 249,
+      "excerpt": "return Math.max(0, Math.round(score));",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 279,
+      "excerpt": "const score = getPerformanceScore();",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 280,
+      "excerpt": "if (score >= 90) return 'A';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 281,
+      "excerpt": "if (score >= 80) return 'B';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 282,
+      "excerpt": "if (score >= 70) return 'C';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 283,
+      "excerpt": "if (score >= 60) return 'D';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 308,
+      "excerpt": "const score = getPerformanceScore();",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 310,
+      "excerpt": "if (score >= 80) return 'high';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 311,
+      "excerpt": "if (score >= 60) return 'medium';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 317,
+      "excerpt": "return metrics.fps < 30 || window.matchMedia('(prefers-reduced-motion: reduce)').matches;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/hooks/usePerformance.ts",
+      "line": 318,
+      "excerpt": "}, [metrics.fps]);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/lib/ai-client.ts",
+      "line": 39,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/lib/ai-client.ts",
+      "line": 59,
+      "excerpt": "labels?: Array<{ description: string; score: number }>;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/lib/ai-client.ts",
+      "line": 67,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/physics/AuraPhysicsEngine.ts",
+      "line": 216,
+      "excerpt": "const dt = Math.min(deltaTime, 0.016); // Max 60 FPS equivalent",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/primitives/LiquidGlassMaterial.tsx",
+      "line": 560,
+      "excerpt": "<div className=\"liquid-glass-debug glass-absolute glass-top-0 glass-right-0 glass-text-xs glass-opacity-50 glass-pointer-events-none glass-surface-dark glass-text-primary glass-p-1 glass-radius\">",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/openai-service.ts",
+      "line": 124,
+      "excerpt": "- confidence: 0-1 confidence score`,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 12,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 184,
+      "excerpt": "score: match.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 184,
+      "excerpt": "score: match.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 235,
+      "excerpt": "const score = result.score * semanticWeight;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 235,
+      "excerpt": "const score = result.score * semanticWeight;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 236,
+      "excerpt": "scoreMap.set(result.id, score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 242,
+      "excerpt": "const newScore = existingScore + result.score * keywordWeight;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 252,
+      "excerpt": "score: scoreMap.get(result.id) || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 254,
+      "excerpt": ".sort((a, b) => b.score - a.score)",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 254,
+      "excerpt": ".sort((a, b) => b.score - a.score)",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 297,
+      "excerpt": "score: keywordScore,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 312,
+      "excerpt": "let score = 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 317,
+      "excerpt": "score += occurrences * (1 / keywords.length);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 320,
+      "excerpt": "return Math.min(score / 10, 1);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/semantic-search-service.ts",
+      "line": 364,
+      "excerpt": "score: 0.5,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 51,
+      "excerpt": "labels: Array<{ description: string; score: number }>;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 59,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 173,
+      "excerpt": "confidence: obj.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 277,
+      "excerpt": "score: label.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 277,
+      "excerpt": "score: label.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 292,
+      "excerpt": "score: color.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 292,
+      "excerpt": "score: color.score || 0,",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/services/ai/vision-service.ts",
+      "line": 490,
+      "excerpt": "labels: [{ description: \"image\", score: 0.5 }],",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/theme/ThemeProvider.tsx",
+      "line": 321,
+      "excerpt": "debug?: boolean;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/tokens/designConstants.ts",
+      "line": 240,
+      "excerpt": "fps: {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/tools/GlassDevTools.tsx",
+      "line": 122,
+      "excerpt": "Performance Score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/tools/GlassDevTools.tsx",
+      "line": 156,
+      "excerpt": "FPS:{\" \"}",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/tools/GlassDevTools.tsx",
+      "line": 157,
+      "excerpt": "<span className=\"glass-font-mono\">{performance.metrics.fps}</span>",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/types/consciousness.ts",
+      "line": 224,
+      "excerpt": "updateRate?: number; // FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/types/consciousness.ts",
+      "line": 240,
+      "excerpt": "updateRate?: number; // FPS",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/types/productionTypes.ts",
+      "line": 431,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/aiPersonalization.ts",
+      "line": 21,
+      "excerpt": "confidence: number; // 0-1 confidence score",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B14",
+      "kind": "preserveDrawingBuffer",
+      "filePath": "src/utils/browserCompatibility.ts",
+      "line": 56,
+      "excerpt": "preserveDrawingBuffer: false,",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "toDataURL",
+      "filePath": "src/utils/compatibility.ts",
+      "line": 243,
+      "excerpt": "const isSupported = canvas.toDataURL('image/webp').indexOf('image/webp') === 0;",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/utils/contrastGuard.ts",
+      "line": 300,
+      "excerpt": "const imageData = ctx.getImageData(",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "preserveDrawingBuffer",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 138,
+      "excerpt": "preserveDrawingBuffer: false,",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 393,
+      "excerpt": "const score = (memory * 0.4) + (cores * 0.4) + (network === 'fast' ? 2 : 1) * 0.2;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 395,
+      "excerpt": "if (score >= 6) return 'ultra';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 396,
+      "excerpt": "if (score >= 4) return 'high';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 397,
+      "excerpt": "if (score >= 2.5) return 'medium';",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 593,
+      "excerpt": "// Reduce quality if FPS is too low",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/utils/deviceCapabilities.ts",
+      "line": 596,
+      "excerpt": "// Increase quality if FPS is good",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 371,
+      "excerpt": "// Score each emotion",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 376,
+      "excerpt": "let score = 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 379,
+      "excerpt": "// Score biometric match",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 384,
+      "excerpt": "score += similarity;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 389,
+      "excerpt": "// Score behavioral match",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 394,
+      "excerpt": "score += similarity;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 399,
+      "excerpt": "emotionScores[emotionType] = factors > 0 ? score / factors : 0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 410,
+      "excerpt": "// Calculate confidence based on score separation",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "Score",
+      "filePath": "src/utils/emotionalIntelligence.ts",
+      "line": 414,
+      "excerpt": "return null; // Score too low for reliable detection",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 380,
+      "excerpt": "let score = 1.0;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 383,
+      "excerpt": "if (contrastRatio < 4.5) score -= 0.3; // WCAG AA failure",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 384,
+      "excerpt": "if (contrastRatio < 3.0) score -= 0.3; // Severe contrast issue",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 387,
+      "excerpt": "if (!this.checkMinimumVisibility(computedStyle)) score -= 0.2;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 390,
+      "excerpt": "score -= 0.1; // Missing accessibility info",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/glassStyleProbes.ts",
+      "line": 393,
+      "excerpt": "return Math.max(0, score);",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/utils/performance.ts",
+      "line": 228,
+      "excerpt": "const stats: Record<string, any> = {};",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/utils/performance.ts",
+      "line": 237,
+      "excerpt": "stats[operation] = {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/utils/performance.ts",
+      "line": 248,
+      "excerpt": "return stats;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/utils/performance.ts",
+      "line": 287,
+      "excerpt": "Object.entries(consciousnessStats).forEach(([operation, stats]) => {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "stats",
+      "filePath": "src/utils/performance.ts",
+      "line": 289,
+      "excerpt": "if (budget && stats.p95 > budget) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 10,
+      "excerpt": "fps: number;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 63,
+      "excerpt": "fps: 0,",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 115,
+      "excerpt": "this.metrics.fps = Math.round((this.frameCount * 1000) / deltaTime);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 175,
+      "excerpt": "this.metrics.fps >= this.config.targetFPS * 0.8 &&",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 183,
+      "excerpt": "if (this.metrics.fps < this.config.targetFPS * 0.8) {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "FPS",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 196,
+      "excerpt": "// 60 FPS threshold",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "fps",
+      "filePath": "src/utils/performanceOptimizations.ts",
+      "line": 466,
+      "excerpt": "const fpsRatio = metrics.fps / targetFPS;",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 40,
+      "excerpt": "debug: (message: string, ...args: unknown[]) => {",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 42,
+      "excerpt": "globalThis.console?.debug(`[AuraGlass Debug]: ${message}`, ...args);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "Debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 42,
+      "excerpt": "globalThis.console?.debug(`[AuraGlass Debug]: ${message}`, ...args);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 61,
+      "excerpt": "logger.debug(`Performance: ${name} took ${duration}ms`);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 79,
+      "excerpt": "logger.debug(`Performance: ${name} took ${duration}ms`);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 416,
+      "excerpt": "logger.debug(`Analytics: ${event}`, properties);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 433,
+      "excerpt": "logger.debug(`Page: ${page}`, properties);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 450,
+      "excerpt": "logger.debug(`Identify: ${userId}`, traits);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 516,
+      "excerpt": "logger.debug(`Import: ${componentName} loaded`);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 554,
+      "excerpt": "score: number;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 558,
+      "excerpt": "let score = 100;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 562,
+      "excerpt": "score -= 20;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 567,
+      "excerpt": "score -= 10;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 578,
+      "excerpt": "score -= 30;",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 584,
+      "excerpt": "return { score, recommendations };",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 610,
+      "excerpt": "if (performanceCheck.score < 70) {",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B15",
+      "kind": "debug",
+      "filePath": "src/utils/productionUtils.ts",
+      "line": 625,
+      "excerpt": "logger.debug(`Render: ${componentName}`, props);",
+      "severity": "evidence",
+      "note": "Likely debug/stats API or implementation signal; verify default render gates it."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/utils/smartColorExtraction.ts",
+      "line": 104,
+      "excerpt": "const imageData = this.ctx.getImageData(0, 0, width, height);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B14",
+      "kind": "getImageData",
+      "filePath": "src/utils/smartColorExtraction.ts",
+      "line": 137,
+      "excerpt": "const imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);",
+      "severity": "evidence",
+      "note": "Review whether this readback is event-driven, export-only, debug-only, or default-render reachable."
+    },
+    {
+      "issue": "B15",
+      "kind": "score",
+      "filePath": "src/workers/predictiveWorker.ts",
+      "line": 76,
+      "excerpt": "// Calculate engagement score based on interaction density",
+      "severity": "evidence",
+      "note": "Review for default-visible debug copy."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/ai/GlassLiveFilter.tsx",
+      "line": 971,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/cms/GlassPropertyPanel.tsx",
+      "line": 87,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/interactive/GlassColorSchemeGenerator.tsx",
+      "line": 343,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/interactive/GlassDrawingCanvas.tsx",
+      "line": 528,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/interactive/GlassGradientPicker.tsx",
+      "line": 459,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    },
+    {
+      "issue": "B16",
+      "kind": "color-input-site",
+      "filePath": "src/components/interactive/GlassThemeSwitcher.tsx",
+      "line": 383,
+      "excerpt": "type=\"color\"",
+      "severity": "review-required",
+      "note": "Verify the value expression normalizes to #rrggbb before reaching input[type=color]."
+    }
+  ]
+}

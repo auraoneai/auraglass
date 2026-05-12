@@ -197,13 +197,15 @@ export const GlassFormTemplate = forwardRef<
       ? steps[currentStep]
       : null;
     const currentSchema = isMultiStep ? currentStepData?.sections : schema;
-    const compactSchema = compact
+    const isCompactMode = compact || contained;
+    const compactSchema = isCompactMode
       ? (currentSchema || []).slice(0, 1).map((section) => ({
           ...section,
-          fields: section.fields?.slice(0, 3) ?? [],
+          description: undefined,
+          fields: section.fields?.slice(0, 2) ?? [],
         }))
       : currentSchema;
-    const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
+    const boundedHeight = maxHeight ?? (isCompactMode ? 220 : undefined);
 
     // Handle value change
     const handleValueChange = (newValues: GlassFormTemplateValues) => {
@@ -374,7 +376,7 @@ export const GlassFormTemplate = forwardRef<
 
     // Render form content
     const renderFormContent = () => (
-      <VStack space="lg">
+      <VStack space={isCompactMode ? "sm" : "lg"}>
         {/* Step indicator */}
         {!compact && renderStepIndicator()}
 
@@ -401,11 +403,16 @@ export const GlassFormTemplate = forwardRef<
             onChange={handleValueChange}
             onSubmit={handleSubmit}
             onValidate={onValidate}
+            variant={isCompactMode ? "compact" : "default"}
+            size={isCompactMode ? "sm" : "md"}
             validateOnChange={true}
             autoSave={autoSave}
             showProgress={false}
             submitText=""
             showCancel={false}
+            className={
+              isCompactMode ? "glass-form-template-compact-builder" : undefined
+            }
           />
         </div>
 
@@ -422,7 +429,7 @@ export const GlassFormTemplate = forwardRef<
             <div className="glass-max-w-2xl glass-mx-auto">
               <GlassCard
                 variant="default"
-                className={compact ? "glass-p-4" : "glass-p-8"}
+                className={isCompactMode ? "glass-p-3" : "glass-p-8"}
               >
                 {renderFormContent()}
               </GlassCard>
@@ -435,7 +442,7 @@ export const GlassFormTemplate = forwardRef<
               <div className="glass-col-span-8">
                 <GlassCard
                   variant="default"
-                  className={compact ? "glass-p-4" : "glass-p-6"}
+                  className={isCompactMode ? "glass-p-3" : "glass-p-6"}
                 >
                   {renderFormContent()}
                 </GlassCard>
@@ -448,7 +455,7 @@ export const GlassFormTemplate = forwardRef<
           return (
             <GlassCard
               variant="default"
-              className={compact ? "glass-p-4" : "glass-p-6"}
+              className={isCompactMode ? "glass-p-3" : "glass-p-6"}
             >
               {renderFormContent()}
             </GlassCard>
@@ -461,10 +468,10 @@ export const GlassFormTemplate = forwardRef<
         ref={ref}
         className={cn(
           "w-full",
-          compact
+          isCompactMode
             ? "glass-auto-gap glass-auto-gap-md"
             : "glass-auto-gap glass-auto-gap-3xl",
-          (compact || contained) && "glass-overflow-auto",
+          isCompactMode && "glass-overflow-hidden",
           className
         )}
         style={{
@@ -474,6 +481,7 @@ export const GlassFormTemplate = forwardRef<
                   typeof boundedHeight === "number"
                     ? `${boundedHeight}px`
                     : boundedHeight,
+                overflow: "hidden",
               }
             : null),
           ...(props.style as React.CSSProperties | undefined),

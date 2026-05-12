@@ -19,12 +19,14 @@ exports[`GlassMobileNav matches snapshot 1`] = `
       style="display: flex; flex-direction: row; gap: var(--glass-space-2, 0.5rem); align-items: center; justify-content: flex-start; flex-wrap: nowrap; min-width: 0;"
     />
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
         aria-label="Close navigation"
-        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 glass-focus glass-touch-target"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 glass-focus glass-touch-target"
+        data-button-size="sm"
+        data-button-variant="ghost"
       >
         ×
       </button>

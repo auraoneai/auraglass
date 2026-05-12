@@ -84,6 +84,10 @@ export interface GlassCalendarProps {
   contained?: boolean;
   /** Maximum rendered height when contained or compact. */
   maxHeight?: number | string;
+  /** Maximum number of week rows to render. Useful for compact previews. */
+  maxRows?: number;
+  /** Alias for maxRows, optimized for documentation/catalog previews. */
+  weeksToShow?: number;
   /**
    * Loading state
    */
@@ -110,6 +114,8 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   compact = false,
   contained = false,
   maxHeight,
+  maxRows,
+  weeksToShow,
   loading = false,
   ...props
 }) => {
@@ -121,6 +127,8 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
   const effectiveShowEvents = compact ? false : showEvents;
   const resolvedMaxHeight =
     typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const compactWeekLimit =
+    maxRows ?? weeksToShow ?? (compact || contained ? 3 : undefined);
 
   useEffect(() => {
     if (selectedDate) {
@@ -207,6 +215,38 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
       weeks,
     };
   }, [currentDate, locale]);
+
+  const visibleWeeks = useMemo(() => {
+    if (!compactWeekLimit || compactWeekLimit >= monthData.weeks.length) {
+      return monthData.weeks;
+    }
+
+    const clampedLimit = Math.max(1, Math.min(6, compactWeekLimit));
+    const selectedWeekIndex =
+      selectedDateState === null
+        ? -1
+        : monthData.weeks.findIndex((week) =>
+            week.some(
+              (date) =>
+                date.toDateString() === selectedDateState?.toDateString()
+            )
+          );
+    const today = new Date();
+    const todayIndex = monthData.weeks.findIndex((week) =>
+      week.some((date) => date.toDateString() === today.toDateString())
+    );
+    const anchorIndex =
+      selectedWeekIndex >= 0
+        ? selectedWeekIndex
+        : todayIndex >= 0
+          ? todayIndex
+          : 0;
+    const start = Math.max(
+      0,
+      Math.min(anchorIndex, monthData.weeks.length - clampedLimit)
+    );
+    return monthData.weeks.slice(start, start + clampedLimit);
+  }, [compactWeekLimit, monthData.weeks, selectedDateState]);
 
   // Navigate to previous/next month
   const navigateMonth = (direction: "prev" | "next") => {
@@ -312,7 +352,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
         className={cn("overflow-hidden", className)}
         style={{
           maxHeight:
-            resolvedMaxHeight ?? (compact || contained ? "260px" : undefined),
+            resolvedMaxHeight ?? (compact || contained ? "220px" : undefined),
           overflow:
             compact || contained || resolvedMaxHeight ? "auto" : undefined,
         }}
@@ -444,7 +484,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
               gridTemplateColumns: `repeat(${showWeekends ? 7 : 5}, minmax(0, 1fr))`,
             }}
           >
-            {monthData.weeks.flat().map((date, index) => {
+            {visibleWeeks.flat().map((date, index) => {
               const dateKey = date.toDateString();
               const dayEvents = eventsByDate.get(dateKey) || [];
               const hasEvents = dayEvents.length > 0;

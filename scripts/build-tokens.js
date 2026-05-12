@@ -70,7 +70,7 @@ const loadPersonas = () => {
 
 const buildGlobalCssVars = (personaPayload) => {
   const vars = [];
-  const { colors, typography, spacing, motion } = personaPayload;
+  const { colors, typography, spacing, motion, marketing } = personaPayload;
 
   Object.entries(colors.semantic).forEach(([key, value]) => {
     vars.push(`${asCssVar("color", "semantic", key)}: ${value};`);
@@ -121,6 +121,25 @@ const buildGlobalCssVars = (personaPayload) => {
   Object.entries(motion.stagger).forEach(([key, value]) => {
     vars.push(`${asCssVar("motion", "stagger", key)}: ${value};`);
   });
+
+  const pushNestedVars = (prefix, value) => {
+    if (value === null || value === undefined) return;
+
+    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+      vars.push(`${asCssVar(...prefix)}: ${value};`);
+      return;
+    }
+
+    if (Array.isArray(value)) return;
+
+    Object.entries(value).forEach(([key, nested]) => {
+      pushNestedVars([...prefix, key], nested);
+    });
+  };
+
+  if (marketing) {
+    pushNestedVars(["marketing"], marketing);
+  }
 
   return vars;
 };
@@ -356,6 +375,7 @@ const buildGeneratedTs = (manifest, personas) => {
   lines.push("  spacing: Record<string, any>;");
   lines.push("  motion: Record<string, any>;");
   lines.push("  glass: Record<string, any>;");
+  lines.push("  marketing?: Record<string, any>;");
   lines.push("}");
   lines.push("");
   lines.push("export interface AuraTokensManifest {");

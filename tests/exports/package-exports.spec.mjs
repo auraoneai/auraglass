@@ -6,7 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const resolve = (file) => path.join(__dirname, "..", "..", "dist", file);
-const resolveEsm = (file) => path.join(__dirname, "..", "..", "dist", "esm", file);
+const resolveEsm = (file) =>
+  path.join(__dirname, "..", "..", "dist", "esm", file);
 
 const exportsMap = [
   {
@@ -15,6 +16,23 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(mod.ThemeProvider, "ThemeProvider export should exist");
       assert.ok(mod.PersonaPicker, "PersonaPicker export should exist");
+      assert.ok(mod.AuroraBackground, "AuroraBackground export should exist");
+      assert.ok(mod.AuroraOrb, "AuroraOrb export should exist");
+      assert.ok(mod.DisplayText, "DisplayText export should exist");
+      assert.ok(mod.LogoMark, "LogoMark export should exist");
+      assert.ok(mod.ShowcaseCard, "ShowcaseCard export should exist");
+      assert.ok(mod.FeatureTile, "FeatureTile export should exist");
+      assert.ok(mod.InstallCommand, "InstallCommand export should exist");
+      assert.equal(
+        mod.AuraElementInteractionPlugin?.id,
+        "auraElementInteraction",
+        "AuraElementInteractionPlugin export should use the Aura plugin id"
+      );
+      assert.equal(
+        mod.GalileoElementInteractionPlugin?.id,
+        "galileoElementInteraction",
+        "GalileoElementInteractionPlugin export should keep the legacy plugin id"
+      );
     },
   },
   {
@@ -24,7 +42,7 @@ const exportsMap = [
       assert.ok(Array.isArray(mod.personas), "personas array should exist");
       assert.ok(
         (mod.personas || []).length > 0,
-        "personas array should not be empty",
+        "personas array should not be empty"
       );
     },
   },
@@ -33,9 +51,8 @@ const exportsMap = [
     import: "tokens/tailwind.theme.mjs",
     verify: (mod) => {
       assert.ok(
-        mod.default?.extend?.colors?.primary ||
-          mod.extend?.colors?.primary,
-        "tailwind theme should expose extend.colors.primary",
+        mod.default?.extend?.colors?.primary || mod.extend?.colors?.primary,
+        "tailwind theme should expose extend.colors.primary"
       );
     },
   },
@@ -46,7 +63,7 @@ const exportsMap = [
       const manifest = mod.default ?? mod;
       assert.ok(
         Array.isArray(manifest.personas) && manifest.personas.length > 0,
-        "manifest.personas should be a non-empty array",
+        "manifest.personas should be a non-empty array"
       );
     },
   },
@@ -54,7 +71,10 @@ const exportsMap = [
     name: "./registry",
     import: "registry/index.mjs",
     verify: (mod) => {
-      assert.ok(mod.StyledComponentsRegistry, "StyledComponentsRegistry export should exist");
+      assert.ok(
+        mod.StyledComponentsRegistry,
+        "StyledComponentsRegistry export should exist"
+      );
     },
   },
   {
@@ -63,7 +83,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.ThemeProvider,
-        "ThemeProvider export should exist on client entry",
+        "ThemeProvider export should exist on client entry"
       );
     },
   },
@@ -73,7 +93,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.AuraGlassSSRProvider,
-        "AuraGlassSSRProvider export should exist on server entry",
+        "AuraGlassSSRProvider export should exist on server entry"
       );
     },
   },
@@ -83,7 +103,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.safeBrowserExec,
-        "safeBrowserExec export should exist on ssr entry",
+        "safeBrowserExec export should exist on ssr entry"
       );
     },
   },
@@ -93,7 +113,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.createGlassStyle || mod.default?.createGlassStyle,
-        "createGlassStyle should exist in glassMixins",
+        "createGlassStyle should exist in glassMixins"
       );
     },
   },
@@ -103,7 +123,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.isBrowser !== undefined || mod.default?.isBrowser !== undefined,
-        "isBrowser should exist in utils/env",
+        "isBrowser should exist in utils/env"
       );
     },
   },
@@ -113,7 +133,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.OpenAIService || mod.default?.OpenAIService,
-        "OpenAIService should exist",
+        "OpenAIService should exist"
       );
     },
   },
@@ -123,7 +143,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.VisionService || mod.default?.VisionService,
-        "VisionService should exist",
+        "VisionService should exist"
       );
     },
   },
@@ -133,7 +153,7 @@ const exportsMap = [
     verify: (mod) => {
       assert.ok(
         mod.CollaborationService || mod.default?.CollaborationService,
-        "CollaborationService should exist",
+        "CollaborationService should exist"
       );
     },
   },

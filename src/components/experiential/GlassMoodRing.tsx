@@ -40,6 +40,8 @@ export interface GlassMoodRingProps
   onMoodChange?: (mood: MoodState) => void;
   /** Auto-transition interval in milliseconds */
   autoTransition?: number;
+  /** Run a package-owned cycling demo for documentation/catalog previews. */
+  autoDemo?: boolean;
   /** Whether to enable biometric integration */
   biometricIntegration?: boolean;
   /** Ambient response to environmental factors */
@@ -130,6 +132,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
       showDescription = false,
       onMoodChange,
       autoTransition,
+      autoDemo = false,
       biometricIntegration = false,
       ambientResponse = false,
       thickness = "medium",
@@ -142,6 +145,9 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
     ref
   ) => {
     const { prefersReducedMotion } = useMotionPreferenceContext();
+    const shouldAnimate = respectMotionPreference
+      ? !prefersReducedMotion
+      : true;
     const { play } = useGlassSound();
     const moodRingId = useA11yId("glass-mood-ring");
 
@@ -149,7 +155,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
       mood || moodStates[0]
     );
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [autoTransitionActive, setAutoTransitionActive] = useState(false);
+    const [autoTransitionActive, setAutoTransitionActive] = useState(autoDemo);
 
     const sizeConfig = {
       sm: {
@@ -199,7 +205,9 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
 
     // Auto-transition effect
     useEffect(() => {
-      if (!autoTransition || !autoTransitionActive) return;
+      const intervalMs = autoTransition ?? (autoDemo ? 900 : undefined);
+      if (!intervalMs || (!autoTransitionActive && !autoDemo) || !shouldAnimate)
+        return;
 
       const interval = setInterval(() => {
         const currentIndex = moodStates.findIndex(
@@ -207,10 +215,17 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
         );
         const nextIndex = (currentIndex + 1) % moodStates.length;
         handleMoodChange(moodStates[nextIndex]);
-      }, autoTransition);
+      }, intervalMs);
 
       return () => clearInterval(interval);
-    }, [autoTransition, autoTransitionActive, currentMood, moodStates]);
+    }, [
+      autoTransition,
+      autoDemo,
+      autoTransitionActive,
+      currentMood,
+      moodStates,
+      shouldAnimate,
+    ]);
 
     // Biometric integration simulation
     useEffect(() => {
@@ -316,27 +331,21 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
         {...props}
       >
         <Motion
-          preset={
-            !prefersReducedMotion && respectMotionPreference ? "fadeIn" : "none"
-          }
+          preset={shouldAnimate ? "fadeIn" : "none"}
           className="glass-flex glass-flex-col glass-items-center glass-gap-4"
         >
           {/* Main Mood Ring */}
           <div className="glass-relative">
             <Motion
               as="div"
-              preset={
-                !prefersReducedMotion && respectMotionPreference
-                  ? "scaleIn"
-                  : "none"
-              }
+              preset={shouldAnimate ? "scaleIn" : "none"}
               className={cn(
                 "relative glass-radius-full border-solid transition-all duration-1000",
                 config.ring,
                 thicknessConfig[thickness],
                 glowConfig[glowIntensity],
                 interactive && "cursor-pointer glass-hover-scale-105",
-                pulse && !prefersReducedMotion && "animate-pulse",
+                pulse && shouldAnimate && "animate-pulse",
                 isTransitioning && "opacity-50"
               )}
               style={{
@@ -364,7 +373,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                   `glass-radius-full flex items-center justify-center transition-all`,
                   `duration-[${ANIMATION.DURATION.slower}ms]`,
                   config.center,
-                  !prefersReducedMotion && "animate-pulse"
+                  shouldAnimate && "animate-pulse"
                 )}
                 style={{
                   backgroundColor: `${currentMood.color}${Math.round(currentMood.intensity * 255).toString(16)}`,
@@ -386,7 +395,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
                     "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
                     `glass-radius-full border transition-all`,
                     `duration-[${ANIMATION.DURATION.slower}ms]`,
-                    !prefersReducedMotion && "animate-pulse"
+                    shouldAnimate && "animate-pulse"
                   )}
                   style={{
                     width: `${60 + i * 20}%`,
@@ -414,11 +423,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           <div className="glass-text-center glass-gap-2">
             {showLabels && (
               <Motion
-                preset={
-                  !prefersReducedMotion && respectMotionPreference
-                    ? "slideUp"
-                    : "none"
-                }
+                preset={shouldAnimate ? "slideUp" : "none"}
                 className={cn(
                   "font-semibold transition-colors duration-500",
                   config.text
@@ -431,11 +436,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
 
             {showDescription && (
               <Motion
-                preset={
-                  !prefersReducedMotion && respectMotionPreference
-                    ? "slideUp"
-                    : "none"
-                }
+                preset={shouldAnimate ? "slideUp" : "none"}
                 delay={100}
                 className={cn(
                   "glass-text-secondary max-w-xs text-center",
@@ -450,11 +451,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           {/* Mood Selector */}
           {interactive && moodStates.length > 1 && (
             <Motion
-              preset={
-                !prefersReducedMotion && respectMotionPreference
-                  ? "slideUp"
-                  : "none"
-              }
+              preset={shouldAnimate ? "slideUp" : "none"}
               delay={200}
               className="glass-flex glass-flex-wrap glass-gap-1 glass-justify-center glass-max-w-xs"
             >
@@ -483,11 +480,7 @@ export const GlassMoodRing = forwardRef<HTMLDivElement, GlassMoodRingProps>(
           {/* Controls */}
           {(autoTransition || biometricIntegration || ambientResponse) && (
             <Motion
-              preset={
-                !prefersReducedMotion && respectMotionPreference
-                  ? "slideUp"
-                  : "none"
-              }
+              preset={shouldAnimate ? "slideUp" : "none"}
               delay={ANIMATION.DURATION.normal}
               className="glass-flex glass-gap-2 glass-items-center glass-text-xs glass-text-secondary"
             >

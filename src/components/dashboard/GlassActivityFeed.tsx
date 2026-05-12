@@ -164,11 +164,16 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
   style,
   ...props
 }) => {
+  const isCompactMode = compact || contained;
+  const effectiveMaxItems = maxItems ?? (isCompactMode ? 2 : 10);
   const [selectedFilter, setSelectedFilter] = useState<string>("all");
-  const [visibleCount, setVisibleCount] = useState(maxItems || 10);
-  const boundedHeight = maxHeight ?? (compact || contained ? 260 : undefined);
-  const effectiveShowFilters = compact ? false : showFilters;
-  const effectiveGroupByDate = compact ? false : groupByDate;
+  const [visibleCount, setVisibleCount] = useState(effectiveMaxItems);
+  const boundedHeight = maxHeight ?? (isCompactMode ? 220 : undefined);
+  const effectiveShowFilters = isCompactMode ? false : showFilters;
+  const effectiveGroupByDate = isCompactMode ? false : groupByDate;
+  const effectiveShowCategories = isCompactMode ? false : showCategories;
+  const effectiveShowAvatars = isCompactMode ? false : showAvatars;
+  const effectiveShowLoadMore = isCompactMode ? false : showLoadMore;
 
   // Get activity type icon and color
   const getActivityTypeConfig = (type: ActivityItem["type"]) => {
@@ -285,7 +290,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
   // Handle load more
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + (maxItems || 10));
+    setVisibleCount((prev) => prev + effectiveMaxItems);
     onLoadMore?.();
   };
 
@@ -322,20 +327,27 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                   typeof boundedHeight === "number"
                     ? `${boundedHeight}px`
                     : boundedHeight,
-                overflow: "auto",
+                overflow: isCompactMode ? "hidden" : "auto",
               }
             : null),
           ...(style ?? {}),
         }}
         {...props}
       >
-        <CardHeader className={cn(compact ? "glass-pb-2" : "glass-pb-4")}>
+        <CardHeader
+          className={cn(isCompactMode ? "glass-p-3 glass-pb-2" : "glass-pb-4")}
+        >
           <div className="glass-flex glass-items-center glass-justify-between">
             <div>
-              <CardTitle className="glass-text-primary glass-text-xl glass-font-semibold">
+              <CardTitle
+                className={cn(
+                  "glass-text-primary glass-font-semibold",
+                  isCompactMode ? "glass-text-lg" : "glass-text-xl"
+                )}
+              >
                 <ContrastGuard>{title}</ContrastGuard>
               </CardTitle>
-              {subtitle && (
+              {!isCompactMode && subtitle && (
                 <ContrastGuard>
                   <p className="glass-text-sm glass-text-primary-glass-opacity-60 glass-mt-1">
                     {subtitle}
@@ -367,7 +379,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
         </CardHeader>
 
         <CardContent
-          className={cn("glass-pt-0", compact && "glass-px-3 glass-pb-3")}
+          className={cn("glass-pt-0", isCompactMode && "glass-px-3 glass-pb-3")}
         >
           {filteredActivities.length === 0 ? (
             <div className="glass-flex glass-flex-col glass-items-center glass-justify-center glass-py-12">
@@ -377,7 +389,12 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
               </p>
             </div>
           ) : (
-            <div className="glass-auto-gap glass-auto-gap-lg">
+            <div
+              className={cn(
+                "glass-auto-gap",
+                isCompactMode ? "glass-auto-gap-sm" : "glass-auto-gap-lg"
+              )}
+            >
               {effectiveGroupByDate ? (
                 Object.entries(groupedActivities).map(([date, items]) => (
                   <div key={date}>
@@ -417,7 +434,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                 "hover:bg-white/5 cursor-pointer glass-foundation-complete glass-backdrop-blur-md bg-transparent border-white/40 shadow-2xl",
                                 config.bgColor,
                                 config.borderColor,
-                                compact && "glass-p-2"
+                                isCompactMode && "glass-p-2"
                               )}
                               style={{
                                 animationDelay: `${Math.min(index, 15) * 50}ms`,
@@ -430,7 +447,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                 className={cn(
                                   "flex-shrink-0 w-8 h-8 glass-radius-full flex items-center justify-center",
                                   config.bgColor,
-                                  compact && "w-6 h-6"
+                                  isCompactMode && "w-6 h-6"
                                 )}
                               >
                                 {activity.icon ? (
@@ -442,7 +459,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                     className={cn(
                                       "w-4 h-4",
                                       config.color,
-                                      compact && "w-3 h-3"
+                                      isCompactMode && "w-3 h-3"
                                     )}
                                   />
                                 )}
@@ -455,7 +472,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                     <p
                                       className={cn(
                                         "glass-text-primary font-medium truncate",
-                                        compact
+                                        isCompactMode
                                           ? "glass-text-sm"
                                           : "glass-text-base"
                                       )}
@@ -468,10 +485,13 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                     {activity.description && (
                                       <p
                                         className={cn(
-                                          "glass-text-primary/70 glass-mt-1 line-clamp-2",
-                                          compact
+                                          "glass-text-primary/70 glass-mt-1",
+                                          isCompactMode
                                             ? "glass-text-xs"
-                                            : "glass-text-sm"
+                                            : "glass-text-sm",
+                                          isCompactMode
+                                            ? "line-clamp-1"
+                                            : "line-clamp-2"
                                         )}
                                         title={activity.description}
                                       >
@@ -514,7 +534,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
                                 {/* Metadata */}
                                 <div className="glass-flex glass-items-center glass-gap-3 glass-mt-2">
-                                  {activity.user && showAvatars && (
+                                  {activity.user && effectiveShowAvatars && (
                                     <div className="glass-flex glass-items-center glass-gap-2">
                                       {activity.user.avatar ? (
                                         <img
@@ -548,24 +568,25 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                     </span>
                                   )}
 
-                                  {activity.category && showCategories && (
-                                    <GlassBadge
-                                      variant="secondary"
-                                      size="sm"
-                                      className="glass-truncate glass-max-w-100px"
-                                      title={activity.category}
-                                    >
-                                      {activity.category.length > 12
-                                        ? `${activity.category.slice(0, 12)}...`
-                                        : activity.category}
-                                    </GlassBadge>
-                                  )}
+                                  {activity.category &&
+                                    effectiveShowCategories && (
+                                      <GlassBadge
+                                        variant="secondary"
+                                        size="sm"
+                                        className="glass-truncate glass-max-w-100px"
+                                        title={activity.category}
+                                      >
+                                        {activity.category.length > 12
+                                          ? `${activity.category.slice(0, 12)}...`
+                                          : activity.category}
+                                      </GlassBadge>
+                                    )}
 
                                   {activity.tags &&
                                     activity.tags.length > 0 && (
                                       <div className="glass-flex glass-flex-wrap glass-gap-1 glass-items-center">
                                         {activity.tags
-                                          .slice(0, compact ? 1 : 2)
+                                          .slice(0, isCompactMode ? 1 : 2)
                                           .map((tag, tagIndex) => (
                                             <GlassBadge
                                               key={tagIndex}
@@ -580,7 +601,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                             </GlassBadge>
                                           ))}
                                         {activity.tags.length >
-                                          (compact ? 1 : 2) && (
+                                          (isCompactMode ? 1 : 2) && (
                                           <GlassBadge
                                             variant="secondary"
                                             size="sm"
@@ -588,7 +609,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                                           >
                                             +
                                             {activity.tags.length -
-                                              (compact ? 1 : 2)}
+                                              (isCompactMode ? 1 : 2)}
                                           </GlassBadge>
                                         )}
                                       </div>
@@ -618,7 +639,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                           "hover:bg-white/5 cursor-pointer",
                           config.bgColor,
                           config.borderColor,
-                          compact && "glass-p-2"
+                          isCompactMode && "glass-p-2"
                         )}
                         onClick={(e) => onActivityClick?.(activity)}
                       >
@@ -627,7 +648,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                           className={cn(
                             "flex-shrink-0 w-8 h-8 glass-radius-full flex items-center justify-center",
                             config.bgColor,
-                            compact && "w-6 h-6"
+                            isCompactMode && "w-6 h-6"
                           )}
                         >
                           {activity.icon ? (
@@ -639,7 +660,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                               className={cn(
                                 "w-4 h-4",
                                 config.color,
-                                compact && "w-3 h-3"
+                                isCompactMode && "w-3 h-3"
                               )}
                             />
                           )}
@@ -652,7 +673,9 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                               <p
                                 className={cn(
                                   "glass-text-primary font-medium truncate",
-                                  compact ? "glass-text-sm" : "glass-text-base"
+                                  isCompactMode
+                                    ? "glass-text-sm"
+                                    : "glass-text-base"
                                 )}
                                 title={activity.title}
                               >
@@ -661,8 +684,10 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
                               {activity.description && (
                                 <p
                                   className={cn(
-                                    "glass-text-primary/70 glass-mt-1 line-clamp-2",
-                                    compact ? "glass-text-xs" : "glass-text-sm"
+                                    "glass-text-primary/70 glass-mt-1",
+                                    isCompactMode
+                                      ? "glass-text-xs line-clamp-1"
+                                      : "glass-text-sm line-clamp-2"
                                   )}
                                   title={activity.description}
                                 >
@@ -674,7 +699,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
 
                           {/* Metadata */}
                           <div className="glass-flex glass-items-center glass-gap-3 glass-mt-2">
-                            {activity.user && showAvatars && (
+                            {activity.user && effectiveShowAvatars && (
                               <div className="glass-flex glass-items-center glass-gap-2">
                                 {activity.user.avatar ? (
                                   <img
@@ -712,7 +737,7 @@ export const GlassActivityFeed: React.FC<GlassActivityFeedProps> = ({
               )}
 
               {/* Load More */}
-              {showLoadMore && visibleCount < activities.length && (
+              {effectiveShowLoadMore && visibleCount < activities.length && (
                 <div className="glass-flex glass-justify-center glass-mt-6">
                   <GlassButton variant="outline" onClick={handleLoadMore}>
                     Load More Activities

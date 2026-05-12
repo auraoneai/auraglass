@@ -49,6 +49,22 @@ export interface GlassChartWidgetProps {
    */
   size?: "sm" | "md" | "lg" | "xl";
   /**
+   * Render a dense widget for card previews, dashboards, and sidebars.
+   */
+  compact?: boolean;
+  /**
+   * Bounded rendering mode for constrained surfaces.
+   */
+  contained?: boolean;
+  /**
+   * Explicit content height.
+   */
+  height?: number | string;
+  /**
+   * Maximum widget height in compact/contained layouts.
+   */
+  maxHeight?: number | string;
+  /**
    * Loading state
    */
   loading?: boolean;
@@ -128,6 +144,7 @@ export interface GlassChartWidgetProps {
    * Custom className
    */
   className?: string;
+  style?: React.CSSProperties;
 }
 
 /**
@@ -139,19 +156,23 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   subtitle,
   children,
   size = "md",
+  compact = false,
+  contained = false,
+  height,
+  maxHeight,
   loading = false,
   error,
   emptyMessage,
   showHeader = true,
-  showActions = true,
+  showActions: showActionsProp,
   actions = [],
   chartType,
   showChartType = true,
   timeRange,
   lastUpdated,
-  showRefresh = true,
-  showDownload = true,
-  showFullscreen = true,
+  showRefresh: showRefreshProp,
+  showDownload: showDownloadProp,
+  showFullscreen: showFullscreenProp,
   fullscreen = false,
   onFullscreenChange,
   onRefresh,
@@ -159,10 +180,22 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   headerContent,
   footerContent,
   className,
+  style,
   ...props
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(fullscreen);
   const [showActionMenu, setShowActionMenu] = useState(false);
+  const isCompact = compact || contained;
+  const showActions = showActionsProp ?? !isCompact;
+  const showRefresh = showRefreshProp ?? !isCompact;
+  const showDownload = showDownloadProp ?? !isCompact;
+  const showFullscreen = showFullscreenProp ?? !isCompact;
+  const toCssSize = (value?: number | string): string | undefined =>
+    typeof value === "number" ? `${value}px` : value;
+  const resolvedContentHeight =
+    toCssSize(height) ?? (isCompact ? "140px" : undefined);
+  const resolvedMaxHeight =
+    toCssSize(maxHeight) ?? (isCompact ? "220px" : undefined);
 
   // Size configurations
   const sizeConfigs = {
@@ -189,6 +222,10 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
   };
 
   const config = sizeConfigs[size];
+  const cardPaddingClass = isCompact ? "glass-p-3" : config.cardClass;
+  const titleClass = isCompact
+    ? "glass-text-base font-semibold"
+    : config.titleClass;
 
   // Get chart type icon
   const getChartTypeIcon = () => {
@@ -245,10 +282,16 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
         variant="elevated"
         elevation={"level3"}
         className={cn(
-          config.cardClass,
+          cardPaddingClass,
           isFullscreen && "fixed inset-4 z-50",
           className
         )}
+        style={{
+          maxHeight: resolvedMaxHeight,
+          overflow: isCompact ? "hidden" : undefined,
+          ...style,
+        }}
+        data-compact={isCompact || undefined}
         {...props}
       >
         {/* Header */}
@@ -259,7 +302,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
                 <div className="glass-flex glass-items-center glass-gap-3 glass-mb-2">
                   <CardTitle
                     className={cn(
-                      config.titleClass,
+                      titleClass,
                       "glass-text-primary flex items-center glass-gap-2"
                     )}
                   >
@@ -426,7 +469,7 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
         )}
 
         {/* Content */}
-        <CardContent className="glass-pt-0">
+        <CardContent className={cn("glass-pt-0", isCompact && "glass-px-0")}>
           {error ? (
             <div
               className={cn(
@@ -463,7 +506,14 @@ export const GlassChartWidget: React.FC<GlassChartWidgetProps> = ({
               </ContrastGuard>
             </div>
           ) : (
-            <div className={config.contentClass}>
+            <div
+              className={cn(!isCompact && config.contentClass)}
+              style={{
+                height: resolvedContentHeight,
+                minHeight: isCompact ? 0 : undefined,
+                overflow: isCompact ? "hidden" : undefined,
+              }}
+            >
               {loading ? (
                 <div className="glass-flex glass-items-center glass-justify-center glass-h-full">
                   <div className="glass-animate-spin glass-radius-full glass-h-8 glass-w-8 glass-border-2 glass-border-white/20 glass-border-t-white/60"></div>

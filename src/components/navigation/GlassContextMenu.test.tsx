@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassContextMenu Component Tests
  *
@@ -11,20 +11,25 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassContextMenu } from '@/components/navigation/GlassContextMenu';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassContextMenu } from "@/components/navigation/GlassContextMenu";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassContextMenu', () => {
+describe("GlassContextMenu", () => {
+  const items = [
+    { id: "copy", label: "Copy", action: jest.fn() },
+    { id: "paste", label: "Paste" },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassContextMenu />);
     expect(container).toBeInTheDocument();
   });
@@ -32,27 +37,22 @@ describe('GlassContextMenu', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassContextMenu />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -66,11 +66,13 @@ describe('GlassContextMenu', () => {
       const { container } = render(<GlassContextMenu />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -82,7 +84,7 @@ describe('GlassContextMenu', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassContextMenu
         className="custom-class"
@@ -90,17 +92,37 @@ describe('GlassContextMenu', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glasscontextmenu"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glasscontextmenu"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassContextMenu />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("supports contained content without portalling to document.body", () => {
+    const { container } = render(
+      <GlassContextMenu
+        open
+        contained
+        items={items}
+        menuClassName="contained-context-menu"
+      >
+        <div>Context target</div>
+      </GlassContextMenu>
+    );
+
+    const content = screen.getByRole("menu", { name: /context menu/i });
+    expect(container).toContainElement(content);
+    expect(document.body).toContainElement(content);
+    expect(content).toHaveAttribute("data-position-strategy", "contained");
+    expect(content).toHaveClass("contained-context-menu");
   });
 });

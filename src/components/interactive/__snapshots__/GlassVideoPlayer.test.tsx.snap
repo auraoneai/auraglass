@@ -57,12 +57,14 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                 class="glass-flex glass-items-center glass-gap-2"
               >
                 <div
-                  class="motion-primitive glass-inline-glass-block"
+                  class="glass-inline-glass-block"
                   data-glass-component="true"
                 >
                   <button
                     aria-label="Video settings"
-                    class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary"
+                    class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary"
+                    data-button-size="sm"
+                    data-button-variant="ghost"
                     id="glass-button-:rc:"
                   >
                     <svg
@@ -109,12 +111,14 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                   class="glass-flex glass-min-w-0 glass-flex-wrap glass-items-center glass-gap-2 sm:glass-gap-4"
                 >
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
                       aria-label="Play video"
-                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                      data-button-size="sm"
+                      data-button-variant="ghost"
                       id="glass-button-:rd:"
                     >
                       <svg
@@ -140,12 +144,14 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     class="glass-flex glass-items-center glass-gap-2"
                   >
                     <div
-                      class="motion-primitive glass-inline-glass-block"
+                      class="glass-inline-glass-block"
                       data-glass-component="true"
                     >
                       <button
                         aria-label="Mute video"
-                        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                        data-button-size="sm"
+                        data-button-variant="ghost"
                         id="glass-button-:re:"
                       >
                         <svg
@@ -186,7 +192,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     class="glass-whitespace-nowrap glass-text-primary glass-text-sm"
                   >
                     0:00
-                     / 
+                     /
                     0:00
                   </span>
                 </div>
@@ -200,12 +206,14 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     x
                   </span>
                   <div
-                    class="motion-primitive glass-inline-glass-block"
+                    class="glass-inline-glass-block"
                     data-glass-component="true"
                   >
                     <button
                       aria-label="Enter fullscreen"
-                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                      class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-primary glass-p-2"
+                      data-button-size="sm"
+                      data-button-variant="ghost"
                       id="glass-button-:rf:"
                     >
                       <svg

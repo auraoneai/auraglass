@@ -44,13 +44,15 @@ exports[`GlassChartWidget matches snapshot 1`] = `
               class="glass-flex glass-items-center glass-gap-1"
             >
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Refresh chart data"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
-                  id="glass-button-:r9:"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2"
+                  data-button-size="sm"
+                  data-button-variant="ghost"
+                  id="glass-button-:ra:"
                 >
                   <svg
                     aria-hidden="true"
@@ -81,13 +83,15 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Download chart data"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
-                  id="glass-button-:ra:"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2"
+                  data-button-size="sm"
+                  data-button-variant="ghost"
+                  id="glass-button-:rb:"
                 >
                   <svg
                     aria-hidden="true"
@@ -115,13 +119,15 @@ exports[`GlassChartWidget matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Enter fullscreen"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
-                  id="glass-button-:rb:"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2"
+                  data-button-size="sm"
+                  data-button-variant="ghost"
+                  id="glass-button-:rc:"
                 >
                   <svg
                     aria-hidden="true"

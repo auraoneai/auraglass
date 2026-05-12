@@ -3,18 +3,19 @@
 exports[`GlassScrollArea matches snapshot 1`] = `
 <div
   aria-label="Scrollable content area"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 motion-safe:transition-all motion-reduce:transition-none"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 glass-overflow-hidden motion-safe:transition-all motion-reduce:transition-none"
   data-performance-mode="medium"
-  id=":r5:"
+  id=":r6:"
   role="region"
   style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 200px;"
 >
   <div
-    class="relative overflow-hidden glass-radius-lg"
+    class="relative overflow-hidden glass-min-w-0 glass-radius-lg"
+    style="max-height: 200px;"
   >
     <div
-      class="glass-relative"
-      style="overflow-x: hidden; overflow-y: auto;"
+      class="glass-relative glass-min-w-0"
+      style="overflow-x: hidden; overflow-y: auto; max-height: 200px; padding-right: 0.5rem;"
     />
   </div>
 </div>

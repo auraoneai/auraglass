@@ -81,6 +81,71 @@
   --aura-motion-stagger-micro: 25ms;
   --aura-motion-stagger-regular: 50ms;
   --aura-motion-stagger-macro: 100ms;
+  --aura-marketing-palettes-aurora-cyan: rgba(34, 211, 238, 0.92);
+  --aura-marketing-palettes-aurora-mint: rgba(125, 249, 255, 0.46);
+  --aura-marketing-palettes-aurora-violet: rgba(99, 102, 241, 0.94);
+  --aura-marketing-palettes-aurora-rose: rgba(251, 113, 133, 0.44);
+  --aura-marketing-palettes-aurora-magenta: rgba(236, 72, 153, 0.92);
+  --aura-marketing-palettes-prism-cyan: rgba(6, 182, 212, 0.88);
+  --aura-marketing-palettes-prism-indigo: rgba(79, 70, 229, 0.88);
+  --aura-marketing-palettes-prism-pink: rgba(219, 39, 119, 0.82);
+  --aura-marketing-palettes-ocean-foam: rgba(103, 232, 249, 0.72);
+  --aura-marketing-palettes-ocean-blue: rgba(14, 165, 233, 0.84);
+  --aura-marketing-palettes-ocean-deep: rgba(30, 64, 175, 0.82);
+  --aura-marketing-palettes-ember-gold: rgba(251, 191, 36, 0.78);
+  --aura-marketing-palettes-ember-coral: rgba(249, 115, 22, 0.82);
+  --aura-marketing-palettes-ember-rose: rgba(244, 63, 94, 0.78);
+  --aura-marketing-palettes-mono-mist: rgba(248, 250, 252, 0.72);
+  --aura-marketing-palettes-mono-slate: rgba(100, 116, 139, 0.72);
+  --aura-marketing-palettes-mono-ink: rgba(15, 23, 42, 0.72);
+  --aura-marketing-background-vignette: radial-gradient(
+    circle at 50% 0%,
+    rgba(99, 102, 241, 0.18),
+    transparent 58%
+  );
+  --aura-marketing-background-grain-opacity: 0.08;
+  --aura-marketing-background-particle-opacity: 0.58;
+  --aura-marketing-background-fixed-zindex: -1;
+  --aura-marketing-orb-gradient: conic-gradient(
+    from 180deg,
+    rgba(34, 211, 238, 0.92),
+    rgba(99, 102, 241, 0.94),
+    rgba(236, 72, 153, 0.9),
+    rgba(34, 211, 238, 0.92)
+  );
+  --aura-marketing-orb-glow: 0 28px 90px rgba(99, 102, 241, 0.42);
+  --aura-marketing-orb-inset-highlight: inset 0 1px 24px
+    rgba(255, 255, 255, 0.34);
+  --aura-marketing-display-text-hero-size: clamp(3rem, 9vw, 7.5rem);
+  --aura-marketing-display-text-section-size: clamp(2rem, 5vw, 4.5rem);
+  --aura-marketing-display-text-gradient-aurora: linear-gradient(
+    100deg,
+    #ffffff 0%,
+    #7dd3fc 34%,
+    #c4b5fd 68%,
+    #f0abfc 100%
+  );
+  --aura-marketing-surface-showcase-background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.62),
+    rgba(30, 41, 59, 0.34)
+  );
+  --aura-marketing-surface-showcase-border: rgba(255, 255, 255, 0.18);
+  --aura-marketing-surface-showcase-glow:
+    0 24px 80px rgba(15, 23, 42, 0.42), 0 0 44px rgba(99, 102, 241, 0.16);
+  --aura-marketing-surface-highlight: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.28),
+    transparent
+  );
+  --aura-marketing-button-aurora-background: linear-gradient(
+    135deg,
+    rgba(34, 211, 238, 0.94) 0%,
+    rgba(99, 102, 241, 0.94) 42%,
+    rgba(236, 72, 153, 0.92) 100%
+  );
+  --aura-marketing-button-aurora-glow: 0 16px 42px rgba(99, 102, 241, 0.38);
+  --aura-marketing-button-aurora-text: #ffffff;
 }
 
 [data-aura-theme="auraglass-default"][data-aura-mode="light"] {

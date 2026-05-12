@@ -18,12 +18,12 @@
   padding: var(--glass-space-datagrid-header, 12px 32px 12px 16px);
   font-weight: var(--aura-font-weight-semibold);
   font-size: 0.875rem;
-  color: var(--aura-color-global-text-secondary);
+  color: var(--aura-color-global-text-primary);
   border-bottom: var(--glass-space-datagrid-header-border, 1px) solid
     color-mix(in srgb, var(--aura-color-global-text-secondary) 12%, transparent);
   background: color-mix(
     in srgb,
-    var(--aura-color-glass-surface) 60%,
+    var(--aura-color-glass-surface) 86%,
     transparent
   );
   transition:
@@ -41,7 +41,78 @@
 .headerSortable:hover {
   background: color-mix(
     in srgb,
-    var(--aura-color-glass-surface) 80%,
+    var(--aura-color-global-text-primary) 14%,
+    var(--aura-color-glass-surface)
+  );
+  color: var(--aura-color-global-text-primary);
+}
+
+.compact .headerCell {
+  padding: var(--glass-space-datagrid-compact-header, 8px 28px 8px 12px);
+  font-size: 0.8125rem;
+}
+
+.compact .cell {
+  padding: var(--glass-space-datagrid-compact-cell, 8px 12px);
+  font-size: 0.875rem;
+}
+
+.compact .dragHandleCell {
+  width: 32px;
+  padding-inline: var(--glass-space-datagrid-compact-handle-cell, 6px);
+}
+
+.headerCell[aria-sort="ascending"],
+.headerCell[aria-sort="descending"] {
+  background: color-mix(
+    in srgb,
+    var(--aura-color-highlight) 24%,
+    var(--aura-color-glass-surface)
+  );
+  color: var(--aura-color-global-text-primary);
+}
+
+.headerCell[aria-sort="ascending"] .sortIndicator,
+.headerCell[aria-sort="descending"] .sortIndicator {
+  color: var(--aura-color-global-text-primary);
+}
+
+.row:nth-child(even) {
+  background: var(
+    --glass-datagrid-row-even-bg,
+    color-mix(in srgb, var(--aura-color-global-text-primary) 7%, transparent)
+  );
+}
+
+.row:hover {
+  background: var(
+    --glass-datagrid-row-hover-bg,
+    color-mix(
+      in srgb,
+      var(--aura-color-global-text-primary) 12%,
+      var(--aura-color-glass-surface)
+    )
+  );
+}
+
+.row[aria-selected="true"],
+.row[data-selected="true"] {
+  background: var(
+    --glass-datagrid-row-selected-bg,
+    color-mix(
+      in srgb,
+      var(--aura-color-highlight) 28%,
+      var(--aura-color-glass-surface)
+    )
+  );
+}
+
+.row[aria-selected="true"] .cell,
+.row[data-selected="true"] .cell {
+  color: var(--aura-color-global-text-primary);
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--aura-color-highlight) 34%,
     transparent
   );
 }
@@ -87,20 +158,6 @@
       var(--aura-motion-easing-standard),
     box-shadow var(--aura-motion-duration-fast)
       var(--aura-motion-easing-standard);
-}
-
-.row:nth-child(even) {
-  background: var(
-    --glass-datagrid-row-even-bg,
-    color-mix(in srgb, var(--aura-color-global-text-primary) 3%, transparent)
-  );
-}
-
-.row:hover {
-  background: var(
-    --glass-datagrid-row-hover-bg,
-    color-mix(in srgb, var(--aura-color-global-text-primary) 6%, transparent)
-  );
 }
 
 .rowDragging {

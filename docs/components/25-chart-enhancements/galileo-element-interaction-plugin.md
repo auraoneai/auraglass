@@ -1,26 +1,7 @@
 ### GalileoElementInteractionPlugin
-Advanced Chart.js plugin for physics-based chart interactions.
 
-```tsx
-import { 
-  Chart as ChartJS,
-  GalileoElementInteractionPlugin 
-} from 'aura-glass';
+`GalileoElementInteractionPlugin` is a deprecated compatibility alias for
+`AuraElementInteractionPlugin`.
 
-// Register the plugin
-ChartJS.register(GalileoElementInteractionPlugin);
-
-// Use in chart configuration
-const chartConfig = {
-  plugins: {
-    [GalileoElementInteractionPlugin.id]: {
-      magneticEffect: true,
-      magneticStrength: 0.3,
-      magneticRange: 50,
-      rippleEffect: true,
-      hoverGlow: true,
-      physicsAnimations: true,
-    }
-  }
-};
-```
+Use the renamed documentation page for new integrations:
+[AuraElementInteractionPlugin](./aura-element-interaction-plugin.md).

@@ -19,12 +19,14 @@ exports[`GlassChatInput matches snapshot 1`] = `
           class="glass-flex glass-flex-wrap glass-items-end glass-gap-3"
         >
           <div
-            class="motion-primitive glass-inline-glass-block"
+            class="glass-inline-glass-block"
             data-glass-component="true"
           >
             <button
               aria-label="Attach file"
-              class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-flex-shrink-0"
+              class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2 glass-flex-shrink-0"
+              data-button-size="sm"
+              data-button-variant="ghost"
               id="glass-button-:rf:"
               style="order: 2;"
             >
@@ -66,13 +68,15 @@ exports[`GlassChatInput matches snapshot 1`] = `
             style="margin-left: auto; order: 2;"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Show emoji picker"
                 aria-pressed="false"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rg:"
               >
                 <svg
@@ -112,12 +116,15 @@ exports[`GlassChatInput matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 aria-disabled="true"
                 aria-label="Send message"
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-p-2"
+                data-button-size="sm"
+                data-button-variant="primary"
                 data-caustics="true"
                 data-magnet="true"
                 data-performance-mode="ultra"

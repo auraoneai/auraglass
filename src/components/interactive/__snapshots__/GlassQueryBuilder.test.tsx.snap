@@ -48,10 +48,13 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         </svg>
       </button>
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
+        data-glass-component="true"
       >
         <button
           class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet"
+          data-button-size="sm"
+          data-button-variant="secondary"
           data-magnet="true"
           data-performance-mode="ultra"
           data-refraction="true"
@@ -66,11 +69,13 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         </button>
       </div>
       <div
-        class="motion-primitive glass-inline-glass-block"
+        class="glass-inline-glass-block"
         data-glass-component="true"
       >
         <button
-          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-text-white hover:glass-text-white"
+          class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-white hover:glass-text-white"
+          data-button-size="sm"
+          data-button-variant="ghost"
           id="glass-button-:rh:"
           style="color: rgba(255, 255, 255, 0.95);"
         >

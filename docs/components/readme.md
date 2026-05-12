@@ -15,6 +15,7 @@ Start with the [Choosing AuraGlass Components](./choosing.md) guide before brows
 - Direct owner stories: 356/356.
 - Direct unit tests: 356/356.
 - Liquid Glass public surface: 32 root value exports plus related type exports, additive to the certified inventory.
+- Marketing Kit discovery: package marketing components, `GlassButton variant="aurora"`, and generated marketing tokens for landing pages and product heroes.
 
 ## Section Map
 
@@ -25,6 +26,7 @@ Storybook groups these pages by developer intent: `Start Here`, `Foundations`, `
 - [Advanced Effects](./02-advanced-effects/): 6 pages
 - [AI Sound Systems](./03-ai-sound-systems/): 2 pages
 - [Core Concepts](./04-core-concepts/): 3 pages
+- [Marketing Kit](./marketing/): landing-page and product-hero guidance
 - [Layout](./05-layout/): 20 pages
 - [Navigation](./06-navigation/): 25 pages
 - [Modal](./07-modal/): 7 pages
@@ -442,7 +444,7 @@ Storybook groups these pages by developer intent: `Start Here`, `Foundations`, `
 ### Chart Enhancements
 
 - [chart-quality-tiers](./25-chart-enhancements/chart-quality-tiers.md)
-- [galileo-element-interaction-plugin](./25-chart-enhancements/galileo-element-interaction-plugin.md)
+- [aura-element-interaction-plugin](./25-chart-enhancements/aura-element-interaction-plugin.md)
 
 ### Error Handling
 

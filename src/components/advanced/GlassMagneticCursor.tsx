@@ -44,6 +44,18 @@ interface GlassMagneticCursorProps {
   morphTargets?: boolean;
   hapticFeedback?: boolean;
   customCursor?: React.ReactNode;
+  /** Compact local demo surface for constrained cards and documentation previews. */
+  compact?: boolean;
+  /** Render a contained local preview instead of a fixed document cursor. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
   respectMotionPreference?: boolean;
   "aria-label"?: string;
   "aria-describedby"?: string;
@@ -67,6 +79,12 @@ export const GlassMagneticCursor = forwardRef<
     morphTargets = true,
     hapticFeedback = false,
     customCursor,
+    compact = false,
+    contained = false,
+    preview = false,
+    maxHeight,
+    maxWidth,
+    density = "comfortable",
     respectMotionPreference = true,
     "aria-label": ariaLabel,
     "aria-describedby": ariaDescribedBy,
@@ -87,6 +105,12 @@ export const GlassMagneticCursor = forwardRef<
   const { prefersReducedMotion } = useMotionPreferenceContext();
   const cursorId = useA11yId("magnetic-cursor");
   const descriptionId = useA11yId("cursor-description");
+  const isCompact = compact || preview || density === "compact";
+  const isContainedPreview = contained || isCompact;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
   // Motion values
   const mouseX = useMotionValue(0);
@@ -108,6 +132,7 @@ export const GlassMagneticCursor = forwardRef<
 
   // Initialize magnetic elements
   useEffect(() => {
+    if (isContainedPreview) return;
     const elements = document.querySelectorAll("[data-magnetic]");
     magneticElements.current = Array.from(elements).map((el: any) => ({
       element: el as HTMLElement,
@@ -123,7 +148,7 @@ export const GlassMagneticCursor = forwardRef<
     return () => {
       magneticElements.current = [];
     };
-  }, [magnetStrength, magnetRadius]);
+  }, [magnetStrength, magnetRadius, isContainedPreview]);
 
   // Mouse movement handler
   const handleMouseMove = useCallback(
@@ -248,6 +273,7 @@ export const GlassMagneticCursor = forwardRef<
 
   // Setup event listeners
   useEffect(() => {
+    if (isContainedPreview) return;
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("click", handleClick);
     window.addEventListener("mouseenter", handleMouseEnter);
@@ -260,16 +286,81 @@ export const GlassMagneticCursor = forwardRef<
       window.removeEventListener("mouseleave", handleMouseLeave);
       document.body.style.cursor = "auto";
     };
-  }, [handleMouseMove, handleClick, handleMouseEnter, handleMouseLeave]);
+  }, [
+    handleMouseMove,
+    handleClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    isContainedPreview,
+  ]);
 
   // Hide default cursor when over magnetic elements
   useEffect(() => {
+    if (isContainedPreview) return;
     magneticElements.current.forEach(({ element }) => {
       element.style.cursor = showCursor ? "none" : "pointer";
     });
-  }, [showCursor]);
+  }, [showCursor, isContainedPreview]);
 
   if (!showCursor) return null;
+
+  if (isContainedPreview) {
+    return (
+      <OptimizedGlass
+        ref={ref}
+        id={cursorId}
+        role={role || "img"}
+        aria-label={ariaLabel || "Magnetic cursor preview"}
+        aria-describedby={ariaDescribedBy || descriptionId}
+        className={cn(
+          "glass-relative glass-flex glass-items-center glass-justify-center glass-overflow-hidden glass-w-full glass-radius-xl glass-border glass-border-subtle",
+          isCompact ? "glass-p-3" : "glass-p-6",
+          className
+        )}
+        style={{
+          height: resolvedMaxHeight ?? "180px",
+          maxHeight: resolvedMaxHeight ?? "220px",
+          maxWidth: resolvedMaxWidth ?? "320px",
+        }}
+        {...restProps}
+      >
+        <span id={descriptionId} className="glass-sr-only">
+          {ariaLabel || `Magnetic cursor (${variant})`}. Contained preview of
+          the interactive cursor effect.
+        </span>
+        <div className="glass-relative glass-flex glass-h-full glass-w-full glass-items-center glass-justify-center">
+          <div
+            data-magnetic
+            className="glass-radius-xl glass-border glass-border-white/15 glass-surface-subtle/10 glass-p-4 glass-text-center"
+          >
+            <ContrastGuard>
+              <span className="glass-text-xs glass-font-medium glass-text-primary">
+                Magnetic target
+              </span>
+            </ContrastGuard>
+          </div>
+          <div
+            className="glass-absolute glass-radius-full glass-border glass-border-white/25 glass-backdrop-blur-md"
+            style={{
+              width: isCompact ? 24 : size,
+              height: isCompact ? 24 : size,
+              right: "22%",
+              top: "32%",
+              background:
+                variant === "glow"
+                  ? `radial-gradient(circle, ${color} 0%, transparent 70%)`
+                  : color,
+              boxShadow:
+                variant === "glow"
+                  ? `0 0 ${20 * glowIntensity}px ${color}`
+                  : "0 10px 30px rgba(0,0,0,0.2)",
+            }}
+            aria-hidden="true"
+          />
+        </div>
+      </OptimizedGlass>
+    );
+  }
 
   return (
     <>

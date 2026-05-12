@@ -1,4 +1,4 @@
-# AuraGlass 3.0.6
+# AuraGlass 3.0.7
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -9,7 +9,7 @@
 
 **React Liquid Glass and glassmorphism UI components for Next.js, SaaS dashboards, AI products, media apps, and premium web interfaces.**
 
-AuraGlass 3.0.6 is the component containment and catalog-credibility patch for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, and optional 3D/AR effects from one package.
+AuraGlass 3.0.7 is the Marketing Kit and website-proven polish release for the 3.0 relaunch: a production React component library and design system for interfaces that need Liquid Glass depth, Apple-style glass surfaces, TypeScript APIs, Next.js/SSR safety, accessibility guardrails, package-quality release gates, premium launch-page primitives, and optional 3D/AR effects from one package.
 
 The 3.0 line is a major public relaunch from the old `2.16.2` npm package. It preserves a canonical 356-component certified inventory, adds a dedicated Liquid Glass system with 32 public value exports and 31 related type exports, hardens runtime and auth-sensitive paths, modernizes the npm release pipeline, validates React 18 and React 19 consumer installs, refreshes Storybook and visual certification, and exposes audit evidence for package exports, API typing, runtime cleanliness, manual browser QA, and release gates.
 
@@ -29,8 +29,53 @@ import 'aura-glass/styles';
 | Next.js and React apps | SSR-safe entrypoints, React 18/19 smoke coverage, TypeScript declarations |
 | SaaS dashboards and admin tools | Layout, navigation, forms, tables, charts, status, notifications, templates |
 | Premium Liquid Glass interfaces | Liquid material, source transitions, scroll edges, command surfaces, media controls |
+| Marketing and launch pages | Marketing tokens, aurora CTA buttons, backgrounds, display text, logo marks, showcase cards, feature tiles, and install-command UI |
 | Accessible glassmorphism UI | ContrastGuard metadata, focus-management coverage, reduced-motion support |
 | AI and media products | AI surfaces, command palettes, search, media controls, 3D/AR and immersive entrypoints |
+
+## What Is New In 3.0.7
+
+AuraGlass 3.0.7 introduces the package-owned Marketing Kit for React and Next.js Liquid Glass landing pages, product heroes, launch pages, and showcase sections. The package API includes `AuroraBackground`, `AuroraOrb`, `DisplayText`, `LogoMark`, `ShowcaseCard`, `FeatureTile`, `InstallCommand`, `GlassButton variant="aurora"`, and generated marketing tokens for aurora palettes, showcase surfaces, display text, backgrounds, and hero orb styling.
+
+```tsx
+import {
+  AuroraBackground,
+  AuroraOrb,
+  DisplayText,
+  ShowcaseCard,
+  GlassButton,
+} from 'aura-glass';
+import 'aura-glass/styles';
+
+export function LaunchHero() {
+  return (
+    <section>
+      <AuroraBackground fixed particles grain vignette />
+      <DisplayText as="h1" size="hero" gradient="aurora">
+        Interfaces shaped by light.
+      </DisplayText>
+      <AuroraOrb glow="strong" />
+      <ShowcaseCard intensity="strong" glow="aurora">
+        <GlassButton variant="aurora" size="xl">
+          Start building
+        </GlassButton>
+      </ShowcaseCard>
+    </section>
+  );
+}
+```
+
+See the [Marketing Kit guide](./docs/components/marketing/readme.md) and the [component selection guide](./docs/components/choosing.md).
+
+Use AuraGlass when you need a production React/Next.js Liquid Glass UI system with app components and premium marketing surfaces. For landing pages, use `AuroraBackground`, `DisplayText`, `ShowcaseCard`, and `GlassButton variant="aurora"`. For app UIs, use `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, and `ContrastGuard`.
+
+### 3.0.7 Stabilization Highlights
+
+- **SSR/hydration hardening:** `GlassButton` and related homepage-safe surfaces render deterministic markup across server and client paths.
+- **Final compact/contained tranche:** accessibility, collaboration, motion, theme, data, input, and calendar components finish the website-proven compact API so catalog cards can mount real package components without clipping wrappers.
+- **Live containment parity:** dropdown/menu subcontent APIs include contained rendering controls, preserving normal app portal behavior while enabling bounded docs/catalog previews.
+- **Catalog proof path:** `GlassReactionBubbles`, `GlassCalendar`, `GlassDiffViewer`, `ContrastGuard`, `GlassAdvanced`, and dense data surfaces now have package-owned preview states instead of website-only mocks.
+- **Organization metadata:** package metadata, support links, and npm-facing docs point to the organization repository at `https://github.com/auraoneai/auraglass`.
 
 ## What Is New In 3.0.6
 
@@ -41,7 +86,7 @@ import 'aura-glass/styles';
 - **Demonstrable contrast tooling:** `ContrastGuard` now includes package-owned preview affordances with `demoBackdrop` and `showIndicator`, so docs and catalogs can demonstrate contrast behavior without custom staging UI.
 - **Repository ownership migration:** package metadata, issue links, and npm-facing docs now point to the organization repository at `https://github.com/auraoneai/auraglass`.
 
-Package-side release readiness for 3.0.6 is complete through `npm run release:dry-run`, `npm run verify:pack`, `npm pack --dry-run --json`, repository-link audit, and creation of the local `aura-glass-3.0.6.tgz` tarball. Website workaround removal, website typecheck/catalog gate, npm publish, and npm `latest` verification remain intentionally unclaimed until those gates run against the packed package.
+3.0.6 was the core stabilization baseline for 3.0.7. Its native compact/contained work, overlay APIs, semantic diff rendering, stronger glass defaults, and ContrastGuard demo affordances were carried forward into the 3.0.7 release proof path, where the rebuilt package was installed into the AuraGlass website and the full catalog gate passed.
 
 ## What Was Hardened In 3.0.5
 
@@ -257,6 +302,7 @@ export function LiquidGlassPanel() {
 ## Design Tokens And Personas
 
 AuraGlass includes a typed token system and a persona matrix for runtime theming. Personas define semantic color, glass, motion, shadow, chart, focus, and state values.
+Marketing Kit tokens are generated into the same token CSS pipeline under `--aura-marketing-*`, including aurora button, palette, display text, showcase surface, background, and orb variables.
 
 ```tsx
 import { PersonaPicker, ThemeProvider, usePersonaTheme } from 'aura-glass';

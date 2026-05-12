@@ -26,12 +26,14 @@ exports[`GlassKeyValueEditor matches snapshot 1`] = `
       value="value1"
     />
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
         aria-label="Remove pair 1"
-        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-focus glass-touch-target"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-focus glass-touch-target"
+        data-button-size="sm"
+        data-button-variant="ghost"
         id="glass-button-:r9:"
       >
         Remove
@@ -56,12 +58,14 @@ exports[`GlassKeyValueEditor matches snapshot 1`] = `
       value="value2"
     />
     <div
-      class="motion-primitive glass-inline-glass-block"
+      class="glass-inline-glass-block"
       data-glass-component="true"
     >
       <button
         aria-label="Remove pair 2"
-        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-focus glass-touch-target"
+        class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-focus glass-touch-target"
+        data-button-size="sm"
+        data-button-variant="ghost"
         id="glass-button-:ra:"
       >
         Remove
@@ -69,11 +73,14 @@ exports[`GlassKeyValueEditor matches snapshot 1`] = `
     </div>
   </div>
   <div
-    class="motion-primitive glass-inline-glass-block"
+    class="glass-inline-glass-block"
+    data-glass-component="true"
   >
     <button
       aria-label="Add new key-value pair"
       class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-info glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-focus glass-touch-target"
+      data-button-size="sm"
+      data-button-variant="secondary"
       data-magnet="true"
       data-performance-mode="ultra"
       data-refraction="true"

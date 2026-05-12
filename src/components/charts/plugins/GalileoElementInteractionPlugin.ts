@@ -46,12 +46,12 @@ interface GalileoPluginState {
 }
 
 type GalileoChartInstance = Chart<GalileoChartType> & {
-  galileoConfig?: Required<GalileoInteractionConfig>;
+  galileoConfig?: Required<AuraInteractionConfig>;
   galileoState?: GalileoPluginState;
   galileoCleanup?: () => void;
 };
 
-export interface GalileoInteractionConfig {
+export interface AuraInteractionConfig {
   /** Enable magnetic effect on data points */
   magneticEffect?: boolean;
   /** Magnetic strength */
@@ -80,6 +80,11 @@ export interface GalileoInteractionConfig {
   };
 }
 
+/**
+ * @deprecated Renamed to `AuraInteractionConfig` for AuraGlass 3.0.7.
+ */
+export type GalileoInteractionConfig = AuraInteractionConfig;
+
 export interface ElementAnimationTarget {
   elementId: string;
   datasetIndex: number;
@@ -92,7 +97,7 @@ export interface ElementAnimationTarget {
   magneticInfluence: number;
 }
 
-export interface GalileoPluginContext {
+export interface AuraPluginContext {
   elementAnimationTargets: Map<string, ElementAnimationTarget>;
   setElementAnimationTargets: React.Dispatch<
     React.SetStateAction<Map<string, ElementAnimationTarget>>
@@ -109,7 +114,12 @@ export interface GalileoPluginContext {
   };
 }
 
-const DEFAULT_CONFIG: Required<GalileoInteractionConfig> = {
+/**
+ * @deprecated Renamed to `AuraPluginContext` for AuraGlass 3.0.7.
+ */
+export type GalileoPluginContext = AuraPluginContext;
+
+const DEFAULT_CONFIG: Required<AuraInteractionConfig> = {
   magneticEffect: true,
   magneticStrength: 0.3,
   magneticRange: 50,
@@ -155,12 +165,12 @@ function getGalileoState(
 
 function getGalileoConfig(
   chart: GalileoChartInstance
-): Required<GalileoInteractionConfig> | undefined {
+): Required<AuraInteractionConfig> | undefined {
   return chart.galileoConfig;
 }
 
-export const GalileoElementInteractionPlugin: Plugin<GalileoChartType> = {
-  id: "galileoElementInteraction",
+export const AuraElementInteractionPlugin: Plugin<GalileoChartType> = {
+  id: "auraElementInteraction",
 
   defaults: DEFAULT_CONFIG,
 
@@ -169,7 +179,7 @@ export const GalileoElementInteractionPlugin: Plugin<GalileoChartType> = {
     const config = {
       ...DEFAULT_CONFIG,
       ...options,
-    } as Required<GalileoInteractionConfig>;
+    } as Required<AuraInteractionConfig>;
 
     // Store configuration on chart instance
     galileoChart.galileoConfig = config;
@@ -265,6 +275,16 @@ export const GalileoElementInteractionPlugin: Plugin<GalileoChartType> = {
       drawMagneticEffects(ctx, state.activeElements);
     }
   },
+};
+
+/**
+ * @deprecated Renamed to `AuraElementInteractionPlugin` for AuraGlass 3.0.7.
+ * This alias preserves existing Chart.js integrations that register the legacy
+ * plugin name or configure `plugins.galileoElementInteraction`.
+ */
+export const GalileoElementInteractionPlugin: Plugin<GalileoChartType> = {
+  ...AuraElementInteractionPlugin,
+  id: "galileoElementInteraction",
 };
 
 // Helper functions
@@ -399,7 +419,7 @@ function updateRipples(ripples: GalileoRipple[], duration: number) {
 function drawHoverGlow(
   ctx: CanvasRenderingContext2D,
   hoveredElement: HoveredElement | null,
-  config: Required<GalileoInteractionConfig>
+  config: Required<AuraInteractionConfig>
 ) {
   if (!hoveredElement) return;
 
@@ -437,4 +457,4 @@ function drawMagneticEffects(
   });
 }
 
-export default GalileoElementInteractionPlugin;
+export default AuraElementInteractionPlugin;

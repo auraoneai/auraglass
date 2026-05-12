@@ -51,6 +51,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
       compact = false,
       contained = false,
       maxHeight,
+      maxWidth,
       initialSort,
       enableRowDragging = false,
       onRowOrderChange,
@@ -163,6 +164,8 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
     const resolvedHeight = typeof height === "number" ? `${height}px` : height;
     const resolvedMaxHeight =
       typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
     if (!safeColumns.length) {
       return (
@@ -213,6 +216,8 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         style={{
           ...style,
           ...(height && { height: resolvedHeight }),
+          maxWidth:
+            resolvedMaxWidth ?? (compact || contained ? "320px" : undefined),
           maxHeight:
             resolvedMaxHeight ?? (compact || contained ? "240px" : undefined),
           overflowY:
@@ -223,7 +228,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
         {...restProps}
       >
         <table
-          className={styles.table}
+          className={cn(styles.table, compact && styles.compact)}
           role="table"
           aria-label={ariaLabel || "Data Grid"}
         >
@@ -237,6 +242,8 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                 ></th>
               )}
               {safeColumns.map((col) => {
+                const columnId = col.id ?? col.key;
+                const columnHeader = col.header ?? col.label ?? col.key;
                 // Determine if this column is the one being sorted
                 const isSortingThisColumn = sortConfig?.key === col.key;
                 const currentSortDirection =
@@ -262,7 +269,7 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
 
                 return (
                   <th
-                    key={col.id}
+                    key={columnId}
                     className={headerClassName}
                     onClick={() => isSortable && handleSort()}
                     tabIndex={isSortable ? 0 : -1}
@@ -277,9 +284,11 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                             : "none"
                         : undefined
                     }
-                    aria-label={col.header ? `Column ${col.header}` : undefined}
+                    aria-label={
+                      columnHeader ? `Column ${columnHeader}` : undefined
+                    }
                   >
-                    <ContrastGuard>{col.header}</ContrastGuard>
+                    <ContrastGuard>{columnHeader}</ContrastGuard>
                     <span
                       className={styles.sortIndicator}
                       style={{
@@ -341,23 +350,34 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                         </span>
                       </td>
                     )}
-                    {safeColumns.map((col) => (
-                      <td
-                        key={`${col.id}-${originalIndex}`}
-                        className={styles.cell}
-                      >
-                        <ContrastGuard>
-                          {col.cellRenderer
-                            ? col.cellRenderer(
-                                row?.[col.accessorKey as keyof typeof row],
-                                row
-                              )
-                            : (row?.[col.accessorKey as keyof typeof row] ??
-                              col.placeholder ??
-                              "—")}
-                        </ContrastGuard>
-                      </td>
-                    ))}
+                    {safeColumns.map((col) => {
+                      const columnId = col.id ?? col.key;
+                      const accessorKey = col.accessorKey ?? col.key;
+                      const cellValue =
+                        row?.[accessorKey as keyof typeof row] ??
+                        col.placeholder ??
+                        "—";
+                      const renderedCell = col.cellRenderer
+                        ? col.cellRenderer(
+                            row?.[accessorKey as keyof typeof row],
+                            row
+                          )
+                        : col.render
+                          ? col.render(
+                              row?.[accessorKey as keyof typeof row],
+                              row
+                            )
+                          : cellValue;
+
+                      return (
+                        <td
+                          key={`${columnId}-${originalIndex}`}
+                          className={styles.cell}
+                        >
+                          <ContrastGuard>{renderedCell}</ContrastGuard>
+                        </td>
+                      );
+                    })}
                   </tr>
                 );
               })

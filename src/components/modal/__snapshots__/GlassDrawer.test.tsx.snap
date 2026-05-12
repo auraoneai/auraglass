@@ -34,11 +34,14 @@ exports[`GlassDrawer matches snapshot 1`] = `
           class="glass-flex-1 glass-min-w-0"
         />
         <div
-          class="motion-primitive glass-inline-glass-block"
+          class="glass-inline-glass-block"
+          data-glass-component="true"
         >
           <button
             aria-label="Close drawer"
             class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-10 px-4 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-ml-4 glass-p-2 glass-radius-lg glass-text-secondary hover:text-foreground hover:bg-muted/20 transition-colors"
+            data-button-size="md"
+            data-button-variant="default"
             data-consciousness-close="true"
             data-magnet="true"
             data-performance-mode="ultra"

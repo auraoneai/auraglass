@@ -47,12 +47,14 @@ exports[`GlassModal matches snapshot 1`] = `
               class="glass-flex-shrink-0 glass-ml-4"
             >
               <div
-                class="motion-primitive glass-inline-glass-block"
+                class="glass-inline-glass-block"
                 data-glass-component="true"
               >
                 <button
                   aria-label="Close modal"
-                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden h-8 w-8 p-0 glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  data-button-size="sm"
+                  data-button-variant="ghost"
                   data-consciousness-close="true"
                 >
                   <svg

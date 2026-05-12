@@ -196,6 +196,65 @@ describe("upstream glass regressions", () => {
     );
   });
 
+  it("keeps data grid row, hover, selected, and header states on contrast-safe tokens", () => {
+    const dataGridCss = fs.readFileSync(
+      path.join(
+        repoRoot,
+        "src/components/data-display/GlassDataGrid.module.css"
+      ),
+      "utf8"
+    );
+
+    expect(dataGridCss).toContain(
+      "color: var(--aura-color-global-text-primary)"
+    );
+    expect(dataGridCss).toContain("--glass-datagrid-row-even-bg");
+    expect(dataGridCss).toContain("--glass-datagrid-row-hover-bg");
+    expect(dataGridCss).toContain("--glass-datagrid-row-selected-bg");
+    expect(dataGridCss).toMatch(/var\(--aura-color-global-text-primary\)\s+7%/);
+    expect(dataGridCss).toMatch(
+      /var\(--aura-color-global-text-primary\)\s+12%/
+    );
+    expect(dataGridCss).toContain('.row[aria-selected="true"]');
+  });
+
+  it("does not enable default canvas or WebGL readback stalls", () => {
+    const sourceFiles = collectFiles(
+      path.join(repoRoot, "src"),
+      new Set([".ts", ".tsx"])
+    ).filter((file) => !file.includes(`${path.sep}__tests__${path.sep}`));
+    const preserveBufferDefaults = sourceFiles.flatMap((file) => {
+      const content = fs.readFileSync(file, "utf8");
+      return /preserveDrawingBuffer\s*:\s*true/.test(content)
+        ? [path.relative(repoRoot, file)]
+        : [];
+    });
+    const liveFilterSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/ai/GlassLiveFilter.tsx"),
+      "utf8"
+    );
+
+    expect(preserveBufferDefaults).toEqual([]);
+    expect(liveFilterSource).toContain("enableRealTimeProcessing = false");
+    expect(liveFilterSource).toContain(
+      "!(enableRealTimeProcessing && video && !video.paused)"
+    );
+  });
+
+  it("does not leak Glass3DEngine debug or placeholder score text by default", () => {
+    const engineSource = fs.readFileSync(
+      path.join(repoRoot, "src/components/effects/Glass3DEngine.tsx"),
+      "utf8"
+    );
+    const searchableText = engineSource.toLowerCase();
+
+    expect(searchableText).not.toContain("00 score gloss");
+    expect(searchableText).not.toContain("score gloss");
+    expect(engineSource).not.toMatch(
+      /showDebugHud\s*=\s*process\.env\.NODE_ENV\s*===\s*["']development["']/
+    );
+  });
+
   it("does not force light-context text tokens onto neutral glass surfaces by default", () => {
     const glassCss = fs.readFileSync(
       path.join(repoRoot, "src/styles/glass.css"),

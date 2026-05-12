@@ -7,7 +7,7 @@ exports[`GlassA11y matches snapshot 1`] = `
 >
   <button
     aria-label="Toggle accessibility controls"
-    class="glass-foundation-complete glass-w-14 glass-glass-h-14 glass-radius-full flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl glass-transition glass-focus glass-press glass-magnet glass-surface-transparent glass-text-secondary glass-border-subtle"
+    class="glass-foundation-complete glass-radius-full glass-w-14 glass-glass-h-14 flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl glass-transition glass-focus glass-press glass-magnet glass-surface-transparent glass-text-secondary glass-border-subtle"
     tabindex="0"
     title="Accessibility Settings"
   >

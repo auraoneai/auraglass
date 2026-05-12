@@ -125,15 +125,14 @@ export const GlassDropdownMenuContent = forwardRef<
     },
     ref
   ) => {
+    const isContained = contained || positionStrategy === "contained";
     const renderContent = (
       <Motion preset="scaleIn">
         <DropdownMenuPrimitive.Content
           ref={ref}
           align={align}
-          sideOffset={
-            contained || positionStrategy === "contained" ? 0 : sideOffset
-          }
-          data-position-strategy={contained ? "contained" : positionStrategy}
+          sideOffset={isContained ? 0 : sideOffset}
+          data-position-strategy={isContained ? "contained" : positionStrategy}
           className={cn(
             "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
             "glass-shadow-lg glass-border glass-border-glass-border/20",
@@ -142,18 +141,19 @@ export const GlassDropdownMenuContent = forwardRef<
             "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
             "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
             "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-            contained && "glass-w-full glass-max-w-full",
+            isContained && "glass-w-full glass-max-w-full",
             className
           )}
           style={{
-            ...(contained || positionStrategy === "contained"
+            ...(isContained
               ? {
                   position: "absolute",
                   left: 0,
-                  right: 0,
                   top: "calc(100% + 0.25rem)",
                   transform: "none",
-                  maxWidth: "100%",
+                  width: "max-content",
+                  minWidth: "12rem",
+                  maxWidth: "min(16rem, calc(100vw - 1rem))",
                 }
               : undefined),
             ...(style as React.CSSProperties | undefined),
@@ -177,7 +177,7 @@ export const GlassDropdownMenuContent = forwardRef<
       </Motion>
     );
 
-    if (!portalled || contained || positionStrategy === "contained") {
+    if (!portalled || isContained) {
       return renderContent;
     }
 
@@ -445,43 +445,91 @@ GlassDropdownMenuSubTrigger.displayName = "GlassDropdownMenuSubTrigger";
 export interface GlassDropdownMenuSubContentProps
   extends React.ComponentPropsWithoutRef<
     typeof DropdownMenuPrimitive.SubContent
-  > {}
+  > {
+  portalContainer?: HTMLElement | null;
+  portalled?: boolean;
+  positionStrategy?: "fixed" | "absolute" | "contained";
+  contained?: boolean;
+}
 
 export const GlassDropdownMenuSubContent = forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   GlassDropdownMenuSubContentProps
->(({ className, ...props }, ref) => {
-  return (
-    <DropdownMenuPrimitive.SubContent
-      ref={ref}
-      className={cn(
-        "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
-        "glass-shadow-lg glass-border glass-border-glass-border/20",
-        "data-[state=open]:animate-in data-[state=closed]:animate-out",
-        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-        "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
-        "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        className
-      )}
-      {...props}
-    >
-      <OptimizedGlass
-        intent="neutral"
-        elevation={"level2"}
-        intensity="medium"
-        depth={2}
-        tint="neutral"
-        border="subtle"
-        animation="none"
-        performanceMode="medium"
-        className="glass-p-0 glass-radial-reveal glass-lift"
+>(
+  (
+    {
+      className,
+      children,
+      portalContainer,
+      portalled = true,
+      positionStrategy = "fixed",
+      contained = false,
+      sideOffset,
+      style,
+      ...props
+    },
+    ref
+  ) => {
+    const isContained = contained || positionStrategy === "contained";
+    const renderContent = (
+      <DropdownMenuPrimitive.SubContent
+        ref={ref}
+        sideOffset={isContained ? 0 : sideOffset}
+        data-position-strategy={isContained ? "contained" : positionStrategy}
+        className={cn(
+          "glass-z-50 glass-min-w-[8rem] glass-overflow-hidden glass-radius-xl glass-p-1",
+          "glass-shadow-lg glass-border glass-border-glass-border/20",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
+          "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+          isContained && "glass-w-full glass-max-w-full",
+          className
+        )}
+        style={{
+          ...(isContained
+            ? {
+                position: "absolute",
+                left: 0,
+                top: "calc(100% + 0.25rem)",
+                transform: "none",
+                width: "max-content",
+                minWidth: "12rem",
+                maxWidth: "min(16rem, calc(100vw - 1rem))",
+              }
+            : undefined),
+          ...(style as React.CSSProperties | undefined),
+        }}
+        {...props}
       >
-        {props?.children}
-      </OptimizedGlass>
-    </DropdownMenuPrimitive.SubContent>
-  );
-});
+        <OptimizedGlass
+          intent="neutral"
+          elevation={"level2"}
+          intensity="medium"
+          depth={2}
+          tint="neutral"
+          border="subtle"
+          animation="none"
+          performanceMode="medium"
+          className="glass-p-0 glass-radial-reveal glass-lift"
+        >
+          {children}
+        </OptimizedGlass>
+      </DropdownMenuPrimitive.SubContent>
+    );
+
+    if (!portalled || isContained) {
+      return renderContent;
+    }
+
+    return (
+      <DropdownMenuPrimitive.Portal container={portalContainer ?? undefined}>
+        {renderContent}
+      </DropdownMenuPrimitive.Portal>
+    );
+  }
+);
 
 GlassDropdownMenuSubContent.displayName = "GlassDropdownMenuSubContent";
 

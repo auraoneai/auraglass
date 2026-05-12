@@ -77,6 +77,18 @@ export interface GlassMessageListProps {
    * Custom className
    */
   className?: string;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the message list inside a bounded local surface. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
   /**
    * Custom data-testid for testing
    */
@@ -102,6 +114,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
   onMessageReply,
   onAttachmentDownload,
   className,
+  compact = false,
+  contained = false,
+  preview = false,
+  maxHeight,
+  maxWidth,
+  density = "comfortable",
   "data-testid": dataTestId,
   ...props
 }) => {
@@ -189,6 +207,15 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
     },
     {} as Record<string, ChatMessage[]>
   );
+  const isCompact = compact || preview || density === "compact";
+  const bounded = contained || isCompact;
+  const resolvedMaxHeight =
+    typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+  const resolvedMaxWidth =
+    typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+  const effectiveShowAvatars = isCompact ? false : showAvatars;
+  const effectiveShowStatus = isCompact ? false : showMessageStatus;
+  const effectiveEnableReplies = isCompact ? false : enableReplies;
 
   return (
     <Motion
@@ -197,7 +224,16 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
       className="glass-w-full glass-h-full"
     >
       <GlassCard
-        className={cn("flex flex-col h-full overflow-hidden", className)}
+        className={cn(
+          "flex flex-col h-full overflow-hidden",
+          bounded && "glass-w-full",
+          isCompact && "glass-text-sm",
+          className
+        )}
+        style={{
+          maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+          maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
+        }}
         data-testid={dataTestId}
         role="log"
         aria-label="Message list"
@@ -205,7 +241,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
       >
         {/* Search header */}
         {enableSearch && showSearch && (
-          <div className="glass-p-4 glass-border-b glass-border-white/10">
+          <div
+            className={cn(
+              isCompact ? "glass-p-2" : "glass-p-4",
+              "glass-border-b glass-border-white/10"
+            )}
+          >
             <input
               type="text"
               placeholder="Search messages..."
@@ -218,13 +259,21 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
 
         {/* Messages */}
         <CardContent
-          className="glass-flex-1 glass-overflow-y-auto glass-p-4"
-          spacing="lg"
+          className={cn(
+            "glass-flex-1 glass-overflow-y-auto",
+            isCompact ? "glass-p-2" : "glass-p-4"
+          )}
+          spacing={isCompact ? "sm" : "lg"}
         >
           {Object.entries(groupedMessages).map(([date, dateMessages]) => (
             <div key={date}>
               {/* Date separator */}
-              <div className="glass-flex glass-items-center glass-justify-center glass-my-6">
+              <div
+                className={cn(
+                  "glass-flex glass-items-center glass-justify-center",
+                  isCompact ? "glass-my-2" : "glass-my-6"
+                )}
+              >
                 <div className="glass-px-3 glass-py-1 glass-surface-subtle/10 glass-radius-full">
                   <span className="glass-text-primary-glass-opacity-60 glass-text-xs">
                     {new Date(date).toLocaleDateString()}
@@ -233,7 +282,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
               </div>
 
               {/* Messages for this date */}
-              <div className="glass-auto-gap glass-auto-gap-md">
+              <div
+                className={cn(
+                  "glass-auto-gap",
+                  isCompact ? "glass-auto-gap-sm" : "glass-auto-gap-md"
+                )}
+              >
                 {dateMessages.map((message, index) => {
                   const isCurrentUser = message.sender.id === currentUserId;
                   const isSelected = selectedMessage === message.id;
@@ -255,12 +309,15 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                     >
                       <div
                         className={cn(
-                          "flex glass-gap-3 glass-p-3 glass-radius-lg transition-all duration-200",
+                          "flex glass-radius-lg transition-all duration-200",
+                          isCompact
+                            ? "glass-gap-2 glass-p-2"
+                            : "glass-gap-3 glass-p-3",
                           isSelected ? "bg-primary/20" : "hover:bg-white/5"
                         )}
                       >
                         {/* Avatar */}
-                        {showAvatars && (
+                        {effectiveShowAvatars && (
                           <div className="glass-flex-shrink-0">
                             <div className="glass-w-10 glass-h-10 glass-radius-full glass-surface-subtle/20 glass-flex glass-items-center glass-justify-center">
                               {message.sender.avatar ? (
@@ -281,7 +338,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                         {/* Message content */}
                         <div className="glass-flex-1 glass-min-w-0">
                           {/* Header */}
-                          <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
+                          <div
+                            className={cn(
+                              "glass-flex glass-items-center glass-gap-2",
+                              isCompact ? "glass-mb-0" : "glass-mb-1"
+                            )}
+                          >
                             <span className="glass-text-primary glass-font-medium glass-text-sm">
                               {message.sender.name}
                             </span>
@@ -301,7 +363,7 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                               />
                             )}
 
-                            {showTimestamps && (
+                            {showTimestamps && !isCompact && (
                               <span className="glass-text-primary-glass-opacity-60 glass-text-xs glass-flex glass-items-center glass-gap-1">
                                 <Clock className="glass-w-3 glass-h-3" />
                                 {formatTimestamp(message.timestamp)}
@@ -316,13 +378,21 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                           </div>
 
                           {/* Message text */}
-                          <div className="glass-text-primary-glass-opacity-90 glass-text-sm glass-leading-relaxed">
+                          <div
+                            className={cn(
+                              "glass-text-primary-glass-opacity-90 glass-leading-relaxed",
+                              isCompact
+                                ? "glass-text-xs glass-line-clamp-2"
+                                : "glass-text-sm"
+                            )}
+                          >
                             {message.content}
                           </div>
 
                           {/* Attachments */}
                           {message.attachments &&
-                            message.attachments.length > 0 && (
+                            message.attachments.length > 0 &&
+                            !isCompact && (
                               <div className="glass-mt-3 glass-auto-gap glass-auto-gap-sm">
                                 {message.attachments.map(
                                   (attachment, attIndex) => (
@@ -406,49 +476,51 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
                         </div>
 
                         {/* Message actions */}
-                        <div className="glass-absolute glass-right-2 glass-top-2 glass-z-10 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity">
-                          <div className="glass-flex glass-flex-col glass-gap-1">
-                            {enableReactions && (
+                        {!isCompact && (
+                          <div className="glass-absolute glass-right-2 glass-top-2 glass-z-10 glass-opacity-0 glass-group-glass-hover-opacity-100 glass-transition-opacity">
+                            <div className="glass-flex glass-flex-col glass-gap-1">
+                              {enableReactions && (
+                                <GlassButton
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleReaction(message.id, "👍");
+                                  }}
+                                  className="glass-p-1 glass-focus glass-touch-target"
+                                >
+                                  <Heart className="glass-w-3 glass-h-3" />
+                                </GlassButton>
+                              )}
+
+                              {effectiveEnableReplies && (
+                                <GlassButton
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleReply(message.id);
+                                  }}
+                                  className="glass-p-1 glass-focus glass-touch-target"
+                                >
+                                  <Reply className="glass-w-3 glass-h-3" />
+                                </GlassButton>
+                              )}
+
                               <GlassButton
                                 variant="ghost"
                                 size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleReaction(message.id, "👍");
-                                }}
+                                onClick={(e) => e.stopPropagation()}
                                 className="glass-p-1 glass-focus glass-touch-target"
                               >
-                                <Heart className="glass-w-3 glass-h-3" />
+                                <MoreHorizontal className="glass-w-3 glass-h-3" />
                               </GlassButton>
-                            )}
-
-                            {enableReplies && (
-                              <GlassButton
-                                variant="ghost"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleReply(message.id);
-                                }}
-                                className="glass-p-1 glass-focus glass-touch-target"
-                              >
-                                <Reply className="glass-w-3 glass-h-3" />
-                              </GlassButton>
-                            )}
-
-                            <GlassButton
-                              variant="ghost"
-                              size="sm"
-                              onClick={(e) => e.stopPropagation()}
-                              className="glass-p-1 glass-focus glass-touch-target"
-                            >
-                              <MoreHorizontal className="glass-w-3 glass-h-3" />
-                            </GlassButton>
+                            </div>
                           </div>
-                        </div>
+                        )}
 
                         {/* Message status */}
-                        {showMessageStatus && isCurrentUser && (
+                        {effectiveShowStatus && isCurrentUser && (
                           <div className="glass-flex-shrink-0 glass-ml-2">
                             {message.type === "system" ? (
                               <AlertCircle className="glass-w-4 glass-h-4 glass-text-primary" />
@@ -473,7 +545,12 @@ export const GlassMessageList: React.FC<GlassMessageListProps> = ({
 
         {/* Search toggle */}
         {enableSearch && (
-          <div className="glass-p-4 glass-border-t glass-border-white/10">
+          <div
+            className={cn(
+              isCompact ? "glass-p-2" : "glass-p-4",
+              "glass-border-t glass-border-white/10"
+            )}
+          >
             <GlassButton
               variant="ghost"
               size="sm"

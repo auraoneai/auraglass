@@ -573,8 +573,12 @@ export const GlassButton = forwardRef(function GlassButton(
     "disabled:pointer-events-none disabled:opacity-50",
     "relative overflow-hidden",
     // Specular overlay + parallax support
-    // Avoid specular overlay on icon-only buttons to prevent hard frost look
-    !iconOnly && "glass-overlay-specular glass-parallax",
+    // Avoid specular overlay on icon-only and aurora buttons. Aurora already
+    // owns its internal light layer; the generic specular pass reads as a
+    // dirty gray backing/rim on marketing CTAs.
+    !iconOnly &&
+      resolvedVariant !== "aurora" &&
+      "glass-overlay-specular glass-parallax",
     // Size - use effective size with biometric adaptation
     sizeClasses?.[effectiveSize],
     // Full width
@@ -701,6 +705,16 @@ export const GlassButton = forwardRef(function GlassButton(
       parallax: true,
       className: "glass-text-primary hover:glass-text-secondary",
     },
+    aurora: {
+      glassVariant: "holographic" as const,
+      tint: "aurora" as const,
+      intensity: "ultra" as const,
+      border: "none" as const,
+      lighting: "iridescent" as const,
+      chromatic: true,
+      parallax: true,
+      className: "glass-button-aurora glass-text-primary",
+    },
   } satisfies Record<GlassButtonVariantType, ButtonVariantVisualConfig>;
 
   const variantConfig = variantStyles?.[resolvedVariant];
@@ -770,181 +784,205 @@ export const GlassButton = forwardRef(function GlassButton(
     );
   };
 
+  const renderMotionFrame = (content: React.ReactNode) => {
+    if (animation === "none") {
+      return (
+        <div data-glass-component className="glass-inline-glass-block">
+          {content}
+        </div>
+      );
+    }
+
+    return (
+      <Motion
+        data-glass-component
+        preset={getAnimationPreset()}
+        animateOnHover
+        className="glass-inline-glass-block"
+      >
+        {content}
+      </Motion>
+    );
+  };
+
   if (resolvedVariant === "ghost" || resolvedVariant === "link") {
     const Comp = (asChild
       ? Slot
       : "button") as unknown as React.ForwardRefExoticComponent<
       ButtonDomProps & React.RefAttributes<HTMLButtonElement>
     >;
-    return (
-      <Motion
-        data-glass-component
-        preset={getAnimationPreset()}
-        animateOnHover={animation !== "none"}
-        className="glass-inline-glass-block"
+    return renderMotionFrame(
+      <Comp
+        className={cn(
+          baseClasses,
+          variantAccent,
+          variantConfig.className,
+          "glass-radius-md glass-magnet glass-ripple glass-press",
+          flat &&
+            "bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
+          className
+        )}
+        data-button-variant={resolvedVariant}
+        data-button-size={size}
+        disabled={disabled || loading}
+        onClick={handleInteraction}
+        ref={buttonRef}
+        {...a11yProps}
+        {...filterDomProps(props)}
       >
-        <Comp
-          className={cn(
-            baseClasses,
-            variantAccent,
-            variantConfig.className,
-            "glass-radius-md overflow-visible glass-magnet glass-ripple glass-press",
-            flat &&
-              "bg-transparent border-0 shadow-none ring-0 focus-visible:ring-0 focus-visible:ring-offset-0",
-            className
-          )}
-          disabled={disabled || loading}
-          onClick={handleInteraction}
-          ref={buttonRef}
-          {...a11yProps}
-          {...filterDomProps(props)}
-        >
-          {renderContent()}
-          {description && (
-            <span
-              id={descriptionId}
-              className="glass-sr-only glass-focus glass-touch-target glass-contrast-guard"
-            >
-              {description}
-            </span>
-          )}
-        </Comp>
-      </Motion>
+        {renderContent()}
+        {description && (
+          <span
+            id={descriptionId}
+            className="glass-sr-only glass-focus glass-touch-target glass-contrast-guard"
+          >
+            {description}
+          </span>
+        )}
+      </Comp>
     );
   }
 
-  return (
-    <Motion
-      preset={getAnimationPreset()}
-      animateOnHover={animation !== "none"}
-      className="glass-inline-glass-block"
-    >
-      {material === "liquid" ? (
-        /* eslint-disable auraglass/no-inline-style-attr -- Liquid button interaction tests assert these CSS custom properties. */
-        <LiquidGlassButtonSurface
-          as={asChild ? (Slot as React.ElementType) : "button"}
-          ior={materialProps?.ior || (variant === "primary" ? 1.48 : 1.44)}
-          thickness={
-            materialProps?.thickness ||
-            (size === "xs" ? 4 : size === "sm" ? 6 : size === "md" ? 8 : 10)
-          }
-          tint={
-            materialProps?.tint ||
-            (variant === "primary"
-              ? { r: 59, g: 130, b: 246, a: 0.1 }
-              : { r: 0, g: 0, b: 0, a: 0.05 })
-          }
-          variant={materialProps?.variant || "regular"}
-          quality={materialProps?.quality || "high"}
-          environmentAdaptation
-          motionResponsive
-          interactive
-          className={cn(
-            baseClasses,
-            variantAccent,
-            variantConfig.className,
-            "liquid-glass-button-surface glass-ripple glass-magnet",
-            className
-          )}
-          style={liquidButtonStyle}
-          data-liquid-glass-button="true"
-          data-button-variant={variant}
-          data-button-size={size}
-          disabled={disabled || loading}
-          onClick={handleInteraction}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          ref={buttonRef}
-          {...a11yProps}
-          {...filterDomProps(props)}
-        >
-          {asChild ? (
-            // When rendering asChild (Slot), Slot expects exactly one child element.
-            // Defer content to the passed child to avoid React.Children.only errors.
-            children
-          ) : (
-            <>
-              {resolvedVariant === "gradient" && (
-                <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
-              )}
-              <span className="glass-relative glass-z-10">
-                {renderContent()}
+  return renderMotionFrame(
+    material === "liquid" ? (
+      /* eslint-disable auraglass/no-inline-style-attr -- Liquid button interaction tests assert these CSS custom properties. */
+      <LiquidGlassButtonSurface
+        as={asChild ? (Slot as React.ElementType) : "button"}
+        ior={materialProps?.ior || (variant === "primary" ? 1.48 : 1.44)}
+        thickness={
+          materialProps?.thickness ||
+          (size === "xs" ? 4 : size === "sm" ? 6 : size === "md" ? 8 : 10)
+        }
+        tint={
+          materialProps?.tint ||
+          (variant === "primary"
+            ? { r: 59, g: 130, b: 246, a: 0.1 }
+            : { r: 0, g: 0, b: 0, a: 0.05 })
+        }
+        variant={materialProps?.variant || "regular"}
+        quality={materialProps?.quality || "high"}
+        environmentAdaptation
+        motionResponsive
+        interactive
+        className={cn(
+          baseClasses,
+          variantAccent,
+          variantConfig.className,
+          "liquid-glass-button-surface glass-ripple glass-magnet",
+          className
+        )}
+        style={liquidButtonStyle}
+        data-liquid-glass-button="true"
+        data-button-variant={variant}
+        data-button-size={size}
+        disabled={disabled || loading}
+        onClick={handleInteraction}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        ref={buttonRef}
+        {...a11yProps}
+        {...filterDomProps(props)}
+      >
+        {asChild ? (
+          // When rendering asChild (Slot), Slot expects exactly one child element.
+          // Defer content to the passed child to avoid React.Children.only errors.
+          children
+        ) : (
+          <>
+            {(resolvedVariant === "gradient" ||
+              resolvedVariant === "aurora") && (
+              <div
+                className={cn(
+                  "glass-absolute glass-inset-0 glass-radius-md glass-pointer-events-none",
+                  resolvedVariant === "aurora"
+                    ? "glass-button-aurora-layer"
+                    : "glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary"
+                )}
+              />
+            )}
+            <span className="glass-relative glass-z-10">{renderContent()}</span>
+            {description && (
+              <span id={descriptionId} className="glass-sr-only">
+                {description}
               </span>
-              {description && (
-                <span id={descriptionId} className="glass-sr-only">
-                  {description}
-                </span>
-              )}
-            </>
-          )}
-        </LiquidGlassButtonSurface>
-      ) : (
-        /* eslint-enable auraglass/no-inline-style-attr */
-        <OptimizedGlass
-          as={asChild ? (Slot as React.ElementType) : "button"}
-          variant={optimizedGlassVariant}
-          elevation={elevation}
-          intensity={intensity || variantConfig.intensity}
-          depth={depth}
-          tint={tint || variantConfig.tint}
-          border={border || variantConfig.border || "subtle"}
-          animation={
-            animation === "none"
-              ? "none"
-              : animation === "scale"
-                ? "float"
-                : animation === "bounce"
-                  ? "pulse"
-                  : "shimmer"
-          }
-          lighting={variantConfig.lighting || "ambient"}
-          caustics={variantConfig.caustics || false}
-          chromatic={variantConfig.chromatic || false}
-          parallax={variantConfig.parallax || false}
-          refraction={variantConfig.refraction || false}
-          adaptive={variantConfig.adaptive || false}
-          interactive
-          hoverSheen
-          liftOnHover
-          press
-          magnet
-          cursorHighlight={false}
-          performanceMode="ultra"
-          className={cn(
-            baseClasses,
-            variantAccent,
-            variantConfig.className,
-            "glass-radius-md glass-ripple glass-magnet",
-            className
-          )}
-          disabled={disabled || loading}
-          onClick={handleInteraction}
-          ref={buttonRef}
-          {...a11yProps}
-          {...filterDomProps(props)}
-        >
-          {asChild ? (
-            // When rendering asChild (Slot), Slot expects exactly one child element.
-            // Defer content to the passed child to avoid React.Children.only errors.
-            children
-          ) : (
-            <>
-              {resolvedVariant === "gradient" && (
-                <div className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary glass-radius-md glass-focus glass-touch-target glass-contrast-guard" />
-              )}
-              <span className="glass-relative glass-z-10">
-                {renderContent()}
+            )}
+          </>
+        )}
+      </LiquidGlassButtonSurface>
+    ) : (
+      /* eslint-enable auraglass/no-inline-style-attr */
+      <OptimizedGlass
+        as={asChild ? (Slot as React.ElementType) : "button"}
+        variant={optimizedGlassVariant}
+        elevation={elevation}
+        intensity={intensity || variantConfig.intensity}
+        depth={depth}
+        tint={tint || variantConfig.tint}
+        border={border || variantConfig.border || "subtle"}
+        animation={
+          animation === "none"
+            ? "none"
+            : animation === "scale"
+              ? "float"
+              : animation === "bounce"
+                ? "pulse"
+                : "shimmer"
+        }
+        lighting={variantConfig.lighting || "ambient"}
+        caustics={variantConfig.caustics || false}
+        chromatic={variantConfig.chromatic || false}
+        parallax={variantConfig.parallax || false}
+        refraction={variantConfig.refraction || false}
+        adaptive={variantConfig.adaptive || false}
+        interactive
+        hoverSheen={resolvedVariant !== "aurora"}
+        liftOnHover
+        press
+        magnet
+        cursorHighlight={false}
+        performanceMode="ultra"
+        className={cn(
+          baseClasses,
+          variantAccent,
+          variantConfig.className,
+          "glass-radius-md glass-ripple glass-magnet",
+          className
+        )}
+        data-button-variant={resolvedVariant}
+        data-button-size={size}
+        disabled={disabled || loading}
+        onClick={handleInteraction}
+        ref={buttonRef}
+        {...a11yProps}
+        {...filterDomProps(props)}
+      >
+        {asChild ? (
+          // When rendering asChild (Slot), Slot expects exactly one child element.
+          // Defer content to the passed child to avoid React.Children.only errors.
+          children
+        ) : (
+          <>
+            {(resolvedVariant === "gradient" ||
+              resolvedVariant === "aurora") && (
+              <div
+                className={cn(
+                  "glass-absolute glass-inset-0 glass-radius-md glass-pointer-events-none",
+                  resolvedVariant === "aurora"
+                    ? "glass-button-aurora-layer"
+                    : "glass-gradient-primary glass-gradient-primary glass-via-secondary-opacity-20 glass-gradient-primary"
+                )}
+              />
+            )}
+            <span className="glass-relative glass-z-10">{renderContent()}</span>
+            {description && (
+              <span id={descriptionId} className="glass-sr-only">
+                {description}
               </span>
-              {description && (
-                <span id={descriptionId} className="glass-sr-only">
-                  {description}
-                </span>
-              )}
-            </>
-          )}
-        </OptimizedGlass>
-      )}
-    </Motion>
+            )}
+          </>
+        )}
+      </OptimizedGlass>
+    )
   );
 });
 

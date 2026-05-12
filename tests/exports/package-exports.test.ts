@@ -22,6 +22,21 @@ const exportsMap: Record<
       expect(mod).toHaveProperty("GlassDropdownMenuCheckboxItem");
       expect(mod).toHaveProperty("GlassDropdownMenuRadioGroup");
       expect(mod).toHaveProperty("GlassDropdownMenuRadioItem");
+      expect(mod).toHaveProperty("AuroraBackground");
+      expect(mod).toHaveProperty("AuroraOrb");
+      expect(mod).toHaveProperty("DisplayText");
+      expect(mod).toHaveProperty("LogoMark");
+      expect(mod).toHaveProperty("ShowcaseCard");
+      expect(mod).toHaveProperty("FeatureTile");
+      expect(mod).toHaveProperty("InstallCommand");
+      expect(mod).toHaveProperty("AuraElementInteractionPlugin");
+      expect(mod.AuraElementInteractionPlugin.id).toBe(
+        "auraElementInteraction"
+      );
+      expect(mod).toHaveProperty("GalileoElementInteractionPlugin");
+      expect(mod.GalileoElementInteractionPlugin.id).toBe(
+        "galileoElementInteraction"
+      );
     },
   },
   "./tokens": {

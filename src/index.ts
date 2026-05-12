@@ -198,6 +198,7 @@ export { GlassCardLink } from "./components/card/glass-card-link";
 export { GlassCard } from "./components/card/GlassCard";
 export { GlassCard as Card } from "./components/card/GlassCard"; // Alias export
 export { GlowingCard } from "./components/card/GlowingCard";
+export * from "./components/marketing";
 
 // Chart Components
 export { GlassAreaChart } from "./components/charts/GlassAreaChart";
@@ -536,7 +537,12 @@ export {
   GlassScreenReader,
 } from "./components/accessibility/GlassA11y";
 export { EnhancedGlassButton } from "./components/button/EnhancedGlassButton";
-export { GalileoElementInteractionPlugin } from "./components/charts/plugins/GalileoElementInteractionPlugin";
+export {
+  AuraElementInteractionPlugin,
+  GalileoElementInteractionPlugin,
+  type AuraInteractionConfig,
+  type GalileoInteractionConfig,
+} from "./components/charts/plugins/GalileoElementInteractionPlugin";
 export { InterpolationUtils } from "./animations/physics/interpolation";
 // AuroraPro (R3F-powered) is exposed via the `aura-glass/three` entrypoint.
 export { Glass3DEngine } from "./components/effects/Glass3DEngine";

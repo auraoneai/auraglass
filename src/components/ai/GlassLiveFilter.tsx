@@ -191,7 +191,7 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       showFilterLibrary = true,
       showPreview = true,
       showControls = false,
-      enableRealTimeProcessing = true,
+      enableRealTimeProcessing = false,
       enableChaining = true,
       enableCustomFilters = false,
       maxFilters = 5,
@@ -696,14 +696,18 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
         img.onload = () => {
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          processImageData(imgData, processedCtx);
+          processImageData(imgData, processedCtx, true);
         };
         img.src = originalImageUrl;
         return;
       }
 
       if (imageData) {
-        processImageData(imageData, processedCtx);
+        processImageData(
+          imageData,
+          processedCtx,
+          !(enableRealTimeProcessing && video && !video.paused)
+        );
       }
 
       if (enableRealTimeProcessing && video && !video.paused) {
@@ -713,7 +717,8 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
 
     const processImageData = (
       imageData: ImageData,
-      ctx: CanvasRenderingContext2D
+      ctx: CanvasRenderingContext2D,
+      emitResult = true
     ) => {
       const activeFilterObjects = availableFilters.filter((f) =>
         activeFilters.includes(f.id)
@@ -730,9 +735,11 @@ export const GlassLiveFilter = forwardRef<HTMLDivElement, GlassLiveFilterProps>(
       const processedData = applyFilters(imageData, activeFilterObjects);
       ctx.putImageData(processedData, 0, 0);
 
-      const processedUrl = ctx.canvas.toDataURL();
-      setProcessedImageUrl(processedUrl);
-      onProcessingComplete?.(processedUrl);
+      if (emitResult) {
+        const processedUrl = ctx.canvas.toDataURL();
+        setProcessedImageUrl(processedUrl);
+        onProcessingComplete?.(processedUrl);
+      }
 
       setIsProcessing(false);
     };

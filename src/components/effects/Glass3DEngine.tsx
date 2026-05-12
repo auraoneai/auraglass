@@ -54,6 +54,10 @@ interface Glass3DEngineProps {
   interactionTypes?: Glass3DInteraction[];
   perspectiveDistance?: number;
   maxDepthLayers?: number;
+  /** Run a small package-owned demo loop for catalog/docs previews. */
+  autoDemo?: boolean;
+  /** Whether to honor reduced-motion settings for animation. */
+  respectMotionPreference?: boolean;
   onLayerInteraction?: (
     layerId: string,
     interaction: Glass3DInteraction
@@ -115,9 +119,12 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
   interactionTypes = ["hover", "scroll", "tilt"],
   perspectiveDistance = 1000,
   maxDepthLayers = 4,
+  autoDemo = false,
+  respectMotionPreference = true,
   onLayerInteraction,
 }) => {
   const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = respectMotionPreference ? !prefersReducedMotion : true;
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isInteracting, setIsInteracting] = useState(false);
@@ -421,7 +428,23 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
           overflow: "visible",
         },
       }}
-      animate={controls}
+      animate={
+        !shouldAnimate
+          ? {}
+          : autoDemo
+            ? {
+                rotateZ: [0, 0.65, -0.65, 0],
+                scale: [1, 1.01, 1],
+              }
+            : controls
+      }
+      transition={
+        !shouldAnimate
+          ? { duration: 0 }
+          : autoDemo
+            ? { duration: 3.4, repeat: Infinity, ease: "easeInOut" }
+            : undefined
+      }
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -486,15 +509,25 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
               },
             }}
             animate={
-              prefersReducedMotion
+              !shouldAnimate
                 ? {}
-                : {
-                    opacity: isInteracting ? 0.8 : 0.4,
-                    scale: isInteracting ? 1.02 : 1,
-                  }
+                : autoDemo
+                  ? {
+                      opacity: [0.38, 0.78, 0.46],
+                      scale: [1, 1.025, 1],
+                      rotate: [0, 2, -2, 0],
+                    }
+                  : {
+                      opacity: isInteracting ? 0.8 : 0.4,
+                      scale: isInteracting ? 1.02 : 1,
+                    }
             }
             transition={
-              prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
+              !shouldAnimate
+                ? { duration: 0 }
+                : autoDemo
+                  ? { duration: 3.2, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.3 }
             }
           />
         )}
@@ -523,8 +556,8 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
           style={{
             position: "absolute",
             inset: "-20%",
-            background: `radial-gradient(circle at ${50 + mousePosition.x * 10}% ${50 + mousePosition.y * 10}%, 
-              var(--glass-bg-default) 0%, 
+            background: `radial-gradient(circle at ${50 + mousePosition.x * 10}% ${50 + mousePosition.y * 10}%,
+              var(--glass-bg-default) 0%,
               transparent 70%
             )`,
             transform: `translateZ(-100px) scale(1.2)`,
@@ -538,7 +571,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
         <div className="glass-3d-interaction-indicator">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { scale: 1, opacity: 1 }}
+            animate={!shouldAnimate ? {} : { scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             className="interaction-pulse"
             style={{

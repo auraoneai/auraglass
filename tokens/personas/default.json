@@ -190,6 +190,64 @@
       }
     }
   },
+  "marketing": {
+    "palettes": {
+      "aurora": {
+        "cyan": "rgba(34, 211, 238, 0.92)",
+        "mint": "rgba(125, 249, 255, 0.46)",
+        "violet": "rgba(99, 102, 241, 0.94)",
+        "rose": "rgba(251, 113, 133, 0.44)",
+        "magenta": "rgba(236, 72, 153, 0.92)"
+      },
+      "prism": {
+        "cyan": "rgba(6, 182, 212, 0.88)",
+        "indigo": "rgba(79, 70, 229, 0.88)",
+        "pink": "rgba(219, 39, 119, 0.82)"
+      },
+      "ocean": {
+        "foam": "rgba(103, 232, 249, 0.72)",
+        "blue": "rgba(14, 165, 233, 0.84)",
+        "deep": "rgba(30, 64, 175, 0.82)"
+      },
+      "ember": {
+        "gold": "rgba(251, 191, 36, 0.78)",
+        "coral": "rgba(249, 115, 22, 0.82)",
+        "rose": "rgba(244, 63, 94, 0.78)"
+      },
+      "mono": {
+        "mist": "rgba(248, 250, 252, 0.72)",
+        "slate": "rgba(100, 116, 139, 0.72)",
+        "ink": "rgba(15, 23, 42, 0.72)"
+      }
+    },
+    "background": {
+      "vignette": "radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18), transparent 58%)",
+      "grainOpacity": "0.08",
+      "particleOpacity": "0.58",
+      "fixedZIndex": "-1"
+    },
+    "orb": {
+      "gradient": "conic-gradient(from 180deg, rgba(34, 211, 238, 0.92), rgba(99, 102, 241, 0.94), rgba(236, 72, 153, 0.9), rgba(34, 211, 238, 0.92))",
+      "glow": "0 28px 90px rgba(99, 102, 241, 0.42)",
+      "insetHighlight": "inset 0 1px 24px rgba(255, 255, 255, 0.34)"
+    },
+    "displayText": {
+      "heroSize": "clamp(3rem, 9vw, 7.5rem)",
+      "sectionSize": "clamp(2rem, 5vw, 4.5rem)",
+      "gradientAurora": "linear-gradient(100deg, #ffffff 0%, #7dd3fc 34%, #c4b5fd 68%, #f0abfc 100%)"
+    },
+    "surface": {
+      "showcaseBackground": "linear-gradient(145deg, rgba(15, 23, 42, 0.62), rgba(30, 41, 59, 0.34))",
+      "showcaseBorder": "rgba(255, 255, 255, 0.18)",
+      "showcaseGlow": "0 24px 80px rgba(15, 23, 42, 0.42), 0 0 44px rgba(99, 102, 241, 0.16)",
+      "highlight": "linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent)"
+    },
+    "button": {
+      "auroraBackground": "linear-gradient(135deg, rgba(34, 211, 238, 0.94) 0%, rgba(99, 102, 241, 0.94) 42%, rgba(236, 72, 153, 0.92) 100%)",
+      "auroraGlow": "0 16px 42px rgba(99, 102, 241, 0.38)",
+      "auroraText": "#ffffff"
+    }
+  },
   "glass": {
     "intents": ["neutral", "primary", "success", "warning", "danger", "info"],
     "elevations": ["level1", "level2", "level3", "level4", "level5"],

@@ -3,7 +3,7 @@
 exports[`GlassMagneticCursor matches snapshot 1`] = `
 <span
   class="glass-sr-only"
-  id="cursor-description-:rb:"
+  id="cursor-description-:rd:"
 >
   Magnetic cursor (default)
   . Interactive cursor that follows mouse movement

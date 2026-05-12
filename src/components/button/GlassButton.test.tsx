@@ -89,4 +89,17 @@ describe("GlassButton", () => {
     );
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it("renders the aurora variant with variant metadata and accessible state", () => {
+    render(
+      <GlassButton variant="aurora" aria-label="Start building">
+        Start building
+      </GlassButton>
+    );
+
+    const button = screen.getByRole("button", { name: /start building/i });
+    expect(button).toHaveAttribute("data-button-variant", "aurora");
+    expect(button).toHaveClass("glass-button-aurora");
+    expect(button.querySelector(".glass-button-aurora-layer")).toBeTruthy();
+  });
 });

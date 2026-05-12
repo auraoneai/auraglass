@@ -11,6 +11,9 @@ import { cn } from "../../lib/utilsComprehensive";
 interface CollaborativeCommentsProps {
   className?: string;
   allowComments?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
   "aria-label"?: string;
   "data-testid"?: string;
 }
@@ -49,7 +52,8 @@ const CommentBubble: React.FC<{
   onReply: (commentId: string, content: string) => void;
   onResolve: (commentId: string) => void;
   isOwner: boolean;
-}> = ({ comment, user, onReply, onResolve, isOwner }) => {
+  compact?: boolean;
+}> = ({ comment, user, onReply, onResolve, isOwner, compact = false }) => {
   const [showReplies, setShowReplies] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [isReplying, setIsReplying] = useState(false);
@@ -61,10 +65,16 @@ const CommentBubble: React.FC<{
   useEffect(() => {
     const el = bubbleRef.current;
     if (!el) return;
+    if (compact) {
+      el.style.left = `${Math.min(Math.max(comment.position.x, 104), 210)}px`;
+      el.style.top = "28px";
+      el.style.transform = "translateX(-50%)";
+      return;
+    }
     el.style.left = `${comment.position.x}px`;
     el.style.top = `${comment.position.y}px`;
     el.style.transform = "translate(-50%, -100%)";
-  }, [comment.position.x, comment.position.y]);
+  }, [comment.position.x, comment.position.y, compact]);
 
   useEffect(() => {
     const ptr = pointerRef.current;
@@ -109,13 +119,18 @@ const CommentBubble: React.FC<{
       data-glass-component
       ref={bubbleRef}
       className="glass-absolute glass-z-40 glass-container-xs"
-      style={{ opacity: comment.resolved ? 0.6 : 1 }}
+      style={{
+        opacity: comment.resolved ? 0.6 : 1,
+        width: compact ? 180 : undefined,
+        maxWidth: compact ? "calc(100% - 32px)" : undefined,
+      }}
     >
       <div className="glass-relative">
         {/* Main comment */}
         <Glass
           className={cn(
-            "glass-p-3 glass-mb-2 glass-shadow-lg glass-border-l glass-contrast-guard"
+            "glass-mb-2 glass-shadow-lg glass-border-l glass-contrast-guard",
+            compact ? "glass-p-2" : "glass-p-3"
           )}
           style={{
             borderLeftWidth: 4,
@@ -124,7 +139,12 @@ const CommentBubble: React.FC<{
               : "var(--glass-color-primary)",
           }}
         >
-          <div className="glass-flex glass-items-start glass-justify-between glass-mb-2">
+          <div
+            className={cn(
+              "glass-flex glass-items-start glass-justify-between",
+              compact ? "glass-mb-1" : "glass-mb-2"
+            )}
+          >
             <div className="glass-flex glass-items-center glass-gap-2">
               <div
                 ref={avatarRef}
@@ -132,12 +152,19 @@ const CommentBubble: React.FC<{
               >
                 {user?.name?.[0]?.toUpperCase() || "?"}
               </div>
-              <span className="glass-text-sm glass-font-medium glass-text-secondary">
+              <span
+                className={cn(
+                  "glass-font-medium glass-text-secondary",
+                  compact ? "glass-text-xs" : "glass-text-sm"
+                )}
+              >
                 {user?.name || "Unknown User"}
               </span>
-              <span className="glass-text-xs glass-text-secondary">
-                {formatTime(comment.timestamp)}
-              </span>
+              {!compact && (
+                <span className="glass-text-xs glass-text-secondary">
+                  {formatTime(comment.timestamp)}
+                </span>
+              )}
             </div>
             <div className="glass-flex glass-gap-1">
               {!comment.resolved &&
@@ -158,7 +185,12 @@ const CommentBubble: React.FC<{
             </div>
           </div>
 
-          <p className="glass-text-sm glass-text-secondary glass-mb-2">
+          <p
+            className={cn(
+              "glass-text-secondary glass-mb-2",
+              compact ? "glass-text-xs" : "glass-text-sm"
+            )}
+          >
             {comment.content}
           </p>
 
@@ -170,7 +202,7 @@ const CommentBubble: React.FC<{
               Reply
             </button>
 
-            {(comment.replies?.length || 0) > 0 && (
+            {!compact && (comment.replies?.length || 0) > 0 && (
               <button
                 onClick={() => setShowReplies(!showReplies)}
                 className="glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
@@ -213,41 +245,44 @@ const CommentBubble: React.FC<{
         )}
 
         {/* Replies */}
-        {showReplies && comment.replies && comment.replies.length > 0 && (
-          <div className="glass-ml-4 glass-space-y-2">
-            {comment.replies.map((reply: any) => {
-              const replyUser = user; // In real app, would look up by reply.userId
-              return (
-                <Glass
-                  key={reply.id}
-                  className="glass-p-2 glass-surface-subtle glass-contrast-guard"
-                >
-                  <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
-                    <div
-                      ref={(el) => {
-                        if (el)
-                          el.style.backgroundColor =
-                            replyUser?.color || "var(--glass-gray-500)";
-                      }}
-                      className="glass-w-4 glass-h-4 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-text-xs"
-                    >
-                      {replyUser?.name?.[0]?.toUpperCase() || "?"}
+        {!compact &&
+          showReplies &&
+          comment.replies &&
+          comment.replies.length > 0 && (
+            <div className="glass-ml-4 glass-space-y-2">
+              {comment.replies.map((reply: any) => {
+                const replyUser = user; // In real app, would look up by reply.userId
+                return (
+                  <Glass
+                    key={reply.id}
+                    className="glass-p-2 glass-surface-subtle glass-contrast-guard"
+                  >
+                    <div className="glass-flex glass-items-center glass-gap-2 glass-mb-1">
+                      <div
+                        ref={(el) => {
+                          if (el)
+                            el.style.backgroundColor =
+                              replyUser?.color || "var(--glass-gray-500)";
+                        }}
+                        className="glass-w-4 glass-h-4 glass-radius-full glass-flex glass-items-center glass-justify-center glass-text-primary glass-text-xs"
+                      >
+                        {replyUser?.name?.[0]?.toUpperCase() || "?"}
+                      </div>
+                      <span className="glass-text-xs glass-font-medium glass-text-secondary">
+                        {replyUser?.name || "Unknown User"}
+                      </span>
+                      <span className="glass-text-xs glass-text-secondary">
+                        {formatTime(reply.timestamp)}
+                      </span>
                     </div>
-                    <span className="glass-text-xs glass-font-medium glass-text-secondary">
-                      {replyUser?.name || "Unknown User"}
-                    </span>
-                    <span className="glass-text-xs glass-text-secondary">
-                      {formatTime(reply.timestamp)}
-                    </span>
-                  </div>
-                  <p className="glass-text-xs glass-text-secondary">
-                    {reply.content}
-                  </p>
-                </Glass>
-              );
-            })}
-          </div>
-        )}
+                    <p className="glass-text-xs glass-text-secondary">
+                      {reply.content}
+                    </p>
+                  </Glass>
+                );
+              })}
+            </div>
+          )}
 
         {/* Comment pointer */}
         <div
@@ -304,6 +339,9 @@ export const GlassCollaborativeComments: React.FC<
 > = ({
   className,
   allowComments = true,
+  compact = false,
+  contained = false,
+  maxHeight,
   "aria-label": ariaLabel,
   "data-testid": dataTestId,
 }) => {
@@ -324,6 +362,8 @@ export const GlassCollaborativeComments: React.FC<
   } | null>(null);
   const [newCommentText, setNewCommentText] = useState("");
   const [selectedComment, setSelectedComment] = useState<string | null>(null);
+  const isCompactMode = compact || contained;
+  const boundedHeight = maxHeight ?? (isCompactMode ? 220 : undefined);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const newBubbleRef = useRef<HTMLDivElement>(null);
@@ -344,8 +384,10 @@ export const GlassCollaborativeComments: React.FC<
     if (!el || !newCommentPosition) return;
     el.style.left = `${newCommentPosition.x}px`;
     el.style.top = `${newCommentPosition.y}px`;
-    el.style.transform = "translate(-50%, -100%)";
-  }, [newCommentPosition]);
+    el.style.transform = isCompactMode
+      ? "translateX(-50%)"
+      : "translate(-50%, -100%)";
+  }, [newCommentPosition, isCompactMode]);
 
   useEffect(() => {
     if (newAvatarRef.current) {
@@ -383,7 +425,14 @@ export const GlassCollaborativeComments: React.FC<
         y: e.clientY - rect.top,
       };
 
-      setNewCommentPosition(position);
+      setNewCommentPosition(
+        isCompactMode
+          ? {
+              x: Math.min(Math.max(position.x, 104), 210),
+              y: 28,
+            }
+          : position
+      );
       setIsAddingComment(true);
     };
 
@@ -397,7 +446,7 @@ export const GlassCollaborativeComments: React.FC<
         container.removeEventListener("dblclick", handleDoubleClick);
       }
     };
-  }, [allowComments, showComments, resolvedCurrentUser]);
+  }, [allowComments, showComments, resolvedCurrentUser, isCompactMode]);
 
   const handleAddComment = () => {
     if (!newCommentText.trim() || !newCommentPosition || !resolvedCurrentUser)
@@ -444,13 +493,39 @@ export const GlassCollaborativeComments: React.FC<
     return null;
   }
 
+  const clampPosition = (position: { x: number; y: number }) => {
+    if (!isCompactMode) return position;
+    return {
+      x: Math.min(Math.max(position.x, 44), 260),
+      y: Math.min(Math.max(position.y, 138), 168),
+    };
+  };
+
+  const withClampedPosition = (comment: CollaborationComment) => ({
+    ...comment,
+    position: clampPosition(comment.position),
+  });
+
   return (
     <div
       ref={containerRef}
       className={cn(
         "glass-relative glass-w-full glass-h-full glass-min-h-48",
+        isCompactMode && "glass-overflow-hidden",
         className
       )}
+      style={{
+        ...(boundedHeight !== undefined
+          ? {
+              maxHeight:
+                typeof boundedHeight === "number"
+                  ? `${boundedHeight}px`
+                  : boundedHeight,
+              minHeight: isCompactMode ? "180px" : undefined,
+              overflow: "hidden",
+            }
+          : null),
+      }}
       aria-label={ariaLabel}
       data-testid={dataTestId}
     >
@@ -465,7 +540,7 @@ export const GlassCollaborativeComments: React.FC<
         return (
           <CommentDot
             key={`group-${index}`}
-            position={firstComment.position}
+            position={clampPosition(firstComment.position)}
             color={user?.color || "var(--glass-gray-500)"}
             count={group.length}
             resolved={!hasUnresolved}
@@ -497,11 +572,12 @@ export const GlassCollaborativeComments: React.FC<
               return (
                 <CommentBubble
                   key={comment.id}
-                  comment={comment}
+                  comment={withClampedPosition(comment)}
                   user={user}
                   onReply={handleReply}
                   onResolve={handleResolve}
                   isOwner={resolvedCurrentUser?.id === comment.userId}
+                  compact={isCompactMode}
                 />
               );
             })}
@@ -513,9 +589,16 @@ export const GlassCollaborativeComments: React.FC<
         <div
           ref={newBubbleRef}
           className="glass-absolute glass-z-40 glass-container-xs"
+          style={{
+            width: isCompactMode ? 180 : undefined,
+            maxWidth: isCompactMode ? "calc(100% - 32px)" : undefined,
+          }}
         >
           <Glass
-            className="glass-p-3 glass-shadow-lg glass-border-l glass-contrast-guard"
+            className={cn(
+              "glass-shadow-lg glass-border-l glass-contrast-guard",
+              isCompactMode ? "glass-p-2" : "glass-p-3"
+            )}
             style={{
               borderLeftWidth: 4,
               borderLeftColor: "var(--glass-color-primary)",
@@ -539,7 +622,7 @@ export const GlassCollaborativeComments: React.FC<
               placeholder="Write a comment..."
               className="glass-w-full glass-p-2 glass-text-sm glass-border glass-border-subtle glass-radius glass-focus glass-touch-target glass-contrast-guard"
               style={{ resize: "none" }}
-              rows={3}
+              rows={isCompactMode ? 2 : 3}
               autoFocus
             />
 

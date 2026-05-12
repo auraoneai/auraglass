@@ -321,6 +321,11 @@
           }
         }
       }
+    },
+    "marketing": {
+      "type": "object",
+      "description": "Marketing Kit tokens for landing pages, heroes, aurora surfaces, and showcase CTAs.",
+      "additionalProperties": true
     }
   },
   "definitions": {

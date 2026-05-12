@@ -25,7 +25,7 @@ exports[`GlassCollaborativeComments matches snapshot 1`] = `
         class="glass-relative"
       >
         <div
-          class="glass-foundation-basic glass-p-3 glass-mb-2 glass-shadow-lg glass-border-l glass-contrast-guard"
+          class="glass-foundation-basic glass-mb-2 glass-shadow-lg glass-border-l glass-contrast-guard glass-p-3"
           style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); border-left-width: 4px;"
         >
           <div
@@ -41,7 +41,7 @@ exports[`GlassCollaborativeComments matches snapshot 1`] = `
                 L
               </div>
               <span
-                class="glass-text-sm glass-font-medium glass-text-secondary"
+                class="glass-font-medium glass-text-secondary glass-text-sm"
               >
                 Lumen
               </span>
@@ -63,7 +63,7 @@ exports[`GlassCollaborativeComments matches snapshot 1`] = `
             </div>
           </div>
           <p
-            class="glass-text-sm glass-text-secondary glass-mb-2"
+            class="glass-text-secondary glass-mb-2 glass-text-sm"
           >
             Tighten this surface copy before launch.
           </p>
@@ -79,9 +79,9 @@ exports[`GlassCollaborativeComments matches snapshot 1`] = `
               class="glass-text-secondary hover:glass-text-secondary glass-focus glass-touch-target glass-contrast-guard"
             >
               Show
-               
+
               1
-               
+
               replies
             </button>
           </div>

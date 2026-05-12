@@ -74,12 +74,14 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             class="glass-flex glass-gap-2"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Generate random gradient"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rl:"
                 title="Random Gradient"
               >
@@ -115,12 +117,14 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Copy gradient to clipboard"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rm:"
                 title="Copy Gradient"
               >
@@ -179,12 +183,14 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               </code>
             </span>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Reset gradient to default"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-2 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rn:"
                 title="Reset"
               >
@@ -224,10 +230,13 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             class="glass-flex glass-gap-2"
           >
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
+              data-glass-component="true"
             >
               <button
                 class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-lift-on-hover glass-hover-sheen glass-press glass-tier-high inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-primary hover:glass-text-secondary glass-radius-md glass-ripple glass-magnet glass-capitalize glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="primary"
                 data-caustics="true"
                 data-magnet="true"
                 data-performance-mode="ultra"
@@ -242,22 +251,26 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rp:"
               >
                 radial
               </button>
             </div>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-capitalize glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rq:"
               >
                 conic
@@ -276,7 +289,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             <h3
               class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
             >
-              Angle: 
+              Angle:
               45
               °
             </h3>
@@ -308,12 +321,14 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
               </h3>
             </span>
             <div
-              class="motion-primitive glass-inline-glass-block"
+              class="glass-inline-glass-block"
               data-glass-component="true"
             >
               <button
                 aria-label="Add color stop"
-                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md overflow-visible glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
+                class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
+                data-button-size="sm"
+                data-button-variant="ghost"
                 id="glass-button-:rr:"
               >
                 <svg
@@ -368,7 +383,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 <div
                   class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
-                  Position: 
+                  Position:
                   0
                   %
                 </div>
@@ -397,7 +412,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 <div
                   class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
-                  Position: 
+                  Position:
                   100
                   %
                 </div>

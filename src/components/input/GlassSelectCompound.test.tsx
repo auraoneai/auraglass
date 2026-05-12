@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassSelectCompound Component Tests
  *
@@ -11,25 +11,25 @@
  * - ⏭️  Reduced motion (not applicable)
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
 import GlassSelectCompound, {
   GlassSelectTrigger,
   GlassSelectValue,
   GlassSelectContent,
   GlassSelectItem,
-} from '@/components/input/GlassSelectCompound';
+} from "@/components/input/GlassSelectCompound";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassSelectCompound', () => {
+describe("GlassSelectCompound", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(
       <GlassSelectCompound>
         <GlassSelectTrigger>
@@ -47,7 +47,7 @@ describe('GlassSelectCompound', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(
       <GlassSelectCompound>
         <GlassSelectTrigger>
@@ -63,16 +63,10 @@ describe('GlassSelectCompound', () => {
     expect(results).toHaveNoViolations();
   });
 
-  
-
-  
-
-  
-
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassSelectCompound data-testid="glassselectcompound">
         <GlassSelectTrigger className="custom-class">
@@ -85,16 +79,16 @@ describe('GlassSelectCompound', () => {
       </GlassSelectCompound>
     );
 
-    const element = container.querySelector('[data-glass-component]')
-      || container.firstChild;
+    const element =
+      container.querySelector("[data-glass-component]") || container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(
       <GlassSelectCompound>
         <GlassSelectTrigger>
@@ -107,5 +101,23 @@ describe('GlassSelectCompound', () => {
       </GlassSelectCompound>
     );
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("supports contained content without portalling to document.body", () => {
+    const { container } = render(
+      <GlassSelectCompound defaultOpen defaultValue="option1">
+        <GlassSelectTrigger>
+          <GlassSelectValue placeholder="Select an option" />
+        </GlassSelectTrigger>
+        <GlassSelectContent contained data-testid="contained-select">
+          <GlassSelectItem value="option1">Option 1</GlassSelectItem>
+          <GlassSelectItem value="option2">Option 2</GlassSelectItem>
+        </GlassSelectContent>
+      </GlassSelectCompound>
+    );
+
+    const content = screen.getByTestId("contained-select");
+    expect(container).toContainElement(content);
+    expect(content).toHaveAttribute("data-position-strategy", "contained");
   });
 });

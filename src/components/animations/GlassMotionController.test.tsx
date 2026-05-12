@@ -16,7 +16,9 @@ import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
 import {
+  GlassAnimated,
   GlassAnimationSequence,
+  GlassAnimationTimeline,
   GlassMotionController,
 } from "@/components/animations/GlassMotionController";
 
@@ -42,6 +44,51 @@ describe("GlassMotionController", () => {
 
     expect(screen.getByTestId("standalone-sequence")).toBeInTheDocument();
     expect(screen.getByText("First")).toBeInTheDocument();
+  });
+
+  it("bounds compact animation wrappers for preview surfaces", () => {
+    render(
+      <>
+        <GlassAnimated
+          compact
+          maxHeight={220}
+          maxWidth={320}
+          data-testid="animated"
+        >
+          <span>Animated card</span>
+        </GlassAnimated>
+        <GlassAnimationSequence
+          compact
+          maxHeight={220}
+          maxWidth={320}
+          data-testid="sequence"
+        >
+          <span>First</span>
+        </GlassAnimationSequence>
+        <GlassAnimationTimeline
+          timeline={[]}
+          compact
+          maxHeight={220}
+          maxWidth={320}
+          data-testid="timeline"
+        >
+          <span>Timeline item</span>
+        </GlassAnimationTimeline>
+      </>
+    );
+
+    expect(screen.getByTestId("animated")).toHaveStyle({
+      maxHeight: "220px",
+      maxWidth: "320px",
+    });
+    expect(screen.getByTestId("sequence")).toHaveStyle({
+      maxHeight: "220px",
+      maxWidth: "320px",
+    });
+    expect(screen.getByTestId("timeline")).toHaveStyle({
+      maxHeight: "220px",
+      maxWidth: "320px",
+    });
   });
 
   /**

@@ -3,7 +3,7 @@
 exports[`GlassWebGLShader matches snapshot 1`] = `
 <div
   class="relative overflow-hidden"
-  style="background-color: transparent;"
+  style="background-color: transparent; width: 100%;"
 >
   <canvas
     aria-hidden="true"

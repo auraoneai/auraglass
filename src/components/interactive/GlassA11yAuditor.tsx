@@ -48,6 +48,18 @@ export interface GlassA11yAuditorProps {
   respectMotionPreference?: boolean;
   /** Custom ID */
   id?: string;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the audit panel inside a bounded local surface. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
   /** ARIA label */
   "aria-label"?: string;
   /** Test ID */
@@ -82,6 +94,12 @@ export const GlassA11yAuditor = forwardRef<
       onIssueClick,
       respectMotionPreference = true,
       id,
+      compact = false,
+      contained = false,
+      preview = false,
+      maxHeight,
+      maxWidth,
+      density = "comfortable",
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       ...props
@@ -100,6 +118,12 @@ export const GlassA11yAuditor = forwardRef<
       useState<Element | null>(null);
     const prefersReducedMotion = useReducedMotion();
     const componentId = id || useA11yId("a11y-auditor");
+    const isCompact = compact || preview || density === "compact";
+    const bounded = contained || isCompact;
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
 
     // Run accessibility audit
     const runAudit = useCallback(async () => {
@@ -345,7 +369,16 @@ export const GlassA11yAuditor = forwardRef<
         <div
           ref={ref}
           id={componentId}
-          className={cn("glass-flex glass-flex-col glass-h-full", className)}
+          className={cn(
+            "glass-flex glass-flex-col glass-h-full",
+            bounded && "glass-overflow-hidden glass-w-full",
+            isCompact && "glass-text-sm",
+            className
+          )}
+          style={{
+            maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
+            maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
+          }}
           role="application"
           aria-label={ariaLabel || "Accessibility auditing tool"}
           aria-describedby={`${componentId}-description`}
@@ -358,18 +391,35 @@ export const GlassA11yAuditor = forwardRef<
           </div>
           {/* Audit Controls */}
           <OptimizedGlass
-            className="glass-p-4 glass-mb-4"
+            className={cn(
+              isCompact ? "glass-p-3 glass-mb-2" : "glass-p-4 glass-mb-4"
+            )}
             intensity="medium"
             elevation="level1"
           >
-            <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-              <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
-                Accessibility Audit
+            <div
+              className={cn(
+                "glass-flex glass-items-center glass-justify-between",
+                isCompact ? "glass-mb-2 glass-gap-2" : "glass-mb-4"
+              )}
+            >
+              <h3
+                className={cn(
+                  "glass-font-semibold glass-text-primary",
+                  isCompact ? "glass-text-sm" : "glass-text-lg"
+                )}
+              >
+                {isCompact ? "A11y Audit" : "Accessibility Audit"}
               </h3>
               <button
                 onClick={runAudit}
                 disabled={isAuditing}
-                className="glass-px-4 glass-py-2 glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-transition-colors glass-focus glass-touch-target glass-contrast-guard glass-focus glass-touch-target glass-contrast-guard"
+                className={cn(
+                  "glass-surface-blue/20 glass-text-secondary glass-radius-md hover:glass-surface-blue/30 disabled:glass-opacity-50 glass-disabled-cursor-not-allowed glass-transition-colors glass-focus glass-touch-target glass-contrast-guard",
+                  isCompact
+                    ? "glass-px-2 glass-py-1 glass-text-xs"
+                    : "glass-px-4 glass-py-2"
+                )}
                 aria-label={
                   isAuditing
                     ? "Auditing accessibility issues"
@@ -382,7 +432,12 @@ export const GlassA11yAuditor = forwardRef<
 
             {/* Score Display */}
             {auditResult && (
-              <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4">
+              <div
+                className={cn(
+                  "glass-grid glass-grid-cols-4",
+                  isCompact ? "glass-gap-2" : "glass-gap-4"
+                )}
+              >
                 <div className="glass-text-center">
                   <div
                     className={`glass-text-2xl font-bold ${getScoreColor(auditResult.score)}`}
@@ -421,24 +476,49 @@ export const GlassA11yAuditor = forwardRef<
             )}
           </OptimizedGlass>
 
-          <div className="glass-flex glass-flex-1 glass-gap-4">
+          <div
+            className={cn(
+              "glass-flex glass-flex-1",
+              isCompact
+                ? "glass-flex-col glass-gap-2 glass-min-h-0"
+                : "glass-gap-4"
+            )}
+          >
             {/* Issues List */}
             <OptimizedGlass
-              className="glass-flex-1 glass-p-4"
+              className={cn(
+                "glass-flex-1 glass-min-h-0",
+                isCompact ? "glass-p-3" : "glass-p-4"
+              )}
               blur="medium"
               elevation={"level1"}
             >
-              <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-                <h4 className="glass-text-md glass-font-semibold glass-text-primary">
+              <div
+                className={cn(
+                  "glass-flex glass-items-center glass-justify-between",
+                  isCompact ? "glass-mb-2 glass-gap-2" : "glass-mb-4"
+                )}
+              >
+                <h4
+                  className={cn(
+                    "glass-font-semibold glass-text-primary",
+                    isCompact ? "glass-text-sm" : "glass-text-md"
+                  )}
+                >
                   Issues
                 </h4>
-                <div className="glass-flex glass-gap-2">
+                <div
+                  className={cn(
+                    "glass-flex",
+                    isCompact ? "glass-gap-1" : "glass-gap-2"
+                  )}
+                >
                   {(["all", "error", "warning", "info"] as const).map(
                     (type: any) => (
                       <button
                         key={type}
                         onClick={(e) => setFilter(type)}
-                        className={`glass-px-3 glass-py-1 glass-text-xs glass-radius-md capitalize transition-colors ${
+                        className={`${isCompact ? "glass-px-2" : "glass-px-3"} glass-py-1 glass-text-xs glass-radius-md capitalize transition-colors ${
                           filter === type
                             ? "bg-white/20 glass-text-primary"
                             : "glass-text-primary/70 hover:glass-text-primary hover:bg-white/10"
@@ -451,12 +531,15 @@ export const GlassA11yAuditor = forwardRef<
                 </div>
               </div>
 
-              <div className="glass-gap-2 glass-max-h-96 glass-overflow-y-auto">
+              <div
+                className="glass-gap-2 glass-overflow-y-auto"
+                style={{ maxHeight: isCompact ? 104 : "24rem" }}
+              >
                 {filteredIssues.map((issue: any) => (
                   <button
                     key={issue.id}
                     onClick={(e) => handleIssueClick(issue)}
-                    className={`w-full text-left glass-p-3 glass-radius-md border transition-colors ${getIssueTypeColor(
+                    className={`w-full text-left ${isCompact ? "glass-p-2" : "glass-p-3"} glass-radius-md border transition-colors ${getIssueTypeColor(
                       issue.type
                     )} ${selectedIssue?.id === issue.id ? "ring-2 ring-white/50" : ""}`}
                   >
@@ -494,7 +577,7 @@ export const GlassA11yAuditor = forwardRef<
             </OptimizedGlass>
 
             {/* Issue Details */}
-            {selectedIssue && (
+            {selectedIssue && !isCompact && (
               <OptimizedGlass
                 className="glass-w-80 glass-p-4"
                 blur="medium"

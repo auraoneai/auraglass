@@ -35,6 +35,8 @@ export interface GlassDataGridProps<T extends DataDisplayRow = DataDisplayRow>
   contained?: boolean;
   /** Maximum rendered height when contained or compact. */
   maxHeight?: string | number;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: string | number;
   initialSort?: SortState;
   enableRowDragging?: boolean;
   onRowOrderChange?: (newOrder: T[]) => void;

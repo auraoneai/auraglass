@@ -1,4 +1,4 @@
-'use client';
+"use client";
 /**
  * GlassFractalLayout Component Tests
  *
@@ -11,20 +11,20 @@
  * - ✅ Reduced motion support
  */
 
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { axe, toHaveNoViolations } from 'jest-axe';
-import userEvent from '@testing-library/user-event';
-import { GlassFractalLayout } from '@/components/layouts/GlassFractalLayout';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import userEvent from "@testing-library/user-event";
+import { GlassFractalLayout } from "@/components/layouts/GlassFractalLayout";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
-describe('GlassFractalLayout', () => {
+describe("GlassFractalLayout", () => {
   /**
    * Smoke Test: Component renders without crashing
    */
-  it('renders without crashing', () => {
+  it("renders without crashing", () => {
     const { container } = render(<GlassFractalLayout />);
     expect(container).toBeInTheDocument();
   });
@@ -32,37 +32,35 @@ describe('GlassFractalLayout', () => {
   /**
    * Accessibility Test: No axe violations
    */
-  it('has no accessibility violations', async () => {
+  it("has no accessibility violations", async () => {
     const { container } = render(<GlassFractalLayout />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
-  
   /**
    * ARIA Tests: Component has accessible name and description
    */
-  describe('ARIA Attributes', () => {
-    it('supports aria-label', () => {
-      const { container } = render(<GlassFractalLayout aria-label="Test component" />);
+  describe("ARIA Attributes", () => {
+    it("supports aria-label", () => {
+      const { container } = render(
+        <GlassFractalLayout aria-label="Test component" />
+      );
       const element = container.querySelector('[aria-label="Test component"]');
       expect(element).toBeInTheDocument();
     });
   });
 
-  
-
-  
   /**
    * Reduced Motion Tests
    */
-  describe('Reduced Motion Support', () => {
-    it('respects prefers-reduced-motion', () => {
+  describe("Reduced Motion Support", () => {
+    it("respects prefers-reduced-motion", () => {
       // Mock matchMedia for reduced motion
-      Object.defineProperty(window, 'matchMedia', {
+      Object.defineProperty(window, "matchMedia", {
         writable: true,
-        value: jest.fn().mockImplementation(query => ({
-          matches: query === '(prefers-reduced-motion: reduce)',
+        value: jest.fn().mockImplementation((query) => ({
+          matches: query === "(prefers-reduced-motion: reduce)",
           media: query,
           onchange: null,
           addListener: jest.fn(),
@@ -76,11 +74,13 @@ describe('GlassFractalLayout', () => {
       const { container } = render(<GlassFractalLayout />);
 
       // Check that animations are disabled or reduced
-      const animatedElements = container.querySelectorAll('[class*="animate"], [class*="transition"]');
-      animatedElements.forEach(element => {
+      const animatedElements = container.querySelectorAll(
+        '[class*="animate"], [class*="transition"]'
+      );
+      animatedElements.forEach((element) => {
         const styles = window.getComputedStyle(element);
-        const animationDuration = parseFloat(styles.animationDuration || '0');
-        const transitionDuration = parseFloat(styles.transitionDuration || '0');
+        const animationDuration = parseFloat(styles.animationDuration || "0");
+        const transitionDuration = parseFloat(styles.transitionDuration || "0");
 
         // Animations should be instant or very short (< 0.1s)
         expect(animationDuration).toBeLessThan(0.1);
@@ -92,7 +92,7 @@ describe('GlassFractalLayout', () => {
   /**
    * Props Validation: Accepts and renders with custom props
    */
-  it('accepts and renders with custom props', () => {
+  it("accepts and renders with custom props", () => {
     const { container } = render(
       <GlassFractalLayout
         className="custom-class"
@@ -100,17 +100,58 @@ describe('GlassFractalLayout', () => {
       />
     );
 
-    const element = container.querySelector('[data-testid="glassfractallayout"]')
-      || container.firstChild;
+    const element =
+      container.querySelector('[data-testid="glassfractallayout"]') ||
+      container.firstChild;
 
-    expect(element).toHaveClass('custom-class');
+    expect(element).toHaveClass("custom-class");
   });
 
   /**
    * Snapshot Test: Matches snapshot
    */
-  it('matches snapshot', () => {
+  it("matches snapshot", () => {
     const { container } = render(<GlassFractalLayout />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("caps depth and scale defaults in compact cards", () => {
+    const nodes = [
+      {
+        id: "root",
+        content: "Root",
+        children: [
+          {
+            id: "child",
+            content: "Child",
+            children: [
+              {
+                id: "grandchild",
+                content: "Grandchild",
+                children: [
+                  { id: "great-grandchild", content: "Great grandchild" },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const { container } = render(
+      <GlassFractalLayout
+        nodes={nodes}
+        compact
+        contained
+        animateGrowth={false}
+        data-testid="fractal"
+      />
+    );
+
+    const root = container.querySelector(
+      '[data-testid="fractal"]'
+    ) as HTMLElement;
+    expect(root).toHaveStyle({ height: "240px", maxHeight: "240px" });
+    expect(container).not.toHaveTextContent("Great grandchild");
   });
 });

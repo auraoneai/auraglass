@@ -84,4 +84,20 @@ describe("GlassCalendar", () => {
 
     expect(dateButton).not.toBeDisabled();
   });
+
+  it("limits visible week rows in compact mode", () => {
+    render(
+      <GlassCalendar
+        compact
+        selectedDate={new Date(2026, 4, 10)}
+        weeksToShow={3}
+      />
+    );
+
+    const dateButtons = screen.getAllByRole("button", {
+      name: /Select date/i,
+    });
+
+    expect(dateButtons).toHaveLength(21);
+  });
 });

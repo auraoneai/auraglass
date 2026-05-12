@@ -60,6 +60,18 @@ export interface GlassA11yProps {
   enableTesting?: boolean;
   position?: "fixed" | "relative";
   defaultOpen?: boolean;
+  /** Compact density for constrained cards, drawers, and documentation previews. */
+  compact?: boolean;
+  /** Keep the controller inside a bounded local preview surface. */
+  contained?: boolean;
+  /** Alias for compact preview rendering. */
+  preview?: boolean;
+  /** Maximum rendered height when contained or compact. */
+  maxHeight?: number | string;
+  /** Maximum rendered width when contained or compact. */
+  maxWidth?: number | string;
+  /** Optional density override for embedded surfaces. */
+  density?: "compact" | "comfortable" | "spacious";
   "aria-label"?: string;
   "data-testid"?: string;
 }
@@ -125,6 +137,12 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
       enableTesting = true,
       position = "fixed",
       defaultOpen = false,
+      compact = false,
+      contained = false,
+      preview = false,
+      maxHeight,
+      maxWidth,
+      density = "comfortable",
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
     },
@@ -321,11 +339,22 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
       return null;
     }
 
+    const isCompact = compact || preview || density === "compact";
+    const resolvedMaxHeight =
+      typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight;
+    const resolvedMaxWidth =
+      typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth;
+    const shouldContain = contained || isCompact;
+
     const containerStyles: React.CSSProperties = {
-      position,
-      top: position === "fixed" ? "20px" : undefined,
-      right: position === "fixed" ? "20px" : undefined,
-      zIndex: position === "fixed" ? 1000 : undefined,
+      position: shouldContain ? "relative" : position,
+      top: !shouldContain && position === "fixed" ? "20px" : undefined,
+      right: !shouldContain && position === "fixed" ? "20px" : undefined,
+      zIndex: !shouldContain && position === "fixed" ? 1000 : undefined,
+      maxHeight: resolvedMaxHeight ?? (shouldContain ? "220px" : undefined),
+      maxWidth: resolvedMaxWidth ?? (shouldContain ? "320px" : undefined),
+      width: shouldContain ? "100%" : undefined,
+      overflow: shouldContain ? "hidden" : undefined,
     };
 
     return (
@@ -341,7 +370,8 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
           onClick={() => setIsOpen(!isOpen)}
           className={cn(
             // Base glass foundation
-            "glass-foundation-complete glass-w-14 glass-glass-h-14 glass-radius-full",
+            "glass-foundation-complete glass-radius-full",
+            isCompact ? "glass-w-10 glass-h-10" : "glass-w-14 glass-glass-h-14",
             "flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl",
             "glass-transition glass-focus glass-press glass-magnet",
             // Conditional styling with glass tokens
@@ -381,7 +411,8 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
               }
               className={cn(
                 // Base glass foundation
-                "glass-foundation-complete absolute glass-right-0 glass-top-16",
+                "glass-foundation-complete absolute glass-right-0",
+                isCompact ? "glass-top-11" : "glass-top-16",
                 "glass-w-96 glass-max-h-80vh overflow-hidden glass-shadow-2xl glass-radius-2xl",
                 // Conditional styling with glass tokens
                 {
@@ -392,16 +423,35 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                 }
               )}
               style={{
-                width: "min(24rem, calc(100vw - 2rem))",
-                maxHeight: "min(80vh, 42rem)",
+                width: isCompact
+                  ? "min(20rem, 100%)"
+                  : "min(24rem, calc(100vw - 2rem))",
+                maxHeight:
+                  resolvedMaxHeight ??
+                  (isCompact ? "220px" : "min(80vh, 42rem)"),
               }}
             >
               {/* Header */}
-              <div className="glass-p-6 glass-border-b glass-border-white/10">
-                <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-                  <h2 className="glass-text-xl glass-font-semibold glass-flex glass-items-center glass-gap-2">
+              <div
+                className={cn(
+                  isCompact ? "glass-p-3" : "glass-p-6",
+                  "glass-border-b glass-border-white/10"
+                )}
+              >
+                <div
+                  className={cn(
+                    "glass-flex glass-items-center glass-justify-between",
+                    isCompact ? "glass-mb-2" : "glass-mb-4"
+                  )}
+                >
+                  <h2
+                    className={cn(
+                      "glass-font-semibold glass-flex glass-items-center glass-gap-2",
+                      isCompact ? "glass-text-sm" : "glass-text-xl"
+                    )}
+                  >
                     <Settings className="glass-w-5 glass-h-5" />
-                    Accessibility Controls
+                    {isCompact ? "A11y" : "Accessibility Controls"}
                   </h2>
                   <div className="glass-flex glass-gap-2">
                     <button
@@ -438,7 +488,12 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                 </div>
 
                 {/* Quick Settings */}
-                <div className="glass-grid glass-grid-cols-2 glass-gap-2">
+                <div
+                  className={cn(
+                    "glass-grid glass-grid-cols-2",
+                    isCompact ? "glass-gap-1" : "glass-gap-2"
+                  )}
+                >
                   {quickSettings.map((setting) => (
                     <motion.button
                       key={setting.id}
@@ -446,7 +501,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                       whileHover={{ scale: isMotionReduced ? 1 : 1.02 }}
                       whileTap={{ scale: isMotionReduced ? 1 : 0.98 }}
                       className={`
-                      p-3 rounded-lg text-sm font-medium transition-all duration-200
+                      ${isCompact ? "p-2 text-xs" : "p-3 text-sm"} rounded-lg font-medium transition-all duration-200
                       border focus:outline-none focus:ring-2 focus:ring-blue-400
                       ${
                         setting.active
@@ -477,7 +532,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                   <button
                     onClick={() => setActiveTab("overview")}
                     className={`
-                    flex-1 px-4 py-3 text-sm font-medium transition-colors
+                    flex-1 ${isCompact ? "px-2 py-2 text-xs" : "px-4 py-3 text-sm"} font-medium transition-colors
                     focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-inset glass-focus glass-touch-target glass-contrast-guard
                     ${
                       activeTab === "overview"
@@ -495,7 +550,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                   <button
                     onClick={() => setActiveTab("sections")}
                     className={`
-                    flex-1 px-4 py-3 text-sm font-medium transition-colors
+                    flex-1 ${isCompact ? "px-2 py-2 text-xs" : "px-4 py-3 text-sm"} font-medium transition-colors
                     focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-inset glass-focus glass-touch-target glass-contrast-guard
                     ${
                       activeTab === "sections"
@@ -514,7 +569,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                     <button
                       onClick={() => setActiveTab("testing")}
                       className={`
-                      flex-1 px-4 py-3 text-sm font-medium transition-colors
+                      flex-1 ${isCompact ? "px-2 py-2 text-xs" : "px-4 py-3 text-sm"} font-medium transition-colors
                       focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-inset glass-focus glass-touch-target glass-contrast-guard
                       ${
                         activeTab === "testing"
@@ -533,7 +588,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                 </div>
 
                 {/* Tab Content */}
-                <div className="glass-p-6">
+                <div className={isCompact ? "glass-p-3" : "glass-p-6"}>
                   {activeTab === "overview" && (
                     <div className="glass-space-y-4">
                       <div className="glass-grid glass-grid-cols-2 glass-gap-4 glass-text-sm">

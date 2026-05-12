@@ -126,6 +126,28 @@ describe("GlassMultiSelect", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("renders compact selected tokens within a bounded control", () => {
+    const { container } = render(
+      <GlassMultiSelect
+        compact
+        contained
+        maxHeight={180}
+        maxWidth={320}
+        options={[
+          { value: "design", label: "Design Systems" },
+          { value: "tokens", label: "Token Audits" },
+        ]}
+        defaultValue={["design", "tokens"]}
+        dataTestId="glassmultiselect"
+      />
+    );
+
+    const root = screen.getByTestId("glassmultiselect");
+    expect(root).toHaveStyle({ "--multi-select-max-width": "320px" });
+    expect(container.querySelector(".containerCompact")).toBeInTheDocument();
+    expect(screen.getAllByText("Design Systems").length).toBeGreaterThan(0);
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

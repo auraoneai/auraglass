@@ -66,8 +66,62 @@ export interface GlassTessellationProps {
     contrast?: number;
   };
   soundEnabled?: boolean;
+  compact?: boolean;
+  contained?: boolean;
+  maxHeight?: number | string;
+  height?: number | string;
   className?: string;
   style?: React.CSSProperties;
+}
+
+function parseColorToRgb(
+  color: string | undefined
+): { r: number; g: number; b: number } | null {
+  if (!color) return null;
+  const trimmed = color.trim();
+  const hex = trimmed.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (hex) {
+    const value = hex[1];
+    const full =
+      value.length === 3
+        ? value
+            .split("")
+            .map((char) => char + char)
+            .join("")
+        : value;
+    return {
+      r: parseInt(full.slice(0, 2), 16),
+      g: parseInt(full.slice(2, 4), 16),
+      b: parseInt(full.slice(4, 6), 16),
+    };
+  }
+
+  const rgb = trimmed.match(
+    /^rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*[\d.]+)?\s*\)$/i
+  );
+  if (rgb) {
+    return {
+      r: Number(rgb[1]),
+      g: Number(rgb[2]),
+      b: Number(rgb[3]),
+    };
+  }
+
+  return null;
+}
+
+function getReadableTextColor(color: string | undefined) {
+  const rgb = parseColorToRgb(color);
+  if (!rgb) return "rgba(248,250,252,0.96)";
+  const normalize = (channel: number) => {
+    const c = channel / 255;
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  const luminance =
+    0.2126 * normalize(rgb.r) +
+    0.7152 * normalize(rgb.g) +
+    0.0722 * normalize(rgb.b);
+  return luminance > 0.48 ? "rgba(8,13,24,0.92)" : "rgba(248,250,252,0.96)";
 }
 
 export const GlassTessellation = forwardRef<
@@ -93,6 +147,10 @@ export const GlassTessellation = forwardRef<
       onTileHover,
       glassConfig = {},
       soundEnabled = true,
+      compact = false,
+      contained = false,
+      maxHeight,
+      height,
       className = "",
       style = {},
       ...props
@@ -108,6 +166,19 @@ export const GlassTessellation = forwardRef<
     const { prefersReducedMotion } = useMotionPreference();
     const tessellationId = useA11yId();
     const { play } = useGlassSound();
+    const isCompactLike = compact || contained;
+    const effectiveContainerWidth = isCompactLike
+      ? Math.min(containerWidth, 320)
+      : containerWidth;
+    const effectiveContainerHeight =
+      typeof (maxHeight ?? height) === "number"
+        ? ((maxHeight ?? height) as number)
+        : isCompactLike
+          ? Math.min(containerHeight, 220)
+          : containerHeight;
+    const effectiveTileSize = isCompactLike ? Math.min(tileSize, 36) : tileSize;
+    const effectiveSpacing = isCompactLike ? Math.max(spacing, 6) : spacing;
+    const boundedHeight = maxHeight ?? height ?? effectiveContainerHeight;
 
     // Morphing animation
     useEffect(() => {
@@ -135,7 +206,7 @@ export const GlassTessellation = forwardRef<
       TilePosition
     > => {
       const positions = new Map<string, TilePosition>();
-      const effectiveSize = tileSize + spacing;
+      const effectiveSize = effectiveTileSize + effectiveSpacing;
 
       switch (tessellationType) {
         case "triangular": {
@@ -145,10 +216,12 @@ export const GlassTessellation = forwardRef<
 
           for (
             let row = 0;
-            row * rowHeight < containerHeight && tileIndex < tiles.length;
+            row * rowHeight < effectiveContainerHeight &&
+            tileIndex < tiles.length;
             row++
           ) {
-            const cols = Math.floor(containerWidth / effectiveSize) + (row % 2);
+            const cols =
+              Math.floor(effectiveContainerWidth / effectiveSize) + (row % 2);
             const offsetX = row % 2 ? effectiveSize / 2 : 0;
 
             for (let col = 0; col < cols && tileIndex < tiles.length; col++) {
@@ -171,8 +244,8 @@ export const GlassTessellation = forwardRef<
         case "square": {
           // Square tessellation
           let tileIndex = 0;
-          const cols = Math.floor(containerWidth / effectiveSize);
-          const rows = Math.floor(containerHeight / effectiveSize);
+          const cols = Math.floor(effectiveContainerWidth / effectiveSize);
+          const rows = Math.floor(effectiveContainerHeight / effectiveSize);
 
           for (let row = 0; row < rows && tileIndex < tiles.length; row++) {
             for (let col = 0; col < cols && tileIndex < tiles.length; col++) {
@@ -199,11 +272,11 @@ export const GlassTessellation = forwardRef<
 
           for (
             let row = 0;
-            row * hexHeight * 0.75 < containerHeight &&
+            row * hexHeight * 0.75 < effectiveContainerHeight &&
             tileIndex < tiles.length;
             row++
           ) {
-            const cols = Math.floor(containerWidth / hexWidth) + 1;
+            const cols = Math.floor(effectiveContainerWidth / hexWidth) + 1;
             const offsetX = row % 2 ? hexWidth / 2 : 0;
 
             for (let col = 0; col < cols && tileIndex < tiles.length; col++) {
@@ -230,10 +303,11 @@ export const GlassTessellation = forwardRef<
 
           for (
             let row = 0;
-            row * rhombHeight < containerHeight && tileIndex < tiles.length;
+            row * rhombHeight < effectiveContainerHeight &&
+            tileIndex < tiles.length;
             row++
           ) {
-            const cols = Math.floor(containerWidth / rhombWidth) + 1;
+            const cols = Math.floor(effectiveContainerWidth / rhombWidth) + 1;
             const offsetX = row % 2 ? rhombWidth / 2 : 0;
 
             for (let col = 0; col < cols && tileIndex < tiles.length; col++) {
@@ -260,10 +334,11 @@ export const GlassTessellation = forwardRef<
 
           for (
             let row = 0;
-            row * pentSize < containerHeight && tileIndex < tiles.length;
+            row * pentSize < effectiveContainerHeight &&
+            tileIndex < tiles.length;
             row++
           ) {
-            const cols = Math.floor(containerWidth / pentSize) + 1;
+            const cols = Math.floor(effectiveContainerWidth / pentSize) + 1;
             const offsetX = row % 2 ? pentSize / 2 : 0;
             const offsetY = row % 3 ? pentSize / 3 : 0;
 
@@ -291,12 +366,13 @@ export const GlassTessellation = forwardRef<
 
           for (
             let y = 0;
-            y < containerHeight - baseSize && tileIndex < tiles.length;
+            y < effectiveContainerHeight - baseSize && tileIndex < tiles.length;
             y += baseSize
           ) {
             for (
               let x = 0;
-              x < containerWidth - baseSize && tileIndex < tiles.length;
+              x < effectiveContainerWidth - baseSize &&
+              tileIndex < tiles.length;
               x += baseSize
             ) {
               const variation = Math.sin(
@@ -322,10 +398,10 @@ export const GlassTessellation = forwardRef<
     }, [
       tessellationType,
       tiles,
-      tileSize,
-      spacing,
-      containerWidth,
-      containerHeight,
+      effectiveTileSize,
+      effectiveSpacing,
+      effectiveContainerWidth,
+      effectiveContainerHeight,
       morphPhase,
     ]);
 
@@ -333,8 +409,8 @@ export const GlassTessellation = forwardRef<
       () => generateTessellationPositions(),
       [generateTessellationPositions]
     );
-    const visualInset = Math.max(tileSize, 32);
-    const svgViewBox = `${-visualInset} ${-visualInset} ${containerWidth + visualInset * 2} ${containerHeight + visualInset * 2}`;
+    const visualInset = Math.max(effectiveTileSize, 24);
+    const svgViewBox = `${-visualInset} ${-visualInset} ${effectiveContainerWidth + visualInset * 2} ${effectiveContainerHeight + visualInset * 2}`;
 
     const handleTileClick = useCallback(
       (tile: TessellationTile) => {
@@ -368,17 +444,22 @@ export const GlassTessellation = forwardRef<
     ) => {
       const isHovered = hoveredTile === tile.id;
       const isSelected = selectedTile === tile.id;
-      const effectiveSize = tileSize * position.scale;
+      const effectiveSize = effectiveTileSize * position.scale;
+      const tileFill =
+        tile.color ??
+        (isHovered || isSelected
+          ? "rgba(125,211,252,0.44)"
+          : "rgba(125,211,252,0.30)");
+      const tileStroke =
+        isHovered || isSelected
+          ? "rgba(248,250,252,0.72)"
+          : "rgba(248,250,252,0.36)";
+      const textColor = getReadableTextColor(tileFill);
 
       const shapeProps = {
-        className: `
-          transition-all duration-[${ANIMATION.DURATION.fast}ms] cursor-pointer
-          ${
-            isHovered || isSelected
-              ? "fill-white/20 stroke-white/60"
-              : "fill-white/10 stroke-white/30"
-          }
-        `,
+        className: "transition-all cursor-pointer",
+        fill: tileFill,
+        stroke: tileStroke,
         strokeWidth: 1.5,
       };
 
@@ -431,7 +512,16 @@ export const GlassTessellation = forwardRef<
             height={effectiveSize}
             className="glass-pointer-events-none"
           >
-            <div className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs glass-text-primary-glass-opacity-90">
+            <div
+              className="glass-w-full glass-h-full glass-flex glass-items-center glass-justify-center glass-text-xs"
+              style={{
+                color: textColor,
+                fontWeight: 650,
+                textShadow: textColor.startsWith("rgba(8")
+                  ? "0 1px 2px rgba(255,255,255,0.18)"
+                  : "0 1px 2px rgba(0,0,0,0.45)",
+              }}
+            >
               {tile.content}
             </div>
           </foreignObject>
@@ -479,12 +569,23 @@ export const GlassTessellation = forwardRef<
         ref={ref}
         className={`glass-tessellation relative overflow-auto ${className}`}
         style={{
-          width: `min(${containerWidth}px, calc(100vw - 48px))`,
+          width: isCompactLike
+            ? "100%"
+            : `min(${effectiveContainerWidth}px, calc(100vw - 48px))`,
           maxWidth: "100%",
-          height: containerHeight,
-          minWidth: Math.min(containerWidth, 320),
-          overflowX: "auto",
-          overflowY: "auto",
+          height:
+            typeof boundedHeight === "number"
+              ? `${boundedHeight}px`
+              : boundedHeight,
+          maxHeight:
+            isCompactLike || maxHeight !== undefined || height !== undefined
+              ? typeof boundedHeight === "number"
+                ? `${boundedHeight}px`
+                : boundedHeight
+              : undefined,
+          minWidth: isCompactLike ? undefined : Math.min(containerWidth, 320),
+          overflowX: isCompactLike ? "hidden" : "auto",
+          overflowY: isCompactLike ? "hidden" : "auto",
           boxSizing: "border-box",
           ...style,
         }}
@@ -504,10 +605,10 @@ export const GlassTessellation = forwardRef<
           ref={containerRef}
           className="glass-relative"
           style={{
-            width: containerWidth,
-            height: containerHeight,
-            minWidth: containerWidth,
-            minHeight: containerHeight,
+            width: effectiveContainerWidth,
+            height: effectiveContainerHeight,
+            minWidth: isCompactLike ? undefined : effectiveContainerWidth,
+            minHeight: isCompactLike ? undefined : effectiveContainerHeight,
             overflow: "visible",
           }}
         >
@@ -515,9 +616,9 @@ export const GlassTessellation = forwardRef<
           {showGrid && (
             <div className="glass-absolute glass-inset-0 glass-pointer-events-none">
               <svg
-                width={containerWidth}
-                height={containerHeight}
-                viewBox={`0 0 ${containerWidth} ${containerHeight}`}
+                width={effectiveContainerWidth}
+                height={effectiveContainerHeight}
+                viewBox={`0 0 ${effectiveContainerWidth} ${effectiveContainerHeight}`}
               >
                 <defs>
                   <pattern
@@ -542,8 +643,8 @@ export const GlassTessellation = forwardRef<
 
           {/* Tessellation tiles */}
           <svg
-            width={containerWidth}
-            height={containerHeight}
+            width={effectiveContainerWidth}
+            height={effectiveContainerHeight}
             viewBox={svgViewBox}
             className="glass-absolute glass-inset-0 glass-overflow-visible"
             style={{ overflow: "visible" }}
@@ -567,7 +668,7 @@ export const GlassTessellation = forwardRef<
                     }
                     exit="hidden"
                     style={{
-                      transformOrigin: `${position.x + tileSize / 2}px ${position.y + tileSize / 2}px`,
+                      transformOrigin: `${position.x + effectiveTileSize / 2}px ${position.y + effectiveTileSize / 2}px`,
                     }}
                     onMouseEnter={() => interactive && handleTileHover(tile)}
                     onMouseLeave={() => interactive && handleTileHover(null)}
@@ -586,37 +687,41 @@ export const GlassTessellation = forwardRef<
         </div>
 
         {/* Info panel */}
-        <div
-          className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70"
-          data-glass-overlay="true"
-        >
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Pattern: {tessellationType}
-          </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Tiles: {tiles.length}
-          </div>
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            Size: {tileSize}px
-          </div>
-          {morphPattern && (
+        {!isCompactLike && (
+          <div
+            className="glass-absolute glass-bottom-4 glass-left-4 glass-flex glass-flex-col glass-gap-1 glass-text-xs glass-text-primary-opacity-70"
+            data-glass-overlay="true"
+          >
             <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-              Morph: {Math.round(morphPhase * 100)}%
+              Pattern: {tessellationType}
             </div>
-          )}
-        </div>
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Tiles: {tiles.length}
+            </div>
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              Size: {tileSize}px
+            </div>
+            {morphPattern && (
+              <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+                Morph: {Math.round(morphPhase * 100)}%
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Legend */}
-        <div
-          className="glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70"
-          data-glass-overlay="true"
-        >
-          <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
-            {tessellationType.charAt(0).toUpperCase() +
-              tessellationType.slice(1)}{" "}
-            Tessellation
+        {!isCompactLike && (
+          <div
+            className="glass-absolute glass-top-4 glass-right-4 glass-text-xs glass-text-primary-opacity-70"
+            data-glass-overlay="true"
+          >
+            <div className="glass-surface-dark/20 glass-px-2 glass-py-1 glass-radius glass-backdrop-blur-sm glass-contrast-guard">
+              {tessellationType.charAt(0).toUpperCase() +
+                tessellationType.slice(1)}{" "}
+              Tessellation
+            </div>
           </div>
-        </div>
+        )}
       </OptimizedGlass>
     );
   }

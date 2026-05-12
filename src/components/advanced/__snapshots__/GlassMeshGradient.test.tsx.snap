@@ -3,6 +3,7 @@
 exports[`GlassMeshGradient matches snapshot 1`] = `
 <div
   class="relative overflow-hidden"
+  style="width: 100%;"
 >
   <canvas
     class="glass-absolute glass-inset-0 glass-w-full glass-h-full"
@@ -10,5 +11,34 @@ exports[`GlassMeshGradient matches snapshot 1`] = `
     style="filter: blur(100px) saturate(1) brightness(1); opacity: 0.8;"
     width="0"
   />
+  <div
+    aria-hidden="true"
+    class="ag-glass-mesh-gradient-motion-layer"
+    style="position: absolute; inset: -30%; filter: blur(28px); opacity: 0.544; mix-blend-mode: plus-lighter; pointer-events: none; animation: ag-glass-mesh-gradient-motion 2.8s ease-in-out infinite alternate;"
+  />
+  <style>
+
+            .ag-glass-mesh-gradient-motion-layer {
+              background:
+                radial-gradient(circle at 22% 32%, rgba(124,211,255,0.72), transparent 28%),
+                radial-gradient(circle at 78% 42%, rgba(216,111,255,0.64), transparent 32%),
+                radial-gradient(circle at 48% 76%, rgba(99,255,218,0.48), transparent 30%);
+            }
+            @keyframes ag-glass-mesh-gradient-motion {
+              0% {
+                transform: translate3d(-8%, -4%, 0) rotate(-7deg) scale(0.96);
+                opacity: 0.44800000000000006;
+              }
+              50% {
+                transform: translate3d(7%, 5%, 0) rotate(8deg) scale(1.06);
+                opacity: 0.656;
+              }
+              100% {
+                transform: translate3d(2%, -7%, 0) rotate(-2deg) scale(1);
+                opacity: 0.544;
+              }
+            }
+
+  </style>
 </div>
 `;

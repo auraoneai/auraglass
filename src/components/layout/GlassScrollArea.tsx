@@ -138,6 +138,10 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
       respectMotionPreference && !prefersReducedMotion && isMotionSafe;
     const effectiveMaxHeight =
       maxHeight ?? (compact || contained ? 200 : "200px");
+    const boundedMaxHeight =
+      typeof effectiveMaxHeight === "number"
+        ? `${effectiveMaxHeight}px`
+        : effectiveMaxHeight;
 
     // Update dimensions when content changes
     useEffect(() => {
@@ -235,8 +239,9 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
         role={role}
         aria-label={ariaLabel}
         className={cn(
-          "relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5",
+          "relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 glass-overflow-hidden",
           scrollbarPosition === "outside" && "glass-p-2",
+          compact && "glass-p-1",
           smoothScrolling && "scroll-smooth",
           // Motion preferences
           shouldRespectMotion &&
@@ -244,28 +249,45 @@ export const GlassScrollArea = forwardRef<HTMLDivElement, GlassScrollAreaProps>(
           className
         )}
         style={{
-          maxHeight:
-            typeof effectiveMaxHeight === "number"
-              ? `${effectiveMaxHeight}px`
-              : effectiveMaxHeight,
+          maxHeight: boundedMaxHeight,
           maxWidth: typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
+          ...(contained || compact ? { height: boundedMaxHeight } : null),
         }}
         {...props}
       >
         <div
           ref={containerRef}
           className={cn(
-            "relative overflow-hidden",
+            "relative overflow-hidden glass-min-w-0",
             scrollbarPosition === "inside" && "glass-radius-lg"
           )}
+          style={{
+            maxHeight: boundedMaxHeight,
+            height: contained || compact ? "100%" : undefined,
+          }}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           {/* Content */}
           <div
             ref={contentRef}
-            className="glass-relative"
-            style={getOverflowStyle()}
+            className="glass-relative glass-min-w-0"
+            style={{
+              ...getOverflowStyle(),
+              maxHeight: boundedMaxHeight,
+              height: contained || compact ? "100%" : undefined,
+              paddingRight:
+                direction !== "horizontal" && showScrollbars !== "never"
+                  ? compact
+                    ? "0.35rem"
+                    : "0.5rem"
+                  : undefined,
+              scrollbarWidth: showScrollbars === "never" ? "none" : "thin",
+              scrollbarColor:
+                showScrollbars === "never"
+                  ? undefined
+                  : "rgba(148, 163, 184, 0.42) transparent",
+            }}
             onScroll={handleScroll}
           >
             {children}

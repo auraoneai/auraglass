@@ -249,13 +249,14 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         liftOnHover={!disabled}
         press
         className={cn(
-          "glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200",
+          "glass-switch relative inline-flex shrink-0 cursor-pointer glass-radius-full transition-all duration-200 glass-overflow-hidden",
           disabled && "opacity-50 cursor-not-allowed",
           loading && "cursor-wait",
           focusRing && "glass-focus",
           error && "ring-2 ring-destructive/50",
           className
         )}
+        {...props}
         onClick={handleToggle}
         style={{ ...config.track, ...style }}
         aria-checked={!!isChecked}
@@ -264,7 +265,6 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         disabled={disabled || loading}
         id={finalId}
         {...a11yProps}
-        {...props}
       >
         <div
           className={cn(

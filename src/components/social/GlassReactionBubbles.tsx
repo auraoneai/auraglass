@@ -47,6 +47,13 @@ export interface GlassReactionBubblesProps {
   soundEnabled?: boolean;
   realTimeMode?: boolean;
   interactive?: boolean;
+  /**
+   * Starts the reaction field with a visible, package-owned demo state.
+   * Use `"idle"` when an empty field is required.
+   */
+  demoState?: "active" | "idle";
+  /** Alias for `demoState="active"` for docs/catalog previews. */
+  autoplay?: boolean;
   compact?: boolean;
   contained?: boolean;
   maxHeight?: number | string;
@@ -87,8 +94,7 @@ const reactionColors = [
   "#FF9F43",
 ];
 
-const createDefaultReactions = (): ReactionBubble[] => {
-  const now = Date.now();
+const createDefaultReactions = (baseTimestamp = 0): ReactionBubble[] => {
   return [
     {
       id: "demo-reaction-1",
@@ -98,7 +104,7 @@ const createDefaultReactions = (): ReactionBubble[] => {
       userColor: "#38bdf8",
       x: 96,
       y: 86,
-      timestamp: now - 1200,
+      timestamp: baseTimestamp - 1200,
       size: 34,
       velocity: { x: 0.2, y: -0.4 },
       life: 4200,
@@ -112,7 +118,7 @@ const createDefaultReactions = (): ReactionBubble[] => {
       userColor: "#a3e635",
       x: 168,
       y: 118,
-      timestamp: now - 2400,
+      timestamp: baseTimestamp - 2400,
       size: 30,
       velocity: { x: -0.1, y: -0.2 },
       life: 3600,
@@ -126,7 +132,7 @@ const createDefaultReactions = (): ReactionBubble[] => {
       userColor: "#22d3ee",
       x: 238,
       y: 76,
-      timestamp: now - 3600,
+      timestamp: baseTimestamp - 3600,
       size: 32,
       velocity: { x: 0.1, y: -0.3 },
       life: 3000,
@@ -164,6 +170,8 @@ export const GlassReactionBubbles = forwardRef<
       soundEnabled = true,
       realTimeMode = false,
       interactive = true,
+      demoState = "active",
+      autoplay,
       compact = false,
       contained = false,
       maxHeight,
@@ -175,8 +183,14 @@ export const GlassReactionBubbles = forwardRef<
     ref
   ) => {
     const prefersReducedMotion = useReducedMotion();
+    const shouldShowDemoBubbles =
+      reactions.length === 0 && (autoplay || demoState === "active");
     const [bubbles, setBubbles] = useState<ReactionBubble[]>(
-      reactions.length > 0 ? reactions : createDefaultReactions
+      reactions.length > 0
+        ? reactions
+        : shouldShowDemoBubbles
+          ? createDefaultReactions(0)
+          : []
     );
     const [selectedEmoji, setSelectedEmoji] = useState(availableEmojis[0]);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -192,7 +206,7 @@ export const GlassReactionBubbles = forwardRef<
       randomRef.current =
         process.env.NODE_ENV === "test"
           ? createSeededRandom()
-          : () => Math.random();
+          : createSeededRandom();
     }
 
     const random = randomRef.current;
@@ -384,7 +398,10 @@ export const GlassReactionBubbles = forwardRef<
             : {
                 scale: getBubbleScale(bubble),
                 opacity: getBubbleOpacity(bubble),
-                rotate: Math.sin(Date.now() / 1000 + bubble.timestamp) * 10,
+                rotate:
+                  Math.sin(
+                    (bubble.maxLife - bubble.life) / 1000 + bubble.timestamp
+                  ) * 10,
               }
         }
         exit={{
@@ -491,9 +508,7 @@ export const GlassReactionBubbles = forwardRef<
 
     const stats = {
       totalReactions: bubbles.length,
-      recentReactions: bubbles.filter(
-        (b: any) => Date.now() - b.timestamp < 5000
-      ).length,
+      recentReactions: bubbles.filter((b: any) => b.life > 0).length,
       mostUsedEmoji: bubbles.reduce(
         (acc, bubble) => {
           acc[bubble.emoji] = (acc[bubble.emoji] || 0) + 1;

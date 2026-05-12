@@ -116,8 +116,8 @@ const useChartPhysicsInteraction = (
   resetZoom: () => {},
 });
 
-const GalileoElementInteractionPlugin = {
-  id: "galileoElementInteraction",
+const AuraElementInteractionPlugin = {
+  id: "auraElementInteraction",
 } satisfies Plugin<ChartType>;
 
 // Dataset conversion to prevent unnecessary recalculations
@@ -707,7 +707,7 @@ const pathAnimationPlugin: Plugin<ChartType> = {
 // Register the custom plugin
 ChartJS.register(pathAnimationPlugin);
 // Register our interaction plugin
-ChartJS.register(GalileoElementInteractionPlugin);
+ChartJS.register(AuraElementInteractionPlugin);
 
 // Adjust Chart.js defaults safely
 if (defaults?.plugins?.tooltip) {
@@ -1764,7 +1764,7 @@ const GlassDataChartComponent = React.forwardRef<
         legend: { display: false }, // Disable built-in legend
         tooltip: { enabled: false }, // Disable built-in tooltip
         // Configure our custom interaction plugin
-        [GalileoElementInteractionPlugin.id]: {
+        [AuraElementInteractionPlugin.id]: {
           elementAnimationTargets,
           setElementAnimationTargets,
           getElementPhysicsOptions,
@@ -1820,7 +1820,7 @@ const GlassDataChartComponent = React.forwardRef<
   const chartPlugins: Plugin<ChartType>[] = useMemo(
     () => [
       pathAnimationPlugin,
-      GalileoElementInteractionPlugin,
+      AuraElementInteractionPlugin,
       // Add other custom plugins if needed
     ],
     []

@@ -16,6 +16,7 @@ For most application work, use this starter set first:
 | Overlay | `GlassModal`, `GlassDialog`, `GlassDrawer`, `GlassPopover`, `GlassTooltip` | Dialogs, contextual menus, drawers, tooltips |
 | Data | `GlassDataTable`, `GlassDataGrid`, `GlassBadge`, `GlassAlert`, `GlassToast`, `GlassProgress` | Tables, status, feedback, notifications |
 | Charts | `GlassLineChart`, `GlassBarChart`, `GlassAreaChart`, `GlassPieChart`, `GlassChart` | Standard data visualization |
+| Marketing | `AuroraBackground`, `AuroraOrb`, `DisplayText`, `LogoMark`, `ShowcaseCard`, `FeatureTile`, `InstallCommand`, `GlassButton variant="aurora"` | Landing pages, launch pages, product heroes, public showcase sections |
 | Accessibility | `ContrastGuard`, `AccessibilityProvider` | Contrast-sensitive surfaces and app-wide accessibility context |
 | Theme | `ThemeProvider`, `PersonaPicker` | Persona-based theming and tokenized appearance |
 
@@ -36,6 +37,28 @@ Use Liquid Glass when the UI needs a premium, spatial, material feel rather than
 | Liquid showcase | `LiquidGlassShowcase` | Demonstrations and visual QA of the system |
 
 Do not use Liquid Glass everywhere. It is strongest for app chrome, media controls, command centers, overlays, and high-value focal surfaces. For dense CRUD screens, prefer the standard glass primitives and data/form components.
+
+## Marketing Kit
+
+Use the Marketing Kit when the target is a public-facing landing page or premium product hero. The package-owned Marketing Kit surface includes `AuroraBackground`, `AuroraOrb`, `DisplayText`, `LogoMark`, `ShowcaseCard`, `FeatureTile`, `InstallCommand`, `GlassButton variant="aurora"`, and generated marketing tokens.
+
+```tsx
+import { AuroraBackground, DisplayText, GlassButton } from 'aura-glass';
+
+export function HeroCta() {
+  return (
+    <section>
+      <AuroraBackground particles grain vignette />
+      <DisplayText as="h1" size="hero" gradient="aurora">
+        Interfaces shaped by light.
+      </DisplayText>
+      <GlassButton variant="aurora">Start building</GlassButton>
+    </section>
+  );
+}
+```
+
+Do not use Marketing Kit surfaces as replacements for dense app components. For app UI, start with `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, and `ContrastGuard`.
 
 ## Product Families
 
@@ -86,6 +109,10 @@ GlassAppShell, GlassContainer, GlassGrid, GlassStack, OptimizedGlass, GlassCard,
 GlassButton, GlassInput, GlassSelect, GlassTabs, GlassModal, GlassDataTable,
 GlassBadge, GlassToast, ThemeProvider, and ContrastGuard.
 
+For marketing pages and launch pages, use AuraGlass Marketing Kit components:
+AuroraBackground, DisplayText, ShowcaseCard, AuroraOrb, LogoMark, FeatureTile,
+InstallCommand, and GlassButton variant="aurora".
+
 Use Liquid Glass only for premium app chrome, media controls, command centers,
 source transitions, overlays, and focal surfaces. Use advanced AI/consciousness/
 quantum/immersive components only when the feature explicitly requires them.
@@ -95,6 +122,7 @@ For 3D/AR, import from aura-glass/three and install the optional 3D peers.
 ## Documentation Map
 
 - [Component index](./readme.md)
+- [Marketing Kit](./marketing/readme.md)
 - [Liquid Glass design rules](../liquid-glass/design-rules.md)
 - [Liquid Glass component map](../liquid-glass/component-map.md)
 - [Installation guide](../../INSTALLATION.md)

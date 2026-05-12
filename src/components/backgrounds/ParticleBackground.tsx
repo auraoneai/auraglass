@@ -161,8 +161,14 @@ const ParticleBackgroundComponent = (
     // Set canvas size
     const resizeCanvas = () => {
       const { width, height } = container.getBoundingClientRect();
-      canvas.width = width;
-      canvas.height = height;
+      canvas.width = Math.max(
+        1,
+        Math.round(width || container.clientWidth || 320)
+      );
+      canvas.height = Math.max(
+        1,
+        Math.round(height || container.clientHeight || 220)
+      );
     };
 
     resizeCanvas();
@@ -321,7 +327,15 @@ const ParticleBackgroundComponent = (
       intent={intent as any}
       elevation={elevation as any}
       tier={tier as any}
-      style={{ ...(style || {}) }}
+      style={{
+        width: typeof style?.width === "undefined" ? "100%" : style.width,
+        minHeight:
+          typeof style?.height === "undefined" &&
+          typeof style?.minHeight === "undefined"
+            ? 220
+            : style.minHeight,
+        ...(style || {}),
+      }}
       id={componentId}
       role="img"
       aria-label={`Interactive particle background with ${actualCount} ${connectParticles ? "connected" : "floating"} particles${interactive && !shouldReduceMotion ? ", responding to mouse movement" : ""}`}

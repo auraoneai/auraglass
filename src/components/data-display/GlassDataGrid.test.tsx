@@ -21,6 +21,28 @@ import { GlassDataGrid } from "@/components/data-display/GlassDataGrid";
 expect.extend(toHaveNoViolations);
 
 describe("GlassDataGrid", () => {
+  const columns = [
+    {
+      id: "name",
+      key: "name",
+      label: "Name",
+      header: "Name",
+      accessorKey: "name",
+      sortable: true,
+    },
+    {
+      id: "status",
+      key: "status",
+      label: "Status",
+      header: "Status",
+      accessorKey: "status",
+    },
+  ];
+  const data = [
+    { id: "1", name: "Aurora", status: "Active" },
+    { id: "2", name: "Prism", status: "Queued" },
+  ];
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -97,6 +119,39 @@ describe("GlassDataGrid", () => {
       container.firstChild;
 
     expect(element).toHaveClass("custom-class");
+  });
+
+  it("renders typed column labels and key-based cell values", () => {
+    render(<GlassDataGrid columns={columns} data={data} />);
+
+    expect(
+      screen.getByRole("columnheader", { name: "Column Name" })
+    ).toBeInTheDocument();
+    expect(screen.getByText("Aurora")).toBeInTheDocument();
+    expect(screen.getByText("Queued")).toBeInTheDocument();
+  });
+
+  it("honors compact contained sizing without requiring website wrappers", () => {
+    const { container } = render(
+      <GlassDataGrid
+        columns={columns}
+        data={data}
+        compact
+        contained
+        maxHeight={180}
+        maxWidth={320}
+      />
+    );
+
+    const surface = container.firstElementChild as HTMLElement;
+    const table = screen.getByRole("table");
+
+    expect(surface).toHaveStyle({
+      maxHeight: "180px",
+      maxWidth: "320px",
+      overflowY: "auto",
+    });
+    expect(table).toBeInTheDocument();
   });
 
   /**

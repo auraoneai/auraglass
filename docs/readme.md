@@ -12,6 +12,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 - Static Storybook exhaustive QA: 1,595 stories, zero hard failures, zero audit-run errors in [reports/storybook-exhaustive-qa.md](../reports/storybook-exhaustive-qa.md)
 - Storybook taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
 - Component selection guide: [docs/components/choosing.md](./components/choosing.md)
+- Marketing Kit guide: [docs/components/marketing/readme.md](./components/marketing/readme.md)
 - Component audit command: `npm run audit:components`
 
 ## Primary Docs
@@ -23,6 +24,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 - [3.0.1 release notes](../RELEASE_NOTES_3.0.1.md): final release-readiness patch with Storybook taxonomy, exhaustive QA, and package evidence.
 - [3.0.0 release notes](../RELEASE_NOTES_3.0.0.md): public major-release highlights and verified gates.
 - [Component documentation](./components/readme.md): organized index for every component page.
+- [Marketing Kit guide](./components/marketing/readme.md): landing-page, launch-page, aurora CTA, and marketing token guidance.
 - [Liquid Glass hub](./liquid-glass/readme.md): Liquid Glass rules, migration, primitives, showcase, and component map.
 - [Reports index](../reports/README.md): certification, audit, TypeScript, accessibility, and tooling evidence.
 
@@ -30,6 +32,7 @@ This is the documentation home for AuraGlass. It separates product usage, compon
 
 - `docs/ai`: AI service, setup, and production integration guides.
 - `docs/components`: numbered component sections with 356/356 direct docs coverage.
+- `docs/components/marketing`: Marketing Kit discoverability and GEO guidance.
 - `docs/liquid-glass`: Liquid Glass design rules, migration, primitives, component map, and showcase.
 - `docs/guides`: standards, migration guides, accessibility rules, focus management, SSR, visual testing, and house style.
 - `docs/deployment.md`: deployment and production runtime notes.

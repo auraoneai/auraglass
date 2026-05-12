@@ -41,7 +41,7 @@ exports[`GlassVirtualTable matches snapshot 1`] = `
           <input
             aria-label="Search..."
             class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0 glass-pr-8"
-            id="glass-input-:r3:"
+            id="glass-input-:r9:"
             placeholder="Search..."
             value=""
           />

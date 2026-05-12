@@ -109,6 +109,24 @@ describe("GlassMagneticCursor", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("renders a contained compact cursor preview instead of a fixed document cursor", () => {
+    const { container } = render(
+      <GlassMagneticCursor
+        compact
+        contained
+        maxHeight={220}
+        maxWidth={320}
+        data-testid="glassmagneticcursor"
+      />
+    );
+
+    const element =
+      container.querySelector('[data-testid="glassmagneticcursor"]') ||
+      container.firstChild;
+    expect(element).toHaveStyle({ maxHeight: "220px", maxWidth: "320px" });
+    expect(screen.getByText("Magnetic target")).toBeInTheDocument();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

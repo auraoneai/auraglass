@@ -19,7 +19,7 @@ const meta: Meta<typeof GlassButton> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'ghost', 'outline', 'link', 'destructive', 'success', 'warning'] as GlassButtonVariantType[],
+      options: ['primary', 'secondary', 'aurora', 'ghost', 'outline', 'link', 'destructive', 'success', 'warning'] as GlassButtonVariantType[],
       description: 'Button variant that determines color and style',
     },
     size: {
@@ -74,7 +74,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render: (args) => (
     <div className="glass-flex glass-flex-wrap glass-gap-4">
-      {(['primary', 'secondary', 'ghost', 'outline', 'link', 'destructive', 'success', 'warning'] as GlassButtonVariantType[]).map((variant) => (
+      {(['primary', 'secondary', 'aurora', 'ghost', 'outline', 'link', 'destructive', 'success', 'warning'] as GlassButtonVariantType[]).map((variant) => (
         <GlassButton key={variant} {...args} variant={variant}>
           {variant}
         </GlassButton>
@@ -83,6 +83,23 @@ export const Variants: Story = {
   ),
   args: {
     children: null, // Will be overridden in render
+  },
+};
+
+export const Aurora: Story = {
+  args: {
+    variant: 'aurora',
+    size: 'xl',
+    intensity: 'ultra',
+    elevation: 'level4',
+    children: 'Start building',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Marketing CTA variant with package-owned aurora gradient, tokenized glow, focus, loading, and disabled semantics.',
+      },
+    },
   },
 };
 
@@ -272,7 +289,7 @@ export const WithPredictiveFeatures: Story = {
       <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Predictive Button</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Anticipates user actions and preloads responses</p>
-        <GlassButton 
+        <GlassButton
           {...args}
         >
           Predictive Action
@@ -293,12 +310,12 @@ export const WithEyeTracking: Story = {
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Eye Tracking Enabled</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Responds to user gaze with visual feedback</p>
         <div className="glass-flex glass-flex-wrap glass-gap-4">
-          <GlassButton 
+          <GlassButton
             {...args}
           >
             Look at me
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
             variant="secondary"
           >
@@ -374,19 +391,19 @@ export const WithSpatialAudio: Story = {
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Spatial Audio Feedback</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Provides positional audio cues for interactions</p>
         <div className="glass-grid glass-grid-cols-3 glass-gap-4">
-          <GlassButton 
+          <GlassButton
             {...args}
             size="sm"
           >
             Left
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
             size="sm"
           >
             Center
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
             size="sm"
           >
@@ -408,18 +425,18 @@ export const AchievementTracking: Story = {
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Achievement System</h3>
         <p className="glass-text-xs glass-text-primary-secondary glass-mb-4">Tracks user interactions for gamification</p>
         <div className="glass-flex glass-flex-wrap glass-gap-4">
-          <GlassButton 
+          <GlassButton
             {...args}
           >
             First Action
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
             variant="success"
           >
             Complete Form
           </GlassButton>
-          <GlassButton 
+          <GlassButton
             {...args}
             variant="warning"
           >
@@ -441,9 +458,9 @@ export const ConsciousnessShowcase: Story = {
         <h2 className="glass-text-xl glass-font-semibold glass-text-primary">Consciousness-Enhanced Button</h2>
         <p className="glass-text-sm glass-text-primary-secondary">All consciousness features enabled</p>
       </div>
-      
+
       <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
-        <GlassButton 
+        <GlassButton
           {...args}
           size="lg"
           glassVariant="luminous"
@@ -455,7 +472,7 @@ export const ConsciousnessShowcase: Story = {
           </div>
         </GlassButton>
       </div>
-      
+
       <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-4 glass-text-sm">
         <div className="glass-surface-overlay glass-radius-lg glass-p-3 glass-contrast-guard">
           <h4 className="glass-font-medium glass-text-primary glass-mb-2">Active Features</h4>
@@ -500,7 +517,7 @@ export const ConsciousnessComparison: Story = {
       </div>
       <div className="glass-surface-overlay glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-4">Consciousness Enhanced</h3>
-        <GlassButton 
+        <GlassButton
           {...args}
         >
           <div className="glass-flex glass-items-center">
