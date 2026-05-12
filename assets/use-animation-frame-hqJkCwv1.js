@@ -1,0 +1,1 @@
+import{r as e,M as a,h as u,i as c}from"./iframe-D5XNSE8t.js";function m(r){const t=e.useRef(0),{isStatic:o}=e.useContext(a);e.useEffect(()=>{if(o)return;const n=({timestamp:i,delta:s})=>{t.current||(t.current=i),r(i-t.current,s)};return u.update(n,!0),()=>c(n)},[r])}export{m as u};
