@@ -350,6 +350,29 @@ Environment: none unless npm requires one
 Package: aura-glass
 ```
 
+The npm CLI supports this directly. After authenticating as an npm owner/collaborator who can publish `aura-glass`, run:
+
+```bash
+npm trust github aura-glass --repo auraoneai/auraglass --file publish-npm.yml -y
+npm trust list aura-glass
+```
+
+Validated dry-run shape:
+
+```bash
+npm trust github aura-glass --repo auraoneai/auraglass --file publish-npm.yml --dry-run --json
+```
+
+Expected dry-run payload:
+
+```json
+{
+  "package": "aura-glass",
+  "file": "publish-npm.yml",
+  "repository": "auraoneai/auraglass"
+}
+```
+
 Option B: `NPM_TOKEN` GitHub secret.
 
 Create an npm automation/publish token with access to package `aura-glass`, then add it to:
@@ -696,6 +719,13 @@ Repository: auraglass
 Workflow filename: publish-npm.yml
 Branch: main
 Environment: none, unless npm requires one and the workflow is updated to match
+```
+
+Equivalent npm CLI command, once logged in as an npm owner/collaborator with publish rights:
+
+```bash
+npm trust github aura-glass --repo auraoneai/auraglass --file publish-npm.yml -y
+npm trust list aura-glass
 ```
 
 Then rerun:
