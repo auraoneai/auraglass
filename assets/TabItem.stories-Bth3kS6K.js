@@ -1,0 +1,12 @@
+import{j as s}from"./iframe-LB2Lfhgp.js";import{T as e}from"./TabItem-B6KU7r0S.js";import{L as l}from"./layout-dashboard-DrjachLU.js";import{C as t}from"./chart-column-CnyayYwP.js";import{S as i}from"./settings-CwzSht5O.js";import"./preload-helper-PPVm8Dsz.js";import"./createLucideIcon-CKdMI_TB.js";const b={title:"Navigation/Tab Item",component:e,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"A low-level tab item used by tab bars with active, badge, and disabled states."}}},args:{id:"overview",label:"Overview",active:!0}},a={render:r=>s.jsxs("div",{className:"glass-w-[min(560px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl",children:[s.jsxs("div",{role:"tablist",className:"glass-flex glass-flex-wrap glass-gap-2",children:[s.jsx(e,{...r,icon:s.jsx(l,{size:15}),"aria-controls":"overview-panel"}),s.jsx(e,{id:"metrics",label:"Metrics",icon:s.jsx(t,{size:15}),badge:"3","aria-controls":"metrics-panel"}),s.jsx(e,{id:"settings",label:"Settings",icon:s.jsx(i,{size:15}),disabled:!0,"aria-controls":"settings-panel"})]}),s.jsx("div",{id:"overview-panel",role:"tabpanel",className:"glass-mt-4 glass-rounded-2xl glass-border glass-border-white/20 glass-bg-white/25 glass-p-4 glass-text-sm glass-text-secondary",children:"Active tabs remain legible inside a realistic navigation strip."})]})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: args => <div className="glass-w-[min(560px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
+      <div role="tablist" className="glass-flex glass-flex-wrap glass-gap-2">
+        <TabItem {...args} icon={<LayoutDashboard size={15} />} aria-controls="overview-panel" />
+        <TabItem id="metrics" label="Metrics" icon={<BarChart3 size={15} />} badge="3" aria-controls="metrics-panel" />
+        <TabItem id="settings" label="Settings" icon={<Settings size={15} />} disabled aria-controls="settings-panel" />
+      </div>
+      <div id="overview-panel" role="tabpanel" className="glass-mt-4 glass-rounded-2xl glass-border glass-border-white/20 glass-bg-white/25 glass-p-4 glass-text-sm glass-text-secondary">
+        Active tabs remain legible inside a realistic navigation strip.
+      </div>
+    </div>
+}`,...a.parameters?.docs?.source}}};const x=["Default"];export{a as Default,x as __namedExportsOrder,b as default};
