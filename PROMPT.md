@@ -759,7 +759,7 @@ gh workflow run publish-npm.yml --repo auraoneai/auraglass -f version=3.0.7 --re
 If local publish is desired instead, authenticate this shell first:
 
 ```bash
-npm login
+npm login --auth-type=web
 npm whoami
 npm owner ls aura-glass
 npm publish --access public --provenance=false

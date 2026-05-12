@@ -20,7 +20,7 @@ if ! npm_user="$(npm whoami 2>/dev/null)"; then
 Not logged into npm with a valid publish-capable account.
 
 Run:
-  npm login
+  npm login --auth-type=web
 
 Then rerun:
   ./scripts/configure-npm-trusted-publishing-307.sh
