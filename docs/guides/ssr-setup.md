@@ -244,4 +244,4 @@ If upgrading from 2.0.12:
 
 For issues or questions:
 - [GitHub Issues](https://github.com/auraoneai/auraglass/issues)
-- [Documentation](https://aura-glass.auraone.com/docs/ssr)
+- [Documentation](https://auraglass.auraone.ai/docs/ssr)

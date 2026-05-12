@@ -17,7 +17,11 @@
   );
   --glass-marketing-glass-border-strong: color-mix(
     in srgb,
-    var(--aura-marketing-surface-showcase-border, rgba(255, 255, 255, 0.22)) 70%,
+    var(
+        --aura-marketing-surface-showcase-border,
+        var(--aura-color-global-border-soft)
+      )
+      70%,
     white
   );
   --glass-marketing-glass-blur: var(--glass-blur-xl, 24px);

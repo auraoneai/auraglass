@@ -224,7 +224,7 @@
   "bugs": {
     "url": "https://github.com/auraoneai/auraglass/issues"
   },
-  "homepage": "https://aura-glass.auraone.com",
+  "homepage": "https://auraglass.auraone.ai",
   "peerDependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.0",
     "@radix-ui/react-label": "^2.0.0",

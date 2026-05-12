@@ -380,7 +380,7 @@ git revert <migration-commit-hash>
 
 ## Getting Help
 
-- 📚 [Documentation](https://aura-glass.auraone.com)
+- 📚 [Documentation](https://auraglass.auraone.ai)
 - 🐛 [Report Issues](https://github.com/auraoneai/auraglass/issues)
 - 📧 [Email Support](mailto:support@auraone.com)
 
