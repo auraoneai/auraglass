@@ -762,7 +762,7 @@ If local publish is desired instead, authenticate this shell first:
 npm login --auth-type=web
 npm whoami
 npm owner ls aura-glass
-npm publish --access public --provenance=false
+./scripts/publish-307-after-npm-login.sh
 ```
 
 Only do this if the authenticated npm user has publish rights to `aura-glass`.
