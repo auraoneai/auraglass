@@ -192,7 +192,7 @@ exports[`GlassVideoPlayer matches snapshot 1`] = `
                     class="glass-whitespace-nowrap glass-text-primary glass-text-sm"
                   >
                     0:00
-                     /
+                     / 
                     0:00
                   </span>
                 </div>

@@ -26,9 +26,9 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
               aria-live="polite"
               class="glass-text-sm glass-text-primary-glass-opacity-60"
             >
-              Step
+              Step 
               1
-               of
+               of 
               0
             </span>
             <span

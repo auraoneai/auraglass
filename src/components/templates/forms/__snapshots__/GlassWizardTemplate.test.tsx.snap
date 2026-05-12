@@ -36,9 +36,9 @@ exports[`GlassWizardTemplate matches snapshot 1`] = `
             <span
               class="glass-text-sm glass-font-medium glass-text-primary"
             >
-              Step
+              Step 
               1
-               of
+               of 
               2
             </span>
             <span

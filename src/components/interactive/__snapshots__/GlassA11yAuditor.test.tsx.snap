@@ -90,7 +90,7 @@ exports[`GlassA11yAuditor matches snapshot 1`] = `
       </div>
     </div>
     <style>
-
+      
           .a11y-highlight {
             outline: 2px solid #ff6b6b !important;
             outline-offset: 2px !important;
@@ -101,7 +101,7 @@ exports[`GlassA11yAuditor matches snapshot 1`] = `
             from { outline-color: #ff6b6b; }
             to { outline-color: #ff4444; }
           }
-
+        
     </style>
   </div>
 </div>

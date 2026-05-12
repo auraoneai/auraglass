@@ -289,7 +289,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
             <h3
               class="glass-text-primary-glass-opacity-80 glass-text-sm glass-font-medium"
             >
-              Angle:
+              Angle: 
               45
               °
             </h3>
@@ -383,7 +383,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 <div
                   class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
-                  Position:
+                  Position: 
                   0
                   %
                 </div>
@@ -412,7 +412,7 @@ exports[`GlassGradientPicker matches snapshot 1`] = `
                 <div
                   class="glass-text-xs glass-text-primary-glass-opacity-60 glass-mt-1"
                 >
-                  Position:
+                  Position: 
                   100
                   %
                 </div>

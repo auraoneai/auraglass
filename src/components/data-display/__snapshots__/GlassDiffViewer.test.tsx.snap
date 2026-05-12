@@ -30,7 +30,7 @@ exports[`GlassDiffViewer matches snapshot 1`] = `
             style="width: 56px; padding: 2px 6px; user-select: none; white-space: nowrap;"
           >
             1
-
+             
           </td>
           <td
             style="padding: 2px 8px;"
@@ -58,7 +58,7 @@ exports[`GlassDiffViewer matches snapshot 1`] = `
             aria-hidden="true"
             style="width: 56px; padding: 2px 6px; user-select: none; white-space: nowrap;"
           >
-
+             
             1
           </td>
           <td
