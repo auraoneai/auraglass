@@ -728,6 +728,13 @@ npm trust github aura-glass --repo auraoneai/auraglass --file publish-npm.yml -y
 npm trust list aura-glass
 ```
 
+Or use the repo helper script:
+
+```bash
+cd /Users/gurbakshchahal/AuraGlass
+./scripts/configure-npm-trusted-publishing-307.sh
+```
+
 Then rerun:
 
 ```bash
