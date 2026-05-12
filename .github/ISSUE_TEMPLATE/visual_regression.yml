@@ -1,0 +1,58 @@
+name: Visual regression
+description: Report a rendering, layout, contrast, motion, or preview-quality regression.
+title: "[Visual]: "
+labels:
+  - visual-regression
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Describe the visual issue and why it is a regression.
+      placeholder: GlassDataGrid clips row actions at mobile width...
+    validations:
+      required: true
+  - type: input
+    id: component
+    attributes:
+      label: Component or route
+      placeholder: GlassDataGrid, GlassCommandPalette, /components/data
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or video
+      description: Attach before/after images, contact sheets, or a short clip.
+    validations:
+      required: true
+  - type: dropdown
+    id: viewport
+    attributes:
+      label: Viewport
+      options:
+        - Desktop
+        - Mobile
+        - Tablet
+        - Responsive range
+        - Storybook
+        - Website catalog
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Checks run
+      description: List any visual, Storybook, Playwright, or manual QA checks already run.
+      placeholder: npm run test:visual:ci
+  - type: checkboxes
+    id: issue_type
+    attributes:
+      label: Regression type
+      options:
+        - label: Clipping or overflow
+        - label: Unreadable contrast
+        - label: Empty or placeholder preview
+        - label: Motion or reduced-motion issue
+        - label: SSR or hydration visual mismatch
+        - label: Mobile layout issue

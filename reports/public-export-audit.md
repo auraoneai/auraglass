@@ -1,20 +1,20 @@
 # Public Export Audit
 
-Generated: 2026-05-07T16:45:39.971Z
+Generated: 2026-05-12T19:21:54.118Z
 
 ## Summary
 
-- Root named exports: 797
-- Value exports: 642
-- Type exports: 149
+- Root named exports: 819
+- Value exports: 658
+- Type exports: 155
 - Const exports: 6
-- Export-star declarations: 14
-- Component-like value exports: 421
+- Export-star declarations: 15
+- Component-like value exports: 435
 - Missing source files: 0
 - Missing declaration files: 0
-- Component-like exports missing inventory entries: 23
+- Component-like exports missing inventory entries: 24
 - Component-like exports missing direct Storybook stories: 15
-- Component-like exports missing direct unit tests: 23
+- Component-like exports missing direct unit tests: 20
 - Component-like exports missing direct docs: 23
 - Unresolved export-star declarations: 0
 
@@ -40,6 +40,7 @@ Generated: 2026-05-07T16:45:39.971Z
 - PersonaPicker (src/components/theme/PersonaPicker.tsx)
 - NeuralWeightVisualization (src/components/ai/NeuralWeightVisualization.tsx)
 - NeuromorphicLearningNetwork (src/components/ai/NeuromorphicLearningNetwork.tsx)
+- AuraElementInteractionPlugin (src/components/charts/plugins/GalileoElementInteractionPlugin.ts)
 - GalileoElementInteractionPlugin (src/components/charts/plugins/GalileoElementInteractionPlugin.ts)
 - LivingEcosystemSimulator (src/components/advanced/LivingEcosystemSimulator.tsx)
 - MolecularBondingInterface (src/components/advanced/MolecularBondingInterface.tsx)
@@ -47,8 +48,7 @@ Generated: 2026-05-07T16:45:39.971Z
 - QuantumEntanglementVisualizer (src/components/quantum/QuantumEntanglementVisualizer.tsx)
 - QuantumNeuromorphicEngine (src/components/quantum/QuantumNeuromorphicEngine.ts)
 - MultiUserGlassEditor (src/components/collaboration/MultiUserGlassEditor.tsx)
-- ConsciousnessStreamProvider (src/contexts/ConsciousnessStreamProvider.tsx)
-- ... 3 more
+- ... 4 more
 
 ## Component-Like Exports Missing Direct Storybook Stories
 
@@ -70,7 +70,6 @@ Generated: 2026-05-07T16:45:39.971Z
 
 ## Component-Like Exports Missing Direct Unit Tests
 
-- GlassAdvanced (src/primitives/glass/GlassAdvanced.tsx)
 - OptimizedGlassAdvanced (src/primitives/glass/OptimizedGlassAdvanced.tsx)
 - Glass (src/primitives/GlassCore.tsx)
 - GlassPrimitive (src/primitives/GlassCore.tsx)
@@ -82,15 +81,15 @@ Generated: 2026-05-07T16:45:39.971Z
 - PersonaPicker (src/components/theme/PersonaPicker.tsx)
 - NeuralWeightVisualization (src/components/ai/NeuralWeightVisualization.tsx)
 - NeuromorphicLearningNetwork (src/components/ai/NeuromorphicLearningNetwork.tsx)
-- GalileoElementInteractionPlugin (src/components/charts/plugins/GalileoElementInteractionPlugin.ts)
 - LivingEcosystemSimulator (src/components/advanced/LivingEcosystemSimulator.tsx)
 - MolecularBondingInterface (src/components/advanced/MolecularBondingInterface.tsx)
 - MultiDimensionalGestureRecognizer (src/components/advanced/MultiDimensionalGestureRecognizer.tsx)
 - QuantumEntanglementVisualizer (src/components/quantum/QuantumEntanglementVisualizer.tsx)
 - QuantumNeuromorphicEngine (src/components/quantum/QuantumNeuromorphicEngine.ts)
-- MultiUserGlassEditor (src/components/collaboration/MultiUserGlassEditor.tsx)
 - ConsciousnessStreamProvider (src/contexts/ConsciousnessStreamProvider.tsx)
-- ... 3 more
+- AnimationProvider (src/contexts/AnimationContext.tsx)
+- MotionPreferenceProvider (src/contexts/MotionPreferenceContext.tsx)
+- AuraGlassClientBoundary (src/components/ssr/AuraGlassClientBoundary.tsx)
 
 ## Component-Like Exports Missing Direct Docs
 

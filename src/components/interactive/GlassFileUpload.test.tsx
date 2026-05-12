@@ -123,4 +123,31 @@ describe('GlassFileUpload', () => {
     const { container } = render(<GlassFileUpload />);
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('supports contained compact seeded file review mode', () => {
+    render(
+      <GlassFileUpload
+        compact
+        contained
+        showDropzone={false}
+        showActions={false}
+        maxHeight={180}
+        defaultFiles={[
+          {
+            id: 'invoice',
+            file: new File(['invoice'], 'invoice.pdf', { type: 'application/pdf' }),
+            name: 'invoice.pdf',
+            size: 1024,
+            type: 'application/pdf',
+            status: 'completed',
+            progress: 100,
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByText('invoice.pdf')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /file upload area/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /remove file/i })).not.toBeInTheDocument();
+  });
 });

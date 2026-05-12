@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -23,6 +24,26 @@ const exportsMap = [
       assert.ok(mod.ShowcaseCard, "ShowcaseCard export should exist");
       assert.ok(mod.FeatureTile, "FeatureTile export should exist");
       assert.ok(mod.InstallCommand, "InstallCommand export should exist");
+      assert.equal(
+        mod.GlassNavbar,
+        mod.GlassNavigation,
+        "GlassNavbar should alias GlassNavigation"
+      );
+      assert.equal(
+        mod.GlassMediaControls,
+        mod.LiquidGlassMediaControls,
+        "GlassMediaControls should alias LiquidGlassMediaControls"
+      );
+      assert.equal(
+        mod.LiquidGlassSourceTransition,
+        mod.LiquidGlassTransitionProvider,
+        "LiquidGlassSourceTransition should alias LiquidGlassTransitionProvider"
+      );
+      assert.equal(
+        mod.SmartShoppingCart,
+        mod.GlassSmartShoppingCart,
+        "SmartShoppingCart should alias GlassSmartShoppingCart"
+      );
       assert.equal(
         mod.AuraElementInteractionPlugin?.id,
         "auraElementInteraction",
@@ -75,6 +96,14 @@ const exportsMap = [
         mod.StyledComponentsRegistry,
         "StyledComponentsRegistry export should exist"
       );
+      assert.ok(
+        Array.isArray(mod.auraGlassRecipes) && mod.auraGlassRecipes.length >= 7,
+        "registry should expose launch recipe metadata"
+      );
+      assert.ok(
+        mod.getAuraGlassRecipe("saas-dashboard")?.files?.length > 0,
+        "registry should resolve recipe files by id"
+      );
     },
   },
   {
@@ -108,6 +137,25 @@ const exportsMap = [
     },
   },
   {
+    name: "./three",
+    import: "three/index.mjs",
+    verify: (mod) => {
+      assert.ok(
+        mod.GlassShatterEffects,
+        "GlassShatterEffects export should exist on three entry"
+      );
+      assert.ok(
+        mod.SeasonalParticles,
+        "SeasonalParticles export should exist on three entry"
+      );
+      assert.ok(mod.AuroraPro, "AuroraPro export should exist on three entry");
+      assert.ok(
+        mod.ARGlassEffects,
+        "ARGlassEffects export should exist on three entry"
+      );
+    },
+  },
+  {
     name: "./core/mixins/glassMixins",
     import: "esm/core/mixins/glassMixins.js",
     verify: (mod) => {
@@ -124,6 +172,22 @@ const exportsMap = [
       assert.ok(
         mod.isBrowser !== undefined || mod.default?.isBrowser !== undefined,
         "isBrowser should exist in utils/env"
+      );
+    },
+  },
+  {
+    name: "./hooks/useGlassProbes",
+    import: "esm/hooks/useGlassProbes.js",
+    verify: (mod) => {
+      assert.equal(
+        typeof mod.useGlassProbes,
+        "function",
+        "useGlassProbes should exist"
+      );
+      assert.equal(
+        typeof mod.useGlassElementProbe,
+        "function",
+        "useGlassElementProbe should exist"
       );
     },
   },
@@ -167,3 +231,57 @@ for (const entry of exportsMap) {
   const value = mod.default ?? mod;
   entry.verify(value);
 }
+
+const packageJson = JSON.parse(
+  readFileSync(path.join(__dirname, "..", "..", "package.json"), "utf8")
+);
+
+const glassProbesExport = packageJson.exports["./hooks/useGlassProbes"];
+assert.equal(
+  glassProbesExport.import,
+  "./dist/esm/hooks/useGlassProbes.js",
+  "./hooks/useGlassProbes should expose an ESM runtime target"
+);
+assert.equal(
+  glassProbesExport.require,
+  "./dist/cjs/hooks/useGlassProbes.js",
+  "./hooks/useGlassProbes should expose a CJS runtime target"
+);
+assert.equal(
+  glassProbesExport.default,
+  "./dist/esm/hooks/useGlassProbes.js",
+  "./hooks/useGlassProbes should expose a default runtime target"
+);
+
+assert.equal(
+  packageJson.peerDependencies.openai,
+  "^6.0.0",
+  "openai should be declared as an optional peer for the OpenAI service subpath"
+);
+assert.equal(
+  packageJson.peerDependencies["@google-cloud/vision"],
+  "^5.0.0",
+  "@google-cloud/vision should be declared as an optional peer for the Vision service subpath"
+);
+assert.equal(packageJson.peerDependenciesMeta.openai?.optional, true);
+assert.equal(
+  packageJson.peerDependenciesMeta["@google-cloud/vision"]?.optional,
+  true
+);
+
+const openAIServiceSource = readFileSync(
+  resolveEsm("services/ai/openai-service.js"),
+  "utf8"
+);
+const visionServiceSource = readFileSync(
+  resolveEsm("services/ai/vision-service.js"),
+  "utf8"
+);
+assert.ok(
+  !/\bfrom\s+["']openai["']/.test(openAIServiceSource),
+  "OpenAI service subpath should not statically import the optional openai peer"
+);
+assert.ok(
+  !/\bfrom\s+["']@google-cloud\/vision["']/.test(visionServiceSource),
+  "Vision service subpath should not statically import the optional Google Vision peer"
+);

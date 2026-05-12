@@ -97,6 +97,15 @@ export interface GlassDrawerProps extends ConsciousnessFeatures {
    */
   modal?: boolean;
   /**
+   * Render as a bounded inline drawer for embedded previews/cards instead of a
+   * fixed viewport drawer.
+   */
+  contained?: boolean;
+  /**
+   * Use denser drawer spacing for compact embedded surfaces.
+   */
+  compact?: boolean;
+  /**
    * Custom backdrop blur
    */
   backdropBlur?: boolean;
@@ -120,6 +129,11 @@ export interface GlassDrawerProps extends ConsciousnessFeatures {
    * Whether drawer can be resized
    */
   resizable?: boolean;
+  /**
+   * Inline style for the drawer content surface. In contained mode, width,
+   * height, and maxHeight constrain the embedded surface.
+   */
+  style?: React.CSSProperties;
   className?: string;
   /**
    * Custom data-testid attribute
@@ -159,12 +173,15 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       header,
       footer,
       modal = true,
+      contained = false,
+      compact = false,
       backdropBlur = true,
       elevation = "modal",
       zIndex = 50,
       showOverlay = true,
       animationDuration = 300,
       resizable = false,
+      style,
       className,
       contentClassName,
       "aria-label": ariaLabel,
@@ -187,6 +204,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     const effectiveAnimationDuration = prefersReducedMotion
       ? 0
       : animationDuration;
+    const isContained = contained;
+    const isModal = modal && !isContained;
 
     // Consciousness state
     const [interactionCount, setInteractionCount] = useState(0);
@@ -265,7 +284,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
     // Handle body scroll lock
     useEffect(() => {
-      if (modal && open) {
+      if (isModal && open) {
         previousBodyOverflowRef.current = document.body.style.overflow;
         document.body.style.overflow = "hidden";
         return () => {
@@ -273,7 +292,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           previousBodyOverflowRef.current = null;
         };
       }
-    }, [modal, open]);
+    }, [isModal, open]);
 
     // Handle visibility state
     useEffect(() => {
@@ -394,7 +413,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       title,
       position,
       size,
-      modal,
+      isModal,
     ]);
 
     // Eye tracking for drawer engagement
@@ -492,7 +511,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             title: title || "Drawer",
             position,
             size,
-            modal,
+            modal: isModal,
             hasFooter: !!footer,
             contentLength: children?.toString().length || 0,
             interactionCount,
@@ -541,7 +560,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
       title,
       position,
       size,
-      modal,
+      isModal,
       footer,
       children,
       interactionCount,
@@ -679,6 +698,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
     // Position classes
     const getPositionClasses = () => {
+      if (isContained) return "";
+
       switch (position) {
         case "top":
           return "top-0 left-0 right-0";
@@ -713,6 +734,8 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
 
     // Border radius based on position
     const getBorderRadius = () => {
+      if (isContained) return "rounded-xl";
+
       switch (position) {
         case "top":
           return "rounded-b-xl";
@@ -726,6 +749,15 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           return "rounded-l-xl";
       }
     };
+    const drawerSectionClass = compact
+      ? "glass-flex glass-items-start glass-justify-between glass-p-4 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0"
+      : "glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0";
+    const drawerFooterClass = compact
+      ? "glass-p-4 glass-border-t glass-border-glass-border/10 glass-flex-shrink-0"
+      : "glass-p-6 glass-border-t glass-border-glass-border/10 glass-flex-shrink-0";
+    const drawerBodyClass = compact
+      ? "flex-1 overflow-y-auto glass-p-4"
+      : "flex-1 overflow-y-auto glass-p-6";
 
     if (!isVisible) return null;
 
@@ -734,7 +766,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         data-glass-component
         data-testid={dataTestId}
         className={cn(
-          "fixed inset-0",
+          isContained ? "relative flex w-full" : "fixed inset-0",
           consciousness && "consciousness-drawer-container",
           adaptive &&
             drawerInsights?.urgency === "high" &&
@@ -742,12 +774,13 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           eyeTracking && "consciousness-eye-trackable",
           className
         )}
-        style={{ zIndex }}
+        style={isContained ? undefined : { zIndex }}
         role="dialog"
-        aria-modal={modal}
+        aria-modal={isModal}
         aria-label={ariaLabel || (title ? undefined : "Drawer")}
         aria-labelledby={title ? "drawer-title" : undefined}
         aria-describedby={description ? "drawer-description" : undefined}
+        data-contained={isContained ? "true" : undefined}
         data-consciousness-drawer="true"
         data-consciousness-active={String(!!consciousness)}
         data-drawer-title={title}
@@ -758,7 +791,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
         data-interaction-count={interactionCount}
       >
         {/* Backdrop/Overlay */}
-        {showOverlay && (
+        {showOverlay && !isContained && (
           <Motion
             preset="fadeIn"
             duration={effectiveAnimationDuration}
@@ -785,7 +818,9 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           preset={getAnimationPreset()}
           duration={effectiveAnimationDuration}
           className={cn(
-            "absolute flex flex-col",
+            isContained
+              ? "relative flex flex-col w-full"
+              : "absolute flex flex-col",
             getPositionClasses(),
             getSizeClasses(),
             consciousness && "consciousness-drawer-content",
@@ -797,6 +832,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
           data-consciousness-content="true"
           data-drawer-complexity={drawerInsights?.complexity}
           data-time-spent={drawerFocusTime ? Date.now() - drawerFocusTime : 0}
+          style={style}
         >
           {material === "liquid" ? (
             <LiquidGlassMaterial
@@ -809,7 +845,9 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               motionResponsive
               ref={ref}
               className={cn(
-                "h-full flex flex-col liquid-glass-drawer-surface",
+                isContained
+                  ? "w-full flex flex-col overflow-hidden liquid-glass-drawer-surface"
+                  : "h-full flex flex-col liquid-glass-drawer-surface",
                 getBorderRadius(),
                 resizable && "resize overflow-auto",
                 consciousness && "consciousness-drawer-glass",
@@ -839,7 +877,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             >
               {/* Header */}
               {(header || title || description || showCloseButton) && (
-                <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0">
+                <div className={drawerSectionClass}>
                   <div className="glass-flex-1 glass-min-w-0">
                     {header || (
                       <>
@@ -878,21 +916,12 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               )}
 
               {/* Content */}
-              <div
-                className={cn(
-                  "flex-1 overflow-y-auto glass-p-6",
-                  contentClassName
-                )}
-              >
+              <div className={cn(drawerBodyClass, contentClassName)}>
                 {children}
               </div>
 
               {/* Footer */}
-              {footer && (
-                <div className="glass-p-6 glass-border-t glass-border-glass-border/10 glass-flex-shrink-0">
-                  {footer}
-                </div>
-              )}
+              {footer && <div className={drawerFooterClass}>{footer}</div>}
             </LiquidGlassMaterial>
           ) : (
             <OptimizedGlass
@@ -908,7 +937,9 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               liftOnHover
               hoverSheen
               className={cn(
-                "h-full flex flex-col border border-border/20 glass-radial-reveal",
+                isContained
+                  ? "w-full flex flex-col overflow-hidden border border-border/20 glass-radial-reveal"
+                  : "h-full flex flex-col border border-border/20 glass-radial-reveal",
                 getBorderRadius(),
                 resizable && "resize overflow-auto",
                 consciousness && "consciousness-drawer-glass",
@@ -922,7 +953,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             >
               {/* Header */}
               {(header || title || description || showCloseButton) && (
-                <div className="glass-flex glass-items-start glass-justify-between glass-p-6 glass-border-b glass-border-glass-border/10 glass-flex-shrink-0">
+                <div className={drawerSectionClass}>
                   <div className="glass-flex-1 glass-min-w-0">
                     {header || (
                       <>
@@ -971,7 +1002,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                 <div
                   ref={contentRef}
                   className={cn(
-                    "flex-1 overflow-y-auto glass-p-6",
+                    drawerBodyClass,
                     consciousness && "consciousness-drawer-body",
                     eyeTracking && "consciousness-eye-trackable-body",
                     adaptive &&
@@ -1053,11 +1084,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
               )}
 
               {/* Footer */}
-              {footer && (
-                <div className="glass-p-6 glass-border-t glass-border-glass-border/10 glass-flex-shrink-0">
-                  {footer}
-                </div>
-              )}
+              {footer && <div className={drawerFooterClass}>{footer}</div>}
             </OptimizedGlass>
           )}
         </Motion>

@@ -1,8 +1,8 @@
-# AuraGlass Migration Guide
+# AuraGlass by AuraOne Migration Guide
 
 ## Version 2.0 - Token-First Architecture
 
-This guide helps you migrate from raw values to the new token-first AuraGlass system with semantic elevation levels and comprehensive utilities.
+This guide helps you migrate from raw values to the token-first AuraGlass by AuraOne system with semantic elevation levels and comprehensive utilities.
 
 ## Quick Start
 

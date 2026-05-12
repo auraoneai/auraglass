@@ -112,6 +112,48 @@ describe("GlassModal", () => {
     expect(document.body.style.overflow).toBe("auto");
   });
 
+  it("renders contained mode without locking body scroll or using fixed overlay semantics", () => {
+    document.body.style.position = "relative";
+    document.body.style.overflow = "auto";
+
+    const { container } = render(
+      <div data-testid="card-host">
+        <GlassModal
+          contained
+          compact
+          title="Embedded preview"
+          data-testid="contained-modal"
+          style={{ width: 420, height: 260, maxHeight: 320 }}
+        >
+          Preview content
+        </GlassModal>
+      </div>
+    );
+
+    const root = screen.getByTestId("contained-modal");
+    const dialog = screen.getByRole("dialog", { name: "Embedded preview" });
+    const content = container.querySelector(
+      '[data-consciousness-content="true"]'
+    ) as HTMLElement;
+
+    expect(document.body.style.position).toBe("relative");
+    expect(document.body.style.overflow).toBe("auto");
+    expect(root).toHaveAttribute("data-contained", "true");
+    expect(root).toHaveClass("relative");
+    expect(root).not.toHaveClass("fixed");
+    expect(
+      container.querySelector('[aria-hidden="true"]')
+    ).not.toBeInTheDocument();
+    expect(dialog).not.toHaveAttribute("aria-modal", "true");
+    expect(content).toHaveClass("relative");
+    expect(content).not.toHaveClass("fixed");
+    expect(content).toHaveStyle({
+      width: "420px",
+      height: "260px",
+      maxHeight: "320px",
+    });
+  });
+
   it("does not re-run open lifecycle updates on controlled parent rerenders", () => {
     const consoleError = jest
       .spyOn(console, "error")

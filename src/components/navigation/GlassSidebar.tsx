@@ -63,6 +63,30 @@ export interface GlassSidebarProps {
    */
   open?: boolean;
   /**
+   * Render inside the parent container instead of using viewport-fixed overlay behavior.
+   */
+  contained?: boolean;
+  /**
+   * Whether to render the collapse toggle.
+   */
+  showToggle?: boolean;
+  /**
+   * Portal the collapse toggle to document.body. Defaults to true for viewport sidebars and false in contained mode.
+   */
+  renderToggleInPortal?: boolean;
+  /**
+   * Bounded sidebar height for contained/card previews.
+   */
+  height?: React.CSSProperties["height"];
+  /**
+   * Bounded sidebar max-height for contained/card previews.
+   */
+  maxHeight?: React.CSSProperties["maxHeight"];
+  /**
+   * Inline style override for the sidebar surface.
+   */
+  style?: React.CSSProperties;
+  /**
    * Callback when open state changes
    */
   onOpenChange?: (open: boolean) => void;
@@ -128,6 +152,11 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
       collapsed = false,
       onCollapsedChange,
       open = true,
+      contained = false,
+      showToggle = true,
+      renderToggleInPortal,
+      height,
+      maxHeight,
       onOpenChange,
       header,
       footer,
@@ -136,6 +165,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
       onNavigate,
       renderItem,
       className,
+      style,
       ...props
     },
     ref
@@ -143,7 +173,10 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [edgeX, setEdgeX] = useState<number | null>(null);
     const [internalCollapsed, setInternalCollapsed] = useState(collapsed);
+    const [mounted, setMounted] = useState(false);
     const isCollapsed = collapsed ?? internalCollapsed;
+    const useViewportOverlay = variant === "overlay" && !contained;
+    const shouldPortalToggle = renderToggleInPortal ?? !contained;
 
     const widthClasses = {
       sm: isCollapsed ? "w-16" : "w-48",
@@ -168,7 +201,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
     const handleItemClick = (item: NavigationItem) => {
       if (item?.disabled) return;
       onNavigate?.(item);
-      if (variant === "overlay") {
+      if (useViewportOverlay) {
         onOpenChange?.(false);
       }
     };
@@ -221,12 +254,48 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
       };
     }, [isCollapsed]);
 
+    useEffect(() => setMounted(true), []);
+
+    const fallbackX = (isCollapsed ? collapsedWidthPxMap : widthPxMap)[width];
+    const centerX = edgeX ?? fallbackX;
+    const toggleButton = (
+      <button
+        type="button"
+        onClick={handleToggleCollapse}
+        title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        className={cn(
+          shouldPortalToggle
+            ? "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            : "absolute glass-right-2 glass-top-3",
+          "w-10 h-10 glass-radius-full flex items-center justify-center",
+          "glass-glass-backdrop-blur-md2xl border",
+          "glass-focus glass-touch-target glass-contrast-guard",
+          "shadow-[0_6px_18px_color-mix(in_srgb,var(--glass-black)_35%,transparent),inset_0_1px_2px_var(--glass-bg-active)] ring-1",
+          "hover:bg-white/65 active:bg-white/70"
+        )}
+        aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+      >
+        {isCollapsed ? (
+          <ChevronRight
+            className="glass-w-5 glass-h-5 glass-text-primary glass-drop-shadow-custom"
+            strokeWidth={3}
+          />
+        ) : (
+          <ChevronLeft
+            className="glass-w-5 glass-h-5 glass-text-primary glass-drop-shadow-custom"
+            strokeWidth={3}
+          />
+        )}
+      </button>
+    );
+
     return (
       <SidebarContext.Provider data-glass-component value={contextValue}>
         <Motion
-          preset={variant === "overlay" ? "slideRight" : "none"}
+          preset={useViewportOverlay ? "slideRight" : "none"}
           className={cn(
-            variant === "overlay" && "fixed inset-y-0 left-0 z-50 h-screen",
+            useViewportOverlay && "fixed inset-y-0 left-0 z-50 h-screen",
+            contained && "glass-contained",
             "relative overflow-visible z-[60]"
           )}
           style={{ overflow: "visible" }}
@@ -249,14 +318,23 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             role="navigation"
             aria-label={props["aria-label"] || "Main navigation"}
             className={cn(
-              "h-full min-h-[420px] max-h-[calc(100vh-2rem)] flex flex-col transition-colors overflow-visible",
-              variant === "overlay" && "h-screen max-h-screen",
+              "h-full flex flex-col transition-colors overflow-visible",
+              contained
+                ? "min-h-0"
+                : "min-h-[420px] max-h-[calc(100vh-2rem)]",
+              useViewportOverlay && "h-screen max-h-screen",
+              contained && "glass-contained",
               widthClasses?.[width],
               variantClasses?.[variant],
               variant === "floating" ? "squiricle" : "",
               className
             )}
-            style={{ overflow: "visible" }}
+            style={{
+              ...style,
+              overflow: "visible",
+              height: height ?? style?.height,
+              maxHeight: maxHeight ?? style?.maxHeight,
+            }}
             {...props}
           >
             {/* Background tints removed to respect global layout color */}
@@ -308,70 +386,35 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
               </div>
             )}
 
-            {/* Toggle Button moved outside container to avoid any clipping */}
+            {showToggle &&
+              collapsible &&
+              mounted &&
+              (!shouldPortalToggle || contained) &&
+              toggleButton}
           </OptimizedGlass>
         </Motion>
 
-        {collapsible &&
-          (() => {
-            // Render toggle into document.body to avoid any local stacking/overflow issues
-            const [mounted, setMounted] = (function useMounted() {
-              const [m, setM] = useState(false);
-              useEffect(() => setM(true), []);
-              return [m, setM] as const;
-            })();
-            if (!mounted) return null;
-            const fallbackX = (isCollapsed ? collapsedWidthPxMap : widthPxMap)[
-              width
-            ];
-            const centerX = edgeX ?? fallbackX;
-            // Render inside a fullscreen, pointer-events-none layer; toggle itself is pointer-events-auto
-            return createPortal(
-              // Seam overlay: narrow, full-height, click-through slice at the exact sidebar edge
-              <div
-                className="glass-fixed glass-top-0 glass-h-screen glass-z-max"
-                style={{
-                  left: Math.max(0, centerX - 24),
-                  width: 48,
-                  pointerEvents: "auto",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={handleToggleCollapse}
-                  title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-                  className={cn(
-                    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 glass-radius-full",
-                    "flex items-center justify-center",
-                    // Frosted surface
-                    "glass-glass-backdrop-blur-md2xl border",
-                    "glass-focus glass-touch-target glass-contrast-guard",
-                    "shadow-[0_6px_18px_color-mix(in_srgb,var(--glass-black)_35%,transparent),inset_0_1px_2px_var(--glass-bg-active)] ring-1",
-                    "hover:bg-white/65 active:bg-white/70"
-                  )}
-                  aria-label={
-                    isCollapsed ? "Expand sidebar" : "Collapse sidebar"
-                  }
-                >
-                  {isCollapsed ? (
-                    <ChevronRight
-                      className="glass-w-5 glass-h-5 glass-text-primary glass-drop-shadow-custom"
-                      strokeWidth={3}
-                    />
-                  ) : (
-                    <ChevronLeft
-                      className="glass-w-5 glass-h-5 glass-text-primary glass-drop-shadow-custom"
-                      strokeWidth={3}
-                    />
-                  )}
-                </button>
-              </div>,
-              document.body
-            );
-          })()}
+        {showToggle &&
+          collapsible &&
+          mounted &&
+          shouldPortalToggle &&
+          !contained &&
+          createPortal(
+            <div
+              className="glass-fixed glass-top-0 glass-h-screen glass-z-max"
+              style={{
+                left: Math.max(0, centerX - 24),
+                width: 48,
+                pointerEvents: "auto",
+              }}
+            >
+              {toggleButton}
+            </div>,
+            document.body
+          )}
 
         {/* Overlay backdrop */}
-        {variant === "overlay" && open && (
+        {useViewportOverlay && open && (
           <div
             className="glass-fixed glass-inset-0 glass-surface-dark/50 glass-backdrop-blur-sm glass-z-40 glass-contrast-guard"
             onClick={(e) => onOpenChange?.(false)}

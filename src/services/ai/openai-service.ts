@@ -1,5 +1,4 @@
 // @ts-nocheck - Optional OpenAI dependency
-import OpenAI from 'openai';
 import { z } from 'zod';
 import { AIConfig } from './config';
 import { CacheService } from './cache-service';
@@ -26,18 +25,28 @@ const FieldSuggestionSchema = z.object({
 export type FieldSuggestion = z.infer<typeof FieldSuggestionSchema>;
 
 export class OpenAIService {
-  private client: OpenAI;
+  private client: any | null = null;
   private cache: CacheService;
   private errorHandler: ErrorHandler;
   private config: AIConfig;
 
   constructor(config: AIConfig) {
     this.config = config;
-    this.client = new OpenAI({
-      apiKey: config.openai.apiKey,
-    });
     this.cache = new CacheService(config.redis);
     this.errorHandler = new ErrorHandler();
+  }
+
+  private async getClient(): Promise<any> {
+    if (this.client) {
+      return this.client;
+    }
+
+    const module = await import('openai');
+    const OpenAI = module.default ?? module.OpenAI ?? module;
+    this.client = new OpenAI({
+      apiKey: this.config.openai.apiKey,
+    });
+    return this.client;
   }
 
   async generateFormFieldSuggestions(
@@ -53,8 +62,9 @@ export class OpenAIService {
 
     try {
       const prompt = this.buildFormSuggestionPrompt(formContext, existingFields);
+      const client = await this.getClient();
 
-      const response = await this.client.chat.completions.create({
+      const response = await client.chat.completions.create({
         model: this.shouldUseCheaperModel(formContext) ? 'gpt-3.5-turbo' : this.config.openai.model,
         messages: [
           {
@@ -106,7 +116,9 @@ export class OpenAIService {
     }
 
     try {
-      const response = await this.client.chat.completions.create({
+      const client = await this.getClient();
+
+      const response = await client.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
           {
@@ -151,7 +163,9 @@ export class OpenAIService {
 
   async generateContentSummary(content: string, maxLength: number = 200): Promise<string> {
     try {
-      const response = await this.client.chat.completions.create({
+      const client = await this.getClient();
+
+      const response = await client.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
           {
@@ -181,7 +195,9 @@ export class OpenAIService {
     context?: string
   ): Promise<string> {
     try {
-      const response = await this.client.chat.completions.create({
+      const client = await this.getClient();
+
+      const response = await client.chat.completions.create({
         model: this.config.openai.model,
         messages: [
           {

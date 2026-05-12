@@ -1,10 +1,10 @@
-# AuraGlass Documentation
+# AuraGlass by AuraOne Documentation
 
-This is the documentation home for AuraGlass. It separates product usage, component references, design-system rules, testing evidence, deployment notes, and release-ready maintenance guidance.
+This is the documentation home for AuraGlass by AuraOne. It separates product usage, component references, design-system rules, testing evidence, deployment notes, and release-ready maintenance guidance.
 
 ## Current Source Of Truth
 
-- Package version: 3.0.1
+- Package version: 3.1.0
 - Certified component inventory: 356 components in [reports/component_inventory.json](../reports/component_inventory.json)
 - Liquid Glass public surface: 32 value exports plus related type exports from the root package entrypoint.
 - Visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)

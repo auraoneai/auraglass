@@ -1,8 +1,8 @@
-# AuraGlass Elevation Guidelines
+# AuraGlass by AuraOne Elevation Guidelines
 
 ## Overview
 
-This document defines the elevation system for the AuraGlass component library. Elevation creates visual hierarchy and depth through consistent shadow systems that help users understand the layered nature of interface elements.
+This document defines the elevation system for the AuraGlass by AuraOne component library. Elevation creates visual hierarchy and depth through consistent shadow systems that help users understand the layered nature of interface elements.
 
 ## Elevation Levels
 

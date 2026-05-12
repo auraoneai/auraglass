@@ -7,7 +7,7 @@ exports[`GlassSidebar matches snapshot 1`] = `
 >
   <div
     aria-label="Main navigation"
-    class="optimized-glass-surface glass-primary-level1 glass-tier-high h-full min-h-[420px] max-h-[calc(100vh-2rem)] flex flex-col transition-colors overflow-visible w-64 border-r border-border/20"
+    class="optimized-glass-surface glass-primary-level1 glass-tier-high h-full flex flex-col transition-colors overflow-visible min-h-[420px] max-h-[calc(100vh-2rem)] w-64 border-r border-border/20"
     data-performance-mode="medium"
     role="navigation"
     style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 8px; box-shadow: 0px 4px 16px 0px hsl(var(--glass-color-primary)/0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: visible;"

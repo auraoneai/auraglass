@@ -1,6 +1,6 @@
 # Visual Regression Testing Suite
 
-This directory contains comprehensive visual regression tests for the AuraGlass glassmorphism design system.
+This directory contains comprehensive visual regression tests for the AuraGlass by AuraOne glassmorphism design system.
 
 ## ✅ Recent Audit Validation (November 2025)
 

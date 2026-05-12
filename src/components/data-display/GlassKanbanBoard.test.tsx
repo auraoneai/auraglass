@@ -141,4 +141,27 @@ describe('GlassKanbanBoard', () => {
     const { container } = render(<GlassKanbanBoard />);
     expect(container.firstChild).toMatchSnapshot();
   });
+
+  it('supports contained compact rendering without header or actions', () => {
+    const { container } = render(
+      <GlassKanbanBoard
+        title="Launch board"
+        compact
+        contained
+        showHeader={false}
+        showToolbar={false}
+        showActions={false}
+        width={360}
+        height={260}
+        maxHeight={260}
+        data-testid="contained-kanban"
+      />
+    );
+
+    const board = screen.getByTestId('contained-kanban');
+    expect(board).toHaveStyle({ width: '360px', height: '260px', maxHeight: '260px' });
+    expect(screen.queryByText('Launch board')).not.toBeInTheDocument();
+    expect(container.querySelector('[aria-label^="Add card to"]')).not.toBeInTheDocument();
+    expect(container.querySelector('[aria-label="Add new column"]')).not.toBeInTheDocument();
+  });
 });

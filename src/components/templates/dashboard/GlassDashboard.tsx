@@ -129,6 +129,38 @@ export interface GlassDashboardProps
    * Empty state component
    */
   emptyState?: React.ReactNode;
+  /**
+   * Compact rendering for constrained cards and docs previews.
+   */
+  compact?: boolean;
+  /**
+   * Keep the dashboard bounded inside its parent instead of assuming a page-scale layout.
+   */
+  contained?: boolean;
+  /**
+   * Whether to render the dashboard header.
+   */
+  showHeader?: boolean;
+  /**
+   * Whether to render actions in the header.
+   */
+  showActions?: boolean;
+  /**
+   * Whether to render edit toolbar controls.
+   */
+  showToolbar?: boolean;
+  /**
+   * Explicit dashboard height for embedded layouts.
+   */
+  height?: React.CSSProperties["height"];
+  /**
+   * Explicit dashboard width for embedded layouts.
+   */
+  width?: React.CSSProperties["width"];
+  /**
+   * Maximum dashboard height for embedded layouts.
+   */
+  maxHeight?: React.CSSProperties["maxHeight"];
 }
 
 /**
@@ -162,7 +194,16 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       actions,
       loading = false,
       emptyState,
+      compact = false,
+      contained = false,
+      showHeader = true,
+      showActions = true,
+      showToolbar = true,
+      height,
+      width,
+      maxHeight,
       className,
+      style,
       ...props
     },
     ref
@@ -172,6 +213,16 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       x: number;
       y: number;
     } | null>(null);
+    const isBounded = compact || contained || height !== undefined || maxHeight !== undefined;
+    const gridCols = compact ? Math.min(layout.cols, 2) : layout.cols;
+    const gridMinHeightClass = isBounded ? "glass-min-glass-h-0" : "glass-min-glass-h-96";
+    const dashboardStyle: React.CSSProperties = {
+      ...style,
+      width,
+      height,
+      maxHeight: maxHeight ?? (compact || contained ? 420 : undefined),
+      overflow: isBounded ? "hidden" : style?.overflow,
+    };
 
     // Handle drag start
     const handleDragStart = useCallback(
@@ -364,34 +415,44 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
     return (
       <div
         ref={ref}
-        className={cn("w-full glass-auto-gap glass-auto-gap-2xl", className)}
+        className={cn(
+          "w-full glass-auto-gap",
+          compact ? "glass-auto-gap-md" : "glass-auto-gap-2xl",
+          contained && "glass-contained",
+          className
+        )}
+        style={dashboardStyle}
         data-glass-component
         {...props}
       >
         {/* Header */}
-        <PageHeader
-          title={title}
-          description={description}
-          actions={
-            <HStack space="sm">
-              {actions}
-              {(availableWidgets?.length || 0) > 0 && (
-                <GlassButton
-                  variant={editMode ? "primary" : "outline"}
-                  size="sm"
-                  leftIcon={editMode ? "✓" : "✏️"}
-                  onClick={(e) => onEditModeChange?.(!editMode)}
-                  className="glass-focus glass-touch-target"
-                >
-                  {editMode ? "Done" : "Edit"}
-                </GlassButton>
-              )}
-            </HStack>
-          }
-        />
+        {showHeader && (
+          <PageHeader
+            title={title}
+            description={compact ? undefined : description}
+            actions={
+              showActions ? (
+                <HStack space="sm">
+                  {actions}
+                  {showToolbar && (availableWidgets?.length || 0) > 0 && (
+                    <GlassButton
+                      variant={editMode ? "primary" : "outline"}
+                      size="sm"
+                      leftIcon={editMode ? "✓" : "Edit"}
+                      onClick={(e) => onEditModeChange?.(!editMode)}
+                      className="glass-focus glass-touch-target"
+                    >
+                      {editMode ? "Done" : "Edit"}
+                    </GlassButton>
+                  )}
+                </HStack>
+              ) : undefined
+            }
+          />
+        )}
 
         {/* Add widget section */}
-        {editMode && (availableWidgets?.length || 0) > 0 && (
+        {showToolbar && editMode && (availableWidgets?.length || 0) > 0 && (
           <Motion preset="slideDown">
             <Glass className="glass-p-4 glass-radius-lg">
               <VStack space="sm">
@@ -406,15 +467,15 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
 
         {/* Dashboard grid */}
         <GlassGrid
-          cols={layout.cols as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}
+          cols={gridCols as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}
           gap={layout.gap}
-          className="glass-min-glass-h-96"
+          className={cn(gridMinHeightClass, isBounded && "glass-overflow-y-auto glass-pr-1")}
         >
           {layout.widgets.map((widget) => (
             <GlassGridItem
               key={widget.id}
-              colSpan={widget.size.cols}
-              rowSpan={widget.size.rows}
+              colSpan={compact ? Math.min(widget.size.cols, gridCols) as DashboardWidget["size"]["cols"] : widget.size.cols}
+              rowSpan={compact ? Math.min(widget.size.rows, 2) as DashboardWidget["size"]["rows"] : widget.size.rows}
               className={cn(
                 "transition-all duration-200",
                 draggedWidget === widget.id && "opacity-50 scale-95",

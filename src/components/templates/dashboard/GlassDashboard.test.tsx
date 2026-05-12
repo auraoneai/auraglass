@@ -71,6 +71,45 @@ describe('GlassDashboard', () => {
     expect(element).toHaveClass('custom-class');
   });
 
+  it('supports compact contained rendering controls for preview containers', () => {
+    const layout = {
+      id: 'preview',
+      name: 'Preview',
+      cols: 4,
+      gap: 'sm' as const,
+      widgets: [
+        {
+          id: 'revenue',
+          title: 'Revenue',
+          type: 'metric' as const,
+          size: { cols: 4 as const, rows: 2 as const },
+          position: { x: 0, y: 0 },
+          data: { value: '$128k', label: 'MRR', change: 12 },
+        },
+      ],
+    };
+
+    const { container } = render(
+      <GlassDashboard
+        compact
+        contained
+        showHeader={false}
+        showActions={false}
+        height={320}
+        layout={layout}
+        data-testid="dashboard-preview"
+      />
+    );
+
+    const element = container.querySelector('[data-testid="dashboard-preview"]') as HTMLElement;
+    expect(element).toBeInTheDocument();
+    expect(element.style.height).toBe('320px');
+    expect(element.style.maxHeight).toBe('420px');
+    expect(element).toHaveStyle({ overflow: 'hidden' });
+    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument();
+    expect(screen.getByText('$128k')).toBeInTheDocument();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

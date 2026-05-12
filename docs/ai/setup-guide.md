@@ -1,5 +1,5 @@
-# AuraGlass AI Infrastructure Setup Guide
-Complete guide to setting up production-ready AI features in AuraGlass.
+# AuraGlass by AuraOne AI Infrastructure Setup Guide
+Complete guide to setting up production-ready AI features in AuraGlass by AuraOne.
 
 ## 📋 Table of Contents
 

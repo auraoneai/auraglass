@@ -86,9 +86,14 @@ const entrypoints = [
 const esmSubpathEntrypoints = [
   ['src/core/mixins/glassMixins.ts', 'dist/esm/core/mixins/glassMixins.js'],
   ['src/utils/env.ts', 'dist/esm/utils/env.js'],
+  ['src/hooks/useGlassProbes.ts', 'dist/esm/hooks/useGlassProbes.js'],
   ['src/services/ai/openai-service.ts', 'dist/esm/services/ai/openai-service.js'],
   ['src/services/ai/vision-service.ts', 'dist/esm/services/ai/vision-service.js'],
   ['src/services/websocket/collaboration-service.ts', 'dist/esm/services/websocket/collaboration-service.js'],
+];
+
+const cjsSubpathEntrypoints = [
+  ['src/hooks/useGlassProbes.ts', 'dist/cjs/hooks/useGlassProbes.js'],
 ];
 
 require('node:fs').rmSync(distDir, { recursive: true, force: true });
@@ -157,6 +162,15 @@ for (const [entryPoint, outputFile] of esmSubpathEntrypoints) {
     entryPoints: [path.resolve(projectRoot, entryPoint)],
     outfile: path.resolve(projectRoot, outputFile),
     format: 'esm',
+  });
+}
+
+for (const [entryPoint, outputFile] of cjsSubpathEntrypoints) {
+  esbuild.buildSync({
+    ...sharedBuildOptions,
+    entryPoints: [path.resolve(projectRoot, entryPoint)],
+    outfile: path.resolve(projectRoot, outputFile),
+    format: 'cjs',
   });
 }
 

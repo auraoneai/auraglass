@@ -1,0 +1,73 @@
+name: Bug report
+description: Report a reproducible package bug in AuraGlass.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for package behavior that is broken in a React or Next.js app. For visual-only regressions, use the visual regression template.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect instead?
+      placeholder: GlassCard renders with unreadable text in dark mode when...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide a minimal reproduction, repository, StackBlitz, or exact code snippet.
+      placeholder: |
+        npm install aura-glass
+        import { GlassCard } from 'aura-glass';
+        import 'aura-glass/styles';
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: AuraGlass version
+      placeholder: 3.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: framework
+    attributes:
+      label: Framework
+      options:
+        - React 18
+        - React 19
+        - Next.js 14
+        - Next.js 15
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include browser, Node, npm/pnpm/yarn, OS, and bundler if relevant.
+      placeholder: Node 20, npm 10, Chrome 124, macOS, Vite...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Paste relevant console output, stack traces, screenshots, or test failures.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Preflight
+      options:
+        - label: I import styles with `import 'aura-glass/styles';` where required.
+          required: true
+        - label: I am not importing from private `src` paths.
+          required: true
+        - label: I installed optional peer dependencies for any advanced component family I am using.
+          required: true

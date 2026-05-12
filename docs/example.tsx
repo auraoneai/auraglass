@@ -36,7 +36,7 @@ export function AuraGlassExample() {
                 {/* Header */}
                 <GlassHeader className="mb-8">
                     <div className="flex items-center justify-between">
-                        <h1 className="text-3xl font-bold text-white">AuraGlass Demo</h1>
+                        <h1 className="text-3xl font-bold text-white">AuraGlass by AuraOne Demo</h1>
                         <div className="flex space-x-4">
                             <GlassButton variant="secondary" onClick={() => setDialogOpen(true)}>
                                 Open Dialog
@@ -133,7 +133,7 @@ export function AuraGlassExample() {
             {/* Modal */}
             <GlassModal open={modalOpen} onClose={() => setModalOpen(false)}>
                 <GlassCard className="p-8 max-w-lg">
-                    <h3 className="text-xl font-semibold mb-4 text-white">Welcome to AuraGlass</h3>
+                    <h3 className="text-xl font-semibold mb-4 text-white">Welcome to AuraGlass by AuraOne</h3>
                     <p className="text-gray-300 mb-6">
                         This is a comprehensive glassmorphism design system built with React and TypeScript.
                         It provides beautiful, modern UI components with advanced glass effects and animations.
@@ -150,4 +150,3 @@ export function AuraGlassExample() {
 }
 
 export default AuraGlassExample;
-

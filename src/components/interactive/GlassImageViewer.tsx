@@ -56,6 +56,26 @@ export interface GlassImageViewerProps {
    */
   enableFullscreen?: boolean;
   /**
+   * Render as a bounded embedded viewer instead of allowing viewport-fixed fullscreen.
+   */
+  contained?: boolean;
+  /**
+   * Use denser controls and hide nonessential copy for card/docs previews.
+   */
+  compact?: boolean;
+  /**
+   * Bounded viewer width.
+   */
+  width?: React.CSSProperties["width"];
+  /**
+   * Bounded viewer height.
+   */
+  height?: React.CSSProperties["height"];
+  /**
+   * Bounded viewer max-height.
+   */
+  maxHeight?: React.CSSProperties["maxHeight"];
+  /**
    * Enable image navigation
    */
   enableNavigation?: boolean;
@@ -136,6 +156,11 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   enablePan = true,
   enableRotation = true,
   enableFullscreen = true,
+  contained = false,
+  compact = false,
+  width,
+  height,
+  maxHeight,
   enableNavigation = true,
   showZoomControls = true,
   showRotationControls = true,
@@ -177,6 +202,8 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
   const autoPlayRef = useRef<NodeJS.Timeout>();
 
   const currentImage = safeImages[currentIndex];
+  const isViewportFullscreen = isFullscreen && !contained;
+  const showExpandedInfo = showImageInfo && !compact;
 
   // Handle image change
   const handleImageChange = useCallback(
@@ -361,7 +388,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
   // Auto-play functionality
   useEffect(() => {
-    if (isAutoPlaying && safeImageCount > 1) {
+    if (isAutoPlaying && safeImageCount > 1 && !prefersReducedMotion) {
       autoPlayRef.current = setInterval(() => {
         setCurrentIndex((prev: any) => (prev + 1) % safeImageCount);
       }, autoPlayInterval);
@@ -376,7 +403,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
         clearInterval(autoPlayRef.current);
       }
     };
-  }, [isAutoPlaying, safeImageCount, autoPlayInterval]);
+  }, [isAutoPlaying, safeImageCount, autoPlayInterval, prefersReducedMotion]);
 
   useEffect(() => {
     setCurrentIndex((prevIndex) => {
@@ -410,9 +437,16 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
       <GlassCard
         className={cn(
           "overflow-hidden relative",
-          isFullscreen && "fixed inset-0 z-50 rounded-none",
+          contained && "glass-contained",
+          compact && "glass-compact",
+          isViewportFullscreen && "fixed inset-0 z-50 rounded-none",
           className
         )}
+        style={{
+          width,
+          height,
+          maxHeight,
+        }}
         {...props}
       >
         <CardContent className="glass-p-0">
@@ -421,7 +455,11 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
             ref={containerRef}
             className={cn(
               "relative bg-black/20 overflow-hidden",
-              isFullscreen ? "h-screen" : "aspect-video"
+              isViewportFullscreen
+                ? "h-screen"
+                : height
+                  ? "h-full"
+                  : "aspect-video"
             )}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -485,8 +523,13 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
             )}
 
             {/* Image Info Overlay */}
-            {showImageInfo && currentImage.title && (
-              <div className="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-p-4 glass-contrast-guard">
+            {showExpandedInfo && currentImage.title && (
+              <div
+                className={cn(
+                  "glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-contrast-guard",
+                  compact ? "glass-p-2" : "glass-p-4"
+                )}
+              >
                 <h3 className="glass-text-primary glass-font-medium">
                   {currentImage.title}
                 </h3>
@@ -501,7 +544,12 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
 
           {/* Controls Overlay */}
           <div
-            className="glass-absolute glass-top-4 glass-left-4 glass-right-4 glass-flex glass-justify-between glass-items-start"
+            className={cn(
+              "glass-absolute glass-flex glass-justify-between glass-items-start",
+              compact
+                ? "glass-top-2 glass-left-2 glass-right-2"
+                : "glass-top-4 glass-left-4 glass-right-4"
+            )}
             style={{ gap: 8, minWidth: 0, pointerEvents: "none" }}
           >
             {/* Left Controls */}
@@ -535,7 +583,12 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     <ChevronRight className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
-                  <span className="glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2">
+                  <span
+                    className={cn(
+                      "glass-text-primary-glass-opacity-80 glass-text-sm",
+                      compact ? "glass-px-1" : "glass-px-2"
+                    )}
+                  >
                     {safeImageCount > 0
                       ? `${currentIndex + 1} / ${safeImageCount}`
                       : "0 / 0"}
@@ -569,7 +622,12 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                     <ZoomOut className="glass-w-4 glass-h-4" />
                   </GlassButton>
 
-                  <span className="glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2 glass-min-w-16 glass-text-center">
+                  <span
+                    className={cn(
+                      "glass-text-primary-glass-opacity-80 glass-text-sm glass-text-center",
+                      compact ? "glass-min-w-10 glass-px-1" : "glass-min-w-16 glass-px-2"
+                    )}
+                  >
                     {Math.round(zoom * 100)}%
                   </span>
 
@@ -622,7 +680,7 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                 </GlassButton>
               )}
 
-              {enableFullscreen && (
+              {enableFullscreen && !contained && (
                 <GlassButton
                   variant="secondary"
                   size="sm"

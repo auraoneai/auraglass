@@ -1,6 +1,6 @@
-# AuraGlass Installation Guide
+# AuraGlass by AuraOne Installation Guide
 
-This guide matches AuraGlass 3.0.0. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, Liquid Glass primitives, and a separate 3D entrypoint from the package export map.
+This guide matches AuraGlass by AuraOne 3.1.0. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, Liquid Glass primitives, and a separate 3D entrypoint from the package export map.
 
 ## Install
 

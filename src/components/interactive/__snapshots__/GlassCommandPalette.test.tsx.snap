@@ -4,6 +4,7 @@ exports[`GlassCommandPalette matches snapshot 1`] = `
 <div
   class="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh"
   data-glass-component="true"
+  style="min-height: 100vh;"
 >
   <div
     class="absolute inset-0 bg-black/20 glass-backdrop-blur-md"
@@ -14,7 +15,7 @@ exports[`GlassCommandPalette matches snapshot 1`] = `
     <div
       aria-label="Command palette"
       aria-modal="true"
-      class="optimized-glass-surface glass-neutral-level4 glass-tier-high w-full glass-max-h-80vh overflow-hidden glass-radius-xl"
+      class="optimized-glass-surface glass-neutral-level4 glass-tier-high w-full overflow-hidden glass-radius-xl glass-max-h-80vh"
       data-performance-mode="high"
       role="dialog"
       style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.24); border-radius: 8px; box-shadow: 0px 16px 40px 0px rgba(0,0,0,0.3); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
@@ -52,7 +53,7 @@ exports[`GlassCommandPalette matches snapshot 1`] = `
             <input
               aria-label="Search commands..."
               class="glass-flex-1 glass-bg-transparent glass-border-0 glass-outline-none glass-pulse-ring glass-text-primary glass-min-w-0"
-              id="glass-input-:r6:"
+              id="glass-input-:r8:"
               placeholder="Search commands..."
               value=""
             />
@@ -64,7 +65,7 @@ exports[`GlassCommandPalette matches snapshot 1`] = `
       </div>
       <div
         aria-label="No commands found"
-        class="glass-max-h-96 glass-overflow-y-auto glass-overscroll-contain"
+        class="glass-overflow-y-auto glass-overscroll-contain glass-max-h-96"
         role="status"
       >
         <div

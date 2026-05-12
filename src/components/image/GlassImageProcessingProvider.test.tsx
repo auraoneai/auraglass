@@ -15,12 +15,28 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
-import { GlassImageProcessingProvider } from "@/components/image/GlassImageProcessingProvider";
+import {
+  GlassImageProcessingProvider,
+  useImageProcessing,
+} from "@/components/image/GlassImageProcessingProvider";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
 describe("GlassImageProcessingProvider", () => {
+  const StandaloneHookProbe = () => {
+    const { images, autoOptimize, getOptimizationStats } = useImageProcessing();
+    const stats = getOptimizationStats();
+
+    return (
+      <div>
+        <span data-testid="image-count">{images.length}</span>
+        <span data-testid="auto-optimize">{String(autoOptimize)}</span>
+        <span data-testid="processed-count">{stats.imagesProcessed}</span>
+      </div>
+    );
+  };
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -31,6 +47,14 @@ describe("GlassImageProcessingProvider", () => {
       </GlassImageProcessingProvider>
     );
     expect(container).toBeInTheDocument();
+  });
+
+  it("provides a default no-op hook context outside the provider", () => {
+    render(<StandaloneHookProbe />);
+
+    expect(screen.getByTestId("image-count")).toHaveTextContent("0");
+    expect(screen.getByTestId("auto-optimize")).toHaveTextContent("false");
+    expect(screen.getByTestId("processed-count")).toHaveTextContent("0");
   });
 
   /**

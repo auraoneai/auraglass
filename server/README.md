@@ -1,6 +1,6 @@
-# AuraGlass Backend Server
+# AuraGlass by AuraOne Backend Server
 
-Production-ready AI infrastructure for AuraGlass components.
+Production-ready AI infrastructure for AuraGlass by AuraOne components.
 
 ## Overview
 

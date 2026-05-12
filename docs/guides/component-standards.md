@@ -1,8 +1,8 @@
-# AuraGlass Component Standards
+# AuraGlass by AuraOne Component Standards
 
 ## Overview
 
-This document defines proper usage patterns, standards, and best practices for all AuraGlass components. Following these standards ensures consistency, accessibility, and maintainability across the design system while maintaining our 100/100 design system score.
+This document defines proper usage patterns, standards, and best practices for all AuraGlass by AuraOne components. Following these standards ensures consistency, accessibility, and maintainability across the design system while maintaining our 100/100 design system score.
 
 ## 🎯 Core Principles
 

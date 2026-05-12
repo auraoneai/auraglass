@@ -29,6 +29,12 @@ const exportsMap: Record<
       expect(mod).toHaveProperty("ShowcaseCard");
       expect(mod).toHaveProperty("FeatureTile");
       expect(mod).toHaveProperty("InstallCommand");
+      expect(mod.GlassNavbar).toBe(mod.GlassNavigation);
+      expect(mod.GlassMediaControls).toBe(mod.LiquidGlassMediaControls);
+      expect(mod.LiquidGlassSourceTransition).toBe(
+        mod.LiquidGlassTransitionProvider
+      );
+      expect(mod.SmartShoppingCart).toBe(mod.GlassSmartShoppingCart);
       expect(mod).toHaveProperty("AuraElementInteractionPlugin");
       expect(mod.AuraElementInteractionPlugin.id).toBe(
         "auraElementInteraction"
@@ -66,10 +72,20 @@ const exportsMap: Record<
       expect(content.length).toBeGreaterThan(0);
     },
   },
+  "./hooks/useGlassProbes": {
+    require: "dist/cjs/hooks/useGlassProbes.js",
+    verify: (mod) => {
+      expect(typeof mod.useGlassProbes).toBe("function");
+      expect(typeof mod.useGlassElementProbe).toBe("function");
+    },
+  },
   "./registry": {
     require: "dist/registry/index.js",
     verify: (mod) => {
       expect(mod).toHaveProperty("StyledComponentsRegistry");
+      expect(Array.isArray(mod.auraGlassRecipes)).toBe(true);
+      expect(mod.auraGlassRecipes.length).toBeGreaterThanOrEqual(7);
+      expect(mod.getAuraGlassRecipe("saas-dashboard")?.files?.length).toBeGreaterThan(0);
     },
   },
   "./client": {
@@ -91,14 +107,34 @@ const exportsMap: Record<
       expect(mod).toHaveProperty("safeBrowserExec");
     },
   },
+  "./three": {
+    require: "dist/three/index.js",
+    verify: (mod) => {
+      expect(mod).toHaveProperty("GlassShatterEffects");
+      expect(mod).toHaveProperty("SeasonalParticles");
+      expect(mod).toHaveProperty("AuroraPro");
+      expect(mod).toHaveProperty("ARGlassEffects");
+    },
+  },
   "./package.json": {
     require: "package.json",
     verify: (pkg) => {
       expect(pkg.name).toBe("aura-glass");
       expect(pkg.exports).toBeDefined();
+      expect(pkg.exports["./hooks/useGlassProbes"]).toMatchObject({
+        import: "./dist/esm/hooks/useGlassProbes.js",
+        require: "./dist/cjs/hooks/useGlassProbes.js",
+        default: "./dist/esm/hooks/useGlassProbes.js",
+      });
+      expect(pkg.peerDependencies.openai).toBe("^6.0.0");
+      expect(pkg.peerDependencies["@google-cloud/vision"]).toBe("^5.0.0");
+      expect(pkg.peerDependenciesMeta.openai.optional).toBe(true);
+      expect(pkg.peerDependenciesMeta["@google-cloud/vision"].optional).toBe(
+        true
+      );
     },
   },
-  // Note: New exports (core/mixins/glassMixins, utils/env, services/*, hooks/useGlassProbes)
+  // Note: New exports (core/mixins/glassMixins, utils/env, services/*)
   // are ESM-only and will be tested in package-exports.spec.mjs
 };
 
