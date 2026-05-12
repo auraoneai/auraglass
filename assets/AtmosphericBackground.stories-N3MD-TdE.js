@@ -1,0 +1,57 @@
+import{r as p,d as H,b as $,R as O,c as v,j as e}from"./iframe-CXbhLBXA.js";import{u as T}from"./MotionPreferenceContext-DS5tUD5P.js";import{u as z}from"./a11y-BJgrmYZ-.js";import{O as F}from"./OptimizedGlassCore-ClSJuy9q.js";import"./preload-helper-PPVm8Dsz.js";import"./deviceCapabilities-BiQAPMnE.js";const U="_container_1pvus_25",X="_gradientLayer_1pvus_38",Y="_gradientInteractive_1pvus_51",J="_animateGradient_1pvus_55",K="_atmosphericEffect_1pvus_62",Q="_animateClouds_1pvus_73",Z="_blurLayer_1pvus_80",ee="_contentLayer_1pvus_86",ae="_reduceMotion_1pvus_93",s={container:U,gradientLayer:X,gradientInteractive:Y,animateGradient:J,atmosphericEffect:K,animateClouds:Q,blurLayer:Z,contentLayer:ee,reduceMotion:ae},se=["color-mix(in srgb, var(--glass-color-primary) 50%, transparent)","color-mix(in srgb, var(--glass-color-secondary) 50%, transparent)","color-mix(in srgb, var(--glass-color-accent) 50%, transparent)","color-mix(in srgb, var(--glass-color-info) 50%, transparent)"],te=(l,t)=>{const{children:o,className:w,style:k,baseColor:_="color-mix(in srgb, var(--glass-black) 80%, transparent)",gradientColors:h=se,intensity:C=.7,animate:c=!0,animationDuration:N=H.DURATION.slower/1e3,interactive:n=!1,blur:ne=!1,blurAmount:re=5,intent:A="neutral",elevation:j="level2",tier:V="medium",respectMotionPreference:q=!0,...M}=l,B=z("atmospheric-bg"),L=$(),{prefersReducedMotion:R}=T(),a=q&&(L||R),b=O.Children.count(o)===0,[y,S]=p.useState({x:50,y:50}),d=p.useRef(null);p.useEffect(()=>{if(!n||a)return;const r=x=>{if(!d.current)return;const u=d.current.getBoundingClientRect(),G=(x.clientX-u.left)/u.width*100,W=(x.clientY-u.top)/u.height*100;S({x:G,y:W})};if(!(typeof window>"u"))return window.addEventListener("mousemove",r,{passive:!0}),()=>{window.removeEventListener("mousemove",r)}},[n,a]);const E=r=>{d.current!==r&&(d.current=r),typeof t=="function"?t(r):t&&(t.current=r)},f={backgroundColor:_,backgroundImage:`linear-gradient(125deg, ${h.join(", ")})`,opacity:C};n&&!a&&(f.backgroundPosition=`${50+(y.x-50)*.2}% ${50+(y.y-50)*.2}%`),c&&!a&&!n&&(f["--atmosphere-gradient-duration"]=`${N}s`);const I=v(s.gradientLayer,n&&!a&&s.gradientInteractive,c&&!a&&!n&&s.animateGradient,a&&s.reduceMotion),D=v(s.atmosphericEffect,c&&!a&&s.animateClouds,a&&s.reduceMotion),P={};return e.jsxs(F,{ref:E,intent:A,elevation:j,tier:V,className:v("glass-atmospheric-background",s.container,w),style:{...k||{}},id:B,role:b?"img":void 0,"aria-label":b?`Atmospheric background with ${c&&!a?"animated":"static"} ${h.length} color gradient`:void 0,tabIndex:n?0:void 0,...M,children:[e.jsx("div",{className:I,style:{...f},"aria-hidden":"true"}),e.jsx("div",{className:D,"aria-hidden":"true"}),e.jsx("div",{className:s.blurLayer,style:{...P},"aria-hidden":"true"}),e.jsx("div",{className:s.contentLayer,children:o})]})},i=p.forwardRef(te);i.displayName="AtmosphericBackground";try{i.displayName="AtmosphericBackground",i.__docgenInfo={description:`AtmosphericBackground Component
+
+A dynamic background component with atmospheric effects.`,displayName:"AtmosphericBackground",props:{variant:{defaultValue:null,description:"",name:"variant",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"clear"'},{value:'"cloudy"'},{value:'"rainy"'},{value:'"stormy"'},{value:'"foggy"'},{value:'"sunny"'}]}},intensity:{defaultValue:null,description:"",name:"intensity",required:!1,type:{name:"number | undefined"}},animated:{defaultValue:null,description:"",name:"animated",required:!1,type:{name:"boolean | undefined"}},animate:{defaultValue:null,description:"",name:"animate",required:!1,type:{name:"boolean | undefined"}},particleCount:{defaultValue:null,description:"",name:"particleCount",required:!1,type:{name:"number | undefined"}},colorScheme:{defaultValue:null,description:"",name:"colorScheme",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"day"'},{value:'"night"'},{value:'"dusk"'},{value:'"dawn"'}]}},weather:{defaultValue:null,description:"",name:"weather",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"cloudy"'},{value:'"rainy"'},{value:'"foggy"'},{value:'"sunny"'},{value:'"snowy"'}]}},baseColor:{defaultValue:null,description:"",name:"baseColor",required:!1,type:{name:"string | undefined"}},gradientColors:{defaultValue:null,description:"",name:"gradientColors",required:!1,type:{name:"string[] | undefined"}},animationDuration:{defaultValue:null,description:"",name:"animationDuration",required:!1,type:{name:"number | undefined"}},interactive:{defaultValue:null,description:"",name:"interactive",required:!1,type:{name:"boolean | undefined"}},blur:{defaultValue:null,description:"",name:"blur",required:!1,type:{name:"boolean | undefined"}},blurAmount:{defaultValue:null,description:"",name:"blurAmount",required:!1,type:{name:"number | undefined"}},intent:{defaultValue:null,description:"Glass surface intent",name:"intent",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"primary"'},{value:'"neutral"'},{value:'"success"'},{value:'"warning"'},{value:'"danger"'},{value:'"info"'}]}},elevation:{defaultValue:null,description:"Glass surface elevation",name:"elevation",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"level1"'},{value:'"level2"'},{value:'"level3"'},{value:'"level4"'}]}},tier:{defaultValue:null,description:"Performance tier",name:"tier",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"medium"'},{value:'"high"'},{value:'"low"'}]}},respectMotionPreference:{defaultValue:null,description:"If true, respects user's motion preferences",name:"respectMotionPreference",required:!1,type:{name:"boolean | undefined"}}}}}catch{}const me={title:"Effects + Advanced/Atmospheric Background",component:i,parameters:{layout:"fullscreen",previewSurface:"media",docs:{description:{component:"Atmospheric background constrained to a readable media-style composition."}}},argTypes:{className:{control:"text",description:"Custom CSS class name"},variant:{control:{type:"select"},options:["clear","cloudy","rainy","stormy","foggy","sunny"],description:"Atmospheric variant"},intensity:{control:{type:"number",min:0,max:1,step:.1},description:"Effect intensity"},animate:{control:"boolean",description:"Enable animations"}},args:{className:"",variant:"clear",intensity:.5,animate:!1}},m={render:l=>e.jsx(i,{...l,className:"glass-w-full glass-flex glass-items-center glass-justify-center",style:{minHeight:"min(100vh, 760px)"},baseColor:"rgba(15, 23, 42, 0.92)",gradientColors:["rgba(59, 130, 246, 0.5)","rgba(20, 184, 166, 0.38)","rgba(168, 85, 247, 0.32)"],animate:!1,children:e.jsxs("section",{className:"glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md",style:{width:"min(calc(100vw - 48px), 48rem)",maxWidth:"100%",minWidth:0,color:"#f8fafc"},children:[e.jsx("p",{className:"glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70",style:{color:"rgba(248, 250, 252, 0.78)"},children:"Atmospheric surface"}),e.jsx("h1",{className:"glass-mt-2 glass-font-semibold",style:{overflowWrap:"anywhere",wordBreak:"normal",color:"#ffffff",fontSize:"clamp(1.45rem, 7vw, 1.875rem)",lineHeight:1.1,maxWidth:"18ch"},children:"Command center backdrop"}),e.jsx("p",{className:"glass-mt-3 glass-max-w-2xl glass-text-sm glass-text-white/75",style:{color:"rgba(248, 250, 252, 0.82)"},children:"Foreground panels remain legible while the background demonstrates depth and color."})]})}),args:{variant:"clear",intensity:.5,animate:!1}},g={render:l=>e.jsx("div",{className:"glass-grid glass-w-full glass-gap-4 glass-p-6",style:{gridTemplateColumns:"repeat(auto-fit, minmax(min(100%, 220px), 1fr))",minHeight:"min(100vh, 760px)"},children:[["Dawn",["rgba(14, 165, 233, 0.44)","rgba(245, 158, 11, 0.28)"]],["Night",["rgba(37, 99, 235, 0.38)","rgba(124, 58, 237, 0.3)"]],["Signal",["rgba(20, 184, 166, 0.38)","rgba(16, 185, 129, 0.24)"]]].map(([t,o])=>e.jsx(i,{...l,gradientColors:o,className:"glass-min-h-[360px] glass-overflow-hidden glass-rounded-2xl glass-p-5 glass-flex glass-items-end",animate:!1,children:e.jsxs("div",{className:"glass-rounded-xl glass-bg-black/30 glass-p-4 glass-text-white glass-backdrop-blur-md",children:[e.jsx("h3",{className:"glass-text-base glass-font-semibold",children:t}),e.jsx("p",{className:"glass-mt-2 glass-text-sm glass-text-white/75",children:"Compact media tile with controlled contrast."})]})},t))}),args:{variant:"cloudy"}};m.parameters={...m.parameters,docs:{...m.parameters?.docs,source:{originalSource:`{
+  render: args => <AtmosphericBackground {...args} className="glass-w-full glass-flex glass-items-center glass-justify-center" style={{
+    minHeight: 'min(100vh, 760px)'
+  }} baseColor="rgba(15, 23, 42, 0.92)" gradientColors={['rgba(59, 130, 246, 0.5)', 'rgba(20, 184, 166, 0.38)', 'rgba(168, 85, 247, 0.32)']} animate={false}>
+      <section className="glass-w-full glass-max-w-3xl glass-rounded-2xl glass-bg-black/35 glass-p-8 glass-text-white glass-shadow-2xl glass-backdrop-blur-md" style={{
+      width: 'min(calc(100vw - 48px), 48rem)',
+      maxWidth: '100%',
+      minWidth: 0,
+      color: '#f8fafc'
+    }}>
+        <p className="glass-text-sm glass-font-semibold glass-uppercase glass-tracking-wide glass-text-white/70" style={{
+        color: 'rgba(248, 250, 252, 0.78)'
+      }}>
+          Atmospheric surface
+        </p>
+        <h1 className="glass-mt-2 glass-font-semibold" style={{
+        overflowWrap: 'anywhere',
+        wordBreak: 'normal',
+        color: '#ffffff',
+        fontSize: 'clamp(1.45rem, 7vw, 1.875rem)',
+        lineHeight: 1.1,
+        maxWidth: '18ch'
+      }}>
+          Command center backdrop
+        </h1>
+        <p className="glass-mt-3 glass-max-w-2xl glass-text-sm glass-text-white/75" style={{
+        color: 'rgba(248, 250, 252, 0.82)'
+      }}>
+          Foreground panels remain legible while the background demonstrates depth and color.
+        </p>
+      </section>
+    </AtmosphericBackground>,
+  args: {
+    variant: 'clear',
+    intensity: 0.5,
+    animate: false
+  }
+}`,...m.parameters?.docs?.source}}};g.parameters={...g.parameters,docs:{...g.parameters?.docs,source:{originalSource:`{
+  render: args => <div className="glass-grid glass-w-full glass-gap-4 glass-p-6" style={{
+    gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
+    minHeight: 'min(100vh, 760px)'
+  }}>
+      {[['Dawn', ['rgba(14, 165, 233, 0.44)', 'rgba(245, 158, 11, 0.28)']], ['Night', ['rgba(37, 99, 235, 0.38)', 'rgba(124, 58, 237, 0.3)']], ['Signal', ['rgba(20, 184, 166, 0.38)', 'rgba(16, 185, 129, 0.24)']]].map(([label, colors]) => <AtmosphericBackground key={label as string} {...args} gradientColors={colors as string[]} className="glass-min-h-[360px] glass-overflow-hidden glass-rounded-2xl glass-p-5 glass-flex glass-items-end" animate={false}>
+          <div className="glass-rounded-xl glass-bg-black/30 glass-p-4 glass-text-white glass-backdrop-blur-md">
+            <h3 className="glass-text-base glass-font-semibold">{label as string}</h3>
+            <p className="glass-mt-2 glass-text-sm glass-text-white/75">
+              Compact media tile with controlled contrast.
+            </p>
+          </div>
+        </AtmosphericBackground>)}
+    </div>,
+  args: {
+    variant: 'cloudy'
+  }
+}`,...g.parameters?.docs?.source}}};const ge=["Default","Variants"];export{m as Default,g as Variants,ge as __namedExportsOrder,me as default};
