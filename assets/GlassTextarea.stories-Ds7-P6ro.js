@@ -1,0 +1,11 @@
+import{j as e,r as c}from"./iframe-C690vU5J.js";import{G as t}from"./GlassTextarea-DFAAvNCN.js";import{c as m}from"./createLucideIcon-B2KPDEa6.js";import"./preload-helper-PPVm8Dsz.js";import"./circle-alert-1IMtAuDY.js";const p=[["path",{d:"M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",key:"18887p"}],["path",{d:"M7 11h10",key:"1twpyw"}],["path",{d:"M7 15h6",key:"d9of3u"}],["path",{d:"M7 7h8",key:"af5zfr"}]],d=m("message-square-text",p),w={title:"Controls/Inputs/Glass Textarea",component:t,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"A glass textarea for notes, briefs, and longer form content with validation support."}}},args:{label:"Launch note",placeholder:"Summarize the campaign change...",helperText:"Visible to reviewers before approval.",minRows:4,maxLength:180,showCharCount:!0,fullWidth:!0,icon:e.jsx(d,{size:16})}},o=a=>{const[n,l]=c.useState("Retune the audience ramp after the first warehouse refresh completes.");return e.jsxs("div",{className:"glass-grid glass-w-[min(640px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl",children:[e.jsx(t,{...a,value:n,onChange:i=>l(i.currentTarget.value)}),e.jsx(t,{label:"Reviewer comment",placeholder:"Add a blocking note",errorText:"Comment is required when rejecting a launch.",fullWidth:!0})]})},r={render:a=>e.jsx(o,{...a})},s={args:{variant:"minimal",label:"Internal note",showCharCount:!1,helperText:"Minimal variant for dense forms."},render:a=>e.jsx(o,{...a})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
+  render: args => <TextareaFrame {...args} />
+}`,...r.parameters?.docs?.source}}};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`{
+  args: {
+    variant: "minimal",
+    label: "Internal note",
+    showCharCount: false,
+    helperText: "Minimal variant for dense forms."
+  },
+  render: args => <TextareaFrame {...args} />
+}`,...s.parameters?.docs?.source}}};const b=["Default","Minimal"];export{r as Default,s as Minimal,b as __namedExportsOrder,w as default};
