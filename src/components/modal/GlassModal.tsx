@@ -108,9 +108,23 @@ export interface GlassModalProps extends ConsciousnessFeatures {
    */
   lockScroll?: boolean;
   /**
+   * Render as a bounded inline surface for embedded previews/cards instead of
+   * a viewport modal overlay.
+   */
+  contained?: boolean;
+  /**
+   * Use denser modal spacing for compact embedded surfaces.
+   */
+  compact?: boolean;
+  /**
    * Z-index
    */
   zIndex?: number;
+  /**
+   * Inline style for the modal content surface. In contained mode, width,
+   * height, and maxHeight constrain the embedded surface.
+   */
+  style?: React.CSSProperties;
   className?: string;
 
   // Accessibility props
@@ -173,7 +187,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       backdropBlur = "md",
       animation = "scale",
       lockScroll = true,
+      contained = false,
+      compact = false,
       zIndex = 50,
+      style,
       className,
       role = "dialog",
       "aria-label": ariaLabel,
@@ -295,11 +312,12 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       : undefined;
 
     // Create accessibility attributes
+    const isContained = contained;
     const baseA11yProps = createModalA11y({
       id: modalId,
       titleId: ariaLabelledBy || titleId,
       descriptionId: ariaDescribedBy || descriptionId,
-      modal: true,
+      modal: !isContained,
     });
 
     // Create final a11y props with role override and default label
@@ -361,7 +379,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
     useEffect(() => {
       if (!mounted) return;
 
-      if (open && lockScroll) {
+      if (open && lockScroll && !isContained) {
         const scrollY = window.scrollY;
         const body = document.body;
         previousBodyStylesRef.current = {
@@ -393,7 +411,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           }
         };
       }
-    }, [open, lockScroll, mounted]);
+    }, [open, lockScroll, mounted, isContained]);
 
     // Consciousness effects
     // Modal opening/closing tracking with spatial audio
@@ -412,7 +430,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           interactionRecorder.recordInteraction("modal_open", {
             title: title || "Untitled Modal",
             size,
-            variant,
+            variant: isContained ? "contained" : variant,
             role,
             timestamp: openTime,
           });
@@ -490,6 +508,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       size,
       variant,
       role,
+      isContained,
     ]);
 
     // Eye tracking for modal engagement
@@ -706,6 +725,15 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
       drawer: "items-end justify-center pb-0",
       fullscreen: "items-center justify-center glass-p-0",
     };
+    const modalSectionClass = compact
+      ? "glass-flex-shrink-0 glass-p-4 glass-border-b glass-border-glass-border/20"
+      : "glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20";
+    const modalFooterClass = compact
+      ? "glass-flex-shrink-0 glass-p-4 glass-border-t glass-border-glass-border/20"
+      : "glass-flex-shrink-0 glass-p-6 glass-border-t glass-border-glass-border/20";
+    const modalBodyClass = compact
+      ? "flex-1 overflow-y-auto glass-p-4"
+      : "flex-1 overflow-y-auto glass-p-6";
 
     const backdropBlurClasses = {
       none: "",
@@ -740,9 +768,13 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         data-glass-component
         data-testid={dataTestId}
         className={cn(
-          "fixed inset-0 flex",
-          variantClasses[variant],
-          backdropBlurClasses[backdropBlur],
+          isContained
+            ? "relative flex w-full"
+            : cn(
+                "fixed inset-0 flex",
+                variantClasses[variant],
+                backdropBlurClasses[backdropBlur]
+              ),
           consciousness && "consciousness-modal-container",
           adaptive &&
             modalInsights?.urgency === "high" &&
@@ -750,7 +782,8 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           eyeTracking && "consciousness-eye-trackable",
           className
         )}
-        style={{ zIndex }}
+        style={isContained ? undefined : { zIndex }}
+        data-contained={isContained ? "true" : undefined}
         data-consciousness-modal="true"
         data-consciousness-active={String(!!consciousness)}
         data-modal-title={title}
@@ -760,19 +793,20 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         data-interaction-count={interactionCount}
       >
         {/* Backdrop */}
-        {backdrop || (
-          <Motion
-            preset="fadeIn"
-            duration={prefersReducedMotion ? 0 : undefined}
-            className="glass-absolute glass-inset-0 glass-surface-dark/50"
-            style={{
-              backgroundColor:
-                "color-mix(in srgb, var(--glass-black) 40%, transparent)",
-            }}
-            onClick={handleBackdropClick}
-            aria-hidden="true"
-          />
-        )}
+        {!isContained &&
+          (backdrop || (
+            <Motion
+              preset="fadeIn"
+              duration={prefersReducedMotion ? 0 : undefined}
+              className="glass-absolute glass-inset-0 glass-surface-dark/50"
+              style={{
+                backgroundColor:
+                  "color-mix(in srgb, var(--glass-black) 40%, transparent)",
+              }}
+              onClick={handleBackdropClick}
+              aria-hidden="true"
+            />
+          ))}
 
         {/* Modal content */}
         <Motion
@@ -781,7 +815,11 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           className={cn(
             "relative w-full",
             sizeClasses[size],
-            variant === "fullscreen" ? "h-full" : "max-h-full",
+            isContained
+              ? "max-h-none"
+              : variant === "fullscreen"
+                ? "h-full"
+                : "max-h-full",
             consciousness && "consciousness-modal-content",
             predictive && modalInsights && "consciousness-predictive-modal",
             adaptive &&
@@ -791,9 +829,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
           data-consciousness-content="true"
           data-modal-complexity={modalInsights?.complexity}
           data-time-spent={modalFocusTime ? Date.now() - modalFocusTime : 0}
+          style={style}
         >
           <FocusTrap
-            active={open}
+            active={open && !isContained}
             onEscape={handleEscapeKey}
             lockScroll={false}
           >
@@ -812,9 +851,11 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 className={cn(
                   "w-full flex flex-col liquid-glass-modal-surface",
                   "focus:outline-none",
-                  variant === "fullscreen"
-                    ? "h-full"
-                    : "max-h-full overflow-hidden",
+                  isContained
+                    ? "overflow-hidden"
+                    : variant === "fullscreen"
+                      ? "h-full"
+                      : "max-h-full overflow-hidden",
                   consciousness && "consciousness-modal-glass",
                   eyeTracking && "consciousness-eye-trackable-content",
                   adaptive &&
@@ -840,7 +881,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
               >
                 {/* Header */}
                 {(title || description || showCloseButton) && (
-                  <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
+                  <div className={modalSectionClass}>
                     <div className="glass-flex glass-items-start glass-justify-between">
                       <div className="glass-flex-1 glass-min-w-0">
                         {title && (
@@ -877,21 +918,12 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 )}
 
                 {/* Content */}
-                <div
-                  className={cn(
-                    "flex-1 overflow-y-auto glass-p-6",
-                    contentClassName
-                  )}
-                >
+                <div className={cn(modalBodyClass, contentClassName)}>
                   {children}
                 </div>
 
                 {/* Footer */}
-                {footer && (
-                  <div className="glass-flex-shrink-0 glass-p-6 glass-border-t glass-border-glass-border/20">
-                    {footer}
-                  </div>
-                )}
+                {footer && <div className={modalFooterClass}>{footer}</div>}
               </LiquidGlassMaterial>
             ) : (
               <OptimizedGlass
@@ -909,9 +941,11 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 className={cn(
                   "w-full flex flex-col glass-overlay-noise glass-edge glass-overlay-specular glass-typography-reset",
                   "focus:outline-none",
-                  variant === "fullscreen"
-                    ? "h-full"
-                    : "max-h-full overflow-hidden",
+                  isContained
+                    ? "overflow-hidden"
+                    : variant === "fullscreen"
+                      ? "h-full"
+                      : "max-h-full overflow-hidden",
                   consciousness && "consciousness-modal-glass",
                   eyeTracking && "consciousness-eye-trackable-content",
                   adaptive &&
@@ -925,7 +959,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
               >
                 {/* Header */}
                 {(title || description || showCloseButton) && (
-                  <div className="glass-flex-shrink-0 glass-p-6 glass-border-b glass-border-glass-border/20">
+                  <div className={modalSectionClass}>
                     <div className="glass-flex glass-items-start glass-justify-between">
                       <div className="glass-flex-1 glass-min-w-0">
                         {title && (
@@ -1013,7 +1047,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 <div
                   ref={contentRef}
                   className={cn(
-                    "flex-1 overflow-y-auto glass-p-6",
+                    modalBodyClass,
                     consciousness && "consciousness-modal-body",
                     eyeTracking && "consciousness-eye-trackable-body",
                     adaptive &&
@@ -1096,11 +1130,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                 </div>
 
                 {/* Footer */}
-                {footer && (
-                  <div className="glass-flex-shrink-0 glass-p-6 glass-border-t glass-border-glass-border/20">
-                    {footer}
-                  </div>
-                )}
+                {footer && <div className={modalFooterClass}>{footer}</div>}
               </OptimizedGlass>
             )}
           </FocusTrap>

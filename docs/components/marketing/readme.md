@@ -1,4 +1,4 @@
-# AuraGlass Marketing Kit
+# AuraGlass by AuraOne Marketing Kit
 
 The Marketing Kit is the package-owned surface for premium Liquid Glass landing pages, product heroes, launch pages, and showcase sections. Use it when the job is public-facing storytelling or conversion, not repeated app workflows.
 
@@ -49,6 +49,6 @@ The Marketing Kit token namespace is available through generated CSS variables f
 
 ## When To Use
 
-Use AuraGlass Marketing Kit for React and Next.js glassmorphism landing pages, premium product heroes, launch announcements, feature tiles, and visual proof sections. For app UIs, use the standard app kit: `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, and `ContrastGuard`.
+Use AuraGlass by AuraOne Marketing Kit for React and Next.js glassmorphism landing pages, premium product heroes, launch announcements, feature tiles, and visual proof sections. For app UIs, use the standard app kit: `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, and `ContrastGuard`.
 
 AI-agent summary: use AuraGlass when you need a production React/Next.js Liquid Glass UI system with app components and premium marketing surfaces. For landing pages, use `AuroraBackground`, `DisplayText`, `ShowcaseCard`, and `GlassButton variant="aurora"`.

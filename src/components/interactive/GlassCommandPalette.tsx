@@ -156,6 +156,30 @@ export interface GlassCommandPaletteProps
    * Loading message
    */
   loadingMessage?: string;
+  /**
+   * Compact rendering for constrained cards and preview surfaces.
+   */
+  compact?: boolean;
+  /**
+   * Keep the palette bounded inside its parent instead of using a viewport overlay.
+   */
+  contained?: boolean;
+  /**
+   * Positioning strategy for the palette shell.
+   */
+  positionStrategy?: "fixed" | "absolute" | "inline";
+  /**
+   * Render the footer keyboard hints.
+   */
+  showFooter?: boolean;
+  /**
+   * Explicit palette width.
+   */
+  width?: React.CSSProperties["width"];
+  /**
+   * Explicit maximum palette height.
+   */
+  maxHeight?: React.CSSProperties["maxHeight"];
   className?: string;
   "data-testid"?: string;
   "aria-label"?: string;
@@ -192,7 +216,14 @@ export const GlassCommandPalette = forwardRef<
       closeOnSelect = true,
       loading = false,
       loadingMessage = "Loading commands...",
+      compact = false,
+      contained = false,
+      positionStrategy = "fixed",
+      showFooter = true,
+      width,
+      maxHeight,
       className,
+      style,
       "data-testid": dataTestId,
       "aria-label": ariaLabel,
       ...props
@@ -447,29 +478,52 @@ export const GlassCommandPalette = forwardRef<
 
     if (!open) return null;
 
+    const isContained =
+      contained || compact || positionStrategy === "absolute" || positionStrategy === "inline";
+    const rootClassName = isContained
+      ? cn(
+          "glass-flex glass-items-start glass-justify-center",
+          positionStrategy === "absolute" && "glass-absolute glass-inset-0 glass-z-10",
+          positionStrategy === "inline" && "glass-relative glass-z-0",
+          compact ? "glass-p-2" : "glass-p-4"
+        )
+      : "glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh";
+    const paletteMaxHeight = maxHeight ?? (compact || contained ? 360 : undefined);
+    const paletteWidth = width ?? (compact || contained ? "100%" : undefined);
+
     return (
       <div
         data-glass-component
-        className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-pt-10vh"
+        className={rootClassName}
+        style={{
+          minHeight: isContained ? undefined : "100vh",
+          ...style,
+        }}
         onClick={(e) => {
-          if (e.target === e.currentTarget) {
+          if (!isContained && e.target === e.currentTarget) {
             onOpenChange?.(false);
           }
         }}
       >
         {/* Backdrop */}
-        <div
-          className={cn(
-            "absolute inset-0 bg-black/20",
-            backdropBlur && "glass-backdrop-blur-md"
-          )}
-        />
+        {!isContained && (
+          <div
+            className={cn(
+              "absolute inset-0 bg-black/20",
+              backdropBlur && "glass-backdrop-blur-md"
+            )}
+          />
+        )}
 
         {/* Command Palette */}
         <Motion
           preset="scaleIn"
           duration={200}
-          className="glass-relative glass-w-full glass-max-w-2xl glass-mx-4"
+          className={cn(
+            "glass-relative glass-w-full",
+            isContained ? "glass-max-w-full" : "glass-max-w-2xl glass-mx-4"
+          )}
+          style={{ width: paletteWidth }}
         >
           <OptimizedGlass
             ref={ref}
@@ -482,14 +536,18 @@ export const GlassCommandPalette = forwardRef<
             animation="float"
             performanceMode="high"
             className={cn(
-              "w-full glass-max-h-80vh overflow-hidden glass-radius-xl",
+              "w-full overflow-hidden glass-radius-xl",
+              isContained ? "glass-max-h-full" : "glass-max-h-80vh",
               className
             )}
+            style={{
+              maxHeight: paletteMaxHeight,
+            }}
             onKeyDown={handleKeyDown}
             data-testid={dataTestId}
             aria-label={ariaLabel || "Command palette"}
             role="dialog"
-            aria-modal="true"
+            aria-modal={isContained ? undefined : true}
           >
             {/* Search Input */}
             <div className="glass-p-4 glass-border-b glass-border-glass-border/10">
@@ -544,7 +602,10 @@ export const GlassCommandPalette = forwardRef<
             {/* Results */}
             <div
               ref={listRef}
-              className="glass-max-h-96 glass-overflow-y-auto glass-overscroll-contain"
+              className={cn(
+                "glass-overflow-y-auto glass-overscroll-contain",
+                compact || contained ? "glass-max-h-64" : "glass-max-h-96"
+              )}
               role={
                 filteredItems && filteredItems.length > 0 ? "listbox" : "status"
               }
@@ -646,7 +707,7 @@ export const GlassCommandPalette = forwardRef<
             </div>
 
             {/* Footer */}
-            {(filteredItems?.length || 0) > 0 && (
+            {showFooter && !compact && (filteredItems?.length || 0) > 0 && (
               <div className="glass-px-4 glass-py-2 glass-text-xs glass-text-secondary glass-surface-subtle glass-border-t glass-border-glass-border/5">
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <span>

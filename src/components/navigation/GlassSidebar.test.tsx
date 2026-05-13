@@ -77,6 +77,32 @@ describe("GlassSidebar", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("renders overlay variant as a contained bounded sidebar", () => {
+    const { container } = render(
+      <GlassSidebar
+        items={[{ id: "home", label: "Home" }]}
+        variant="overlay"
+        contained
+        height={320}
+        maxHeight={360}
+        data-testid="bounded-sidebar"
+      />
+    );
+
+    const sidebar = container.querySelector(
+      '[data-testid="bounded-sidebar"]'
+    ) as HTMLElement;
+    const toggle = screen.getByRole("button", { name: /collapse sidebar/i });
+
+    expect(sidebar).toBeInTheDocument();
+    expect(sidebar).toHaveStyle({ height: "320px", maxHeight: "360px" });
+    expect(sidebar).toHaveClass("glass-contained");
+    expect(toggle).toBeInTheDocument();
+    expect(sidebar.contains(toggle)).toBe(true);
+    expect(document.body.querySelector('[class*="glass-inset-0"]')).toBeNull();
+    expect(document.body.querySelector('[class*="glass-fixed"]')).toBeNull();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

@@ -77,6 +77,29 @@ describe('GlassImageViewer', () => {
     expect(element).toHaveClass('custom-class');
   });
 
+  it('renders compact contained mode without viewport fullscreen controls', () => {
+    const { container } = render(
+      <GlassImageViewer
+        images={mockImages}
+        contained
+        compact
+        height={240}
+        maxHeight={280}
+        data-testid="contained-viewer"
+      />
+    );
+
+    const viewer = container.querySelector('[data-testid="contained-viewer"]') as HTMLElement;
+
+    expect(viewer).toBeInTheDocument();
+    expect(viewer).toHaveClass('glass-contained');
+    expect(viewer).toHaveClass('glass-compact');
+    expect(viewer).toHaveStyle({ height: '240px', maxHeight: '280px' });
+    expect(screen.queryByRole('button', { name: /toggle fullscreen/i })).not.toBeInTheDocument();
+    expect(screen.queryByText('Image 1 Title')).not.toBeInTheDocument();
+    expect(screen.getByAltText('Image 1')).toBeInTheDocument();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

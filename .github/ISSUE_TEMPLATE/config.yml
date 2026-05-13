@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: AuraGlass documentation
+    url: https://auraglass.auraone.ai
+    about: Read setup, component, and release documentation before filing an issue.
+  - name: Security vulnerability
+    url: https://github.com/auraoneai/auraglass/security/policy
+    about: Report suspected vulnerabilities through the private security process.

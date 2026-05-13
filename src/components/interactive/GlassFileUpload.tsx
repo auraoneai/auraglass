@@ -68,6 +68,38 @@ export interface GlassFileUploadProps extends Omit<
    */
   files?: UploadedFile[];
   /**
+   * Initial files for uncontrolled demos, previews, and preloaded upload flows.
+   */
+  defaultFiles?: UploadedFile[];
+  /**
+   * Compact rendering for embedded cards and dense app surfaces.
+   */
+  compact?: boolean;
+  /**
+   * Contain the uploader inside its parent instead of assuming a full-width page section.
+   */
+  contained?: boolean;
+  /**
+   * Explicit uploader width for constrained layouts.
+   */
+  width?: React.CSSProperties["width"];
+  /**
+   * Explicit uploader height for constrained layouts.
+   */
+  height?: React.CSSProperties["height"];
+  /**
+   * Maximum uploader height before file lists scroll.
+   */
+  maxHeight?: React.CSSProperties["maxHeight"];
+  /**
+   * Show per-file and batch upload/remove actions.
+   */
+  showActions?: boolean;
+  /**
+   * Show the dropzone. Disable this for review-only uploaded file lists.
+   */
+  showDropzone?: boolean;
+  /**
    * File change handler
    */
   onChange?: (files: UploadedFile[]) => void;
@@ -133,7 +165,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       variant = "compact",
       size = "sm",
       disabled = false,
-      files = EMPTY_UPLOADED_FILES,
+      files,
+      defaultFiles = EMPTY_UPLOADED_FILES,
+      compact = false,
+      contained = false,
+      width,
+      height,
+      maxHeight,
+      showActions = true,
+      showDropzone = true,
       onChange,
       onUpload,
       onRemove,
@@ -147,15 +187,20 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       renderFile,
       children,
       className,
+      style,
       ...props
     },
     ref
   ) => {
-    const [internalFiles, setInternalFiles] = useState<UploadedFile[]>(files);
+    const isControlled = files !== undefined;
+    const [internalFiles, setInternalFiles] =
+      useState<UploadedFile[]>(defaultFiles);
     const [isDragOver, setIsDragOver] = useState(false);
     const [isDragActive, setIsDragActive] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const dropZoneRef = useRef<HTMLDivElement>(null);
+    const visibleFiles = files ?? internalFiles;
+    const isCompact = compact || variant === "minimal";
 
     const sizeClasses = {
       sm: "glass-p-4 glass-text-sm",
@@ -172,8 +217,20 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
 
     // Sync internal files with props
     useEffect(() => {
-      setInternalFiles(files);
-    }, [files]);
+      if (isControlled) {
+        setInternalFiles(files ?? EMPTY_UPLOADED_FILES);
+      }
+    }, [files, isControlled]);
+
+    const commitFiles = useCallback(
+      (nextFiles: UploadedFile[]) => {
+        if (!isControlled) {
+          setInternalFiles(nextFiles);
+        }
+        onChange?.(nextFiles);
+      },
+      [isControlled, onChange]
+    );
 
     // Format file size
     const formatFileSize = (bytes: number): string => {
@@ -232,15 +289,14 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         const newFiles = Array.from(fileList).map(createFileObject);
 
         // Check max files limit
-        if (maxFiles && internalFiles.length + newFiles.length > maxFiles) {
+        if (maxFiles && visibleFiles.length + newFiles.length > maxFiles) {
           return;
         }
 
         const updatedFiles = multiple
-          ? [...internalFiles, ...newFiles]
+          ? [...visibleFiles, ...newFiles]
           : newFiles;
-        setInternalFiles(updatedFiles);
-        onChange?.(updatedFiles);
+        commitFiles(updatedFiles);
 
         // Auto upload valid files
         if (autoUpload && onUpload) {
@@ -254,9 +310,9 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       [
         disabled,
         maxFiles,
-        internalFiles,
+        visibleFiles,
         multiple,
-        onChange,
+        commitFiles,
         autoUpload,
         onUpload,
       ]
@@ -266,26 +322,25 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
     const handleUpload = async (fileId: string) => {
       if (!onUpload) return;
 
-      const fileIndex = internalFiles.findIndex((f) => f.id === fileId);
+      const fileIndex = visibleFiles.findIndex((f) => f.id === fileId);
       if (fileIndex === -1) return;
 
-      const fileObj = internalFiles[fileIndex];
+      const fileObj = visibleFiles[fileIndex];
 
       // Update status to uploading
-      const updatedFiles = [...internalFiles];
+      const updatedFiles = [...visibleFiles];
       updatedFiles[fileIndex] = {
         ...fileObj,
         status: "uploading",
         progress: 0,
       };
-      setInternalFiles(updatedFiles);
-      onChange?.(updatedFiles);
+      commitFiles(updatedFiles);
 
       try {
         // Simulate upload progress
         const progressInterval = setInterval(() => {
           setInternalFiles((current) => {
-            const newFiles = [...current];
+            const newFiles = [...(isControlled ? visibleFiles : current)];
             const currentFile = newFiles.find((f) => f.id === fileId);
             if (currentFile && currentFile.status === "uploading") {
               currentFile.progress = Math.min(
@@ -302,7 +357,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         clearInterval(progressInterval);
 
         // Update file with result
-        const finalFiles = [...internalFiles];
+        const finalFiles = [...visibleFiles];
         const finalIndex = finalFiles.findIndex((f) => f.id === fileId);
         if (finalIndex !== -1) {
           finalFiles[finalIndex] = {
@@ -311,12 +366,11 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             progress: 100,
             url: result?.url,
           };
-          setInternalFiles(finalFiles);
-          onChange?.(finalFiles);
+          commitFiles(finalFiles);
         }
       } catch (error) {
         // Update file with error
-        const errorFiles = [...internalFiles];
+        const errorFiles = [...visibleFiles];
         const errorIndex = errorFiles.findIndex((f) => f.id === fileId);
         if (errorIndex !== -1) {
           errorFiles[errorIndex] = {
@@ -324,17 +378,15 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             status: "error",
             error: error instanceof Error ? error.message : "Upload failed",
           };
-          setInternalFiles(errorFiles);
-          onChange?.(errorFiles);
+          commitFiles(errorFiles);
         }
       }
     };
 
     // Handle file removal
     const handleRemove = (fileId: string) => {
-      const updatedFiles = internalFiles.filter((f: any) => f.id !== fileId);
-      setInternalFiles(updatedFiles);
-      onChange?.(updatedFiles);
+      const updatedFiles = visibleFiles.filter((f: any) => f.id !== fileId);
+      commitFiles(updatedFiles);
       onRemove?.(fileId);
     };
 
@@ -462,6 +514,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             performanceMode="medium"
             className={cn(
               "glass-p-3 border border-border/20",
+              isCompact && "glass-p-2",
               file.status === "error" &&
                 "border-destructive/50 bg-destructive/5"
             )}
@@ -470,6 +523,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
               {/* File icon/preview */}
               <div className="glass-flex-shrink-0">
                 {showPreviews &&
+                !isCompact &&
                 file.type.startsWith("image/") &&
                 file.preview ? (
                   <img
@@ -527,6 +581,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
               </div>
 
               {/* Actions */}
+              {showActions && (
               <div className="glass-flex glass-items-center glass-gap-1">
                 {file.status === "pending" && onUpload && (
                   <IconButton
@@ -556,6 +611,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                   aria-label="Remove file"
                 />
               </div>
+              )}
             </div>
           </OptimizedGlass>
         </Motion>
@@ -566,7 +622,18 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
       <div
         ref={ref}
         data-glass-component
-        className={cn("glass-w-full glass-max-w-full glass-min-w-0", className)}
+        className={cn(
+          "glass-w-full glass-max-w-full glass-min-w-0",
+          contained && "glass-overflow-hidden",
+          className
+        )}
+        style={{
+          width,
+          height,
+          maxHeight,
+          overflow: maxHeight || height ? "auto" : undefined,
+          ...style,
+        }}
         data-testid={props["data-testid"] || "glassfileupload"}
         {...props}
       >
@@ -582,6 +649,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         />
 
         {/* Drop zone */}
+        {showDropzone && (
         <OptimizedGlass
           variant="frosted"
           elevation={isDragOver ? "level2" : "level1"}
@@ -597,6 +665,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
             "hover:glass-border-blue focus:glass-border-blue glass-focus-outline-none",
             sizeClasses[size],
             variantClasses[variant],
+            isCompact && "glass-min-h-16",
             {
               "glass-border-blue glass-surface-blue/20": isDragOver,
               "glass-border-white/20 glass-surface-dark/20":
@@ -645,13 +714,14 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
               )}
 
               {maxSize && (
-                <p className="glass-text-xs glass-text-secondary glass-mt-2">
+                <p className={cn("glass-text-xs glass-text-secondary glass-mt-2", isCompact && "glass-hidden")}>
                   Max file size: {formatFileSize(maxSize)}
                 </p>
               )}
             </div>
           )}
         </OptimizedGlass>
+        )}
 
         {/* Error message */}
         {error && (
@@ -659,18 +729,19 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
         )}
 
         {/* File list */}
-        {internalFiles.length > 0 && (
+        {visibleFiles.length > 0 && (
           <div
             className={cn("glass-mt-4 glass-gap-2", {
               "grid grid-cols-2 md:grid-cols-3 glass-gap-3": variant === "grid",
             })}
           >
-            {internalFiles.map((file, index) => renderFileItem(file, index))}
+            {visibleFiles.map((file, index) => renderFileItem(file, index))}
           </div>
         )}
 
         {/* Upload all button */}
-        {internalFiles.some((f) => f.status === "pending") &&
+        {showActions &&
+          visibleFiles.some((f) => f.status === "pending") &&
           onUpload &&
           !autoUpload && (
             <div className="glass-mt-4 glass-flex glass-justify-end">
@@ -678,7 +749,7 @@ export const GlassFileUpload = forwardRef<HTMLDivElement, GlassFileUploadProps>(
                 variant="default"
                 size="sm"
                 onClick={(e) => {
-                  internalFiles
+                  visibleFiles
                     .filter((f: any) => f.status === "pending")
                     .forEach((f: any) => handleUpload(f.id));
                 }}

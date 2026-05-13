@@ -1,9 +1,9 @@
 {
   "objective": "Audit production-source runtime cleanliness for console calls, debugger statements, and TODO/FIXME/XXX markers.",
   "summary": {
-    "generatedAt": "2026-05-07T16:45:09.257Z",
+    "generatedAt": "2026-05-12T19:21:54.122Z",
     "scannedRoot": "src",
-    "scannedFileCount": 660,
+    "scannedFileCount": 671,
     "findingCount": 0,
     "fileWithFindingsCount": 0,
     "consoleFindingCount": 0,

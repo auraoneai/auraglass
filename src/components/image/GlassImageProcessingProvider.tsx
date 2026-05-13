@@ -255,6 +255,79 @@ interface ImageProcessingContextValue {
 const ImageProcessingContext =
   createContext<ImageProcessingContextValue | null>(null);
 
+const defaultImageOptimizations: OptimizationOptions = {
+  quality: 85,
+  format: "auto",
+  removeMetadata: true,
+  progressive: true,
+};
+
+const defaultOptimizationStats = {
+  totalSaved: 0,
+  averageReduction: 0,
+  imagesProcessed: 0,
+  mostUsedFormat: "N/A",
+};
+
+const emptyCloudUrls: CloudUrls = {
+  original: "",
+  optimized: "",
+  thumbnail: "",
+  responsive: {
+    small: "",
+    medium: "",
+    large: "",
+    xlarge: "",
+  },
+};
+
+const createStandaloneFile = (name: string, type = "image/png"): File => {
+  if (typeof File === "undefined") {
+    return { name, size: 0, type } as File;
+  }
+
+  return new File([], name, { type });
+};
+
+const createStandaloneImage = (
+  imageId: string,
+  file: File = createStandaloneFile(`${imageId}.png`)
+): ImageFile => {
+  const type = file.type || "image/png";
+  const name = file.name || `${imageId}.png`;
+
+  return {
+    id: imageId,
+    file,
+    name,
+    originalName: name,
+    size: file.size || 0,
+    type,
+    width: 0,
+    height: 0,
+    aspectRatio: 0,
+    url: "",
+    uploadedAt: new Date(0),
+    editHistory: [],
+    metadata: {
+      format: type.split("/")[1] || "unknown",
+      quality: 100,
+      colorSpace: "sRGB",
+      hasAlpha: type.includes("png"),
+      dominantColors: [],
+      brightness: 0,
+      contrast: 0,
+      saturation: 0,
+      sharpness: 0,
+      fileSize: file.size || 0,
+    },
+    tags: [],
+  };
+};
+
+const standaloneOperation = async (imageId: string): Promise<ImageFile> =>
+  createStandaloneImage(imageId);
+
 // Default templates for common use cases
 const defaultTemplates: Template[] = [
   // Social Media
@@ -336,6 +409,62 @@ const defaultTemplates: Template[] = [
     thumbnail: "https://via.placeholder.com/71x100/ffc107/ffffff?text=A4",
   },
 ];
+
+const defaultImageProcessingContext: ImageProcessingContextValue = {
+  images: [],
+  addImage: async (file) => createStandaloneImage("standalone-image", file),
+  addImages: async (files) =>
+    Array.from(files)
+      .filter((file) => file.type.startsWith("image/"))
+      .map((file, index) =>
+        createStandaloneImage(`standalone-image-${index}`, file)
+      ),
+  removeImage: () => {},
+  getImage: () => undefined,
+  updateImage: () => {},
+  optimizeImage: standaloneOperation,
+  batchOptimize: async (imageIds) =>
+    imageIds.map((id) => createStandaloneImage(id)),
+  cropImage: standaloneOperation,
+  resizeImage: standaloneOperation,
+  applyFilter: standaloneOperation,
+  rotateImage: standaloneOperation,
+  addWatermark: standaloneOperation,
+  detectFaces: async () => [],
+  removeBackground: standaloneOperation,
+  replaceBackground: standaloneOperation,
+  smartCrop: standaloneOperation,
+  enhanceImage: standaloneOperation,
+  upscaleImage: standaloneOperation,
+  batchResize: async (imageIds) =>
+    imageIds.map((id) => createStandaloneImage(id)),
+  batchFilter: async (imageIds) =>
+    imageIds.map((id) => createStandaloneImage(id)),
+  batchWatermark: async (imageIds) =>
+    imageIds.map((id) => createStandaloneImage(id)),
+  uploadToCloud: async () => emptyCloudUrls,
+  generateResponsiveImages: async () => emptyCloudUrls,
+  templates: defaultTemplates,
+  applyTemplate: standaloneOperation,
+  createCustomTemplate: (template) => ({
+    ...template,
+    id: "standalone-template",
+  }),
+  getOptimizationStats: () => defaultOptimizationStats,
+  getImageInsights: () => ({
+    colorPalette: [],
+    dominantColor: "var(--glass-black)",
+    brightness: 0,
+    complexity: 0,
+    recommendedFormats: [],
+  }),
+  uploadProgresses: [],
+  clearProgress: () => {},
+  defaultOptimizations: defaultImageOptimizations,
+  setDefaultOptimizations: () => {},
+  autoOptimize: false,
+  setAutoOptimize: () => {},
+};
 
 // Mock AI image processing functions
 const mockImageProcessor = {
@@ -1291,10 +1420,5 @@ export { ImageProcessingProvider as GlassImageProcessingProvider };
 
 export const useImageProcessing = () => {
   const context = useContext(ImageProcessingContext);
-  if (!context) {
-    throw new Error(
-      "useImageProcessing must be used within an ImageProcessingProvider"
-    );
-  }
-  return context;
+  return context ?? defaultImageProcessingContext;
 };

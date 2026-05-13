@@ -66,6 +66,68 @@ const collectExportTypePaths = (exportsField) => {
   return typePaths;
 };
 
+const runInstallSmoke = (tarballPath, tmpRoot) => {
+  const smokeRoot = path.join(tmpRoot, 'install-smoke');
+  fs.mkdirSync(smokeRoot, { recursive: true });
+
+  fs.writeFileSync(
+    path.join(smokeRoot, 'package.json'),
+    `${JSON.stringify(
+      {
+        private: true,
+        type: 'module',
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  run(`npm install --dry-run=false --ignore-scripts --no-audit --no-fund ${JSON.stringify(tarballPath)}`, {
+    cwd: smokeRoot,
+    env: {
+      ...process.env,
+      npm_config_dry_run: 'false',
+    },
+  });
+
+  const smokeScriptPath = path.join(smokeRoot, 'root-import-smoke.mjs');
+  fs.writeFileSync(
+    smokeScriptPath,
+    `import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { GlassButton, GlassCard } from 'aura-glass';
+import { auraGlassRecipes } from 'aura-glass/registry';
+
+const require = createRequire(import.meta.url);
+const isComponentLike = (value) => typeof value === 'function' || (value && typeof value === 'object');
+
+assert.ok(isComponentLike(GlassButton), 'GlassButton should import from aura-glass root');
+assert.ok(isComponentLike(GlassCard), 'GlassCard should import from aura-glass root');
+assert.ok(Array.isArray(auraGlassRecipes), 'aura-glass/registry should expose recipe metadata');
+assert.ok(auraGlassRecipes.length >= 7, 'aura-glass/registry should expose launch recipes');
+
+const stylesPath = require.resolve('aura-glass/styles');
+assert.ok(
+  /dist[\\\\/]styles[\\\\/]index\\.css$/.test(stylesPath),
+  'aura-glass/styles should resolve to dist/styles/index.css'
+);
+
+const styles = readFileSync(stylesPath, 'utf8');
+assert.ok(styles.length > 0, 'aura-glass/styles should resolve to non-empty CSS');
+
+const cliPath = require.resolve('aura-glass/package.json').replace(/package\\.json$/, 'bin/aura-glass.cjs');
+assert.ok(readFileSync(cliPath, 'utf8').startsWith('#!/usr/bin/env node'), 'aura-glass CLI bin should be packed');
+
+console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, and styles export resolve.');
+`
+  );
+
+  run(`node ${JSON.stringify(smokeScriptPath)}`, { cwd: smokeRoot });
+  run(`npx aura-glass list --json`, { cwd: smokeRoot });
+  console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, and styles export resolve.');
+};
+
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-pack-'));
 
 try {
@@ -158,6 +220,8 @@ try {
     testArtifacts.forEach(({ path: filePath }) => console.error(` - ${filePath}`));
     process.exit(1);
   }
+
+  runInstallSmoke(tarballPath, tmpRoot);
 
   const files = walkFiles(distRoot);
   const dispatcherHits = [];

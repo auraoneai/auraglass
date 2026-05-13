@@ -1,8 +1,8 @@
-# AuraGlass Design Token Reference
+# AuraGlass by AuraOne Design Token Reference
 
 ## Overview
 
-This document provides a complete reference for all design tokens in the AuraGlass system. Design tokens are the visual design atoms that store visual design decisions and are the foundation of consistent, world-class glassmorphism experiences.
+This document provides a complete reference for all design tokens in the AuraGlass by AuraOne system. Design tokens are the visual design atoms that store visual design decisions and are the foundation of consistent, world-class glassmorphism experiences.
 
 ## Persona Token Schema
 

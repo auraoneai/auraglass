@@ -1,6 +1,4 @@
 // @ts-nocheck - Optional Google Cloud Vision dependency
-import vision from "@google-cloud/vision";
-import type { ImageAnnotatorClient } from "@google-cloud/vision";
 import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";
@@ -67,7 +65,7 @@ export interface ImageAnalysisResult {
 }
 
 export class VisionService {
-  private client: ImageAnnotatorClient | null = null;
+  private client: any | null = null;
   private cache: CacheService;
   private errorHandler: ErrorHandler;
   private removeBgApiKey: string;
@@ -76,17 +74,29 @@ export class VisionService {
     this.cache = new CacheService(config.redis);
     this.errorHandler = new ErrorHandler();
     this.removeBgApiKey = config.removeBg.apiKey;
-    this.initializeClient();
   }
 
-  private initializeClient(): void {
+  private async getClient(): Promise<any | null> {
+    if (this.client) {
+      return this.client;
+    }
+
     try {
+      const vision = await import("@google-cloud/vision");
+      const ImageAnnotatorClient =
+        vision.ImageAnnotatorClient ??
+        vision.default?.ImageAnnotatorClient;
+
+      if (!ImageAnnotatorClient) {
+        return null;
+      }
+
       if (this.config.googleCloud.keyFilename) {
-        this.client = new vision.ImageAnnotatorClient({
+        this.client = new ImageAnnotatorClient({
           keyFilename: this.config.googleCloud.keyFilename,
         });
       } else if (this.config.googleCloud.apiKey) {
-        this.client = new vision.ImageAnnotatorClient({
+        this.client = new ImageAnnotatorClient({
           apiEndpoint: "vision.googleapis.com",
           credentials: {
             client_email: "vision-api@project.iam.gserviceaccount.com",
@@ -94,8 +104,10 @@ export class VisionService {
           },
         });
       }
+
+      return this.client;
     } catch {
-      this.client = null;
+      return null;
     }
   }
 
@@ -108,11 +120,12 @@ export class VisionService {
     }
 
     try {
-      if (!this.client) {
+      const client = await this.getClient();
+      if (!client) {
         return this.fallbackFaceDetection();
       }
 
-      const [result] = await this.client.faceDetection(imageBuffer);
+      const [result] = await client.faceDetection(imageBuffer);
       const faces = result.faceAnnotations || [];
 
       const detectionResults: FaceDetectionResult[] = faces.map(
@@ -158,13 +171,12 @@ export class VisionService {
     }
 
     try {
-      if (!this.client) {
+      const client = await this.getClient();
+      if (!client) {
         return this.fallbackObjectDetection();
       }
 
-      const [result] = await (this.client as any).objectLocalization(
-        imageBuffer
-      );
+      const [result] = await client.objectLocalization(imageBuffer);
       const objects = result.localizedObjectAnnotations || [];
 
       const detectionResults: ObjectDetectionResult[] = objects.map(
@@ -201,11 +213,12 @@ export class VisionService {
     }
 
     try {
-      if (!this.client) {
+      const client = await this.getClient();
+      if (!client) {
         return this.fallbackTextExtraction();
       }
 
-      const [result] = await this.client!.documentTextDetection(imageBuffer);
+      const [result] = await client.documentTextDetection(imageBuffer);
       const fullTextAnnotation = result.fullTextAnnotation;
 
       if (!fullTextAnnotation) {
@@ -256,11 +269,12 @@ export class VisionService {
     }
 
     try {
-      if (!this.client) {
+      const client = await this.getClient();
+      if (!client) {
         return this.fallbackImageAnalysis();
       }
 
-      const [result] = await this.client.annotateImage({
+      const [result] = await client.annotateImage({
         image: { content: imageBuffer.toString("base64") },
         features: [
           { type: "LABEL_DETECTION", maxResults: 10 },

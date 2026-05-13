@@ -1,6 +1,6 @@
-# AuraGlass Component Documentation
+# AuraGlass by AuraOne Component Documentation
 
-This directory is the organized component documentation index for the AuraGlass inventory. Component pages live inside numbered sections instead of the directory root, so related APIs stay grouped by design-system role.
+This directory is the organized component documentation index for the AuraGlass by AuraOne inventory. Component pages live inside numbered sections instead of the directory root, so related APIs stay grouped by design-system role.
 
 ## How To Choose
 

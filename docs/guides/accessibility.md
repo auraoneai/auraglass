@@ -1,6 +1,6 @@
-# AuraGlass Accessibility Guide
+# AuraGlass by AuraOne Accessibility Guide
 
-This comprehensive guide covers all accessibility features and enhancements implemented in the AuraGlass component library to ensure WCAG 2.1 AA compliance.
+This comprehensive guide covers all accessibility features and enhancements implemented in the AuraGlass by AuraOne component library to ensure WCAG 2.1 AA compliance.
 
 ## 📋 Table of Contents
 

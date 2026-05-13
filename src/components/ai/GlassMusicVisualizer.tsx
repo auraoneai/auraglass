@@ -355,13 +355,15 @@ export const GlassMusicVisualizer = forwardRef<
           break;
       }
 
-      if (realTimeAnalysis && isPlaying) {
+      if (realTimeAnalysis && isPlaying && shouldAnimate && !prefersReducedMotion) {
         animationFrameRef.current = requestAnimationFrame(renderVisualization);
       }
     }, [
       visualConfig,
       realTimeAnalysis,
       isPlaying,
+      shouldAnimate,
+      prefersReducedMotion,
       detectBeat,
       onFrequencyData,
     ]);
@@ -611,13 +613,15 @@ export const GlassMusicVisualizer = forwardRef<
         try {
           await audioRef.current.play();
           setIsPlaying(true);
-          renderVisualization();
+          if (shouldAnimate && !prefersReducedMotion) {
+            renderVisualization();
+          }
           play("play");
         } catch {
           setIsPlaying(false);
         }
       }
-    }, [initializeAudio, renderVisualization, play]);
+    }, [initializeAudio, renderVisualization, play, shouldAnimate, prefersReducedMotion]);
 
     const handlePause = useCallback(() => {
       if (audioRef.current) {

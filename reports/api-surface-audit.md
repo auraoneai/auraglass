@@ -1,27 +1,29 @@
 # API Surface Audit
 
-Generated: 2026-05-07T16:45:40.155Z
+Generated: 2026-05-12T19:21:54.240Z
 
 ## Summary
 
-- Public root exports audited: 797
-- Public source files audited: 416
-- Public declaration files audited: 416
-- Public source files with explicit `any`: 168
-- Public source explicit `any` count: 851
-- Public declaration files with explicit `any`: 1
-- Public declaration explicit `any` count: 1
-- Component-like value exports checked for ref signals: 421
+- Public root exports audited: 819
+- Public source files audited: 417
+- Public declaration files audited: 417
+- Public source files with explicit `any`: 169
+- Public source explicit `any` count: 876
+- Public declaration files with explicit `any`: 2
+- Public declaration explicit `any` count: 2
+- Component-like value exports checked for ref signals: 435
 - Non-support component exports needing ref-forwarding review: 129
-- Provider/support exports needing intentional no-ref review: 32
+- Provider/support exports needing intentional no-ref review: 34
 - Declaration files missing React type references: 0
 
 ## Public Declaration Files With `any`
 
+- dist/components/collaboration/GlassCollaborationProvider.d.ts: 1
 - dist/primitives/OptimizedGlassCore.d.ts: 1
 
 ## Public Source Files With `any`
 
+- src/components/collaboration/GlassCollaborationProvider.tsx: 25
 - src/components/interactive/GlassChat.tsx: 18
 - src/components/advanced/GlassContextualEngine.tsx: 17
 - src/components/charts/GlassAreaChart.tsx: 17
@@ -51,8 +53,7 @@ Generated: 2026-05-07T16:45:40.155Z
 - src/components/interactive/GlassGradientPicker.tsx: 9
 - src/components/navigation/GlassHeader.tsx: 9
 - src/components/navigation/GlassTabs.tsx: 9
-- src/components/accessibility/GlassFocusIndicators.tsx: 8
-- ... 138 more
+- ... 139 more
 
 ## Component Ref Follow-Ups
 
@@ -114,8 +115,10 @@ Generated: 2026-05-07T16:45:40.155Z
 - GlassSelfHealingProvider (src/components/advanced/GlassSelfHealingSystem.tsx)
 - GlassSpatialAudioProvider (src/components/advanced/GlassSpatialAudio.tsx)
 - AIGlassThemeProvider (src/components/ai/AIGlassThemeProvider.tsx)
+- AuraElementInteractionPlugin (src/components/charts/plugins/GalileoElementInteractionPlugin.ts)
 - GalileoElementInteractionPlugin (src/components/charts/plugins/GalileoElementInteractionPlugin.ts)
-- GlassCollaborationProvider (src/components/collaboration/CollaborativeGlassWorkspace.tsx)
+- CollaborationProvider (src/components/collaboration/GlassCollaborationProvider.tsx)
+- GlassCollaborationProvider (src/components/collaboration/GlassCollaborationProvider.tsx)
 - GlassEcommerceProvider (src/components/ecommerce/GlassEcommerceProvider.tsx)
 - Glass3DEngine (src/components/effects/Glass3DEngine.tsx)
 - GlassMorphingEngine (src/components/effects/GlassMorphingEngine.tsx)

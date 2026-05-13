@@ -121,6 +121,46 @@ describe("GlassDrawer", () => {
     expect(document.body.style.overflow).toBe("auto");
   });
 
+  it("renders contained mode without locking body scroll or using fixed overlay semantics", () => {
+    document.body.style.overflow = "auto";
+
+    const { container } = render(
+      <div data-testid="card-host">
+        <GlassDrawer
+          contained
+          compact
+          title="Embedded drawer"
+          data-testid="contained-drawer"
+          style={{ width: 360, height: 280, maxHeight: 340 }}
+        >
+          Drawer preview content
+        </GlassDrawer>
+      </div>
+    );
+
+    const root = screen.getByTestId("contained-drawer");
+    const content = container.querySelector(
+      '[data-consciousness-content="true"]'
+    ) as HTMLElement;
+
+    expect(document.body.style.overflow).toBe("auto");
+    expect(root).toHaveAttribute("data-contained", "true");
+    expect(root).toHaveClass("relative");
+    expect(root).not.toHaveClass("fixed");
+    expect(root).toHaveAttribute("aria-modal", "false");
+    expect(
+      container.querySelector('[data-consciousness-backdrop="true"]')
+    ).not.toBeInTheDocument();
+    expect(content).toHaveClass("relative");
+    expect(content).not.toHaveClass("absolute");
+    expect(content).not.toHaveClass("fixed");
+    expect(content).toHaveStyle({
+      width: "360px",
+      height: "280px",
+      maxHeight: "340px",
+    });
+  });
+
   it("does not re-run open lifecycle updates on controlled parent rerenders", () => {
     const consoleError = jest
       .spyOn(console, "error")

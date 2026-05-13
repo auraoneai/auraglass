@@ -37,6 +37,12 @@ describe("GlassIntelligentImageUploader", () => {
     expect(container).toBeInTheDocument();
   });
 
+  it("renders without an ImageProcessingProvider for standalone previews", () => {
+    const { container } = render(<GlassIntelligentImageUploader />);
+    expect(container).toBeInTheDocument();
+    expect(screen.getByText(/Intelligent Image Uploader/)).toBeInTheDocument();
+  });
+
   /**
    * Accessibility Test: No axe violations
    */

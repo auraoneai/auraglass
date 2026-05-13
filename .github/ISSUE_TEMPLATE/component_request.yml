@@ -1,0 +1,52 @@
+name: Component request
+description: Request a new component, recipe, or flagship enhancement.
+title: "[Component]: "
+labels:
+  - component-request
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Product problem
+      description: What user workflow should AuraGlass support?
+      placeholder: We need a compact Liquid Glass billing plan comparison for SaaS settings pages.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Core surface
+        - Navigation
+        - Overlay
+        - Data and visualization
+        - Forms and inputs
+        - Media
+        - AI product UI
+        - Recipe or template
+        - Advanced or 3D
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: Suggested API or example
+      description: Include import names, props, and expected usage if you have a proposal.
+      render: tsx
+  - type: textarea
+    id: references
+    attributes:
+      label: Visual references
+      description: Link screenshots, product examples, or design notes.
+  - type: checkboxes
+    id: expectations
+    attributes:
+      label: Expected launch quality
+      options:
+        - label: Includes docs and examples.
+        - label: Works in compact catalog cards.
+        - label: Supports dark mode.
+        - label: Supports reduced motion where motion is present.
+        - label: Has focused tests.

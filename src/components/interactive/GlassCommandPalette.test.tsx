@@ -103,6 +103,41 @@ describe("GlassCommandPalette", () => {
     expect(element).toHaveClass("custom-class");
   });
 
+  it("supports contained inline rendering without viewport overlay semantics", () => {
+    const { container } = render(
+      <div data-testid="preview-shell">
+        <GlassCommandPalette
+          open={true}
+          compact
+          contained
+          positionStrategy="inline"
+          showFooter={false}
+          maxHeight={280}
+          width="100%"
+          items={[
+            {
+              id: "billing",
+              label: "Open billing",
+              description: "Navigate to billing settings",
+            },
+          ]}
+          data-testid="contained-palette"
+        />
+      </div>
+    );
+
+    const root = container.querySelector('[data-glass-component]') as HTMLElement;
+    const palette = container.querySelector('[data-testid="contained-palette"]') as HTMLElement;
+
+    expect(root).toBeInTheDocument();
+    expect(root).not.toHaveClass("glass-fixed");
+    expect(palette).toBeInTheDocument();
+    expect(palette).not.toHaveAttribute("aria-modal");
+    expect(palette.style.maxHeight).toBe("280px");
+    expect(screen.getByText("Open billing")).toBeInTheDocument();
+    expect(screen.queryByText("Navigate")).not.toBeInTheDocument();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

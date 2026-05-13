@@ -4,20 +4,46 @@
     "publicExportAudit": "reports/public-export-audit.json"
   },
   "summary": {
-    "generatedAt": "2026-05-07T16:45:40.155Z",
-    "publicExportCount": 797,
-    "publicSourceFileCount": 416,
-    "publicDeclarationFileCount": 416,
-    "sourceFilesWithAnyCount": 168,
-    "sourceAnyCount": 851,
-    "declarationFilesWithAnyCount": 1,
-    "declarationAnyCount": 1,
-    "componentLikeValueExportCount": 421,
+    "generatedAt": "2026-05-12T19:21:54.240Z",
+    "publicExportCount": 819,
+    "publicSourceFileCount": 417,
+    "publicDeclarationFileCount": 417,
+    "sourceFilesWithAnyCount": 169,
+    "sourceAnyCount": 876,
+    "declarationFilesWithAnyCount": 2,
+    "declarationAnyCount": 2,
+    "componentLikeValueExportCount": 435,
     "componentRefFollowupCount": 129,
-    "supportRefFollowupCount": 32,
+    "supportRefFollowupCount": 34,
     "declarationFilesMissingReactTypeReferenceCount": 0
   },
   "sourceAnyFiles": [
+    {
+      "filePath": "src/components/collaboration/GlassCollaborationProvider.tsx",
+      "anyCount": 25,
+      "samples": [
+        {
+          "line": 62,
+          "text": "metadata?: any;"
+        },
+        {
+          "line": 210,
+          "text": "setActivities((prev: any) => [newActivity, ...prev.slice(0, 49)]);"
+        },
+        {
+          "line": 222,
+          "text": "setUsers((prev: any) => {"
+        },
+        {
+          "line": 223,
+          "text": "const existing = prev.find((u: any) => u.id === data.user.id);"
+        },
+        {
+          "line": 235,
+          "text": "setUsers((prev: any) =>"
+        }
+      ]
+    },
     {
       "filePath": "src/components/interactive/GlassChat.tsx",
       "anyCount": 18,
@@ -75,23 +101,23 @@
       "anyCount": 17,
       "samples": [
         {
-          "line": 123,
+          "line": 129,
           "text": "const xValues = allPoints.map((p: any) =>"
         },
         {
-          "line": 126,
+          "line": 132,
           "text": "const yValues = allPoints.map((p: any) => p.y);"
         },
         {
-          "line": 148,
+          "line": 154,
           "text": "const xPoints = new Set(allPoints.map((p: any) => p.x));"
         },
         {
-          "line": 151,
+          "line": 157,
           "text": "return series.map((s: any) => {"
         },
         {
-          "line": 152,
+          "line": 158,
           "text": "const point = s.data?.find((p: any) => p.x === x);"
         }
       ]
@@ -101,23 +127,23 @@
       "anyCount": 17,
       "samples": [
         {
-          "line": 194,
+          "line": 210,
           "text": "(effect: any) => ![\"caustics\", \"refraction\"].includes(effect)"
         },
         {
-          "line": 196,
+          "line": 212,
           "text": "setEnabledEffectsState((prev: any) => {"
         },
         {
-          "line": 200,
+          "line": 216,
           "text": "prev.every((v: any, i: any) => v === reducedEffects[i]);"
         },
         {
-          "line": 215,
+          "line": 231,
           "text": "setEnabledEffectsState((prev: any) => {"
         },
         {
-          "line": 219,
+          "line": 235,
           "text": "sameLength && prev.every((v: any, i: any) => v === next[i]);"
         }
       ]
@@ -205,23 +231,23 @@
       "anyCount": 14,
       "samples": [
         {
-          "line": 174,
+          "line": 190,
           "text": "const physics = layoutIslands.map((island: any) => ({"
         },
         {
-          "line": 190,
+          "line": 206,
           "text": "const newIslands = prevIslands.map((island: any) => ({ ...island }));"
         },
         {
-          "line": 297,
+          "line": 313,
           "text": "connections.forEach((connection: any) => {"
         },
         {
-          "line": 403,
+          "line": 419,
           "text": "setLayoutIslands((prev: any) =>"
         },
         {
-          "line": 413,
+          "line": 429,
           "text": "setPhysicsIslands((prev: any) =>"
         }
       ]
@@ -231,23 +257,23 @@
       "anyCount": 14,
       "samples": [
         {
-          "line": 176,
+          "line": 189,
           "text": "processed = processed.filter((item: any) => {"
         },
         {
-          "line": 189,
+          "line": 202,
           "text": "(item: any) => item.category === activeFilter"
         },
         {
-          "line": 195,
+          "line": 208,
           "text": "let aVal: any, bVal: any;"
         },
         {
-          "line": 293,
+          "line": 306,
           "text": "...newLayoutItems.map((item: any) => item.y + item.computedHeight)"
         },
         {
-          "line": 308,
+          "line": 321,
           "text": "const visible = newLayoutItems.filter((item: any) => {"
         }
       ]
@@ -257,23 +283,23 @@
       "anyCount": 13,
       "samples": [
         {
-          "line": 218,
+          "line": 235,
           "text": "(window as any).webkitAudioContext)();"
         },
         {
-          "line": 241,
+          "line": 258,
           "text": "sourceRef.current = source as any;"
         },
         {
-          "line": 247,
+          "line": 264,
           "text": "sourceRef.current = source as any;"
         },
         {
-          "line": 504,
+          "line": 513,
           "text": "particles.current = particles.current.filter((particle: any) => {"
         },
         {
-          "line": 538,
+          "line": 547,
           "text": "particles.current.forEach((particle: any) => {"
         }
       ]
@@ -283,24 +309,24 @@
       "anyCount": 13,
       "samples": [
         {
-          "line": 172,
+          "line": 185,
           "text": "} as any;"
         },
         {
-          "line": 243,
+          "line": 258,
           "text": "setInteractionCount((prev: any) => prev + 1);"
         },
         {
-          "line": 251,
+          "line": 266,
           "text": "} as any;"
         },
         {
-          "line": 296,
+          "line": 313,
           "text": "} as any;"
         },
         {
-          "line": 301,
-          "text": "setContentEngagement((prev: any) => ({"
+          "line": 318,
+          "text": "setContentEngagement((prev: any) =>"
         }
       ]
     },
@@ -413,23 +439,23 @@
       "anyCount": 11,
       "samples": [
         {
-          "line": 159,
+          "line": 165,
           "text": "startTracking: (handler: any) => {},"
         },
         {
-          "line": 170,
+          "line": 176,
           "text": "playSound: (sound: string, config?: any) => {},"
         },
         {
-          "line": 175,
+          "line": 181,
           "text": "recordInteraction: (type: string, data?: any) => {},"
         },
         {
-          "line": 180,
+          "line": 186,
           "text": "recordInteraction: (type: string, data?: any) => {},"
         },
         {
-          "line": 255,
+          "line": 262,
           "text": "setInteractionCount((prev: any) => prev + 1);"
         }
       ]
@@ -491,23 +517,23 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 365,
+          "line": 379,
           "text": "setLayerActivations((prev: any) => ({"
         },
         {
-          "line": 443,
+          "line": 457,
           "text": "setSettings((prev: any) => {"
         },
         {
-          "line": 445,
+          "line": 459,
           "text": "? prev.layers.filter((id: any) => id !== layerId)"
         },
         {
-          "line": 532,
+          "line": 546,
           "text": "{layer.features.slice(0, 3).map((feature: any) => ("
         },
         {
-          "line": 590,
+          "line": 604,
           "text": "setSettings((prev: any) => ({"
         }
       ]
@@ -517,23 +543,23 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 226,
+          "line": 235,
           "text": "setSlideInteractionCounts((prev: any) => ({"
         },
         {
-          "line": 235,
+          "line": 244,
           "text": "} as any);"
         },
         {
-          "line": 371,
+          "line": 380,
           "text": "const handleSlideGaze = (event: any) => {"
         },
         {
-          "line": 780,
+          "line": 821,
           "text": "{(carouselItems[currentIndex] as any)?.title && ("
         },
         {
-          "line": 784,
+          "line": 825,
           "text": "{(carouselItems[currentIndex] as any).title}"
         }
       ]
@@ -543,23 +569,23 @@
       "anyCount": 10,
       "samples": [
         {
-          "line": 167,
+          "line": 179,
           "text": "analyzeModalEngagement: async (context?: any) => ({"
         },
         {
-          "line": 176,
+          "line": 192,
           "text": "startTracking: (handler: any) => {},"
         },
         {
-          "line": 187,
+          "line": 211,
           "text": "playSound: (sound: string, config?: any) => {},"
         },
         {
-          "line": 192,
+          "line": 220,
           "text": "recordInteraction: (type: string, data?: any) => {},"
         },
         {
-          "line": 197,
+          "line": 229,
           "text": "recordInteraction: (type: string, data?: any) => {},"
         }
       ]
@@ -673,23 +699,23 @@
       "anyCount": 9,
       "samples": [
         {
-          "line": 260,
+          "line": 284,
           "text": "const errors = issues.filter((i: any) => i.type === \"error\").length;"
         },
         {
-          "line": 262,
+          "line": 286,
           "text": "const infos = issues.filter((i: any) => i.type === \"info\").length;"
         },
         {
-          "line": 294,
+          "line": 318,
           "text": "(issue: any) => filter === \"all\" || issue.type === filter"
         },
         {
-          "line": 437,
+          "line": 517,
           "text": "(type: any) => ("
         },
         {
-          "line": 455,
+          "line": 538,
           "text": "{filteredIssues.map((issue: any) => ("
         }
       ]
@@ -699,23 +725,23 @@
       "anyCount": 9,
       "samples": [
         {
-          "line": 144,
+          "line": 153,
           "text": ".map((stop: any) => `${stop.color} ${stop.position}%`)"
         },
         {
-          "line": 162,
+          "line": 171,
           "text": "setStops((prev: any) =>"
         },
         {
-          "line": 163,
+          "line": 172,
           "text": "prev.map((stop: any, i: any) =>"
         },
         {
-          "line": 179,
+          "line": 188,
           "text": "setStops((prev: any) => [...prev, newStop]);"
         },
         {
-          "line": 188,
+          "line": 197,
           "text": "setStops((prev: any) => prev.filter((_: any, i: any) => i !== index));"
         }
       ]
@@ -751,23 +777,23 @@
       "anyCount": 9,
       "samples": [
         {
-          "line": 211,
+          "line": 210,
           "text": "(listRef as any).current = node as HTMLDivElement | null;"
         },
         {
-          "line": 212,
+          "line": 211,
           "text": "if (typeof ref === \"function\") ref(node as any);"
         },
         {
-          "line": 215,
+          "line": 214,
           "text": "node as any;"
         },
         {
-          "line": 234,
+          "line": 233,
           "text": "{...(commonA11y as any)}"
         },
         {
-          "line": 251,
+          "line": 250,
           "text": "(listRef as any).current = node as HTMLDivElement | null;"
         }
       ]
@@ -855,23 +881,23 @@
       "anyCount": 8,
       "samples": [
         {
-          "line": 159,
+          "line": 173,
           "text": "? options.filter((option: any) =>"
         },
         {
-          "line": 178,
+          "line": 192,
           "text": "? options.filter((opt: any) => value.includes(opt.value))"
         },
         {
-          "line": 180,
+          "line": 194,
           "text": "? options.filter((opt: any) => opt.value === value)"
         },
         {
-          "line": 190,
+          "line": 204,
           "text": "? currentValues.filter((v: any) => v !== option.value)"
         },
         {
-          "line": 210,
+          "line": 224,
           "text": "setFocusedIndex((prev: any) =>"
         }
       ]
@@ -907,23 +933,23 @@
       "anyCount": 8,
       "samples": [
         {
-          "line": 126,
+          "line": 129,
           "text": ".filter((item: any) => !item.disabled)"
         },
         {
-          "line": 242,
+          "line": 245,
           "text": "setExpandedItems((prev: any) =>"
         },
         {
-          "line": 244,
+          "line": 247,
           "text": "? prev.filter((itemId: any) => itemId !== id)"
         },
         {
-          "line": 382,
+          "line": 384,
           "text": "assignRef(el as any);"
         },
         {
-          "line": 397,
+          "line": 399,
           "text": "assignRef(el as any);"
         }
       ]
@@ -933,23 +959,23 @@
       "anyCount": 8,
       "samples": [
         {
-          "line": 121,
+          "line": 122,
           "text": "setCurrentCoherence((prev: any) => {"
         },
         {
-          "line": 141,
+          "line": 142,
           "text": "setCurrentPhase((prev: any) => {"
         },
         {
-          "line": 148,
+          "line": 149,
           "text": "setAnimationTime((prev: any) => prev + 0.1 * safeAnimationSpeed);"
         },
         {
-          "line": 176,
+          "line": 177,
           "text": "(prev: any) => [...prev.slice(-49), newDataPoint]"
         },
         {
-          "line": 264,
+          "line": 265,
           "text": "d={`M ${waveData.map((p: any) => `${p.x} ${p.y1}`).join(\" L \")}`}"
         }
       ]
@@ -1037,23 +1063,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 397,
+          "line": 411,
           "text": "(val: any) => val * params.truncation"
         },
         {
-          "line": 416,
+          "line": 430,
           "text": "setGeneratedImages((prev: any) =>"
         },
         {
-          "line": 419,
+          "line": 433,
           "text": "setLatentVectors((prev: any) =>"
         },
         {
-          "line": 685,
+          "line": 704,
           "text": "setParams((prev: any) => ({"
         },
         {
-          "line": 706,
+          "line": 725,
           "text": "setParams((prev: any) => ({"
         }
       ]
@@ -1063,23 +1089,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 406,
+          "line": 420,
           "text": "setTransferParams((prev: any) => ({"
         },
         {
-          "line": 423,
+          "line": 437,
           "text": "setTransferParams((prev: any) => ({"
         },
         {
-          "line": 425,
+          "line": 439,
           "text": "resolution: e.target.value as any,"
         },
         {
-          "line": 445,
+          "line": 459,
           "text": "setTransferParams((prev: any) => ({"
         },
         {
-          "line": 447,
+          "line": 461,
           "text": "blendMode: e.target.value as any,"
         }
       ]
@@ -1089,23 +1115,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 121,
+          "line": 122,
           "text": ".filter((category: any) => category.required)"
         },
         {
-          "line": 173,
+          "line": 179,
           "text": "? prevSelected.filter((id: any) => id !== categoryId)"
         },
         {
-          "line": 186,
+          "line": 192,
           "text": "(category: any) => category.id"
         },
         {
-          "line": 204,
+          "line": 210,
           "text": ".filter((category: any) => category.required)"
         },
         {
-          "line": 312,
+          "line": 318,
           "text": "{cookieCategories.map((category: any) => ("
         }
       ]
@@ -1115,23 +1141,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 172,
-          "text": "new Date(Math.min(...taskDates.map((d: any) => d.getTime())));"
+          "line": 174,
+          "text": "? new Date(Math.min(...taskDates.map((d: any) => d.getTime())))"
         },
         {
-          "line": 175,
-          "text": "new Date(Math.max(...taskDates.map((d: any) => d.getTime())));"
+          "line": 179,
+          "text": "? new Date(Math.max(...taskDates.map((d: any) => d.getTime())))"
         },
         {
-          "line": 380,
+          "line": 388,
           "text": "const taskMap = new Map(tasks.map((task: any) => [task.id, task]));"
         },
         {
-          "line": 385,
+          "line": 393,
           "text": "tasks.forEach((task: any) => {"
         },
         {
-          "line": 398,
+          "line": 406,
           "text": "taskList.forEach((task: any) => {"
         }
       ]
@@ -1141,23 +1167,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 457,
+          "line": 496,
           "text": "recs = recs.filter((rec: any) => rec.reason === recommendationType);"
         },
         {
-          "line": 490,
+          "line": 531,
           "text": "setCurrentIndex((prev: any) =>"
         },
         {
-          "line": 498,
+          "line": 539,
           "text": "setCurrentIndex((prev: any) =>"
         },
         {
-          "line": 609,
+          "line": 652,
           "text": ".map((recommendation: any) => ("
         },
         {
-          "line": 627,
+          "line": 670,
           "text": "currentRecommendations.map((recommendation: any) => ("
         }
       ]
@@ -1167,23 +1193,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 281,
+          "line": 287,
           "text": "{shippingOptions.map((option: any) => {"
         },
         {
-          "line": 446,
+          "line": 471,
           "text": "setSavedItems((prev: any) => [...prev, item]);"
         },
         {
-          "line": 484,
+          "line": 519,
           "text": "Looks like you haven't added any items to your cart yet."
         },
         {
-          "line": 523,
-          "text": "{cart.slice(0, maxItems).map((item: any) => ("
+          "line": 582,
+          "text": "{displayCart.slice(0, effectiveMaxItems).map((item: any) => ("
         },
         {
-          "line": 549,
+          "line": 608,
           "text": "{savedItems.map((item: any) => ("
         }
       ]
@@ -1193,23 +1219,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 186,
+          "line": 187,
           "text": "].map((tab: any) => ("
         },
         {
-          "line": 189,
+          "line": 190,
           "text": "onClick={() => setActiveTab(tab.key as any)}"
         },
         {
-          "line": 388,
+          "line": 389,
           "text": "{templates.map((template: any) => ("
         },
         {
-          "line": 500,
+          "line": 502,
           "text": "const validFiles = Array.from(files).filter((file: any) => {"
         },
         {
-          "line": 514,
+          "line": 516,
           "text": "filesToProcess.forEach((file: any) => fileList.items.add(file));"
         }
       ]
@@ -1219,23 +1245,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 311,
+          "line": 344,
           "text": "forces.forEach((force: any) => applyForce(particle, force, deltaTime));"
         },
         {
-          "line": 426,
+          "line": 463,
           "text": ".map((particle: any) => updateParticle(particle, deltaTime))"
         },
         {
-          "line": 440,
+          "line": 477,
           "text": "forces.forEach((force: any) => {"
         },
         {
-          "line": 596,
+          "line": 633,
           "text": "particles.forEach((particle: any) => {"
         },
         {
-          "line": 612,
+          "line": 649,
           "text": "`Emitters: ${emitters.filter((e: any) => e.enabled).length}`,"
         }
       ]
@@ -1245,23 +1271,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 159,
+          "line": 178,
           "text": "...recentCommands.filter((cmd: any) => cmd.id !== item?.id),"
         },
         {
-          "line": 173,
+          "line": 192,
           "text": "groups.forEach((group: any) => {"
         },
         {
-          "line": 175,
+          "line": 194,
           "text": "...group.items.map((item: any) => ({"
         },
         {
-          "line": 220,
+          "line": 239,
           "text": "result = result.filter((item: any) =>"
         },
         {
-          "line": 225,
+          "line": 244,
           "text": "result = recentCommands.filter((recent: any) =>"
         }
       ]
@@ -1271,23 +1297,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 301,
+          "line": 315,
           "text": "drawingData.forEach((item: any) => {"
         },
         {
-          "line": 305,
+          "line": 319,
           "text": "(point: any) =>"
         },
         {
-          "line": 404,
+          "line": 418,
           "text": "elements.forEach((element: any) => {"
         },
         {
-          "line": 472,
+          "line": 487,
           "text": "selectedElements.forEach((elementId: any) => {"
         },
         {
-          "line": 474,
+          "line": 489,
           "text": "(item: any) => item?.id === elementId"
         }
       ]
@@ -1297,23 +1323,23 @@
       "anyCount": 7,
       "samples": [
         {
-          "line": 132,
+          "line": 237,
           "text": "setBubbles((prev: any) =>"
         },
         {
-          "line": 134,
+          "line": 239,
           "text": ".map((bubble: any) => {"
         },
         {
-          "line": 173,
-          "text": ".filter((bubble: any): bubble is NonNullable<typeof bubble> => bubble !== null)"
+          "line": 279,
+          "text": "(bubble: any): bubble is NonNullable<typeof bubble> =>"
         },
         {
-          "line": 199,
+          "line": 315,
           "text": "setBubbles((prev: any) => {"
         },
         {
-          "line": 328,
+          "line": 489,
           "text": "{availableEmojis.map((emoji: any) => ("
         }
       ]
@@ -1339,7 +1365,7 @@
           "text": "filtered = filtered.filter((post: any) => likedPosts.has(post.id));"
         },
         {
-          "line": 345,
+          "line": 347,
           "text": "{post.tags.map((tag: any) => ("
         }
       ]
@@ -1479,23 +1505,23 @@
       "anyCount": 6,
       "samples": [
         {
-          "line": 109,
+          "line": 134,
           "text": "magneticElements.current = Array.from(elements).map((el: any) => ({"
         },
         {
-          "line": 185,
+          "line": 210,
           "text": "setTrail((prev: any) => {"
         },
         {
-          "line": 216,
+          "line": 241,
           "text": "setRipples((prev: any) => [...prev, ripple]);"
         },
         {
-          "line": 220,
+          "line": 245,
           "text": "setRipples((prev: any) =>"
         },
         {
-          "line": 367,
+          "line": 458,
           "text": "ripples.map((ripple: any) => ("
         }
       ]
@@ -1509,46 +1535,20 @@
           "text": "(effect: any) => ("
         },
         {
-          "line": 242,
+          "line": 244,
           "text": "{appliedEffects.map((effect: any) => ("
         },
         {
-          "line": 301,
+          "line": 303,
           "text": "setSelectedEffects((prev: any) =>"
         },
         {
-          "line": 303,
+          "line": 305,
           "text": "? prev.filter((id: any) => id !== effectId)"
         },
         {
-          "line": 362,
+          "line": 364,
           "text": "{presets.map((preset: any) => ("
-        }
-      ]
-    },
-    {
-      "filePath": "src/components/interactive/GlassMindMap.tsx",
-      "anyCount": 6,
-      "samples": [
-        {
-          "line": 127,
-          "text": "node.children?.forEach((child: any) => {"
-        },
-        {
-          "line": 310,
-          "text": "connections.forEach((conn: any) => {"
-        },
-        {
-          "line": 320,
-          "text": "node.children?.forEach((child: any) => {"
-        },
-        {
-          "line": 335,
-          "text": "return positionedNodes.map((node: any) => {"
-        },
-        {
-          "line": 479,
-          "text": "{positionedNodes.map((node: any) => ("
         }
       ]
     },
@@ -1557,23 +1557,23 @@
       "anyCount": 6,
       "samples": [
         {
-          "line": 458,
+          "line": 599,
           "text": "{playbackSpeeds.map((speed: any) => ("
         },
         {
-          "line": 500,
+          "line": 641,
           "text": "{qualities.map((q: any) => ("
         },
         {
-          "line": 550,
+          "line": 691,
           "text": "{chapters.map((chapter: any) => {"
         },
         {
-          "line": 617,
+          "line": 758,
           "text": "const results = transcript.filter((entry: any) =>"
         },
         {
-          "line": 671,
+          "line": 812,
           "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
         }
       ]
@@ -1583,23 +1583,23 @@
       "anyCount": 6,
       "samples": [
         {
-          "line": 394,
+          "line": 398,
           "text": "? React.cloneElement(children as any, {"
         },
         {
-          "line": 397,
+          "line": 401,
           "text": "(children as any).props?.onClick?.(e);"
         },
         {
-          "line": 401,
+          "line": 405,
           "text": "(children as any).props?.onMouseEnter?.(e);"
         },
         {
-          "line": 405,
+          "line": 409,
           "text": "(children as any).props?.onMouseLeave?.(e);"
         },
         {
-          "line": 409,
+          "line": 413,
           "text": "(children as any).props?.onFocus?.(e);"
         }
       ]
@@ -1657,20 +1657,20 @@
       "anyCount": 6,
       "samples": [
         {
-          "line": 197,
+          "line": 377,
           "text": "(el.style as any).webkitBackgroundClip = \"text\";"
         },
         {
-          "line": 199,
+          "line": 379,
           "text": "(el.style as any).webkitTextFillColor = \"transparent\";"
         },
         {
-          "line": 433,
+          "line": 683,
           "text": "{Array.from({ length: 5 }).map((_: any, i: any) => ("
         },
         {
-          "line": 591,
-          "text": "{Array.from({ length: 20 }).map((_: any, i: any) => ("
+          "line": 851,
+          "text": "{Array.from({ length: isCompact ? 8 : 20 }).map((_: any, i: any) => ("
         }
       ]
     },
@@ -1679,19 +1679,19 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 188,
+          "line": 191,
           "text": "allDataPoints.forEach((point: any) => {"
         },
         {
-          "line": 197,
+          "line": 200,
           "text": "const allYValues = allDataPoints.map((p: any) => p.data?.y);"
         },
         {
-          "line": 341,
+          "line": 344,
           "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
         },
         {
-          "line": 415,
+          "line": 418,
           "text": "{Array.from({ length: 8 }).map((_: any, i: any) => ("
         }
       ]
@@ -1727,23 +1727,23 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 20,
+          "line": 21,
           "text": "value: any;"
         },
         {
-          "line": 25,
+          "line": 26,
           "text": "onChange: (value: any) => void;"
         },
         {
-          "line": 120,
+          "line": 124,
           "text": "{options?.map((option: any) => ("
         },
         {
-          "line": 222,
+          "line": 226,
           "text": "].map((section: any) => ("
         },
         {
-          "line": 225,
+          "line": 229,
           "text": "onClick={() => setActiveSection(section.key as any)}"
         }
       ]
@@ -1753,23 +1753,23 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 229,
+          "line": 291,
           "text": "(user: any) => Date.now() - user.lastActive < 300000"
         },
         {
-          "line": 232,
-          "text": "const unresolvedComments = comments.filter((c: any) => !c.resolved);"
+          "line": 294,
+          "text": "const unresolvedComments = resolvedComments.filter((c: any) => !c.resolved);"
         },
         {
-          "line": 247,
-          "text": "{activeUsers.slice(0, 3).map((user: any) => ("
+          "line": 314,
+          "text": "{activeUsers.slice(0, 3).map((user: any, index: number) => ("
         },
         {
-          "line": 373,
+          "line": 448,
           "text": "{activeUsers.map((user: any) => {"
         },
         {
-          "line": 424,
+          "line": 501,
           "text": "{recentActivities.map((activity: any) => {"
         }
       ]
@@ -1779,23 +1779,23 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 22,
+          "line": 51,
           "text": "user: any;"
         },
         {
-          "line": 190,
+          "line": 253,
           "text": "{comment.replies.map((reply: any) => {"
         },
         {
-          "line": 390,
-          "text": "comments.forEach((comment: any) => {"
+          "line": 483,
+          "text": "resolvedComments.forEach((comment: any) => {"
         },
         {
-          "line": 437,
+          "line": 560,
           "text": ".filter((comment: any) =>"
         },
         {
-          "line": 444,
+          "line": 567,
           "text": ".map((comment: any) => {"
         }
       ]
@@ -1817,11 +1817,11 @@
           "text": "const useVectorSpring = (options: any) => ({"
         },
         {
-          "line": 96,
+          "line": 100,
           "text": ".map((index: any) => normalizedSortedData?.[index])"
         },
         {
-          "line": 108,
+          "line": 112,
           "text": ".map((originalIndex: any) => safeInitialData?.[originalIndex])"
         }
       ]
@@ -1831,23 +1831,23 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 118,
+          "line": 129,
           "text": "images.filter((img: any) => newSelected.has(img.id))"
         },
         {
-          "line": 154,
+          "line": 165,
           "text": "(image: any) =>"
         },
         {
-          "line": 160,
+          "line": 172,
           "text": "new Set(images.map((img: any) => img.category).filter(Boolean))"
         },
         {
-          "line": 481,
+          "line": 493,
           "text": "images={images.map((img: any) => ({"
         },
         {
-          "line": 528,
+          "line": 559,
           "text": "{categories.map((category: any) => ("
         }
       ]
@@ -1857,24 +1857,50 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 125,
+          "line": 128,
           "text": "const handleGazeData = (gazeData: any) => {"
         },
         {
-          "line": 192,
+          "line": 195,
           "text": "columns: columns.map((col: any) => ({"
         },
         {
-          "line": 197,
+          "line": 200,
           "text": "cards: col.cards.map((card: any) => ({"
         },
         {
-          "line": 275,
+          "line": 278,
           "text": "setCardInteractionCounts((prev: any) => ({"
         },
         {
-          "line": 328,
+          "line": 331,
           "text": "setColumnInteractionCounts((prev: any) => ({"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/interactive/GlassMindMap.tsx",
+      "anyCount": 5,
+      "samples": [
+        {
+          "line": 351,
+          "text": "connections.forEach((conn: any) => {"
+        },
+        {
+          "line": 361,
+          "text": "node.children?.forEach((child: any) => {"
+        },
+        {
+          "line": 376,
+          "text": "return positionedNodes.map((node: any) => {"
+        },
+        {
+          "line": 533,
+          "text": "{positionedNodes.map((node: any) => ("
+        },
+        {
+          "line": 640,
+          "text": "?.filter((child: any) => {"
         }
       ]
     },
@@ -1883,19 +1909,19 @@
       "anyCount": 5,
       "samples": [
         {
-          "line": 204,
+          "line": 261,
           "text": "if (typeof ref === \"function\") ref(node as any);"
         },
         {
-          "line": 206,
+          "line": 263,
           "text": "(ref as any).current = node;"
         },
         {
-          "line": 421,
+          "line": 452,
           "text": "? React.cloneElement(item.icon as React.ReactElement<any>, {"
         },
         {
-          "line": 423,
+          "line": 454,
           "text": "(item.icon as React.ReactElement<any>).props?.className,"
         }
       ]
@@ -1931,19 +1957,19 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 202,
+          "line": 204,
           "text": "const connection = (navigator as any).connection;"
         },
         {
-          "line": 211,
+          "line": 213,
           "text": "setEnvironmentContext((prev: any) => ({"
         },
         {
-          "line": 223,
+          "line": 225,
           "text": "(navigator as any)"
         },
         {
-          "line": 297,
+          "line": 299,
           "text": "setUsageContext((prev: any) => ({"
         }
       ]
@@ -1953,15 +1979,15 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 103,
+          "line": 123,
           "text": "events.forEach((event: any) => {"
         },
         {
-          "line": 172,
+          "line": 224,
           "text": "setCurrentDate((prev: any) => {"
         },
         {
-          "line": 255,
+          "line": 307,
           "text": "{Array.from({ length: 35 }).map((_: any, i: any) => ("
         }
       ]
@@ -1971,20 +1997,42 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 147,
+          "line": 150,
           "text": "const xValues = allPoints.map((p: any) =>"
         },
         {
-          "line": 150,
+          "line": 153,
           "text": "const yValues = allPoints.map((p: any) => p.y);"
         },
         {
-          "line": 209,
+          "line": 214,
           "text": "const yLabels = [0, 0.25, 0.5, 0.75, 1].map((ratio: any) => {"
         },
         {
-          "line": 232,
+          "line": 237,
           "text": "const generatePath = (points: any[]) => {"
+        }
+      ]
+    },
+    {
+      "filePath": "src/components/data-display/GlassBadge.tsx",
+      "anyCount": 4,
+      "samples": [
+        {
+          "line": 159,
+          "text": "(dotVariantClasses as any)[variant] ?? dotVariantClasses.default,"
+        },
+        {
+          "line": 184,
+          "text": "ref={ref as any}"
+        },
+        {
+          "line": 191,
+          "text": "(variantClasses as any)[variant] ?? variantClasses.default,"
+        },
+        {
+          "line": 210,
+          "text": "(dotVariantClasses as any)[variant] ?? dotVariantClasses.default"
         }
       ]
     },
@@ -1993,19 +2041,19 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 188,
+          "line": 204,
           "text": "(metric: any) =>"
         },
         {
-          "line": 199,
+          "line": 215,
           "text": "(metric: any) =>"
         },
         {
-          "line": 205,
+          "line": 221,
           "text": "(metric: any) =>"
         },
         {
-          "line": 211,
+          "line": 227,
           "text": "(metric: any) =>"
         }
       ]
@@ -2063,15 +2111,15 @@
           "text": "setCurrentMonth((prev: any) => {"
         },
         {
-          "line": 489,
+          "line": 492,
           "text": "(year: any) => ("
         },
         {
-          "line": 514,
+          "line": 517,
           "text": "{dayNames.map((day: any) => ("
         },
         {
-          "line": 536,
+          "line": 539,
           "text": ".map((date: any) => {"
         }
       ]
@@ -2103,19 +2151,19 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 132,
+          "line": 161,
           "text": "return items.filter((item: any) => {"
         },
         {
-          "line": 160,
+          "line": 189,
           "text": "filteredItems.forEach((item: any) => {"
         },
         {
-          "line": 176,
+          "line": 206,
           "text": "setSelectedIndex((prev: any) => (prev + 1) % totalItems);"
         },
         {
-          "line": 180,
+          "line": 211,
           "text": "setSelectedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);"
         }
       ]
@@ -2125,19 +2173,19 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 148,
+          "line": 150,
           "text": "filtered = filtered.filter((file: any) =>"
         },
         {
-          "line": 155,
+          "line": 157,
           "text": "filtered = filtered.filter((file: any) => !file.name.startsWith(\".\"));"
         },
         {
-          "line": 179,
+          "line": 181,
           "text": "? selectedFiles.filter((id: any) => id !== file.id)"
         },
         {
-          "line": 196,
+          "line": 198,
           "text": ".map((f: any) => f.id);"
         }
       ]
@@ -2147,15 +2195,15 @@
       "anyCount": 4,
       "samples": [
         {
-          "line": 147,
+          "line": 151,
           "text": "const acceptedTypes = accept.split(\",\").map((type: any) => type.trim());"
         },
         {
-          "line": 288,
+          "line": 292,
           "text": "const updatedFiles = internalFiles.filter((f: any) => f.id !== fileId);"
         },
         {
-          "line": 636,
+          "line": 639,
           "text": ".filter((f: any) => f.status === \"pending\")"
         }
       ]
@@ -2165,15 +2213,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 76,
+          "line": 83,
           "text": "setSettings((prev: any) => ({ ...prev, ...parsedSettings }));"
         },
         {
-          "line": 79,
+          "line": 86,
           "text": "setSettings((prev: any) => ({ ...defaultSettings, ...prev }));"
         },
         {
-          "line": 145,
+          "line": 152,
           "text": "setSettings((prev: any) => ({ ...prev, ...newSettings }));"
         }
       ]
@@ -2209,7 +2257,7 @@
           "text": "Object.keys(trigger).forEach((key: any) => {"
         },
         {
-          "line": 1048,
+          "line": 1045,
           "text": "{metricsArray.map((metric: any) => ("
         }
       ]
@@ -2219,15 +2267,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 125,
+          "line": 127,
           "text": "typeof (DeviceOrientationEvent as any).requestPermission === \"function\""
         },
         {
-          "line": 129,
+          "line": 131,
           "text": "DeviceOrientationEvent as any"
         },
         {
-          "line": 132,
+          "line": 134,
           "text": "DeviceMotionEvent as any"
         }
       ]
@@ -2265,11 +2313,11 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 315,
+          "line": 321,
           "text": "intent={intent as any}"
         },
         {
-          "line": 316,
+          "line": 322,
           "text": "elevation={elevation as any}"
         }
       ]
@@ -2279,15 +2327,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 629,
+          "line": 660,
           "text": "const element = meta.dataset as any;"
         },
         {
-          "line": 1750,
+          "line": 1792,
           "text": "easing: (animation.easing || \"easeOutQuart\") as any,"
         },
         {
-          "line": 1756,
+          "line": 1798,
           "text": ": false) as any,"
         }
       ]
@@ -2311,37 +2359,19 @@
       ]
     },
     {
-      "filePath": "src/components/data-display/GlassBadge.tsx",
-      "anyCount": 3,
-      "samples": [
-        {
-          "line": 147,
-          "text": "(dotVariantClasses as any)[variant] ?? dotVariantClasses.default,"
-        },
-        {
-          "line": 172,
-          "text": "ref={ref as any}"
-        },
-        {
-          "line": 179,
-          "text": "(variantClasses as any)[variant] ?? variantClasses.default,"
-        }
-      ]
-    },
-    {
       "filePath": "src/components/data-display/GlassNotificationCenter.tsx",
       "anyCount": 3,
       "samples": [
         {
-          "line": 89,
+          "line": 88,
           "text": "setNotifications((prev: any) => [newNotification, ...prev]);"
         },
         {
-          "line": 102,
+          "line": 101,
           "text": "setNotifications((prev: any) =>"
         },
         {
-          "line": 103,
+          "line": 102,
           "text": "prev.filter((notification: any) => notification.id !== id)"
         }
       ]
@@ -2351,15 +2381,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 141,
+          "line": 148,
           "text": ".map((particle: any) => {"
         },
         {
-          "line": 172,
+          "line": 179,
           "text": ".filter((particle: any) => particle.life > 0);"
         },
         {
-          "line": 188,
+          "line": 195,
           "text": "particles.forEach((particle: any) => {"
         }
       ]
@@ -2369,15 +2399,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 175,
+          "line": 235,
           "text": "(v: any) => v !== optionValue"
         },
         {
-          "line": 196,
+          "line": 259,
           "text": "setFocusedIndex((prev: any) => (prev + 1) % totalItems);"
         },
         {
-          "line": 200,
+          "line": 263,
           "text": "setFocusedIndex((prev: any) => (prev - 1 + totalItems) % totalItems);"
         }
       ]
@@ -2391,11 +2421,11 @@
           "text": "const remove = (tag: string) => onChange(value.filter((v: any) => v !== tag));"
         },
         {
-          "line": 72,
+          "line": 81,
           "text": ".filter((s: any) => s.toLowerCase().includes(input.toLowerCase()))"
         },
         {
-          "line": 74,
+          "line": 83,
           "text": ".map((s: any) => ("
         }
       ]
@@ -2419,15 +2449,15 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 552,
+          "line": 559,
           "text": "const results = transcript.filter((entry: any) =>"
         },
         {
-          "line": 606,
+          "line": 613,
           "text": "{(searchQuery ? highlightedResults : transcript).map((entry: any) => {"
         },
         {
-          "line": 724,
+          "line": 732,
           "text": "(window as any).webkitAudioContext)();"
         }
       ]
@@ -2437,11 +2467,11 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 104,
+          "line": 130,
           "text": "ref={ref as any}"
         },
         {
-          "line": 251,
+          "line": 307,
           "text": "onClick={props?.onClick as any}"
         }
       ]
@@ -2529,11 +2559,11 @@
       "anyCount": 3,
       "samples": [
         {
-          "line": 105,
+          "line": 120,
           "text": "onClick?.(e as any);"
         },
         {
-          "line": 170,
+          "line": 209,
           "text": "...(props as any),"
         }
       ]
@@ -2593,11 +2623,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 102,
+          "line": 141,
           "text": "setRotation((prev: any) => prev + rotateSpeed);"
         },
         {
-          "line": 258,
+          "line": 301,
           "text": "} as any;"
         }
       ]
@@ -2621,11 +2651,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 365,
+          "line": 367,
           "text": "interaction={features.physics.interaction as any}"
         },
         {
-          "line": 413,
+          "line": 415,
           "text": "(features.organicMotion.emotionalContext as any)"
         }
       ]
@@ -2649,11 +2679,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 60,
+          "line": 68,
           "text": "(user: any) =>"
         },
         {
-          "line": 80,
+          "line": 92,
           "text": "visibleCursors.map((user: any) => {"
         }
       ]
@@ -2663,11 +2693,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 312,
+          "line": 317,
           "text": "handleClick(e as any);"
         },
         {
-          "line": 407,
+          "line": 414,
           "text": "newSelected = currentSelected.filter((v: any) => v !== value);"
         }
       ]
@@ -2677,11 +2707,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 383,
+          "line": 390,
           "text": "} as any),"
         },
         {
-          "line": 449,
+          "line": 472,
           "text": "style={{ ...(generateLayerStyles(layer, index) as any) }}"
         }
       ]
@@ -2733,11 +2763,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 324,
+          "line": 332,
           "text": "} = props as any;"
         },
         {
-          "line": 451,
+          "line": 463,
           "text": "} = props as any;"
         }
       ]
@@ -2747,11 +2777,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 249,
+          "line": 248,
           "text": "return ticks.filter((tick: any) => tick >= min && tick <= max);"
         },
         {
-          "line": 350,
+          "line": 349,
           "text": "const distances = valueArray.map((val: any) =>"
         }
       ]
@@ -2789,11 +2819,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 180,
+          "line": 197,
           "text": "setRotation((prev: any) => (prev + degrees) % 360);"
         },
         {
-          "line": 317,
+          "line": 334,
           "text": "setCurrentIndex((prev: any) => (prev + 1) % safeImageCount);"
         }
       ]
@@ -2803,11 +2833,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 84,
+          "line": 88,
           "text": "{fields.map((f: any) => ("
         },
         {
-          "line": 166,
+          "line": 172,
           "text": "group.combinator = v as any;"
         }
       ]
@@ -2817,11 +2847,11 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 126,
+          "line": 136,
           "text": "setCustomColors((prev: any) => ({"
         },
         {
-          "line": 142,
+          "line": 152,
           "text": "(preview: any) =>"
         }
       ]
@@ -2845,12 +2875,12 @@
       "anyCount": 2,
       "samples": [
         {
-          "line": 186,
+          "line": 202,
           "text": "const sidebarExtraProps: any = {"
         },
         {
-          "line": 209,
-          "text": "} as any"
+          "line": 226,
+          "text": "} as any)"
         }
       ]
     },
@@ -2967,7 +2997,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 124,
+          "line": 134,
           "text": "? (openItems || []).filter((id: any) => id !== itemId)"
         }
       ]
@@ -2977,7 +3007,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 113,
+          "line": 135,
           "text": ".map((word: any) => word[0])"
         }
       ]
@@ -2987,7 +3017,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 279,
+          "line": 288,
           "text": "setCurrentMonth((prev: any) => {"
         }
       ]
@@ -2997,7 +3027,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 828,
+          "line": 851,
           "text": "(GlassMultiSelect as any).displayName = \"GlassMultiSelect\";"
         }
       ]
@@ -3007,7 +3037,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 426,
+          "line": 454,
           "text": "{files.map((file: any) => ("
         }
       ]
@@ -3017,7 +3047,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 133,
+          "line": 136,
           "text": "? localExpandedNodes.filter((id: any) => id !== node.id)"
         }
       ]
@@ -3037,7 +3067,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 141,
+          "line": 159,
           "text": "(message: any) =>"
         }
       ]
@@ -3067,7 +3097,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 117,
+          "line": 129,
           "text": "const scrollTimer = useRef<any>(null);"
         }
       ]
@@ -3077,7 +3107,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 139,
+          "line": 150,
           "text": "[\"--a\" as any]: `${pct}%`,"
         }
       ]
@@ -3087,7 +3117,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 290,
+          "line": 335,
           "text": "setCurrentZoom((prev: any) =>"
         }
       ]
@@ -3097,7 +3127,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 367,
+          "line": 405,
           "text": "d={`M ${spiralPoints.map((p: any) => `${p.x},${p.y}`).join(\" L \")}`}"
         }
       ]
@@ -3117,7 +3147,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 226,
+          "line": 239,
           "text": "{items.map((item: any) => renderNavigationItem(item))}"
         }
       ]
@@ -3127,7 +3157,7 @@
       "anyCount": 1,
       "samples": [
         {
-          "line": 170,
+          "line": 175,
           "text": "setOpenMenus((prev: any) => new Set([...prev, item?.id]))"
         }
       ]
@@ -3264,6 +3294,16 @@
     }
   ],
   "declarationAnyFiles": [
+    {
+      "filePath": "dist/components/collaboration/GlassCollaborationProvider.d.ts",
+      "anyCount": 1,
+      "samples": [
+        {
+          "line": 48,
+          "text": "metadata?: any;"
+        }
+      ]
+    },
     {
       "filePath": "dist/primitives/OptimizedGlassCore.d.ts",
       "anyCount": 1,
@@ -4280,6 +4320,13 @@
       "hasForwardRefSignal": false
     },
     {
+      "exportName": "AuraElementInteractionPlugin",
+      "sourcePath": "src/components/charts/plugins/GalileoElementInteractionPlugin.ts",
+      "declarationPath": "dist/components/charts/plugins/GalileoElementInteractionPlugin.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
       "exportName": "GalileoElementInteractionPlugin",
       "sourcePath": "src/components/charts/plugins/GalileoElementInteractionPlugin.ts",
       "declarationPath": "dist/components/charts/plugins/GalileoElementInteractionPlugin.d.ts",
@@ -4287,9 +4334,16 @@
       "hasForwardRefSignal": false
     },
     {
+      "exportName": "CollaborationProvider",
+      "sourcePath": "src/components/collaboration/GlassCollaborationProvider.tsx",
+      "declarationPath": "dist/components/collaboration/GlassCollaborationProvider.d.ts",
+      "supportExport": true,
+      "hasForwardRefSignal": false
+    },
+    {
       "exportName": "GlassCollaborationProvider",
-      "sourcePath": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
-      "declarationPath": "dist/components/collaboration/CollaborativeGlassWorkspace.d.ts",
+      "sourcePath": "src/components/collaboration/GlassCollaborationProvider.tsx",
+      "declarationPath": "dist/components/collaboration/GlassCollaborationProvider.d.ts",
       "supportExport": true,
       "hasForwardRefSignal": false
     },

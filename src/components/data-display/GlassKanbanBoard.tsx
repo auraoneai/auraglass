@@ -74,6 +74,18 @@ export interface GlassKanbanBoardProps
   maxHeight?: string | number;
   /** Compact rendering for embedded previews and narrow containers */
   compact?: boolean;
+  /** Contain the board in its parent without full-page sizing assumptions */
+  contained?: boolean;
+  /** Explicit board width */
+  width?: string | number;
+  /** Explicit board height */
+  height?: string | number;
+  /** Show the board title and description header */
+  showHeader?: boolean;
+  /** Show column-level toolbar controls such as add/delete */
+  showToolbar?: boolean;
+  /** Show add-card/add-column actions */
+  showActions?: boolean;
   /** Custom card renderer */
   renderCard?: (card: KanbanCard, columnId: string) => React.ReactNode;
   /** Custom column header renderer */
@@ -176,6 +188,12 @@ export const GlassKanbanBoard = forwardRef<
       columnWidth = "300px",
       maxHeight,
       compact = false,
+      contained = false,
+      width,
+      height,
+      showHeader = true,
+      showToolbar = true,
+      showActions = true,
       renderCard,
       renderColumnHeader,
       onCardMove,
@@ -192,6 +210,7 @@ export const GlassKanbanBoard = forwardRef<
       emptyState,
       respectMotionPreference = true,
       className,
+      style,
       "aria-label": ariaLabel,
       "data-testid": dataTestId,
       ...props
@@ -243,6 +262,10 @@ export const GlassKanbanBoard = forwardRef<
     const config = cardSizeConfig[cardSize];
     const boardColumns =
       columns.length === 0 && !emptyState ? DEFAULT_KANBAN_COLUMNS : columns;
+    const effectiveShowAddColumn = showActions && showAddColumn;
+    const effectiveShowAddCard = showActions && showAddCard;
+    const effectiveColumnWidth =
+      contained && compact && columnWidth === "300px" ? "180px" : columnWidth;
 
     // Priority colors
     const priorityColors = {
@@ -591,8 +614,9 @@ export const GlassKanbanBoard = forwardRef<
               )}
             </div>
 
+            {showToolbar && (
             <div className="glass-flex glass-items-center glass-gap-1">
-              {showAddCard && !column.readOnly && (
+              {effectiveShowAddCard && !column.readOnly && (
                 <button
                   onClick={() => onCardAdd?.(column.id)}
                   className={cn(
@@ -607,7 +631,7 @@ export const GlassKanbanBoard = forwardRef<
                 </button>
               )}
 
-              {onColumnDelete && (
+              {showActions && onColumnDelete && (
                 <button
                   onClick={() => onColumnDelete(column.id)}
                   className={cn(
@@ -622,13 +646,16 @@ export const GlassKanbanBoard = forwardRef<
                 </button>
               )}
             </div>
+            )}
           </div>
         );
       },
       [
         showCardCounts,
         showColumnLimits,
-        showAddCard,
+        effectiveShowAddCard,
+        showActions,
+        showToolbar,
         onCardAdd,
         onColumnDelete,
         isCompact,
@@ -668,8 +695,12 @@ export const GlassKanbanBoard = forwardRef<
         )}
         style={{
           ...(maxHeightStyle ?? {}),
+          width,
+          height,
           overflow: "hidden",
+          maxWidth: contained ? "100%" : undefined,
           color: "rgba(248,250,252,0.94)",
+          ...style,
         }}
         role="region"
         aria-label={ariaLabel || "Kanban Board"}
@@ -683,14 +714,23 @@ export const GlassKanbanBoard = forwardRef<
           className="glass-flex glass-flex-col glass-h-full"
         >
           {/* Board Header */}
-          {(title || description) && (
-            <div className="glass-p-6 glass-border-b glass-border-glass-border/20">
+          {showHeader && (title || description) && (
+            <div
+              className="glass-p-6 glass-border-b glass-border-glass-border/20"
+              style={{ padding: isCompact ? "0.75rem 0.9rem" : undefined }}
+            >
               {title && (
-                <h1 className="glass-text-xl glass-font-bold glass-text-primary glass-mb-2">
+                <h1
+                  className="glass-text-xl glass-font-bold glass-text-primary glass-mb-2"
+                  style={{
+                    fontSize: isCompact ? "0.95rem" : undefined,
+                    marginBottom: isCompact ? "0.25rem" : undefined,
+                  }}
+                >
                   {title}
                 </h1>
               )}
-              {description && (
+              {description && !isCompact && (
                 <p className="glass-text-secondary">{description}</p>
               )}
             </div>
@@ -736,9 +776,9 @@ export const GlassKanbanBoard = forwardRef<
                           "ring-2 ring-primary/50"
                       )}
                       style={{
-                        width: columnWidth,
-                        minWidth: columnWidth,
-                        maxWidth: columnWidth,
+                        width: effectiveColumnWidth,
+                        minWidth: effectiveColumnWidth,
+                        maxWidth: effectiveColumnWidth,
                         overflow: "hidden",
                       }}
                       onDragOver={(e: React.DragEvent) =>
@@ -834,7 +874,7 @@ export const GlassKanbanBoard = forwardRef<
                 ))}
 
                 {/* Add Column Button */}
-                {showAddColumn && onColumnAdd && (
+                {effectiveShowAddColumn && onColumnAdd && (
                   <Motion
                     preset={
                       !prefersReducedMotion && respectMotionPreference

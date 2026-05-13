@@ -33,7 +33,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
             style="transform: scale(1) rotate(0deg) translate(0px, 0px); transform-origin: center center;"
           />
           <div
-            class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-p-4 glass-contrast-guard"
+            class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-surface-dark/50 glass-backdrop-blur-md glass-contrast-guard glass-contrast-guard glass-p-4"
           >
             <h3
               class="glass-text-primary glass-font-medium"
@@ -48,7 +48,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="glass-absolute glass-top-4 glass-left-4 glass-right-4 glass-flex glass-justify-between glass-items-start"
+          class="glass-absolute glass-flex glass-justify-between glass-items-start glass-top-4 glass-left-4 glass-right-4"
           style="gap: 8px; min-width: 0; pointer-events: none;"
         >
           <div
@@ -69,7 +69,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-performance-mode="ultra"
                 data-refraction="true"
                 disabled=""
-                id="glass-button-:rr:"
+                id="glass-button-:r13:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -107,7 +107,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:rs:"
+                id="glass-button-:r14:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -155,7 +155,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:rt:"
+                id="glass-button-:r15:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -196,7 +196,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
               </button>
             </div>
             <span
-              class="glass-text-primary-glass-opacity-80 glass-text-sm glass-px-2 glass-min-w-16 glass-text-center"
+              class="glass-text-primary-glass-opacity-80 glass-text-sm glass-text-center glass-min-w-16 glass-px-2"
             >
               100
               %
@@ -213,7 +213,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:ru:"
+                id="glass-button-:r16:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -271,7 +271,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:rv:"
+                id="glass-button-:r17:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -312,7 +312,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:r10:"
+                id="glass-button-:r18:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -353,7 +353,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:r11:"
+                id="glass-button-:r19:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -397,7 +397,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 data-magnet="true"
                 data-performance-mode="ultra"
                 data-refraction="true"
-                id="glass-button-:r12:"
+                id="glass-button-:r1a:"
                 style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
               >
                 <span
@@ -449,7 +449,7 @@ exports[`GlassImageViewer matches snapshot 1`] = `
                 class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-p-1 glass-focus glass-touch-target"
                 data-button-size="sm"
                 data-button-variant="ghost"
-                id="glass-button-:r13:"
+                id="glass-button-:r1b:"
               >
                 <svg
                   aria-hidden="true"

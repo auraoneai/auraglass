@@ -41,10 +41,12 @@ export {
 export {
   LiquidGlassDestination,
   LiquidGlassSource,
+  LiquidGlassTransitionProvider as LiquidGlassSourceTransition,
   LiquidGlassTransitionProvider,
   useLiquidGlassTransition,
   type LiquidGlassDestinationProps,
   type LiquidGlassSourceProps,
+  type LiquidGlassTransitionProviderProps as LiquidGlassSourceTransitionProps,
   type LiquidGlassTransitionProviderProps,
 } from "./primitives/LiquidGlassSourceTransition";
 export {
@@ -105,7 +107,14 @@ export {
 export { GlassHeader } from "./components/navigation/GlassHeader";
 export { GlassMenubar } from "./components/navigation/GlassMenubar";
 export { GlassMobileNav } from "./components/navigation/GlassMobileNav";
-export { GlassNavigation } from "./components/navigation/GlassNavigation";
+export {
+  GlassNavigation,
+  GlassNavigation as GlassNavbar,
+} from "./components/navigation/GlassNavigation";
+export type {
+  GlassNavigationProps,
+  GlassNavigationProps as GlassNavbarProps,
+} from "./components/navigation/types";
 export { GlassNavigationMenu } from "./components/navigation/GlassNavigationMenu";
 export { GlassPagination } from "./components/navigation/GlassPagination";
 export { GlassResponsiveNav } from "./components/navigation/GlassResponsiveNav";
@@ -609,7 +618,11 @@ export { GlassComponentPalette } from "./components/cms/GlassComponentPalette";
 export { GlassPageStructure } from "./components/cms/GlassPageStructure";
 export { GlassPropertyPanel } from "./components/cms/GlassPropertyPanel";
 export { GlassEcommerceProvider } from "./components/ecommerce/GlassEcommerceProvider";
-export { GlassSmartShoppingCart } from "./components/ecommerce/GlassSmartShoppingCart";
+export {
+  GlassSmartShoppingCart,
+  GlassSmartShoppingCart as SmartShoppingCart,
+  type SmartShoppingCartProps,
+} from "./components/ecommerce/GlassSmartShoppingCart";
 export { GlassProductRecommendations } from "./components/ecommerce/GlassProductRecommendations";
 export { GlassImageProcessingProvider } from "./components/image/GlassImageProcessingProvider";
 export { GlassIntelligentImageUploader } from "./components/image/GlassIntelligentImageUploader";
@@ -617,7 +630,9 @@ export { GlassMediaProvider } from "./components/media/GlassMediaProvider";
 export { GlassAdvancedVideoPlayer } from "./components/media/GlassAdvancedVideoPlayer";
 export { GlassAdvancedAudioPlayer } from "./components/media/GlassAdvancedAudioPlayer";
 export {
+  LiquidGlassMediaControls as GlassMediaControls,
   LiquidGlassMediaControls,
+  type LiquidGlassMediaControlsProps as GlassMediaControlsProps,
   type LiquidGlassMediaControlsProps,
 } from "./components/media/LiquidGlassMediaControls";
 export {

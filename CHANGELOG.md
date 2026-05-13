@@ -1,5 +1,39 @@
 # Changelog
 
+## [3.1.0] - 2026-05-12
+
+### Changed
+
+- Repositioned AuraGlass 3.1 around "Liquid Glass components for React and Next.js" with README copy focused on premium dashboards, AI products, media interfaces, accessible glassmorphism UI, and production React/Next.js adoption.
+- Updated npm-facing package metadata to `3.1.0` with a clearer React Liquid Glass component-library description and launch keyword set for Liquid Glass, glassmorphism, dashboards, SaaS, AI UI, media UI, accessibility, motion, Tailwind, and shadcn-alternative discovery.
+- Refocused the README away from raw inventory count as the first message and toward install, minimal usage, AuraGlass vs shadcn/ui, flagship components, recipes, theming, accessibility, SSR, optional peers, AI-agent guidance, and evidence links.
+
+### Added
+
+- Added 3.1 release/evidence scaffolding under `reports/3.1-release/` for package gates, flagship component readiness, website/catalog evidence handoff, accessibility and visual QA, recipes, and AI-agent readiness.
+- Added GitHub issue templates for bug reports, visual regressions, component requests, and documentation issues.
+- Added a pull request template with package, visual QA, documentation, and release-evidence checklists.
+- Added public `SECURITY.md` and `CONTRIBUTING.md` files for vulnerability reporting and contribution expectations.
+- Added the `aura-glass` CLI with `list`, `info`, and `add` commands for 3.1 launch recipes, including `--json`, `--dry-run`, `--force`, `--cwd`, and `--out` support.
+- Added the public `aura-glass/registry` entrypoint with ten copyable launch recipes for dashboards, AI command centers, media surfaces, analytics, settings and billing, kanban, scheduling, collaboration, admin data, and ecommerce product panels.
+- Added package export and install-smoke coverage for the CLI binary, registry recipes, styles export, and `useGlassProbes` subpath.
+
+### Fixed
+
+- Hardened flagship components for constrained app layouts, documentation cards, and recipe previews, including `GlassDashboard`, `GlassCommandPalette`, `GlassModal`, `GlassDrawer`, `GlassSidebar`, `GlassImageViewer`, `GlassFileUpload`, and `GlassKanbanBoard`.
+- Added reduced-motion and playback guards to `GlassMusicVisualizer`.
+- Made `GlassImageProcessingProvider` safe outside an explicit provider by returning a no-op context instead of crashing standalone consumers.
+- Lazy-loaded optional AI service SDKs so `openai` and `@google-cloud/vision` remain optional feature-family dependencies instead of root-import hazards.
+- Added public compatibility aliases for current launch naming, including `GlassNavbar`, `GlassMediaControls`, `LiquidGlassSourceTransition`, and `SmartShoppingCart`.
+
+### Verification
+
+- `npm run typecheck`
+- `node scripts/ci/verify-cli.js`
+- `npm run verify:pack` — passed install smoke for root imports, registry recipes, CLI bin, and styles export, with no nested `node_modules`, React runtimes, or dispatcher artifacts.
+- `npm publish --dry-run --provenance --access public` — passed build, pack verification, React 18/Next integration smoke, React 19/Next integration smoke, and npm dry publish for `aura-glass@3.1.0`.
+- Dry-run tarball: `aura-glass-3.1.0.tgz`, 8.1 MB package size, 43.0 MB unpacked size, 2,045 files, shasum `5406a76a13fe86ee87d356cfce5753e2173aaee3`.
+
 ## [3.0.7] - Unreleased
 
 ### Added

@@ -1,6 +1,6 @@
-# AuraGlass Storybook
+# AuraGlass by AuraOne Storybook
 
-AuraGlass Storybook is the presentation, QA, and developer-discovery surface for the 3.0 release. It covers the 356-component certified inventory while keeping generated audit coverage separate from curated public showroom examples.
+AuraGlass by AuraOne Storybook is the presentation, QA, and developer-discovery surface for the 3.1 release. It covers the certified component inventory while keeping generated audit coverage separate from curated public showroom examples.
 
 ## Run Locally
 

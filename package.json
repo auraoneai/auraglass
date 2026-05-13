@@ -1,10 +1,13 @@
 {
   "name": "aura-glass",
-  "version": "3.0.7",
-  "description": "React Liquid Glass and glassmorphism component library with 356 certified UI components, Next.js/SSR support, TypeScript, accessibility, tokens, Storybook, and 3D/AR.",
+  "version": "3.1.0",
+  "description": "React Liquid Glass component library for Next.js, premium dashboards, AI products, media interfaces, and accessible glassmorphism UI.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "bin": {
+    "aura-glass": "bin/aura-glass.cjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -44,7 +47,10 @@
       "default": "./dist/esm/utils/env.js"
     },
     "./hooks/useGlassProbes": {
-      "types": "./dist/hooks/useGlassProbes.d.ts"
+      "types": "./dist/hooks/useGlassProbes.d.ts",
+      "import": "./dist/esm/hooks/useGlassProbes.js",
+      "require": "./dist/cjs/hooks/useGlassProbes.js",
+      "default": "./dist/esm/hooks/useGlassProbes.js"
     },
     "./services/ai/openai-service": {
       "types": "./dist/services/ai/openai-service.d.ts",
@@ -89,6 +95,7 @@
     "./package.json": "./package.json"
   },
   "files": [
+    "bin",
     "dist",
     "workers",
     "README.md",
@@ -129,6 +136,7 @@
     "test:exports:cjs": "jest tests/exports/package-exports.test.ts",
     "test:exports:esm": "node tests/exports/package-exports.spec.mjs",
     "test:exports": "npm run build && npm run test:exports:cjs && npm run test:exports:esm",
+    "test:cli": "npm run build && node scripts/ci/verify-cli.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:a11y": "jest --testPathPattern=a11y",
@@ -174,29 +182,37 @@
     "verify:pack": "node scripts/ci/verify-pack.js",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.mjs",
+    "audit:3.1-frame-loop": "node scripts/audit/3.1-frame-loop-audit.js",
+    "audit:3.1-frame-loop:strict": "node scripts/audit/3.1-frame-loop-audit.js --strict",
     "audit:3.0.7-source": "node scripts/audit/3.0.7-source-audit.js"
   },
   "keywords": [
     "react",
-    "react-components",
-    "react-ui",
     "nextjs",
-    "nextjs-components",
-    "glassmorphism",
-    "glassmorphism-ui",
     "liquid-glass",
+    "glassmorphism",
     "apple-liquid-glass",
-    "aurora-ui",
     "glass-ui",
-    "design-system",
-    "marketing-ui",
-    "landing-page",
-    "component-library",
     "ui-components",
-    "ui-library",
+    "component-library",
+    "design-system",
+    "dashboard",
+    "saas",
     "ai-ui",
+    "media-ui",
     "typescript",
     "accessibility",
+    "motion",
+    "tailwind",
+    "shadcn-alternative",
+    "nextjs-components",
+    "react-components",
+    "react-ui",
+    "glassmorphism-ui",
+    "aurora-ui",
+    "marketing-ui",
+    "landing-page",
+    "ui-library",
     "accessible-ui",
     "ssr",
     "react-19",
@@ -233,8 +249,10 @@
     "@react-three/drei": "^9.122.0 || ^10.0.0",
     "@react-three/fiber": "^8.18.0 || ^9.0.0",
     "@sentry/react": "^7.100.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
+    "@google-cloud/vision": "^5.0.0",
     "framer-motion": ">=10.0.0",
     "lucide-react": "^0.400.0",
+    "openai": "^6.0.0",
     "react": ">=18.0.0 <20.0.0",
     "react-chartjs-2": "^5.0.0",
     "react-dom": ">=18.0.0 <20.0.0",
@@ -260,6 +278,9 @@
     "@sentry/react": {
       "optional": true
     },
+    "@google-cloud/vision": {
+      "optional": true
+    },
     "@react-three/fiber": {
       "optional": true
     },
@@ -267,6 +288,9 @@
       "optional": true
     },
     "lucide-react": {
+      "optional": true
+    },
+    "openai": {
       "optional": true
     },
     "react-chartjs-2": {
@@ -359,9 +383,16 @@
     "vite": "^7.1.5"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.3",
     "chart.js": "^4.5.0",
     "clsx": "^2.0.0",
     "date-fns": "^4.1.0",
+    "framer-motion": "^11.18.2",
+    "lucide-react": "^0.544.0",
+    "react-chartjs-2": "^5.3.0",
+    "react-hook-form": "^7.54.0",
     "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.3.1",
     "zod": "^3.22.0"

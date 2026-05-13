@@ -1,4 +1,4 @@
-# AuraGlass CI Scripts
+# AuraGlass by AuraOne CI Scripts
 
 This directory contains automated enforcement tools for maintaining design system compliance and ensuring a 100/100 design system score.
 

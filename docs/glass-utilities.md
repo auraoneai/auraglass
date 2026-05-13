@@ -1,8 +1,8 @@
-# AuraGlass Utility Guide vs Tailwind
+# AuraGlass by AuraOne Utility Guide vs Tailwind
 
 ## Overview
 
-This guide provides a complete reference for AuraGlass utilities and their relationship to Tailwind CSS. AuraGlass uses a token-first architecture with glass-specific utilities that extend beyond standard Tailwind classes while maintaining compatibility.
+This guide provides a complete reference for AuraGlass by AuraOne utilities and their relationship to Tailwind CSS. AuraGlass uses a token-first architecture with glass-specific utilities that extend beyond standard Tailwind classes while maintaining compatibility.
 
 ## 🎯 Philosophy: Glass-First vs Utility-First
 

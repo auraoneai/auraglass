@@ -1,6 +1,6 @@
-# Choosing AuraGlass Components
+# Choosing AuraGlass by AuraOne Components
 
-AuraGlass has a large public surface. Do not start by scanning every export. Start with the product job you are building, pick the smallest stable family that satisfies it, and reach for advanced or experimental systems only when the workflow needs them.
+AuraGlass by AuraOne has a large public surface. Do not start by scanning every export. Start with the product job you are building, pick the smallest stable family that satisfies it, and reach for advanced or experimental systems only when the workflow needs them.
 
 ## Start Here
 
