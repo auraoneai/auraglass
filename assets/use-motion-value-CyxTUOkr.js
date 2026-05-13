@@ -1,0 +1,1 @@
+import{D as a,E as u,r as t,M as c}from"./iframe-CWR0-zUi.js";function f(o){const e=a(()=>u(o)),{isStatic:s}=t.useContext(c);if(s){const[,n]=t.useState(o);t.useEffect(()=>e.on("change",n),[])}return e}export{f as u};
