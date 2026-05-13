@@ -1,6 +1,6 @@
 ### 6. GlassAutoComposer - Generative UI System
 
-AI-powered on-demand UI generation using LLMs and design tokens:
+AI-assisted on-demand UI generation using LLMs and design tokens:
 
 ```tsx
 import { 

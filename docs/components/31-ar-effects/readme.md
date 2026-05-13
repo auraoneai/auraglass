@@ -1,6 +1,6 @@
 # AR & Effects Components
 
-Welcome to the AR & Effects category of AuraGlass components! This revolutionary collection brings cutting-edge augmented reality and visual effects capabilities to your glassmorphism designs.
+Welcome to the AR & Effects category of AuraGlass components! This advanced collection documents augmented reality and visual effects capabilities to your glassmorphism designs.
 
 ## ✅ Audit Status (November 2025)
 

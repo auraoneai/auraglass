@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "React Liquid Glass component library for Next.js, premium dashboards, AI products, media interfaces, and accessible glassmorphism UI.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

@@ -4,11 +4,12 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 
 ## Current Source Of Truth
 
-- Package version: 3.1.0
-- Certified component inventory: 356 components in [reports/component_inventory.json](../reports/component_inventory.json)
-- Liquid Glass public surface: 32 value exports plus related type exports from the root package entrypoint.
-- Visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
-- Certification screenshots: 712 desktop/mobile captures in [reports/glassmorphism-storybook-visual-certification/screenshots](../reports/glassmorphism-storybook-visual-certification/screenshots)
+- Package version: 3.1.1
+- Current 3.1 package surface: 804 runtime exports, 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, 10 launch recipes, 19 functional sub-entrypoints, 6 token formats, and one CLI binary.
+- Package surface audit: [reports/3.1-release/package-surface-audit.md](../reports/3.1-release/package-surface-audit.md)
+- Historical 3.0 certification inventory: 356 audited entries in [reports/component_inventory.json](../reports/component_inventory.json)
+- Historical visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
+- Historical certification screenshots: 712 desktop/mobile captures in [reports/glassmorphism-storybook-visual-certification/screenshots](../reports/glassmorphism-storybook-visual-certification/screenshots)
 - Static Storybook exhaustive QA: 1,595 stories, zero hard failures, zero audit-run errors in [reports/storybook-exhaustive-qa.md](../reports/storybook-exhaustive-qa.md)
 - Storybook taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
 - Component selection guide: [docs/components/choosing.md](./components/choosing.md)
@@ -31,7 +32,7 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 ## Documentation Areas
 
 - `docs/ai`: AI service, setup, and production integration guides.
-- `docs/components`: numbered component sections with 356/356 direct docs coverage.
+- `docs/components`: numbered component sections for package and historical certification docs.
 - `docs/components/marketing`: Marketing Kit discoverability and GEO guidance.
 - `docs/liquid-glass`: Liquid Glass design rules, migration, primitives, component map, and showcase.
 - `docs/guides`: standards, migration guides, accessibility rules, focus management, SSR, visual testing, and house style.

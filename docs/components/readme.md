@@ -1,6 +1,6 @@
 # AuraGlass by AuraOne Component Documentation
 
-This directory is the organized component documentation index for the AuraGlass by AuraOne inventory. Component pages live inside numbered sections instead of the directory root, so related APIs stay grouped by design-system role.
+This directory is the organized component documentation index for AuraGlass by AuraOne. Component pages live inside numbered sections instead of the directory root, so related APIs stay grouped by design-system role.
 
 ## How To Choose
 
@@ -8,13 +8,14 @@ Start with the [Choosing AuraGlass Components](./choosing.md) guide before brows
 
 ## Coverage State
 
-- Certified inventory components: 356
-- Direct component documentation coverage: 356/356, verified by `npm run audit:components`.
-- Storybook visual certification: 356/356 passed with 712 screenshots.
+- Current 3.1 package surface: 804 runtime exports, including 439 component-like value exports and 317 Glass-prefixed component-like exports.
+- 3.1 developer surface: 121 hook exports, 29 provider exports, 10 launch recipes, 19 functional sub-entrypoints, 6 token formats, and one `aura-glass` CLI.
+- Historical 3.0 certification inventory: 356 audited entries, verified by `npm run audit:components`.
+- Historical Storybook visual certification: 356/356 passed with 712 screenshots.
 - Static Storybook exhaustive QA: 1,595 public stories crawled with zero hard failures and zero audit-run errors.
-- Direct owner stories: 356/356.
-- Direct unit tests: 356/356.
-- Liquid Glass public surface: 32 root value exports plus related type exports, additive to the certified inventory.
+- Historical direct owner stories: 356/356.
+- Historical direct unit tests: 356/356.
+- Liquid Glass public surface: included in the 3.1 package surface and supported by explicit package entrypoints.
 - Marketing Kit discovery: package marketing components, `GlassButton variant="aurora"`, and generated marketing tokens for landing pages and product heroes.
 
 ## Section Map
@@ -49,10 +50,10 @@ Storybook groups these pages by developer intent: `Start Here`, `Foundations`, `
 - [Performance](./24-performance/): 2 pages
 - [Chart Enhancements](./25-chart-enhancements/): 2 pages
 - [Error Handling](./26-error-handling/): 3 pages
-- [Revolutionary Enhancements](./27-revolutionary-enhancements/): 16 pages
+- [Advanced Enhancements](./27-revolutionary-enhancements/): 16 pages
 - [Next Wave Systems](./28-next-wave-systems/): 22 pages
 - [AI Components](./29-ai-components/): 9 pages
-- [Genesis Revolutionary](./30-genesis-revolutionary/): 9 pages
+- [Genesis Advanced](./30-genesis-revolutionary/): 9 pages
 - [AR Effects](./31-ar-effects/): 11 pages
 - [New Genesis Components](./32-new-genesis-components/): 10 pages
 - [Quantum UI](./33-quantum-ui/): 7 pages

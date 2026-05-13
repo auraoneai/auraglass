@@ -651,4 +651,4 @@ https://console.cloud.google.com/billing
 - **Issues**: https://github.com/auraoneai/auraglass/issues
 
 ---
-**Ready to build AI-powered glassmorphism UIs! 🚀**
+**Ready to build AI-assisted glassmorphism UIs.**

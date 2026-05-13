@@ -4,7 +4,7 @@ AuraGlass 3.0.2 is a Storybook screenshot certification patch for the 3.0 releas
 
 ## Highlights
 
-- Revalidated the 356-component Storybook inventory with desktop and mobile screenshots for every certified component.
+- Revalidated the historical 356-entry Storybook inventory with desktop and mobile screenshots for every certified component.
 - Regenerated 712 screenshots and 89 manual QA contact sheets for the final evidence set.
 - Added deterministic Storybook preview data for collaborative cursor stories.
 - Added Storybook-only visibility hooks for cookie consent previews so persisted consent state cannot hide the default stories.
@@ -20,8 +20,8 @@ AuraGlass 3.0.2 is a Storybook screenshot certification patch for the 3.0 releas
 
 ## Current Evidence
 
-- Certified component inventory: 356.
-- Storybook visual certification: 356/356 passed.
+- Historical certified inventory entries: 356.
+- Historical Storybook visual certification: 356/356 passed.
 - Screenshot count: 712/712.
 - Manual contact sheets: 89.
 - Manual QA report: `reports/component-screenshot-manual-qa/manual-qa-report.md`.

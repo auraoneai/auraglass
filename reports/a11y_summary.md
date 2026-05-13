@@ -44,7 +44,7 @@ Text is rendered over glass backgrounds (translucent, blurred surfaces) without 
 - ✅ **Cards** (12 components): GlassCard, GlassKPICard, GlassMetricCard, etc.
 - ✅ **Buttons** (12 components): GlassButton, GlassFab, etc.
 - ✅ **Data Display** (36 components): GlassDataTable, GlassChart, GlassAlert, etc.
-- ✅ **AI Components** (24 components): All AI-powered components
+- ✅ **AI Components** (24 components): All AI-assisted components
 - ✅ **Advanced Effects** (48 components): Liquid glass, particles, shaders, etc.
 - ✅ **Other** (52 components)
 

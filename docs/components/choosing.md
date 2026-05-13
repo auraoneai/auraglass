@@ -22,7 +22,7 @@ For most application work, use this starter set first:
 
 ## Liquid Glass
 
-Use Liquid Glass when the UI needs a premium, spatial, material feel rather than a normal glass panel. It is additive to the 356-component certified inventory and exposes 32 public value exports plus related types.
+Use Liquid Glass when the UI needs a premium, spatial, material feel rather than a normal glass panel. It is part of the current 3.1 package surface: 804 runtime exports, 439 component-like value exports, 121 hook exports, 29 provider exports, and 10 launch recipes.
 
 | Job | Default choice | When to use |
 | --- | --- | --- |

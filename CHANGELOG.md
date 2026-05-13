@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.1.1] - 2026-05-12
+
+### Changed
+
+- Published a docs-only patch release that cleans up 3.1 package-surface language across README, docs indexes, component guidance, and release evidence.
+- Replaced current 3.1 claims based on the historical 356-entry certification inventory with verified shipped package-surface counts: 804 runtime exports, 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, 10 launch recipes, 19 functional sub-entrypoints, six token formats, and one CLI binary.
+- Added `reports/3.1-release/package-surface-audit.md` as the canonical source for 3.1 package count language and the distinction between current package exports and historical 3.0 certification evidence.
+- Clarified that the 356-entry inventory and 356/356 certification reports are historical 3.0 audit evidence, not the current 3.1 shipped package export count.
+
+### Verification
+
+- `npm pack --dry-run --json` package surface metadata reports 2,045 files, 8,104,551 bytes packed, 42,963,730 bytes unpacked, and shasum `b191208591340278faa431e829acec6ff4d50a89` before publish.
+- `node bin/aura-glass.cjs list --json` still reports the 10 shipped launch recipes.
+
 ## [3.1.0] - 2026-05-12
 
 ### Changed
@@ -32,7 +46,7 @@
 - `node scripts/ci/verify-cli.js`
 - `npm run verify:pack` — passed install smoke for root imports, registry recipes, CLI bin, and styles export, with no nested `node_modules`, React runtimes, or dispatcher artifacts.
 - `npm publish --dry-run --provenance --access public` — passed build, pack verification, React 18/Next integration smoke, React 19/Next integration smoke, and npm dry publish for `aura-glass@3.1.0`.
-- Dry-run tarball: `aura-glass-3.1.0.tgz`, 8.1 MB package size, 43.0 MB unpacked size, 2,045 files, shasum `5406a76a13fe86ee87d356cfce5753e2173aaee3`.
+- Dry-run tarball at the time of the 3.1.0 release candidate: `aura-glass-3.1.0.tgz`, 8.1 MB package size, 43.0 MB unpacked size, and 2,045 files. Current package-surface counts are tracked in `reports/3.1-release/package-surface-audit.md`.
 
 ## [3.0.7] - Unreleased
 
@@ -162,7 +176,7 @@
 ### Storybook Screenshot Certification
 
 - Published the AuraGlass `3.0.2` patch for the final Storybook screenshot certification pass.
-- Regenerated the 356-component visual certification with 712/712 desktop and mobile screenshots passing.
+- Regenerated the historical 356-entry visual certification with 712/712 desktop and mobile screenshots passing.
 - Added 89 manual QA contact sheets and a manual screenshot QA report under `reports/component-screenshot-manual-qa/`.
 
 ### Fixed
@@ -213,7 +227,7 @@
 
 - Repositioned AuraGlass as a 3.0 platform relaunch after the old public npm package remained on `2.16.2`.
 - Updated the npm package version and package metadata for the major public relaunch.
-- Rebuilt the README around the full 3.0 release: Liquid Glass, the 356-component certified inventory, runtime/security hardening, public API audits, package entrypoints, release gates, and current publish workflow.
+- Rebuilt the README around the full 3.0 release: Liquid Glass, the historical 356-entry certified inventory, runtime/security hardening, public API audits, package entrypoints, release gates, and current publish workflow.
 - Preserved the existing package export map while treating the release as a major product-line update.
 
 ### Added
@@ -246,7 +260,7 @@
 ### Verification
 
 - Full CI covers TypeScript, lint, token/style validation, glass validation, contrast tests, token exports, package exports, type fixtures, and Jest coverage.
-- Storybook visual certification records 356/356 passed entries with 712 screenshots.
+- Storybook visual certification records the historical 356/356 passed entries with 712 screenshots.
 - `npm publish --dry-run --provenance --access public` exercises build, pack verification, and both Next integration smokes before publishing.
 - `npm audit --audit-level=moderate` reports zero vulnerabilities in the verified release state.
 
@@ -260,7 +274,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.17.0] - 2026-05-05
 
 ### Release Readiness
-- Updated package metadata for the 356-component certified AuraGlass release line.
+- Updated package metadata for the historical 356-entry certified AuraGlass release line.
 - Normalized the release workflow around npm, including `prepublishOnly`, Storybook CI, and Next.js integration smoke tests.
 - Expanded optional peer dependency metadata so non-3D consumers do not receive unnecessary peer warnings.
 - Aligned React Three Fiber and Drei peer ranges to support React 18/Fiber 8/Drei 9 and React 19/Fiber 9/Drei 10 installation paths.
@@ -273,7 +287,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation
 - Reorganized flat component Markdown pages into numbered `docs/components` sections.
 - Rebuilt the root README as the current technical package guide with certification evidence, entrypoints, architecture, verification, and documentation maps.
-- Updated `docs/README.md`, `docs/components/README.md`, `INSTALLATION.md`, and `reports/README.md` to reflect the current 356-component inventory and certification state.
+- Updated `docs/README.md`, `docs/components/README.md`, `INSTALLATION.md`, and `reports/README.md` to reflect the then-current 356-entry inventory and certification state.
 - Added a reports index that links the inventory, Storybook visual certification artifacts, screenshots, and audit reports from one place.
 
 ## [2.16.2] - 2025-11-15
@@ -343,7 +357,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 🛠 Improvements
 - New SSR-safe environment helpers (`aura-glass/utils/env`), deterministic effect seeds, and exported build-time constants for automation pipelines.
-- Documentation refresh: Apple-grade README, clarified install/deploy workflows, and detailed marketing copy for 356 adaptive components.
+- Documentation refresh: Apple-grade README, clarified install/deploy workflows, and detailed marketing copy for the historical 356-entry adaptive component inventory.
 - Installation guide and sample apps now highlight the full peer dependency surface (Radix, lucide-react, react-hook-form, react-chartjs-2, @sentry/react, etc.).
 
 ### 📚 Notes
@@ -404,7 +418,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🌟 Major Accessibility Achievement
 
 #### 100% Reduced Motion Coverage (WCAG 2.1 AAA)
-- ✅ **All 356 components** now support `prefers-reduced-motion`
+- ✅ **All 356 historical inventory entries** now support `prefers-reduced-motion`
 - ✅ **WCAG 2.1 Level AAA** Success Criterion 2.3.3 (Animation from Interactions) - fully compliant
 - ✅ **Real-time adaptation** - Components respond instantly to system preference changes
 - ✅ **Zero functionality loss** - Full component functionality maintained without animations
@@ -415,7 +429,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed hooks in type annotations (64 errors)
 - Fixed malformed transition objects (10 errors)
 - Cleaned up 66+ malformed className patterns
-- Enhanced type safety across all 356 components
+- Enhanced type safety across all 356 historical inventory entries
 - **Zero TypeScript compilation errors** - Production-ready type definitions
 
 ### ✨ New Features
@@ -436,8 +450,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Metric | Status | Details |
 |--------|--------|---------|
-| Component Coverage | ✅ 356/356 (100%) | All components production-ready |
-| Reduced Motion | ✅ 356/356 (100%) | WCAG 2.1 AAA compliant |
+| Component Coverage | ✅ 356/356 (100%) | Historical inventory entries production-ready |
+| Reduced Motion | ✅ 356/356 (100%) | Historical inventory entries covered |
 | TypeScript Errors | ✅ 0 errors | 100% type safe (down from 361) 🎉 |
 | WCAG AAA Compliance | ✅ Certified | Success Criterion 2.3.3 fully met |
 
@@ -451,7 +465,7 @@ New comprehensive reports added to `/reports/`:
 ### 🛠️ Implementation Details
 
 #### Accessibility Strategy
-- **Global CSS**: All 356 components benefit from media queries
+- **Global CSS**: All 356 historical inventory entries benefit from media queries
 - **React Hooks**: 57 Framer Motion components with `useReducedMotion`
 - **Data Attributes**: 193 static components with `data-glass-component`
 - **Pre-existing**: 106 components already had reduced motion support
@@ -619,7 +633,7 @@ All audit findings documented in `/reports/`:
 - Design token system (AURA_GLASS)
 - Liquid Glass material physics
 - CSS Houdini integration
-- AI-powered components
+- AI-assisted components
 - Accessibility primitives
 - Performance optimization system
 

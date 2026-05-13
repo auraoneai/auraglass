@@ -4,8 +4,8 @@ This directory stores generated and hand-authored audit reports. The reports are
 
 ## Current Certification Evidence
 
-- [Component inventory JSON](./component_inventory.json): 356 canonical inventory entries.
-- [Storybook visual certification JSON](./glassmorphism-storybook-visual-certification.json): 356/356 passed entries.
+- [Component inventory JSON](./component_inventory.json): historical 3.0 certification inventory with 356 audited entries.
+- [Storybook visual certification JSON](./glassmorphism-storybook-visual-certification.json): historical 356/356 passed entries.
 - [Storybook visual certification Markdown](./glassmorphism-storybook-visual-certification.md): human-readable certification summary.
 - [Storybook exhaustive QA Markdown](./storybook-exhaustive-qa.md): 1,595 static Storybook stories crawled across desktop/mobile modes with zero hard failures and zero audit-run errors; remaining findings are visual heuristics retained for follow-up.
 - Release notes: [3.0.1 final QA patch](../RELEASE_NOTES_3.0.1.md) and [3.0.0 major release](../RELEASE_NOTES_3.0.0.md).

@@ -1,6 +1,6 @@
 # Genesis Revolutionary Security Guide
 
-Security review for Genesis revolutionary components should focus on collaboration, voice input, and browser capability boundaries.
+Security review for Genesis advanced components should focus on collaboration, voice input, and browser capability boundaries.
 
 ## Controls
 

@@ -21,7 +21,7 @@ This package repo records the website evidence requirements from `auraglass31PRD
 
 The 3.1 launch should not claim catalog completion until evidence shows:
 
-- website preview count matches the certified inventory count, or every intentional non-card item is documented
+- website preview count is reconciled against the verified 3.1 package-surface counts, or every intentional non-card item is documented
 - every certified component is represented or intentionally excluded with a reason
 - no hidden preview errors
 - no unexpected "Preview unavailable" cards

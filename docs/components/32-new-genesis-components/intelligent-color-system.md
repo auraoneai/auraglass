@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `IntelligentColorSystem` is a revolutionary AI-powered color adaptation system that analyzes content, adapts to time, season, and brand colors, providing intelligent color schemes that enhance user experience and accessibility.
+The `IntelligentColorSystem` is a advanced AI-assisted color adaptation system that analyzes content, adapts to time, season, and brand colors, providing intelligent color schemes that enhance user experience and accessibility.
 
 ## Features
 

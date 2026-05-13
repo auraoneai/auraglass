@@ -1,6 +1,6 @@
 # Genesis Revolutionary Performance Guide
 
-Genesis revolutionary components may use realtime collaboration, browser APIs, Houdini worklets, or speech features. Treat those capabilities as performance-sensitive surfaces.
+Genesis advanced components may use realtime collaboration, browser APIs, Houdini worklets, or speech features. Treat those capabilities as performance-sensitive surfaces.
 
 ## Checks
 

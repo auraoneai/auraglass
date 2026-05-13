@@ -1,4 +1,4 @@
-# AuraGlass by AuraOne 3.1
+# AuraGlass by AuraOne 3.1.1
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -10,6 +10,12 @@
 **AuraGlass by AuraOne: Liquid Glass components for React and Next.js.**
 
 AuraGlass by AuraOne is a production React and Next.js component system for Liquid Glass interfaces: premium dashboards, AI products, media tools, creator apps, data-heavy workspaces, and polished SaaS surfaces. It packages glass-native components, design tokens, motion, accessibility guardrails, SSR-safe entrypoints, optional 3D/media integrations, and release evidence in one npm library.
+
+## 3.1 Package Surface
+
+AuraGlass by AuraOne 3.1 ships 804 runtime exports for React and Next.js, including 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, 10 launch recipes, a scaffolding CLI, 19 functional sub-entrypoints, six token formats, and a complete Liquid Glass stylesheet.
+
+These are package-surface counts from the published `aura-glass` tarball and built `dist/` output. Older 356-entry certification reports are retained as historical 3.0 evidence and should not be used as the current 3.1 package export count.
 
 ```bash
 npm install aura-glass
@@ -36,6 +42,7 @@ Production links:
 - npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
 - 3.1 release evidence scaffold: [reports/3.1-release](./reports/3.1-release/README.md)
+- 3.1 package surface audit: [reports/3.1-release/package-surface-audit.md](./reports/3.1-release/package-surface-audit.md)
 
 ## Why AuraGlass
 
@@ -64,7 +71,7 @@ AuraGlass is not trying to be the smallest possible primitive kit. If you want n
 
 ## Flagship Components
 
-3.1 highlights a smaller set of flagship surfaces instead of leading with raw inventory count. The broader inventory remains available, but these are the components the launch should make easiest to evaluate first.
+3.1 highlights a smaller set of flagship surfaces instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
 
 | Product job | Start with |
 | --- | --- |
@@ -285,7 +292,7 @@ AuraGlass components are expected to preserve:
 - reduced-motion behavior for animation, transition, and physics effects
 - desktop and mobile Storybook renderability
 
-Current checked-in certification evidence from the 3.0 baseline reports 356/356 coverage for ContrastGuard, ARIA, focus management, reduced motion, direct docs, direct Storybook owner stories, and direct unit tests. The 3.1 package gates have also been rerun for the release candidate, including typecheck, CLI verification, pack/install smoke, npm dry publish, and React 18/19 Next.js integration smokes.
+Current package-surface evidence for 3.1 records 804 runtime exports, 439 component-like value exports, 121 hook exports, 29 provider exports, 10 launch recipes, and 19 functional sub-entrypoints. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence, but it is not the current 3.1 package export count. The 3.1 package gates have also been rerun for the release candidate, including typecheck, CLI verification, pack/install smoke, npm dry publish, and React 18/19 Next.js integration smokes.
 
 Primary evidence sources:
 
@@ -294,6 +301,7 @@ Primary evidence sources:
 - [Storybook visual certification report](./reports/glassmorphism-storybook-visual-certification.md)
 - [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
 - [3.1 accessibility and visual QA baseline](./reports/3.1-release/accessibility-and-visual-qa.md)
+- [3.1 package surface audit](./reports/3.1-release/package-surface-audit.md)
 
 ## Performance And SSR
 
@@ -357,7 +365,7 @@ Useful scripts:
 | `npm run lint:check` | Runs the repository lint check. |
 | `npm run lint:tokens` | Validates token rules. |
 | `npm run lint:styles` | Validates style rules. |
-| `npm run audit:components` | Prints component inventory, docs, story, test, accessibility, and certification coverage. |
+| `npm run audit:components` | Prints the historical certification inventory, docs, story, test, accessibility, and certification coverage. |
 | `npm run audit:exports` | Verifies public exports against source and declaration files. |
 | `npm run audit:api` | Reports public API typing, declaration, and ref-forwarding follow-ups. |
 | `npm run audit:runtime` | Reports production-source console, debugger, and TODO/FIXME findings. |
@@ -409,6 +417,7 @@ git diff --check
 
 - [Launch evidence index](./reports/3.1-release/README.md)
 - [Package gates](./reports/3.1-release/package-gates.md)
+- [Package surface audit](./reports/3.1-release/package-surface-audit.md)
 - [Flagship components](./reports/3.1-release/flagship-components.md)
 - [Catalog and website evidence](./reports/3.1-release/catalog-and-website-evidence.md)
 - [Accessibility and visual QA](./reports/3.1-release/accessibility-and-visual-qa.md)

@@ -1,7 +1,7 @@
 # GlassWeatherGlass
 
 ## Overview
-`GlassWeatherGlass` is tracked in the AuraGlass component inventory and participates in the glassmorphism visual certification workflow. This page provides direct component documentation coverage for the inventory item and links the component to its owner story, visual certification evidence, and implementation source.
+`GlassWeatherGlass` is tracked in the AuraGlass historical certification inventory and participates in the glassmorphism visual certification workflow. This page provides direct component documentation coverage for the inventory item and links the component to its owner story, visual certification evidence, and implementation source.
 
 ## Inventory Metadata
 

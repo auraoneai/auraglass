@@ -204,7 +204,7 @@ echo "✅ Pre-commit checks passed!"
 **Current Metrics:**
 - Overall Score: 95%
 - Components: 142
-- Test Files: 356
+- Historical test files: 356
 - TypeScript Errors: 0
 - ContrastGuard Coverage: 21.6%
 - ARIA Coverage: 100%
@@ -299,8 +299,8 @@ start reports/dashboard.html  # Windows
 
 ## 📊 Project Statistics
 
-- **Total Components:** 142
-- **Test Files:** 356
+- **Historical Component Sample:** 142
+- **Historical Test Files:** 356
 - **TypeScript Errors:** 0
 - **ESLint Errors:** 0
 - **Code Coverage:** 100%

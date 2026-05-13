@@ -14,7 +14,7 @@ This comprehensive guide covers all accessibility features and enhancements impl
 
 ## 🔍 Overview
 
-AuraGlass provides comprehensive accessibility support across all components, including:
+AuraGlass provides accessibility guidance across the current 3.1 package surface, including:
 
 - **WCAG 2.1 AA Compliance**: All components meet or exceed accessibility standards
 - **Keyboard Navigation**: Full keyboard support with logical tab order
@@ -25,9 +25,9 @@ AuraGlass provides comprehensive accessibility support across all components, in
 - **Assistive Technology**: Compatible with all major screen readers
 
 ### Accessibility Status
-- **Total Components**: 630 components
-- **Components with Accessibility**: 630 components (100%)
-- **WCAG 2.1 AA Compliance**: ✅ Complete
+- **Current 3.1 package surface**: 804 runtime exports, including 439 component-like value exports
+- **Historical accessibility certification**: 356/356 audited inventory entries retained as legacy evidence
+- **WCAG 2.1 AA Guidance**: documented for package consumers
 - **Screen Reader Tested**: ✅ NVDA, JAWS, VoiceOver
 - **Keyboard Navigation**: ✅ Full support
 

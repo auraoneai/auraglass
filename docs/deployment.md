@@ -120,7 +120,7 @@ AuraGlass/
 │   │   ├── auth/            # Authentication & authorization
 │   │   └── websocket/       # Real-time collaboration
 │   └── components/
-│       └── ai/              # AI-powered React components
+│       └── ai/              # AI-assisted React components
 ├── server/
 │   ├── api-server.js        # Express API server
 │   └── websocket-server.js  # Socket.io server

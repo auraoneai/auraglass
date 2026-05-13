@@ -4,7 +4,7 @@ Generated: 2026-05-08T07:47:05.458Z
 
 ## Scope
 
-- Inventory components checked: 356
+- Historical inventory entries checked: 356
 - Screenshots generated: 712
 - Viewports per component: desktop and mobile
 - Contact sheets generated: 89
@@ -13,7 +13,7 @@ Generated: 2026-05-08T07:47:05.458Z
 
 ## Result
 
-All 356 inventory components passed the automated Storybook visual certification on the final run. The manual review pass covered sheets 001-089. After fixes were applied, the changed/problem areas were rechecked on the regenerated final sheets:
+All 356 historical inventory entries passed the automated Storybook visual certification on the final run. The manual review pass covered sheets 001-089. After fixes were applied, the changed/problem areas were rechecked on the regenerated final sheets:
 
 - `sheet-024.png`: collaborative cursor and cookie consent stories now render visibly.
 - `sheet-027.png`: GlassAlert no longer overflows mobile and has readable text.
@@ -37,7 +37,7 @@ Final certification status:
 
 ```json
 {
-  "componentCount": 356,
+  "historicalInventoryEntryCount": 356,
   "expectedScreenshotCount": 712,
   "screenshotCount": 712,
   "statusCounts": {

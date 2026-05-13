@@ -1,6 +1,6 @@
 # Genesis Revolutionary API Reference
 
-This page indexes the Genesis revolutionary component APIs documented in this section.
+This page indexes the Genesis advanced component APIs documented in this section.
 
 ## Components
 

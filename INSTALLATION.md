@@ -133,7 +133,7 @@ npm run audit:components
 
 ## Verification Commands
 
-- `npm run audit:components`: validates component inventory, docs, stories, tests, accessibility metadata, and certification coverage.
+- `npm run audit:components`: validates the historical certification inventory, docs, stories, tests, accessibility metadata, and certification coverage.
 - `npm run typecheck`: validates TypeScript.
 - `npm run lint:check`: validates lint rules.
 - `npm run lint:tokens`: validates token constraints.

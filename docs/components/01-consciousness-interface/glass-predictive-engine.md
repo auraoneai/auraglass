@@ -1,5 +1,5 @@
 ### GlassPredictiveEngine
-AI-powered system that learns user behavior and anticipates interface needs with neural networks.
+AI-assisted system that learns user behavior and anticipates interface needs with neural networks.
 
 ```tsx
 import {

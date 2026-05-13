@@ -6,9 +6,9 @@ AuraGlass 3.0.0 is the public platform relaunch from the old `2.16.2` npm packag
 
 - Full 3.0 README and npm discovery refresh with SEO-oriented package copy, badges, install snippets, public entrypoints, release-gate evidence, and clearer positioning for React, Next.js, TypeScript, Liquid Glass, glassmorphism, dashboards, accessibility, Storybook, and 3D/AR.
 - Dedicated Liquid Glass system with 32 public value exports plus related type exports, covering material primitives, grouped effects, scroll edges, source transitions, toolbar/tab/sidebar surfaces, overlays, media controls, search, map controls, inspection UI, and `LiquidGlassShowcase`.
-- Preserved 356-component certified inventory with complete direct Storybook, docs, unit-test, accessibility metadata, and visual certification coverage.
+- Preserved the historical 356-entry certified inventory with complete direct Storybook, docs, unit-test, accessibility metadata, and visual certification coverage.
 - Added `docs/components/choosing.md` so developers and AI agents can select components by product job instead of being overwhelmed by a flat component list.
-- Storybook visual certification refreshed with 356/356 passed entries and 712 desktop/mobile screenshots.
+- Storybook visual certification refreshed with the historical 356/356 passed entries and 712 desktop/mobile screenshots.
 - Storybook navigation reorganized into developer-intent taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
 - Static Storybook exhaustive QA crawled 1,595 stories across desktop Liquid Glass, desktop dark, and mobile Liquid Glass modes with zero hard failures and zero audit-run errors.
 - React 18 and React 19 consumer validation through Next 14 and Next 15 tarball smoke tests.
@@ -32,7 +32,7 @@ The publish dry run completed `prepublishOnly`, including the Next 14 / React 18
 
 ## Current Evidence
 
-- Certified component inventory: 356.
+- Historical certified inventory entries: 356.
 - Liquid Glass public value exports: 32.
 - Public root exports audited: 797.
 - Runtime cleanliness findings: 0.

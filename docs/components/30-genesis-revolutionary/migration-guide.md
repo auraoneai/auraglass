@@ -1,6 +1,6 @@
 # Genesis Revolutionary Migration Guide
 
-Use Genesis revolutionary components as progressive enhancements over standard AuraGlass surfaces.
+Use Genesis advanced components as progressive enhancements over standard AuraGlass surfaces.
 
 ## Migration Steps
 
