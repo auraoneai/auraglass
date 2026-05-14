@@ -88,6 +88,7 @@ Current pack reconciliation:
 
 - Manual screen-reader pass for final release candidate.
 - Manual mobile/touch pass for final release candidate. Automated packed-package mobile viewport evidence exists for the 390x844 app shell baseline, but physical touch QA has not been recorded.
+- Manual certification runbook: `reports/3.2-release/manual-certification-runbook.md`.
 
 ## Publishing Readiness
 

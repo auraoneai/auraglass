@@ -49,11 +49,13 @@ AuraGlass 3.2 is a self-contained Liquid Glass app-surface system for React and 
 | [storybook-evidence.md](./storybook-evidence.md) | Storybook evidence for real first-party icon gallery and app-chrome visual composition. | Verified |
 | [workflow-components.md](./workflow-components.md) | Phase 12 production workflow component source, export, docs, Storybook, and focused test evidence. | Verified by focused tests |
 | [vite-integration.json](./vite-integration.json) | Machine-readable Vite tarball-build smoke result. | Verified |
+| [manual-certification-runbook.md](./manual-certification-runbook.md) | Human screen-reader and physical-device touch certification steps for the remaining non-code release follow-up. | Pending manual execution |
 
 ## Remaining Release Follow-Ups
 
 - Run a manual screen-reader pass for menus, selects, overlays, and app-shell navigation before calling the accessibility certification complete.
 - Run a physical-device mobile/touch pass before describing the mobile behavior as manually certified. The packed-package Chromium mobile viewport baseline is recorded in `app-chrome-visual-evidence.md`, but it is not a physical touch pass.
+- Use [manual-certification-runbook.md](./manual-certification-runbook.md) to record the remaining human certification pass.
 - Resolve the remaining warning-only historical design-system lint findings in a separate cleanup pass if the release bar requires zero warnings.
 - npm is published, public `latest` resolves to `3.2.0`, and the GitHub `v3.2.0` release/tag is live.
 
