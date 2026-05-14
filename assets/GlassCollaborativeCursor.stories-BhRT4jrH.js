@@ -1,0 +1,7 @@
+import{j as s}from"./iframe-D2N3vCdj.js";import{G as a}from"./GlassCollaborativeCursor-H2cMXV2G.js";import{G as o}from"./GlassCollaborationProvider-ChbaG_4x.js";import"./preload-helper-PPVm8Dsz.js";const m={title:"Workflows/Glass Collaborative Cursor",component:a,parameters:{layout:"centered",docs:{description:{component:"Component-owned Storybook coverage for GlassCollaborativeCursor."}}}},r=[{id:"preview-reviewer",name:"Maya",email:"maya@example.com",color:"#14b8a6",cursor:{x:96,y:42},lastActive:Date.now()},{id:"preview-designer",name:"Jon",email:"jon@example.com",color:"#6366f1",cursor:{x:220,y:86},lastActive:Date.now()}],e={render:()=>s.jsx("div",{className:"glass-relative glass-h-32 glass-w-96 glass-overflow-hidden glass-radius-lg glass-surface-subtle",children:s.jsx(o,{roomId:"storybook-owned-cursor",enableRealTime:!1,children:s.jsx(a,{className:"glass-absolute glass-inset-0",previewUsers:r})})})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  render: () => <div className="glass-relative glass-h-32 glass-w-96 glass-overflow-hidden glass-radius-lg glass-surface-subtle">
+      <Provider roomId="storybook-owned-cursor" enableRealTime={false}>
+        <Component className="glass-absolute glass-inset-0" previewUsers={previewUsers} />
+      </Provider>
+    </div>
+}`,...e.parameters?.docs?.source}}};const c=["Default"];export{e as Default,c as __namedExportsOrder,m as default};
