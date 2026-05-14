@@ -23,7 +23,7 @@ import {
     User,
     Wind,
     Zap
-} from 'lucide-react';
+} from "@/icons";
 import { GlassTessellation, type TessellationTile } from './GlassTessellation';
 
 // Basic geometric tiles

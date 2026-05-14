@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import { Check, Palette, RotateCcw } from "lucide-react";
+import { Check, Palette, RotateCcw } from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

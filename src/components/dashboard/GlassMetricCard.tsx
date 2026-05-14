@@ -8,7 +8,7 @@ import {
   TrendingDown,
   TrendingUp,
   Users,
-} from "lucide-react";
+} from "@/icons";
 import React, { forwardRef } from "react";
 import { Motion } from "../../primitives";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";

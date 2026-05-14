@@ -16,6 +16,7 @@ import { render, screen } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
 import { GlassMenubar } from "@/components/navigation/GlassMenubar";
+import { GlassMenuPrimitiveRoot } from "@/components/navigation/GlassMenuPrimitive";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
@@ -121,5 +122,39 @@ describe("GlassMenubar", () => {
     expect(menubars.length).toBeGreaterThan(1);
     expect(containedContent).toBeInTheDocument();
     expect(container).toContainElement(containedContent as HTMLElement);
+  });
+
+  it("is built on the shared GlassMenuPrimitive root", () => {
+    render(<GlassMenubar items={items} data-testid="primitive-menubar" />);
+    const menubar = screen.getByTestId("primitive-menubar");
+    expect(menubar).toHaveAttribute("data-glass-component");
+    expect(menubar).toHaveAttribute("role", "menubar");
+  });
+
+  it("supports arrow-key navigation between top-level items", async () => {
+    const user = userEvent.setup();
+    render(
+      <GlassMenubar
+        items={[
+          { id: "file", label: "File" },
+          { id: "edit", label: "Edit" },
+          { id: "view", label: "View" },
+        ]}
+      />
+    );
+
+    const file = screen.getByRole("menuitem", { name: "File" });
+    file.focus();
+    await user.keyboard("{ArrowRight}");
+    expect(screen.getByRole("menuitem", { name: "Edit" })).toHaveFocus();
+    await user.keyboard("{End}");
+    expect(screen.getByRole("menuitem", { name: "View" })).toHaveFocus();
+  });
+
+  it("exports the shared primitive root for composition", () => {
+    render(<GlassMenuPrimitiveRoot aria-label="Primitive menu" />);
+    expect(
+      screen.getByRole("menubar", { name: "Primitive menu" })
+    ).toBeInTheDocument();
   });
 });

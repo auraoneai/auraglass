@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MessageSquareText } from "lucide-react";
+import { MessageSquareText } from "@/icons";
 import { GlassTextarea } from "./GlassTextarea";
 
 const meta: Meta<typeof GlassTextarea> = {

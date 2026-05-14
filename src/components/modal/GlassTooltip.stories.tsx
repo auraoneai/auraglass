@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Info, Keyboard, MousePointer2, ShieldCheck } from "lucide-react";
+import { Info, Keyboard, MousePointer2, ShieldCheck } from "@/icons";
 import {
   GlassTooltip,
   GlassTooltipContent,

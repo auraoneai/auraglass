@@ -2,7 +2,7 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AnimatePresence, motion } from "framer-motion";
-import { RotateCcw, Triangle, Zap } from "lucide-react";
+import { RotateCcw, Triangle, Zap } from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import * as THREE from "three";
@@ -242,7 +242,7 @@ export interface GlassShatterEffectsProps {
 export function GlassShatterEffectsR3F(props: GlassShatterEffectsProps) {
   const {
     children,
-    className="",
+    className = "",
     trigger = "click",
     duration = 2,
     intensity = 1,

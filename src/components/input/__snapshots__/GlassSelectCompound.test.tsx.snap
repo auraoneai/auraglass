@@ -3,7 +3,7 @@
 exports[`GlassSelectCompound matches snapshot 1`] = `
 <button
   aria-autocomplete="none"
-  aria-controls="radix-:r9:"
+  aria-controls=":r3:"
   aria-expanded="false"
   aria-label="Select option"
   class="glass-select-trigger group flex w-full items-center justify-between glass-radius-lg glass-backdrop-blur-md transition-all duration-200 text-foreground placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background glass-disabled-cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 h-10 glass-px-3 glass-py-2 glass-text-sm bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary"
@@ -21,7 +21,7 @@ exports[`GlassSelectCompound matches snapshot 1`] = `
   </span>
   <svg
     aria-hidden="true"
-    class="lucide lucide-chevron-down glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180"
+    class="glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180"
     fill="none"
     height="24"
     stroke="currentColor"

@@ -10,7 +10,7 @@ import {
   Sparkles,
   Sun,
   Zap,
-} from "lucide-react";
+} from "@/icons";
 import React, { useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { useGlassEffect, useHoudiniGlass } from "./HoudiniGlassProvider";

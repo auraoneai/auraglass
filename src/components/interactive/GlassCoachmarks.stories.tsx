@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { BarChart3, Bell, Settings } from "lucide-react";
+import { BarChart3, Bell, Settings } from "@/icons";
 import { GlassCoachmarks } from "./GlassCoachmarks";
 
 const steps = [

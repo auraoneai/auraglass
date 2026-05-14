@@ -12,7 +12,7 @@ import {
   MoreHorizontal,
   Reply,
   Video,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { useReducedMotion } from "../../hooks/useReducedMotion";

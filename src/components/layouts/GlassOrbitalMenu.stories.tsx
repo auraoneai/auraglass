@@ -18,7 +18,7 @@ import {
     Share,
     Trash2,
     User
-} from 'lucide-react';
+} from "@/icons";
 import { GlassOrbitalMenu, type OrbitalMenuItem } from './GlassOrbitalMenu';
 
 // Mock menu items with icons

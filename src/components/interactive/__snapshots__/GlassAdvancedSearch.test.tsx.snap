@@ -33,7 +33,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-search glass-w-5 glass-h-5"
+              class="glass-w-5 glass-h-5"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -44,13 +44,13 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="m21 21-4.34-4.34"
-              />
               <circle
                 cx="11"
                 cy="11"
-                r="8"
+                r="7"
+              />
+              <path
+                d="m20 20-4.2-4.2"
               />
             </svg>
             Advanced Search
@@ -73,7 +73,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-save glass-w-4 glass-h-4"
+                  class="glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -85,13 +85,13 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+                    d="M5 3h12l2 2v16H5Z"
                   />
                   <path
-                    d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"
+                    d="M8 3v6h8V3"
                   />
                   <path
-                    d="M7 3v4a1 1 0 0 0 1 1h7"
+                    d="M8 21v-7h8v7"
                   />
                 </svg>
               </button>
@@ -110,7 +110,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="lucide lucide-funnel glass-w-4 glass-h-4"
+                  class="glass-w-4 glass-h-4"
                   fill="none"
                   height="24"
                   stroke="currentColor"
@@ -122,7 +122,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"
+                    d="M4 5h16l-6 7v6l-4 2v-8Z"
                   />
                 </svg>
               </button>
@@ -141,7 +141,7 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-text-primary-glass-opacity-60 glass-w-4 glass-h-4"
+              class="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-text-primary-glass-opacity-60 glass-w-4 glass-h-4"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -152,13 +152,13 @@ exports[`GlassAdvancedSearch matches snapshot 1`] = `
               width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="m21 21-4.34-4.34"
-              />
               <circle
                 cx="11"
                 cy="11"
-                r="8"
+                r="7"
+              />
+              <path
+                d="m20 20-4.2-4.2"
               />
             </svg>
             <input

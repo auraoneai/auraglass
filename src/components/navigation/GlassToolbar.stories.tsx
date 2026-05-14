@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentProps } from "react";
-import { Bell, Filter, Search, Share2 } from "lucide-react";
+import { Bell, Filter, Search, Share2 } from "@/icons";
 import { GlassButton } from "../button/GlassButton";
 import { GlassToolbar } from "./GlassToolbar";
 

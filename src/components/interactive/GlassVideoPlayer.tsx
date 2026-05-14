@@ -12,7 +12,7 @@ import {
   SkipForward,
   Volume2,
   VolumeX,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

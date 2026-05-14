@@ -2,11 +2,9 @@
 
 import React from "react";
 
-import { OptimizedGlass } from "../../primitives";
+import { Label, OptimizedGlass, Slot } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { Slot } from "@radix-ui/react-slot";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle } from "../../icons";
 import {
   Controller,
   ControllerProps,
@@ -123,7 +121,7 @@ GlassFormItem.displayName = "GlassFormItem";
 
 // Glass Form Label
 export interface GlassFormLabelProps
-  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
+  extends React.ComponentPropsWithoutRef<typeof Label> {
   /** Label size variant */
   size?: "sm" | "md" | "lg";
   /** Whether to show required indicator */
@@ -131,7 +129,7 @@ export interface GlassFormLabelProps
 }
 
 const GlassFormLabel = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
+  React.ElementRef<typeof Label>,
   GlassFormLabelProps
 >(({ className, size = "md", required = false, ...props }, ref) => {
   const { error, formItemId } = useFormField();

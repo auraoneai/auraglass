@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { BarChart3, Gauge, ShieldCheck } from "lucide-react";
+import { BarChart3, Gauge, ShieldCheck } from "@/icons";
 import { GlassRadioGroup } from "./GlassRadioGroup";
 
 const options = [

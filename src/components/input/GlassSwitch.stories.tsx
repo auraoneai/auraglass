@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Bell, ShieldCheck, Zap } from "lucide-react";
+import { Bell, ShieldCheck, Zap } from "@/icons";
 import { GlassSwitch } from "./GlassSwitch";
 
 const meta: Meta<typeof GlassSwitch> = {

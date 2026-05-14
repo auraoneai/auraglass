@@ -12,7 +12,7 @@ import {
   Waves,
   Wind,
   Zap,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import * as THREE from "three";

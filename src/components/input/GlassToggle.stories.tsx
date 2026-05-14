@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Bold, Columns3, Grid3X3, Italic, List, Underline } from "lucide-react";
+import { Bold, Columns3, Grid3X3, Italic, List, Underline } from "@/icons";
 import { GlassToggle, GlassToggleGroup, GlassToggleGroupItem } from "./GlassToggle";
 
 const meta: Meta<typeof GlassToggle> = {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentProps } from "react";
 import { fn } from "@storybook/test";
-import { Copy, FileCheck2, PanelsTopLeft, RotateCcw, Save, Undo2 } from "lucide-react";
+import { Copy, FileCheck2, PanelsTopLeft, RotateCcw, Save, Undo2 } from "@/icons";
 import { GlassCommandBar } from "./GlassCommandBar";
 
 const meta: Meta<typeof GlassCommandBar> = {

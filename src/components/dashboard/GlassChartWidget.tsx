@@ -11,7 +11,7 @@ import {
   RefreshCw,
   Settings,
   TrendingUp,
-} from "lucide-react";
+} from "@/icons";
 import React, { useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

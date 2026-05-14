@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "../../lib/utilsComprehensive";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle } from "@/icons";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";

@@ -43,6 +43,12 @@ jobs:
       
     - name: Build verification
       run: npm run build
+
+    - name: Dependency sovereignty gate
+      run: npm run lint:no-core-ui-deps
+
+    - name: Tree-shaking gate
+      run: npm run test:tree-shaking -- --strict
       
     - name: Glass surface count verification
       run: |
@@ -83,6 +89,9 @@ jobs:
       run: |
         echo "Running comprehensive accessibility tests..."
         npm test -- --testPathPattern=a11y --verbose
+
+    - name: App-chrome axe verification
+      run: npm run test:a11y:app-chrome
         
     - name: API surface lock verification
       run: |
@@ -161,3 +170,60 @@ jobs:
 
     - name: Run Next.js integration smoke test
       run: npm run test:integration:next
+
+  vite-integration-smoke:
+    name: Vite npm Integration
+    runs-on: ubuntu-latest
+    needs: glass-quality-gates
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run Vite integration smoke test
+      run: npm run test:integration:vite
+
+  app-chrome-visual-baselines:
+    name: App Chrome Visual Baselines
+    runs-on: ubuntu-latest
+    needs: glass-quality-gates
+    if: github.event_name == 'pull_request'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Install Playwright Chromium
+      run: npx playwright install --with-deps chromium
+
+    - name: Run app-chrome visual baseline gate
+      run: npm run test:visual:app-chrome
+
+    - name: Archive app-chrome visual artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-chrome-visual-baselines
+        path: |
+          reports/3.2-release/app-chrome-visual-evidence.json
+          reports/3.2-release/app-chrome-visual-evidence.md
+          reports/3.2-release/app-chrome-visuals/
+          reports/3.2-release/app-chrome-visual-server.log

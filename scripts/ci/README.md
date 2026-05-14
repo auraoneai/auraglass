@@ -55,6 +55,99 @@ node style-audit.js "**/*.tsx"        # Custom glob pattern
 npm run lint:styles                   # Via npm script
 ```
 
+### 🚫 `verify-no-core-ui-deps.js`
+**Purpose**: Enforces the AuraGlass 3.2 dependency-elimination gate for core app chrome.
+
+**Checks:**
+- Forbidden production metadata entries in `dependencies`, `peerDependencies`, and `peerDependenciesMeta`
+- Forbidden source imports from MUI/material, Radix, Lucide, and legacy Material packages
+- Current docs references outside migration docs and release reports
+
+**Usage:**
+```bash
+node scripts/ci/verify-no-core-ui-deps.js
+node scripts/ci/verify-no-core-ui-deps.js --json
+```
+
+### 🌳 `verify-tree-shaking.js`
+**Purpose**: Tracks AuraGlass 3.2 export-map and bundle-sovereignty requirements for icons, primitives, app shell, workspace, and theme entrypoints.
+
+**Checks:**
+- Required 3.2 sub-entrypoints in `package.json.exports`
+- Scoped `sideEffects` metadata
+- Built runtime output for forbidden core UI package signals in strict mode
+- esbuild bundle scenarios in strict mode
+
+**Usage:**
+```bash
+node scripts/ci/verify-tree-shaking.js
+node scripts/ci/verify-tree-shaking.js --strict
+node scripts/ci/verify-tree-shaking.js --json
+```
+
+### ⚡ `run-vite-integration.js`
+**Purpose**: Packs the local AuraGlass build into a temporary Vite React app and verifies production bundling from the npm tarball.
+
+**Checks:**
+- Root `aura-glass` imports
+- `aura-glass/app-shell`
+- `aura-glass/icons/navigation`
+- `aura-glass/primitives/slot`
+- `aura-glass/theme`
+- `aura-glass/styles`
+
+**Usage:**
+```bash
+npm run test:integration:vite
+npm run test:integration:vite -- --skip-build
+```
+
+### 🧾 `verify-recipes-render.js`
+**Purpose**: Proves package recipes are not only registry metadata. The script packs AuraGlass, scaffolds every recipe through the public CLI, builds a generated Vite app, opens it in Chromium, and captures one screenshot per recipe.
+
+**Outputs:**
+- `reports/3.2-release/recipe-render-evidence.json`
+- `reports/3.2-release/recipe-render-evidence.md`
+- `reports/3.2-release/recipe-screenshots/*.png`
+
+**Usage:**
+```bash
+npm run test:recipes:render
+npm run test:recipes:render -- --skip-build
+```
+
+### 🖼️ `verify-app-chrome-visuals.js`
+**Purpose**: Proves the 3.2 app-chrome replacement surfaces render and respond to basic browser interactions from the packed npm tarball through public package entrypoints. The script creates a temporary Vite app, renders targeted visual fixtures, opens them in Chromium, captures screenshots, and runs focused keyboard/interaction checks.
+
+**Targets:**
+- First-party icon gallery
+- Native dropdown menu
+- Native select
+- Dialog, drawer, popover, and tooltip
+- Tabs
+- Command palette
+- Mobile shell
+- Reduced-motion baseline
+
+**Keyboard and interaction checks:**
+- Dropdown opens from keyboard and closes on escape
+- Select opens from keyboard and closes on escape
+- Tabs support arrow-key activation
+- Dialog and drawer close on escape
+- Tooltip appears on pointer hover
+- Command palette search filters commands
+
+**Outputs:**
+- `reports/3.2-release/app-chrome-visual-evidence.json`
+- `reports/3.2-release/app-chrome-visual-evidence.md`
+- `reports/3.2-release/app-chrome-visuals/*.png`
+
+**Usage:**
+```bash
+npm run test:visual:app-chrome
+npm run test:visual:app-chrome -- --skip-build
+```
+
 ## 🚀 Integration Points
 
 Both scripts are integrated into multiple layers:

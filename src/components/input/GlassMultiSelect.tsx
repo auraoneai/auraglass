@@ -735,6 +735,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
             className={styles.optionList}
             role="listbox"
             id={`${inputId}-listbox`}
+            aria-multiselectable="true"
           >
             {filteredGroups.map(({ group, options: groupOptions }) => (
               <React.Fragment
@@ -774,6 +775,7 @@ const GlassMultiSelectInternal = <T extends string | number = string | number>(
                       key={key}
                       role="option"
                       aria-selected={isSelected}
+                      aria-disabled={option.disabled || undefined}
                       className={optionClassName}
                       onClick={(event) => {
                         event.preventDefault();

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { BarChart3, LayoutDashboard, Settings } from "lucide-react";
+import { BarChart3, LayoutDashboard, Settings } from "@/icons";
 import TabItem from "./TabItem";
 
 const meta: Meta<typeof TabItem> = {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info } from "@/icons";
 import { GlassLabel } from "./GlassLabel";
 import { GlassInput } from "./GlassInput";
 

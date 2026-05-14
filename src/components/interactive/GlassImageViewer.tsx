@@ -14,7 +14,7 @@ import {
   X,
   ZoomIn,
   ZoomOut,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
@@ -625,7 +625,9 @@ export const GlassImageViewer: React.FC<GlassImageViewerProps> = ({
                   <span
                     className={cn(
                       "glass-text-primary-glass-opacity-80 glass-text-sm glass-text-center",
-                      compact ? "glass-min-w-10 glass-px-1" : "glass-min-w-16 glass-px-2"
+                      compact
+                        ? "glass-min-w-10 glass-px-1"
+                        : "glass-min-w-16 glass-px-2"
                     )}
                   >
                     {Math.round(zoom * 100)}%

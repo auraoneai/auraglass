@@ -11,7 +11,7 @@ import {
   TrendingUp,
   Users,
   Zap,
-} from "lucide-react";
+} from "@/icons";
 import React from "react";
 import { Motion } from "../../primitives";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";

@@ -92,7 +92,7 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-circle-check-big glass-w-4 glass-h-4"
+                    class="glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -103,11 +103,13 @@ exports[`GlassMultiStepForm matches snapshot 1`] = `
                     width="24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M21.801 10A10 10 0 1 1 17 3.335"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
                     />
                     <path
-                      d="m9 11 3 3L22 4"
+                      d="m5 12 4 4L19 6"
                     />
                   </svg>
                   Submit

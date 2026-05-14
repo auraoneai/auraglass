@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Download, MessageSquare, Share2 } from "lucide-react";
+import { Download, MessageSquare, Share2 } from "@/icons";
 import SpeedDialAction from "./SpeedDialAction";
 
 const meta: Meta<typeof SpeedDialAction> = {

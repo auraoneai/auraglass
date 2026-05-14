@@ -25,7 +25,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevrons-left glass-w-4 glass-h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -58,7 +58,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevron-left glass-w-4 glass-h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -174,7 +174,7 @@ exports[`GlassPagination matches snapshot 1`] = `
         >
           <svg
             aria-hidden="true"
-            class="lucide lucide-ellipsis glass-w-4 glass-h-4"
+            class="glass-w-4 glass-h-4"
             fill="none"
             height="24"
             stroke="currentColor"
@@ -186,19 +186,25 @@ exports[`GlassPagination matches snapshot 1`] = `
             xmlns="http://www.w3.org/2000/svg"
           >
             <circle
+              cx="6"
+              cy="12"
+              fill="currentColor"
+              r="1"
+              stroke="none"
+            />
+            <circle
               cx="12"
               cy="12"
+              fill="currentColor"
               r="1"
+              stroke="none"
             />
             <circle
-              cx="19"
+              cx="18"
               cy="12"
+              fill="currentColor"
               r="1"
-            />
-            <circle
-              cx="5"
-              cy="12"
-              r="1"
+              stroke="none"
             />
           </svg>
         </div>
@@ -229,7 +235,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevron-right glass-w-4 glass-h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -258,7 +264,7 @@ exports[`GlassPagination matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevrons-right glass-w-4 glass-h-4"
+          class="glass-w-4 glass-h-4"
           fill="none"
           height="24"
           stroke="currentColor"

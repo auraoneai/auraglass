@@ -11,7 +11,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { motion } from "framer-motion";
-import { AlertCircle, Eye, EyeOff, Hand, Info, Loader2 } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, Hand, Info, Loader2 } from "@/icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { cn } from "../../lib/utilsComprehensive";

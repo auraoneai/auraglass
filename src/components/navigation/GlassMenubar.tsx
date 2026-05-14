@@ -1,11 +1,13 @@
 "use client";
-import { GlassButton } from "../button/GlassButton";
-
 import { cn } from "../../lib/utilsComprehensive";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight } from "@/icons";
 import React, { useEffect, useRef, useState } from "react";
-import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
+import {
+  GlassMenuPrimitiveContent,
+  GlassMenuPrimitiveItem,
+  GlassMenuPrimitiveRoot,
+} from "./GlassMenuPrimitive";
 
 export interface MenuItem {
   id: string;
@@ -178,27 +180,12 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
   };
 
   return (
-    <OptimizedGlass
-      data-glass-component
+    <GlassMenuPrimitiveRoot
       data-testid={dataTestId}
-      intent="neutral"
-      elevation="level2"
-      intensity="medium"
-      depth={2}
-      tint="neutral"
-      border="subtle"
-      animation="none"
-      performanceMode="medium"
-      className={cn(
-        "relative glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5",
-        orientation === "horizontal" ? "flex flex-row" : "flex flex-col",
-        disabled && "opacity-50 pointer-events-none",
-        className
-      )}
-      role="menubar"
+      orientation={orientation}
+      disabled={disabled}
+      className={cn(className)}
       aria-label={ariaLabel}
-      aria-orientation={orientation}
-      aria-disabled={disabled}
     >
       {items.map((item, index) => (
         <React.Fragment key={item?.id}>
@@ -254,7 +241,7 @@ export const GlassMenubar: React.FC<GlassMenubarProps> = ({
           )}
         </React.Fragment>
       ))}
-    </OptimizedGlass>
+    </GlassMenuPrimitiveRoot>
   );
 };
 
@@ -321,25 +308,14 @@ export const GlassMenubarContent: React.FC<GlassMenubarContentProps> = ({
       duration={150}
       style={{ ...(positionStyle || {}) }}
     >
-      <OptimizedGlass
-        intent="neutral"
-        elevation={"level3"}
-        intensity="strong"
-        depth={2}
-        tint="neutral"
-        border="subtle"
-        animation="none"
-        performanceMode="medium"
+      <GlassMenuPrimitiveContent
         ref={contentRef}
-        className={cn(
-          "glass-backdrop-blur-md bg-black/20 border border-white/20 shadow-2xl",
-          "min-w-48 glass-py-1",
-          className
-        )}
-        data-position-strategy={positionStrategy}
+        className={className}
+        positionStrategy={positionStrategy}
+        onDismiss={onClose}
       >
         {children}
-      </OptimizedGlass>
+      </GlassMenuPrimitiveContent>
     </Motion>
   );
 };
@@ -394,7 +370,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
     const menubar = current.closest('[role="menubar"]') as HTMLElement | null;
     if (!menubar) return;
     const items = Array.from(
-      menubar.querySelectorAll('button?.[role="menuitem"]')
+      menubar.querySelectorAll('button[role="menuitem"]')
     ) as HTMLButtonElement[];
     const index = items.indexOf(current);
     if (index === -1) return;
@@ -429,17 +405,12 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
   };
 
   return (
-    <GlassButton
+    <GlassMenuPrimitiveItem
       className={cn(
-        "relative flex items-center justify-between w-full",
-        "glass-text-primary/80 hover:glass-text-primary transition-colors duration-200",
-        "hover:bg-white/10 glass-radius-md glass-hover--translate-y-0-5",
         "after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-primary after:transition-all after:duration-200",
         isHovered || hasSubmenuOpen
           ? "after:opacity-100 after:w-full"
           : "after:opacity-0 after:w-0",
-        "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30 focus:ring-offset-2 focus:ring-offset-transparent",
-        "disabled:opacity-50 glass-disabled-cursor-not-allowed",
         sizeClasses?.[size],
         {
           "bg-white/20 glass-text-primary": isHovered || hasSubmenuOpen,
@@ -521,7 +492,7 @@ export const GlassMenubarItem: React.FC<GlassMenubarItemProps> = ({
           <ChevronRight className="glass-w-4 glass-h-4 glass-text-primary-glass-opacity-50" />
         )}
       </div>
-    </GlassButton>
+    </GlassMenuPrimitiveItem>
   );
 };
 

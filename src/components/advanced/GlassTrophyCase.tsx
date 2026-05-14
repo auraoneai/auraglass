@@ -23,7 +23,7 @@ import {
   Trophy,
   Unlock,
   Zap,
-} from "lucide-react";
+} from "@/icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 
@@ -434,9 +434,8 @@ export function GlassTrophyCase({
     if (!enableSound) return;
 
     try {
-      const audioContext = new (
-        window.AudioContext || (window as any).webkitAudioContext
-      )();
+      const audioContext = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 

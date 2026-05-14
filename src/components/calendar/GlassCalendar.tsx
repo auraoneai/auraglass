@@ -7,7 +7,7 @@ import {
   Clock,
   MapPin,
   Users,
-} from "lucide-react";
+} from "@/icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Motion } from "../../primitives";

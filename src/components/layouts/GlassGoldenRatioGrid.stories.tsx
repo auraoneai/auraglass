@@ -17,7 +17,7 @@ import {
     Trophy,
     User,
     Video
-} from 'lucide-react';
+} from "@/icons";
 import { GlassGoldenRatioGrid, type GoldenRatioItem } from './GlassGoldenRatioGrid';
 
 // Basic content items

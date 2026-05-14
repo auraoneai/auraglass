@@ -129,7 +129,7 @@ exports[`GlassWizard matches snapshot 1`] = `
                 >
                   <svg
                     aria-hidden="true"
-                    class="lucide lucide-check glass-w-4 glass-h-4"
+                    class="glass-w-4 glass-h-4"
                     fill="none"
                     height="24"
                     stroke="currentColor"
@@ -141,7 +141,7 @@ exports[`GlassWizard matches snapshot 1`] = `
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M20 6 9 17l-5-5"
+                      d="m5 12 4 4L19 6"
                     />
                   </svg>
                   Complete

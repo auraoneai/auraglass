@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import useAutoTextContrast from "../../hooks/useAutoTextContrast";
-import { ArrowRight, Zap, Target, Sparkles } from "lucide-react";
+import { ArrowRight, Zap, Target, Sparkles } from "@/icons";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { createGlassStyle } from "../../core/mixins/glassMixins";

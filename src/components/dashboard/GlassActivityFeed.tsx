@@ -11,7 +11,7 @@ import {
   Settings,
   User,
   XCircle,
-} from "lucide-react";
+} from "@/icons";
 import React, { useMemo, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

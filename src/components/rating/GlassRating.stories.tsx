@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MessageSquare, Sparkles } from "lucide-react";
+import { MessageSquare, Sparkles } from "@/icons";
 import { GlassRating } from "./GlassRating";
 
 const RatingPreview = (args: React.ComponentProps<typeof GlassRating>) => {

@@ -1,0 +1,93 @@
+{
+  "generatedAt": "2026-05-14T02:53:34.687Z",
+  "package": "aura-glass",
+  "version": "3.2.0",
+  "filename": "aura-glass-3.2.0.tgz",
+  "shasum": "9e35a280043550c000a89b51507f61568539e5e6",
+  "integrity": "sha512-ybkK/aWd9ZD+a+6QrOeftv52Vf7ljKEmp6v3IP4S4aUdmaj9ltIeBum60KPqFuif05oEkfiLHY6JameK3ARzng==",
+  "recipeCount": 20,
+  "appDir": "/var/folders/3s/trh_q1fd5yn1mdhbvwbf0qrw0000gn/T/auraglass-recipes-STjElX/recipe-app",
+  "screenshots": [
+    {
+      "id": "saas-dashboard",
+      "file": "reports/3.2-release/recipe-screenshots/saas-dashboard.png"
+    },
+    {
+      "id": "ai-command-center",
+      "file": "reports/3.2-release/recipe-screenshots/ai-command-center.png"
+    },
+    {
+      "id": "media-player-surface",
+      "file": "reports/3.2-release/recipe-screenshots/media-player-surface.png"
+    },
+    {
+      "id": "analytics-overview",
+      "file": "reports/3.2-release/recipe-screenshots/analytics-overview.png"
+    },
+    {
+      "id": "settings-billing",
+      "file": "reports/3.2-release/recipe-screenshots/settings-billing.png"
+    },
+    {
+      "id": "kanban-workspace",
+      "file": "reports/3.2-release/recipe-screenshots/kanban-workspace.png"
+    },
+    {
+      "id": "calendar-schedule",
+      "file": "reports/3.2-release/recipe-screenshots/calendar-schedule.png"
+    },
+    {
+      "id": "collaborative-workspace",
+      "file": "reports/3.2-release/recipe-screenshots/collaborative-workspace.png"
+    },
+    {
+      "id": "admin-data-table",
+      "file": "reports/3.2-release/recipe-screenshots/admin-data-table.png"
+    },
+    {
+      "id": "ecommerce-product-panel",
+      "file": "reports/3.2-release/recipe-screenshots/ecommerce-product-panel.png"
+    },
+    {
+      "id": "saas-admin-shell",
+      "file": "reports/3.2-release/recipe-screenshots/saas-admin-shell.png"
+    },
+    {
+      "id": "ai-product-console",
+      "file": "reports/3.2-release/recipe-screenshots/ai-product-console.png"
+    },
+    {
+      "id": "media-review-workspace",
+      "file": "reports/3.2-release/recipe-screenshots/media-review-workspace.png"
+    },
+    {
+      "id": "commerce-operations-panel",
+      "file": "reports/3.2-release/recipe-screenshots/commerce-operations-panel.png"
+    },
+    {
+      "id": "team-collaboration-hub",
+      "file": "reports/3.2-release/recipe-screenshots/team-collaboration-hub.png"
+    },
+    {
+      "id": "settings-and-billing-suite",
+      "file": "reports/3.2-release/recipe-screenshots/settings-and-billing-suite.png"
+    },
+    {
+      "id": "analytics-command-center",
+      "file": "reports/3.2-release/recipe-screenshots/analytics-command-center.png"
+    },
+    {
+      "id": "calendar-operations-board",
+      "file": "reports/3.2-release/recipe-screenshots/calendar-operations-board.png"
+    },
+    {
+      "id": "customer-support-console",
+      "file": "reports/3.2-release/recipe-screenshots/customer-support-console.png"
+    },
+    {
+      "id": "creator-studio-dashboard",
+      "file": "reports/3.2-release/recipe-screenshots/creator-studio-dashboard.png"
+    }
+  ],
+  "passed": true
+}

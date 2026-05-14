@@ -148,6 +148,74 @@ describe("GlassMultiSelect", () => {
     expect(screen.getAllByText("Design Systems").length).toBeGreaterThan(0);
   });
 
+  it("supports keyboard selection with grouped options", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+
+    render(
+      <GlassMultiSelect
+        label="Teams"
+        withGroups
+        groups={[
+          {
+            id: "product",
+            label: "Product",
+            options: [
+              { value: "design", label: "Design" },
+              { value: "research", label: "Research" },
+            ],
+          },
+        ]}
+        closeOnSelect={false}
+        onChange={onChange}
+      />
+    );
+
+    const input = screen.getByLabelText("Teams");
+    await user.click(input);
+    expect(screen.getByRole("listbox")).toHaveAttribute(
+      "aria-multiselectable",
+      "true"
+    );
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(onChange).toHaveBeenCalledWith(["design"]);
+  });
+
+  it("skips disabled options and supports controlled values", async () => {
+    const user = userEvent.setup();
+    const onChange = jest.fn();
+
+    render(
+      <GlassMultiSelect
+        ariaLabel="Assignees"
+        value={["ana"]}
+        onChange={onChange}
+        closeOnSelect={false}
+        options={[
+          { value: "ana", label: "Ana" },
+          { value: "bo", label: "Bo", disabled: true },
+          { value: "cy", label: "Cy" },
+        ]}
+      />
+    );
+
+    const input = screen.getByLabelText("Assignees");
+    await user.click(input);
+    expect(screen.getByRole("option", { name: "Ana" })).toHaveAttribute(
+      "aria-selected",
+      "true"
+    );
+    expect(screen.getByRole("option", { name: "Bo" })).toHaveAttribute(
+      "aria-disabled",
+      "true"
+    );
+
+    await user.click(screen.getByRole("option", { name: "Bo" }));
+    expect(onChange).not.toHaveBeenCalled();
+    await user.click(screen.getByRole("option", { name: "Cy" }));
+    expect(onChange).toHaveBeenCalledWith(["ana", "cy"]);
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

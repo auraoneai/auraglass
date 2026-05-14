@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import { GripVertical, Move } from "lucide-react";
+import { GripVertical, Move } from "@/icons";
 import React, {
   createContext,
   useCallback,

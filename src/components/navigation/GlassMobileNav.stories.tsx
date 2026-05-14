@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { BarChart3, Home, Menu, Settings, Users } from "lucide-react";
+import { BarChart3, Home, Menu, Settings, Users } from "@/icons";
 import { GlassButton } from "../button/GlassButton";
 import { GlassMobileNav, type MobileNavSection } from "./GlassMobileNav";
 

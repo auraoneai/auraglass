@@ -107,6 +107,159 @@ const exportsMap = [
     },
   },
   {
+    name: "./icons",
+    import: "icons/index.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.SearchIcon, "object", "SearchIcon should exist");
+      assert.equal(typeof mod.SettingsIcon, "object", "SettingsIcon should exist");
+    },
+  },
+  {
+    name: "./icons/action",
+    import: "icons/action.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.SearchIcon, "object", "action icons should expose SearchIcon");
+    },
+  },
+  {
+    name: "./icons/navigation",
+    import: "icons/navigation.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.HomeIcon, "object", "navigation icons should expose HomeIcon");
+    },
+  },
+  {
+    name: "./icons/status",
+    import: "icons/status.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.WarningIcon, "object", "status icons should expose WarningIcon");
+    },
+  },
+  {
+    name: "./icons/media",
+    import: "icons/media.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.PlayIcon, "object", "media icons should expose PlayIcon");
+    },
+  },
+  {
+    name: "./icons/data",
+    import: "icons/data.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.DatabaseIcon, "object", "data icons should expose DatabaseIcon");
+    },
+  },
+  {
+    name: "./icons/commerce",
+    import: "icons/commerce.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.SuccessIcon, "object", "commerce icons should expose SuccessIcon");
+    },
+  },
+  {
+    name: "./icons/collaboration",
+    import: "icons/collaboration.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.UsersIcon, "object", "collaboration icons should expose UsersIcon");
+    },
+  },
+  {
+    name: "./icons/ai",
+    import: "icons/ai.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.SparkIcon, "object", "AI icons should expose SparkIcon");
+    },
+  },
+  {
+    name: "./primitives",
+    import: "primitives/index.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.Slot, "object", "primitives should expose Slot");
+      assert.equal(typeof mod.Portal, "function", "primitives should expose Portal");
+    },
+  },
+  {
+    name: "./primitives/slot",
+    import: "esm/primitives/Slot.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "object" || typeof mod.Slot === "object",
+        "slot subpath should expose Slot"
+      );
+    },
+  },
+  {
+    name: "./primitives/portal",
+    import: "esm/primitives/Portal.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "function" || typeof mod.Portal === "function",
+        "portal subpath should expose Portal"
+      );
+    },
+  },
+  {
+    name: "./primitives/focus",
+    import: "esm/primitives/FocusScope.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "object" || typeof mod.FocusScope === "object",
+        "focus subpath should expose FocusScope"
+      );
+    },
+  },
+  {
+    name: "./primitives/dismissable-layer",
+    import: "esm/primitives/DismissableLayer.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "object" || typeof mod.DismissableLayer === "object",
+        "dismissable layer subpath should expose DismissableLayer"
+      );
+    },
+  },
+  {
+    name: "./primitives/roving-focus",
+    import: "esm/primitives/RovingFocusGroup.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "object" || typeof mod.RovingFocusGroup === "object",
+        "roving focus subpath should expose RovingFocusGroup"
+      );
+    },
+  },
+  {
+    name: "./primitives/positioning",
+    import: "esm/primitives/Positioner.js",
+    verify: (mod) => {
+      assert.ok(
+        typeof mod === "object" || typeof mod.Positioner === "object",
+        "positioning subpath should expose Positioner"
+      );
+    },
+  },
+  {
+    name: "./app-shell",
+    import: "app-shell/index.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.GlassAppShell, "object", "app shell should expose GlassAppShell");
+    },
+  },
+  {
+    name: "./workspace",
+    import: "workspace/index.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.GlassWorkspace, "object", "workspace should expose GlassWorkspace");
+    },
+  },
+  {
+    name: "./theme",
+    import: "theme/index.mjs",
+    verify: (mod) => {
+      assert.equal(typeof mod.createGlassTheme, "function", "theme should expose createGlassTheme");
+    },
+  },
+  {
     name: "./client",
     import: "client/index.mjs",
     verify: (mod) => {

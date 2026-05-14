@@ -15,7 +15,7 @@ import {
   Settings,
   TestTube,
   Volume2,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { ANIMATION } from "../../tokens/designConstants";

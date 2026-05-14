@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { MessageCircle, ShieldCheck } from "lucide-react";
+import { MessageCircle, ShieldCheck } from "@/icons";
 import { GlassTypingIndicator } from "./GlassTypingIndicator";
 
 const chatShellStyle: React.CSSProperties = {

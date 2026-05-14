@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Archive, Bell, Settings, UserRound } from "lucide-react";
+import { Archive, Bell, Settings, UserRound } from "@/icons";
 import CollapsedMenu from "./CollapsedMenu";
 
 const meta: Meta<typeof CollapsedMenu> = {

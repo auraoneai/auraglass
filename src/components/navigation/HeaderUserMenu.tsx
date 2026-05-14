@@ -3,7 +3,7 @@ import React, { useState, forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { GlassPopover } from "../modal/GlassPopover";
 import { GlassAvatar } from "../data-display/GlassAvatar";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight } from "@/icons";
 import { useA11yId } from "@/utils/a11y";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { BORDER_RADIUS, ANIMATION } from "../../tokens/designConstants";

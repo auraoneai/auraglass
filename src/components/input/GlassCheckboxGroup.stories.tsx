@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Bell, Database, ShieldCheck, Users } from "lucide-react";
+import { Bell, Database, ShieldCheck, Users } from "@/icons";
 import { GlassCheckboxGroup } from "./GlassCheckboxGroup";
 
 const options = [

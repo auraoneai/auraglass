@@ -17,7 +17,7 @@ import {
     Settings,
     Share,
     User
-} from 'lucide-react';
+} from "@/icons";
 import { GlassFractalLayout, type FractalNode } from './GlassFractalLayout';
 
 // Simple tree structure

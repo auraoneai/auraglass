@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "@/icons";
 import SpeedDialIcon from "./SpeedDialIcon";
 
 const meta: Meta<typeof SpeedDialIcon> = {

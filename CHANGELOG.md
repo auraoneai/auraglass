@@ -1,5 +1,63 @@
 # Changelog
 
+## [3.2.0] - 2026-05-14
+
+### Added
+
+- Added first-party AuraGlass icon entrypoints under `aura-glass/icons` and category subpaths for action, navigation, status, media, data, commerce, collaboration, and AI icons.
+- Added native AuraGlass primitive entrypoints under `aura-glass/primitives` and focused subpaths for slot composition, portals, focus scope, dismissable layers, roving focus, and positioning.
+- Added first-party app-shell and workspace entrypoints for product layouts: `aura-glass/app-shell` and `aura-glass/workspace`.
+- Added Theme Engine 2.0 under `aura-glass/theme`, including brand theme creation, density modes, motion policies, contrast helpers, CSS variable generation, and `GlassThemeProvider`.
+- Added ten 3.2 app-surface recipes to the package registry while keeping the ten 3.1 recipes available for compatibility.
+- Added CLI audit and migration commands: `aura-glass audit deps`, `aura-glass audit imports`, `aura-glass migrate icons --from lucide`, `aura-glass migrate radix`, `aura-glass migrate mui`, and `aura-glass doctor`.
+- Added 3.2 migration and reference docs for Lucide, Radix, MUI, icons, primitives, app shell, workflows, Theme Engine 2.0, and the migration CLI.
+- Added 3.2 release evidence under `reports/3.2-release/`.
+- Added packed-package app-chrome visual and keyboard baseline coverage through `npm run test:visual:app-chrome`, with Chromium screenshots for icons, menu, select, dialog, drawer, popover, tooltip, tabs, command palette, mobile shell, and reduced motion, plus browser checks for keyboard open/close, tab activation, tooltip hover, and command search filtering.
+- Added real Storybook evidence for the 3.2 first-party icon gallery and app-chrome visual baseline story.
+- Added focused app-chrome axe coverage through `npm run test:a11y:app-chrome`.
+- Added 3.2 production workflow components for empty, error, loading, filter, search, form-field, validation, date/time, combobox, page-tab, and toast-provider use cases, plus focused workflow tests and Storybook evidence.
+- Added a shared `GlassMenuPrimitive` layer and wired `GlassMenubar` through it so native menu chrome has a package-owned primitive foundation.
+
+### Changed
+
+- Repositioned AuraGlass by AuraOne 3.2 as a dependency-sovereign Liquid Glass app-surface system for React and Next.js.
+- Removed Lucide and Radix from the core package contract and migrated touched core app-chrome surfaces to AuraGlass icons and primitives.
+- Exposed native select and tabs compound parts from the root package entrypoint for consumer app-chrome composition.
+- Hardened dropdown menu, select, multiselect, and data-table behavioral coverage for keyboard navigation, checkbox/radio items, submenu opening, controlled/uncontrolled values, form values, typeahead, disabled options, loading, empty, action, selection, and pagination states.
+- Expanded app-shell Storybook exports for SaaS dashboard, AI command center, media workspace, ecommerce admin, and collaboration workspace examples.
+- Updated package exports, build entrypoints, export tests, CLI tests, pack verification, and Next integration smoke coverage for the new 3.2 entrypoints.
+- Updated README and installation guidance so core app chrome installs with `npm install aura-glass` and does not require MUI, Radix, Lucide, or shadcn/ui.
+
+### Verification
+
+- `npm run build`
+- `npm run typecheck -- --pretty false`
+- `npm run lint:ci` — passed with historical warning-only design-system findings.
+- `npm run test -- --runInBand` — passed, 419 suites / 2,265 tests / 339 snapshots.
+- `npm run test:types`
+- `npm run test:cli`
+- `npm test -- --runTestsByPath src/components/navigation/GlassMenubar.test.tsx src/components/navigation/GlassDropdownMenu.test.tsx src/components/input/GlassSelectCompound.test.tsx src/components/input/GlassMultiSelect.test.tsx src/components/data-display/GlassDataTable.test.tsx --runInBand` — passed, 5 suites / 47 tests / 5 snapshots.
+- `npm test -- --runTestsByPath src/__tests__/production-workflow-components.test.tsx --runInBand`
+- `npm run test:a11y:app-chrome`
+- `npm run test:exports:cjs`
+- `npm run test:exports:esm`
+- `node scripts/ci/verify-no-core-ui-deps.js --json`
+- `node scripts/ci/verify-tree-shaking.js --strict --json`
+- `npm run verify:pack`
+- `npm run test:integration:next -- --skip-build`
+- `npm run test:integration:vite`
+- `npm run test:recipes:render`
+- `npm run test:visual:app-chrome`
+- `npm run build-storybook -- --quiet`
+- `npm run prepublishOnly`
+- `npm pack --dry-run --json` — reports `aura-glass@3.2.0`, 2,361 packaged entries, 8,870,548 bytes packed, 46,900,821 bytes unpacked, shasum `e3c7ed590ec671b24b7dee219e92ffcbe5215fb5`, and integrity `sha512-zLIrvS24tpal3lzIi56BHV3DxKvmRDRE8IYpolDhGBPE62/+fLdwFsbfTRZIFO8oVq3dqHfriRqnUtNA9U6fjQ==`.
+- `npm publish --access public --tag latest --provenance=false --ignore-scripts` — published `aura-glass@3.2.0`; public npm `latest` verifies as `3.2.0` with modified time `2026-05-14T07:19:02.680Z`.
+
+### Remaining Certification Work
+
+- Manual mobile, full visual-regression, and screen-reader certification for all replacement app-chrome surfaces is not yet recorded.
+- The PRD remains the release checklist until every unchecked acceptance item in `auraglass32PRD.md` is either completed with evidence or explicitly descoped.
+
 ## [3.1.1] - 2026-05-12
 
 ### Changed

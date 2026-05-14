@@ -2,7 +2,7 @@
 // Removed circular import - using regular button element
 
 import { cn } from "../../lib/utilsComprehensive";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight } from "@/icons";
 import React, { useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";

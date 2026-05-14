@@ -16,7 +16,7 @@ import {
   SkipForward,
   Volume1,
   X,
-} from "lucide-react";
+} from "@/icons";
 import { useCallback, useEffect, useState } from "react";
 
 interface VoiceGlassControlProps {

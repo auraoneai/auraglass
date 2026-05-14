@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import { AlertCircle, Check, Circle } from "lucide-react";
+import { AlertCircle, Check, Circle } from "@/icons";
 import React from "react";
 import { Motion } from "../../primitives";
 
@@ -410,10 +410,8 @@ export const GlassFormStepper: React.FC<GlassFormStepperProps> = ({
 };
 
 // Compact stepper variant
-export interface GlassCompactStepperProps extends Omit<
-  GlassFormStepperProps,
-  "orientation" | "showDescriptions"
-> {
+export interface GlassCompactStepperProps
+  extends Omit<GlassFormStepperProps, "orientation" | "showDescriptions"> {
   /**
    * Show labels
    */

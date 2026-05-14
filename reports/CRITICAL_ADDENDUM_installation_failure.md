@@ -299,13 +299,8 @@ The following should also be peer dependencies:
 
   "dependencies": {
     // Only UI-specific deps with no peer alternatives
-    "@radix-ui/react-dropdown-menu": "^2.1.16",
-    "@radix-ui/react-label": "^2.1.7",
-    "@radix-ui/react-select": "^2.2.6",
-    "@radix-ui/react-slot": "^1.2.3",
     "clsx": "^2.0.0",
     "tailwind-merge": "^3.3.1",
-    "lucide-react": "^0.544.0",
     "date-fns": "^4.1.0",
     "zod": "^3.22.0"
   },

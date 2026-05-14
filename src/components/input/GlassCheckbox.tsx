@@ -2,7 +2,7 @@
 import { GlassInput } from "./GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { Check, Minus } from "lucide-react";
+import { Check, Minus } from "@/icons";
 import React, { forwardRef } from "react";
 import { Motion, OptimizedGlass } from "../../primitives";
 import {

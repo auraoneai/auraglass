@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-import { BarChart3, Home, Settings, Users } from "lucide-react";
+import { BarChart3, Home, Settings, Users } from "@/icons";
 import { GlassTabBar } from "./GlassTabBar";
 
 const tabs = [

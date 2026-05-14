@@ -10,7 +10,7 @@ import {
   SlidersHorizontal,
   Tag,
   X,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useMemo, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { GlassButton } from "../button/GlassButton";
@@ -63,10 +63,8 @@ export interface SearchResult {
   metadata?: SearchResultMetadata;
 }
 
-export interface GlassFacetSearchProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "results"
-> {
+export interface GlassFacetSearchProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "results"> {
   query?: string;
   onQueryChange?: (query: string) => void;
   facets?: Facet[];

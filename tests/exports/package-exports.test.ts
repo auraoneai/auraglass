@@ -72,6 +72,88 @@ const exportsMap: Record<
       expect(content.length).toBeGreaterThan(0);
     },
   },
+  "./icons": {
+    require: "dist/icons/index.js",
+    verify: (mod) => {
+      expect(typeof mod.SearchIcon).toBe("object");
+      expect(typeof mod.SettingsIcon).toBe("object");
+      expect(typeof mod.CloseIcon).toBe("object");
+    },
+  },
+  "./icons/navigation": {
+    require: "dist/icons/navigation.js",
+    verify: (mod) => {
+      expect(typeof mod.HomeIcon).toBe("object");
+      expect(typeof mod.SettingsIcon).toBe("object");
+    },
+  },
+  "./primitives": {
+    require: "dist/primitives/index.js",
+    verify: (mod) => {
+      expect(typeof mod.Slot).toBe("object");
+      expect(typeof mod.Portal).toBe("function");
+      expect(typeof mod.FocusScope).toBe("object");
+    },
+  },
+  "./primitives/slot": {
+    require: "dist/cjs/primitives/Slot.js",
+    verify: (mod) => {
+      expect(typeof mod.Slot).toBe("object");
+    },
+  },
+  "./primitives/portal": {
+    require: "dist/cjs/primitives/Portal.js",
+    verify: (mod) => {
+      expect(typeof mod.Portal).toBe("function");
+    },
+  },
+  "./primitives/focus": {
+    require: "dist/cjs/primitives/FocusScope.js",
+    verify: (mod) => {
+      expect(typeof mod.FocusScope).toBe("object");
+    },
+  },
+  "./primitives/dismissable-layer": {
+    require: "dist/cjs/primitives/DismissableLayer.js",
+    verify: (mod) => {
+      expect(typeof mod.DismissableLayer).toBe("object");
+    },
+  },
+  "./primitives/roving-focus": {
+    require: "dist/cjs/primitives/RovingFocusGroup.js",
+    verify: (mod) => {
+      expect(typeof mod.RovingFocusGroup).toBe("object");
+      expect(typeof mod.RovingFocusGroupItem).toBe("object");
+    },
+  },
+  "./primitives/positioning": {
+    require: "dist/cjs/primitives/Positioner.js",
+    verify: (mod) => {
+      expect(typeof mod.Positioner).toBe("object");
+    },
+  },
+  "./app-shell": {
+    require: "dist/app-shell/index.js",
+    verify: (mod) => {
+      expect(typeof mod.GlassAppShell).toBe("object");
+      expect(typeof mod.GlassTopBar).toBe("object");
+      expect(typeof mod.GlassMobileShell).toBe("object");
+    },
+  },
+  "./workspace": {
+    require: "dist/workspace/index.js",
+    verify: (mod) => {
+      expect(typeof mod.GlassWorkspace).toBe("object");
+      expect(typeof mod.GlassWorkflowShell).toBe("object");
+    },
+  },
+  "./theme": {
+    require: "dist/theme/index.js",
+    verify: (mod) => {
+      expect(typeof mod.createGlassTheme).toBe("function");
+      expect(typeof mod.GlassThemeProvider).toBe("function");
+    },
+  },
   "./hooks/useGlassProbes": {
     require: "dist/cjs/hooks/useGlassProbes.js",
     verify: (mod) => {

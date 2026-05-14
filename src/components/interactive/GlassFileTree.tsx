@@ -17,7 +17,7 @@ import {
   Search,
   Video,
   X,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { GlassButton } from "../button/GlassButton";
 import { GlassInput } from "../input/GlassInput";

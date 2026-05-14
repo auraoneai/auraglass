@@ -315,7 +315,8 @@ describe("upstream glass regressions", () => {
     );
 
     expect(uploadSource).toContain("const EMPTY_UPLOADED_FILES");
-    expect(uploadSource).toContain("files = EMPTY_UPLOADED_FILES");
+    expect(uploadSource).toContain("defaultFiles = EMPTY_UPLOADED_FILES");
+    expect(uploadSource).toContain("files ?? EMPTY_UPLOADED_FILES");
     expect(treeSource).toContain("const EMPTY_EXPANDED_NODES");
     expect(treeSource).toContain("expandedNodes = EMPTY_EXPANDED_NODES");
   });

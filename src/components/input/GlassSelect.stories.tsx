@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Building2 } from "lucide-react";
+import { Building2 } from "@/icons";
 import { GlassSelect } from "./GlassSelect";
 
 const options = [

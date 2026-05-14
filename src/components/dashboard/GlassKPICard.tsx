@@ -1,6 +1,6 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import { ArrowDownIcon, ArrowUpIcon, Minus } from "lucide-react";
+import { ArrowDownIcon, ArrowUpIcon, Minus } from "@/icons";
 import React from "react";
 import { Motion } from "../../primitives";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";

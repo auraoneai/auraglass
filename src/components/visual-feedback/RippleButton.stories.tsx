@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Check, CloudUpload, Trash2, Zap } from "lucide-react";
+import { Check, CloudUpload, Trash2, Zap } from "@/icons";
 import RippleButton from "./RippleButton";
 
 const meta: Meta<typeof RippleButton> = {

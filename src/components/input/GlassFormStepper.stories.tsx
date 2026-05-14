@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Building2, CreditCard, UserRound } from "lucide-react";
+import { Building2, CreditCard, UserRound } from "@/icons";
 import { GlassFormStepper } from "./GlassFormStepper";
 
 const steps = [

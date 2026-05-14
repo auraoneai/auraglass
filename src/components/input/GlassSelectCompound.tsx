@@ -1,22 +1,229 @@
 "use client";
+
 import React from "react";
-import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import { Motion } from "../../primitives";
+import { Check, ChevronDown, ChevronUp } from "../../icons";
+import { DismissableLayer, Motion, Portal, Positioner } from "../../primitives";
 import { cn } from "@/lib/utils";
 
+type SelectContextValue = {
+  value?: string;
+  selectedLabel?: React.ReactNode;
+  open: boolean;
+  disabled?: boolean;
+  triggerRef: React.MutableRefObject<HTMLButtonElement | null>;
+  contentId: string;
+  setOpen: (open: boolean) => void;
+  setValue: (value: string, label: React.ReactNode) => void;
+  registerItem: (value: string, label: React.ReactNode) => void;
+  selectByTextPrefix: (prefix: string) => boolean;
+};
+
+const SelectContext = React.createContext<SelectContextValue | null>(null);
+
+const useSelectContext = () => {
+  const context = React.useContext(SelectContext);
+  if (!context) {
+    throw new Error("GlassSelect components must be used within GlassSelect");
+  }
+  return context;
+};
+
+const useControllableState = <T,>({
+  prop,
+  defaultProp,
+  onChange,
+}: {
+  prop?: T;
+  defaultProp?: T;
+  onChange?: (value: T) => void;
+}) => {
+  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultProp);
+  const isControlled = prop !== undefined;
+  const value = isControlled ? prop : uncontrolledValue;
+
+  const setValue = React.useCallback(
+    (nextValue: T) => {
+      if (!isControlled) {
+        setUncontrolledValue(nextValue);
+      }
+      onChange?.(nextValue);
+    },
+    [isControlled, onChange]
+  );
+
+  return [value, setValue] as const;
+};
+
+const getTextFromNode = (node: React.ReactNode): string => {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+  if (Array.isArray(node)) {
+    return node.map(getTextFromNode).join("");
+  }
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return getTextFromNode(node.props.children);
+  }
+  return "";
+};
+
 // Main Select Root
-const GlassSelect = SelectPrimitive.Root;
+export interface GlassSelectProps {
+  children?: React.ReactNode;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  disabled?: boolean;
+  required?: boolean;
+  name?: string;
+  "data-testid"?: string;
+}
+
+const GlassSelect = ({
+  children,
+  value,
+  defaultValue,
+  onValueChange,
+  open,
+  defaultOpen,
+  onOpenChange,
+  disabled,
+  required,
+  name,
+  "data-testid": dataTestId,
+}: GlassSelectProps) => {
+  const [resolvedValue, setResolvedValue] = useControllableState<string>({
+    prop: value,
+    defaultProp: defaultValue,
+    onChange: onValueChange,
+  });
+  const [resolvedOpen = false, setResolvedOpen] = useControllableState<boolean>(
+    {
+      prop: open,
+      defaultProp: defaultOpen ?? false,
+      onChange: onOpenChange,
+    }
+  );
+  const [selectedLabel, setSelectedLabel] = React.useState<React.ReactNode>();
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const contentId = React.useId();
+  const labelsRef = React.useRef<Map<string, React.ReactNode>>(new Map());
+
+  const setValue = React.useCallback(
+    (nextValue: string, label: React.ReactNode) => {
+      setSelectedLabel(label);
+      setResolvedValue(nextValue);
+    },
+    [setResolvedValue]
+  );
+
+  const registerItem = React.useCallback(
+    (itemValue: string, label: React.ReactNode) => {
+      labelsRef.current.set(itemValue, label);
+      if (itemValue === resolvedValue) {
+        setSelectedLabel(label);
+      }
+    },
+    [resolvedValue]
+  );
+
+  const selectByTextPrefix = React.useCallback(
+    (prefix: string) => {
+      const normalizedPrefix = prefix.trim().toLowerCase();
+      if (!normalizedPrefix) return false;
+
+      for (const [itemValue, itemLabel] of labelsRef.current.entries()) {
+        const label = getTextFromNode(itemLabel).toLowerCase();
+        if (label.startsWith(normalizedPrefix)) {
+          setValue(itemValue, itemLabel);
+          return true;
+        }
+      }
+
+      return false;
+    },
+    [setValue]
+  );
+
+  const context = React.useMemo(
+    () => ({
+      value: resolvedValue,
+      selectedLabel:
+        selectedLabel ?? labelsRef.current.get(resolvedValue ?? ""),
+      open: resolvedOpen,
+      disabled,
+      triggerRef,
+      contentId,
+      setOpen: setResolvedOpen,
+      setValue,
+      registerItem,
+      selectByTextPrefix,
+    }),
+    [
+      contentId,
+      disabled,
+      registerItem,
+      resolvedOpen,
+      resolvedValue,
+      selectedLabel,
+      setResolvedOpen,
+      setValue,
+      selectByTextPrefix,
+    ]
+  );
+
+  return (
+    <SelectContext.Provider value={context}>
+      <>
+        {name && (
+          <input
+            type="hidden"
+            name={name}
+            value={resolvedValue ?? ""}
+            required={required}
+            disabled={disabled}
+          />
+        )}
+        {children}
+      </>
+    </SelectContext.Provider>
+  );
+};
 
 // Select Group
-const GlassSelectGroup = SelectPrimitive.Group;
+const GlassSelectGroup = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>((props, ref) => <div ref={ref} role="group" {...props} />);
+GlassSelectGroup.displayName = "GlassSelectGroup";
 
 // Select Value
-const GlassSelectValue = SelectPrimitive.Value;
+export interface GlassSelectValueProps
+  extends React.HTMLAttributes<HTMLSpanElement> {
+  placeholder?: React.ReactNode;
+}
+
+const GlassSelectValue = React.forwardRef<
+  HTMLSpanElement,
+  GlassSelectValueProps
+>(({ placeholder, children, style, ...props }, ref) => {
+  const { selectedLabel, value } = useSelectContext();
+  const body = children ?? selectedLabel ?? value ?? placeholder;
+
+  return (
+    <span ref={ref} style={{ pointerEvents: "none", ...style }} {...props}>
+      {body}
+    </span>
+  );
+});
+GlassSelectValue.displayName = "GlassSelectValue";
 
 // Glass Select Trigger
 export interface GlassSelectTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Size variant */
   size?: "sm" | "md" | "lg";
   /** Visual variant */
@@ -26,7 +233,7 @@ export interface GlassSelectTriggerProps
 }
 
 const GlassSelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  HTMLButtonElement,
   GlassSelectTriggerProps
 >(
   (
@@ -36,10 +243,28 @@ const GlassSelectTrigger = React.forwardRef<
       size = "md",
       variant = "default",
       error = false,
+      onClick,
+      onKeyDown,
+      disabled,
       ...props
     },
     ref
   ) => {
+    const context = useSelectContext();
+
+    const setRef = React.useCallback(
+      (node: HTMLButtonElement | null) => {
+        context.triggerRef.current = node;
+        if (typeof ref === "function") {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLButtonElement | null>).current =
+            node;
+        }
+      },
+      [context.triggerRef, ref]
+    );
+
     const sizeConfig = {
       sm: "h-8 glass-px-2 glass-py-1 glass-text-xs",
       md: "h-10 glass-px-3 glass-py-2 glass-text-sm",
@@ -65,46 +290,74 @@ const GlassSelectTrigger = React.forwardRef<
       ),
     };
 
+    const isDisabled = disabled || context.disabled;
+
     return (
-      <SelectPrimitive.Trigger
+      <button
         data-glass-component
-        ref={ref}
+        ref={setRef}
+        type="button"
         className={cn(
-          // Base styles
           "glass-select-trigger group flex w-full items-center justify-between",
           "glass-radius-lg glass-backdrop-blur-md transition-all duration-200",
           "text-foreground placeholder:glass-text-secondary",
           "focus:outline-none focus:ring-offset-2 focus:ring-offset-background",
           "glass-disabled-cursor-not-allowed disabled:opacity-50",
           "[&>span]:line-clamp-1",
-
-          // Size
           sizeConfig[size],
-
-          // Variant
           variantConfig[variant],
-
-          // Error state
           error && "border-red-400 focus:border-red-400 focus:ring-red-400",
-
           className
         )}
         aria-label="Select option"
+        aria-autocomplete="none"
+        aria-expanded={context.open}
+        aria-controls={context.contentId}
+        role="combobox"
+        data-state={context.open ? "open" : "closed"}
+        data-placeholder={context.value ? undefined : ""}
+        dir="ltr"
+        disabled={isDisabled}
+        onClick={(event) => {
+          onClick?.(event);
+          if (!event.defaultPrevented && !isDisabled) {
+            context.setOpen(!context.open);
+          }
+        }}
+        onKeyDown={(event) => {
+          onKeyDown?.(event);
+          if (event.defaultPrevented || isDisabled) return;
+
+          if (
+            event.key === "Enter" ||
+            event.key === " " ||
+            event.key === "ArrowDown"
+          ) {
+            event.preventDefault();
+            context.setOpen(true);
+          } else if (
+            event.key.length === 1 &&
+            !event.metaKey &&
+            !event.ctrlKey
+          ) {
+            if (context.selectByTextPrefix(event.key)) {
+              event.preventDefault();
+            }
+          }
+        }}
         {...props}
       >
         {children}
-        <SelectPrimitive.Icon asChild>
-          <ChevronDown className="glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180" />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
+        <ChevronDown className="glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180" />
+      </button>
     );
   }
 );
-GlassSelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+GlassSelectTrigger.displayName = "GlassSelectTrigger";
 
 // Glass Select Content
 export interface GlassSelectContentProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Content variant */
   variant?: "default" | "minimal";
   /** Optional portal container. */
@@ -115,10 +368,12 @@ export interface GlassSelectContentProps
   positionStrategy?: "fixed" | "absolute" | "contained";
   /** Render content without a portal for constrained surfaces. */
   contained?: boolean;
+  position?: "popper" | "item-aligned";
+  sideOffset?: number;
 }
 
 const GlassSelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
+  HTMLDivElement,
   GlassSelectContentProps
 >(
   (
@@ -126,131 +381,169 @@ const GlassSelectContent = React.forwardRef<
       className,
       children,
       position = "popper",
-      variant = "default",
+      variant: _variant = "default",
       portalContainer,
       portalled = true,
       positionStrategy = "fixed",
       contained = false,
+      sideOffset = 4,
       ...props
     },
     ref
   ) => {
+    const context = useSelectContext();
     const isContained =
       contained || portalled === false || positionStrategy === "contained";
+
+    if (!context.open) return null;
+
     const content = (
       <Motion preset="scaleIn">
-        <SelectPrimitive.Content
-          ref={ref}
-          className={cn(
-            // Base styles
-            "glass-select-content relative z-50 max-h-96 min-w-[8rem] overflow-hidden",
-            // Darker, more legible surface for options
-            "glass-backdrop-blur-md bg-black/70 ring-1 ring-white/12",
-            "glass-radius-xl shadow-2xl shadow-black/40",
-            "text-foreground",
-
-            // Animations
-            "data-[state=open]:animate-in data-[state=closed]:animate-out",
-            "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-            "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-            "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
-            "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-
-            // Position adjustments
-            position === "popper" && [
-              "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1",
-              "data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-            ],
-
-            className
-          )}
-          position={position}
-          {...props}
-          data-position-strategy={isContained ? "contained" : positionStrategy}
+        <Positioner
+          anchorRef={context.triggerRef}
+          side="bottom"
+          align="start"
+          sideOffset={isContained ? 0 : sideOffset}
+          contained={isContained}
+          strategy={positionStrategy === "absolute" ? "absolute" : "fixed"}
         >
-          <GlassSelectScrollUpButton />
-          <SelectPrimitive.Viewport
+          <DismissableLayer
+            ref={ref}
+            id={context.contentId}
+            role="listbox"
+            onDismiss={() => context.setOpen(false)}
             className={cn(
-              "glass-p-1",
+              "glass-select-content relative z-50 max-h-96 min-w-[8rem] overflow-hidden",
+              "glass-backdrop-blur-md bg-black/70 ring-1 ring-white/12",
+              "glass-radius-xl shadow-2xl shadow-black/40",
+              "text-foreground",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out",
+              "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+              "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+              "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
+              "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
               position === "popper" && [
-                "h-[var(--radix-select-trigger-height)] w-full",
-                "min-w-[var(--radix-select-trigger-width)]",
-              ]
+                "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1",
+                "data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+              ],
+              className
             )}
+            data-state="open"
+            data-side="bottom"
+            data-position-strategy={
+              isContained ? "contained" : positionStrategy
+            }
+            {...props}
           >
-            {children}
-          </SelectPrimitive.Viewport>
-          <GlassSelectScrollDownButton />
-        </SelectPrimitive.Content>
+            <GlassSelectScrollUpButton />
+            <div
+              className={cn(
+                "glass-p-1",
+                position === "popper" && [
+                  "h-[var(--radix-select-trigger-height)] w-full",
+                  "min-w-[var(--radix-select-trigger-width)]",
+                ]
+              )}
+            >
+              {children}
+            </div>
+            <GlassSelectScrollDownButton />
+          </DismissableLayer>
+        </Positioner>
       </Motion>
     );
 
     if (isContained) return content;
-    return (
-      <SelectPrimitive.Portal container={portalContainer ?? undefined}>
-        {content}
-      </SelectPrimitive.Portal>
-    );
+    return <Portal container={portalContainer}>{content}</Portal>;
   }
 );
-GlassSelectContent.displayName = SelectPrimitive.Content.displayName;
+GlassSelectContent.displayName = "GlassSelectContent";
 
 // Glass Select Item
 export interface GlassSelectItemProps
-  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Item variant */
   variant?: "default" | "ghost";
+  value: string;
+  disabled?: boolean;
+  textValue?: string;
 }
 
-const GlassSelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  GlassSelectItemProps
->(({ className, children, variant = "default", ...props }, ref) => {
-  const variantStyles = {
-    default: cn(
-      "focus:bg-muted/50 focus:text-foreground",
-      "data-[highlighted]:bg-muted/50 data-[highlighted]:text-foreground"
-    ),
-    ghost: cn(
-      "focus:bg-primary/10 focus:text-primary",
-      "data-[highlighted]:bg-primary/10 data-[highlighted]:text-primary"
-    ),
-  };
+const GlassSelectItem = React.forwardRef<HTMLDivElement, GlassSelectItemProps>(
+  (
+    {
+      className,
+      children,
+      variant = "default",
+      value,
+      disabled = false,
+      textValue,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
+    const context = useSelectContext();
+    const selected = context.value === value;
+    const label = textValue ?? getTextFromNode(children) ?? value;
 
-  return (
-    <SelectPrimitive.Item
-      ref={ref}
-      className={cn(
-        // Base styles
-        "glass-select-item relative flex w-full cursor-pointer select-none items-center",
-        "glass-radius-lg glass-py-2 pl-8 pr-2 glass-text-sm outline-none transition-all duration-150",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+    React.useEffect(() => {
+      context.registerItem(value, label);
+    }, [context, label, value]);
 
-        // Variant styles
-        variantStyles[variant],
+    const variantStyles = {
+      default: cn(
+        "focus:bg-muted/50 focus:text-foreground",
+        "data-[highlighted]:bg-muted/50 data-[highlighted]:text-foreground"
+      ),
+      ghost: cn(
+        "focus:bg-primary/10 focus:text-primary",
+        "data-[highlighted]:bg-primary/10 data-[highlighted]:text-primary"
+      ),
+    };
 
-        className
-      )}
-      {...props}
-    >
-      <span className="glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center">
-        <SelectPrimitive.ItemIndicator>
-          <Check className="glass-h-4 glass-w-4" />
-        </SelectPrimitive.ItemIndicator>
-      </span>
+    return (
+      <div
+        ref={ref}
+        role="option"
+        aria-selected={selected}
+        aria-disabled={disabled || undefined}
+        data-state={selected ? "checked" : "unchecked"}
+        data-disabled={disabled ? "" : undefined}
+        tabIndex={disabled ? undefined : -1}
+        className={cn(
+          "glass-select-item relative flex w-full cursor-pointer select-none items-center",
+          "glass-radius-lg glass-py-2 pl-8 pr-2 glass-text-sm outline-none transition-all duration-150",
+          "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+          variantStyles[variant],
+          className
+        )}
+        onClick={(event) => {
+          onClick?.(event);
+          if (event.defaultPrevented || disabled) return;
+          context.setValue(value, label);
+          context.setOpen(false);
+          context.triggerRef.current?.focus();
+        }}
+        {...props}
+      >
+        <span className="glass-absolute glass-left-2 glass-flex glass-h-3-5 glass-w-3-5 glass-items-center glass-justify-center">
+          {selected && <Check className="glass-h-4 glass-w-4" />}
+        </span>
 
-      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-    </SelectPrimitive.Item>
-  );
-});
-GlassSelectItem.displayName = SelectPrimitive.Item.displayName;
+        <span>{children}</span>
+      </div>
+    );
+  }
+);
+GlassSelectItem.displayName = "GlassSelectItem";
 
 // Glass Select Label
 const GlassSelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <SelectPrimitive.Label
+  <div
     ref={ref}
     className={cn(
       "glass-select-label glass-py-1.5 pl-8 pr-2 glass-text-sm font-semibold glass-text-secondary",
@@ -259,15 +552,16 @@ const GlassSelectLabel = React.forwardRef<
     {...props}
   />
 ));
-GlassSelectLabel.displayName = SelectPrimitive.Label.displayName;
+GlassSelectLabel.displayName = "GlassSelectLabel";
 
 // Glass Select Separator
 const GlassSelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <SelectPrimitive.Separator
+  <div
     ref={ref}
+    role="separator"
     className={cn(
       "glass-select-separator -glass-mx-1 glass-my-1 h-px bg-border/20",
       className
@@ -275,15 +569,16 @@ const GlassSelectSeparator = React.forwardRef<
     {...props}
   />
 ));
-GlassSelectSeparator.displayName = SelectPrimitive.Separator.displayName;
+GlassSelectSeparator.displayName = "GlassSelectSeparator";
 
 // Glass Select Scroll Buttons
 const GlassSelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollUpButton
+  <div
     ref={ref}
+    aria-hidden="true"
     className={cn(
       "glass-select-scroll-up flex cursor-default items-center justify-center glass-py-1",
       "glass-text-secondary hover:text-foreground transition-colors",
@@ -292,17 +587,17 @@ const GlassSelectScrollUpButton = React.forwardRef<
     {...props}
   >
     <ChevronUp className="glass-h-4 glass-w-4" />
-  </SelectPrimitive.ScrollUpButton>
+  </div>
 ));
-GlassSelectScrollUpButton.displayName =
-  SelectPrimitive.ScrollUpButton.displayName;
+GlassSelectScrollUpButton.displayName = "GlassSelectScrollUpButton";
 
 const GlassSelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollDownButton
+  <div
     ref={ref}
+    aria-hidden="true"
     className={cn(
       "glass-select-scroll-down flex cursor-default items-center justify-center glass-py-1",
       "glass-text-secondary hover:text-foreground transition-colors",
@@ -311,10 +606,9 @@ const GlassSelectScrollDownButton = React.forwardRef<
     {...props}
   >
     <ChevronDown className="glass-h-4 glass-w-4" />
-  </SelectPrimitive.ScrollDownButton>
+  </div>
 ));
-GlassSelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName;
+GlassSelectScrollDownButton.displayName = "GlassSelectScrollDownButton";
 
 // Export all components
 export {

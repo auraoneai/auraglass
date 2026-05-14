@@ -53,7 +53,7 @@ exports[`GlassDrawer matches snapshot 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-x glass-w-4 glass-h-4"
+                class="glass-w-4 glass-h-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"

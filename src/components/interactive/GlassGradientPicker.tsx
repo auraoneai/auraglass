@@ -8,7 +8,7 @@ import {
   RotateCcw,
   Shuffle,
   Upload,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

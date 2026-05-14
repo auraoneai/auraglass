@@ -94,6 +94,78 @@ describe("GlassDataTable", () => {
     expect(header).toHaveAttribute("aria-sort", "none");
   });
 
+  it("sorts selectable rows and reports selection changes", () => {
+    const onSelectionChange = jest.fn();
+    render(
+      <GlassDataTable
+        columns={[{ header: "Name", accessorKey: "name", id: "name" }]}
+        data={[
+          { id: "b", name: "Bravo" },
+          { id: "a", name: "Alpha" },
+        ]}
+        getRowId={(row) => String(row.id)}
+        selectable
+        selectedRows={[]}
+        onSelectionChange={onSelectionChange}
+        searchable={false}
+        pagination={false}
+      />
+    );
+
+    fireEvent.click(screen.getByText("Name"));
+    expect(screen.getByText("Name").closest("th")).toHaveAttribute(
+      "aria-sort",
+      "ascending"
+    );
+
+    const rowCheckboxes = screen.getAllByRole("checkbox");
+    fireEvent.click(rowCheckboxes[1]);
+    expect(onSelectionChange).toHaveBeenCalledWith(["a"]);
+  });
+
+  it("renders loading, empty, row actions, and pagination states", () => {
+    const { rerender, unmount } = render(
+      <GlassDataTable
+        columns={[{ header: "Name", accessorKey: "name", id: "name" }]}
+        data={[]}
+        loading
+        searchable={false}
+      />
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent("Loading...");
+
+    rerender(
+      <GlassDataTable
+        columns={[{ header: "Name", accessorKey: "name", id: "name" }]}
+        data={[]}
+        emptyMessage="No customers"
+        actions={<button type="button">New customer</button>}
+      />
+    );
+
+    expect(screen.getByText("No customers")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "New customer" })
+    ).toBeInTheDocument();
+    unmount();
+
+    const paginated = render(
+      <GlassDataTable
+        columns={[{ header: "Name", accessorKey: "name", id: "name" }]}
+        data={[{ name: "A" }, { name: "B" }, { name: "C" }]}
+        initialPageSize={2}
+        pageSizeOptions={[2]}
+        searchable={false}
+      />
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent("Showing 1 to 2 of 3");
+    fireEvent.click(screen.getByRole("button", { name: "Next page" }));
+    expect(screen.getByRole("status")).toHaveTextContent("Showing 3 to 3 of 3");
+    paginated.unmount();
+  });
+
   /**
    * Snapshot Test: Matches snapshot
    */

@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Check, Mail, Search, UserRound } from "lucide-react";
+import { Check, Mail, Search, UserRound } from "@/icons";
 import { GlassInput } from "./GlassInput";
 
 const meta: Meta<typeof GlassInput> = {

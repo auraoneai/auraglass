@@ -3,7 +3,7 @@ import { GlassButton } from "../button/GlassButton";
 import { GlassTooltip } from "../modal/GlassPopover";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "@/icons";
 import { ANIMATION } from "../../tokens/designConstants";
 import React, {
   createContext,
@@ -319,9 +319,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             aria-label={props["aria-label"] || "Main navigation"}
             className={cn(
               "h-full flex flex-col transition-colors overflow-visible",
-              contained
-                ? "min-h-0"
-                : "min-h-[420px] max-h-[calc(100vh-2rem)]",
+              contained ? "min-h-0" : "min-h-[420px] max-h-[calc(100vh-2rem)]",
               useViewportOverlay && "h-screen max-h-screen",
               contained && "glass-contained",
               widthClasses?.[width],

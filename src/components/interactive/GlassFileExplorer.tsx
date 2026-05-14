@@ -21,7 +21,7 @@ import {
   Upload,
   Video,
   X,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { GlassButton } from "../button/GlassButton";
@@ -49,10 +49,8 @@ export interface FileItem {
   isLoading?: boolean;
 }
 
-export interface GlassFileExplorerProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "onSelect"
-> {
+export interface GlassFileExplorerProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onSelect"> {
   currentPath?: string;
   files?: FileItem[];
   onNavigate?: (path: string) => void;

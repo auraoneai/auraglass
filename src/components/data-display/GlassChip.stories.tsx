@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { CheckCircle2, Clock, Filter, X } from "lucide-react";
+import { CheckCircle2, Clock, Filter, X } from "@/icons";
 import { GlassChip } from "./GlassChip";
 
 const InteractiveChipSet = () => {

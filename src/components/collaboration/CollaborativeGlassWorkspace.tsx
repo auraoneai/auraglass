@@ -14,7 +14,7 @@ import {
   Trash2,
   Undo,
   Wifi,
-} from "lucide-react";
+} from "@/icons";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { createGlassStyle } from "../../core/mixins/glassMixins";

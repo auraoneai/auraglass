@@ -3,6 +3,8 @@
 // AuraGlass Design System - Main Exports
 // A comprehensive collection of glassmorphism UI components
 
+export * from "./icons";
+
 // Core Glass Primitives
 export { GlassAdvanced } from "./primitives/glass/GlassAdvanced";
 export { OptimizedGlassAdvanced } from "./primitives/glass/OptimizedGlassAdvanced";
@@ -106,6 +108,17 @@ export {
 } from "./components/navigation/GlassDropdownMenu";
 export { GlassHeader } from "./components/navigation/GlassHeader";
 export { GlassMenubar } from "./components/navigation/GlassMenubar";
+export {
+  GlassMenuPrimitive,
+  GlassMenuPrimitiveContent,
+  GlassMenuPrimitiveItem,
+  GlassMenuPrimitiveRoot,
+} from "./components/navigation/GlassMenuPrimitive";
+export type {
+  GlassMenuPrimitiveContentProps,
+  GlassMenuPrimitiveItemProps,
+  GlassMenuPrimitiveRootProps,
+} from "./components/navigation/GlassMenuPrimitive";
 export { GlassMobileNav } from "./components/navigation/GlassMobileNav";
 export {
   GlassNavigation,
@@ -117,13 +130,24 @@ export type {
 } from "./components/navigation/types";
 export { GlassNavigationMenu } from "./components/navigation/GlassNavigationMenu";
 export { GlassPagination } from "./components/navigation/GlassPagination";
+export {
+  GlassPageTabs,
+  type GlassPageTab,
+  type GlassPageTabsProps,
+} from "./components/navigation/GlassPageTabs";
 export { GlassResponsiveNav } from "./components/navigation/GlassResponsiveNav";
 export { GlassResponsiveNav as ResponsiveNavigation } from "./components/navigation/GlassResponsiveNav"; // Alias export
 export { GlassSegmentedControl } from "./components/navigation/GlassSegmentedControl";
 export { GlassSidebar } from "./components/navigation/GlassSidebar";
 export { GlassTabBar } from "./components/navigation/GlassTabBar";
 export { GlassTabItem } from "./components/navigation/GlassTabItem";
-export { GlassTabs } from "./components/navigation/GlassTabs";
+export {
+  GlassTabs,
+  Tabs as GlassTabsRoot,
+  TabsContent as GlassTabsContent,
+  TabsList as GlassTabsList,
+  TabsTrigger as GlassTabsTrigger,
+} from "./components/navigation/GlassTabs";
 export { EnhancedGlassTabs } from "./components/navigation/EnhancedGlassTabs";
 export { GlassToolbar } from "./components/navigation/GlassToolbar";
 export {
@@ -171,9 +195,26 @@ export {
 export { GlassCheckbox } from "./components/input/GlassCheckbox";
 export { GlassCheckboxGroup } from "./components/input/GlassCheckboxGroup";
 export { GlassColorPicker } from "./components/input/GlassColorPicker";
+export {
+  GlassCombobox,
+  type GlassComboboxOption,
+  type GlassComboboxProps,
+} from "./components/input/GlassCombobox";
+export {
+  GlassDateField,
+  type GlassDateFieldProps,
+} from "./components/input/GlassDateField";
 export { GlassDatePicker } from "./components/input/GlassDatePicker";
 export { GlassDateRangePicker } from "./components/input/GlassDateRangePicker";
+export {
+  GlassFieldGroup,
+  type GlassFieldGroupProps,
+} from "./components/input/GlassFieldGroup";
 export { GlassForm } from "./components/input/GlassForm";
+export {
+  GlassFormField,
+  type GlassFormFieldProps,
+} from "./components/input/GlassFormField";
 export { GlassFormStepper } from "./components/input/GlassFormStepper";
 export { GlassFormTable } from "./components/input/GlassFormTable";
 export { GlassInput } from "./components/input/GlassInput";
@@ -181,15 +222,39 @@ export { GlassLabel } from "./components/input/GlassLabel";
 export { GlassMultiSelect } from "./components/input/GlassMultiSelect";
 export { GlassMultiStepForm } from "./components/input/GlassMultiStepForm";
 export { GlassRadioGroup } from "./components/input/GlassRadioGroup";
+export {
+  GlassSearchField,
+  type GlassSearchFieldProps,
+} from "./components/input/GlassSearchField";
 export { GlassSelect } from "./components/input/GlassSelect";
-export { default as GlassSelectCompound } from "./components/input/GlassSelectCompound";
+export {
+  default as GlassSelectCompound,
+  Select as GlassSelectRoot,
+  SelectContent as GlassSelectContent,
+  SelectGroup as GlassSelectGroup,
+  SelectItem as GlassSelectItem,
+  SelectLabel as GlassSelectLabel,
+  SelectScrollDownButton as GlassSelectScrollDownButton,
+  SelectScrollUpButton as GlassSelectScrollUpButton,
+  SelectSeparator as GlassSelectSeparator,
+  SelectTrigger as GlassSelectTrigger,
+  SelectValue as GlassSelectValue,
+} from "./components/input/GlassSelectCompound";
 export { GlassSlider } from "./components/input/GlassSlider";
 export { GlassStep } from "./components/input/GlassStep";
 export { GlassStepIcon } from "./components/input/GlassStepIcon";
 export { GlassStepLabel } from "./components/input/GlassStepLabel";
 export { GlassSwitch } from "./components/input/GlassSwitch";
 export { GlassTextarea } from "./components/input/GlassTextarea";
+export {
+  GlassTimeField,
+  type GlassTimeFieldProps,
+} from "./components/input/GlassTimeField";
 export { GlassToggle } from "./components/input/GlassToggle";
+export {
+  GlassValidationMessage,
+  type GlassValidationMessageProps,
+} from "./components/input/GlassValidationMessage";
 export { GlassWizard } from "./components/input/GlassWizard";
 export {
   LiquidGlassControlGroup,
@@ -228,8 +293,20 @@ export { GlassDataGrid } from "./components/data-display/GlassDataGrid";
 export { GlassDataGridPro } from "./components/data-display/GlassDataGridPro";
 export { GlassDataTable } from "./components/data-display/GlassDataTable";
 export { GlassDiffViewer } from "./components/data-display/GlassDiffViewer";
+export {
+  GlassEmptyState,
+  type GlassEmptyStateProps,
+} from "./components/data-display/GlassEmptyState";
+export {
+  GlassErrorState,
+  type GlassErrorStateProps,
+} from "./components/data-display/GlassErrorState";
 export { GlassHeatmap } from "./components/data-display/GlassHeatmap";
 export { GlassJSONViewer } from "./components/data-display/GlassJSONViewer";
+export {
+  GlassLoadingState,
+  type GlassLoadingStateProps,
+} from "./components/data-display/GlassLoadingState";
 export { GlassLoadingSkeleton } from "./components/data-display/GlassLoadingSkeleton";
 export { GlassMetricChip } from "./components/data-display/GlassMetricChip";
 export { GlassProgress } from "./components/data-display/GlassProgress";
@@ -238,6 +315,13 @@ export { GlassSparkline } from "./components/data-display/GlassSparkline";
 export { GlassStatusDot } from "./components/data-display/GlassStatusDot";
 export { GlassTimeline } from "./components/data-display/GlassTimeline";
 export { GlassToast } from "./components/data-display/GlassToast";
+export {
+  GlassToastProvider,
+  GlassToastViewport,
+  useToast,
+  type GlassToastProviderProps,
+  type GlassToastViewportProps,
+} from "./components/data-display/GlassToastProvider";
 export { GlassVirtualTable } from "./components/data-display/GlassVirtualTable";
 export {
   LiquidGlassBadgeCluster,
@@ -337,6 +421,11 @@ export { GlassFacetSearch } from "./components/interactive/GlassFacetSearch";
 export { GlassFileExplorer } from "./components/interactive/GlassFileExplorer";
 export { GlassFileTree } from "./components/interactive/GlassFileTree";
 export { GlassFileUpload } from "./components/interactive/GlassFileUpload";
+export {
+  GlassFilterBar,
+  type GlassFilterBarFilter,
+  type GlassFilterBarProps,
+} from "./components/interactive/GlassFilterBar";
 export { GlassFilterPanel } from "./components/interactive/GlassFilterPanel";
 export { GlassFocusRing } from "./components/interactive/GlassFocusRing";
 export { GlassFormBuilder } from "./components/interactive/GlassFormBuilder";

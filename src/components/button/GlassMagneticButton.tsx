@@ -9,8 +9,7 @@ import React, {
 } from "react";
 import { cn } from "@/lib/utils";
 import { GlassButton, GlassButtonProps } from "./GlassButton";
-import { Slot } from "@radix-ui/react-slot";
-import { Motion } from "../../primitives";
+import { Motion, Slot } from "../../primitives";
 import { announceToScreenReader } from "../../utils/a11y";
 import { getSafeWindow, isBrowser, safeMatchMedia } from "../../utils/env";
 import { ContrastGuard } from "../accessibility/ContrastGuard";

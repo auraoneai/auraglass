@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Grid3X3, List, PanelsTopLeft } from "lucide-react";
+import { Grid3X3, List, PanelsTopLeft } from "@/icons";
 import { GlassSegmentedControl } from "./GlassSegmentedControl";
 
 const items = [

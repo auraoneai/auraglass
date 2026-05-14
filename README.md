@@ -1,4 +1,4 @@
-# AuraGlass by AuraOne 3.1.1
+# AuraGlass by AuraOne 3.2.0
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -11,11 +11,11 @@
 
 AuraGlass by AuraOne is a production React and Next.js component system for Liquid Glass interfaces: premium dashboards, AI products, media tools, creator apps, data-heavy workspaces, and polished SaaS surfaces. It packages glass-native components, design tokens, motion, accessibility guardrails, SSR-safe entrypoints, optional 3D/media integrations, and release evidence in one npm library.
 
-## 3.1 Package Surface
+## 3.2 Package Surface
 
-AuraGlass by AuraOne 3.1 ships 804 runtime exports for React and Next.js, including 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, 10 launch recipes, a scaffolding CLI, 19 functional sub-entrypoints, six token formats, and a complete Liquid Glass stylesheet.
+AuraGlass by AuraOne 3.2 ships a dependency-sovereign Liquid Glass app-surface system for React and Next.js: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, migration CLI commands, 10 launch recipes, six token formats, and a complete Liquid Glass stylesheet.
 
-These are package-surface counts from the published `aura-glass` tarball and built `dist/` output. Older 356-entry certification reports are retained as historical 3.0 evidence and should not be used as the current 3.1 package export count.
+No MUI, Radix, Lucide, or shadcn/ui package is required for core AuraGlass app chrome. Domain features such as charts, 3D, AI services, collaboration transport, and form-builder integrations still use optional peers only when those feature families are imported.
 
 ```bash
 npm install aura-glass
@@ -41,8 +41,8 @@ Production links:
 - Website and component catalog: [auraglass.auraone.ai](https://auraglass.auraone.ai)
 - npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
-- 3.1 release evidence scaffold: [reports/3.1-release](./reports/3.1-release/README.md)
-- 3.1 package surface audit: [reports/3.1-release/package-surface-audit.md](./reports/3.1-release/package-surface-audit.md)
+- 3.2 release evidence scaffold: [reports/3.2-release](./reports/3.2-release/README.md)
+- 3.2 dependency elimination report: [reports/3.2-release/dependency-elimination.md](./reports/3.2-release/dependency-elimination.md)
 
 ## Why AuraGlass
 
@@ -71,13 +71,14 @@ AuraGlass is not trying to be the smallest possible primitive kit. If you want n
 
 ## Flagship Components
 
-3.1 highlights a smaller set of flagship surfaces instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
+3.2 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
 
 | Product job | Start with |
 | --- | --- |
 | Core glass surfaces | `OptimizedGlass`, `GlassCard`, `GlassButton`, `EnhancedGlassButton` |
-| Overlays and command UI | `GlassModal`, `GlassDrawer`, `GlassPopover`, `GlassCommandPalette` |
+| Overlays and command UI | `GlassDropdownMenu`, `GlassSelectCompound`, `GlassModal`, `GlassDrawer`, `GlassPopover`, `GlassCommandPalette` |
 | App navigation | `GlassNavbar`, `GlassSidebar`, `GlassTabs` |
+| App shell and workspaces | `GlassAppShell`, `GlassTopBar`, `GlassSidebarRail`, `GlassWorkspace`, `GlassWorkflowShell` |
 | Data-heavy dashboards | `GlassDataGrid`, `GlassDataTable`, `GlassDataChart`, `GlassHeatmap` |
 | Scheduling and workflows | `GlassCalendar`, `GlassKanbanBoard`, `GlassWizard` |
 | Media and creator tools | `GlassFileUpload`, `LiquidGlassMediaControls`, `GlassImageViewer`, `GlassMusicVisualizer` |
@@ -100,7 +101,7 @@ Do not import from private source paths. Use optional peer packages only for the
 
 ## Recipes, Registry, And CLI
 
-AuraGlass 3.1 now includes a package-level recipe registry and a prototype CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
+AuraGlass 3.2 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
 
 List available recipes:
 
@@ -121,6 +122,17 @@ npx aura-glass add ai-command-center
 ```
 
 The CLI writes into `src/components/auraglass/recipes` by default and supports `--out`, `--cwd`, `--dry-run`, `--force`, and `--json`.
+
+3.2 also adds migration commands:
+
+```bash
+npx aura-glass audit deps --json
+npx aura-glass audit imports --json
+npx aura-glass migrate icons --from lucide --dry-run
+npx aura-glass migrate radix --dry-run
+npx aura-glass migrate mui --dry-run
+npx aura-glass doctor --json
+```
 
 Launch recipes included in the package registry:
 
@@ -216,8 +228,8 @@ React and React DOM are required. Other peers are feature-family dependencies. I
 | Feature family | Peer packages |
 | --- | --- |
 | Core React UI | `react`, `react-dom` |
-| Motion and icons | `framer-motion`, `lucide-react` |
-| Forms and Radix-backed controls | `react-hook-form`, `@radix-ui/react-dropdown-menu`, `@radix-ui/react-label`, `@radix-ui/react-select`, `@radix-ui/react-slot` |
+| Motion | `framer-motion` |
+| Forms | `react-hook-form` |
 | Charts and data visualization | `react-chartjs-2`, `chart.js` |
 | 3D and AR | `three`, `@react-three/fiber`, `@react-three/drei` |
 | Error reporting integrations | `@sentry/react` |
@@ -225,8 +237,7 @@ React and React DOM are required. Other peers are feature-family dependencies. I
 Example full peer install for apps that use forms, charts, and 3D:
 
 ```bash
-npm install react react-dom framer-motion lucide-react react-hook-form react-chartjs-2 chart.js
-npm install @radix-ui/react-dropdown-menu @radix-ui/react-label @radix-ui/react-select @radix-ui/react-slot
+npm install react react-dom framer-motion react-hook-form react-chartjs-2 chart.js
 npm install three @react-three/fiber @react-three/drei
 ```
 
@@ -292,7 +303,7 @@ AuraGlass components are expected to preserve:
 - reduced-motion behavior for animation, transition, and physics effects
 - desktop and mobile Storybook renderability
 
-Current package-surface evidence for 3.1 records 804 runtime exports, 439 component-like value exports, 121 hook exports, 29 provider exports, 10 launch recipes, and 19 functional sub-entrypoints. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence, but it is not the current 3.1 package export count. The 3.1 package gates have also been rerun for the release candidate, including typecheck, CLI verification, pack/install smoke, npm dry publish, and React 18/19 Next.js integration smokes.
+Current 3.2 release evidence records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 20 package registry recipes, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current 3.2 package export count or launch claim.
 
 Primary evidence sources:
 
@@ -302,6 +313,10 @@ Primary evidence sources:
 - [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
 - [3.1 accessibility and visual QA baseline](./reports/3.1-release/accessibility-and-visual-qa.md)
 - [3.1 package surface audit](./reports/3.1-release/package-surface-audit.md)
+- [3.2 release evidence](./reports/3.2-release/README.md)
+- [3.2 dependency elimination](./reports/3.2-release/dependency-elimination.md)
+- [3.2 bundle analysis](./reports/3.2-release/bundle-analysis.md)
+- [3.2 accessibility certification ledger](./reports/3.2-release/accessibility-certification.md)
 
 ## Performance And SSR
 
@@ -321,7 +336,19 @@ AuraGlass keeps the root package focused on React UI and isolates heavier surfac
 | `aura-glass/three` | Optional 3D, AR, and React Three Fiber integrations. |
 | `aura-glass/client` | Client-specific helpers. |
 | `aura-glass/server` | Server-specific helpers. |
-| `aura-glass/registry` | Styled registry compatibility plus 3.1 copyable recipe metadata. |
+| `aura-glass/icons` | First-party AuraGlass icons for app chrome. |
+| `aura-glass/icons/navigation` | Tree-shakable navigation icon category entrypoint. |
+| `aura-glass/primitives` | First-party primitives for slot, portal, focus, dismissal, roving focus, and positioning. |
+| `aura-glass/primitives/slot` | Slot/asChild primitive. |
+| `aura-glass/primitives/portal` | SSR-safe portal primitive. |
+| `aura-glass/primitives/focus` | Focus scope primitive. |
+| `aura-glass/primitives/dismissable-layer` | Dismissable overlay primitive. |
+| `aura-glass/primitives/roving-focus` | Roving focus primitive. |
+| `aura-glass/primitives/positioning` | Anchor positioning primitive. |
+| `aura-glass/app-shell` | Native dashboard, SaaS, AI, media, and collaboration app shell components. |
+| `aura-glass/workspace` | Workspace and workflow shell components. |
+| `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
+| `aura-glass/registry` | Styled registry compatibility plus 3.2 copyable recipe metadata. |
 | `aura-glass/hooks/useGlassProbes` | Runtime glass style probe hooks. |
 | `aura-glass/services/ai/openai-service` | Optional OpenAI-backed backend integration. |
 | `aura-glass/services/ai/vision-service` | Optional Google Cloud Vision backend integration. |

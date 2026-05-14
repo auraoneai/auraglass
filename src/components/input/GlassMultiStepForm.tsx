@@ -7,7 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
-} from "lucide-react";
+} from "@/icons";
 import React, { createContext, useCallback, useContext, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

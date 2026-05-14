@@ -7,7 +7,7 @@ import {
   Minimize2,
   Pause,
   Play,
-} from "lucide-react";
+} from "@/icons";
 import React, {
   Children,
   ReactNode,

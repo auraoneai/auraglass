@@ -9,7 +9,7 @@ import {
   Loader2,
   Share2,
   ZoomIn,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { useReducedMotion } from "../../hooks/useReducedMotion";

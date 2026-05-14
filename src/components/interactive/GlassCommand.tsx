@@ -2,7 +2,7 @@
 import { GlassInput } from "../input/GlassInput";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { Search } from "lucide-react";
+import { Search } from "@/icons";
 import React, {
   createContext,
   useContext,
@@ -102,10 +102,8 @@ export interface GlassCommandDialogProps extends GlassCommandProps {
   description?: string;
 }
 
-export interface GlassCommandInputProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "size"
-> {
+export interface GlassCommandInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   /**
    * Custom className
    */

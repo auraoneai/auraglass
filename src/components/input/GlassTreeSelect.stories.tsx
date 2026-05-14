@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Folder, LayoutDashboard, Shield, Users } from "lucide-react";
+import { Folder, LayoutDashboard, Shield, Users } from "@/icons";
 import { GlassTreeSelect, type TreeNode } from "./GlassTreeSelect";
 
 const data: TreeNode[] = [

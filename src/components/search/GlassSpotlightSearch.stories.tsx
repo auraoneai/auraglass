@@ -6,7 +6,7 @@ import {
   FolderSearch,
   Settings,
   ShieldCheck,
-} from "lucide-react";
+} from "@/icons";
 import {
   GlassSpotlightSearch,
   type SpotlightAction,

@@ -2,7 +2,7 @@
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { X } from "lucide-react";
+import { X } from "@/icons";
 import React, {
   forwardRef,
   useCallback,

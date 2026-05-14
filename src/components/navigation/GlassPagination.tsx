@@ -6,7 +6,7 @@ import {
   ChevronsLeft,
   ChevronsRight,
   MoreHorizontal,
-} from "lucide-react";
+} from "@/icons";
 import React from "react";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";

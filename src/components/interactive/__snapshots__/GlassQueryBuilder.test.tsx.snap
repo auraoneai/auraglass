@@ -14,7 +14,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
     >
       <button
         aria-autocomplete="none"
-        aria-controls="radix-:rf:"
+        aria-controls=":r9:"
         aria-expanded="false"
         aria-label="Select combinator (AND/OR)"
         class="glass-select-trigger group flex w-full items-center justify-between glass-radius-lg glass-backdrop-blur-md transition-all duration-200 text-foreground placeholder:glass-text-secondary focus:outline-none focus:ring-offset-2 focus:ring-offset-background glass-disabled-cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 h-10 glass-px-3 glass-py-2 glass-text-sm bg-background/50 border border-border/20 focus:border-primary focus:ring-1 focus:ring-primary glass-w-24 glass-h-8 glass-text-sm"
@@ -31,7 +31,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
         </span>
         <svg
           aria-hidden="true"
-          class="lucide lucide-chevron-down glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180"
+          class="glass-h-4 glass-w-4 glass-opacity-50 glass-transition-transform glass-group-data-[state=open]:rotate-180"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -58,7 +58,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
           data-magnet="true"
           data-performance-mode="ultra"
           data-refraction="true"
-          id="glass-button-:rg:"
+          id="glass-button-:ra:"
           style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
         >
           <span
@@ -76,7 +76,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
           class="inline-flex items-center justify-center font-medium transition-all duration-[300ms] ease-out glass-focus disabled:pointer-events-none disabled:opacity-50 relative overflow-hidden glass-overlay-specular glass-parallax h-8 px-3 text-sm glass-accent-primary glass-text-secondary hover:glass-text-primary glass-elev-0 glass-radius-md glass-magnet glass-ripple glass-press glass-text-white hover:glass-text-white"
           data-button-size="sm"
           data-button-variant="ghost"
-          id="glass-button-:rh:"
+          id="glass-button-:rb:"
           style="color: rgba(255, 255, 255, 0.95);"
         >
           + Group

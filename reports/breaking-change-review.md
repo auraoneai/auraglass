@@ -30,7 +30,7 @@ No package-level subpath export removals were detected in the `package.json` exp
 | `react-dom` | `>=18.0.0`, required | `>=18.0.0 <20.0.0`, required | Explicitly supports React 18 and 19; React 20 remains outside the tested range. |
 | `three` | `^0.170.0`, required | `>=0.159.0 <1.0.0`, optional | Widened and made optional, reducing install pressure for non-3D consumers. |
 
-Feature-specific peers are marked optional in the current package metadata: Radix UI packages, React Three Fiber, Drei, Sentry, framer-motion, lucide-react, react-chartjs-2, react-hook-form, and three. `react` and `react-dom` remain required.
+Feature-specific peers are marked optional in the current package metadata: React Three Fiber, Drei, Sentry, framer-motion, react-chartjs-2, react-hook-form, and three. Core icons, app chrome, menus, selects, and primitives are first-party AuraGlass surfaces. `react` and `react-dom` remain required.
 
 ## Semver Position
 

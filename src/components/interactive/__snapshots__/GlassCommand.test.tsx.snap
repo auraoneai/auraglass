@@ -14,7 +14,7 @@ exports[`GlassCommand matches snapshot 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="lucide lucide-search glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-secondary"
+        class="glass-absolute glass-left-3 glass-top-1/2 glass-transform glass--translate-y-1-2 glass-w-4 glass-h-4 glass-text-secondary"
         fill="none"
         height="24"
         stroke="currentColor"
@@ -25,13 +25,13 @@ exports[`GlassCommand matches snapshot 1`] = `
         width="24"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path
-          d="m21 21-4.34-4.34"
-        />
         <circle
           cx="11"
           cy="11"
-          r="8"
+          r="7"
+        />
+        <path
+          d="m20 20-4.2-4.2"
         />
       </svg>
       <div

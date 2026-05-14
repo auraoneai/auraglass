@@ -22,7 +22,6 @@ const manualExternalDeps = [
     '@react-three/fiber',
     '@react-three/drei',
     'framer-motion',
-    'lucide-react',
     'clsx',
     'tailwind-merge',
     'chart.js',
@@ -45,9 +44,6 @@ const manualExternalSet = new Set(manualExternalDeps);
 const externalPatterns = [
     /^react\//,
     /^react-dom\//,
-    /^@radix-ui\/react-/,
-    /^@radix-ui\/primitive/,
-    /^@radix-ui\/utilities/,
     /^@react-three\//,
     /^three\//,
     /^framer-motion\//,

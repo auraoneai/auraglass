@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Activity, DollarSign, Gauge, Users } from "lucide-react";
+import { Activity, DollarSign, Gauge, Users } from "@/icons";
 import { GlassMetricsGrid, type MetricConfig } from "./GlassMetricsGrid";
 
 const metrics: MetricConfig[] = [

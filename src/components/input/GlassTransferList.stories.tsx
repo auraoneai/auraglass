@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { Code2, Database, Gauge, ShieldCheck, Users } from "lucide-react";
+import { Code2, Database, Gauge, ShieldCheck, Users } from "@/icons";
 import { GlassTransferList, type TransferListItem } from "./GlassTransferList";
 
 const items: TransferListItem[] = [

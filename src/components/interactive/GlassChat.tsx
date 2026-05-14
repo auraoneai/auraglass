@@ -15,7 +15,7 @@ import {
   Users,
   Video,
   X,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Motion } from "../../primitives";
 import { GlassButton } from "../button";

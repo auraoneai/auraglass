@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { GlassStatCard } from './GlassStatCard';
 import { cn } from '../../lib/utils';
-import { TrendingUp, Users, DollarSign } from 'lucide-react';
+import { TrendingUp, Users, DollarSign } from "@/icons";
 
 const meta: Meta<typeof GlassStatCard> = {
   title: 'Reference/Legacy Components/Glass Stat Card',

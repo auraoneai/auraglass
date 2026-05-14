@@ -4,7 +4,7 @@ import React from "react";
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "@/icons";
 import { OptimizedGlass } from "../../primitives";
 import { Motion } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
@@ -231,7 +231,8 @@ const GlassAlert = React.forwardRef<HTMLDivElement, GlassAlertProps>(
 GlassAlert.displayName = "GlassAlert";
 
 // Glass Alert Title
-export interface GlassAlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+export interface GlassAlertTitleProps
+  extends React.HTMLAttributes<HTMLHeadingElement> {
   /** Title size variant */
   size?: "sm" | "md" | "lg";
 }
@@ -261,7 +262,8 @@ const GlassAlertTitle = React.forwardRef<
 GlassAlertTitle.displayName = "GlassAlertTitle";
 
 // Glass Alert Description
-export interface GlassAlertDescriptionProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAlertDescriptionProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Description size variant */
   size?: "xs" | "sm" | "md";
 }
@@ -291,7 +293,8 @@ const GlassAlertDescription = React.forwardRef<
 GlassAlertDescription.displayName = "GlassAlertDescription";
 
 // Glass Alert Actions (for action buttons)
-export interface GlassAlertActionsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GlassAlertActionsProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   /** Actions alignment */
   align?: "left" | "right" | "center";
   /** Actions spacing */

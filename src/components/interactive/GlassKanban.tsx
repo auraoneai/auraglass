@@ -13,7 +13,7 @@ import { useEyeTracking } from "../advanced/GlassEyeTracking";
 import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
 import { GlassButton } from "../button";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
-import { Plus, MoreHorizontal, Eye, Target, Brain } from "lucide-react";
+import { Plus, MoreHorizontal, Eye, Target, Brain } from "@/icons";
 import {
   ContrastGuard,
   TextWithContrast,

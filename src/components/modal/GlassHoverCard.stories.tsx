@@ -1,6 +1,6 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { BarChart3, CreditCard, Info, ShieldCheck, Sparkles } from "lucide-react";
+import { BarChart3, CreditCard, Info, ShieldCheck, Sparkles } from "@/icons";
 import { GlassHoverCard } from "./GlassHoverCard";
 
 const triggerStyle: React.CSSProperties = {

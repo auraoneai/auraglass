@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { ComponentProps } from "react";
 import { fn } from "@storybook/test";
-import { Copy, Download, FilePenLine, FolderOpen, Trash2 } from "lucide-react";
+import { Copy, Download, FilePenLine, FolderOpen, Trash2 } from "@/icons";
 import { GlassContextMenu, type ContextMenuItem } from "./GlassContextMenu";
 
 const menuItems: ContextMenuItem[] = [

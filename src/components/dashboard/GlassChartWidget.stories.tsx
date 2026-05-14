@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { BarChart3, LineChart } from 'lucide-react';
+import { BarChart3, LineChart } from "@/icons";
 import { cn } from '../../lib/utils';
 import { GlassChartWidget } from './GlassChartWidget';
 

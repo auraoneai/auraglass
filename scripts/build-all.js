@@ -53,8 +53,6 @@ const external = [
   '@react-three/*',
   'framer-motion',
   'framer-motion/*',
-  'lucide-react',
-  'lucide-react/*',
   'clsx',
   'tailwind-merge',
   'chart.js',
@@ -77,6 +75,19 @@ const external = [
 
 const entrypoints = [
   ['src/index.ts', 'dist/index'],
+  ['src/icons/index.ts', 'dist/icons/index'],
+  ['src/icons/action.ts', 'dist/icons/action'],
+  ['src/icons/navigation.ts', 'dist/icons/navigation'],
+  ['src/icons/status.ts', 'dist/icons/status'],
+  ['src/icons/media.ts', 'dist/icons/media'],
+  ['src/icons/data.ts', 'dist/icons/data'],
+  ['src/icons/commerce.ts', 'dist/icons/commerce'],
+  ['src/icons/collaboration.ts', 'dist/icons/collaboration'],
+  ['src/icons/ai.ts', 'dist/icons/ai'],
+  ['src/primitives/index.ts', 'dist/primitives/index'],
+  ['src/app-shell/index.ts', 'dist/app-shell/index'],
+  ['src/workspace/index.tsx', 'dist/workspace/index'],
+  ['src/theme/index.ts', 'dist/theme/index'],
   ['src/registry/index.ts', 'dist/registry/index'],
   ['src/ssr/index.ts', 'dist/ssr/index'],
   ['src/server/index.ts', 'dist/server/index'],
@@ -85,6 +96,12 @@ const entrypoints = [
 
 const esmSubpathEntrypoints = [
   ['src/core/mixins/glassMixins.ts', 'dist/esm/core/mixins/glassMixins.js'],
+  ['src/primitives/Slot.tsx', 'dist/esm/primitives/Slot.js'],
+  ['src/primitives/Portal.tsx', 'dist/esm/primitives/Portal.js'],
+  ['src/primitives/FocusScope.tsx', 'dist/esm/primitives/FocusScope.js'],
+  ['src/primitives/DismissableLayer.tsx', 'dist/esm/primitives/DismissableLayer.js'],
+  ['src/primitives/RovingFocusGroup.tsx', 'dist/esm/primitives/RovingFocusGroup.js'],
+  ['src/primitives/Positioner.tsx', 'dist/esm/primitives/Positioner.js'],
   ['src/utils/env.ts', 'dist/esm/utils/env.js'],
   ['src/hooks/useGlassProbes.ts', 'dist/esm/hooks/useGlassProbes.js'],
   ['src/services/ai/openai-service.ts', 'dist/esm/services/ai/openai-service.js'],
@@ -94,6 +111,12 @@ const esmSubpathEntrypoints = [
 
 const cjsSubpathEntrypoints = [
   ['src/hooks/useGlassProbes.ts', 'dist/cjs/hooks/useGlassProbes.js'],
+  ['src/primitives/Slot.tsx', 'dist/cjs/primitives/Slot.js'],
+  ['src/primitives/Portal.tsx', 'dist/cjs/primitives/Portal.js'],
+  ['src/primitives/FocusScope.tsx', 'dist/cjs/primitives/FocusScope.js'],
+  ['src/primitives/DismissableLayer.tsx', 'dist/cjs/primitives/DismissableLayer.js'],
+  ['src/primitives/RovingFocusGroup.tsx', 'dist/cjs/primitives/RovingFocusGroup.js'],
+  ['src/primitives/Positioner.tsx', 'dist/cjs/primitives/Positioner.js'],
 ];
 
 require('node:fs').rmSync(distDir, { recursive: true, force: true });

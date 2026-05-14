@@ -1,6 +1,5 @@
 "use client";
 import { cn } from "../../lib/utilsComprehensive";
-import { Slot } from "@radix-ui/react-slot";
 import React, {
   forwardRef,
   useCallback,
@@ -10,7 +9,11 @@ import React, {
   useImperativeHandle,
 } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { OptimizedGlass, type OptimizedGlassProps } from "../../primitives";
+import {
+  OptimizedGlass,
+  Slot,
+  type OptimizedGlassProps,
+} from "../../primitives";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
 import { Motion } from "../../primitives";
 import { GlassButtonVariantType } from "./types";

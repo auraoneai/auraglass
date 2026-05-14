@@ -4,6 +4,9 @@ This directory stores generated and hand-authored audit reports. The reports are
 
 ## Current Certification Evidence
 
+- [3.2 release evidence](./3.2-release/README.md): current working-tree evidence for dependency-sovereign app chrome, first-party icons, first-party primitives, app shell, workspace, Theme Engine 2.0, migration CLI commands, bundle gates, recipe evidence, and package verification.
+- [3.2 dependency elimination](./3.2-release/dependency-elimination.md): no-core-MUI/Radix/Lucide package metadata, source import, docs, and CLI evidence.
+- [3.2 accessibility certification ledger](./3.2-release/accessibility-certification.md): automated accessibility matrix for new/touched app-chrome surfaces, with manual browser and screen-reader certification still tracked as follow-up.
 - [Component inventory JSON](./component_inventory.json): historical 3.0 certification inventory with 356 audited entries.
 - [Storybook visual certification JSON](./glassmorphism-storybook-visual-certification.json): historical 356/356 passed entries.
 - [Storybook visual certification Markdown](./glassmorphism-storybook-visual-certification.md): human-readable certification summary.

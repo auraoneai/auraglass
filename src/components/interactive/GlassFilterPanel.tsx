@@ -9,7 +9,7 @@ import {
   RotateCcw,
   Save,
   Search,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useMemo, useState } from "react";
 import { GlassButton } from "../button/GlassButton";
 import { GlassCheckbox } from "../input/GlassCheckbox";

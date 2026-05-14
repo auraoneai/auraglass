@@ -1,6 +1,6 @@
 import { useState, type ComponentProps } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { BarChart3, FolderKanban, Home, Settings } from "lucide-react";
+import { BarChart3, FolderKanban, Home, Settings } from "@/icons";
 import { GlassSidebar, type NavigationItem } from "./GlassSidebar";
 
 const items: NavigationItem[] = [

@@ -20,7 +20,7 @@ import {
   Users,
   Video,
   X,
-} from "lucide-react";
+} from "@/icons";
 import React, { useCallback, useRef, useState, forwardRef } from "react";
 import { Motion } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";

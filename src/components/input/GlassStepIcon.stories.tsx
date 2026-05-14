@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Check, CreditCard, UserRound } from "lucide-react";
+import { Check, CreditCard, UserRound } from "@/icons";
 import { GlassStepIcon } from "./GlassStepIcon";
 
 const meta: Meta<typeof GlassStepIcon> = {

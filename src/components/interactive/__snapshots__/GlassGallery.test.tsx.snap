@@ -36,7 +36,7 @@ exports[`GlassGallery matches snapshot 1`] = `
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-grid3x3 lucide-grid-3x3 glass-w-4 glass-h-4"
+                class="glass-w-4 glass-h-4"
                 fill="none"
                 height="24"
                 stroke="currentColor"
@@ -47,24 +47,11 @@ exports[`GlassGallery matches snapshot 1`] = `
                 width="24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <rect
-                  height="18"
-                  rx="2"
-                  width="18"
-                  x="3"
-                  y="3"
+                <path
+                  d="M3 3h18v18H3Z"
                 />
                 <path
-                  d="M3 9h18"
-                />
-                <path
-                  d="M3 15h18"
-                />
-                <path
-                  d="M9 3v18"
-                />
-                <path
-                  d="M15 3v18"
+                  d="M3 9h18M3 15h18M9 3v18M15 3v18"
                 />
               </svg>
             </span>
@@ -83,7 +70,7 @@ exports[`GlassGallery matches snapshot 1`] = `
           >
             <svg
               aria-hidden="true"
-              class="lucide lucide-list glass-w-4 glass-h-4"
+              class="glass-w-4 glass-h-4"
               fill="none"
               height="24"
               stroke="currentColor"
@@ -95,22 +82,22 @@ exports[`GlassGallery matches snapshot 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M3 5h.01"
-              />
-              <path
-                d="M3 12h.01"
-              />
-              <path
-                d="M3 19h.01"
-              />
-              <path
-                d="M8 5h13"
+                d="M8 6h13"
               />
               <path
                 d="M8 12h13"
               />
               <path
-                d="M8 19h13"
+                d="M8 18h13"
+              />
+              <path
+                d="M3 6h.01"
+              />
+              <path
+                d="M3 12h.01"
+              />
+              <path
+                d="M3 18h.01"
               />
             </svg>
           </button>
@@ -125,7 +112,7 @@ exports[`GlassGallery matches snapshot 1`] = `
       >
         <svg
           aria-hidden="true"
-          class="lucide lucide-grid3x3 lucide-grid-3x3 glass-w-12 glass-h-12 glass-mx-auto"
+          class="glass-w-12 glass-h-12 glass-mx-auto"
           fill="none"
           height="24"
           stroke="currentColor"
@@ -136,24 +123,11 @@ exports[`GlassGallery matches snapshot 1`] = `
           width="24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <rect
-            height="18"
-            rx="2"
-            width="18"
-            x="3"
-            y="3"
+          <path
+            d="M3 3h18v18H3Z"
           />
           <path
-            d="M3 9h18"
-          />
-          <path
-            d="M3 15h18"
-          />
-          <path
-            d="M9 3v18"
-          />
-          <path
-            d="M15 3v18"
+            d="M3 9h18M3 15h18M9 3v18M15 3v18"
           />
         </svg>
       </div>

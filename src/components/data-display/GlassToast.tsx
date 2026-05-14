@@ -2,7 +2,7 @@
 import { GlassButton } from "../button/GlassButton";
 
 import { cn } from "../../lib/utilsComprehensive";
-import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from "@/icons";
 import React, {
   createContext,
   useContext,
@@ -34,8 +34,7 @@ export interface ToastData {
 }
 
 export interface GlassToastProps
-  extends
-    ToastData,
+  extends ToastData,
     Omit<React.HTMLAttributes<HTMLDivElement>, keyof ToastData> {
   /**
    * Callback when toast is dismissed
