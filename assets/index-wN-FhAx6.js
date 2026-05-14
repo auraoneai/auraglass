@@ -1,0 +1,1 @@
+import{R as r}from"./iframe-BAa00EyB.js";const n=({children:e,className:a,...t})=>r.createElement("div",{className:`card-header ${a||""}`,...t},e),s=({children:e,className:a,...t})=>r.createElement("h2",{className:`card-title ${a||""}`,...t},e),d=({children:e,className:a,...t})=>r.createElement("div",{className:`card-content ${a||""}`,...t},e);export{n as C,s as a,d as b};
