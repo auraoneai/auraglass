@@ -33,7 +33,7 @@ Substantial package work is implemented and verified, but the PRD remains broade
 | Production workflow layer | Improved with focused evidence | Added package-owned empty/error/loading states, filter bar, search field, form field wrappers, validation message, date/time fields, combobox, page tabs, and toast provider re-export; focused workflow and component hardening tests passed. |
 | Vite smoke test | Done | `npm run test:integration:vite` passed and wrote `reports/3.2-release/vite-integration.json`. |
 | Build/type/test/pack gates | Done for rerun gates listed in reports | `npm run build`, `typecheck`, `test`, `test:exports:*`, `verify:pack`, `prepublishOnly`, and `npm pack --dry-run --json` have passing evidence. |
-| Publish readiness | npm published; GitHub release pending | `npm run prepublishOnly` passed after rebuilding. npm auth works when `.env` `NPM_TOKEN` is supplied through a temporary npmrc. `aura-glass@3.2.0` was published to npm and public `latest` verifies as `3.2.0`; the matching GitHub release/tag is still pending. |
+| Publish readiness | npm and GitHub published | `npm run prepublishOnly` passed after rebuilding. npm auth works when `.env` `NPM_TOKEN` is supplied through a temporary npmrc. `aura-glass@3.2.0` was published to npm and public `latest` verifies as `3.2.0`; the matching GitHub `v3.2.0` release/tag is live. |
 | Core docs added | Done | README, installation guide, migration docs, icon docs, primitive docs, app-shell docs, theme docs, workflow docs, CLI docs, and release reports exist. |
 
 ## Not Complete Or Not Yet Proven
@@ -44,7 +44,7 @@ Substantial package work is implemented and verified, but the PRD remains broade
 | Full app-chrome certification | Partial | Automated tests, axe checks, screenshot baselines, and browser keyboard/interaction checks exist, but manual screen-reader certification is explicitly pending. |
 | Primitive behavioral depth | Improved, still partial | Tests now cover nested content, outside focus, prevented dismissal, Home/End/disabled/RTL, collision, focus restoration, dropdown keyboard navigation, select typeahead, and shared menu primitive composition. More complete browser/SR evidence still needs the manual certification pass. |
 | Workflow hardening | Partial only for manual route certification | Phase 12 now has code, docs, Storybook, exports, focused workflow coverage, multiselect keyboard/controlled tests, and data-table state hardening tests. Route-level screen-reader/mobile certification remains open. |
-| Public release | Partially complete | npm latest is now `aura-glass@3.2.0`; a matching GitHub release/tag has not been created yet. |
+| Public release | Complete for npm/GitHub publication | npm latest is now `aura-glass@3.2.0`; the matching GitHub release/tag is live at `v3.2.0`. |
 | Changelog/docs sweep | Improved, not exhaustive | Core related docs are updated in this pass, but the repository has hundreds of historical Markdown files. Historical 3.0/3.1 reports intentionally retain old version/count language. |
 
 ## Markdown Status

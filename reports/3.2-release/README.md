@@ -55,7 +55,7 @@ AuraGlass 3.2 is a self-contained Liquid Glass app-surface system for React and 
 - Run a manual screen-reader pass for menus, selects, overlays, and app-shell navigation before calling the accessibility certification complete.
 - Run a physical-device mobile/touch pass before describing the mobile behavior as manually certified. The packed-package Chromium mobile viewport baseline is recorded in `app-chrome-visual-evidence.md`, but it is not a physical touch pass.
 - Resolve the remaining warning-only historical design-system lint findings in a separate cleanup pass if the release bar requires zero warnings.
-- Create the matching GitHub release and tag after pushing the 3.2 repo state. npm is already published and public `latest` resolves to `3.2.0`.
+- npm is published, public `latest` resolves to `3.2.0`, and the GitHub `v3.2.0` release/tag is live.
 
 ## Evidence Rule
 

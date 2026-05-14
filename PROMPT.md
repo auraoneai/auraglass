@@ -88,7 +88,6 @@ Current pack reconciliation:
 
 - Manual screen-reader pass for final release candidate.
 - Manual mobile/touch pass for final release candidate. Automated packed-package mobile viewport evidence exists for the 390x844 app shell baseline, but physical touch QA has not been recorded.
-- GitHub release/tag step.
 
 ## Publishing Readiness
 
@@ -100,4 +99,5 @@ Current pack reconciliation:
 - First `npm publish` attempt passed release gates but failed before publishing because package `publishConfig.provenance` requires a supported CI provider.
 - Final npm publish used `--provenance=false --ignore-scripts` after the same publish attempt had just rerun build, pack verification, Next integration, React 19 + Next 15 integration, and Vite integration successfully.
 - Public npm verification: `npm view aura-glass version dist-tags.latest time.modified --json` reports `version: 3.2.0`, `dist-tags.latest: 3.2.0`, and `time.modified: 2026-05-14T07:19:02.680Z`.
-- Create the GitHub release/tag after committing and pushing the 3.2 repo state.
+- GitHub main pushed: `ad1e760f70dce92a093515af7e29f5803fee0ff3`.
+- GitHub release/tag created: `v3.2.0` at `https://github.com/auraoneai/auraglass/releases/tag/v3.2.0`.
