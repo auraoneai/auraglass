@@ -41,9 +41,9 @@ Substantial package work is implemented and verified, but the PRD remains broade
 | PRD area | Current status | Why it is not complete |
 | --- | --- | --- |
 | PRD checkboxes | Open | `auraglass32PRD.md` still has 399 unchecked boxes and no checked-box evidence trail. |
-| Full app-chrome certification | Partial | Automated tests, axe checks, screenshot baselines, and browser keyboard/interaction checks exist, but manual screen-reader certification is explicitly pending. |
+| Full app-chrome certification | Deferred follow-up | Automated tests, axe checks, screenshot baselines, and browser keyboard/interaction checks exist, but manual screen-reader certification is deferred to GitHub issue #16. |
 | Primitive behavioral depth | Improved, still partial | Tests now cover nested content, outside focus, prevented dismissal, Home/End/disabled/RTL, collision, focus restoration, dropdown keyboard navigation, select typeahead, and shared menu primitive composition. More complete browser/SR evidence still needs the manual certification pass. |
-| Workflow hardening | Partial only for manual route certification | Phase 12 now has code, docs, Storybook, exports, focused workflow coverage, multiselect keyboard/controlled tests, and data-table state hardening tests. Route-level screen-reader/mobile certification remains open. |
+| Workflow hardening | Done for package code; manual certification deferred | Phase 12 now has code, docs, Storybook, exports, focused workflow coverage, multiselect keyboard/controlled tests, and data-table state hardening tests. Route-level screen-reader/mobile certification is deferred to GitHub issue #16. |
 | Public release | Complete for npm/GitHub publication | npm latest is now `aura-glass@3.2.0`; the matching GitHub release/tag is live at `v3.2.0`. |
 | Changelog/docs sweep | Improved, not exhaustive | Core related docs are updated in this pass, but the repository has hundreds of historical Markdown files. Historical 3.0/3.1 reports intentionally retain old version/count language. |
 

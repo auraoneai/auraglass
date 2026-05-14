@@ -84,11 +84,12 @@ Current pack reconciliation:
 - Shasum: `e3c7ed590ec671b24b7dee219e92ffcbe5215fb5`
 - Integrity: `sha512-zLIrvS24tpal3lzIi56BHV3DxKvmRDRE8IYpolDhGBPE62/+fLdwFsbfTRZIFO8oVq3dqHfriRqnUtNA9U6fjQ==`
 
-## Remaining Non-Code Certification
+## Deferred Non-Code Certification
 
-- Manual screen-reader pass for final release candidate.
-- Manual mobile/touch pass for final release candidate. Automated packed-package mobile viewport evidence exists for the 390x844 app shell baseline, but physical touch QA has not been recorded.
+- Manual screen-reader pass for final release candidate: deferred to GitHub issue #16.
+- Manual mobile/touch pass for final release candidate: deferred to GitHub issue #16. Automated packed-package mobile viewport evidence exists for the 390x844 app shell baseline, but physical touch QA has not been recorded.
 - Manual certification runbook: `reports/3.2-release/manual-certification-runbook.md`.
+- Tracking issue: `https://github.com/auraoneai/auraglass/issues/16`.
 
 ## Publishing Readiness
 

@@ -86,5 +86,7 @@ Checklist:
 
 - Automated app-chrome axe, keyboard, visual, mobile viewport, export, pack,
   Next, Vite, Storybook, and no-core-UI-dependency gates pass.
-- Manual screen-reader certification is not yet recorded.
-- Physical-device mobile/touch certification is not yet recorded.
+- Manual screen-reader certification is not yet recorded and is tracked in
+  https://github.com/auraoneai/auraglass/issues/16.
+- Physical-device mobile/touch certification is not yet recorded and is tracked
+  in https://github.com/auraoneai/auraglass/issues/16.
