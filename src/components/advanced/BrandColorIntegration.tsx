@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — uses in-component mock data.
+ *
+ * BrandColorIntegration showcases adapting glass surfaces to a brand palette.
+ * The brand-asset ingestion / logo color-extraction shown here uses sample data
+ * rather than a real image-analysis or brand-management service. Wire it to a real
+ * color-extraction pipeline before production use.
+ */
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "../../lib/utilsComprehensive";
 import { AnimatePresence, motion } from "framer-motion";

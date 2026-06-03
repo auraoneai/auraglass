@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — CSS Houdini showcase.
+ *
+ * HoudiniGlassProvider showcases CSS Houdini Paint/Properties API glass effects.
+ * It feature-detects Houdini support and falls back to standard CSS when the
+ * Paint Worklet API is unavailable; the registered worklets are demonstrative.
+ * Treat as a progressive-enhancement showcase, not a guaranteed-Houdini path.
+ */
 import React, {
   createContext,
   useCallback,

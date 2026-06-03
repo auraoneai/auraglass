@@ -1,4 +1,11 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — XR/immersive demo with mock data.
+ *
+ * Glass360Viewer demonstrates a 360-degree panorama viewer on a glass surface.
+ * Sample scenes/hotspots are illustrative; it is not wired to a real asset/CMS
+ * pipeline. Provide real panorama assets and hotspot data before production use.
+ */
 import React, {
   forwardRef,
   useState,

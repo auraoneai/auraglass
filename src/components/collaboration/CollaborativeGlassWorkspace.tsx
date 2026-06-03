@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — uses in-component mock data.
+ *
+ * CollaborativeGlassWorkspace illustrates real-time multi-user collaboration UI
+ * (cursors, presence, comments) on a glass surface. It does NOT connect to a real
+ * collaboration backend (CRDT/OT/WebSocket sync) — collaborator presence and edits
+ * are simulated locally. Wire it to a real sync provider before production use.
+ */
 import React from "react";
 import {
   ClipboardPaste,

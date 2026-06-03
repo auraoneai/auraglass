@@ -153,23 +153,52 @@ class ProductionBuilder {
   async optimizeAssets() {
     this.log('⚡ Optimizing assets...');
     
-    // Minify CSS
+    // Minify CSS (dependency-free: strip comments + collapse whitespace).
     const cssFiles = this.findFiles(BUILD_CONFIG.outputDir, '.css');
     for (const cssFile of cssFiles) {
       try {
-        // In a real implementation, you'd use a CSS minifier
-        this.log(`✅ Optimized ${path.basename(cssFile)}`);
+        const original = fs.readFileSync(cssFile, 'utf8');
+        const minified = original
+          // Remove block comments.
+          .replace(/\/\*[\s\S]*?\*\//g, '')
+          // Collapse all runs of whitespace to a single space.
+          .replace(/\s+/g, ' ')
+          // Drop whitespace around structural tokens.
+          .replace(/\s*([{}:;,>~+])\s*/g, '$1')
+          // Remove the final semicolon before a closing brace.
+          .replace(/;}/g, '}')
+          .trim();
+        fs.writeFileSync(cssFile, minified, 'utf8');
+        const saved = original.length - minified.length;
+        this.log(
+          `✅ Minified ${path.basename(cssFile)} (-${saved} bytes)`
+        );
       } catch (error) {
         this.log(`❌ Failed to optimize ${cssFile}`, 'error');
+        this.errors.push(`CSS minification failed for ${cssFile}`);
       }
     }
     
-    // Optimize images
+    // Optimize images. Raster optimization (png/jpg) requires native tooling
+    // (e.g. imagemin/sharp) that is intentionally not a dependency of this
+    // dependency-free legacy script; those files are left untouched. SVGs are
+    // optimized in-process by stripping comments and redundant whitespace.
     const imageFiles = this.findFiles(BUILD_CONFIG.outputDir, ['.png', '.jpg', '.svg']);
     for (const imageFile of imageFiles) {
       try {
-        // In a real implementation, you'd use image optimization tools
-        this.log(`✅ Optimized ${path.basename(imageFile)}`);
+        if (imageFile.endsWith('.svg')) {
+          const original = fs.readFileSync(imageFile, 'utf8');
+          const minified = original
+            .replace(/<!--[\s\S]*?-->/g, '')
+            .replace(/>\s+</g, '><')
+            .replace(/\s{2,}/g, ' ')
+            .trim();
+          fs.writeFileSync(imageFile, minified, 'utf8');
+          this.log(`✅ Optimized ${path.basename(imageFile)}`);
+        } else {
+          // Raster image: passthrough (requires external optimizer).
+          this.log(`↪️  Skipped raster ${path.basename(imageFile)} (no native optimizer)`);
+        }
       } catch (error) {
         this.log(`❌ Failed to optimize ${imageFile}`, 'error');
       }
@@ -203,15 +232,22 @@ class ProductionBuilder {
       }
     }
     
-    // Validate exports
+    // Validate exports: require the built CJS bundle and confirm it exposes a
+    // non-empty set of named exports.
     try {
       const mainBundle = path.join(BUILD_CONFIG.outputDir, 'index.js');
       if (fs.existsSync(mainBundle)) {
-        // In a real implementation, you'd validate the exports
-        this.log('✅ Bundle exports validated');
+        const exported = require(path.resolve(mainBundle));
+        const exportNames = Object.keys(exported || {});
+        if (exportNames.length === 0) {
+          this.log('❌ Bundle has no exports', 'error');
+          this.errors.push('Export validation failed: bundle exports nothing');
+        } else {
+          this.log(`✅ Bundle exports validated (${exportNames.length} exports)`);
+        }
       }
     } catch (error) {
-      this.log('❌ Export validation failed', 'error');
+      this.log(`❌ Export validation failed: ${error.message}`, 'error');
       this.errors.push('Export validation failed');
     }
   }

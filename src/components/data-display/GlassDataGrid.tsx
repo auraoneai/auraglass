@@ -11,12 +11,57 @@ import React, {
 } from "react";
 import { GlassDataGridProps, SortState } from "./types";
 
-// Stub implementations for missing hooks
-const useSortableData = (data: any[], sortConfig: SortState | null) => ({
-  sortedData: data,
-  sortConfig,
-  handleSort: () => {},
-});
+// Sortable data hook: tri-state column sorting (asc -> desc -> unsorted).
+const compareValues = (a: unknown, b: unknown): number => {
+  if (a === b) return 0;
+  if (a === null || a === undefined) return -1;
+  if (b === null || b === undefined) return 1;
+  if (typeof a === "number" && typeof b === "number") {
+    return a - b;
+  }
+  const aStr = String(a);
+  const bStr = String(b);
+  return aStr.localeCompare(bStr, undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+};
+
+const useSortableData = (data: any[], initialSort: SortState | null) => {
+  const [sortConfig, setSortConfig] = useState<SortState | null>(
+    initialSort && initialSort.direction ? initialSort : null
+  );
+
+  const handleSort = useCallback((key: string) => {
+    setSortConfig((current) => {
+      // Cycle: not sorting this column -> asc; asc -> desc; desc -> cleared.
+      if (!current || current.key !== key) {
+        return { key, direction: "asc" };
+      }
+      if (current.direction === "asc") {
+        return { key, direction: "desc" };
+      }
+      return null;
+    });
+  }, []);
+
+  const sortedData = useMemo(() => {
+    if (!sortConfig || !sortConfig.direction) return data;
+    const { key, direction } = sortConfig;
+    const copy = [...data];
+    copy.sort((rowA, rowB) => {
+      const result = compareValues(rowA?.[key], rowB?.[key]);
+      return direction === "asc" ? result : -result;
+    });
+    return copy;
+  }, [data, sortConfig]);
+
+  return {
+    sortedData,
+    sortConfig,
+    handleSort,
+  };
+};
 
 const useDraggableListPhysics = (options: any) => ({
   styles: {} as Record<number, CSSProperties>,
@@ -150,12 +195,12 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
     // --- End Sort Indicator Animation ---
 
     const handleHeaderKeyDown = (
-      event: React.KeyboardEvent<HTMLTableCellElement>
+      event: React.KeyboardEvent<HTMLTableCellElement>,
+      columnKey: string
     ) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        // handleSort would need to be updated to work without parameters
-        // For now, we'll skip this functionality
+        handleSort(columnKey);
       }
     };
 
@@ -271,9 +316,11 @@ export const GlassDataGrid = forwardRef<HTMLDivElement, GlassDataGridProps>(
                   <th
                     key={columnId}
                     className={headerClassName}
-                    onClick={() => isSortable && handleSort()}
+                    onClick={() => isSortable && handleSort(col.key)}
                     tabIndex={isSortable ? 0 : -1}
-                    onKeyDown={(e) => handleHeaderKeyDown(e)}
+                    onKeyDown={(e) =>
+                      isSortable && handleHeaderKeyDown(e, col.key)
+                    }
                     role="columnheader"
                     aria-sort={
                       isSortable

@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — graphics demo.
+ *
+ * LiquidGlassGPU showcases GPU-accelerated liquid-glass rendering. Metrics and
+ * some capability detection are illustrative/simulated and it degrades to a
+ * non-GPU fallback when WebGL is unavailable. Treat as a graphics showcase, not a
+ * guaranteed-accelerated production renderer.
+ */
 import React, {
   useRef,
   useEffect,

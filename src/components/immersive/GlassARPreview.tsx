@@ -1,4 +1,11 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — XR demo with mock data.
+ *
+ * GlassARPreview demonstrates an AR product-preview surface. The AR session,
+ * tracking, and placement are simulated in-component and do NOT use a real WebXR /
+ * ARKit / ARCore session. Wire it to a real XR runtime before production use.
+ */
 import React, {
   forwardRef,
   useState,

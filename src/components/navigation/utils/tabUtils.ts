@@ -1,9 +1,11 @@
-import React from 'react';
+import React from "react";
 export interface TabItem {
   id?: string;
   label: string;
   disabled?: boolean;
   width?: number;
+  /** Numeric badge count, or a numeric string (e.g. "12"). Non-numeric badges count as 0. */
+  badge?: number | string;
 }
 
 export const calculateVisibleTabs = (
@@ -20,22 +22,30 @@ export const calculateVisibleTabs = (
 
 export const calculateTotalBadgeCount = (tabs: TabItem[]): number => {
   return tabs.reduce((total, tab) => {
-    // Assuming badge count might be stored somewhere, for now return 0
-    return total;
+    const numeric =
+      typeof tab.badge === "number"
+        ? tab.badge
+        : typeof tab.badge === "string"
+          ? Number.parseInt(tab.badge, 10)
+          : 0;
+    return total + (Number.isFinite(numeric) ? numeric : 0);
   }, 0);
 };
 
 export const getNextEnabledTabIndex = (
   tabs: TabItem[],
   currentIndex: number,
-  direction: 'next' | 'prev' = 'next'
+  direction: "next" | "prev" = "next"
 ): number => {
   let index = currentIndex;
 
   do {
-    index = direction === 'next'
-      ? (index + 1) % tabs.length
-      : index === 0 ? tabs.length - 1 : index - 1;
+    index =
+      direction === "next"
+        ? (index + 1) % tabs.length
+        : index === 0
+          ? tabs.length - 1
+          : index - 1;
   } while (tabs[index]?.disabled && index !== currentIndex);
 
   return index;
@@ -44,7 +54,7 @@ export const getNextEnabledTabIndex = (
 export const scrollTabIntoView = (
   tabElement: HTMLElement,
   containerElement: HTMLElement,
-  behavior: 'smooth' | 'auto' = 'smooth'
+  behavior: "smooth" | "auto" = "smooth"
 ): void => {
   const containerRect = containerElement.getBoundingClientRect();
   const tabRect = tabElement.getBoundingClientRect();

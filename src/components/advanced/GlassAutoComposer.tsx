@@ -4,6 +4,10 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  * AuraGlass Auto Composer
  * On-demand generative UI layouts using LLMs + design tokens
  * Part of Next-Wave Systems (10/10) - Generative Design Systems
+ *
+ * @demo DEMO / EXPERIMENTAL COMPONENT — uses in-component mock data.
+ * Generated layouts are produced by a local heuristic stand-in, NOT a real LLM
+ * call. Wire it to a real model/generation backend before production use.
  */
 
 import React, {

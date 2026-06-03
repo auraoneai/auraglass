@@ -517,28 +517,50 @@ export function useParticleSystem(
     enableCollisions: false,
   });
 
-  const emit = useCallback(() => {
-    // Reset all particles to emitter position
-    particleIds.forEach((id, index) => {
+  // Live emitter position so continuous emission picks up updateEmitter() moves
+  // without re-creating the particle bodies.
+  const emitterRef = useRef<GalileoVector>({ ...emitterPosition });
+  // Round-robin cursor: continuous emission recycles the oldest particle.
+  const nextParticleRef = useRef(0);
+
+  const emitOne = useCallback(
+    (id: string) => {
       const angle = ((Math.random() - 0.5) * spread * Math.PI) / 180;
       const speed = Math.random() * 50 + 25;
-
-      galileoSprings.setPosition(id, { ...emitterPosition });
+      galileoSprings.setPosition(id, { ...emitterRef.current });
       galileoSprings.impulse(id, {
         x: initialVelocity.x + Math.cos(angle) * speed,
         y: initialVelocity.y + Math.sin(angle) * speed,
       });
-    });
-  }, [galileoSprings, emitterPosition, spread, initialVelocity, particleIds]);
-
-  const updateEmitter = useCallback(
-    (newPosition: GalileoVector) => {
-      // This would update the emitter position for continuous emission
-      // For now, just update the reference
-      Object.assign(emitterPosition, newPosition);
     },
-    [emitterPosition]
+    [galileoSprings, spread, initialVelocity]
   );
+
+  const emit = useCallback(() => {
+    // One-shot burst: reset every particle to the emitter.
+    particleIds.forEach((id) => emitOne(id));
+  }, [particleIds, emitOne]);
+
+  const updateEmitter = useCallback((newPosition: GalileoVector) => {
+    // Move the live emitter so subsequent (continuous) emissions originate here.
+    emitterRef.current = { ...emitterRef.current, ...newPosition };
+  }, []);
+
+  // Continuous emission: recycle `emissionRate` particles per second from the
+  // current emitter position. emissionRate <= 0 disables continuous emission
+  // (the one-shot emit() still works).
+  useEffect(() => {
+    if (!emissionRate || emissionRate <= 0 || particleIds.length === 0) {
+      return;
+    }
+    const intervalMs = 1000 / emissionRate;
+    const interval = setInterval(() => {
+      const id = particleIds[nextParticleRef.current % particleIds.length];
+      nextParticleRef.current += 1;
+      emitOne(id);
+    }, intervalMs);
+    return () => clearInterval(interval);
+  }, [emissionRate, particleIds, emitOne]);
 
   return {
     ...galileoSprings,

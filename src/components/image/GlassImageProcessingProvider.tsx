@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — uses in-component mock data.
+ *
+ * GlassImageProcessingProvider demonstrates an AI image-processing workflow
+ * (background removal, enhancement, segmentation). The processing steps are
+ * simulated locally and do NOT call a real ML model or image-AI service. Wire it
+ * to a real image-processing backend before production use.
+ */
 import React, {
   createContext,
   useContext,

@@ -155,6 +155,63 @@ describe("GlassDataGrid", () => {
   });
 
   /**
+   * Keyboard sort (a11y): Enter/Space on a sortable header sorts the column.
+   */
+  describe("Keyboard sorting", () => {
+    const sortData = [
+      { id: "1", name: "Charlie", status: "Active" },
+      { id: "2", name: "Alice", status: "Queued" },
+      { id: "3", name: "Bob", status: "Active" },
+    ];
+
+    const rowNames = () =>
+      screen
+        .getAllByRole("row")
+        // first row is the header row
+        .slice(1)
+        .map((row) => row.querySelector("td")?.textContent?.trim());
+
+    it("sorts ascending when Enter is pressed on a sortable header", async () => {
+      const user = userEvent.setup();
+      render(<GlassDataGrid columns={columns} data={sortData} />);
+
+      const header = screen.getByRole("columnheader", { name: "Column Name" });
+      header.focus();
+      await user.keyboard("{Enter}");
+
+      expect(rowNames()).toEqual(["Alice", "Bob", "Charlie"]);
+      expect(header).toHaveAttribute("aria-sort", "ascending");
+    });
+
+    it("toggles to descending on a second Space press", async () => {
+      const user = userEvent.setup();
+      render(<GlassDataGrid columns={columns} data={sortData} />);
+
+      const header = screen.getByRole("columnheader", { name: "Column Name" });
+      header.focus();
+      await user.keyboard("{Enter}"); // asc
+      await user.keyboard(" "); // desc
+
+      expect(rowNames()).toEqual(["Charlie", "Bob", "Alice"]);
+      expect(header).toHaveAttribute("aria-sort", "descending");
+    });
+
+    it("does not sort non-sortable columns via keyboard", async () => {
+      const user = userEvent.setup();
+      render(<GlassDataGrid columns={columns} data={sortData} />);
+
+      const statusHeader = screen.getByRole("columnheader", {
+        name: "Column Status",
+      });
+      statusHeader.focus();
+      await user.keyboard("{Enter}");
+
+      // Original order preserved.
+      expect(rowNames()).toEqual(["Charlie", "Alice", "Bob"]);
+    });
+  });
+
+  /**
    * Snapshot Test: Matches snapshot
    */
   it("matches snapshot", () => {

@@ -562,6 +562,47 @@ export function useDropZones(
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [isOverZone, setIsOverZone] = useState(false);
 
+  // The currently dragged item is tracked in a ref because DraggableItem.content
+  // is a React node and cannot be round-tripped through HTML5 dataTransfer (which
+  // only carries serializable strings). Draggables register the item on drag start
+  // via getDraggableHandlers; drop zones read it back here.
+  const draggedItemRef = useRef<DraggableItem | null>(null);
+
+  const resolveDraggedItem = useCallback(
+    (event: React.DragEvent): DraggableItem | null => {
+      // Prefer the ref populated by getDraggableHandlers; fall back to an item
+      // explicitly attached to the event by external drag sources.
+      return (
+        draggedItemRef.current ??
+        (event as unknown as { draggedItem?: DraggableItem }).draggedItem ??
+        null
+      );
+    },
+    []
+  );
+
+  // Spread onto a draggable element so its DraggableItem is available to drop zones.
+  const getDraggableHandlers = useCallback(
+    (item: DraggableItem) => ({
+      draggable: true,
+      onDragStart: (event: React.DragEvent) => {
+        draggedItemRef.current = item;
+        // Mark the drag as a move so browsers render the correct cursor.
+        if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = "move";
+          // Store the id so cross-component / external consumers can identify it.
+          event.dataTransfer.setData("text/plain", item.id);
+        }
+      },
+      onDragEnd: () => {
+        draggedItemRef.current = null;
+        setActiveZone(null);
+        setIsOverZone(false);
+      },
+    }),
+    []
+  );
+
   const handleDragOver = useCallback(
     (event: React.DragEvent, zoneId: string) => {
       event.preventDefault();
@@ -569,19 +610,31 @@ export function useDropZones(
       const zone = zones.find((z) => z.id === zoneId);
       if (!zone) return;
 
-      // You would need to pass the dragged item data through the drag event
-      // For now, this is a placeholder structure
-      const draggedItem = (event as any).draggedItem as DraggableItem;
+      const draggedItem = resolveDraggedItem(event);
 
       if (draggedItem && zone.accepts(draggedItem)) {
+        if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = "move";
+        }
         setActiveZone(zoneId);
         setIsOverZone(true);
+      } else if (event.dataTransfer) {
+        event.dataTransfer.dropEffect = "none";
       }
     },
-    [zones]
+    [zones, resolveDraggedItem]
   );
 
-  const handleDragLeave = useCallback(() => {
+  const handleDragLeave = useCallback((event?: React.DragEvent) => {
+    // Ignore leave events that bubble from child elements still within the zone.
+    if (event) {
+      const related = event.relatedTarget as Node | null;
+      const current = event.currentTarget as Node;
+      if (related && current.contains(related)) {
+        return;
+      }
+    }
+    setActiveZone(null);
     setIsOverZone(false);
   }, []);
 
@@ -592,21 +645,23 @@ export function useDropZones(
       const zone = zones.find((z) => z.id === zoneId);
       if (!zone) return;
 
-      const draggedItem = (event as any).draggedItem as DraggableItem;
+      const draggedItem = resolveDraggedItem(event);
 
       if (draggedItem && zone.accepts(draggedItem)) {
         zone.onDrop(draggedItem, zoneId);
       }
 
+      draggedItemRef.current = null;
       setActiveZone(null);
       setIsOverZone(false);
     },
-    [zones]
+    [zones, resolveDraggedItem]
   );
 
   return {
     activeZone,
     isOverZone,
+    getDraggableHandlers,
     handleDragOver,
     handleDragLeave,
     handleDrop,

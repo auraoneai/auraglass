@@ -1,10 +1,14 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 /**
-import { cn } from '@/lib/utils';
  * Spatial Computing Engine
  * Foundation for AR/VR glass components with 3D space awareness,
  * gesture recognition, and mixed reality integration
+ *
+ * @demo DEMO / EXPERIMENTAL COMPONENT — uses in-component mock data.
+ * Spatial tracking, gestures, and mixed-reality state are simulated locally and
+ * NOT backed by a real WebXR / spatial-tracking runtime. Wire it to a real XR
+ * runtime before production use.
  */
 
 import React, {

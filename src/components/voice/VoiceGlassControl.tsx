@@ -1,4 +1,12 @@
 "use client";
+/**
+ * @demo DEMO / SHOWCASE COMPONENT — uses in-component mock data.
+ *
+ * VoiceGlassControl demonstrates a voice-command UI surface. Recognition results,
+ * intents, and command matching are simulated in-component; it is NOT wired to a
+ * real speech-recognition engine or NLU backend. Provide a real SpeechRecognition /
+ * voice-intent integration before production use.
+ */
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";

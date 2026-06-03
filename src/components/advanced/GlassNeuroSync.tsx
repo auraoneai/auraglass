@@ -4,6 +4,10 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  * AuraGlass NeuroSync System
  * Brain-computer interface hooks for EEG-based attention/focus feedback and neural UI adaptation
  * Part of Next-Wave Systems (10/10) - Multi-Sensory Integration
+ *
+ * @demo DEMO / EXPERIMENTAL COMPONENT — uses in-component mock data.
+ * EEG/attention signals are simulated locally; this is NOT connected to a real
+ * BCI/EEG device or neural-data stream. Wire it to a real device API before use.
  */
 
 import React, {
