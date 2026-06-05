@@ -1,5 +1,48 @@
 # Changelog
 
+## [3.3.0] - 2026-06-05
+
+### Added
+
+- Added focused package subpaths for forms, data, navigation, overlays, workflows, marketing, and selected optional AI service entrypoints.
+- Added eight 3.3 recipe starters, bringing the package registry to 28 production starters across AI operations, semantic search, vision review, collaboration readiness, support triage, release operations, docs portals, and marketing launch pages.
+- Added 3.3 release evidence under `reports/3.3-release/`, including hosted-runtime, security, AI cost/cache, recipe render, app-chrome visual, marketing, theme, and accessibility certification evidence.
+- Added hosted-runtime contract tests for API auth flow, provider-unconfigured behavior, AI route cache metadata, Redis/cache/rate/cost controls, and multi-client WebSocket room/cursor behavior.
+- Added deployment smoke tests for the optional hosted runtime, including server build/start and Docker Compose API/WebSocket/Redis/Nginx checks.
+
+### Changed
+
+- Updated active documentation to distinguish the primary package-only AuraGlass install from the optional self-hosted AI and collaboration runtime.
+- Standardized hosted-runtime documentation on API `http://localhost:3002` via `API_SERVER_PORT=3002` and WebSocket `ws://localhost:3001` via `WS_PORT=3001`.
+- Labeled the legacy `server/api-server.js` path as demo/mock-only in active docs and removed it from production deployment instructions.
+- Updated README recipe language from stale 3.2 wording to the current 28 package registry recipes with 3.3 evidence links.
+- Added provider-unconfigured response examples for optional hosted AI routes when OpenAI, Pinecone, Google Vision, Remove.bg, or Redis-backed features are not configured.
+- Aligned AI service import examples to repo-local `src/services/*` paths or public `aura-glass/services/*` package subpaths as appropriate.
+- Updated Docker, Docker Compose, Nginx, and deployment guidance so hosted production paths use the real TypeScript API build and canonical ports instead of the legacy demo/mock server.
+- Clarified that hosted collaboration is presence/cursor/selection-only in 3.3; collaborative document editing remains unsupported until a real edit engine is added.
+
+### Fixed
+
+- Fixed production dependency classification so optional hosted runtime service dependencies needed by built package/service subpaths are installed by production `npm ci --omit=dev`.
+- Fixed AI generate-form route metadata so cache hits/misses and usage data are returned in structured route responses.
+- Fixed Redis readiness reporting and hosted-runtime health contracts for local deployment smoke tests.
+- Fixed docs and recipe gates so all 28 package recipes are CLI-addressable, renderable, and covered by 3.3 evidence.
+
+### Verification
+
+- `npm run release:dry-run` - passed `ci`, `npm run test:coverage` with 432 suites / 2373 tests, `prepublishOnly`, pack verification, Next React 18/19 integration, Vite integration, and npm dry-run publish for `aura-glass@3.3.0`.
+- `npm run test:deployment:compose` - passed API, WebSocket, Redis, frontend Nginx, and reverse-proxy Nginx smoke coverage.
+- `npx jest tests/hosted-runtime --runInBand --no-cache` - passed 8 suites / 43 tests.
+- `npm run test:deployment` - passed 1 suite / 4 tests.
+- `npm run test:docs:links` - passed across 486 Markdown files.
+- `npm run build:server`, `npm run typecheck`, `npm run lint:forbidden`, `npm run audit:runtime`, and `git diff --check` passed in the final 3.3 gate.
+- `npm pack --dry-run --json` - final release dry-run produced `aura-glass-3.3.0.tgz`, 2379 packaged files, 8.9 MB package size, 47.2 MB unpacked size, and shasum `70a512a4f2e2e449fa2a2b2b507dff669a785084`.
+- `npm publish --access public --tag latest --provenance=false --ignore-scripts` - published `aura-glass@3.3.0`; public npm `latest` verifies as `3.3.0` with modified time `2026-06-05T07:55:20.186Z`, shasum `eefe5668c74f8a7448f44970dfb81cc281b73061`, and integrity `sha512-XEPkhn4MaD54ImyDxOFDQCXNe76CHxcv4Ap0duj5+1eo4Skit6I7V+mIW9KykEj0wSEst+Luk7T5+MsuutdOfA==`.
+
+### Remaining Certification Work
+
+- Manual screen-reader and physical phone/tablet touch certification are not yet recorded. Automated accessibility, app-chrome, visual, hosted-runtime, deployment, docs, and package release gates pass, but manual certification remains external evidence.
+
 ## [3.2.0] - 2026-05-14
 
 ### Added
@@ -63,7 +106,7 @@
 ### Changed
 
 - Published a docs-only patch release that cleans up 3.1 package-surface language across README, docs indexes, component guidance, and release evidence.
-- Replaced current 3.1 claims based on the historical 356-entry certification inventory with verified shipped package-surface counts: 804 runtime exports, 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, 10 launch recipes, 19 functional sub-entrypoints, six token formats, and one CLI binary.
+- Replaced current 3.1 claims based on the historical 356-entry certification inventory with verified shipped package-surface counts: 804 runtime exports, 439 component-like value exports, 317 Glass-prefixed component-like exports, 121 hook exports, 29 provider exports, the original launch recipe set, 19 functional sub-entrypoints, six token formats, and one CLI binary.
 - Added `reports/3.1-release/package-surface-audit.md` as the canonical source for 3.1 package count language and the distinction between current package exports and historical 3.0 certification evidence.
 - Clarified that the 356-entry inventory and 356/356 certification reports are historical 3.0 audit evidence, not the current 3.1 shipped package export count.
 

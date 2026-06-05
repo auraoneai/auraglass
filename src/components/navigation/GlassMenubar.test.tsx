@@ -151,6 +151,55 @@ describe("GlassMenubar", () => {
     expect(screen.getByRole("menuitem", { name: "View" })).toHaveFocus();
   });
 
+  it("exposes submenu state during keyboard open and Escape close", async () => {
+    const user = userEvent.setup();
+    render(<GlassMenubar items={items} />);
+
+    const file = screen.getByRole("menuitem", { name: "File" });
+
+    expect(file).toHaveAttribute("aria-haspopup", "menu");
+    expect(file).not.toHaveAttribute("aria-expanded");
+
+    file.focus();
+    await user.keyboard("{ArrowDown}");
+
+    expect(file).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("menu")).toBeInTheDocument();
+
+    await user.keyboard("{Escape}");
+
+    expect(file).not.toHaveAttribute("aria-expanded");
+  });
+
+  it("exposes checked state for checkbox and radio menu items", () => {
+    render(
+      <GlassMenubar
+        items={[
+          {
+            id: "wrap",
+            label: "Word Wrap",
+            type: "checkbox",
+            checked: true,
+          },
+          {
+            id: "theme-light",
+            label: "Light Theme",
+            type: "radio",
+            checked: false,
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByRole("menuitem", { name: "Word Wrap" })).toHaveAttribute(
+      "aria-checked",
+      "true"
+    );
+    expect(
+      screen.getByRole("menuitem", { name: "Light Theme" })
+    ).toHaveAttribute("aria-checked", "false");
+  });
+
   it("exports the shared primitive root for composition", () => {
     render(<GlassMenuPrimitiveRoot aria-label="Primitive menu" />);
     expect(

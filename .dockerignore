@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+coverage
+storybook-static
+test-results
+playwright-report
+reports
+dist
+logs
+ssl
+*.tgz
+.DS_Store
+npm-debug.log*

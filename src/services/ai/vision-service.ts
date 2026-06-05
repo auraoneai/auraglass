@@ -1,4 +1,6 @@
 // @ts-nocheck - Optional Google Cloud Vision dependency
+import { createHash } from "crypto";
+
 import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";
@@ -84,8 +86,7 @@ export class VisionService {
     try {
       const vision = await import("@google-cloud/vision");
       const ImageAnnotatorClient =
-        vision.ImageAnnotatorClient ??
-        vision.default?.ImageAnnotatorClient;
+        vision.ImageAnnotatorClient ?? vision.default?.ImageAnnotatorClient;
 
       if (!ImageAnnotatorClient) {
         return null;
@@ -98,10 +99,7 @@ export class VisionService {
       } else if (this.config.googleCloud.apiKey) {
         this.client = new ImageAnnotatorClient({
           apiEndpoint: "vision.googleapis.com",
-          credentials: {
-            client_email: "vision-api@project.iam.gserviceaccount.com",
-            private_key: this.config.googleCloud.apiKey,
-          },
+          apiKey: this.config.googleCloud.apiKey,
         });
       }
 
@@ -467,28 +465,15 @@ export class VisionService {
   }
 
   private hashBuffer(buffer: Buffer): string {
-    const crypto = require("crypto");
-    return crypto.createHash("sha256").update(buffer).digest("hex");
+    return createHash("sha256").update(buffer).digest("hex");
   }
 
   private fallbackFaceDetection(): FaceDetectionResult[] {
-    return [
-      {
-        boundingBox: { left: 100, top: 100, width: 200, height: 200 },
-        confidence: 0.5,
-        emotions: { joy: 0.5, sorrow: 0, anger: 0, surprise: 0 },
-      },
-    ];
+    return [];
   }
 
   private fallbackObjectDetection(): ObjectDetectionResult[] {
-    return [
-      {
-        name: "object",
-        confidence: 0.5,
-        boundingBox: { left: 0, top: 0, width: 100, height: 100 },
-      },
-    ];
+    return [];
   }
 
   private fallbackTextExtraction(): TextExtractionResult {
@@ -501,7 +486,7 @@ export class VisionService {
 
   private fallbackImageAnalysis(): ImageAnalysisResult {
     return {
-      labels: [{ description: "image", score: 0.5 }],
+      labels: [],
       safeSearch: { adult: "UNKNOWN", violence: "UNKNOWN", medical: "UNKNOWN" },
       colors: [],
     };

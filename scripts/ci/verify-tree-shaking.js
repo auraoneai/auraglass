@@ -30,6 +30,14 @@ const requiredEntrypoints = [
   "./app-shell",
   "./workspace",
   "./theme",
+  "./forms",
+  "./data",
+  "./navigation",
+  "./overlays",
+  "./workflows",
+  "./marketing",
+  "./services/ai/config",
+  "./services/ai/cache-service",
 ];
 
 const forbiddenRuntimeSignals = [
@@ -39,6 +47,12 @@ const forbiddenRuntimeSignals = [
   "@mui/icons-material",
   "@material-ui/",
   "@material/",
+];
+
+const optionalProviderSignals = [
+  "openai",
+  "@google-cloud/vision",
+  "@pinecone-database/pinecone",
 ];
 
 const scenarios = [
@@ -66,6 +80,56 @@ const scenarios = [
       "import { GlassAppShell } from 'aura-glass/app-shell'; import { HomeIcon, SettingsIcon } from 'aura-glass/icons/navigation'; console.log(typeof GlassAppShell, typeof HomeIcon, typeof SettingsIcon);",
     maxBytes: 180000,
     requires: "./app-shell",
+  },
+  {
+    name: "Forms subpath",
+    source:
+      "import { GlassFormTemplate } from 'aura-glass/forms'; console.log(typeof GlassFormTemplate);",
+    maxBytes: 1700000,
+    requires: "./forms",
+  },
+  {
+    name: "Data subpath",
+    source:
+      "import { GlassDataTable } from 'aura-glass/data'; console.log(typeof GlassDataTable);",
+    maxBytes: 1700000,
+    requires: "./data",
+  },
+  {
+    name: "Navigation subpath",
+    source:
+      "import { GlassPageTabs } from 'aura-glass/navigation'; console.log(typeof GlassPageTabs);",
+    maxBytes: 1700000,
+    requires: "./navigation",
+  },
+  {
+    name: "Overlays subpath",
+    source:
+      "import { LiquidGlassAdaptiveSheet } from 'aura-glass/overlays'; console.log(typeof LiquidGlassAdaptiveSheet);",
+    maxBytes: 1700000,
+    requires: "./overlays",
+  },
+  {
+    name: "Workflows subpath",
+    source:
+      "import { GlassWorkflowShell } from 'aura-glass/workflows'; console.log(typeof GlassWorkflowShell);",
+    maxBytes: 180000,
+    requires: "./workflows",
+  },
+  {
+    name: "Marketing subpath",
+    source:
+      "import { DisplayText } from 'aura-glass/marketing'; console.log(typeof DisplayText);",
+    maxBytes: 1700000,
+    requires: "./marketing",
+  },
+  {
+    name: "AI config service subpath",
+    source:
+      "import { validateAIConfig } from 'aura-glass/services/ai/config'; console.log(typeof validateAIConfig);",
+    maxBytes: 165000,
+    requires: "./services/ai/config",
+    allowProviders: true,
   },
 ];
 
@@ -214,6 +278,9 @@ const bundleScenario = (scenario, packageJson) => {
   const forbiddenSignal = forbiddenRuntimeSignals.find((signal) =>
     content.includes(signal)
   );
+  const providerSignal = scenario.allowProviders
+    ? undefined
+    : optionalProviderSignals.find((signal) => content.includes(signal));
 
   if (forbiddenSignal) {
     return {
@@ -222,6 +289,16 @@ const bundleScenario = (scenario, packageJson) => {
       bytes,
       maxBytes: scenario.maxBytes,
       error: `${forbiddenSignal} appears in bundled scenario output.`,
+    };
+  }
+
+  if (providerSignal) {
+    return {
+      name: scenario.name,
+      passed: false,
+      bytes,
+      maxBytes: scenario.maxBytes,
+      error: `${providerSignal} appears in bundled UI scenario output.`,
     };
   }
 

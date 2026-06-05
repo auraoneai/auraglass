@@ -56,7 +56,7 @@ npm run lint:styles                   # Via npm script
 ```
 
 ### 🚫 `verify-no-core-ui-deps.js`
-**Purpose**: Enforces the AuraGlass 3.2 dependency-elimination gate for core app chrome.
+**Purpose**: Enforces the AuraGlass 3.3 dependency-elimination gate for core app chrome.
 
 **Checks:**
 - Forbidden production metadata entries in `dependencies`, `peerDependencies`, and `peerDependenciesMeta`
@@ -70,10 +70,10 @@ node scripts/ci/verify-no-core-ui-deps.js --json
 ```
 
 ### 🌳 `verify-tree-shaking.js`
-**Purpose**: Tracks AuraGlass 3.2 export-map and bundle-sovereignty requirements for icons, primitives, app shell, workspace, and theme entrypoints.
+**Purpose**: Tracks AuraGlass 3.3 export-map and bundle-sovereignty requirements for icons, primitives, app shell, workspace, theme, and focused package subpath entrypoints.
 
 **Checks:**
-- Required 3.2 sub-entrypoints in `package.json.exports`
+- Required 3.3 sub-entrypoints in `package.json.exports`
 - Scoped `sideEffects` metadata
 - Built runtime output for forbidden core UI package signals in strict mode
 - esbuild bundle scenarios in strict mode
@@ -106,9 +106,9 @@ npm run test:integration:vite -- --skip-build
 **Purpose**: Proves package recipes are not only registry metadata. The script packs AuraGlass, scaffolds every recipe through the public CLI, builds a generated Vite app, opens it in Chromium, and captures one screenshot per recipe.
 
 **Outputs:**
-- `reports/3.2-release/recipe-render-evidence.json`
-- `reports/3.2-release/recipe-render-evidence.md`
-- `reports/3.2-release/recipe-screenshots/*.png`
+- `reports/3.3-release/recipe-render-evidence.json`
+- `reports/3.3-release/recipe-render-evidence.md`
+- `reports/3.3-release/recipe-screenshots/*.png`
 
 **Usage:**
 ```bash
@@ -117,7 +117,7 @@ npm run test:recipes:render -- --skip-build
 ```
 
 ### 🖼️ `verify-app-chrome-visuals.js`
-**Purpose**: Proves the 3.2 app-chrome replacement surfaces render and respond to basic browser interactions from the packed npm tarball through public package entrypoints. The script creates a temporary Vite app, renders targeted visual fixtures, opens them in Chromium, captures screenshots, and runs focused keyboard/interaction checks.
+**Purpose**: Proves the 3.3 app-chrome replacement surfaces render and respond to basic browser interactions from the packed npm tarball through public package entrypoints. The script creates a temporary Vite app, renders targeted visual fixtures, opens them in Chromium, captures screenshots, and runs focused keyboard/interaction checks.
 
 **Targets:**
 - First-party icon gallery
@@ -138,9 +138,9 @@ npm run test:recipes:render -- --skip-build
 - Command palette search filters commands
 
 **Outputs:**
-- `reports/3.2-release/app-chrome-visual-evidence.json`
-- `reports/3.2-release/app-chrome-visual-evidence.md`
-- `reports/3.2-release/app-chrome-visuals/*.png`
+- `reports/3.3-release/app-chrome-visual-evidence.json`
+- `reports/3.3-release/app-chrome-visual-evidence.md`
+- `reports/3.3-release/app-chrome-visuals/*.png`
 
 **Usage:**
 ```bash

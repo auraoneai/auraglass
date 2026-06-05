@@ -9,12 +9,20 @@ require('dotenv').config();
 const app = express();
 const httpServer = createServer(app);
 
-// Import services (these would be transpiled from TypeScript in production)
-// For now, we'll create simple wrappers
-const PORT = process.env.API_PORT || 3002;
-const enableDemoAuth = process.env.ENABLE_DEMO_AUTH === 'true';
+const PORT = process.env.API_SERVER_PORT || 3002;
+const isProduction = process.env.NODE_ENV === 'production';
+const enableDemoApi = process.env.ENABLE_DEMO_API === 'true' && !isProduction;
+const enableDemoAuth = process.env.ENABLE_DEMO_AUTH === 'true' && !isProduction;
 
 const createDemoToken = (prefix) => `${prefix}_${crypto.randomBytes(32).toString('base64url')}`;
+const demoApiDisabled = (res, feature) =>
+  res.status(501).json({
+    error: 'Demo API is disabled',
+    code: 'AURA_DEMO_API_DISABLED',
+    feature,
+    remediation:
+      'Use the compiled hosted API at dist/server/server/index.js, or set ENABLE_DEMO_API=true outside production for local demos only.',
+  });
 
 // Security middleware
 app.use(helmet());
@@ -48,33 +56,12 @@ aiRouter.post('/generate-form', async (req, res) => {
   try {
     const { context, existingFields } = req.body;
 
-    // In production, this would call the OpenAIService
-    // For now, return a mock response
-    const fields = [
-      {
-        fieldName: 'name',
-        fieldType: 'text',
-        label: 'Full Name',
-        placeholder: 'Enter your name',
-        required: true,
-        validation: {
-          minLength: 2,
-          maxLength: 100,
-        },
-      },
-      {
-        fieldName: 'email',
-        fieldType: 'email',
-        label: 'Email Address',
-        placeholder: 'Enter your email',
-        required: true,
-        validation: {
-          pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
-        },
-      },
-    ];
+    if (!context) {
+      return res.status(400).json({ error: 'Context is required' });
+    }
 
-    res.json({ fields });
+    void existingFields;
+    return demoApiDisabled(res, 'generate-form');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -85,17 +72,12 @@ aiRouter.post('/search', async (req, res) => {
   try {
     const { query, options } = req.body;
 
-    // Mock search results
-    const results = [
-      {
-        id: '1',
-        content: 'Sample search result matching your query',
-        score: 0.95,
-        highlights: ['matching your query'],
-      },
-    ];
+    if (!query) {
+      return res.status(400).json({ error: 'Query is required' });
+    }
 
-    res.json({ results });
+    void options;
+    return demoApiDisabled(res, 'search');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -104,22 +86,13 @@ aiRouter.post('/search', async (req, res) => {
 // Image analysis endpoint
 aiRouter.post('/analyze-image', async (req, res) => {
   try {
-    const { image } = req.body; // Base64 encoded image
+    const { image } = req.body;
 
-    // Mock analysis result
-    const analysis = {
-      faces: [],
-      objects: [{ name: 'object', confidence: 0.9 }],
-      text: { text: 'Sample text', confidence: 0.8 },
-      labels: [{ description: 'image', score: 0.95 }],
-      safeSearch: {
-        adult: 'UNLIKELY',
-        violence: 'VERY_UNLIKELY',
-        medical: 'UNLIKELY',
-      },
-    };
+    if (!image) {
+      return res.status(400).json({ error: 'Image data is required' });
+    }
 
-    res.json({ analysis });
+    return demoApiDisabled(res, 'analyze-image');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -130,10 +103,11 @@ aiRouter.post('/index-documents', async (req, res) => {
   try {
     const { documents } = req.body;
 
-    res.json({
-      success: true,
-      indexed: documents.length,
-    });
+    if (!Array.isArray(documents) || documents.length === 0) {
+      return res.status(400).json({ error: 'Documents array is required' });
+    }
+
+    return demoApiDisabled(res, 'index-documents');
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

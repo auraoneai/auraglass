@@ -1,4 +1,6 @@
-# AuraGlass 3.2 Code Gap Closure
+# AuraGlass Release Gap Closure
+
+Current release update: the active package release is `aura-glass@3.3.0`, published to npm as `latest` on 2026-06-05. The 3.2 notes below are retained as historical closure evidence for `auraglass32PRD.md`; current 3.3 release evidence lives under `reports/3.3-release/`.
 
 This file previously listed the code-related gaps remaining from `auraglass32PRD.md`.
 The concrete package/source gaps in that list have now been addressed or narrowed to
@@ -75,7 +77,7 @@ npm run prepublishOnly
 
 Result: pass.
 
-Current pack reconciliation:
+Historical 3.2 pack reconciliation:
 
 - Package: `aura-glass@3.2.0`
 - Entries: 2,361
@@ -88,18 +90,21 @@ Current pack reconciliation:
 
 - Manual screen-reader pass for final release candidate: deferred to GitHub issue #16.
 - Manual mobile/touch pass for final release candidate: deferred to GitHub issue #16. Automated packed-package mobile viewport evidence exists for the 390x844 app shell baseline, but physical touch QA has not been recorded.
-- Manual certification runbook: `reports/3.2-release/manual-certification-runbook.md`.
+- Manual certification runbook for the active release: `reports/3.3-release/manual-certification-runbook.md`.
+- Historical 3.2 manual certification runbook: `reports/3.2-release/manual-certification-runbook.md`.
 - Tracking issue: `https://github.com/auraoneai/auraglass/issues/16`.
 
 ## Publishing Readiness
 
-- Public npm latest at the last check: `aura-glass@3.2.0`.
-- Local package published: `aura-glass@3.2.0`.
+- Public npm latest after the 3.3 publish step: `aura-glass@3.3.0`.
+- Local release candidate: `aura-glass@3.3.0`.
+- Historical local package published: `aura-glass@3.2.0`.
 - `npm whoami` without loading `.env` returns `E401`, so the default shell is not authenticated.
 - `.env` contains npm auth variables, and a temporary npmrc created from `NPM_TOKEN` authenticates successfully as `veeronecorp`.
 - GitHub CLI is authenticated for `github.com` as `gchahal1982` with repo/workflow scope.
 - First `npm publish` attempt passed release gates but failed before publishing because package `publishConfig.provenance` requires a supported CI provider.
 - Final npm publish used `--provenance=false --ignore-scripts` after the same publish attempt had just rerun build, pack verification, Next integration, React 19 + Next 15 integration, and Vite integration successfully.
-- Public npm verification: `npm view aura-glass version dist-tags.latest time.modified --json` reports `version: 3.2.0`, `dist-tags.latest: 3.2.0`, and `time.modified: 2026-05-14T07:19:02.680Z`.
+- Historical 3.2 public npm verification: `npm view aura-glass version dist-tags.latest time.modified --json` reported `version: 3.2.0`, `dist-tags.latest: 3.2.0`, and `time.modified: 2026-05-14T07:19:02.680Z`.
+- 3.3 public npm verification: `npm view aura-glass version dist-tags.latest time.modified dist.shasum dist.integrity --json` reports `version: 3.3.0`, `dist-tags.latest: 3.3.0`, `time.modified: 2026-06-05T07:55:20.186Z`, shasum `eefe5668c74f8a7448f44970dfb81cc281b73061`, and integrity `sha512-XEPkhn4MaD54ImyDxOFDQCXNe76CHxcv4Ap0duj5+1eo4Skit6I7V+mIW9KykEj0wSEst+Luk7T5+MsuutdOfA==`.
 - GitHub main pushed: `ad1e760f70dce92a093515af7e29f5803fee0ff3`.
 - GitHub release/tag created: `v3.2.0` at `https://github.com/auraoneai/auraglass/releases/tag/v3.2.0`.

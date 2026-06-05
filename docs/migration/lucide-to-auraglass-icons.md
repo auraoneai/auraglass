@@ -1,6 +1,6 @@
 # Migrating From Lucide To AuraGlass Icons
 
-AuraGlass 3.2 moves core app chrome to first-party icons. The goal is that product surfaces can use `aura-glass` without adding `lucide-react` for common controls, navigation, status, media, data, commerce, collaboration, or AI symbols.
+AuraGlass 3.3 keeps core app chrome on first-party icons. The goal is that product surfaces can use `aura-glass` without adding `lucide-react` for common controls, navigation, status, media, data, commerce, collaboration, or AI symbols.
 
 ## Install Shape
 
@@ -132,4 +132,4 @@ aura-glass audit deps
 node scripts/ci/verify-no-core-ui-deps.js
 ```
 
-The 3.2 release target is zero production imports from `lucide-react`.
+The 3.3 release target remains zero production imports from `lucide-react` in AuraGlass core app chrome.

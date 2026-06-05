@@ -139,9 +139,15 @@ writeFile(
 import { createRoot } from 'react-dom/client';
 import { GlassButton, GlassCard } from 'aura-glass';
 import { GlassAppShell, GlassPageHeader, GlassTopBar } from 'aura-glass/app-shell';
+import { GlassDataTable } from 'aura-glass/data';
+import { GlassFormTemplate } from 'aura-glass/forms';
 import { SearchIcon, SettingsIcon } from 'aura-glass/icons/navigation';
+import { DisplayText } from 'aura-glass/marketing';
+import { GlassPageTabs } from 'aura-glass/navigation';
+import { LiquidGlassAdaptiveSheet } from 'aura-glass/overlays';
 import { GlassSlot } from 'aura-glass/primitives/slot';
 import { GlassThemeProvider } from 'aura-glass/theme';
+import { GlassWorkflowShell } from 'aura-glass/workflows';
 import 'aura-glass/styles';
 
 function App() {
@@ -167,6 +173,19 @@ function App() {
           <GlassSlot className="slot-proof">
             <button type="button">AuraGlass OK</button>
           </GlassSlot>
+          <DisplayText as="p" size="label">
+            Subpath imports OK
+          </DisplayText>
+          <GlassFormTemplate title="Vite form" schema={[]} />
+          <GlassDataTable columns={[]} data={[]} />
+          <GlassPageTabs
+            tabs={[{ value: 'one', label: 'One' }]}
+            value="one"
+          />
+          <LiquidGlassAdaptiveSheet open={false} title="Vite sheet" />
+          <GlassWorkflowShell title="Vite workflow">
+            <GlassButton>Workflow OK</GlassButton>
+          </GlassWorkflowShell>
         </GlassCard>
       </GlassAppShell>
     </GlassThemeProvider>

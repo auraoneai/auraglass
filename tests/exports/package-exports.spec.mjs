@@ -9,6 +9,8 @@ const __dirname = path.dirname(__filename);
 const resolve = (file) => path.join(__dirname, "..", "..", "dist", file);
 const resolveEsm = (file) =>
   path.join(__dirname, "..", "..", "dist", "esm", file);
+const isComponentLike = (value) =>
+  typeof value === "function" || (value !== null && typeof value === "object");
 
 const exportsMap = [
   {
@@ -260,6 +262,58 @@ const exportsMap = [
     },
   },
   {
+    name: "./forms",
+    import: "index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.GlassFormTemplate), "forms should expose GlassFormTemplate");
+      assert.ok(isComponentLike(mod.GlassWizardTemplate), "forms should expose GlassWizardTemplate");
+      assert.ok(isComponentLike(mod.GlassFormWizardSteps), "forms should expose GlassFormWizardSteps");
+    },
+  },
+  {
+    name: "./data",
+    import: "index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.GlassDataTable), "data should expose GlassDataTable");
+      assert.ok(isComponentLike(mod.GlassBadge), "data should expose GlassBadge");
+      assert.ok(isComponentLike(mod.GlassToastProvider), "data should expose GlassToastProvider");
+    },
+  },
+  {
+    name: "./navigation",
+    import: "index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.GlassPageTabs), "navigation should expose GlassPageTabs");
+      assert.ok(isComponentLike(mod.LiquidGlassToolbar), "navigation should expose LiquidGlassToolbar");
+      assert.ok(isComponentLike(mod.GlassMenuPrimitive), "navigation should expose GlassMenuPrimitive");
+    },
+  },
+  {
+    name: "./overlays",
+    import: "index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.LiquidGlassAdaptiveSheet), "overlays should expose LiquidGlassAdaptiveSheet");
+      assert.ok(isComponentLike(mod.LiquidGlassPopoverMenu), "overlays should expose LiquidGlassPopoverMenu");
+    },
+  },
+  {
+    name: "./workflows",
+    import: "workspace/index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.GlassWorkspace), "workflows should expose GlassWorkspace");
+      assert.ok(isComponentLike(mod.GlassWorkflowShell), "workflows should expose GlassWorkflowShell");
+    },
+  },
+  {
+    name: "./marketing",
+    import: "index.mjs",
+    verify: (mod) => {
+      assert.ok(isComponentLike(mod.AuroraBackground), "marketing should expose AuroraBackground");
+      assert.ok(isComponentLike(mod.DisplayText), "marketing should expose DisplayText");
+      assert.ok(isComponentLike(mod.ShowcaseCard), "marketing should expose ShowcaseCard");
+    },
+  },
+  {
     name: "./client",
     import: "client/index.mjs",
     verify: (mod) => {
@@ -345,6 +399,29 @@ const exportsMap = [
     },
   },
   {
+    name: "./services/ai/config",
+    import: "esm/services/ai/config.js",
+    verify: (mod) => {
+      assert.ok(mod.AIConfigSchema, "AI config should expose AIConfigSchema");
+      assert.equal(
+        typeof mod.validateAIConfig,
+        "function",
+        "AI config should expose validateAIConfig"
+      );
+    },
+  },
+  {
+    name: "./services/ai/cache-service",
+    import: "esm/services/ai/cache-service.js",
+    verify: (mod) => {
+      assert.equal(
+        typeof mod.CacheService,
+        "function",
+        "cache-service should expose CacheService"
+      );
+    },
+  },
+  {
     name: "./services/ai/openai-service",
     import: "esm/services/ai/openai-service.js",
     verify: (mod) => {
@@ -406,6 +483,66 @@ assert.equal(
   "./hooks/useGlassProbes should expose a default runtime target"
 );
 
+const expectedUiSubpaths = {
+  "./forms": {
+    types: "./dist/forms/index.d.ts",
+    import: "./dist/index.mjs",
+    require: "./dist/index.js",
+  },
+  "./data": {
+    types: "./dist/data/index.d.ts",
+    import: "./dist/index.mjs",
+    require: "./dist/index.js",
+  },
+  "./navigation": {
+    types: "./dist/navigation/index.d.ts",
+    import: "./dist/index.mjs",
+    require: "./dist/index.js",
+  },
+  "./overlays": {
+    types: "./dist/overlays/index.d.ts",
+    import: "./dist/index.mjs",
+    require: "./dist/index.js",
+  },
+  "./workflows": {
+    types: "./dist/workflows/index.d.ts",
+    import: "./dist/workspace/index.mjs",
+    require: "./dist/workspace/index.js",
+  },
+  "./marketing": {
+    types: "./dist/marketing/index.d.ts",
+    import: "./dist/index.mjs",
+    require: "./dist/index.js",
+  },
+};
+
+for (const [subpath, expected] of Object.entries(expectedUiSubpaths)) {
+  assert.deepEqual(
+    packageJson.exports[subpath],
+    expected,
+    `${subpath} should expose typed ESM and CJS runtime targets`
+  );
+}
+
+assert.deepEqual(
+  packageJson.exports["./services/ai/config"],
+  {
+    types: "./dist/services/ai/config.d.ts",
+    import: "./dist/esm/services/ai/config.js",
+    default: "./dist/esm/services/ai/config.js",
+  },
+  "./services/ai/config should expose a typed ESM runtime target"
+);
+assert.deepEqual(
+  packageJson.exports["./services/ai/cache-service"],
+  {
+    types: "./dist/services/ai/cache-service.d.ts",
+    import: "./dist/esm/services/ai/cache-service.js",
+    default: "./dist/esm/services/ai/cache-service.js",
+  },
+  "./services/ai/cache-service should expose a typed ESM runtime target"
+);
+
 assert.equal(
   packageJson.peerDependencies.openai,
   "^6.0.0",
@@ -416,11 +553,17 @@ assert.equal(
   "^5.0.0",
   "@google-cloud/vision should be declared as an optional peer for the Vision service subpath"
 );
+assert.equal(
+  packageJson.peerDependencies.redis,
+  "^5.0.0",
+  "redis should be declared as an optional peer for the cache service subpath"
+);
 assert.equal(packageJson.peerDependenciesMeta.openai?.optional, true);
 assert.equal(
   packageJson.peerDependenciesMeta["@google-cloud/vision"]?.optional,
   true
 );
+assert.equal(packageJson.peerDependenciesMeta.redis?.optional, true);
 
 const openAIServiceSource = readFileSync(
   resolveEsm("services/ai/openai-service.js"),

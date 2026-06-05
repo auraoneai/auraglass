@@ -2,7 +2,7 @@
 
 ## Overview
 
-AuraGlass has evolved from demo components to a complete production-ready AI platform with real service integrations, enterprise security, and comprehensive deployment infrastructure. This guide covers the transformation of our AI systems into production-grade services.
+AuraGlass is package-first, with optional hosted AI and collaboration infrastructure for teams that choose to self-host backend features. This guide covers the hosted runtime boundary, provider-backed services, safe unconfigured-provider behavior, and deployment expectations.
 
 ## 📋 Table of Contents
 
@@ -17,13 +17,13 @@ AuraGlass has evolved from demo components to a complete production-ready AI pla
 
 ## 🤖 Real AI Service Integrations
 
-**⚠️ IMPORTANT:** These are Node.js backend services, not browser components. They run on your server and are located in the `server/` directory. Do not import these in your React components. See the deployment section for server setup.
+**Important:** These are Node.js backend services, not browser components. Repo-local server code imports implementations from `src/services/*`; package consumers use public `aura-glass/services/*` subpaths where they exist. Do not import provider SDKs into React components.
 
 
 ### OpenAI GPT-4 Integration
 
 ```typescript
-import { OpenAIService } from '../server/services/ai/openai-service';
+import { OpenAIService } from '../src/services/ai/openai-service';
 
 const openAI = new OpenAIService(config);
 
@@ -51,7 +51,7 @@ const summary = await openAI.generateContentSummary(content, 200);
 ### Pinecone Vector Database
 
 ```typescript
-import { SemanticSearchService } from '../server/services/ai/openai-service';
+import { SemanticSearchService } from '../src/services/ai/semantic-search-service';
 
 const searchService = new SemanticSearchService(config);
 
@@ -79,7 +79,7 @@ const results = await searchService.hybridSearch(query, {
 ### Google Vision API
 
 ```typescript
-import { VisionService } from '../server/services/ai/openai-service';
+import { VisionService } from '../src/services/ai/vision-service';
 
 const vision = new VisionService(config);
 
@@ -108,7 +108,7 @@ const processedImage = await vision.removeBackground(imageBuffer);
 ### JWT Authentication System
 
 ```typescript
-import { AuthService } from '../server/services/auth/auth-service';
+import { AuthService } from '../src/services/auth/auth-service';
 
 const auth = new AuthService();
 
@@ -150,7 +150,7 @@ app.use('/api/ai',
 ### Rate Limiting
 
 ```typescript
-import { createRateLimiter } from '../server/services/auth/auth-service';
+import { createRateLimiter } from '../src/services/auth/middleware';
 
 // AI endpoint rate limiting
 const aiRateLimiter = createRateLimiter({
@@ -171,7 +171,7 @@ const searchRateLimiter = createRateLimiter({
 ### WebSocket Server for Collaboration
 
 ```typescript
-import { CollaborationService } from '../server/services/websocket/collaboration-service';
+import { CollaborationService } from 'aura-glass/services/websocket/collaboration-service';
 
 const collab = new CollaborationService('ws://localhost:3001', authToken);
 
@@ -179,21 +179,16 @@ const collab = new CollaborationService('ws://localhost:3001', authToken);
 await collab.connect();
 await collab.joinRoom('design-session');
 
-// Send collaborative edits
-collab.sendEdit({
-  type: 'insert',
-  position: 100,
-  content: 'New text'
-});
-
 // Track cursor positions
 collab.sendCursorPosition(x, y);
 
 // Listen for events
-collab.on('document-changed', (operation) => {
-  applyOperation(operation);
+collab.on('collaboration-edit-unsupported', (event) => {
+  console.warn(event.code);
 });
 ```
+
+Presence, cursor, selection, and room transport are the supported hosted-runtime collaboration claims. Do not claim production collaborative editing or conflict-free operation semantics until the operation model is implemented and tested.
 
 ### Docker Deployment
 
@@ -211,7 +206,9 @@ services:
     build: .
     ports:
       - "3002:3002"
+    command: npm run server:api
     environment:
+      - API_SERVER_PORT=3002
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PINECONE_API_KEY=${PINECONE_API_KEY}
       - JWT_SECRET=${JWT_SECRET}
@@ -223,6 +220,8 @@ services:
     ports:
       - "3001:3001"
     command: node server/websocket-server.js
+    environment:
+      - WS_PORT=3001
     depends_on:
       - redis
 
@@ -340,11 +339,20 @@ async indexDocuments(documents: IndexableDocument[]) {
 - Redis server
 - Docker & Docker Compose (optional)
 
-# Required API keys
-- OPENAI_API_KEY
-- PINECONE_API_KEY (optional)
-- GOOGLE_VISION_API_KEY (optional)
+# Runtime contract
+- API_SERVER_PORT=3002
+- WS_PORT=3001
+- NEXT_PUBLIC_API_URL=http://localhost:3002
+- NEXT_PUBLIC_WS_URL=ws://localhost:3001
+
+# Required hosted auth secret
 - JWT_SECRET
+
+# Optional provider keys
+- OPENAI_API_KEY
+- PINECONE_API_KEY
+- GOOGLE_CLOUD_PROJECT_ID and GOOGLE_APPLICATION_CREDENTIALS
+- REMOVEBG_API_KEY
 ```
 
 ### Quick Start
@@ -362,8 +370,8 @@ npm install --legacy-peer-deps
 
 # Or manually:
 redis-server
-npm run server:api
-npm run server:websocket
+API_SERVER_PORT=3002 npm run server:api
+WS_PORT=3001 npm run server:websocket
 ```
 
 ### Production Deployment
@@ -386,11 +394,15 @@ kubectl apply -f k8s/
 
 ```env
 # Required
-OPENAI_API_KEY=sk-...
 JWT_SECRET=your-secure-secret
+API_SERVER_PORT=3002
+WS_PORT=3001
+NEXT_PUBLIC_API_URL=http://localhost:3002
+NEXT_PUBLIC_WS_URL=ws://localhost:3001
 
 # Recommended
 REDIS_URL=redis://localhost:6379
+OPENAI_API_KEY=sk-...
 PINECONE_API_KEY=...
 PINECONE_ENVIRONMENT=us-east-1
 
@@ -551,11 +563,11 @@ class MockWebSocket {
 }
 ```
 
-### After (Production Services)
+### After (Optional Hosted Services)
 
 ```typescript
-// Real OpenAI integration
-import { OpenAIService } from '../server/services/ai/openai-service';
+// Repo-local server source imports from src/services.
+import { OpenAIService } from '../src/services/ai/openai-service';
 
 const openAI = new OpenAIService(config);
 const fields = await openAI.generateFormFieldSuggestions(
@@ -563,12 +575,12 @@ const fields = await openAI.generateFormFieldSuggestions(
   existingFields
 );
 
-// Real WebSocket with Redis backing
-import { CollaborationService } from '../server/services/websocket/collaboration-service';
+// Public package export for hosted collaboration clients.
+import { CollaborationService } from 'aura-glass/services/websocket/collaboration-service';
 
 const collab = new CollaborationService(wsUrl, authToken);
 await collab.connect();
-collab.on('document-changed', handleChange);
+collab.on('cursor-update', handleCursorUpdate);
 ```
 
 ## 🎯 Best Practices
@@ -629,4 +641,4 @@ After implementing the production AI infrastructure:
 
 ---
 
-**Your AI components are now production-ready!** 🚀
+Hosted AI routes are production-ready only when the matching providers, auth, runtime ports, fail-closed behavior, and integration evidence are configured. Package-only components remain usable without the hosted runtime.

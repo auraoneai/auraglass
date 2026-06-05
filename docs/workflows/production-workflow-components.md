@@ -1,6 +1,6 @@
-# AuraGlass 3.2 Production Workflow Components
+# AuraGlass 3.3 Production Workflow Components
 
-AuraGlass 3.2 adds a first-party workflow layer for product screens that otherwise push teams toward MUI form wrappers, empty states, loading panels, filter bars, search controls, comboboxes, tabs, and notification plumbing.
+AuraGlass 3.3 keeps the first-party workflow layer for product screens that otherwise push teams toward MUI form wrappers, empty states, loading panels, filter bars, search controls, comboboxes, tabs, and notification plumbing.
 
 These components are package-owned, use AuraGlass icons, and are intended for settings, billing, admin, support, AI command, media review, commerce, and collaboration surfaces.
 
@@ -89,5 +89,4 @@ export function OperationsWorkflow() {
 
 ## Limits
 
-`GlassCombobox` and `GlassMultiSelect` provide the 3.2 keyboard/typeahead foundation. Full screen-reader certification for every workflow route still belongs in the final release accessibility pass.
-
+`GlassCombobox` and `GlassMultiSelect` provide the current keyboard/typeahead foundation. Full screen-reader certification for every workflow route still belongs in the final release accessibility pass.

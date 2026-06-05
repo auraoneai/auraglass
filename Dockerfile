@@ -1,10 +1,13 @@
 # Multi-stage Docker build for AuraGlass AI System
 
 # Stage 1: Build stage
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 # Set working directory
 WORKDIR /app
+
+# Native optional dependencies need a build toolchain in Alpine during npm ci.
+RUN apk add --no-cache python3 make g++
 
 # Copy package files
 COPY package*.json ./
@@ -15,11 +18,11 @@ RUN npm ci --legacy-peer-deps
 # Copy source code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Build the package and hosted API server
+RUN npm run build:hosted
 
 # Stage 2: Production stage
-FROM node:20-alpine
+FROM node:22-alpine
 
 # Install dumb-init for proper signal handling
 RUN apk add --no-cache dumb-init
@@ -35,7 +38,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install production dependencies only
-RUN npm ci --legacy-peer-deps --production && \
+RUN npm ci --legacy-peer-deps --omit=dev --ignore-scripts && \
     npm cache clean --force
 
 # Copy built application from builder stage
@@ -60,4 +63,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 ENTRYPOINT ["dumb-init", "--"]
 
 # Default command (can be overridden)
-CMD ["node", "server/api-server.js"]
+CMD ["node", "dist/server/server/index.js"]

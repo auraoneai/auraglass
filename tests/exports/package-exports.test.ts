@@ -2,6 +2,8 @@ const path = require("node:path");
 const fs = require("node:fs");
 
 const distRoot = path.resolve(__dirname, "..", "..");
+const isComponentLike = (value: unknown) =>
+  typeof value === "function" || (value !== null && typeof value === "object");
 
 /**
  * Minimal structural verifiers for each export target.
@@ -154,6 +156,52 @@ const exportsMap: Record<
       expect(typeof mod.GlassThemeProvider).toBe("function");
     },
   },
+  "./forms": {
+    require: "dist/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.GlassFormTemplate)).toBe(true);
+      expect(isComponentLike(mod.GlassWizardTemplate)).toBe(true);
+      expect(isComponentLike(mod.GlassFormWizardSteps)).toBe(true);
+    },
+  },
+  "./data": {
+    require: "dist/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.GlassDataTable)).toBe(true);
+      expect(isComponentLike(mod.GlassBadge)).toBe(true);
+      expect(isComponentLike(mod.GlassToastProvider)).toBe(true);
+    },
+  },
+  "./navigation": {
+    require: "dist/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.GlassPageTabs)).toBe(true);
+      expect(isComponentLike(mod.LiquidGlassToolbar)).toBe(true);
+      expect(isComponentLike(mod.GlassMenuPrimitive)).toBe(true);
+    },
+  },
+  "./overlays": {
+    require: "dist/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.LiquidGlassAdaptiveSheet)).toBe(true);
+      expect(isComponentLike(mod.LiquidGlassPopoverMenu)).toBe(true);
+    },
+  },
+  "./workflows": {
+    require: "dist/workspace/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.GlassWorkspace)).toBe(true);
+      expect(isComponentLike(mod.GlassWorkflowShell)).toBe(true);
+    },
+  },
+  "./marketing": {
+    require: "dist/index.js",
+    verify: (mod) => {
+      expect(isComponentLike(mod.AuroraBackground)).toBe(true);
+      expect(isComponentLike(mod.DisplayText)).toBe(true);
+      expect(isComponentLike(mod.ShowcaseCard)).toBe(true);
+    },
+  },
   "./hooks/useGlassProbes": {
     require: "dist/cjs/hooks/useGlassProbes.js",
     verify: (mod) => {
@@ -208,15 +256,57 @@ const exportsMap: Record<
         require: "./dist/cjs/hooks/useGlassProbes.js",
         default: "./dist/esm/hooks/useGlassProbes.js",
       });
+      expect(pkg.exports["./forms"]).toMatchObject({
+        types: "./dist/forms/index.d.ts",
+        import: "./dist/index.mjs",
+        require: "./dist/index.js",
+      });
+      expect(pkg.exports["./data"]).toMatchObject({
+        types: "./dist/data/index.d.ts",
+        import: "./dist/index.mjs",
+        require: "./dist/index.js",
+      });
+      expect(pkg.exports["./navigation"]).toMatchObject({
+        types: "./dist/navigation/index.d.ts",
+        import: "./dist/index.mjs",
+        require: "./dist/index.js",
+      });
+      expect(pkg.exports["./overlays"]).toMatchObject({
+        types: "./dist/overlays/index.d.ts",
+        import: "./dist/index.mjs",
+        require: "./dist/index.js",
+      });
+      expect(pkg.exports["./workflows"]).toMatchObject({
+        types: "./dist/workflows/index.d.ts",
+        import: "./dist/workspace/index.mjs",
+        require: "./dist/workspace/index.js",
+      });
+      expect(pkg.exports["./marketing"]).toMatchObject({
+        types: "./dist/marketing/index.d.ts",
+        import: "./dist/index.mjs",
+        require: "./dist/index.js",
+      });
+      expect(pkg.exports["./services/ai/config"]).toMatchObject({
+        types: "./dist/services/ai/config.d.ts",
+        import: "./dist/esm/services/ai/config.js",
+        default: "./dist/esm/services/ai/config.js",
+      });
+      expect(pkg.exports["./services/ai/cache-service"]).toMatchObject({
+        types: "./dist/services/ai/cache-service.d.ts",
+        import: "./dist/esm/services/ai/cache-service.js",
+        default: "./dist/esm/services/ai/cache-service.js",
+      });
       expect(pkg.peerDependencies.openai).toBe("^6.0.0");
       expect(pkg.peerDependencies["@google-cloud/vision"]).toBe("^5.0.0");
+      expect(pkg.peerDependencies.redis).toBe("^5.0.0");
       expect(pkg.peerDependenciesMeta.openai.optional).toBe(true);
       expect(pkg.peerDependenciesMeta["@google-cloud/vision"].optional).toBe(
         true
       );
+      expect(pkg.peerDependenciesMeta.redis.optional).toBe(true);
     },
   },
-  // Note: New exports (core/mixins/glassMixins, utils/env, services/*)
+  // Note: ESM-only exports (core/mixins/glassMixins, utils/env, services/*)
   // are ESM-only and will be tested in package-exports.spec.mjs
 };
 

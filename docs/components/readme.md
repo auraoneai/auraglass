@@ -8,8 +8,8 @@ Start with the [Choosing AuraGlass Components](./choosing.md) guide before brows
 
 ## Coverage State
 
-- Current 3.1 package surface: 804 runtime exports, including 439 component-like value exports and 317 Glass-prefixed component-like exports.
-- 3.1 developer surface: 121 hook exports, 29 provider exports, 10 launch recipes, 19 functional sub-entrypoints, 6 token formats, and one `aura-glass` CLI.
+- Current package surface: root imports remain backward-compatible, and 3.3 adds typed subpaths for forms, data, navigation, overlays, workflows, marketing, and selected AI services.
+- Current recipe surface: 28 recipe IDs, including the 3.3 AI/runtime, release, docs, support, collaboration, and marketing launch starters.
 - Historical 3.0 certification inventory: 356 audited entries, verified by `npm run audit:components`.
 - Historical Storybook visual certification: 356/356 passed with 712 screenshots.
 - Static Storybook exhaustive QA: 1,595 public stories crawled with zero hard failures and zero audit-run errors.

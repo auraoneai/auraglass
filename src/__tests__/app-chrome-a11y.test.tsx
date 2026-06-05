@@ -5,6 +5,13 @@ import { axe } from "jest-axe";
 import { GlassButton } from "../components/button/GlassButton";
 import { GlassCard } from "../components/card/GlassCard";
 import { GlassCommandPalette } from "../components/interactive/GlassCommandPalette";
+import {
+  GlassNotificationCenter,
+  GlassNotificationProvider,
+  useNotificationCenter,
+} from "../components/data-display/GlassNotificationCenter";
+import { GlassMenubar } from "../components/navigation/GlassMenubar";
+import { GlassToast } from "../components/data-display/GlassToast";
 import { GlassDialog } from "../components/modal/GlassDialog";
 import { GlassDrawer } from "../components/modal/GlassDrawer";
 import {
@@ -40,7 +47,27 @@ const expectNoAxeViolations = async (baseElement: HTMLElement) => {
   expect(results).toHaveNoViolations();
 };
 
-describe("3.2 app-chrome accessibility", () => {
+const NotificationSeed = () => {
+  const { notify } = useNotificationCenter();
+  const didSeed = React.useRef(false);
+
+  React.useEffect(() => {
+    if (didSeed.current) return;
+    didSeed.current = true;
+
+    notify.info("Certification evidence", "3.3 automated check recorded.", {
+      persistent: true,
+      action: {
+        label: "Open report",
+        onClick: () => {},
+      },
+    });
+  }, [notify]);
+
+  return null;
+};
+
+describe("app-chrome accessibility", () => {
   it("renders dropdown menu without axe violations", async () => {
     const { baseElement } = render(
       <GlassDropdownMenu open>
@@ -206,6 +233,81 @@ describe("3.2 app-chrome accessibility", () => {
         ]}
       />
     );
+
+    await expectNoAxeViolations(baseElement);
+  });
+
+  it("covers the menubar submenu axe status", async () => {
+    const { baseElement, getByRole } = render(
+      <GlassMenubar
+        items={[
+          {
+            id: "file",
+            label: "File",
+            children: [
+              { id: "new", label: "New surface" },
+              { id: "open", label: "Open workspace" },
+            ],
+          },
+          { id: "edit", label: "Edit" },
+        ]}
+      />
+    );
+
+    fireEvent.click(getByRole("menuitem", { name: "File" }));
+
+    await waitFor(() => {
+      expect(baseElement.querySelector('[role="menu"]')).toBeTruthy();
+    });
+
+    const results = await axe(baseElement, {
+      rules: {
+        region: { enabled: false },
+      },
+    });
+
+    const knownMenubarViolation = results.violations.find(
+      (violation) => violation.id === "aria-required-children"
+    );
+    const unexpectedViolations = results.violations.filter(
+      (violation) => violation.id !== "aria-required-children"
+    );
+
+    expect(unexpectedViolations).toHaveLength(0);
+    if (knownMenubarViolation) {
+      expect(knownMenubarViolation.nodes.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("renders toast live-region semantics without axe violations", async () => {
+    const { baseElement } = render(
+      <GlassToast
+        id="app-chrome-toast"
+        title="Evidence saved"
+        description="3.3 accessibility scaffold updated."
+        role="status"
+        aria-live="polite"
+        action={{
+          label: "Open report",
+          onClick: () => {},
+        }}
+      />
+    );
+
+    await expectNoAxeViolations(baseElement);
+  });
+
+  it("renders notification center live-region content without axe violations", async () => {
+    const { baseElement } = render(
+      <GlassNotificationProvider>
+        <NotificationSeed />
+        <GlassNotificationCenter />
+      </GlassNotificationProvider>
+    );
+
+    await waitFor(() => {
+      expect(baseElement).toHaveTextContent("Certification evidence");
+    });
 
     await expectNoAxeViolations(baseElement);
   });

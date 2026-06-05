@@ -1,6 +1,6 @@
 # AuraGlass by AuraOne Installation Guide
 
-This guide matches AuraGlass by AuraOne 3.2.0. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, first-party icons, first-party primitives, app-shell/workspace entrypoints, Theme Engine 2.0, Liquid Glass primitives, and a separate 3D entrypoint from the package export map.
+This guide matches AuraGlass by AuraOne 3.3.0. AuraGlass publishes compiled JavaScript, TypeScript declarations, CSS, token assets, SSR helpers, first-party icons, first-party primitives, app-shell/workspace entrypoints, focused forms/data/navigation/overlays/workflows/marketing subpaths, Theme Engine 2.0, Liquid Glass primitives, optional hosted AI/runtime service entrypoints, and a separate 3D entrypoint from the package export map.
 
 ## Install
 
@@ -24,12 +24,15 @@ If you do not use 3D, forms, charts, AI services, collaboration transport, or mo
 |---------|-----------------|-------|
 | `@react-three/drei` | `^9.122.0 || ^10.0.0` | Optional; install with `aura-glass/three`. Use 9.x with React 18/Fiber 8 or 10.x with React 19/Fiber 9. |
 | `@react-three/fiber` | `^8.18.0 || ^9.0.0` | Optional; install with `aura-glass/three`. Use 8.x for React 18 or 9.x for React 19. |
+| `@google-cloud/vision` | `^5.0.0` | Optional; install only in hosted backend code that uses `aura-glass/services/ai/vision-service`. |
 | `@sentry/react` | `^7.100.0` | Optional; install only when using Sentry-backed monitoring integrations. |
 | `framer-motion` | `>=10.0.0` | Optional; install when using APIs that depend on this peer. |
+| `openai` | `^6.0.0` | Optional; install only in hosted backend code that uses `aura-glass/services/ai/openai-service`. |
 | `react` | `>=18.0.0 <20.0.0` | Required. React 18 is supported for standard UI; React 19 is required for the Fiber 9 3D stack. |
 | `react-chartjs-2` | `^5.0.0` | Optional; install when using chart components. |
 | `react-dom` | `>=18.0.0 <20.0.0` | Required. Match the installed React major version. |
 | `react-hook-form` | `^7.0.0` | Optional; install when using form-builder integrations. |
+| `redis` | `^5.0.0` | Optional; install only when hosted caching, rate limiting, or Redis-backed collaboration is enabled. |
 | `three` | `>=0.159.0 <1.0.0` | Optional; install with `aura-glass/three`. |
 
 ## Basic Setup
@@ -123,6 +126,37 @@ npm run storybook
 npm run typecheck
 npm run lint:check
 npm run audit:components
+```
+
+## Optional Hosted Runtime
+
+Package-only apps do not need the hosted runtime. If your application self-hosts AuraGlass AI routes or collaboration transport, use the canonical local contract:
+
+| Service | URL | Environment variable |
+| --- | --- | --- |
+| API server | `http://localhost:3002` | `API_SERVER_PORT=3002` |
+| WebSocket server | `ws://localhost:3001` | `WS_PORT=3001` |
+| Browser API URL | `http://localhost:3002` | `NEXT_PUBLIC_API_URL` |
+| Browser WebSocket URL | `ws://localhost:3001` | `NEXT_PUBLIC_WS_URL` |
+
+Run the real API server built from `server/index.ts`; do not use the legacy demo/mock `server/api-server.js` path for production.
+
+```bash
+npm run build:server
+API_SERVER_PORT=3002 WS_PORT=3001 npm run server:all
+```
+
+Hosted routes that depend on missing optional providers should return `PROVIDER_UNCONFIGURED` instead of mock data. For example:
+
+```json
+{
+  "error": {
+    "code": "PROVIDER_UNCONFIGURED",
+    "provider": "openai",
+    "feature": "generate-form",
+    "message": "OpenAI is not configured for this AuraGlass hosted runtime."
+  }
+}
 ```
 
 ## Verification Commands

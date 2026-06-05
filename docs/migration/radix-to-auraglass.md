@@ -1,6 +1,6 @@
 # Migrating From Radix To AuraGlass Primitives
 
-AuraGlass 3.2 replaces Radix-backed core app chrome with native AuraGlass primitives and components. The intent is not to copy Radix APIs one for one. The intent is to provide accessible AuraGlass menus, selects, dialogs, popovers, tooltips, tabs, command surfaces, focus behavior, and portal behavior without adding `@radix-ui/*` packages to core UI.
+AuraGlass 3.3 keeps Radix-backed core app chrome replaced with native AuraGlass primitives and components. The intent is not to copy Radix APIs one for one. The intent is to provide accessible AuraGlass menus, selects, dialogs, popovers, tooltips, tabs, command surfaces, focus behavior, and portal behavior without adding `@radix-ui/*` packages to core UI.
 
 ## Replacement Map
 
@@ -74,7 +74,7 @@ For each replacement, verify:
 - Disabled items are skipped by keyboard navigation.
 - Screen-reader roles and names match the rendered behavior.
 
-Record final evidence in `reports/3.2-release/accessibility-certification.md`.
+Record final 3.3 evidence in `reports/3.3-release/accessibility-certification.md`; historical 3.2 accessibility evidence remains under `reports/3.2-release`.
 
 ## Verification
 
@@ -86,4 +86,4 @@ aura-glass doctor
 node scripts/ci/verify-no-core-ui-deps.js
 ```
 
-The 3.2 release target is zero production imports from `@radix-ui/*`.
+The 3.3 release target remains zero production imports from `@radix-ui/*` in AuraGlass core app chrome.

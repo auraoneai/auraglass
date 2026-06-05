@@ -1,6 +1,8 @@
 # ⚡ Quick Start: AI Features in 5 Minutes
 
-Get AuraGlass AI features running in under 5 minutes!
+Get the optional AuraGlass hosted AI runtime running in under 5 minutes.
+
+AuraGlass package-only apps do not need this guide. Use it only when you want to self-host AI routes or collaboration transport in addition to importing the React package.
 
 ## 🎯 What You'll Get
 
@@ -8,11 +10,11 @@ Get AuraGlass AI features running in under 5 minutes!
 - ✅ Semantic search with Pinecone
 - ✅ Image analysis with Google Vision
 - ✅ Real-time collaboration
-- ✅ All with just API keys—no complex setup!
+- ✅ Safe provider-unconfigured responses when optional keys are missing
 
 ## 📝 Step 1: Get API Keys (2 minutes)
 
-### OpenAI (Required)
+### OpenAI (Required for Smart Forms and Summaries)
 
 1. Go to https://platform.openai.com/api-keys
 2. Click "Create new secret key"
@@ -20,7 +22,7 @@ Get AuraGlass AI features running in under 5 minutes!
 
 **Free tier:** $5 credit for new users
 
-### Pinecone (Required for Search)
+### Pinecone (Required for Semantic Search)
 
 1. Go to https://app.pinecone.io/
 2. Sign up for free
@@ -52,7 +54,14 @@ cp .env.example .env
 **Edit `.env` and add your keys:**
 
 ```env
-# Minimum required
+# Hosted runtime contract
+API_SERVER_PORT=3002
+WS_PORT=3001
+NEXT_PUBLIC_API_URL=http://localhost:3002
+NEXT_PUBLIC_WS_URL=ws://localhost:3001
+JWT_SECRET=replace-with-a-secure-random-secret
+
+# Provider-backed features
 OPENAI_API_KEY=sk-your-actual-key-here
 PINECONE_API_KEY=your-pinecone-key-here
 REDIS_URL=redis://localhost:6379
@@ -84,10 +93,12 @@ sudo apt-get install redis-server && sudo service redis-server start
 # Build server
 npm run build:server
 
-# Start all services
-npm run server:all
+# Start all hosted services with canonical ports
+API_SERVER_PORT=3002 WS_PORT=3001 npm run server:all
 
 # In another terminal, start your app
+NEXT_PUBLIC_API_URL=http://localhost:3002 \
+NEXT_PUBLIC_WS_URL=ws://localhost:3001 \
 npm run dev
 ```
 
@@ -116,18 +127,31 @@ console.log(results);
 
 ```bash
 # Health check
-curl http://localhost:3001/health
+curl http://localhost:3002/health
 
 # Login
-curl -X POST http://localhost:3001/api/auth/login \
+curl -X POST http://localhost:3002/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"password123"}'
 
 # Generate form (replace TOKEN)
-curl -X POST http://localhost:3001/api/ai/generate-form \
+curl -X POST http://localhost:3002/api/ai/generate-form \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer TOKEN" \
   -d '{"context":"contact form"}'
+```
+
+If OpenAI is not configured, the hosted route should return a safe provider-unconfigured response instead of mock fields:
+
+```json
+{
+  "error": "Provider not configured",
+  "message": "openai is not configured for generate-form",
+  "code": "AURA_PROVIDER_UNCONFIGURED",
+  "provider": "openai",
+  "feature": "generate-form",
+  "docsUrl": "https://auraglass.auraone.ai/docs/ai-providers"
+}
 ```
 
 ## 🎨 Complete Example Component
@@ -182,11 +206,11 @@ export default function AIDemo() {
 ## 🎉 You're Done!
 
 You now have:
-- ✅ Real GPT-4 form generation
-- ✅ Semantic search with embeddings
-- ✅ Image analysis ready
+- ✅ Real GPT-backed form generation when OpenAI is configured
+- ✅ Semantic search with embeddings when OpenAI and Pinecone are configured
+- ✅ Image analysis when Google Vision is configured
 - ✅ Authentication working
-- ✅ All AI features available
+- ✅ Clear provider-unconfigured states for missing optional providers
 
 ## 📊 Usage Examples
 
@@ -231,10 +255,10 @@ const processedImage = await aiClient.removeBackground(base64Image);
 
 ## 🔧 Troubleshooting
 
-**"Connection refused on port 3001"**
+**"Connection refused on port 3002"**
 ```bash
 # Make sure server is running
-npm run server:all
+API_SERVER_PORT=3002 WS_PORT=3001 npm run server:all
 ```
 
 **"Redis connection failed"**
@@ -262,7 +286,7 @@ docker run -d -p 6379:6379 redis:alpine
 ## 🆘 Need Help?
 
 - Example component: `src/components/ai/examples/AIDemo.tsx`
-- Test connection: `curl http://localhost:3001/health`
+- Test connection: `curl http://localhost:3002/health`
 - Check logs: Look at terminal running `npm run server:all`
 
 ---

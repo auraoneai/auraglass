@@ -1,6 +1,5 @@
 // @ts-nocheck - Optional Pinecone and OpenAI dependencies
-import { Pinecone } from "@pinecone-database/pinecone";
-import OpenAI from "openai";
+import { createHash } from "crypto";
 import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";
@@ -29,25 +28,33 @@ type PineconeIndexSummary = {
 };
 
 export class SemanticSearchService {
-  private pinecone: Pinecone;
-  private openai: OpenAI;
+  private pinecone: any;
+  private openai: any;
   private cache: CacheService;
   private errorHandler: ErrorHandler;
   private index: any;
 
   constructor(private config: AIConfig) {
-    this.pinecone = new Pinecone({
-      apiKey: config.pinecone.apiKey,
-    });
-    this.openai = new OpenAI({
-      apiKey: config.openai.apiKey,
-    });
     this.cache = new CacheService(config.redis);
     this.errorHandler = new ErrorHandler();
   }
 
   async initialize(): Promise<void> {
     try {
+      const [{ Pinecone }, openAIModule] = await Promise.all([
+        import("@pinecone-database/pinecone"),
+        import("openai"),
+      ]);
+      const OpenAI =
+        openAIModule.default ?? openAIModule.OpenAI ?? openAIModule;
+
+      this.pinecone = new Pinecone({
+        apiKey: this.config.pinecone.apiKey,
+      });
+      this.openai = new OpenAI({
+        apiKey: this.config.openai.apiKey,
+      });
+
       await this.cache.connect();
 
       const indexes = await this.pinecone.listIndexes();
@@ -159,7 +166,7 @@ export class SemanticSearchService {
 
     const { topK = 10, filter, includeMetadata = true, namespace } = options;
 
-    const cacheKey = `search:${query}:${JSON.stringify(options)}`;
+    const cacheKey = this.createCacheKey("search", { query, options });
 
     if (this.config.costOptimization.enableCaching) {
       const cached = await this.cache.get<SearchResult[]>(cacheKey);
@@ -365,6 +372,14 @@ export class SemanticSearchService {
         highlights: [],
       },
     ];
+  }
+
+  private createCacheKey(prefix: string, payload: unknown): string {
+    const digest = createHash("sha256")
+      .update(JSON.stringify(payload))
+      .digest("hex");
+
+    return `${prefix}:${digest}`;
   }
 
   private chunkArray<T>(array: T[], size: number): T[][] {

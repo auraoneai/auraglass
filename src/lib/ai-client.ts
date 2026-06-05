@@ -12,6 +12,36 @@ export interface AIClientConfig {
   onError?: (error: Error) => void;
 }
 
+export class AIClientError extends Error {
+  readonly status?: number;
+  readonly code?: string;
+  readonly provider?: string;
+  readonly feature?: string;
+  readonly docsUrl?: string;
+  readonly details?: unknown;
+
+  constructor(
+    message: string,
+    options: {
+      status?: number;
+      code?: string;
+      provider?: string;
+      feature?: string;
+      docsUrl?: string;
+      details?: unknown;
+    } = {}
+  ) {
+    super(message);
+    this.name = "AIClientError";
+    this.status = options.status;
+    this.code = options.code;
+    this.provider = options.provider;
+    this.feature = options.feature;
+    this.docsUrl = options.docsUrl;
+    this.details = options.details;
+  }
+}
+
 export interface FormFieldSuggestion {
   fieldName: string;
   fieldType:
@@ -83,9 +113,9 @@ class AIClient {
       apiUrl:
         config.apiUrl ||
         process.env.NEXT_PUBLIC_API_URL ||
-        "http://localhost:3001",
+        "http://localhost:3002",
       wsUrl:
-        config.wsUrl || process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3002",
+        config.wsUrl || process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3001",
       getAuthToken:
         config.getAuthToken || (() => Promise.resolve(this.authToken)),
       onError: config.onError || (() => undefined),
@@ -128,7 +158,20 @@ class AIClient {
         const error = await response
           .json()
           .catch(() => ({ error: response.statusText }));
-        throw new Error(error.error || error.message || "Request failed");
+        throw new AIClientError(
+          error.message ||
+            error.error ||
+            response.statusText ||
+            "Request failed",
+          {
+            status: response.status,
+            code: error.code,
+            provider: error.provider,
+            feature: error.feature,
+            docsUrl: error.docsUrl,
+            details: error,
+          }
+        );
       }
 
       return await response.json();

@@ -1,5 +1,10 @@
 // @ts-nocheck - Optional Redis dependency
+import { createHash } from "crypto";
 import { createClient, RedisClientType } from "redis";
+
+const SAFE_CACHE_KEY_PATTERN = /^[A-Za-z0-9:._-]+$/;
+const MAX_SAFE_CACHE_KEY_LENGTH = 160;
+const FALLBACK_TTL_SECONDS = 60;
 
 export class CacheService {
   private client: RedisClientType | null = null;
@@ -25,16 +30,18 @@ export class CacheService {
   }
 
   async get<T>(key: string): Promise<T | null> {
+    const cacheKey = this.normalizeKey(key);
+
     try {
       if (this.connected && this.client) {
-        const value = await this.client.get(key);
+        const value = await this.client.get(cacheKey);
         return value ? JSON.parse(value) : null;
       } else {
-        const cached = this.memoryCache.get(key);
+        const cached = this.memoryCache.get(cacheKey);
         if (cached && cached.expiry > Date.now()) {
           return cached.value;
         }
-        this.memoryCache.delete(key);
+        this.memoryCache.delete(cacheKey);
         return null;
       }
     } catch {
@@ -43,13 +50,14 @@ export class CacheService {
   }
 
   async set<T>(key: string, value: T, ttl?: number): Promise<void> {
-    const ttlSeconds = ttl || this.config.ttl;
+    const cacheKey = this.normalizeKey(key);
+    const ttlSeconds = this.normalizeTtl(ttl);
 
     try {
       if (this.connected && this.client) {
-        await this.client.setEx(key, ttlSeconds, JSON.stringify(value));
+        await this.client.setEx(cacheKey, ttlSeconds, JSON.stringify(value));
       } else {
-        this.memoryCache.set(key, {
+        this.memoryCache.set(cacheKey, {
           value,
           expiry: Date.now() + ttlSeconds * 1000,
         });
@@ -57,7 +65,7 @@ export class CacheService {
         this.cleanupMemoryCache();
       }
     } catch {
-      this.memoryCache.set(key, {
+      this.memoryCache.set(cacheKey, {
         value,
         expiry: Date.now() + ttlSeconds * 1000,
       });
@@ -65,14 +73,16 @@ export class CacheService {
   }
 
   async delete(key: string): Promise<void> {
+    const cacheKey = this.normalizeKey(key);
+
     try {
       if (this.connected && this.client) {
-        await this.client.del(key);
+        await this.client.del(cacheKey);
       } else {
-        this.memoryCache.delete(key);
+        this.memoryCache.delete(cacheKey);
       }
     } catch {
-      this.memoryCache.delete(key);
+      this.memoryCache.delete(cacheKey);
     }
   }
 
@@ -86,6 +96,30 @@ export class CacheService {
     } catch {
       this.memoryCache.clear();
     }
+  }
+
+  private normalizeKey(key: string): string {
+    const value = String(key);
+
+    if (
+      value.length > 0 &&
+      value.length <= MAX_SAFE_CACHE_KEY_LENGTH &&
+      SAFE_CACHE_KEY_PATTERN.test(value)
+    ) {
+      return value;
+    }
+
+    return `hashed:${createHash("sha256").update(value).digest("hex")}`;
+  }
+
+  private normalizeTtl(ttl?: number): number {
+    const ttlSeconds = ttl ?? this.config.ttl;
+
+    if (!Number.isFinite(ttlSeconds) || ttlSeconds <= 0) {
+      return FALLBACK_TTL_SECONDS;
+    }
+
+    return Math.floor(ttlSeconds);
   }
 
   private cleanupMemoryCache(): void {

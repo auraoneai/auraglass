@@ -7,6 +7,11 @@ const { randomBytes } = require('crypto');
 const PORT = process.env.WS_PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET;
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+const isProduction = process.env.NODE_ENV === 'production';
+const allowAnonymousWs =
+  (process.env.ALLOW_ANONYMOUS_WS === 'true' ||
+    process.env.ENABLE_DEMO_AUTH === 'true') &&
+  !isProduction;
 
 // Create HTTP server
 const server = http.createServer();
@@ -45,12 +50,19 @@ io.use(async (socket, next) => {
       const decoded = jwt.verify(token, JWT_SECRET);
       socket.userId = decoded.userId;
       socket.userName = decoded.userName || userName;
-    } else if (userId) {
-      // Use provided userId for anonymous users
+    } else {
+      if (!userId) {
+        throw new Error('No authentication provided');
+      }
+
+      if (!allowAnonymousWs) {
+        throw new Error(
+          'Anonymous websocket sessions are disabled outside explicit non-production demos'
+        );
+      }
+
       socket.userId = userId;
       socket.userName = userName;
-    } else {
-      throw new Error('No authentication provided');
     }
 
     next();
@@ -205,31 +217,11 @@ io.on('connection', (socket) => {
   socket.on('collaborative-edit', async (operation) => {
     const roomId = Array.from(socket.rooms).find(r => r !== socket.id);
     if (roomId) {
-      try {
-        // Apply operational transformation if needed
-        const transformedOp = await applyOperationalTransform(operation, roomId);
-
-        // Update document state
-        const room = rooms.get(roomId);
-        if (room) {
-          room.documentState = applyOperation(room.documentState, transformedOp);
-
-          // Store in Redis
-          await redis.setex(
-            `document:${roomId}`,
-            3600,
-            JSON.stringify(room.documentState)
-          );
-        }
-
-        // Broadcast to all users in room (including sender)
-        io.to(roomId).emit('operation-applied', transformedOp);
-      } catch (error) {
-        socket.emit('conflict-detected', {
-          operation,
-          error: error.message,
-        });
-      }
+      socket.emit('collaboration-edit-unsupported', {
+        code: 'COLLABORATION_EDIT_UNSUPPORTED',
+        error:
+          'Collaborative document editing is not supported until a real OT/CRDT engine is configured.',
+      });
     }
   });
 
@@ -305,44 +297,6 @@ async function leaveRoom(socket, roomId) {
 
 function generateRoomId() {
   return `room-${Date.now()}-${randomBytes(9).toString('hex')}`;
-}
-
-function applyOperation(documentState, operation) {
-  // Simplified operation application
-  // In production, use a proper OT library like ShareJS or Yjs
-  if (!documentState) {
-    documentState = { content: '', version: 0 };
-  }
-
-  switch (operation.type) {
-    case 'insert':
-      const before = documentState.content.substring(0, operation.position);
-      const after = documentState.content.substring(operation.position);
-      documentState.content = before + operation.content + after;
-      break;
-
-    case 'delete':
-      documentState.content =
-        documentState.content.substring(0, operation.position) +
-        documentState.content.substring(operation.position + operation.length);
-      break;
-
-    case 'replace':
-      documentState.content =
-        documentState.content.substring(0, operation.position) +
-        operation.content +
-        documentState.content.substring(operation.position + operation.length);
-      break;
-  }
-
-  documentState.version++;
-  return documentState;
-}
-
-async function applyOperationalTransform(operation, roomId) {
-  // Simplified OT - in production, use a proper OT algorithm
-  // This is a placeholder that just returns the operation as-is
-  return operation;
 }
 
 // Start server

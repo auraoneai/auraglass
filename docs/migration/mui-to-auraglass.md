@@ -1,6 +1,6 @@
 # Migrating From MUI To AuraGlass
 
-AuraGlass 3.2 is not trying to clone all of MUI. The target is core app chrome for premium dashboards, AI products, SaaS admin surfaces, media workspaces, ecommerce panels, and collaboration hubs without adding `@mui/material` or `@mui/icons-material`.
+AuraGlass 3.3 is not trying to clone all of MUI. The target is core app chrome for premium dashboards, AI products, SaaS admin surfaces, media workspaces, ecommerce panels, and collaboration hubs without adding `@mui/material` or `@mui/icons-material`.
 
 ## Replacement Map
 
@@ -69,7 +69,7 @@ export function BillingHeader() {
 
 Move brand, density, contrast, and motion decisions into AuraGlass theme tokens instead of `createTheme` overrides. Keep domain-specific data and business state outside the theme layer.
 
-Use `docs/theme/theme-engine.md` as the 3.2 baseline for brand generation, density, contrast budgets, and SSR-safe runtime theming.
+Use `docs/theme/theme-engine.md` as the current baseline for brand generation, density, contrast budgets, and SSR-safe runtime theming.
 
 ## CLI Audit
 
@@ -91,4 +91,4 @@ aura-glass doctor
 node scripts/ci/verify-no-core-ui-deps.js
 ```
 
-The 3.2 release target is that AuraGlass core app chrome does not require MUI/material.
+The 3.3 release target is that AuraGlass core app chrome does not require MUI/material.

@@ -19,6 +19,12 @@ export interface CollaborativeEdit {
   documentId: string;
 }
 
+export interface CollaborationEditUnsupported {
+  code: "COLLABORATION_EDIT_UNSUPPORTED";
+  error: string;
+  operation?: CollaborativeEdit;
+}
+
 export interface PresenceInfo {
   userId: string;
   userName: string;
@@ -42,7 +48,6 @@ export class CollaborationService extends EventEmitter {
   private userName: string;
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private operationQueue: CollaborativeEdit[] = [];
   private isConnected = false;
   private presenceMap = new Map<string, PresenceInfo>();
 
@@ -76,7 +81,6 @@ export class CollaborationService extends EventEmitter {
       this.socket.on("connect", () => {
         this.isConnected = true;
         this.reconnectAttempts = 0;
-        this.flushOperationQueue();
         this.emit("connected");
         resolve();
       });
@@ -106,6 +110,14 @@ export class CollaborationService extends EventEmitter {
     this.socket.on("operation-applied", (operation: CollaborativeEdit) => {
       this.emit("document-changed", operation);
     });
+
+    this.socket.on(
+      "collaboration-edit-unsupported",
+      (payload: CollaborationEditUnsupported) => {
+        this.emit("collaboration-edit-unsupported", payload);
+        this.emit("edit-unsupported", payload);
+      }
+    );
 
     this.socket.on("presence-update", (presence: PresenceInfo) => {
       this.presenceMap.set(presence.userId, presence);
@@ -176,19 +188,23 @@ export class CollaborationService extends EventEmitter {
     this.socket.emit("cursor-move", cursorData);
   }
 
-  sendEdit(edit: Omit<CollaborativeEdit, "userId" | "timestamp">): void {
+  sendEdit(edit: Omit<CollaborativeEdit, "userId" | "timestamp">): false {
     const fullEdit: CollaborativeEdit = {
       ...edit,
       userId: this.userId,
       timestamp: Date.now(),
     };
 
-    if (!this.socket || !this.isConnected) {
-      this.operationQueue.push(fullEdit);
-      return;
-    }
+    const payload: CollaborationEditUnsupported = {
+      code: "COLLABORATION_EDIT_UNSUPPORTED",
+      error:
+        "Collaborative document editing is not supported by AuraGlass 3.3. Use presence, cursor, and selection events only.",
+      operation: fullEdit,
+    };
 
-    this.socket.emit("collaborative-edit", fullEdit);
+    this.emit("collaboration-edit-unsupported", payload);
+    this.emit("edit-unsupported", payload);
+    return false;
   }
 
   updatePresence(status: "online" | "away" | "busy"): void {
@@ -243,17 +259,6 @@ export class CollaborationService extends EventEmitter {
       presence.cursor = cursorData;
       presence.lastActivity = new Date();
       this.presenceMap.set(cursorData.userId, presence);
-    }
-  }
-
-  private flushOperationQueue(): void {
-    if (!this.socket || !this.isConnected) return;
-
-    while (this.operationQueue.length > 0) {
-      const operation = this.operationQueue.shift();
-      if (operation) {
-        this.socket.emit("collaborative-edit", operation);
-      }
     }
   }
 

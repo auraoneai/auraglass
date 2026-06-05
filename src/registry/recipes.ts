@@ -18,7 +18,15 @@ export type AuraGlassRecipeId =
   | "analytics-command-center"
   | "calendar-operations-board"
   | "customer-support-console"
-  | "creator-studio-dashboard";
+  | "creator-studio-dashboard"
+  | "ai-ops-control-room"
+  | "semantic-search-console"
+  | "vision-review-workbench"
+  | "collaboration-room-console"
+  | "support-triage-workspace"
+  | "release-command-center"
+  | "developer-docs-portal"
+  | "marketing-launch-kit";
 
 export interface AuraGlassRecipeFile {
   path: string;
@@ -35,7 +43,11 @@ export interface AuraGlassRecipe {
     | "settings"
     | "collaboration"
     | "data"
-    | "ecommerce";
+    | "ecommerce"
+    | "support"
+    | "release"
+    | "docs"
+    | "marketing";
   description: string;
   imports: string[];
   peerDependencies: string[];
@@ -947,6 +959,621 @@ export function CreatorStudioDashboard() {
         <GlassMusicVisualizer compact contained realTimeAnalysis={false} />
       </GlassCard>
     </GlassWorkflowShell>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "ai-ops-control-room",
+    title: "AI Ops Control Room",
+    category: "ai",
+    description:
+      "A 3.3 AI operations room for provider readiness, usage budgets, rate limits, and prompt-safety review that defaults to provider-unconfigured status.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassErrorState",
+      "GlassLoadingState",
+      "GlassMetricChip",
+      "GlassProgress",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-brand",
+      "--glass-accent-warning-fg",
+      "--glass-accent-info-fg",
+    ],
+    accessibility: [
+      "Use warning severity for provider-unconfigured states without interrupting page navigation.",
+      "Expose budget, rate-limit, and review states as text in addition to color.",
+      "Keep prompt-safety review actions keyboard reachable.",
+    ],
+    performance: [
+      "Poll provider readiness on an interval only after credentials are configured.",
+      "Render usage and cost panels as static summaries until realtime telemetry is enabled.",
+    ],
+    files: [
+      {
+        path: "AiOpsControlRoom.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassErrorState, GlassLoadingState, GlassMetricChip, GlassProgress } from 'aura-glass';
+import { GlassCommandDock, GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { CommandIcon, SparkIcon, ZapIcon } from 'aura-glass/icons/ai';
+import { AlertTriangleIcon, InfoIcon } from 'aura-glass/icons/status';
+
+const safetyReviews = ['PII redaction', 'Prompt injection scan', 'Grounding evidence'];
+
+export function AiOpsControlRoom() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="AI ops control room"
+        description="Track provider readiness, spend, rate limits, and prompt-safety review without assuming hosted credentials are present."
+        actions={<GlassBadge variant="warning"><AlertTriangleIcon /> Provider unconfigured</GlassBadge>}
+      />
+      <GlassCommandDock input={<span><CommandIcon /> Review usage policy</span>} actions={<SparkIcon />} />
+      <section className="glass-grid glass-gap-4 md:glass-grid-cols-3" aria-label="AI operations metrics">
+        <GlassMetricChip label="Daily spend" value="$0.00" delta="No provider key" intent="warning" icon={<InfoIcon />} />
+        <GlassMetricChip label="Rate limit" value="Paused" delta="Fail-closed" intent="warning" icon={<ZapIcon />} />
+        <GlassMetricChip label="Prompt reviews" value={safetyReviews.length} delta="Manual queue" intent="success" icon={<SparkIcon />} />
+      </section>
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+        <h2>Cost budget</h2>
+        <GlassProgress value={18} variant="warning" label="Monthly AI budget reserved" showValue animated={false} />
+        <GlassLoadingState label="Waiting for provider telemetry" description="Usage polling starts only after credentials and API auth are configured." variant="skeleton" rows={3} />
+      </GlassCard>
+      <GlassErrorState
+        severity="warning"
+        title="AI provider is not configured"
+        description="Set provider credentials and hosted-runtime auth before enabling generation, semantic search, or vision actions."
+        details={<code>OPENAI_API_KEY and provider feature flags are unset.</code>}
+      />
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-3 glass-p-4">
+        <h2>Prompt safety review</h2>
+        {safetyReviews.map((item) => <p key={item}><SparkIcon /> {item}</p>)}
+        <GlassButton size="sm" disabled>Run review after provider setup</GlassButton>
+      </GlassCard>
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "semantic-search-console",
+    title: "Semantic Search Console",
+    category: "ai",
+    description:
+      "A 3.3 search console with indexed-document status, query testing, relevance tuning, loading/empty panels, and provider-unconfigured messaging.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassDataGrid",
+      "GlassEmptyState",
+      "GlassErrorState",
+      "GlassLoadingState",
+      "GlassSearchField",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-surface",
+      "--glass-border-focus",
+      "--glass-accent-info-fg",
+    ],
+    accessibility: [
+      "Label search input and relevance controls clearly.",
+      "Keep empty search results announced as polite status text.",
+      "Do not expose semantic scores through color alone.",
+    ],
+    performance: [
+      "Debounce query previews and cancel stale provider requests.",
+      "Load document chunks in pages instead of rendering the full index.",
+    ],
+    files: [
+      {
+        path: "SemanticSearchConsole.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassDataGrid, GlassEmptyState, GlassErrorState, GlassLoadingState, GlassSearchField } from 'aura-glass';
+import { GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { DatabaseIcon, FileIcon, SearchIcon } from 'aura-glass/icons/data';
+
+export function SemanticSearchConsole() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="Semantic search console"
+        description="Inspect indexed documents, run safe query tests, and tune relevance once provider-backed search is configured."
+        actions={<GlassBadge variant="secondary"><DatabaseIcon /> 0 indexed docs</GlassBadge>}
+      />
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+        <GlassSearchField label="Test query" placeholder="Search indexed documentation" value="" onChange={() => undefined} />
+        <GlassErrorState
+          severity="warning"
+          title="Search provider unconfigured"
+          description="Connect embeddings and vector index credentials before query execution. The UI stays fail-closed until then."
+          details={<code>Embeddings and vector index are disabled.</code>}
+        />
+      </GlassCard>
+      <section className="glass-grid glass-gap-4 md:glass-grid-cols-2" aria-label="Search readiness">
+        <GlassLoadingState label="Index readiness" description="Waiting for a configured indexing provider." variant="progress" progress={0} />
+        <GlassEmptyState
+          variant="search"
+          title="No indexed documents"
+          description="Upload or index documents after the provider route returns ready."
+          icon={<FileIcon />}
+        />
+      </section>
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-3 glass-p-4">
+        <h2><SearchIcon /> Relevance tuning</h2>
+        <p>Score threshold, chunk size, and source weighting controls should connect only to authenticated hosted routes.</p>
+        <GlassButton size="sm" disabled>Run query after setup</GlassButton>
+        <GlassDataGrid />
+      </GlassCard>
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "vision-review-workbench",
+    title: "Vision Review Workbench",
+    category: "ai",
+    description:
+      "A 3.3 image-analysis workbench for upload review, OCR/object/safe-search panels, and explicit missing-provider state.",
+    imports: [
+      "GlassBadge",
+      "GlassCard",
+      "GlassEmptyState",
+      "GlassErrorState",
+      "GlassFileUpload",
+      "GlassImageViewer",
+      "GlassLoadingState",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-brand",
+      "--glass-backdrop-blur",
+      "--glass-accent-warning-fg",
+    ],
+    accessibility: [
+      "Provide text alternatives for uploaded images before automated analysis.",
+      "Keep OCR and object-detection results available as plain text.",
+      "Use polite status updates for analysis progress.",
+    ],
+    performance: [
+      "Use stable preview dimensions for image review panels.",
+      "Defer OCR/object detection until the user explicitly starts analysis.",
+    ],
+    files: [
+      {
+        path: "VisionReviewWorkbench.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassCard, GlassEmptyState, GlassErrorState, GlassFileUpload, GlassImageViewer, GlassLoadingState } from 'aura-glass';
+import { GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { ImageIcon } from 'aura-glass/icons/media';
+import { AlertCircleIcon, InfoIcon } from 'aura-glass/icons/status';
+
+export function VisionReviewWorkbench() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="Vision review workbench"
+        description="Review images, OCR, object labels, and safe-search output after provider-backed vision routes are configured."
+        actions={<GlassBadge variant="warning"><AlertCircleIcon /> Vision offline</GlassBadge>}
+      />
+      <section className="glass-grid glass-gap-4 lg:glass-grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
+        <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+          <GlassFileUpload
+            accept="image/*"
+            compact
+            contained
+            disabled
+            instruction="Image upload is disabled until the hosted vision provider is configured."
+            showActions={false}
+          />
+          <GlassImageViewer contained compact height={260} />
+        </GlassCard>
+        <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+          <GlassErrorState
+            severity="warning"
+            title="Vision provider not configured"
+            description="OCR, object detection, and safe-search analysis remain unavailable until credentials are connected."
+            details={<code>VISION_PROVIDER_READY=false</code>}
+          />
+          <GlassLoadingState label="Analysis queue" description="No analysis jobs are running." variant="skeleton" rows={3} />
+          <GlassEmptyState variant="compact" title="No OCR results" description="Run analysis after provider setup." icon={<ImageIcon />} />
+          <p><InfoIcon /> Keep manual review available for images that cannot be sent to provider APIs.</p>
+        </GlassCard>
+      </section>
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "collaboration-room-console",
+    title: "Collaboration Room Console",
+    category: "collaboration",
+    description:
+      "A 3.3 collaboration console with room presence, cursor/activity state, selection summary, and unsupported editing fallback.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassEmptyState",
+      "GlassErrorState",
+      "GlassMetricChip",
+      "GlassUserPresence",
+    ],
+    peerDependencies: ["react", "react-dom", "socket.io-client"],
+    tokens: [
+      "--glass-theme-surface",
+      "--glass-accent-success-fg",
+      "--glass-accent-warning-fg",
+    ],
+    accessibility: [
+      "Expose participant names and room status as text, not avatar-only UI.",
+      "Announce presence changes politely.",
+      "Clearly label unsupported editing states before users enter content.",
+    ],
+    performance: [
+      "Throttle cursor, selection, and presence updates.",
+      "Disconnect room transport when the route is hidden or unsupported.",
+    ],
+    files: [
+      {
+        path: "CollaborationRoomConsole.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassEmptyState, GlassErrorState, GlassMetricChip, GlassUserPresence } from 'aura-glass';
+import { GlassInspectorPanel, GlassWorkspace } from 'aura-glass/workspace';
+import { BellIcon, UsersIcon } from 'aura-glass/icons/collaboration';
+
+const participants = [
+  { id: 'design', name: 'Design lead', status: 'online' as const },
+  { id: 'frontend', name: 'Frontend engineer', status: 'away' as const },
+  { id: 'release', name: 'Release owner', status: 'busy' as const },
+];
+
+export function CollaborationRoomConsole() {
+  return (
+    <GlassWorkspace inspector={<GlassInspectorPanel title="Room presence"><UsersIcon /> {participants.length} observers</GlassInspectorPanel>}>
+      <section className="glass-grid glass-gap-4">
+        <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+          <header className="glass-flex glass-items-center glass-justify-between glass-gap-3">
+            <h2>Collaboration room</h2>
+            <GlassBadge variant="warning"><BellIcon /> Editing unsupported</GlassBadge>
+          </header>
+          <div className="glass-flex glass-flex-wrap glass-gap-2">
+            <GlassMetricChip label="Presence" value="Static" delta="No WebSocket" intent="warning" icon={<UsersIcon />} />
+            <GlassMetricChip label="Selections" value="Read-only" delta="3 watchers" intent="default" />
+          </div>
+          <GlassUserPresence users={participants} compact showRoles={false} />
+          <GlassErrorState
+            severity="warning"
+            title="Realtime editing is not enabled"
+            description="This recipe displays room and selection state, but document editing must stay read-only until the hosted collaboration runtime ships CRDT/OT support."
+            details={<code>Collaboration transport is disconnected by default.</code>}
+          />
+          <GlassButton size="sm" disabled>Start editing after runtime setup</GlassButton>
+        </GlassCard>
+        <GlassEmptyState
+          variant="compact"
+          title="No live cursor stream"
+          description="Cursor and selection events appear here after authenticated WebSocket support is enabled."
+          icon={<UsersIcon />}
+        />
+      </section>
+    </GlassWorkspace>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "support-triage-workspace",
+    title: "Support Triage Workspace",
+    category: "support",
+    description:
+      "A 3.3 support queue with SLA status, ticket grids, notifications, and a fail-closed AI summary action.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassDataGrid",
+      "GlassDataTable",
+      "GlassErrorState",
+      "GlassMetricChip",
+      "GlassNotificationCenter",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-focus",
+      "--glass-accent-warning-fg",
+      "--glass-accent-success-fg",
+    ],
+    accessibility: [
+      "Preserve ticket IDs, priority, owner, and SLA state as readable text.",
+      "Use polite notification semantics for queue changes.",
+      "Disable AI summary actions with an explanation when providers are missing.",
+    ],
+    performance: [
+      "Virtualize large ticket queues.",
+      "Batch SLA and notification updates during imports.",
+    ],
+    files: [
+      {
+        path: "SupportTriageWorkspace.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassDataGrid, GlassDataTable, GlassErrorState, GlassMetricChip, GlassNotificationCenter } from 'aura-glass';
+import { GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { SearchIcon } from 'aura-glass/icons/data';
+import { AlertCircleIcon, SuccessIcon } from 'aura-glass/icons/status';
+
+export function SupportTriageWorkspace() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="Support triage workspace"
+        description="Prioritize escalations, SLA risk, and account context with AI summaries disabled until providers are configured."
+        actions={<GlassBadge variant="warning"><AlertCircleIcon /> 4 SLA risks</GlassBadge>}
+      />
+      <section className="glass-grid glass-gap-4 md:glass-grid-cols-3" aria-label="Support queue summary">
+        <GlassMetricChip label="Open tickets" value="128" delta="+9 today" intent="warning" icon={<AlertCircleIcon />} />
+        <GlassMetricChip label="Resolved" value="47" delta="24h" intent="success" icon={<SuccessIcon />} />
+        <GlassMetricChip label="AI summaries" value="Off" delta="Provider missing" intent="warning" icon={<SearchIcon />} />
+      </section>
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+        <GlassErrorState
+          severity="warning"
+          title="AI summary action is fail-closed"
+          description="Agents can triage manually. Summaries become available only after authenticated provider-backed routes are ready."
+          details={<code>POST /api/ai/summarize returns provider-unconfigured.</code>}
+        />
+        <GlassButton size="sm" disabled>Generate summary after setup</GlassButton>
+        <GlassDataGrid />
+        <GlassDataTable />
+      </GlassCard>
+      <GlassNotificationCenter />
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "release-command-center",
+    title: "Release Command Center",
+    category: "release",
+    description:
+      "A 3.3 release operations surface with launch checklist, rollout status, changelog preview, evidence links, and rollback actions.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassEmptyState",
+      "GlassMetricChip",
+      "GlassProgress",
+      "GlassTimeline",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-brand",
+      "--glass-accent-success-fg",
+      "--glass-accent-warning-fg",
+    ],
+    accessibility: [
+      "Keep checklist state textual and visible without color dependency.",
+      "Expose rollout progress with a labelled progressbar.",
+      "Label rollback and publish actions with explicit risk language.",
+    ],
+    performance: [
+      "Load evidence reports as links instead of embedding large artifacts.",
+      "Avoid continuous animation in release monitoring panels.",
+    ],
+    files: [
+      {
+        path: "ReleaseCommandCenter.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassEmptyState, GlassMetricChip, GlassProgress, GlassTimeline } from 'aura-glass';
+import { GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { CheckIcon, DownloadIcon, RefreshIcon } from 'aura-glass/icons/action';
+import { AlertTriangleIcon, SuccessIcon } from 'aura-glass/icons/status';
+
+const checklist = ['Package dry run', 'Recipe render evidence', 'A11y signoff', 'Rollback note'];
+const releaseEvents = [
+  { id: 'pack', title: 'Package dry run', subtitle: 'npm pack evidence attached', time: '09:00' },
+  { id: 'recipes', title: 'Recipe render gate', subtitle: 'Screenshots captured for 3.3 recipes', time: '10:30' },
+  { id: 'rollout', title: 'Canary rollout', subtitle: '25% staged publish window', time: '12:00' },
+];
+
+export function ReleaseCommandCenter() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="Release command center"
+        description="Coordinate launch readiness, staged rollout, changelog review, evidence links, and rollback controls."
+        actions={<GlassBadge variant="success"><SuccessIcon /> 3.3 candidate</GlassBadge>}
+      />
+      <section className="glass-grid glass-gap-4 md:glass-grid-cols-3" aria-label="Release metrics">
+        <GlassMetricChip label="Checklist" value="3/4" delta="Manual QA left" intent="warning" icon={<CheckIcon />} />
+        <GlassMetricChip label="Rollout" value="25%" delta="Canary" intent="success" icon={<RefreshIcon />} />
+        <GlassMetricChip label="Evidence" value="Linked" delta="3.3 reports" intent="default" icon={<DownloadIcon />} />
+      </section>
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+        <h2>Rollout status</h2>
+        <GlassProgress value={25} variant="success" label="Canary rollout" showValue animated={false} />
+        {checklist.map((item) => <p key={item}><CheckIcon /> {item}</p>)}
+        <GlassTimeline items={releaseEvents} />
+      </GlassCard>
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-3 glass-p-4">
+        <h2>Changelog preview</h2>
+        <p>3.3 adds provider-safe recipes, theme preset guidance, and marketing launch surfaces.</p>
+        <GlassButton size="sm">Open evidence</GlassButton>
+        <GlassButton size="sm" variant="secondary"><AlertTriangleIcon /> Prepare rollback</GlassButton>
+      </GlassCard>
+      <GlassEmptyState variant="compact" title="No rollout incidents" description="Incident links appear here if release monitoring reports failures." />
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "developer-docs-portal",
+    title: "Developer Docs Portal",
+    category: "docs",
+    description:
+      "A 3.3 documentation portal starter with docs navigation, code examples, package entrypoint selector, and release evidence links.",
+    imports: [
+      "GlassBadge",
+      "GlassButton",
+      "GlassCard",
+      "GlassEmptyState",
+      "GlassSearchField",
+      "GlassTabs",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--glass-theme-surface",
+      "--glass-theme-focus",
+      "--glass-border-default",
+    ],
+    accessibility: [
+      "Keep docs navigation in labelled landmarks.",
+      "Use copyable code blocks with visible text labels.",
+      "Expose package entrypoints as text, not icon-only controls.",
+    ],
+    performance: [
+      "Static-render high-traffic docs pages where possible.",
+      "Lazy-load playgrounds and heavy examples below the fold.",
+    ],
+    files: [
+      {
+        path: "DeveloperDocsPortal.tsx",
+        content: `${cssImport}
+import { GlassBadge, GlassButton, GlassCard, GlassEmptyState, GlassSearchField, GlassTabs } from 'aura-glass';
+import { GlassPage, GlassPageHeader } from 'aura-glass/app-shell';
+import { FileIcon, SearchIcon } from 'aura-glass/icons/data';
+
+const entrypoints = ['aura-glass', 'aura-glass/theme', 'aura-glass/app-shell', 'aura-glass/registry'];
+
+export function DeveloperDocsPortal() {
+  return (
+    <GlassPage>
+      <GlassPageHeader
+        title="Developer docs portal"
+        description="Document stable package entrypoints, recipes, examples, and release evidence from one glass-native docs shell."
+        actions={<GlassBadge variant="primary"><FileIcon /> 3.3 docs</GlassBadge>}
+      />
+      <GlassCard depth="medium" tint="neutral" className="glass-space-y-4 glass-p-4">
+        <GlassSearchField label="Search docs" placeholder="Find components, recipes, or entrypoints" value="" onChange={() => undefined} />
+        <GlassTabs value="install" />
+        <div className="glass-grid glass-gap-3 md:glass-grid-cols-2">
+          {entrypoints.map((entrypoint) => (
+            <GlassCard key={entrypoint} depth="subtle" tint="neutral" className="glass-p-3">
+              <h3>{entrypoint}</h3>
+              <code>import &#123; GlassButton &#125; from '{entrypoint}';</code>
+            </GlassCard>
+          ))}
+        </div>
+        <GlassButton size="sm"><SearchIcon /> Browse examples</GlassButton>
+      </GlassCard>
+      <GlassEmptyState
+        variant="compact"
+        title="No private imports required"
+        description="3.3 docs should show public root and subpath imports only."
+        icon={<FileIcon />}
+      />
+    </GlassPage>
+  );
+}
+`,
+      },
+    ],
+  },
+  {
+    id: "marketing-launch-kit",
+    title: "Marketing Launch Kit",
+    category: "marketing",
+    description:
+      "A 3.3 marketing launch page with production-ready hero, install command, feature grid, changelog, social proof, and visual evidence section.",
+    imports: [
+      "AuroraBackground",
+      "DisplayText",
+      "FeatureTile",
+      "GlassButton",
+      "InstallCommand",
+      "LogoMark",
+      "ShowcaseCard",
+    ],
+    peerDependencies: ["react", "react-dom"],
+    tokens: [
+      "--aura-marketing-button-aurora-background",
+      "--aura-marketing-display-text-gradient-aurora",
+      "--aura-marketing-surface-showcase-background",
+    ],
+    accessibility: [
+      "Keep hero copy semantic and avoid placing primary page content inside decorative backgrounds.",
+      "Use reduced-motion-safe aurora settings for default launch surfaces.",
+      "Ensure install commands and proof points remain readable without animation.",
+    ],
+    performance: [
+      "Use deterministic particles and reduced-motion defaults for marketing previews.",
+      "Keep visual proof media dimensions stable to avoid layout shift.",
+    ],
+    files: [
+      {
+        path: "MarketingLaunchKit.tsx",
+        content: `${cssImport}
+import { AuroraBackground, DisplayText, FeatureTile, GlassButton, InstallCommand, LogoMark, ShowcaseCard } from 'aura-glass';
+
+const features = [
+  ['App UI', 'Production shell, workflow, and data surfaces for real product screens.'],
+  ['Theme presets', 'Documented density, motion, and contrast policy starters.'],
+  ['Safe AI recipes', 'Provider-unconfigured UI states before hosted credentials are wired.'],
+];
+
+export function MarketingLaunchKit() {
+  return (
+    <main className="glass-min-h-screen glass-bg-slate-950 glass-text-primary">
+      <section className="glass-relative glass-overflow-hidden glass-p-8 md:glass-p-12">
+        <AuroraBackground particles={12} grain vignette reducedMotion seed="auraglass-33-launch" />
+        <div className="glass-relative glass-mx-auto glass-grid glass-max-w-6xl glass-gap-8">
+          <LogoMark label="AuraGlass" animated={false} />
+          <DisplayText as="h1" size="hero" gradient="aurora" balance>
+            AuraGlass 3.3 launch kit
+          </DisplayText>
+          <p className="glass-max-w-2xl glass-text-lg glass-text-secondary">
+            Build launch pages that pair premium Liquid Glass marketing surfaces with production package evidence.
+          </p>
+          <div className="glass-flex glass-flex-wrap glass-gap-3">
+            <GlassButton variant="aurora">Start building</GlassButton>
+            <InstallCommand packageManager="npm" />
+          </div>
+          <div className="glass-grid glass-gap-4 md:glass-grid-cols-3">
+            {features.map(([title, description], index) => (
+              <FeatureTile key={title} index={index + 1} title={title} description={description} tone="aurora" />
+            ))}
+          </div>
+          <ShowcaseCard intensity="strong" glow="aurora" floating={false}>
+            <h2>Launch proof</h2>
+            <p>Link visual baselines, recipe render evidence, changelog notes, and accessibility signoff before publishing.</p>
+          </ShowcaseCard>
+        </div>
+      </section>
+    </main>
   );
 }
 `,

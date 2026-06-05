@@ -1,4 +1,7 @@
-import * as Sentry from "@sentry/react";
+import * as Sentry from "@sentry/node";
+
+const SENSITIVE_METADATA_KEY =
+  /(api[-_]?key|authorization|cookie|password|private[-_]?key|secret|token)/i;
 
 export interface ErrorContext {
   service?: string;
@@ -21,12 +24,6 @@ export class ErrorHandler {
       dsn: process.env.SENTRY_DSN,
       environment: process.env.NODE_ENV || "development",
       tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
-      integrations: [
-        Sentry.replayIntegration({
-          maskAllText: true,
-          blockAllMedia: true,
-        }),
-      ],
       beforeSend(event, hint) {
         if (event.exception) {
           const error = hint.originalException;
@@ -53,9 +50,11 @@ export class ErrorHandler {
           operation: context?.operation,
         },
         extra: {
-          ...context?.metadata,
-          errorCode: errorInfo.code,
-          errorStatus: errorInfo.status,
+          ...this.sanitizeMetadata({
+            ...context?.metadata,
+            errorCode: errorInfo.code,
+            errorStatus: errorInfo.status,
+          }),
         },
         user: context?.userId ? { id: context.userId } : undefined,
       });
@@ -93,7 +92,10 @@ export class ErrorHandler {
           metadata: {
             ...context?.metadata,
             functionName: fn.name,
-            arguments: args.slice(0, 3),
+            argumentCount: args.length,
+            argumentTypes: args
+              .slice(0, 3)
+              .map((arg) => this.describeValue(arg)),
           },
         });
         throw error;
@@ -136,6 +138,98 @@ export class ErrorHandler {
     details?: any
   ): ServiceError {
     return new ServiceError(message, code, statusCode, details);
+  }
+
+  private sanitizeMetadata(
+    metadata: Record<string, any | undefined>
+  ): Record<string, unknown> {
+    return Object.fromEntries(
+      Object.entries(metadata).map(([key, value]) => [
+        key,
+        this.sanitizeValue(key, value),
+      ])
+    );
+  }
+
+  private sanitizeValue(key: string, value: any, depth = 0): unknown {
+    if (SENSITIVE_METADATA_KEY.test(key)) {
+      return "[redacted]";
+    }
+
+    if (value === undefined) {
+      return undefined;
+    }
+
+    if (
+      value === null ||
+      typeof value === "number" ||
+      typeof value === "boolean"
+    ) {
+      return value;
+    }
+
+    if (typeof value === "string") {
+      if (/^(bearer|sk-|pk-|eyJ)/i.test(value) || value.length > 512) {
+        return "[redacted]";
+      }
+
+      return value.length > 256 ? `${value.slice(0, 256)}...` : value;
+    }
+
+    if (typeof Buffer !== "undefined" && Buffer.isBuffer(value)) {
+      return `[buffer:${value.byteLength}]`;
+    }
+
+    if (value instanceof Uint8Array) {
+      return `[uint8array:${value.byteLength}]`;
+    }
+
+    if (Array.isArray(value)) {
+      if (depth >= 2) {
+        return `[array:${value.length}]`;
+      }
+
+      return value
+        .slice(0, 5)
+        .map((entry) => this.sanitizeValue(key, entry, depth + 1));
+    }
+
+    if (typeof value === "object") {
+      if (depth >= 2) {
+        return "[object]";
+      }
+
+      return Object.fromEntries(
+        Object.entries(value)
+          .slice(0, 20)
+          .map(([childKey, childValue]) => [
+            childKey,
+            this.sanitizeValue(childKey, childValue, depth + 1),
+          ])
+      );
+    }
+
+    return this.describeValue(value);
+  }
+
+  private describeValue(value: any): string {
+    if (value === null) {
+      return "null";
+    }
+
+    if (typeof Buffer !== "undefined" && Buffer.isBuffer(value)) {
+      return `Buffer(${value.byteLength})`;
+    }
+
+    if (value instanceof Uint8Array) {
+      return `Uint8Array(${value.byteLength})`;
+    }
+
+    if (Array.isArray(value)) {
+      return `Array(${value.length})`;
+    }
+
+    return typeof value;
   }
 }
 

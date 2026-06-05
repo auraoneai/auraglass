@@ -1,6 +1,6 @@
 # AuraGlass App Shell
 
-AuraGlass 3.2 app shell components are intended to replace the common app-chrome jobs that often cause teams to add MUI, Radix, shadcn/ui, or a separate layout stack.
+AuraGlass 3.3 app shell guidance builds on the 3.2 dependency-sovereign app-chrome launch. The root package remains backward-compatible, and the focused `aura-glass/app-shell` subpath is the preferred import path for new app frame, page, top bar, sidebar, action bar, and status bar work.
 
 ## Core Jobs
 
@@ -51,4 +51,12 @@ export function AdminShell() {
 
 When replacing MUI `AppBar`, `Toolbar`, `Drawer`, `Container`, and `Grid`, migrate layout in vertical slices. Start with the outer shell, then navigation, then toolbar actions, then route content.
 
-Do not promise full MUI enterprise parity. The 3.2 target is complete core app chrome for AuraGlass target products.
+Do not promise full MUI enterprise parity. The 3.3 target is complete core app chrome for AuraGlass target products, verified through the app-chrome visual and accessibility gates rather than a claim of generic enterprise parity.
+
+## 3.3 Evidence
+
+Current 3.3 evidence is recorded under:
+
+- `reports/3.3-release/app-chrome-visual-evidence.md`
+- `reports/3.3-release/accessibility-certification.md`
+- `reports/3.3-release/README.md`

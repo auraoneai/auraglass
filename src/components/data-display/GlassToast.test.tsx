@@ -12,15 +12,36 @@
  */
 
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { axe, toHaveNoViolations } from "jest-axe";
 import userEvent from "@testing-library/user-event";
-import { GlassToast } from "@/components/data-display/GlassToast";
+import {
+  GlassToast,
+  GlassToastProvider,
+  useToastActions,
+} from "@/components/data-display/GlassToast";
 
 // Extend Jest matchers
 expect.extend(toHaveNoViolations);
 
 describe("GlassToast", () => {
+  const ToastTrigger = () => {
+    const toast = useToastActions();
+
+    return (
+      <button
+        type="button"
+        onClick={() =>
+          toast.info("Evidence saved", "The accessibility note was recorded.", {
+            duration: 0,
+          })
+        }
+      >
+        Show toast
+      </button>
+    );
+  };
+
   /**
    * Smoke Test: Component renders without crashing
    */
@@ -105,5 +126,66 @@ describe("GlassToast", () => {
   it("matches snapshot", () => {
     const { container } = render(<GlassToast />);
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it("supports caller-owned live-region semantics without stealing focus", async () => {
+    const user = userEvent.setup();
+    const onAction = jest.fn();
+
+    render(
+      <>
+        <button type="button">Save evidence</button>
+        <GlassToast
+          id="certification-toast"
+          title="Evidence saved"
+          description="The accessibility note was recorded."
+          role="status"
+          aria-live="polite"
+          action={{
+            label: "Open report",
+            onClick: onAction,
+          }}
+        />
+      </>
+    );
+
+    const trigger = screen.getByRole("button", { name: "Save evidence" });
+    trigger.focus();
+
+    const status = screen.getByRole("status");
+    expect(trigger).toHaveFocus();
+    expect(status).toHaveAttribute("aria-live", "polite");
+    expect(status).toHaveTextContent("Evidence saved");
+    expect(status).toHaveTextContent("The accessibility note was recorded.");
+    expect(screen.getByRole("button", { name: "Close toast" })).toBeEnabled();
+
+    await user.click(screen.getByRole("button", { name: "Open report" }));
+
+    expect(onAction).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders provider toasts with dismiss controls while focus stays on the trigger", async () => {
+    const user = userEvent.setup();
+
+    render(
+      <GlassToastProvider duration={0}>
+        <ToastTrigger />
+      </GlassToastProvider>
+    );
+
+    const trigger = screen.getByRole("button", { name: "Show toast" });
+    await user.click(trigger);
+
+    expect(trigger).toHaveFocus();
+    expect(screen.getByText("Evidence saved")).toBeInTheDocument();
+    expect(
+      screen.getByText("The accessibility note was recorded.")
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Close toast" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Evidence saved")).not.toBeInTheDocument();
+    });
   });
 });

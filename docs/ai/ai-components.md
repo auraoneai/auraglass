@@ -2,7 +2,7 @@
 
 ## Overview
 
-AuraGlass features 15 AI-assisted component systems with optional service integrations for production applications. These components have been transformed from demo implementations to enterprise-grade services with OpenAI GPT-4, Pinecone vector search, Google Vision API, and comprehensive security infrastructure.
+AuraGlass features AI-assisted component systems with optional hosted service integrations. Package-only apps can render the React components without provider credentials; teams that opt into hosted AI or collaboration must run their own API/WebSocket runtime and configure providers explicitly.
 
 ## 🤖 Smart Form Builder System
 
@@ -41,10 +41,10 @@ import { GlassIntelligentFormBuilder } from 'aura-glass';
 - Accessibility compliance automation
 - Layout optimization based on form complexity
 
-### Production Integration (NEW!)
+### Optional Hosted Integration
 ```typescript
-// Real OpenAI GPT-4 integration
-import { OpenAIService } from 'aura-glass/services/ai';
+// Public package service export for backend usage.
+import { OpenAIService } from 'aura-glass/services/ai/openai-service';
 
 const openAI = new OpenAIService(config);
 const formFields = await openAI.generateFormFieldSuggestions(
@@ -65,6 +65,8 @@ const formFields = await openAI.generateFormFieldSuggestions(
 }
 ```
 
+If OpenAI is not configured in the hosted runtime, form-generation routes should return `AURA_PROVIDER_UNCONFIGURED` instead of mock fields.
+
 ---
 
 ## 👥 Real-Time Collaboration System
@@ -76,10 +78,10 @@ const formFields = await openAI.generateFormFieldSuggestions(
 
 ### Key Features
 - **Live Cursors**: Real-time collaborative cursor tracking with user identification
-- **WebSocket Simulation**: Complete collaboration backend with MockWebSocket
+- **Realtime Transport**: Optional WebSocket transport for rooms, presence, cursor, and selection state
 - **Comment System**: Contextual commenting with replies and resolution
-- **Multi-User Editing**: Simultaneous editing with operational transformation
-- **Conflict Resolution**: Automatic handling of concurrent edits
+- **Multi-User Editing**: Supported only after the hosted runtime has a real operation model
+- **Conflict Resolution**: Do not claim production conflict resolution until operation transform/CRDT behavior is implemented and tested
 
 ### Usage Example
 ```tsx
@@ -103,16 +105,16 @@ import {
 ```
 
 ### Real-Time Features
-- ~~MockWebSocket for demonstration purposes~~ **Production WebSocket with Socket.io**
+- Optional hosted WebSocket with Socket.IO
 - User presence tracking and indicators
 - Live cursor synchronization
 - Comment threading and resolution
-- Real-time state synchronization
+- Real-time state synchronization for supported presence and selection events
 
-### Production Integration (NEW!)
+### Optional Hosted Integration
 ```typescript
 // Real WebSocket collaboration server
-import { CollaborationService } from 'aura-glass/services/websocket';
+import { CollaborationService } from 'aura-glass/services/websocket/collaboration-service';
 
 const collab = new CollaborationService('ws://localhost:3001', authToken);
 await collab.connect();
@@ -130,7 +132,7 @@ collab.sendEdit({
 collab.sendCursorPosition(x, y);
 
 // Redis-backed persistence
-// Operational transformation for conflict resolution
+// Editing/conflict resolution requires a real operation model before production use
 // JWT authentication for secure rooms
 ```
 
@@ -400,10 +402,10 @@ import {
 - Color palette optimization
 - Format optimization (WebP, AVIF, etc.)
 
-### Production Integration (NEW!)
+### Optional Hosted Integration
 ```typescript
 // Real Google Vision API integration
-import { VisionService } from 'aura-glass/services/ai';
+import { VisionService } from 'aura-glass/services/ai/vision-service';
 
 const vision = new VisionService(config);
 
@@ -431,21 +433,23 @@ const processedImage = await vision.removeBackground(imageBuffer);
 }
 ```
 
+If Google Vision credentials are missing, hosted image-analysis routes should return `AURA_PROVIDER_UNCONFIGURED` instead of fabricated analysis output.
+
 ---
 
 ## Technical Implementation
 
 ### Architecture Principles
 - **Provider Pattern**: Each system uses React Context for state management
-- ~~**Mock AI Services**: Realistic AI simulation for demonstration purposes~~ **Real AI Services**: Production integrations with OpenAI, Google, and Pinecone
+- **Optional Hosted AI Services**: Integrations with OpenAI, Google Vision, Pinecone, and Remove.bg when providers are configured
 - **TypeScript First**: Comprehensive type definitions for all components
 - **Performance Optimized**: Efficient rendering with virtual scrolling and lazy loading
 - **Accessibility Compliant**: WCAG AA/AAA compliance built into all components
 - **Enterprise Security**: JWT authentication, RBAC, and rate limiting
 - **Cost Optimization**: Intelligent caching and model selection
 
-### Production AI Services (NEW!)
-All AI features now use real API integrations:
+### Optional Hosted AI Services
+Hosted AI features use real API integrations when configured and provider-unconfigured responses when not configured:
 - **OpenAI GPT-4**: Form generation, search enhancement, content summarization
 - **Pinecone Vector DB**: Semantic search with embeddings
 - **Google Vision API**: Computer vision and image analysis
@@ -471,13 +475,14 @@ Each AI-assisted component system includes comprehensive Storybook stories:
 
 Access the interactive documentation at: `http://localhost:6006`
 
-## Production Deployment (NEW!)
+## Optional Hosted Deployment
 
 ### Quick Setup
 ```bash
 # Configure API keys
 cp .env.example .env
-# Add: OPENAI_API_KEY, PINECONE_API_KEY, GOOGLE_VISION_API_KEY, JWT_SECRET
+# Add the provider keys for features you enable plus JWT_SECRET.
+# Canonical runtime ports: API_SERVER_PORT=3002, WS_PORT=3001.
 
 # Start services
 npm install --legacy-peer-deps
@@ -490,12 +495,12 @@ docker-compose up -d
 ### Required Services
 | Service | Purpose | Status |
 |---------|---------|--------|
-| OpenAI API | Form generation, search | ✅ Integrated |
-| Pinecone | Vector search | ✅ Integrated |
-| Google Vision | Image analysis | ✅ Integrated |
-| Redis | Caching | ✅ Integrated |
-| WebSocket Server | Collaboration | ✅ Integrated |
-| JWT Auth | Security | ✅ Integrated |
+| OpenAI API | Form generation, summaries, search enhancement | Optional provider |
+| Pinecone | Vector search | Optional provider |
+| Google Vision | Image analysis | Optional provider |
+| Redis | Caching and hosted coordination | Optional unless enabled features require it |
+| WebSocket Server | Presence, cursor, selection, room transport | Optional hosted runtime |
+| JWT Auth | Hosted API security | Required for protected hosted routes |
 
 ### Infrastructure Features
 - **Docker Deployment**: Complete containerization
@@ -528,4 +533,4 @@ docker-compose up -d
 14. **Cache Service** - Redis with memory fallback
 15. **Error Handler** - Sentry integration and monitoring
 
-**Total: 15 production-ready AI systems transforming AuraGlass from demo components to enterprise-grade AI platform with real service integrations, comprehensive security, and production deployment capabilities.**
+**Total: 15 AI and hosted-runtime systems.** Package-only UI remains usable without providers; hosted routes must either call configured provider services or return safe provider-unconfigured errors.

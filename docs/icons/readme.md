@@ -1,6 +1,6 @@
 # AuraGlass Icons
 
-AuraGlass 3.2 introduces first-party icons so core app chrome no longer needs a separate icon package.
+AuraGlass 3.3 keeps first-party icons as the supported package path for core app chrome, so consumers do not need a separate icon package for common product surfaces.
 
 ## Entrypoints
 
@@ -50,4 +50,4 @@ The icon system supports named imports without forcing a full registry into prod
 node scripts/ci/verify-tree-shaking.js
 ```
 
-Record final size evidence in `reports/3.2-release/bundle-analysis.md`.
+Record final size evidence in `reports/3.3-release/README.md` and keep the historical 3.2 bundle baseline in `reports/3.2-release/bundle-analysis.md`.

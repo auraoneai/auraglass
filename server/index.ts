@@ -1,22 +1,27 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
-import { createServer } from 'http';
+import { createServer, Server as HttpServer } from 'http';
 import dotenv from 'dotenv';
 import * as Sentry from '@sentry/node';
 
-// Import AI services
 import { OpenAIService } from '../src/services/ai/openai-service';
-import { SemanticSearchService } from '../src/services/ai/semantic-search-service';
 import { VisionService } from '../src/services/ai/vision-service';
-import { AuthService } from '../src/services/auth/auth-service';
-import { defaultAIConfig, createAIConfig } from '../src/services/ai/config';
+import { AuthError, AuthService } from '../src/services/auth/auth-service';
+import {
+  AIConfig,
+  ProviderUnconfiguredError,
+  RuntimeFeatureFlags,
+  assertProviderConfigured,
+  createAIConfig,
+  createRuntimeFeatureFlags,
+  isProviderConfigured,
+} from '../src/services/ai/config';
 
 dotenv.config();
 
-// Initialize Sentry if DSN is provided
 if (process.env.SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -25,76 +30,249 @@ if (process.env.SENTRY_DSN) {
   });
 }
 
-const app = express();
-const httpServer = createServer(app);
-const PORT = parseInt(process.env.API_SERVER_PORT || '3001', 10);
+const API_PORT = Number.parseInt(process.env.API_SERVER_PORT || '3002', 10);
+const isDevelopment = process.env.NODE_ENV === 'development';
+const providerUnconfiguredCode = 'AURA_PROVIDER_UNCONFIGURED';
+const providerUnconfiguredError = 'Provider not configured';
 
-// Initialize services
-let openAIService: OpenAIService;
-let searchService: SemanticSearchService;
-let visionService: VisionService;
-let authService: AuthService;
+export const app = express();
+export const httpServer = createServer(app);
 
-async function initializeServices() {
-  try {
-    const config = createAIConfig();
+let runtimeConfig: AIConfig = createAIConfig();
+let runtimeFeatures: RuntimeFeatureFlags = createRuntimeFeatureFlags();
+let openAIService: OpenAIService | null = null;
+let searchService: any | null = null;
+let visionService: VisionService | null = null;
+let authService: AuthService | null = null;
 
-    openAIService = new OpenAIService(config);
-    searchService = new SemanticSearchService(config);
-    visionService = new VisionService(config);
-    authService = new AuthService();
+const providerStatus = () => ({
+  openai: isProviderConfigured(runtimeConfig, 'openai'),
+  pinecone: isProviderConfigured(runtimeConfig, 'pinecone'),
+  googleVision: isProviderConfigured(runtimeConfig, 'googleVision'),
+  removeBg: isProviderConfigured(runtimeConfig, 'removeBg'),
+  redis: isProviderConfigured(runtimeConfig, 'redis'),
+});
 
-    // Initialize services that need async setup
-    if (process.env.ENABLE_SEMANTIC_SEARCH === 'true') {
-      await searchService.initialize();
-      console.log('✓ Semantic search service initialized');
+const readinessChecks = () => {
+  const providers = providerStatus();
+  const jwtConfigured =
+    Boolean(process.env.JWT_SECRET) || process.env.NODE_ENV === 'test';
+
+  return [
+    {
+      name: 'jwt',
+      ok: jwtConfigured,
+      remediation: 'Set JWT_SECRET for hosted API authentication.',
+    },
+    {
+      name: 'smartForms',
+      ok: !runtimeFeatures.smartForms || providers.openai,
+      remediation:
+        'Set OPENAI_API_KEY or set ENABLE_SMART_FORMS=false before deployment.',
+    },
+    {
+      name: 'semanticSearch',
+      ok:
+        !runtimeFeatures.semanticSearch ||
+        (providers.openai && providers.pinecone),
+      remediation:
+        'Set OPENAI_API_KEY and PINECONE_API_KEY, or set ENABLE_SEMANTIC_SEARCH=false.',
+    },
+    {
+      name: 'visionAPI',
+      ok: !runtimeFeatures.visionAPI || providers.googleVision,
+      remediation:
+        'Set GOOGLE_VISION_API_KEY or Google Cloud credentials, or set ENABLE_VISION_API=false.',
+    },
+    {
+      name: 'backgroundRemoval',
+      ok: !runtimeFeatures.backgroundRemoval || providers.removeBg,
+      remediation:
+        'Set REMOVEBG_API_KEY or set ENABLE_BACKGROUND_REMOVAL=false.',
+    },
+    {
+      name: 'redis',
+      ok: !runtimeFeatures.aiCaching || providers.redis,
+      remediation:
+        'Set REDIS_URL for hosted AI caching or set ENABLE_AI_CACHING=false.',
+    },
+  ];
+};
+
+async function ensureOpenAIService(feature: string): Promise<OpenAIService> {
+  assertProviderConfigured(
+    runtimeConfig,
+    'openai',
+    feature,
+    `Set OPENAI_API_KEY before using ${feature}.`
+  );
+
+  if (!openAIService) {
+    openAIService = new OpenAIService(runtimeConfig);
+  }
+
+  return openAIService;
+}
+
+async function ensureSemanticSearchService(): Promise<any> {
+  if (!runtimeFeatures.semanticSearch) {
+    throw new ProviderUnconfiguredError(
+      'pinecone',
+      'semantic search',
+      'Set ENABLE_SEMANTIC_SEARCH=true and configure OpenAI/Pinecone credentials before using semantic search.'
+    );
+  }
+
+  await ensureOpenAIService('semantic search query enhancement');
+  assertProviderConfigured(
+    runtimeConfig,
+    'pinecone',
+    'semantic search',
+    'Set PINECONE_API_KEY and PINECONE_INDEX_NAME before using semantic search.'
+  );
+
+  if (!searchService) {
+    const { SemanticSearchService } = await import(
+      '../src/services/ai/semantic-search-service'
+    );
+    searchService = new SemanticSearchService(runtimeConfig);
+    await searchService.initialize();
+  }
+
+  return searchService;
+}
+
+async function ensureVisionService(feature: string): Promise<VisionService> {
+  if (!visionService) {
+    visionService = new VisionService(runtimeConfig);
+  }
+
+  if (feature === 'image analysis') {
+    if (!runtimeFeatures.visionAPI) {
+      throw new ProviderUnconfiguredError(
+        'googleVision',
+        feature,
+        'Set ENABLE_VISION_API=true and configure Google Vision credentials before using image analysis.'
+      );
     }
+    assertProviderConfigured(
+      runtimeConfig,
+      'googleVision',
+      feature,
+      'Set GOOGLE_VISION_API_KEY or Google Cloud credentials before using image analysis.'
+    );
+  }
 
-    console.log('✓ All AI services initialized successfully');
-  } catch (error) {
-    console.error('✗ Failed to initialize services:', error);
-    throw error;
+  if (feature === 'background removal') {
+    if (!runtimeFeatures.backgroundRemoval) {
+      throw new ProviderUnconfiguredError(
+        'removeBg',
+        feature,
+        'Set ENABLE_BACKGROUND_REMOVAL=true and REMOVEBG_API_KEY before using background removal.'
+      );
+    }
+    assertProviderConfigured(
+      runtimeConfig,
+      'removeBg',
+      feature,
+      'Set REMOVEBG_API_KEY before using background removal.'
+    );
+  }
+
+  return visionService;
+}
+
+async function initializeServices(): Promise<void> {
+  runtimeConfig = createAIConfig();
+  runtimeFeatures = createRuntimeFeatureFlags();
+  authService = new AuthService();
+
+  if (isProviderConfigured(runtimeConfig, 'openai')) {
+    openAIService = new OpenAIService(runtimeConfig);
+  }
+
+  if (
+    isProviderConfigured(runtimeConfig, 'googleVision') ||
+    isProviderConfigured(runtimeConfig, 'removeBg')
+  ) {
+    visionService = new VisionService(runtimeConfig);
+  }
+
+  if (
+    runtimeFeatures.semanticSearch &&
+    isProviderConfigured(runtimeConfig, 'openai') &&
+    isProviderConfigured(runtimeConfig, 'pinecone')
+  ) {
+    await ensureSemanticSearchService();
   }
 }
 
-// Security middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
+function handleRouteError(
+  error: unknown,
+  res: Response,
+  fallbackMessage = 'Request failed'
+): void {
+  if (error instanceof ProviderUnconfiguredError) {
+    // Provider-unconfigured responses use "Provider not configured",
+    // AURA_PROVIDER_UNCONFIGURED, and HTTP 503.
+    void providerUnconfiguredCode;
+    void providerUnconfiguredError;
+    res.status(error.statusCode).json(error.toJSON());
+    return;
+  }
+
+  if (error instanceof AuthError) {
+    res.status(error.statusCode).json({
+      error: error.message,
+      code: error.code,
+    });
+    return;
+  }
+
+  Sentry.captureException(error);
+
+  res.status(500).json({
+    error: fallbackMessage,
+    message: isDevelopment ? (error as Error).message : undefined,
+  });
+}
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+      },
     },
-  },
-}));
-
+  })
+);
 app.use(compression());
+app.use(
+  cors({
+    origin: (process.env.CORS_ORIGIN || 'http://localhost:3000').split(','),
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
-// CORS configuration
-const corsOptions = {
-  origin: (process.env.CORS_ORIGIN || 'http://localhost:3000').split(','),
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-};
-app.use(cors(corsOptions));
+app.use(
+  '/api/',
+  rateLimit({
+    windowMs: Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
+    max: Number.parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
-  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-app.use('/api/', limiter);
-
-// Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Request logging
 app.use((req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
   res.on('finish', () => {
@@ -104,103 +282,103 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Health check endpoint
-app.get('/health', (req: Request, res: Response) => {
-  const health = {
+app.get('/health', (_req: Request, res: Response) => {
+  res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    services: {
-      openai: !!process.env.OPENAI_API_KEY,
-      pinecone: !!process.env.PINECONE_API_KEY,
-      googleVision: !!process.env.GOOGLE_CLOUD_PROJECT_ID,
-      removeBg: !!process.env.REMOVEBG_API_KEY,
-      redis: !!process.env.REDIS_URL,
-    },
-    features: {
-      semanticSearch: process.env.ENABLE_SEMANTIC_SEARCH === 'true',
-      visionAPI: process.env.ENABLE_VISION_API === 'true',
-      collaboration: process.env.ENABLE_COLLABORATION === 'true',
-      smartForms: process.env.ENABLE_SMART_FORMS === 'true',
-    },
-  };
-
-  res.json(health);
+    services: providerStatus(),
+    features: runtimeFeatures,
+  });
 });
 
-// Authentication middleware
-const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
+app.get('/ready', (_req: Request, res: Response) => {
+  const checks = readinessChecks();
+  const ready = checks.every((check) => check.ok);
+
+  res.status(ready ? 200 : 503).json({
+    status: ready ? 'ready' : 'not_ready',
+    timestamp: new Date().toISOString(),
+    checks,
+  });
+});
+
+const authenticateToken = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    if (!authService) {
+      throw new AuthError('Authentication service is not initialized', 'AUTH_NOT_READY', 503);
+    }
+
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.startsWith('Bearer ')
+      ? authHeader.slice('Bearer '.length)
+      : undefined;
 
     if (!token) {
-      return res.status(401).json({ error: 'Authentication required' });
+      res.status(401).json({ error: 'Authentication required' });
+      return;
     }
 
-    const verified = await authService.verifyToken(token);
-    if (!verified) {
-      return res.status(403).json({ error: 'Invalid or expired token' });
-    }
-
-    (req as any).user = verified;
+    (req as any).user = authService.verifyToken(token);
     next();
   } catch (error) {
-    res.status(403).json({ error: 'Invalid token' });
+    handleRouteError(error, res, 'Invalid token');
   }
 };
 
-// ============================================
-// AI Routes
-// ============================================
-
 const aiRouter = express.Router();
-
-// Apply authentication to all AI routes
 aiRouter.use(authenticateToken);
 
-// Generate smart form fields
 aiRouter.post('/generate-form', async (req: Request, res: Response) => {
   try {
-    const { context, existingFields = [] } = req.body;
-
-    if (!context) {
-      return res.status(400).json({ error: 'Context is required' });
+    if (!runtimeFeatures.smartForms) {
+      throw new ProviderUnconfiguredError(
+        'openai',
+        'smart form generation',
+        'Set ENABLE_SMART_FORMS=true and OPENAI_API_KEY before using smart form generation.'
+      );
     }
 
-    const fields = await openAIService.generateFormFieldSuggestions(context, existingFields);
+    const { context, existingFields = [] } = req.body;
+    if (!context) {
+      res.status(400).json({ error: 'Context is required' });
+      return;
+    }
 
-    Sentry.addBreadcrumb({
-      category: 'ai',
-      message: 'Generated form fields',
-      level: 'info',
-      data: { context, fieldCount: fields.length },
+    const service = await ensureOpenAIService('smart form generation');
+    const result = await service.generateFormFieldSuggestionsWithMetadata(
+      context,
+      existingFields
+    );
+
+    res.json({
+      fields: result.fields,
+      cached: result.cached,
+      usage: result.usage,
     });
-
-    res.json({ fields, cached: false });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Failed to generate form fields',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Failed to generate form fields');
   }
 });
 
-// Semantic search
 aiRouter.post('/search', async (req: Request, res: Response) => {
   try {
     const { query, options = {} } = req.body;
-
     if (!query) {
-      return res.status(400).json({ error: 'Query is required' });
+      res.status(400).json({ error: 'Query is required' });
+      return;
     }
 
-    // Enhance query with OpenAI
-    const { enhancedQuery, intent } = await openAIService.generateSemanticSearchQuery(query);
+    const openAI = await ensureOpenAIService('semantic search');
+    const search = await ensureSemanticSearchService();
+    const { enhancedQuery, intent } =
+      await openAI.generateSemanticSearchQuery(query);
 
-    // Perform hybrid search
-    const results = await searchService.hybridSearch(enhancedQuery, {
+    const results = await search.hybridSearch(enhancedQuery, {
       semanticWeight: intent === 'search' ? 0.8 : 0.6,
       keywordWeight: intent === 'navigation' ? 0.4 : 0.2,
       topK: options.limit || 10,
@@ -211,27 +389,23 @@ aiRouter.post('/search', async (req: Request, res: Response) => {
       results,
       enhancedQuery,
       intent,
-      totalResults: results.length
+      totalResults: results.length,
     });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Search failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Search failed');
   }
 });
 
-// Index documents for search
 aiRouter.post('/index-documents', async (req: Request, res: Response) => {
   try {
     const { documents } = req.body;
-
     if (!Array.isArray(documents) || documents.length === 0) {
-      return res.status(400).json({ error: 'Documents array is required' });
+      res.status(400).json({ error: 'Documents array is required' });
+      return;
     }
 
-    await searchService.indexDocuments(documents);
+    const search = await ensureSemanticSearchService();
+    await search.indexDocuments(documents);
 
     res.json({
       success: true,
@@ -239,275 +413,214 @@ aiRouter.post('/index-documents', async (req: Request, res: Response) => {
       message: `Successfully indexed ${documents.length} documents`,
     });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Failed to index documents',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Failed to index documents');
   }
 });
 
-// Analyze image
 aiRouter.post('/analyze-image', async (req: Request, res: Response) => {
   try {
     const { image, analysisTypes = ['all'] } = req.body;
-
     if (!image) {
-      return res.status(400).json({ error: 'Image data is required' });
+      res.status(400).json({ error: 'Image data is required' });
+      return;
     }
 
-    // Convert base64 to buffer
-    const imageBuffer = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-
+    const service = await ensureVisionService('image analysis');
+    const imageBuffer = Buffer.from(
+      image.replace(/^data:image\/\w+;base64,/, ''),
+      'base64'
+    );
     const includeAll = analysisTypes.includes('all');
-    const results: any = {};
+    const analysis: Record<string, unknown> = {};
 
-    // Perform requested analyses
     if (includeAll || analysisTypes.includes('faces')) {
-      results.faces = await visionService.detectFaces(imageBuffer);
+      analysis.faces = await service.detectFaces(imageBuffer);
     }
 
     if (includeAll || analysisTypes.includes('objects')) {
-      results.objects = await visionService.detectObjects(imageBuffer);
+      analysis.objects = await service.detectObjects(imageBuffer);
     }
 
     if (includeAll || analysisTypes.includes('text')) {
-      results.text = await visionService.extractText(imageBuffer);
+      analysis.text = await service.extractText(imageBuffer);
     }
 
     if (includeAll || analysisTypes.includes('labels')) {
-      const analysis = await visionService.analyzeImage(imageBuffer);
-      results.labels = analysis.labels;
-      results.safeSearch = analysis.safeSearch;
-      results.colors = analysis.colors;
+      const result = await service.analyzeImage(imageBuffer);
+      analysis.labels = result.labels;
+      analysis.safeSearch = result.safeSearch;
+      analysis.colors = result.colors;
     }
 
-    Sentry.addBreadcrumb({
-      category: 'vision',
-      message: 'Analyzed image',
-      level: 'info',
-      data: {
-        analysisTypes,
-        faceCount: results.faces?.length || 0,
-        objectCount: results.objects?.length || 0,
-      },
-    });
-
-    res.json({ analysis: results });
+    res.json({ analysis });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Image analysis failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Image analysis failed');
   }
 });
 
-// Remove image background
 aiRouter.post('/remove-background', async (req: Request, res: Response) => {
   try {
     const { image } = req.body;
-
     if (!image) {
-      return res.status(400).json({ error: 'Image data is required' });
+      res.status(400).json({ error: 'Image data is required' });
+      return;
     }
 
-    const imageBuffer = Buffer.from(image.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-    const processedBuffer = await visionService.removeBackground(imageBuffer);
-
-    // Convert buffer back to base64
-    const base64Image = processedBuffer.toString('base64');
-    const dataUri = `data:image/png;base64,${base64Image}`;
+    const service = await ensureVisionService('background removal');
+    const imageBuffer = Buffer.from(
+      image.replace(/^data:image\/\w+;base64,/, ''),
+      'base64'
+    );
+    const processedBuffer = await service.removeBackground(imageBuffer);
+    const dataUri = `data:image/png;base64,${processedBuffer.toString('base64')}`;
 
     res.json({ image: dataUri });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Background removal failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Background removal failed');
   }
 });
 
-// Generate content summary
 aiRouter.post('/summarize', async (req: Request, res: Response) => {
   try {
     const { content, maxLength = 200 } = req.body;
-
     if (!content) {
-      return res.status(400).json({ error: 'Content is required' });
+      res.status(400).json({ error: 'Content is required' });
+      return;
     }
 
-    const summary = await openAIService.generateContentSummary(content, maxLength);
+    const service = await ensureOpenAIService('content summarization');
+    const summary = await service.generateContentSummary(content, maxLength);
 
     res.json({ summary });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Summarization failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Summarization failed');
   }
 });
 
 app.use('/api/ai', aiRouter);
 
-// ============================================
-// Authentication Routes
-// ============================================
-
 const authRouter = express.Router();
 
 authRouter.post('/login', async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    if (!authService) {
+      throw new AuthError('Authentication service is not initialized', 'AUTH_NOT_READY', 503);
     }
 
-    const result = await authService.login(email, password);
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ error: 'Email and password are required' });
+      return;
+    }
 
-    res.json(result);
+    res.json(await authService.login(email, password));
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(401).json({
-      error: 'Authentication failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Authentication failed');
   }
 });
 
 authRouter.post('/register', async (req: Request, res: Response) => {
   try {
-    const { email, password, name } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+    if (!authService) {
+      throw new AuthError('Authentication service is not initialized', 'AUTH_NOT_READY', 503);
     }
 
-    const result = await authService.register(email, password, name);
+    const { email, password, name } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ error: 'Email and password are required' });
+      return;
+    }
 
-    res.json(result);
+    res.json(await authService.register(email, password, name));
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(400).json({
-      error: 'Registration failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Registration failed');
   }
 });
 
 authRouter.post('/refresh', async (req: Request, res: Response) => {
   try {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-      return res.status(400).json({ error: 'Refresh token is required' });
+    if (!authService) {
+      throw new AuthError('Authentication service is not initialized', 'AUTH_NOT_READY', 503);
     }
 
-    const result = await authService.refreshToken(refreshToken);
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      res.status(400).json({ error: 'Refresh token is required' });
+      return;
+    }
 
-    res.json(result);
+    res.json(await authService.refreshToken(refreshToken));
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(401).json({
-      error: 'Token refresh failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Token refresh failed');
   }
 });
 
 authRouter.post('/logout', authenticateToken, async (req: Request, res: Response) => {
   try {
-    const token = req.headers['authorization']?.split(' ')[1];
+    const token = req.headers.authorization?.startsWith('Bearer ')
+      ? req.headers.authorization.slice('Bearer '.length)
+      : undefined;
 
-    if (token) {
+    if (authService && token) {
       await authService.revokeToken(token);
     }
 
     res.json({ success: true, message: 'Logged out successfully' });
   } catch (error) {
-    Sentry.captureException(error);
-    res.status(500).json({
-      error: 'Logout failed',
-      message: (error as Error).message
-    });
+    handleRouteError(error, res, 'Logout failed');
   }
 });
 
 app.use('/api/auth', authRouter);
 
-// ============================================
-// Error Handling
-// ============================================
-
-// Sentry error handler (must be before other error handlers)
-if (process.env.SENTRY_DSN) {
-  app.use(Sentry.Handlers.errorHandler());
-}
-
-// 404 handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-// Global error handler
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  Sentry.captureException(err);
   console.error('Server error:', err);
 
   res.status(500).json({
     error: 'Internal server error',
-    message: process.env.NODE_ENV === 'development' ? err.message : undefined,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
+    message: isDevelopment ? err.message : undefined,
+    stack: isDevelopment ? err.stack : undefined,
   });
 });
 
-// ============================================
-// Server Startup
-// ============================================
+export async function startServer(port = API_PORT): Promise<HttpServer> {
+  await initializeServices();
 
-async function startServer() {
-  try {
-    console.log('Initializing AuraGlass AI Infrastructure...\n');
-
-    // Initialize services
-    await initializeServices();
-
-    // Start HTTP server
-    httpServer.listen(PORT, () => {
-      console.log('\n┌─────────────────────────────────────────────┐');
-      console.log('│  🚀 AuraGlass API Server Started!          │');
-      console.log('└─────────────────────────────────────────────┘\n');
-      console.log(`📡 Server:        http://localhost:${PORT}`);
-      console.log(`🏥 Health check:  http://localhost:${PORT}/health`);
-      console.log(`🌍 Environment:   ${process.env.NODE_ENV || 'development'}`);
-      console.log(`\n✓ Ready to accept requests\n`);
+  return new Promise((resolve) => {
+    httpServer.listen(port, () => {
+      console.log('AuraGlass API server started');
+      console.log(`Server: http://localhost:${port}`);
+      console.log(`Health: http://localhost:${port}/health`);
+      console.log(`Ready: http://localhost:${port}/ready`);
+      console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+      resolve(httpServer);
     });
-
-    // Graceful shutdown
-    const shutdown = async () => {
-      console.log('\n🛑 Shutting down gracefully...');
-
-      httpServer.close(() => {
-        console.log('✓ HTTP server closed');
-        process.exit(0);
-      });
-
-      // Force shutdown after 10 seconds
-      setTimeout(() => {
-        console.error('✗ Forced shutdown after timeout');
-        process.exit(1);
-      }, 10000);
-    };
-
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-  } catch (error) {
-    console.error('✗ Failed to start server:', error);
-    process.exit(1);
-  }
+  });
 }
 
-// Start the server
-startServer();
+async function shutdown(): Promise<void> {
+  console.log('Shutting down AuraGlass API server');
+  httpServer.close(() => {
+    process.exit(0);
+  });
+
+  setTimeout(() => {
+    console.error('Forced shutdown after timeout');
+    process.exit(1);
+  }, 10000);
+}
+
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error('Failed to start AuraGlass API server:', error);
+    process.exit(1);
+  });
+
+  process.on('SIGTERM', shutdown);
+  process.on('SIGINT', shutdown);
+}

@@ -1,6 +1,6 @@
 # AuraGlass Migration CLI
 
-AuraGlass 3.2 adds CLI commands for auditing and migrating away from MUI, Radix, and Lucide in core app chrome.
+AuraGlass migration CLI commands audit and migrate away from MUI, Radix, and Lucide in core app chrome. For 3.3, the same CLI remains part of the release gate while package subpath, recipe render, Vite, and Next integration checks verify the expanded package surface.
 
 ## Commands
 
@@ -32,7 +32,7 @@ aura-glass audit imports --json
 aura-glass doctor --json
 ```
 
-Use JSON output when a project wants to block new forbidden core UI dependencies before the full 3.2 CI gate is wired.
+Use JSON output when a project wants to block new forbidden core UI dependencies before the full 3.3 CI gate is wired.
 
 ## Local Gate Scripts
 
@@ -58,3 +58,11 @@ node scripts/ci/verify-tree-shaking.js --strict
 5. Replace Radix surfaces one component at a time.
 6. Replace MUI app shell, forms, overlays, and workflow surfaces by route.
 7. Run `aura-glass doctor`.
+
+## 3.3 Evidence
+
+Current 3.3 package and migration-adjacent evidence is tracked in:
+
+- `reports/3.3-release/README.md`
+- `reports/3.3-release/recipe-evidence.md`
+- `reports/3.3-release/recipe-render-evidence.md`

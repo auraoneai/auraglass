@@ -103,6 +103,13 @@ export const ProductionAIIntegration: React.FC<
             prev.filter((c: any) => c.userId !== userId)
           );
         });
+
+        collaborationService.current.on(
+          "collaboration-edit-unsupported",
+          () => {
+            setError("Collaborative editing is not supported in AuraGlass 3.3");
+          }
+        );
       }
 
       setIsInitialized(true);
@@ -270,7 +277,10 @@ export const ProductionAIIntegration: React.FC<
   const sendCollaborativeEdit = useCallback((edit: any) => {
     if (!collaborationService.current) return;
 
-    collaborationService.current.sendEdit(edit);
+    const supported = collaborationService.current.sendEdit(edit);
+    if (supported === false) {
+      setError("Collaborative editing is not supported in AuraGlass 3.3");
+    }
   }, []);
 
   const updateCursorPosition = useCallback((x: number, y: number) => {

@@ -1,5 +1,6 @@
 # AuraGlass by AuraOne AI Infrastructure Setup Guide
-Complete guide to setting up production-ready AI features in AuraGlass by AuraOne.
+
+Complete guide to setting up the optional AuraGlass hosted AI runtime. Package-only AuraGlass apps do not need these servers or provider credentials.
 
 ## 📋 Table of Contents
 
@@ -38,7 +39,7 @@ npm run server:all
 npm run dev
 ```
 
-Open http://localhost:3000/ai-demo to test!
+Open http://localhost:3000/ai-demo to test after the optional hosted runtime is running.
 
 ## 📦 Prerequisites
 
@@ -99,7 +100,7 @@ docker-compose up -d
 
 ## 🔑 API Key Setup
 
-### 1. OpenAI (Required for Smart Forms & Search)
+### 1. OpenAI (Required for Smart Forms, Summaries, and Search Enhancement)
 
 **Cost:** $5 free credit for new users, then ~$0.001-$0.02 per request
 
@@ -222,7 +223,16 @@ cp .env.example .env
 **Minimal configuration (for local development):**
 
 ```env
-# Required
+# Hosted runtime contract
+API_SERVER_PORT=3002
+WS_PORT=3001
+NEXT_PUBLIC_API_URL=http://localhost:3002
+NEXT_PUBLIC_WS_URL=ws://localhost:3001
+CLIENT_URL=http://localhost:3000
+CORS_ORIGIN=http://localhost:3000
+JWT_SECRET=change-this-to-random-secret-in-production
+
+# Provider-backed features
 OPENAI_API_KEY=sk-your-key
 PINECONE_API_KEY=your-key
 REDIS_URL=redis://localhost:6379
@@ -234,12 +244,6 @@ REMOVEBG_API_KEY=your-key
 
 # Server config
 NODE_ENV=development
-API_SERVER_PORT=3001
-WEBSOCKET_SERVER_PORT=3002
-CLIENT_URL=http://localhost:3000
-
-# Security
-JWT_SECRET=change-this-to-random-secret-in-production
 
 # Cost optimization
 ENABLE_AI_CACHING=true
@@ -271,16 +275,16 @@ npm run server:all
 ```
 
 This starts:
-- API Server on http://localhost:3001
-- WebSocket Server on http://localhost:3002
+- API Server on http://localhost:3002
+- WebSocket Server on ws://localhost:3001
 
 **Start servers individually:**
 ```bash
 # API server only
-npm run server:api
+API_SERVER_PORT=3002 npm run server:api
 
 # WebSocket server only
-npm run server:websocket
+WS_PORT=3001 npm run server:websocket
 ```
 
 **With hot reload (using nodemon):**
@@ -328,7 +332,7 @@ docker-compose down
 
 **Health check:**
 ```bash
-curl http://localhost:3001/health
+curl http://localhost:3002/health
 ```
 
 **Expected response:**
@@ -350,6 +354,19 @@ curl http://localhost:3001/health
     "collaboration": true,
     "smartForms": true
   }
+}
+```
+
+Missing optional providers should return a structured provider-unconfigured response from the affected route instead of mock data or raw provider errors:
+
+```json
+{
+  "error": "Provider not configured",
+  "message": "openai is not configured for generate-form",
+  "code": "AURA_PROVIDER_UNCONFIGURED",
+  "provider": "openai",
+  "feature": "generate-form",
+  "docsUrl": "https://auraglass.auraone.ai/docs/ai-providers"
 }
 ```
 
@@ -483,14 +500,14 @@ See `src/components/ai/AIDemo.tsx` for a complete working example with all featu
 
 ### Common Issues
 
-**❌ "Connection refused" on port 3001**
+**❌ "Connection refused" on port 3002**
 
 ```bash
 # Check if API server is running
-curl http://localhost:3001/health
+curl http://localhost:3002/health
 
 # Start the server
-npm run server:api
+API_SERVER_PORT=3002 npm run server:api
 ```
 
 **❌ "Redis connection failed"**
@@ -577,12 +594,12 @@ docker-compose logs -f api-server
 
 ```bash
 # Test API endpoint
-curl -X POST http://localhost:3001/api/auth/login \
+curl -X POST http://localhost:3002/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"password"}'
 
 # Test health check
-curl http://localhost:3001/health | jq
+curl http://localhost:3002/health | jq
 ```
 
 ## 💰 Cost Optimization

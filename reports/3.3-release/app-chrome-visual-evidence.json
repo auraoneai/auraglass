@@ -1,0 +1,142 @@
+{
+  "generatedAt": "2026-06-05T04:30:27.186Z",
+  "package": "aura-glass",
+  "version": "3.2.0",
+  "filename": "aura-glass-3.2.0.tgz",
+  "shasum": "b46456704a6ae5e39c13c3cabc98b090fe5d49ac",
+  "integrity": "sha512-YgqoGHVXvS2z+YXSqK9bJCAg1QWvH5aGs94i5GBzU+0UHSoMaan/evtoj9zRzJivwpwx+m2P036EbvAji2lhLg==",
+  "targetCount": 11,
+  "appDir": "/var/folders/3s/trh_q1fd5yn1mdhbvwbf0qrw0000gn/T/auraglass-app-chrome-s7Cwr5/app-chrome-visuals",
+  "screenshots": [
+    {
+      "id": "icon-gallery",
+      "file": "reports/3.3-release/app-chrome-visuals/icon-gallery.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "dropdown-menu",
+      "file": "reports/3.3-release/app-chrome-visuals/dropdown-menu.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "select",
+      "file": "reports/3.3-release/app-chrome-visuals/select.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "dialog",
+      "file": "reports/3.3-release/app-chrome-visuals/dialog.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "drawer",
+      "file": "reports/3.3-release/app-chrome-visuals/drawer.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "popover",
+      "file": "reports/3.3-release/app-chrome-visuals/popover.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "tooltip",
+      "file": "reports/3.3-release/app-chrome-visuals/tooltip.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "tabs",
+      "file": "reports/3.3-release/app-chrome-visuals/tabs.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "command-palette",
+      "file": "reports/3.3-release/app-chrome-visuals/command-palette.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "mobile-shell",
+      "file": "reports/3.3-release/app-chrome-visuals/mobile-shell.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "reducedMotion": "no-preference"
+    },
+    {
+      "id": "reduced-motion",
+      "file": "reports/3.3-release/app-chrome-visuals/reduced-motion.png",
+      "viewport": {
+        "width": 1280,
+        "height": 920
+      },
+      "reducedMotion": "reduce"
+    }
+  ],
+  "keyboardChecks": [
+    {
+      "id": "dropdown opens from keyboard and closes on escape",
+      "passed": true
+    },
+    {
+      "id": "select opens from keyboard and closes on escape",
+      "passed": true
+    },
+    {
+      "id": "tabs support arrow-key activation",
+      "passed": true
+    },
+    {
+      "id": "dialog opens from button and closes on escape",
+      "passed": true
+    },
+    {
+      "id": "drawer opens from button and closes on escape",
+      "passed": true
+    },
+    {
+      "id": "tooltip appears on pointer hover",
+      "passed": true
+    },
+    {
+      "id": "command palette search input filters commands",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

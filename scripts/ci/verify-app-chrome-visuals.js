@@ -140,7 +140,7 @@ function Frame({ id, title, children }: { id: string; title: string; children: R
   return (
     <main className="visual-page">
       <section className="visual-frame" data-visual-id={id}>
-        <p className="eyebrow">AuraGlass 3.2 visual baseline</p>
+        <p className="eyebrow">AuraGlass 3.3 visual baseline</p>
         <h1>{title}</h1>
         <div className="visual-surface">{children}</div>
       </section>
@@ -228,7 +228,7 @@ function DialogVisual() {
       <GlassDialog
         open
         title="Publish release evidence"
-        description="Confirm package gates, visual baselines, and migration docs before marking 3.2 ready."
+        description="Confirm package gates, visual baselines, and migration docs before marking 3.3 ready."
         footer={<GlassButton>Approve release</GlassButton>}
       >
         <div className="stack">
@@ -300,7 +300,7 @@ function TabsVisual() {
           <GlassTabsTrigger value="evidence">Evidence</GlassTabsTrigger>
         </GlassTabsList>
         <GlassTabsContent value="overview">
-          <GlassCard>3.2 app chrome renders with AuraGlass primitives.</GlassCard>
+          <GlassCard>3.3 app chrome renders with AuraGlass primitives.</GlassCard>
         </GlassTabsContent>
         <GlassTabsContent value="gates">
           <GlassCard>Exports, pack, Vite, and Next gates are captured.</GlassCard>
@@ -822,7 +822,7 @@ export default defineConfig({
   try {
     await waitForUrl(`http://127.0.0.1:${port}/`);
 
-    const screenshotDir = path.join(projectRoot, "reports", "3.2-release", "app-chrome-visuals");
+    const screenshotDir = path.join(projectRoot, "reports", "3.3-release", "app-chrome-visuals");
     fs.rmSync(screenshotDir, { recursive: true, force: true });
     fs.mkdirSync(screenshotDir, { recursive: true });
 
@@ -898,7 +898,7 @@ export default defineConfig({
       passed: screenshots.length === targets.length,
     };
 
-    const reportDir = path.join(projectRoot, "reports", "3.2-release");
+    const reportDir = path.join(projectRoot, "reports", "3.3-release");
     fs.writeFileSync(
       path.join(reportDir, "app-chrome-visual-evidence.json"),
       `${JSON.stringify(report, null, 2)}\n`,
@@ -906,7 +906,7 @@ export default defineConfig({
     );
     fs.writeFileSync(
       path.join(reportDir, "app-chrome-visual-evidence.md"),
-      `# 3.2 App-Chrome Visual Evidence
+      `# 3.3 App-Chrome Visual Evidence
 
 Generated at: ${report.generatedAt}
 
@@ -943,7 +943,7 @@ ${keyboardChecks.map((check) => `| ${check.id} | ${check.passed ? "Pass" : "Fail
     );
   } finally {
     server.kill("SIGTERM");
-    const reportDir = path.join(projectRoot, "reports", "3.2-release");
+    const reportDir = path.join(projectRoot, "reports", "3.3-release");
     fs.mkdirSync(reportDir, { recursive: true });
     fs.writeFileSync(path.join(reportDir, "app-chrome-visual-server.log"), serverLog, "utf8");
   }

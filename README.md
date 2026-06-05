@@ -1,4 +1,4 @@
-# AuraGlass by AuraOne 3.2.0
+# AuraGlass by AuraOne 3.3.0
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -11,9 +11,9 @@
 
 AuraGlass by AuraOne is a production React and Next.js component system for Liquid Glass interfaces: premium dashboards, AI products, media tools, creator apps, data-heavy workspaces, and polished SaaS surfaces. It packages glass-native components, design tokens, motion, accessibility guardrails, SSR-safe entrypoints, optional 3D/media integrations, and release evidence in one npm library.
 
-## 3.2 Package Surface
+## 3.3 Package Surface
 
-AuraGlass by AuraOne 3.2 ships a dependency-sovereign Liquid Glass app-surface system for React and Next.js: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, migration CLI commands, 10 launch recipes, six token formats, and a complete Liquid Glass stylesheet.
+AuraGlass by AuraOne 3.3 ships a dependency-sovereign Liquid Glass app-surface system for React and Next.js: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, focused package subpaths, migration CLI commands, 28 package registry recipes, six token formats, optional hosted AI/runtime contracts, and a complete Liquid Glass stylesheet.
 
 No MUI, Radix, Lucide, or shadcn/ui package is required for core AuraGlass app chrome. Domain features such as charts, 3D, AI services, collaboration transport, and form-builder integrations still use optional peers only when those feature families are imported.
 
@@ -41,8 +41,37 @@ Production links:
 - Website and component catalog: [auraglass.auraone.ai](https://auraglass.auraone.ai)
 - npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
-- 3.2 release evidence scaffold: [reports/3.2-release](./reports/3.2-release/README.md)
-- 3.2 dependency elimination report: [reports/3.2-release/dependency-elimination.md](./reports/3.2-release/dependency-elimination.md)
+- 3.3 release evidence scaffold: [reports/3.3-release](./reports/3.3-release/README.md)
+- 3.3 hosted runtime evidence: [reports/3.3-release/hosted-runtime-evidence.md](./reports/3.3-release/hosted-runtime-evidence.md)
+
+## Package-Only And Optional Hosted Runtime
+
+The public npm package is the primary supported AuraGlass surface. Package-only apps install `aura-glass`, import components and CSS, and do not need AuraGlass API, WebSocket, Redis, OpenAI, Pinecone, Google Vision, Remove.bg, or Sentry infrastructure.
+
+The repository also contains optional backend and service-layer code for teams that want to host AI routes or realtime collaboration themselves. Treat that hosted runtime as opt-in infrastructure with its own environment, auth, provider, deployment, and evidence requirements. The canonical local contract for the hosted runtime is:
+
+| Service | Local default | Environment variable |
+| --- | --- | --- |
+| Frontend/demo app | `http://localhost:3000` | `PORT` |
+| API server | `http://localhost:3002` | `API_SERVER_PORT=3002` |
+| WebSocket server | `ws://localhost:3001` | `WS_PORT=3001` |
+| Public API URL | `http://localhost:3002` | `NEXT_PUBLIC_API_URL` |
+| Public WebSocket URL | `ws://localhost:3001` | `NEXT_PUBLIC_WS_URL` |
+
+Production deployment guidance should use the real TypeScript API server built from `server/index.ts` and the WebSocket server in `server/websocket-server.js`. The legacy `server/api-server.js` path contains demo/mock API behavior and must not be used as a production entrypoint.
+
+Optional provider-backed routes should fail safely when credentials are missing. A hosted route that needs a disabled or unconfigured provider should return a structured response like this instead of a hardcoded mock success:
+
+```json
+{
+  "error": "Provider not configured",
+  "message": "openai is not configured for generate-form",
+  "code": "AURA_PROVIDER_UNCONFIGURED",
+  "provider": "openai",
+  "feature": "generate-form",
+  "docsUrl": "https://auraglass.auraone.ai/docs/ai-providers"
+}
+```
 
 ## Why AuraGlass
 
@@ -71,7 +100,7 @@ AuraGlass is not trying to be the smallest possible primitive kit. If you want n
 
 ## Flagship Components
 
-3.2 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
+3.3 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
 
 | Product job | Start with |
 | --- | --- |
@@ -101,7 +130,7 @@ Do not import from private source paths. Use optional peer packages only for the
 
 ## Recipes, Registry, And CLI
 
-AuraGlass 3.2 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
+AuraGlass 3.3 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
 
 List available recipes:
 
@@ -123,7 +152,7 @@ npx aura-glass add ai-command-center
 
 The CLI writes into `src/components/auraglass/recipes` by default and supports `--out`, `--cwd`, `--dry-run`, `--force`, and `--json`.
 
-3.2 also adds migration commands:
+Migration and audit commands remain available for package adoption:
 
 ```bash
 npx aura-glass audit deps --json
@@ -134,7 +163,7 @@ npx aura-glass migrate mui --dry-run
 npx aura-glass doctor --json
 ```
 
-Launch recipes included in the package registry:
+The package registry includes 28 recipes:
 
 - SaaS dashboard shell
 - AI command center
@@ -146,6 +175,24 @@ Launch recipes included in the package registry:
 - Collaborative workspace
 - Admin data table
 - Ecommerce product panel
+- SaaS admin shell
+- AI product console
+- Media review workspace
+- Commerce operations panel
+- Team collaboration hub
+- Settings and billing suite
+- Analytics command center
+- Calendar operations board
+- Customer support console
+- Creator studio dashboard
+- AI ops control room
+- Semantic search console
+- Vision review workbench
+- Collaboration room console
+- Support triage workspace
+- Release command center
+- Developer docs portal
+- Marketing launch kit
 
 Use the registry directly when building custom tooling:
 
@@ -155,10 +202,10 @@ import { auraGlassRecipes, getAuraGlassRecipe } from 'aura-glass/registry';
 const dashboard = getAuraGlassRecipe('saas-dashboard');
 ```
 
-Recipe acceptance criteria and follow-up evidence are tracked in the 3.1 release scaffold:
+Recipe acceptance criteria and follow-up evidence are tracked in the 3.3 release evidence:
 
-- [Recipe and agent readiness](./reports/3.1-release/recipes-and-agent-readiness.md)
-- [Launch evidence index](./reports/3.1-release/README.md)
+- [3.3 recipe evidence](./reports/3.3-release/recipe-evidence.md)
+- [3.3 launch evidence index](./reports/3.3-release/README.md)
 
 ## Install
 
@@ -303,7 +350,7 @@ AuraGlass components are expected to preserve:
 - reduced-motion behavior for animation, transition, and physics effects
 - desktop and mobile Storybook renderability
 
-Current 3.2 release evidence records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 20 package registry recipes, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current 3.2 package export count or launch claim.
+Current 3.3 release evidence records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 28 package registry recipes, focused forms/data/navigation/overlays/workflows/marketing subpaths, hosted-runtime contract tests, Docker Compose smoke coverage, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current 3.3 package export count or launch claim.
 
 Primary evidence sources:
 
@@ -313,10 +360,10 @@ Primary evidence sources:
 - [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
 - [3.1 accessibility and visual QA baseline](./reports/3.1-release/accessibility-and-visual-qa.md)
 - [3.1 package surface audit](./reports/3.1-release/package-surface-audit.md)
-- [3.2 release evidence](./reports/3.2-release/README.md)
-- [3.2 dependency elimination](./reports/3.2-release/dependency-elimination.md)
-- [3.2 bundle analysis](./reports/3.2-release/bundle-analysis.md)
-- [3.2 accessibility certification ledger](./reports/3.2-release/accessibility-certification.md)
+- [3.3 release evidence](./reports/3.3-release/README.md)
+- [3.3 hosted runtime evidence](./reports/3.3-release/hosted-runtime-evidence.md)
+- [3.3 security review](./reports/3.3-release/security-review.md)
+- [3.3 accessibility certification ledger](./reports/3.3-release/accessibility-certification.md)
 
 ## Performance And SSR
 
@@ -348,10 +395,11 @@ AuraGlass keeps the root package focused on React UI and isolates heavier surfac
 | `aura-glass/app-shell` | Native dashboard, SaaS, AI, media, and collaboration app shell components. |
 | `aura-glass/workspace` | Workspace and workflow shell components. |
 | `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
-| `aura-glass/registry` | Styled registry compatibility plus 3.2 copyable recipe metadata. |
+| `aura-glass/registry` | Styled registry compatibility plus 3.3 copyable recipe metadata. |
 | `aura-glass/hooks/useGlassProbes` | Runtime glass style probe hooks. |
 | `aura-glass/services/ai/openai-service` | Optional OpenAI-backed backend integration. |
 | `aura-glass/services/ai/vision-service` | Optional Google Cloud Vision backend integration. |
+| `aura-glass/services/websocket/collaboration-service` | Optional hosted collaboration client integration. |
 
 Use `aura-glass/utils/env` for guarded browser access, safe media queries, and deterministic hydration helpers. Install `three`, `@react-three/fiber`, and `@react-three/drei` only before importing from `aura-glass/three`. Install optional backend peers such as `openai` or `@google-cloud/vision` only before constructing the matching AI service classes.
 
@@ -369,7 +417,7 @@ Use these rules when asking Codex, Cursor, Claude Code, GitHub Copilot, Gemini C
 - Do not wrap compound children without their parent components.
 - Do not use WebGL/canvas-heavy components for simple cards.
 
-The package repo includes [llms.txt](./llms.txt) as the short agent-facing context file. The 3.1 launch plan tracks longer agent docs in [reports/3.1-release/recipes-and-agent-readiness.md](./reports/3.1-release/recipes-and-agent-readiness.md).
+The package repo includes [llms.txt](./llms.txt) as the short agent-facing context file. Current package and recipe readiness evidence is tracked in [reports/3.3-release](./reports/3.3-release/README.md).
 
 ## Development
 
@@ -412,6 +460,8 @@ Useful scripts:
 | `docs/components` | Organized component docs. |
 | `reports` | Generated and hand-authored audit evidence. |
 | `reports/3.1-release` | 3.1 launch evidence scaffold and sign-off baselines. |
+| `reports/3.2-release` | Historical 3.2 package launch evidence, recipe evidence, app-chrome visuals, and completion audit. |
+| `reports/3.3-release` | Current 3.3 package launch evidence, hosted-runtime evidence, recipe evidence, app-chrome visuals, security review, and manual-certification scaffold. |
 | `scripts/audit` | Audit and certification scripts. |
 | `tests/visual/design-system` | Playwright guardrails for visual certification and audit coverage. |
 | `.github` | GitHub workflow and collaboration templates. |
@@ -419,7 +469,7 @@ Useful scripts:
 
 ## Release Evidence
 
-3.1 launch claims are backed by checked-in evidence under `reports/3.1-release` plus the release gate commands below. The final publish path uses `npm publish --access public` after the dry-run, pack, and integration gates pass.
+Current 3.3 package launch claims are backed by checked-in evidence under `reports/3.3-release` plus the release gate commands below. The final publish path uses `npm publish --access public --tag latest --provenance=false --ignore-scripts` after the dry-run, pack, and integration gates pass.
 
 Package gates:
 
@@ -440,12 +490,13 @@ npm run release:dry-run
 git diff --check
 ```
 
-3.1 evidence scaffolds:
+Current 3.3 evidence:
 
-- [Launch evidence index](./reports/3.1-release/README.md)
-- [Package gates](./reports/3.1-release/package-gates.md)
-- [Package surface audit](./reports/3.1-release/package-surface-audit.md)
-- [Flagship components](./reports/3.1-release/flagship-components.md)
-- [Catalog and website evidence](./reports/3.1-release/catalog-and-website-evidence.md)
-- [Accessibility and visual QA](./reports/3.1-release/accessibility-and-visual-qa.md)
-- [Recipes and AI agent readiness](./reports/3.1-release/recipes-and-agent-readiness.md)
+- [3.3 launch evidence index](./reports/3.3-release/README.md)
+- [3.3 hosted runtime evidence](./reports/3.3-release/hosted-runtime-evidence.md)
+- [3.3 security review](./reports/3.3-release/security-review.md)
+- [3.3 AI cost and cache evidence](./reports/3.3-release/ai-cost-and-cache-evidence.md)
+- [3.3 recipe evidence](./reports/3.3-release/recipe-evidence.md)
+- [3.3 recipe render evidence](./reports/3.3-release/recipe-render-evidence.md)
+- [3.3 app-chrome visual evidence](./reports/3.3-release/app-chrome-visual-evidence.md)
+- [3.3 accessibility certification ledger](./reports/3.3-release/accessibility-certification.md)

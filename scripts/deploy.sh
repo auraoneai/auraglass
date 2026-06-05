@@ -64,7 +64,6 @@ validate_env() {
     source .env
 
     REQUIRED_VARS=(
-        "OPENAI_API_KEY"
         "JWT_SECRET"
     )
 
@@ -105,8 +104,8 @@ build_project() {
     # Run TypeScript compilation
     npm run typecheck || echo -e "${YELLOW}⚠ TypeScript errors found (non-blocking)${NC}"
 
-    # Build the project
-    npm run build
+    # Build the package and hosted API server
+    npm run build:hosted
 
     echo -e "${GREEN}✓ Project built successfully${NC}"
     echo ""
@@ -138,7 +137,7 @@ start_services() {
         pm2 start server/websocket-server.js --name "aura-websocket" || true
 
         # Start API server
-        pm2 start server/api-server.js --name "aura-api" || true
+        pm2 start dist/server/server/index.js --name "aura-api" || true
 
         # Save PM2 configuration
         pm2 save
@@ -151,7 +150,7 @@ start_services() {
 
         # Start services in background
         node server/websocket-server.js &
-        node server/api-server.js &
+        node dist/server/server/index.js &
 
         echo -e "${GREEN}✓ Services started in background${NC}"
     fi

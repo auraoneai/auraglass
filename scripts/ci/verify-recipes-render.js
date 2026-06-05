@@ -272,7 +272,8 @@ createRoot(root).render(<App />);
   try {
     await waitForUrl(`http://127.0.0.1:${port}/`);
 
-    const screenshotDir = path.join(projectRoot, "reports", "3.2-release", "recipe-screenshots");
+    const reportDir = path.join(projectRoot, "reports", "3.3-release");
+    const screenshotDir = path.join(reportDir, "recipe-screenshots");
     fs.rmSync(screenshotDir, { recursive: true, force: true });
     fs.mkdirSync(screenshotDir, { recursive: true });
 
@@ -293,8 +294,23 @@ createRoot(root).render(<App />);
     for (const recipe of renderedRecipes) {
       const locator = page.locator(`[data-recipe-id="${recipe.id}"]`);
       await locator.waitFor({ state: "visible", timeout: 30000 });
+      await locator.scrollIntoViewIfNeeded();
+      await page.waitForTimeout(100);
+      const box = await locator.boundingBox();
+      if (!box) {
+        throw new Error(`Could not resolve screenshot box for recipe ${recipe.id}`);
+      }
       const screenshotPath = path.join(screenshotDir, `${safeId(recipe.id)}.png`);
-      await locator.screenshot({ path: screenshotPath });
+      await page.screenshot({
+        path: screenshotPath,
+        animations: "disabled",
+        clip: {
+          x: Math.max(0, box.x),
+          y: Math.max(0, box.y),
+          width: Math.max(1, box.width),
+          height: Math.max(1, box.height),
+        },
+      });
       screenshots.push({
         id: recipe.id,
         file: path.relative(projectRoot, screenshotPath),
@@ -322,7 +338,6 @@ createRoot(root).render(<App />);
       passed: screenshots.length === renderedRecipes.length,
     };
 
-    const reportDir = path.join(projectRoot, "reports", "3.2-release");
     fs.writeFileSync(
       path.join(reportDir, "recipe-render-evidence.json"),
       `${JSON.stringify(report, null, 2)}\n`,
@@ -330,7 +345,7 @@ createRoot(root).render(<App />);
     );
     fs.writeFileSync(
       path.join(reportDir, "recipe-render-evidence.md"),
-      `# 3.2 Recipe Render Evidence
+      `# 3.3 Recipe Render Evidence
 
 Generated at: ${report.generatedAt}
 
@@ -352,7 +367,7 @@ ${screenshots.map((screenshot) => `| \`${screenshot.id}\` | [${path.basename(scr
     console.log(`Recipe render gate passed for ${screenshots.length} recipes.`);
   } finally {
     server.kill("SIGTERM");
-    const reportDir = path.join(projectRoot, "reports", "3.2-release");
+    const reportDir = path.join(projectRoot, "reports", "3.3-release");
     fs.mkdirSync(reportDir, { recursive: true });
     fs.writeFileSync(path.join(reportDir, "recipe-render-server.log"), serverLog, "utf8");
   }

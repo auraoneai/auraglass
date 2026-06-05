@@ -9,26 +9,28 @@ import { toHaveNoViolations } from "jest-axe";
 // Extend Jest matchers with jest-axe
 expect.extend(toHaveNoViolations);
 
-// Mock window.matchMedia for reduced motion tests
-Object.defineProperty(window, "matchMedia", {
-  writable: true,
-  value: jest.fn().mockImplementation((query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-    dispatchEvent: jest.fn(),
-  })),
-});
+if (typeof window !== "undefined") {
+  // Mock window.matchMedia for reduced motion tests
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: jest.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
 
-// Mock window.scrollTo for modal tests
-Object.defineProperty(window, "scrollTo", {
-  writable: true,
-  value: jest.fn(),
-});
+  // Mock window.scrollTo for modal tests
+  Object.defineProperty(window, "scrollTo", {
+    writable: true,
+    value: jest.fn(),
+  });
+}
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -231,23 +233,25 @@ const createWebGLContext = (canvas: HTMLCanvasElement | null) =>
     FRAMEBUFFER_COMPLETE: 0x8cd5,
   }) as Partial<WebGLRenderingContext>;
 
-Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
-  configurable: true,
-  writable: true,
-  value: jest.fn(function getContext(type: string) {
-    if (type === "2d") {
-      return { ...canvas2DContext, canvas: this } as CanvasRenderingContext2D;
-    }
-    if (type && type.toLowerCase().includes("webgl")) {
-      const ctx = createWebGLContext(this);
-      return ctx as WebGLRenderingContext;
-    }
-    if (type === "bitmaprenderer") {
-      return { transferFromImageBitmap: jest.fn() };
-    }
-    return null;
-  }),
-});
+if (typeof HTMLCanvasElement !== "undefined") {
+  Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
+    configurable: true,
+    writable: true,
+    value: jest.fn(function getContext(type: string) {
+      if (type === "2d") {
+        return { ...canvas2DContext, canvas: this } as CanvasRenderingContext2D;
+      }
+      if (type && type.toLowerCase().includes("webgl")) {
+        const ctx = createWebGLContext(this);
+        return ctx as WebGLRenderingContext;
+      }
+      if (type === "bitmaprenderer") {
+        return { transferFromImageBitmap: jest.fn() };
+      }
+      return null;
+    }),
+  });
+}
 
 // Ensure long-running timers/intervals don't leak between tests
 type TimeoutId = ReturnType<typeof globalThis.setTimeout>;

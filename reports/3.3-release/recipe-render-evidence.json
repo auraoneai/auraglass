@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-06-05T04:30:59.248Z",
+  "package": "aura-glass",
+  "version": "3.2.0",
+  "filename": "aura-glass-3.2.0.tgz",
+  "shasum": "b46456704a6ae5e39c13c3cabc98b090fe5d49ac",
+  "integrity": "sha512-YgqoGHVXvS2z+YXSqK9bJCAg1QWvH5aGs94i5GBzU+0UHSoMaan/evtoj9zRzJivwpwx+m2P036EbvAji2lhLg==",
+  "recipeCount": 28,
+  "appDir": "/var/folders/3s/trh_q1fd5yn1mdhbvwbf0qrw0000gn/T/auraglass-recipes-7IjGRF/recipe-app",
+  "screenshots": [
+    {
+      "id": "saas-dashboard",
+      "file": "reports/3.3-release/recipe-screenshots/saas-dashboard.png"
+    },
+    {
+      "id": "ai-command-center",
+      "file": "reports/3.3-release/recipe-screenshots/ai-command-center.png"
+    },
+    {
+      "id": "media-player-surface",
+      "file": "reports/3.3-release/recipe-screenshots/media-player-surface.png"
+    },
+    {
+      "id": "analytics-overview",
+      "file": "reports/3.3-release/recipe-screenshots/analytics-overview.png"
+    },
+    {
+      "id": "settings-billing",
+      "file": "reports/3.3-release/recipe-screenshots/settings-billing.png"
+    },
+    {
+      "id": "kanban-workspace",
+      "file": "reports/3.3-release/recipe-screenshots/kanban-workspace.png"
+    },
+    {
+      "id": "calendar-schedule",
+      "file": "reports/3.3-release/recipe-screenshots/calendar-schedule.png"
+    },
+    {
+      "id": "collaborative-workspace",
+      "file": "reports/3.3-release/recipe-screenshots/collaborative-workspace.png"
+    },
+    {
+      "id": "admin-data-table",
+      "file": "reports/3.3-release/recipe-screenshots/admin-data-table.png"
+    },
+    {
+      "id": "ecommerce-product-panel",
+      "file": "reports/3.3-release/recipe-screenshots/ecommerce-product-panel.png"
+    },
+    {
+      "id": "saas-admin-shell",
+      "file": "reports/3.3-release/recipe-screenshots/saas-admin-shell.png"
+    },
+    {
+      "id": "ai-product-console",
+      "file": "reports/3.3-release/recipe-screenshots/ai-product-console.png"
+    },
+    {
+      "id": "media-review-workspace",
+      "file": "reports/3.3-release/recipe-screenshots/media-review-workspace.png"
+    },
+    {
+      "id": "commerce-operations-panel",
+      "file": "reports/3.3-release/recipe-screenshots/commerce-operations-panel.png"
+    },
+    {
+      "id": "team-collaboration-hub",
+      "file": "reports/3.3-release/recipe-screenshots/team-collaboration-hub.png"
+    },
+    {
+      "id": "settings-and-billing-suite",
+      "file": "reports/3.3-release/recipe-screenshots/settings-and-billing-suite.png"
+    },
+    {
+      "id": "analytics-command-center",
+      "file": "reports/3.3-release/recipe-screenshots/analytics-command-center.png"
+    },
+    {
+      "id": "calendar-operations-board",
+      "file": "reports/3.3-release/recipe-screenshots/calendar-operations-board.png"
+    },
+    {
+      "id": "customer-support-console",
+      "file": "reports/3.3-release/recipe-screenshots/customer-support-console.png"
+    },
+    {
+      "id": "creator-studio-dashboard",
+      "file": "reports/3.3-release/recipe-screenshots/creator-studio-dashboard.png"
+    },
+    {
+      "id": "ai-ops-control-room",
+      "file": "reports/3.3-release/recipe-screenshots/ai-ops-control-room.png"
+    },
+    {
+      "id": "semantic-search-console",
+      "file": "reports/3.3-release/recipe-screenshots/semantic-search-console.png"
+    },
+    {
+      "id": "vision-review-workbench",
+      "file": "reports/3.3-release/recipe-screenshots/vision-review-workbench.png"
+    },
+    {
+      "id": "collaboration-room-console",
+      "file": "reports/3.3-release/recipe-screenshots/collaboration-room-console.png"
+    },
+    {
+      "id": "support-triage-workspace",
+      "file": "reports/3.3-release/recipe-screenshots/support-triage-workspace.png"
+    },
+    {
+      "id": "release-command-center",
+      "file": "reports/3.3-release/recipe-screenshots/release-command-center.png"
+    },
+    {
+      "id": "developer-docs-portal",
+      "file": "reports/3.3-release/recipe-screenshots/developer-docs-portal.png"
+    },
+    {
+      "id": "marketing-launch-kit",
+      "file": "reports/3.3-release/recipe-screenshots/marketing-launch-kit.png"
+    }
+  ],
+  "passed": true
+}

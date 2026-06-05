@@ -1,6 +1,6 @@
 # AuraGlass Primitives
 
-AuraGlass 3.2 adds native primitives for app chrome and overlay behavior. These primitives are the foundation for menus, selects, dialogs, drawers, popovers, tooltips, tabs, command palettes, and custom product surfaces.
+AuraGlass 3.3 keeps native primitives as the foundation for app chrome and overlay behavior. These primitives power menus, selects, dialogs, drawers, popovers, tooltips, tabs, command palettes, and custom product surfaces.
 
 ## Entrypoints
 
@@ -44,6 +44,6 @@ import { GlassFocusScope, GlassPortal } from 'aura-glass/primitives';
 Each primitive needs tests for keyboard behavior, ARIA behavior where relevant, focus lifecycle, SSR safety, and nested composition. Current release evidence belongs in:
 
 ```txt
+reports/3.3-release/accessibility-certification.md
 reports/3.2-release/accessibility-primitives.md
-reports/3.2-release/accessibility-certification.md
 ```

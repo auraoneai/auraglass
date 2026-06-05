@@ -50,6 +50,9 @@ const resolveJwtSecret = (providedSecret?: string): string => {
 
 export class AuthService {
   private config: AuthConfig;
+  private demoUsers = new Map<string, User & { passwordHash: string }>();
+  private refreshTokens = new Map<string, string>();
+  private revokedAccessTokens = new Set<string>();
 
   constructor(config?: Partial<AuthConfig>) {
     this.config = {
@@ -99,9 +102,16 @@ export class AuthService {
 
   verifyToken(token: string): TokenPayload {
     try {
+      if (this.revokedAccessTokens.has(token)) {
+        throw new AuthError("Token revoked", "TOKEN_REVOKED", 401);
+      }
+
       const decoded = jwt.verify(token, this.config.jwtSecret);
       return TokenPayloadSchema.parse(decoded);
     } catch (error) {
+      if (error instanceof AuthError) {
+        throw error;
+      }
       if (error instanceof jwt.TokenExpiredError) {
         throw new AuthError("Token expired", "TOKEN_EXPIRED", 401);
       }
@@ -150,6 +160,162 @@ export class AuthService {
 
   validateApiKey(apiKey: string): boolean {
     return /^ak_[a-z0-9]{20,}$/.test(apiKey);
+  }
+
+  async login(
+    email: string,
+    password: string
+  ): Promise<{
+    token: string;
+    refreshToken: string;
+    user: User;
+  }> {
+    this.assertDemoAuthEnabled();
+
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = this.demoUsers.get(normalizedEmail);
+
+    if (!user) {
+      user = await this.createDemoUser(normalizedEmail, password);
+      this.demoUsers.set(normalizedEmail, user);
+    } else {
+      const validPassword = await this.verifyPassword(
+        password,
+        user.passwordHash
+      );
+      if (!validPassword) {
+        throw new AuthError(
+          "Invalid email or password",
+          "INVALID_CREDENTIALS",
+          401
+        );
+      }
+    }
+
+    user.lastLogin = new Date();
+    return this.issueSession(user);
+  }
+
+  async register(
+    email: string,
+    password: string,
+    name?: string
+  ): Promise<{
+    token: string;
+    refreshToken: string;
+    user: User;
+  }> {
+    this.assertDemoAuthEnabled();
+
+    const normalizedEmail = email.trim().toLowerCase();
+    if (this.demoUsers.has(normalizedEmail)) {
+      throw new AuthError("User already exists", "USER_EXISTS", 409);
+    }
+
+    const user = await this.createDemoUser(normalizedEmail, password, name);
+    this.demoUsers.set(normalizedEmail, user);
+    return this.issueSession(user);
+  }
+
+  async refreshToken(refreshToken: string): Promise<{ token: string }> {
+    try {
+      const decoded = jwt.verify(refreshToken, this.config.jwtSecret) as {
+        userId?: string;
+        type?: string;
+      };
+
+      if (decoded.type !== "refresh" || !decoded.userId) {
+        throw new AuthError(
+          "Invalid refresh token",
+          "INVALID_REFRESH_TOKEN",
+          401
+        );
+      }
+
+      if (this.refreshTokens.get(decoded.userId) !== refreshToken) {
+        throw new AuthError(
+          "Refresh token revoked",
+          "REFRESH_TOKEN_REVOKED",
+          401
+        );
+      }
+
+      const user = Array.from(this.demoUsers.values()).find(
+        (candidate) => candidate.id === decoded.userId
+      );
+
+      if (!user) {
+        throw new AuthError("User not found", "USER_NOT_FOUND", 401);
+      }
+
+      return { token: this.generateAccessToken(user) };
+    } catch (error) {
+      if (error instanceof AuthError) {
+        throw error;
+      }
+      throw new AuthError(
+        "Invalid refresh token",
+        "INVALID_REFRESH_TOKEN",
+        401
+      );
+    }
+  }
+
+  async revokeToken(token: string): Promise<void> {
+    this.revokedAccessTokens.add(token);
+  }
+
+  private assertDemoAuthEnabled(): void {
+    if (process.env.ENABLE_DEMO_AUTH !== "true") {
+      throw new AuthError(
+        "Hosted login/register are disabled. Set ENABLE_DEMO_AUTH=true only for local demos, or provide JWTs from your production identity provider.",
+        "DEMO_AUTH_DISABLED",
+        501
+      );
+    }
+  }
+
+  private async createDemoUser(
+    email: string,
+    password: string,
+    name?: string
+  ): Promise<User & { passwordHash: string }> {
+    const now = new Date();
+    return {
+      id: `demo_${randomBytes(12).toString("hex")}`,
+      email,
+      name: name || email.split("@")[0] || "Demo User",
+      role: "developer",
+      permissions: [
+        Permissions.AI.USE_OPENAI,
+        Permissions.AI.USE_VISION,
+        Permissions.AI.USE_EMBEDDINGS,
+        Permissions.COLLABORATION.JOIN_ROOM,
+      ],
+      createdAt: now,
+      lastLogin: now,
+      passwordHash: await this.hashPassword(password),
+    };
+  }
+
+  private issueSession(user: User): {
+    token: string;
+    refreshToken: string;
+    user: User;
+  } {
+    const token = this.generateAccessToken(user);
+    const refreshToken = this.generateRefreshToken(user.id);
+    this.refreshTokens.set(user.id, refreshToken);
+
+    const { passwordHash: _passwordHash, ...publicUser } = user as User & {
+      passwordHash?: string;
+    };
+
+    return {
+      token,
+      refreshToken,
+      user: publicUser,
+    };
   }
 }
 

@@ -186,7 +186,33 @@ export function Providers({ children }: { children: ReactNode }) {
 writeFile(
   appDir,
   'app/page.tsx',
-  `'use client';\n\nimport { GlassButton } from 'aura-glass';\n\nexport default function Page() {\n  return (\n    <main className="app">\n      <h1>AuraGlass Integration</h1>\n      <GlassButton variant="primary">AuraGlass OK</GlassButton>\n    </main>\n  );\n}\n`,
+  `'use client';
+
+import { GlassButton } from 'aura-glass';
+import { GlassDataTable } from 'aura-glass/data';
+import { GlassFormTemplate } from 'aura-glass/forms';
+import { DisplayText } from 'aura-glass/marketing';
+import { GlassPageTabs } from 'aura-glass/navigation';
+import { LiquidGlassAdaptiveSheet } from 'aura-glass/overlays';
+import { GlassWorkflowShell } from 'aura-glass/workflows';
+
+export default function Page() {
+  return (
+    <main className="app">
+      <h1>AuraGlass Integration</h1>
+      <GlassButton variant="primary">AuraGlass OK</GlassButton>
+      <DisplayText as="p" size="label">Subpath imports OK</DisplayText>
+      <GlassFormTemplate title="Next form" schema={[]} />
+      <GlassDataTable columns={[]} data={[]} />
+      <GlassPageTabs tabs={[{ value: 'one', label: 'One' }]} value="one" />
+      <LiquidGlassAdaptiveSheet open={false} title="Next sheet" />
+      <GlassWorkflowShell title="Next workflow">
+        <GlassButton>Workflow OK</GlassButton>
+      </GlassWorkflowShell>
+    </main>
+  );
+}
+`,
 );
 
 writeFile(

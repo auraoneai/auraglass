@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "AuraGlass by AuraOne: dependency-sovereign Liquid Glass app-surface system for React and Next.js.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -131,6 +131,36 @@
       "import": "./dist/theme/index.mjs",
       "require": "./dist/theme/index.js"
     },
+    "./forms": {
+      "types": "./dist/forms/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./data": {
+      "types": "./dist/data/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./overlays": {
+      "types": "./dist/overlays/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./workflows": {
+      "types": "./dist/workflows/index.d.ts",
+      "import": "./dist/workspace/index.mjs",
+      "require": "./dist/workspace/index.js"
+    },
+    "./marketing": {
+      "types": "./dist/marketing/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
     "./core/mixins/glassMixins": {
       "types": "./dist/core/mixins/glassMixins.d.ts",
       "import": "./dist/esm/core/mixins/glassMixins.js",
@@ -146,6 +176,16 @@
       "import": "./dist/esm/hooks/useGlassProbes.js",
       "require": "./dist/cjs/hooks/useGlassProbes.js",
       "default": "./dist/esm/hooks/useGlassProbes.js"
+    },
+    "./services/ai/config": {
+      "types": "./dist/services/ai/config.d.ts",
+      "import": "./dist/esm/services/ai/config.js",
+      "default": "./dist/esm/services/ai/config.js"
+    },
+    "./services/ai/cache-service": {
+      "types": "./dist/services/ai/cache-service.d.ts",
+      "import": "./dist/esm/services/ai/cache-service.js",
+      "default": "./dist/esm/services/ai/cache-service.js"
     },
     "./services/ai/openai-service": {
       "types": "./dist/services/ai/openai-service.d.ts",
@@ -202,14 +242,15 @@
     "build:tokens": "node scripts/build-tokens.js",
     "build": "npm run glass:generate-persona-css && node scripts/build-all.js",
     "build:server": "tsc --project tsconfig.server.json",
+    "build:hosted": "npm run build && npm run build:server",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
     "server:dev": "ts-node server/index.ts",
     "server:websocket": "node server/websocket-server.js",
-    "server:api": "node dist/server/index.js",
+    "server:api": "node dist/server/server/index.js",
     "server:all": "concurrently \"npm run server:websocket\" \"npm run server:api\"",
-    "server:build-and-start": "npm run build:server && npm run server:all",
+    "server:build-and-start": "npm run build:hosted && npm run server:all",
     "deploy": "./scripts/deploy.sh",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
@@ -257,6 +298,11 @@
     "test:integration:next": "node scripts/ci/run-next-integration.js",
     "test:integration:vite": "node scripts/ci/run-vite-integration.js",
     "test:recipes:render": "node scripts/ci/verify-recipes-render.js",
+    "test:recipes:cli": "node scripts/ci/verify-recipes-cli.js",
+    "test:docs:links": "node scripts/ci/verify-markdown-links.js",
+    "test:deployment": "jest tests/deployment --runInBand",
+    "test:deployment:server-smoke": "node tests/deployment/server-build-and-start-smoke.js",
+    "test:deployment:compose": "node tests/deployment/docker-compose-smoke.js",
     "test:visual:app-chrome": "node scripts/ci/verify-app-chrome-visuals.js",
     "glass:generate-css": "node scripts/generate-glass-css-simple.js",
     "glass:generate-persona-css": "node scripts/generate-persona-css-runner.js",
@@ -353,6 +399,7 @@
     "react-chartjs-2": "^5.0.0",
     "react-dom": ">=18.0.0 <20.0.0",
     "react-hook-form": "^7.0.0",
+    "redis": "^5.0.0",
     "three": ">=0.159.0 <1.0.0"
   },
   "peerDependenciesMeta": {
@@ -380,6 +427,9 @@
     "react-hook-form": {
       "optional": true
     },
+    "redis": {
+      "optional": true
+    },
     "three": {
       "optional": true
     }
@@ -390,7 +440,6 @@
     "@babel/preset-env": "^7.28.5",
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
-    "@google-cloud/vision": "^5.3.4",
     "@percy/cli": "^1.27.0",
     "@playwright/test": "^1.55.0",
     "@react-three/drei": "^9.122.0",
@@ -412,6 +461,8 @@
     "@testing-library/jest-dom": "^5.16.0",
     "@testing-library/react": "^16.0.0",
     "@testing-library/user-event": "^14.4.0",
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jest": "^29.5.0",
     "@types/jest-axe": "^3.5.9",
@@ -430,7 +481,6 @@
     "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "9.1.20",
-    "framer-motion": "^11.18.2",
     "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.6.0",
@@ -438,13 +488,9 @@
     "jest-environment-jsdom": "^29.6.0",
     "lighthouse": "^12.8.2",
     "lint-staged": "^15.5.2",
-    "openai": "^6.10.0",
     "prettier": "^3.6.2",
     "react": "18.2.0",
-    "react-chartjs-2": "^5.3.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.54.0",
-    "redis": "^5.10.0",
     "rollup": "^3.28.0",
     "rollup-plugin-dts": "^5.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -459,12 +505,28 @@
     "vite": "^7.1.5"
   },
   "dependencies": {
+    "@google-cloud/vision": "^5.3.4",
+    "@pinecone-database/pinecone": "^7.2.0",
+    "@sentry/node": "^10.56.0",
+    "bcryptjs": "^3.0.3",
     "chart.js": "^4.5.0",
     "clsx": "^2.0.0",
+    "compression": "^1.8.1",
+    "concurrently": "^10.0.3",
+    "cors": "^2.8.6",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
     "framer-motion": "^11.18.2",
+    "helmet": "^8.2.0",
+    "ioredis": "^5.11.1",
+    "jsonwebtoken": "^9.0.3",
+    "openai": "^6.10.0",
     "react-chartjs-2": "^5.3.0",
     "react-hook-form": "^7.54.0",
+    "redis": "^5.10.0",
+    "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
     "tailwind-merge": "^3.3.1",
     "zod": "^3.22.0"

@@ -4,9 +4,12 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 
 ## Current Source Of Truth
 
-- Package version: 3.2.0 in the current working tree.
-- Current 3.2 package surface: dependency-sovereign core app chrome with first-party icons, first-party primitives, native menus/selects for touched app-chrome surfaces, app-shell/workspace entrypoints, Theme Engine 2.0, migration CLI commands, 20 package registry recipes, 6 token formats, and release evidence.
-- 3.2 release evidence: [reports/3.2-release/README.md](../reports/3.2-release/README.md)
+- Package version: 3.3.0 in the current working tree.
+- Current 3.3 package surface: dependency-sovereign core app chrome with first-party icons, first-party primitives, native menus/selects for touched app-chrome surfaces, app-shell/workspace entrypoints, focused forms/data/navigation/overlays/workflows/marketing subpaths, Theme Engine 2.0, migration CLI commands, 28 package registry recipes, 6 token formats, optional hosted-runtime contracts, and release evidence.
+- Runtime scope: AuraGlass is package-first. The optional hosted runtime is self-hosted infrastructure for AI and collaboration features, not required for package-only apps.
+- Hosted runtime ports: API `http://localhost:3002` via `API_SERVER_PORT=3002`; WebSocket `ws://localhost:3001` via `WS_PORT=3001`; public client URLs use `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_WS_URL`.
+- Hosted runtime production entrypoints must use the real TypeScript API server built from `server/index.ts` and `server/websocket-server.js`. The legacy `server/api-server.js` path is demo/mock-only and must not be documented as production infrastructure.
+- 3.3 release evidence: [reports/3.3-release/README.md](../reports/3.3-release/README.md)
 - 3.1 package surface audit: [reports/3.1-release/package-surface-audit.md](../reports/3.1-release/package-surface-audit.md)
 - Historical 3.0 certification inventory: 356 audited entries in [reports/component_inventory.json](../reports/component_inventory.json)
 - Historical visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
@@ -20,13 +23,13 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 ## Primary Docs
 
 - [Root README](../README.md): package overview, install, API entrypoints, architecture, verification, and release workflow.
-- [3.2 release evidence](../reports/3.2-release/README.md): dependency elimination, app-shell, primitive, icon, theme, bundle, and recipe evidence.
-- [3.2 CLI migration guide](./cli/migration.md): package audit and migration commands for Lucide, Radix, and MUI removal.
-- [3.2 icon reference](./icons/readme.md): first-party icon entrypoints and accessibility usage.
-- [3.2 primitive reference](./primitives/readme.md): native primitive entrypoints and accessibility requirements.
-- [3.2 app-shell guide](./app-shell/readme.md): app chrome and MUI layout migration guidance.
-- [3.2 workflow guide](./workflows/readme.md): workflow surfaces for admin, AI, settings, commerce, and collaboration apps.
-- [3.2 Theme Engine guide](./theme/theme-engine.md): brand, density, motion, contrast, and provider usage.
+- [3.3 release evidence](../reports/3.3-release/README.md): package gates, hosted-runtime contracts, recipe, app-chrome, security, AI cache/cost, marketing, theme, and accessibility evidence.
+- [3.3 CLI migration guide](./cli/migration.md): package audit and migration commands for Lucide, Radix, and MUI removal.
+- [3.3 icon reference](./icons/readme.md): first-party icon entrypoints and accessibility usage.
+- [3.3 primitive reference](./primitives/readme.md): native primitive entrypoints and accessibility requirements.
+- [3.3 app-shell guide](./app-shell/readme.md): app chrome and MUI layout migration guidance.
+- [3.3 workflow guide](./workflows/readme.md): workflow surfaces for admin, AI, settings, commerce, collaboration, support, release operations, docs portals, and marketing apps.
+- [3.3 Theme Engine guide](./theme/theme-engine.md): brand, density, motion, contrast, and provider usage.
 - [MUI migration](./migration/mui-to-auraglass.md), [Radix migration](./migration/radix-to-auraglass.md), and [Lucide migration](./migration/lucide-to-auraglass-icons.md): replacement guidance for core app chrome.
 - [Component selection guide](./components/choosing.md): developer and AI-agent decision tree for choosing the right AuraGlass family without scanning every export.
 - [Storybook configuration guide](../.storybook/README.md): preview surfaces, taxonomy, maintenance rules, and QA gates.
@@ -40,10 +43,10 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 
 ## Documentation Areas
 
-- `docs/ai`: AI service, setup, and production integration guides.
+- `docs/ai`: optional AI service, setup, provider-unconfigured, and hosted runtime integration guides.
 - `docs/components`: numbered component sections for package and historical certification docs.
-- `docs/app-shell`: 3.2 app-shell entrypoint and layout migration guidance.
-- `docs/cli`: 3.2 audit and migration CLI guidance.
+- `docs/app-shell`: current app-shell entrypoint and layout migration guidance, including 3.3 evidence links.
+- `docs/cli`: current audit and migration CLI guidance for the 3.3 package gate.
 - `docs/icons`: first-party icon reference.
 - `docs/migration`: MUI, Radix, and Lucide migration pages.
 - `docs/primitives`: native primitive reference.
@@ -52,7 +55,7 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 - `docs/components/marketing`: Marketing Kit discoverability and GEO guidance.
 - `docs/liquid-glass`: Liquid Glass design rules, migration, primitives, component map, and showcase.
 - `docs/guides`: standards, migration guides, accessibility rules, focus management, SSR, visual testing, and house style.
-- `docs/deployment.md`: deployment and production runtime notes.
+- `docs/deployment.md`: optional hosted runtime deployment notes and package-only boundary.
 - `docs/design-tokens.md`: design token documentation.
 - `docs/glass-utilities.md`: glass utility class and helper documentation.
 - `docs/guides/consciousness-interface.md`: feature-level consciousness interface notes.
@@ -75,4 +78,5 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 - Keep generated reports in `reports/`; summarize them through `reports/README.md` instead of duplicating long results in this directory.
 - Keep internal rebuild prompts, temporary ship-status notes, and one-off migration checklists out of `/docs`.
 - Update this index when adding a new docs area.
+- Keep active docs aligned on the hosted runtime contract: package-only usage needs no server, optional API runs on `3002`, optional WebSocket runs on `3001`, and mock/demo API routes are not production entrypoints.
 - Run the Markdown link verifier and `npm run audit:components` after moving documentation.
