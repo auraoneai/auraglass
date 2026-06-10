@@ -74,7 +74,7 @@ export const GlassTabItem = forwardRef<HTMLButtonElement, GlassTabItemProps>(
       gap: "8px",
       padding: "12px 20px",
       border: "none",
-      borderRadius: "var(--glass-theme-button-radius, 12px)",
+      borderRadius: "var(--glass-theme-button-radius, var(--glass-radius-md, 16px))",
       background: active
         ? "color-mix(in srgb, var(--glass-theme-accent-primary, rgba(96, 165, 250, 0.65)) 24%, transparent)"
         : "transparent",

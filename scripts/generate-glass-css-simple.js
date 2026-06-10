@@ -3,256 +3,135 @@
 /**
  * Simple CSS Generator - Creates glass.generated.css directly from tokens
  * This bypasses TypeScript compilation issues and generates the CSS file directly
+ *
+ * IMPORTANT: The values below MUST mirror AURA_GLASS in src/tokens/glass.ts.
+ * Both share one parametric level scale so they cannot drift per-surface.
  */
 
 const fs = require("fs");
 const path = require("path");
 
-// Simplified token definitions (extracted from our AURA_GLASS tokens)
-const tokens = {
-  surfaces: {
-    neutral: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)",
-        border: { color: "rgba(255,255,255,0.4)", width: 1 },
-        shadow: "0 4px 16px rgba(0,0,0,0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.035) 100%)",
-        border: { color: "rgba(255,255,255,0.5)", width: 1 },
-        shadow: "0 8px 24px rgba(0,0,0,0.2)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.045) 100%)",
-        border: { color: "rgba(255,255,255,0.6)", width: 2 },
-        shadow: "0 12px 32px rgba(0,0,0,0.25)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.055) 100%)",
-        border: { color: "rgba(255,255,255,0.7)", width: 2 },
-        shadow: "0 16px 40px rgba(0,0,0,0.3)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
-    primary: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.3) 0%, hsl(var(--glass-color-primary)/0.2) 100%)",
-        border: { color: "hsl(var(--glass-color-primary)/0.5)", width: 1 },
-        shadow: "0 4px 16px hsl(var(--glass-color-primary)/0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.4) 0%, hsl(var(--glass-color-primary)/0.25) 100%)",
-        border: { color: "hsl(var(--glass-color-primary)/0.6)", width: 1 },
-        shadow: "0 8px 24px hsl(var(--glass-color-primary)/0.2)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.5) 0%, hsl(var(--glass-color-primary)/0.35) 100%)",
-        border: { color: "hsl(var(--glass-color-primary)/0.7)", width: 2 },
-        shadow: "0 12px 32px hsl(var(--glass-color-primary)/0.25)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.6) 0%, hsl(var(--glass-color-primary)/0.45) 100%)",
-        border: { color: "hsl(var(--glass-color-primary)/0.8)", width: 2 },
-        shadow: "0 16px 40px hsl(var(--glass-color-primary)/0.3)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
-    success: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(22,163,74,0.18) 100%)",
-        border: { color: "rgba(34,197,94,0.4)", width: 1 },
-        shadow: "0 4px 16px rgba(34,197,94,0.12)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, rgba(34,197,94,0.3) 0%, rgba(22,163,74,0.22) 100%)",
-        border: { color: "rgba(34,197,94,0.5)", width: 1 },
-        shadow: "0 8px 24px rgba(34,197,94,0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(22,163,74,0.28) 100%)",
-        border: { color: "rgba(34,197,94,0.6)", width: 2 },
-        shadow: "0 12px 32px rgba(34,197,94,0.18)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, rgba(34,197,94,0.5) 0%, rgba(22,163,74,0.35) 100%)",
-        border: { color: "rgba(34,197,94,0.7)", width: 2 },
-        shadow: "0 16px 40px rgba(34,197,94,0.22)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
-    warning: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, rgba(245,158,11,0.25) 0%, rgba(217,119,6,0.18) 100%)",
-        border: { color: "rgba(245,158,11,0.4)", width: 1 },
-        shadow: "0 4px 16px rgba(245,158,11,0.12)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, rgba(245,158,11,0.3) 0%, rgba(217,119,6,0.22) 100%)",
-        border: { color: "rgba(245,158,11,0.5)", width: 1 },
-        shadow: "0 8px 24px rgba(245,158,11,0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, rgba(245,158,11,0.4) 0%, rgba(217,119,6,0.28) 100%)",
-        border: { color: "rgba(245,158,11,0.6)", width: 2 },
-        shadow: "0 12px 32px rgba(245,158,11,0.18)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, rgba(245,158,11,0.5) 0%, rgba(217,119,6,0.35) 100%)",
-        border: { color: "rgba(245,158,11,0.7)", width: 2 },
-        shadow: "0 16px 40px rgba(245,158,11,0.22)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
-    danger: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, rgba(239,68,68,0.25) 0%, rgba(220,38,38,0.18) 100%)",
-        border: { color: "rgba(239,68,68,0.4)", width: 1 },
-        shadow: "0 4px 16px rgba(239,68,68,0.12)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, rgba(239,68,68,0.3) 0%, rgba(220,38,38,0.22) 100%)",
-        border: { color: "rgba(239,68,68,0.5)", width: 1 },
-        shadow: "0 8px 24px rgba(239,68,68,0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(220,38,38,0.28) 100%)",
-        border: { color: "rgba(239,68,68,0.6)", width: 2 },
-        shadow: "0 12px 32px rgba(239,68,68,0.18)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, rgba(239,68,68,0.5) 0%, rgba(220,38,38,0.35) 100%)",
-        border: { color: "rgba(239,68,68,0.7)", width: 2 },
-        shadow: "0 16px 40px rgba(239,68,68,0.22)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
-    info: {
-      level1: {
-        backdropBlur: 8,
-        surface:
-          "linear-gradient(135deg, rgba(14,165,233,0.25) 0%, rgba(2,132,199,0.18) 100%)",
-        border: { color: "rgba(14,165,233,0.4)", width: 1 },
-        shadow: "0 4px 16px rgba(14,165,233,0.12)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level2: {
-        backdropBlur: 12,
-        surface:
-          "linear-gradient(135deg, rgba(14,165,233,0.3) 0%, rgba(2,132,199,0.22) 100%)",
-        border: { color: "rgba(14,165,233,0.5)", width: 1 },
-        shadow: "0 8px 24px rgba(14,165,233,0.15)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level3: {
-        backdropBlur: 16,
-        surface:
-          "linear-gradient(135deg, rgba(14,165,233,0.4) 0%, rgba(2,132,199,0.28) 100%)",
-        border: { color: "rgba(14,165,233,0.6)", width: 2 },
-        shadow: "0 12px 32px rgba(14,165,233,0.18)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-      level4: {
-        backdropBlur: 20,
-        surface:
-          "linear-gradient(135deg, rgba(14,165,233,0.5) 0%, rgba(2,132,199,0.35) 100%)",
-        border: { color: "rgba(14,165,233,0.7)", width: 2 },
-        shadow: "0 16px 40px rgba(14,165,233,0.22)",
-        textPrimary: "rgba(255,255,255,0.95)",
-        textSecondary: "rgba(255,255,255,0.85)",
-      },
-    },
+// Per-level scale shared by every intent (mirrors src/tokens/glass.ts)
+const LEVELS = {
+  level1: { blur: 16, shadow: { y: 4, blur: 24 }, highlight: 0.18, glowBlur: 8 },
+  level2: { blur: 24, shadow: { y: 8, blur: 32 }, highlight: 0.22, glowBlur: 12 },
+  level3: { blur: 32, shadow: { y: 12, blur: 40 }, highlight: 0.25, glowBlur: 16 },
+  level4: { blur: 40, shadow: { y: 16, blur: 48 }, highlight: 0.28, glowBlur: 20 },
+  level5: { blur: 48, shadow: { y: 20, blur: 56 }, highlight: 0.32, glowBlur: 24 },
+};
+
+// Neutral: luminous white frost over a faint smoke scrim (liquid glass look)
+const NEUTRAL_LEVELS = {
+  level1: { stops: [0.12, 0.04, 0.08], scrim: 0.2, border: 0.16, shadowAlpha: 0.18, glow: 0.1 },
+  level2: { stops: [0.14, 0.05, 0.1], scrim: 0.22, border: 0.2, shadowAlpha: 0.22, glow: 0.12 },
+  level3: { stops: [0.16, 0.06, 0.11], scrim: 0.24, border: 0.24, shadowAlpha: 0.26, glow: 0.14 },
+  level4: { stops: [0.18, 0.07, 0.12], scrim: 0.26, border: 0.28, shadowAlpha: 0.3, glow: 0.16 },
+  level5: { stops: [0.2, 0.08, 0.14], scrim: 0.28, border: 0.32, shadowAlpha: 0.34, glow: 0.18 },
+};
+
+// Color intents: low-alpha tinted wash with hairline borders
+const INTENT_LEVELS = {
+  level1: { start: 0.2, end: 0.12, border: 0.35, shadowAlpha: 0.16, glow: 0.12 },
+  level2: { start: 0.24, end: 0.15, border: 0.4, shadowAlpha: 0.2, glow: 0.14 },
+  level3: { start: 0.28, end: 0.18, border: 0.45, shadowAlpha: 0.24, glow: 0.16 },
+  level4: { start: 0.32, end: 0.21, border: 0.5, shadowAlpha: 0.28, glow: 0.18 },
+  level5: { start: 0.36, end: 0.24, border: 0.55, shadowAlpha: 0.32, glow: 0.2 },
+};
+
+// Color factories: (alpha) => css color string
+const INTENT_COLORS = {
+  primary: {
+    start: (a) => `hsl(var(--glass-color-primary)/${a})`,
+    end: (a) => `hsl(var(--glass-color-primary)/${a})`,
+    accent: (a) => `hsl(var(--glass-color-primary)/${a})`,
   },
-  motion: {
-    default: 200,
-    enter: 150,
-    exit: 100,
+  success: {
+    start: (a) => `rgba(34,197,94,${a})`,
+    end: (a) => `rgba(22,163,74,${a})`,
+    accent: (a) => `rgba(34,197,94,${a})`,
   },
-  radii: {
-    sm: 8,
-    md: 12,
-    lg: 16,
-    xl: 20,
-    pill: 9999,
+  warning: {
+    start: (a) => `hsl(var(--glass-color-warning)/${a})`,
+    end: (a) => `rgba(217,119,6,${a})`,
+    accent: (a) => `hsl(var(--glass-color-warning)/${a})`,
+  },
+  danger: {
+    start: (a) => `hsl(var(--glass-color-danger)/${a})`,
+    end: (a) => `rgba(220,38,38,${a})`,
+    accent: (a) => `hsl(var(--glass-color-danger)/${a})`,
+  },
+  info: {
+    start: (a) => `rgba(14,165,233,${a})`,
+    end: (a) => `rgba(2,132,199,${a})`,
+    accent: (a) => `rgba(14,165,233,${a})`,
   },
 };
+
+const TEXT_PRIMARY = "rgba(255,255,255,0.98)";
+const TEXT_SECONDARY = "rgba(255,255,255,0.88)";
+
+// Unified backdrop filter modifiers (mirrors glassTokenUtils.buildBackdropFilter)
+const BACKDROP_MODIFIERS = "saturate(1.8) brightness(1.05) contrast(1.05)";
+
+function buildShadow(level, shadowColor, glowColor, glowAlpha) {
+  const { shadow, highlight, glowBlur } = LEVELS[level];
+  return [
+    `0 ${shadow.y}px ${shadow.blur}px ${shadowColor}`,
+    `inset 0 1px 0 rgba(255,255,255,${highlight})`,
+    `inset 0 0 ${glowBlur}px ${glowColor(glowAlpha)}`,
+  ].join(", ");
+}
+
+function buildTokens() {
+  const surfaces = {};
+
+  surfaces.neutral = {};
+  Object.entries(NEUTRAL_LEVELS).forEach(([level, spec]) => {
+    const [a, b, c] = spec.stops;
+    surfaces.neutral[level] = {
+      backdropBlur: LEVELS[level].blur,
+      surface:
+        `linear-gradient(135deg, rgba(255,255,255,${a}) 0%, rgba(255,255,255,${b}) 50%, rgba(255,255,255,${c}) 100%), ` +
+        `linear-gradient(rgba(15,23,42,${spec.scrim}), rgba(15,23,42,${spec.scrim}))`,
+      border: { color: `rgba(255,255,255,${spec.border})`, width: 1 },
+      shadow: buildShadow(
+        level,
+        `rgba(0,0,0,${spec.shadowAlpha})`,
+        (alpha) => `rgba(255,255,255,${alpha})`,
+        spec.glow
+      ),
+      textPrimary: TEXT_PRIMARY,
+      textSecondary: TEXT_SECONDARY,
+    };
+  });
+
+  Object.entries(INTENT_COLORS).forEach(([intent, colors]) => {
+    surfaces[intent] = {};
+    Object.entries(INTENT_LEVELS).forEach(([level, spec]) => {
+      surfaces[intent][level] = {
+        backdropBlur: LEVELS[level].blur,
+        surface: `linear-gradient(135deg, ${colors.start(spec.start)} 0%, ${colors.end(spec.end)} 100%)`,
+        border: { color: colors.accent(spec.border), width: 1 },
+        shadow: buildShadow(
+          level,
+          colors.accent(spec.shadowAlpha),
+          colors.accent,
+          spec.glow
+        ),
+        textPrimary: TEXT_PRIMARY,
+        textSecondary: TEXT_SECONDARY,
+      };
+    });
+  });
+
+  return {
+    surfaces,
+    motion: { default: 200, enter: 150, exit: 100 },
+    radii: { sm: 10, md: 16, lg: 24, xl: 32, pill: 9999 },
+  };
+}
+
+const tokens = buildTokens();
 
 function generateCSS() {
   const cssLines = [];
@@ -262,7 +141,7 @@ function generateCSS() {
   cssLines.push(
     "/* Generated from AURA_GLASS tokens in src/tokens/glass.ts */"
   );
-  cssLines.push("/* To regenerate: npm run glass:generate */");
+  cssLines.push("/* To regenerate: npm run glass:generate-css */");
   cssLines.push("");
   cssLines.push(":root {");
   cssLines.push("  /* === FOUNDATION PROPERTIES === */");
@@ -319,10 +198,10 @@ function generateCSS() {
         `  border: var(--glass-${intent}-${elevation}-border-width) var(--glass-${intent}-${elevation}-border-style) var(--glass-${intent}-${elevation}-border-color);`
       );
       cssLines.push(
-        `  backdrop-filter: blur(var(--glass-${intent}-${elevation}-blur)) saturate(1.8) brightness(1.15) contrast(1.08);`
+        `  backdrop-filter: blur(var(--glass-${intent}-${elevation}-blur)) ${BACKDROP_MODIFIERS};`
       );
       cssLines.push(
-        `  -webkit-backdrop-filter: blur(var(--glass-${intent}-${elevation}-blur)) saturate(1.8) brightness(1.15) contrast(1.08);`
+        `  -webkit-backdrop-filter: blur(var(--glass-${intent}-${elevation}-blur)) ${BACKDROP_MODIFIERS};`
       );
       cssLines.push(
         `  box-shadow: var(--glass-${intent}-${elevation}-shadow);`

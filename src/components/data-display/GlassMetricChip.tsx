@@ -11,7 +11,7 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 
 const metricChipSurfaceStyle: React.CSSProperties = {
   background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+    "var(--glass-primary-level3-surface)",
   border: "1px solid rgba(148, 163, 184, 0.22)",
   boxShadow:
     "0 8px 20px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.07)",

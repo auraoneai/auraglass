@@ -290,7 +290,7 @@ export const GlassSpotlightSearch = forwardRef<
         className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-start glass-justify-center glass-p-4 glass-pt-24 glass-backdrop-blur-sm glass-contrast-guard"
         style={{
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
         }}
         onClick={onClose}
         role="presentation"
@@ -340,7 +340,7 @@ export const GlassSpotlightSearch = forwardRef<
                 appearance: "none",
                 WebkitAppearance: "none",
                 background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                  "var(--glass-neutral-level3-surface)",
                 border: "1px solid rgba(15,23,42,0.14)",
                 borderRadius: 12,
                 padding: "10px 12px",
@@ -351,7 +351,7 @@ export const GlassSpotlightSearch = forwardRef<
               className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius-sm"
               style={{
                 background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                  "var(--glass-neutral-level3-surface)",
                 border: "1px solid rgba(15,23,42,0.14)",
                 color: "#334155",
               }}
@@ -431,7 +431,7 @@ export const GlassSpotlightSearch = forwardRef<
                                 className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius-sm glass-flex-shrink-0"
                                 style={{
                                   background:
-                                    '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                                    "var(--glass-neutral-level3-surface)",
                                   border: "1px solid rgba(15,23,42,0.12)",
                                   color: "#334155",
                                 }}

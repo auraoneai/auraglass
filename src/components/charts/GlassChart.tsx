@@ -1766,7 +1766,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                     marginTop: "8px",
                     padding: "8px 12px",
                     background:
-                      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                      "var(--glass-primary-level2-surface)",
                     borderRadius: "var(--glass-radius-md)",
                     border: "1px solid var(--glass-border-default)",
                     fontSize: "12px",
@@ -1940,7 +1940,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                   right: 0,
                   bottom: 0,
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                   pointerEvents: "none",
                   zIndex: 1,
                   animation: "pulse 2s infinite",
@@ -1958,7 +1958,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                   left: "50%",
                   transform: "translate(-50%, -50%)",
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                   color: "white",
                   padding: "8px 12px",
                   borderRadius: "var(--glass-radius-sm)",

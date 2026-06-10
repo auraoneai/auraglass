@@ -147,7 +147,7 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
             data-performance-mode="ultra"
             data-refraction="true"
             id="glass-button-:r1b:"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
+            style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none;"
           >
             <span
               class="glass-relative glass-z-10"
@@ -252,7 +252,7 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
     <div
       class="optimized-glass-surface glass-neutral-level1 glass-tier-high inline-flex items-center glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 glass-px-3 glass-py-1.5 glass-text-sm"
       data-performance-mode="medium"
-      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <nav
         aria-label="Breadcrumb"
@@ -297,7 +297,7 @@ exports[`GlassFileExplorer matches snapshot 1`] = `
       <div
         class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue"
         data-performance-mode="medium"
-        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         <div
           class="glass-flex glass-items-center glass-justify-center glass-mr-3 glass-text-secondary glass-w-4 glass-h-4"

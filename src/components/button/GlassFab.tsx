@@ -232,7 +232,7 @@ const getPositionClasses = (position: string) => {
 // Get color classes for variants
 const getColorClasses = (color: string, variant: string) => {
   if (variant === "glass") {
-    return "glass-text-primary bg-white/10 glass-glass-backdrop-blur-md border border-white/20";
+    return "glass-text-primary bg-white/10 glass-backdrop-blur border border-white/20";
   }
 
   switch (color) {

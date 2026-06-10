@@ -70,7 +70,7 @@ export function ARGlassEffects(props: ARGlassEffectsProps) {
             {values.slice(0, 3).map((value, index) => (
               <div
                 key={index}
-                className="glass-rounded-xl glass-border glass-border-white/20 glass-bg-black/20 glass-p-4"
+                className="glass-rounded-xl glass-border glass-border-white/20 glass-bg-white/8 glass-p-4"
               >
                 <span className="glass-text-xs glass-text-cyan-100/75">
                   Signal {index + 1}
@@ -86,7 +86,7 @@ export function ARGlassEffects(props: ARGlassEffectsProps) {
               </div>
             ))}
           </div>
-          <div className="glass-mt-5 glass-inline-flex glass-rounded-full glass-border glass-border-white/20 glass-bg-black/20 glass-px-3 glass-py-1 glass-text-xs glass-text-cyan-50">
+          <div className="glass-mt-5 glass-inline-flex glass-rounded-full glass-border glass-border-white/20 glass-bg-white/8 glass-px-3 glass-py-1 glass-text-xs glass-text-cyan-50">
             Mode: {mode || "preview"}
           </div>
         </section>

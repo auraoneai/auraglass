@@ -147,7 +147,7 @@ export const Variants: Story = {
   render: (args) => (
     <div className="glass-flex glass-flex-wrap glass-gap-6">
       <GlassMotionController {...args}>
-        <div className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
+        <div className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
           <span className="glass-heading glass-text-lg glass-font-semibold">
             Primary
           </span>
@@ -157,7 +157,7 @@ export const Variants: Story = {
         </div>
       </GlassMotionController>
       <GlassMotionController {...args}>
-        <div className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
+        <div className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
           <span className="glass-heading glass-text-lg glass-font-semibold">
             Secondary
           </span>
@@ -167,7 +167,7 @@ export const Variants: Story = {
         </div>
       </GlassMotionController>
       <GlassMotionController {...args}>
-        <div className="glass-foundation-complete glass-glass-glass-backdrop-blur-md bg-glass-frosted glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
+        <div className="glass-foundation-complete glass-glass-backdrop-blur bg-glass-frosted glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-6 glass-text-center min-w-40 glass-contrast-guard">
           <span className="glass-heading glass-text-lg glass-font-semibold">
             Frosted
           </span>
@@ -189,7 +189,7 @@ export const AnimationSequence: Story = {
     <GlassMotionController enabled={true}>
       <GlassAnimationSequence staggerDelay={200}>
         <div className="glass-grid glass-glass-grid-cols-3 glass-gap-4">
-          <GlassAnimated className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
+          <GlassAnimated className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
             <div className="glass-heading glass-text-xl glass-font-bold glass-mb-2">
               Step 1
             </div>
@@ -197,7 +197,7 @@ export const AnimationSequence: Story = {
               Initialize
             </div>
           </GlassAnimated>
-          <GlassAnimated className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
+          <GlassAnimated className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
             <div className="glass-heading glass-text-xl glass-font-bold glass-mb-2">
               Step 2
             </div>
@@ -205,7 +205,7 @@ export const AnimationSequence: Story = {
               Process
             </div>
           </GlassAnimated>
-          <GlassAnimated className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
+          <GlassAnimated className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-xl glass-p-6 glass-text-center hover:glass-shadow-2xl transition-all glass-contrast-guard">
             <div className="glass-heading glass-text-xl glass-font-bold glass-mb-2">
               Step 3
             </div>
@@ -242,7 +242,7 @@ export const AnimationTimeline: Story = {
           },
         ]}
       >
-        <div className="timeline-element glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-12 glass-text-center glass-contrast-guard">
+        <div className="timeline-element glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-radius-2xl glass-p-12 glass-text-center glass-contrast-guard">
           <h3 className="glass-heading glass-text-3xl glass-font-bold glass-mb-4">
             Timeline Animation
           </h3>
@@ -271,7 +271,7 @@ export const InteractiveSequence: Story = {
           <div className="glass-flex glass-justify-center">
             <button
               onClick={(e) => setIsPlaying(!isPlaying)}
-              className="glass-foundation-complete glass-hover glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-px-8 glass-py-4 glass-radius-xl transition-all glass-button hover:glass-shadow-2xl hover:scale-110 hover:rotate-1 glass-focus glass-touch-target glass-contrast-guard"
+              className="glass-foundation-complete glass-hover glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-px-8 glass-py-4 glass-radius-xl transition-all glass-button hover:glass-shadow-2xl hover:scale-110 hover:rotate-1 glass-focus glass-touch-target glass-contrast-guard"
             >
               <span className="glass-flex glass-items-center glass-gap-3">
                 <div
@@ -289,7 +289,7 @@ export const InteractiveSequence: Story = {
               {["🔵", "🟢", "🟡", "🔴"].map((emoji, index) => (
                 <GlassAnimated
                   key={index}
-                  className="glass-foundation-complete glass-glass-glass-backdrop-blur-md glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-p-8 glass-radius-2xl glass-text-center hover:glass-shadow-2xl hover:scale-105 hover:-rotate-2 transition-all duration-300 glass-contrast-guard"
+                  className="glass-foundation-complete glass-glass-backdrop-blur glass-bg-transparent glass-border-white/40 glass-shadow-2xl glass-p-8 glass-radius-2xl glass-text-center hover:glass-shadow-2xl hover:scale-105 hover:-rotate-2 transition-all duration-300 glass-contrast-guard"
                 >
                   <div className="glass-text-4xl glass-mb-3 filter drop-glass-shadow-lg">
                     {emoji}

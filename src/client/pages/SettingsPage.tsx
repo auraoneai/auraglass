@@ -382,7 +382,7 @@ const SelectGroup = <T extends string | number>({
           outline: "none",
           fontSize: "0.85rem",
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
           color: "var(--auraglass-text, #e5e7eb)",
           boxShadow: "0 0 0 1px rgba(148,163,253,0.35)",
           appearance: "none",

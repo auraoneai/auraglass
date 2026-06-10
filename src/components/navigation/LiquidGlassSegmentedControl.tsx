@@ -46,17 +46,6 @@ export const LiquidGlassSegmentedControl = forwardRef<
       data-density={density}
       {...props}
     >
-      <style>{`
-        .liquid-glass-segmented-control button {
-          background-color: rgba(15, 23, 42, 0.72) !important;
-          border: 1px solid rgba(255, 255, 255, 0.24) !important;
-          color: rgba(255, 255, 255, 0.95) !important;
-        }
-
-        .liquid-glass-segmented-control button span {
-          color: rgba(255, 255, 255, 0.95) !important;
-        }
-      `}</style>
       <LiquidGlassEffectGroup
         className="glass-flex glass-gap-1 glass-p-1"
         role="group"
@@ -70,8 +59,9 @@ export const LiquidGlassSegmentedControl = forwardRef<
               disabled={segment.disabled}
               aria-pressed={selected}
               className={cn(
-                "glass-flex glass-items-center glass-gap-1 glass-radius-full glass-px-3 glass-py-1 glass-text-sm",
-                selected && "glass-surface-primary glass-text-primary"
+                "glass-flex glass-items-center glass-gap-1 glass-radius-full glass-px-3 glass-py-1 glass-text-sm glass-text-secondary",
+                selected &&
+                  "glass-surface-subtle/20 glass-border-white/30 glass-text-primary"
               )}
               onClick={() => onValueChange?.(segment.id)}
             >

@@ -437,7 +437,7 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
               ...position,
               transform: "translate(-50%, -50%)",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                "var(--glass-neutral-level3-surface)",
             }}
             onPointerDown={(e: React.PointerEvent) =>
               handlePointerDown(e, index)

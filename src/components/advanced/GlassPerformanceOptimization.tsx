@@ -289,7 +289,7 @@ export function LazyGlassLoading({
       className={cn("glass-surface-placeholder glass-animate-pulse")}
       style={{
         background:
-          '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+          "var(--glass-neutral-level2-surface)",
         backgroundSize: "200% 100%",
         animation: "shimmer 1.5s infinite",
         borderRadius: "12px",
@@ -459,7 +459,7 @@ export function ProgressiveGlassEnhancement({
   tiers = {
     basic: {
       background:
-        '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+        "var(--glass-neutral-level2-surface)",
       border: "1px solid var(--glass-border-default)",
       borderRadius: "8px",
     },

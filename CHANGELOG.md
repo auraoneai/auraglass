@@ -1,5 +1,36 @@
 # Changelog
 
+## [3.4.0] - 2026-06-10
+
+### Changed
+
+- Redesigned the canonical glass surface tokens (`AURA_GLASS` in `src/tokens/glass.ts`) for a state-of-the-art liquid-glass look: neutral surfaces are now a luminous white frost (low-alpha white gradient over a faint smoke scrim) instead of dark slate gradients, so panels take on the backdrop's color the way real frosted glass does.
+- Raised the elevation blur scale from 8/12/16/20/24px to 16/24/32/40/48px (level1-level5) across all six intents; depth now comes from blur and sheen rather than surface darkness.
+- Replaced 2px/3px high-elevation intent borders with 1px white/tint hairlines at all levels, and softened intent surface tints (max alpha 0.7 → 0.38) so primary/success/warning/danger/info read as tinted glass rather than colored panels.
+- Unified the backdrop filter to `saturate(1.8) brightness(1.05) contrast(1.05)` across the TS token utilities, generated CSS, base `.glass` foundation, and dark theme — previously three layers shipped three different filters (saturate 1.6/1.8, brightness 0.98/1.1/1.15).
+- `glassTokenUtils.buildSurfaceStyles()` now renders the previously unused `highlightOpacity` and `innerGlow` tokens as an inset 1px top-edge highlight plus inner glow, giving every token-driven surface the polished glass edge; the `.glass` foundation class gained the same inset sheen.
+- Enlarged the radius scale (canonical radii: sm 10 / md 16 / lg 24 / xl 32; `LiquidGlassMaterial` radius map up to 32px at `2xl`) and deepened/softened outer shadows for the floating-card look.
+- Rebuilt `scripts/generate-glass-css-simple.js` to derive all 30 surfaces (now including level5) from one parametric scale mirroring `AURA_GLASS`, eliminating the divergent hand-maintained token copy in the generator.
+- Brightened the `LiquidGlassMaterial` edge sheen layer and aligned its IOR-enhanced backdrop filter with the unified brightness/contrast values.
+- Synced `--aura-glass-*-backdrop-blur` theme variables in `variables.css` to the new blur scale.
+
+### Fixed
+
+- Removed hardcoded `!important` dark-pill style injections from `LiquidGlassSegmentedControl`, `LiquidGlassToolbar`, and `LiquidGlassInsetSidebar`; segments now use token utility classes and inherit the liquid material surface.
+- `GlassIntelligentSearch` panel, dropdown, buttons, primary action, and text input now consume generated `--glass-*` token variables instead of ~20 hardcoded rgba values and a non-token `blur(18px)`.
+- `GlassAdvancedVideoPlayer` control bar blur now derives from the token scale (`--glass-neutral-level4-blur`) and the unified `--glass-filter-base` instead of hardcoded `blur(26px) saturate(1.45)`.
+- Lowered the default `.glass` border from white/0.40 to white/0.25 hairline (hover 0.40, active 0.50) to match the liquid-glass aesthetic.
+- Fixed a library-wide botched-codemod bug: 71 style declarations across 40+ components used the literal string `'/* Use createGlassStyle(...) */'` as a CSS `background` value, which browsers silently drop (invisible toast progress bars, skeleton surfaces, slider tracks, etc.); each now resolves to the generated `var(--glass-<intent>-<elevation>-surface)` token the comment named.
+- Fixed 107 dead `glass-glass-*` double-prefixed utility classes (typo'd classnames matching no CSS rule) across 63 files, remapping them to the real `glass-backdrop-blur*`/`glass-blur-*` utilities.
+- Removed the remaining hardcoded `!important` dark-pill style injections from `LiquidGlassCommandSurface` and tokenized `LiquidGlassSearchField`'s dropdown/options (previously forced `rgba(2,6,23)`/`rgba(15,23,42)` opaque surfaces).
+- Tokenized `CollaborativeGlassWorkspace` panels, buttons, insets, and inputs (previously a 100-line `!important` style block forcing opaque `#07111f`/dark-slate surfaces over the glass system).
+- Aligned stragglers to the unified backdrop filter: `.glass-ultra-blur`/`.glass-premium` brightness 110-120% → 105%, Storybook utility shim saturate 1.5 → 1.8, `StorybookVisualShowcase` saturate 1.35/1.45 → 1.8, deprecated `glassFoundation` and `designConstants` blur/enhancement scales synced to the new token scale.
+- Clamped `GlassDynamicAtmosphere`'s `blurStrength` prop to the canonical 0-48px range, fixed `GlassTabItem`'s stale 12px radius fallback to `--glass-radius-md`, switched `GlassToast` to a 1px hairline border, and raised chart container default radius from 12px to the canonical 16px.
+- Converted the app-shell chrome (`GlassTopBar`, `GlassSidebarRail`, `GlassSidebarPanel`, `GlassMain`, `GlassActionBar`, `GlassCommandDock`, `GlassStatusBar`) from opaque `glass-bg-black/20-45` panels to luminous white-frost surfaces (`glass-bg-white/5-10` with white/12-15 hairline borders), matching the redesigned token look.
+- Converted the workspace layout surfaces (`GlassWorkspace` inspector, `GlassWorkspaceTabs`, `GlassWorkspacePanel`, `GlassInspectorPanel`, `GlassCanvasArea`, `GlassTimelineRail`) and the `ARGlassEffects` info cards plus `GlassErrorState` detail panel from dark `glass-bg-black/*` chrome to the same white-frost surfaces. Intentional dim backdrop scrims on `LiquidGlassCommandSurface` and `LiquidGlassAdaptiveSheet` overlays were kept dark by design.
+- Fixed `applyContrastAdjustment()` in `contrastGuard.ts` writing its blur adjustment to a typo'd `--glass-glass-backdrop-blur-multiplier` custom property; it now sets `--glass-adaptive-blur-multiplier`, consistent with the `--glass-adaptive-*` family.
+- Removed the last comment-as-value straggler in `GlassContextAware`'s adaptive style object left by the earlier botched codemod.
+
 ## [3.3.0] - 2026-06-05
 
 ### Added

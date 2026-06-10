@@ -512,7 +512,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
             className={cn(
               "relative transition-all duration-200",
               sizeClasses[size],
-              "glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10 hover:bg-white/15 focus-within:bg-white/20 focus-within:ring-2 focus-within:ring-white/30 glass-contrast-guard",
+              "glass-backdrop-blur bg-glass-fill ring-1 ring-white/10 hover:bg-white/15 focus-within:bg-white/20 focus-within:ring-2 focus-within:ring-white/30 glass-contrast-guard",
               disabled && "opacity-50",
               isOpen && "bg-white/20 ring-2 ring-white/40 shadow-lg",
               className
@@ -617,7 +617,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                       performanceMode="medium"
                       className={cn(
                         "max-h-60 overflow-hidden",
-                        "glass-glass-backdrop-blur-md glass-surface-dark/30 glass-border glass-border-white/20 glass-contrast-guard",
+                        "glass-backdrop-blur glass-surface-dark/30 glass-border glass-border-white/20 glass-contrast-guard",
                         "shadow-2xl shadow-black/50",
                         "ring-1 ring-white/10"
                       )}
@@ -636,7 +636,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                               }}
                               className={cn(
                                 "w-full glass-px-3 glass-py-2 glass-radius-md outline-none",
-                                "glass-glass-backdrop-blur-md bg-glass-fill ring-1 ring-white/10",
+                                "glass-backdrop-blur bg-glass-fill ring-1 ring-white/10",
                                 "glass-text-primary/90 placeholder-white/50",
                                 "focus:ring-2 glass-focus-ring-white-opacity-30 focus:bg-white/15",
                                 "transition-all duration-200"
@@ -674,7 +674,7 @@ export const GlassSelect = forwardRef<HTMLSelectElement, GlassSelectProps>(
                                       key={option.value}
                                       className={cn(
                                         "glass-px-3 glass-py-2 cursor-pointer transition-all duration-200",
-                                        "hover:bg-white/10 hover:glass-glass-backdrop-blur-md glass-contrast-guard",
+                                        "hover:bg-white/10 hover:glass-backdrop-blur glass-contrast-guard",
                                         "glass-text-primary/90",
                                         "glass-focus glass-touch-target",
                                         {

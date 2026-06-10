@@ -4,7 +4,7 @@ exports[`GlassGANGenerator matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-p-4 glass-space-y-4 glass-max-w-full glass-overflow-auto"
   data-glass-component="true"
-  style="--glass-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-theme-text: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); max-height: 100%; min-width: 0;"
+  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); --glass-theme-text: var(--glass-theme-text, rgba(255, 255, 255, 0.95)); max-height: 100%; min-width: 0;"
 >
   <div
     class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-min-w-0"

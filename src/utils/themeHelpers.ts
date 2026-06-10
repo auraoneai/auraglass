@@ -393,7 +393,7 @@ export const createDarkTheme = (): GlassTheme => {
       secondary: "var(--glass-gray-400)",
       accent: "#a78bfa",
       background:
-        '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+        "var(--glass-primary-level2-surface)",
       surface: "rgba(31, 41, 55, 0.8)",
       text: "var(--glass-gray-50)",
       textSecondary: "rgba(156, 163, 175, 0.8)",
@@ -413,7 +413,7 @@ export const createLightTheme = (): GlassTheme => {
       secondary: "var(--glass-gray-500)",
       accent: "#8b5cf6",
       background:
-        '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+        "var(--glass-neutral-level2-surface)",
       surface: "rgba(249, 250, 251, 0.8)",
       text: "var(--glass-gray-900)",
       textSecondary: "rgba(75, 85, 99, 0.7)",

@@ -23,16 +23,16 @@ export const GLASS_FOUNDATION = {
   },
 
   blur: {
-    subtle: "blur(8px)",
-    standard: "blur(16px)",
-    strong: "blur(24px)",
-    intense: "blur(32px)",
+    subtle: "blur(16px)",
+    standard: "blur(24px)",
+    strong: "blur(32px)",
+    intense: "blur(48px)",
   },
 
   enhancements: {
-    saturate: "saturate(180%)",
-    brightness: "brightness(1.15)",
-    contrast: "contrast(1.08)",
+    saturate: "saturate(1.8)",
+    brightness: "brightness(1.05)",
+    contrast: "contrast(1.05)",
   },
 
   borders: {

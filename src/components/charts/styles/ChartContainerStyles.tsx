@@ -72,7 +72,7 @@ export const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>((p
     $glassVariant = 'frosted',
     $blurStrength = 'standard',
     $color,
-    $borderRadius = '12px',
+    $borderRadius = '16px',
     $borderColor,
     $elevation = 3,
     className,

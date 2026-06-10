@@ -457,7 +457,6 @@ export function GlassContextAware({
         "--glass-adaptive-opacity": smoothOpacity,
         "--glass-adaptive-contrast": smoothContrast,
         "--glass-adaptive-saturation": smoothSaturation,
-        // Use createGlassStyle() instead,
         backgroundColor: `color-mix(in srgb, var(--glass-white) ${smoothOpacity.get() * 100}%, transparent)`,
       }) as React.CSSProperties,
     [

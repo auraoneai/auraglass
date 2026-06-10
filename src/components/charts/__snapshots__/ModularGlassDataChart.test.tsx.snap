@@ -10,7 +10,7 @@ exports[`ModularGlassDataChart matches snapshot 1`] = `
   data-insights-count="0"
   data-patterns-count="0"
   data-usage-context="dashboard"
-  style="border-radius: 12px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);"
+  style="border-radius: 16px; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);"
 >
   <div
     class="toolbar"

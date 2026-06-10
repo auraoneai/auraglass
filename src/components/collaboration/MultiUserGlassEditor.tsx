@@ -40,15 +40,15 @@ const statusAccent: Record<
 > = {
   active: {
     background:
-      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+      "var(--glass-primary-level2-surface)",
   },
   idle: {
     background:
-      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+      "var(--glass-primary-level2-surface)",
   },
   offline: {
     background:
-      '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+      "var(--glass-primary-level2-surface)",
   },
 };
 
@@ -165,7 +165,7 @@ export function MultiUserGlassEditor({
       )}
       style={{
         background:
-          '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+          "var(--glass-primary-level2-surface)",
         maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
         maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
       }}

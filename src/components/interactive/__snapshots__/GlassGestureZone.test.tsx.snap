@@ -3,16 +3,16 @@
 exports[`GlassGestureZone matches snapshot 1`] = `
 <div
   aria-label="Gesture recognition zone"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gesture-zone relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20 glass-contrast-guard"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-gesture-zone relative glass-radius-lg glass-backdrop-blur border border-border/20 glass-contrast-guard"
   id="glass-gesture-zone-:r4:"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <div
     class="motion-primitive glass-flex glass-flex-col glass-gap-4 glass-p-4"
   >
     <div
       class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-gesture-controls glass-flex glass-flex-wrap glass-items-center glass-gap-4 glass-p-4 glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-contrast-guard"
-      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
         class="glass-flex glass-items-center glass-gap-2"

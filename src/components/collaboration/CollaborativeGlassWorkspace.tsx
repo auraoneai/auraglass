@@ -432,25 +432,17 @@ function WorkspaceContent({
     >
       <style>{`
         .glass-collaborative-workspace.workspace-glass-shell {
-          background: linear-gradient(135deg, #07111f 0%, #0f172a 44%, #111827 100%), #07111f !important;
-          background-color: #07111f !important;
-          color: #f8fafc !important;
+          background: linear-gradient(135deg, #07111f 0%, #0f172a 44%, #111827 100%);
+          color: var(--glass-text-primary);
         }
 
         .glass-collaborative-workspace .workspace-glass-panel {
-          background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.82)), rgba(15, 23, 42, 0.9) !important;
-          background-color: rgba(15, 23, 42, 0.9) !important;
-          border-color: rgba(148, 163, 184, 0.3) !important;
-          color: #f8fafc !important;
-        }
-
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary,
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-secondary,
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-tertiary,
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-glass-opacity-60,
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-glass-opacity-80,
-        .glass-collaborative-workspace .workspace-glass-panel .glass-text-primary-opacity-70 {
-          color: #f8fafc !important;
+          background: var(--glass-neutral-level3-surface);
+          border-color: var(--glass-neutral-level3-border-color);
+          color: var(--glass-neutral-level3-text-primary);
+          backdrop-filter: blur(var(--glass-neutral-level3-blur)) var(--glass-filter-base);
+          -webkit-backdrop-filter: blur(var(--glass-neutral-level3-blur)) var(--glass-filter-base);
+          box-shadow: var(--glass-neutral-level3-shadow);
         }
 
         .glass-collaborative-workspace .workspace-glass-panel label,
@@ -461,23 +453,22 @@ function WorkspaceContent({
 
         .glass-collaborative-workspace .workspace-glass-panel button,
         .glass-collaborative-workspace .workspace-glass-panel .workspace-glass-button {
-          background-color: rgba(15, 23, 42, 0.68);
-          border: 1px solid rgba(148, 163, 184, 0.28);
-          color: #f8fafc !important;
+          background-color: rgba(var(--glass-color-white) / 0.1);
+          border: 1px solid var(--glass-border-default);
+          color: var(--glass-text-primary);
         }
 
         .glass-collaborative-workspace .workspace-glass-panel .glass-surface-primary,
         .glass-collaborative-workspace .workspace-glass-button-primary {
-          background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
-          background-color: rgba(3, 105, 161, 0.96) !important;
-          border-color: rgba(125, 211, 252, 0.42);
+          background: var(--glass-primary-level3-surface);
+          border-color: var(--glass-primary-level3-border-color);
+          color: var(--glass-primary-level3-text-primary);
         }
 
         .glass-collaborative-workspace .workspace-glass-inset {
-          background: rgba(15, 23, 42, 0.68) !important;
-          background-color: rgba(15, 23, 42, 0.68) !important;
-          border: 1px solid rgba(148, 163, 184, 0.24) !important;
-          color: #f8fafc !important;
+          background: rgba(var(--glass-color-white) / 0.06);
+          border: 1px solid var(--glass-border-default);
+          color: var(--glass-text-primary);
         }
 
         .glass-collaborative-workspace .glass-collaboration-number,
@@ -487,14 +478,14 @@ function WorkspaceContent({
         }
 
         .glass-collaborative-workspace .glass-collaboration-number {
-          background: rgba(15, 23, 42, 0.72);
-          border: 1px solid rgba(148, 163, 184, 0.42);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-          color: #f8fafc;
+          background: rgba(var(--glass-color-white) / 0.08);
+          border: 1px solid var(--glass-border-default);
+          box-shadow: inset 0 1px 0 rgba(var(--glass-color-white) / 0.12);
+          color: var(--glass-text-primary);
         }
 
         .glass-collaborative-workspace .glass-collaboration-number::placeholder {
-          color: rgba(226, 232, 240, 0.68);
+          color: var(--glass-text-tertiary);
         }
 
         .glass-collaborative-workspace .glass-collaboration-number::-webkit-outer-spin-button,

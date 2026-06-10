@@ -384,7 +384,7 @@ export function BrandGlassButton({
   const buttonStyles = {
     primary: {
       background:
-        '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+        "var(--glass-primary-level2-surface)",
       border:
         "1px solid var(--brand-border-primary, hsl(var(--glass-color-primary)/0.3))",
       boxShadow: "var(--glass-elev-2)",
@@ -392,7 +392,7 @@ export function BrandGlassButton({
     },
     secondary: {
       background:
-        '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+        "var(--glass-primary-level2-surface)",
       border:
         "1px solid var(--brand-border-secondary, rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.3))",
       boxShadow: "var(--glass-elev-2)",

@@ -368,7 +368,7 @@ export const GlassSignaturePad = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-signature-pad glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20",
+          "glass-signature-pad glass-radius-lg glass-backdrop-blur glass-contrast-guard border border-border/20",
           disabled && "opacity-50 pointer-events-none",
           className
         )}

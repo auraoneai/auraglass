@@ -221,10 +221,10 @@ const GlassFilterPanel = React.forwardRef<
     };
 
     const elevationClasses = {
-      low: "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/20 glass-contrast-guard",
+      low: "glass-backdrop-blur glass-surface-dark/50 glass-border glass-border-white/20 glass-contrast-guard",
       medium:
-        "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/30 glass-shadow-lg glass-contrast-guard",
-      high: "glass-glass-backdrop-blur-md glass-surface-dark/50 glass-border glass-border-white/40 glass-shadow-2xl glass-contrast-guard",
+        "glass-backdrop-blur glass-surface-dark/50 glass-border glass-border-white/30 glass-shadow-lg glass-contrast-guard",
+      high: "glass-backdrop-blur glass-surface-dark/50 glass-border glass-border-white/40 glass-shadow-2xl glass-contrast-guard",
     };
 
     return (

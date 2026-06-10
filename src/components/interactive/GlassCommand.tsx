@@ -295,7 +295,7 @@ export const GlassCommand: React.FC<GlassCommandProps> = ({
         )}
         style={{
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+            "var(--glass-primary-level2-surface)",
           border: "1px solid rgba(148, 163, 184, 0.18)",
           boxShadow:
             "0 18px 44px rgba(2, 6, 23, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
@@ -487,7 +487,7 @@ export const GlassCommandInput: React.FC<GlassCommandInputProps> = ({
         className="glass-backdrop-blur-md glass-radius-lg glass-border glass-border-white/10 glass-surface-dark/40 glass-contrast-guard"
         style={{
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
           border: "1px solid rgba(148, 163, 184, 0.2)",
           boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.08)",
         }}

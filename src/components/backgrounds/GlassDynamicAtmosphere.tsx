@@ -286,8 +286,11 @@ export const DynamicAtmosphere = forwardRef<
       containerStyle,
       createGlassStyle({ intent: "neutral", elevation: "level2" })
     );
-    containerStyle.backdropFilter = `blur(${blurStrength}px)`;
-    (containerStyle as any).WebkitBackdropFilter = `blur(${blurStrength}px)`;
+    // Clamp to the canonical blur range (level1-level5) so arbitrary props
+    // cannot produce off-scale or negative blur values.
+    const clampedBlur = Math.max(0, Math.min(48, blurStrength));
+    containerStyle.backdropFilter = `blur(${clampedBlur}px)`;
+    (containerStyle as any).WebkitBackdropFilter = `blur(${clampedBlur}px)`;
   }
 
   const effectStyle: React.CSSProperties & Record<string, string | number> = {

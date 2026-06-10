@@ -73,17 +73,6 @@ export const LiquidGlassInsetSidebar = forwardRef<
         radius="2xl"
         className="glass-h-full"
       >
-        <style>{`
-          .liquid-glass-inset-sidebar button {
-            background-color: rgba(15, 23, 42, 0.72) !important;
-            border: 1px solid rgba(255, 255, 255, 0.24) !important;
-            color: rgba(255, 255, 255, 0.95) !important;
-          }
-
-          .liquid-glass-inset-sidebar button span {
-            color: rgba(255, 255, 255, 0.95) !important;
-          }
-        `}</style>
         {scrollEdge && (
           <LiquidGlassScrollEdge edge="top" styleMode={scrollEdge} active />
         )}

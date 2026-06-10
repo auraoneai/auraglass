@@ -14,7 +14,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
     <div
       class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue glass-hidden"
       data-performance-mode="medium"
-      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <input
         aria-label="Input field"
@@ -32,7 +32,7 @@ exports[`GlassFileUpload matches snapshot 1`] = `
     class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-relative glass-border glass-border-dashed glass-cursor-pointer glass-transition-all glass-overflow-hidden hover:glass-border-blue focus:glass-border-blue glass-focus-outline-none glass-p-4 glass-text-sm glass-min-h-20 glass-border-white/20 glass-surface-dark/20"
     data-performance-mode="medium"
     role="button"
-    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     tabindex="0"
   >
     <div

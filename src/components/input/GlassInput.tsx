@@ -311,7 +311,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 "--liquid-glass-focus-refraction": "1.15",
               } as React.CSSProperties),
               background:
-                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                "var(--glass-primary-level3-surface)",
               border: "1px solid rgba(148, 163, 184, 0.24)",
               boxShadow:
                 "0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
@@ -431,7 +431,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             press
             style={{
               background:
-                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                "var(--glass-primary-level3-surface)",
               border: "1px solid rgba(148, 163, 184, 0.24)",
               boxShadow:
                 "0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08)",

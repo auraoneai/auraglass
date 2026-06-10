@@ -948,7 +948,7 @@ export const GlassPatternBuilder = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-pattern-builder relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20",
+          "glass-pattern-builder relative glass-radius-lg glass-backdrop-blur glass-contrast-guard border border-border/20",
           className
         )}
         {...props}

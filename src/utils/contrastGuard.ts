@@ -751,7 +751,7 @@ export function applyContrastAdjustment(
 
   if (modifications.backdropBlur !== undefined) {
     element.style.setProperty(
-      "--glass-glass-backdrop-blur-multiplier",
+      "--glass-adaptive-blur-multiplier",
       String(modifications.backdropBlur)
     );
   }

@@ -3,6 +3,6 @@
 exports[`ContextAwareGlass matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level2 glass-interactive glass-tier-high relative overflow-hidden"
-  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0 0 20px rgba(var(--glass-color-black) / var(--glass-opacity-10)); transition: all 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; padding: 16px;"
+  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0 0 20px rgba(var(--glass-color-black) / var(--glass-opacity-10)); transition: all 200ms ease-out, transform 200ms ease-out, box-shadow 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; padding: 16px;"
 />
 `;

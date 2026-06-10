@@ -405,7 +405,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                           className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
                           style={{
                             background:
-                              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                              "var(--glass-primary-level2-surface)",
                           }}
                         >
                           <span className="glass-text-primary glass-font-semibold">

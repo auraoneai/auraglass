@@ -46,7 +46,7 @@ export const GlassWorkspace = React.forwardRef<
     >
       <div className="glass-min-w-0 glass-overflow-auto">{children}</div>
       {inspector ? (
-        <aside className="glass-min-h-0 glass-overflow-auto glass-rounded-xl glass-border glass-border-white/10 glass-bg-black/20 glass-p-3">
+        <aside className="glass-min-h-0 glass-overflow-auto glass-rounded-xl glass-border glass-border-white/12 glass-bg-white/5 glass-p-3">
           {inspector}
         </aside>
       ) : null}
@@ -91,7 +91,7 @@ export const GlassWorkspaceTabs = React.forwardRef<
     ref={ref}
     role="tablist"
     className={cn(
-      "glass-workspace-tabs glass-inline-flex glass-rounded-xl glass-border glass-border-white/10 glass-bg-black/20 glass-p-1",
+      "glass-workspace-tabs glass-inline-flex glass-rounded-xl glass-border glass-border-white/12 glass-bg-white/5 glass-p-1",
       className
     )}
     {...props}
@@ -140,7 +140,7 @@ export const GlassWorkspacePanel = React.forwardRef<
   <section
     ref={ref}
     className={cn(
-      "glass-workspace-panel glass-rounded-xl glass-border glass-border-white/10 glass-bg-black/20 glass-backdrop-blur-xl",
+      "glass-workspace-panel glass-rounded-xl glass-border glass-border-white/12 glass-bg-white/5 glass-backdrop-blur-xl",
       className
     )}
     {...props}
@@ -168,7 +168,7 @@ export const GlassInspectorPanel = React.forwardRef<
     ref={ref}
     className={cn(
       "glass-inspector-panel glass-flex glass-min-h-0 glass-flex-col glass-rounded-xl",
-      "glass-border glass-border-white/10 glass-bg-black/25 glass-backdrop-blur-xl",
+      "glass-border glass-border-white/15 glass-bg-white/6 glass-backdrop-blur-xl",
       className
     )}
     {...props}
@@ -197,7 +197,7 @@ export const GlassCanvasArea = React.forwardRef<
     ref={ref}
     className={cn(
       "glass-canvas-area glass-grid glass-min-h-[24rem] glass-place-items-center glass-rounded-xl",
-      "glass-border glass-border-white/10 glass-bg-black/15 glass-p-4",
+      "glass-border glass-border-white/12 glass-bg-white/4 glass-p-4",
       className
     )}
     {...props}
@@ -218,7 +218,7 @@ export const GlassTimelineRail = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "glass-timeline-rail glass-rounded-xl glass-border glass-border-white/10 glass-bg-black/20 glass-p-3",
+      "glass-timeline-rail glass-rounded-xl glass-border glass-border-white/12 glass-bg-white/5 glass-p-3",
       className
     )}
     {...props}

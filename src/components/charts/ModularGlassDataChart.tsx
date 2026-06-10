@@ -237,7 +237,7 @@ export const ModularGlassDataChart = React.forwardRef<
     palette = DEFAULT_CHART_COLORS,
     allowTypeSwitch = true,
     backgroundColor,
-    borderRadius = 12,
+    borderRadius = 16,
     borderColor,
     elevation = "level3",
     className,

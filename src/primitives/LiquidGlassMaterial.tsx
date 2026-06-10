@@ -354,8 +354,8 @@ export const LiquidGlassMaterial = forwardRef<
       if (effectiveFlags.refraction && materialSpec.ior > 1) {
         const iorMultiplier = 1 + (materialSpec.ior - 1) * 0.3;
         const saturation = 1.8 * iorMultiplier;
-        const brightness = 1.15 + (materialSpec.ior - 1) * 0.1;
-        const contrast = 1.08 + materialSpec.sheen * 0.02;
+        const brightness = 1.05 + (materialSpec.ior - 1) * 0.1;
+        const contrast = 1.05 + materialSpec.sheen * 0.02;
 
         const backdropFilter = `blur(${materialSpec.backdropBlur.px}px) saturate(${saturation}) brightness(${brightness}) contrast(${contrast})`;
         styles.backdropFilter = backdropFilter;
@@ -364,7 +364,7 @@ export const LiquidGlassMaterial = forwardRef<
 
       // Apply thickness-based enhancements
       if (materialSpec.thickness > 2) {
-        const thicknessOpacity = 0.1 + materialSpec.sheen * 0.05;
+        const thicknessOpacity = 0.12 + materialSpec.sheen * 0.06;
         styles.boxShadow = `${styles.boxShadow}, inset 0 1px ${materialSpec.thickness}px rgba(255,255,255,${thicknessOpacity})`;
       }
 
@@ -416,14 +416,14 @@ export const LiquidGlassMaterial = forwardRef<
           `${styles.transform || ""} translateZ(${materialSpec.thickness * 2}px)`.trim();
       }
 
-      // Border radius
+      // Border radius — generous rounding is part of the liquid glass look
       const radiusMap = {
         none: "0px",
-        sm: "4px",
-        md: "8px",
-        lg: "12px",
-        xl: "16px",
-        "2xl": "20px",
+        sm: "8px",
+        md: "12px",
+        lg: "16px",
+        xl: "24px",
+        "2xl": "32px",
         full: "9999px",
       };
       styles.borderRadius = radiusMap[radius];
@@ -553,7 +553,7 @@ export const LiquidGlassMaterial = forwardRef<
             <div
               className="liquid-glass-sheen glass-absolute glass-inset-0 glass-pointer-events-none"
               style={{
-                background: `radial-gradient(60% 60% at 50% -10%, rgba(255,255,255,${0.1 + materialSpec.sheen * 0.05}) 0%, transparent 60%)`,
+                background: `radial-gradient(80% 70% at 50% -15%, rgba(255,255,255,${0.14 + materialSpec.sheen * 0.06}) 0%, transparent 65%)`,
                 opacity: isHovered ? 1.2 : 1,
                 transition: LIQUID_GLASS.motionFluency.hover.easing,
               }}

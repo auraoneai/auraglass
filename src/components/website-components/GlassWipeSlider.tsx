@@ -636,7 +636,7 @@ const GlassWipeSliderComponent = ({
                   height: "20px",
                   transform: "translateY(-50%)",
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                 }
               : {
                   left: `${position}%`,
@@ -645,7 +645,7 @@ const GlassWipeSliderComponent = ({
                   width: "20px",
                   transform: "translateX(-50%)",
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                 }),
             opacity: isHovered || isDragging ? 0.5 : 0.2,
           }}

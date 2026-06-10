@@ -509,7 +509,7 @@ export const GlassCalendar: React.FC<GlassCalendarProps> = ({
                         : "transition-all duration-200 hover:bg-white/10 focus:bg-white/15 focus:outline-none glass-hover-scale-105",
                       "disabled:opacity-50 glass-disabled-cursor-not-allowed",
                       {
-                        "glass-foundation-complete glass-glass-backdrop-blur-md bg-transparent border-white/40":
+                        "glass-foundation-complete glass-backdrop-blur bg-transparent border-white/40":
                           isSelected(date) ||
                           (isToday(date) && showToday && !isSelected(date)),
                         "glass-text-primary/60": !isCurrentMonth(date),

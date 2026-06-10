@@ -106,7 +106,7 @@ export const GlassTopBar = React.forwardRef<HTMLElement, GlassTopBarProps>(
       ref={ref}
       className={cn(
         "glass-top-bar glass-flex glass-min-h-14 glass-items-center glass-gap-3 glass-rounded-xl",
-        "glass-border glass-border-white/12 glass-bg-black/35 glass-px-4 glass-py-2 glass-backdrop-blur-xl",
+        "glass-border glass-border-white/15 glass-bg-white/8 glass-px-4 glass-py-2 glass-backdrop-blur-xl",
         sticky && "glass-sticky glass-top-3 glass-z-40",
         className
       )}
@@ -166,7 +166,7 @@ export const GlassSidebarRail = React.forwardRef<
       aria-label={ariaLabel}
       className={cn(
         "glass-sidebar-rail glass-flex glass-w-16 glass-flex-col glass-items-center glass-gap-2",
-        "glass-rounded-xl glass-border glass-border-white/12 glass-bg-black/30 glass-p-2 glass-backdrop-blur-xl",
+        "glass-rounded-xl glass-border glass-border-white/15 glass-bg-white/8 glass-p-2 glass-backdrop-blur-xl",
         className
       )}
       {...props}
@@ -219,7 +219,7 @@ export const GlassSidebarPanel = React.forwardRef<
       ref={ref}
       className={cn(
         "glass-sidebar-panel glass-flex glass-min-h-0 glass-flex-col glass-rounded-xl",
-        "glass-border glass-border-white/12 glass-bg-black/25 glass-backdrop-blur-xl",
+        "glass-border glass-border-white/15 glass-bg-white/6 glass-backdrop-blur-xl",
         collapsed
           ? "glass-w-0 glass-overflow-hidden glass-border-0"
           : "glass-w-72",
@@ -251,8 +251,8 @@ export const GlassMain = React.forwardRef<HTMLElement, MainProps>(
     <main
       ref={ref}
       className={cn(
-        "glass-main glass-min-h-0 glass-flex-1 glass-overflow-auto glass-rounded-xl glass-border glass-border-white/10",
-        "glass-bg-black/20 glass-p-4 glass-backdrop-blur-xl",
+        "glass-main glass-min-h-0 glass-flex-1 glass-overflow-auto glass-rounded-xl glass-border glass-border-white/12",
+        "glass-bg-white/5 glass-p-4 glass-backdrop-blur-xl",
         className
       )}
       {...props}
@@ -384,7 +384,7 @@ export const GlassActionBar = React.forwardRef<HTMLDivElement, DivProps>(
       ref={ref}
       className={cn(
         "glass-action-bar glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-xl",
-        "glass-border glass-border-white/10 glass-bg-black/20 glass-p-3 glass-backdrop-blur-xl",
+        "glass-border glass-border-white/12 glass-bg-white/5 glass-p-3 glass-backdrop-blur-xl",
         className
       )}
       {...props}
@@ -459,7 +459,7 @@ export const GlassCommandDock = React.forwardRef<
     ref={ref}
     className={cn(
       "glass-command-dock glass-flex glass-items-center glass-gap-3 glass-rounded-2xl glass-border",
-      "glass-border-sky-300/25 glass-bg-black/45 glass-p-2 glass-backdrop-blur-2xl",
+      "glass-border-sky-300/25 glass-bg-white/10 glass-p-2 glass-backdrop-blur-2xl",
       className
     )}
     {...props}
@@ -479,7 +479,7 @@ export const GlassStatusBar = React.forwardRef<HTMLDivElement, DivProps>(
       role="status"
       className={cn(
         "glass-status-bar glass-flex glass-min-h-9 glass-items-center glass-justify-between glass-gap-3",
-        "glass-rounded-xl glass-border glass-border-white/10 glass-bg-black/20 glass-px-3 glass-text-xs glass-text-secondary",
+        "glass-rounded-xl glass-border glass-border-white/12 glass-bg-white/5 glass-px-3 glass-text-xs glass-text-secondary",
         className
       )}
       {...props}

@@ -840,7 +840,7 @@ export const GlassAuroraDisplay = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-aurora-display relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
+          "glass-aurora-display relative glass-radius-lg glass-backdrop-blur border border-border/20",
           className
         )}
         {...props}

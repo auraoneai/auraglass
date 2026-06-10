@@ -541,7 +541,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         style={{
           color: "rgba(255, 255, 255, 0.95)",
           backgroundColor:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
         }}
         role="region"
         aria-label="Quantum superposition menu"
@@ -583,7 +583,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   style={{
                     color: "rgba(255, 255, 255, 0.95)",
                     backgroundColor:
-                      '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                      "var(--glass-primary-level3-surface)",
                     borderColor: "rgba(255, 255, 255, 0.28)",
                   }}
                 >
@@ -606,7 +606,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   style={{
                     color: "rgba(255, 255, 255, 0.95)",
                     backgroundColor:
-                      '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                      "var(--glass-primary-level3-surface)",
                     borderColor: "rgba(236, 72, 153, 0.42)",
                   }}
                 >
@@ -697,7 +697,7 @@ export const GlassSuperpositionalMenu = forwardRef<
             style={{
               color: "rgba(255, 255, 255, 0.95)",
               backgroundColor:
-                '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                "var(--glass-primary-level3-surface)",
               borderColor: "rgba(59, 130, 246, 0.42)",
             }}
             initial={{ opacity: 0, y: 20 }}

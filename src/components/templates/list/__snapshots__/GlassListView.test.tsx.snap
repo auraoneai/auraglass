@@ -40,7 +40,7 @@ exports[`GlassListView matches snapshot 1`] = `
               <div
                 class="optimized-glass-surface glass-neutral-level1 glass-lift-on-hover glass-press glass-tier-high glass-relative glass-flex glass-items-center glass-transition-all glass-duration-200 glass-radius-2xl glass-surface-dark/30 glass-border glass-border-white/10 glass-h-10 glass-px-4 glass-text-sm glass-surface-dark/30 glass-border glass-border-white/10 focus:glass-border-blue"
                 data-performance-mode="medium"
-                style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+                style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.24); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
               >
                 <div
                   class="glass-flex glass-items-center glass-justify-center glass-mr-3 glass-text-secondary glass-w-4 glass-h-4"

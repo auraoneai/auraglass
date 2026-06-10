@@ -219,7 +219,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
               height: 40,
               borderRadius: "50%",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "var(--glass-neutral-level2-surface)",
             }}
             initial={{ scale: 0, opacity: 1 }}
             animate={prefersReducedMotion ? {} : { scale: 3, opacity: 0 }}
@@ -241,7 +241,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
               className='glass-absolute glass-inset-0 glass-pointer-events-none'
               style={{
                 background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                  "var(--glass-neutral-level2-surface)",
                 borderRadius: "inherit",
               }}
               initial={{ opacity: 0 }}

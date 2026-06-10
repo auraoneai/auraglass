@@ -845,7 +845,7 @@ export const GlassGestureZone = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-gesture-zone relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20 glass-contrast-guard",
+          "glass-gesture-zone relative glass-radius-lg glass-backdrop-blur border border-border/20 glass-contrast-guard",
           className
         )}
         data-testid={props["data-testid"]}

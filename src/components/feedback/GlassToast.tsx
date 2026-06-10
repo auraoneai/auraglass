@@ -213,7 +213,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, position, onRemove }) => {
       data-glass-toast="true"
       data-toast-type={toast.type}
       className={cn(
-        "glass-w-96 glass-max-w-sm glass-p-4 glass-radius-lg glass-border-2 glass-shadow-lg",
+        "glass-w-96 glass-max-w-sm glass-p-4 glass-radius-lg glass-border glass-shadow-lg",
         !prefersReducedMotion && "glass-transition-all",
         getToastClasses()
       )}
@@ -269,7 +269,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, position, onRemove }) => {
           className="glass-mt-3 glass-w-full glass-h-1 glass-radius-full glass-overflow-hidden"
           style={{
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              "var(--glass-primary-level3-surface)",
           }}
         >
           <div

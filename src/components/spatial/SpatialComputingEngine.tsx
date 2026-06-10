@@ -618,7 +618,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             width: "8px",
             height: "8px",
             backgroundColor:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
             borderRadius: "50%",
             pointerEvents: "none",
           }}
@@ -635,7 +635,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             left: "50%",
             transform: "translate(-50%, -50%)",
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
             borderRadius: "50%",
             width: "60px",
             height: "60px",
@@ -653,7 +653,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             position: "absolute",
             inset: 0,
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+              "var(--glass-primary-level2-surface)",
             pointerEvents: "none",
             mixBlendMode: "multiply",
           }}
@@ -671,7 +671,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             bottom: "10px",
             right: "10px",
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+              "var(--glass-primary-level2-surface)",
             color: "white",
             padding: "8px",
             fontSize: "12px",

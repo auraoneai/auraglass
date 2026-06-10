@@ -96,7 +96,7 @@ exports[`GlassAchievementSystem matches snapshot 1`] = `
       class="optimized-glass-surface glass-neutral-level3 glass-tier-high fixed bottom-4 left-4 w-96 max-h-96 overflow-hidden glass-radius-lg"
       data-performance-mode="medium"
       role="complementary"
-      style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.22); border-radius: 8px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.24); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.24); border-radius: 8px; box-shadow: 0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <div
         class="glass-p-4 glass-border-b glass-border-white/10"

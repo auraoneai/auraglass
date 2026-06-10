@@ -67,10 +67,10 @@ const ELEVATION_CLASSES = {
 // CLASS_PREFIX: Blur classes use 'glass-' prefix
 const BLUR_CLASSES = {
   none: '',
-  subtle: 'glass-glass-backdrop-blur-md',    // 4px
-  medium: 'glass-glass-backdrop-blur-md',    // 8px
-  strong: 'glass-glass-backdrop-blur-md',    // 16px
-  intense: 'glass-glass-backdrop-blur-md',   // 24px
+  subtle: 'glass-backdrop-blur',    // 4px
+  medium: 'glass-backdrop-blur',    // 8px
+  strong: 'glass-backdrop-blur',    // 16px
+  intense: 'glass-backdrop-blur',   // 24px
 }
 
 const VARIANT_CLASSES = {

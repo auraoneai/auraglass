@@ -32,7 +32,7 @@
 .glass-foundation-complete {
   position: relative;
   --glass-backdrop-blur: blur(
-    var(--glass-theme-overlay-blur, var(--glass-blur-lg))
+    var(--glass-theme-overlay-blur, var(--glass-blur-xl))
   );
   backdrop-filter: var(--glass-backdrop-blur) var(--glass-filter-base);
   -webkit-backdrop-filter: var(--glass-backdrop-blur) var(--glass-filter-base);
@@ -56,7 +56,10 @@
   --typography-text-secondary: var(--glass-text-secondary);
   --typography-text-tertiary: var(--glass-text-tertiary);
   border: 1px solid var(--glass-border-default);
-  box-shadow: var(--glass-theme-shadow-panel, var(--glass-elev-2));
+  /* Inset hairline catches light along the top edge — liquid glass sheen */
+  box-shadow:
+    var(--glass-theme-shadow-panel, var(--glass-elev-2)),
+    inset 0 1px 0 rgba(var(--glass-color-white) / var(--glass-opacity-20));
   border-radius: var(--glass-theme-panel-radius, var(--glass-radius-lg));
   transition: var(--glass-transition);
   color: var(--glass-theme-text, var(--glass-text-primary));
@@ -3088,9 +3091,9 @@ svg.glass-touch-target {
 
 /* Enhanced glass morphism layers */
 .glass-ultra-blur {
-  backdrop-filter: blur(var(--glass-blur-xl)) saturate(180%) brightness(110%);
+  backdrop-filter: blur(var(--glass-blur-xl)) saturate(180%) brightness(105%);
   -webkit-backdrop-filter: blur(var(--glass-blur-xl)) saturate(180%)
-    brightness(110%);
+    brightness(105%);
 }
 
 .glass-premium {
@@ -3099,7 +3102,7 @@ svg.glass-touch-target {
     rgba(255, 255, 255, 0.12) 0%,
     rgba(255, 255, 255, 0.06) 100%
   );
-  backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%) brightness(120%);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(180%) brightness(105%);
   border: 1px solid var(--glass-bg-disabled);
   box-shadow:
     0 8px 32px rgba(var(--glass-color-black) / var(--glass-opacity-10)),

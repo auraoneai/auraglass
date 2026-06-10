@@ -119,7 +119,7 @@ export const MotionAwareGlass = forwardRef<
         return {
           hover: {
             backgroundColor:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
             borderColor: "var(--glass-bg-default)",
             transition: { duration: ANIMATION.DURATION.instant / 1000 },
           },
@@ -129,7 +129,7 @@ export const MotionAwareGlass = forwardRef<
       return {
         hover: {
           backgroundColor:
-            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+            "var(--glass-neutral-level2-surface)",
           borderColor: "var(--glass-bg-default)",
           y: -2,
           transition: { duration: ANIMATION.DURATION.fast / 1000 },
@@ -272,19 +272,19 @@ export const useMotionAwareGlassStyles: () => {
           return {
             ...baseStyle,
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
           };
         case "strong":
           return {
             ...baseStyle,
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
           };
         case "card":
           return {
             ...baseStyle,
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
             padding: "24px",
             boxShadow: "var(--glass-elev-2)",
           };
@@ -292,7 +292,7 @@ export const useMotionAwareGlassStyles: () => {
           return {
             ...baseStyle,
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
           };
       }
     },

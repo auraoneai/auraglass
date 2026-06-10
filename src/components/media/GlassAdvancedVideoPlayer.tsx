@@ -205,12 +205,12 @@ const videoComponentStyles = `
   }
 
   .ag-advanced-video-player .ag-video-controls {
-    border-top: 1px solid rgba(226, 232, 240, 0.24);
+    border-top: 1px solid var(--glass-border-default);
     background:
       linear-gradient(180deg, rgba(15, 23, 42, 0.42), rgba(2, 6, 23, 0.92)),
       rgba(2, 6, 23, 0.84);
-    backdrop-filter: blur(26px) saturate(1.45);
-    -webkit-backdrop-filter: blur(26px) saturate(1.45);
+    backdrop-filter: blur(var(--glass-neutral-level4-blur, 40px)) var(--glass-filter-base);
+    -webkit-backdrop-filter: blur(var(--glass-neutral-level4-blur, 40px)) var(--glass-filter-base);
   }
 
   .ag-advanced-video-player .ag-video-control-row,
@@ -1200,7 +1200,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
               className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
               style={{
                 background:
-                  '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                  "var(--glass-primary-level2-surface)",
               }}
             >
               <div className="glass-animate-spin glass-radius-full glass-h-16 glass-w-16 glass-border-4 glass-border-white glass-border-t-transparent" />
@@ -1213,7 +1213,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
               className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-text-primary"
               style={{
                 background:
-                  '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                  "var(--glass-primary-level2-surface)",
               }}
             >
               <div className="glass-text-center">

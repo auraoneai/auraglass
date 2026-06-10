@@ -118,7 +118,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
               position: "relative" as const,
               overflow: "hidden",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "var(--glass-neutral-level2-surface)",
               backgroundSize: "200px 100%",
               animation: `glass-wave ${animationDuration * 5}ms infinite`,
             };
@@ -127,7 +127,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
               position: "relative" as const,
               overflow: "hidden",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "var(--glass-neutral-level2-surface)",
               backgroundSize: "200px 100%",
               animation: `glass-shimmer ${animationDuration * 7}ms infinite, glass-depth-pulse ${animationDuration * 14}ms ease-in-out infinite`,
             };
@@ -136,7 +136,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
               position: "relative" as const,
               overflow: "hidden",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "var(--glass-neutral-level2-surface)",
               // sheen drawn by a before-like overlay via extra element below
             };
           case "pulse":
@@ -173,7 +173,7 @@ export const GlassSkeletonLoader: React.FC<GlassSkeletonLoaderProps> = memo(
                   inset: 0,
                   borderRadius: "9999px",
                   background:
-                    '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                    "var(--glass-neutral-level2-surface)",
                   filter: "blur(6px) saturate(120%)",
                   transform: "translateX(-150%) rotate(15deg)",
                   animation: `glass-sheen-move ${animationDuration * 6}ms ease-in-out infinite`,

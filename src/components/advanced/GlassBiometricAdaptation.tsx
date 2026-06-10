@@ -963,7 +963,7 @@ export const GlassStressResponsive = forwardRef<
       aria-describedby={ariaDescribedBy || descriptionId}
       aria-live="polite"
       className={cn(
-        "glass-surface glass-border glass-radius-md glass-glass-backdrop-blur-md transition-all",
+        "glass-surface glass-border glass-radius-md glass-backdrop-blur transition-all",
         { transitionDuration: "var(--glass-motion-duration-slower)" },
         currentStressLevel > 0.7
           ? "glass-surface-subtle glass-border-subtle"

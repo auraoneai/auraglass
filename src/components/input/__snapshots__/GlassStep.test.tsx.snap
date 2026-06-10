@@ -10,7 +10,7 @@ exports[`GlassStep matches snapshot 1`] = `
     aria-label="Step 1: Step 1"
     class="optimized-glass-surface glass-neutral-level1 glass-tier-medium flex items-center relative flex-1 glass-p-2 transition-all duration-300 ease-in-out cursor-default flex-row text-left"
     role="listitem"
-    style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+    style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     tabindex="-1"
   >
     <div
@@ -20,7 +20,7 @@ exports[`GlassStep matches snapshot 1`] = `
       <div
         aria-hidden="true"
         class="optimized-glass-surface glass-neutral-level1 glass-tier-medium w-6 h-6 min-w-6 glass-radius-full flex items-center justify-center relative z-[1] flex-shrink-0 glass-text-xs font-semibold transition-all duration-300 ease-in-out border bg-gray-200 glass-text-secondary border-gray-200 dark:bg-gray-700 dark:glass-text-secondary dark:border-gray-600"
-        style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 13px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
       >
         1
       </div>

@@ -1201,7 +1201,7 @@ export const GlassBiomeSimulator = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-biome-simulator relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
+          "glass-biome-simulator relative glass-radius-lg glass-backdrop-blur border border-border/20",
           className
         )}
         {...props}

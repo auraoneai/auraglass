@@ -6,7 +6,7 @@ exports[`GlassTreeView matches snapshot 1`] = `
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-tree-view glass-p-2 glass-radius-lg glass-backdrop-blur-md glass-w-full glass-min-w-0 glass-overflow-auto glass-border glass-border-white/10"
   id="glass-tree-:ri:"
   role="tree"
-  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 12px 28px rgba(2, 6, 23, 0.24); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 100%; border-color: rgba(148, 163, 184, 0.22);"
+  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 12px 28px rgba(2, 6, 23, 0.24); transition: all 200ms ease-out; position: relative; transform: translateZ(0); max-height: 100%; border-color: rgba(148, 163, 184, 0.22);"
 >
   <div
     class="motion-primitive"
@@ -22,7 +22,7 @@ exports[`GlassTreeView matches snapshot 1`] = `
         draggable="false"
         id="tree-node-:rj:"
         role="treeitem"
-        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px; border-color: rgba(148, 163, 184, 0.18);"
+        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px; border-color: rgba(148, 163, 184, 0.18);"
         tabindex="0"
       >
         <div
@@ -75,7 +75,7 @@ exports[`GlassTreeView matches snapshot 1`] = `
         draggable="false"
         id="tree-node-:rk:"
         role="treeitem"
-        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px; border-color: rgba(148, 163, 184, 0.18);"
+        style="background: rgba(5, 11, 24, 0.12); background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding-left: 0px; border-color: rgba(148, 163, 184, 0.18);"
         tabindex="0"
       >
         <div

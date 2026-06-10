@@ -113,7 +113,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
         ? "transition-none"
         : `transition-all duration-[${ANIMATION.DURATION.fast}ms] hover:scale-[1.02] active:scale-[0.98]`,
       feature: "relative overflow-hidden",
-      minimal: "glass-glass-backdrop-blur-md bg-transparent border-0",
+      minimal: "glass-backdrop-blur bg-transparent border-0",
       primary: "",
       outline: "glass-focus glass-border-subtle",
     };

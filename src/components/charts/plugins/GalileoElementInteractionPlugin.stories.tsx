@@ -181,23 +181,23 @@ export const Default: Story = {
 
         <div className="glass-flex glass-flex-wrap glass-gap-4 glass-justify-center">
           <LensCard
-            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
             label="Data Point 1"
             dotColor="var(--glass-color-primary)"
           />
           <LensCard
-            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
             label="Data Point 2"
             dotColor="var(--glass-color-success)"
           />
           <LensCard
-            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
+            className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
             label="Data Point 3"
             dotColor="#6366F1"
           />
         </div>
 
-        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
+        <div className="glass-surface-subtle/50 glass-glass-backdrop-blur glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
           <h4 className="glass-text-sm glass-font-semibold glass-mb-2">
             Plugin Status:
           </h4>
@@ -251,7 +251,7 @@ export const DisabledEffects: Story = {
         </div>
 
         <div className="glass-flex glass-flex-wrap glass-gap-4 glass-justify-center">
-          <div className="chart-element glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-glass-backdrop-blur-md glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard">
+          <div className="chart-element glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard">
             <div className="glass-text-center">
               <div className="glass-w-8 glass-h-8 glass-surface-red glass-radius-full glass-mx-auto glass-mb-2 glass-contrast-guard"></div>
               <p className="glass-text-sm glass-font-medium">No Effects</p>
@@ -259,7 +259,7 @@ export const DisabledEffects: Story = {
           </div>
         </div>
 
-        <div className="glass-surface-subtle/50 glass-glass-glass-backdrop-blur-md glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
+        <div className="glass-surface-subtle/50 glass-glass-backdrop-blur glass-border glass-border-white/10 glass-radius-lg glass-p-4 glass-contrast-guard">
           <h4 className="glass-text-sm glass-font-semibold glass-mb-2">
             Plugin Status:
           </h4>

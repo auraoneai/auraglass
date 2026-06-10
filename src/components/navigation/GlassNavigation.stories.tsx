@@ -59,7 +59,7 @@ export const ConsciousnessOverview: Story = {
       </div>
       
       <div className="glass-grid glass-glass-glass-grid-cols-1 lg:glass-glass-glass-grid-cols-2 glass-gap-6">
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-3 glass-h-3 glass-surface-blue glass-radius-full animate-pulse"></div>
             <h3 className="glass-font-medium glass-text-primary">Predictive Navigation</h3>
@@ -71,7 +71,7 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-3 glass-h-3 glass-surface-green glass-radius-full animate-pulse"></div>
             <h3 className="glass-font-medium glass-text-primary">Eye Tracking</h3>
@@ -83,7 +83,7 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-3 glass-h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
             <h3 className="glass-font-medium glass-text-primary">Adaptive Layout</h3>
@@ -95,7 +95,7 @@ export const ConsciousnessOverview: Story = {
           </ul>
         </div>
         
-        <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
+        <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-gap-3 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-gap-2">
             <div className="glass-w-3 glass-h-3 glass-surface-primary glass-radius-full animate-pulse"></div>
             <h3 className="glass-font-medium glass-text-primary">Spatial Audio</h3>
@@ -212,7 +212,7 @@ export const VerticalNavigation: Story = {
 export const WithPredictiveNavigation: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Predictive Navigation</h3>
         <p className="glass-text-xs glass-text-secondary glass-mb-4">Anticipates user navigation patterns and preloads routes</p>
         <GlassNavigation
@@ -234,7 +234,7 @@ export const WithPredictiveNavigation: Story = {
 export const WithEyeTracking: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Eye Tracking Navigation</h3>
         <p className="glass-text-xs glass-text-secondary glass-mb-4">Highlights navigation items based on user gaze</p>
         <GlassNavigation
@@ -256,7 +256,7 @@ export const WithEyeTracking: Story = {
 export const AdaptiveLayout: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Adaptive Navigation</h3>
         <p className="glass-text-xs glass-text-secondary glass-mb-4">Adjusts layout complexity based on user stress and preferences</p>
         <GlassNavigation
@@ -286,7 +286,7 @@ export const AdaptiveLayout: Story = {
 export const WithSpatialAudio: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Spatial Audio Navigation</h3>
         <p className="glass-text-xs glass-text-secondary glass-mb-4">Provides directional audio cues for navigation items</p>
         <GlassNavigation
@@ -308,7 +308,7 @@ export const WithSpatialAudio: Story = {
 export const AchievementDrivenNavigation: Story = {
   render: (args) => (
     <div className="space-y-6">
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-4 glass-contrast-guard">
         <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-mb-2">Achievement-Driven Navigation</h3>
         <p className="glass-text-xs glass-text-secondary glass-mb-4">Tracks navigation patterns and unlocks new features</p>
         <GlassNavigation
@@ -335,7 +335,7 @@ export const ConsciousnessShowcase: Story = {
         <p className="glass-text-sm glass-text-secondary">Full consciousness interface integration</p>
       </div>
       
-      <div className="glass-surface-overlay glass-glass-glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
+      <div className="glass-surface-overlay glass-glass-backdrop-blur-sm glass-radius-lg glass-p-6 glass-contrast-guard">
         <GlassNavigation
           {...args}
         />

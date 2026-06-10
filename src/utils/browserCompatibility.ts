@@ -260,7 +260,7 @@ export const compatibilityHelpers = {
         if (!browser.supports.backdropFilter) {
           return {
             background:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+              "var(--glass-neutral-level2-surface)",
             border: "1px solid rgba(0, 0, 0, 0.1)",
           };
         }

@@ -52,7 +52,7 @@ const skeletonKeyframes = `
 
 const skeletonSurfaceStyle: React.CSSProperties = {
   background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+    "var(--glass-primary-level3-surface)",
   border: "1px solid rgba(148, 163, 184, 0.18)",
   boxShadow:
     "0 8px 20px rgba(2, 6, 23, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
@@ -60,7 +60,7 @@ const skeletonSurfaceStyle: React.CSSProperties = {
 
 const skeletonContainerStyle: React.CSSProperties = {
   background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+    "var(--glass-primary-level3-surface)",
   border: "1px solid rgba(148, 163, 184, 0.18)",
   boxShadow:
     "0 12px 28px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.06)",
@@ -130,7 +130,7 @@ export const GlassSkeleton = forwardRef<HTMLDivElement, GlassSkeletonProps>(
             position: "relative",
             overflow: "hidden",
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              "var(--glass-primary-level3-surface)",
             backgroundSize: "200% 100%",
             animation: `skeleton-wave ${ANIMATION.DURATION.slower * 2}ms infinite`,
           };

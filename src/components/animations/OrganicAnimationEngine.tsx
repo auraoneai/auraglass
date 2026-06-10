@@ -218,7 +218,7 @@ const MOTION_PATTERNS: Record<OrganicMotionPattern, Variants> = {
       scale: [0.8, 1.2, 1],
       opacity: [0.5, 1, 1],
       filter: [
-        "blur(var(--glass-glass-blur-md)) brightness(0.8)",
+        "blur(var(--glass-blur-md)) brightness(0.8)",
         "blur(0px) brightness(1.2)",
         "blur(0px) brightness(1)",
       ],
@@ -751,7 +751,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
             top: 0,
             right: 0,
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+              "var(--glass-primary-level2-surface)",
             color: "white",
             padding: "4px 8px",
             fontSize: "10px",

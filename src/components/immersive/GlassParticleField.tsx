@@ -687,7 +687,7 @@ export const GlassParticleField = forwardRef<
           maxWidth: bounds.width,
           height: bounds.height,
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
           ...(style || {}),
         }}
         onMouseMove={handleMouseMove}

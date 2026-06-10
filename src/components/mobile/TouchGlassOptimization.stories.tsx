@@ -232,21 +232,21 @@ const TouchDemo = () => {
       </div>
 
       <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6">
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
           <div className="glass-text-3xl glass-font-bold glass-text-primary glass-mb-2">
             {tapCount}
           </div>
           <div className="glass-text-primary">Taps</div>
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
           <div className="glass-text-3xl glass-font-bold glass-text-primary glass-mb-2">
             {longPressCount}
           </div>
           <div className="glass-text-primary">Long Presses</div>
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-text-center glass-contrast-guard">
           <div className="glass-text-2xl glass-font-bold glass-text-primary glass-mb-2">
             {swipeDirection ? swipeDirection.toUpperCase() : "—"}
           </div>
@@ -255,7 +255,7 @@ const TouchDemo = () => {
       </div>
 
       <div className="glass-text-center">
-        <div className="inline-glass-block glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-px-6 glass-py-3 glass-contrast-guard">
+        <div className="inline-glass-block glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-px-6 glass-py-3 glass-contrast-guard">
           <div className="glass-text-primary glass-text-sm">Last Action:</div>
           <div className="glass-text-primary glass-font-medium">
             {lastAction || "None"}
@@ -287,7 +287,7 @@ const TouchDemo = () => {
         </TouchOptimizedGlass>
       </div>
 
-      <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+      <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
         <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-4">
           Touch Instructions
         </h3>
@@ -386,7 +386,7 @@ export const TouchFeedback: Story = {
           />
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
           <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-4">
             Feedback Types
           </h3>
@@ -496,7 +496,7 @@ export const MobileNavigation: Story = {
             </div>
 
             <div className="glass-text-center mb-6">
-              <div className="inline-glass-block glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-px-6 glass-py-3 glass-contrast-guard">
+              <div className="inline-glass-block glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-px-6 glass-py-3 glass-contrast-guard">
                 <div className="glass-text-primary glass-text-sm">
                   Current Page
                 </div>
@@ -533,7 +533,7 @@ export const MobileNavigation: Story = {
             </div>
           </MobileGlassNavigation>
 
-          <div className="mt-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+          <div className="mt-8 glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-4">
               Swipe History
             </h3>
@@ -553,7 +553,7 @@ export const MobileNavigation: Story = {
             </div>
           </div>
 
-          <div className="mt-8 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+          <div className="mt-8 glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-4">
               Navigation Controls
             </h3>
@@ -687,7 +687,7 @@ export const AdaptiveDensity: Story = {
           </AdaptiveGlassDensity>
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
           <h3 className="glass-text-xl glass-font-semibold glass-text-primary mb-6 glass-text-center">
             Adaptive Features
           </h3>
@@ -759,7 +759,7 @@ export const RippleEffects: Story = {
             maxRipples={3}
             rippleDuration={600}
           >
-            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
+            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="glass-text-4xl glass-mb-3">🌊</div>
               <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                 Default Ripple
@@ -776,7 +776,7 @@ export const RippleEffects: Story = {
             maxRipples={5}
             rippleDuration={800}
           >
-            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
+            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="glass-text-4xl glass-mb-3">💙</div>
               <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                 Blue Ripple
@@ -793,7 +793,7 @@ export const RippleEffects: Story = {
             maxRipples={2}
             rippleDuration={400}
           >
-            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
+            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="glass-text-4xl glass-mb-3">💚</div>
               <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                 Green Ripple
@@ -810,7 +810,7 @@ export const RippleEffects: Story = {
             maxRipples={4}
             rippleDuration={1000}
           >
-            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
+            <div className="glass-p-8 glass-text-center glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-contrast-guard">
               <div className="glass-text-4xl glass-mb-3">🧡</div>
               <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                 Orange Ripple
@@ -823,7 +823,7 @@ export const RippleEffects: Story = {
           </TouchRippleEffects>
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
           <h3 className="glass-text-xl glass-font-semibold glass-text-primary mb-6 glass-text-center">
             Ripple Effect Features
           </h3>
@@ -889,7 +889,7 @@ export const BottomSheet: Story = {
 
           <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6 mb-12">
             <div className="glass-text-center">
-              <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
+              <div className="glass-p-6 glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
                 <div className="glass-text-4xl glass-mb-3">🍽️</div>
                 <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                   Menu Sheet
@@ -907,7 +907,7 @@ export const BottomSheet: Story = {
             </div>
 
             <div className="glass-text-center">
-              <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
+              <div className="glass-p-6 glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
                 <div className="glass-text-4xl glass-mb-3">⚙️</div>
                 <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                   Settings Sheet
@@ -925,7 +925,7 @@ export const BottomSheet: Story = {
             </div>
 
             <div className="glass-text-center">
-              <div className="glass-p-6 glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
+              <div className="glass-p-6 glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-mb-4 glass-contrast-guard">
                 <div className="glass-text-4xl glass-mb-3">👤</div>
                 <h3 className="glass-text-xl glass-font-semibold glass-text-primary glass-mb-2">
                   Profile Sheet
@@ -1063,7 +1063,7 @@ export const BottomSheet: Story = {
             </div>
           </MobileGlassBottomSheet>
 
-          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
+          <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-2xl glass-p-6 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-primary mb-6 glass-text-center">
               Bottom Sheet Features
             </h3>

@@ -302,11 +302,11 @@ export const GLASS = {
   // Blur levels
   blur: {
     none: "none",
-    subtle: "blur(2px)",
-    light: "blur(4px)",
-    standard: "blur(8px)",
-    strong: "blur(12px)",
-    heavy: "blur(16px)",
+    subtle: "blur(4px)",
+    light: "blur(8px)",
+    standard: "blur(16px)",
+    strong: "blur(24px)",
+    heavy: "blur(32px)",
   },
 
   // Variants

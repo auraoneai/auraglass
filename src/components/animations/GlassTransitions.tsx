@@ -23,7 +23,7 @@ const glassTransitionVariants = {
         "blur(0px)",
         "blur(1px)",
         "blur(3px)",
-        "blur(var(--glass-glass-blur-md))",
+        "blur(var(--glass-blur-md))",
         "blur(15px)",
       ],
       rotate: [0, -2, 4, -8, 15],
@@ -38,7 +38,7 @@ const glassTransitionVariants = {
       opacity: [0, 0.3, 0.8, 1],
       filter: [
         "blur(15px)",
-        "blur(var(--glass-glass-blur-md))",
+        "blur(var(--glass-blur-md))",
         "blur(2px)",
         "blur(0px)",
       ],
@@ -168,8 +168,8 @@ const glassTransitionVariants = {
       filter: [
         "blur(0px) brightness(1)",
         "blur(2px) brightness(1.2)",
-        "blur(var(--glass-glass-blur-md)) brightness(0.8)",
-        "blur(var(--glass-glass-blur-lg)) brightness(0.5)",
+        "blur(var(--glass-blur-md)) brightness(0.8)",
+        "blur(var(--glass-blur-lg)) brightness(0.5)",
       ],
       transition: {
         duration: ANIMATION.DURATION.slower / 1000,
@@ -180,8 +180,8 @@ const glassTransitionVariants = {
       scale: [0, 0.9, 1.1, 1],
       opacity: [0, 0.4, 0.8, 1],
       filter: [
-        "blur(var(--glass-glass-blur-lg)) brightness(0.5)",
-        "blur(var(--glass-glass-blur-md)) brightness(0.8)",
+        "blur(var(--glass-blur-lg)) brightness(0.5)",
+        "blur(var(--glass-blur-md)) brightness(0.8)",
         "blur(2px) brightness(1.2)",
         "blur(0px) brightness(1)",
       ],

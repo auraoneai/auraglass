@@ -10,7 +10,7 @@ exports[`GlassSidebar matches snapshot 1`] = `
     class="optimized-glass-surface glass-primary-level1 glass-tier-high h-full flex flex-col transition-colors overflow-visible min-h-[420px] max-h-[calc(100vh-2rem)] w-64 border-r border-border/20"
     data-performance-mode="medium"
     role="navigation"
-    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 8px; box-shadow: 0px 4px 16px 0px hsl(var(--glass-color-primary)/0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: visible;"
+    style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 8px; box-shadow: 0px 4px 24px 0px hsl(var(--glass-color-primary)/0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-primary)/0.14); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: visible;"
   >
     <div
       class="flex-1 glass-px-4 glass-py-2 overflow-y-auto overflow-x-visible"

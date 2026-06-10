@@ -441,7 +441,7 @@ exports[`ChartFilters matches snapshot 1`] = `
       <circle
         cx="2"
         cy="2"
-        fill="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
+        fill="linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 100%)"
         r="1"
       />
     </pattern>
@@ -453,7 +453,7 @@ exports[`ChartFilters matches snapshot 1`] = `
     >
       <path
         d="M0,8 L8,0"
-        stroke="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
+        stroke="linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 100%)"
         stroke-width="1"
       />
     </pattern>
@@ -494,7 +494,7 @@ exports[`ChartFilters matches snapshot 1`] = `
         result="offset"
       />
       <feflood
-        flood-color="linear-gradient(135deg, rgba(30,41,59,0.54) 0%, rgba(15,23,42,0.48) 100%)"
+        flood-color="linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.08) 100%)"
         result="color"
       />
       <fecomposite

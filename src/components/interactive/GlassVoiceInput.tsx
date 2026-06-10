@@ -782,7 +782,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-voice-input relative glass-radius-lg glass-glass-backdrop-blur-md glass-contrast-guard border border-border/20",
+          "glass-voice-input relative glass-radius-lg glass-backdrop-blur glass-contrast-guard border border-border/20",
           className
         )}
         role="region"

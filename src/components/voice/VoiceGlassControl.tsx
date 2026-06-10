@@ -525,7 +525,7 @@ export default function VoiceGlassControl({
         {/* Main Control */}
         <motion.div
           className={cn(
-            "glass-glass-backdrop-blur-lg border p-3 rounded-lg transition-all duration-300 glass-contrast-guard",
+            "glass-backdrop-blur-lg border p-3 rounded-lg transition-all duration-300 glass-contrast-guard",
             getStateColor()
           )}
           whileHover={{ scale: 1.05 }}

@@ -934,7 +934,7 @@ export const GlassWeatherGlass = forwardRef<
         tint="neutral"
         border="subtle"
         className={cn(
-          "glass-weather-glass relative glass-radius-lg glass-glass-backdrop-blur-md border border-border/20",
+          "glass-weather-glass relative glass-radius-lg glass-backdrop-blur border border-border/20",
           className
         )}
         data-testid={props["data-testid"]}

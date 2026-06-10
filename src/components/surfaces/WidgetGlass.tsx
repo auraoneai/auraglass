@@ -143,7 +143,7 @@ export const WidgetGlass = React.memo(
                 "bg-gradient-to-r from-white/8 to-white/12",
               widgetType === "container" && "bg-white/5",
               widgetType === "overlay" &&
-                "bg-white/20 glass-glass-backdrop-blur-md",
+                "bg-white/20 glass-backdrop-blur",
 
               // Size
               fullWidth && "w-full",
@@ -202,7 +202,7 @@ export const WidgetGlass = React.memo(
                 className='glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit glass-transition-opacity glass-duration-200'
                 style={{
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                   opacity: 0.6,
                 }}
               />

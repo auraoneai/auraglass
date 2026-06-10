@@ -4,7 +4,7 @@ exports[`GlassTagInput matches snapshot 1`] = `
 <div
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-radius-xl glass-p-2 glass-flex glass-flex-wrap glass-items-center glass-gap-2 glass-w-full glass-min-w-0 glass-border glass-border-white/10"
   data-glass-component="true"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; box-shadow: 0 8px 22px rgba(2, 6, 23, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 >
   <input
     class="glass-flex-1 glass-min-w-120px glass-bg-transparent glass-border-0 glass-outline-none glass-text-sm glass-text-primary glass-placeholder-text-primary-opacity-50 glass-focus glass-touch-target glass-contrast-guard"

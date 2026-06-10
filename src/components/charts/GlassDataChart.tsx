@@ -403,7 +403,7 @@ const ChartContainer = forwardRef<HTMLDivElement, ChartContainerProps>(
       $blurStrength = "standard",
       $color,
       $elevation = 2,
-      $borderRadius = 12,
+      $borderRadius = 16,
       $borderColor,
       className,
       style,

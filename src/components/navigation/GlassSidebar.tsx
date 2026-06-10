@@ -268,7 +268,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
             ? "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             : "absolute glass-right-2 glass-top-3",
           "w-10 h-10 glass-radius-full flex items-center justify-center",
-          "glass-glass-backdrop-blur-md2xl border",
+          "glass-backdrop-blur-lg border",
           "glass-focus glass-touch-target glass-contrast-guard",
           "shadow-[0_6px_18px_color-mix(in_srgb,var(--glass-black)_35%,transparent),inset_0_1px_2px_var(--glass-bg-active)] ring-1",
           "hover:bg-white/65 active:bg-white/70"

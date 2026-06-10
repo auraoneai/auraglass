@@ -88,7 +88,7 @@ class AILayoutGenerator {
         secondary: "var(--glass-color-success)",
         accent: "var(--glass-color-primary)",
         background:
-          '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+          "var(--glass-primary-level2-surface)",
         surface:
           "color-mix(in srgb, var(--glass-white) var(--glass-opacity-10), transparent)",
         text: "var(--glass-white)",

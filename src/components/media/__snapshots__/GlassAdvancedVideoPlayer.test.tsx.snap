@@ -67,12 +67,12 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
   }
 
   .ag-advanced-video-player .ag-video-controls {
-    border-top: 1px solid rgba(226, 232, 240, 0.24);
+    border-top: 1px solid var(--glass-border-default);
     background:
       linear-gradient(180deg, rgba(15, 23, 42, 0.42), rgba(2, 6, 23, 0.92)),
       rgba(2, 6, 23, 0.84);
-    backdrop-filter: blur(26px) saturate(1.45);
-    -webkit-backdrop-filter: blur(26px) saturate(1.45);
+    backdrop-filter: blur(var(--glass-neutral-level4-blur, 40px)) var(--glass-filter-base);
+    -webkit-backdrop-filter: blur(var(--glass-neutral-level4-blur, 40px)) var(--glass-filter-base);
   }
 
   .ag-advanced-video-player .ag-video-control-row,
@@ -285,7 +285,7 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
         <div
           class="glass-absolute glass-bottom-0 glass-left-0 glass-right-0 glass-p-4 ag-video-controls"
           data-glass-component="true"
-          style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.24); border-radius: 12px; box-shadow: 0px 16px 40px 0px rgba(0,0,0,0.3); color: rgb(248, 250, 252); transition: all 200ms ease-out; position: absolute; transform: translateZ(0); right: 0px; bottom: 0px; left: 0px; z-index: 20;"
+          style="background-color: rgba(15, 23, 42, 0.26); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.28); border-radius: 16px; box-shadow: 0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(255,255,255,0.16); color: rgb(248, 250, 252); transition: all 200ms ease-out; position: absolute; transform: translateZ(0); right: 0px; bottom: 0px; left: 0px; z-index: 20;"
         >
           <div
             class="glass-w-full glass-h-2 glass-surface-subtle/20 glass-radius-full glass-cursor-pointer glass-mb-4 glass-relative"
@@ -314,7 +314,7 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
               <button
                 aria-label="Play video"
                 class="glass-w-12 glass-h-12 glass-flex glass-items-center glass-justify-center glass-surface-subtle/20 hover:glass-surface-subtle/30 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none; border-color: rgba(191, 219, 254, 0.72);"
+                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none; border-color: rgba(191, 219, 254, 0.72);"
               >
                 <div
                   class="glass-w-0 glass-h-0 glass-border-l-4 glass-border-l-white glass-border-y-4 glass-border-y-transparent glass-ml-1"
@@ -326,14 +326,14 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
                 <button
                   aria-label="Mute video"
                   class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                  style="background-color: rgba(15, 23, 42, 0.26); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
                 >
                   🔊
                 </button>
               </div>
               <div
                 class="glass-text-sm glass-font-mono"
-                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 999px; box-shadow: 0px 12px 32px 0px rgba(0,0,0,0.25); color: rgb(248, 250, 252); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding: 8px 12px; white-space: nowrap;"
+                style="background-color: rgba(15, 23, 42, 0.24); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 999px; box-shadow: 0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14); color: rgb(248, 250, 252); transition: all 200ms ease-out; position: relative; transform: translateZ(0); padding: 8px 12px; white-space: nowrap;"
               >
                 0:00
                  / 
@@ -350,7 +350,7 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
                 <button
                   aria-label="Playback speed: 1x"
                   class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                  style="background-color: rgba(15, 23, 42, 0.26); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
                 >
                   1
                   x
@@ -362,7 +362,7 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
                 <button
                   aria-label="Video quality: auto"
                   class="glass-px-3 glass-py-2 glass-text-sm hover:glass-surface-subtle/20 glass-radius-md glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                  style="background-color: rgba(15, 23, 42, 0.26); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
                 >
                   auto
                 </button>
@@ -370,7 +370,7 @@ exports[`GlassAdvancedVideoPlayer matches snapshot 1`] = `
               <button
                 aria-label="Enter fullscreen"
                 class="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-                style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
+                style="background-color: rgba(15, 23, 42, 0.26); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148, 163, 184, 0.42); border-radius: 16px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28); color: rgb(248, 250, 252); transition: all 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0); cursor: pointer; user-select: none; appearance: none;"
               >
                 ⊞
               </button>

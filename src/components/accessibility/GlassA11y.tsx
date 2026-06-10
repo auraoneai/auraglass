@@ -371,7 +371,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
           className={cn(
             // Base glass foundation
             "glass-foundation-complete glass-radius-full",
-            isCompact ? "glass-w-10 glass-h-10" : "glass-w-14 glass-glass-h-14",
+            isCompact ? "glass-w-10 glass-h-10" : "glass-w-14 glass-h-14",
             "flex items-center justify-center glass-shadow-lg hover:glass-shadow-xl",
             "glass-transition glass-focus glass-press glass-magnet",
             // Conditional styling with glass tokens

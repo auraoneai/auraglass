@@ -30,11 +30,11 @@
 
   /* === RADIUS SCALE === */
   --glass-radius-none: 0px;
-  --glass-radius-sm: 8px;
-  --glass-radius-md: 12px;
-  --glass-radius-lg: 16px;
-  --glass-radius-xl: 20px;
-  --glass-radius-2xl: 24px;
+  --glass-radius-sm: 10px;
+  --glass-radius-md: 16px;
+  --glass-radius-lg: 24px;
+  --glass-radius-xl: 32px;
+  --glass-radius-2xl: 40px;
   --glass-radius-full: 9999px;
 
   /* === SHADOW TOKENS === */
@@ -131,9 +131,9 @@
   --glass-space-96: 24rem;
 
   /* === BACKDROP FILTER TOKENS === */
-  --glass-backdrop-blur: blur(var(--glass-blur-lg));
+  --glass-backdrop-blur: blur(var(--glass-blur-xl));
   --glass-backdrop-saturate: saturate(1.8);
-  --glass-backdrop-brightness: brightness(1.1);
+  --glass-backdrop-brightness: brightness(1.05);
   --glass-backdrop-contrast: contrast(1.05);
   --glass-backdrop-hue-rotate: hue-rotate(0deg);
   --glass-backdrop-invert: invert(0);
@@ -242,13 +242,13 @@
   );
 
   --glass-border-default: rgba(
-    var(--glass-color-white) / var(--glass-opacity-40)
+    var(--glass-color-white) / var(--glass-opacity-25)
   );
   --glass-border-hover: rgba(
-    var(--glass-color-white) / var(--glass-opacity-50)
+    var(--glass-color-white) / var(--glass-opacity-40)
   );
   --glass-border-active: rgba(
-    var(--glass-color-white) / var(--glass-opacity-60)
+    var(--glass-color-white) / var(--glass-opacity-50)
   );
   --glass-border-disabled: rgba(
     var(--glass-color-white) / var(--glass-opacity-20)

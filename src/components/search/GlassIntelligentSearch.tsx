@@ -770,17 +770,10 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
     >
       <style>{`
         .glass-intelligent-search-panel {
-          background: linear-gradient(135deg, rgba(30, 41, 59, 0.76), rgba(15, 23, 42, 0.68)), rgba(15, 23, 42, 0.72) !important;
-          background-color: rgba(15, 23, 42, 0.72) !important;
-          border-color: rgba(148, 163, 184, 0.24) !important;
-          color: rgba(248, 250, 252, 0.96) !important;
-          box-shadow: 0 18px 52px rgba(2, 6, 23, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-        }
-
-        .glass-intelligent-search-panel .glass-text-primary,
-        .glass-intelligent-search-panel .glass-text-secondary,
-        .glass-intelligent-search-panel .glass-text-tertiary {
-          color: rgba(248, 250, 252, 0.96) !important;
+          background: var(--glass-neutral-level3-surface) !important;
+          border-color: var(--glass-neutral-level3-border-color) !important;
+          color: var(--glass-neutral-level3-text-primary) !important;
+          box-shadow: var(--glass-neutral-level3-shadow);
         }
 
         .glass-intelligent-search-panel label,
@@ -790,37 +783,35 @@ export const GlassIntelligentSearch: React.FC<IntelligentSearchProps> = ({
         }
 
         .glass-intelligent-search-panel button {
-          background-color: rgba(15, 23, 42, 0.58) !important;
-          border: 1px solid rgba(148, 163, 184, 0.24) !important;
-          color: rgba(248, 250, 252, 0.96) !important;
-          border-radius: 12px;
+          background-color: rgba(var(--glass-color-white) / 0.1) !important;
+          border: 1px solid var(--glass-border-default) !important;
+          color: var(--glass-text-primary) !important;
+          border-radius: var(--glass-radius-md);
         }
 
         .glass-intelligent-search-panel .glass-search-primary-action {
-          background: linear-gradient(135deg, rgba(3, 105, 161, 0.96), rgba(29, 78, 216, 0.92)), rgba(3, 105, 161, 0.96) !important;
-          background-color: rgba(3, 105, 161, 0.96) !important;
-          border-color: rgba(125, 211, 252, 0.42);
-          color: #f8fafc !important;
+          background: var(--glass-primary-level3-surface) !important;
+          border-color: var(--glass-primary-level3-border-color);
+          color: var(--glass-primary-level3-text-primary) !important;
         }
 
         .glass-intelligent-search-dropdown {
-          background: linear-gradient(135deg, rgba(30, 41, 59, 0.94), rgba(15, 23, 42, 0.9)), rgba(15, 23, 42, 0.92) !important;
-          background-color: rgba(15, 23, 42, 0.92) !important;
-          backdrop-filter: blur(18px) saturate(1.35);
-          -webkit-backdrop-filter: blur(18px) saturate(1.35);
+          background: var(--glass-neutral-level4-surface) !important;
+          backdrop-filter: blur(var(--glass-neutral-level4-blur)) var(--glass-filter-base);
+          -webkit-backdrop-filter: blur(var(--glass-neutral-level4-blur)) var(--glass-filter-base);
         }
 
         .glass-intelligent-search input[type="text"] {
           appearance: none;
           -webkit-appearance: none;
-          background: rgba(15, 23, 42, 0.7);
-          color: rgba(248, 250, 252, 0.96);
-          border-color: rgba(148, 163, 184, 0.26);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+          background: rgba(var(--glass-color-white) / 0.08);
+          color: var(--glass-text-primary);
+          border-color: var(--glass-border-default);
+          box-shadow: inset 0 1px 0 rgba(var(--glass-color-white) / 0.12);
         }
 
         .glass-intelligent-search input[type="text"]::placeholder {
-          color: rgba(226, 232, 240, 0.62);
+          color: var(--glass-text-tertiary);
         }
 
         .glass-search-checkbox {

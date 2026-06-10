@@ -506,7 +506,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
         maxWidth: "100%",
         boxSizing: "border-box",
         background:
-          '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+          "var(--glass-primary-level3-surface)",
       }}
     >
       {/* Toolbar */}
@@ -556,7 +556,7 @@ export const GlassMindMap: React.FC<GlassMindMapProps> = ({
           minHeight: 0,
           cursor: isPanning ? "grabbing" : "grab",
           background:
-            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+            "var(--glass-neutral-level2-surface)",
         }}
       >
         <svg

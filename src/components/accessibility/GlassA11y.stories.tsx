@@ -140,7 +140,7 @@ export const Default: Story = {
         </h1>
 
         <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-2 glass-gap-6 mb-8">
-          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Interactive Content
             </h3>
@@ -153,7 +153,7 @@ export const Default: Story = {
             </button>
           </div>
 
-          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Form Elements
             </h3>
@@ -195,7 +195,7 @@ export const TestingMode: Story = {
         </h1>
 
         <div className="glass-grid glass-glass-grid-cols-1 md:glass-glass-grid-cols-3 glass-gap-6 mb-8">
-          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">WCAG AA Compliance</h4>
             <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
               <div className="glass-surface-green glass-h-2 glass-radius-full" style={{ width: '95%' }}></div>
@@ -203,7 +203,7 @@ export const TestingMode: Story = {
             <p className="glass-text-sm glass-text-secondary dark:text-gray-300">95% compliant</p>
           </div>
 
-          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">Keyboard Navigation</h4>
             <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
               <div className="glass-surface-blue glass-h-2 glass-radius-full" style={{ width: '100%' }}></div>
@@ -211,7 +211,7 @@ export const TestingMode: Story = {
             <p className="glass-text-sm glass-text-secondary dark:text-gray-300">Fully accessible</p>
           </div>
 
-          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-4 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-contrast-guard glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h4 className="glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-2">Screen Reader Support</h4>
             <div className="glass-w-full glass-surface-subtle dark:glass-surface-subtle glass-radius-full glass-h-2 glass-mb-2">
               <div className="glass-surface-primary glass-h-2 glass-radius-full" style={{ width: '90%' }}></div>

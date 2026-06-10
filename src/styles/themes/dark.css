@@ -166,7 +166,7 @@
   );
 
   /* === BACKDROP ADJUSTMENTS === */
-  --glass-backdrop-brightness: brightness(1.1);
+  --glass-backdrop-brightness: brightness(1.05);
   --glass-backdrop-contrast: contrast(1.05);
 
   /* === GRADIENT OVERRIDES === */

@@ -473,8 +473,8 @@ select[class*="glass-"] option {
 
 /* Effects - Support for components */
 .backdrop-blur-sm {
-  backdrop-filter: blur(var(--glass-blur-md)) saturate(1.5);
-  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(1.5);
+  backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8);
+  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8);
 }
 .backdrop-blur-md {
   backdrop-filter: blur(var(--glass-blur-lg)) saturate(1.8);

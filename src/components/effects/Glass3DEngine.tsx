@@ -581,7 +581,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
               width: "20px",
               height: "20px",
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "var(--glass-neutral-level2-surface)",
               borderRadius: "50%",
               transform: "translate(-50%, -50%)",
               pointerEvents: "none",

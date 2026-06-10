@@ -6,7 +6,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
   class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-kanban-board glass-radius-lg glass-backdrop-blur-md glass-border glass-border-glass-border/20"
   id="glass-kanban-board-:r7:"
   role="region"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); color: rgba(248, 250, 252, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
+  style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); color: rgba(248, 250, 252, 0.94); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
 >
   <div
     class="motion-primitive glass-flex glass-flex-col glass-h-full"
@@ -26,7 +26,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: To do"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
+            style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
@@ -94,7 +94,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-yellow-500/30 bg-yellow-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
+                  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div
@@ -160,7 +160,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: Doing"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
+            style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
@@ -228,7 +228,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-orange-500/30 bg-orange-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
+                  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div
@@ -294,7 +294,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
             aria-label="Column: Done"
             class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-column glass-flex glass-flex-col glass-h-full glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-lg"
             role="region"
-            style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
+            style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); width: 300px; min-width: 300px; max-width: 300px; overflow: hidden;"
           >
             <div
               class="glass-p-4 glass-border-b glass-border-glass-border/20"
@@ -362,7 +362,7 @@ exports[`GlassKanbanBoard matches snapshot 1`] = `
                   class="optimized-glass-surface glass-neutral-level2 glass-tier-high glass-kanban-card glass-relative glass-cursor-pointer transition-all duration-[150ms] glass-backdrop-blur-md glass-border glass-border-glass-border/20 glass-radius-md glass-p-4 min-h-[100px] hover:scale-[1.02] hover:shadow-lg glass-border-green-500/30 bg-green-500/5 cursor-grab glass-active-cursor-grabbing"
                   draggable="true"
                   role="article"
-                  style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
+                  style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out; position: relative; transform: translateZ(0); overflow: hidden;"
                   tabindex="0"
                 >
                   <div

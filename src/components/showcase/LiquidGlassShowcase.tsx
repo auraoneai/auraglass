@@ -64,7 +64,7 @@ export function LiquidGlassShowcase() {
           inset: 0,
           pointerEvents: "none",
           background:
-            '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+            "var(--glass-primary-level3-surface)",
         }}
       />
       <div
@@ -124,7 +124,7 @@ export function LiquidGlassShowcase() {
                   border: 0,
                   borderRadius: 999,
                   background:
-                    '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+                    "var(--glass-primary-level2-surface)",
                   color: "#0f172a",
                   cursor: "pointer",
                   font: "inherit",
@@ -185,7 +185,7 @@ export function LiquidGlassShowcase() {
                   borderRadius: 24,
                   padding: 18,
                   background:
-                    '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                    "var(--glass-neutral-level3-surface)",
                   boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.66)",
                 }}
               >

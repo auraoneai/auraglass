@@ -12,10 +12,10 @@ exports[`GlassStepper matches snapshot 1`] = `
     >
       <div
         aria-label="Decrease value"
-        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-backdrop-blur transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
         data-performance-mode="high"
         role="button"
-        style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         tabindex="0"
       >
         <svg
@@ -35,13 +35,13 @@ exports[`GlassStepper matches snapshot 1`] = `
     </div>
     <div
       class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-stepper-input bg-background/30"
-      style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+      style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
     >
       <input
         aria-label="Stepper"
         aria-valuenow="0"
         aria-valuetext="0"
-        class="w-full text-center glass-radius-md border glass-glass-backdrop-blur-md glass-contrast-guard bg-transparent text-foreground placeholder:glass-text-secondary focus:outline-none glass-focus transition-all duration-200 h-8 glass-px-3 glass-text-sm border-border/20 focus:border-primary/50"
+        class="w-full text-center glass-radius-md border glass-backdrop-blur glass-contrast-guard bg-transparent text-foreground placeholder:glass-text-secondary focus:outline-none glass-focus transition-all duration-200 h-8 glass-px-3 glass-text-sm border-border/20 focus:border-primary/50"
         id="glass-stepper-:r9:"
         role="spinbutton"
         type="text"
@@ -53,10 +53,10 @@ exports[`GlassStepper matches snapshot 1`] = `
     >
       <div
         aria-label="Increase value"
-        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-glass-backdrop-blur-md transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
+        class="optimized-glass-surface glass-neutral-level2 glass-lift-on-hover glass-press glass-tier-high glass-stepper-button flex items-center justify-center glass-radius-md border glass-backdrop-blur transition-all duration-200 glass-contrast-guard focus:outline-none glass-focus select-none glass-touch-target h-8 w-8 glass-text-sm border-border/20 hover:border-primary/30 focus:border-primary/50 bg-background/50 cursor-pointer glass-hover-scale-105 active:scale-95"
         data-performance-mode="high"
         role="button"
-        style="--glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.2); border-radius: 8px; box-shadow: 0px 8px 24px 0px rgba(0,0,0,0.2); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
+        style="background-color: rgba(15, 23, 42, 0.22); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.20); border-radius: 8px; box-shadow: 0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12); transition: all 200ms ease-out, transform 200ms ease-out, transform 200ms ease-out; position: relative; transform: translateZ(0);"
         tabindex="0"
       >
         <svg

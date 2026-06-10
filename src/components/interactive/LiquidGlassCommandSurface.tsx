@@ -71,21 +71,6 @@ export const LiquidGlassCommandSurface = forwardRef<
           )}
           {...props}
         >
-          <style>{`
-            .liquid-glass-command-surface button {
-              background-color: rgba(15, 23, 42, 0.72) !important;
-              border: 1px solid rgba(255, 255, 255, 0.24) !important;
-              color: rgba(255, 255, 255, 0.95) !important;
-            }
-
-            .liquid-glass-command-surface button span {
-              color: rgba(255, 255, 255, 0.95) !important;
-            }
-
-            .liquid-glass-command-surface button .glass-text-secondary {
-              color: rgba(255, 255, 255, 0.78) !important;
-            }
-          `}</style>
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}

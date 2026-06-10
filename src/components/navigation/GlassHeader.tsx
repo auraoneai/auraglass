@@ -351,7 +351,7 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         variant === "floating" ? "squiricle" : "",
         // Consciousness feature styles
         {
-          "glass-glass-backdrop-blur-sm":
+          "glass-backdrop-blur-sm":
             isScrolled && (predictive || gazeResponsive),
           "glass-shadow-lg": gazeResponsive,
         },

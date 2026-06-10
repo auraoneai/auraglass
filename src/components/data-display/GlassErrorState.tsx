@@ -62,7 +62,7 @@ export const GlassErrorState = forwardRef<HTMLDivElement, GlassErrorStateProps>(
           </div>
         </div>
         {details ? (
-          <div className="glass-rounded-md glass-border glass-border-white/10 glass-bg-black/20 glass-p-3 glass-text-xs glass-text-secondary">
+          <div className="glass-rounded-md glass-border glass-border-white/12 glass-bg-white/5 glass-p-3 glass-text-xs glass-text-secondary">
             {details}
           </div>
         ) : null}

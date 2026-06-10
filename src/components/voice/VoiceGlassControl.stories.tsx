@@ -187,7 +187,7 @@ export const Default: Story = {
         </h1>
 
         <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-2 glass-gap-6 mb-8">
-          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Voice Commands
             </h3>
@@ -201,7 +201,7 @@ export const Default: Story = {
             </div>
           </div>
 
-          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
+          <div className="glass-p-6 glass-surface-subtle/80 dark:glass-surface-primary/80 glass-backdrop-blur-lg glass-radius-xl glass-border glass-border-subtle/50 dark:glass-border-gray-700/50 glass-contrast-guard">
             <h3 className="glass-text-xl glass-font-semibold glass-text-secondary dark:glass-text-primary glass-mb-4">
               Voice Features
             </h3>
@@ -250,7 +250,7 @@ export const MusicPlayer: Story = {
           Voice Music Player
         </h1>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
           <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
             <div>
               <h3 className="glass-text-xl glass-font-semibold glass-text-primary">
@@ -313,7 +313,7 @@ export const SmartHome: Story = {
         </h1>
 
         <div className="glass-grid glass-grid-cols-1 md:glass-grid-cols-3 glass-gap-6 mb-8">
-          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
+          <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
               <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
                 Living Room
@@ -327,7 +327,7 @@ export const SmartHome: Story = {
             </div>
           </div>
 
-          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
+          <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
               <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
                 Kitchen
@@ -341,7 +341,7 @@ export const SmartHome: Story = {
             </div>
           </div>
 
-          <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
+          <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-xl glass-p-6 glass-contrast-guard">
             <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
               <h3 className="glass-text-lg glass-font-semibold glass-text-primary">
                 Bedroom
@@ -356,7 +356,7 @@ export const SmartHome: Story = {
           </div>
         </div>
 
-        <div className="glass-surface-subtle/10 glass-glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
+        <div className="glass-surface-subtle/10 glass-backdrop-blur-lg glass-radius-xl glass-p-6 mb-8 glass-contrast-guard">
           <h3 className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-4">
             Voice Commands
           </h3>

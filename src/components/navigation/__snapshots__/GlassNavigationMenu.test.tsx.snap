@@ -3,10 +3,10 @@
 exports[`GlassNavigationMenu matches snapshot 1`] = `
 <nav
   aria-label="Navigation menu"
-  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-glass-backdrop-blur-md ring-1 ring-white/10 bg-white/5 flex flex-col"
+  class="optimized-glass-surface glass-neutral-level1 glass-tier-high glass-backdrop-blur ring-1 ring-white/10 bg-white/5 flex flex-col"
   data-glass-component="true"
   data-performance-mode="medium"
   role="navigation"
-  style="background-color: rgba(15, 23, 42, 0.38); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(148,163,184,0.18); border-radius: 8px; box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.15); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
+  style="background-color: rgba(15, 23, 42, 0.2); --glass-text-primary: rgba(255,255,255,0.98); --glass-text-secondary: rgba(255,255,255,0.88); --typography-text-primary: rgba(255,255,255,0.98); --typography-text-secondary: rgba(255,255,255,0.88); border: 1px solid rgba(255,255,255,0.16); border-radius: 8px; box-shadow: 0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10); transition: all 200ms ease-out; position: relative; transform: translateZ(0);"
 />
 `;

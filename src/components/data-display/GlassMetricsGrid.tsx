@@ -121,7 +121,7 @@ export interface GlassMetricsGridProps extends React.HTMLAttributes<HTMLDivEleme
 
 const metricsSurfaceStyle: React.CSSProperties = {
   background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+    "var(--glass-primary-level3-surface)",
   border: "1px solid rgba(148, 163, 184, 0.2)",
   boxShadow:
     "0 12px 30px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.07)",
@@ -129,7 +129,7 @@ const metricsSurfaceStyle: React.CSSProperties = {
 
 const metricsCardSurfaceStyle: React.CSSProperties = {
   background:
-    '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+    "var(--glass-primary-level3-surface)",
   border: "1px solid rgba(148, 163, 184, 0.2)",
   boxShadow:
     "0 10px 24px rgba(2, 6, 23, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.08)",

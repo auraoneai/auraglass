@@ -47,45 +47,32 @@ const searchFieldStyles = `
   }
 
   .liquid-glass-search-field-control {
-    color: rgba(248, 250, 252, 0.96);
+    color: var(--glass-text-primary);
   }
 
   .liquid-glass-search-field-control input::placeholder {
-    color: rgba(226, 232, 240, 0.68);
+    color: var(--glass-text-tertiary);
   }
 
   .liquid-glass-search-field-dropdown {
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.84)) !important;
-    border: 1px solid rgba(148, 163, 184, 0.24);
-    color: rgba(248, 250, 252, 0.96);
-    box-shadow: 0 22px 56px rgba(2, 6, 23, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    background: var(--glass-neutral-level4-surface);
+    border: 1px solid var(--glass-neutral-level4-border-color);
+    color: var(--glass-neutral-level4-text-primary);
+    backdrop-filter: blur(var(--glass-neutral-level4-blur)) var(--glass-filter-base);
+    -webkit-backdrop-filter: blur(var(--glass-neutral-level4-blur)) var(--glass-filter-base);
+    box-shadow: var(--glass-neutral-level4-shadow);
     overflow: hidden;
   }
 
   .liquid-glass-search-field-option {
-    background: rgba(15, 23, 42, 0.62) !important;
-    color: rgba(248, 250, 252, 0.96) !important;
+    background: rgba(var(--glass-color-white) / 0.06);
+    color: var(--glass-text-primary);
     border: 1px solid transparent;
-  }
-
-  .liquid-glass-search-field-option span {
-    color: rgba(248, 250, 252, 0.96) !important;
-  }
-
-  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option {
-    background: rgba(15, 23, 42, 0.7) !important;
-    color: rgba(248, 250, 252, 0.96) !important;
-  }
-
-  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option span,
-  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-block,
-  [data-liquid-glass-search-field="true"] button.liquid-glass-search-field-option .glass-text-secondary {
-    color: rgba(248, 250, 252, 0.96) !important;
   }
 
   .liquid-glass-search-field-option:hover,
   .liquid-glass-search-field-option:focus-visible {
-    background: rgba(56, 189, 248, 0.2) !important;
+    background: rgba(56, 189, 248, 0.2);
     border-color: rgba(125, 211, 252, 0.28);
   }
 `;
@@ -150,7 +137,7 @@ export const LiquidGlassSearchField = forwardRef<
           className="liquid-glass-search-field-control"
           style={{
             background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+              "var(--glass-primary-level3-surface)",
             border: "1px solid rgba(148, 163, 184, 0.24)",
             boxShadow:
               "0 10px 28px rgba(2, 6, 23, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
@@ -199,7 +186,7 @@ export const LiquidGlassSearchField = forwardRef<
               className="liquid-glass-search-field-dropdown glass-absolute glass-left-0 glass-right-0 glass-top-full glass-z-50 glass-mt-2"
               style={{
                 background:
-                  '/* Use createGlassStyle({ intent: "primary", elevation: "level3" }) */',
+                  "var(--glass-primary-level3-surface)",
                 border: "1px solid rgba(148, 163, 184, 0.2)",
                 boxShadow: "0 18px 44px rgba(2, 6, 23, 0.34)",
               }}
