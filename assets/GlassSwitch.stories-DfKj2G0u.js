@@ -1,0 +1,12 @@
+import{j as e,r as p}from"./iframe-BjV92FSR.js";import{t as o,Z as i,an as c}from"./components-iAsFx0-_.js";import{G as r}from"./GlassSwitch-Dtiaf7FQ.js";import"./preload-helper-PPVm8Dsz.js";import"./MotionPreferenceContext-BG4aCwj4.js";import"./a11y-kNhoBw9e.js";import"./OptimizedGlassCore-Bqu41MF1.js";import"./deviceCapabilities-ClwxliFj.js";const w={title:"Controls/Inputs/Glass Switch",component:r,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"A glass switch for binary preferences with label, description, size, and validation states."}}},args:{label:"Realtime alerts",description:"Notify operators when delivery health changes.",defaultChecked:!0,variant:"info",size:"md"}},n=s=>{const[d,l]=p.useState(s.checked??s.defaultChecked??!0);return e.jsxs("div",{className:"glass-grid glass-w-[min(560px,calc(100vw-48px))] glass-gap-4 glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-6 glass-shadow-xl glass-backdrop-blur-xl",children:[e.jsx(r,{...s,checked:d,onChange:l}),e.jsxs("div",{className:"glass-grid glass-gap-3",children:[e.jsx(r,{label:"Protected mode",description:"Require approval for risky changes.",defaultChecked:!0,variant:"success",icons:{checked:e.jsx(o,{size:12}),unchecked:e.jsx(o,{size:12})}}),e.jsx(r,{label:"Performance boost",description:"Use higher refresh frequency during launch windows.",variant:"warning",icons:{checked:e.jsx(i,{size:12}),unchecked:e.jsx(i,{size:12})}}),e.jsx(r,{label:"Muted digest",description:"Paused while incident mode is active.",disabled:!0,icons:{checked:e.jsx(c,{size:12}),unchecked:e.jsx(c,{size:12})}})]})]})},a={render:s=>e.jsx(n,{...s})},t={args:{label:"Public sharing",description:"Share dashboards outside the workspace.",error:"Workspace policy blocks external sharing.",variant:"error",defaultChecked:!1},render:s=>e.jsx(n,{...s})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: args => <SwitchFrame {...args} />
+}`,...a.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    label: "Public sharing",
+    description: "Share dashboards outside the workspace.",
+    error: "Workspace policy blocks external sharing.",
+    variant: "error",
+    defaultChecked: false
+  },
+  render: args => <SwitchFrame {...args} />
+}`,...t.parameters?.docs?.source}}};const j=["Default","Error"];export{a as Default,t as Error,j as __namedExportsOrder,w as default};
