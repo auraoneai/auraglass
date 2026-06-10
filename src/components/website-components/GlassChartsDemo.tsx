@@ -14,7 +14,7 @@ const semanticColors = {
   chart: {
     primary: "var(--glass-color-primary-light)", // brand blue
     secondary: "var(--glass-color-secondary)", // brand purple
-    senary: "var(--glass-color-info)", // cyan-ish for area fill
+    senary: "hsl(var(--glass-color-info))", // cyan-ish for area fill
   },
 } as const;
 
@@ -72,7 +72,7 @@ export const chartGlass = {
   },
   label: (text: string) => ({
     value: text,
-    fill: "color-mix(in srgb, var(--glass-white) var(--glass-opacity-80), transparent)",
+    fill: "color-mix(in srgb, var(--glass-white) 80%, transparent)",
     fontSize: 14,
   }),
   tooltip: {

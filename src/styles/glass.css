@@ -120,18 +120,33 @@
 }
 
 .glass-backdrop-blur {
-  backdrop-filter: blur(var(--glass-blur-md, 16px));
-  -webkit-backdrop-filter: blur(var(--glass-blur-md, 16px));
+  backdrop-filter: blur(var(--glass-blur-md, 24px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-md, 24px));
 }
 
 .glass-backdrop-blur-sm {
-  backdrop-filter: blur(var(--glass-blur-sm, 8px));
-  -webkit-backdrop-filter: blur(var(--glass-blur-sm, 8px));
+  backdrop-filter: blur(var(--glass-blur-sm, 16px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm, 16px));
+}
+
+.glass-backdrop-blur-md {
+  backdrop-filter: blur(var(--glass-blur-md, 24px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-md, 24px));
 }
 
 .glass-backdrop-blur-lg {
-  backdrop-filter: blur(var(--glass-blur-lg, 24px));
-  -webkit-backdrop-filter: blur(var(--glass-blur-lg, 24px));
+  backdrop-filter: blur(var(--glass-blur-lg, 32px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg, 32px));
+}
+
+.glass-backdrop-blur-xl {
+  backdrop-filter: blur(var(--glass-blur-xl, 40px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl, 40px));
+}
+
+.glass-backdrop-blur-2xl {
+  backdrop-filter: blur(var(--glass-blur-2xl, 48px));
+  -webkit-backdrop-filter: blur(var(--glass-blur-2xl, 48px));
 }
 
 /* ========================================
@@ -334,7 +349,7 @@
   outline-offset: var(--glass-focus-offset);
   box-shadow: var(
     --glass-theme-focus-ring,
-    0 0 0 4px rgba(var(--glass-color-primary) / var(--glass-opacity-20))
+    0 0 0 4px hsl(var(--glass-color-primary) / var(--glass-opacity-20))
   );
 }
 
@@ -1260,10 +1275,6 @@
 }
 .glass--top-2 {
   top: calc(var(--glass-space-2) * -1);
-}
-.glass-backdrop-blur-sm {
-  backdrop-filter: var(--glass-backdrop-blur);
-  -webkit-backdrop-filter: var(--glass-backdrop-blur);
 }
 .glass-max-h-64 {
   max-height: var(--glass-space-64);
@@ -2985,7 +2996,10 @@ svg.glass-touch-target {
   .glass-blur-backdrop,
   .glass-backdrop-blur,
   .glass-backdrop-blur-sm,
+  .glass-backdrop-blur-md,
   .glass-backdrop-blur-lg,
+  .glass-backdrop-blur-xl,
+  .glass-backdrop-blur-2xl,
   .glass-subtle,
   .glass-strong,
   .glass-modal {
@@ -3025,7 +3039,10 @@ svg.glass-touch-target {
   .glass-blur-backdrop,
   .glass-backdrop-blur,
   .glass-backdrop-blur-sm,
+  .glass-backdrop-blur-md,
   .glass-backdrop-blur-lg,
+  .glass-backdrop-blur-xl,
+  .glass-backdrop-blur-2xl,
   .glass-subtle,
   .glass-strong,
   .glass-modal {
@@ -3050,7 +3067,10 @@ svg.glass-touch-target {
   .glass-blur-backdrop,
   .glass-backdrop-blur,
   .glass-backdrop-blur-sm,
+  .glass-backdrop-blur-md,
   .glass-backdrop-blur-lg,
+  .glass-backdrop-blur-xl,
+  .glass-backdrop-blur-2xl,
   .glass-subtle,
   .glass-strong,
   .glass-modal {

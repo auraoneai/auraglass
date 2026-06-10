@@ -53,7 +53,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
       ring: "ring-offset-2 ring-offset-slate-900",
       background: "bg-blue-400/8",
       shadowVar:
-        "var(--glass-focus-shadow-primary, 0 0 15px color-mix(in srgb, var(--glass-color-primary) 50%, transparent))",
+        "var(--glass-focus-shadow-primary, 0 0 15px color-mix(in srgb, hsl(var(--glass-color-primary)) 50%, transparent))",
     };
 
     if (variant === "interactive") {
@@ -61,7 +61,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         ring: `${base.ring} ring-4 ring-blue-400/60`,
         background: "bg-blue-400/10",
         shadowVar:
-          "var(--glass-focus-shadow-interactive, 0 0 20px color-mix(in srgb, var(--glass-color-primary) 60%, transparent))",
+          "var(--glass-focus-shadow-interactive, 0 0 20px color-mix(in srgb, hsl(var(--glass-color-primary)) 60%, transparent))",
       };
     }
     if (variant === "navigation") {
@@ -77,7 +77,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         ring: `${base.ring} ring-3 ring-green-400/60`,
         background: "bg-green-400/10",
         shadowVar:
-          "var(--glass-focus-shadow-form, 0 0 15px color-mix(in srgb, var(--glass-color-success) 60%, transparent))",
+          "var(--glass-focus-shadow-form, 0 0 15px color-mix(in srgb, hsl(var(--glass-color-success)) 60%, transparent))",
       };
     }
     return {
@@ -120,7 +120,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         )}
         style={{
           // token-lint-ignore: animated gradient uses brand accent colors derived from theme
-          background: `linear-gradient(45deg, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "var(--glass-color-success)" : "var(--glass-color-primary-light)"}, transparent, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "var(--glass-color-success)" : "var(--glass-color-primary-light)"})`,
+          background: `linear-gradient(45deg, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "hsl(var(--glass-color-success))" : "var(--glass-color-primary-light)"}, transparent, ${variant === "interactive" ? "var(--glass-color-primary-light)" : variant === "navigation" ? "var(--glass-color-secondary)" : variant === "form" ? "hsl(var(--glass-color-success))" : "var(--glass-color-primary-light)"})`,
           backgroundSize: "200% 200%",
         }}
         animate={

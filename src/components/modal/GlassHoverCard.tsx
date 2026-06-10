@@ -400,7 +400,7 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
               {/* Arrow */}
               <div
                 className={cn(
-                  "absolute w-3 h-3 bg-black/20 border border-white/20 glass-backdrop-blur-md",
+                  "absolute w-3 h-3 bg-white/10 border border-white/20 glass-backdrop-blur-md",
                   "rotate-45",
                   {
                     "-bottom-2 left-1/2 -translate-x-1/2":
@@ -441,7 +441,7 @@ export const GlassHoverCardContent: React.FC<GlassHoverCardContentProps> = ({
       {showArrow && (
         <div
           className={cn(
-            "absolute w-3 h-3 bg-black/20 border border-white/20 glass-backdrop-blur-md rotate-45",
+            "absolute w-3 h-3 bg-white/10 border border-white/20 glass-backdrop-blur-md rotate-45",
             arrowClassName
           )}
         />

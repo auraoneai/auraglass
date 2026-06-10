@@ -5,6 +5,6 @@ exports[`TreeView matches snapshot 1`] = `
   aria-multiselectable="false"
   class="root sizeMedium"
   role="tree"
-  style="--tree-view-color: color-mix(in srgb, var(--glass-gray-50) 90%, transparent); --tree-view-selected-bg: color-mix(in srgb, var(--glass-color-primary) 14%, transparent);"
+  style="--tree-view-color: color-mix(in srgb, var(--glass-gray-50) 90%, transparent); --tree-view-selected-bg: color-mix(in srgb, hsl(var(--glass-color-primary)) 14%, transparent);"
 />
 `;

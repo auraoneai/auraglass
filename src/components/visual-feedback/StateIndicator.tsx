@@ -57,9 +57,9 @@ const getStateColor = (state: string, color: string): string => {
     case "loading":
       return `color-mix(in srgb, rgb(${userColor}) 20%, transparent)`;
     case "success":
-      return "color-mix(in srgb, var(--glass-color-success) 15%, transparent)";
+      return "color-mix(in srgb, hsl(var(--glass-color-success)) 15%, transparent)";
     case "error":
-      return "color-mix(in srgb, var(--glass-color-danger) 15%, transparent)";
+      return "color-mix(in srgb, hsl(var(--glass-color-danger)) 15%, transparent)";
     case "default":
     default:
       return "transparent";

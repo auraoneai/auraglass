@@ -50,8 +50,8 @@ const ComponentItem: React.FC<{
       onDragStart={handleDragStart}
       onMouseDown={handleMouseDown}
       className={cn(
-        "flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab",
-        "hover:border-blue-300 hover:bg-blue-50 transition-colors",
+        "flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab",
+        "hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors",
         "glass-active-cursor-grabbing active:scale-95",
         isDragging && "opacity-50 scale-95"
       )}
@@ -102,7 +102,7 @@ const CategorySection: React.FC<{
         </div>
         <div
           className={cn(
-            "text-gray-400 transition-transform",
+            "glass-text-tertiary transition-transform",
             isExpanded ? "rotate-90" : "rotate-0"
           )}
         >

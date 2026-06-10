@@ -96,7 +96,7 @@ export const PageTransitionDemo: React.FC<PageTransitionDemoProps> = ({
             {page === 2 && (
               <Section
                 title="Insights"
-                color="linear-gradient(135deg, color-mix(in srgb, var(--glass-color-danger) 20%, transparent), color-mix(in srgb, var(--glass-color-warning) 20%, transparent))"
+                color="linear-gradient(135deg, color-mix(in srgb, hsl(var(--glass-color-danger)) 20%, transparent), color-mix(in srgb, hsl(var(--glass-color-warning)) 20%, transparent))"
               />
             )}
           </motion.div>

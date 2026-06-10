@@ -63,9 +63,9 @@ const getVariantClasses = (
     { selected: string; unselected: string }
   > = {
     default: {
-      selected: "bg-gray-600 glass-text-primary border-gray-700",
+      selected: "bg-white/15 glass-text-primary border-white/30",
       unselected:
-        "bg-transparent glass-text-secondary border-gray-500 hover:bg-gray-600/10",
+        "bg-transparent glass-text-secondary border-white/20 hover:bg-white/10",
     },
     primary: {
       selected: "bg-primary-500 glass-text-primary border-primary-600",
@@ -127,8 +127,8 @@ const getVariantClasses = (
       return cn(
         baseClasses,
         selected
-          ? "bg-gray-600 glass-text-primary border-gray-700 shadow-md"
-          : "bg-transparent glass-text-secondary border-gray-500 hover:bg-gray-600/10"
+          ? "bg-white/15 glass-text-primary border-white/30 shadow-md"
+          : "bg-transparent glass-text-secondary border-white/20 hover:bg-white/10"
       );
   }
 };

@@ -110,7 +110,7 @@ export const GlassGestureZone = forwardRef<
       maxGestureDuration = 5000,
       minGesturePoints = 3,
       showTrail = true,
-      trailColor = "var(--glass-color-primary)",
+      trailColor = "hsl(var(--glass-color-primary))",
       trailFadeDuration = 2000,
       showFeedback = true,
       feedbackDuration = 1000,
@@ -776,7 +776,7 @@ export const GlassGestureZone = forwardRef<
 
             <button
               onClick={clearAll}
-              className='glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-px-3 glass-py-1 glass-radius-md glass-bg-secondary/20 hover:glass-bg-secondary/30 glass-focus glass-touch-target glass-focus glass-touch-target glass-contrast-guard"
             >
               Clear
             </button>
@@ -794,10 +794,10 @@ export const GlassGestureZone = forwardRef<
               step="0.1"
               value={sensitivity}
               onChange={(e) => {}}
-              className='glass-w-20 glass-focus glass-touch-target glass-contrast-guard'
+              className="glass-w-20 glass-focus glass-touch-target glass-contrast-guard"
               aria-label="Gesture sensitivity"
             />
-            <span className='glass-text-sm glass-min-w-3ch'>
+            <span className="glass-text-sm glass-min-w-3ch">
               {Math.round(sensitivity * 100)}%
             </span>
           </div>
@@ -858,7 +858,7 @@ export const GlassGestureZone = forwardRef<
         >
           {renderControls()}
 
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}
@@ -878,16 +878,16 @@ export const GlassGestureZone = forwardRef<
           {/* Recent gestures */}
           {recognizedGestures.length > 0 && (
             <div className="glass-p-4 glass-surface-overlay glass-radius-md">
-              <div className='glass-text-sm glass-font-medium glass-mb-2'>
+              <div className="glass-text-sm glass-font-medium glass-mb-2">
                 Recent Gestures:
               </div>
-              <div className='glass-space-y-1'>
+              <div className="glass-space-y-1">
                 {recognizedGestures.slice(-5).map((gesture: any) => (
                   <div
                     key={gesture.id}
                     className="glass-text-xs glass-p-2 glass-surface-primary/10 glass-radius-sm"
                   >
-                    <span className='glass-font-medium'>
+                    <span className="glass-font-medium">
                       {gesture.type.replace("_", " ")}
                     </span>
                     <span className="glass-text-secondary glass-ml-2">

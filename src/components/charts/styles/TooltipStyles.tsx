@@ -302,8 +302,8 @@ export const createTooltipStyles = (
       borderRadius: `${8 * multiplier}px`,
       boxShadow:
         theme === "glass"
-          ? "0 8px 32px color-mix(in srgb, var(--glass-black) var(--glass-opacity-30), transparent), 0 0 0 1px color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
-          : "0 4px 12px color-mix(in srgb, var(--glass-black) var(--glass-opacity-15), transparent)",
+          ? "0 8px 32px color-mix(in srgb, var(--glass-black) 30%, transparent), 0 0 0 1px color-mix(in srgb, var(--glass-white) 20%, transparent)"
+          : "0 4px 12px color-mix(in srgb, var(--glass-black) 15%, transparent)",
       // Use createGlassStyle() instead,
       background:
         theme === "glass"
@@ -337,7 +337,7 @@ export const createTooltipStyles = (
             : "var(--glass-gray-900)",
       borderBottom:
         theme === "glass"
-          ? "1px solid color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
+          ? "1px solid color-mix(in srgb, var(--glass-white) 20%, transparent)"
           : "1px solid var(--glass-gray-300)",
       paddingBottom: `${4 * multiplier}px`,
     },
@@ -351,7 +351,7 @@ export const createTooltipStyles = (
       paddingTop: `${4 * multiplier}px`,
       borderTop:
         theme === "glass"
-          ? "1px solid color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
+          ? "1px solid color-mix(in srgb, var(--glass-white) 20%, transparent)"
           : "1px solid var(--glass-gray-300)",
       fontSize: `${10 * multiplier}px`,
       color:

@@ -41,7 +41,7 @@ exports[`GlassProductRecommendations matches snapshot 1`] = `
               class="glass-absolute glass-top-2 glass-right-2"
             >
               <div
-                class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-800"
+                class="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-200"
               >
                 🎯
               </div>
@@ -78,27 +78,27 @@ exports[`GlassProductRecommendations matches snapshot 1`] = `
                 class="glass-flex glass-text-primary"
               >
                 <span
-                  class="text-gray-300"
+                  class="text-white/30"
                 >
                   ★
                 </span>
                 <span
-                  class="text-gray-300"
+                  class="text-white/30"
                 >
                   ★
                 </span>
                 <span
-                  class="text-gray-300"
+                  class="text-white/30"
                 >
                   ★
                 </span>
                 <span
-                  class="text-gray-300"
+                  class="text-white/30"
                 >
                   ★
                 </span>
                 <span
-                  class="text-gray-300"
+                  class="text-white/30"
                 >
                   ★
                 </span>
@@ -181,7 +181,7 @@ exports[`GlassProductRecommendations matches snapshot 1`] = `
             class="glass-flex glass-flex-wrap glass-gap-2 glass-mt-3"
           >
             <span
-              class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-800"
+              class="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-200"
             >
               🎯
                

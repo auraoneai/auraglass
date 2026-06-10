@@ -124,7 +124,7 @@
   border-radius: var(--glass-radius-pill, 9999px);
   background: var(
     --glass-color-primary,
-    color-mix(in srgb, var(--glass-color-primary) 85%, transparent)
+    color-mix(in srgb, hsl(var(--glass-color-primary)) 85%, transparent)
   );
   box-shadow: none;
   backdrop-filter: var(--glass-tabbar-underline-filter, none);

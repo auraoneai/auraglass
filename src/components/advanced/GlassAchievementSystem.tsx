@@ -905,13 +905,13 @@ const AchievementNotificationCard = forwardRef<
                       className={cn(
                         "glass-px-2 glass-py-1 glass-text-xs glass-radius-full capitalize",
                         achievement.rarity === "common" &&
-                          "bg-gray-600 glass-text-secondary",
+                          "bg-white/10 glass-text-secondary",
                         achievement.rarity === "rare" &&
-                          "bg-blue-600 text-blue-200",
+                          "bg-blue-500/25 text-blue-200",
                         achievement.rarity === "epic" &&
-                          "bg-purple-600 text-purple-200",
+                          "bg-purple-500/25 text-purple-200",
                         achievement.rarity === "legendary" &&
-                          "bg-amber-500 text-amber-100"
+                          "bg-amber-500/25 text-amber-200"
                       )}
                     >
                       {achievement.rarity}

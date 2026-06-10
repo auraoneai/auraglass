@@ -59,19 +59,19 @@ export interface GlassMoodRingProps
 const defaultMoodStates: MoodState[] = [
   {
     name: "Happy",
-    color: "var(--glass-color-warning)",
+    color: "hsl(var(--glass-color-warning))",
     intensity: 0.8,
     description: "Feeling joyful and content",
   },
   {
     name: "Calm",
-    color: "var(--glass-color-info)",
+    color: "hsl(var(--glass-color-info))",
     intensity: 0.6,
     description: "Peaceful and relaxed",
   },
   {
     name: "Energetic",
-    color: "var(--glass-color-danger)",
+    color: "hsl(var(--glass-color-danger))",
     intensity: 0.9,
     description: "Full of energy and excitement",
   },
@@ -83,7 +83,7 @@ const defaultMoodStates: MoodState[] = [
   },
   {
     name: "Stressed",
-    color: "var(--glass-color-danger)",
+    color: "hsl(var(--glass-color-danger))",
     intensity: 0.8,
     description: "Feeling overwhelmed or tense",
   },
@@ -95,7 +95,7 @@ const defaultMoodStates: MoodState[] = [
   },
   {
     name: "Melancholic",
-    color: "var(--glass-color-primary)",
+    color: "hsl(var(--glass-color-primary))",
     intensity: 0.5,
     description: "Reflective and somewhat sad",
   },

@@ -88,7 +88,7 @@
     0 0 0 6px
       var(
         --glass-treeitem-focus-outer,
-        color-mix(in srgb, var(--glass-color-primary) 28%, transparent)
+        color-mix(in srgb, hsl(var(--glass-color-primary)) 28%, transparent)
       )
   );
 }

@@ -17,12 +17,12 @@ exports[`GlassMoodRing matches snapshot 1`] = `
         as="div"
         class="motion-primitive relative glass-radius-full border-solid transition-all duration-1000 w-24 h-24 border-4 shadow-lg shadow-current/30 cursor-pointer glass-hover-scale-105"
         role="button"
-        style="box-shadow: 0 0 20px var(--glass-color-warning)40;"
+        style="box-shadow: 0 0 20px hsl(var(--glass-color-warning))40;"
         tabindex="0"
       >
         <div
           class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full flex items-center justify-center transition-all duration-[700ms] w-12 h-12 animate-pulse"
-          style="box-shadow: inset 0 0 10px var(--glass-color-warning)80;"
+          style="box-shadow: inset 0 0 10px hsl(var(--glass-color-warning))80;"
         />
         <div
           class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-radius-full border transition-all duration-[700ms] animate-pulse"

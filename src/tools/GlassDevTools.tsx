@@ -140,8 +140,8 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
             className={cn(
               "px-2 py-1 rounded text-xs font-medium",
               performance.isMonitoring
-                ? "bg-green-100 text-green-800"
-                : "bg-gray-100 text-gray-800"
+                ? "bg-green-500/20 text-green-200 border border-green-400/30"
+                : "bg-white/10 glass-text-secondary border border-white/15"
             )}
           >
             {performance.isMonitoring ? "Monitoring" : "Stopped"}
@@ -397,9 +397,9 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
             key={index}
             className={cn(
               "text-xs p-2 rounded font-mono",
-              log.type === "error" && "bg-red-50 text-red-800",
-              log.type === "warn" && "bg-yellow-50 text-yellow-800",
-              log.type === "log" && "bg-gray-50 text-gray-800"
+              log.type === "error" && "bg-red-500/20 text-red-200",
+              log.type === "warn" && "bg-yellow-500/20 text-yellow-200",
+              log.type === "log" && "bg-white/8 glass-text-secondary"
             )}
           >
             <div className="glass-flex glass-justify-between glass-text-xs glass-opacity-60 glass-mb-1">
@@ -486,8 +486,8 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
                   "px-3 py-2 text-xs font-medium transition-colors",
                   "glass-focus glass-touch-target glass-contrast-guard",
                   activeTab === tab.id
-                    ? "bg-white text-blue-600 border-b-2 border-blue-600"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "bg-white/15 glass-text-primary border-b-2 border-blue-400"
+                    : "glass-text-secondary hover:glass-text-primary"
                 )}
                 title={tab.title}
               >

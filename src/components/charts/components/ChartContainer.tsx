@@ -44,7 +44,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
         ? "transparent"
         : '${glassStyles.surface?.base || "var(--glass-bg-default)"}',
     // Use createGlassStyle() instead,
-    border: `1px solid ${borderColor || "color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"}`,
+    border: `1px solid ${borderColor || "color-mix(in srgb, var(--glass-white) 20%, transparent)"}`,
     boxShadow: (() => {
       const elevationMap: Record<string, number> = {
         level1: 1,

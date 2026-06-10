@@ -75,17 +75,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const getReasonColor = (reason: string) => {
     switch (reason) {
       case "similar":
-        return "bg-blue-100 text-blue-800";
+        return "bg-blue-500/20 text-blue-200";
       case "trending":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/20 text-red-200";
       case "personalized":
-        return "bg-purple-100 text-purple-800";
+        return "bg-purple-500/20 text-purple-200";
       case "bought-together":
-        return "bg-green-100 text-green-800";
+        return "bg-green-500/20 text-green-200";
       case "viewed-together":
-        return "bg-orange-100 text-orange-800";
+        return "bg-orange-500/20 text-orange-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-white/10 glass-text-secondary";
     }
   };
 
@@ -351,7 +351,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   className={
                     i < Math.floor(product.rating)
                       ? "text-yellow-400"
-                      : "text-gray-300"
+                      : "text-white/30"
                   }
                 >
                   ★
@@ -721,17 +721,17 @@ export const GlassProductRecommendations: React.FC<
   function getReasonColor(reason: string): string {
     switch (reason) {
       case "similar":
-        return "bg-blue-100 text-blue-800";
+        return "bg-blue-500/20 text-blue-200";
       case "trending":
-        return "bg-red-100 text-red-800";
+        return "bg-red-500/20 text-red-200";
       case "personalized":
-        return "bg-purple-100 text-purple-800";
+        return "bg-purple-500/20 text-purple-200";
       case "bought-together":
-        return "bg-green-100 text-green-800";
+        return "bg-green-500/20 text-green-200";
       case "viewed-together":
-        return "bg-orange-100 text-orange-800";
+        return "bg-orange-500/20 text-orange-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-white/10 glass-text-secondary";
     }
   }
 

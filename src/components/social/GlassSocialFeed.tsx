@@ -61,9 +61,9 @@ export interface GlassSocialFeedProps {
 
 const engagementLevels = {
   low: { color: "var(--glass-gray-500)", icon: "📊" },
-  medium: { color: "var(--glass-color-success)", icon: "📈" },
-  high: { color: "var(--glass-color-warning)", icon: "🔥" },
-  viral: { color: "var(--glass-color-danger)", icon: "🚀" },
+  medium: { color: "hsl(var(--glass-color-success))", icon: "📈" },
+  high: { color: "hsl(var(--glass-color-warning))", icon: "🔥" },
+  viral: { color: "hsl(var(--glass-color-danger))", icon: "🚀" },
 };
 
 export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
@@ -404,8 +404,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                         <div
                           className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
                           style={{
-                            background:
-                              "var(--glass-primary-level2-surface)",
+                            background: "var(--glass-primary-level2-surface)",
                           }}
                         >
                           <span className="glass-text-primary glass-font-semibold">

@@ -183,12 +183,12 @@ export const Default: Story = {
           <LensCard
             className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
             label="Data Point 1"
-            dotColor="var(--glass-color-primary)"
+            dotColor="hsl(var(--glass-color-primary))"
           />
           <LensCard
             className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"
             label="Data Point 2"
-            dotColor="var(--glass-color-success)"
+            dotColor="hsl(var(--glass-color-success))"
           />
           <LensCard
             className="glass-p-4 glass-gradient-primary glass-gradient-primary glass-gradient-primary dark:glass-gradient-primary dark:glass-gradient-primary glass-glass-backdrop-blur glass-border glass-border-white/20 glass-radius-lg glass-cursor-pointer glass-contrast-guard"

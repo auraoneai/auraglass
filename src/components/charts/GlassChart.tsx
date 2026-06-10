@@ -740,10 +740,10 @@ const defaultTheme: AuraChartTheme = {
       accentPrimary: COLORS.semantic.secondary,
       accentSecondary: COLORS.semantic.secondary,
       accentTertiary: COLORS.semantic.error,
-      stateCritical: "var(--glass-color-danger)",
-      stateOptimal: "var(--glass-color-success)",
-      stateAttention: "var(--glass-color-warning)",
-      stateInformational: "var(--glass-color-primary)",
+      stateCritical: "hsl(var(--glass-color-danger))",
+      stateOptimal: "hsl(var(--glass-color-success))",
+      stateAttention: "hsl(var(--glass-color-warning))",
+      stateInformational: "hsl(var(--glass-color-primary))",
       neutralBackground: "var(--glass-gray-50)",
       neutralForeground: "var(--glass-gray-800)",
       neutralBorder: "var(--glass-gray-200)",
@@ -754,7 +754,7 @@ const defaultTheme: AuraChartTheme = {
       dark: createGlassStyle({ intent: "neutral", elevation: "level2" }),
       tints: {
         primary:
-          "color-mix(in srgb, var(--glass-color-primary) 10%, transparent)",
+          "color-mix(in srgb, hsl(var(--glass-color-primary)) 10%, transparent)",
         secondary:
           "color-mix(in srgb, var(--glass-color-secondary) 10%, transparent)",
       },
@@ -1765,8 +1765,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                   style={{
                     marginTop: "8px",
                     padding: "8px 12px",
-                    background:
-                      "var(--glass-primary-level2-surface)",
+                    background: "var(--glass-primary-level2-surface)",
                     borderRadius: "var(--glass-radius-md)",
                     border: "1px solid var(--glass-border-default)",
                     fontSize: "12px",
@@ -1939,8 +1938,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  background:
-                    "var(--glass-primary-level2-surface)",
+                  background: "var(--glass-primary-level2-surface)",
                   pointerEvents: "none",
                   zIndex: 1,
                   animation: "pulse 2s infinite",
@@ -1957,8 +1955,7 @@ const GlassChartComponent = forwardRef<GlassChartRef, GlassChartProps>(
                   top: "50%",
                   left: "50%",
                   transform: "translate(-50%, -50%)",
-                  background:
-                    "var(--glass-primary-level2-surface)",
+                  background: "var(--glass-primary-level2-surface)",
                   color: "white",
                   padding: "8px 12px",
                   borderRadius: "var(--glass-radius-sm)",

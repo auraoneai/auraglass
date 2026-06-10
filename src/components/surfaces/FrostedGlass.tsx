@@ -35,7 +35,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
       interactive = true,
       padding = 16,
       intensity = 0.5,
-      frostColor = "color-mix(in srgb, var(--glass-white) var(--glass-opacity-80), transparent)",
+      frostColor = "color-mix(in srgb, var(--glass-white) 80%, transparent)",
       animate = true,
       pattern = "noise",
       backgroundColor,
@@ -190,7 +190,7 @@ export const FrostedGlass = forwardRef<HTMLDivElement, FrostedGlassProps>(
                   "drop-shadow-[0_0_18px_hsl(var(--glass-color-warning)/0.28)]",
                 danger:
                   "drop-shadow-[0_0_18px_hsl(var(--glass-color-danger)/0.28)]",
-                info: "drop-shadow-[0_0_18px_color-mix(in_srgb,var(--glass-color-info)_28%,transparent)]",
+                info: "drop-shadow-[0_0_18px_color-mix(in_srgb,hsl(var(--glass-color-info))_28%,transparent)]",
               }[glowColor],
 
             className

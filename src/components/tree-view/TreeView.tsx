@@ -23,12 +23,13 @@ const TREE_COLOR_MAP: Record<
   default: {
     accent: "color-mix(in srgb, var(--glass-gray-50) 90%, transparent)",
     highlight:
-      "color-mix(in srgb, var(--glass-color-primary) 14%, transparent)",
+      "color-mix(in srgb, hsl(var(--glass-color-primary)) 14%, transparent)",
   },
   primary: {
-    accent: "color-mix(in srgb, var(--glass-color-primary) 90%, transparent)",
+    accent:
+      "color-mix(in srgb, hsl(var(--glass-color-primary)) 90%, transparent)",
     highlight:
-      "color-mix(in srgb, var(--glass-color-primary) 18%, transparent)",
+      "color-mix(in srgb, hsl(var(--glass-color-primary)) 18%, transparent)",
   },
   secondary: {
     accent: "color-mix(in srgb, var(--glass-color-secondary) 90%, transparent)",
@@ -36,22 +37,27 @@ const TREE_COLOR_MAP: Record<
       "color-mix(in srgb, var(--glass-color-secondary) 16%, transparent)",
   },
   success: {
-    accent: "color-mix(in srgb, var(--glass-color-success) 90%, transparent)",
+    accent:
+      "color-mix(in srgb, hsl(var(--glass-color-success)) 90%, transparent)",
     highlight:
-      "color-mix(in srgb, var(--glass-color-success) 18%, transparent)",
+      "color-mix(in srgb, hsl(var(--glass-color-success)) 18%, transparent)",
   },
   warning: {
-    accent: "color-mix(in srgb, var(--glass-color-warning) 90%, transparent)",
+    accent:
+      "color-mix(in srgb, hsl(var(--glass-color-warning)) 90%, transparent)",
     highlight:
-      "color-mix(in srgb, var(--glass-color-warning) 18%, transparent)",
+      "color-mix(in srgb, hsl(var(--glass-color-warning)) 18%, transparent)",
   },
   danger: {
-    accent: "color-mix(in srgb, var(--glass-color-danger) 90%, transparent)",
-    highlight: "color-mix(in srgb, var(--glass-color-danger) 18%, transparent)",
+    accent:
+      "color-mix(in srgb, hsl(var(--glass-color-danger)) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, hsl(var(--glass-color-danger)) 18%, transparent)",
   },
   info: {
-    accent: "color-mix(in srgb, var(--glass-color-info) 90%, transparent)",
-    highlight: "color-mix(in srgb, var(--glass-color-info) 18%, transparent)",
+    accent: "color-mix(in srgb, hsl(var(--glass-color-info)) 90%, transparent)",
+    highlight:
+      "color-mix(in srgb, hsl(var(--glass-color-info)) 18%, transparent)",
   },
 };
 

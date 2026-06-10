@@ -67,7 +67,7 @@ const DropZone: React.FC<DropZoneProps> = ({
           : "h-2 rounded-full my-1",
         isActive
           ? "bg-blue-500 bg-opacity-20 border-2 border-blue-500 border-dashed"
-          : "bg-transparent hover:bg-blue-100 border-2 border-transparent"
+          : "bg-transparent hover:bg-blue-500/15 border-2 border-transparent"
       )}
     />
   );
@@ -528,7 +528,7 @@ export const GlassCanvas: React.FC<
               onDrop={handleDrop}
               className={cn(
                 `min-h-full relative transition-all duration-[${ANIMATION.DURATION.fast}ms] glass-focus glass-touch-target`,
-                dragDropState.isDragging && "bg-blue-50 bg-opacity-50"
+                dragDropState.isDragging && "bg-blue-500/10"
               )}
             >
               {pageState.components.length === 0 ? (

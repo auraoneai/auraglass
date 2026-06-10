@@ -32,7 +32,7 @@ export const AtmosphericEffects: React.FC<AtmosphericEffectsProps> = ({
   // ContrastGuard chart text coverage is tracked in the manual accessibility QA report.
 
   qualityTier = "medium",
-  color = "var(--glass-color-primary)",
+  color = "hsl(var(--glass-color-primary))",
   isReducedMotion = false,
   className,
   "data-testid": dataTestId,

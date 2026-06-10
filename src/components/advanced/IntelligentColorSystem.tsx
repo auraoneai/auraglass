@@ -59,7 +59,7 @@ interface IntelligentColorContextType {
 }
 
 const defaultPalette: ColorPalette = {
-  primary: "var(--glass-color-primary)",
+  primary: "hsl(var(--glass-color-primary))",
   secondary: "var(--glass-color-accent, #8b5cf6)",
   accent: "var(--glass-color-accent-2, #06b6d4)",
   background: "var(--glass-surface-deep, #0f172a)",
@@ -74,7 +74,7 @@ const defaultPalette: ColorPalette = {
 
 // Dark theme palette with high contrast text colors
 const darkThemePalette: ColorPalette = {
-  primary: "var(--glass-color-primary)",
+  primary: "hsl(var(--glass-color-primary))",
   secondary: "var(--glass-color-accent, #8b5cf6)",
   accent: "var(--glass-color-accent-2, #06b6d4)",
   background: "var(--glass-surface-deeper, #020617)",
@@ -410,20 +410,20 @@ export const IntelligentColorProvider: React.FC<{
       setCurrentPalette((prev: any) => {
         const timeBasePalette = { ...prev };
         if (hour >= 5 && hour < 9) {
-          timeBasePalette.primary = "var(--glass-color-warning)";
+          timeBasePalette.primary = "hsl(var(--glass-color-warning))";
           timeBasePalette.glassBase = "hsl(var(--glass-color-warning)/0.1)";
         } else if (hour >= 9 && hour < 17) {
-          timeBasePalette.primary = "var(--glass-color-primary)";
+          timeBasePalette.primary = "hsl(var(--glass-color-primary))";
           timeBasePalette.glassBase = "hsl(var(--glass-color-primary)/0.1)";
         } else if (hour >= 17 && hour < 21) {
-          timeBasePalette.primary = "var(--glass-color-warning)";
+          timeBasePalette.primary = "hsl(var(--glass-color-warning))";
           timeBasePalette.glassBase =
-            "color-mix(in srgb, var(--glass-color-warning) 10%, transparent)";
+            "color-mix(in srgb, hsl(var(--glass-color-warning)) 10%, transparent)";
         } else {
-          timeBasePalette.primary = "var(--glass-color-primary)";
+          timeBasePalette.primary = "hsl(var(--glass-color-primary))";
           timeBasePalette.background = "var(--glass-black)";
           timeBasePalette.glassBase =
-            "color-mix(in srgb, var(--glass-color-primary) 8%, transparent)";
+            "color-mix(in srgb, hsl(var(--glass-color-primary)) 8%, transparent)";
         }
         return timeBasePalette;
       });
@@ -438,32 +438,32 @@ export const IntelligentColorProvider: React.FC<{
         const seasonPalette = { ...prev };
         switch (season) {
           case "spring":
-            seasonPalette.primary = "var(--glass-color-success)";
-            seasonPalette.secondary = "var(--glass-color-warning)";
+            seasonPalette.primary = "hsl(var(--glass-color-success))";
+            seasonPalette.secondary = "hsl(var(--glass-color-warning))";
             seasonPalette.accent = "var(--glass-color-secondary)";
             seasonPalette.glassBase = "hsl(var(--glass-color-success)/0.1)";
             break;
           case "summer":
-            seasonPalette.primary = "var(--glass-color-info)";
-            seasonPalette.secondary = "var(--glass-color-warning)";
-            seasonPalette.accent = "var(--glass-color-danger)";
+            seasonPalette.primary = "hsl(var(--glass-color-info))";
+            seasonPalette.secondary = "hsl(var(--glass-color-warning))";
+            seasonPalette.accent = "hsl(var(--glass-color-danger))";
             seasonPalette.glassBase =
-              "color-mix(in srgb, var(--glass-color-info) 10%, transparent)";
+              "color-mix(in srgb, hsl(var(--glass-color-info)) 10%, transparent)";
             break;
           case "autumn":
-            seasonPalette.primary = "var(--glass-color-warning)";
-            seasonPalette.secondary = "var(--glass-color-warning)";
+            seasonPalette.primary = "hsl(var(--glass-color-warning))";
+            seasonPalette.secondary = "hsl(var(--glass-color-warning))";
             seasonPalette.accent = "var(--glass-color-danger-dark)";
             seasonPalette.glassBase =
-              "color-mix(in srgb, var(--glass-color-warning) 10%, transparent)";
+              "color-mix(in srgb, hsl(var(--glass-color-warning)) 10%, transparent)";
             break;
           case "winter":
-            seasonPalette.primary = "var(--glass-color-primary)";
-            seasonPalette.secondary = "var(--glass-color-info)";
+            seasonPalette.primary = "hsl(var(--glass-color-primary))";
+            seasonPalette.secondary = "hsl(var(--glass-color-info))";
             seasonPalette.accent = "var(--glass-color-secondary)";
             seasonPalette.background = "var(--glass-black)";
             seasonPalette.glassBase =
-              "color-mix(in srgb, var(--glass-color-primary) 8%, transparent)";
+              "color-mix(in srgb, hsl(var(--glass-color-primary)) 8%, transparent)";
             break;
         }
         return seasonPalette;
@@ -736,12 +736,12 @@ export const ColorAdaptationDemo: React.FC = () => {
 
   const demoColors = useMemo(
     () => [
-      "var(--glass-color-primary)",
-      "var(--glass-color-danger)",
-      "var(--glass-color-success)",
-      "var(--glass-color-warning)",
+      "hsl(var(--glass-color-primary))",
+      "hsl(var(--glass-color-danger))",
+      "hsl(var(--glass-color-success))",
+      "hsl(var(--glass-color-warning))",
       "var(--glass-color-secondary)",
-      "var(--glass-color-info)",
+      "hsl(var(--glass-color-info))",
     ],
     []
   );

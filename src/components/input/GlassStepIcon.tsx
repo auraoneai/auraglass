@@ -32,7 +32,7 @@ const getIconStateClasses = (active: boolean, completed: boolean) => {
   if (completed) {
     return "bg-success-500 glass-text-primary border-success-300";
   }
-  return "bg-gray-200 glass-text-secondary border-gray-200 dark:bg-gray-700 dark:glass-text-secondary dark:border-gray-600";
+  return "bg-white/10 glass-text-secondary border-white/20";
 };
 
 export const GlassStepIcon: React.FC<GlassStepIconProps> = ({

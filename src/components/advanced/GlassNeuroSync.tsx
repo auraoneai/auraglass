@@ -937,11 +937,11 @@ export function GlassNeuroMetricsDashboard({
     value: value || 0,
     color:
       {
-        attention: "var(--glass-color-primary)",
-        relaxation: "var(--glass-color-success)",
+        attention: "hsl(var(--glass-color-primary))",
+        relaxation: "hsl(var(--glass-color-success))",
         meditation: "#8b5cf6",
-        engagement: "var(--glass-color-warning)",
-        cognitiveLoad: "var(--glass-color-danger)",
+        engagement: "hsl(var(--glass-color-warning))",
+        cognitiveLoad: "hsl(var(--glass-color-danger))",
         fatigue: "var(--glass-gray-500)",
         stress: "var(--glass-color-danger-dark)",
         flow: "#06b6d4",
@@ -1152,10 +1152,10 @@ export function GlassNeuroFeedback({
             ref={(el) => {
               if (!el) return;
               el.style.backgroundColor = isOnTarget
-                ? "var(--glass-color-success)"
+                ? "hsl(var(--glass-color-success))"
                 : difference > 0
-                  ? "var(--glass-color-primary)"
-                  : "var(--glass-color-warning)";
+                  ? "hsl(var(--glass-color-primary))"
+                  : "hsl(var(--glass-color-warning))";
             }}
             animate={{ width: `${currentValue * 100}%` }}
             transition={

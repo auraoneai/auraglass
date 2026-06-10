@@ -910,7 +910,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
         : "var(--glass-shadow-light, rgba(0, 0, 0, 0.1))";
 
       const glowColor = isDarkMode
-        ? "var(--glass-glow-dark, var(--glass-color-primary))"
+        ? "var(--glass-glow-dark, hsl(var(--glass-color-primary)))"
         : "var(--glass-glow-light, #6366f1)";
 
       // Get opacity and blur values from qualityTier
@@ -975,7 +975,7 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
           break;
         case "metallic":
           const accentColor = isDarkMode
-            ? "var(--glass-color-primary)"
+            ? "hsl(var(--glass-color-primary))"
             : "#6366f1";
           const bgOpacityTop = bgOpacity * 0.6;
           const bgOpacityBottom = bgOpacity * 0.4;

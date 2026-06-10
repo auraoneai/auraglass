@@ -157,13 +157,13 @@ interface CollaborationProviderProps {
 // Generate random colors for users
 const generateUserColor = (): string => {
   const colors = [
-    "var(--glass-color-primary)",
-    "var(--glass-color-danger)",
-    "var(--glass-color-success)",
-    "var(--glass-color-warning)",
+    "hsl(var(--glass-color-primary))",
+    "hsl(var(--glass-color-danger))",
+    "hsl(var(--glass-color-success))",
+    "hsl(var(--glass-color-warning))",
     "var(--glass-color-secondary)",
     "var(--glass-color-accent)",
-    "var(--glass-color-info)",
+    "hsl(var(--glass-color-info))",
     "var(--glass-color-success-light)",
     "var(--glass-color-warning-light)",
     "var(--glass-color-primary-light)",

@@ -428,7 +428,7 @@ export const GlassToastAction: React.FC<
       className={cn(
         "glass-inline-flex glass-items-center glass-justify-center glass-px-3 glass-py-2",
         "glass-text-xs glass-font-medium glass-text-primary/90",
-        "bg-black/30 hover:bg-black/40 glass-border glass-border-white/30 hover:glass-border-white/40",
+        "bg-white/10 hover:bg-white/15 glass-border glass-border-white/30 hover:glass-border-white/40",
         `glass-radius-md transition-all var(--glass-motion-duration-fast)`,
         "focus:outline-none focus:ring-2 glass-focus-ring-white-opacity-30",
         className

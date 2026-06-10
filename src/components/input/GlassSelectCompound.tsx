@@ -414,7 +414,7 @@ const GlassSelectContent = React.forwardRef<
             onDismiss={() => context.setOpen(false)}
             className={cn(
               "glass-select-content relative z-50 max-h-96 min-w-[8rem] overflow-hidden",
-              "glass-backdrop-blur-md bg-black/70 ring-1 ring-white/12",
+              "glass-backdrop-blur-lg bg-white/10 ring-1 ring-white/15",
               "glass-radius-xl shadow-2xl shadow-black/40",
               "text-foreground",
               "data-[state=open]:animate-in data-[state=closed]:animate-out",

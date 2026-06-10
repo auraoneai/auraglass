@@ -6,7 +6,7 @@ const revenueSeries: ChartSeries[] = [
   {
     id: 'revenue',
     name: 'Revenue',
-    color: 'var(--glass-color-primary)',
+    color: 'hsl(var(--glass-color-primary))',
     data: [
       { x: 'Jan', y: 92 },
       { x: 'Feb', y: 118 },
@@ -19,7 +19,7 @@ const revenueSeries: ChartSeries[] = [
   {
     id: 'target',
     name: 'Target',
-    color: 'var(--glass-color-success)',
+    color: 'hsl(var(--glass-color-success))',
     data: [
       { x: 'Jan', y: 100 },
       { x: 'Feb', y: 112 },

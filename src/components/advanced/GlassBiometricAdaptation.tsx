@@ -529,14 +529,14 @@ export class BiometricAdaptationEngine {
       stressPatterns: [],
       preferences: {
         calmingColors: [
-          "var(--glass-color-primary)",
+          "hsl(var(--glass-color-primary))",
           "#06b6d4",
-          "var(--glass-color-success)",
+          "hsl(var(--glass-color-success))",
           "#8b5cf6",
         ],
         stressColors: [
-          "var(--glass-color-danger)",
-          "var(--glass-color-warning)",
+          "hsl(var(--glass-color-danger))",
+          "hsl(var(--glass-color-warning))",
           "#ec4899",
         ],
         calmingAnimations: ["gentle", "slow", "smooth"],
@@ -1132,10 +1132,10 @@ export const GlassBiometricDashboard = forwardRef<
                         el.style.height = `${(reading.stressLevel || 0) * 100}%`;
                         el.style.backgroundColor =
                           (reading.stressLevel || 0) > 0.7
-                            ? "var(--glass-color-danger)"
+                            ? "hsl(var(--glass-color-danger))"
                             : (reading.stressLevel || 0) > 0.4
-                              ? "var(--glass-color-warning)"
-                              : "var(--glass-color-success)";
+                              ? "hsl(var(--glass-color-warning))"
+                              : "hsl(var(--glass-color-success))";
                       }}
                       className="glass-absolute glass-bottom-0 glass-w-1 glass-radius-md"
                     />

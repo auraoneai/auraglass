@@ -45,9 +45,9 @@ export interface GlassPresenceIndicatorProps {
 }
 
 const statusColors = {
-  online: "var(--glass-color-success)",
-  away: "var(--glass-color-warning)",
-  busy: "var(--glass-color-danger)",
+  online: "hsl(var(--glass-color-success))",
+  away: "hsl(var(--glass-color-warning))",
+  busy: "hsl(var(--glass-color-danger))",
   offline: "var(--glass-gray-500)",
 };
 

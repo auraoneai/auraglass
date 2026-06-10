@@ -28,25 +28,25 @@ import { GlassTessellation, type TessellationTile } from './GlassTessellation';
 
 // Basic geometric tiles
 const basicTiles: TessellationTile[] = [
-  { id: 'home', content: <Home size={16} />, shape: 'hexagon', color: 'var(--glass-color-primary)' },
-  { id: 'user', content: <User size={14} />, shape: 'triangle', color: 'var(--glass-color-danger)' },
-  { id: 'settings', content: <Settings size={14} />, shape: 'square', color: 'var(--glass-color-success)' },
-  { id: 'mail', content: <Mail size={12} />, shape: 'rhombus', color: 'var(--glass-color-warning)' },
+  { id: 'home', content: <Home size={16} />, shape: 'hexagon', color: 'hsl(var(--glass-color-primary))' },
+  { id: 'user', content: <User size={14} />, shape: 'triangle', color: 'hsl(var(--glass-color-danger))' },
+  { id: 'settings', content: <Settings size={14} />, shape: 'square', color: 'hsl(var(--glass-color-success))' },
+  { id: 'mail', content: <Mail size={12} />, shape: 'rhombus', color: 'hsl(var(--glass-color-warning))' },
   { id: 'search', content: <Search size={14} />, shape: 'pentagon', color: 'var(--glass-color-secondary)' },
   { id: 'bell', content: <Bell size={12} />, shape: 'hexagon', color: 'var(--glass-color-secondary)' },
-  { id: 'heart', content: <Heart size={12} />, shape: 'triangle', color: 'var(--glass-color-danger)' },
-  { id: 'share', content: <Share size={12} />, shape: 'square', color: 'var(--glass-color-info)' },
+  { id: 'heart', content: <Heart size={12} />, shape: 'triangle', color: 'hsl(var(--glass-color-danger))' },
+  { id: 'share', content: <Share size={12} />, shape: 'square', color: 'hsl(var(--glass-color-info))' },
 ];
 
 // Elemental themed tiles
 const elementalTiles: TessellationTile[] = [
   { id: 'fire', content: <Flame size={16} />, shape: 'triangle', color: 'var(--glass-color-danger-dark)' },
-  { id: 'water', content: <Droplets size={16} />, shape: 'hexagon', color: 'var(--glass-color-info)' },
+  { id: 'water', content: <Droplets size={16} />, shape: 'hexagon', color: 'hsl(var(--glass-color-info))' },
   { id: 'air', content: <Wind size={16} />, shape: 'rhombus', color: '#7C3AED' },
   { id: 'earth', content: <Square size={16} />, shape: 'square', color: 'var(--glass-color-success-dark)' },
   { id: 'lightning', content: <Zap size={14} />, shape: 'triangle', color: 'var(--glass-color-warning-light)' },
   { id: 'ice', content: <Snowflake size={14} />, shape: 'hexagon', color: '#67E8F9' },
-  { id: 'sun', content: <Sun size={16} />, shape: 'octagon', color: 'var(--glass-color-warning)' },
+  { id: 'sun', content: <Sun size={16} />, shape: 'octagon', color: 'hsl(var(--glass-color-warning))' },
   { id: 'moon', content: <Moon size={14} />, shape: 'pentagon', color: '#A78BFA' },
   { id: 'cloud', content: <Cloud size={14} />, shape: 'rhombus', color: 'var(--glass-gray-400)' },
   { id: 'star', content: <Star size={14} />, shape: 'pentagon', color: '#FCD34D' },
@@ -54,9 +54,9 @@ const elementalTiles: TessellationTile[] = [
 
 // Geometric shapes tiles
 const shapeTiles: TessellationTile[] = [
-  { id: 'circle', content: <Circle size={16} />, shape: 'hexagon', color: 'var(--glass-color-primary)' },
-  { id: 'triangle', content: <Triangle size={16} />, shape: 'triangle', color: 'var(--glass-color-danger)' },
-  { id: 'square', content: <Square size={16} />, shape: 'square', color: 'var(--glass-color-success)' },
+  { id: 'circle', content: <Circle size={16} />, shape: 'hexagon', color: 'hsl(var(--glass-color-primary))' },
+  { id: 'triangle', content: <Triangle size={16} />, shape: 'triangle', color: 'hsl(var(--glass-color-danger))' },
+  { id: 'square', content: <Square size={16} />, shape: 'square', color: 'hsl(var(--glass-color-success))' },
   { id: 'diamond', content: <Diamond size={16} />, shape: 'rhombus', color: '#8B5CF6' },
   { id: 'hexagon', content: <Hexagon size={16} />, shape: 'hexagon', color: '#EC4899' },
 ];
@@ -66,7 +66,7 @@ const manyTiles: TessellationTile[] = [
   ...Array.from({ length: 50 }, (_, i) => {
     const shapes: TessellationTile['shape'][] = ['triangle', 'square', 'hexagon', 'rhombus', 'pentagon'];
     const icons = [Home, User, Settings, Mail, Search, Bell, Heart, Share, Star, Circle];
-    const colors = ['var(--glass-color-primary)', 'var(--glass-color-danger)', 'var(--glass-color-success)', 'var(--glass-color-warning)', '#8B5CF6', '#EC4899', '#06B6D4', 'var(--glass-color-danger-dark)'];
+    const colors = ['hsl(var(--glass-color-primary))', 'hsl(var(--glass-color-danger))', 'hsl(var(--glass-color-success))', 'hsl(var(--glass-color-warning))', '#8B5CF6', '#EC4899', '#06B6D4', 'var(--glass-color-danger-dark)'];
     
     const shape = shapes[i % shapes.length];
     const IconComponent = icons[i % icons.length];
@@ -84,10 +84,10 @@ const manyTiles: TessellationTile[] = [
 
 // Color-coded tiles
 const colorCodedTiles: TessellationTile[] = [
-  { id: 'red', content: <div className="glass-w-4 glass-h-4 glass-surface-red glass-radius-full" />, shape: 'triangle', color: 'var(--glass-color-danger)' },
-  { id: 'blue', content: <div className="glass-w-4 glass-h-4 glass-surface-blue glass-radius-full" />, shape: 'hexagon', color: 'var(--glass-color-primary)' },
-  { id: 'green', content: <div className="glass-w-4 glass-h-4 glass-surface-green glass-radius-full" />, shape: 'square', color: 'var(--glass-color-success)' },
-  { id: 'yellow', content: <div className="glass-w-4 glass-h-4 glass-surface-yellow glass-radius-full" />, shape: 'rhombus', color: 'var(--glass-color-warning)' },
+  { id: 'red', content: <div className="glass-w-4 glass-h-4 glass-surface-red glass-radius-full" />, shape: 'triangle', color: 'hsl(var(--glass-color-danger))' },
+  { id: 'blue', content: <div className="glass-w-4 glass-h-4 glass-surface-blue glass-radius-full" />, shape: 'hexagon', color: 'hsl(var(--glass-color-primary))' },
+  { id: 'green', content: <div className="glass-w-4 glass-h-4 glass-surface-green glass-radius-full" />, shape: 'square', color: 'hsl(var(--glass-color-success))' },
+  { id: 'yellow', content: <div className="glass-w-4 glass-h-4 glass-surface-yellow glass-radius-full" />, shape: 'rhombus', color: 'hsl(var(--glass-color-warning))' },
   { id: 'purple', content: <div className="glass-w-4 glass-h-4 glass-surface-primary glass-radius-full" />, shape: 'pentagon', color: '#8B5CF6' },
   { id: 'pink', content: <div className="glass-w-4 glass-h-4 bg-pink-500 glass-radius-full" />, shape: 'hexagon', color: '#EC4899' },
   { id: 'cyan', content: <div className="glass-w-4 glass-h-4 glass-surface-primary glass-radius-full" />, shape: 'triangle', color: '#06B6D4' },

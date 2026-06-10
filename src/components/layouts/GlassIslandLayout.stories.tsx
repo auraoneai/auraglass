@@ -486,21 +486,21 @@ export const AllConnections: Story = {
         from: 'dashboard',
         to: 'chat',
         type: 'solid',
-        color: 'var(--glass-color-success)',
+        color: 'hsl(var(--glass-color-success))',
         strength: 0.8
       },
       {
         from: 'calendar',
         to: 'notes',
         type: 'dotted',
-        color: 'var(--glass-color-warning)',
+        color: 'hsl(var(--glass-color-warning))',
         strength: 0.6
       },
       {
         from: 'tasks',
         to: 'notes',
         type: 'animated',
-        color: 'var(--glass-color-danger)',
+        color: 'hsl(var(--glass-color-danger))',
         strength: 0.7
       }
     ],

@@ -107,7 +107,7 @@ exports[`GlassThemeDemo matches snapshot 1`] = `
               >
                 <div
                   class="glass-w-full glass-radius-md glass-ring-1 glass-ring-white-opacity-10 glass-h-16 glass-mb-3"
-                  style="--preview-primary: var(--glass-color-primary); --preview-secondary: #64748b;"
+                  style="--preview-primary: hsl(var(--glass-color-primary)); --preview-secondary: #64748b;"
                 >
                   <div
                     class="glass-p-2 glass-gap-1"

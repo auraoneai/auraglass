@@ -271,7 +271,7 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
           "glass-backdrop-blur-lg border",
           "glass-focus glass-touch-target glass-contrast-guard",
           "shadow-[0_6px_18px_color-mix(in_srgb,var(--glass-black)_35%,transparent),inset_0_1px_2px_var(--glass-bg-active)] ring-1",
-          "hover:bg-white/65 active:bg-white/70"
+          "hover:bg-white/15 active:bg-white/20"
         )}
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
@@ -517,12 +517,12 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
             <span
               className={cn(
                 `flex-shrink-0 glass-px-2 glass-py-1 glass-text-xs glass-radius-full font-medium transition-all duration-[${ANIMATION.DURATION.fast}ms]`,
-                "bg-black/15 border border-black/20 shadow-md glass-backdrop-blur-md",
-                "group-hover:bg-black/20 group-hover:border-black/25 group-hover:shadow-lg",
+                "bg-white/8 border border-white/15 shadow-md glass-backdrop-blur-md",
+                "group-hover:bg-white/12 group-hover:border-white/20 group-hover:shadow-lg",
                 "relative z-10" // Ensure badge stays above any background effects
               )}
               style={{
-                color: "var(--glass-white)", // white text on dark background
+                color: "var(--glass-white)",
               }}
             >
               {item?.badge}

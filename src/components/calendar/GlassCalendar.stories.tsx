@@ -73,7 +73,7 @@ const sampleEvents = [
     startTime: '10:00',
     endTime: '11:00',
     type: 'meeting' as const,
-    color: 'var(--glass-color-primary)',
+    color: 'hsl(var(--glass-color-primary))',
   },
   {
     id: '2',
@@ -82,7 +82,7 @@ const sampleEvents = [
     startTime: '14:00',
     endTime: '15:30',
     type: 'meeting' as const,
-    color: 'var(--glass-color-success)',
+    color: 'hsl(var(--glass-color-success))',
   },
   {
     id: '3',
@@ -91,7 +91,7 @@ const sampleEvents = [
     startTime: '09:00',
     endTime: '12:00',
     type: 'event' as const,
-    color: 'var(--glass-color-warning)',
+    color: 'hsl(var(--glass-color-warning))',
   },
 ];
 
@@ -177,7 +177,7 @@ export const CustomDate: Story = {
         title: 'Christmas Day',
         date: new Date(2024, 11, 25),
         type: 'event' as const,
-        color: 'var(--glass-color-danger)',
+        color: 'hsl(var(--glass-color-danger))',
       },
     ],
   },

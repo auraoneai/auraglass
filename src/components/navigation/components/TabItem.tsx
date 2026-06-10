@@ -144,7 +144,7 @@ const TabItemComponent: React.FC<TabItemProps> = ({
         <span
           aria-label={`${badge} notifications`}
           style={{
-            background: "var(--glass-color-danger)",
+            background: "hsl(var(--glass-color-danger))",
             color: "white",
             borderRadius: "10px",
             padding: "2px 6px",

@@ -621,7 +621,7 @@ export const GlassIntelligentFormBuilder: React.FC<
               }
               className={cn(
                 "glass-w-full glass-px-3 glass-py-2 glass-border glass-radius-lg glass-focus",
-                validationErrors.title ? "border-red-500" : "border-gray-300"
+                validationErrors.title ? "border-red-500" : "border-white/20"
               )}
               placeholder="Enter form title..."
             />
@@ -819,7 +819,7 @@ export const GlassIntelligentFormBuilder: React.FC<
                           "glass-w-full glass-px-3 glass-py-2 glass-border glass-radius-lg glass-focus",
                           validationErrors[`field-${selectedFieldIndex}-label`]
                             ? "border-red-500"
-                            : "border-gray-300"
+                            : "border-white/20"
                         )}
                         placeholder="Enter field label..."
                       />

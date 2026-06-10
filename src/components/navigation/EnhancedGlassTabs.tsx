@@ -165,16 +165,16 @@ const getTabColors = (
 ) => {
   const baseColors = {
     primary: {
-      light: "var(--glass-color-primary)",
-      dark: "var(--glass-color-primary)",
+      light: "hsl(var(--glass-color-primary))",
+      dark: "hsl(var(--glass-color-primary))",
     },
     secondary: {
       light: "var(--glass-color-secondary)",
       dark: "var(--glass-color-secondary)",
     },
     accent: {
-      light: "var(--glass-color-danger)",
-      dark: "var(--glass-color-danger)",
+      light: "hsl(var(--glass-color-danger))",
+      dark: "hsl(var(--glass-color-danger))",
     },
     light: { light: "var(--glass-gray-50)", dark: "var(--glass-gray-100)" },
     dark: { light: "var(--glass-gray-800)", dark: "var(--glass-gray-900)" },

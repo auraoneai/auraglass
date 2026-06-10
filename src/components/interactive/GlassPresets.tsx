@@ -1,17 +1,18 @@
-'use client';
-import React, { forwardRef } from 'react';
-import { cn } from '../../lib/utilsComprehensive';
+"use client";
+import React, { forwardRef } from "react";
+import { cn } from "../../lib/utilsComprehensive";
 
-import { ZLayer } from '../../core/zspace';
-import { useGlassTheme } from '../../hooks/useGlassTheme';
-import { ContextAwareGlass, ContextAwareGlassProps } from './ContextAwareGlass';
+import { ZLayer } from "../../core/zspace";
+import { useGlassTheme } from "../../hooks/useGlassTheme";
+import { ContextAwareGlass, ContextAwareGlassProps } from "./ContextAwareGlass";
 
 /**
  * CleanGlassContainer Props
  *
  * A minimal, clean glass container with high transparency.
  */
-export interface CleanGlassContainerProps extends Omit<ContextAwareGlassProps, 'adaptationMode'> {
+export interface CleanGlassContainerProps
+  extends Omit<ContextAwareGlassProps, "adaptationMode"> {
   /**
    * If true, use the darkest possible settings
    */
@@ -23,340 +24,350 @@ export interface CleanGlassContainerProps extends Omit<ContextAwareGlassProps, '
  *
  * A minimal, clean glass container with high transparency.
  */
-export const CleanGlassContainer = forwardRef<HTMLDivElement, CleanGlassContainerProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 5,
-      baseOpacity = 0.1,
-      baseBorderOpacity = 0.15,
-      enableEdgeHighlight = false,
-      enableGlow = false,
-      extraDark = false,
-      ...rest
-    } = props;
+export const CleanGlassContainer = forwardRef<
+  HTMLDivElement,
+  CleanGlassContainerProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 5,
+    baseOpacity = 0.1,
+    baseBorderOpacity = 0.15,
+    enableEdgeHighlight = false,
+    enableGlow = false,
+    extraDark = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass data-glass-component
-        ref={ref}
-        adaptationMode="fixed"
-        baseBlurStrength={extraDark ? 7 : baseBlurStrength}
-        baseOpacity={extraDark ? 0.2 : baseOpacity}
-        baseBorderOpacity={extraDark ? 0.25 : baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      data-glass-component
+      ref={ref}
+      adaptationMode="fixed"
+      baseBlurStrength={extraDark ? 7 : baseBlurStrength}
+      baseOpacity={extraDark ? 0.2 : baseOpacity}
+      baseBorderOpacity={extraDark ? 0.25 : baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    />
+  );
+});
 
-CleanGlassContainer.displayName = 'CleanGlassContainer';
+CleanGlassContainer.displayName = "CleanGlassContainer";
 
 /**
  * FrostedGlassContainer Component
  *
  * A frosted glass container with moderate blur and opacity.
  */
-export const FrostedGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 12,
-      baseOpacity = 0.2,
-      baseBorderOpacity = 0.25,
-      enableEdgeHighlight = true,
-      enableGlow = false,
-      ...rest
-    } = props;
+export const FrostedGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 12,
+    baseOpacity = 0.2,
+    baseBorderOpacity = 0.25,
+    enableEdgeHighlight = true,
+    enableGlow = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="background"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="background"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    />
+  );
+});
 
-FrostedGlassContainer.displayName = 'FrostedGlassContainer';
+FrostedGlassContainer.displayName = "FrostedGlassContainer";
 
 /**
  * TexturedGlassContainer Component
  *
  * A textured glass container with noise pattern.
  */
-export const TexturedGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 8,
-      baseOpacity = 0.15,
-      baseBorderOpacity = 0.3,
-      enableEdgeHighlight = true,
-      enableGlow = false,
-      children,
-      ...rest
-    } = props;
+export const TexturedGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 8,
+    baseOpacity = 0.15,
+    baseBorderOpacity = 0.3,
+    enableEdgeHighlight = true,
+    enableGlow = false,
+    children,
+    ...rest
+  } = props;
 
-    // Add a noise texture overlay
-    const noiseTexture = (
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:, //www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          opacity: 0.05,
-          mixBlendMode: 'overlay',
-          pointerEvents: 'none',
-          zIndex: 1,
-        }}
-      />
-    );
+  // Add a noise texture overlay
+  const noiseTexture = (
+    <div
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http:, //www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        opacity: 0.05,
+        mixBlendMode: "overlay",
+        pointerEvents: "none",
+        zIndex: 1,
+      }}
+    />
+  );
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="hybrid"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      >
-        {noiseTexture}
-        <div style={{ position: 'relative', zIndex: 2 }}>{children}</div>
-      </ContextAwareGlass>
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="hybrid"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    >
+      {noiseTexture}
+      <div style={{ position: "relative", zIndex: 2 }}>{children}</div>
+    </ContextAwareGlass>
+  );
+});
 
-TexturedGlassContainer.displayName = 'TexturedGlassContainer';
+TexturedGlassContainer.displayName = "TexturedGlassContainer";
 
 /**
  * SubtleGlassContainer Component
  *
  * A subtle glass container with minimal effects.
  */
-export const SubtleGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 3,
-      baseOpacity = 0.08,
-      baseBorderOpacity = 0.1,
-      enableEdgeHighlight = false,
-      enableGlow = false,
-      ...rest
-    } = props;
+export const SubtleGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 3,
+    baseOpacity = 0.08,
+    baseBorderOpacity = 0.1,
+    enableEdgeHighlight = false,
+    enableGlow = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="content"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="content"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    />
+  );
+});
 
-SubtleGlassContainer.displayName = 'SubtleGlassContainer';
+SubtleGlassContainer.displayName = "SubtleGlassContainer";
 
 /**
  * StandardGlassContainer Component
  *
  * A standard glass container with balanced effects.
  */
-export const StandardGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 10,
-      baseOpacity = 0.15,
-      baseBorderOpacity = 0.2,
-      enableEdgeHighlight = true,
-      enableGlow = false,
-      ...rest
-    } = props;
+export const StandardGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 10,
+    baseOpacity = 0.15,
+    baseBorderOpacity = 0.2,
+    enableEdgeHighlight = true,
+    enableGlow = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="auto"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="auto"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    />
+  );
+});
 
-StandardGlassContainer.displayName = 'StandardGlassContainer';
+StandardGlassContainer.displayName = "StandardGlassContainer";
 
 /**
  * ImmersiveGlassContainer Component
  *
  * An immersive glass container with strong effects.
  */
-export const ImmersiveGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 15,
-      baseOpacity = 0.12,
-      baseBorderOpacity = 0.3,
-      enableEdgeHighlight = true,
-      enableGlow = true,
-      glowColor = '#6366F1',
-      ...rest
-    } = props;
+export const ImmersiveGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 15,
+    baseOpacity = 0.12,
+    baseBorderOpacity = 0.3,
+    enableEdgeHighlight = true,
+    enableGlow = true,
+    glowColor = "#6366F1",
+    ...rest
+  } = props;
 
-    const { theme } = useGlassTheme();
+  const { theme } = useGlassTheme();
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="immersive"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        glowColor={glowColor || 'var(--glass-color-primary)'}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="immersive"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      glowColor={glowColor || "hsl(var(--glass-color-primary))"}
+      {...rest}
+    />
+  );
+});
 
-ImmersiveGlassContainer.displayName = 'ImmersiveGlassContainer';
+ImmersiveGlassContainer.displayName = "ImmersiveGlassContainer";
 
 /**
  * DashboardGlassContainer Component
  *
  * A glass container optimized for dashboard UIs.
  */
-export const DashboardGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 8,
-      baseOpacity = 0.15,
-      baseBorderOpacity = 0.2,
-      enableEdgeHighlight = true,
-      enableGlow = false,
-      ...rest
-    } = props;
+export const DashboardGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 8,
+    baseOpacity = 0.15,
+    baseBorderOpacity = 0.2,
+    enableEdgeHighlight = true,
+    enableGlow = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="content"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="content"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      {...rest}
+    />
+  );
+});
 
-DashboardGlassContainer.displayName = 'DashboardGlassContainer';
+DashboardGlassContainer.displayName = "DashboardGlassContainer";
 
 /**
  * FormGlassContainer Component
  *
  * A glass container optimized for forms.
  */
-export const FormGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 7,
-      baseOpacity = 0.2,
-      baseBorderOpacity = 0.25,
-      enableEdgeHighlight = true,
-      enableGlow = false,
-      ...rest
-    } = props;
+export const FormGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 7,
+    baseOpacity = 0.2,
+    baseBorderOpacity = 0.25,
+    enableEdgeHighlight = true,
+    enableGlow = false,
+    ...rest
+  } = props;
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="contrast"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        contentType="form"
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="contrast"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      contentType="form"
+      {...rest}
+    />
+  );
+});
 
-FormGlassContainer.displayName = 'FormGlassContainer';
+FormGlassContainer.displayName = "FormGlassContainer";
 
 /**
  * ModalGlassContainer Component
  *
  * A glass container optimized for modals and dialogs.
  */
-export const ModalGlassContainer = forwardRef<HTMLDivElement, ContextAwareGlassProps>(
-  (props, ref) => {
-    const {
-      baseBlurStrength = 12,
-      baseOpacity = 0.2,
-      baseBorderOpacity = 0.25,
-      enableEdgeHighlight = true,
-      enableGlow = true,
-      glowColor,
-      ...rest
-    } = props;
+export const ModalGlassContainer = forwardRef<
+  HTMLDivElement,
+  ContextAwareGlassProps
+>((props, ref) => {
+  const {
+    baseBlurStrength = 12,
+    baseOpacity = 0.2,
+    baseBorderOpacity = 0.25,
+    enableEdgeHighlight = true,
+    enableGlow = true,
+    glowColor,
+    ...rest
+  } = props;
 
-    const { theme } = useGlassTheme();
+  const { theme } = useGlassTheme();
 
-    return (
-      <ContextAwareGlass
-        ref={ref}
-        adaptationMode="hybrid"
-        baseBlurStrength={baseBlurStrength}
-        baseOpacity={baseOpacity}
-        baseBorderOpacity={baseBorderOpacity}
-        enableEdgeHighlight={enableEdgeHighlight}
-        enableGlow={enableGlow}
-        glowColor={glowColor || 'var(--glass-color-primary)'}
-        {...rest}
-      />
-    );
-  }
-);
+  return (
+    <ContextAwareGlass
+      ref={ref}
+      adaptationMode="hybrid"
+      baseBlurStrength={baseBlurStrength}
+      baseOpacity={baseOpacity}
+      baseBorderOpacity={baseBorderOpacity}
+      enableEdgeHighlight={enableEdgeHighlight}
+      enableGlow={enableGlow}
+      glowColor={glowColor || "hsl(var(--glass-color-primary))"}
+      {...rest}
+    />
+  );
+});
 
-ModalGlassContainer.displayName = 'ModalGlassContainer';
+ModalGlassContainer.displayName = "ModalGlassContainer";
 
 export type GlassPresetVariant =
-  | 'clean'
-  | 'frosted'
-  | 'textured'
-  | 'subtle'
-  | 'standard'
-  | 'immersive'
-  | 'dashboard'
-  | 'form'
-  | 'modal';
+  | "clean"
+  | "frosted"
+  | "textured"
+  | "subtle"
+  | "standard"
+  | "immersive"
+  | "dashboard"
+  | "form"
+  | "modal";
 
 export interface GlassPresetsProps extends ContextAwareGlassProps {
   variant?: GlassPresetVariant;
@@ -364,29 +375,31 @@ export interface GlassPresetsProps extends ContextAwareGlassProps {
 }
 
 export const GlassPresets = forwardRef<HTMLDivElement, GlassPresetsProps>(
-  ({ variant = 'clean', extraDark, ...rest }, ref) => {
+  ({ variant = "clean", extraDark, ...rest }, ref) => {
     switch (variant) {
-      case 'clean':
-        return <CleanGlassContainer ref={ref} extraDark={extraDark} {...rest} />;
-      case 'frosted':
+      case "clean":
+        return (
+          <CleanGlassContainer ref={ref} extraDark={extraDark} {...rest} />
+        );
+      case "frosted":
         return <FrostedGlassContainer ref={ref} {...rest} />;
-      case 'textured':
+      case "textured":
         return <TexturedGlassContainer ref={ref} {...rest} />;
-      case 'subtle':
+      case "subtle":
         return <SubtleGlassContainer ref={ref} {...rest} />;
-      case 'immersive':
+      case "immersive":
         return <ImmersiveGlassContainer ref={ref} {...rest} />;
-      case 'dashboard':
+      case "dashboard":
         return <DashboardGlassContainer ref={ref} {...rest} />;
-      case 'form':
+      case "form":
         return <FormGlassContainer ref={ref} {...rest} />;
-      case 'modal':
+      case "modal":
         return <ModalGlassContainer ref={ref} {...rest} />;
-      case 'standard':
+      case "standard":
       default:
         return <StandardGlassContainer ref={ref} {...rest} />;
     }
   }
 );
 
-GlassPresets.displayName = 'GlassPresets';
+GlassPresets.displayName = "GlassPresets";

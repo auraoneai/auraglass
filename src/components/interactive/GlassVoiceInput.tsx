@@ -534,15 +534,15 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
       const gradient = ctx.createLinearGradient(0, height, 0, 0);
       gradient.addColorStop(
         0,
-        "color-mix(in srgb, var(--glass-color-info) 80%, transparent)"
+        "color-mix(in srgb, hsl(var(--glass-color-info)) 80%, transparent)"
       );
       gradient.addColorStop(
         0.5,
-        "color-mix(in srgb, var(--glass-color-info) 60%, transparent)"
+        "color-mix(in srgb, hsl(var(--glass-color-info)) 60%, transparent)"
       );
       gradient.addColorStop(
         1,
-        "color-mix(in srgb, var(--glass-color-info) 40%, transparent)"
+        "color-mix(in srgb, hsl(var(--glass-color-info)) 40%, transparent)"
       );
 
       switch (visualizerStyle) {
@@ -615,7 +615,7 @@ export const GlassVoiceInput = forwardRef<HTMLDivElement, GlassVoiceInputProps>(
             const size = Math.random() * 3 + 1;
             const alpha = Math.random() * 0.8 + 0.2;
 
-            ctx.fillStyle = `color-mix(in srgb, var(--glass-color-info) ${alpha * 100}%, transparent)`;
+            ctx.fillStyle = `color-mix(in srgb, hsl(var(--glass-color-info)) ${alpha * 100}%, transparent)`;
             ctx.beginPath();
             ctx.arc(x, y, size, 0, Math.PI * 2);
             ctx.fill();

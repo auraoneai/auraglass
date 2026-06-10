@@ -101,7 +101,7 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
   const [selectedTheme, setSelectedTheme] = useState(currentTheme);
   const [showCustomizer, setShowCustomizer] = useState(false);
   const [customColors, setCustomColors] = useState<Record<string, string>>({
-    primary: "var(--glass-color-primary)",
+    primary: "hsl(var(--glass-color-primary))",
     secondary: "#64748b",
     background: "var(--glass-white)",
     text: "var(--glass-black)",
@@ -114,7 +114,7 @@ export const GlassThemeSwitcher: React.FC<GlassThemeSwitcherProps> = ({
       name: "Light",
       icon: Sun,
       preview: {
-        primary: "var(--glass-color-primary)",
+        primary: "hsl(var(--glass-color-primary))",
         secondary: "#64748b",
         background: "var(--glass-white)",
         text: "var(--glass-black)",

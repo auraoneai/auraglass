@@ -473,20 +473,28 @@ select[class*="glass-"] option {
 
 /* Effects - Support for components */
 .backdrop-blur-sm {
-  backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8);
-  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8);
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(1.8) brightness(1.05)
+    contrast(1.05);
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(1.8)
+    brightness(1.05) contrast(1.05);
 }
 .backdrop-blur-md {
-  backdrop-filter: blur(var(--glass-blur-lg)) saturate(1.8);
-  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(1.8);
+  backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8) brightness(1.05)
+    contrast(1.05);
+  -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(1.8)
+    brightness(1.05) contrast(1.05);
 }
 .backdrop-blur-lg {
-  backdrop-filter: blur(var(--glass-blur-xl)) saturate(2);
-  -webkit-backdrop-filter: blur(var(--glass-blur-xl)) saturate(2);
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(1.8) brightness(1.05)
+    contrast(1.05);
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(1.8)
+    brightness(1.05) contrast(1.05);
 }
 .backdrop-blur-xl {
-  backdrop-filter: blur(var(--glass-blur-2xl)) saturate(2.2);
-  -webkit-backdrop-filter: blur(var(--glass-blur-2xl)) saturate(2.2);
+  backdrop-filter: blur(var(--glass-blur-xl)) saturate(1.8) brightness(1.05)
+    contrast(1.05);
+  -webkit-backdrop-filter: blur(var(--glass-blur-xl)) saturate(1.8)
+    brightness(1.05) contrast(1.05);
 }
 
 /* Simple pulse animation */

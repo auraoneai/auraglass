@@ -84,16 +84,14 @@ class AILayoutGenerator {
   private initializeDesignTokens(): DesignTokens {
     return {
       colors: {
-        primary: "var(--glass-color-primary)",
-        secondary: "var(--glass-color-success)",
-        accent: "var(--glass-color-primary)",
-        background:
-          "var(--glass-primary-level2-surface)",
-        surface:
-          "color-mix(in srgb, var(--glass-white) var(--glass-opacity-10), transparent)",
+        primary: "hsl(var(--glass-color-primary))",
+        secondary: "hsl(var(--glass-color-success))",
+        accent: "hsl(var(--glass-color-primary))",
+        background: "var(--glass-primary-level2-surface)",
+        surface: "color-mix(in srgb, var(--glass-white) 10%, transparent)",
         text: "var(--glass-white)",
         textSecondary:
-          "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)",
+          "color-mix(in srgb, var(--glass-white) 70%, transparent)",
       },
       spacing: {
         xs: "0.25rem",
@@ -121,11 +119,11 @@ class AILayoutGenerator {
         },
       },
       shadows: {
-        sm: "0 1px 2px 0 color-mix(in srgb, var(--glass-black) var(--glass-opacity-5), transparent)",
-        md: "0 4px 6px -1px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
-        lg: "0 10px 15px -3px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+        sm: "0 1px 2px 0 color-mix(in srgb, var(--glass-black) 5%, transparent)",
+        md: "0 4px 6px -1px color-mix(in srgb, var(--glass-black) 10%, transparent)",
+        lg: "0 10px 15px -3px color-mix(in srgb, var(--glass-black) 10%, transparent)",
         glass:
-          "0 8px 32px color-mix(in srgb, var(--glass-black) var(--glass-opacity-37), transparent)",
+          "0 8px 32px color-mix(in srgb, var(--glass-black) 37%, transparent)",
       },
       borders: {
         radius: "0.375rem",

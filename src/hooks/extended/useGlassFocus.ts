@@ -70,7 +70,12 @@ export function useGlassFocus(options: GlassFocusOptions = {}) {
     previousFocusedElement: null,
   });
 
-  const finalOptions = { ...DEFAULT_OPTIONS, ...options };
+  const finalOptions = {
+    ...DEFAULT_OPTIONS,
+    ...Object.fromEntries(
+      Object.entries(options).filter(([, value]) => value !== undefined)
+    ),
+  } as Required<GlassFocusOptions>;
 
   // Base inline styles only (no pseudo-selectors here)
   const baseStyle = useCallback((): React.CSSProperties => {

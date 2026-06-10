@@ -165,17 +165,17 @@ export const GlassHologram = forwardRef<HTMLDivElement, GlassHologramProps>(
     // Color scheme configurations
     const colorSchemes = {
       blue: {
-        primary: "var(--glass-color-primary)",
+        primary: "hsl(var(--glass-color-primary))",
         secondary: "#1E40AF",
         accent: "var(--glass-color-primary-light)",
       },
       green: {
-        primary: "var(--glass-color-success)",
+        primary: "hsl(var(--glass-color-success))",
         secondary: "#047857",
         accent: "var(--glass-color-success-light)",
       },
       red: {
-        primary: "var(--glass-color-danger)",
+        primary: "hsl(var(--glass-color-danger))",
         secondary: "#B91C1C",
         accent: "var(--glass-color-danger-light)",
       },

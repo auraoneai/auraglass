@@ -3,9 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ChartFilters } from './ChartFilters';
 
 const swatches = [
-  'var(--glass-color-primary)',
-  'var(--glass-color-success)',
-  'var(--glass-color-warning)',
+  'hsl(var(--glass-color-primary))',
+  'hsl(var(--glass-color-success))',
+  'hsl(var(--glass-color-warning))',
 ];
 
 const FilterPreview = ({ qualityTier = 'medium' }: { qualityTier?: 'low' | 'medium' | 'high' | 'ultra' }) => (

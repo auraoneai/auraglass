@@ -381,8 +381,7 @@ const SelectGroup = <T extends string | number>({
           border: "none",
           outline: "none",
           fontSize: "0.85rem",
-          background:
-            "var(--glass-primary-level3-surface)",
+          background: "var(--glass-primary-level3-surface)",
           color: "var(--auraglass-text, #e5e7eb)",
           boxShadow: "0 0 0 1px rgba(148,163,253,0.35)",
           appearance: "none",
@@ -469,7 +468,7 @@ const ToggleRow: React.FC<ToggleRowProps> = ({
               width: 16,
               height: 16,
               borderRadius: "50%",
-              background: "#e5e7eb",
+              background: "var(--glass-gray-200)",
               transform: checked ? "translateX(14px)" : "translateX(0px)",
               transition: "transform 160ms ease-out",
             },

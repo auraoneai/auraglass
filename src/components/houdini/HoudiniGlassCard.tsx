@@ -196,8 +196,8 @@ export function HoudiniGlassCard({
                   flex items-center gap-2 p-2 rounded-lg text-sm transition-all
                   ${
                     enabledEffects.includes(effect)
-                      ? "bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/30"
-                      : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
+                      ? "bg-blue-500/20 text-blue-200 border border-blue-500/30"
+                      : "bg-white/8 glass-text-secondary hover:bg-white/12"
                   }
                 `}
                   title={`${enabledEffects.includes(effect) ? "Disable" : "Enable"} ${effect} effect`}
@@ -400,8 +400,8 @@ export function HoudiniGlassShowcase() {
                 p-3 rounded-lg text-left transition-all
                 ${
                   selectedEffects.includes(effect.id)
-                    ? "bg-green-500/20 border-2 border-green-500/50 text-green-700 dark:text-green-300"
-                    : "bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border-2 border-transparent"
+                    ? "bg-green-500/20 border-2 border-green-500/50 text-green-200"
+                    : "bg-white/8 hover:bg-white/12 border-2 border-transparent"
                 }
               `}
             >

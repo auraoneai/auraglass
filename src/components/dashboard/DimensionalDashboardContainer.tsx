@@ -257,7 +257,7 @@ export const DimensionalDashboardContainer = forwardRef<
           }
 
           .dimensional-dashboard-layer:focus-visible {
-            outline: 2px solid var(--aura-accent-color, var(--glass-color-info));
+            outline: 2px solid var(--aura-accent-color, hsl(var(--glass-color-info)));
             outline-offset: 4px;
           }
 

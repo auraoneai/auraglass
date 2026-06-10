@@ -345,7 +345,7 @@ export const GlassNavigation = forwardRef<HTMLDivElement, GlassNavigationProps>(
           {
             "glass-px-2 glass-py-1.5 glass-text-sm": variant === "minimal",
             "glass-px-4 glass-py-2.5 glass-text-base": variant !== "minimal",
-            "text-blue-600 font-semibold bg-blue-50/50": isActive,
+            "text-blue-200 font-semibold bg-blue-500/15": isActive,
             "glass-text-secondary font-normal hover:bg-white/10": !isActive,
             "opacity-50 pointer-events-none": item?.disabled,
             "active:scale-[0.98]": !item?.disabled,

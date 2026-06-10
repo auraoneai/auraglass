@@ -296,8 +296,8 @@ const ShippingCalculator: React.FC<{
             className={cn(
               "flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors",
               selectedShipping?.id === option.id
-                ? "border-blue-500 bg-blue-50"
-                : "border-gray-200 hover:border-gray-300"
+                ? "border-blue-400/60 bg-blue-500/15"
+                : "border-white/15 hover:border-white/25"
             )}
           >
             <div className="glass-flex glass-items-center glass-gap-3">

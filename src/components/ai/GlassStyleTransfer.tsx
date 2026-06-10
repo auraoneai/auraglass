@@ -218,9 +218,9 @@ export const GlassStyleTransfer = forwardRef<
             // Apply different effects based on style category
             switch (selectedStyleModel?.category) {
               case "artistic":
-                gradient.addColorStop(0, "var(--glass-color-danger)");
-                gradient.addColorStop(0.5, "var(--glass-color-info)");
-                gradient.addColorStop(1, "var(--glass-color-primary)");
+                gradient.addColorStop(0, "hsl(var(--glass-color-danger))");
+                gradient.addColorStop(0.5, "hsl(var(--glass-color-info))");
+                gradient.addColorStop(1, "hsl(var(--glass-color-primary))");
                 break;
               case "photographic":
                 gradient.addColorStop(0, "#2D3748");

@@ -70,7 +70,7 @@ export const GlassMagneticCursor = forwardRef<
     className,
     variant = "default",
     size = 20,
-    color = "rgba(var(--glass-color-primary) / var(--glass-opacity-50))",
+    color = "hsl(var(--glass-color-primary) / var(--glass-opacity-50))",
     magnetStrength = 0.3,
     magnetRadius = 100,
     showCursor = true,

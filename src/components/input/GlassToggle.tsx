@@ -211,22 +211,22 @@ export const GlassToggle = React.forwardRef<
           return cn(
             baseClasses,
             pressed
-              ? "bg-black/40 border-white/40 glass-text-primary shadow-lg"
-              : "bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30"
+              ? "bg-white/15 border-white/40 glass-text-primary shadow-lg"
+              : "bg-white/8 hover:bg-white/12 glass-text-primary/80 hover:glass-text-primary hover:border-white/30"
           );
         case "ghost":
           return cn(
             pressed
-              ? "bg-black/30 glass-text-primary shadow-md"
-              : "hover:bg-black/20 glass-text-primary/70 hover:glass-text-primary",
+              ? "bg-white/12 glass-text-primary shadow-md"
+              : "hover:bg-white/10 glass-text-primary/70 hover:glass-text-primary",
             `transition-all duration-[${ANIMATION.DURATION.normal}ms]`
           );
         default:
           return cn(
             baseClasses,
             pressed
-              ? "bg-black/40 border-white/40 glass-text-primary shadow-lg scale-105"
-              : "bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 glass-hover-scale-105"
+              ? "bg-white/15 border-white/40 glass-text-primary shadow-lg scale-105"
+              : "bg-white/8 hover:bg-white/12 glass-text-primary/80 hover:glass-text-primary hover:border-white/30 glass-hover-scale-105"
           );
       }
     };

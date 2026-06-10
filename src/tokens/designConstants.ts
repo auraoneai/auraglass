@@ -56,12 +56,12 @@ export const COLORS = {
 
   // Semantic colors
   semantic: {
-    primary: "var(--glass-color-primary)",
+    primary: "hsl(var(--glass-color-primary))",
     secondary: "var(--glass-gray-500)",
-    success: "var(--glass-color-success)",
-    warning: "var(--glass-color-warning)",
-    error: "var(--glass-color-danger)",
-    info: "var(--glass-color-primary)",
+    success: "hsl(var(--glass-color-success))",
+    warning: "hsl(var(--glass-color-warning))",
+    error: "hsl(var(--glass-color-danger))",
+    info: "hsl(var(--glass-color-primary))",
   },
 
   // Neutral colors

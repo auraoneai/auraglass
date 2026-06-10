@@ -463,7 +463,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                       ${
                         isHighContrast
                           ? "hover:bg-white/20 text-white"
-                          : "hover:bg-black/10 text-gray-600"
+                          : "hover:bg-white/10 glass-text-secondary"
                       }
                     `}
                       title="Detect system preferences"
@@ -477,7 +477,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                       ${
                         isHighContrast
                           ? "hover:bg-white/20 text-white"
-                          : "hover:bg-black/10 text-gray-600"
+                          : "hover:bg-white/10 glass-text-secondary"
                       }
                     `}
                       title="Reset to defaults"
@@ -510,7 +510,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             : "bg-blue-500/20 border-blue-500/50 text-blue-700"
                           : isHighContrast
                             ? "bg-white/10 border-white/20 text-white/80 hover:bg-white/20"
-                            : "bg-white/5 border-white/10 text-gray-600 hover:bg-white/10"
+                            : "bg-white/5 border-white/10 glass-text-secondary hover:bg-white/10"
                       }
                     `}
                     >
@@ -541,7 +541,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                           : "bg-white/10 text-blue-600"
                         : isHighContrast
                           ? "text-white/70 hover:text-white"
-                          : "text-gray-600 hover:text-gray-800"
+                          : "glass-text-secondary hover:glass-text-primary"
                     }
                   `}
                   >
@@ -559,7 +559,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                           : "bg-white/10 text-blue-600"
                         : isHighContrast
                           ? "text-white/70 hover:text-white"
-                          : "text-gray-600 hover:text-gray-800"
+                          : "glass-text-secondary hover:glass-text-primary"
                     }
                   `}
                   >
@@ -578,7 +578,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             : "bg-white/10 text-blue-600"
                           : isHighContrast
                             ? "text-white/70 hover:text-white"
-                            : "text-gray-600 hover:text-gray-800"
+                            : "glass-text-secondary hover:glass-text-primary"
                       }
                     `}
                     >
@@ -606,7 +606,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             Contrast
                           </div>
                           <div
-                            className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
+                            className={`capitalize ${isHighContrast ? "text-white/80" : "glass-text-secondary"}`}
                           >
                             {config.contrastLevel}
                           </div>
@@ -625,7 +625,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             Motion
                           </div>
                           <div
-                            className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
+                            className={`capitalize ${isHighContrast ? "text-white/80" : "glass-text-secondary"}`}
                           >
                             {config.motionPreference}
                           </div>
@@ -644,7 +644,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             Text Scale
                           </div>
                           <div
-                            className={`${isHighContrast ? "text-white/80" : "text-gray-600"}`}
+                            className={`${isHighContrast ? "text-white/80" : "glass-text-secondary"}`}
                           >
                             {Math.round(config.fontSizeMultiplier * 100)}%
                           </div>
@@ -663,7 +663,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             Color Vision
                           </div>
                           <div
-                            className={`capitalize ${isHighContrast ? "text-white/80" : "text-gray-600"}`}
+                            className={`capitalize ${isHighContrast ? "text-white/80" : "glass-text-secondary"}`}
                           >
                             {config.colorBlindnessType === "none"
                               ? "Normal"
@@ -714,7 +714,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                               ${
                                 isHighContrast
                                   ? "hover:bg-white/10 text-white"
-                                  : "hover:bg-black/5 text-gray-700"
+                                  : "hover:bg-white/8 glass-text-secondary"
                               }
                             `}
                             >
@@ -726,7 +726,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                                       {section.title}
                                     </div>
                                     <div
-                                      className={`text-sm ${isHighContrast ? "text-white/70" : "text-gray-500"}`}
+                                      className={`text-sm ${isHighContrast ? "text-white/70" : "glass-text-tertiary"}`}
                                     >
                                       {section.description}
                                     </div>
@@ -826,7 +826,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                                 </span>
                               </div>
                               <p
-                                className={`text-sm ${isHighContrast ? "text-white/70" : "text-gray-600"}`}
+                                className={`text-sm ${isHighContrast ? "text-white/70" : "glass-text-secondary"}`}
                               >
                                 {result.details}
                               </p>

@@ -85,7 +85,7 @@ export const GlassMenuPrimitiveContent = React.forwardRef<
         data-position-strategy={positionStrategy}
         onDismiss={onDismiss}
         className={cn(
-          "glass-backdrop-blur-md bg-black/20 border border-white/20 shadow-2xl",
+          "glass-backdrop-blur-lg bg-white/10 border border-white/20 shadow-2xl",
           "min-w-48 glass-py-1",
           className
         )}

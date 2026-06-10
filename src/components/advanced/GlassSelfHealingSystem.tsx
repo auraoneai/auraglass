@@ -84,10 +84,10 @@ interface PerformanceWithMemory extends Performance {
 type SelfHealingComponentInput = Record<string, unknown>;
 
 const HEALTH_STATUS_COLORS: Record<ComponentHealthCheck["status"], string> = {
-  healthy: "var(--glass-color-success)",
-  warning: "var(--glass-color-warning)",
-  critical: "var(--glass-color-danger)",
-  healing: "var(--glass-color-primary)",
+  healthy: "hsl(var(--glass-color-success))",
+  warning: "hsl(var(--glass-color-warning))",
+  critical: "hsl(var(--glass-color-danger))",
+  healing: "hsl(var(--glass-color-primary))",
   failed: "#7f1d1d",
 };
 
@@ -1124,10 +1124,10 @@ export function GlassSelfHealingWrapper({
 
   const statusColor = health
     ? {
-        healthy: "var(--glass-color-success)",
-        warning: "var(--glass-color-warning)",
-        critical: "var(--glass-color-danger)",
-        healing: "var(--glass-color-primary)",
+        healthy: "hsl(var(--glass-color-success))",
+        warning: "hsl(var(--glass-color-warning))",
+        critical: "hsl(var(--glass-color-danger))",
+        healing: "hsl(var(--glass-color-primary))",
         failed: "#7f1d1d",
       }[health.status]
     : "var(--glass-gray-500)";

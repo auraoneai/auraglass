@@ -461,7 +461,7 @@ export const GlassKanbanBoard = forwardRef<
                         padding: isCompact ? "0.15rem 0.35rem" : undefined,
                         borderRadius: 999,
                         background:
-                          "color-mix(in srgb, var(--glass-color-primary) 10%, transparent)",
+                          "color-mix(in srgb, hsl(var(--glass-color-primary)) 10%, transparent)",
                         color: "rgba(191,232,255,0.92)",
                         fontSize: isCompact ? "0.62rem" : undefined,
                         lineHeight: 1.1,
@@ -615,37 +615,37 @@ export const GlassKanbanBoard = forwardRef<
             </div>
 
             {showToolbar && (
-            <div className="glass-flex glass-items-center glass-gap-1">
-              {effectiveShowAddCard && !column.readOnly && (
-                <button
-                  onClick={() => onCardAdd?.(column.id)}
-                  className={cn(
-                    "glass-w-6 glass-h-6 glass-radius-full bg-primary/10 hover:bg-primary/20",
-                    "glass-text-primary glass-text-sm glass-font-bold transition-colors",
-                    "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
-                  )}
-                  title="Add card"
-                  aria-label={`Add card to ${column.title}`}
-                >
-                  +
-                </button>
-              )}
+              <div className="glass-flex glass-items-center glass-gap-1">
+                {effectiveShowAddCard && !column.readOnly && (
+                  <button
+                    onClick={() => onCardAdd?.(column.id)}
+                    className={cn(
+                      "glass-w-6 glass-h-6 glass-radius-full bg-primary/10 hover:bg-primary/20",
+                      "glass-text-primary glass-text-sm glass-font-bold transition-colors",
+                      "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
+                    )}
+                    title="Add card"
+                    aria-label={`Add card to ${column.title}`}
+                  >
+                    +
+                  </button>
+                )}
 
-              {showActions && onColumnDelete && (
-                <button
-                  onClick={() => onColumnDelete(column.id)}
-                  className={cn(
-                    "glass-w-6 glass-h-6 glass-radius-full bg-red-500/10 hover:bg-red-500/20",
-                    "text-red-500 glass-text-sm transition-colors",
-                    "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
-                  )}
-                  title="Delete column"
-                  aria-label={`Delete ${column.title} column`}
-                >
-                  ×
-                </button>
-              )}
-            </div>
+                {showActions && onColumnDelete && (
+                  <button
+                    onClick={() => onColumnDelete(column.id)}
+                    className={cn(
+                      "glass-w-6 glass-h-6 glass-radius-full bg-red-500/10 hover:bg-red-500/20",
+                      "text-red-500 glass-text-sm transition-colors",
+                      "glass-flex glass-items-center glass-justify-center glass-focus glass-touch-target glass-contrast-guard"
+                    )}
+                    title="Delete column"
+                    aria-label={`Delete ${column.title} column`}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
             )}
           </div>
         );

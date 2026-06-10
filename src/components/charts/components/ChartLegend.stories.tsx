@@ -56,9 +56,9 @@ export const Default: Story = {
   ),
   args: {
     datasets: [
-      { label: 'Dataset 1', color: 'var(--glass-color-primary)' },
-      { label: 'Dataset 2', color: 'var(--glass-color-danger)' },
-      { label: 'Dataset 3', color: 'var(--glass-color-success)' },
+      { label: 'Dataset 1', color: 'hsl(var(--glass-color-primary))' },
+      { label: 'Dataset 2', color: 'hsl(var(--glass-color-danger))' },
+      { label: 'Dataset 3', color: 'hsl(var(--glass-color-success))' },
     ],
   },
 };
@@ -76,9 +76,9 @@ export const Variants: Story = {
   ),
   args: {
     datasets: [
-      { label: 'Revenue', color: 'var(--glass-color-primary)' },
-      { label: 'Profit', color: 'var(--glass-color-success)' },
-      { label: 'Expenses', color: 'var(--glass-color-danger)' },
+      { label: 'Revenue', color: 'hsl(var(--glass-color-primary))' },
+      { label: 'Profit', color: 'hsl(var(--glass-color-success))' },
+      { label: 'Expenses', color: 'hsl(var(--glass-color-danger))' },
     ],
   },
 };

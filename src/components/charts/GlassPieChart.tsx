@@ -334,7 +334,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                       <path
                         d={segment.path}
                         fill={segment.color}
-                        stroke="color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
+                        stroke="color-mix(in srgb, var(--glass-white) 20%, transparent)"
                         strokeWidth="1"
                         className={`glass-cursor-pointer glass-transition-all glass-duration-[${ANIMATION.DURATION.fast}ms] hover:glass-opacity-80`}
                         onMouseEnter={(e) => handleSegmentHover(segment, e)}
@@ -389,7 +389,7 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
                         cy={centerY}
                         r={innerRadius}
                         fill="var(--glass-bg-default)"
-                        stroke="color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)"
+                        stroke="color-mix(in srgb, var(--glass-white) 20%, transparent)"
                         strokeWidth="1"
                       />
                       <text
@@ -504,10 +504,8 @@ export const GlassPieChart = forwardRef<HTMLDivElement, GlassPieChartProps>(
 GlassPieChart.displayName = "GlassPieChart";
 
 // Donut Chart variant
-export interface GlassDonutChartProps extends Omit<
-  GlassPieChartProps,
-  "innerRadius"
-> {
+export interface GlassDonutChartProps
+  extends Omit<GlassPieChartProps, "innerRadius"> {
   /**
    * Inner radius as percentage of outer radius (0-1)
    */

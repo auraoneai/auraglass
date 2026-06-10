@@ -236,7 +236,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
           <div
             class="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono"
           >
-            var(--glass-color-success)
+            hsl(var(--glass-color-success))
           </div>
         </div>
       </div>
@@ -257,7 +257,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
           <div
             class="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono"
           >
-            var(--glass-color-warning)
+            hsl(var(--glass-color-warning))
           </div>
         </div>
       </div>
@@ -278,7 +278,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
           <div
             class="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono"
           >
-            var(--glass-color-danger)
+            hsl(var(--glass-color-danger))
           </div>
         </div>
       </div>
@@ -299,7 +299,7 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
           <div
             class="glass-text-xs glass-text-primary-glass-opacity-50 glass-font-mono"
           >
-            var(--glass-color-primary)
+            hsl(var(--glass-color-primary))
           </div>
         </div>
       </div>
@@ -411,10 +411,10 @@ exports[`GlassColorSchemeGenerator matches snapshot 1`] = `
   --color-secondary: #0000cc;
   --color-accent: #00cccc;
   --color-neutral: #737f8c;
-  --color-success: var(--glass-color-success);
-  --color-warning: var(--glass-color-warning);
-  --color-error: var(--glass-color-danger);
-  --color-info: var(--glass-color-primary);
+  --color-success: hsl(var(--glass-color-success));
+  --color-warning: hsl(var(--glass-color-warning));
+  --color-error: hsl(var(--glass-color-danger));
+  --color-info: hsl(var(--glass-color-primary));
   --color-background: #0a0d0f;
   --color-surface: #16191d;
   --color-text: #f1f2f4;

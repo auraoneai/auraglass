@@ -398,12 +398,13 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
         // Draw object
         ctx.beginPath();
         ctx.arc(screenPos.x, screenPos.y, size / 2, 0, 2 * Math.PI);
-        ctx.fillStyle = object.material?.color || "var(--glass-color-primary)";
+        ctx.fillStyle =
+          object.material?.color || "hsl(var(--glass-color-primary))";
         ctx.fill();
 
         // Draw selection ring
         if (isSelected) {
-          ctx.strokeStyle = "var(--glass-color-success)";
+          ctx.strokeStyle = "hsl(var(--glass-color-success))";
           ctx.lineWidth = 3;
           ctx.stroke();
         }
@@ -442,7 +443,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
         const size = marker.size || 50;
 
         ctx.save();
-        ctx.strokeStyle = "var(--glass-color-success)";
+        ctx.strokeStyle = "hsl(var(--glass-color-success))";
         ctx.lineWidth = 2;
         ctx.setLineDash([5, 5]);
 
@@ -450,7 +451,7 @@ export const GlassARPreview = forwardRef<HTMLDivElement, GlassARPreviewProps>(
         ctx.strokeRect(x - size / 2, y - size / 2, size, size);
 
         // Draw marker type indicator
-        ctx.fillStyle = "var(--glass-color-success)";
+        ctx.fillStyle = "hsl(var(--glass-color-success))";
         ctx.font = "10px sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(marker.type.toUpperCase(), x, y + size / 2 + 15);

@@ -7,7 +7,7 @@ const EffectsFrame = ({ children }: { children: ReactNode }) => (
     className="glass-relative glass-overflow-hidden glass-rounded-xl glass-border glass-border-white/40 glass-bg-white/55 glass-p-6 glass-shadow-xl"
     style={{ width: 'min(420px, calc(100vw - 48px))', height: 240 }}
   >
-    <AtmosphericEffects qualityTier="high" color="var(--glass-color-primary)" />
+    <AtmosphericEffects qualityTier="high" color="hsl(var(--glass-color-primary))" />
     <div className="glass-relative glass-z-10 glass-flex glass-h-full glass-flex-col glass-items-center glass-justify-center glass-gap-3 glass-text-center">
       <div className="glass-text-sm glass-font-semibold glass-text-primary">Atmospheric chart layer</div>
       <div className="glass-grid glass-w-full glass-grid-cols-3 glass-gap-3">

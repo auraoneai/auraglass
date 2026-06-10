@@ -47,7 +47,7 @@ export const Default: Story = {
     datasets: [{
             label: 'Sample Data',
             data: [10, 20, 15, 25, 30, 20],
-            borderColor: 'var(--glass-color-primary)',
+            borderColor: 'hsl(var(--glass-color-primary))',
             backgroundColor: 'rgba(59, 130, 246, 0.18)',
     }],
   },
@@ -62,7 +62,7 @@ export const Variants: Story = {
           datasets={[{
             label: 'Sample Chart',
             data: [10, 20, 15, 25, 30, 20],
-            borderColor: 'var(--glass-color-primary)',
+            borderColor: 'hsl(var(--glass-color-primary))',
             backgroundColor: 'rgba(59, 130, 246, 0.18)',
           }]}
         />

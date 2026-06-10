@@ -1021,10 +1021,10 @@ export function GlassMetaDashboard({
                               style={{
                                 backgroundColor:
                                   health.healthScore > 0.8
-                                    ? "var(--glass-color-success)"
+                                    ? "hsl(var(--glass-color-success))"
                                     : health.healthScore > 0.6
-                                      ? "var(--glass-color-warning)"
-                                      : "var(--glass-color-danger)",
+                                      ? "hsl(var(--glass-color-warning))"
+                                      : "hsl(var(--glass-color-danger))",
                               }}
                             />
                             <span className="glass-text-xs glass-text-secondary">
@@ -1107,9 +1107,9 @@ export function GlassMetaDashboard({
                                 optimization.priority === "critical"
                                   ? "var(--glass-color-danger-dark)"
                                   : optimization.priority === "high"
-                                    ? "var(--glass-color-warning)"
+                                    ? "hsl(var(--glass-color-warning))"
                                     : optimization.priority === "medium"
-                                      ? "var(--glass-color-success)"
+                                      ? "hsl(var(--glass-color-success))"
                                       : "var(--glass-gray-500)",
                             }}
                           />

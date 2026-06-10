@@ -289,7 +289,7 @@ export const GlassGenerativeArt = forwardRef<
                 promptLower.includes("landscape")
               ) {
                 bgGradient = ctx.createLinearGradient(0, 0, 0, 512);
-                bgGradient.addColorStop(0, "var(--glass-color-info)");
+                bgGradient.addColorStop(0, "hsl(var(--glass-color-info))");
                 bgGradient.addColorStop(0.7, "#98fb98");
                 bgGradient.addColorStop(1, "#228b22");
               } else {

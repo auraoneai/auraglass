@@ -52,8 +52,8 @@ export interface GlassSuperpositionalMenuProps
 const quantumColors = {
   superposition: "#4F46E5",
   entangled: "#EC4899",
-  collapsed: "var(--glass-color-success)",
-  decoherent: "var(--glass-color-warning)",
+  collapsed: "hsl(var(--glass-color-success))",
+  decoherent: "hsl(var(--glass-color-warning))",
   interference: "#8B5CF6",
 };
 
@@ -540,8 +540,7 @@ export const GlassSuperpositionalMenu = forwardRef<
         )}
         style={{
           color: "rgba(255, 255, 255, 0.95)",
-          backgroundColor:
-            "var(--glass-primary-level3-surface)",
+          backgroundColor: "var(--glass-primary-level3-surface)",
         }}
         role="region"
         aria-label="Quantum superposition menu"
@@ -582,8 +581,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   )}
                   style={{
                     color: "rgba(255, 255, 255, 0.95)",
-                    backgroundColor:
-                      "var(--glass-primary-level3-surface)",
+                    backgroundColor: "var(--glass-primary-level3-surface)",
                     borderColor: "rgba(255, 255, 255, 0.28)",
                   }}
                 >
@@ -605,8 +603,7 @@ export const GlassSuperpositionalMenu = forwardRef<
                   )}
                   style={{
                     color: "rgba(255, 255, 255, 0.95)",
-                    backgroundColor:
-                      "var(--glass-primary-level3-surface)",
+                    backgroundColor: "var(--glass-primary-level3-surface)",
                     borderColor: "rgba(236, 72, 153, 0.42)",
                   }}
                 >
@@ -696,8 +693,7 @@ export const GlassSuperpositionalMenu = forwardRef<
             )}
             style={{
               color: "rgba(255, 255, 255, 0.95)",
-              backgroundColor:
-                "var(--glass-primary-level3-surface)",
+              backgroundColor: "var(--glass-primary-level3-surface)",
               borderColor: "rgba(59, 130, 246, 0.42)",
             }}
             initial={{ opacity: 0, y: 20 }}

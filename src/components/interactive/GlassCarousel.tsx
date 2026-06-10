@@ -839,7 +839,7 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
                           "w-3 h-3 glass-radius-full transition-all duration-200",
                           isActive && "bg-primary scale-125",
                           !isActive &&
-                            "bg-black/40 hover:bg-black/60 border border-white/30 hover:border-white/50",
+                            "bg-white/15 hover:bg-white/25 border border-white/30 hover:border-white/50",
                           isPredicted && "consciousness-predicted-dot",
                           isInteracted && "consciousness-interacted-dot",
                           eyeTracking &&

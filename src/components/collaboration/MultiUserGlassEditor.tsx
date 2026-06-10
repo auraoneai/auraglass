@@ -39,16 +39,13 @@ const statusAccent: Record<
   React.CSSProperties
 > = {
   active: {
-    background:
-      "var(--glass-primary-level2-surface)",
+    background: "var(--glass-primary-level2-surface)",
   },
   idle: {
-    background:
-      "var(--glass-primary-level2-surface)",
+    background: "var(--glass-primary-level2-surface)",
   },
   offline: {
-    background:
-      "var(--glass-primary-level2-surface)",
+    background: "var(--glass-primary-level2-surface)",
   },
 };
 
@@ -57,7 +54,7 @@ const DEFAULT_USERS: CollaborationParticipant[] = [
     id: "1",
     name: "Nova",
     presence: "active",
-    color: "var(--glass-color-info)",
+    color: "hsl(var(--glass-color-info))",
   },
   {
     id: "2",
@@ -119,9 +116,9 @@ export function MultiUserGlassEditor({
       color:
         user.color ??
         [
-          "var(--glass-color-info)",
+          "hsl(var(--glass-color-info))",
           "var(--glass-color-secondary)",
-          "var(--glass-color-warning)",
+          "hsl(var(--glass-color-warning))",
         ][index % 3],
     }));
   }, [users]);
@@ -164,8 +161,7 @@ export function MultiUserGlassEditor({
         className
       )}
       style={{
-        background:
-          "var(--glass-primary-level2-surface)",
+        background: "var(--glass-primary-level2-surface)",
         maxHeight: resolvedMaxHeight ?? (bounded ? "220px" : undefined),
         maxWidth: resolvedMaxWidth ?? (bounded ? "320px" : undefined),
       }}

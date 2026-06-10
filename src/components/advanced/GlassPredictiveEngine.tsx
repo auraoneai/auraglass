@@ -1059,10 +1059,10 @@ export function GlassPredictionIndicator({
                           style={{
                             backgroundColor:
                               prediction.confidence > 0.8
-                                ? "var(--glass-color-success)"
+                                ? "hsl(var(--glass-color-success))"
                                 : prediction.confidence > 0.6
-                                  ? "var(--glass-color-warning)"
-                                  : "var(--glass-color-danger)",
+                                  ? "hsl(var(--glass-color-warning))"
+                                  : "hsl(var(--glass-color-danger))",
                           }}
                         />
                         <span className="glass-text-xs glass-text-secondary">

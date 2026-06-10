@@ -229,7 +229,7 @@ const Waveform: React.FC<WaveformProps> = ({
       // Color based on progress
       const isPlayed = index / audioData.length < progress;
       ctx.fillStyle = isPlayed
-        ? "var(--glass-color-primary)"
+        ? "hsl(var(--glass-color-primary))"
         : "var(--glass-gray-200)";
       ctx.fillRect(x, y, barWidth - 1, barHeight);
     });
@@ -354,7 +354,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       ctx.clearRect(0, 0, width, height);
 
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "var(--glass-color-primary)";
+      ctx.strokeStyle = "hsl(var(--glass-color-primary))";
       ctx.beginPath();
 
       const sliceWidth = width / dataArray.length;
@@ -388,7 +388,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       const centerY = height / 2;
       const radius = Math.min(width, height) / 4;
 
-      ctx.strokeStyle = "var(--glass-color-primary)";
+      ctx.strokeStyle = "hsl(var(--glass-color-primary))";
       ctx.lineWidth = 2;
 
       for (let i = 0; i < dataArray.length; i++) {

@@ -41,9 +41,9 @@ export interface GlassCoherenceIndicatorProps {
 
 const phaseColors = {
   0: "var(--glass-color-error)", // 0°
-  90: "var(--glass-color-info)", // 90°
-  180: "var(--glass-color-primary)", // 180°
-  270: "var(--glass-color-success)", // 270°
+  90: "hsl(var(--glass-color-info))", // 90°
+  180: "hsl(var(--glass-color-primary))", // 180°
+  270: "hsl(var(--glass-color-success))", // 270°
 };
 
 const toFiniteNumber = (value: unknown, fallback = 0): number => {
@@ -190,16 +190,19 @@ export const GlassCoherenceIndicator = forwardRef<
       if (safeCurrentCoherence >= 0.8)
         return {
           label: "Highly Coherent",
-          color: "var(--glass-color-success)",
+          color: "hsl(var(--glass-color-success))",
         };
       if (safeCurrentCoherence >= 0.5)
         return {
           label: "Moderately Coherent",
-          color: "var(--glass-color-warning)",
+          color: "hsl(var(--glass-color-warning))",
         };
       if (safeCurrentCoherence >= 0.2)
-        return { label: "Low Coherence", color: "var(--glass-color-danger)" };
-      return { label: "Decoherent", color: "var(--glass-color-danger)" };
+        return {
+          label: "Low Coherence",
+          color: "hsl(var(--glass-color-danger))",
+        };
+      return { label: "Decoherent", color: "hsl(var(--glass-color-danger))" };
     }, [currentCoherence]);
 
     const WaveVisualization = () => {
@@ -301,7 +304,7 @@ export const GlassCoherenceIndicator = forwardRef<
                   cx={Math.random() * 300}
                   cy={Math.random() * 100}
                   r={Math.random() * 3 + 1}
-                  fill="var(--glass-color-danger)"
+                  fill="hsl(var(--glass-color-danger))"
                   opacity={Math.random() * 0.8}
                 >
                   <animate
@@ -362,7 +365,7 @@ export const GlassCoherenceIndicator = forwardRef<
                 y={48 + Math.sin((angle * Math.PI) / 180) * 30 + 3}
                 textAnchor="middle"
                 fontSize="10"
-                fill="color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)"
+                fill="color-mix(in srgb, var(--glass-white) 70%, transparent)"
               >
                 {angle}°
               </text>

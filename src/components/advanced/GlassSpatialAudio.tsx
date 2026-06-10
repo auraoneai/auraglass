@@ -879,11 +879,11 @@ export function GlassSpatialVisualizer({
                   top: `${screenY}%`,
                   backgroundColor:
                     source.category === "ambient"
-                      ? "var(--glass-color-primary)"
+                      ? "hsl(var(--glass-color-primary))"
                       : source.category === "ui"
-                        ? "var(--glass-color-success)"
+                        ? "hsl(var(--glass-color-success))"
                         : source.category === "feedback"
-                          ? "var(--glass-color-warning)"
+                          ? "hsl(var(--glass-color-warning))"
                           : "#ec4899",
                 }}
                 initial={{ scale: 0, opacity: 0 }}
@@ -910,11 +910,11 @@ export function GlassSpatialVisualizer({
                     style={{
                       borderColor:
                         source.category === "ambient"
-                          ? "var(--glass-color-primary)"
+                          ? "hsl(var(--glass-color-primary))"
                           : source.category === "ui"
-                            ? "var(--glass-color-success)"
+                            ? "hsl(var(--glass-color-success))"
                             : source.category === "feedback"
-                              ? "var(--glass-color-warning)"
+                              ? "hsl(var(--glass-color-warning))"
                               : "#ec4899",
                     }}
                     animate={

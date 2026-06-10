@@ -152,8 +152,8 @@ const Toolbar: React.FC = () => {
             className={cn(
               "p-2 rounded-md transition-colors",
               canUndo()
-                ? "text-gray-700 hover:bg-gray-100"
-                : "text-gray-400 cursor-not-allowed"
+                ? "glass-text-secondary hover:bg-white/10 hover:glass-text-primary"
+                : "glass-text-disabled cursor-not-allowed"
             )}
             title="Undo (Ctrl+Z)"
           >
@@ -165,8 +165,8 @@ const Toolbar: React.FC = () => {
             className={cn(
               "p-2 rounded-md transition-colors",
               canRedo()
-                ? "text-gray-700 hover:bg-gray-100"
-                : "text-gray-400 cursor-not-allowed"
+                ? "glass-text-secondary hover:bg-white/10 hover:glass-text-primary"
+                : "glass-text-disabled cursor-not-allowed"
             )}
             title="Redo (Ctrl+Y)"
           >
@@ -184,8 +184,8 @@ const Toolbar: React.FC = () => {
             className={cn(
               "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
               pageState.activeBreakpoint === breakpoint.key
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-600 hover:text-gray-900"
+                ? "bg-white/15 glass-text-primary shadow-sm"
+                : "glass-text-secondary hover:glass-text-primary"
             )}
             title={breakpoint.label}
           >
@@ -204,8 +204,8 @@ const Toolbar: React.FC = () => {
             className={cn(
               "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
               pageState.showGrid
-                ? "bg-blue-100 text-blue-700"
-                : "text-gray-700 hover:bg-gray-100"
+                ? "bg-blue-500/20 text-blue-200"
+                : "glass-text-secondary hover:bg-white/10"
             )}
           >
             <span>⊞</span>
@@ -216,8 +216,8 @@ const Toolbar: React.FC = () => {
             className={cn(
               "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors",
               pageState.snapToGrid
-                ? "bg-blue-100 text-blue-700"
-                : "text-gray-700 hover:bg-gray-100"
+                ? "bg-blue-500/20 text-blue-200"
+                : "glass-text-secondary hover:bg-white/10"
             )}
           >
             <span>🧲</span>
@@ -235,7 +235,7 @@ const Toolbar: React.FC = () => {
               "flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors",
               pageState.previewMode
                 ? "bg-green-600 text-white hover:bg-green-700"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                : "bg-white/10 glass-text-secondary hover:bg-white/15"
             )}
           >
             <span>{pageState.previewMode ? "👁️" : "✏️"}</span>
@@ -327,7 +327,7 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
   return (
     <div
       className={cn(
-        "h-screen flex flex-col overflow-auto bg-gray-100",
+        "h-screen flex flex-col overflow-auto glass-surface-subtle",
         className
       )}
       data-testid={dataTestId}
@@ -347,8 +347,8 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
                 className={cn(
                   "flex flex-col items-center gap-1 p-3 text-xs transition-colors",
                   activeLeftPanel === "components"
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-blue-500/20 text-blue-200"
+                    : "glass-text-secondary hover:bg-white/10"
                 )}
                 title="Components"
               >
@@ -360,8 +360,8 @@ const PageBuilderCore: React.FC<PageBuilderProps> = ({
                 className={cn(
                   "flex flex-col items-center gap-1 p-3 text-xs transition-colors",
                   activeLeftPanel === "structure"
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50"
+                    ? "bg-blue-500/20 text-blue-200"
+                    : "glass-text-secondary hover:bg-white/10"
                 )}
                 title="Structure"
               >

@@ -12,7 +12,7 @@ const datasets = [
       { x: 'Q3', y: 147 },
       { x: 'Q4', y: 166 },
     ],
-    borderColor: 'var(--glass-color-primary)',
+    borderColor: 'hsl(var(--glass-color-primary))',
     backgroundColor: 'rgba(59, 130, 246, 0.2)',
   },
   {
@@ -24,7 +24,7 @@ const datasets = [
       { x: 'Q3', y: 142 },
       { x: 'Q4', y: 174 },
     ],
-    borderColor: 'var(--glass-color-success)',
+    borderColor: 'hsl(var(--glass-color-success))',
     backgroundColor: 'rgba(34, 197, 94, 0.18)',
   },
 ];

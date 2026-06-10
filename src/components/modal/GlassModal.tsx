@@ -871,8 +871,8 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
                       variant === "drawer" ? "8px" : "12px",
                     "--liquid-glass-tint-adaptive":
                       modalInsights?.urgency === "high"
-                        ? "color-mix(in srgb, var(--glass-color-danger) 15%, transparent)"
-                        : "color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+                        ? "color-mix(in srgb, hsl(var(--glass-color-danger)) 15%, transparent)"
+                        : "color-mix(in srgb, var(--glass-black) 10%, transparent)",
                   } as React.CSSProperties),
                 }}
                 data-liquid-glass-modal="true"

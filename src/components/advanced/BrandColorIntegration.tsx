@@ -46,7 +46,7 @@ export function BrandColorIntegration({
   entityId,
   brandColors,
   fallbackColors = {
-    primary: "var(--glass-color-primary)",
+    primary: "hsl(var(--glass-color-primary))",
     secondary: COLORS.semantic.secondary,
   },
   animationDuration = ANIMATION.DURATION.slower,
@@ -383,16 +383,14 @@ export function BrandGlassButton({
 
   const buttonStyles = {
     primary: {
-      background:
-        "var(--glass-primary-level2-surface)",
+      background: "var(--glass-primary-level2-surface)",
       border:
         "1px solid var(--brand-border-primary, hsl(var(--glass-color-primary)/0.3))",
       boxShadow: "var(--glass-elev-2)",
       color: "var(--brand-primary, " + COLORS.semantic.primary + ")",
     },
     secondary: {
-      background:
-        "var(--glass-primary-level2-surface)",
+      background: "var(--glass-primary-level2-surface)",
       border:
         "1px solid var(--brand-border-secondary, rgba(var(--glass-color-brand-secondary-rgb, 30, 64, 175) / 0.3))",
       boxShadow: "var(--glass-elev-2)",
@@ -421,8 +419,8 @@ export function BrandGlassButton({
               y: -0.5,
               boxShadow:
                 variant === "primary"
-                  ? "var(--brand-shadow-primary, 0 8px 24px color-mix(in srgb, var(--glass-color-primary) 20%, transparent))"
-                  : "var(--brand-shadow-secondary, 0 8px 24px color-mix(in srgb, var(--glass-color-brand-secondary) 20%, transparent))",
+                  ? "var(--brand-shadow-primary, 0 8px 24px color-mix(in srgb, hsl(var(--glass-color-primary)) 20%, transparent))"
+                  : "var(--brand-shadow-secondary, 0 8px 24px color-mix(in srgb, var(--glass-color-brand-secondary, #1e40af) 20%, transparent))",
             }
           : {}
       }
@@ -440,7 +438,7 @@ export function BrandGlassButton({
       <motion.div
         className="glass-absolute glass-inset-0 glass-radius-lg glass-pointer-events-none"
         style={{
-          background: `radial-gradient(circle at center, var(--brand-${variant}, color-mix(in srgb, var(--glass-color-primary) 20%, transparent)) 0%, transparent 70%)`,
+          background: `radial-gradient(circle at center, var(--brand-${variant}, color-mix(in srgb, hsl(var(--glass-color-primary)) 20%, transparent)) 0%, transparent 70%)`,
         }}
         animate={
           isPressed

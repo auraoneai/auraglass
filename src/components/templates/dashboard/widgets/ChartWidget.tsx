@@ -125,48 +125,48 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
 
     const colorSchemes = {
       default: [
-        "var(--glass-color-primary)",
+        "hsl(var(--glass-color-primary))",
         "var(--glass-color-secondary)",
-        "var(--glass-color-success)",
-        "var(--glass-color-warning)",
-        "var(--glass-color-danger)",
+        "hsl(var(--glass-color-success))",
+        "hsl(var(--glass-color-warning))",
+        "hsl(var(--glass-color-danger))",
       ],
       primary: [
-        "var(--glass-color-primary)",
+        "hsl(var(--glass-color-primary))",
         "var(--glass-color-primary-light)",
-        "color-mix(in srgb, var(--glass-color-primary) 80%, white)",
-        "color-mix(in srgb, var(--glass-color-primary) 60%, white)",
-        "color-mix(in srgb, var(--glass-color-primary) 40%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-primary)) 80%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-primary)) 60%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-primary)) 40%, white)",
       ],
       success: [
-        "var(--glass-color-success)",
+        "hsl(var(--glass-color-success))",
         "var(--glass-color-success-light)",
-        "color-mix(in srgb, var(--glass-color-success) 80%, white)",
-        "color-mix(in srgb, var(--glass-color-success) 60%, white)",
-        "color-mix(in srgb, var(--glass-color-success) 40%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-success)) 80%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-success)) 60%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-success)) 40%, white)",
       ],
       warning: [
-        "var(--glass-color-warning)",
+        "hsl(var(--glass-color-warning))",
         "var(--glass-color-warning-light)",
-        "color-mix(in srgb, var(--glass-color-warning) 80%, white)",
-        "color-mix(in srgb, var(--glass-color-warning) 60%, white)",
-        "color-mix(in srgb, var(--glass-color-warning) 40%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-warning)) 80%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-warning)) 60%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-warning)) 40%, white)",
       ],
       destructive: [
-        "var(--glass-color-danger)",
+        "hsl(var(--glass-color-danger))",
         "var(--glass-color-danger-light)",
-        "color-mix(in srgb, var(--glass-color-danger) 80%, white)",
-        "color-mix(in srgb, var(--glass-color-danger) 60%, white)",
-        "color-mix(in srgb, var(--glass-color-danger) 40%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-danger)) 80%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-danger)) 60%, white)",
+        "color-mix(in srgb, hsl(var(--glass-color-danger)) 40%, white)",
       ],
       rainbow: [
-        "var(--glass-color-primary)",
+        "hsl(var(--glass-color-primary))",
         "var(--glass-color-secondary)",
-        "var(--glass-color-success)",
-        "var(--glass-color-warning)",
-        "var(--glass-color-danger)",
+        "hsl(var(--glass-color-success))",
+        "hsl(var(--glass-color-warning))",
+        "hsl(var(--glass-color-danger))",
         "var(--glass-color-accent)",
-        "var(--glass-color-info)",
+        "hsl(var(--glass-color-info))",
       ],
     };
 
@@ -271,7 +271,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
             <polyline
               points={points}
               fill="none"
-              stroke={colors?.[0] || "var(--glass-color-primary)"}
+              stroke={colors?.[0] || "hsl(var(--glass-color-primary))"}
               strokeWidth="2"
               className="glass-drop-glass-shadow-sm"
             />
@@ -289,7 +289,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
                   cx={x}
                   cy={y}
                   r="2"
-                  fill={colors?.[0] || "var(--glass-color-primary)"}
+                  fill={colors?.[0] || "hsl(var(--glass-color-primary))"}
                   className="glass-hover-r-3 glass-transition-all glass-cursor-pointer"
                 />
               );
@@ -402,7 +402,7 @@ export const ChartWidget = forwardRef<HTMLDivElement, ChartWidgetProps>(
           <polyline
             points={points}
             fill="none"
-            stroke={colors?.[0] || "var(--glass-color-primary)"}
+            stroke={colors?.[0] || "hsl(var(--glass-color-primary))"}
             strokeWidth="3"
             className="glass-drop-glass-shadow-sm"
           />

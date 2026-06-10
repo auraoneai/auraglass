@@ -296,7 +296,7 @@ export const GlassContextMenuContent: React.FC<
         aria-label="Context menu"
         aria-orientation="vertical"
         className={cn(
-          "glass-backdrop-blur-md bg-black/20 border border-white/20 shadow-2xl",
+          "glass-backdrop-blur-lg bg-white/10 border border-white/20 shadow-2xl",
           "min-w-48 max-w-xs overflow-hidden glass-radial-reveal glass-lift",
           className
         )}

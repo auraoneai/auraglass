@@ -296,7 +296,7 @@ export const GlassLiquidTransition = forwardRef<
           style={{
             background: `radial-gradient(
             circle at ${50 + mousePos.x * 50}% ${50 + mousePos.y * 50}%,
-            rgba(var(--glass-color-primary) / 0.3) 0%,
+            hsl(var(--glass-color-primary) / 0.3) 0%,
             transparent 70%
           )`,
             x: smoothX,

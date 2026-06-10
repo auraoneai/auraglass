@@ -45,7 +45,7 @@ const ParticleBackgroundComponent = (
     className,
     style,
     baseColor = "color-mix(in srgb, var(--glass-black) 80%, transparent)",
-    particleColor = "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)",
+    particleColor = "color-mix(in srgb, var(--glass-white) 70%, transparent)",
     particleCount = 50,
     particleSize = 2,
     particleSpeed = 1,
@@ -96,7 +96,7 @@ const ParticleBackgroundComponent = (
   const actualColor =
     color ??
     particleColor ??
-    "color-mix(in srgb, var(--glass-white) var(--glass-opacity-70), transparent)";
+    "color-mix(in srgb, var(--glass-white) 70%, transparent)";
 
   // Helper function to get color values from CSS variables or color-mix
   const getColorValues = (

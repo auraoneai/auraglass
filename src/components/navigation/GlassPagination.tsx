@@ -434,9 +434,9 @@ export const GlassPaginationItem: React.FC<GlassPaginationItemProps> = ({
           "disabled:opacity-50 glass-disabled-cursor-not-allowed disabled:hover:transform-none",
           sizeClasses[size],
           {
-            "bg-black/40 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30":
+            "bg-white/15 glass-text-primary shadow-lg ring-1 ring-white/30 border-white/30":
               isActive,
-            "bg-black/20 hover:bg-black/30 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30":
+            "bg-white/8 hover:bg-white/12 glass-text-primary/80 hover:glass-text-primary glass-hover--translate-y-0-5 border-white/20 hover:border-white/30":
               !isActive && !disabled,
           },
           className

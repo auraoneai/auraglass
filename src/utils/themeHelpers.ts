@@ -64,7 +64,7 @@ export const createGlassTheme = (
   baseTheme: Partial<GlassTheme> = {}
 ): GlassTheme => {
   const defaultColors: ThemeColors = {
-    primary: "var(--glass-color-primary)",
+    primary: "hsl(var(--glass-color-primary))",
     secondary: "var(--glass-gray-500)",
     accent: "#8b5cf6",
     background: "#0b1220",
@@ -72,9 +72,9 @@ export const createGlassTheme = (
     text: "rgba(255,255,255,0.92)",
     textSecondary: "var(--glass-text-secondary)",
     border: "rgba(255,255,255,0.16)",
-    error: "var(--glass-color-danger)",
-    warning: "var(--glass-color-warning)",
-    success: "var(--glass-color-success)",
+    error: "hsl(var(--glass-color-danger))",
+    warning: "hsl(var(--glass-color-warning))",
+    success: "hsl(var(--glass-color-success))",
     info: "#0ea5e9",
   };
 
@@ -392,8 +392,7 @@ export const createDarkTheme = (): GlassTheme => {
       primary: "var(--glass-color-primary-light)",
       secondary: "var(--glass-gray-400)",
       accent: "#a78bfa",
-      background:
-        "var(--glass-primary-level2-surface)",
+      background: "var(--glass-primary-level2-surface)",
       surface: "rgba(31, 41, 55, 0.8)",
       text: "var(--glass-gray-50)",
       textSecondary: "rgba(156, 163, 175, 0.8)",
@@ -409,19 +408,18 @@ export const createDarkTheme = (): GlassTheme => {
 export const createLightTheme = (): GlassTheme => {
   return createGlassTheme({
     colors: {
-      primary: "var(--glass-color-primary)",
+      primary: "hsl(var(--glass-color-primary))",
       secondary: "var(--glass-gray-500)",
       accent: "#8b5cf6",
-      background:
-        "var(--glass-neutral-level2-surface)",
+      background: "var(--glass-neutral-level2-surface)",
       surface: "rgba(249, 250, 251, 0.8)",
       text: "var(--glass-gray-900)",
       textSecondary: "rgba(75, 85, 99, 0.7)",
       border: "rgba(229, 231, 235, 0.5)",
-      error: "var(--glass-color-danger)",
-      warning: "var(--glass-color-warning)",
-      success: "var(--glass-color-success)",
-      info: "var(--glass-color-primary)",
+      error: "hsl(var(--glass-color-danger))",
+      warning: "hsl(var(--glass-color-warning))",
+      success: "hsl(var(--glass-color-success))",
+      info: "hsl(var(--glass-color-primary))",
     },
   });
 };

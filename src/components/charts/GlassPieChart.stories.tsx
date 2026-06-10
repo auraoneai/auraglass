@@ -3,10 +3,10 @@ import React from 'react';
 import { GlassPieChart, type PieDataPoint } from './GlassPieChart';
 
 const segmentData: PieDataPoint[] = [
-  { label: 'Enterprise', value: 48, color: 'var(--glass-color-primary)' },
-  { label: 'Mid-market', value: 27, color: 'var(--glass-color-success)' },
-  { label: 'Startup', value: 16, color: 'var(--glass-color-warning)' },
-  { label: 'Partner', value: 9, color: 'var(--glass-color-danger)' },
+  { label: 'Enterprise', value: 48, color: 'hsl(var(--glass-color-primary))' },
+  { label: 'Mid-market', value: 27, color: 'hsl(var(--glass-color-success))' },
+  { label: 'Startup', value: 16, color: 'hsl(var(--glass-color-warning))' },
+  { label: 'Partner', value: 9, color: 'hsl(var(--glass-color-danger))' },
 ];
 
 const ChartFrame = ({ children }: { children: React.ReactNode }) => (

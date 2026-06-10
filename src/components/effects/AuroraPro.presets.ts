@@ -33,7 +33,8 @@ export const auroraThemes = {
   northern: {
     background:
       "linear-gradient(180deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%)",
-    glassColor: "color-mix(in srgb, var(--glass-color-info) 10%, transparent)",
+    glassColor:
+      "color-mix(in srgb, hsl(var(--glass-color-info)) 10%, transparent)",
     accentColor: "#4fc3f7",
   },
   mystical: {
@@ -46,14 +47,15 @@ export const auroraThemes = {
   tropical: {
     background:
       "linear-gradient(180deg, #0c0c0c 0%, #1a1a2e 50%, #0f3460 100%)",
-    glassColor: "color-mix(in srgb, var(--glass-color-info) 10%, transparent)",
+    glassColor:
+      "color-mix(in srgb, hsl(var(--glass-color-info)) 10%, transparent)",
     accentColor: "#00bcd4",
   },
   enchanted: {
     background:
       "linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
     glassColor:
-      "color-mix(in srgb, var(--glass-color-warning) 10%, transparent)",
+      "color-mix(in srgb, hsl(var(--glass-color-warning)) 10%, transparent)",
     accentColor: "#ff9843",
   },
 } as const;

@@ -136,7 +136,7 @@ const CommentBubble: React.FC<{
             borderLeftWidth: 4,
             borderLeftColor: comment.resolved
               ? "rgba(148, 163, 184, 0.8)"
-              : "var(--glass-color-primary)",
+              : "hsl(var(--glass-color-primary))",
           }}
         >
           <div
@@ -601,7 +601,7 @@ export const GlassCollaborativeComments: React.FC<
             )}
             style={{
               borderLeftWidth: 4,
-              borderLeftColor: "var(--glass-color-primary)",
+              borderLeftColor: "hsl(var(--glass-color-primary))",
             }}
           >
             <div className="glass-flex glass-items-center glass-gap-2 glass-mb-2">

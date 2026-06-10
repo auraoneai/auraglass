@@ -249,7 +249,7 @@ const getColorClasses = (color: string, variant: string) => {
     case "info":
       return "bg-info-500 glass-text-primary hover:bg-info-600";
     default:
-      return "bg-gray-700 glass-text-primary hover:bg-gray-600";
+      return "bg-white/15 glass-text-primary hover:bg-white/20";
   }
 };
 
@@ -318,7 +318,7 @@ const TooltipComponent: React.FC<{
     <span
       data-glass-component
       className={cn(
-        "bg-gray-900/90 glass-text-primary px-2 py-1 glass-radius-md glass-text-xs whitespace-nowrap",
+        "bg-white/10 glass-backdrop-blur-md border border-white/15 glass-text-primary px-2 py-1 glass-radius-md glass-text-xs whitespace-nowrap",
         `pointer-events-none z-50 transition-opacity duration-[${ANIMATION.DURATION.fast}ms]`,
         getTooltipPosition(position),
         show ? "opacity-100 visible" : "opacity-0 invisible"

@@ -1,11 +1,11 @@
 // token-lint-ignore-file: legacy theme tokens may contain raw values.
 // Theme tokens
 export const colors = {
-  primary: "var(--glass-color-primary)",
+  primary: "hsl(var(--glass-color-primary))",
   secondary: "var(--glass-gray-500)",
-  success: "var(--glass-color-success)",
-  warning: "var(--glass-color-warning)",
-  error: "var(--glass-color-danger)",
+  success: "hsl(var(--glass-color-success))",
+  warning: "hsl(var(--glass-color-warning))",
+  error: "hsl(var(--glass-color-danger))",
   info: "#06b6d4",
   background: "var(--glass-white)",
   surface: "#f8fafc",

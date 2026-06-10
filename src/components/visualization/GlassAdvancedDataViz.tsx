@@ -181,10 +181,10 @@ const scaleValue = (
 
 const generateColors = (count: number): string[] => {
   const colors = [
-    "var(--glass-color-primary)",
-    "var(--glass-color-danger)",
-    "var(--glass-color-success)",
-    "var(--glass-color-warning)",
+    "hsl(var(--glass-color-primary))",
+    "hsl(var(--glass-color-danger))",
+    "hsl(var(--glass-color-success))",
+    "hsl(var(--glass-color-warning))",
     "#8B5CF6",
     "#EC4899",
     "#06B6D4",

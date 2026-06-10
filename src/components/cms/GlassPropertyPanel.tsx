@@ -212,8 +212,8 @@ const ActionButton: React.FC<{
     className={cn(
       "flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors glass-focus glass-touch-target",
       variant === "default"
-        ? "bg-gray-100 text-gray-700 hover:bg-gray-200"
-        : "bg-red-50 text-red-700 hover:bg-red-100"
+        ? "bg-white/10 glass-text-secondary hover:bg-white/15"
+        : "bg-red-500/20 text-red-200 hover:bg-red-500/30"
     )}
   >
     <span>{icon}</span>
@@ -364,8 +364,8 @@ export const GlassPropertyPanel: React.FC<PropertyPanelProps> = ({
                   className={cn(
                     "flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm font-medium transition-colors glass-focus glass-touch-target",
                     activeSection === section.key
-                      ? "text-blue-600 border-b-2 border-blue-600 bg-blue-50"
-                      : "text-gray-600 hover:text-gray-900"
+                      ? "text-blue-200 border-b-2 border-blue-400 bg-blue-500/15"
+                      : "glass-text-secondary hover:glass-text-primary"
                   )}
                 >
                   <span className="glass-text-xs">{section.icon}</span>

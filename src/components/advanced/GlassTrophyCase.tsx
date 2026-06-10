@@ -125,7 +125,7 @@ const defaultAchievements: Achievement[] = [
     unlockedAt: new Date("2024-01-15"),
     rarity: 95,
     points: 10,
-    glowColor: "var(--glass-glow-gold, var(--glass-color-warning))",
+    glowColor: "var(--glass-glow-gold, hsl(var(--glass-color-warning)))",
   },
   {
     id: "speed-reader",

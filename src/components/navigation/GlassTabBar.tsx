@@ -117,7 +117,7 @@ export const GlassTabBar = forwardRef<
   const { settings: accessibilitySettings } = useAccessibilitySettings();
   const isReducedMotion = accessibilitySettings?.reducedMotion || false;
   const contextValue = useAnimationContext();
-  const colorValue = "var(--glass-color-primary)"; // Default color
+  const colorValue = "hsl(var(--glass-color-primary))"; // Default color
 
   // Determine final animation settings
   const finalDisableAnimation = !!(

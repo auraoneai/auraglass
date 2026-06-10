@@ -866,7 +866,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
                   "--liquid-glass-motion-factor": "0.6",
                   "--liquid-glass-adaptive-tint":
                     drawerInsights?.urgency === "high"
-                      ? "color-mix(in srgb, var(--glass-color-danger) 10%, transparent)"
+                      ? "color-mix(in srgb, hsl(var(--glass-color-danger)) 10%, transparent)"
                       : "color-mix(in srgb, var(--glass-black) 6%, transparent)",
                 } as React.CSSProperties),
               }}

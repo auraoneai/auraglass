@@ -175,7 +175,7 @@ export const DynamicAtmosphere = forwardRef<
 >((props, ref) => {
   const {
     type = "subtle",
-    primaryColor = "var(--glass-color-primary)",
+    primaryColor = "hsl(var(--glass-color-primary))",
     secondaryColor = "var(--glass-color-secondary)",
     accentColor = "var(--glass-color-accent)",
     intensity = 0.5,

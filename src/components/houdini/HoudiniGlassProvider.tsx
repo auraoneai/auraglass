@@ -455,8 +455,7 @@ function registerGlassProperties() {
         name: "--glass-border",
         syntax: "<color>",
         inherits: false,
-        initialValue:
-          "color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent)",
+        initialValue: "color-mix(in srgb, var(--glass-white) 20%, transparent)",
       });
 
       CSS.registerProperty({
@@ -471,7 +470,7 @@ function registerGlassProperties() {
         syntax: "<string>",
         inherits: false,
         initialValue:
-          "0 8px 32px color-mix(in srgb, var(--glass-black) var(--glass-opacity-10), transparent)",
+          "0 8px 32px color-mix(in srgb, var(--glass-black) 10%, transparent)",
       });
 
       CSS.registerProperty({
@@ -530,7 +529,7 @@ const houdiniGlassStyles = `
   .houdini-glass {
     background: var(--glass-background, var(--glass-bg-default));
     backdrop-filter: var(--glass-backdrop-blur);
-    border: 1px solid var(--glass-border, color-mix(in srgb, var(--glass-white) var(--glass-opacity-20), transparent));
+    border: 1px solid var(--glass-border, color-mix(in srgb, var(--glass-white) 20%, transparent));
     box-shadow: var(--glass-elev-2);
     transition: all calc(${ANIMATION.DURATION.normal}ms * var(--glass-animation-speed, 1));
   }
@@ -558,7 +557,7 @@ const houdiniGlassStyles = `
 
   /* Debug styles */
   .houdini-glass-debug {
-    outline: 2px solid color-mix(in srgb, var(--glass-color-danger) 50%, transparent);
+    outline: 2px solid color-mix(in srgb, hsl(var(--glass-color-danger)) 50%, transparent);
     outline-offset: -1px;
   }
 

@@ -10,7 +10,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
     data-glass-component="true"
   >
     <div
-      class="h-screen flex flex-col overflow-auto bg-gray-100"
+      class="h-screen flex flex-col overflow-auto glass-surface-subtle"
     >
       <div
         class="glass-flex glass-items-center glass-justify-between glass-p-4 glass-surface-subtle glass-border-b glass-border-subtle"
@@ -71,14 +71,14 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-1"
           >
             <button
-              class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
+              class="p-2 rounded-md transition-colors glass-text-disabled cursor-not-allowed"
               disabled=""
               title="Undo (Ctrl+Z)"
             >
               ↶
             </button>
             <button
-              class="p-2 rounded-md transition-colors text-gray-400 cursor-not-allowed"
+              class="p-2 rounded-md transition-colors glass-text-disabled cursor-not-allowed"
               disabled=""
               title="Redo (Ctrl+Y)"
             >
@@ -90,7 +90,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
           class="glass-flex glass-items-center glass-gap-2 glass-surface-subtle glass-radius-lg glass-p-1"
         >
           <button
-            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-white text-gray-900 shadow-sm"
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-white/15 glass-text-primary shadow-sm"
             title="Desktop"
           >
             <span>
@@ -99,7 +99,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             Desktop
           </button>
           <button
-            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors glass-text-secondary hover:glass-text-primary"
             title="Tablet"
           >
             <span>
@@ -108,7 +108,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             Tablet
           </button>
           <button
-            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-600 hover:text-gray-900"
+            class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors glass-text-secondary hover:glass-text-primary"
             title="Mobile"
           >
             <span>
@@ -124,7 +124,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <button
-              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-gray-700 hover:bg-gray-100"
+              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors glass-text-secondary hover:bg-white/10"
             >
               <span>
                 ⊞
@@ -132,7 +132,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               Grid
             </button>
             <button
-              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-blue-100 text-blue-700"
+              class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors bg-blue-500/20 text-blue-200"
             >
               <span>
                 🧲
@@ -147,7 +147,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             class="glass-flex glass-items-center glass-gap-2"
           >
             <button
-              class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gray-100 text-gray-700 hover:bg-gray-200"
+              class="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-white/10 glass-text-secondary hover:bg-white/15"
             >
               <span>
                 ✏️
@@ -175,7 +175,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
             class="glass-w-12 glass-surface-subtle glass-border-r glass-border-subtle glass-flex glass-flex-col"
           >
             <button
-              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors bg-blue-50 text-blue-600"
+              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors bg-blue-500/20 text-blue-200"
               title="Components"
             >
               <span
@@ -186,7 +186,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
               Comp
             </button>
             <button
-              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors text-gray-600 hover:bg-gray-50"
+              class="flex flex-col items-center gap-1 p-3 text-xs transition-colors glass-text-secondary hover:bg-white/10"
               title="Structure"
             >
               <span
@@ -275,7 +275,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </span>
                         </div>
                         <div
-                          class="text-gray-400 transition-transform rotate-90"
+                          class="glass-text-tertiary transition-transform rotate-90"
                         >
                           ▶
                         </div>
@@ -284,7 +284,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                         class="glass-mt-2 glass-space-y-2 glass-pl-4"
                       >
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Container"
@@ -315,7 +315,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Row"
@@ -346,7 +346,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Column"
@@ -406,7 +406,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </span>
                         </div>
                         <div
-                          class="text-gray-400 transition-transform rotate-90"
+                          class="glass-text-tertiary transition-transform rotate-90"
                         >
                           ▶
                         </div>
@@ -415,7 +415,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                         class="glass-mt-2 glass-space-y-2 glass-pl-4"
                       >
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Text"
@@ -446,7 +446,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </div>
                         </div>
                         <div
-                          class="flex items-center gap-3 p-3 rounded-lg border border-gray-200 cursor-grab hover:border-blue-300 hover:bg-blue-50 transition-colors glass-active-cursor-grabbing active:scale-95"
+                          class="flex items-center gap-3 p-3 rounded-lg border border-white/15 cursor-grab hover:border-blue-400/50 hover:bg-blue-500/10 transition-colors glass-active-cursor-grabbing active:scale-95"
                           data-glass-component="true"
                           draggable="true"
                           title="Drag to add Heading"
@@ -506,7 +506,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </span>
                         </div>
                         <div
-                          class="text-gray-400 transition-transform rotate-0"
+                          class="glass-text-tertiary transition-transform rotate-0"
                         >
                           ▶
                         </div>
@@ -540,7 +540,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </span>
                         </div>
                         <div
-                          class="text-gray-400 transition-transform rotate-0"
+                          class="glass-text-tertiary transition-transform rotate-0"
                         >
                           ▶
                         </div>
@@ -574,7 +574,7 @@ exports[`GlassPageBuilder matches snapshot 1`] = `
                           </span>
                         </div>
                         <div
-                          class="text-gray-400 transition-transform rotate-0"
+                          class="glass-text-tertiary transition-transform rotate-0"
                         >
                           ▶
                         </div>

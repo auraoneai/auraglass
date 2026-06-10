@@ -277,7 +277,7 @@ export function GlassPrismComparison({
                 gap: 4,
                 padding: "0.8rem",
                 background:
-                  "linear-gradient(135deg, color-mix(in srgb, var(--glass-color-primary) 14%, transparent), color-mix(in srgb, var(--glass-color-secondary, var(--glass-color-primary)) 16%, transparent))",
+                  "linear-gradient(135deg, color-mix(in srgb, hsl(var(--glass-color-primary)) 14%, transparent), color-mix(in srgb, var(--glass-color-secondary, hsl(var(--glass-color-primary))) 16%, transparent))",
               }}
             >
               <span
@@ -310,7 +310,7 @@ export function GlassPrismComparison({
                 width: 2,
                 transform: "translateX(-50%)",
                 background:
-                  "linear-gradient(180deg, transparent, var(--glass-color-primary), var(--glass-color-secondary), transparent)",
+                  "linear-gradient(180deg, transparent, hsl(var(--glass-color-primary)), var(--glass-color-secondary), transparent)",
                 boxShadow: "0 0 24px rgba(125, 211, 252, 0.6)",
               }}
             />
@@ -372,7 +372,7 @@ export function GlassPrismComparison({
               ref={(el) => {
                 if (!el) return;
                 el.style.background =
-                  "linear-gradient(45deg, var(--glass-color-info), var(--glass-color-secondary), var(--glass-color-warning), var(--glass-color-info))";
+                  "linear-gradient(45deg, hsl(var(--glass-color-info)), var(--glass-color-secondary), hsl(var(--glass-color-warning)), hsl(var(--glass-color-info)))";
                 el.style.backgroundSize = "400% 400%";
                 (el.style as any).webkitBackgroundClip = "text";
                 el.style.backgroundClip = "text";
@@ -444,7 +444,7 @@ export function GlassPrismComparison({
               ref={(el) => {
                 if (!el) return;
                 el.style.backgroundImage =
-                  "linear-gradient(color-mix(in srgb, var(--glass-color-info) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--glass-color-secondary) 10%, transparent) 1px, transparent 1px)";
+                  "linear-gradient(color-mix(in srgb, hsl(var(--glass-color-info)) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--glass-color-secondary) 10%, transparent) 1px, transparent 1px)";
                 el.style.backgroundSize = "30px 30px";
               }}
             />

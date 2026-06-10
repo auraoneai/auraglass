@@ -40,7 +40,7 @@ const meta: Meta<typeof KpiChart> = {
       format: 'currency',
     },
     qualityTier: 'medium',
-    color: 'var(--glass-color-primary)',
+    color: 'hsl(var(--glass-color-primary))',
   },
 };
 

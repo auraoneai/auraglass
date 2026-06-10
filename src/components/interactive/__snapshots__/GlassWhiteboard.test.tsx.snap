@@ -49,22 +49,22 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white"
       />
       <button
-        aria-label="Select color var(--glass-color-danger)"
+        aria-label="Select color hsl(var(--glass-color-danger))"
         aria-pressed="false"
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
-        aria-label="Select color var(--glass-color-success)"
+        aria-label="Select color hsl(var(--glass-color-success))"
         aria-pressed="false"
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
-        aria-label="Select color var(--glass-color-primary)"
+        aria-label="Select color hsl(var(--glass-color-primary))"
         aria-pressed="false"
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
-        aria-label="Select color var(--glass-color-warning)"
+        aria-label="Select color hsl(var(--glass-color-warning))"
         aria-pressed="false"
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
@@ -74,7 +74,7 @@ exports[`GlassWhiteboard matches snapshot 1`] = `
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />
       <button
-        aria-label="Select color var(--glass-color-info)"
+        aria-label="Select color hsl(var(--glass-color-info))"
         aria-pressed="false"
         class="glass-w-7 glass-h-7 glass-radius-md glass-border glass-transition-all glass-focus glass-touch-target glass-contrast-guard glass-border-white/20 hover:glass-border-white/30"
       />

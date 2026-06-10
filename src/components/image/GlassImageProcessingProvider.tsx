@@ -481,7 +481,7 @@ const mockImageProcessor = {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     return {
-      dominantColors: ["var(--glass-color-primary)", "#1e40af", "#93c5fd"],
+      dominantColors: ["hsl(var(--glass-color-primary))", "#1e40af", "#93c5fd"],
       brightness: 65 + Math.random() * 30,
       contrast: 50 + Math.random() * 30,
       saturation: 40 + Math.random() * 40,

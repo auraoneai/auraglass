@@ -18,12 +18,12 @@ export type DrawingTool =
 export type DrawingColor =
   | "var(--glass-white)"
   | "var(--glass-black)"
-  | "var(--glass-color-danger)"
-  | "var(--glass-color-success)"
-  | "var(--glass-color-primary)"
-  | "var(--glass-color-warning)"
+  | "hsl(var(--glass-color-danger))"
+  | "hsl(var(--glass-color-success))"
+  | "hsl(var(--glass-color-primary))"
+  | "hsl(var(--glass-color-warning))"
   | "var(--glass-color-accent)"
-  | "var(--glass-color-info)";
+  | "hsl(var(--glass-color-info))";
 
 export interface DrawingPath {
   id: string;
@@ -86,12 +86,12 @@ export interface GlassWhiteboardProps
 const defaultColors: DrawingColor[] = [
   "var(--glass-white)",
   "var(--glass-black)",
-  "var(--glass-color-danger)",
-  "var(--glass-color-success)",
-  "var(--glass-color-primary)",
-  "var(--glass-color-warning)",
+  "hsl(var(--glass-color-danger))",
+  "hsl(var(--glass-color-success))",
+  "hsl(var(--glass-color-primary))",
+  "hsl(var(--glass-color-warning))",
   "var(--glass-color-accent)",
-  "var(--glass-color-info)",
+  "hsl(var(--glass-color-info))",
 ];
 
 const defaultTools: DrawingTool[] = [

@@ -424,7 +424,7 @@ function HingeBridge({
               height: `${hinge.width}px`,
             }),
         background:
-          "linear-gradient(90deg, transparent, rgba(var(--glass-color-primary) / var(--glass-opacity-10)), transparent)",
+          "linear-gradient(90deg, transparent, hsl(var(--glass-color-primary) / var(--glass-opacity-10)), transparent)",
       }}
     />
   );

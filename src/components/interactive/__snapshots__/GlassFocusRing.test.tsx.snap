@@ -3,7 +3,7 @@
 exports[`GlassFocusRing matches snapshot 1`] = `
 <div
   class="wrapper glass-relative glass-inline-block glass-outline-none"
-  style="--glass-focus-color: hsl(var(--glass-color-primary)/0.5); --glass-focus-width: 2px; --glass-focus-blur: 4px; --glass-focus-offset: undefinedpx; --glass-focus-spread: 2px; --glass-focus-duration: 200ms;"
+  style="--glass-focus-color: hsl(var(--glass-color-primary)/0.5); --glass-focus-width: 2px; --glass-focus-blur: 4px; --glass-focus-offset: 2px; --glass-focus-spread: 2px; --glass-focus-duration: 200ms;"
   tabindex="0"
 >
   <div />

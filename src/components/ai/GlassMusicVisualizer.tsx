@@ -73,15 +73,15 @@ const defaultVisualSettings: VisualizationSettings = {
 
 const colorSchemes = {
   rainbow: [
-    "var(--glass-color-danger)",
-    "var(--glass-color-warning)",
-    "var(--glass-color-warning)",
-    "var(--glass-color-success)",
-    "var(--glass-color-success)",
-    "var(--glass-color-info)",
-    "var(--glass-color-info)",
-    "var(--glass-color-primary)",
-    "var(--glass-color-primary)",
+    "hsl(var(--glass-color-danger))",
+    "hsl(var(--glass-color-warning))",
+    "hsl(var(--glass-color-warning))",
+    "hsl(var(--glass-color-success))",
+    "hsl(var(--glass-color-success))",
+    "hsl(var(--glass-color-info))",
+    "hsl(var(--glass-color-info))",
+    "hsl(var(--glass-color-primary))",
+    "hsl(var(--glass-color-primary))",
     "var(--glass-color-secondary)",
   ],
   monochrome: [
@@ -118,13 +118,13 @@ const colorSchemes = {
   ],
   ice: [
     "var(--glass-white)",
-    "color-mix(in srgb, var(--glass-color-info) 12%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 25%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 38%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 50%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 63%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 75%, white)",
-    "color-mix(in srgb, var(--glass-color-info) 88%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 12%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 25%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 38%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 50%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 63%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 75%, white)",
+    "color-mix(in srgb, hsl(var(--glass-color-info)) 88%, white)",
   ],
   galaxy: [
     "#1a1a2e",
@@ -355,7 +355,12 @@ export const GlassMusicVisualizer = forwardRef<
           break;
       }
 
-      if (realTimeAnalysis && isPlaying && shouldAnimate && !prefersReducedMotion) {
+      if (
+        realTimeAnalysis &&
+        isPlaying &&
+        shouldAnimate &&
+        !prefersReducedMotion
+      ) {
         animationFrameRef.current = requestAnimationFrame(renderVisualization);
       }
     }, [
@@ -621,7 +626,13 @@ export const GlassMusicVisualizer = forwardRef<
           setIsPlaying(false);
         }
       }
-    }, [initializeAudio, renderVisualization, play, shouldAnimate, prefersReducedMotion]);
+    }, [
+      initializeAudio,
+      renderVisualization,
+      play,
+      shouldAnimate,
+      prefersReducedMotion,
+    ]);
 
     const handlePause = useCallback(() => {
       if (audioRef.current) {

@@ -88,7 +88,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
         onMouseLeave={() => setShowActions(false)}
         className={cn(
           "flex items-center gap-2 py-1 px-2 rounded-md cursor-pointer transition-colors relative group",
-          isSelected ? "bg-blue-100 text-blue-900" : "hover:bg-gray-50",
+          isSelected ? "bg-blue-500/20 text-blue-100" : "hover:bg-white/10",
           dragDropState.draggedItem?.id === component.id && "opacity-50"
         )}
         style={{ paddingLeft: `${level * 16 + 8}px` }}
@@ -99,7 +99,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
           className={cn(
             "w-4 h-4 flex items-center justify-center text-xs transition-transform glass-focus glass-touch-target",
             hasChildren
-              ? "text-gray-500 hover:text-gray-700"
+              ? "glass-text-tertiary hover:glass-text-secondary"
               : "text-transparent",
             isExpanded ? "rotate-90" : "rotate-0"
           )}
