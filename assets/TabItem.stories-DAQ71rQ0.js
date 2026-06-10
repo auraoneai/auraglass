@@ -1,0 +1,12 @@
+import{j as s}from"./iframe-DuFCckax.js";import{aD as r,aa as t,S as i}from"./components-C7UdsWPt.js";import{T as e}from"./TabItem-CmOliykB.js";import"./preload-helper-PPVm8Dsz.js";const c={title:"Navigation/Tab Item",component:e,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"A low-level tab item used by tab bars with active, badge, and disabled states."}}},args:{id:"overview",label:"Overview",active:!0}},a={render:l=>s.jsxs("div",{className:"glass-w-[min(560px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl",children:[s.jsxs("div",{role:"tablist",className:"glass-flex glass-flex-wrap glass-gap-2",children:[s.jsx(e,{...l,icon:s.jsx(r,{size:15}),"aria-controls":"overview-panel"}),s.jsx(e,{id:"metrics",label:"Metrics",icon:s.jsx(t,{size:15}),badge:"3","aria-controls":"metrics-panel"}),s.jsx(e,{id:"settings",label:"Settings",icon:s.jsx(i,{size:15}),disabled:!0,"aria-controls":"settings-panel"})]}),s.jsx("div",{id:"overview-panel",role:"tabpanel",className:"glass-mt-4 glass-rounded-2xl glass-border glass-border-white/20 glass-bg-white/25 glass-p-4 glass-text-sm glass-text-secondary",children:"Active tabs remain legible inside a realistic navigation strip."})]})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: args => <div className="glass-w-[min(560px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
+      <div role="tablist" className="glass-flex glass-flex-wrap glass-gap-2">
+        <TabItem {...args} icon={<LayoutDashboard size={15} />} aria-controls="overview-panel" />
+        <TabItem id="metrics" label="Metrics" icon={<BarChart3 size={15} />} badge="3" aria-controls="metrics-panel" />
+        <TabItem id="settings" label="Settings" icon={<Settings size={15} />} disabled aria-controls="settings-panel" />
+      </div>
+      <div id="overview-panel" role="tabpanel" className="glass-mt-4 glass-rounded-2xl glass-border glass-border-white/20 glass-bg-white/25 glass-p-4 glass-text-sm glass-text-secondary">
+        Active tabs remain legible inside a realistic navigation strip.
+      </div>
+    </div>
+}`,...a.parameters?.docs?.source}}};const b=["Default"];export{a as Default,b as __namedExportsOrder,c as default};
