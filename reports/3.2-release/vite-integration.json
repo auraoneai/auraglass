@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-14T07:16:21.826Z",
+  "generatedAt": "2026-06-10T10:26:09.653Z",
   "package": "aura-glass",
-  "version": "3.2.0",
-  "filename": "aura-glass-3.2.0.tgz",
-  "shasum": "e3c7ed590ec671b24b7dee219e92ffcbe5215fb5",
-  "integrity": "sha512-zLIrvS24tpal3lzIi56BHV3DxKvmRDRE8IYpolDhGBPE62/+fLdwFsbfTRZIFO8oVq3dqHfriRqnUtNA9U6fjQ==",
-  "appDir": "/var/folders/3s/trh_q1fd5yn1mdhbvwbf0qrw0000gn/T/auraglass-vite-jD9mTC/vite-app",
+  "version": "3.4.1",
+  "filename": "aura-glass-3.4.1.tgz",
+  "shasum": "5ea719e10de17e13a2dce8d0dcc8f38d0701e83e",
+  "integrity": "sha512-Qobh6VmYUkTj4KErRVXO21bC+5vAxhpjbYvFKVANSGI2EJZ3A43+w6qYF9ZIRcU26woO5mh4/5eI6/sDO0Awdg==",
+  "appDir": "/var/folders/3s/trh_q1fd5yn1mdhbvwbf0qrw0000gn/T/auraglass-vite-wqTXol/vite-app",
   "emittedFiles": [
     "assets",
     "index.html"

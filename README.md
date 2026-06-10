@@ -1,4 +1,4 @@
-# AuraGlass by AuraOne 3.3.0
+# AuraGlass by AuraOne 3.4.2
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
@@ -11,9 +11,11 @@
 
 AuraGlass by AuraOne is a production React and Next.js component system for Liquid Glass interfaces: premium dashboards, AI products, media tools, creator apps, data-heavy workspaces, and polished SaaS surfaces. It packages glass-native components, design tokens, motion, accessibility guardrails, SSR-safe entrypoints, optional 3D/media integrations, and release evidence in one npm library.
 
-## 3.3 Package Surface
+## 3.4 Package Surface
 
-AuraGlass by AuraOne 3.3 ships a dependency-sovereign Liquid Glass app-surface system for React and Next.js: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, focused package subpaths, migration CLI commands, 28 package registry recipes, six token formats, optional hosted AI/runtime contracts, and a complete Liquid Glass stylesheet.
+AuraGlass by AuraOne 3.4 redesigns the entire Liquid Glass surface system: all 30 canonical surfaces (six intents x five elevation levels) are now luminous white frost — low-alpha white gradients over a faint smoke scrim — with a 16/24/32/40/48px blur scale, 1px white or tint hairline borders, rendered inset edge highlights, enlarged radii, and one unified `saturate(1.8) brightness(1.05) contrast(1.05)` backdrop filter across the TypeScript utilities, generated CSS, `.glass` foundation, and dark theme. A library-wide audit also fixed 71 invisible comment-as-value backgrounds and 107 dead utility classes.
+
+The package keeps the full dependency-sovereign app-surface system from 3.3: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, focused package subpaths, migration CLI commands, 28 package registry recipes, six token formats, optional hosted AI/runtime contracts, and a complete Liquid Glass stylesheet.
 
 No MUI, Radix, Lucide, or shadcn/ui package is required for core AuraGlass app chrome. Domain features such as charts, 3D, AI services, collaboration transport, and form-builder integrations still use optional peers only when those feature families are imported.
 
@@ -100,7 +102,7 @@ AuraGlass is not trying to be the smallest possible primitive kit. If you want n
 
 ## Flagship Components
 
-3.3 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
+3.4 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
 
 | Product job | Start with |
 | --- | --- |
@@ -130,7 +132,7 @@ Do not import from private source paths. Use optional peer packages only for the
 
 ## Recipes, Registry, And CLI
 
-AuraGlass 3.3 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
+AuraGlass 3.4 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
 
 List available recipes:
 
@@ -350,7 +352,7 @@ AuraGlass components are expected to preserve:
 - reduced-motion behavior for animation, transition, and physics effects
 - desktop and mobile Storybook renderability
 
-Current 3.3 release evidence records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 28 package registry recipes, focused forms/data/navigation/overlays/workflows/marketing subpaths, hosted-runtime contract tests, Docker Compose smoke coverage, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current 3.3 package export count or launch claim.
+AuraGlass 3.4 layers the Liquid Glass white-frost surface redesign (see [CHANGELOG.md](./CHANGELOG.md)) on top of the 3.3-era evidence, which records first-party icons, first-party primitives, native app shell and workspace entrypoints, Theme Engine 2.0, 28 package registry recipes, focused forms/data/navigation/overlays/workflows/marketing subpaths, hosted-runtime contract tests, Docker Compose smoke coverage, migration CLI commands, tree-shaking gates, pack verification, export tests, and React 18/19 Next.js integration smokes. The older 356/356 certification inventory remains checked in as historical 3.0 Storybook and audit evidence; it is not the current package export count or launch claim.
 
 Primary evidence sources:
 
@@ -395,7 +397,7 @@ AuraGlass keeps the root package focused on React UI and isolates heavier surfac
 | `aura-glass/app-shell` | Native dashboard, SaaS, AI, media, and collaboration app shell components. |
 | `aura-glass/workspace` | Workspace and workflow shell components. |
 | `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
-| `aura-glass/registry` | Styled registry compatibility plus 3.3 copyable recipe metadata. |
+| `aura-glass/registry` | Styled registry compatibility plus copyable recipe metadata. |
 | `aura-glass/hooks/useGlassProbes` | Runtime glass style probe hooks. |
 | `aura-glass/services/ai/openai-service` | Optional OpenAI-backed backend integration. |
 | `aura-glass/services/ai/vision-service` | Optional Google Cloud Vision backend integration. |
@@ -461,7 +463,7 @@ Useful scripts:
 | `reports` | Generated and hand-authored audit evidence. |
 | `reports/3.1-release` | 3.1 launch evidence scaffold and sign-off baselines. |
 | `reports/3.2-release` | Historical 3.2 package launch evidence, recipe evidence, app-chrome visuals, and completion audit. |
-| `reports/3.3-release` | Current 3.3 package launch evidence, hosted-runtime evidence, recipe evidence, app-chrome visuals, security review, and manual-certification scaffold. |
+| `reports/3.3-release` | 3.3-era package launch evidence, hosted-runtime evidence, recipe evidence, app-chrome visuals, security review, and manual-certification scaffold. |
 | `scripts/audit` | Audit and certification scripts. |
 | `tests/visual/design-system` | Playwright guardrails for visual certification and audit coverage. |
 | `.github` | GitHub workflow and collaboration templates. |
@@ -469,7 +471,7 @@ Useful scripts:
 
 ## Release Evidence
 
-Current 3.3 package launch claims are backed by checked-in evidence under `reports/3.3-release` plus the release gate commands below. The final publish path uses `npm publish --access public --tag latest --provenance=false --ignore-scripts` after the dry-run, pack, and integration gates pass.
+The 3.4 surface redesign is verified by the release gate commands below — typecheck, token and style lints, the 31-check glass pipeline, 90 WCAG AA contrast checks, and 432 Jest suites with 2,373 tests — while 3.3-era package launch claims remain backed by checked-in evidence under `reports/3.3-release`. The final publish path uses `npm publish --access public --tag latest --provenance=false --ignore-scripts` after the dry-run, pack, and integration gates pass.
 
 Package gates:
 
@@ -490,7 +492,7 @@ npm run release:dry-run
 git diff --check
 ```
 
-Current 3.3 evidence:
+3.3-era evidence:
 
 - [3.3 launch evidence index](./reports/3.3-release/README.md)
 - [3.3 hosted runtime evidence](./reports/3.3-release/hosted-runtime-evidence.md)

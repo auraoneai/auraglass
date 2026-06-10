@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.2] - 2026-06-10
+
+### Fixed
+
+- Updated the package README to the 3.4 release: the npm package page still showed the 3.3.0 headline and package-surface claims because the README was never refreshed in 3.4.0/3.4.1. The README now leads with the white-frost surface redesign and labels the 3.3 evidence links as 3.3-era.
+
 ## [3.4.1] - 2026-06-10
 
 ### Fixed

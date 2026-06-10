@@ -1,6 +1,6 @@
 // AUTO-GENERATED FILE. DO NOT EDIT.
-export type PersonaId = "auraglass-default";
-export type PersonaMode = "light" | "dark";
+export type PersonaId = 'auraglass-default';
+export type PersonaMode = 'light' | 'dark';
 
 export interface AuraPersona {
   $schema?: string;
@@ -26,20 +26,22 @@ export interface AuraTokensManifest {
 }
 
 export const auraTokens = {
-  version: "1.0.0",
-  description: "AuraGlass canonical design token manifest",
-  personas: [
+  "version": "1.0.0",
+  "description": "AuraGlass canonical design token manifest",
+  "personas": [
     {
-      metadata: {
-        id: "auraglass-default",
-        displayName: "AuraGlass Default",
-        description:
-          "Baseline AuraGlass persona with light and dark modes driven by canonical design tokens.",
-        version: "2.1.0",
-        modes: ["light", "dark"],
+      "metadata": {
+        "id": "auraglass-default",
+        "displayName": "AuraGlass Default",
+        "description": "Baseline AuraGlass persona with light and dark modes driven by canonical design tokens.",
+        "version": "2.1.0",
+        "modes": [
+          "light",
+          "dark"
+        ]
       },
-      colors: {
-        global: {
+      "colors": {
+        "global": {
           "background-base": "#0f172a",
           "background-surface": "rgba(15, 23, 42, 0.85)",
           "background-glass": "rgba(255, 255, 255, 0.08)",
@@ -48,98 +50,98 @@ export const auraTokens = {
           "text-primary": "#f8fafc",
           "text-secondary": "rgba(248, 250, 252, 0.7)",
           "text-tertiary": "rgba(248, 250, 252, 0.5)",
-          accent: "#6366f1",
+          "accent": "#6366f1"
         },
-        semantic: {
-          primary: "#6366f1",
-          success: "#22c55e",
-          warning: "#f59e0b",
-          danger: "#ef4444",
-          info: "#0ea5e9",
-          neutral: "#64748b",
+        "semantic": {
+          "primary": "#6366f1",
+          "success": "#22c55e",
+          "warning": "#f59e0b",
+          "danger": "#ef4444",
+          "info": "#0ea5e9",
+          "neutral": "#64748b"
         },
-        personas: {
-          light: {
-            background: "#f8fafc",
-            foreground: "#0f172a",
-            muted: "#e2e8f0",
+        "personas": {
+          "light": {
+            "background": "#f8fafc",
+            "foreground": "#0f172a",
+            "muted": "#e2e8f0",
             "muted-foreground": "#475569",
-            highlight: "rgba(99, 102, 241, 0.12)",
+            "highlight": "rgba(99, 102, 241, 0.12)",
             "glass-surface": "rgba(255, 255, 255, 0.6)",
             "glass-border": "rgba(15, 23, 42, 0.12)",
-            "glass-shadow": "0 8px 32px rgba(15, 23, 42, 0.12)",
+            "glass-shadow": "0 8px 32px rgba(15, 23, 42, 0.12)"
           },
-          dark: {
-            background: "#020617",
-            foreground: "#e2e8f0",
-            muted: "#1e293b",
+          "dark": {
+            "background": "#020617",
+            "foreground": "#e2e8f0",
+            "muted": "#1e293b",
             "muted-foreground": "#94a3b8",
-            highlight: "rgba(99, 102, 241, 0.2)",
+            "highlight": "rgba(99, 102, 241, 0.2)",
             "glass-surface": "rgba(15, 23, 42, 0.65)",
             "glass-border": "rgba(148, 163, 184, 0.22)",
-            "glass-shadow": "0 12px 40px rgba(15, 23, 42, 0.45)",
-          },
-        },
+            "glass-shadow": "0 12px 40px rgba(15, 23, 42, 0.45)"
+          }
+        }
       },
-      typography: {
-        families: {
-          sans: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-          mono: "'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace",
+      "typography": {
+        "families": {
+          "sans": "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          "mono": "'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace"
         },
-        scale: {
-          display: {
-            fontSize: "3.5rem",
-            lineHeight: "1.05",
-            tracking: "-0.04em",
+        "scale": {
+          "display": {
+            "fontSize": "3.5rem",
+            "lineHeight": "1.05",
+            "tracking": "-0.04em"
           },
-          headline: {
-            fontSize: "2.5rem",
-            lineHeight: "1.1",
-            tracking: "-0.02em",
+          "headline": {
+            "fontSize": "2.5rem",
+            "lineHeight": "1.1",
+            "tracking": "-0.02em"
           },
-          title: {
-            fontSize: "1.75rem",
-            lineHeight: "1.2",
-            tracking: "-0.01em",
+          "title": {
+            "fontSize": "1.75rem",
+            "lineHeight": "1.2",
+            "tracking": "-0.01em"
           },
-          subtitle: {
-            fontSize: "1.25rem",
-            lineHeight: "1.4",
-            tracking: "0em",
+          "subtitle": {
+            "fontSize": "1.25rem",
+            "lineHeight": "1.4",
+            "tracking": "0em"
           },
-          body: {
-            fontSize: "1rem",
-            lineHeight: "1.6",
-            tracking: "0em",
+          "body": {
+            "fontSize": "1rem",
+            "lineHeight": "1.6",
+            "tracking": "0em"
           },
-          caption: {
-            fontSize: "0.875rem",
-            lineHeight: "1.4",
-            tracking: "0em",
+          "caption": {
+            "fontSize": "0.875rem",
+            "lineHeight": "1.4",
+            "tracking": "0em"
           },
-          label: {
-            fontSize: "0.75rem",
-            lineHeight: "1.2",
-            tracking: "0.05em",
-          },
+          "label": {
+            "fontSize": "0.75rem",
+            "lineHeight": "1.2",
+            "tracking": "0.05em"
+          }
         },
-        weights: {
-          thin: 100,
-          light: 300,
-          regular: 400,
-          medium: 500,
-          semibold: 600,
-          bold: 700,
-          extrabold: 800,
+        "weights": {
+          "thin": 100,
+          "light": 300,
+          "regular": 400,
+          "medium": 500,
+          "semibold": 600,
+          "bold": 700,
+          "extrabold": 800
         },
-        lineHeights: {
-          tight: "1.2",
-          normal: "1.5",
-          relaxed: "1.75",
-        },
+        "lineHeights": {
+          "tight": "1.2",
+          "normal": "1.5",
+          "relaxed": "1.75"
+        }
       },
-      spacing: {
-        scale: {
+      "spacing": {
+        "scale": {
           "0": "0",
           "1": "0.25rem",
           "2": "0.5rem",
@@ -150,1097 +152,1103 @@ export const auraTokens = {
           "8": "2rem",
           "10": "2.5rem",
           "12": "3rem",
-          "16": "4rem",
+          "16": "4rem"
         },
-        radii: {
-          xs: "0.25rem",
-          sm: "0.375rem",
-          md: "0.5rem",
-          lg: "0.75rem",
-          xl: "1rem",
-          pill: "999px",
+        "radii": {
+          "xs": "0.25rem",
+          "sm": "0.375rem",
+          "md": "0.5rem",
+          "lg": "0.75rem",
+          "xl": "1rem",
+          "pill": "999px"
         },
-        gaps: {
-          dense: "0.5rem",
-          relaxed: "1rem",
-          loose: "1.5rem",
-        },
+        "gaps": {
+          "dense": "0.5rem",
+          "relaxed": "1rem",
+          "loose": "1.5rem"
+        }
       },
-      motion: {
-        durations: {
-          instant: "50ms",
-          fast: "150ms",
-          normal: "250ms",
-          slow: "450ms",
+      "motion": {
+        "durations": {
+          "instant": "50ms",
+          "fast": "150ms",
+          "normal": "250ms",
+          "slow": "450ms"
         },
-        easings: {
-          standard: "cubic-bezier(0.2, 0.8, 0.2, 1)",
-          emphasized: "cubic-bezier(0.4, 0, 0.2, 1)",
-          decelerate: "cubic-bezier(0.0, 0, 0.2, 1)",
-          accelerate: "cubic-bezier(0.4, 0, 1, 1)",
+        "easings": {
+          "standard": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          "emphasized": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "decelerate": "cubic-bezier(0.0, 0, 0.2, 1)",
+          "accelerate": "cubic-bezier(0.4, 0, 1, 1)"
         },
-        stagger: {
-          micro: "25ms",
-          regular: "50ms",
-          macro: "100ms",
+        "stagger": {
+          "micro": "25ms",
+          "regular": "50ms",
+          "macro": "100ms"
         },
-        keyframes: {
-          glassFade: {
-            steps: [
+        "keyframes": {
+          "glassFade": {
+            "steps": [
               {
-                at: "0%",
-                properties: {
-                  opacity: "0",
-                  transform: "translateY(8px) scale(0.98)",
-                },
+                "at": "0%",
+                "properties": {
+                  "opacity": "0",
+                  "transform": "translateY(8px) scale(0.98)"
+                }
               },
               {
-                at: "100%",
-                properties: {
-                  opacity: "1",
-                  transform: "translateY(0) scale(1)",
-                },
-              },
-            ],
+                "at": "100%",
+                "properties": {
+                  "opacity": "1",
+                  "transform": "translateY(0) scale(1)"
+                }
+              }
+            ]
           },
-          pulseGlow: {
-            steps: [
+          "pulseGlow": {
+            "steps": [
               {
-                at: "0%",
-                properties: {
-                  "box-shadow": "0 0 0 0 rgba(99, 102, 241, 0.6)",
-                },
+                "at": "0%",
+                "properties": {
+                  "box-shadow": "0 0 0 0 rgba(99, 102, 241, 0.6)"
+                }
               },
               {
-                at: "70%",
-                properties: {
-                  "box-shadow": "0 0 0 12px rgba(99, 102, 241, 0)",
-                },
+                "at": "70%",
+                "properties": {
+                  "box-shadow": "0 0 0 12px rgba(99, 102, 241, 0)"
+                }
               },
               {
-                at: "100%",
-                properties: {
-                  "box-shadow": "0 0 0 0 rgba(99, 102, 241, 0)",
-                },
-              },
-            ],
-          },
-        },
+                "at": "100%",
+                "properties": {
+                  "box-shadow": "0 0 0 0 rgba(99, 102, 241, 0)"
+                }
+              }
+            ]
+          }
+        }
       },
-      marketing: {
-        palettes: {
-          aurora: {
-            cyan: "rgba(34, 211, 238, 0.92)",
-            mint: "rgba(125, 249, 255, 0.46)",
-            violet: "rgba(99, 102, 241, 0.94)",
-            rose: "rgba(251, 113, 133, 0.44)",
-            magenta: "rgba(236, 72, 153, 0.92)",
+      "marketing": {
+        "palettes": {
+          "aurora": {
+            "cyan": "rgba(34, 211, 238, 0.92)",
+            "mint": "rgba(125, 249, 255, 0.46)",
+            "violet": "rgba(99, 102, 241, 0.94)",
+            "rose": "rgba(251, 113, 133, 0.44)",
+            "magenta": "rgba(236, 72, 153, 0.92)"
           },
-          prism: {
-            cyan: "rgba(6, 182, 212, 0.88)",
-            indigo: "rgba(79, 70, 229, 0.88)",
-            pink: "rgba(219, 39, 119, 0.82)",
+          "prism": {
+            "cyan": "rgba(6, 182, 212, 0.88)",
+            "indigo": "rgba(79, 70, 229, 0.88)",
+            "pink": "rgba(219, 39, 119, 0.82)"
           },
-          ocean: {
-            foam: "rgba(103, 232, 249, 0.72)",
-            blue: "rgba(14, 165, 233, 0.84)",
-            deep: "rgba(30, 64, 175, 0.82)",
+          "ocean": {
+            "foam": "rgba(103, 232, 249, 0.72)",
+            "blue": "rgba(14, 165, 233, 0.84)",
+            "deep": "rgba(30, 64, 175, 0.82)"
           },
-          ember: {
-            gold: "rgba(251, 191, 36, 0.78)",
-            coral: "rgba(249, 115, 22, 0.82)",
-            rose: "rgba(244, 63, 94, 0.78)",
+          "ember": {
+            "gold": "rgba(251, 191, 36, 0.78)",
+            "coral": "rgba(249, 115, 22, 0.82)",
+            "rose": "rgba(244, 63, 94, 0.78)"
           },
-          mono: {
-            mist: "rgba(248, 250, 252, 0.72)",
-            slate: "rgba(100, 116, 139, 0.72)",
-            ink: "rgba(15, 23, 42, 0.72)",
-          },
+          "mono": {
+            "mist": "rgba(248, 250, 252, 0.72)",
+            "slate": "rgba(100, 116, 139, 0.72)",
+            "ink": "rgba(15, 23, 42, 0.72)"
+          }
         },
-        background: {
-          vignette:
-            "radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18), transparent 58%)",
-          grainOpacity: "0.08",
-          particleOpacity: "0.58",
-          fixedZIndex: "-1",
+        "background": {
+          "vignette": "radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.18), transparent 58%)",
+          "grainOpacity": "0.08",
+          "particleOpacity": "0.58",
+          "fixedZIndex": "-1"
         },
-        orb: {
-          gradient:
-            "conic-gradient(from 180deg, rgba(34, 211, 238, 0.92), rgba(99, 102, 241, 0.94), rgba(236, 72, 153, 0.9), rgba(34, 211, 238, 0.92))",
-          glow: "0 28px 90px rgba(99, 102, 241, 0.42)",
-          insetHighlight: "inset 0 1px 24px rgba(255, 255, 255, 0.34)",
+        "orb": {
+          "gradient": "conic-gradient(from 180deg, rgba(34, 211, 238, 0.92), rgba(99, 102, 241, 0.94), rgba(236, 72, 153, 0.9), rgba(34, 211, 238, 0.92))",
+          "glow": "0 28px 90px rgba(99, 102, 241, 0.42)",
+          "insetHighlight": "inset 0 1px 24px rgba(255, 255, 255, 0.34)"
         },
-        displayText: {
-          heroSize: "clamp(3rem, 9vw, 7.5rem)",
-          sectionSize: "clamp(2rem, 5vw, 4.5rem)",
-          gradientAurora:
-            "linear-gradient(100deg, #ffffff 0%, #7dd3fc 34%, #c4b5fd 68%, #f0abfc 100%)",
+        "displayText": {
+          "heroSize": "clamp(3rem, 9vw, 7.5rem)",
+          "sectionSize": "clamp(2rem, 5vw, 4.5rem)",
+          "gradientAurora": "linear-gradient(100deg, #ffffff 0%, #7dd3fc 34%, #c4b5fd 68%, #f0abfc 100%)"
         },
-        surface: {
-          showcaseBackground:
-            "linear-gradient(145deg, rgba(15, 23, 42, 0.62), rgba(30, 41, 59, 0.34))",
-          showcaseBorder: "rgba(255, 255, 255, 0.18)",
-          showcaseGlow:
-            "0 24px 80px rgba(15, 23, 42, 0.42), 0 0 44px rgba(99, 102, 241, 0.16)",
-          highlight:
-            "linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent)",
+        "surface": {
+          "showcaseBackground": "linear-gradient(145deg, rgba(15, 23, 42, 0.62), rgba(30, 41, 59, 0.34))",
+          "showcaseBorder": "rgba(255, 255, 255, 0.18)",
+          "showcaseGlow": "0 24px 80px rgba(15, 23, 42, 0.42), 0 0 44px rgba(99, 102, 241, 0.16)",
+          "highlight": "linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent)"
         },
-        button: {
-          auroraBackground:
-            "linear-gradient(135deg, rgba(34, 211, 238, 0.94) 0%, rgba(99, 102, 241, 0.94) 42%, rgba(236, 72, 153, 0.92) 100%)",
-          auroraGlow: "0 16px 42px rgba(99, 102, 241, 0.38)",
-          auroraText: "#ffffff",
-        },
+        "button": {
+          "auroraBackground": "linear-gradient(135deg, rgba(34, 211, 238, 0.94) 0%, rgba(99, 102, 241, 0.94) 42%, rgba(236, 72, 153, 0.92) 100%)",
+          "auroraGlow": "0 16px 42px rgba(99, 102, 241, 0.38)",
+          "auroraText": "#ffffff"
+        }
       },
-      glass: {
-        intents: ["neutral", "primary", "success", "warning", "danger", "info"],
-        elevations: ["level1", "level2", "level3", "level4", "level5"],
-        surfaces: {
-          neutral: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+      "glass": {
+        "intents": [
+          "neutral",
+          "primary",
+          "success",
+          "warning",
+          "danger",
+          "info"
+        ],
+        "elevations": [
+          "level1",
+          "level2",
+          "level3",
+          "level4",
+          "level5"
+        ],
+        "surfaces": {
+          "neutral": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)",
-                overlay: "rgba(255,255,255,0.08)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)",
+                "overlay": "rgba(255,255,255,0.08)"
               },
-              border: {
-                color: "rgba(255,255,255,0.12)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(255,255,255,0.12)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "rgba(0,0,0,0.15)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(0,0,0,0.15)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(148,163,184,0.15) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(148,163,184,0.15) 100%)"
               },
-              border: {
-                color: "rgba(255,255,255,0.14)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(255,255,255,0.14)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(255,255,255,0.2)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "rgba(255,255,255,0.2)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "rgba(15,23,42,0.2)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(15,23,42,0.2)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%)"
               },
-              border: {
-                color: "rgba(255,255,255,0.16)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(255,255,255,0.16)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(255,255,255,0.25)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "rgba(255,255,255,0.25)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "rgba(15,23,42,0.25)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(15,23,42,0.25)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 100%)"
               },
-              border: {
-                color: "rgba(255,255,255,0.18)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(255,255,255,0.18)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(255,255,255,0.3)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "rgba(255,255,255,0.3)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "rgba(15,23,42,0.3)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(15,23,42,0.3)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.12) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.12) 100%)"
               },
-              border: {
-                color: "rgba(255,255,255,0.2)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(255,255,255,0.2)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(255,255,255,0.35)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "rgba(255,255,255,0.35)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "rgba(15,23,42,0.35)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(15,23,42,0.35)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
-            },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
+            }
           },
-          primary: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+          "primary": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.3) 0%, hsl(var(--glass-color-primary)/0.22) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.3) 0%, hsl(var(--glass-color-primary)/0.22) 100%)"
               },
-              border: {
-                color: "hsl(var(--glass-color-primary)/0.5)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "hsl(var(--glass-color-primary)/0.5)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "hsl(var(--glass-color-primary)/0.15)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "hsl(var(--glass-color-primary)/0.15)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.4) 0%, hsl(var(--glass-color-primary)/0.28) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.4) 0%, hsl(var(--glass-color-primary)/0.28) 100%)"
               },
-              border: {
-                color: "hsl(var(--glass-color-primary)/0.6)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "hsl(var(--glass-color-primary)/0.6)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "hsl(var(--glass-color-primary)/0.22)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "hsl(var(--glass-color-primary)/0.22)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "hsl(var(--glass-color-primary)/0.2)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "hsl(var(--glass-color-primary)/0.2)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.48) 0%, hsl(var(--glass-color-primary)/0.34) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.48) 0%, hsl(var(--glass-color-primary)/0.34) 100%)"
               },
-              border: {
-                color: "hsl(var(--glass-color-primary)/0.7)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "hsl(var(--glass-color-primary)/0.7)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "hsl(var(--glass-color-primary)/0.25)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "hsl(var(--glass-color-primary)/0.25)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "hsl(var(--glass-color-primary)/0.24)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "hsl(var(--glass-color-primary)/0.24)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.56) 0%, hsl(var(--glass-color-primary)/0.4) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.56) 0%, hsl(var(--glass-color-primary)/0.4) 100%)"
               },
-              border: {
-                color: "hsl(var(--glass-color-primary)/0.78)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "hsl(var(--glass-color-primary)/0.78)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "hsl(var(--glass-color-primary)/0.28)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "hsl(var(--glass-color-primary)/0.28)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "hsl(var(--glass-color-primary)/0.28)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "hsl(var(--glass-color-primary)/0.28)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.64) 0%, hsl(var(--glass-color-primary)/0.45) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.64) 0%, hsl(var(--glass-color-primary)/0.45) 100%)"
               },
-              border: {
-                color: "hsl(var(--glass-color-primary)/0.85)",
-                width: 3,
-                style: "solid",
+              "border": {
+                "color": "hsl(var(--glass-color-primary)/0.85)",
+                "width": 3,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "hsl(var(--glass-color-primary)/0.32)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "hsl(var(--glass-color-primary)/0.32)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "hsl(var(--glass-color-primary)/0.32)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "hsl(var(--glass-color-primary)/0.32)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
-            },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
+            }
           },
-          success: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+          "success": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(22,163,74,0.18) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(22,163,74,0.18) 100%)"
               },
-              border: {
-                color: "rgba(34,197,94,0.4)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(34,197,94,0.4)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "rgba(34,197,94,0.12)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(34,197,94,0.12)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(34,197,94,0.32) 0%, rgba(22,163,74,0.24) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(34,197,94,0.32) 0%, rgba(22,163,74,0.24) 100%)"
               },
-              border: {
-                color: "rgba(34,197,94,0.5)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(34,197,94,0.5)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(34,197,94,0.2)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "rgba(34,197,94,0.2)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "rgba(34,197,94,0.16)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(34,197,94,0.16)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(22,163,74,0.28) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(22,163,74,0.28) 100%)"
               },
-              border: {
-                color: "rgba(34,197,94,0.6)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(34,197,94,0.6)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(34,197,94,0.24)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "rgba(34,197,94,0.24)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "rgba(34,197,94,0.2)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(34,197,94,0.2)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(34,197,94,0.48) 0%, rgba(22,163,74,0.34) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(34,197,94,0.48) 0%, rgba(22,163,74,0.34) 100%)"
               },
-              border: {
-                color: "rgba(34,197,94,0.7)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(34,197,94,0.7)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(34,197,94,0.28)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "rgba(34,197,94,0.28)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "rgba(34,197,94,0.24)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(34,197,94,0.24)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(34,197,94,0.56) 0%, rgba(22,163,74,0.4) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(34,197,94,0.56) 0%, rgba(22,163,74,0.4) 100%)"
               },
-              border: {
-                color: "rgba(34,197,94,0.78)",
-                width: 3,
-                style: "solid",
+              "border": {
+                "color": "rgba(34,197,94,0.78)",
+                "width": 3,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(34,197,94,0.32)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "rgba(34,197,94,0.32)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "rgba(34,197,94,0.28)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(34,197,94,0.28)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
-            },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
+            }
           },
-          warning: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+          "warning": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(245,158,11,0.28) 0%, rgba(254,215,88,0.18) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(245,158,11,0.28) 0%, rgba(254,215,88,0.18) 100%)"
               },
-              border: {
-                color: "rgba(245,158,11,0.4)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(245,158,11,0.4)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "rgba(245,158,11,0.12)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(245,158,11,0.12)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(245,158,11,0.35) 0%, rgba(254,215,88,0.24) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(245,158,11,0.35) 0%, rgba(254,215,88,0.24) 100%)"
               },
-              border: {
-                color: "rgba(245,158,11,0.5)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(245,158,11,0.5)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(245,158,11,0.22)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "rgba(245,158,11,0.22)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "rgba(245,158,11,0.16)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(245,158,11,0.16)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(245,158,11,0.44) 0%, rgba(254,215,88,0.3) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(245,158,11,0.44) 0%, rgba(254,215,88,0.3) 100%)"
               },
-              border: {
-                color: "rgba(245,158,11,0.6)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(245,158,11,0.6)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(245,158,11,0.26)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "rgba(245,158,11,0.26)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "rgba(245,158,11,0.2)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(245,158,11,0.2)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(245,158,11,0.52) 0%, rgba(254,215,88,0.36) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(245,158,11,0.52) 0%, rgba(254,215,88,0.36) 100%)"
               },
-              border: {
-                color: "rgba(245,158,11,0.68)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(245,158,11,0.68)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(245,158,11,0.3)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "rgba(245,158,11,0.3)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "rgba(245,158,11,0.24)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(245,158,11,0.24)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(245,158,11,0.6) 0%, rgba(254,215,88,0.42) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(245,158,11,0.6) 0%, rgba(254,215,88,0.42) 100%)"
               },
-              border: {
-                color: "rgba(245,158,11,0.75)",
-                width: 3,
-                style: "solid",
+              "border": {
+                "color": "rgba(245,158,11,0.75)",
+                "width": 3,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(245,158,11,0.34)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "rgba(245,158,11,0.34)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "rgba(245,158,11,0.28)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(245,158,11,0.28)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(15,23,42,0.95)",
-                secondary: "rgba(15,23,42,0.75)",
-              },
-            },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(15,23,42,0.95)",
+                "secondary": "rgba(15,23,42,0.75)"
+              }
+            }
           },
-          danger: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+          "danger": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(239,68,68,0.28) 0%, rgba(248,113,113,0.18) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(239,68,68,0.28) 0%, rgba(248,113,113,0.18) 100%)"
               },
-              border: {
-                color: "rgba(239,68,68,0.4)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(239,68,68,0.4)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "rgba(239,68,68,0.12)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(239,68,68,0.12)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(239,68,68,0.36) 0%, rgba(248,113,113,0.24) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(239,68,68,0.36) 0%, rgba(248,113,113,0.24) 100%)"
               },
-              border: {
-                color: "rgba(239,68,68,0.5)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(239,68,68,0.5)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(239,68,68,0.22)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "rgba(239,68,68,0.22)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "rgba(239,68,68,0.16)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(239,68,68,0.16)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(239,68,68,0.44) 0%, rgba(248,113,113,0.3) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(239,68,68,0.44) 0%, rgba(248,113,113,0.3) 100%)"
               },
-              border: {
-                color: "rgba(239,68,68,0.6)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(239,68,68,0.6)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(239,68,68,0.26)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "rgba(239,68,68,0.26)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "rgba(239,68,68,0.2)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(239,68,68,0.2)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(239,68,68,0.52) 0%, rgba(248,113,113,0.36) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(239,68,68,0.52) 0%, rgba(248,113,113,0.36) 100%)"
               },
-              border: {
-                color: "rgba(239,68,68,0.68)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(239,68,68,0.68)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(239,68,68,0.3)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "rgba(239,68,68,0.3)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "rgba(239,68,68,0.24)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(239,68,68,0.24)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(239,68,68,0.6) 0%, rgba(248,113,113,0.42) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(239,68,68,0.6) 0%, rgba(248,113,113,0.42) 100%)"
               },
-              border: {
-                color: "rgba(239,68,68,0.75)",
-                width: 3,
-                style: "solid",
+              "border": {
+                "color": "rgba(239,68,68,0.75)",
+                "width": 3,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(239,68,68,0.34)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "rgba(239,68,68,0.34)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "rgba(239,68,68,0.28)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(239,68,68,0.28)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
-            },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
+            }
           },
-          info: {
-            level1: {
-              backdropBlur: {
-                px: 16,
+          "info": {
+            "level1": {
+              "backdropBlur": {
+                "px": 16
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(14,165,233,0.28) 0%, rgba(56,189,248,0.18) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(14,165,233,0.28) 0%, rgba(56,189,248,0.18) 100%)"
               },
-              border: {
-                color: "rgba(14,165,233,0.4)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(14,165,233,0.4)",
+                "width": 1,
+                "style": "solid"
               },
-              outerShadow: {
-                color: "rgba(14,165,233,0.12)",
-                x: 0,
-                y: 4,
-                blur: 16,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(14,165,233,0.12)",
+                "x": 0,
+                "y": 4,
+                "blur": 16,
+                "spread": 0
               },
-              noiseOpacity: 0.03,
-              highlightOpacity: 0.15,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.03,
+              "highlightOpacity": 0.15,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level2: {
-              backdropBlur: {
-                px: 24,
+            "level2": {
+              "backdropBlur": {
+                "px": 24
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(14,165,233,0.36) 0%, rgba(56,189,248,0.24) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(14,165,233,0.36) 0%, rgba(56,189,248,0.24) 100%)"
               },
-              border: {
-                color: "rgba(14,165,233,0.5)",
-                width: 1,
-                style: "solid",
+              "border": {
+                "color": "rgba(14,165,233,0.5)",
+                "width": 1,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(14,165,233,0.22)",
-                spread: 0,
-                blur: 8,
+              "innerGlow": {
+                "color": "rgba(14,165,233,0.22)",
+                "spread": 0,
+                "blur": 8
               },
-              outerShadow: {
-                color: "rgba(14,165,233,0.16)",
-                x: 0,
-                y: 8,
-                blur: 24,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(14,165,233,0.16)",
+                "x": 0,
+                "y": 8,
+                "blur": 24,
+                "spread": 0
               },
-              noiseOpacity: 0.05,
-              highlightOpacity: 0.2,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.05,
+              "highlightOpacity": 0.2,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level3: {
-              backdropBlur: {
-                px: 32,
+            "level3": {
+              "backdropBlur": {
+                "px": 32
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(14,165,233,0.44) 0%, rgba(56,189,248,0.3) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(14,165,233,0.44) 0%, rgba(56,189,248,0.3) 100%)"
               },
-              border: {
-                color: "rgba(14,165,233,0.6)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(14,165,233,0.6)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(14,165,233,0.26)",
-                spread: 1,
-                blur: 12,
+              "innerGlow": {
+                "color": "rgba(14,165,233,0.26)",
+                "spread": 1,
+                "blur": 12
               },
-              outerShadow: {
-                color: "rgba(14,165,233,0.2)",
-                x: 0,
-                y: 12,
-                blur: 32,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(14,165,233,0.2)",
+                "x": 0,
+                "y": 12,
+                "blur": 32,
+                "spread": 0
               },
-              noiseOpacity: 0.08,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.08,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level4: {
-              backdropBlur: {
-                px: 40,
+            "level4": {
+              "backdropBlur": {
+                "px": 40
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(14,165,233,0.52) 0%, rgba(56,189,248,0.36) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(14,165,233,0.52) 0%, rgba(56,189,248,0.36) 100%)"
               },
-              border: {
-                color: "rgba(14,165,233,0.68)",
-                width: 2,
-                style: "solid",
+              "border": {
+                "color": "rgba(14,165,233,0.68)",
+                "width": 2,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(14,165,233,0.3)",
-                spread: 1,
-                blur: 16,
+              "innerGlow": {
+                "color": "rgba(14,165,233,0.3)",
+                "spread": 1,
+                "blur": 16
               },
-              outerShadow: {
-                color: "rgba(14,165,233,0.24)",
-                x: 0,
-                y: 16,
-                blur: 40,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(14,165,233,0.24)",
+                "x": 0,
+                "y": 16,
+                "blur": 40,
+                "spread": 0
               },
-              noiseOpacity: 0.1,
-              highlightOpacity: 0.25,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
+              "noiseOpacity": 0.1,
+              "highlightOpacity": 0.25,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
             },
-            level5: {
-              backdropBlur: {
-                px: 48,
+            "level5": {
+              "backdropBlur": {
+                "px": 48
               },
-              surface: {
-                base: "linear-gradient(135deg, rgba(14,165,233,0.6) 0%, rgba(56,189,248,0.42) 100%)",
+              "surface": {
+                "base": "linear-gradient(135deg, rgba(14,165,233,0.6) 0%, rgba(56,189,248,0.42) 100%)"
               },
-              border: {
-                color: "rgba(14,165,233,0.75)",
-                width: 3,
-                style: "solid",
+              "border": {
+                "color": "rgba(14,165,233,0.75)",
+                "width": 3,
+                "style": "solid"
               },
-              innerGlow: {
-                color: "rgba(14,165,233,0.34)",
-                spread: 2,
-                blur: 20,
+              "innerGlow": {
+                "color": "rgba(14,165,233,0.34)",
+                "spread": 2,
+                "blur": 20
               },
-              outerShadow: {
-                color: "rgba(14,165,233,0.28)",
-                x: 0,
-                y: 20,
-                blur: 48,
-                spread: 0,
+              "outerShadow": {
+                "color": "rgba(14,165,233,0.28)",
+                "x": 0,
+                "y": 20,
+                "blur": 48,
+                "spread": 0
               },
-              noiseOpacity: 0.12,
-              highlightOpacity: 0.3,
-              text: {
-                primary: "rgba(248,250,252,0.98)",
-                secondary: "rgba(248,250,252,0.78)",
-              },
-            },
-          },
+              "noiseOpacity": 0.12,
+              "highlightOpacity": 0.3,
+              "text": {
+                "primary": "rgba(248,250,252,0.98)",
+                "secondary": "rgba(248,250,252,0.78)"
+              }
+            }
+          }
         },
-        performance: {
-          tiers: {
-            ultra: {
-              blurMultiplier: 1,
-              opacityMultiplier: 1,
-              animationSpeedMultiplier: 1,
-              renderQuality: "high",
+        "performance": {
+          "tiers": {
+            "ultra": {
+              "blurMultiplier": 1,
+              "opacityMultiplier": 1,
+              "animationSpeedMultiplier": 1,
+              "renderQuality": "high"
             },
-            high: {
-              blurMultiplier: 0.9,
-              opacityMultiplier: 0.95,
-              animationSpeedMultiplier: 1,
-              renderQuality: "high",
+            "high": {
+              "blurMultiplier": 0.9,
+              "opacityMultiplier": 0.95,
+              "animationSpeedMultiplier": 1,
+              "renderQuality": "high"
             },
-            balanced: {
-              blurMultiplier: 0.75,
-              opacityMultiplier: 0.9,
-              animationSpeedMultiplier: 0.85,
-              renderQuality: "medium",
+            "balanced": {
+              "blurMultiplier": 0.75,
+              "opacityMultiplier": 0.9,
+              "animationSpeedMultiplier": 0.85,
+              "renderQuality": "medium"
             },
-            efficient: {
-              blurMultiplier: 0.65,
-              opacityMultiplier: 0.8,
-              animationSpeedMultiplier: 0.7,
-              renderQuality: "low",
-            },
-          },
-        },
-      },
-    },
-  ],
+            "efficient": {
+              "blurMultiplier": 0.65,
+              "opacityMultiplier": 0.8,
+              "animationSpeedMultiplier": 0.7,
+              "renderQuality": "low"
+            }
+          }
+        }
+      }
+    }
+  ]
 } as const satisfies AuraTokensManifest;
 
 const personaMap = new Map<PersonaId, AuraPersona>();
