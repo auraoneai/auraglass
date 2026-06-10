@@ -224,7 +224,7 @@ writeFile(
 writeFile(
   appDir,
   'playwright.config.ts',
-  `import { defineConfig, devices } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './tests',\n  retries: 0,\n  use: {\n    baseURL: 'http://127.0.0.1:4310',\n    trace: 'on-first-retry',\n  },\n  projects: [\n    {\n      name: 'chromium',\n      use: { ...devices['Desktop Chrome'] },\n    },\n  ],\n  webServer: {\n    command: 'sh -c "npm run dev | tee integration.log"',\n    url: 'http://127.0.0.1:4310',\n    reuseExistingServer: false,\n    timeout: 120_000,\n  },\n});\n`,
+  `import { defineConfig, devices } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './tests',\n  retries: 0,\n  use: {\n    baseURL: 'http://127.0.0.1:4310',\n    trace: 'on-first-retry',\n  },\n  projects: [\n    {\n      name: 'chromium',\n      use: { ...devices['Desktop Chrome'] },\n    },\n  ],\n  webServer: {\n    command: 'sh -c "npm run dev | tee integration.log"',\n    url: 'http://127.0.0.1:4310',\n    reuseExistingServer: false,\n    timeout: 300_000,\n  },\n});\n`,
 );
 
 writeFile(
@@ -419,7 +419,7 @@ writeFile(
 writeFile(
   appDirReact19,
   'playwright.config.ts',
-  `import { defineConfig, devices } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './tests',\n  retries: 0,\n  use: {\n    baseURL: 'http://127.0.0.1:4311',\n    trace: 'on-first-retry',\n  },\n  projects: [\n    {\n      name: 'chromium',\n      use: { ...devices['Desktop Chrome'] },\n    },\n  ],\n  webServer: {\n    command: 'sh -c "npm run dev | tee integration-react19.log"',\n    url: 'http://127.0.0.1:4311',\n    reuseExistingServer: false,\n    timeout: 120_000,\n  },\n});\n`,
+  `import { defineConfig, devices } from '@playwright/test';\n\nexport default defineConfig({\n  testDir: './tests',\n  retries: 0,\n  use: {\n    baseURL: 'http://127.0.0.1:4311',\n    trace: 'on-first-retry',\n  },\n  projects: [\n    {\n      name: 'chromium',\n      use: { ...devices['Desktop Chrome'] },\n    },\n  ],\n  webServer: {\n    command: 'sh -c "npm run dev | tee integration-react19.log"',\n    url: 'http://127.0.0.1:4311',\n    reuseExistingServer: false,\n    timeout: 300_000,\n  },\n});\n`,
 );
 
 writeFile(
