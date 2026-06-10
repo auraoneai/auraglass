@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 
 import { cn } from "@/lib/utils";
@@ -75,21 +75,21 @@ export function QuantumEntanglementVisualizer({
       aria-label="Quantum entanglement visualizer"
       className={cn(
         "glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6",
-        "bg-gradient-to-br from-slate-950/80 via-purple-950/40 to-slate-900/40",
+        "bg-gradient-to-br from-white/10 via-purple-500/15 to-white/5",
         className
       )}
     >
       <header>
-        <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
+        <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
           Quantum Entanglement Visualizer
         </h2>
-        <p className='glass-text-sm glass-text-primary-opacity-70'>
+        <p className="glass-text-sm glass-text-primary-opacity-70">
           Monitor fidelity, phase correlation, and decoherence risk for
           entangled qubit pairs.
         </p>
       </header>
 
-      <div className='glass-grid glass-gap-4 lg:glass-grid-cols-2'>
+      <div className="glass-grid glass-gap-4 lg:glass-grid-cols-2">
         {normalizedPairs.map((pair) => {
           const state =
             pair.state ??
@@ -109,44 +109,44 @@ export function QuantumEntanglementVisualizer({
             >
               <div className="glass-flex glass-items-start glass-justify-between">
                 <div>
-                  <div className='glass-text-xs glass-uppercase glass-tracking-wide glass-text-primary-glass-opacity-60'>
+                  <div className="glass-text-xs glass-uppercase glass-tracking-wide glass-text-primary-glass-opacity-60">
                     Pair
                   </div>
-                  <div className='glass-text-lg glass-font-semibold glass-text-primary'>
+                  <div className="glass-text-lg glass-font-semibold glass-text-primary">
                     {pair.nodes[0]} ↔ {pair.nodes[1]}
                   </div>
                 </div>
-                <span className='glass-radius-full glass-px-3 glass-py-1 glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide'>
+                <span className="glass-radius-full glass-px-3 glass-py-1 glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide">
                   {state}
                 </span>
               </div>
 
-              <dl className='glass-mt-4 glass-grid glass-gap-3 glass-text-xs glass-text-primary-opacity-70'>
+              <dl className="glass-mt-4 glass-grid glass-gap-3 glass-text-xs glass-text-primary-opacity-70">
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <dt>Fidelity</dt>
-                  <dd className='glass-font-semibold glass-text-primary-glass-opacity-90'>
+                  <dd className="glass-font-semibold glass-text-primary-glass-opacity-90">
                     {(pair.fidelity * 100).toFixed(1)}%
                   </dd>
                 </div>
                 <div className="glass-flex glass-items-center glass-justify-between">
                   <dt>Phase correlation</dt>
-                  <dd className='glass-font-semibold glass-text-primary-glass-opacity-90'>
+                  <dd className="glass-font-semibold glass-text-primary-glass-opacity-90">
                     {(pair.phaseCorrelation * 100).toFixed(1)}%
                   </dd>
                 </div>
                 {typeof pair.latency === "number" && (
                   <div className="glass-flex glass-items-center glass-justify-between">
                     <dt>Latency</dt>
-                    <dd className='glass-font-semibold glass-text-primary-glass-opacity-80'>
+                    <dd className="glass-font-semibold glass-text-primary-glass-opacity-80">
                       {pair.latency.toFixed(1)} μs
                     </dd>
                   </div>
                 )}
               </dl>
 
-              <div className='glass-mt-4 glass-h-2 glass-w-full glass-overflow-hidden glass-radius-full glass-surface-subtle/10'>
+              <div className="glass-mt-4 glass-h-2 glass-w-full glass-overflow-hidden glass-radius-full glass-surface-subtle/10">
                 <div
-                  className='glass-h-full glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary'
+                  className="glass-h-full glass-radius-full glass-gradient-primary glass-gradient-primary glass-gradient-primary"
                   style={{ width: `${pair.fidelity * 100}%` }}
                 />
               </div>

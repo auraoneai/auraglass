@@ -520,7 +520,7 @@ function LiveCursorComponent({
               "absolute top-6 left-2 glass-px-2 glass-py-1 glass-text-xs glass-radius-md whitespace-nowrap",
               glassEffect
                 ? "glass-surface-primary glass-text-primary"
-                : "bg-black glass-text-primary"
+                : "bg-white/15 glass-text-primary"
             )}
             initial={{ opacity: 0, y: -10 }}
             animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}

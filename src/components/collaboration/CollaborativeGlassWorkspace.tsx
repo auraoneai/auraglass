@@ -1460,7 +1460,7 @@ function WorkspaceFloatingActions({
       {/* Main FAB */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="glass-w-14 glass-h-14 glass-radius-full glass-surface-overlay glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg glass-hover-bg-slate-600 glass-mt-2"
+        className="glass-w-14 glass-h-14 glass-radius-full glass-surface-overlay glass-text-primary glass-flex glass-items-center glass-justify-center glass-shadow-lg hover:bg-white/15 glass-mt-2"
         style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
         aria-label={
           isExpanded

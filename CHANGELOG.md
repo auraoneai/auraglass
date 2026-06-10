@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.4.4] - 2026-06-10
+
+### Fixed
+
+- Removed the remaining dark-slab styles that earlier sweeps missed because they used the slate/zinc palettes or gradient washes instead of black/gray utility classes: GlassCombobox dropdown (`bg-slate-950/95`), GlassQueryBuilder shell (`bg-slate-950/70`), GlassIntelligentFormBuilder rows (`bg-slate-950/45`), ARGlassEffects stage (solid `bg-slate-950`), CollaborativeGlassWorkspace hover (`slate-600`), GlassStyleTransfer inactive gradient (`gray-600/800`), GlassLiveCursorPresence label fallback, and the dark `slate-900/950` gradient washes on six visualization surfaces (MultiDimensionalGestureRecognizer, LivingEcosystemSimulator, MolecularBondingInterface, NeuromorphicLearningNetwork, NeuralWeightVisualization, QuantumEntanglementVisualizer) — all now render in the 3.4 white-frost token language, with intent hues kept as tinted glass.
+- Repaired a corrupted class list on GlassPrismComparison (triplicated `glass-gradient-primary` plus an orphaned `via-gray-900`).
+
+Intentionally still dark: recipe page canvases, media letterbox/hover scrims, WebGL particle stages, native form-control fallbacks, theme-preview swatches, and accessibility high-contrast modes.
+
 ## [3.4.3] - 2026-06-10
 
 ### Fixed

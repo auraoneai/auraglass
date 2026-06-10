@@ -525,7 +525,7 @@ export const GlassIntelligentFormBuilder: React.FC<
             {compactFields.map((field) => (
               <div
                 key={field.id}
-                className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+                className="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-white/8 glass-px-3 glass-py-2"
               >
                 <div className="glass-min-w-0">
                   <p className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">

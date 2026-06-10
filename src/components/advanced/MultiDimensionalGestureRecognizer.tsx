@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useCallback, useMemo, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -105,21 +105,21 @@ export function MultiDimensionalGestureRecognizer({
       aria-label="Multi-dimensional gesture recognizer"
       className={cn(
         "glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6",
-        "bg-gradient-to-br from-slate-950/80 via-indigo-950/40 to-slate-900/40",
+        "bg-gradient-to-br from-white/10 via-indigo-500/15 to-white/5",
         className
       )}
     >
       <header className="glass-flex glass-flex-wrap glass-items-center glass-justify-between glass-gap-4">
         <div>
-          <h2 className='glass-text-xl glass-font-semibold glass-text-primary'>
+          <h2 className="glass-text-xl glass-font-semibold glass-text-primary">
             Multi-dimensional Gesture Recognizer
           </h2>
-          <p className='glass-text-sm glass-text-primary-opacity-70'>
+          <p className="glass-text-sm glass-text-primary-opacity-70">
             Analyse six-axis motion patterns with adaptive sensitivity tuning.
           </p>
         </div>
         {showConfidence && activeGestureId && (
-          <span className='glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-glass-opacity-80'>
+          <span className="glass-radius-full glass-border glass-border-white/10 glass-surface-subtle/10 glass-px-3 glass-py-1 glass-text-xs glass-text-primary-glass-opacity-80">
             Active gesture:{" "}
             {summarizedGestures.find((g) => g.id === activeGestureId)?.name ??
               "—"}
@@ -127,7 +127,7 @@ export function MultiDimensionalGestureRecognizer({
         )}
       </header>
 
-      <div className='glass-grid glass-gap-4 lg:glass-grid-cols-3'>
+      <div className="glass-grid glass-gap-4 lg:glass-grid-cols-3">
         {summarizedGestures.map((gesture) => (
           <button
             key={gesture.id}
@@ -142,27 +142,27 @@ export function MultiDimensionalGestureRecognizer({
             )}
           >
             <div>
-              <h3 className='glass-text-lg glass-font-medium glass-text-primary'>
+              <h3 className="glass-text-lg glass-font-medium glass-text-primary">
                 {gesture.name}
               </h3>
-              <p className='glass-text-xs glass-text-primary-glass-opacity-60'>
+              <p className="glass-text-xs glass-text-primary-glass-opacity-60">
                 {gesture.description}
               </p>
             </div>
 
-            <dl className='glass-grid glass-gap-2 glass-text-xs glass-text-primary-opacity-70'>
+            <dl className="glass-grid glass-gap-2 glass-text-xs glass-text-primary-opacity-70">
               <div className="glass-flex glass-items-center glass-justify-between">
-                <dt className='glass-uppercase glass-tracking-wide'>Pattern</dt>
-                <dd className='glass-font-semibold glass-text-primary-opacity-85'>
+                <dt className="glass-uppercase glass-tracking-wide">Pattern</dt>
+                <dd className="glass-font-semibold glass-text-primary-opacity-85">
                   {gesture.pattern}
                 </dd>
               </div>
               {showConfidence && (
                 <div className="glass-flex glass-items-center glass-justify-between">
-                  <dt className='glass-uppercase glass-tracking-wide'>
+                  <dt className="glass-uppercase glass-tracking-wide">
                     Baseline confidence
                   </dt>
-                  <dd className='glass-font-semibold glass-text-primary'>
+                  <dd className="glass-font-semibold glass-text-primary">
                     {(
                       Math.min(
                         0.99,
@@ -175,25 +175,25 @@ export function MultiDimensionalGestureRecognizer({
               )}
             </dl>
 
-            <div className='glass-mt-auto glass-space-y-2'>
-              <div className='glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-50'>
+            <div className="glass-mt-auto glass-space-y-2">
+              <div className="glass-flex glass-items-center glass-justify-between glass-text-xs glass-text-primary-glass-opacity-50">
                 <span>Dimensional weights</span>
                 {!prefersReducedMotion && (
-                  <span className='glass-font-semibold glass-text-primary-opacity-70'>
+                  <span className="glass-font-semibold glass-text-primary-opacity-70">
                     {gesture.dimensions.length} axes
                   </span>
                 )}
               </div>
-              <ul className='glass-grid glass-gap-2 glass-text-xs glass-text-primary'>
+              <ul className="glass-grid glass-gap-2 glass-text-xs glass-text-primary">
                 {gesture.dimensions.map((dimension) => (
                   <li
                     key={`${gesture.id}-${dimension.axis}`}
                     className="glass-flex glass-items-center glass-justify-between glass-radius-xl glass-border glass-border-white/5 glass-surface-subtle/5 glass-px-3 glass-py-2"
                   >
-                    <span className='glass-font-medium glass-text-primary-opacity-85'>
+                    <span className="glass-font-medium glass-text-primary-opacity-85">
                       {dimensionLabel[dimension.axis]}
                     </span>
-                    <span className='glass-text-primary-glass-opacity-60'>
+                    <span className="glass-text-primary-glass-opacity-60">
                       Weight {(dimension.weight ?? 0.25).toFixed(2)} | Sens{" "}
                       {(dimension.sensitivity ?? 0.5).toFixed(2)}
                     </span>

@@ -7,7 +7,7 @@ exports[`GlassQueryBuilder matches snapshot 1`] = `
   role="group"
 >
   <div
-    class="glass-radius-xl glass-border glass-border-white/25 glass-bg-slate-950/70 glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard"
+    class="glass-radius-xl glass-border glass-border-white/25 glass-bg-white/10 glass-backdrop-blur-md glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard"
   >
     <div
       class="glass-flex glass-flex-wrap glass-items-center glass-gap-2"

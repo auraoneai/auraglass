@@ -50,7 +50,7 @@ export function ARGlassEffects(props: ARGlassEffectsProps) {
     return (
       <div
         className={cn(
-          "ar-glass-effects glass-foundation-complete glass-relative glass-flex glass-min-h-[480px] glass-items-center glass-justify-center glass-overflow-hidden glass-rounded-2xl glass-border glass-border-white/20 glass-bg-slate-950 glass-p-6 glass-text-white",
+          "ar-glass-effects glass-foundation-complete glass-relative glass-flex glass-min-h-[480px] glass-items-center glass-justify-center glass-overflow-hidden glass-rounded-2xl glass-border glass-border-white/20 glass-bg-white/5 glass-p-6 glass-text-white",
           className
         )}
       >

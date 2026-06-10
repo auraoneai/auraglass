@@ -93,7 +93,7 @@ export function NeuralWeightVisualization({
       aria-label="Neural weight visualization"
       className={cn(
         "glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6",
-        "bg-gradient-to-br from-slate-950/80 via-slate-900/60 to-slate-900/40",
+        "bg-gradient-to-br from-white/10 via-white/5 to-white/8",
         (compact || contained) && "glass-overflow-auto",
         className
       )}

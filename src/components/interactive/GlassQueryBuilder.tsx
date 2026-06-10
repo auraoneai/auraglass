@@ -166,7 +166,7 @@ export function GlassQueryBuilder({
   };
 
   const renderGroup = (group: RuleGroup, parent?: RuleGroup) => (
-    <div className="glass-radius-xl glass-border glass-border-white/25 glass-bg-slate-950/70 glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard">
+    <div className="glass-radius-xl glass-border glass-border-white/25 glass-bg-white/10 glass-backdrop-blur-md glass-p-3 glass-space-y-3 glass-text-white glass-contrast-guard">
       <div className="glass-flex glass-flex-wrap glass-items-center glass-gap-2">
         <GlassSelect
           value={group.combinator}

@@ -324,7 +324,7 @@ export function GlassPrismComparison({
     <section
       ref={sectionRef}
       className={cn(
-        "relative overflow-hidden glass-gradient-primary glass-gradient-primary via-gray-900 glass-gradient-primary cv-auto",
+        "relative overflow-hidden glass-gradient-primary cv-auto",
         isCompact ? "glass-py-4" : "glass-py-32",
         className
       )}

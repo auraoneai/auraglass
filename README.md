@@ -1,4 +1,4 @@
-# AuraGlass by AuraOne 3.4.3
+# AuraGlass by AuraOne 3.4.4
 
 [![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
 [![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)

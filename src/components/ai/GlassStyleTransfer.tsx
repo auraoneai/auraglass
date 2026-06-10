@@ -355,7 +355,7 @@ export const GlassStyleTransfer = forwardRef<
                     style.category === "artistic"
                       ? "from-red-400 to-blue-400"
                       : style.category === "photographic"
-                        ? "from-gray-600 to-gray-800"
+                        ? "from-white/15 to-white/5"
                         : style.category === "abstract"
                           ? "from-purple-400 to-pink-400"
                           : style.category === "vintage"

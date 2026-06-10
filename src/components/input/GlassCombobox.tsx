@@ -146,7 +146,7 @@ export const GlassCombobox = forwardRef<HTMLDivElement, GlassComboboxProps>(
           <div
             id={`${id}-listbox`}
             role="listbox"
-            className="glass-absolute glass-z-50 glass-mt-1 glass-max-h-72 glass-w-full glass-overflow-auto glass-rounded-lg glass-border glass-border-white/15 glass-bg-slate-950/95 glass-p-1 glass-shadow-xl"
+            className="glass-absolute glass-z-50 glass-mt-1 glass-max-h-72 glass-w-full glass-overflow-auto glass-rounded-lg glass-border glass-border-white/15 glass-bg-white/10 glass-backdrop-blur-lg glass-p-1 glass-shadow-xl"
           >
             {filteredOptions.length === 0 ? (
               <div className="glass-px-3 glass-py-2 glass-text-sm glass-text-secondary">

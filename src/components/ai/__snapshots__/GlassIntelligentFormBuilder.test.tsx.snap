@@ -51,7 +51,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
       class="glass-grid glass-grid-cols-1 glass-gap-2"
     >
       <div
-        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-white/8 glass-px-3 glass-py-2"
       >
         <div
           class="glass-min-w-0"
@@ -75,7 +75,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
         </span>
       </div>
       <div
-        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-white/8 glass-px-3 glass-py-2"
       >
         <div
           class="glass-min-w-0"
@@ -99,7 +99,7 @@ exports[`GlassIntelligentFormBuilder matches snapshot 1`] = `
         </span>
       </div>
       <div
-        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-slate-950/45 glass-px-3 glass-py-2"
+        class="glass-flex glass-items-center glass-justify-between glass-gap-3 glass-rounded-lg glass-border glass-border-subtle glass-bg-white/8 glass-px-3 glass-py-2"
       >
         <div
           class="glass-min-w-0"
