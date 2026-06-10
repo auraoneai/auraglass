@@ -372,6 +372,40 @@
     var(--glass-transition-duration) var(--glass-transition-timing);
   --glass-transition-easing: var(--glass-transition-timing);
 }
+/* Legacy --aura-* aliases referenced by charts/speed-dial/multiselect but
+   never emitted by the persona token generator */
+:root {
+  --aura-font-size-xs: var(--glass-font-size-xs);
+  --aura-font-size-sm: var(--glass-font-size-sm);
+  --aura-font-size-base: var(--glass-font-size-base);
+  --aura-font-size-lg: var(--glass-font-size-lg);
+  --aura-font-size-xl: var(--glass-font-size-xl);
+  --aura-font-family-sans: var(--aura-font-sans, system-ui, sans-serif);
+  --aura-motion-duration-medium: var(--glass-motion-duration-normal);
+  --aura-radius-2xl: var(--glass-radius-2xl);
+  --aura-shadow-elevation-1: var(--glass-elev-1);
+  --aura-shadow-elevation-2: var(--glass-elev-2);
+  --aura-shadow-elevation-3: var(--glass-elev-3);
+  --aura-shadow-elevation-4: var(--glass-elev-4);
+  --aura-shadow-elevation-sm: var(--glass-shadow-sm);
+  --aura-shadow-elevation-md: var(--glass-shadow-md);
+  --aura-shadow-elevation-lg: var(--glass-shadow-lg);
+  --aura-shadow-elevation-xl: var(--glass-shadow-xl);
+  --aura-color-glass-overlay: #0f172a;
+  --aura-color-global-text-inverse: #0f172a;
+  --aura-color-global-text-on-primary: #ffffff;
+  --aura-color-semantic-error: var(
+    --aura-color-semantic-danger,
+    hsl(var(--glass-color-danger))
+  );
+  --aura-color-surface-base: var(--aura-color-global-background-surface);
+  --aura-color-overlay-surface-strong: color-mix(
+    in srgb,
+    var(--aura-color-glass-overlay) 65%,
+    transparent
+  );
+}
+
 /* Aura Liquid Glass system tokens */
 :root {
   --liquid-glass-scroll-edge-soft-size: 32px;

@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.4.3] - 2026-06-10
+
+### Fixed
+
+- Library-wide CSS variable audit: defined `--glass-white`/`--glass-black` (209 fallback-less references — element shadows and tints that never rendered), the full `--glass-gray-50..900` neutral scale used by charts and theme-aware tooltips, solid `--glass-color-secondary`/`--glass-color-accent`/`--glass-color-*-light`/`--glass-color-danger-dark`/`--glass-color-error`, missing opacity (55/75), radius (`xs`), and easing alias tokens, plus legacy `--aura-*` aliases (font sizes, shadow elevations, overlay and surface colors) referenced by charts, speed dial, and multi-select but never emitted by the persona generator.
+- Wrapped ~375 raw consumptions of HSL channel tokens (`var(--glass-color-primary|success|warning|danger|info)` used directly as colors, in `rgba()`, or as `color-mix()` inputs) in `hsl()` across 97 files; converted `color-mix()` weights from number opacity vars to valid percentages.
+- Synced `src/styles/tokens.css` blur scale to the 3.4 canonical 16/24/32/40/48px values (was still 4-32px) and added the missing `.glass-backdrop-blur-md`/`-xl`/`-2xl` utility classes (used 185x but undefined, so those surfaces rendered with no blur); removed a duplicate `.glass-backdrop-blur-sm` rule that overrode the small blur with the XL value; registered the new utilities in the reduced-transparency, forced-colors, and no-backdrop-support fallback blocks.
+- Converted the last dark-slab and opaque light-theme component styles to the 3.4 white-frost token language: GlassToggle, GlassSelectCompound dropdown, GlassPagination, GlassContextMenu, GlassMenuPrimitive, GlassSidebar badge, GlassToast actions, GlassHoverCard arrows, GlassCarousel dots, ToggleButton, GlassDevTools, the CMS suite (GlassPageBuilder/GlassCanvas/GlassComponentPalette/GlassPageStructure/GlassPropertyPanel), HoudiniGlassCard, GlassA11y, GlassProductRecommendations, GlassSmartShoppingCart, GlassIntelligentFormBuilder, GlassFab, GlassStepIcon, GlassNavigation, GlassAchievementSystem.
+- Reduced the over-frosted GlassSidebar collapse-toggle hover state from `bg-white/65` to `bg-white/15`.
+- `useGlassFocus` no longer lets explicitly-undefined options clobber its defaults, fixing the `--glass-focus-offset: undefinedpx` inline style emitted by `GlassFocusRing`.
+- Aligned the Storybook utility shim backdrop filters with the unified `saturate(1.8) brightness(1.05) contrast(1.05)` filter (previously `saturate(2)`/`saturate(2.2)`).
+
 ## [3.4.2] - 2026-06-10
 
 ### Fixed
