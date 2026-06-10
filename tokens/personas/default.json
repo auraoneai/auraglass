@@ -254,7 +254,7 @@
     "surfaces": {
       "neutral": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)",
             "overlay": "rgba(255,255,255,0.08)"
@@ -279,7 +279,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(148,163,184,0.15) 100%)"
           },
@@ -308,7 +308,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%)"
           },
@@ -337,7 +337,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.10) 100%)"
           },
@@ -366,7 +366,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.12) 100%)"
           },
@@ -397,7 +397,7 @@
       },
       "primary": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.3) 0%, hsl(var(--glass-color-primary)/0.22) 100%)"
           },
@@ -421,7 +421,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.4) 0%, hsl(var(--glass-color-primary)/0.28) 100%)"
           },
@@ -450,7 +450,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.48) 0%, hsl(var(--glass-color-primary)/0.34) 100%)"
           },
@@ -479,7 +479,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.56) 0%, hsl(var(--glass-color-primary)/0.4) 100%)"
           },
@@ -508,7 +508,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, hsl(var(--glass-color-primary)/0.64) 0%, hsl(var(--glass-color-primary)/0.45) 100%)"
           },
@@ -539,7 +539,7 @@
       },
       "success": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(34,197,94,0.25) 0%, rgba(22,163,74,0.18) 100%)"
           },
@@ -563,7 +563,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(34,197,94,0.32) 0%, rgba(22,163,74,0.24) 100%)"
           },
@@ -592,7 +592,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(34,197,94,0.4) 0%, rgba(22,163,74,0.28) 100%)"
           },
@@ -621,7 +621,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(34,197,94,0.48) 0%, rgba(22,163,74,0.34) 100%)"
           },
@@ -650,7 +650,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(34,197,94,0.56) 0%, rgba(22,163,74,0.4) 100%)"
           },
@@ -681,7 +681,7 @@
       },
       "warning": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(245,158,11,0.28) 0%, rgba(254,215,88,0.18) 100%)"
           },
@@ -705,7 +705,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(245,158,11,0.35) 0%, rgba(254,215,88,0.24) 100%)"
           },
@@ -734,7 +734,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(245,158,11,0.44) 0%, rgba(254,215,88,0.3) 100%)"
           },
@@ -763,7 +763,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(245,158,11,0.52) 0%, rgba(254,215,88,0.36) 100%)"
           },
@@ -792,7 +792,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(245,158,11,0.6) 0%, rgba(254,215,88,0.42) 100%)"
           },
@@ -823,7 +823,7 @@
       },
       "danger": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(239,68,68,0.28) 0%, rgba(248,113,113,0.18) 100%)"
           },
@@ -847,7 +847,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(239,68,68,0.36) 0%, rgba(248,113,113,0.24) 100%)"
           },
@@ -876,7 +876,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(239,68,68,0.44) 0%, rgba(248,113,113,0.3) 100%)"
           },
@@ -905,7 +905,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(239,68,68,0.52) 0%, rgba(248,113,113,0.36) 100%)"
           },
@@ -934,7 +934,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(239,68,68,0.6) 0%, rgba(248,113,113,0.42) 100%)"
           },
@@ -965,7 +965,7 @@
       },
       "info": {
         "level1": {
-          "backdropBlur": { "px": 8 },
+          "backdropBlur": { "px": 16 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(14,165,233,0.28) 0%, rgba(56,189,248,0.18) 100%)"
           },
@@ -989,7 +989,7 @@
           }
         },
         "level2": {
-          "backdropBlur": { "px": 12 },
+          "backdropBlur": { "px": 24 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(14,165,233,0.36) 0%, rgba(56,189,248,0.24) 100%)"
           },
@@ -1018,7 +1018,7 @@
           }
         },
         "level3": {
-          "backdropBlur": { "px": 16 },
+          "backdropBlur": { "px": 32 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(14,165,233,0.44) 0%, rgba(56,189,248,0.3) 100%)"
           },
@@ -1047,7 +1047,7 @@
           }
         },
         "level4": {
-          "backdropBlur": { "px": 20 },
+          "backdropBlur": { "px": 40 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(14,165,233,0.52) 0%, rgba(56,189,248,0.36) 100%)"
           },
@@ -1076,7 +1076,7 @@
           }
         },
         "level5": {
-          "backdropBlur": { "px": 24 },
+          "backdropBlur": { "px": 48 },
           "surface": {
             "base": "linear-gradient(135deg, rgba(14,165,233,0.6) 0%, rgba(56,189,248,0.42) 100%)"
           },

@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.1] - 2026-06-10
+
+### Fixed
+
+- Synced the persona token source (`tokens/personas/default.json`) to the 3.4 blur scale: all 30 `backdropBlur` entries raised from 8/12/16/20/24px to 16/24/32/40/48px. In 3.4.0 the `--aura-glass-<intent>-<level>-backdrop-blur` theme variables in `variables.css` were regenerated from the stale persona source during the publish build, shipping the old blur scale to themed consumers (charts, multi-select, speed dial) while core `--glass-*` surfaces used the new scale.
+
 ## [3.4.0] - 2026-06-10
 
 ### Changed

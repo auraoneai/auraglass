@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "AuraGlass by AuraOne: dependency-sovereign Liquid Glass app-surface system for React and Next.js.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
