@@ -40,21 +40,22 @@ const toDateInput = (date: unknown): DateInput => {
   return new Date(NaN);
 };
 
+const loadOptionalDateLibrary = (packageName: string): any => {
+  try {
+    return require(packageName);
+  } catch (error) {
+    throw new Error(
+      `${packageName} is not installed. Please install it: npm install ${packageName}`
+    );
+  }
+};
+
 /**
  * Create date-fns adapter
  * Requires date-fns to be installed: npm install date-fns
  */
 export const createDateFnsAdapter = (): DateAdapter => {
-  let dateFns: any;
-
-  try {
-    // Dynamic import to avoid bundling if not used
-    dateFns = require("date-fns");
-  } catch (e) {
-    throw new Error(
-      "date-fns is not installed. Please install it: npm install date-fns"
-    );
-  }
+  const dateFns = loadOptionalDateLibrary("date-fns");
 
   return {
     format: (date: Date | number | string, formatStr: string): string => {
@@ -137,15 +138,7 @@ export const createDateFnsAdapter = (): DateAdapter => {
  * Requires dayjs to be installed: npm install dayjs
  */
 export const createDayJsAdapter = (): DateAdapter => {
-  let dayjs: any;
-
-  try {
-    dayjs = require("dayjs");
-  } catch (e) {
-    throw new Error(
-      "dayjs is not installed. Please install it: npm install dayjs"
-    );
-  }
+  const dayjs = loadOptionalDateLibrary("dayjs");
 
   return {
     format: (date: Date | number | string, formatStr: string): string => {

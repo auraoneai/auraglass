@@ -230,17 +230,17 @@ export const SpecularParallax: Story = {
 export const IconOnly: Story = {
   render: (args) => (
     <div className="glass-flex glass-flex-wrap glass-gap-4">
-      <GlassButton {...args} iconOnly>
+      <GlassButton {...args} iconOnly aria-label="Add item">
         <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       </GlassButton>
-      <GlassButton {...args} iconOnly variant="secondary">
+      <GlassButton {...args} iconOnly variant="secondary" aria-label="View details">
         <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       </GlassButton>
-      <GlassButton {...args} iconOnly variant="destructive" size="sm">
+      <GlassButton {...args} iconOnly variant="destructive" size="sm" aria-label="Close item">
         <svg className="glass-w-4 glass-h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>

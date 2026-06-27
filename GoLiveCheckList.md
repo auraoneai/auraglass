@@ -1,8 +1,34 @@
 # AuraGlass Go-Live Checklist
 
+## 2026-06-16 Code-Level Final Status
+
+Current code-level score: **100 / 100**.
+
+Repo-local implementation for the audited launch scope is complete. Remaining unchecked work in this checklist is external/proof/live-readiness only: production credentials, provider approvals, deployment/live-smoke evidence, manual accessibility or device certification, customer/legal/business sign-off, or post-launch evidence. Older normalized scores below are historical combined launch-readiness scores and are superseded for code-level completion by this section.
+
+## 2026-06-14 Platform Audit Update
+
+Current normalized completion score: **97 / 100**.
+
+AuraGlass is scored as a public library/package. The newer 3.3 release evidence keeps it near complete: package, exports, Storybook/docs, automated tests, hosted-runtime contracts, Docker/Compose smoke, docs link checks, release dry run, and npm publication evidence exist. Remaining blockers are manual screen-reader certification, physical mobile/touch certification, optional hosted docs/runtime deployment proof, Sentry/runtime configuration if hosted, and GitHub release/tag review.
+
 Audit date: 2026-05-28
 Recalculation update: 2026-06-02
 3.3 release update: 2026-06-05
+
+## 2026-06-16 Repo-Local Evidence Refresh
+
+Current normalized completion score remains **97 / 100**.
+
+Repo-local package evidence was refreshed without changing the release scope. `npm pack --dry-run --json --ignore-scripts` exited 0 for `aura-glass@3.4.4`; npm reported `entryCount: 2379`, `size: 8925743`, `unpackedSize: 47287127`, and package files limited to the configured public package surface such as `LICENSE`, `README.md`, `bin/`, `dist/`, `workers/`, and `package.json`. No `server/` source directory or `server/api-server.js` runtime source was listed in the dry-run package contents. The command printed the existing deprecated Husky `prepare` warning, but no package-content failure.
+
+No remaining AuraGlass repo-local code task was found that can complete the manual screen-reader or physical touch certification rows. Those remain external human/device certification gates and are intentionally left unchecked.
+
+## 2026-06-16 Worker A Code-Level Verification
+
+Worker A rechecked the current worktree against the checklist, package scripts, PRD/readiness evidence, and source TODO/mock/demo/placeholder hits. One internal code issue was fixed: `GlassButton` and `GlassFab` no longer leave `eyeTracking`/`gazeResponsive` behavior as commented no-op handlers. They now register their DOM regions with the existing `GlassEyeTracking` engine and update gaze hover/audio/achievement behavior from active interactions.
+
+Post-fix verification passed: `npm run typecheck`, `npm run lint:ci`, `npm test -- src/components/button/GlassButton.test.tsx src/components/button/GlassFab.test.tsx --runInBand`, and `npm run build`. Earlier in this pass, the intended full `npm test` command passed all 432 suites / 2373 tests, and `npm pack --dry-run --json --ignore-scripts` exited 0 for the configured package surface. Remaining unchecked rows are external/proof-only: manual screen-reader certification, physical device/touch certification, optional hosted docs deployment, Sentry/live hosted-runtime configuration, GitHub release/tag permissions, and provider credential proof.
 
 ## Verdict
 
@@ -15,6 +41,8 @@ AuraGlass is a public library/package and should be judged primarily on package,
 This score is weighted toward remaining package/library code, not hosted demo-server behavior. AuraGlass is strong as a public component/library product: package artifacts, docs, Storybook, build scripts, tests, visual/a11y automation, and runtime cleanliness evidence are present. The remaining code-side gap is mostly package-release verification, export/content polish, and any accessibility fixes discovered during manual certification. Demo/mock hosted server behavior is treated as optional unless AuraGlass is later launched as a hosted API product.
 
 2026-06-05 recalculation: score raised to 97 for the package/library launch scope after the 3.3 release gate, hosted-runtime contract suite, deployment smoke tests, Docker Compose smoke, docs link check, release dry-run, and public npm publish passed. The score is not 100 because manual screen-reader and physical phone/tablet touch certification are still unrecorded.
+
+2026-06-15 refresh: score held at 97 after the 3.4.4 package-gate rerun and release-scope review. `npm run release:dry-run`, visual accessibility checks, Storybook build, pack inspection, and rollback/deprecation documentation are recorded locally. `reports/3.4.4-release-notes-review.md` confirms the checked-in release notes keep the supported scope to the library/package plus optional self-hosted runtime contracts, without claiming hosted docs deployment, live hosted provider/Sentry proof, manual accessibility certification, or physical-device certification.
 
 ## Evidence Reviewed
 
@@ -62,7 +90,7 @@ This score is weighted toward remaining package/library code, not hosted demo-se
 - [x] Maintain npm/package release workflow and GitHub release/tag workflow.
 - [ ] Deploy docs/Storybook if they are part of the public release surface.
 - [ ] Configure Sentry DSN and release metadata for any live hosted-runtime deployment.
-- [ ] Establish rollback/deprecation procedure for bad npm releases.
+- [x] Establish rollback/deprecation procedure for bad npm releases. See `docs/release-rollback-deprecation.md`.
 - [ ] If a hosted demo/API server is later included in launch scope, provision Redis, API host, WebSocket host, TLS, reverse proxy, health checks, logging, and real provider-backed routes.
 
 ## Third-Party Environments Required
@@ -107,7 +135,7 @@ This score is weighted toward remaining package/library code, not hosted demo-se
 
 - [x] None required for npm package release.
 - [x] npm package publish dry run reviewed before public publish.
-- [ ] GitHub release notes reviewed before tagging.
+- [x] GitHub release notes reviewed before tagging. See `reports/3.4.4-release-notes-review.md`; final tagging/publishing approval remains external.
 
 ### Live Smoke Evidence Required
 

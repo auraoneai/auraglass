@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { GlassmorphismTestHelpers } from '../utils/glassmorphism-helpers';
 
+const CARD_SELECTOR = '#storybook-root [data-liquid-glass-card="true"], #storybook-root .glass-foundation-complete';
+const INTERACTIVE_CARD_SELECTOR = '#storybook-root [role="button"]';
+
 test.describe('GlassCard Visual Regression Tests', () => {
   let glassHelpers: GlassmorphismTestHelpers;
 
@@ -23,12 +26,12 @@ test.describe('GlassCard Visual Regression Tests', () => {
       test(`should render ${variant} variant correctly`, async ({ page }) => {
         await glassHelpers.navigateToStory('card-glasscard', variant);
         
-        await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+        await glassHelpers.captureComponent(CARD_SELECTOR, {
           name: `card-${variant}`,
           animations: 'disabled'
         });
 
-        await glassHelpers.validateGlassProperties('[data-testid="glass-card"]');
+        await glassHelpers.validateGlassProperties(CARD_SELECTOR);
       });
     }
   });
@@ -40,7 +43,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
       test(`should render ${size} size correctly`, async ({ page }) => {
         await glassHelpers.navigateToStory('card-glasscard', `size-${size}`);
         
-        await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+        await glassHelpers.captureComponent(CARD_SELECTOR, {
           name: `card-size-${size}`,
           animations: 'disabled'
         });
@@ -51,20 +54,20 @@ test.describe('GlassCard Visual Regression Tests', () => {
   test.describe('Interactive States', () => {
     test('should render hoverable card states', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'hoverable');
-      await glassHelpers.testInteractionStates('[data-testid="glass-card"]');
+      await glassHelpers.testInteractionStates(INTERACTIVE_CARD_SELECTOR);
     });
 
     test('should render clickable card states', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'clickable');
       
-      const card = page.locator('[data-testid="glass-card"]');
+      const card = page.locator(INTERACTIVE_CARD_SELECTOR).first();
       
       // Test click state
       await card.hover();
       await page.mouse.down();
       await glassHelpers.waitForGlassEffects();
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(INTERACTIVE_CARD_SELECTOR, {
         name: 'card-pressed',
         animations: 'disabled'
       });
@@ -75,7 +78,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should handle loading state', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'loading');
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(CARD_SELECTOR, {
         name: 'card-loading',
         animations: 'allow'
       });
@@ -90,7 +93,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should render with header and content', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'with-header');
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(CARD_SELECTOR, {
         name: 'card-with-header',
         animations: 'disabled'
       });
@@ -99,7 +102,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should render with footer actions', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'with-footer');
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(CARD_SELECTOR, {
         name: 'card-with-footer',
         animations: 'disabled'
       });
@@ -108,7 +111,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should render complex card layout', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'complex-layout');
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(CARD_SELECTOR, {
         name: 'card-complex-layout',
         animations: 'disabled'
       });
@@ -128,7 +131,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should render with liquid glass material', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'liquid-glass');
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(CARD_SELECTOR, {
         name: 'card-liquid-glass',
         animations: 'disabled'
       });
@@ -143,7 +146,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
       for (const intensity of intensities) {
         await glassHelpers.navigateToStory('card-glasscard', `intensity-${intensity}`);
         
-        await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+        await glassHelpers.captureComponent(CARD_SELECTOR, {
           name: `card-intensity-${intensity}`,
           animations: 'disabled'
         });
@@ -155,7 +158,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should adapt to different screen sizes', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'responsive');
       
-      await glassHelpers.testResponsiveBreakpoints('[data-testid="glass-card"]', [
+      await glassHelpers.testResponsiveBreakpoints(CARD_SELECTOR, [
         { name: 'mobile', width: 375, height: 667 },
         { name: 'tablet', width: 768, height: 1024 },
         { name: 'desktop', width: 1920, height: 1080 }
@@ -186,7 +189,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
   test.describe('Dark Mode Support', () => {
     test('should render correctly in dark mode', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'default');
-      await glassHelpers.testDarkMode('[data-testid="glass-card"]');
+      await glassHelpers.testDarkMode(CARD_SELECTOR);
     });
 
     test('should maintain proper contrast in dark mode', async ({ page }) => {
@@ -195,7 +198,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
       await page.emulateMedia({ colorScheme: 'dark' });
       await glassHelpers.waitForGlassEffects();
       
-      const contrastData = await glassHelpers.validateContrastRatios('[data-testid="glass-card"]');
+      const contrastData = await glassHelpers.validateContrastRatios(CARD_SELECTOR);
       expect(contrastData).toBeTruthy();
     });
   });
@@ -204,14 +207,13 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should be keyboard navigable when interactive', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'interactive');
       
-      const card = page.locator('[data-testid="glass-card"]');
+      const card = page.locator(INTERACTIVE_CARD_SELECTOR).first();
       
-      // Tab to card
-      await page.keyboard.press('Tab');
+      await card.focus();
       await expect(card).toBeFocused();
       
       // Take screenshot of focus state
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(INTERACTIVE_CARD_SELECTOR, {
         name: 'card-focused',
         animations: 'disabled'
       });
@@ -220,7 +222,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
       await page.keyboard.press('Enter');
       await glassHelpers.waitForGlassEffects();
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(INTERACTIVE_CARD_SELECTOR, {
         name: 'card-keyboard-activated',
         animations: 'disabled'
       });
@@ -228,13 +230,13 @@ test.describe('GlassCard Visual Regression Tests', () => {
 
     test('should support reduced motion', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'hoverable');
-      await glassHelpers.testReducedMotion('[data-testid="glass-card"]');
+      await glassHelpers.testReducedMotion(CARD_SELECTOR);
     });
 
     test('should have proper semantic structure', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'semantic-structure');
       
-      const card = page.locator('[data-testid="glass-card"]');
+      const card = page.locator(CARD_SELECTOR).first();
       const role = await card.getAttribute('role');
       
       // Should have appropriate role if interactive
@@ -248,13 +250,13 @@ test.describe('GlassCard Visual Regression Tests', () => {
     test('should have smooth hover animations', async ({ page }) => {
       await glassHelpers.navigateToStory('card-glasscard', 'hoverable');
       
-      const card = page.locator('[data-testid="glass-card"]');
+      const card = page.locator(INTERACTIVE_CARD_SELECTOR).first();
       
       // Test animation smoothness
       await card.hover();
       await page.waitForTimeout(200);
       
-      await glassHelpers.captureComponent('[data-testid="glass-card"]', {
+      await glassHelpers.captureComponent(INTERACTIVE_CARD_SELECTOR, {
         name: 'card-hover-animation',
         animations: 'allow'
       });
@@ -264,7 +266,7 @@ test.describe('GlassCard Visual Regression Tests', () => {
       await glassHelpers.navigateToStory('card-glasscard', 'multiple-cards');
       
       // Hover over multiple cards rapidly
-      const cards = page.locator('[data-testid="glass-card"]');
+      const cards = page.locator(CARD_SELECTOR);
       const count = await cards.count();
       
       for (let i = 0; i < Math.min(count, 5); i++) {

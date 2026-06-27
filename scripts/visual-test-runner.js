@@ -25,6 +25,9 @@ class VisualTestRunner {
       retries: options.retries || 2,
       ...options
     };
+    if (this.options.grep && /accessibility|a11y/i.test(this.options.grep)) {
+      this.options.parallel = false;
+    }
     
     this.storybookProcess = null;
     this.testResults = {
@@ -34,6 +37,7 @@ class VisualTestRunner {
       skipped: 0,
       differences: []
     };
+    this.hasResultsFile = false;
   }
 
   async run() {
@@ -150,7 +154,7 @@ class VisualTestRunner {
     console.log('🧪 Running visual regression tests...');
     
     const playwrightConfig = 'playwright.config.ts';
-    const baseCommand = `npx playwright test --config=${playwrightConfig}`;
+    const baseCommand = `npx playwright test tests/visual --config=${playwrightConfig}`;
     
     let command = baseCommand;
     
@@ -180,9 +184,9 @@ class VisualTestRunner {
       command += ' --workers=1';
     }
     
-    // Add headless mode
-    if (this.options.headless) {
-      command += ' --headed=false';
+    // Playwright runs headless by default; only add the headed flag when requested.
+    if (!this.options.headless) {
+      command += ' --headed';
     }
     
     console.log(`🏃‍♂️ Executing: ${command}\n`);
@@ -191,12 +195,20 @@ class VisualTestRunner {
       const output = await this.execCommand(command, { stdio: 'inherit' });
       console.log('\n✅ Visual tests completed successfully');
       await this.parseTestResults();
+      if (!this.hasResultsFile) {
+        throw new Error('Playwright completed without writing test-results/results.json');
+      }
     } catch (error) {
       console.log('\n⚠️ Some visual tests failed or found differences');
       await this.parseTestResults();
       
-      if (!this.options.updateBaselines && this.testResults.failed > 0) {
-        throw new Error(`Visual regression detected: ${this.testResults.failed} tests failed`);
+      if (!this.options.updateBaselines) {
+        if (!this.hasResultsFile) {
+          throw new Error(`Visual test command failed before producing results: ${error.message}`);
+        }
+        if (this.testResults.failed > 0) {
+          throw new Error(`Visual regression detected: ${this.testResults.failed} tests failed`);
+        }
       }
     }
   }
@@ -208,6 +220,7 @@ class VisualTestRunner {
       const resultsPath = path.join('test-results', 'results.json');
       
       if (fs.existsSync(resultsPath)) {
+        this.hasResultsFile = true;
         const results = JSON.parse(fs.readFileSync(resultsPath, 'utf8'));
         
         this.testResults = {
@@ -230,6 +243,7 @@ class VisualTestRunner {
         console.log(`   Visual Differences: ${this.testResults.differences.length}`);
         
       } else {
+        this.hasResultsFile = false;
         console.log('⚠️ No test results file found');
       }
     } catch (error) {

@@ -20,11 +20,29 @@ function contrast(c1: [number, number, number], c2: [number, number, number]) {
   return (light + 0.05) / (dark + 0.05);
 }
 
+function composite([r, g, b, a]: [number, number, number, number], base: [number, number, number]): [number, number, number] {
+  return [
+    Math.round(r * a + base[0] * (1 - a)),
+    Math.round(g * a + base[1] * (1 - a)),
+    Math.round(b * a + base[2] * (1 - a)),
+  ];
+}
+
 async function getTokenColors(page: any, colorVarText: string, bgVarText: string) {
   return await page.evaluate(({ colorVarText, bgVarText }) => {
     const style = getComputedStyle(document.documentElement);
-    const color = style.getPropertyValue(colorVarText).trim();
-    const bg = style.getPropertyValue(bgVarText).trim();
+    const resolveColor = (value: string, property: 'color' | 'backgroundColor') => {
+      const probe = document.createElement('div');
+      probe.style[property] = value;
+      document.body.appendChild(probe);
+      const resolved = getComputedStyle(probe)[property];
+      probe.remove();
+      return resolved;
+    };
+    const colorToken = style.getPropertyValue(colorVarText).trim();
+    const bgToken = style.getPropertyValue(bgVarText).trim();
+    const color = resolveColor(colorToken, 'color');
+    const bg = resolveColor(bgToken, 'backgroundColor');
     return { color, bg };
   }, { colorVarText, bgVarText });
 }
@@ -36,17 +54,25 @@ test.describe('WCAG Contrast Tokens', () => {
   ];
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/iframe.html?id=data-visualization-typography--default&viewMode=story');
   });
 
   for (const mode of ['light', 'dark'] as const) {
     test(`tokens meet AA in ${mode} mode`, async ({ page }) => {
       if (mode === 'dark') {
         await page.emulateMedia({ colorScheme: 'dark' });
-        await page.evaluate(() => document.documentElement.classList.add('dark'));
+        await page.evaluate(() => {
+          document.documentElement.dataset.theme = 'dark';
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+        });
       } else {
         await page.emulateMedia({ colorScheme: 'light' });
-        await page.evaluate(() => document.documentElement.classList.remove('dark'));
+        await page.evaluate(() => {
+          document.documentElement.dataset.theme = 'light';
+          document.documentElement.classList.add('light');
+          document.documentElement.classList.remove('dark');
+        });
       }
 
       for (const { color, bg, min } of pairs) {
@@ -56,12 +82,13 @@ test.describe('WCAG Contrast Tokens', () => {
         expect(pc, `${color} must be rgba`).toBeTruthy();
         expect(pb, `${bg} must be rgba`).toBeTruthy();
         if (pc && pb) {
-          // Ignore alpha; approximate on RGB
-          const ratio = contrast([pc[0], pc[1], pc[2]], [pb[0], pb[1], pb[2]]);
+          const canvas: [number, number, number] = mode === 'dark' ? [0, 0, 0] : [255, 255, 255];
+          const effectiveBg = composite(pb, canvas);
+          const effectiveText = composite(pc, effectiveBg);
+          const ratio = contrast(effectiveText, effectiveBg);
           expect(ratio).toBeGreaterThanOrEqual(min);
         }
       }
     });
   }
 });
-

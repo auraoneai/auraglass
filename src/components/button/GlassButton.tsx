@@ -378,9 +378,44 @@ export const GlassButton = forwardRef(function GlassButton(
     return () => clearInterval(interval);
   }, [biometricResponsive, biometricAdapter, size]);
 
+  // Eye tracking region registration
+  useEffect(() => {
+    if (!gazeResponsive || !eyeTracker || !buttonRef.current) return;
+
+    const engine = eyeTracker.engine;
+    if (!engine) return;
+
+    const element = buttonRef.current;
+    const registerRegion = () => {
+      const rect = element.getBoundingClientRect();
+      engine.registerRegion({
+        id: componentId,
+        x: rect.left,
+        y: rect.top,
+        width: rect.width,
+        height: rect.height,
+        element,
+      });
+    };
+
+    registerRegion();
+    window.addEventListener("resize", registerRegion);
+    window.addEventListener("scroll", registerRegion, true);
+
+    return () => {
+      window.removeEventListener("resize", registerRegion);
+      window.removeEventListener("scroll", registerRegion, true);
+      engine.unregisterRegion(componentId);
+    };
+  }, [gazeResponsive, eyeTracker, componentId]);
+
   // Eye tracking effects
   useEffect(() => {
     if (!gazeResponsive || !eyeTracker || !buttonRef.current) return;
+
+    const isGazed = eyeTracker.activeInteractions.some(
+      (interaction: any) => interaction.region.id === componentId
+    );
 
     const handleGazeEnter = () => {
       if (!disabled && !loading) {
@@ -412,19 +447,16 @@ export const GlassButton = forwardRef(function GlassButton(
       }
     };
 
-    // Eye tracking methods not available in current implementation
-    // eyeTracker.onGazeEnter(buttonRef.current, handleGazeEnter);
-    // eyeTracker.onGazeExit(buttonRef.current, handleGazeExit);
-
-    return () => {
-      if (buttonRef.current) {
-        // eyeTracker.offGazeEnter(buttonRef.current, handleGazeEnter);
-        // eyeTracker.offGazeExit(buttonRef.current, handleGazeExit);
-      }
-    };
+    if (isGazed) {
+      handleGazeEnter();
+    } else if (isHovered) {
+      handleGazeExit();
+    }
   }, [
     gazeResponsive,
     eyeTracker,
+    eyeTracker?.activeInteractions,
+    componentId,
     disabled,
     loading,
     spatialAudioEngine,
@@ -434,6 +466,7 @@ export const GlassButton = forwardRef(function GlassButton(
     variant,
     usageContext,
     children,
+    isHovered,
   ]);
 
   // Predictive action detection

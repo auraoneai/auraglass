@@ -243,7 +243,7 @@ test.describe('GlassButton Visual Regression Tests', () => {
     test('should render focus states correctly', async ({ page }) => {
       await glassHelpers.navigateToStory('button-glassbutton', 'default');
       
-      const button = page.locator('button');
+      const button = page.locator('#storybook-root button').first();
       
       // Focus the button
       await button.focus();
@@ -252,7 +252,7 @@ test.describe('GlassButton Visual Regression Tests', () => {
       // Check for focus ring
       await expect(button).toBeFocused();
       
-      await glassHelpers.captureComponent('button', {
+      await glassHelpers.captureComponent('#storybook-root button', {
         name: 'button-focus-state',
         animations: 'disabled'
       });
@@ -272,13 +272,13 @@ test.describe('GlassButton Visual Regression Tests', () => {
 
     test('should support reduced motion', async ({ page }) => {
       await glassHelpers.navigateToStory('button-glassbutton', 'default');
-      await glassHelpers.testReducedMotion('button');
+      await glassHelpers.testReducedMotion('#storybook-root button');
     });
 
     test('should have proper ARIA attributes', async ({ page }) => {
       await glassHelpers.navigateToStory('button-glassbutton', 'with-aria-label');
       
-      const button = page.locator('button');
+      const button = page.locator('#storybook-root button').first();
       
       // Check for essential accessibility attributes
       const ariaLabel = await button.getAttribute('aria-label');

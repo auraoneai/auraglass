@@ -435,9 +435,44 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
       }
     }, [isVisible]);
 
+    // Eye tracking region registration
+    useEffect(() => {
+      if (!gazeResponsive || !eyeTracker || !fabRef.current) return;
+
+      const engine = eyeTracker.engine;
+      if (!engine) return;
+
+      const element = fabRef.current;
+      const registerRegion = () => {
+        const rect = element.getBoundingClientRect();
+        engine.registerRegion({
+          id: componentId,
+          x: rect.left,
+          y: rect.top,
+          width: rect.width,
+          height: rect.height,
+          element,
+        });
+      };
+
+      registerRegion();
+      window.addEventListener("resize", registerRegion);
+      window.addEventListener("scroll", registerRegion, true);
+
+      return () => {
+        window.removeEventListener("resize", registerRegion);
+        window.removeEventListener("scroll", registerRegion, true);
+        engine.unregisterRegion(componentId);
+      };
+    }, [gazeResponsive, eyeTracker, componentId]);
+
     // Eye tracking effects
     useEffect(() => {
       if (!gazeResponsive || !eyeTracker || !fabRef.current) return;
+
+      const isGazed = eyeTracker.activeInteractions.some(
+        (interaction: any) => interaction.region.id === componentId
+      );
 
       const handleGazeEnter = () => {
         if (!disabled) {
@@ -457,23 +492,20 @@ export const Fab = forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(
         setIsHovered(false);
       };
 
-      // Note: Eye tracking event handlers not yet implemented
-      // eyeTracker.onGazeEnter?.(fabRef.current, handleGazeEnter);
-      // eyeTracker.onGazeLeave?.(fabRef.current, handleGazeExit);
-
-      return () => {
-        // Note: Eye tracking cleanup not yet implemented
-        // if (fabRef.current) {
-        //   eyeTracker.offGazeEnter?.(fabRef.current, handleGazeEnter);
-        //   eyeTracker.offGazeLeave?.(fabRef.current, handleGazeExit);
-        // }
-      };
+      if (isGazed) {
+        handleGazeEnter();
+      } else if (isHovered) {
+        handleGazeExit();
+      }
     }, [
       gazeResponsive,
       eyeTracker,
+      eyeTracker?.activeInteractions,
+      componentId,
       disabled,
       spatialAudioEngine,
       audioFeedback,
+      isHovered,
     ]);
 
     // Enhanced interaction tracking

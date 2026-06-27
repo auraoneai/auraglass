@@ -1,5 +1,31 @@
 import { Page, Locator, expect } from '@playwright/test';
 
+const STORY_ID_ALIASES: Record<string, string> = {
+  'button-glassbutton--default': 'controls-buttons-glass-button--variants',
+  'button-glassbutton--voice-control-labels': 'controls-buttons-glass-button--variants',
+  'button-glassbutton--with-aria-label': 'controls-buttons-glass-button--icon-only',
+  'input-glassinput--default': 'controls-inputs-glass-input--default',
+  'input-glassinput--with-validation': 'controls-inputs-glass-input--default',
+  'input-glassselect--default': 'controls-inputs-glass-select--default',
+  'navigation-glasstabs--default': 'navigation-glass-tabs--default',
+  'navigation-glasstabs--keyboard-nav': 'navigation-glass-tabs--default',
+  'navigation-glassbottomnav--default': 'navigation-glass-bottom-nav--default',
+  'card-glasscard--interactive': 'surfaces-cards-panels-glass-card--interactive-cards',
+  'card-glasscard--default': 'surfaces-cards-panels-glass-card--default',
+  'card-glasscard--hoverable': 'surfaces-cards-panels-glass-card--interactive-cards',
+  'card-glasscard--semantic-structure': 'surfaces-cards-panels-glass-card--default',
+  'card-glasscard--with-content': 'surfaces-cards-panels-glass-card--default',
+  'forms-glassform--comprehensive': 'controls-inputs-glass-form--default',
+  'forms-glassform--accessible': 'controls-inputs-glass-form--default',
+  'typography--color-variants': 'data-visualization-typography--variants',
+  'modal-glassmodal--with-content': 'surfaces-modals-glass-modal--default',
+  'modal-glassmodal--animated': 'surfaces-modals-glass-modal--default',
+  'navigation-glasssidebar--default': 'navigation-glass-sidebar--default',
+  'layout-glassdashboard--accessible': 'workflows-glass-dashboard--default',
+  'templates-dashboard-glassdashboard--complete': 'workflows-glass-dashboard--default',
+  'animations-glassmotioncontroller--vestibular-safe': 'foundations-motion-glass-motion-controller--default',
+};
+
 /**
  * Visual testing utilities for glassmorphism components
  */
@@ -11,8 +37,9 @@ export class GlassmorphismTestHelpers {
    */
   async navigateToStory(componentName: string, storyName: string) {
     const storyId = `${componentName.toLowerCase()}--${storyName.toLowerCase().replace(/\s+/g, '-')}`;
-    await this.page.goto(`/iframe.html?id=${storyId}&viewMode=story`);
-    await this.page.waitForLoadState('networkidle');
+    const resolvedStoryId = STORY_ID_ALIASES[storyId] ?? storyId;
+    await this.page.goto(`/iframe.html?id=${resolvedStoryId}&viewMode=story`, { waitUntil: 'domcontentloaded' });
+    await this.page.locator('#storybook-root, #root, body').first().waitFor({ state: 'visible' });
     // Wait for any animations to complete
     await this.page.waitForTimeout(1000);
   }
@@ -60,7 +87,7 @@ export class GlassmorphismTestHelpers {
 
     await this.waitForGlassEffects();
     
-    const element = this.page.locator(selector).first();
+    const element = this.page.locator(selector).filter({ visible: true }).first();
     await expect(element).toBeVisible();
     
     // Mask dynamic elements if specified

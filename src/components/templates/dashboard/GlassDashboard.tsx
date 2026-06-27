@@ -213,9 +213,12 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
       x: number;
       y: number;
     } | null>(null);
-    const isBounded = compact || contained || height !== undefined || maxHeight !== undefined;
+    const isBounded =
+      compact || contained || height !== undefined || maxHeight !== undefined;
     const gridCols = compact ? Math.min(layout.cols, 2) : layout.cols;
-    const gridMinHeightClass = isBounded ? "glass-min-glass-h-0" : "glass-min-glass-h-96";
+    const gridMinHeightClass = isBounded
+      ? "glass-min-glass-h-0"
+      : "glass-min-glass-h-96";
     const dashboardStyle: React.CSSProperties = {
       ...style,
       width,
@@ -469,13 +472,30 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
         <GlassGrid
           cols={gridCols as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12}
           gap={layout.gap}
-          className={cn(gridMinHeightClass, isBounded && "glass-overflow-y-auto glass-pr-1")}
+          className={cn(
+            gridMinHeightClass,
+            isBounded && "glass-overflow-y-auto glass-pr-1"
+          )}
         >
           {layout.widgets.map((widget) => (
             <GlassGridItem
               key={widget.id}
-              colSpan={compact ? Math.min(widget.size.cols, gridCols) as DashboardWidget["size"]["cols"] : widget.size.cols}
-              rowSpan={compact ? Math.min(widget.size.rows, 2) as DashboardWidget["size"]["rows"] : widget.size.rows}
+              colSpan={
+                compact
+                  ? (Math.min(
+                      widget.size.cols,
+                      gridCols
+                    ) as DashboardWidget["size"]["cols"])
+                  : widget.size.cols
+              }
+              rowSpan={
+                compact
+                  ? (Math.min(
+                      widget.size.rows,
+                      2
+                    ) as DashboardWidget["size"]["rows"])
+                  : widget.size.rows
+              }
               className={cn(
                 "transition-all duration-200",
                 draggedWidget === widget.id && "opacity-50 scale-95",
@@ -494,9 +514,9 @@ export const GlassDashboard = forwardRef<HTMLDivElement, GlassDashboardProps>(
               >
                 {/* Widget header */}
                 <div className="glass-flex glass-items-center glass-justify-between glass-mb-4">
-                  <h3 className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">
+                  <h2 className="glass-text-sm glass-font-medium glass-text-primary glass-truncate">
                     {widget.title}
-                  </h3>
+                  </h2>
                   {editMode && (
                     <HStack
                       space="xs"
