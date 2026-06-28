@@ -167,3 +167,4 @@ playwright/.cache/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+tests/visual/**/*.spec.ts-snapshots/
