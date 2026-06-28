@@ -171,3 +171,15 @@ Only use this section if AuraGlass is later marketed as a hosted API/server prod
 - [x] Make hosted production boot and provider routes fail closed when required AI, Redis, and JWT settings are missing.
 - [x] Add integration tests proving hosted API routes call real provider service boundaries or cleanly return provider-unconfigured errors.
 - [x] Verify Redis cache, JWT auth, API key auth, and WebSocket auth under hosted production settings.
+
+## Platform Refresh Positioning Decision (2026-06-28)
+
+AuraGlass is positioned as a PUBLISHED COMPONENT LIBRARY / npm package, not a standalone public product homepage hosted from this repository. Evidence on disk:
+
+- `package.json`: `"name": "aura-glass"`, `"main": "dist/index.js"`, `"files": ["bin","dist","workers","README.md","LICENSE"]`, `"homepage": "https://auraglass.auraone.ai"`, `"repository": git+https://github.com/auraoneai/auraglass.git`.
+- No `next.config.*`, no `app/`, no `pages/` route tree — the repo builds a React/Next.js component library via Rollup (`build` runs `scripts/build-all.js`), ships Storybook (`.storybook`, `storybook-static/`), a Vite config, and `llms.txt`.
+- The public marketing homepage (`auraglass.auraone.ai`) lives in the separate `glasswebsite` repo, which is out of scope for this repository's SEO surface.
+
+Consequence: the public-homepage SEO baseline (`robots`/`sitemap`/`manifest`/dynamic OG route) is NOT required in this repo. The applicable baseline is the library/package baseline: `llms.txt` for AI-agent discovery (present), README badges + install docs (present), and published-package metadata (present). The launch gate for this repo is `typecheck` (there is no public Next build to run for SEO). Verified this pass: `tsc --noEmit` exits 0.
+
+Live-only / external items remain tracked above (npm latest-tag parity, GitHub release/tag review, social presence) and stay UNVERIFIED until a real external registry/GitHub check.
