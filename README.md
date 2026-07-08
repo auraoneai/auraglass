@@ -152,8 +152,23 @@ npx aura-glass doctor --json
 - npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
 - Installation guide: [INSTALLATION.md](./INSTALLATION.md)
+- Documentation: [docs](./docs)
+- Examples: [examples](./examples)
 - Contributing guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Security policy: [SECURITY.md](./SECURITY.md)
 - Agent context: [llms.txt](./llms.txt)
+
+## Contributing
+
+Contributions should improve package reliability, developer adoption, visual quality, accessibility, SSR behavior, documentation, or release evidence without weakening the public package boundary. Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
+
+## Security
+
+Report vulnerabilities using the guidance in [SECURITY.md](./SECURITY.md). Security-sensitive changes should preserve package-only installs, avoid credential leakage, and keep provider-backed hosted runtime behavior opt-in.
+
+## License
+
+AuraGlass is released under the [MIT License](./LICENSE).
 
 ## Package-Only And Optional Hosted Runtime
 

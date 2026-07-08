@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.4.7] - 2026-07-08
+
+### Changed
+
+- Added explicit public README trust-signal links and sections for documentation, examples, contributing, security reporting, and license before the hosted-runtime governance notes.
+
 ## [3.4.6] - 2026-07-08
 
 ### Changed
