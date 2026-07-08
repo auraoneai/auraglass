@@ -1,27 +1,33 @@
-# AuraGlass by AuraOne 3.4.4
+# AuraGlass by AuraOne
 
-[![npm version](https://img.shields.io/npm/v/aura-glass?color=0ea5e9)](https://www.npmjs.com/package/aura-glass)
-[![npm downloads](https://img.shields.io/npm/dm/aura-glass?color=22c55e)](https://www.npmjs.com/package/aura-glass)
+Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and SSR-safe package wiring from scratch.
+
+[![npm version](https://img.shields.io/npm/v/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
+[![npm downloads](https://img.shields.io/npm/dm/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
 [![license](https://img.shields.io/npm/l/aura-glass)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-61dafb)](https://react.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%20%7C%2015-black)](https://nextjs.org/)
 
-**AuraGlass by AuraOne: Liquid Glass components for React and Next.js.**
+Developers use AuraGlass to:
 
-AuraGlass by AuraOne is a production React and Next.js component system for Liquid Glass interfaces: premium dashboards, AI products, media tools, creator apps, data-heavy workspaces, and polished SaaS surfaces. It packages glass-native components, design tokens, motion, accessibility guardrails, SSR-safe entrypoints, optional 3D/media integrations, and release evidence in one npm library.
+- Ship polished dashboards, AI products, media tools, creator apps, and SaaS workspaces with a glass-native visual system.
+- Start from styled React components instead of assembling blur, borders, shadows, depth, motion, and focus treatment by hand.
+- Keep theming, design tokens, reduced motion, contrast handling, SSR helpers, and TypeScript types in one npm package.
+- Add copyable product surfaces with the `aura-glass` recipe CLI when a full screen is faster than a blank component file.
 
-## 3.4 Package Surface
-
-AuraGlass by AuraOne 3.4 redesigns the entire Liquid Glass surface system: all 30 canonical surfaces (six intents x five elevation levels) are now luminous white frost — low-alpha white gradients over a faint smoke scrim — with a 16/24/32/40/48px blur scale, 1px white or tint hairline borders, rendered inset edge highlights, enlarged radii, and one unified `saturate(1.8) brightness(1.05) contrast(1.05)` backdrop filter across the TypeScript utilities, generated CSS, `.glass` foundation, and dark theme. A library-wide audit also fixed 71 invisible comment-as-value backgrounds and 107 dead utility classes.
-
-The package keeps the full dependency-sovereign app-surface system from 3.3: first-party icons, first-party primitives, native menus/selects/app chrome, Theme Engine 2.0, workspace shells, focused package subpaths, migration CLI commands, 28 package registry recipes, six token formats, optional hosted AI/runtime contracts, and a complete Liquid Glass stylesheet.
-
-No MUI, Radix, Lucide, or shadcn/ui package is required for core AuraGlass app chrome. Domain features such as charts, 3D, AI services, collaboration transport, and form-builder integrations still use optional peers only when those feature families are imported.
+## Install
 
 ```bash
 npm install aura-glass
+pnpm add aura-glass
+yarn add aura-glass
+bun add aura-glass
 ```
+
+## Quickstart
+
+Import the stylesheet once, then compose components from the public package entrypoint:
 
 ```tsx
 import { GlassButton, GlassCard } from 'aura-glass';
@@ -29,7 +35,7 @@ import 'aura-glass/styles';
 
 export function BillingCard() {
   return (
-    <GlassCard depth="medium" tint="neutral">
+    <GlassCard>
       <h2>Revenue</h2>
       <p>$128,400</p>
       <GlassButton>Open dashboard</GlassButton>
@@ -38,13 +44,116 @@ export function BillingCard() {
 }
 ```
 
-Production links:
+## What You Can Build
+
+| Product job | Start with |
+| --- | --- |
+| Core glass surfaces | `GlassCard`, `GlassButton`, `OptimizedGlass`, `LiquidGlassMaterial` |
+| Command and overlay UI | `GlassCommandPalette`, `GlassDropdownMenu`, `GlassModal`, `GlassPopover` |
+| App navigation | `GlassNavbar`, `GlassSidebar`, `GlassTabs`, `GlassBreadcrumb` |
+| Data-heavy dashboards | `GlassDataGrid`, `GlassDataTable`, `GlassDataChart`, `GlassHeatmap` |
+| Workspaces and shells | `GlassAppShell`, `GlassWorkspace`, `GlassWorkflowShell`, `GlassTopBar` |
+| Media and creator tools | `GlassFileUpload`, `GlassImageViewer`, `LiquidGlassMediaControls`, `GlassMusicVisualizer` |
+| Copyable screens | `npx aura-glass add saas-dashboard`, `npx aura-glass add ai-command-center` |
+
+## Why AuraGlass?
+
+- **A finished visual language.** Use glass-native surfaces, motion, depth, and tokens that already work together instead of styling neutral primitives from zero.
+- **React and Next.js package ergonomics.** Install from npm, import from stable package entrypoints, and add `aura-glass/styles` once in your app shell or root layout.
+- **Product-surface coverage.** Build dashboards, AI consoles, media controls, data tables, calendars, kanban boards, and workspace shells from one component system.
+- **Guardrails for polished UI.** TypeScript types, SSR helpers, reduced-motion behavior, contrast utilities, theme providers, and token exports are part of the package.
+- **Optional advanced integrations.** Charts, 3D, AI services, collaboration transport, and form-builder surfaces stay behind feature-specific imports and peers.
+
+## AuraGlass vs shadcn/ui
+
+| Need | AuraGlass | shadcn/ui |
+| --- | --- | --- |
+| Finished Liquid Glass styling | Ships opinionated glass surfaces, CSS, tokens, and component variants | Provides neutral source-owned primitives you style yourself |
+| npm package workflow | Install and upgrade as a package with typed entrypoints | Copy component source into your app and own local changes |
+| Premium dashboards and product surfaces | Strong fit for polished SaaS, AI, media, and data-heavy apps | Strong fit for teams that want full source ownership and lower visual opinion |
+| Customization | Tokens, CSS variables, providers, props, and `className` | Direct code edits after copy |
+| Tradeoff | Larger and more opinionated than a primitive-only kit | More manual work to create a distinctive glass visual system |
+
+## API At A Glance
+
+```tsx
+import {
+  GlassButton,
+  GlassCard,
+  GlassCommandPalette,
+  GlassDataChart,
+  OptimizedGlass,
+} from 'aura-glass';
+import 'aura-glass/styles';
+```
+
+Stable package entrypoints include:
+
+| Entrypoint | Purpose |
+| --- | --- |
+| `aura-glass` | Primary React component API. |
+| `aura-glass/styles` | Global AuraGlass CSS bundle. |
+| `aura-glass/tokens` | Runtime token and persona access. |
+| `aura-glass/tokens/tailwind` | Tailwind theme preset. |
+| `aura-glass/icons` | First-party AuraGlass icons for app chrome. |
+| `aura-glass/primitives` | Slot, portal, focus, dismissal, roving focus, and positioning primitives. |
+| `aura-glass/app-shell` | Dashboard, SaaS, AI, media, and collaboration app shell components. |
+| `aura-glass/workspace` | Workspace and workflow shell components. |
+| `aura-glass/theme` | Theme Engine 2.0 creation, brand theme, density, motion, and contrast APIs. |
+| `aura-glass/registry` | Copyable recipe metadata and registry helpers. |
+| `aura-glass/ssr` | SSR provider and hydration helpers. |
+| `aura-glass/three` | Optional 3D, AR, and React Three Fiber integrations. |
+
+## Recipes And CLI
+
+List available recipes:
+
+```bash
+npx aura-glass list
+```
+
+Inspect one recipe:
+
+```bash
+npx aura-glass info saas-dashboard
+```
+
+Add a copyable recipe to an app:
+
+```bash
+npx aura-glass add ai-command-center
+```
+
+The CLI writes into `src/components/auraglass/recipes` by default and supports `--out`, `--cwd`, `--dry-run`, `--force`, and `--json`.
+
+Migration and audit commands are available for package adoption:
+
+```bash
+npx aura-glass audit deps --json
+npx aura-glass audit imports --json
+npx aura-glass migrate icons --from lucide --dry-run
+npx aura-glass migrate radix --dry-run
+npx aura-glass migrate mui --dry-run
+npx aura-glass doctor --json
+```
+
+## Compatibility And Limits
+
+- Requires Node.js 18.18+ and npm 9+ for the package toolchain.
+- Supports React 18 and React 19, including Next.js 14 and 15 projects.
+- Import `aura-glass/styles` once from your app root or client entry.
+- Core app chrome does not require MUI, Radix, Lucide, or shadcn/ui packages.
+- Install optional peers only for the feature families you import: charts, 3D, AI services, collaboration transport, and form-builder integrations.
+- Use shadcn/ui or another primitive kit instead if you want neutral, source-owned components with minimal visual opinion.
+
+## Links
 
 - Website and component catalog: [auraglass.auraone.ai](https://auraglass.auraone.ai)
 - npm package: [npmjs.com/package/aura-glass](https://www.npmjs.com/package/aura-glass)
 - Changelog: [CHANGELOG.md](./CHANGELOG.md)
-- 3.3 release evidence scaffold: [reports/3.3-release](./reports/3.3-release/README.md)
-- 3.3 hosted runtime evidence: [reports/3.3-release/hosted-runtime-evidence.md](./reports/3.3-release/hosted-runtime-evidence.md)
+- Installation guide: [INSTALLATION.md](./INSTALLATION.md)
+- Contributing guide: [CONTRIBUTING.md](./CONTRIBUTING.md)
+- Agent context: [llms.txt](./llms.txt)
 
 ## Package-Only And Optional Hosted Runtime
 
@@ -75,7 +184,7 @@ Optional provider-backed routes should fail safely when credentials are missing.
 }
 ```
 
-## Why AuraGlass
+## Best-Fit Use Cases
 
 AuraGlass is for teams that need a finished visual system, not only neutral primitives. It is strongest when the interface itself carries product value: command centers, analytics surfaces, media controls, AI workspaces, premium dashboards, immersive admin tools, and high-polish product experiences.
 
@@ -88,21 +197,9 @@ Use AuraGlass when you need:
 - Optional advanced surfaces for media, AI, charts, dashboards, 3D, AR, and collaboration.
 - Checked-in release evidence for exports, tokens, runtime cleanliness, Storybook certification, package verification, and integration smoke coverage.
 
-AuraGlass is not trying to be the smallest possible primitive kit. If you want neutral, source-owned CRUD primitives with minimal visual opinion, shadcn/ui is still a better default. If you want a distinctive glass-native app surface without rebuilding blur, depth, motion, theme tokens, accessibility, and performance safeguards from scratch, AuraGlass is the better fit.
-
-## AuraGlass vs shadcn/ui
-
-| Decision point | AuraGlass | shadcn/ui |
-| --- | --- | --- |
-| Visual opinion | Finished Liquid Glass interface system | Neutral copyable primitives |
-| Distribution | npm package with entrypoints, tokens, styles, and optional peers | Source-copy component ownership |
-| Best fit | Premium dashboards, AI apps, media tools, immersive product surfaces | Plain CRUD apps, internal tools, low-opinion product UI |
-| Customization model | Tokens, CSS variables, variants, providers, `className`, and package APIs | Direct source edits after copy |
-| Release proof | Package audits, Storybook certification, export checks, pack checks, integration smokes | Project-local responsibility after installation |
-
 ## Flagship Components
 
-3.4 highlights flagship app-surface coverage instead of leading with raw inventory count. The broader package surface remains available, but these are the components the launch should make easiest to evaluate first.
+The broader package surface remains available, but these are the components most teams should evaluate first.
 
 | Product job | Start with |
 | --- | --- |
@@ -130,40 +227,9 @@ import 'aura-glass/styles';
 
 Do not import from private source paths. Use optional peer packages only for the component families that need them.
 
-## Recipes, Registry, And CLI
+## Registry Details
 
-AuraGlass 3.4 includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
-
-List available recipes:
-
-```bash
-npx aura-glass list
-```
-
-Inspect one recipe:
-
-```bash
-npx aura-glass info saas-dashboard
-```
-
-Add a copyable recipe to an app:
-
-```bash
-npx aura-glass add ai-command-center
-```
-
-The CLI writes into `src/components/auraglass/recipes` by default and supports `--out`, `--cwd`, `--dry-run`, `--force`, and `--json`.
-
-Migration and audit commands remain available for package adoption:
-
-```bash
-npx aura-glass audit deps --json
-npx aura-glass audit imports --json
-npx aura-glass migrate icons --from lucide --dry-run
-npx aura-glass migrate radix --dry-run
-npx aura-glass migrate mui --dry-run
-npx aura-glass doctor --json
-```
+AuraGlass includes a package-level recipe registry and CLI for scaffolding product-ready Liquid Glass app surfaces. The registry is available from `aura-glass/registry`; the CLI is installed as the `aura-glass` binary.
 
 The package registry includes 28 recipes:
 
@@ -209,9 +275,9 @@ Recipe acceptance criteria and follow-up evidence are tracked in the 3.3 release
 - [3.3 recipe evidence](./reports/3.3-release/recipe-evidence.md)
 - [3.3 launch evidence index](./reports/3.3-release/README.md)
 
-## Install
+## API And Usage Details
 
-Install the package:
+Install the package if you have not already:
 
 ```bash
 npm install aura-glass
@@ -471,7 +537,7 @@ Useful scripts:
 
 ## Release Evidence
 
-The 3.4 surface redesign is verified by the release gate commands below — typecheck, token and style lints, the 31-check glass pipeline, 90 WCAG AA contrast checks, and 432 Jest suites with 2,373 tests — while 3.3-era package launch claims remain backed by checked-in evidence under `reports/3.3-release`. The final publish path uses `npm publish --access public --tag latest --provenance=false --ignore-scripts` after the dry-run, pack, and integration gates pass.
+The 3.4 surface redesign is verified by the release gate commands below — typecheck, token and style lints, the 31-check glass pipeline, 90 WCAG AA contrast checks, and 432 Jest suites with 2,373 tests — while 3.3-era package launch claims remain backed by checked-in evidence under `reports/3.3-release`. The normal publish path uses `npm publish --access public --tag latest` from a clean release commit after the dry-run, pack, and integration gates pass; `package.json` enables npm provenance for trusted publishing environments.
 
 Package gates:
 

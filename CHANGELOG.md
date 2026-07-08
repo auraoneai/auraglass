@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.4.6] - 2026-07-08
+
+### Changed
+
+- Republished the public README and npm metadata refresh from a committed release state so the npm package provenance points at the matching source commit and release tag.
+
+## [3.4.5] - 2026-07-08
+
+### Changed
+
+- Rewrote the npm README first screen around the developer outcome: install commands, a copy-paste React quickstart, practical use cases, factual shadcn/ui comparison, API entrypoints, CLI recipes, compatibility notes, and trust links now appear before hosted-runtime governance and release evidence.
+- Updated npm package metadata with a clearer React/Next.js Liquid Glass component-library description and a focused 15-keyword search set.
+
 ## [3.4.4] - 2026-06-10
 
 ### Fixed
