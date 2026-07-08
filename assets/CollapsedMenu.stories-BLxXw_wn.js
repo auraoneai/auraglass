@@ -1,0 +1,11 @@
+import{j as s}from"./iframe-AZkd8Eyt.js";import{ar as r,an as t,b0 as o,S as i}from"./components-CegB_xim.js";import{C as a}from"./CollapsedMenu-Cb8CYdxW.js";import"./preload-helper-PPVm8Dsz.js";import"./a11y-DDokf3uy.js";import"./OptimizedGlassCore-BM69gN7z.js";import"./deviceCapabilities-BOA6cHzv.js";const b={title:"Navigation/Collapsed Menu",component:a,parameters:{layout:"centered",previewSurface:"component",docs:{description:{component:"An overflow menu used by responsive navigation when items collapse."}}},args:{"aria-label":"Collapsed navigation actions",items:[{id:"profile",label:"Profile",icon:s.jsx(r,{size:16})},{id:"notifications",label:"Notifications",icon:s.jsx(t,{size:16})},{id:"archive",label:"Archive",icon:s.jsx(o,{size:16})},{id:"settings",label:"Settings",icon:s.jsx(i,{size:16})}]}},e={render:l=>s.jsxs("div",{className:"glass-relative glass-h-72 glass-w-[min(420px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl",children:[s.jsxs("div",{className:"glass-flex glass-items-center glass-justify-between",children:[s.jsx("span",{className:"glass-text-sm glass-font-semibold glass-text-primary",children:"Responsive overflow"}),s.jsx("button",{className:"glass-rounded-xl glass-border glass-border-white/25 glass-bg-white/25 glass-px-3 glass-py-2 glass-text-primary",children:"More"})]}),s.jsx(a,{...l,className:"glass-top-16 glass-right-5"})]})};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+  render: args => <div className="glass-relative glass-h-72 glass-w-[min(420px,calc(100vw-48px))] glass-rounded-3xl glass-border glass-border-white/25 glass-bg-white/35 glass-p-5 glass-shadow-xl glass-backdrop-blur-xl">
+      <div className="glass-flex glass-items-center glass-justify-between">
+        <span className="glass-text-sm glass-font-semibold glass-text-primary">Responsive overflow</span>
+        <button className="glass-rounded-xl glass-border glass-border-white/25 glass-bg-white/25 glass-px-3 glass-py-2 glass-text-primary">
+          More
+        </button>
+      </div>
+      <CollapsedMenu {...args} className="glass-top-16 glass-right-5" />
+    </div>
+}`,...e.parameters?.docs?.source}}};const u=["Default"];export{e as Default,u as __namedExportsOrder,b as default};
