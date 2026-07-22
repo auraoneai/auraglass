@@ -49,24 +49,9 @@ ChartJS.register(
   TimeSeriesScale
 );
 
-// Import premium fonts
-const fontLinks = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap',
-  'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap',
-  'https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap'
-];
-
+// Premium fonts are loaded via design tokens / public/fonts (Aeonik stack).
 if (typeof document !== 'undefined') {
-  fontLinks.forEach(href => {
-    if (document.head.querySelector(`link[href="${href}"]`)) return;
-    const link = document.createElement('link');
-    link.href = href;
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-  });
-
-  // Apply premium font stack
-  document.body.style.fontFamily = 'Geist, Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
+  document.body.style.fontFamily = 'Aeonik, Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
   document.body.style.fontSize = '14px';
   document.body.style.lineHeight = '1.6';
   document.body.style.fontWeight = '400';
