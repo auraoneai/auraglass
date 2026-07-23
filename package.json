@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "3.4.7",
+  "version": "3.4.8",
   "description": "Liquid Glass React and Next.js component library for polished dashboards, AI apps, media tools, and SaaS interfaces.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -447,6 +447,7 @@
     "@typescript-eslint/parser": "^8.59.2",
     "@vitejs/plugin-react": "^5.0.2",
     "bundlesize": "^0.18.0",
+    "concurrently": "^10.0.3",
     "esbuild": "^0.25.12",
     "eslint": "^8.45.0",
     "eslint-plugin-jsx-a11y": "^6.7.0",
@@ -484,7 +485,6 @@
     "chart.js": "^4.5.0",
     "clsx": "^2.0.0",
     "compression": "^1.8.1",
-    "concurrently": "^10.0.3",
     "cors": "^2.8.6",
     "date-fns": "^4.1.0",
     "dotenv": "^17.4.2",
@@ -515,6 +515,7 @@
     "protobufjs": "^7.6.5",
     "scheduler": "^0.23.0",
     "serialize-javascript": "^7.0.5",
+    "shell-quote": "^1.10.0",
     "socket.io-adapter": "^2.5.8",
     "ws": "^8.21.0"
   },

@@ -231,7 +231,13 @@ describe("AI Services Test Suite", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     testConfig = createTestConfig();
-    openAIService = new OpenAIService(testConfig);
+    openAIService = new OpenAIService(testConfig, () => ({
+      chat: {
+        completions: {
+          create: mockOpenAICreate,
+        },
+      },
+    }));
     searchService = new SemanticSearchService(testConfig);
     visionService = new VisionService(testConfig);
   });
@@ -492,7 +498,13 @@ describe("AI Services Test Suite", () => {
         },
       };
 
-      const service = new OpenAIService(costOptimizedConfig);
+      const service = new OpenAIService(costOptimizedConfig, () => ({
+        chat: {
+          completions: {
+            create: mockOpenAICreate,
+          },
+        },
+      }));
       const spy = jest.spyOn(service as any, "shouldUseCheaperModel");
 
       await service.generateFormFieldSuggestions("simple contact form");

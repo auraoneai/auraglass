@@ -5,19 +5,23 @@ import { createClient, RedisClientType } from "redis";
 const SAFE_CACHE_KEY_PATTERN = /^[A-Za-z0-9:._-]+$/;
 const MAX_SAFE_CACHE_KEY_LENGTH = 160;
 const FALLBACK_TTL_SECONDS = 60;
+type RedisClientFactory = (options: { url: string }) => RedisClientType;
 
 export class CacheService {
   private client: RedisClientType | null = null;
   private connected = false;
   private memoryCache: Map<string, { value: any; expiry: number }> = new Map();
 
-  constructor(private config: { url: string; ttl: number }) {}
+  constructor(
+    private config: { url: string; ttl: number },
+    private clientFactory: RedisClientFactory = createClient as RedisClientFactory
+  ) {}
 
   async connect(): Promise<void> {
     if (this.connected) return;
 
     try {
-      this.client = createClient({ url: this.config.url });
+      this.client = this.clientFactory({ url: this.config.url });
       this.client.on("error", () => {
         this.connected = false;
       });

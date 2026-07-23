@@ -5,6 +5,10 @@ import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";
 
+export type OpenAIClientFactory = (options: {
+  apiKey: string;
+}) => Promise<any> | any;
+
 const FieldSuggestionSchema = z.object({
   fieldName: z.string(),
   fieldType: z.enum([
@@ -64,7 +68,10 @@ export class OpenAIService {
   private errorHandler: ErrorHandler;
   private config: AIConfig;
 
-  constructor(config: AIConfig) {
+  constructor(
+    config: AIConfig,
+    private clientFactory?: OpenAIClientFactory
+  ) {
     this.config = config;
     this.cache = new CacheService(config.redis);
     this.errorHandler = new ErrorHandler();
@@ -75,11 +82,18 @@ export class OpenAIService {
       return this.client;
     }
 
-    const module = await import("openai");
-    const OpenAI = module.default ?? module.OpenAI ?? module;
-    this.client = new OpenAI({
-      apiKey: this.config.openai.apiKey,
-    });
+    if (this.clientFactory) {
+      this.client = await this.clientFactory({
+        apiKey: this.config.openai.apiKey,
+      });
+    } else {
+      const module = await import("openai");
+      const OpenAI = module.default ?? module.OpenAI ?? module;
+      this.client = new OpenAI({
+        apiKey: this.config.openai.apiKey,
+      });
+    }
+
     return this.client;
   }
 

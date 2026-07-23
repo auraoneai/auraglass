@@ -125,7 +125,15 @@ beforeAll(async () => {
   });
 
   const hostedServer = await import("../../server/index");
-  server = await hostedServer.startServer(0);
+  server = await hostedServer.startServer(0, {
+    openAIClientFactory: () => ({
+      chat: {
+        completions: {
+          create: mockOpenAICreate,
+        },
+      },
+    }),
+  });
   const address = server.address() as AddressInfo;
   baseUrl = `http://127.0.0.1:${address.port}`;
 });

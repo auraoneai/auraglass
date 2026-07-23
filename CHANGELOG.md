@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.4.8] - 2026-07-23
+
+### Fixed
+
+- Removed the repository-only `concurrently` process runner from the published runtime dependency surface and pinned its patched `shell-quote` dependency.
+- Updated direct and transitive package versions so both the production-only and complete npm audit graphs report zero known vulnerabilities.
+- Made hosted Redis and OpenAI tests deterministic by injecting the Redis client factory and using the normal OpenAI package import, preventing developer `.env` values from triggering real provider connections during release verification.
+
 ## [3.4.7] - 2026-07-08
 
 ### Changed
@@ -458,6 +466,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.17.0] - 2026-05-05
 
 ### Release Readiness
+
 - Updated package metadata for the historical 356-entry certified AuraGlass release line.
 - Normalized the release workflow around npm, including `prepublishOnly`, Storybook CI, and Next.js integration smoke tests.
 - Expanded optional peer dependency metadata so non-3D consumers do not receive unnecessary peer warnings.
@@ -469,6 +478,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.16.4] - 2026-05-05
 
 ### Documentation
+
 - Reorganized flat component Markdown pages into numbered `docs/components` sections.
 - Rebuilt the root README as the current technical package guide with certification evidence, entrypoints, architecture, verification, and documentation maps.
 - Updated `docs/README.md`, `docs/components/README.md`, `INSTALLATION.md`, and `reports/README.md` to reflect the then-current 356-entry inventory and certification state.
@@ -477,6 +487,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.16.2] - 2025-11-15
 
 ### ✨ Added
+
 - Added missing subpath exports for all documented import paths in package.json
 - New exports: `aura-glass/core/mixins/glassMixins` for core glass styling API
 - New exports: `aura-glass/utils/env` for SSR environment helpers
@@ -486,29 +497,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New exports: `aura-glass/tokens/css` and `aura-glass/tokens/keyframes` for token CSS files
 
 ### 🛠 Improvements
+
 - Complete export coverage - all documented import paths now have corresponding package.json exports
 - Updated test files to verify new ESM exports work correctly
 - Documentation-driven approach ensures exports match actual usage patterns
 
 ### 📝 Documentation
+
 - Updated README.md with v2.16.2 release notes and usage examples
 - All exports verified against documentation and codebase import patterns
 
 ## [2.1.5] - 2025-11-14
 
 ### 🛠 Improvements
+
 - Isolated all React Three Fiber-powered 3D components into the `aura-glass/three` entrypoint, so importing the root `aura-glass` package in React 18 apps no longer pulls in R3F or React 19 internals.
 - Introduced lazy, React-version-aware wrappers around `.r3f` implementations: React 19 clients dynamically import the R3F modules, while React 18 receives styled fallback containers that preserve layout without executing 3D code.
 - Moved presets and AR helper factories (`shatterPresets`, `seasonalPresets`, `auroraPresets`, `auroraThemes`, `seasonalThemes`, `ARGlassMaterialFactory`, `ARGlassGeometryFactory`, `ARGlassAnimations`, `ARGlassInteractions`, `ARGlassUtils`) into non-R3F helper modules and re-exported them via `aura-glass/three`.
 - Extended `scripts/ci/run-next-integration.js` to run a dual Next.js matrix from the published tarball: React 18 + Next 14.2 (root entry only) and React 19 + Next 15.1 (using `aura-glass/three`), with Playwright smoke tests guarding against hook/registry/reconciler regressions.
 
 ### 🔀 Migration (React 18 → React 19 3D usage)
+
 - **React 18 apps (no 3D)**: Continue importing from `aura-glass` only and do not add `aura-glass/three` to your bundles; the 3D code path remains completely unused and SSR-safe.
 - **React 19 apps (enable 3D)**: Upgrade React/Next, ensure `three`, `@react-three/fiber`, and `@react-three/drei` are installed as peers, then import 3D components from `aura-glass/three`:
 
   ```tsx
-  import { GlassButton } from 'aura-glass';
-  import { GlassShatterEffects } from 'aura-glass/three';
+  import { GlassButton } from "aura-glass";
+  import { GlassShatterEffects } from "aura-glass/three";
 
   export function Hero3D() {
     return (
@@ -522,17 +537,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.4] - 2025-11-14
 
 ### ✨ Added
+
 - Exposed canonical design token entrypoints via `aura-glass/tokens`, including dual-mode ESM/CJS wrappers backed by the generated `tokens.json` manifest.
 - Published Tailwind preset access under `aura-glass/tokens/tailwind` so configs can import the canonical theme without deep imports.
 - Added targeted smoke tests (`npm run test:tokens:exports`) to verify both `require()` and dynamic `import()` consumers after each build.
 
 ### 🛠 Improvements
+
 - Broadened the package `exports` map to cover `./tokens`, `./tokens/json`, `./tokens/tailwind`, and `./tokens/manifest`, preventing modern bundlers from blocking deep token imports.
 - Refreshed README and docs to highlight the new token usage patterns, including Tailwind configuration and direct token manifest consumption.
 
 ## [2.1.0] - 2025-11-12
 
 ### ✨ Added
+
 - Ten-persona Design Matrix system with `<PersonaPicker />`, `usePersonaTheme()`, and generated `[data-persona]` CSS for instant runtime theming. Includes Persona CSS generation scripts: `npm run glass:generate-persona-css` to compile custom properties into `src/styles/generated/persona-variables.css`, and `npm run glass:validate-persona-css` for CI validation.
 - New SSR-safe environment helpers in `aura-glass/utils/env` for browser detection, safe media queries, and client-side effects.
 - Deterministic effects with `SeededRandom` utilities ensuring SSR/client parity for animations, physics, and random seeding.
@@ -540,23 +558,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Liquid Glass Parity+ presets with IOR controls, environmental adaptation, GPU fallbacks, and deterministic `SeededRandom` utilities for SSR parity.
 
 ### 🛠 Improvements
+
 - New SSR-safe environment helpers (`aura-glass/utils/env`), deterministic effect seeds, and exported build-time constants for automation pipelines.
 - Documentation refresh: Apple-grade README, clarified install/deploy workflows, and detailed marketing copy for the historical 356-entry adaptive component inventory.
 - Installation guide and sample apps now highlight the full peer dependency surface (Radix, lucide-react, react-hook-form, react-chartjs-2, @sentry/react, etc.).
 
 ### 📚 Notes
+
 - README deployment steps now reference the canonical `docker-compose.yml`, usage snippets import from `aura-glass`, and Liquid Glass examples use the real `GlassModal` API.
 - Version metadata updated across tokens and package manifests to `2.1.0`.
 
 ## [2.0.99] - 2025-11-11
 
 ### ✨ Added
+
 - Canonical Design Matrix dataset (`src/theme/designMatrix.ts`) with ten personas, metadata, and tokens consumable across runtime and build pipelines.
 - `PersonaPicker` component plus `usePersonaTheme()` hook for runtime persona selection tied to the canonical data model.
 - Persona CSS generator (`npm run glass:generate-persona-css`) with matching `npm run glass:validate-persona-css` guard to keep `[data-persona]` variables synced in CI.
 - Storybook toolbar persona control wired through `ThemeProvider` globals for instant preview switching.
 
 ### ♻️ Updated
+
 - `ThemeProvider` now manages `initialPersona`, controlled `persona`, persistence, and broadcasts persona-aware helpers consumed by `glass.css`.
 - `glass.css`, `GlassTabItem`, and `ZSpaceAppLayout` adopt persona-driven focus rings, shadows, and accent tokens for navigation/layout surfaces.
 - Documentation refreshed with setup guides, `PersonaPicker` usage, and CSS generation workflow references.
@@ -564,16 +586,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.36] - 2025-11-09
 
 ### 🛠 Fixes
+
 - Reworked Rollup externals to keep every React ecosystem peer (`react`, `styled-components`, Radix, drei, etc.) out of the bundle, eliminating duplicate dispatchers.
 - Added publish guard `pnpm run verify:pack` to fail when `npm pack` detects nested `node_modules` or bundled React runtimes.
 - Introduced server-only entry (`aura-glass/server`) with styled-registry assertions to keep Next.js layouts free from `'use client'` side effects.
 
 ### ✅ Verification
+
 - `npm pack --dry-run --json` → no files under `node_modules/` inside the tarball.
 - `pnpm run test:integration:next` spins up a hoisted-linker Next 14.2.33 app and a Playwright smoke test passes against `pnpm dev --turbo`.
 - Integration workspace reports a single renderer: `pnpm ls react react-dom styled-components` → `react@18.2.0`, `react-dom@18.2.0`, `styled-components@6.1.19`.
 
 ### ♻️ Tooling
+
 - New GitHub Action job `next-integration-smoke` provisions pnpm 10.12.2 and executes the Next.js smoke script on every pipeline run.
 
 ## [2.0.7] - 2025-11-07
@@ -581,12 +606,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.8] - 2025-11-08
 
 ### 🚀 Highlights
+
 - Centralized SSR safety helpers (`utils/env`) with `isBrowser`, `safeMatchMedia`, `useClientEffect`, and companion `SeededRandom` utilities so deterministic effects render identically on server and client.
 - Hooks, ThemeProvider, production bootstrap, and device capability utilities now use the new guards, eliminating direct browser global access during SSR.
 - Restored and expanded the public export surface—over 150 previously missing symbols now resolved, including path constants for `component_inventory.json` and legacy reduced-motion documentation.
 - Released as `v2.0.8` and published to npm.
 
 ### ✨ New Components & Utilities
+
 - `LivingEcosystemSimulator`, `MolecularBondingInterface`, `MultiDimensionalGestureRecognizer`
 - `NeuralWeightVisualization`, `NeuromorphicLearningNetwork`
 - `QuantumEntanglementVisualizer`, `QuantumNeuromorphicEngine`
@@ -594,6 +621,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `SeededRandom`, deterministic `SeasonalParticles` / `GlassShatterEffects`
 
 ### ♻️ Maintenance
+
 - Added export-only constants for consumer introspection:
   - `component_inventory_json` / `COMPONENT_INVENTORY_JSON_PATH`
   - `GILDED_TOKENS_CATALOGUE_MD_PATH`, `REDUCED_MOTION_101_GUIDE_MD_PATH`, `REDUCED_MOTION_100_COMPLETE_MD_PATH`
@@ -602,6 +630,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🌟 Major Accessibility Achievement
 
 #### 100% Reduced Motion Coverage (WCAG 2.1 AAA)
+
 - ✅ **All 356 historical inventory entries** now support `prefers-reduced-motion`
 - ✅ **WCAG 2.1 Level AAA** Success Criterion 2.3.3 (Animation from Interactions) - fully compliant
 - ✅ **Real-time adaptation** - Components respond instantly to system preference changes
@@ -619,12 +648,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### ✨ New Features
 
 #### Enhanced Motion System
+
 - **`useEnhancedReducedMotion` hook** - SSR-safe with reactive updates
 - **Global CSS foundation** - 157 lines of comprehensive `@media (prefers-reduced-motion: reduce)` queries
 - **React hook integration** - Used across 57 Framer Motion components
 - **Data attribute support** - 193 static components with `data-glass-component` attributes
 
 #### Quality Assurance Tools
+
 - Component inventory generation script
 - Reduced motion validation automation
 - Design token compliance checker
@@ -632,15 +663,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### 📊 Quality Metrics (v2.0.7)
 
-| Metric | Status | Details |
-|--------|--------|---------|
-| Component Coverage | ✅ 356/356 (100%) | Historical inventory entries production-ready |
-| Reduced Motion | ✅ 356/356 (100%) | Historical inventory entries covered |
-| TypeScript Errors | ✅ 0 errors | 100% type safe (down from 361) 🎉 |
-| WCAG AAA Compliance | ✅ Certified | Success Criterion 2.3.3 fully met |
+| Metric              | Status            | Details                                       |
+| ------------------- | ----------------- | --------------------------------------------- |
+| Component Coverage  | ✅ 356/356 (100%) | Historical inventory entries production-ready |
+| Reduced Motion      | ✅ 356/356 (100%) | Historical inventory entries covered          |
+| TypeScript Errors   | ✅ 0 errors       | 100% type safe (down from 361) 🎉             |
+| WCAG AAA Compliance | ✅ Certified      | Success Criterion 2.3.3 fully met             |
 
 ### 📁 Reports & Documentation
+
 New comprehensive reports added to `/reports/`:
+
 - `REDUCED_MOTION_100_COMPLETE.md` - Full accessibility implementation report
 - `TYPESCRIPT_FIX_PROGRESS.md` - TypeScript error reduction progress
 - `reduced-motion-final-report.json` - Automated accessibility audit results
@@ -649,12 +682,14 @@ New comprehensive reports added to `/reports/`:
 ### 🛠️ Implementation Details
 
 #### Accessibility Strategy
+
 - **Global CSS**: All 356 historical inventory entries benefit from media queries
 - **React Hooks**: 57 Framer Motion components with `useReducedMotion`
 - **Data Attributes**: 193 static components with `data-glass-component`
 - **Pre-existing**: 106 components already had reduced motion support
 
 #### Benefits
+
 - ✅ Motion sensitivity support for users with vestibular disorders
 - ✅ Reduced cognitive load for better focus
 - ✅ Battery savings from less animation
@@ -662,11 +697,13 @@ New comprehensive reports added to `/reports/`:
 - ✅ Inclusive design for all users
 
 ### ⚠️ Known Issues
+
 - ~~106 TypeScript errors remaining~~ ✅ **RESOLVED - 0 errors**
 - ESLint warnings from existing raw Tailwind classes (non-blocking)
 - None blocking production deployment
 
 ### 🎯 Future Improvements
+
 - ✅ ~~Continue TypeScript error reduction to 0~~ **COMPLETE**
 - Increase automated test coverage
 - Enhanced type inference for better DX
@@ -674,6 +711,7 @@ New comprehensive reports added to `/reports/`:
 - Expand component test suite
 
 ### ♻️ Maintenance
+
 - Cleaned up documentation files
 - Updated component inventory
 - Enhanced automation scripts
@@ -720,6 +758,7 @@ npm install aura-glass@2.0.0
 ```
 
 **Why this change?**
+
 - ✅ Fixes npm installation conflicts (ERESOLVE errors)
 - ✅ Reduces bundle size by 80% (847KB → ~150KB)
 - ✅ Faster installation (3 minutes → 20 seconds)
@@ -731,6 +770,7 @@ npm install aura-glass@2.0.0
 The following **server-side** packages have been removed from the UI library:
 
 **Removed:**
+
 - `@google-cloud/vision` - Server-side API
 - `@pinecone-database/pinecone` - Server-side vector DB
 - `@tensorflow/tfjs` - 8MB server-side ML library
@@ -746,6 +786,7 @@ The following **server-side** packages have been removed from the UI library:
 These are server-side dependencies that don't belong in a UI component library. If you need these features, implement them in your own backend or use a separate server package.
 
 **Moved to Optional:**
+
 - `@sentry/react` → Now optional dependency
 - `styled-components` → Now optional dependency
 
@@ -777,6 +818,7 @@ These are server-side dependencies that don't belong in a UI component library. 
 - Added troubleshooting section for common errors
 
 ---
+
 ## [1.1.0] - 2025-11-07
 
 ### 📊 Added
@@ -791,6 +833,7 @@ These are server-side dependencies that don't belong in a UI component library. 
 ### 📁 Audit Reports
 
 All audit findings documented in `/reports/`:
+
 - `EXECUTIVE_SUMMARY.md` - Overall compliance status
 - `glass_compliance_summary.md` - Token compliance details
 - `a11y_summary.md` - Accessibility audit
@@ -809,6 +852,7 @@ All audit findings documented in `/reports/`:
 **Status:** Remediation planned for v2.1.0-v2.5.0 over 5 weeks
 
 ---
+
 ## [1.0.0] - 2025-11-06
 
 ### Initial Release
@@ -822,6 +866,7 @@ All audit findings documented in `/reports/`:
 - Performance optimization system
 
 ---
+
 ## Upgrade Guides
 
 ### v1.x → v2.0.0
@@ -829,14 +874,17 @@ All audit findings documented in `/reports/`:
 See [INSTALLATION.md](./INSTALLATION.md#upgrading-from-v1x) for complete upgrade guide.
 
 **Quick Summary:**
+
 1. Uninstall v1.x: `npm uninstall aura-glass`
 2. Install peer deps: `npm install three @react-three/fiber framer-motion`
 3. Install v2.0.0: `npm install aura-glass@latest`
 4. No code changes needed!
 
 ---
+
 ## Support
 
 For issues or questions:
+
 - 📖 Read [INSTALLATION.md](./INSTALLATION.md)
 - 🐛 File issues at [GitHub Issues](https://github.com/auraoneai/auraglass/issues)

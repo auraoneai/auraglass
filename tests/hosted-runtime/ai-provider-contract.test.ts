@@ -22,7 +22,8 @@ describe("Hosted AI provider route contract", () => {
       },
       {
         route: "/index-documents",
-        requiredInput: /if \(!Array\.isArray\(documents\) \|\| documents\.length === 0\)/,
+        requiredInput:
+          /if \(!Array\.isArray\(documents\) \|\| documents\.length === 0\)/,
         providerCall: "indexDocuments",
       },
       {
@@ -43,7 +44,9 @@ describe("Hosted AI provider route contract", () => {
     ];
 
     for (const contract of routeContracts) {
-      expect(serverSource).toContain(`aiRouter.post('${contract.route}'`);
+      expect(serverSource).toMatch(
+        new RegExp(`aiRouter\\.post\\(["']${contract.route}["']`)
+      );
       expect(serverSource).toMatch(contract.requiredInput);
       expect(serverSource).toContain(contract.providerCall);
     }
@@ -104,7 +107,7 @@ describe("Hosted AI provider route contract", () => {
   });
 
   it("includes Redis caching in hosted readiness checks", () => {
-    expect(serverSource).toContain("name: 'redis'");
+    expect(serverSource).toMatch(/name:\s*["']redis["']/);
     expect(serverSource).toContain("runtimeFeatures.aiCaching");
     expect(serverSource).toContain(
       "Set REDIS_URL for hosted AI caching or set ENABLE_AI_CACHING=false."

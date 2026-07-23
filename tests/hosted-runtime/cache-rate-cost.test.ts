@@ -58,19 +58,14 @@ jest.mock("express-rate-limit", () => ({
   default: mockRateLimit,
 }));
 
-const { CacheService } = require("../../src/services/ai/cache-service") as typeof import(
-  "../../src/services/ai/cache-service"
-);
-const {
-  createAIConfig,
-  defaultAIConfig,
-} = require("../../src/services/ai/config") as typeof import("../../src/services/ai/config");
-const { OpenAIService } = require("../../src/services/ai/openai-service") as typeof import(
-  "../../src/services/ai/openai-service"
-);
-const { createRateLimiter } = require("../../src/services/auth/middleware") as typeof import(
-  "../../src/services/auth/middleware"
-);
+const { CacheService } =
+  require("../../src/services/ai/cache-service") as typeof import("../../src/services/ai/cache-service");
+const { createAIConfig, defaultAIConfig } =
+  require("../../src/services/ai/config") as typeof import("../../src/services/ai/config");
+const { OpenAIService } =
+  require("../../src/services/ai/openai-service") as typeof import("../../src/services/ai/openai-service");
+const { createRateLimiter } =
+  require("../../src/services/auth/middleware") as typeof import("../../src/services/auth/middleware");
 
 type AIConfig = import("../../src/services/ai/config").AIConfig;
 
@@ -89,6 +84,14 @@ const fieldSuggestions = [
     },
   },
 ];
+
+const createMockOpenAIClient = () => ({
+  chat: {
+    completions: {
+      create: mockOpenAICreate,
+    },
+  },
+});
 
 function createConfig(overrides: PartialNestedConfig = {}): AIConfig {
   return {
@@ -199,10 +202,13 @@ afterEach(() => {
 
 describe("3.3 Redis cache service coverage", () => {
   it("connects to Redis and delegates JSON cache operations with TTLs", async () => {
-    const service = new CacheService({
-      url: "redis://cache.example.test:6379",
-      ttl: 900,
-    });
+    const service = new CacheService(
+      {
+        url: "redis://cache.example.test:6379",
+        ttl: 900,
+      },
+      mockCreateClient as any
+    );
     const cachedPayload = { cached: true, usageCents: 1.4 };
 
     mockRedisClient.get.mockResolvedValueOnce(JSON.stringify(cachedPayload));
@@ -234,10 +240,13 @@ describe("3.3 Redis cache service coverage", () => {
   });
 
   it("honors per-write TTL overrides for cached AI responses", async () => {
-    const service = new CacheService({
-      url: "redis://cache.example.test:6379",
-      ttl: 900,
-    });
+    const service = new CacheService(
+      {
+        url: "redis://cache.example.test:6379",
+        ttl: 900,
+      },
+      mockCreateClient as any
+    );
 
     await service.connect();
     await service.set("openai:form-suggestions:abc", fieldSuggestions, 42);
@@ -253,10 +262,13 @@ describe("3.3 Redis cache service coverage", () => {
     jest.useFakeTimers({ now: new Date("2026-06-05T00:00:00.000Z") });
     mockRedisClient.connect.mockRejectedValueOnce(new Error("redis offline"));
 
-    const service = new CacheService({
-      url: "redis://cache.example.test:6379",
-      ttl: 60,
-    });
+    const service = new CacheService(
+      {
+        url: "redis://cache.example.test:6379",
+        ttl: 60,
+      },
+      mockCreateClient as any
+    );
 
     await service.connect();
     await service.set("openai:summary:local", "cached summary", 2);
@@ -267,14 +279,16 @@ describe("3.3 Redis cache service coverage", () => {
 
     jest.advanceTimersByTime(2001);
 
-    await expect(service.get<string>("openai:summary:local")).resolves.toBeNull();
+    await expect(
+      service.get<string>("openai:summary:local")
+    ).resolves.toBeNull();
     expect(mockRedisClient.setEx).not.toHaveBeenCalled();
   });
 });
 
 describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
   it("returns cached form suggestions without calling OpenAI", async () => {
-    const service = new OpenAIService(createConfig());
+    const service = new OpenAIService(createConfig(), createMockOpenAIClient);
     const cache = {
       get: jest.fn().mockResolvedValue(fieldSuggestions),
       set: jest.fn(),
@@ -292,7 +306,10 @@ describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
   });
 
   it("writes AI responses to cache on misses using the Redis TTL from config", async () => {
-    const service = new OpenAIService(createConfig({ redis: { ttl: 123 } }));
+    const service = new OpenAIService(
+      createConfig({ redis: { ttl: 123 } }),
+      createMockOpenAIClient
+    );
     const cache = {
       get: jest.fn().mockResolvedValue(null),
       set: jest.fn().mockResolvedValue(undefined),
@@ -311,7 +328,10 @@ describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
   });
 
   it("returns cost-safe usage metadata without prompt or response content", async () => {
-    const service = new OpenAIService(createConfig({ redis: { ttl: 123 } }));
+    const service = new OpenAIService(
+      createConfig({ redis: { ttl: 123 } }),
+      createMockOpenAIClient
+    );
     (service as any).cache = {
       get: jest.fn().mockResolvedValue(null),
       set: jest.fn().mockResolvedValue(undefined),
@@ -342,15 +362,14 @@ describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
   });
 
   it("returns zero-cost usage metadata on AI cache hits", async () => {
-    const service = new OpenAIService(createConfig());
+    const service = new OpenAIService(createConfig(), createMockOpenAIClient);
     (service as any).cache = {
       get: jest.fn().mockResolvedValue(fieldSuggestions),
       set: jest.fn(),
     };
 
-    const result = await service.generateFormFieldSuggestionsWithMetadata(
-      "checkout form"
-    );
+    const result =
+      await service.generateFormFieldSuggestionsWithMetadata("checkout form");
 
     expect(result).toEqual({
       fields: fieldSuggestions,
@@ -403,7 +422,8 @@ describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
         costOptimization: {
           useCheaperModelsThreshold: 0.8,
         },
-      })
+      }),
+      createMockOpenAIClient
     );
     (service as any).cache = {
       get: jest.fn().mockResolvedValue(null),
@@ -427,7 +447,8 @@ describe("3.3 AI cache hit, miss, and cost-control coverage", () => {
         costOptimization: {
           useCheaperModelsThreshold: 0.4,
         },
-      })
+      }),
+      createMockOpenAIClient
     );
     (service as any).cache = {
       get: jest.fn().mockResolvedValue(null),
