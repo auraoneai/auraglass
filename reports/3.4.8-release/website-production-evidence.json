@@ -1,0 +1,70 @@
+{
+  "schema": "auraglass-package-site-production-evidence/1.0",
+  "generatedAt": "2026-07-24T00:20:00.000Z",
+  "origin": "https://auraglass.auraone.ai",
+  "deploymentId": "dpl_6d2FCzcktjA7UfGT5pMvcgs5Tpyp",
+  "sourceCommit": "e4cccd6ed2c6989f42a5692462965e0d2984b833",
+  "deployedAt": "2026-07-23T17:11:30-07:00",
+  "publicPackage": {
+    "name": "aura-glass",
+    "version": "3.4.7",
+    "distTag": "latest"
+  },
+  "releaseCandidate": {
+    "version": "3.4.8",
+    "published": false,
+    "blocker": "npm authentication returns E401 Unauthorized"
+  },
+  "ok": true,
+  "results": [
+    {
+      "name": "npm-latest",
+      "version": "3.4.7",
+      "ok": true
+    },
+    {
+      "name": "vercel-production-ready",
+      "status": "Ready",
+      "aliases": [
+        "https://auraglass.auraone.ai",
+        "https://auraglasswebsite.vercel.app"
+      ],
+      "ok": true
+    },
+    {
+      "name": "critical-route-smoke",
+      "routes": 9,
+      "status": 200,
+      "ok": true
+    },
+    {
+      "name": "production-sitemap",
+      "urls": 517,
+      "status": 200,
+      "ok": true
+    },
+    {
+      "name": "desktop-mobile-layout-audit",
+      "routes": 25,
+      "viewports": 2,
+      "ok": true
+    },
+    {
+      "name": "desktop-mobile-contrast-audit",
+      "routes": 17,
+      "viewports": 2,
+      "ok": true
+    },
+    {
+      "name": "targeted-runtime-audit",
+      "routes": 5,
+      "ok": true
+    },
+    {
+      "name": "indexnow-submission",
+      "urls": 517,
+      "status": 200,
+      "ok": true
+    }
+  ]
+}

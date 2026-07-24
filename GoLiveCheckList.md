@@ -10,11 +10,12 @@ AuraGlass remains publicly distributed through npm, GitHub, and `auraglass.aurao
 - [x] Passed typecheck, lint, build, pack verification, dry-run package inspection, and the corrected package/runtime test contracts.
 - [ ] Restore npm authentication and publish `aura-glass@3.4.8`; local `npm whoami` currently returns `E401 Unauthorized`.
 - [ ] Upgrade the public website from 3.4.7 to the registry-published 3.4.8 package.
-- [ ] Commit and deploy the website from exact clean source; current Vercel deployment `dpl_GwNx1ggZxbNAfs4E4zYJDmigj4Xe` reports `gitDirty=1`.
-- [ ] Capture post-deploy desktop/mobile route, overflow, keyboard, and automated WCAG evidence.
+- [x] Committed and deployed the website from clean source commit `e4cccd6` to Ready Vercel deployment `dpl_6d2FCzcktjA7UfGT5pMvcgs5Tpyp`.
+- [x] Captured production desktop/mobile route, overflow, interaction, and automated WCAG evidence against `auraglass.auraone.ai`.
+- [ ] Complete manual screen-reader and physical phone/tablet certification.
 - [ ] Create the matching `v3.4.8` tag and GitHub release after npm publication.
 
-Evidence: `reports/3.4.8-release/README.md`.
+Evidence: `reports/3.4.8-release/README.md` and `reports/3.4.8-release/website-production-evidence.md`.
 
 ## 2026-06-16 Code-Level Final Status
 

@@ -30,18 +30,18 @@ AuraGlass 3.4.8 is a package-security and deterministic-test patch. It does not 
 - Public npm `latest` remains `aura-glass@3.4.7`.
 - npm publication is blocked because `npm whoami` returns `E401 Unauthorized`.
 - GitHub authentication is available, but no `v3.4.8` tag or release should be created before npm publication succeeds.
-- `https://auraglass.auraone.ai` is live on Vercel deployment `dpl_GwNx1ggZxbNAfs4E4zYJDmigj4Xe`.
-- That deployment reports source commit `fc114a12c8e47bc1c0ac63d43b996fa161341618` with `gitDirty=1`; it is not acceptable as commit-backed release proof.
-- The live website still consumes public `aura-glass@3.4.7` and therefore cannot prove the 3.4.8 dependency cleanup until npm publication and a clean exact-source redeploy.
+- `https://auraglass.auraone.ai` is live on Ready Vercel deployment `dpl_6d2FCzcktjA7UfGT5pMvcgs5Tpyp`.
+- The deployment was initiated from a clean worktree at website source commit `e4cccd6ed2c6989f42a5692462965e0d2984b833`.
+- Nine critical routes return HTTP 200, the sitemap contains 517 URLs, and production layout, contrast, and targeted runtime browser checks pass.
+- The live website still consumes public `aura-glass@3.4.7` and therefore cannot prove the 3.4.8 dependency cleanup until npm publication and a follow-up package upgrade/redeploy.
+- Detailed production proof: `reports/3.4.8-release/website-production-evidence.md` and `website-production-evidence.json`.
 
 ## Remaining Release Steps
 
 1. Restore npm authentication and publish `aura-glass@3.4.8`.
 2. Verify registry version, integrity, provenance, and install from the public registry.
-3. Upgrade `/Users/gurbakshchahal/websites/auraglasswebsite` to public 3.4.8 and patched Next.js dependencies.
-4. Commit the website's existing security/IndexNow verification files.
-5. Run website typecheck, build, audit, and live desktop/mobile accessibility checks.
-6. Deploy the exact website commit and capture Vercel, DNS/TLS, route, and accessibility evidence.
-7. Create and push `v3.4.8`, then publish the matching GitHub release.
+3. Upgrade `/Users/gurbakshchahal/websites/auraglasswebsite` from public 3.4.7 to public 3.4.8.
+4. Re-run the website verification gate and deploy the exact upgraded website commit.
+5. Create and push `v3.4.8`, then publish the matching GitHub release.
 
 Manual screen-reader and physical phone/tablet certification remain human/device certification work and are not represented as completed by the automated gates above.
