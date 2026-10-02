@@ -1,0 +1,39 @@
+import{f as x}from"./index-DdjpOZjl.js";import{r as h,j as e,c as r}from"./iframe-DFMMcocb.js";import{O as f}from"./OptimizedGlassCore-1D6AE-uZ.js";import"./index-ByImX2pa.js";import"./preload-helper-PPVm8Dsz.js";import"./deviceCapabilities-iDxBLJQX.js";const b=[{id:"c",symbol:"C",name:"Carbon",valence:4,electronegativity:2.55},{id:"o",symbol:"O",name:"Oxygen",valence:2,electronegativity:3.44},{id:"h1",symbol:"H",name:"Hydrogen",valence:1,electronegativity:2.2},{id:"h2",symbol:"H",name:"Hydrogen",valence:1,electronegativity:2.2}],v=[{id:"c-o",from:"c",to:"o",strength:.82,type:"covalent",resonance:.4},{id:"c-h1",from:"c",to:"h1",strength:.61,type:"covalent"},{id:"c-h2",from:"c",to:"h2",strength:.63,type:"covalent"}],N={ionic:"from-blue-500/70 to-sky-500/40",covalent:"from-purple-500/70 to-fuchsia-500/40",hydrogen:"from-emerald-400/70 to-teal-500/30","van-der-waals":"from-amber-400/70 to-orange-400/40"};function o({className:i,molecules:l=b,bonds:p=v,onInspectBond:y}){const c=h.useMemo(()=>{const s=new Map;return l.forEach(a=>{s.set(a.id,a)}),s},[l]);return e.jsxs(f,{role:"group","aria-label":"Molecular bonding interface",className:r("glass-radius-3xl glass-border glass-border-soft glass-p-6 space-y-6","bg-gradient-to-br from-white/10 via-white/5 to-white/8",i),children:[e.jsxs("header",{className:"glass-space-y-1",children:[e.jsx("h2",{className:"glass-text-xl glass-font-semibold glass-text-primary",children:"Molecular Bonding Interface"}),e.jsx("p",{className:"glass-text-sm glass-text-primary-opacity-70",children:"Visualize complex bonding interactions with electronegativity and resonance indicators."})]}),e.jsxs("div",{className:"glass-grid glass-gap-4 md:glass-grid-cols-[minmax(0,240px)_1fr]",children:[e.jsxs("section",{className:"glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur",children:[e.jsx("h3",{className:"glass-text-sm glass-font-semibold glass-text-primary-glass-opacity-80 glass-uppercase glass-tracking-wide",children:"Molecules"}),e.jsx("ul",{className:"glass-mt-3 glass-space-y-3 glass-text-sm",children:l.map(s=>e.jsxs("li",{className:"glass-flex glass-items-center glass-justify-between glass-radius-xl glass-border glass-border-white/10 glass-px-3 glass-py-2 glass-text-primary-opacity-85",children:[e.jsxs("div",{className:"glass-flex glass-items-center glass-gap-3",children:[e.jsx("span",{className:"glass-flex glass-h-9 glass-w-9 glass-items-center glass-justify-center glass-radius-full glass-surface-subtle/10 glass-text-base glass-font-semibold",children:s.symbol}),e.jsxs("span",{children:[e.jsx("div",{className:"glass-font-medium glass-text-primary",children:s.name}),e.jsxs("div",{className:"glass-text-xs glass-text-primary-glass-opacity-60",children:["Valence: ",s.valence??"—"," | EN:"," ",s.electronegativity?.toFixed(2)??"—"]})]})]}),typeof s.charge=="number"&&e.jsx("span",{className:r("text-xs font-semibold",s.charge>=0?"text-emerald-300":"text-rose-300"),children:s.charge>=0?`+${s.charge}`:s.charge})]},s.id))})]}),e.jsxs("section",{className:"glass-radius-2xl glass-border glass-border-white/10 glass-surface-subtle/5 glass-p-4 glass-backdrop-blur",children:[e.jsx("h3",{className:"glass-text-sm glass-font-semibold glass-text-primary-glass-opacity-80 glass-uppercase glass-tracking-wide",children:"Bond Network"}),e.jsx("div",{className:"glass-mt-4 glass-grid glass-gap-3 glass-text-sm",children:p.map(s=>{const a=c.get(s.from),g=c.get(s.to);if(!a||!g)return null;const u=s.type?N[s.type]:"from-slate-500/60 to-slate-700/30";return e.jsxs("button",{type:"button",onClick:()=>y?.(s),className:r("w-full rounded-2xl border border-white/10 px-4 py-3 text-left transition hover:border-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 glass-focus glass-touch-target glass-contrast-guard","bg-gradient-to-r",u),children:[e.jsxs("div",{className:"glass-flex glass-items-center glass-justify-between glass-gap-4 glass-text-primary",children:[e.jsxs("div",{className:"glass-flex glass-items-center glass-gap-2 glass-text-sm",children:[e.jsx("span",{className:"glass-font-semibold",children:a.symbol}),e.jsx("span",{className:"glass-text-primary-glass-opacity-60",children:"⇄"}),e.jsx("span",{className:"glass-font-semibold",children:g.symbol})]}),e.jsx("span",{className:"glass-text-xs glass-uppercase glass-tracking-wide glass-text-primary-glass-opacity-80",children:s.type??"unknown"})]}),e.jsxs("div",{className:"glass-mt-3 glass-grid glass-gap-2 glass-text-xs glass-text-primary-glass-opacity-80 sm:glass-grid-cols-2",children:[e.jsxs("div",{className:"glass-flex glass-items-center glass-justify-between",children:[e.jsx("span",{children:"Strength Index"}),e.jsxs("span",{className:"glass-font-semibold glass-text-primary",children:[(s.strength*100).toFixed(0),"%"]})]}),typeof s.resonance=="number"&&e.jsxs("div",{className:"glass-flex glass-items-center glass-justify-between",children:[e.jsx("span",{children:"Resonance"}),e.jsxs("span",{className:"glass-font-semibold glass-text-primary-glass-opacity-90",children:[(s.resonance*100).toFixed(0),"%"]})]})]})]},s.id)})})]})]})]})}try{o.displayName="MolecularBondingInterface",o.__docgenInfo={description:"",displayName:"MolecularBondingInterface",props:{className:{defaultValue:null,description:"",name:"className",required:!1,type:{name:"string | undefined"}},molecules:{defaultValue:{value:`[
+  { id: "c", symbol: "C", name: "Carbon", valence: 4, electronegativity: 2.55 },
+  { id: "o", symbol: "O", name: "Oxygen", valence: 2, electronegativity: 3.44 },
+  {
+    id: "h1",
+    symbol: "H",
+    name: "Hydrogen",
+    valence: 1,
+    electronegativity: 2.2,
+  },
+  {
+    id: "h2",
+    symbol: "H",
+    name: "Hydrogen",
+    valence: 1,
+    electronegativity: 2.2,
+  },
+]`},description:"",name:"molecules",required:!1,type:{name:"MoleculeNode[] | undefined"}},bonds:{defaultValue:{value:`[
+  {
+    id: "c-o",
+    from: "c",
+    to: "o",
+    strength: 0.82,
+    type: "covalent",
+    resonance: 0.4,
+  },
+  { id: "c-h1", from: "c", to: "h1", strength: 0.61, type: "covalent" },
+  { id: "c-h2", from: "c", to: "h2", strength: 0.63, type: "covalent" },
+]`},description:"",name:"bonds",required:!1,type:{name:"MolecularBond[] | undefined"}},onInspectBond:{defaultValue:null,description:"",name:"onInspectBond",required:!1,type:{name:"((bond: MolecularBond) => void) | undefined"}}}}}catch{}const d=[{id:"c",symbol:"C",name:"Carbon",charge:0,valence:4,electronegativity:2.55},{id:"o",symbol:"O",name:"Oxygen",charge:-1,valence:2,electronegativity:3.44},{id:"h",symbol:"H",name:"Hydrogen",charge:1,valence:1,electronegativity:2.2},{id:"n",symbol:"N",name:"Nitrogen",charge:0,valence:3,electronegativity:3.04}],m=[{id:"c-o",from:"c",to:"o",strength:.86,type:"covalent",resonance:.62},{id:"o-h",from:"o",to:"h",strength:.71,type:"hydrogen",resonance:.38},{id:"c-n",from:"c",to:"n",strength:.77,type:"ionic",resonance:.49}],C={title:"Effects + Advanced/Molecular Bonding Interface",component:o,parameters:{layout:"fullscreen",docs:{description:{component:"Direct rendering of the public MolecularBondingInterface export with a deterministic molecule and bond network."}}},tags:["autodocs"],args:{onInspectBond:x()},argTypes:{onInspectBond:{action:void 0}}},t={args:{molecules:d,bonds:m}},n={args:{molecules:d.slice(0,3),bonds:m.slice(0,2)}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`{
+  args: {
+    molecules: representativeMolecules,
+    bonds: representativeBonds
+  }
+}`,...t.parameters?.docs?.source}}};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
+  args: {
+    molecules: representativeMolecules.slice(0, 3),
+    bonds: representativeBonds.slice(0, 2)
+  }
+}`,...n.parameters?.docs?.source}}};const I=["Default","CompactNetwork"];export{n as CompactNetwork,t as Default,I as __namedExportsOrder,C as default};
