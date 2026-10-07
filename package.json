@@ -140,7 +140,9 @@
     "three": ">=0.170.0",
     "@react-three/fiber": "^9.0.0",
     "@react-three/drei": "^10.0.0",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0"
   },
   "peerDependenciesMeta": {
     "react-aria-components": { "optional": true },
@@ -150,7 +152,9 @@
     "three": { "optional": true },
     "@react-three/fiber": { "optional": true },
     "@react-three/drei": { "optional": true },
-    "tailwindcss": { "optional": true }
+    "tailwindcss": { "optional": true },
+    "d3-scale": { "optional": true },
+    "d3-shape": { "optional": true }
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",
