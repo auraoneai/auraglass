@@ -80,4 +80,16 @@ export default [
   { id: 'Switch.css', import: "src/components/switch/Switch.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'Slider.css', import: "src/components/slider/Slider.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'controls-css-total', import: "aura-glass/styles.css | cmp-controls", limitBytes: 7000, kind: 'css' },
+  // CMP-218/227/238 — §16 overlay rows (provisional until alpha calibration, D-26; ratchet down only)
+  { id: 'Dialog', import: "{ Dialog } from 'aura-glass'", limitBytes: 20000, kind: 'js' },
+  { id: 'AlertDialog', import: "{ AlertDialog } from 'aura-glass'", limitBytes: 20000, kind: 'js' },
+  { id: 'Sheet', import: "{ Sheet } from 'aura-glass'", limitBytes: 24000, kind: 'js' },
+  { id: 'Popover', import: "{ Popover } from 'aura-glass'", limitBytes: 14000, kind: 'js' },
+  { id: 'Tooltip', import: "{ Tooltip } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'Menu', import: "{ Menu, ContextMenu, Menubar } from 'aura-glass'", limitBytes: 22000, kind: 'js' },
+  { id: 'Toast', import: "{ Toast, useToast } from 'aura-glass'", limitBytes: 14000, kind: 'js' },
+  { id: 'Dialog.css', import: "src/components/dialog/Dialog.css | aura-glass/styles.css", limitBytes: 4000, kind: 'css' },
+  { id: 'AlertDialog.css', import: "src/components/alert-dialog/AlertDialog.css | aura-glass/styles.css", limitBytes: 4000, kind: 'css' },
+  { id: 'Sheet.css', import: "src/components/sheet/Sheet.css | aura-glass/styles.css", limitBytes: 5000, kind: 'css' },
+  { id: 'overlays.css', import: "src/components/overlays/_shared/overlays.css | aura-glass/styles.css", limitBytes: 3000, kind: 'css' },
 ] satisfies SizeBudgetRow[];

@@ -6,12 +6,11 @@
  */
 import { describe, expect, it } from '@jest/globals';
 import { existsSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { readFileSync } from 'node:fs';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+const root = process.cwd();
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 
 function distEntry(subpath: string): string {

@@ -8,11 +8,11 @@
  */
 import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { ROOT_EXPORTS } from '../../../src/contracts/entries';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+const root = process.cwd();
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 
 const SUBPATH_ONLY: Record<string, string> = {
