@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "name": "mat:cert-motion-chromium",
+    "testDir": "./tests/motion",
+    "testMatch": "**/*.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:cert-motion-webkit",
+    "testDir": "./tests/motion",
+    "testMatch": "**/*.spec.ts",
+    "use": {
+      "defaultBrowserType": "webkit",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:cert-motion-firefox",
+    "testDir": "./tests/motion",
+    "testMatch": "**/*.spec.ts",
+    "use": {
+      "defaultBrowserType": "firefox",
+      "viewport": { "width": 1440, "height": 900 }
+    }
+  },
+  {
+    "name": "mat:cert-motion-mobile",
+    "testDir": "./tests/motion",
+    "testMatch": "**/responsive.spec.ts",
+    "use": {
+      "defaultBrowserType": "webkit",
+      "viewport": { "width": 390, "height": 844 },
+      "isMobile": true,
+      "hasTouch": true
+    }
+  },
+  {
+    "name": "mat:cert-motion-perf",
+    "testDir": "./tests/perf/browser/mat",
+    "testMatch": "**/*.spec.ts",
+    "use": {
+      "defaultBrowserType": "chromium",
+      "viewport": { "width": 1440, "height": 900 },
+      "launchOptions": { "args": ["--use-gl=swiftshader", "--enable-unsafe-swiftshader"] }
+    }
+  }
+]
