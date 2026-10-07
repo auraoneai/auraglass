@@ -1,7 +1,7 @@
 {
   "name": "aura-glass",
   "version": "5.0.0-alpha.0",
-  "description": "AuraGlass 5.0 — the liquid-glass design system for React 19.",
+  "description": "AuraGlass 5.0 \u2014 the liquid-glass design system for React 19.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -143,16 +143,34 @@
     "tailwindcss": "^4.0.0"
   },
   "peerDependenciesMeta": {
-    "react-aria-components": { "optional": true },
-    "@internationalized/date": { "optional": true },
-    "motion": { "optional": true },
-    "react-hook-form": { "optional": true },
-    "three": { "optional": true },
-    "@react-three/fiber": { "optional": true },
-    "@react-three/drei": { "optional": true },
-    "tailwindcss": { "optional": true }
+    "react-aria-components": {
+      "optional": true
+    },
+    "@internationalized/date": {
+      "optional": true
+    },
+    "motion": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    },
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "@react-three/drei": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
   },
   "devDependencies": {
+    "@ai-sdk/openai-compatible": "1.0.29",
+    "@ai-sdk/react": "2.0.29",
     "@arethetypeswrong/cli": "0.18.5",
     "@axe-core/playwright": "4.13.0",
     "@babel/core": "7.29.7",
@@ -174,6 +192,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@typescript-eslint/parser": "8.71.1",
+    "ai": "5.0.29",
     "babel-jest": "30.5.2",
     "babel-plugin-react-compiler": "1.0.0",
     "esbuild": "0.28.2",
