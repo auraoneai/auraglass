@@ -74,6 +74,23 @@ mat:certify:beta-optics:
     paths: [.artifacts/]
     when: always
 
+# MAT-349: the 'material' Playwright projects run as L5 Behaviour cells on PR
+# scope (WebKit/Gecko-only specs are the L8 Engine-specific cells, SC-29).
+# Remote runners only; evidence uploaded per SC-07.
+mat:certify:l5-material:
+  extends: .mat-base
+  stage: certify
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "pr"
+  script:
+    - npx playwright test --project=mat:material-chromium --project=mat:material-webkit --project=mat:material-firefox --reporter=line
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
+
 # MAT-362 (next half): codemod-fixture integrity + the vendored frozen 4.x
 # consumer cases + material unit specs on 5x PR scope. The release/4.x face of
 # this check (4.x-era suites on the 4.x line) lives in the 4.x copy of this file.
