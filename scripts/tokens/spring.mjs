@@ -69,9 +69,20 @@ export function compileSpring(spring, tokenPath = '<token>') {
 
   let stops = rdp(samples, 0.002);
   while (stops.length > 40) stops = rdp(samples, 0.002 * (stops.length / 40));
-  const pts = stops.map((p) => (Math.round(clamp01(p.x) * 10000) / 10000).toString());
-  pts[pts.length - 1] = '1';
-  return { linear: `linear(${pts.join(', ')})`, durationMs: Math.ceil(settleMs / 10) * 10 };
+  // Emit `x p%` stops so the non-uniform sample times survive: plain lists are
+  // spaced uniformly and break the |x(t)-linear(t)| <= 0.005 contract (MAT-044).
+  // Progress is relative to the emitted (rounded) duration so x(p*durationMs)=x(t).
+  const durationMs = Math.ceil(settleMs / 10) * 10;
+  const pts = stops.map((p, i) => {
+    // no clamp01: the overshoot (x>1 for underdamped springs) must be encoded or the
+    // emitted curve deviates from the analytic solution past the 0.005 contract.
+    const x = (Math.round(p.x * 10000) / 10000).toString();
+    const progress = (p.t / durationMs) * 100;
+    if (i === 0) return x;
+    if (i === stops.length - 1) return `1 100%`; // last stop exactly 1 (contract)
+    return `${x} ${+progress.toFixed(4)}%`;
+  });
+  return { linear: `linear(${pts.join(', ')})`, durationMs };
 }
 
 /** Back-compat shim for earlier call sites. */

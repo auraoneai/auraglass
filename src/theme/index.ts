@@ -10,7 +10,10 @@ import type {
   AnnounceOptions, GlassPreferencesPanelProps,
 } from '../contracts/preferences';
 
-export { createGlassTheme, createBrandGlassTheme } from './createGlassTheme';
+export { createGlassTheme, createGlassThemeCssVars } from './createGlassTheme';
+export { createBrandTheme } from './createBrandTheme';
+export { createBrandGlassTheme } from './createBrandGlassTheme';
+export { presets } from './presets';
 
 /* S-21. Server snapshot: subscribers never fire in the seed, so the hook returns
    SERVER_SNAPSHOT[key] on both server and client (seeds carry no live store). */

@@ -6,7 +6,7 @@
       "ag.since": "5.0.0"
     },
     "app-shell": {
-      "$description": "App-shell metrics (MAT-083, NAV row request SC-18). Values change only by NAV row request. The -bp-* vars are documented read-only/non-functional markers.",
+      "$description": "App-shell metrics (MAT-083, NAV-009 row request; public vars). -bp-* are documented read-only/non-functional markers.",
       "sidebar-width": {
         "$type": "dimension",
         "$value": {
@@ -16,8 +16,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-sidebar-width"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-sidebar-width"
         }
       },
       "rail-width": {
@@ -29,8 +29,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-rail-width"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-rail-width"
         }
       },
       "inspector-width": {
@@ -42,8 +42,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-inspector-width"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-inspector-width"
         }
       },
       "topbar-height": {
@@ -61,8 +61,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-topbar-height",
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-topbar-height",
           "ag.valueType": "dimension"
         }
       },
@@ -75,8 +75,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-tabbar-height"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-tabbar-height"
         }
       },
       "gap": {
@@ -89,8 +89,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-gap",
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-gap",
           "ag.valueType": "dimension"
         }
       },
@@ -103,8 +103,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-compact"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-bp-compact"
         }
       },
       "bp-expanded": {
@@ -116,8 +116,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-expanded"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-bp-expanded"
         }
       },
       "bp-wide": {
@@ -129,8 +129,8 @@
         "$extensions": {
           "ag.tier": "sys",
           "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-bp-wide"
+          "ag.public": true,
+          "ag.cssVar": "--ag-app-shell-bp-wide"
         }
       }
     }

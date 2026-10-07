@@ -1,1 +1,8 @@
-{ "version": 1, "files": {} }
+{
+  "version": 1,
+  "files": {
+    "src/a.ts": {
+      "color": 1
+    }
+  }
+}

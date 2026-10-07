@@ -78,9 +78,9 @@
       },
       "focus-inner": {
         "$type": "color",
-        "$description": "Focus band; must hold 3:1 against the surface (contrast matrix pair).",
+        "$description": "Focus band; must hold 3:1 against the surface (contrast matrix pair) and 9:1 against focus-outer so max(inner,outer)>=3:1 over every backdrop (REQ-MAT-61).",
         "$value": {
-          "light": "{ref.color.accent.8}",
+          "light": "{ref.color.accent.10}",
           "dark": "{ref.color.accent.5}"
         },
         "$extensions": {

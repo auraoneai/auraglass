@@ -12,7 +12,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 6
+    }
+   ],
    "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14)"
   },
   {
@@ -24,7 +28,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 5
+    }
+   ],
    "value": "0px 8px 32px 0px oklch(0 0 0 / 0.2)"
   },
   {
@@ -36,7 +44,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 5
+    }
+   ],
    "value": "0px 1px 4px 0px oklch(0 0 0 / 0.1)"
   },
   {
@@ -51,7 +63,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(0.99 0.004 250)"
   },
   {
@@ -66,7 +82,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(0.26 0.016 250)"
   },
   {
@@ -81,7 +101,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(0.34 0.019 250)"
   },
   {
@@ -93,7 +117,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "20px"
   },
   {
@@ -108,7 +136,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(1 0 0)"
   },
   {
@@ -120,8 +152,161 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(0 0 0 / 0.18)"
+  },
+  {
+   "name": "sys.app-shell.bp-compact",
+   "cssVar": "--ag-app-shell-bp-compact",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "600px"
+  },
+  {
+   "name": "sys.app-shell.bp-expanded",
+   "cssVar": "--ag-app-shell-bp-expanded",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "1024px"
+  },
+  {
+   "name": "sys.app-shell.bp-wide",
+   "cssVar": "--ag-app-shell-bp-wide",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "1440px"
+  },
+  {
+   "name": "sys.app-shell.gap",
+   "cssVar": "--ag-app-shell-gap",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {
+    "compact": "8px",
+    "spacious": "24px"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "16px"
+  },
+  {
+   "name": "sys.app-shell.inspector-width",
+   "cssVar": "--ag-app-shell-inspector-width",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "20rem"
+  },
+  {
+   "name": "sys.app-shell.rail-width",
+   "cssVar": "--ag-app-shell-rail-width",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "4rem"
+  },
+  {
+   "name": "sys.app-shell.sidebar-width",
+   "cssVar": "--ag-app-shell-sidebar-width",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "16rem"
+  },
+  {
+   "name": "sys.app-shell.tabbar-height",
+   "cssVar": "--ag-app-shell-tabbar-height",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {},
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "3.5rem"
+  },
+  {
+   "name": "sys.app-shell.topbar-height",
+   "cssVar": "--ag-app-shell-topbar-height",
+   "type": "dimension",
+   "tier": "sys",
+   "group": "sys",
+   "modes": {
+    "compact": "2.75rem"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "3.25rem"
   },
   {
    "name": "sys.color.accent",
@@ -135,7 +320,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 4
+    }
+   ],
    "value": "oklch(0.64 0.16 235)"
   },
   {
@@ -150,7 +339,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "oklch(0.54 0.022 250)"
   },
   {
@@ -165,7 +358,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 15
+    }
+   ],
    "value": "oklch(0.99 0.004 250)"
   },
   {
@@ -180,7 +377,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(0.6 0.21 27)"
   },
   {
@@ -190,13 +391,17 @@ export const manifest = {
    "tier": "sys",
    "group": "sys",
    "modes": {
-    "light": "light-dark(oklch(0.55 0.16 235), oklch(0.77 0.13 235))",
+    "light": "light-dark(oklch(0.35 0.13 235), oklch(0.77 0.13 235))",
     "dark": "oklch(0.77 0.13 235)"
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
-   "value": "oklch(0.55 0.16 235)"
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
+   "value": "oklch(0.35 0.13 235)"
   },
   {
    "name": "sys.color.focus-outer",
@@ -210,7 +415,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(1 0 0)"
   },
   {
@@ -225,7 +434,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(0.62 0.15 215)"
   },
   {
@@ -240,7 +453,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "oklch(1 0 0)"
   },
   {
@@ -255,7 +472,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 4
+    }
+   ],
    "value": "oklch(0.26 0.016 250)"
   },
   {
@@ -270,7 +491,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "oklch(0.34 0.019 250)"
   },
   {
@@ -285,7 +510,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(1 0 0)"
   },
   {
@@ -300,7 +529,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(0.6 0.15 150)"
   },
   {
@@ -315,7 +548,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "oklch(0.74 0.16 90)"
   },
   {
@@ -327,7 +564,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "var(--_ag-density)"
   },
   {
@@ -339,7 +580,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0"
   },
   {
@@ -351,7 +596,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "300deg"
   },
   {
@@ -363,7 +612,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0.5"
   },
   {
@@ -375,7 +628,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0.35"
   },
   {
@@ -387,7 +644,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(0 0 0 / 0.72)"
   },
   {
@@ -397,13 +658,17 @@ export const manifest = {
    "tier": "sys",
    "group": "sys",
    "modes": {
-    "light": "light-dark(oklch(0.55 0.16 235), oklch(0.77 0.13 235))",
+    "light": "light-dark(oklch(0.35 0.13 235), oklch(0.77 0.13 235))",
     "dark": "oklch(0.77 0.13 235)"
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
-   "value": "oklch(0.55 0.16 235)"
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "oklch(0.35 0.13 235)"
   },
   {
    "name": "sys.focus.outer",
@@ -417,7 +682,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "oklch(1 0 0)"
   },
   {
@@ -429,7 +698,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "ui-monospace, \"SF Mono\", \"Cascadia Code\", Menlo, monospace"
   },
   {
@@ -441,7 +714,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", system-ui, sans-serif"
   },
   {
@@ -453,7 +730,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0px"
   },
   {
@@ -465,7 +746,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0px"
   },
   {
@@ -477,7 +762,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "40000ms"
   },
   {
@@ -489,7 +778,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "90ms"
   },
   {
@@ -501,7 +794,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "60ms"
   },
   {
@@ -513,7 +810,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "450ms"
   },
   {
@@ -525,7 +826,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "320ms"
   },
   {
@@ -537,7 +842,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "320ms"
   },
   {
@@ -549,7 +858,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "220ms"
   },
   {
@@ -561,7 +874,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "120ms"
   },
   {
@@ -573,7 +890,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "80ms"
   },
   {
@@ -585,7 +906,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "200ms"
   },
   {
@@ -597,7 +922,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "140ms"
   },
   {
@@ -609,7 +938,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "cubic-bezier(0.3, 0, 1, 1)"
   },
   {
@@ -621,7 +954,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 5
+    }
+   ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
   },
   {
@@ -633,7 +970,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 4
+    }
+   ],
    "value": "cubic-bezier(0.05, 0.7, 0.1, 1)"
   },
   {
@@ -645,7 +986,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "cubic-bezier(0.2, 0, 0, 1)"
   },
   {
@@ -657,8 +1002,12 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
-   "value": "linear(0, 0.0059, 0.0247, 0.054, 0.0958, 0.1396, 0.1931, 0.4232, 0.5321, 0.6346, 0.7189, 0.7897, 0.8501, 0.8976, 0.9369, 0.9651, 0.9865, 1, 1, 1, 1, 1)"
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "linear(0, 0.0059 1.1429%, 0.0247 2.4286%, 0.054 3.7143%, 0.0958 5.1429%, 0.1396 6.4286%, 0.1931 7.8571%, 0.4232 13.5714%, 0.5321 16.4286%, 0.6346 19.4286%, 0.7189 22.2857%, 0.7897 25.1429%, 0.8501 28.1429%, 0.8976 31.1429%, 0.9369 34.4286%, 0.9651 37.7143%, 0.9865 41.4286%, 1.0007 45.5714%, 1.0085 50.2857%, 1.0108 58.1429%, 1.0025 80.4286%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.fluid",
@@ -669,7 +1018,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "700ms"
   },
   {
@@ -681,8 +1034,12 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
-   "value": "linear(0, 0.0054, 0.0204, 0.0474, 0.0879, 0.1749, 0.3979, 0.4969, 0.5976, 0.6797, 0.7491, 0.8097, 0.8582, 0.8982, 0.9327, 0.958, 0.9768, 0.9899, 0.9968, 1, 1)"
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "linear(0, 0.0054 1.1538%, 0.0204 2.3077%, 0.0474 3.6538%, 0.0879 5.1923%, 0.1749 7.8846%, 0.3979 14.0385%, 0.4969 16.9231%, 0.5976 20.1923%, 0.6797 23.2692%, 0.7491 26.3462%, 0.8097 29.6154%, 0.8582 32.8846%, 0.8982 36.3462%, 0.9327 40.3846%, 0.958 44.6154%, 0.9768 49.4231%, 0.9899 55.1923%, 0.9968 61.1538%, 1.0002 68.6538%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.smooth",
@@ -693,7 +1050,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "520ms"
   },
   {
@@ -705,8 +1066,12 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
-   "value": "linear(0, 0.0042, 0.0209, 0.0476, 0.0816, 0.1637, 0.369, 0.4657, 0.571, 0.653, 0.7281, 0.789, 0.8414, 0.8818, 0.9167, 0.9448, 0.9656, 0.9809, 0.9902, 0.9958, 1)"
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
+   "value": "linear(0, 0.0042 0.8571%, 0.0209 2%, 0.0476 3.1429%, 0.0816 4.2857%, 0.1637 6.5714%, 0.369 11.7143%, 0.4657 14.2857%, 0.571 17.4286%, 0.653 20.2857%, 0.7281 23.4286%, 0.789 26.5714%, 0.8414 30%, 0.8818 33.4286%, 0.9167 37.4286%, 0.9448 42%, 0.9656 47.1429%, 0.9809 53.4286%, 0.9902 60.2857%, 0.9958 68.8571%, 1 100%)"
   },
   {
    "name": "sys.motion.spring.snappy",
@@ -717,7 +1082,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "350ms"
   },
   {
@@ -729,7 +1098,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "9999px"
   },
   {
@@ -741,7 +1114,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "20px"
   },
   {
@@ -753,7 +1130,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 2
+    }
+   ],
    "value": "14px"
   },
   {
@@ -765,7 +1146,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "10px"
   },
   {
@@ -777,7 +1162,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "28px"
   },
   {
@@ -789,7 +1178,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "6px"
   },
   {
@@ -801,7 +1194,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "8px"
   },
   {
@@ -813,7 +1210,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "max(0px, calc(var(--ag-radius-outer) - var(--ag-inset)))"
   },
   {
@@ -825,7 +1226,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "20px"
   },
   {
@@ -837,7 +1242,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(0px * var(--_ag-density))"
   },
   {
@@ -849,7 +1258,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(4px * var(--_ag-density))"
   },
   {
@@ -861,7 +1274,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(40px * var(--_ag-density))"
   },
   {
@@ -873,7 +1290,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(48px * var(--_ag-density))"
   },
   {
@@ -885,7 +1306,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(64px * var(--_ag-density))"
   },
   {
@@ -897,7 +1322,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(8px * var(--_ag-density))"
   },
   {
@@ -909,7 +1338,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(12px * var(--_ag-density))"
   },
   {
@@ -921,7 +1354,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(16px * var(--_ag-density))"
   },
   {
@@ -933,7 +1370,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(20px * var(--_ag-density))"
   },
   {
@@ -945,7 +1386,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(24px * var(--_ag-density))"
   },
   {
@@ -957,7 +1402,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "calc(32px * var(--_ag-density))"
   },
   {
@@ -972,7 +1421,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 9
+    }
+   ],
    "value": "0.45"
   },
   {
@@ -987,7 +1440,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "2px"
   },
   {
@@ -1002,7 +1459,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0.15"
   },
   {
@@ -1017,7 +1478,11 @@ export const manifest = {
    },
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0.25"
   },
   {
@@ -1029,7 +1494,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "44px"
   },
   {
@@ -1041,7 +1510,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "24px"
   },
   {
@@ -1053,7 +1526,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.45"
   },
   {
@@ -1065,7 +1542,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(15px, 0.9rem + 0.2vw, 17px)"
   },
   {
@@ -1077,7 +1558,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "500"
   },
   {
@@ -1089,7 +1574,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.45"
   },
   {
@@ -1101,7 +1590,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(14px, calc(14px + (2) * ((100vw - 320px) / 1120)), 16px)"
   },
   {
@@ -1113,7 +1606,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "500"
   },
   {
@@ -1125,7 +1622,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.3"
   },
   {
@@ -1137,7 +1638,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(12px, calc(12px + (1) * ((100vw - 320px) / 1120)), 13px)"
   },
   {
@@ -1149,7 +1654,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "500"
   },
   {
@@ -1161,7 +1670,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.1"
   },
   {
@@ -1173,7 +1686,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(32px, calc(32px + (12) * ((100vw - 320px) / 1120)), 44px)"
   },
   {
@@ -1185,7 +1702,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "650"
   },
   {
@@ -1197,7 +1718,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.35"
   },
   {
@@ -1209,7 +1734,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(13px, calc(13px + (1) * ((100vw - 320px) / 1120)), 14px)"
   },
   {
@@ -1221,7 +1750,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "600"
   },
   {
@@ -1233,7 +1766,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.45"
   },
   {
@@ -1245,7 +1782,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(14px, calc(14px + (1) * ((100vw - 320px) / 1120)), 15px)"
   },
   {
@@ -1257,7 +1798,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "500"
   },
   {
@@ -1269,7 +1814,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.15"
   },
   {
@@ -1281,7 +1830,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(26px, calc(26px + (6) * ((100vw - 320px) / 1120)), 32px)"
   },
   {
@@ -1293,7 +1846,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "620"
   },
   {
@@ -1305,7 +1862,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.2"
   },
   {
@@ -1317,7 +1878,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(22px, calc(22px + (4) * ((100vw - 320px) / 1120)), 26px)"
   },
   {
@@ -1329,7 +1894,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "615"
   },
   {
@@ -1341,7 +1910,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1.25"
   },
   {
@@ -1353,7 +1926,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 1
+    }
+   ],
    "value": "clamp(19px, calc(19px + (2) * ((100vw - 320px) / 1120)), 21px)"
   },
   {
@@ -1365,7 +1942,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "610"
   },
   {
@@ -1377,7 +1958,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "100"
   },
   {
@@ -1389,7 +1974,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "0"
   },
   {
@@ -1401,7 +1990,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1000"
   },
   {
@@ -1413,7 +2006,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1200"
   },
   {
@@ -1425,7 +2022,11 @@ export const manifest = {
    "modes": {},
    "since": "5.0.0",
    "public": true,
-   "consumers": [],
+   "consumers": [
+    {
+     "count": 0
+    }
+   ],
    "value": "1100"
   }
  ]

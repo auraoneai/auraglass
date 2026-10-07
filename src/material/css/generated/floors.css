@@ -11,12 +11,12 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="thin"][data-ag-backdrop="dark"],
   [data-ag-transparency="glass"][data-ag-thickness="thin"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.905;
+    --_ag-tint-floor: 0.88;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="thin"][data-ag-backdrop="media"],
   [data-ag-transparency="glass"][data-ag-thickness="thin"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.845;
+    --_ag-tint-floor: 0.81;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="regular"][data-ag-backdrop="light"],
@@ -26,12 +26,12 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="regular"][data-ag-backdrop="dark"],
   [data-ag-transparency="glass"][data-ag-thickness="regular"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.855;
+    --_ag-tint-floor: 0.83;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="regular"][data-ag-backdrop="media"],
   [data-ag-transparency="glass"][data-ag-thickness="regular"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.795;
+    --_ag-tint-floor: 0.76;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="thick"][data-ag-backdrop="light"],
@@ -41,12 +41,12 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="thick"][data-ag-backdrop="dark"],
   [data-ag-transparency="glass"][data-ag-thickness="thick"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.805;
+    --_ag-tint-floor: 0.78;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="thick"][data-ag-backdrop="media"],
   [data-ag-transparency="glass"][data-ag-thickness="thick"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.745;
+    --_ag-tint-floor: 0.71;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thin"][data-ag-backdrop="light"],
@@ -56,12 +56,12 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thin"][data-ag-backdrop="dark"],
   [data-ag-transparency="tinted"][data-ag-thickness="thin"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.905;
+    --_ag-tint-floor: 0.88;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thin"][data-ag-backdrop="media"],
   [data-ag-transparency="tinted"][data-ag-thickness="thin"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.845;
+    --_ag-tint-floor: 0.81;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="regular"][data-ag-backdrop="light"],
@@ -71,12 +71,12 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="regular"][data-ag-backdrop="dark"],
   [data-ag-transparency="tinted"][data-ag-thickness="regular"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.855;
+    --_ag-tint-floor: 0.83;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="regular"][data-ag-backdrop="media"],
   [data-ag-transparency="tinted"][data-ag-thickness="regular"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.795;
+    --_ag-tint-floor: 0.76;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thick"][data-ag-backdrop="light"],
@@ -86,12 +86,12 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thick"][data-ag-backdrop="dark"],
   [data-ag-transparency="tinted"][data-ag-thickness="thick"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.805;
+    --_ag-tint-floor: 0.78;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thick"][data-ag-backdrop="media"],
   [data-ag-transparency="tinted"][data-ag-thickness="thick"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.745;
+    --_ag-tint-floor: 0.71;
   }
   [data-ag-transparency="solid"]
     [data-ag-thickness="thin"][data-ag-backdrop="light"],
@@ -141,47 +141,47 @@
   [data-ag-contrast="more"][data-ag-thickness="thin"][data-ag-backdrop="light"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thin"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.6;
+    --_ag-tint-floor: 0.695;
   }
   [data-ag-contrast="more"][data-ag-thickness="thin"][data-ag-backdrop="dark"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thin"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.6;
+    --_ag-tint-floor: 0.88;
   }
   [data-ag-contrast="more"][data-ag-thickness="thin"][data-ag-backdrop="media"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thin"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.6;
+    --_ag-tint-floor: 0.81;
   }
   [data-ag-contrast="more"][data-ag-thickness="regular"][data-ag-backdrop="light"],
   [data-ag-contrast="more"]
     [data-ag-thickness="regular"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.55;
+    --_ag-tint-floor: 0.645;
   }
   [data-ag-contrast="more"][data-ag-thickness="regular"][data-ag-backdrop="dark"],
   [data-ag-contrast="more"]
     [data-ag-thickness="regular"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.55;
+    --_ag-tint-floor: 0.83;
   }
   [data-ag-contrast="more"][data-ag-thickness="regular"][data-ag-backdrop="media"],
   [data-ag-contrast="more"]
     [data-ag-thickness="regular"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.55;
+    --_ag-tint-floor: 0.76;
   }
   [data-ag-contrast="more"][data-ag-thickness="thick"][data-ag-backdrop="light"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thick"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.5;
+    --_ag-tint-floor: 0.595;
   }
   [data-ag-contrast="more"][data-ag-thickness="thick"][data-ag-backdrop="dark"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thick"][data-ag-backdrop="dark"] {
-    --_ag-tint-floor: 0.5;
+    --_ag-tint-floor: 0.78;
   }
   [data-ag-contrast="more"][data-ag-thickness="thick"][data-ag-backdrop="media"],
   [data-ag-contrast="more"]
     [data-ag-thickness="thick"][data-ag-backdrop="media"] {
-    --_ag-tint-floor: 0.5;
+    --_ag-tint-floor: 0.71;
   }
 }
 

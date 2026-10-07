@@ -158,6 +158,21 @@
             "ag.cssVar": "--ag-state-disabled-alpha",
             "ag.valueType": "number"
           }
+        },
+        "surfaceAlpha": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.45,
+            "contrast.more": 0.5,
+            "transparency.solid": 0.5
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-disabled-surface-alpha",
+            "ag.valueType": "number"
+          }
         }
       },
       "loading": {

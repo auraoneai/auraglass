@@ -134,7 +134,8 @@ export function buildFloors(records, resolved, matrix = null) {
   }
   for (const th of THICKNESS) {
     for (const bd of ['light', 'dark', 'media']) {
-      const v = solved?.more?.[th]?.[bd] ?? floor(th);
+      // contrast=more must never go below the tinted floor row (MAT-035 contract).
+      const v = Math.max(solved?.more?.[th]?.[bd] ?? floor(th), solved?.tinted?.[th]?.[bd] ?? 0);
       out.push(`  [data-ag-contrast="more"][data-ag-thickness="${th}"][data-ag-backdrop="${bd}"],`);
       out.push(`  [data-ag-contrast="more"] [data-ag-thickness="${th}"][data-ag-backdrop="${bd}"] {`);
       out.push(`    --_ag-tint-floor: ${Math.round(v * 1000) / 1000};`);
