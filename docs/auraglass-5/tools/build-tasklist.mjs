@@ -1,13 +1,14 @@
 // Builds AURAGLASS_5_IMPLEMENTATION_TASKLIST.md + .csv from tasks/<KEY>.json fragments
 // and validates ids, required fields, and depends_on references.
+// and file ownership (contract §3.2, per line) and the task-fragment rules of contract §7.2.
 // Usage: node docs/auraglass-5/tools/build-tasklist.mjs
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { filesOf, ownersOfEntry } from './ownership-table.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const FIELDS = ['id', 'prd', 'system', 'file', 'action', 'description', 'depends_on', 'priority', 'test', 'storybook', 'acceptance', 'status'];
-// Execution order of PRDs (architecture §16 waves).
+const FIELDS = ['id', 'prd', 'lane', 'system', 'file', 'action', 'description', 'depends_on', 'priority', 'test', 'storybook', 'acceptance', 'status'];
 // The five PRDs run concurrently; order is presentation only.
 const ORDER = ['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL'];
 
@@ -39,19 +40,29 @@ for (const t of tasks) {
       problems.push(`${t.id}: depends on a whole PRD (${d}); PRDs must not wait on each other`);
       continue;
     }
+    if (!/^(PLAT|MAT|CMP|SURF|QUAL)-\d{3}$/.test(d) || d.split('-')[0] !== t._key) problems.push(`${t.id}: depends_on ${d} is not a ${t._key}-NNN id (contract §7.2 rule 1)`);
     if (!ids.has(d)) problems.push(`${t.id}: depends_on unknown ${d}`);
     else if (ids.get(d)._key !== t._key) problems.push(`${t.id}: cross-PRD dependency on ${d}; consume the contract seam instead`);
   }
 }
 
 // File ownership must be disjoint across PRDs so streams never edit the same file.
+// Ownership is per line (contract §3.1 rule 2): `next` follows the §3.2 table; on `release/4.x`
+// PLAT owns every path except other streams' fragments, CI fragments and row group H.
+const lines = (t) => (t.branch === 'both' ? ['next', '4x'] : /4\.x/.test(String(t.branch ?? '')) ? ['4x'] : ['next']);
 const owner = new Map();
 for (const t of tasks) {
-  for (const raw of String(t.file).split(/[;,]\s*/)) {
-    const f = raw.replace(/^NEW:\s*/, '').trim();
-    if (!f || f === 'n/a') continue;
-    if (owner.has(f) && owner.get(f) !== t._key) problems.push(`${t.id}: file ${f} also owned by ${owner.get(f)}`);
-    else owner.set(f, t._key);
+  for (const f of filesOf(t.file)) {
+    for (const line of lines(t)) {
+      const k = `${line}:${f}`;
+      if (owner.has(k) && owner.get(k) !== t._key) problems.push(`${t.id}: file ${f} also owned by ${owner.get(k)} on ${line}`);
+      else owner.set(k, t._key);
+    }
+    // Every `next` path must belong to the task's stream in the ordered ownership table (contract §7.2 rule 3).
+    if (lines(t).includes('next')) {
+      const owners = ownersOfEntry(f).filter((o) => o !== t._key);
+      if (owners.length) problems.push(`${t.id}: file ${f} is owned by ${owners.join('/')} (contract §3.2), not ${t._key}`);
+    }
   }
 }
 
@@ -78,15 +89,15 @@ const out = [
   '',
   `Total tasks: **${tasks.length}**. By priority: ${JSON.stringify(count('priority'))}. By action: ${JSON.stringify(count('action'))}.`,
   '',
-  problems.length ? `Validation problems: ${problems.length} (see end of file).` : 'Validation: all ids unique, all fields present, all dependencies resolve.',
+  problems.length ? `Validation problems: ${problems.length} (see end of file).` : 'Validation: all ids unique, all fields present, every dependency resolves inside its own stream, every path has exactly one owner stream (contract §3.2, per line).',
   '',
 ];
 for (const key of [...new Set(tasks.map((t) => t._key))]) {
   const group = tasks.filter((t) => t._key === key);
   out.push(`## ${key} (${group[0].prd}) — ${group.length} tasks`, '');
-  out.push('| ID | Component/system | File | Action | Depends on | Pri | Test | Storybook | Acceptance | Status |', '|---|---|---|---|---|---|---|---|---|---|');
+  out.push('| ID | Lane | Component/system | File | Action | Depends on | Pri | Test | Storybook | Acceptance | Status |', '|---|---|---|---|---|---|---|---|---|---|---|');
   for (const t of group) {
-    out.push(`| ${md(t.id)} | ${md(t.system)} — ${md(t.description)} | \`${md(t.file)}\` | ${md(t.action)} | ${md(t.depends_on)} | ${md(t.priority)} | ${md(t.test)} | ${md(t.storybook)} | ${md(t.acceptance)} | ${md(t.status)} |`);
+    out.push(`| ${md(t.id)} | ${md(t.lane)} | ${md(t.system)} — ${md(t.description)} | \`${md(t.file)}\` | ${md(t.action)} | ${md(t.depends_on)} | ${md(t.priority)} | ${md(t.test)} | ${md(t.storybook)} | ${md(t.acceptance)} | ${md(t.status)} |`);
   }
   out.push('');
 }

@@ -914,41 +914,18 @@ Evidence is a CI artifact keyed to the release SHA, with retention, linked from 
 
 ## 16. PRD decomposition
 
-PRD files live in `docs/auraglass-5/prd/`. Each PRD owns its boundary exclusively. A PRD may consume another PRD's public contract but must not edit its internals. Decisions D-xx are inputs, not open questions.
+**Changed 2026-10-06.** The 22-PRD decomposition (PRD-00..PRD-21) and its wave order that stood here are replaced by **five PRDs that all start on day 0 and run concurrently**, coupled only through the frozen contract. No PRD and no task depends on another PRD or another PRD's task. Decisions D-01..D-32 and every other section of this document are unchanged. The superseded 19-file realisation of the old table is archived at `archive/v1-19-prd/`.
 
-| PRD | File | Boundary (owns) | Depends on | Exit criterion |
-|---|---|---|---|---|
-| PRD-00 | `PRD-00-trust-patch-4.1.1.md` | §13.1 cuts, npm pack fix, Slot ref fallback, hydration fixes, claim retractions, CI-only publish, `reports/` out of the tree, security advisory, font decision, baseline API report and `deprecations.json` | — | 4.1.1 published from CI, Pipeline Validation green |
-| PRD-01 | `PRD-01-release-governance.md` | Change-class taxonomy, API Extractor reports, the `deprecations.json` schema and gate, the visual-class gate, dist-tag and rollback runbook, branch policy, generated claims | PRD-00 | Gates live on `main` and `release/4.x` |
-| PRD-02 | `PRD-02-build-packaging.md` | tsdown/preserveModules build, exports manifest, ESM-only, per-file directives and lint, side-effect gate, dependency allowlist, tarball rules, per-import budgets | PRD-01 | publint/attw/side-effect/budget gates green on an empty skeleton |
-| PRD-03 | `PRD-03-token-compiler.md` | DTCG tree, Style Dictionary transforms (material, spring→`linear()`, contrast solve), modes, presets, `createGlassTheme`/`createBrandTheme`, Tailwind bridge, shadcn aliases, dead/undefined var gates | PRD-02 | `tokens.css` + TS generated; contrast matrix runs |
-| PRD-04 | `PRD-04-material-engine.md` | `src/material/**`: `MaterialSpec`, the CSS layer stack, nesting, groups, content materials, tiers, lens maps, `Surface`/`SurfaceGroup`/`Environment`/`ScrollEdge`/`ConcentricFrame`, the optics lint rule | PRD-03 | environment matrix green for `Surface`; recipes = 1 |
-| PRD-05 | `PRD-05-a11y-preferences.md` | `ag.a11y` rungs, the OS-floor resolution, `usePreference` store, `AuraGlassProvider`, `AuraGlassScript`, portal root and layer stack, focus ring, targets, announcer, `GlassPreferencesPanel` | PRD-03, PRD-04 | forced-colors, contrast-more and reduced-transparency lanes green on `Surface` |
-| PRD-06 | `PRD-06-motion.md` | Motion tokens in CSS, the View Transition optics drop, pointer light, `./motion` adapter, lint, motion lane | PRD-03, PRD-05 | motion lane green on Button and Dialog |
-| PRD-07 | `PRD-07-foundation-integration.md` | Base UI wrapping pattern, the `data-ag-part` contract, React 19 ref pattern and internal `forwardRef` codemod, RA optional-peer integration and the alpha coverage check, KEEP primitives | PRD-02, PRD-04 | Button + Dialog flagships certified (pattern proven) |
-| PRD-08 | `PRD-08-flagship-controls.md` | Flagships 1–14 | PRD-07 | each certified in every lane |
-| PRD-09 | `PRD-09-flagship-overlays.md` | Flagships 15–21 | PRD-07 | as above |
-| PRD-10 | `PRD-10-app-shell-navigation.md` | Flagships 22–31, `./app-shell` | PRD-07, PRD-09 | as above |
-| PRD-11 | `PRD-11-data-and-date.md` | Flagships 32–37 and 14 (`./date`), TanStack integration, `ChartFrame`; 5.1 `./charts` | PRD-07, PRD-08 | as above |
-| PRD-12 | `PRD-12-ai-primitives.md` | Flagships 38–42, `./ai` (presentational, AI-SDK parts, no provider calls) | PRD-07, PRD-11 (virtualization) | as above |
-| PRD-13 | `PRD-13-media-backdrops.md` | Flagships 43–44, `./media`, `./backdrops`, library-owned luminance sampling | PRD-04, PRD-07 | as above; clear-over-media scene certified |
-| PRD-14 | `PRD-14-core-components.md` | T2 core (about 40) | PRD-07 | reduced matrix green |
-| PRD-15 | `PRD-15-enhanced-tier.md` | Lens maps, engine detection, bezel clamp, kill switches; `preview/*` until certified | PRD-04, PRD-05 | Chromium lens certified by RC-1, or deferred to 5.1 |
-| PRD-16 | `PRD-16-removal-extraction.md` | §13 deletions, the server archive, consumer grep, one PR per family | PRD-00, PRD-01 | inventory REMOVE = 0 in `main` |
-| PRD-17 | `PRD-17-bridge-4.2-4.3.md` | Dependency diet, deprecation warnings, experimental `/material`, the `data-ag-preview` scoping of the 6 primitives, `compat/*.css`, `doctor --v5` | PRD-01, PRD-02, PRD-04 | 4.2 and 4.3 published; frozen 4.x fixture unchanged |
-| PRD-18 | `PRD-18-cli-codemods-registry.md` | `@auraglass/cli`, `migrate 4to5` transforms and fixtures, eject/diff, the shadcn registry (base, blocks, items), `aura-glass/compat` adapters | PRD-01, the flagship PRDs (mapping tables) | codemods clean on canaries; every block renders |
-| PRD-19 | `PRD-19-certification-infra.md` | The 8 scenes, Material Lab, pixel gates, OCR, engine lanes, perf harness and grades, canaries, artifact retention | PRD-02 (start), runs in parallel | every lane exists and fails closed |
-| PRD-20 | `PRD-20-docs-agent-dx.md` | Docs app, "Choosing a material" guide, migration guide (generated from `deprecations.json`), selector tables, `llms.txt`, MCP, generated claims | PRD-01, PRD-18 | docs lint green; zero unsourced claims |
-| PRD-21 | `PRD-21-labs.md` | `@auraglass/labs` package, admission gate, cinematic lens incubation | PRD-04, PRD-19 | first resident admitted |
+| Key | PRD (`docs/auraglass-5/prd/`) | Owns (former §16 boundaries) |
+|---|---|---|
+| PLAT | [`AURAGLASS_PLATFORM_RELEASE_PRD.md`](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | PRD-00 trust patch, PRD-01 release governance, PRD-02 build and packaging, PRD-16 removal and extraction, PRD-17 bridge (4.x code; MAT supplies the bridge content), PRD-18 CLI, codemod engine and registry, PRD-20 docs and agent DX; GitLab CI/CD and publishing |
+| MAT | [`AURAGLASS_MATERIAL_SYSTEM_PRD.md`](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | PRD-03 token compiler, PRD-04 material engine, PRD-05 a11y and preferences, PRD-06 motion, PRD-15 enhanced tier |
+| CMP | [`AURAGLASS_CORE_COMPONENTS_PRD.md`](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | PRD-07 foundation integration, PRD-08 flagship controls (1–13), PRD-09 flagship overlays (15–21), PRD-14 core components |
+| SURF | [`AURAGLASS_PRODUCT_SURFACES_PRD.md`](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | PRD-10 app shell and navigation, PRD-11 data and date (incl. flagship 14), PRD-12 AI primitives, PRD-13 media and backdrops, PRD-21 labs |
+| QUAL | [`AURAGLASS_QUALITY_SHOWCASE_PRD.md`](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | PRD-19 certification infrastructure, plus Storybook, Material Lab, showcases and the perf harness |
+| — | [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`, frozen) | file ownership, seam interfaces, seeds, fragments, branch model (`release/4.x` and `next` in parallel), GitLab CI/CD, GA checklist |
 
-**Execution order.**
-
-1. **Wave 0**: PRD-00, then PRD-01.
-2. **Wave 1, in parallel**: PRD-02, PRD-03, PRD-16 and PRD-19 (infra starts immediately).
-3. **Wave 2**: PRD-04, then PRD-05 and PRD-06. PRD-17 (4.2) runs alongside once PRD-04's compiler emits.
-4. **Wave 3**: PRD-07 proves the pattern on Button and Dialog. That is the alpha gate and the budget calibration point.
-5. **Wave 4, in parallel**: PRD-08 through PRD-15. PRD-17 (4.3) lands when the 4.3 deprecation list is final.
-6. **Wave 5**: PRD-18, PRD-20 and PRD-21, then beta → RC → GA.
+Execution order: none between PRDs. All five streams, and all their internal lanes, start on day 0; integration is continuous and GA is the contract §6.2 checklist. Program view: [`AURAGLASS_5_MASTER_PRD.md`](AURAGLASS_5_MASTER_PRD.md) §5.
 
 ---
 
