@@ -56,7 +56,8 @@ module.exports = [
           'occlusion-layer'
         ] 
       }],
-      'auraglass/no-inline-style-attr': 'warn'
+      'auraglass/no-inline-style-attr': 'warn',
+      'auraglass/motion-no-empty-animate': 'error',
     }
   },
 
