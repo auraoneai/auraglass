@@ -3,11 +3,11 @@
    no hand-written cells; stable ids overlays-<subject>--matrix-*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog } from '../../dialog/index';
-import { AlertDialog } from '../../alert-dialog/index';
-import { Sheet } from '../../sheet/index';
-import { AuraGlassProvider } from '../../../theme';
-import type { StoryAgParameters } from '../../../contracts/testing';
+import { Dialog } from '../../../src/components/dialog/index';
+import { AlertDialog } from '../../../src/components/alert-dialog/index';
+import { Sheet } from '../../../src/components/sheet/index';
+import { AuraGlassProvider } from '../../../src/theme';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/OverlayMatrix',

@@ -1,9 +1,9 @@
 /* CMP-222: AlertDialog scenes — Confirm (neutral) and Danger (intent). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { AlertDialog } from './index';
-import { AuraGlassProvider } from '../../theme';
-import type { StoryAgParameters } from '../../contracts/testing';
+import { AlertDialog } from '../../../src/components/alert-dialog';
+import { AuraGlassProvider } from '../../../src/theme';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/AlertDialog',

@@ -3,9 +3,9 @@
    overlays-sheet--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Sheet } from './index';
-import { AuraGlassProvider } from '../../theme';
-import type { StoryAgParameters } from '../../contracts/testing';
+import { Sheet } from '../../../src/components/sheet';
+import { AuraGlassProvider } from '../../../src/theme';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/Sheet',

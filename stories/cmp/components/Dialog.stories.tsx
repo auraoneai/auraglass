@@ -2,11 +2,11 @@
    Form, Nested, NonModal, PaletteShell. ids overlays-dialog--*. */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog } from './index';
-import { Button } from '../button';
-import { TextField } from '../text-field';
-import { AuraGlassProvider } from '../../theme';
-import type { StoryAgParameters } from '../../contracts/testing';
+import { Dialog } from '../../../src/components/dialog';
+import { Button } from '../../../src/components/button';
+import { TextField } from '../../../src/components/text-field';
+import { AuraGlassProvider } from '../../../src/theme';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/Dialog',
@@ -21,11 +21,11 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
   <AuraGlassProvider>{children}</AuraGlassProvider>
 );
 
-export const Default: Story = {
+export const Playground: Story = {
   parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--default' } },
   render: () => (
     <Shell>
-      <Dialog.Root>
+      <Dialog.Root defaultOpen>
         <Dialog.Trigger>Open dialog</Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Backdrop />
@@ -70,8 +70,8 @@ export const Sizes: Story = {
       <Dialog.Root defaultOpen>
         <Dialog.Portal>
           <Dialog.Backdrop />
-          <Dialog.Popup size="sm">
-            <Dialog.Header><Dialog.Title>Size: sm</Dialog.Title></Dialog.Header>
+          <Dialog.Popup size="md">
+            <Dialog.Header><Dialog.Title>Sizes axis: sm / md / lg / xl / full — this cell md</Dialog.Title></Dialog.Header>
             <Dialog.Body>Body</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>
           </Dialog.Popup>
@@ -140,7 +140,7 @@ export const NonModal: Story = {
       <input placeholder="page input stays interactive" style={{ marginBottom: 12 }} />
       <Dialog.Root defaultOpen modal={false}>
         <Dialog.Portal>
-          <Dialog.Popup size="sm">
+          <Dialog.Popup size="md">
             <Dialog.Header><Dialog.Title>Non-modal</Dialog.Title></Dialog.Header>
             <Dialog.Body>No scrim; page stays interactive.</Dialog.Body>
             <Dialog.Footer><Dialog.Close>Close</Dialog.Close></Dialog.Footer>

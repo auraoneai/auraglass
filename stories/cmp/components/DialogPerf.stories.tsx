@@ -2,9 +2,9 @@
    the 4.x dashboard perf fixture). */
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Dialog } from './index';
-import { AuraGlassProvider } from '../../theme';
-import type { StoryAgParameters } from '../../contracts/testing';
+import { Dialog } from '../../../src/components/dialog';
+import { AuraGlassProvider } from '../../../src/theme';
+import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const sbMeta = {
   title: 'Flagships/Overlays/DialogPerf',
