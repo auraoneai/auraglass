@@ -16,7 +16,11 @@
     "allowImportingTsExtensions": false,
     "noEmit": true,
     "types": ["node"],
-    "paths": { "@/*": ["./src/*"] }
+    "paths": {
+      "@/*": ["./src/*"],
+      "aura-glass": ["./src/index.ts"],
+      "aura-glass/*": ["./src/*/index.ts", "./src/*"]
+    }
   },
   "include": ["src", "tests", "fragments", "registry", "showcase", "certification", "stories", ".storybook"],
   "exclude": ["legacy", "dist", "node_modules", "packages/*/dist", "apps/docs/.next"]
