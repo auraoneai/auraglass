@@ -146,14 +146,25 @@ function TabBarItem({ value, current, icon, badge, href, children, render, ...re
     render: render as React.ReactElement | undefined,
     href,
     'data-ag-part': 'tab-bar-item',
+    className: 'ag-tab-bar__item',
     ...(current ? { 'aria-current': 'page' as const } : {}),
     ...(semantics === 'tabs' && value !== undefined ? { role: 'tab', 'data-ag-value': value } : {}),
     ...rest,
     children: (
       <>
-        {icon !== undefined ? <span data-ag-part="tab-bar-item-icon" aria-hidden>{icon}</span> : null}
-        <span data-ag-part="tab-bar-item-label">{children}</span>
-        {badge !== undefined ? <span data-ag-part="tab-bar-item-badge">{badge}</span> : null}
+        {icon !== undefined ? (
+          <span data-ag-part="tab-bar-item-icon" className="ag-tab-bar__item-icon" aria-hidden>
+            {icon}
+          </span>
+        ) : null}
+        <span data-ag-part="tab-bar-item-label" className="ag-tab-bar__item-label">
+          {children}
+        </span>
+        {badge !== undefined ? (
+          <span data-ag-part="tab-bar-item-badge" className="ag-tab-bar__item-badge">
+            {badge}
+          </span>
+        ) : null}
       </>
     ),
   });
@@ -183,7 +194,7 @@ export function TabBarItemBadge({ children, render, ...rest }: PartProps<'span'>
 TabBarItemBadge.displayName = 'TabBar.ItemBadge';
 
 export function TabBarAccessory({ children, render, ...rest }: PartProps<'div'>) {
-  return partElement('div', { render, 'data-ag-part': 'tab-bar-accessory', ...rest, children });
+  return partElement('div', { render, 'data-ag-part': 'tab-bar-accessory', className: 'ag-tab-bar__accessory', ...rest, children });
 }
 TabBarAccessory.displayName = 'TabBar.Accessory';
 
@@ -191,6 +202,7 @@ export function TabBarSearch({ render, ...rest }: PartProps<'div'>) {
   return partElement('div', {
     render,
     'data-ag-part': 'tab-bar-search',
+    className: 'ag-tab-bar__search',
     ...rest,
     children: <SearchField render={<button type="button" aria-label="Search" />} />,
   });

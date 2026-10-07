@@ -15,6 +15,7 @@ import { SidebarCollapsible } from './Sidebar.Collapsible';
 import { SidebarDrawer } from './Sidebar.Drawer';
 
 export type SidebarRootProps = PartProps<'aside'> & {
+  labels?: { navigation?: string } | undefined;
   /** 'sidebar' = flush column; 'inset' = framed inside main padding;
       'floating' = detached chrome panel. Never maps to data-ag-variant. */
   appearance?: 'sidebar' | 'inset' | 'floating' | undefined;
@@ -22,12 +23,13 @@ export type SidebarRootProps = PartProps<'aside'> & {
   variant?: MaterialVariant | undefined;
 };
 
-function SidebarRoot({ appearance = 'sidebar', variant, children, render, ...rest }: SidebarRootProps) {
+function SidebarRoot({ appearance = 'sidebar', variant, labels, children, render, ...rest }: SidebarRootProps) {
   const aside = partElement('aside', {
     render,
     'data-ag-slot': 'sidebar',
     'data-ag-part': 'sidebar',
     className: 'ag-sidebar',
+    ...(labels?.navigation !== undefined ? { 'aria-label': labels.navigation } : {}),
     'data-ag-appearance': appearance,
     ...rest,
     children,

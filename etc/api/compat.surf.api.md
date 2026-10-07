@@ -1,3 +1,29 @@
 ## API Report — aura-glass/compat (SURF adapters)
 
+- `GlassAppShell`
+- `GlassBottomNav`
+- `GlassBreadcrumb`
+- `GlassCommand`
+- `GlassCommandPalette`
+- `GlassHeader`
+- `GlassInspector`
+- `GlassMain`
+- `GlassMobileNav`
+- `GlassMobileShell`
+- `GlassPageHeader`
+- `GlassPageTabs`
+- `GlassPagination`
+- `GlassSidebar`
+- `GlassStatusBar`
+- `GlassTabBar`
+- `GlassTabs`
+- `GlassTopBar`
+- `GlassWorkspaceTabs`
+- `LiquidGlassBottomAccessory`
+- `LiquidGlassCommandSurface`
+- `LiquidGlassDestination`
+- `LiquidGlassSource`
+- `LiquidGlassTabBar`
+- `LiquidGlassTransitionProvider`
 - `SURF_COMPAT_ADAPTERS`
+- `ZSpaceAppLayout`

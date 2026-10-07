@@ -67,6 +67,7 @@ function TabsRoot({
           render,
           'data-ag-part': 'tabs',
           'data-ag-appearance': appearance,
+          className: 'ag-tabs',
           'data-ag-size': size,
           ...rest,
           children,
@@ -90,6 +91,7 @@ function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps)
       render={partElement('div', {
         render,
         'data-ag-part': 'list',
+        className: 'ag-tabs__list',
         role: 'tablist',
         ...rest,
         children,
@@ -124,6 +126,8 @@ function TabsTab({ value, children, render, ...rest }: TabsTabProps) {
             (state as { selected?: boolean }).selected
             ? 'active'
             : 'inactive',
+          'data-ag-part': 'tab',
+          className: 'ag-tabs__tab',
         })) as never}
     />
   );
@@ -147,6 +151,7 @@ function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelP
         id: `${idBase}-panel-${value}`,
         role: 'tabpanel',
         'data-ag-part': 'panel',
+        className: 'ag-tabs__panel',
         'aria-labelledby': `${idBase}-tab-${value}`,
         ...rest,
         children,
@@ -164,6 +169,7 @@ export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
         render,
         'data-ag-part': 'indicator',
         'data-ag-vt-participant': '',
+        className: 'ag-tabs__indicator',
         style: { viewTransitionName: `ag-tabs-indicator-${vtName}` },
         'aria-hidden': true,
         ...rest,

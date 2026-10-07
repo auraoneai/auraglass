@@ -4,6 +4,18 @@
 // @ag-contract-seed markers (index rule) — empty until lanes deliver.
 
 // --- lane W1 begin ---
+// W1 (SURF-113): no exports land yet. Tabs, Command and SourceTransition are
+// implemented, but their import graphs reach @ag-contract-seed barrels
+// (../../motion, ../../theme); TabBar/Breadcrumbs/Pagination/CommandPalette
+// additionally reach seeded CMP seams (search-field, menu, dialog). Each
+// re-export lands in the PR where the owning stream replaces its seed:
+//   export { Tabs } from '../components/tabs/Tabs';
+//   export { TabBar } from '../components/tab-bar/TabBar';
+//   export { Breadcrumbs } from '../components/breadcrumbs/Breadcrumbs';
+//   export { Pagination } from '../components/pagination/Pagination';
+//   export { CommandPalette } from '../components/command-palette/CommandPalette';
+//   export { Command } from '../components/command-palette/Command';
+//   export { SourceTransition } from '../components/source-transition/SourceTransition';
 // --- lane W1 end ---
 
 // --- lane W2 begin ---

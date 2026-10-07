@@ -2,7 +2,18 @@
 import type { PerfBudgetRow } from '../../src/contracts/fragments';
 
 // --- lane W1 begin ---
-const w1 = [] as const;
+const w1 = [
+  { subject: 'surf/appshell--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/appshell--default', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/appshell--default', profile: 'mid-mobile', metric: 'long-tasks', max: 0.02, provisional: true },
+  { subject: 'surf/sidebar--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/sidebar--default', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/resizablepanels--default', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/resizablepanels--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/command--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/command--default', profile: 'desktop-120hz', metric: 'long-tasks', max: 0.02, provisional: true },
+  { subject: 'surf/appshell--default', profile: 'mid-mobile', metric: 'blurred-surfaces', max: 4, provisional: true },
+] as const;
 // --- lane W1 end ---
 
 // --- lane W2 begin ---

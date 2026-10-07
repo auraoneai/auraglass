@@ -4,6 +4,12 @@ import type { CssFragment } from '../../src/contracts/fragments';
 // --- lane W1 begin ---
 const w1 = [
   { file: 'src/app-shell/app-shell.css', layer: 'ag.components', bundle: 'app-shell.css' },
+  { file: 'src/components/tabs/Tabs.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/tab-bar/TabBar.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/breadcrumbs/Breadcrumbs.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/pagination/Pagination.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/command-palette/Command.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/source-transition/SourceTransition.css', layer: 'ag.components', bundle: 'styles.css' },
 ] as const;
 // --- lane W1 end ---
 

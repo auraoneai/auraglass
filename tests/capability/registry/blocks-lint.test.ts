@@ -25,6 +25,7 @@ const SURF_ITEMS = new Set([
   'code-surface', 'diff-viewer', 'gantt', 'kanban', 'react-hook-form',
   'rich-text', 'transfer-list', 'presence-stack', 'comment-thread',
   'faceted-search', 'query-builder', 'schema-viewer', 'tree-select',
+  'app-shell-workspace',
 ]);
 const PUBLIC_AURA = new Set([
   'aura-glass', 'aura-glass/app-shell', 'aura-glass/data', 'aura-glass/date',

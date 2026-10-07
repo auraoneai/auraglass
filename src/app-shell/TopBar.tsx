@@ -11,6 +11,7 @@ export type TopBarRootProps = PartProps<'header'> & {
   placement?: 'inline' | 'overlay';
   /** MAT seam: maps to ScrollEdge edgeStyle. 'none' renders no edge. */
   scrollEdge?: 'soft' | 'hard' | 'none';
+  labels?: { topBar?: string } | undefined;
 };
 
 const seenScrollEdges = new Set<string>();
@@ -18,6 +19,7 @@ const seenScrollEdges = new Set<string>();
 function TopBarRoot({
   placement = 'inline',
   scrollEdge = 'soft',
+  labels,
   children,
   render,
   ...rest
@@ -40,6 +42,7 @@ function TopBarRoot({
         'data-ag-slot': 'top',
         'data-ag-part': 'top-bar',
         className: 'ag-top-bar',
+        ...(labels?.topBar !== undefined ? { 'aria-label': labels.topBar } : {}),
         'data-ag-placement': placement,
         ...rest,
         children: (

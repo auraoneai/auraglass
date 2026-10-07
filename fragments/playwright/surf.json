@@ -1,5 +1,26 @@
 {
-  "W1": [],
+  "W1": [
+    {
+      "name": "surf:app-shell",
+      "testDir": "tests/e2e/surf/app-shell"
+    },
+    {
+      "name": "surf:motion",
+      "testDir": "tests/e2e/surf/motion"
+    },
+    {
+      "name": "surf:perf",
+      "testDir": "tests/perf/browser/surf"
+    },
+    {
+      "name": "surf:apg",
+      "testDir": "tests/a11y/apg/surf"
+    },
+    {
+      "name": "surf:rsc",
+      "testDir": "tests/rsc/surf"
+    }
+  ],
   "W2": [],
   "W3": [],
   "W4": [],

@@ -26,6 +26,12 @@ export type SidebarDrawerProps = {
   side?: 'start' | 'end';
 };
 
+const DETACHED_SNAPSHOT = {
+  sidebar: 'expanded' as const,
+  inspector: 'closed' as const,
+  mode: 'expanded' as const,
+};
+
 export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) {
   const marker = React.useRef<HTMLSpanElement | null>(null);
   const [rootEl, setRootEl] = React.useState<HTMLElement | null>(null);
@@ -34,14 +40,8 @@ export function SidebarDrawer({ children, side = 'start' }: SidebarDrawerProps) 
 
   const snapshot = React.useSyncExternalStore(
     React.useCallback((cb: () => void) => (rootEl ? subscribe(rootEl, cb) : () => {}), [rootEl]),
-    () =>
-      rootEl
-        ? getSnapshot(rootEl)
-        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const },
-    () =>
-      rootEl
-        ? getServerSnapshot(rootEl)
-        : { sidebar: 'expanded' as const, inspector: 'closed' as const, mode: 'expanded' as const },
+    () => (rootEl ? getSnapshot(rootEl) : DETACHED_SNAPSHOT),
+    () => (rootEl ? getServerSnapshot(rootEl) : DETACHED_SNAPSHOT),
   );
 
   React.useLayoutEffect(() => {

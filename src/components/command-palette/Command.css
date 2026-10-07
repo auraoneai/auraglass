@@ -1,0 +1,42 @@
+/* Command + CommandPalette (SURF-127): palette chrome and list layout.
+   Scrolling is native inside __list (REQ-SURF-63: VirtualList mounts above
+   the threshold — W2); row highlight is a data-attribute, not JS classes. */
+@layer ag.components {
+  .ag-command-palette {
+    display: flex;
+    flex-direction: column;
+    max-block-size: var(--ag-command-palette-max-h, 60vh);
+    overflow: hidden;
+  }
+  .ag-command {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+  .ag-command__input {
+    inline-size: 100%;
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    border: none;
+    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
+    background: transparent;
+    color: var(--ag-fg, currentColor);
+    font: inherit;
+  }
+  .ag-command__list {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--ag-space-1, 0.25rem);
+  }
+  .ag-command__item {
+    display: flex;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    min-block-size: var(--ag-touch-target, 2.75rem);
+    border-radius: var(--ag-radius-1, 0.25rem);
+    cursor: default;
+  }
+  .ag-command__item[data-ag-active] {
+    background: var(--ag-accent-soft, transparent);
+  }
+}

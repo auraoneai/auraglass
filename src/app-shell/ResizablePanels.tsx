@@ -265,7 +265,10 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
   const drag = React.useRef<{ pointerId: number; last: number; extent: number } | null>(null);
   const [ariaNow, setAriaNow] = React.useState<number | undefined>(undefined);
 
-  const handleIndex = () => (ref.current && ctx ? ctx.handleIndexFor(ref.current) : 0);
+  const handleIndex = React.useCallback(
+    () => (ref.current && ctx ? ctx.handleIndexFor(ref.current) : 0),
+    [ctx],
+  );
 
   const flush = React.useCallback(() => {
     raf.current = null;
@@ -348,6 +351,7 @@ function ResizableHandle({ label, render, ...rest }: ResizableHandleProps) {
     if (!ctx || !ref.current) return;
     const v = ctx.layout[handleIndex()];
     if (v !== undefined) setAriaNow((prev) => (prev === v ? prev : v));
+    // handleIndex is stable across renders (DOM-lookup order, not state).
   }, [ctx, handleIndex]);
 
   const idx = handleIndex();

@@ -19,7 +19,32 @@ export interface SurfCompatAdapter {
 }
 
 // --- lane W1 begin ---
-const w1: SurfCompatAdapter[] = [];
+export { GlassAppShell } from './app-shell/GlassAppShell';
+export { GlassHeader } from './app-shell/GlassHeader';
+export { GlassTopBar } from './app-shell/GlassTopBar';
+export { GlassSidebar } from './app-shell/GlassSidebar';
+export { GlassMain } from './app-shell/GlassMain';
+export { GlassPageHeader } from './app-shell/GlassPageHeader';
+export { GlassStatusBar } from './app-shell/GlassStatusBar';
+export { GlassInspector } from './app-shell/GlassInspector';
+export { GlassMobileShell } from './app-shell/GlassMobileShell';
+export { ZSpaceAppLayout } from './app-shell/ZSpaceAppLayout';
+export { GlassTabs } from './navigation/GlassTabs';
+export { GlassPageTabs } from './navigation/GlassPageTabs';
+export { GlassTabBar } from './navigation/GlassTabBar';
+export { GlassWorkspaceTabs } from './navigation/GlassWorkspaceTabs';
+export { LiquidGlassTabBar } from './navigation/LiquidGlassTabBar';
+export { GlassBottomNav } from './navigation/GlassBottomNav';
+export { LiquidGlassBottomAccessory } from './navigation/LiquidGlassBottomAccessory';
+export { GlassMobileNav } from './navigation/GlassMobileNav';
+export { GlassBreadcrumb } from './navigation/GlassBreadcrumb';
+export { GlassPagination } from './navigation/GlassPagination';
+export { GlassCommandPalette } from './navigation/GlassCommandPalette';
+export { GlassCommand } from './navigation/GlassCommand';
+export { LiquidGlassCommandSurface } from './navigation/LiquidGlassCommandSurface';
+export { LiquidGlassTransitionProvider } from './navigation/LiquidGlassTransitionProvider';
+export { LiquidGlassSource } from './navigation/LiquidGlassSource';
+export { LiquidGlassDestination } from './navigation/LiquidGlassDestination';
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
@@ -39,5 +64,5 @@ const w5: SurfCompatAdapter[] = [];
 // --- lane W5 end ---
 
 export const SURF_COMPAT_ADAPTERS: SurfCompatAdapter[] = [
-  ...w1, ...w2, ...w3, ...w4, ...w5,
+  ...w2, ...w3, ...w4, ...w5,
 ];

@@ -1,0 +1,61 @@
+/* Tabs chrome (SURF-061/063/064, contract S-03/S-12/SC-19):
+   indicator is a layout-overlay — position is read from data-ag-vt-participant
+   by the motion seam, never from element metrics in JS. No !important, no
+   transform/will-change, durations only from --ag-duration-*. */
+
+@layer ag.components {
+  .ag-tabs {
+    display: flex;
+    flex-direction: column;
+    min-inline-size: 0;
+  }
+  .ag-tabs__list {
+    display: flex;
+    align-items: stretch;
+    gap: var(--ag-space-1, 0.25rem);
+    position: relative;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
+  }
+  .ag-tabs__tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2, 0.5rem);
+    padding-block: var(--ag-space-2, 0.5rem);
+    padding-inline: var(--ag-space-3, 0.75rem);
+    color: var(--ag-fg-muted, currentColor);
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: var(--ag-radius-md, 0.375rem);
+  }
+  .ag-tabs__tab[data-state='active'] {
+    color: var(--ag-fg, currentColor);
+  }
+  .ag-tabs__tab:focus-visible {
+    outline: var(--ag-focus-ring-width, 2px) solid var(--ag-focus-ring, currentColor);
+    outline-offset: calc(-1 * var(--ag-focus-ring-width, 2px));
+  }
+  .ag-tabs__tab[data-disabled] {
+    color: var(--ag-fg-disabled, currentColor);
+    cursor: default;
+  }
+  .ag-tabs__indicator {
+    position: absolute;
+    inset-block-end: 0;
+    block-size: var(--_ag-tabs-indicator-h, 2px);
+    background: var(--ag-accent, currentColor);
+    border-radius: var(--ag-radius-full, 999px);
+    transition-duration: var(--ag-duration-normal, 160ms);
+  }
+  .ag-tabs__panel {
+    padding-block: var(--ag-space-4, 1rem);
+    padding-inline: var(--ag-space-1, 0.25rem);
+    outline: none;
+  }
+  .ag-tabs__panel[hidden] {
+    display: none;
+  }
+}

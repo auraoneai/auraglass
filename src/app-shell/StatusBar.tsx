@@ -8,7 +8,11 @@ import { partElement } from './_internal/partElement';
 import { Surface } from '../material';
 import { StatusBarLive } from './StatusBar.Live';
 
-function StatusBarRoot({ children, render, ...rest }: PartProps<'div'>) {
+export type StatusBarRootProps = PartProps<'div'> & {
+  labels?: { statusBar?: string } | undefined;
+};
+
+function StatusBarRoot({ children, render, labels, ...rest }: StatusBarRootProps) {
   return (
     <Surface
       layer="content"
@@ -18,6 +22,7 @@ function StatusBarRoot({ children, render, ...rest }: PartProps<'div'>) {
         'data-ag-slot': 'status',
         'data-ag-part': 'status-bar',
         className: 'ag-status-bar',
+        ...(labels?.statusBar !== undefined ? { 'aria-label': labels.statusBar } : {}),
         ...rest,
         children,
       })}

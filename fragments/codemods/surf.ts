@@ -2,7 +2,69 @@
 import type { CodemodMappingFragment } from '../../src/contracts/fragments';
 
 // --- lane W1 begin ---
-const w1: CodemodMappingFragment = {};
+const w1: CodemodMappingFragment = {
+  props: [
+    { component: 'AppShell', from: 'header', to: null, todo: 'slot children: render TopBar/PageHeader inside AppShell.Root' },
+    { component: 'AppShell', from: 'sidebar', to: null, todo: 'slot children: render Sidebar inside AppShell.Root' },
+    { component: 'AppShell', from: 'footer', to: null, todo: 'slot children: render StatusBar inside AppShell.Root' },
+    { component: 'AppShell', from: 'sidebarWidth', to: 'sidebarWidth' },
+    { component: 'AppShell', from: 'collapsible', to: null, todo: 'sidebar always collapsible via AppShell.SidebarToggle' },
+    { component: 'AppShell', from: 'mobileOverlay', to: null, todo: 'mobile overlay is SidebarDrawer, shown by container query' },
+    { component: 'AppShell', from: 'padding', to: null, todo: 'padding is css, --ag-space-* tokens' },
+    { component: 'AppShell', from: 'maxWidth', to: null, todo: 'main column sizing is css' },
+    { component: 'Sidebar', from: 'items', to: null, todo: 'item arrays become Sidebar.Item children (app-shell-slots)' },
+    { component: 'Sidebar', from: 'activeId', to: 'currentValue' },
+    { component: 'Sidebar', from: 'onClick', to: 'onSelect' },
+    { component: 'Sidebar', from: 'badge', to: 'badge' },
+    { component: 'Tabs', from: 'selectedTab', to: 'value' },
+    { component: 'Tabs', from: 'onTabChange', to: 'onValueChange' },
+    { component: 'TabBar', from: 'items', to: null, todo: 'item arrays become TabBar.Item children' },
+    { component: 'TabBar', from: 'activeTab', to: 'value' },
+    { component: 'Breadcrumbs', from: 'items', to: null, todo: 'item arrays become Breadcrumbs.Item children' },
+    { component: 'Breadcrumbs', from: 'separator', to: 'separator' },
+    { component: 'Pagination', from: 'totalPages', to: 'pageCount' },
+    { component: 'Pagination', from: 'currentPage', to: 'page' },
+    { component: 'Pagination', from: 'onChange', to: 'onPageChange' },
+    { component: 'CommandPalette', from: 'open', to: 'open' },
+    { component: 'CommandPalette', from: 'hotkey', to: 'hotkey' },
+  ],
+  renames: [
+    { from: 'GlassAppShell', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassHeader', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassTopBar', fromEntry: 'aura-glass', to: 'TopBar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassSidebar', fromEntry: 'aura-glass', to: 'Sidebar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassMain', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassPageHeader', fromEntry: 'aura-glass', to: 'AppShell', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassStatusBar', fromEntry: 'aura-glass', to: 'StatusBar', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassInspector', fromEntry: 'aura-glass', to: 'Inspector', toEntry: 'aura-glass/app-shell' },
+    { from: 'GlassMobileShell', fromEntry: 'aura-glass', to: 'MobileShell', toEntry: 'aura-glass/app-shell' },
+    { from: 'ZSpaceAppLayout', fromEntry: 'aura-glass', to: 'ZSpaceAppLayout', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'GlassPageTabs', fromEntry: 'aura-glass', to: 'GlassPageTabs', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassTabBar', fromEntry: 'aura-glass', to: 'TabBar', toEntry: 'aura-glass' },
+    { from: 'GlassWorkspaceTabs', fromEntry: 'aura-glass', to: 'Tabs', toEntry: 'aura-glass' },
+    { from: 'LiquidGlassTabBar', fromEntry: 'aura-glass', to: 'LiquidGlassTabBar', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassBottomNav', fromEntry: 'aura-glass', to: 'TabBar', toEntry: 'aura-glass' },
+    { from: 'LiquidGlassBottomAccessory', fromEntry: 'aura-glass', to: 'LiquidGlassBottomAccessory', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassMobileNav', fromEntry: 'aura-glass', to: 'GlassMobileNav', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassBreadcrumb', fromEntry: 'aura-glass', to: 'Breadcrumbs', toEntry: 'aura-glass' },
+    { from: 'GlassPagination', fromEntry: 'aura-glass', to: 'Pagination', toEntry: 'aura-glass' },
+    { from: 'GlassCommandPalette', fromEntry: 'aura-glass', to: 'CommandPalette', toEntry: 'aura-glass' },
+    { from: 'GlassCommand', fromEntry: 'aura-glass', to: 'Command', toEntry: 'aura-glass' },
+    { from: 'LiquidGlassCommandSurface', fromEntry: 'aura-glass', to: 'LiquidGlassCommandSurface', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'LiquidGlassTransitionProvider', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
+    { from: 'LiquidGlassSource', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
+    { from: 'LiquidGlassDestination', fromEntry: 'aura-glass', to: 'SourceTransition', toEntry: 'aura-glass' },
+  ],
+  areaTransforms: [
+    {
+      id: 'app-shell-slots',
+      module: 'packages/cli/src/migrate/4to5/transforms/app-shell-slots.ts',
+      spec: 'GlassAppShell header/sidebar/footer props -> slot children; GlassSidebar/GlassSidebarRail item arrays -> Sidebar.Item/Rail.Item children; handler-only items (onClick/onSelect, no href) stay actions',
+    },
+  ],
+  fixtures: ['fragments/codemods/surf/fixtures/app-shell-slots'],
+};
 // --- lane W1 end ---
 
 // --- lane W2 begin ---

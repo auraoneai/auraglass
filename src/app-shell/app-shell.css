@@ -102,7 +102,9 @@
   /* Overlay top bar floats over main; its height is handed back to the scroll
      region so content is never covered at scroll edges. */
   .ag-app-shell:has(> .ag-top-bar[data-ag-placement='overlay']) {
-    --ag-scroll-padding-top: var(--_ag-app-shell-top);
+    /* SURF-119: focused content must clear the overlay bar + breathing room,
+       resolved in css — no JS measurement. */
+    --ag-scroll-padding-top: calc(var(--_ag-app-shell-top) + var(--ag-space-2, 0.5rem));
   }
   .ag-top-bar[data-ag-placement='overlay'] {
     grid-area: main;
@@ -182,4 +184,13 @@
       margin-inline: auto;
     }
   }
+  /* SURF-060: workspace auto-grid — content cards flow on a responsive track
+     inside Main; tokens only, no JS layout. */
+  .ag-app-shell__auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    gap: var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-4, 1rem);
+  }
 }
+
