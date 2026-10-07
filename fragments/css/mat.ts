@@ -1,3 +1,8 @@
 /* fragments/css/mat.ts — MAT owns this file on both branches (§3.4). */
 import type { CssFragment } from '../../src/contracts/fragments';
-export default [] satisfies CssFragment[];
+export default [
+  { file: 'src/motion/css/motion.css', layer: 'ag.material', bundle: 'styles.css', order: 30 },
+  { file: 'src/motion/css/loading.css', layer: 'ag.material', bundle: 'styles.css', order: 31 },
+  { file: 'src/motion/css/view-transition.css', layer: 'ag.material', bundle: 'styles.css', order: 32 },
+  { file: 'src/motion/css/motion-modes.css', layer: 'ag.a11y', bundle: 'styles.css', order: 60 },
+] satisfies CssFragment[];

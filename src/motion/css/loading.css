@@ -1,0 +1,50 @@
+/* aura-glass 5.0 — loading + continuous-motion gating (REQ-MAT-46, REQ-MOT-30..32/-112).
+   Layer: ag.material (REQ-MAT-19). One admitted infinite keyframe in core: ag-sweep —
+   a translate-only specular sweep, 1,400 ms, --ag-ease-standard, that only exists
+   under [data-ag-continuous="on"] (written by the provider when allowContinuous
+   and resolved motion is full). Without it every loading surface renders one
+   static frame that still conveys state. */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.material {
+
+  /* translate-only sweep on the specular pseudo-element; shallow alpha so the
+     luminance delta stays far under the 10%-per-frame cap (WCAG 2.3.1, ≤ 3 peaks/s). */
+  @keyframes ag-sweep {
+    from { translate: -100% 0; }
+    to { translate: 100% 0; }
+  }
+
+  /* static frame, always present: a centred specular band on the loading surface's
+     ::before. Component CSS may style the geometry; motion ships the optics. */
+  :is([data-loading], [aria-busy=true])::before {
+    background-image: linear-gradient(
+      100deg,
+      transparent 20%,
+      color-mix(in oklch, var(--ag-color-specular) 12%, transparent) 50%,
+      transparent 80%
+    );
+  }
+
+  /* ring segment (spinner-style indicators): static quarter arc */
+  :is([data-ag-part=spinner], [data-ag-part=progress-indicator]) {
+    transition: transform var(--ag-duration-small) var(--ag-ease-standard),
+      opacity var(--ag-duration-small) var(--ag-ease-standard);
+  }
+
+  /* the only animation in core, and only while continuous motion is on */
+  [data-ag-continuous=on] :is([data-loading], [aria-busy=true])::before {
+    animation: ag-sweep 1400ms var(--ag-ease-standard) infinite;
+  }
+
+  /* everything under an offscreen subtree stops running (ag-sweep and any
+     consumer-owned ambient loop such as MED's ag-backdrop-drift) */
+  [data-ag-offscreen],
+  [data-ag-offscreen]::before,
+  [data-ag-offscreen]::after,
+  [data-ag-offscreen] *,
+  [data-ag-offscreen] *::before,
+  [data-ag-offscreen] *::after {
+    animation-play-state: paused;
+  }
+}

@@ -1,0 +1,34 @@
+/* aura-glass 5.0 — View Transition optics drop (REQ-MAT-48, REQ-MOT-37, §4.7 verbatim).
+   Layer: ag.material (REQ-MAT-19 — src/motion/css belongs to ag.material, not ag.components;
+   the archived §4.7 block's layer label was superseded by the layer-ownership table).
+   Snapshots flatten backdrop blur, so participants drop optics during the morph and
+   fade them back over --ag-duration-micro once settled. */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.material {
+  :root:active-view-transition [data-ag-surface][data-ag-vt],
+  :root:active-view-transition [data-ag-surface][data-ag-vt-participant] { --_ag-optics: 0; transition: none; }
+  ::view-transition-group(*.ag-morph) {
+    animation-duration: var(--ag-duration-medium);
+    animation-timing-function: var(--ag-spring-fluid);
+  }
+  [data-ag-surface][data-ag-vt-settled] { transition: --_ag-optics var(--ag-duration-micro) var(--ag-ease-standard); }
+
+  /* calm path: no group geometry — old/new opacity cross-fade over micro */
+  ::view-transition-old(*.ag-morph-calm) {
+    animation-name: none;
+    opacity: 0;
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+    animation-duration: var(--ag-duration-micro);
+    animation-timing-function: var(--ag-ease-standard);
+  }
+  ::view-transition-new(*.ag-morph-calm) {
+    animation-name: none;
+    transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+    animation-duration: var(--ag-duration-micro);
+    animation-timing-function: var(--ag-ease-standard);
+  }
+  ::view-transition-group(*.ag-morph-calm) {
+    animation-name: none;
+  }
+}
