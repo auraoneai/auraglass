@@ -1,0 +1,33 @@
+/* Field + Fieldset (CMP-104): label/description/error typography and state color.
+   Tokens only; scoped to .ag-field / .ag-fieldset via data-ag-part. */
+@layer ag.components {
+  .ag-field [data-ag-part='label'],
+  .ag-fieldset [data-ag-part='legend'] {
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+    color: var(--ag-on-surface);
+  }
+
+  .ag-field [data-ag-part='description'] {
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
+    color: var(--ag-on-surface-muted);
+  }
+
+  .ag-field [data-ag-part='error'] {
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
+    color: var(--ag-color-danger);
+  }
+
+  .ag-field {
+    display: grid;
+    gap: var(--ag-space-1);
+  }
+
+  .ag-field[data-disabled],
+  .ag-fieldset[data-disabled] {
+    opacity: var(--ag-state-disabled-alpha);
+  }
+}
