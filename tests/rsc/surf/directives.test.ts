@@ -88,6 +88,11 @@ const files: string[] = [];
 for (const d of SURF_DIRS) for (const f of modules(join(ROOT, d))) files.push(relative(ROOT, f).split(sep).join('/'));
 
 const serverFiles = files.filter((f) => {
+  // --- lane W4 begin ---
+  // src/media/ImageViewer/parts/Inspector.tsx (SURF-473) shares the app-shell
+  // Inspector basename but is a client part of a client-only module.
+  if (f === 'src/media/ImageViewer/parts/Inspector.tsx') return false;
+  // --- lane W4 end ---
   const base = f.split('/').pop() ?? '';
   return !CLIENT_ONLY.some((r) => r.test(base)) && SERVER_MODULE.some((r) => r.test(base));
 });

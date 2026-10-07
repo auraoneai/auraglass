@@ -1,0 +1,52 @@
+/* backdrops.css — the ./backdrops bundle (dist/backdrops.css). */
+
+/* --- lane W4 begin --- */
+@import './presets/aurora.css';
+@import './presets/mesh.css';
+@import './presets/photo.css';
+@import './presets/video.css';
+@import './presets/grain.css';
+
+@layer backdrops {
+  .ag-backdrop { position: relative; isolation: isolate; overflow: hidden; }
+  .ag-backdrop--fixed { position: fixed; inset: 0; }
+  .ag-backdrop-layer {
+    position: absolute; inset: 0; z-index: 0;
+    /* drift runs on a 120% layer so translate3d never shows edges */
+    inline-size: 120%; block-size: 120%; inset-inline-start: -10%; inset-block-start: -10%;
+  }
+  .ag-backdrop-content { position: relative; z-index: 1; }
+  .ag-backdrop-layer > img, .ag-backdrop-layer > video {
+    inline-size: 100%; block-size: 100%; object-fit: cover;
+  }
+  /* One keyframe only under the continuous gate; paused offscreen/hidden. */
+  [data-ag-continuous='on'] .ag-backdrop[data-ag-motion='drift'] .ag-backdrop-layer {
+    animation: ag-backdrop-drift var(--ag-duration-ambient, 40s) ease-in-out infinite alternate;
+  }
+  .ag-backdrop[data-ag-offscreen] .ag-backdrop-layer { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-backdrop .ag-backdrop-layer { animation: none; }
+  }
+  @keyframes ag-backdrop-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-2%, 1.5%, 0); }
+  }
+  /* Pause toggle: chrome thin; visible on focus and while playing. */
+  [data-ag-part='backdrop-pause'] {
+    position: absolute; z-index: 2; inset-block-end: 0.5rem; inset-inline-end: 0.5rem;
+    font: inherit; font-size: 0.75rem; padding: 0.25rem 0.5rem;
+    background: var(--ag-scrim-clear, rgba(0,0,0,0.4)); color: CanvasText;
+    border: 1px solid color-mix(in oklch, CanvasText 30%, transparent);
+    border-radius: 0.375rem; opacity: 0; transition: opacity 120ms;
+  }
+  [data-ag-part='backdrop-pause']:focus-visible,
+  [data-ag-part='backdrop-pause']:hover,
+  [data-ag-part='backdrop-pause'][data-ag-backdrop-pause-visible] { opacity: 1; }
+  /* Forced colors: decorative layers off; root falls back to Canvas. */
+  @media (forced-colors: active) {
+    .ag-backdrop { background: Canvas; }
+    .ag-backdrop .ag-backdrop-layer { display: none; }
+    [data-ag-part='backdrop-pause'] { forced-color-adjust: auto; opacity: 1; }
+  }
+}
+/* --- lane W4 end --- */

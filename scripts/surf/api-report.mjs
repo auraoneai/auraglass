@@ -16,6 +16,9 @@ const TARGETS = {
   'compat.surf': { source: 'src/compat/surf/index.ts', label: 'aura-glass/compat (SURF adapters)' },
   // lane W3: SURF-365 — the ./ai subpath report.
   'ai': { source: 'src/ai/index.ts', label: 'aura-glass ./ai' },
+  // lane W4: SURF-513 — the ./media and ./backdrops subpath reports.
+  'media': { source: 'src/media/index.ts', label: 'aura-glass ./media' },
+  'backdrops': { source: 'src/backdrops/index.ts', label: 'aura-glass ./backdrops' },
 };
 
 for (const [entry, { source, label }] of Object.entries(TARGETS)) {

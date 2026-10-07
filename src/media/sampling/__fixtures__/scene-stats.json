@@ -1,0 +1,13 @@
+{
+  "generatedBy": "scripts/surf/calibrate-media-tone.mjs (alpha run on remote runner; committed per-scene stats only, REQ-SURF-152)",
+  "scenes": {
+    "photo": { "mean": 0.71, "p10": 0.44, "p90": 0.93, "stdev": 0.18, "expect": "light" },
+    "dark-media": { "mean": 0.16, "p10": 0.05, "p90": 0.38, "stdev": 0.12, "expect": "dark" },
+    "flat-white": { "mean": 1.0, "p10": 1.0, "p90": 1.0, "stdev": 0.0, "expect": "light" },
+    "flat-black": { "mean": 0.0, "p10": 0.0, "p90": 0.0, "stdev": 0.0, "expect": "dark" },
+    "hf-pattern": { "mean": 0.48, "p10": 0.12, "p90": 0.85, "stdev": 0.27, "expect": "busy" },
+    "saturated-abstract": { "mean": 0.44, "p10": 0.18, "p90": 0.72, "stdev": 0.2, "expect": "busy" },
+    "dense-text": { "mean": 0.52, "p10": 0.21, "p90": 0.79, "stdev": 0.23, "expect": "busy" },
+    "video-frame": { "mean": 0.24, "p10": 0.08, "p90": 0.47, "stdev": 0.14, "expect": "dark" }
+  }
+}

@@ -37,7 +37,16 @@ const w3 = [
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+// SURF-510: media perf rows — scrub frame-p95 (≥55fps gate is AC-SURF-20),
+// long-tasks ≤0.02 during playback, image-viewer open.
+const w4 = [
+  { subject: 'surf/media-controls--scrub', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/media-controls--scrub', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/media-controls--scrub', profile: 'mid-mobile', metric: 'long-tasks', max: 0.02, provisional: true },
+  { subject: 'surf/now-playing--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/image-viewer--open', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/carousel-rail--autoplay', profile: 'mid-mobile', metric: 'long-tasks', max: 0.02, provisional: true },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

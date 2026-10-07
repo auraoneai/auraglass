@@ -53,7 +53,20 @@ const w3 = [
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+// SURF-441/493/513: media+backdrops budgets — media.css/backdrops.css gz,
+// {useMediaElement,MediaControls} ≤14KB, {useMediaElement} alone ≤2.5KB,
+// Waveform (5.1 internal) ≤2KB, backdrops.css ≤3KB gz.
+const w4 = [
+  { id: 'SB-SURF-W4-MEDIA-CSS', import: 'aura-glass/media.css', limitBytes: 6144, kind: 'css' },
+  { id: 'SB-SURF-W4-BACKDROPS-CSS', import: 'aura-glass/backdrops.css', limitBytes: 3072, kind: 'css' },
+  { id: 'SB-SURF-W4-MEDIA-CORE', import: "{ useMediaElement, MediaControls } from 'aura-glass/media'", limitBytes: 14336, kind: 'js' },
+  { id: 'SB-SURF-W4-USEMEDIAELEMENT', import: "{ useMediaElement } from 'aura-glass/media'", limitBytes: 2560, kind: 'js' },
+  { id: 'SB-SURF-W4-WAVEFORM', import: "{ Waveform } from 'aura-glass/media'", limitBytes: 2048, kind: 'js' },
+  { id: 'SB-SURF-W4-IMAGEVIEWER', import: "{ ImageViewer } from 'aura-glass/media'", limitBytes: 10240, kind: 'js' },
+  { id: 'SB-SURF-W4-CAROUSELRAIL', import: "{ CarouselRail } from 'aura-glass/media'", limitBytes: 10240, kind: 'js' },
+  { id: 'SB-SURF-W4-NOWPLAYING', import: "{ NowPlayingBar } from 'aura-glass/media'", limitBytes: 8192, kind: 'js' },
+  { id: 'SB-SURF-W4-BACKDROP', import: "{ Backdrop } from 'aura-glass/backdrops'", limitBytes: 3072, kind: 'js' },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

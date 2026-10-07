@@ -83,6 +83,19 @@ const w3: SurfCompatAdapter[] = [];
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
+export { LiquidGlassMediaControls } from './media/LiquidGlassMediaControls';
+export { GlassMediaControls } from './media/GlassMediaControls';
+export { LiquidGlassNowPlayingBar } from './media/LiquidGlassNowPlayingBar';
+export { LiquidGlassPhotoInspector } from './media/LiquidGlassPhotoInspector';
+export { GlassImageViewer } from './media/GlassImageViewer';
+export { GlassGallery } from './media/GlassGallery';
+export { GlassCarousel } from './media/GlassCarousel';
+export { LiquidGlassCarouselRail } from './media/LiquidGlassCarouselRail';
+export { AuroraBackground } from './backdrops/AuroraBackground';
+export { AuroraOrb } from './backdrops/AuroraOrb';
+export { AtmosphericBackground } from './backdrops/AtmosphericBackground';
+export { GlassDynamicAtmosphere, DynamicAtmosphere } from './backdrops/GlassDynamicAtmosphere';
+export { GlassMeshGradient } from './backdrops/GlassMeshGradient';
 const w4: SurfCompatAdapter[] = [];
 // --- lane W4 end ---
 

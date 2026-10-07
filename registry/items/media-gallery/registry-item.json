@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-gallery",
+  "type": "registry:item",
+  "title": "Media gallery",
+  "description": "Thumbnail grid of ImageViewer.Trigger + the shared popup (counter, keys, zoom).",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+}

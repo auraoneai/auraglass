@@ -1,0 +1,130 @@
+/* media.css — W4 lane skeleton. Layer order is contract-frozen; fills land
+ * per-part as components ship. No @import (bundle concatenates lanes). */
+
+/* --- lane W4 begin --- */
+@layer media {
+  /* [data-ag-media-root] progress var is written by useMediaElement frames. */
+}
+/* --- lane W4 end --- */
+
+/* --- lane W4: controls + now-playing --- */
+@layer media {
+  .ag-media-controls {
+    display: flex; flex-wrap: nowrap; align-items: center; gap: var(--ag-space-2, 0.5rem);
+    min-block-size: 2.75rem;
+  }
+  .ag-media-btn { min-inline-size: 2rem; min-block-size: 2rem; }
+  @media (pointer: coarse) {
+    .ag-media-btn { min-inline-size: var(--ag-target-coarse, 2.75rem); min-block-size: var(--ag-target-coarse, 2.75rem); }
+  }
+  .ag-media-scrubber { flex: 1 1 auto; min-inline-size: 4rem; position: relative; touch-action: none; }
+  .ag-media-scrubber-track { position: relative; block-size: 100%; min-block-size: 0.25rem; }
+  @media (pointer: coarse) { .ag-media-scrubber { min-block-size: 2.75rem; } }
+  [data-ag-part='media-scrubber-buffered'] {
+    position: absolute; inset-inline-start: var(--_ag-start); inline-size: calc(var(--_ag-end) - var(--_ag-start));
+    inset-block: 0; opacity: 0.35; pointer-events: none;
+  }
+  [data-ag-part='media-scrubber-chapter'] {
+    position: absolute; inset-inline-start: var(--_ag-start); inline-size: 2px; inset-block: 0;
+    background: CanvasText; opacity: 0.6; pointer-events: none;
+  }
+  [data-ag-part='media-scrubber-tooltip'] {
+    position: absolute; inset-inline-start: var(--_ag-start); inset-block-end: 100%;
+    transform: translateX(-50%); display: none; font-variant-numeric: tabular-nums;
+  }
+  @media (hover: hover) {
+    .ag-media-scrubber:hover [data-ag-part='media-scrubber-tooltip'] { display: block; }
+  }
+  .ag-media-scrubber-thumb[data-dragging] { background: var(--ag-scrim-clear, rgba(255,255,255,0.2)); }
+  .ag-media-time { font-variant-numeric: tabular-nums; }
+  .ag-media-spacer { flex: 1 1 auto; }
+  /* container rows: ≥480 full / 320–479 compact / <320 minimal */
+  @container ag-media-controls (max-width: 479.98px) {
+    [data-ag-part='media-volume'], [data-ag-part='media-rate'], [data-ag-part='media-pip'] { display: none; }
+  }
+  @container ag-media-controls (max-width: 319.98px) {
+    [data-ag-part='media-time'], [data-ag-part='media-captions'], [data-ag-part='media-fullscreen'] { display: none; }
+  }
+  /* NowPlayingBar */
+  .ag-now-playing {
+    container-name: ag-now-playing; container-type: inline-size;
+    display: flex; align-items: center; gap: var(--ag-space-2, 0.5rem);
+    block-size: 3rem;
+  }
+  @media (pointer: coarse) { .ag-now-playing { block-size: 3.5rem; } }
+  .ag-now-playing[data-ag-now-playing-fixed] { padding-block-end: env(safe-area-inset-bottom); }
+  .ag-now-playing-artwork img { inline-size: 2.5rem; block-size: 2.5rem; object-fit: cover; border-radius: 0.25rem; }
+  .ag-now-playing-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ag-now-playing-progress {
+    position: relative; flex: 1 1 auto; block-size: 2px;
+    background: color-mix(in oklch, CanvasText 15%, transparent);
+  }
+  [data-ag-part='now-playing-progress-fill'] {
+    position: absolute; inset-inline: 0; inset-block: 0;
+    transform-origin: left;
+    transform: scaleX(var(--_ag-media-progress, 0));
+    background: CanvasText;
+  }
+  @container ag-now-playing (max-width: 359.98px) {
+    .ag-now-playing > :not([data-ag-part='now-playing-play']):not([data-ag-part='now-playing-title']):not([data-ag-part='now-playing-actions']) { display: none; }
+    .ag-now-playing-subtitle { display: none; }
+  }
+}
+/* --- end lane W4 controls --- */
+
+/* --- lane W4: image-viewer + carousel --- */
+@layer media {
+  .ag-image-viewer-scrim {
+    position: fixed; inset: 0; background: var(--ag-scrim-media, rgba(0,0,0,0.8));
+  }
+  .ag-image-viewer {
+    position: fixed; inset: 5%; display: flex; flex-direction: column;
+    outline: none;
+  }
+  .ag-image-viewer-stage {
+    flex: 1 1 auto; position: relative; overflow: hidden;
+    touch-action: pan-y;
+  }
+  .ag-image-viewer-stage[data-state='zoomed'] { touch-action: none; }
+  .ag-image-viewer-stage img {
+    position: absolute; inset: 0; margin: auto; max-inline-size: 100%; max-block-size: 100%;
+    object-fit: contain;
+  }
+  .ag-image-viewer-toolbar, [data-ag-part='image-viewer-caption'] {
+    position: absolute; inset-inline: 0; display: flex; justify-content: center; gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .ag-image-viewer-toolbar { inset-block-start: 0; }
+  [data-ag-part='image-viewer-caption'] { inset-block-end: 0; }
+  .ag-image-viewer-inspector {
+    position: absolute; inset-inline-end: 0; inset-block: 0; inline-size: 20rem;
+  }
+  @container (max-width: 767.98px) {
+    .ag-image-viewer-inspector { inset-inline: 0; inset-block-start: auto; inline-size: auto; max-block-size: 50dvh; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-image-viewer-stage img { transition: opacity var(--ag-duration-micro, 120ms); }
+  }
+  /* CarouselRail */
+  .ag-carousel { position: relative; }
+  .ag-carousel-viewport {
+    display: flex; overflow-x: auto;
+    scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .ag-carousel-slide {
+    scroll-snap-align: start; flex: 0 0 auto;
+    inline-size: calc(100% / var(--_ag-slides-per-view, 1));
+  }
+  @container (max-width: 479.98px) {
+    .ag-carousel-slide { inline-size: 100%; }
+  }
+  .ag-carousel-nav { position: absolute; inset-block: 0; margin-block: auto; }
+  [data-ag-part='carousel-prev'] { inset-inline-start: 0.5rem; }
+  [data-ag-part='carousel-next'] { inset-inline-end: 0.5rem; }
+  @media (pointer: coarse) { .ag-carousel-nav { display: none; } }
+  .ag-carousel-indicators { display: flex; justify-content: center; gap: 0.375rem; padding: 0.5rem; }
+  [data-ag-part='carousel-indicator'] { inline-size: 0.625rem; block-size: 0.625rem; border-radius: 50%; }
+  [data-ag-part='carousel-autoplay-toggle'] { position: absolute; inset-inline-start: 0.5rem; inset-block-start: 0.5rem; z-index: 1; }
+}
+/* --- end lane W4 iv/carousel --- */

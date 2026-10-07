@@ -237,7 +237,74 @@ const w3: CodemodMappingFragment = {
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4: CodemodMappingFragment = {};
+// W4 rows (REQ-SURF-14, media/backdrop family): renames for every absorbed
+// name, the media-backdrops areaTransform spec, prop rows equal to the meta
+// `migration` fields, and removed rows with registryItem pointers.
+const w4: CodemodMappingFragment = {
+  renames: [
+    { from: 'LiquidGlassMediaControls', fromEntry: 'aura-glass', to: 'MediaControls', toEntry: 'aura-glass/media' },
+    { from: 'GlassMediaControls', fromEntry: 'aura-glass', to: 'MediaControls', toEntry: 'aura-glass/media' },
+    { from: 'LiquidGlassNowPlayingBar', fromEntry: 'aura-glass', to: 'NowPlayingBar', toEntry: 'aura-glass/media' },
+    { from: 'LiquidGlassPhotoInspector', fromEntry: 'aura-glass', to: 'ImageViewer', toEntry: 'aura-glass/media' },
+    { from: 'GlassImageViewer', fromEntry: 'aura-glass', to: 'ImageViewer', toEntry: 'aura-glass/media' },
+    { from: 'GlassCarousel', fromEntry: 'aura-glass', to: 'CarouselRail', toEntry: 'aura-glass/media' },
+    { from: 'LiquidGlassCarouselRail', fromEntry: 'aura-glass', to: 'CarouselRail', toEntry: 'aura-glass/media' },
+    { from: 'AuroraBackground', fromEntry: 'aura-glass', to: 'Backdrop', toEntry: 'aura-glass/backdrops' },
+    { from: 'AuroraOrb', fromEntry: 'aura-glass', to: 'Backdrop', toEntry: 'aura-glass/backdrops' },
+    { from: 'AtmosphericBackground', fromEntry: 'aura-glass', to: 'Backdrop', toEntry: 'aura-glass/backdrops' },
+    { from: 'GlassDynamicAtmosphere', fromEntry: 'aura-glass', to: 'Backdrop', toEntry: 'aura-glass/backdrops' },
+    { from: 'DynamicAtmosphere', fromEntry: 'aura-glass', to: 'GlassDynamicAtmosphere', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassMeshGradient', fromEntry: 'aura-glass', to: 'Backdrop', toEntry: 'aura-glass/backdrops' },
+  ],
+  props: [
+    { component: 'MediaControls', from: 'onPlayPause', to: 'onPlayingChange' },
+    { component: 'MediaControls', from: 'compact', to: null, todo: 'compose MediaControls.PlayButton + MediaControls.Scrubber' },
+    { component: 'ImageViewer', from: 'images', to: 'items', todo: 'items gain ids (img-<index>) and required alt' },
+    { component: 'ImageViewer', from: 'initialIndex', to: 'defaultValue' },
+    { component: 'CarouselRail', from: 'infinite', to: 'loop' },
+    { component: 'CarouselRail', from: 'slidesToShow', to: 'slidesPerView' },
+    { component: 'CarouselRail', from: 'autoPlay', to: 'autoplay', todo: 'autoplay={{ interval }} only with an allowContinuous provider' },
+    { component: 'Backdrop', from: 'motion', to: 'motion', values: { 'none': 'static', 'subtle': 'static', 'full': 'drift' } },
+    { component: 'Backdrop', from: 'colors', to: null, todo: 'mesh/aurora palettes come from S-03 colours' },
+  ],
+  removed: [
+    { symbol: 'GlassGallery', entry: 'aura-glass', reason: 'absorbed; lightbox is ImageViewer', registryItem: 'media-gallery', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'ImageList', entry: 'aura-glass', reason: 'absorbed; CMP Grid + native img', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'ImageListItem', entry: 'aura-glass', reason: 'absorbed; CMP Grid + native img', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'ImageListItemBar', entry: 'aura-glass', reason: 'absorbed; CMP Grid + native img', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassLazyImage', entry: 'aura-glass', reason: 'absorbed; native img loading="lazy"', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassVideoPlayer', entry: 'aura-glass', reason: 'media players are consumer element + useMediaElement + MediaControls', registryItem: 'media-video-player', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassAdvancedVideoPlayer', entry: 'aura-glass', reason: 'media players are consumer element + useMediaElement + MediaControls', registryItem: 'media-video-player', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassAdvancedAudioPlayer', entry: 'aura-glass', reason: 'media players are consumer element + useMediaElement + MediaControls', registryItem: 'media-audio-player', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassMediaProvider', entry: 'aura-glass', reason: 'replaced by useMediaElement', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassVoiceWaveform', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassMusicVisualizer', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'ParticleBackground', entry: 'aura-glass', reason: 'particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassParticles', entry: 'aura-glass', reason: 'particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'GlassParticleField', entry: 'aura-glass', reason: 'particles move to the labs package', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'LiquidGlassBackdropSampler', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
+    { symbol: 'useLiquidGlassBackdrop', entry: 'aura-glass', reason: 'tone sampling is Backdrop/useMediaElement({sampleTone})', doc: 'apps/docs/content/surf/migration/media.md' },
+  ],
+  areaTransforms: [
+    {
+      id: 'media-backdrops',
+      module: 'packages/cli/src/migrate/4to5/transforms/media-backdrops.ts',
+      spec: [
+        'LiquidGlassMediaControls: onPlayPause -> onPlayingChange; compact -> compose <MediaControls.PlayButton/><MediaControls.Scrubber/>.',
+        'GlassImageViewer: images -> items (ids img-<index>), initialIndex -> defaultValue; missing alt -> alt: "" + TODO.',
+        'GlassCarousel/LiquidGlassCarouselRail: infinite -> loop; slidesToShow -> slidesPerView; autoPlay + autoPlayInterval -> autoplay={{ interval }} (+ TODO when no allowContinuous provider is found).',
+        'AuroraBackground: motion none|subtle -> static, full -> drift.',
+        'GlassMeshGradient colors[], AtmosphericBackground variant/weather/colorScheme, DynamicAtmosphere type/primaryColor/secondaryColor -> TODO rows.',
+      ].join(' '),
+    },
+  ],
+  fixtures: [
+    'fragments/codemods/surf/fixtures/media-backdrops/media-controls',
+    'fragments/codemods/surf/fixtures/media-backdrops/image-viewer',
+    'fragments/codemods/surf/fixtures/media-backdrops/carousel-autoplay',
+    'fragments/codemods/surf/fixtures/media-backdrops/aurora-motion',
+  ],
+};
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

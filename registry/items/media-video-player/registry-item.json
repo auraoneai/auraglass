@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-video-player",
+  "type": "registry:item",
+  "title": "Video player",
+  "description": "Consumer-owned <video> + useMediaElement + compound MediaControls; captions via real <track kind=\"captions\"> children.",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+}

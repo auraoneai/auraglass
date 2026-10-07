@@ -1,0 +1,5 @@
+/* photo — object-fit cover handled by the shared layer rule; this file only
+ * carries preset-scoped declarations (kept separate for the stylelint gate). */
+@layer backdrops {
+  .ag-backdrop[data-ag-backdrop-preset='photo'] .ag-backdrop-layer > img { display: block; }
+}

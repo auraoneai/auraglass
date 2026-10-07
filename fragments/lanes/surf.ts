@@ -62,7 +62,26 @@ const w3 = [
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+// SURF-405/523: W4 registrations — L1 jest (src/media + src/backdrops +
+// tests/media + tests/backdrops incl. purity), L5 APG + media e2e, L6
+// clear-over-media twice per scene (tone forced on vs off), L8 sampling
+// engines under the surf:cert-media-sampling Playwright project, L9 motion,
+// L10 scrub perf.
+const w4 = [
+  { lane: 'L1', kind: 'jest', path: 'src/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/media/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/media/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/backdrops/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/media/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{media-controls,now-playing,image-viewer}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{media,backdrops}/**/*.spec.ts', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L6', kind: 'playwright', path: 'tests/a11y/clear-over-media/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L8', kind: 'playwright', path: 'tests/e2e/surf/media/sampling-engines.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L9', kind: 'playwright', path: 'tests/e2e/surf/motion/{backdrop-drift,carousel-autoplay}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{media-scrub,now-playing-update,image-viewer-open}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

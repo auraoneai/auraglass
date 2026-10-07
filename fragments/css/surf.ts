@@ -37,7 +37,15 @@ const w3 = [
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+const w4 = [
+  { file: 'src/media/media.css', layer: 'ag.components', bundle: 'media.css' },
+  { file: 'src/backdrops/backdrops.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/aurora.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/mesh.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/photo.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/video.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/grain.css', layer: 'ag.components', bundle: 'backdrops.css' },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

@@ -1,11 +1,16 @@
 ## API Report — aura-glass/compat (SURF adapters)
 
+- `AtmosphericBackground`
+- `AuroraBackground`
+- `AuroraOrb`
+- `DynamicAtmosphere`
 - `GlassActivityFeed`
 - `GlassAnimatedNumber`
 - `GlassAppShell`
 - `GlassBottomNav`
 - `GlassBreadcrumb`
 - `GlassCalendar`
+- `GlassCarousel`
 - `GlassChat`
 - `GlassChatInput`
 - `GlassChip`
@@ -16,14 +21,19 @@
 - `GlassDateField`
 - `GlassDatePicker`
 - `GlassDateRangePicker`
+- `GlassDynamicAtmosphere`
 - `GlassFileExplorer`
 - `GlassFileTree`
 - `GlassFilterBar`
+- `GlassGallery`
 - `GlassHeader`
+- `GlassImageViewer`
 - `GlassInspector`
 - `GlassKPICard`
 - `GlassKeyValueEditor`
 - `GlassMain`
+- `GlassMediaControls`
+- `GlassMeshGradient`
 - `GlassMessageList`
 - `GlassMetricCard`
 - `GlassMobileNav`
@@ -46,8 +56,12 @@
 - `GlassVirtualTable`
 - `GlassWorkspaceTabs`
 - `LiquidGlassBottomAccessory`
+- `LiquidGlassCarouselRail`
 - `LiquidGlassCommandSurface`
 - `LiquidGlassDestination`
+- `LiquidGlassMediaControls`
+- `LiquidGlassNowPlayingBar`
+- `LiquidGlassPhotoInspector`
 - `LiquidGlassSource`
 - `LiquidGlassTabBar`
 - `LiquidGlassTransitionProvider`

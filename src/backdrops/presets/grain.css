@@ -1,0 +1,16 @@
+/* grain — 112×112 static tile at opacity 0.03 via image-set; AVIF first,
+ * PNG fallback. */
+@layer backdrops {
+  .ag-backdrop[data-ag-backdrop-grain] .ag-backdrop-layer::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: image-set(
+      url('../assets/grain-112.avif') type('image/avif'),
+      url('../assets/grain-112.png') type('image/png')
+    );
+    background-repeat: repeat;
+    background-size: 112px 112px;
+    opacity: 0.03;
+    pointer-events: none;
+  }
+}

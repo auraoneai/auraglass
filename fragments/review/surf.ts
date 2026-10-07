@@ -37,7 +37,14 @@ const w3 = [
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+const w4 = [
+  { id: 'RV-SURF-W4-01', subject: 'scenes/clear-over-media', criterion: 'specular-quality', note: 'clear controls keep legibility over sampled tones, light and dark' },
+  { id: 'RV-SURF-W4-02', subject: 'surf/media-controls--default', criterion: 'optical-hierarchy', note: 'play + scrubber lead; rate/pip/fullscreen recede' },
+  { id: 'RV-SURF-W4-03', subject: 'surf/now-playing--default', criterion: 'optical-hierarchy', note: 'title/artwork read first; progress is a hairline' },
+  { id: 'RV-SURF-W4-04', subject: 'surf/image-viewer--open', criterion: 'specular-quality', note: 'scrim dims chrome behind; inspector floats once' },
+  { id: 'RV-SURF-W4-05', subject: 'surf/backdrop--aurora', criterion: 'optical-hierarchy', note: 'backdrop stays ambient; content contrast never dips' },
+  { id: 'RV-SURF-W4-06', subject: 'surf/media-controls--default', criterion: 'one-hand', note: 'primary transport targets >=44px at coarse pointers' },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---
