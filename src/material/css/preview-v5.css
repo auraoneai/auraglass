@@ -1,0 +1,415 @@
+/* MAT-177 — [release/4.x 4.3] preview-v5.css: the 5.0 material recipe scoped
+   under [data-ag-preview="v5"]. Generated scoped copy of
+   src/material/css/material.css (selectors prefixed); no second recipe
+   authored. + @layer ag.compat neutralisation of 4.x inline optics inside
+   the preview subtree only. */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* material.css — AuraGlass 5.0 material engine (MAT, REQ-MAT-29..35).
+   Consumes the compiled ladder/floor cells and the @property registry emitted
+   by scripts/tokens into src/material/css/generated/*.css (2a-T outputs) plus
+   lens.css. Every private scalar carries a literal fallback so a surface is
+   still correct before the generated files exist. No !important, ever. */
+@layer ag.material {
+
+  /* ---- host baseline + private scalars + read-outs (REQ-MAT-29/30) ---- */
+  [data-ag-preview="v5"] .ag-surface {
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--ag-surface-radius, var(--ag-radius-md));
+    color: var(--ag-on-surface, var(--ag-color-on-surface));
+    background: var(--_ag-fill, transparent);
+    box-shadow: var(--_ag-shadow, none);
+
+    /* private scalars (registered with inherits:false in properties.css) */
+    --_ag-blur: 0px;
+    --_ag-saturation: 1;
+    --_ag-brightness: 1;
+    --_ag-tint-floor: 0.6;
+    --_ag-dim: 0;
+    --_ag-surface-alpha: 1;
+    --_ag-refraction-scale: 0;
+    --_ag-rim-width: 1px;
+    --_ag-grain-opacity: 0.03;
+    --_ag-optics: 1;
+    --_ag-press: 0;
+    --_ag-inner-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.02) c h);
+    --_ag-on-surface: var(--ag-color-on-surface, currentColor);
+    --_ag-on-surface-muted: var(--ag-color-on-surface-muted, currentColor);
+    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / var(--_ag-alpha, 0.6));
+    --_ag-fill: var(--_ag-canvas-fill);
+    --_ag-alpha: min(1, max(var(--_ag-tint-floor),
+                     calc(var(--_ag-tint-floor) + (1 - var(--_ag-tint-floor)) * var(--ag-glass-opacity, 0))));
+    --_ag-shadow: var(--ag-shadow-regular, none);
+    --_ag-rim-light: oklch(1 0 0 / 0.5);
+    --_ag-rim-shade: oklch(0% 0 0 / 0.12);
+
+    /* public read-outs (REQ-MAT-29) */
+    --ag-surface-fill: var(--_ag-fill);
+    --ag-surface-rim: var(--_ag-rim-light);
+    --ag-surface-shadow: var(--_ag-shadow);
+    --ag-surface-radius: var(--ag-radius-outer, var(--ag-radius-md));
+    --ag-on-surface: var(--_ag-on-surface);
+    --ag-on-surface-muted: var(--_ag-on-surface-muted);
+    --ag-radius-inner: max(0px, calc(var(--ag-radius-outer, var(--ag-radius-md)) - var(--ag-inset, var(--ag-space-2))));
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-animating] { will-change: opacity, transform; }
+
+  /* ---- pseudo-element layer model (REQ-MAT-30) ----
+     Both pseudo-elements inherit every private scalar and --ag-specular from
+     the HOST, so they see host values while nested surfaces do not inherit
+     their parent's. */
+  [data-ag-preview="v5"] .ag-surface::before, [data-ag-preview="v5"] .ag-surface::after {
+    --_ag-blur: inherit;
+    --_ag-saturation: inherit;
+    --_ag-brightness: inherit;
+    --_ag-tint-floor: inherit;
+    --_ag-dim: inherit;
+    --_ag-surface-alpha: inherit;
+    --_ag-refraction-scale: inherit;
+    --_ag-rim-width: inherit;
+    --_ag-grain-opacity: inherit;
+    --_ag-optics: inherit;
+    --_ag-press: inherit;
+    --ag-specular: inherit;
+  }
+  [data-ag-preview="v5"] .ag-surface::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    /* (1) backdrop optics, fixed order blur() saturate() brightness() */
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    /* dim compositing (clear over bright) + grain — one element */
+    background-image:
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
+      url(../assets/ag-grain-128.avif),
+      /* fresnel edge-light, anchored on the light-facing edge */
+      radial-gradient(ellipse 120% 30% at 50% 0%,
+        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
+        transparent 8px),
+      /* sheen clipped to the top-lit third by the gradient itself */
+      linear-gradient(var(--ag-light-angle),
+        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc(var(--ag-specular) * 0.35)),
+        transparent 40%);
+    background-size: 100% 100%, 128px 128px, 100% 8px, 100% 100%;
+    background-repeat: no-repeat, repeat, no-repeat, no-repeat;
+    opacity: var(--_ag-surface-alpha);
+  }
+  [data-ag-preview="v5"] .ag-surface::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: var(--_ag-surface-alpha);
+    /* rim band via mask-composite: visible only inside the padding ring */
+    padding: var(--_ag-rim-width);
+    background: conic-gradient(from var(--ag-light-angle),
+      var(--_ag-rim-light), var(--_ag-rim-shade), var(--_ag-rim-light));
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    /* inset depth (press state) */
+    box-shadow: inset 0 calc(var(--_ag-press) * 1px) 2px
+      oklch(0% 0 0 / calc(var(--_ag-press) * 0.12));
+  }
+
+  /* ---- environment: declared backdrops (REQ-MAT-31 environment css) ----
+     Inherited env scalars + backdrop-resolved on-surface (glyph flip). */
+  [data-ag-preview="v5"] [data-ag-backdrop] {
+    --_ag-env-brightness: 1;
+    --_ag-on-surface: var(--ag-color-on-surface, oklch(0.22 0.02 262));
+    --_ag-on-surface-muted: var(--ag-color-on-surface-muted, oklch(0.4 0.02 262));
+  }
+  [data-ag-preview="v5"] [data-ag-backdrop="light"] {
+    --_ag-env-brightness: 1.02;
+    --_ag-on-surface: oklch(0.22 0.02 262);
+    --_ag-on-surface-muted: oklch(0.42 0.02 262);
+  }
+  [data-ag-preview="v5"] [data-ag-backdrop="dark"] {
+    --_ag-env-brightness: 1.06;
+    --_ag-on-surface: oklch(0.96 0.01 90);
+    --_ag-on-surface-muted: oklch(0.8 0.015 90);
+  }
+  [data-ag-preview="v5"] [data-ag-backdrop="media"],
+  [data-ag-preview="v5"] [data-ag-backdrop="auto"] {
+    /* auto + image/video resolves to the media row (REQ-MAT-26) */
+    --_ag-env-brightness: 1;
+    --_ag-on-surface: oklch(0.98 0.005 90);
+    --_ag-on-surface-muted: oklch(0.85 0.01 90);
+  }
+
+  [data-ag-preview="v5"] [data-ag-backdrop] {
+    position: relative;
+    overflow: hidden;
+  }
+  [data-ag-preview="v5"] [data-ag-part="backdrop-media"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* ---- variants ---- */
+  [data-ag-preview="v5"] .ag-surface[data-ag-variant="clear"] {
+    /* clear has its own solved floor row (generated/floors.css) and dims the
+       bright backdrop inside ::before when the backdrop is light/media */
+    --_ag-fill: var(--_ag-canvas-fill);
+  }
+  [data-ag-preview="v5"] [data-ag-backdrop="light"] .ag-surface[data-ag-variant="clear"],
+  [data-ag-preview="v5"] [data-ag-backdrop="media"] .ag-surface[data-ag-variant="clear"],
+  [data-ag-preview="v5"] [data-ag-backdrop="auto"] .ag-surface[data-ag-variant="clear"] {
+    --_ag-dim: 0.35; /* scrim.clearOverBright */
+  }
+  /* fail-safe: clear with no declared ancestor backdrop renders regular */
+  [data-ag-preview="v5"] .ag-surface[data-ag-variant="clear"]:not(:is([data-ag-backdrop="light"], [data-ag-backdrop="dark"], [data-ag-backdrop="media"]) *) {
+    --_ag-dim: 0;
+  }
+  /* identity: optically inert, keeps data-ag-surface for a11y rungs */
+  [data-ag-preview="v5"] .ag-surface[data-ag-variant="identity"] {
+    --_ag-fill: transparent;
+    --_ag-shadow: none;
+    --_ag-rim-width: 0px;
+    --ag-specular: 0;
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-variant="identity"]::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-image: none;
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-variant="identity"]::after { content: none; }
+
+  /* prominent: accent mixes into the fill at <= 0.18 alpha (one per view) */
+  [data-ag-preview="v5"] .ag-surface[data-ag-prominent] {
+    /* accent mixes into the canvas fill at exactly 0.18 (<= 0.18 alpha) */
+    --_ag-fill: color-mix(in oklch, var(--_ag-canvas-fill), var(--ag-color-accent, oklch(60% 0.2 270)) 18%);
+    --_ag-rim-light: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.6);
+  }
+
+  /* ---- content layer materials (D-08): never a backdrop filter ---- */
+  [data-ag-preview="v5"] .ag-surface[data-ag-layer="content"]:not([data-ag-variant])::before,
+  [data-ag-preview="v5"] .ag-surface[data-ag-layer="content"][data-ag-content]::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-layer="content"]:not([data-ag-variant]) {
+    /* opaque content-raised fill (MaterialSpec.content), rim + grain + shadow */
+    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l + 0.015) c h);
+    --_ag-fill: var(--_ag-canvas-fill);
+    --_ag-alpha: 1;
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-layer="content"][data-ag-content="content-sunken"] {
+    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) calc(l - 0.03) c h);
+    --_ag-fill: var(--_ag-canvas-fill);
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-layer="content"][data-ag-content="content-sunken"]::after {
+    /* 1px inset top shade */
+    box-shadow: inset 0 1px 0 oklch(0% 0 0 / 0.08);
+  }
+
+  /* ---- nesting (REQ-MAT-31) ---- */
+  [data-ag-preview="v5"] .ag-surface .ag-surface:not([data-ag-allow-nested])::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  [data-ag-preview="v5"] .ag-surface .ag-surface:not([data-ag-allow-nested]) {
+    --_ag-fill: var(--_ag-inner-fill);
+  }
+  /* portaled overlays are not DOM descendants of their trigger surface, so
+     they keep optics — no extra rule needed; allowNested keeps optics. */
+
+  /* ---- groups (REQ-MAT-26/31): one shared backdrop ---- */
+  [data-ag-preview="v5"] [data-ag-group] {
+    /* the group is itself a chrome surface (SurfaceGroup emits the attrs) */
+    gap: var(--ag-group-spacing, var(--ag-space-2));
+  }
+  [data-ag-preview="v5"] [data-ag-group] > .ag-surface::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* ---- state (REQ-MAT-09/31) ---- */
+  [data-ag-preview="v5"] .ag-surface[data-disabled],
+  [data-ag-preview="v5"] .ag-surface:disabled,
+  [data-ag-preview="v5"] .ag-surface[aria-disabled="true"] {
+    --_ag-surface-alpha: var(--ag-state-disabled-alpha, 0.45);
+    /* fill alpha multiplied: recompute fill at the dimmed alpha */
+    --_ag-canvas-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h /
+      calc(var(--_ag-alpha) * var(--_ag-surface-alpha)));
+    --_ag-fill: var(--_ag-canvas-fill);
+  }
+  /* overlay-open / expanded / full-height select solved floor rows in
+     generated/floors.css (its [data-open], [data-expanded] and
+     [data-ag-full-height] attribute keys); no extra scalar is needed here. */
+  [data-ag-preview="v5"] [data-ag-layer="scrim"] {
+    position: fixed;
+    inset: 0;
+    background: oklch(0% 0 0 / var(--ag-scrim-media, 0.72));
+    backdrop-filter: blur(var(--ag-scrim-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--ag-scrim-blur, 12px));
+    pointer-events: none;
+  }
+
+  /* ---- interaction states (REQ-MAT-09/32): light response, never scale ---- */
+  @media (hover: hover) {
+    [data-ag-preview="v5"] .ag-surface[data-ag-interactive]:hover {
+      --ag-specular: var(--ag-state-hover-specular, 0.15);
+    }
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-interactive]:active,
+  [data-ag-preview="v5"] .ag-surface[data-pressed] {
+    --_ag-press: var(--ag-state-press-glow, 0.25);
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-interactive] {
+    /* pseudo-layer opacity and registered scalars only */
+    transition:
+      --ag-specular var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+      --_ag-press var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-interactive]::before,
+  [data-ag-preview="v5"] .ag-surface[data-ag-interactive]::after {
+    transition: opacity var(--ag-duration-micro, 120ms) var(--ag-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+  }
+  /* selected / drop-target: rim + weight cue, not only tint */
+  [data-ag-preview="v5"] .ag-surface[data-selected],
+  [data-ag-preview="v5"] .ag-surface[aria-selected="true"],
+  [data-ag-preview="v5"] .ag-surface[data-state="on"],
+  [data-ag-preview="v5"] .ag-surface[aria-pressed="true"] {
+    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.16);
+  }
+  [data-ag-preview="v5"] .ag-surface[data-loading],
+  [data-ag-preview="v5"] .ag-surface[aria-busy="true"] {
+    --_ag-surface-alpha: 0.7;
+  }
+  [data-ag-preview="v5"] .ag-surface[data-drop-target] {
+    --_ag-rim-width: 2px;
+    --_ag-rim-light: var(--ag-color-accent, oklch(60% 0.2 270));
+    --_ag-fill: oklch(from var(--ag-color-accent, oklch(60% 0.2 270)) l c h / 0.06);
+  }
+
+  /* ---- tiers (REQ-MAT-35). Standard is the default; lightweight rungs below.
+     Subtree attributes override <html>: :root-level selectors use :where() so
+     a nearer [data-ag-tier]/[data-ag-transparency] ancestor wins on specificity. */
+  [data-ag-preview="v5"] :where(:root[data-ag-tier="lightweight"]) .ag-surface,
+  [data-ag-preview="v5"] [data-ag-tier="lightweight"] .ag-surface,
+  [data-ag-preview="v5"] .ag-surface[data-ag-tier="lightweight"],
+  [data-ag-preview="v5"] .ag-surface[data-ag-transparency="solid"],
+  [data-ag-preview="v5"] :where(:root[data-ag-transparency="solid"]) .ag-surface {
+    /* fallbackFill: >=0.85 alpha, following the scheme — never a black slab */
+    --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
+    --_ag-alpha: 1;
+    --_ag-grain-opacity: 0;
+  }
+  [data-ag-preview="v5"] :where(:root[data-ag-tier="lightweight"]) .ag-surface::before,
+  [data-ag-preview="v5"] [data-ag-tier="lightweight"] .ag-surface::before,
+  [data-ag-preview="v5"] .ag-surface[data-ag-tier="lightweight"]::before,
+  [data-ag-preview="v5"] .ag-surface[data-ag-transparency="solid"]::before,
+  [data-ag-preview="v5"] :where(:root[data-ag-transparency="solid"]) .ag-surface::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-image:
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
+      /* keep fresnel/sheen */
+      radial-gradient(ellipse 120% 30% at 50% 0%,
+        oklch(1 0 0 / calc(var(--ag-specular) * 0.18)),
+        transparent 8px),
+      linear-gradient(var(--ag-light-angle),
+        rgb(from var(--ag-color-specular, oklch(1 0 0)) r g b / calc(var(--ag-specular) * 0.35)),
+        transparent 40%);
+    background-size: 100% 100%, 100% 8px, 100% 100%;
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    [data-ag-preview="v5"] .ag-surface {
+      --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
+      --_ag-alpha: 1;
+    }
+    [data-ag-preview="v5"] .ag-surface::before {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+  @media (forced-colors: active) {
+    [data-ag-preview="v5"] .ag-surface {
+      --_ag-fill: Canvas;
+      --_ag-shadow: none;
+      border: 1px solid CanvasText;
+      color: CanvasText;
+    }
+    [data-ag-preview="v5"] .ag-surface::before {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background-image: none;
+    }
+    [data-ag-preview="v5"] .ag-surface::after { content: none; }
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    :root[data-ag-preview="v5"]:not([data-ag-transparency]) .ag-surface {
+      --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
+      --_ag-alpha: 1;
+    }
+    :root[data-ag-preview="v5"]:not([data-ag-transparency]) .ag-surface::before {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  /* ---- concentricity + shape (REQ-MAT-26 shape) ---- */
+  [data-ag-preview="v5"] .ag-surface[data-ag-shape="concentric"] {
+    border-radius: var(--ag-radius-inner, var(--ag-radius-md));
+  }
+  [data-ag-preview="v5"] .ag-surface[data-ag-shape="capsule"] {
+    border-radius: 9999px;
+  }
+  /* ConcentricFrame pads by --ag-inset (emitted as private data-ag-inset) */
+  [data-ag-preview="v5"] [data-ag-inset] {
+    padding: var(--ag-inset, var(--ag-space-2));
+  }
+  /* resolved radius read-outs per shape */
+  [data-ag-preview="v5"] .ag-surface[data-ag-shape="concentric"] { --ag-surface-radius: var(--ag-radius-inner, var(--ag-radius-md)); }
+  [data-ag-preview="v5"] .ag-surface[data-ag-shape="capsule"] { --ag-surface-radius: 9999px; }
+
+  /* ---- scroll edge (REQ-MAT-26; geometry from 4.x glass.css scroll-edge) ---- */
+  [data-ag-preview="v5"] [data-ag-part="scroll-edge"] {
+    position: sticky;
+    pointer-events: none;
+    height: clamp(16px, 4vh, 32px);
+    z-index: 1;
+  }
+  [data-ag-preview="v5"] [data-ag-part="scroll-edge"][data-ag-edge="top"] {
+    top: 0;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  }
+  [data-ag-preview="v5"] [data-ag-part="scroll-edge"][data-ag-edge="bottom"] {
+    bottom: 0;
+    mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 100%);
+  }
+  [data-ag-preview="v5"] [data-ag-part="scroll-edge"][data-ag-edge-style="hard"] {
+    mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 60%, transparent 100%);
+  }
+  [data-ag-preview="v5"] [data-ag-part="scroll-edge"][data-ag-edge-style="hard"][data-ag-edge="bottom"] {
+    mask-image: linear-gradient(to top, #000 0%, #000 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 60%, transparent 100%);
+  }
+}
+
+@layer ag.compat {
+  /* MAT-177: neutralise 4.x inline optics INSIDE the preview subtree only.
+     4.x emitted backdrop-filter/background/box-shadow inline on glass modules;
+     data-attribute selectors reset them so the v5 recipe owns the optics. */
+  [data-ag-preview="v5"] [style*="backdrop-filter"],
+  [data-ag-preview="v5"] [style*="-webkit-backdrop-filter"] {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

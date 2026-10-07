@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- MAT-178 frozen 4.x consumer fixture (built from 4.1.0 story shapes).
+     Never updated: baselines are captured once from the 4.1.0 tag. -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="./glass-4x.generated.css">
+  <link rel="stylesheet" href="../../../src/material/css/preview-v5.css">
+  <style>
+    .demo-glass {
+      background: var(--glass-neutral-level2-surface);
+      border: var(--glass-neutral-level2-border-width)
+        var(--glass-neutral-level2-border-style)
+        var(--glass-neutral-level2-border-color);
+      border-radius: var(--glass-radius-md);
+      backdrop-filter: blur(var(--glass-neutral-level2-blur));
+      -webkit-backdrop-filter: blur(var(--glass-neutral-level2-blur));
+      box-shadow: var(--glass-neutral-level2-shadow);
+      padding: 24px; width: 320px; color: var(--glass-neutral-level2-text-primary);
+      font-family: system-ui, sans-serif;
+    }
+    .scene {
+      padding: 48px; background:
+        linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
+    }
+  </style>
+</head>
+<body class="scene">
+  <!-- 4.x consumer surface (unchanged forever) -->
+  <div class="demo-glass" id="four-x">
+    <h2>4.x glass card</h2>
+    <p>Inline-style-free 4.x optics via --glass-* custom properties.</p>
+  </div>
+
+  <!-- same surface inside the v5 preview subtree: 4.x optics neutralised -->
+  <div data-ag-preview="v5" id="preview">
+    <div class="ag-surface" data-ag-layer="chrome" data-ag-thickness="regular"
+         style="padding: 24px; width: 320px; margin-top: 24px;">
+      <h2>v5 preview surface</h2>
+      <p>Preview renders the 5.0 recipe scoped to this subtree.</p>
+    </div>
+  </div>
+</body>
+</html>
