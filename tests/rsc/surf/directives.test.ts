@@ -89,7 +89,10 @@ const clientFiles = files.filter((f) => !serverFiles.includes(f) && !isBarrel(re
 function isSharedModule(f: string): boolean {
   const text = readFileSync(join(ROOT, f), 'utf8');
   if (firstDirective(text)) return false;
-  if (/from\s+['"](react|react-dom|next\/)/.test(text)) return false;
+  // React imports alone do not make a module client-only; hooks, DOM globals
+  // or JSX do. createElement/render helpers stay universal.
+  if (/<[A-Z][A-Za-z]*[\s/>]/.test(text)) return false;
+  if (/from\s+['"](react-dom|next\/)/.test(text)) return false;
   if (/\buse[A-Z][A-Za-z]*\s*\(|\bwindow\b|\bdocument\b|\bnavigator\b/.test(text)) return false;
   return true;
 }
