@@ -22,10 +22,11 @@ const seamReady = existsSync(COMPAT_INDEX) && existsSync(FIXTURE_MAP) &&
 
 describe('compat map completeness', () => {
   if (!seamReady) {
-    it.todo(
-      'every dest=compat name resolves from built aura-glass/compat and renders its 5.0 target ' +
-        '(PENDING: PLAT compat seam and/or tests/compat/fixtures-map.json absent)',
-    );
+    it('PENDING: every dest=compat name resolves from built aura-glass/compat and renders its 5.0 target', () => {
+      throw new Error(
+        'PENDING: PLAT compat seam (src/compat/index.ts real, non-seed) and/or tests/compat/fixtures-map.json absent — resolves when PLAT lands the compat seam',
+      );
+    });
     return;
   }
   it('every dest=compat name resolves from built aura-glass/compat and renders its 5.0 target', async () => {

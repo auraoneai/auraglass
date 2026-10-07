@@ -1,4 +1,5 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const SegmentedControl = createSeedCompound('segmented-control', ['Root','Item','Indicator']);
+export { SegmentedControl } from './SegmentedControl.client';
+export type {
+  SegmentedControlRootProps,
+  SegmentedControlItemProps,
+} from './SegmentedControl.types';
