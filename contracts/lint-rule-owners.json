@@ -14,6 +14,7 @@
  "motion-no-ungated-loop": "mat",
  "no-document-escape": "mat",
  "no-runtime-contrast": "mat",
+ "no-outline-none-focus": "mat",
  "no-forward-ref": "cmp",
  "no-overlay-global-listeners": "cmp",
  "prop-grammar": "cmp",
