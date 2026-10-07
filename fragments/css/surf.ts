@@ -26,6 +26,7 @@ const w2 = [
   { file: 'src/date/date.css', layer: 'ag.components', bundle: 'date.css' },
   { file: 'src/components/timeline/timeline.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/charts/charts.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/data.css', layer: 'ag.components', bundle: 'data.css', order: 90 },
 ] as const;
 // --- lane W2 end ---
 

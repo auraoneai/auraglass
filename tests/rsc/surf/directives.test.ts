@@ -19,6 +19,9 @@ const SURF_DIRS = [
   'src/backdrops',
   'src/charts',
   'src/three',
+  // --- lane W2 begin ---
+  'src/components', // Timeline/ActivityFeed live here (REQ-SURF-96/97)
+  // --- lane W2 end ---
 ];
 
 // REQ-SURF-07 server list, matched against module basenames. Server modules
@@ -48,7 +51,7 @@ const SERVER_MODULE = [
   /^classifyTone\.ts$/,
 ];
 
-const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/];
+const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/, /^ActivityFeed\.Interactive\.tsx?$/];
 
 const SKIP_FILE = /\.(test|spec|stories|meta|d)\.tsx?$|\.test-d\.ts$|\.css\.ts$/;
 
@@ -87,7 +90,13 @@ const clientFiles = files.filter((f) => !serverFiles.includes(f) && !isBarrel(re
     import, no hook/DOM usage — importable from both server and client files,
     so they must carry NEITHER 'use client' NOR 'use server'. */
 function isSharedModule(f: string): boolean {
-  const text = readFileSync(join(ROOT, f), 'utf8');
+  // --- lane W2 begin ---
+  // Comments can mention hook names (getRange cites "usePagination"); scan
+  // the code, not the prose.
+  const text = readFileSync(join(ROOT, f), 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .replace(/\/\/[^\n]*/g, ' ');
+  // --- lane W2 end ---
   if (firstDirective(text)) return false;
   // React imports alone do not make a module client-only; hooks, DOM globals
   // or JSX do. createElement/render helpers stay universal.
@@ -105,13 +114,21 @@ describe('REQ-SURF-07 module directives', () => {
   it('finds no SURF module in a server list file with a client directive or hooks', () => {
     const bad: string[] = [];
     for (const f of serverFiles) {
-      const text = readFileSync(join(ROOT, f), 'utf8');
+      const text = readFileSync(join(ROOT, f), 'utf8')
+        .replace(/\/\*[\s\S]*?\*\//g, ' ')
+        .replace(/\/\/[^\n]*/g, ' ');
       if (firstDirective(text) === '"use client"' || firstDirective(text) === "'use client'") {
         bad.push(`${f}: has "use client" but is on the REQ-SURF-07 server list`);
       }
-      if (/\buse[A-Z][A-Za-z]*\s*\(/.test(text) && !/\buse client\b/.test(text)) {
+      // --- lane W2 begin ---
+      // React.useId is the one hook legal in RSC (React 19 deterministic ids);
+      // strip it before scanning for real hooks. The directive exemption also
+      // reads code only — comments stripped above can contain 'use client'.
+      const hookText = text.replace(/\buseId\s*\(/g, 'uid(');
+      if (/\buse[A-Z][A-Za-z]*\s*\(/.test(hookText) && !/['"]use client['"]/.test(text)) {
         bad.push(`${f}: hook call in a server module`);
       }
+      // --- lane W2 end ---
       if (/\buseContext\s*\(|\.use\(/.test(text)) {
         bad.push(`${f}: context read in a server module`);
       }
