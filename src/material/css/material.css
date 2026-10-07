@@ -223,7 +223,10 @@
 
   /* ---- groups (REQ-MAT-26/31): one shared backdrop ---- */
   [data-ag-group] {
-    /* the group is itself a chrome surface (SurfaceGroup emits the attrs) */
+    /* the group is itself a chrome surface (SurfaceGroup emits the attrs);
+       flex so the gap separates children into a toolbar row (no inline style) */
+    display: flex;
+    align-items: center;
     gap: var(--ag-group-spacing, var(--ag-space-2));
   }
   [data-ag-group] > .ag-surface::before {
@@ -297,6 +300,7 @@
   [data-ag-tier="lightweight"] .ag-surface,
   .ag-surface[data-ag-tier="lightweight"],
   .ag-surface[data-ag-transparency="solid"],
+  [data-ag-transparency="solid"] .ag-surface,
   :where(:root[data-ag-transparency="solid"]) .ag-surface {
     /* fallbackFill: >=0.85 alpha, following the scheme — never a black slab */
     --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
@@ -307,6 +311,7 @@
   [data-ag-tier="lightweight"] .ag-surface::before,
   .ag-surface[data-ag-tier="lightweight"]::before,
   .ag-surface[data-ag-transparency="solid"]::before,
+  [data-ag-transparency="solid"] .ag-surface::before,
   :where(:root[data-ag-transparency="solid"]) .ag-surface::before {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -345,6 +350,14 @@
     }
     .ag-surface::after { content: none; }
   }
+  /* tinted rung: blur kept, floor raised to the tinted row, refraction off */
+  [data-ag-transparency="tinted"] .ag-surface,
+  .ag-surface[data-ag-transparency="tinted"],
+  :where(:root[data-ag-transparency="tinted"]) .ag-surface {
+    --_ag-tint-floor: var(--ag-tinted-floor, 0.85);
+    --_ag-refraction-scale: 0;
+  }
+
   @media (prefers-reduced-transparency: reduce) {
     :root:not([data-ag-transparency]) .ag-surface {
       --_ag-fill: oklch(from var(--ag-color-canvas, oklch(99% 0.005 260)) l c h / 0.9);
