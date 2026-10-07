@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-eval-dashboard",
+  "type": "registry:item",
+  "title": "AI eval dashboard",
+  "description": "Eval run summary \u2014 pass rate, per-case scores, token usage on UsageMeter.",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "EvalDashboard.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "fixtures/runs.json",
+      "type": "registry:item"
+    }
+  ]
+}

@@ -47,7 +47,20 @@
       "testDir": "tests/a11y/apg/surf"
     }
   ],
-  "W3": [],
+  "W3": [
+    {
+      "name": "surf:ai",
+      "testDir": "tests/e2e/surf/ai"
+    },
+    {
+      "name": "surf:ai-visual",
+      "testDir": "tests/visual/surf/ai"
+    },
+    {
+      "name": "surf:ai-perf",
+      "testDir": "tests/perf/browser/surf/ai-streaming.spec.ts"
+    }
+  ],
   "W4": [],
   "W5": []
 }

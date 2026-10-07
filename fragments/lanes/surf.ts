@@ -50,7 +50,15 @@ const w2 = [
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { lane: 'L1', kind: 'jest', path: 'src/ai/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/ai/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{thread,message,composer,tool-call,citation}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/ai/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/ai-streaming.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/ai-rsc/page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/ai/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

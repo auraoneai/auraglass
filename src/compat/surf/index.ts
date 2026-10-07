@@ -75,6 +75,10 @@ const w2: SurfCompatAdapter[] = [];
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
+export { GlassChat } from './ai/GlassChat';
+export { GlassChatInput } from './ai/GlassChatInput';
+export { GlassMessageList } from './ai/GlassMessageList';
+export { GlassTypingIndicator } from './ai/GlassTypingIndicator';
 const w3: SurfCompatAdapter[] = [];
 // --- lane W3 end ---
 

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-voice-input",
+  "type": "registry:item",
+  "title": "AI voice input button",
+  "description": "Composer.Action voice capture via real MediaRecorder \u2014 recording announced, stop produces a File; explicit unsupported/denied states.",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "VoiceInputAction.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    }
+  ]
+}

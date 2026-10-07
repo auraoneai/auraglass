@@ -28,6 +28,10 @@ export type { ActivityItem, ActivityFeedProps } from '../components/timeline/Act
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
+// REQ-SURF-02/170: the W3 surface is the `./ai` subpath (11 exports); the
+// contract keeps the root barrel free of AI components at 5.0. Statics land
+// on their component objects (Message.Parts, Thread.RenderersProvider, …),
+// never as root exports.
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

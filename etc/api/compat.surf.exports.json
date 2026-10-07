@@ -1,5 +1,5 @@
 {
- "entry": "./compat",
+ "entry": "compat.surf",
  "exports": [
   "GlassActivityFeed",
   "GlassAnimatedNumber",
@@ -7,6 +7,8 @@
   "GlassBottomNav",
   "GlassBreadcrumb",
   "GlassCalendar",
+  "GlassChat",
+  "GlassChatInput",
   "GlassChip",
   "GlassCommand",
   "GlassCommandPalette",
@@ -23,6 +25,7 @@
   "GlassKPICard",
   "GlassKeyValueEditor",
   "GlassMain",
+  "GlassMessageList",
   "GlassMetricCard",
   "GlassMobileNav",
   "GlassMobileShell",
@@ -39,6 +42,7 @@
   "GlassTimeline",
   "GlassTopBar",
   "GlassTreeView",
+  "GlassTypingIndicator",
   "GlassVirtualList",
   "GlassVirtualTable",
   "GlassWorkspaceTabs",

@@ -1,4 +1,4 @@
-## API Report — aura-glass ./compat
+## API Report — aura-glass/compat (SURF adapters)
 
 - `GlassActivityFeed`
 - `GlassAnimatedNumber`
@@ -6,6 +6,8 @@
 - `GlassBottomNav`
 - `GlassBreadcrumb`
 - `GlassCalendar`
+- `GlassChat`
+- `GlassChatInput`
 - `GlassChip`
 - `GlassCommand`
 - `GlassCommandPalette`
@@ -22,6 +24,7 @@
 - `GlassKPICard`
 - `GlassKeyValueEditor`
 - `GlassMain`
+- `GlassMessageList`
 - `GlassMetricCard`
 - `GlassMobileNav`
 - `GlassMobileShell`
@@ -38,6 +41,7 @@
 - `GlassTimeline`
 - `GlassTopBar`
 - `GlassTreeView`
+- `GlassTypingIndicator`
 - `GlassVirtualList`
 - `GlassVirtualTable`
 - `GlassWorkspaceTabs`

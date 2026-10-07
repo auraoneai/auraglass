@@ -49,6 +49,13 @@ const SERVER_MODULE = [
   /^Backdrop\.tsx?$/,
   /^formatMediaTime\.ts$/,
   /^classifyTone\.ts$/,
+  // --- lane W3 begin ---
+  // src/ai server-safe modules (server-safe.test.tsx SERVER_MODULES):
+  // Message/MessageParts render message content inside RSC trees — the
+  // client shell is Thread.tsx.
+  /^Message\.tsx?$/,
+  /^MessageParts\.tsx?$/,
+  // --- lane W3 end ---
 ];
 
 const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/, /^ActivityFeed\.Interactive\.tsx?$/];
@@ -104,7 +111,12 @@ function isSharedModule(f: string): boolean {
     // in a .ts file is not a component.
     if (/\.tsx$/.test(f) && /<[A-Z][A-Za-z]*[\s/>]/.test(text)) return false;
   if (/from\s+['"](react-dom|next\/)/.test(text)) return false;
-  if (/\buse[A-Z][A-Za-z]*\s*\(|\bwindow\b|\bdocument\b|\bnavigator\b/.test(text)) return false;
+  // --- lane W3 begin ---
+  // 'source-document' is an AgPart type literal, not a DOM reference — the
+  // \bdocument\b probe misfires on it. Strip the literal before scanning.
+  const domText = text.replace(/source-document/g, 'srcdoc');
+  if (/\buse[A-Z][A-Za-z]*\s*\(|\bwindow\b|\bdocument\b|\bnavigator\b/.test(domText)) return false;
+  // --- lane W3 end ---
   return true;
 }
 const sharedFiles = clientFiles.filter(isSharedModule);

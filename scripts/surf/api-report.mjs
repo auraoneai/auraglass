@@ -14,6 +14,8 @@ const which = arg('entry') ?? 'all';
 const TARGETS = {
   'root.surf': { source: 'src/root/surf.ts', label: 'aura-glass (root — SURF exports)' },
   'compat.surf': { source: 'src/compat/surf/index.ts', label: 'aura-glass/compat (SURF adapters)' },
+  // lane W3: SURF-365 — the ./ai subpath report.
+  'ai': { source: 'src/ai/index.ts', label: 'aura-glass ./ai' },
 };
 
 for (const [entry, { source, label }] of Object.entries(TARGETS)) {

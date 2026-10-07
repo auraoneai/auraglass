@@ -31,7 +31,9 @@ const w2 = [
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { file: 'src/ai/ai.css', layer: 'ag.components', bundle: 'ai.css' },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-markdown",
+  "type": "registry:item",
+  "title": "AI streaming markdown",
+  "description": "Streaming-safe renderText for Message.Parts: closes unterminated fences and emphasis while streaming.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "StreamingMarkdown.tsx", "type": "registry:item" },
+    { "path": "index.tsx", "type": "registry:item" }
+  ]
+}

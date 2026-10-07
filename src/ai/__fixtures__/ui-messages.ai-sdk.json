@@ -1,0 +1,347 @@
+{
+  "$schema": "ui-message-fixtures",
+  "sdk": "ai@5.0.29",
+  "generated": "2026-10-07",
+  "messages": [
+    {
+      "id": "msg-01",
+      "role": "user",
+      "parts": [
+        {
+          "type": "text",
+          "text": "How do I rotate the ingestion keys?"
+        }
+      ]
+    },
+    {
+      "id": "msg-02",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "reasoning",
+          "text": "Need current key policy.",
+          "state": "done"
+        },
+        {
+          "type": "text",
+          "text": "Rotating a key invalidates the previous secret after overlap.",
+          "state": "done"
+        }
+      ],
+      "metadata": {
+        "createdAt": "2026-05-12T09:14:03Z",
+        "model": "kiro-prism-70",
+        "status": "complete"
+      }
+    },
+    {
+      "id": "msg-03",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "reasoning",
+          "text": "Streaming thought",
+          "state": "streaming"
+        }
+      ]
+    },
+    {
+      "id": "msg-04",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-input-streaming",
+          "state": "input-streaming",
+          "input": {
+            "query": "key rotation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-05",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-input-available",
+          "state": "input-available",
+          "input": {
+            "query": "key rotation"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-06",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-approval-requested",
+          "state": "approval-requested",
+          "input": {
+            "query": "key rotation"
+          },
+          "approval": {
+            "id": "ap-approval-requested"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-07",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-approval-responded",
+          "state": "approval-responded",
+          "input": {
+            "query": "key rotation"
+          },
+          "approval": {
+            "id": "ap-approval-responded",
+            "approved": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-08",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-output-available",
+          "state": "output-available",
+          "input": {
+            "query": "key rotation"
+          },
+          "output": {
+            "rows": [
+              {
+                "step": "revoke-then-issue"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-09",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-output-error",
+          "state": "output-error",
+          "input": {
+            "query": "key rotation"
+          },
+          "errorText": "runbook service timeout"
+        }
+      ]
+    },
+    {
+      "id": "msg-10",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-runbook_lookup",
+          "toolCallId": "tc-output-denied",
+          "state": "output-denied",
+          "input": {
+            "query": "key rotation"
+          },
+          "approval": {
+            "id": "ap-output-denied",
+            "approved": false,
+            "reason": "operator veto"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-11",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "dynamic-tool",
+          "toolName": "ticket.create",
+          "toolCallId": "tc-dyn",
+          "state": "output-available",
+          "output": {
+            "id": "SUP-1024"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-12",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "text",
+          "text": "See the key policy doc [1] and the runbook [2]."
+        },
+        {
+          "type": "source-url",
+          "sourceId": "s-1",
+          "url": "https://docs.internal/security/keys",
+          "title": "Key policy"
+        },
+        {
+          "type": "source-url",
+          "sourceId": "s-2",
+          "url": "https://runbooks.internal/rotation",
+          "title": "Rotation runbook"
+        }
+      ]
+    },
+    {
+      "id": "msg-13",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "source-document",
+          "sourceId": "s-3",
+          "mediaType": "application/pdf",
+          "title": "Compliance annex",
+          "filename": "annex.pdf"
+        }
+      ]
+    },
+    {
+      "id": "msg-14",
+      "role": "user",
+      "parts": [
+        {
+          "type": "file",
+          "mediaType": "image/png",
+          "url": "blob:att-1",
+          "filename": "dashboard.png"
+        },
+        {
+          "type": "file",
+          "mediaType": "application/pdf",
+          "url": "blob:att-2",
+          "filename": "report.pdf"
+        },
+        {
+          "type": "text",
+          "text": "This shows the spike."
+        }
+      ]
+    },
+    {
+      "id": "msg-15",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "step-start"
+        },
+        {
+          "type": "text",
+          "text": "Second step of a two-step answer."
+        }
+      ]
+    },
+    {
+      "id": "msg-16",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "data-progress",
+          "id": "p1",
+          "data": {
+            "pct": 42
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-17",
+      "role": "tool",
+      "parts": [
+        {
+          "type": "text",
+          "text": "tool envelope"
+        }
+      ],
+      "metadata": {
+        "status": "complete"
+      }
+    },
+    {
+      "id": "msg-18",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Partial answer…"
+        }
+      ],
+      "metadata": {
+        "status": "streaming"
+      }
+    },
+    {
+      "id": "msg-19",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "text",
+          "text": "Follow the runbook exactly."
+        },
+        {
+          "type": "mystery-part",
+          "payload": {
+            "note": "unknown future part — expect exactly one dev warning"
+          }
+        }
+      ],
+      "metadata": {
+        "status": "complete"
+      }
+    },
+    {
+      "id": "msg-20",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "tool-bulk_revoke",
+          "toolCallId": "tc-denied",
+          "state": "output-denied",
+          "input": {
+            "count": 4
+          },
+          "approval": {
+            "id": "ap-denied",
+            "approved": false,
+            "reason": "policy requires CSO sign-off"
+          }
+        }
+      ]
+    },
+    {
+      "id": "msg-21",
+      "role": "assistant",
+      "parts": [
+        {
+          "type": "text",
+          "text": "",
+          "state": "streaming"
+        }
+      ],
+      "metadata": {
+        "status": "streaming",
+        "usage": {
+          "inputTokens": 1204,
+          "outputTokens": 88
+        }
+      }
+    }
+  ]
+}

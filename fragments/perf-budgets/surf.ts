@@ -28,7 +28,12 @@ const w2 = [
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { subject: 'surf/thread--streaming-200', profile: 'desktop-120hz', metric: 'long-tasks', max: 0, provisional: true },
+  { subject: 'surf/thread--streaming-200', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/thread--virtualized-2000', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/composer--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

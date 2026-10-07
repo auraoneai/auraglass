@@ -37,7 +37,19 @@ const w2 = [
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { id: 'SB-SURF-W3-AI-CSS', import: 'aura-glass/ai.css', limitBytes: 6144, kind: 'css' },
+  { id: 'SB-SURF-W3-THREAD', import: "{ Thread } from 'aura-glass/ai'", limitBytes: 18432, kind: 'js' },
+  { id: 'SB-SURF-W3-MESSAGE', import: "{ Message } from 'aura-glass/ai'", limitBytes: 10240, kind: 'js' },
+  { id: 'SB-SURF-W3-STREAMINGTEXT', import: "{ StreamingText } from 'aura-glass/ai'", limitBytes: 2048, kind: 'js' },
+  { id: 'SB-SURF-W3-COMPOSER', import: "{ Composer } from 'aura-glass/ai'", limitBytes: 12288, kind: 'js' },
+  { id: 'SB-SURF-W3-TOOLCALL', import: "{ ToolCall } from 'aura-glass/ai'", limitBytes: 8192, kind: 'js' },
+  { id: 'SB-SURF-W3-SOURCES', import: "{ SourceList, Citation } from 'aura-glass/ai'", limitBytes: 9216, kind: 'js' },
+  { id: 'SB-SURF-W3-REASONING', import: "{ Reasoning } from 'aura-glass/ai'", limitBytes: 4096, kind: 'js' },
+  { id: 'SB-SURF-W3-AGENTSTEPS', import: "{ AgentSteps } from 'aura-glass/ai'", limitBytes: 5120, kind: 'js' },
+  { id: 'SB-SURF-W3-USAGEMETER', import: "{ UsageMeter } from 'aura-glass/ai'", limitBytes: 4096, kind: 'js' },
+  { id: 'SB-SURF-W3-ERRORSTATE', import: "{ ProviderErrorState } from 'aura-glass/ai'", limitBytes: 5120, kind: 'js' },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-model-picker",
+  "type": "registry:item",
+  "title": "AI model picker",
+  "description": "Combobox grouped by provider with capability badges and context-window counts.",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "ModelPicker.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    }
+  ]
+}

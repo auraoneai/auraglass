@@ -64,3 +64,20 @@ export const Form = {
   Root: passthrough('form'),
   Field: passthrough('div'),
 };
+// --- lane W3 additions ---
+// Combobox: contract-seed (CMP owns internals). The double mirrors the frozen
+// compound surface so registry items render in jest without the seed impl.
+export const Combobox = {
+  Root: passthrough('div'),
+  Input: ({ label, ...p }: { label?: React.ReactNode } & Record<string, unknown>) =>
+    el('input', { 'aria-label': label ?? (p['aria-label'] as string | undefined), ...p }),
+  Trigger: ({ children, ...p }: Record<string, unknown>) =>
+    el('button', { type: 'button', 'aria-haspopup': 'listbox', ...p }, children as never),
+  Content: passthrough('div'),
+  Item: ({ children, ...p }: Record<string, unknown>) => el('div', { role: 'option', 'aria-selected': 'false', ...p }, children as never),
+  Empty: passthrough('div'),
+  Chips: passthrough('div'),
+  Chip: passthrough('span'),
+  ChipRemove: passthrough('button'),
+  Clear: passthrough('button'),
+};

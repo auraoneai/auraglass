@@ -190,7 +190,50 @@ const w2: CodemodMappingFragment = {
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3: CodemodMappingFragment = {};
+const w3: CodemodMappingFragment = {
+  renames: [
+    { from: 'GlassChat', fromEntry: 'aura-glass', to: 'GlassChat', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassChatInput', fromEntry: 'aura-glass', to: 'GlassChatInput', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassMessageList', fromEntry: 'aura-glass', to: 'GlassMessageList', toEntry: 'aura-glass/compat', compatOnly: true },
+    { from: 'GlassTypingIndicator', fromEntry: 'aura-glass', to: 'GlassTypingIndicator', toEntry: 'aura-glass/compat', compatOnly: true },
+  ],
+  props: [
+    { component: 'Thread', from: 'messages', to: 'messages', values: { ChatMessage: 'AgMessage' } },
+    { component: 'Composer', from: 'value', to: 'value' },
+    { component: 'Composer', from: 'onSend', to: 'onSubmit', values: { '(text)': '{ text, files }' } },
+    { component: 'Composer', from: 'onVoiceRecording', to: null, todo: 'use the ai-voice-input registry item' },
+    { component: 'Composer', from: 'placeholder', to: 'labels.input' },
+    { component: 'Thread', from: 'virtualScroll', to: null, todo: 'virtualization is automatic above virtualizeAfter' },
+    { component: 'Message', from: 'reactions', to: null, todo: 'no 5.0 successor' },
+    { component: 'Message', from: 'replyTo', to: null, todo: 'no 5.0 successor' },
+    { component: 'Message', from: 'edited', to: null, todo: 'no 5.0 successor' },
+  ],
+  removed: [
+    { symbol: 'GlassPredictiveChat', entry: 'aura-glass', reason: 'predictive/simulated AI rejected at 5.0', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassVoiceInput', entry: 'aura-glass', reason: 'moved to a registry item', registryItem: 'ai-voice-input', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassGANGenerator', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassDeepDreamGlass', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassStyleTransfer', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassGenerativeArt', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'AIGlassThemeProvider', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'NeuromorphicLearningNetwork', entry: 'aura-glass', reason: 'rejected; none in 5.0', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassPredictiveEngine', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassAutoComposer', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'useAutoComposer', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'NeuralWeightVisualization', entry: 'aura-glass', reason: 'generic matrix viz; none in 5.0', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassMusicVisualizer', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassVoiceWaveform', entry: 'aura-glass', reason: 'no successor until 5.1 (Waveform)', doc: 'apps/docs/content/surf/migration/ai.md' },
+    { symbol: 'GlassLiveFilter', entry: 'aura-glass', reason: 'rejected simulated-AI family', doc: 'apps/docs/content/surf/migration/ai.md' },
+  ],
+  areaTransforms: [
+    {
+      id: 'ai-chat',
+      module: 'packages/cli/src/migrate/4to5/transforms/ai-chat.ts',
+      spec: "Rewrite the four chat imports (GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator) from 'aura-glass' to 'aura-glass/compat' and insert '// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see <doc>' above the import without touching JSX structure.",
+    },
+  ],
+  fixtures: ['fragments/codemods/surf/fixtures/ai-chat-imports'],
+};
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

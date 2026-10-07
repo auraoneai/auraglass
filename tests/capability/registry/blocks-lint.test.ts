@@ -26,6 +26,9 @@ const SURF_ITEMS = new Set([
   'rich-text', 'transfer-list', 'presence-stack', 'comment-thread',
   'faceted-search', 'query-builder', 'schema-viewer', 'tree-select',
   'app-shell-workspace',
+  // lane W3 (SURF-356/370..374/390)
+  'ai-artifact-panel', 'ai-eval-dashboard', 'ai-markdown', 'ai-model-picker',
+  'ai-sdk-adapter', 'ai-trace-tree', 'ai-voice-input',
 ]);
 const PUBLIC_AURA = new Set([
   'aura-glass', 'aura-glass/app-shell', 'aura-glass/data', 'aura-glass/date',

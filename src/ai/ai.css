@@ -1,0 +1,104 @@
+/* src/ai/ai.css — ./ai components, @layer ag.components (SURF-339). */
+.ag-visually-hidden {
+  position: absolute !important;
+  inline-size: 1px !important;
+  block-size: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+@layer ag.components {
+  .ag-thread-viewport, [data-ag-part="log"] { overflow-anchor: auto; }
+  [data-ag-part="bottom-sentinel"] { overflow-anchor: none; }
+  [data-ag-part="jump-to-latest"] {
+    position: sticky;
+    inset-block-end: calc(var(--_ag-ai-composer-block, 0px) + 12px + env(safe-area-inset-bottom, 0px));
+    margin-inline: auto;
+    display: block;
+  }
+  [data-ag-part="streaming-text"] [data-ag-part="caret"] {
+    display: inline-block;
+    inline-size: 1ch;
+    block-size: 1em;
+    background: currentColor;
+    animation: ag-ai-caret-blink var(--ag-duration-normal, 1s) steps(1) infinite;
+  }
+  [data-ag-part="message"] {
+    max-inline-size: min(var(--_ag-ai-message-max-inline, 72ch), 100%);
+    overflow-wrap: anywhere;
+  }
+  [data-ag-part="attachments"] {
+    display: flex;
+    gap: var(--ag-space-2, 8px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  [data-ag-part="attachment"] { scroll-snap-align: start; }
+  [data-ag-part="composer"] {
+    container-type: inline-size;
+  }
+  [data-ag-part="composer"] [data-ag-part="textarea"] {
+    field-sizing: content;
+    max-block-size: var(--_ag-ai-composer-max-block, 12lh);
+    resize: none;
+  }
+  /* Keyboard inset (SURF-318): pad above the software keyboard. */
+  [data-ag-part="composer"] {
+    padding-block-end: env(keyboard-inset-height, 0px);
+  }
+  [data-ag-part="composer"][data-dragging="true"] {
+    outline: 2px dashed var(--ag-line, currentColor);
+    outline-offset: -2px;
+  }
+  [data-ag-part="composer"] [data-ag-part="action"],
+  [data-ag-part="composer"] [data-ag-part="submit"],
+  [data-ag-part="composer"] [data-ag-part="stop"] {
+    min-block-size: 24px;
+    min-inline-size: 24px;
+  }
+  @media (pointer: coarse) {
+    [data-ag-part="composer"] [data-ag-part="action"],
+    [data-ag-part="composer"] [data-ag-part="submit"],
+    [data-ag-part="composer"] [data-ag-part="stop"],
+    [data-ag-part="citation"] { min-block-size: 44px; min-inline-size: 44px; }
+  }
+  @container (max-width: 480px) {
+    [data-ag-part="composer"] [data-ag-part="avatar"] { display: none; }
+    /* SURF-318: slot actions collapse to one leading action; maxRows -> 5. */
+    [data-ag-part="composer"] [data-ag-part="actions"] > :not([data-ag-part="composer-menu"]) { display: none; }
+    [data-ag-part="composer"] [data-ag-part="textarea"] { max-block-size: 5lh; }
+  }
+  /* ToolCall running atom — CSS three-dot (SURF-323); static text under
+   * reduced motion via the `motion` preference attribute (S-12). */
+  [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after {
+    content: "\2026";
+    animation: ag-ai-caret-blink var(--ag-duration-slow, 1s) steps(1) infinite;
+  }
+  [data-ag-part="running-dots"][data-motion="none"]::after,
+  [data-ag-part="running-dots"][data-motion="calm"]::after { content: none; }
+  [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
+    display: inline-block;
+    inline-size: 4px; block-size: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    margin-inline-end: 3px;
+    animation: ag-ai-caret-blink var(--ag-duration-slower, 1.2s) steps(1) infinite;
+  }
+  [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="none"],
+  [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="calm"],
+  [data-ag-part="typing-indicator"][data-motion="none"] [data-ag-part="typing-dot"],
+  [data-ag-part="typing-indicator"][data-motion="calm"] [data-ag-part="typing-dot"] {
+    animation: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-ag-part="streaming-text"] [data-ag-part="caret"] { animation: none; opacity: 1; }
+  }
+  @keyframes ag-ai-caret-blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+}

@@ -1,0 +1,11 @@
+{
+  "messageId": "stream-1",
+  "frames": [
+    { "t": 0, "partIndex": 0, "delta": "The " },
+    { "t": 40, "partIndex": 0, "delta": "ingestion " },
+    { "t": 80, "partIndex": 0, "delta": "keys rotate " },
+    { "t": 120, "partIndex": 0, "delta": "via the " },
+    { "t": 160, "partIndex": 0, "delta": "security console." },
+    { "t": 200, "partIndex": 1, "delta": "Overlap window is 24 hours." }
+  ]
+}

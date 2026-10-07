@@ -3,4 +3,3 @@
 - `ActivityFeed`
 - `Timeline`
 - `formatTimestamp`
-

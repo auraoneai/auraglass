@@ -27,7 +27,13 @@ const w2 = [
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { id: 'RV-SURF-W3-01', subject: 'blocks/ai-workspace--default', criterion: 'specular-quality', note: 'composer and jump pill float once; message text stays flat' },
+  { id: 'RV-SURF-W3-02', subject: 'surf/thread--default', criterion: 'optical-hierarchy', note: 'assistant text leads; timestamps and actions recede until intent' },
+  { id: 'RV-SURF-W3-03', subject: 'surf/tool-call--default', criterion: 'optical-hierarchy', note: 'tool state reads before the payload' },
+  { id: 'RV-SURF-W3-04', subject: 'surf/citation--default', criterion: 'radius-rhythm', note: 'preview card follows the --ag-radius ladder' },
+  { id: 'RV-SURF-W3-05', subject: 'blocks/ai-workspace--default', criterion: 'one-hand', note: 'submit/stop and jump pill reachable at coarse pointers' },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
