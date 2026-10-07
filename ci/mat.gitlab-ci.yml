@@ -1,6 +1,9 @@
-# ci/mat.gitlab-ci.yml (MAT). cmp and surf seeds are the same with their own key and no job.
+# ci/mat.gitlab-ci.yml (MAT). Jobs are named mat:<stage>:<name>, extend .mat-base, rule only on
+# $AG_SCOPE/$AG_LINE, keep allow_failure: true until each job's first green on next, put evidence
+# under .artifacts/ with expire_in, and never use merge_request_event or credentials (§4.13.4).
 .mat-base:
   extends: .ag-node
+
 mat:build:tokens:
   extends: .mat-base
   stage: build
@@ -13,3 +16,78 @@ mat:build:tokens:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
     paths: [dist/tokens/, dist/tokens.css, dist/compat/tokens.css, .artifacts/]
+
+# MAT-329 (interim, DS-047): token build + generated-output drift + tests/tokens.
+# Retires once QUAL's L1/L4 lanes report on next; the same checks then run inside
+# qual:certify:l1/l4 through the lane registrations in fragments/lanes/mat.ts.
+mat:test:tokens-interim:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    # tokens:build (fails closed > 20 s) + git diff --exit-code on generated outputs
+    - node scripts/mat/token-drift-l4.mjs
+    - npx jest tests/tokens --passWithNoTests
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [dist/tokens/, dist/contrast-matrix.json, .artifacts/]
+
+# MAT-344: optics lint, recipe metric and css-api checks on every 5x PR/main.
+# The invoked scripts are lane 2b-M's (MAT-096/100/102) — until they merge the
+# job cannot go green and stays allow_failure (§4.13.4).
+mat:test:optics:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/mat/verify-optics-css.mjs
+    - node scripts/mat/count-glass-recipes.mjs
+    - node scripts/mat/material-css-api.mjs --check
+    - npx jest tests/lint tests/ci --passWithNoTests
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
+
+# MAT-358: beta gate — strict recipe count (N>1 fails), optics scanner without a
+# baseline, and the recipe-removal sweep on every 5x release pipeline.
+mat:certify:beta-optics:
+  extends: .mat-base
+  stage: certify
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE == "release"
+  script:
+    - node scripts/mat/count-glass-recipes.mjs --strict
+    - node scripts/mat/verify-optics-css.mjs
+    - node scripts/mat/verify-recipe-removal.mjs
+    - npx eslint 'src/**/*.{ts,tsx}' --format stylish
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
+
+# MAT-362 (next half): codemod-fixture integrity + the vendored frozen 4.x
+# consumer cases + material unit specs on 5x PR scope. The release/4.x face of
+# this check (4.x-era suites on the 4.x line) lives in the 4.x copy of this file.
+mat:test:consumer-4x:
+  extends: .mat-base
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && $AG_SCOPE != "release"
+  script:
+    - node scripts/mat/codemod-fixtures-check.mjs
+    - npx jest tests/fixtures/consumer-4x tests/material --passWithNoTests
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/]
+    when: always
