@@ -1,20 +1,13 @@
 // registry/blocks/commerce-checkout — REQ-SURF-176 (5.1 scope).
 // Step-gated checkout shell: shipping → payment → review. Steps follow the
 // §4.9 grammar triple (step/defaultStep/onStepChange); all data by props.
+// Parts: CheckoutSteps (SURF-589).
 import { Button, Card, Separator, TextField } from 'aura-glass';
+import { useState } from 'react';
 import type { CartItem } from '../commerce-cart/index';
 import { formatMoney } from '../commerce-cart/index';
-
-export interface CheckoutStep {
-  id: 'shipping' | 'payment' | 'review';
-  label: string;
-}
-
-export const CHECKOUT_STEPS: CheckoutStep[] = [
-  { id: 'shipping', label: 'Shipping' },
-  { id: 'payment', label: 'Payment' },
-  { id: 'review', label: 'Review' },
-];
+import { CheckoutSteps } from './CheckoutSteps';
+import { CHECKOUT_STEPS, type CheckoutStep } from './steps';
 
 export interface CommerceCheckoutProps {
   items: CartItem[];
@@ -47,13 +40,7 @@ export function CommerceCheckout({
     <Card.Root data-ag-part="root">
       <Card.Header data-ag-part="header">
         <Card.Title>Checkout</Card.Title>
-        <nav data-ag-part="steps" aria-label="checkout steps">
-          {CHECKOUT_STEPS.map((s, i) => (
-            <span key={s.id} data-ag-part="step" data-state={i === idx ? 'active' : i < idx ? 'done' : 'todo'}>
-              {s.label}
-            </span>
-          ))}
-        </nav>
+        <CheckoutSteps steps={CHECKOUT_STEPS} current={internal} />
       </Card.Header>
       <Card.Body data-ag-part="body">
         {internal === 'shipping' && (
@@ -98,7 +85,6 @@ export function CommerceCheckout({
 }
 
 // Minimal controlled/uncontrolled helper — mirrors the §4.9 triple.
-import { useState } from 'react';
 function useControlled<T>(value: T | undefined, fallback: T, onChange?: (v: T) => void) {
   const [inner, setInner] = useState(fallback);
   const current = value === undefined ? inner : value;
@@ -111,4 +97,6 @@ function useControlled<T>(value: T | undefined, fallback: T, onChange?: (v: T) =
   ] as const;
 }
 
+export { CheckoutSteps } from './CheckoutSteps';
+export { CHECKOUT_STEPS, type CheckoutStep } from './steps';
 export default CommerceCheckout;

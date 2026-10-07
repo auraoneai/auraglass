@@ -33,7 +33,7 @@ describe('comment-thread item', () => {
   });
   it('composer is IME-safe (isComposing guard in source)', () => {
     const src = readFileSync(
-      join(__dirname, '../../../registry/items/comment-thread/index.tsx'), 'utf8'
+      join(__dirname, '../../../registry/items/comment-thread/CommentThread.tsx'), 'utf8'
     );
     expect(src).toContain('isComposing');
     expect(src).toContain("e.key === 'Enter'");
