@@ -8,7 +8,9 @@ lerna-debug.log*
 
 # Build outputs
 dist/
-build/
+build/*
+!build/exports.manifest.json
+!build/exports.manifest.schema.json
 out/
 .next/
 .nuxt/
@@ -168,3 +170,19 @@ playwright/.cache/
 # yarn.lock
 # pnpm-lock.yaml
 tests/visual/**/*.spec.ts-snapshots/
+
+# AuraGlass 5.0 (contract C0)
+!.storybook/
+!build/exports.manifest.json
+!build/exports.manifest.schema.json
+/.artifacts/
+/reports/
+/deprecations.json
+/registry/registry.json
+/packages/cli/src/migrate/4to5/mappings/
+/apps/docs/out/
+/apps/docs/generated/
+/apps/docs/public/r/
+/public/
+/dist-maps.tgz
+/storybook-static/

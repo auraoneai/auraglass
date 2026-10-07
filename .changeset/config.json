@@ -1,0 +1,3 @@
+{ "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json", "changelog": "@changesets/cli/changelog", "commit": false,
+  "fixed": [], "linked": [["aura-glass", "@auraglass/cli", "@auraglass/registry"]], "access": "public", "baseBranch": "next",
+  "updateInternalDependencies": "patch", "ignore": ["@auraglass/qa"], "privatePackages": { "version": false, "tag": false } }

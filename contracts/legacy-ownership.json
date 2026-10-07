@@ -1,0 +1,53 @@
+{
+ "version": 1,
+ "quarantine": {
+  "src": "legacy/src",
+  "tests": "legacy/tests"
+ },
+ "keep": [
+  {
+   "path": "src/primitives/Slot.tsx",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/primitives/Portal.tsx",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/primitives/FocusScope.tsx",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/primitives/Label.tsx",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/primitives/DismissableLayer.tsx",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/icons/**",
+   "owner": "CMP"
+  },
+  {
+   "path": "src/theme/color.ts",
+   "owner": "MAT"
+  },
+  {
+   "path": "src/theme/materials.ts",
+   "owner": "MAT"
+  },
+  {
+   "path": "src/theme/createGlassTheme.ts",
+   "owner": "MAT"
+  },
+  {
+   "path": "src/theme/createBrandGlassTheme.ts",
+   "owner": "MAT"
+  },
+  {
+   "path": "tokens/**",
+   "owner": "MAT"
+  }
+ ]
+}

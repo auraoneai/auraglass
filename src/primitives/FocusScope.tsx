@@ -108,6 +108,7 @@ export const FocusScope = React.forwardRef<HTMLDivElement, FocusScopeProps>(
 
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
+        if (first === undefined || last === undefined) return;
         const active = document.activeElement as HTMLElement | null;
 
         if (

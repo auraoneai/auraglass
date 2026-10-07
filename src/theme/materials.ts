@@ -1,4 +1,3 @@
-/* eslint-disable auraglass/no-inline-glass -- Theme Engine 2.0 exports raw material token values for downstream CSS variable generation, not inline component styles. */
 
 export type GlassMaterialPreset =
   | "clear"

@@ -1,0 +1,41 @@
+/* Contract stub (§5.1): implements S-01..S-04 minimally for visual and computed-style
+   tests while MAT's src/material/css/material.css is absent. Never shipped (R5).
+   Injected by gotoStory(..., { stub: 'reference' }) via tests/helpers. */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.tokens {
+  :root {
+    --ag-surface-fill: oklch(90% 0.02 260 / 0.5);
+    --ag-rim: oklch(100% 0 0 / 0.35);
+    --ag-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+    --ag-test-regular: oklch(70% 0.15 250);
+    --ag-test-clear: oklch(80% 0.1 200);
+    --ag-test-identity: oklch(60% 0.2 30);
+    --ag-test-raised: oklch(75% 0.1 250);
+    --ag-test-sunken: oklch(55% 0.1 250);
+    --ag-test-overlay: oklch(65% 0.12 280);
+    --ag-test-transient: oklch(70% 0.12 320);
+    --ag-test-chrome: oklch(60% 0.1 270);
+    --ag-test-scrim: oklch(20% 0 0 / 0.5);
+    --ag-test-interactive: oklch(70% 0.2 150);
+  }
+}
+
+@layer ag.material {
+  .ag-surface {
+    background: var(--ag-surface-fill);
+    box-shadow: var(--ag-shadow), inset 0 0 0 1px var(--ag-rim);
+  }
+  [data-ag-layer='chrome'] { --ag-test-layer: var(--ag-test-chrome); }
+  [data-ag-layer='overlay'] { --ag-test-layer: var(--ag-test-overlay); }
+  [data-ag-layer='transient'] { --ag-test-layer: var(--ag-test-transient); }
+  [data-ag-layer='content'] { --ag-test-layer: var(--ag-test-raised); }
+  [data-ag-layer='scrim'] { --ag-test-layer: var(--ag-test-scrim); }
+  [data-ag-variant='regular'] { border-block-start: 2px solid var(--ag-test-regular); }
+  [data-ag-variant='clear'] { border-block-start: 2px solid var(--ag-test-clear); }
+  [data-ag-variant='identity'] { border-block-start: 2px solid var(--ag-test-identity); }
+  [data-ag-content='content-raised'] { outline: 1px solid var(--ag-test-raised); }
+  [data-ag-content='content-sunken'] { outline: 1px solid var(--ag-test-sunken); }
+  [data-ag-interactive] { border-block-end: 2px solid var(--ag-test-interactive); }
+  [data-ag-portal-root] { position: relative; z-index: 0; }
+}

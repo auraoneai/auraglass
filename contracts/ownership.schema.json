@@ -1,0 +1,58 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "ownership.schema.json",
+ "type": "object",
+ "required": [
+  "version",
+  "rows"
+ ],
+ "properties": {
+  "version": {
+   "const": 1
+  },
+  "rows": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "glob",
+     "owner"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "glob": {
+      "type": "string"
+     },
+     "owner": {
+      "enum": [
+       "PLAT",
+       "MAT",
+       "CMP",
+       "SURF",
+       "QUAL",
+       "CONTRACT",
+       "NONE"
+      ]
+     },
+     "note": {
+      "type": "string"
+     },
+     "lines": {
+      "type": "array",
+      "items": {
+       "enum": [
+        "4x",
+        "5x"
+       ]
+      }
+     }
+    },
+    "additionalProperties": false
+   }
+  }
+ },
+ "additionalProperties": false
+}
