@@ -1,0 +1,23 @@
+{
+  "name": "@auraglass/labs",
+  "version": "0.1.0",
+  "description": "AuraGlass labs — experimental surfaces under the §13.4 admission rubric. 0.x, no stability guarantee.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "aura-glass": "^5.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}

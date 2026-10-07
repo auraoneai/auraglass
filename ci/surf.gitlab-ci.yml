@@ -1,3 +1,124 @@
-# ci/surf.gitlab-ci.yml (SURF), seed per §4.13.4: one hidden template so the file is never empty.
+# ci/surf.gitlab-ci.yml — SURF stream CI fragment (contract-v1.1 §4.13.4; S-53).
+# Lane blocks are owned by SURF lanes W1..W5; edit only your own block.
+# Job names must be surf:<stage>:<name>, stage must be one of the root stages,
+# rules only on $AG_SCOPE/$AG_LINE, evidence only under .artifacts/surf/ with
+# expire_in, and every job is allow_failure: true until its first green run on
+# next, when the owning lane flips it (AC-SURF-31).
+
+# --- stream templates begin (lane W5 owns; SURF-628) ---
 .surf-base:
   extends: .ag-node
+
+.surf-playwright:
+  extends: .ag-playwright
+# --- stream templates end ---
+
+# --- lane W1 begin ---
+
+# --- lane W1 end ---
+
+# --- lane W2 begin ---
+
+# --- lane W2 end ---
+
+# --- lane W3 begin ---
+
+# SURF-636 (REQ-SURF-195): deterministic AI fixtures. gen-ai-fixtures writes
+# golden transcripts under tests/ai/fixtures/ and verifies freshness with
+# --check on every branch pipeline; lanes W3/W4 extend the corpus.
+surf:build:ai-fixtures:
+  extends: .surf-base
+  stage: build
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - node scripts/surf/gen-ai-fixtures.mjs
+    - node scripts/surf/gen-ai-fixtures.mjs --check
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/ai-fixtures/
+
+# SURF-637 (REQ-SURF-195): AI SDK contract suite — provider-agnostic envelope
+# tests against the AI SDK v6 devDeps. Reports pending (not red) until the
+# suite exists (lane W3).
+surf:test:ai-sdk:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - |
+      if [ -d "tests/ai" ] && ls tests/ai/*.test.ts >/dev/null 2>&1; then
+        npx jest tests/ai --ci
+      else
+        echo "pending: tests/ai/*.test.ts not present"
+      fi
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/ai-sdk/
+
+# --- lane W3 end ---
+
+# --- lane W4 begin ---
+
+# --- lane W4 end ---
+
+# --- lane W5 begin ---
+
+# SURF-561 (REQ-SURF-187): capability-ledger gate. Runs the ledger verifier and,
+# on every branch pipeline, re-checks rows added since the merge-base with
+# origin/next. No root package.json script is added.
+surf:test:ledger:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  variables:
+    GIT_DEPTH: "0"
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  script:
+    - git fetch --no-tags origin "+refs/heads/next:refs/remotes/origin/next"
+    - node scripts/surf/verify-capability-ledger.mjs
+    - node scripts/surf/verify-capability-ledger.mjs --diff "$(git merge-base HEAD origin/next)"
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/ledger/
+
+# SURF doubles: each lane maps CMP module specifiers onto tests/contract-doubles/cmp/*
+# through tests/<area>/jest.doubles.cjs. A missing preset reports pending and does
+# not fail the matrix cell (per lane prompts).
+surf:test:doubles:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  parallel:
+    matrix:
+      - DOUBLES_AREA: [app-shell, data, ai, media, capability]
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - |
+      if [ -f "tests/${DOUBLES_AREA}/jest.doubles.cjs" ]; then
+        npx jest -c "tests/${DOUBLES_AREA}/jest.doubles.cjs" --ci
+      else
+        echo "pending: tests/${DOUBLES_AREA}/jest.doubles.cjs not present"
+      fi
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/doubles/
+
+# --- lane W5 end ---
