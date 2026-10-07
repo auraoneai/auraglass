@@ -382,7 +382,7 @@ const b = [
     id: 'DEP-M0820',
     kind: 'export',
     status: 'planned',
-    entry: '.',
+    entry: './hooks/useGlassProbes',
     symbol: 'useGlassProbes',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -431,7 +431,7 @@ const b = [
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'glassFoundation',
+    symbol: 'createGlassHoverMixin',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'materialProps / MaterialSpec (aura-glass/material)',
@@ -439,7 +439,7 @@ const b = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'glassFoundation is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+      'createGlassHoverMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
     doc: '#dep-m0823',
   },
   {
@@ -447,7 +447,7 @@ const b = [
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'glassSurface',
+    symbol: 'createGlassFocusMixin',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'materialProps / MaterialSpec (aura-glass/material)',
@@ -455,11 +455,123 @@ const b = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'glassSurface is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+      'createGlassFocusMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
     doc: '#dep-m0824',
   },
   {
     id: 'DEP-M0825',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'createGlassDisabledMixin',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'createGlassDisabledMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0825',
+  },
+  {
+    id: 'DEP-M0826',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'generateGlassThemeVariables',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'generateGlassThemeVariables is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0826',
+  },
+  {
+    id: 'DEP-M0827',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'createResponsiveGlassStyle',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'createResponsiveGlassStyle is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0827',
+  },
+  {
+    id: 'DEP-M0828',
+    kind: 'export',
+    status: 'planned',
+    entry: './core/mixins/glassMixins',
+    symbol: 'createGlassMixin',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'createGlassMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0828',
+  },
+  {
+    id: 'DEP-M0829',
+    kind: 'export',
+    status: 'planned',
+    entry: './core/mixins/glassMixins',
+    symbol: 'createGlassLoadingMixin',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'createGlassLoadingMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0829',
+  },
+  {
+    id: 'DEP-M0830',
+    kind: 'export',
+    status: 'planned',
+    entry: './core/mixins/glassMixins',
+    symbol: 'canUseHighQualityGlass',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'canUseHighQualityGlass is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0830',
+  },
+  {
+    id: 'DEP-M0831',
+    kind: 'export',
+    status: 'planned',
+    entry: './core/mixins/glassMixins',
+    symbol: 'getRecommendedTier',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'materialProps / MaterialSpec (aura-glass/material)',
+    codemod: 'removed',
+    automation: 'partial',
+    breaking: 'B3',
+    message:
+      'getRecommendedTier is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).',
+    doc: '#dep-m0831',
+  },
+  {
+    id: 'DEP-M0832',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
@@ -472,10 +584,10 @@ const b = [
     breaking: 'B3',
     message:
       'glassTokenUtils is removed in 5.0; use materialProps/MaterialSpec (codemod: removed).',
-    doc: '#dep-m0825',
+    doc: '#dep-m0832',
   },
   {
-    id: 'DEP-M0826',
+    id: 'DEP-M0833',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
@@ -488,10 +600,10 @@ const b = [
     breaking: 'B3',
     message:
       'glassUtils is removed in 5.0; use materialProps/MaterialSpec (codemod: removed).',
-    doc: '#dep-m0826',
+    doc: '#dep-m0833',
   },
   {
-    id: 'DEP-M0827',
+    id: 'DEP-M0834',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
@@ -504,10 +616,10 @@ const b = [
     breaking: 'B3',
     message:
       'liquidGlassUtils is removed in 5.0; use materialProps/MaterialSpec (codemod: removed).',
-    doc: '#dep-m0827',
+    doc: '#dep-m0834',
   },
   {
-    id: 'DEP-M0828',
+    id: 'DEP-M0835',
     kind: 'subpath',
     status: 'planned',
     entry: './core/mixins/glassMixins',
@@ -520,10 +632,10 @@ const b = [
     breaking: 'B4',
     message:
       'aura-glass/core/mixins/glassMixins is removed in 5.0; use materialProps/MaterialSpec (codemod: removed).',
-    doc: '#dep-m0828',
+    doc: '#dep-m0835',
   },
   {
-    id: 'DEP-M0829',
+    id: 'DEP-M0836',
     kind: 'export',
     status: 'planned',
     entry: './theme',
@@ -536,10 +648,10 @@ const b = [
     breaking: 'B3',
     message:
       'the GlassMaterialPreset type is removed in 5.0; use MaterialSpec (codemod: removed).',
-    doc: '#dep-m0829',
+    doc: '#dep-m0836',
   },
   {
-    id: 'DEP-M0830',
+    id: 'DEP-M0837',
     kind: 'export',
     status: 'planned',
     entry: './theme',
@@ -552,11 +664,11 @@ const b = [
     breaking: 'B3',
     message:
       'the GlassMaterialTokens type is removed in 5.0; use MaterialSpec (codemod: removed).',
-    doc: '#dep-m0830',
+    doc: '#dep-m0837',
   },
   // ---- MAT-351 · 4.2 · §9 recipe classes / emissions ----
   {
-    id: 'DEP-M0831',
+    id: 'DEP-M0838',
     kind: 'asset',
     status: 'planned',
     entry: './styles',
@@ -569,10 +681,10 @@ const b = [
     breaking: 'B8',
     message:
       'glass.generated.css is removed in 5.0; the 5.x material.css emits solved recipes. doctor reports remaining class usage.',
-    doc: '#dep-m0831',
+    doc: '#dep-m0838',
   },
   {
-    id: 'DEP-M0832',
+    id: 'DEP-M0839',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -585,10 +697,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass.css recipe classes are removed in 5.0; use aura-glass/material.css + data-ag-tier. doctor reports usage.',
-    doc: '#dep-m0832',
+    doc: '#dep-m0839',
   },
   {
-    id: 'DEP-M0833',
+    id: 'DEP-M0840',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -601,10 +713,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-backdrop-blur* are removed in 5.0; use data-ag-backdrop + material.css tiers. doctor reports usage.',
-    doc: '#dep-m0833',
+    doc: '#dep-m0840',
   },
   {
-    id: 'DEP-M0834',
+    id: 'DEP-M0841',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -617,10 +729,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-animate-* are removed in 5.0; use CSS motion tokens + aura-glass/motion. doctor reports usage.',
-    doc: '#dep-m0834',
+    doc: '#dep-m0841',
   },
   {
-    id: 'DEP-M0835',
+    id: 'DEP-M0842',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -633,10 +745,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-transition-all are removed in 5.0; use the 5.x motion tokens (transition presets). doctor reports usage.',
-    doc: '#dep-m0835',
+    doc: '#dep-m0842',
   },
   {
-    id: 'DEP-M0836',
+    id: 'DEP-M0843',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -649,10 +761,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-tier-* are removed in 5.0; use data-ag-tier. doctor reports usage.',
-    doc: '#dep-m0836',
+    doc: '#dep-m0843',
   },
   {
-    id: 'DEP-M0837',
+    id: 'DEP-M0844',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -665,10 +777,10 @@ const b = [
     breaking: 'B8',
     message:
       'the liquid-glass-* emissions are removed in 5.0; use data-ag-* attributes emitted by material.css. doctor reports usage.',
-    doc: '#dep-m0837',
+    doc: '#dep-m0844',
   },
   {
-    id: 'DEP-M0838',
+    id: 'DEP-M0845',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -681,11 +793,11 @@ const b = [
     breaking: 'B9',
     message:
       '--aura-blur-amount is removed in 5.0; blur is a solved material property (codemod: css-vars).',
-    doc: '#dep-m0838',
+    doc: '#dep-m0845',
   },
   // ---- MAT-351 · 4.2 · §9 GPU / effects rows ----
   {
-    id: 'DEP-M0839',
+    id: 'DEP-M0846',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -698,10 +810,10 @@ const b = [
     breaking: 'B3',
     message:
       'HoudiniGlassCard is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0839',
+    doc: '#dep-m0846',
   },
   {
-    id: 'DEP-M0840',
+    id: 'DEP-M0847',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -714,10 +826,10 @@ const b = [
     breaking: 'B3',
     message:
       'HoudiniGlassProvider is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0840',
+    doc: '#dep-m0847',
   },
   {
-    id: 'DEP-M0841',
+    id: 'DEP-M0848',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -730,10 +842,10 @@ const b = [
     breaking: 'B3',
     message:
       'LiquidGlassGPU is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0841',
+    doc: '#dep-m0848',
   },
   {
-    id: 'DEP-M0842',
+    id: 'DEP-M0849',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -746,10 +858,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassWebGLShader is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0842',
+    doc: '#dep-m0849',
   },
   {
-    id: 'DEP-M0843',
+    id: 'DEP-M0850',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -762,10 +874,10 @@ const b = [
     breaking: 'B3',
     message:
       'HeatGlass is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0843',
+    doc: '#dep-m0850',
   },
   {
-    id: 'DEP-M0844',
+    id: 'DEP-M0851',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -778,11 +890,11 @@ const b = [
     breaking: 'B3',
     message:
       'Glass3DEngine is removed in 5.0; GPU/shader effects are labs-only over owned pixels, not part of core (codemod: removed).',
-    doc: '#dep-m0844',
+    doc: '#dep-m0851',
   },
   // ---- MAT-353 · 4.2 · storybook-utility-shim.css css-global row ----
   {
-    id: 'DEP-M0845',
+    id: 'DEP-M0852',
     kind: 'css-global',
     status: 'planned',
     entry: './styles',
@@ -795,11 +907,11 @@ const b = [
     breaking: 'B8',
     message:
       'the storybook-utility-shim.css import (src/styles/index.css) leaves the package at 5.0 — the file moves to .storybook/ (PKG-101). doctor --v5 reports it.',
-    doc: '#dep-m0845',
+    doc: '#dep-m0852',
   },
   // ---- MAT-364 · 4.2 · AC-MOT-18 motion exports, props, tokens ----
   {
-    id: 'DEP-M0846',
+    id: 'DEP-M0853',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -812,11 +924,11 @@ const b = [
     breaking: 'B3',
     message:
       'Motion (root; MotionNative alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0846',
+    doc: '#dep-m0853',
     compat: 'Motion',
   },
   {
-    id: 'DEP-M0847',
+    id: 'DEP-M0854',
     kind: 'export',
     status: 'planned',
     entry: './primitives',
@@ -829,11 +941,11 @@ const b = [
     breaking: 'B3',
     message:
       'Motion (MotionFramer alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0847',
+    doc: '#dep-m0854',
     compat: 'Motion',
   },
   {
-    id: 'DEP-M0848',
+    id: 'DEP-M0855',
     kind: 'export',
     status: 'planned',
     entry: './primitives',
@@ -846,11 +958,11 @@ const b = [
     breaking: 'B3',
     message:
       'GlassMotion is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0848',
+    doc: '#dep-m0855',
     compat: 'GlassMotion',
   },
   {
-    id: 'DEP-M0849',
+    id: 'DEP-M0856',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -863,11 +975,11 @@ const b = [
     breaking: 'B3',
     message:
       'MotionNative is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0849',
+    doc: '#dep-m0856',
     compat: 'MotionNative',
   },
   {
-    id: 'DEP-M0850',
+    id: 'DEP-M0857',
     kind: 'export',
     status: 'planned',
     entry: './primitives',
@@ -880,11 +992,11 @@ const b = [
     breaking: 'B3',
     message:
       'MotionFramer is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0850',
+    doc: '#dep-m0857',
     compat: 'MotionFramer',
   },
   {
-    id: 'DEP-M0851',
+    id: 'DEP-M0858',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -896,11 +1008,11 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassMotionController is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0851',
+      'GlassMotionController (and the private OrganicAnimationEngine/AdvancedAnimations family it wraps) is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
+    doc: '#dep-m0858',
   },
   {
-    id: 'DEP-M0852',
+    id: 'DEP-M0859',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -912,46 +1024,14 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassTransitions is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0852',
+      'GlassTransitions (and the private OrganicAnimationEngine/AdvancedAnimations family it wraps) is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
+    doc: '#dep-m0859',
   },
   {
-    id: 'DEP-M0853',
+    id: 'DEP-M0860',
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'OrganicAnimationEngine',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'CSS motion tokens or aura-glass/motion',
-    codemod: 'motion-imports',
-    automation: 'mostly',
-    breaking: 'B3',
-    message:
-      'OrganicAnimationEngine is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0853',
-  },
-  {
-    id: 'DEP-M0854',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'AdvancedAnimations',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'CSS motion tokens or aura-glass/motion',
-    codemod: 'motion-imports',
-    automation: 'mostly',
-    breaking: 'B3',
-    message:
-      'AdvancedAnimations is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-imports).',
-    doc: '#dep-m0854',
-  },
-  {
-    id: 'DEP-M0855',
-    kind: 'export',
-    status: 'planned',
-    entry: './primitives',
     symbol: 'animationPresets',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -961,10 +1041,10 @@ const b = [
     breaking: 'B3',
     message:
       'animationPresets is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0855',
+    doc: '#dep-m0860',
   },
   {
-    id: 'DEP-M0856',
+    id: 'DEP-M0861',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -977,10 +1057,10 @@ const b = [
     breaking: 'B3',
     message:
       'usePhysicsEngine is removed in 5.0; use aura-glass/motion springs (toMotionTransition) (codemod: motion-imports).',
-    doc: '#dep-m0856',
+    doc: '#dep-m0861',
   },
   {
-    id: 'DEP-M0857',
+    id: 'DEP-M0862',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -993,10 +1073,10 @@ const b = [
     breaking: 'B3',
     message:
       'usePhysicsLayout is removed in 5.0; use aura-glass/motion SharedLayout (codemod: motion-imports).',
-    doc: '#dep-m0857',
+    doc: '#dep-m0862',
   },
   {
-    id: 'DEP-M0858',
+    id: 'DEP-M0863',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1009,10 +1089,10 @@ const b = [
     breaking: 'B3',
     message:
       'usePhysicsInteraction is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0858',
+    doc: '#dep-m0863',
   },
   {
-    id: 'DEP-M0859',
+    id: 'DEP-M0864',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1025,10 +1105,10 @@ const b = [
     breaking: 'B3',
     message:
       'useGalileoStateSpring is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0859',
+    doc: '#dep-m0864',
   },
   {
-    id: 'DEP-M0860',
+    id: 'DEP-M0865',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1041,10 +1121,10 @@ const b = [
     breaking: 'B3',
     message:
       'useGalileoSprings is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0860',
+    doc: '#dep-m0865',
   },
   {
-    id: 'DEP-M0861',
+    id: 'DEP-M0866',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1057,10 +1137,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMultiSpringBasic is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0861',
+    doc: '#dep-m0866',
   },
   {
-    id: 'DEP-M0862',
+    id: 'DEP-M0867',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1073,10 +1153,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMultiSpringPhysics is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0862',
+    doc: '#dep-m0867',
   },
   {
-    id: 'DEP-M0863',
+    id: 'DEP-M0868',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1089,10 +1169,10 @@ const b = [
     breaking: 'B3',
     message:
       'useGesturePhysics is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0863',
+    doc: '#dep-m0868',
   },
   {
-    id: 'DEP-M0864',
+    id: 'DEP-M0869',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1105,10 +1185,10 @@ const b = [
     breaking: 'B3',
     message:
       'useAnimationSequence is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0864',
+    doc: '#dep-m0869',
   },
   {
-    id: 'DEP-M0865',
+    id: 'DEP-M0870',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1121,10 +1201,10 @@ const b = [
     breaking: 'B3',
     message:
       'useAnimationSequenceBasic is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0865',
+    doc: '#dep-m0870',
   },
   {
-    id: 'DEP-M0866',
+    id: 'DEP-M0871',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1137,10 +1217,10 @@ const b = [
     breaking: 'B3',
     message:
       'useAnimationSequenceOrchestrator is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0866',
+    doc: '#dep-m0871',
   },
   {
-    id: 'DEP-M0867',
+    id: 'DEP-M0872',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1153,10 +1233,10 @@ const b = [
     breaking: 'B3',
     message:
       'orchestrationUseAnimationSequence is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0867',
+    doc: '#dep-m0872',
   },
   {
-    id: 'DEP-M0868',
+    id: 'DEP-M0873',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1169,10 +1249,10 @@ const b = [
     breaking: 'B3',
     message:
       'orchestrationPresets is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0868',
+    doc: '#dep-m0873',
   },
   {
-    id: 'DEP-M0869',
+    id: 'DEP-M0874',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1185,10 +1265,10 @@ const b = [
     breaking: 'B3',
     message:
       'createOrchestration is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0869',
+    doc: '#dep-m0874',
   },
   {
-    id: 'DEP-M0870',
+    id: 'DEP-M0875',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1201,10 +1281,10 @@ const b = [
     breaking: 'B3',
     message:
       'useOrchestration is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0870',
+    doc: '#dep-m0875',
   },
   {
-    id: 'DEP-M0871',
+    id: 'DEP-M0876',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1217,10 +1297,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMouseMagneticEffect is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-imports).',
-    doc: '#dep-m0871',
+    doc: '#dep-m0876',
   },
   {
-    id: 'DEP-M0872',
+    id: 'DEP-M0877',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1233,10 +1313,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMagneticField is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-imports).',
-    doc: '#dep-m0872',
+    doc: '#dep-m0877',
   },
   {
-    id: 'DEP-M0873',
+    id: 'DEP-M0878',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1249,10 +1329,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMagneticButton is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-imports).',
-    doc: '#dep-m0873',
+    doc: '#dep-m0878',
   },
   {
-    id: 'DEP-M0874',
+    id: 'DEP-M0879',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1265,10 +1345,10 @@ const b = [
     breaking: 'B3',
     message:
       'useMagneticElement is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-imports).',
-    doc: '#dep-m0874',
+    doc: '#dep-m0879',
   },
   {
-    id: 'DEP-M0875',
+    id: 'DEP-M0880',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1281,10 +1361,10 @@ const b = [
     breaking: 'B3',
     message:
       'use3DTransform is removed in 5.0; use CSS transforms + the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0875',
+    doc: '#dep-m0880',
   },
   {
-    id: 'DEP-M0876',
+    id: 'DEP-M0881',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1297,10 +1377,10 @@ const b = [
     breaking: 'B3',
     message:
       'useAmbientTilt is removed in 5.0; use CSS transforms + the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0876',
+    doc: '#dep-m0881',
   },
   {
-    id: 'DEP-M0877',
+    id: 'DEP-M0882',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1313,10 +1393,10 @@ const b = [
     breaking: 'B3',
     message:
       'useZSpaceAnimation is removed in 5.0; use aura-glass/motion sequencing (codemod: motion-imports).',
-    doc: '#dep-m0877',
+    doc: '#dep-m0882',
   },
   {
-    id: 'DEP-M0878',
+    id: 'DEP-M0883',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1329,10 +1409,10 @@ const b = [
     breaking: 'B3',
     message:
       'useDraggableListPhysics is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0878',
+    doc: '#dep-m0883',
   },
   {
-    id: 'DEP-M0879',
+    id: 'DEP-M0884',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1345,10 +1425,10 @@ const b = [
     breaking: 'B3',
     message:
       'createMagneticEffect is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-imports).',
-    doc: '#dep-m0879',
+    doc: '#dep-m0884',
   },
   {
-    id: 'DEP-M0880',
+    id: 'DEP-M0885',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1361,10 +1441,10 @@ const b = [
     breaking: 'B3',
     message:
       'createRippleEffect is removed in 5.0; use none — ripple effects are not part of the material grammar (codemod: motion-imports).',
-    doc: '#dep-m0880',
+    doc: '#dep-m0885',
   },
   {
-    id: 'DEP-M0881',
+    id: 'DEP-M0886',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1377,10 +1457,10 @@ const b = [
     breaking: 'B3',
     message:
       'createAccessibleAnimation is removed in 5.0; use the preference-aware 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0881',
+    doc: '#dep-m0886',
   },
   {
-    id: 'DEP-M0882',
+    id: 'DEP-M0887',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1393,10 +1473,10 @@ const b = [
     breaking: 'B3',
     message:
       'SpringPresets is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0882',
+    doc: '#dep-m0887',
   },
   {
-    id: 'DEP-M0883',
+    id: 'DEP-M0888',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1409,10 +1489,10 @@ const b = [
     breaking: 'B3',
     message:
       'InterpolationUtils is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0883',
+    doc: '#dep-m0888',
   },
   {
-    id: 'DEP-M0884',
+    id: 'DEP-M0889',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1425,10 +1505,10 @@ const b = [
     breaking: 'B3',
     message:
       'interpolate is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0884',
+    doc: '#dep-m0889',
   },
   {
-    id: 'DEP-M0885',
+    id: 'DEP-M0890',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1441,10 +1521,10 @@ const b = [
     breaking: 'B3',
     message:
       'GalileoPhysicsSystem is removed in 5.0; use aura-glass/motion springs (codemod: motion-imports).',
-    doc: '#dep-m0885',
+    doc: '#dep-m0890',
   },
   {
-    id: 'DEP-M0886',
+    id: 'DEP-M0891',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1457,10 +1537,10 @@ const b = [
     breaking: 'B3',
     message:
       'ChartAnimationUtils is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0886',
+    doc: '#dep-m0891',
   },
   {
-    id: 'DEP-M0887',
+    id: 'DEP-M0892',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1473,10 +1553,10 @@ const b = [
     breaking: 'B3',
     message:
       'animateChart is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0887',
+    doc: '#dep-m0892',
   },
   {
-    id: 'DEP-M0888',
+    id: 'DEP-M0893',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1489,27 +1569,10 @@ const b = [
     breaking: 'B3',
     message:
       'chartAnimationPresets is removed in 5.0; use the 5.x motion tokens (codemod: motion-imports).',
-    doc: '#dep-m0888',
+    doc: '#dep-m0893',
   },
   {
-    id: 'DEP-M0889',
-    kind: 'export',
-    status: 'planned',
-    entry: './primitives',
-    symbol: 'ReducedMotionProvider',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'usePreference(\'motion\') — the OS floor cannot be overridden',
-    codemod: 'providers',
-    automation: 'mostly',
-    breaking: 'B13',
-    message:
-      'ReducedMotionProvider is deprecated; read motion preference via usePreference(\'motion\') — OS floors cannot be overridden (codemod: providers).',
-    doc: '#dep-m0889',
-    compat: 'ReducedMotionProvider',
-  },
-  {
-    id: 'DEP-M0890',
+    id: 'DEP-M0894',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1521,16 +1584,16 @@ const b = [
     automation: 'mostly',
     breaking: 'B13',
     message:
-      'MotionPreferenceProvider is deprecated; preferences live under AuraGlassProvider and usePreference (codemod: providers).',
-    doc: '#dep-m0890',
+      'MotionPreferenceProvider (the 4.x ReducedMotionProvider role) is deprecated; preferences live under AuraGlassProvider and usePreference (codemod: providers).',
+    doc: '#dep-m0894',
     compat: 'MotionPreferenceProvider',
   },
   {
-    id: 'DEP-M0891',
+    id: 'DEP-M0895',
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'MotionPreferenceContext',
+    symbol: 'useMotionPreferenceContext',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'usePreference / useResolvedPreferences',
@@ -1538,12 +1601,12 @@ const b = [
     automation: 'mostly',
     breaking: 'B13',
     message:
-      'MotionPreferenceContext is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
-    doc: '#dep-m0891',
-    compat: 'MotionPreferenceContext',
+      'useMotionPreferenceContext (MotionPreferenceContext access) is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
+    doc: '#dep-m0895',
+    compat: 'useMotionPreferenceContext',
   },
   {
-    id: 'DEP-M0892',
+    id: 'DEP-M0896',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1556,11 +1619,11 @@ const b = [
     breaking: 'B3',
     message:
       'useReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.',
-    doc: '#dep-m0892',
+    doc: '#dep-m0896',
     compat: 'useReducedMotion',
   },
   {
-    id: 'DEP-M0893',
+    id: 'DEP-M0897',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1573,11 +1636,11 @@ const b = [
     breaking: 'B3',
     message:
       'useEnhancedReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
-    doc: '#dep-m0893',
+    doc: '#dep-m0897',
     compat: 'useEnhancedReducedMotion',
   },
   {
-    id: 'DEP-M0894',
+    id: 'DEP-M0898',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1590,11 +1653,11 @@ const b = [
     breaking: 'B3',
     message:
       'useMotionPreference is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
-    doc: '#dep-m0894',
+    doc: '#dep-m0898',
     compat: 'useMotionPreference',
   },
   {
-    id: 'DEP-M0895',
+    id: 'DEP-M0899',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1607,30 +1670,14 @@ const b = [
     breaking: 'B3',
     message:
       'prefersReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.',
-    doc: '#dep-m0895',
+    doc: '#dep-m0899',
     compat: 'prefersReducedMotion',
   },
   {
-    id: 'DEP-M0896',
+    id: 'DEP-M0900',
     kind: 'export',
     status: 'planned',
-    entry: '.',
-    symbol: 'useMotionAwareAnimation',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'the 5.x motion tokens (preference-aware by construction)',
-    codemod: 'motion-imports',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'useMotionAwareAnimation is removed in 5.0; the motion tokens are preference-aware (codemod: motion-imports).',
-    doc: '#dep-m0896',
-  },
-  {
-    id: 'DEP-M0897',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
+    entry: './theme',
     symbol: 'useGlassMotionPolicy',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -1640,10 +1687,10 @@ const b = [
     breaking: 'B13',
     message:
       'useGlassMotionPolicy is removed in 5.0; motion policy is a floor, not a prop — use usePreference(\'motion\') (codemod: motion-imports).',
-    doc: '#dep-m0897',
+    doc: '#dep-m0900',
   },
   {
-    id: 'DEP-M0898',
+    id: 'DEP-M0901',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1656,10 +1703,10 @@ const b = [
     breaking: 'B6',
     message:
       'the respectMotionPreference prop is removed in 5.0; use the OS motion floor (not overridable in 5.x) (codemod: motion-props).',
-    doc: '#dep-m0898',
+    doc: '#dep-m0901',
   },
   {
-    id: 'DEP-M0899',
+    id: 'DEP-M0902',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1672,10 +1719,10 @@ const b = [
     breaking: 'B6',
     message:
       'the motionPolicy prop is removed in 5.0; use the OS motion floor (not overridable in 5.x) (codemod: motion-props).',
-    doc: '#dep-m0899',
+    doc: '#dep-m0902',
   },
   {
-    id: 'DEP-M0900',
+    id: 'DEP-M0903',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1688,10 +1735,10 @@ const b = [
     breaking: 'B6',
     message:
       'the initialMotionPolicy prop is removed in 5.0; use the OS motion floor (not overridable in 5.x) (codemod: motion-props).',
-    doc: '#dep-m0900',
+    doc: '#dep-m0903',
   },
   {
-    id: 'DEP-M0901',
+    id: 'DEP-M0904',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1704,10 +1751,10 @@ const b = [
     breaking: 'B6',
     message:
       'the preset (motion) / animationPreset prop is removed in 5.0; use the 5.x motion tokens (codemod: motion-props).',
-    doc: '#dep-m0901',
+    doc: '#dep-m0904',
   },
   {
-    id: 'DEP-M0902',
+    id: 'DEP-M0905',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1720,10 +1767,10 @@ const b = [
     breaking: 'B6',
     message:
       'the animate prop is removed in 5.0; use CSS motion tokens or aura-glass/motion (codemod: motion-props).',
-    doc: '#dep-m0902',
+    doc: '#dep-m0905',
   },
   {
-    id: 'DEP-M0903',
+    id: 'DEP-M0906',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1736,10 +1783,10 @@ const b = [
     breaking: 'B6',
     message:
       'the disableAnimation prop is removed in 5.0; use the OS motion floor / calm mode (codemod: motion-props).',
-    doc: '#dep-m0903',
+    doc: '#dep-m0906',
   },
   {
-    id: 'DEP-M0904',
+    id: 'DEP-M0907',
     kind: 'prop',
     status: 'planned',
     entry: '.',
@@ -1752,14 +1799,14 @@ const b = [
     breaking: 'B6',
     message:
       'the whileHover / whileTap pass-through prop is removed in 5.0; use aura-glass/motion magnetic() / CSS motion tokens (codemod: motion-props).',
-    doc: '#dep-m0904',
+    doc: '#dep-m0907',
   },
   {
-    id: 'DEP-M0905',
+    id: 'DEP-M0908',
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'GlassMagneticButton',
+    symbol: 'MagneticButton',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'Button + magnetic() (aura-glass/motion)',
@@ -1767,11 +1814,11 @@ const b = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'GlassMagneticButton is removed in 5.0; use Button + magnetic() (aura-glass/motion) (codemod: motion-props).',
-    doc: '#dep-m0905',
+      'MagneticButton is removed in 5.0; use Button + magnetic() (aura-glass/motion) (codemod: motion-props).',
+    doc: '#dep-m0908',
   },
   {
-    id: 'DEP-M0906',
+    id: 'DEP-M0909',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1784,10 +1831,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassMagneticCursor is removed in 5.0; use magnetic() (aura-glass/motion) (codemod: motion-props).',
-    doc: '#dep-m0906',
+    doc: '#dep-m0909',
   },
   {
-    id: 'DEP-M0907',
+    id: 'DEP-M0910',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1800,10 +1847,10 @@ const b = [
     breaking: 'B3',
     message:
       'RippleButton is removed in 5.0; use Button (5.x) — ripple effects are not part of the material grammar (codemod: motion-props).',
-    doc: '#dep-m0907',
+    doc: '#dep-m0910',
   },
   {
-    id: 'DEP-M0908',
+    id: 'DEP-M0911',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1816,10 +1863,10 @@ const b = [
     breaking: 'B3',
     message:
       'TouchRippleEffects is removed in 5.0; use none — ripple effects are not part of the material grammar (codemod: motion-props).',
-    doc: '#dep-m0908',
+    doc: '#dep-m0911',
   },
   {
-    id: 'DEP-M0909',
+    id: 'DEP-M0912',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1832,10 +1879,10 @@ const b = [
     breaking: 'B3',
     message:
       'MotionAwareGlass is removed in 5.0; use Surface (motion is preference-driven in 5.x) (codemod: motion-props).',
-    doc: '#dep-m0909',
+    doc: '#dep-m0912',
   },
   {
-    id: 'DEP-M0910',
+    id: 'DEP-M0913',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1848,10 +1895,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassDepthLayer is removed in 5.0; use Surface layering (the 5.x nested-materials rule) (codemod: motion-props).',
-    doc: '#dep-m0910',
+    doc: '#dep-m0913',
   },
   {
-    id: 'DEP-M0911',
+    id: 'DEP-M0914',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
@@ -1864,14 +1911,14 @@ const b = [
     breaking: 'B3',
     message:
       'ANIMATION is removed in 5.0; motion values ship as tokens (codemod: motion-imports).',
-    doc: '#dep-m0911',
+    doc: '#dep-m0914',
   },
   {
-    id: 'DEP-M0912',
+    id: 'DEP-M0915',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
-    symbol: 'AURA_GLASS.motion',
+    symbol: 'AURA_GLASS',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'the 5.x motion tokens',
@@ -1879,15 +1926,15 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'AURA_GLASS.motion is removed in 5.0; motion values ship as tokens (codemod: motion-imports).',
-    doc: '#dep-m0912',
+      'AURA_GLASS (the .motion member) is removed in 5.0; motion values ship as tokens (codemod: motion-imports).',
+    doc: '#dep-m0915',
   },
   {
-    id: 'DEP-M0913',
+    id: 'DEP-M0916',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
-    symbol: 'LIQUID_GLASS.motionFluency',
+    symbol: 'LIQUID_GLASS',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'the 5.x motion tokens',
@@ -1895,11 +1942,11 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'LIQUID_GLASS.motionFluency is removed in 5.0; motion values ship as tokens (codemod: motion-imports).',
-    doc: '#dep-m0913',
+      'LIQUID_GLASS (the .motionFluency member) is removed in 5.0; motion values ship as tokens (codemod: motion-imports).',
+    doc: '#dep-m0916',
   },
   {
-    id: 'DEP-M0914',
+    id: 'DEP-M0917',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -1912,10 +1959,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --glass-motion-* variables are removed in 5.0; use the --ag-motion-* tokens (codemod: css-vars).',
-    doc: '#dep-m0914',
+    doc: '#dep-m0917',
   },
   {
-    id: 'DEP-M0915',
+    id: 'DEP-M0918',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -1928,10 +1975,10 @@ const b = [
     breaking: 'B9',
     message:
       '--glass-motion-default is removed in 5.0; use --ag-motion-default (codemod: css-vars).',
-    doc: '#dep-m0915',
+    doc: '#dep-m0918',
   },
   {
-    id: 'DEP-M0916',
+    id: 'DEP-M0919',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -1944,10 +1991,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --glass-theme-duration-* variables are removed in 5.0; use the --ag-motion-duration-* tokens (codemod: css-vars).',
-    doc: '#dep-m0916',
+    doc: '#dep-m0919',
   },
   {
-    id: 'DEP-M0917',
+    id: 'DEP-M0920',
     kind: 'peer',
     status: 'planned',
     entry: '.',
@@ -1960,11 +2007,11 @@ const b = [
     breaking: 'B7',
     message:
       'the framer-motion peer is removed in 5.0; aura-glass/motion takes an optional motion@^12 peer (codemod: deps).',
-    doc: '#dep-m0917',
+    doc: '#dep-m0920',
   },
   // ---- MAT-373 · 4.2 · §9 accessibility rows ----
   {
-    id: 'DEP-M0918',
+    id: 'DEP-M0921',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -1976,123 +2023,11 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'ContrastGuard is removed in 5.0; contrast floors are solved by the material (codemod: removed, unwraps <ContrastGuard as=X>).',
-    doc: '#dep-m0918',
-  },
-  {
-    id: 'DEP-M0919',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'TextWithContrast',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (the material guarantees contrast)',
-    codemod: 'removed',
-    automation: 'mostly',
-    breaking: 'B3',
-    message:
-      'TextWithContrast is removed in 5.0; contrast floors are solved by the material (codemod: removed).',
-    doc: '#dep-m0919',
-  },
-  {
-    id: 'DEP-M0920',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'HighContrastText',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (the material guarantees contrast)',
-    codemod: 'removed',
-    automation: 'mostly',
-    breaking: 'B3',
-    message:
-      'HighContrastText is removed in 5.0; contrast floors are solved by the material (codemod: removed).',
-    doc: '#dep-m0920',
-  },
-  {
-    id: 'DEP-M0921',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'useContrastGuard',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (the material guarantees contrast)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'useContrastGuard is removed in 5.0; contrast floors are solved by the material (codemod: removed).',
+      'ContrastGuard (with TextWithContrast/useContrastGuard/useAutoTextContrast internals) is removed in 5.0; contrast floors are solved by the material (codemod: removed).',
     doc: '#dep-m0921',
   },
   {
     id: 'DEP-M0922',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'useAutoTextContrast',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (the material guarantees contrast)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'useAutoTextContrast is removed in 5.0; contrast floors are solved by the material (codemod: removed).',
-    doc: '#dep-m0922',
-  },
-  {
-    id: 'DEP-M0923',
-    kind: 'export',
-    status: 'planned',
-    entry: './tokens',
-    symbol: 'validateTextContrast',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (CI axe for audits)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'validateTextContrast is removed in 5.0; floors are solved — audit with the CI axe lane (codemod: removed).',
-    doc: '#dep-m0923',
-  },
-  {
-    id: 'DEP-M0924',
-    kind: 'export',
-    status: 'planned',
-    entry: './tokens',
-    symbol: 'validateLiquidContrast',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (CI axe for audits)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'validateLiquidContrast is removed in 5.0; floors are solved — audit with the CI axe lane (codemod: removed).',
-    doc: '#dep-m0924',
-  },
-  {
-    id: 'DEP-M0925',
-    kind: 'export',
-    status: 'planned',
-    entry: './tokens',
-    symbol: 'sampleBackdropLuminance',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'solved contrast floors (backdrop luminance is not sampled in 5.x)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'sampleBackdropLuminance is removed in 5.0; the material does not sample the backdrop (codemod: removed).',
-    doc: '#dep-m0925',
-  },
-  {
-    id: 'DEP-M0926',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2105,10 +2040,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassA11y is removed in 5.0; use GlassPreferencesPanel (codemod: removed).',
-    doc: '#dep-m0926',
+    doc: '#dep-m0922',
   },
   {
-    id: 'DEP-M0927',
+    id: 'DEP-M0923',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2121,10 +2056,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassHighContrast is removed in 5.0; use GlassPreferencesPanel (contrast preference) (codemod: removed).',
-    doc: '#dep-m0927',
+    doc: '#dep-m0923',
   },
   {
-    id: 'DEP-M0928',
+    id: 'DEP-M0924',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2137,10 +2072,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassMotionControls is removed in 5.0; use GlassPreferencesPanel (motion preference) (codemod: removed).',
-    doc: '#dep-m0928',
+    doc: '#dep-m0924',
   },
   {
-    id: 'DEP-M0929',
+    id: 'DEP-M0925',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2153,10 +2088,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassScreenReader is removed in 5.0; use GlassPreferencesPanel / useAnnouncer (codemod: removed).',
-    doc: '#dep-m0929',
+    doc: '#dep-m0925',
   },
   {
-    id: 'DEP-M0930',
+    id: 'DEP-M0926',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2169,10 +2104,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassKeyboardNav is removed in 5.0; use the 5.x keyboard contract (built into components) (codemod: removed).',
-    doc: '#dep-m0930',
+    doc: '#dep-m0926',
   },
   {
-    id: 'DEP-M0931',
+    id: 'DEP-M0927',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2185,10 +2120,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassA11yAuditor is removed in 5.0; audits run in the CI axe lane (codemod: removed).',
-    doc: '#dep-m0931',
+    doc: '#dep-m0927',
   },
   {
-    id: 'DEP-M0932',
+    id: 'DEP-M0928',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2200,14 +2135,14 @@ const b = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'GlassFocusIndicators is removed in 5.0; use focus.css + useAnnouncer (codemod: removed).',
-    doc: '#dep-m0932',
+      'GlassFocusIndicators (incl. LandmarkAnnouncer/KeyboardShortcutsHelper internals) is removed in 5.0; use focus.css + useAnnouncer (codemod: removed).',
+    doc: '#dep-m0928',
   },
   {
-    id: 'DEP-M0933',
+    id: 'DEP-M0929',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'SkipLinks',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2217,42 +2152,10 @@ const b = [
     breaking: 'B3',
     message:
       'SkipLinks is removed in 5.0; use focus.css landmark/focus styles (codemod: removed).',
-    doc: '#dep-m0933',
+    doc: '#dep-m0929',
   },
   {
-    id: 'DEP-M0934',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'LandmarkAnnouncer',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'useAnnouncer',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'LandmarkAnnouncer is removed in 5.0; use useAnnouncer (codemod: removed).',
-    doc: '#dep-m0934',
-  },
-  {
-    id: 'DEP-M0935',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'KeyboardShortcutsHelper',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'the 5.x keyboard contract (built into components)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'KeyboardShortcutsHelper is removed in 5.0; use the 5.x keyboard contract (built into components) (codemod: removed).',
-    doc: '#dep-m0935',
-  },
-  {
-    id: 'DEP-M0936',
+    id: 'DEP-M0930',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2265,10 +2168,10 @@ const b = [
     breaking: 'B8',
     message:
       'the GlassFocusIndicators companion CSS is removed in 5.0; focus styles ship in focus.css (codemod: removed).',
-    doc: '#dep-m0936',
+    doc: '#dep-m0930',
   },
   {
-    id: 'DEP-M0937',
+    id: 'DEP-M0931',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2281,10 +2184,10 @@ const b = [
     breaking: 'B3',
     message:
       'GlassFocusRing is removed in 5.0; focus appearance ships in focus.css (codemod: removed).',
-    doc: '#dep-m0937',
+    doc: '#dep-m0931',
   },
   {
-    id: 'DEP-M0938',
+    id: 'DEP-M0932',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2297,10 +2200,10 @@ const b = [
     breaking: 'B3',
     message:
       'FocusIndicator is removed in 5.0; focus appearance ships in focus.css (codemod: removed).',
-    doc: '#dep-m0938',
+    doc: '#dep-m0932',
   },
   {
-    id: 'DEP-M0939',
+    id: 'DEP-M0933',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2313,15 +2216,15 @@ const b = [
     breaking: 'B5',
     message:
       'AccessibilityProvider is deprecated; use AuraGlassProvider (highContrast→contrast="more", reducedTransparency→transparency="tinted", colorBlindness dropped) (codemod: providers).',
-    doc: '#dep-m0939',
+    doc: '#dep-m0933',
     compat: 'AccessibilityProvider',
   },
   {
-    id: 'DEP-M0940',
+    id: 'DEP-M0934',
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'useAccessibility',
+    symbol: 'useAccessibilityFeature',
     since: '4.2.0',
     removeIn: '5.0.0',
     replacement: 'usePreference / useResolvedPreferences',
@@ -2329,32 +2232,49 @@ const b = [
     automation: 'mostly',
     breaking: 'B5',
     message:
-      'useAccessibility is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
-    doc: '#dep-m0940',
-    compat: 'useAccessibility',
+      'useAccessibilityFeature is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
+    doc: '#dep-m0934',
+    compat: 'useAccessibilityFeature',
   },
   {
-    id: 'DEP-M0941',
+    id: 'DEP-M0935',
     kind: 'export',
     status: 'planned',
     entry: '.',
-    symbol: 'useAccessibilitySettings',
+    symbol: 'useAccessibleAnimation',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'usePreferenceActions / useResolvedPreferences',
+    replacement: 'usePreference(\'motion\')',
     codemod: 'providers',
     automation: 'mostly',
     breaking: 'B5',
     message:
-      'useAccessibilitySettings is deprecated; use usePreferenceActions / useResolvedPreferences (codemod: providers).',
-    doc: '#dep-m0941',
-    compat: 'useAccessibilitySettings',
+      'useAccessibleAnimation is deprecated; use usePreference(\'motion\') (codemod: providers).',
+    doc: '#dep-m0935',
+    compat: 'useAccessibleAnimation',
   },
   {
-    id: 'DEP-M0942',
+    id: 'DEP-M0936',
     kind: 'export',
     status: 'planned',
     entry: '.',
+    symbol: 'useAccessibleColors',
+    since: '4.2.0',
+    removeIn: '5.0.0',
+    replacement: 'usePreference / useResolvedPreferences',
+    codemod: 'providers',
+    automation: 'mostly',
+    breaking: 'B5',
+    message:
+      'useAccessibleColors is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
+    doc: '#dep-m0936',
+    compat: 'useAccessibleColors',
+  },
+  {
+    id: 'DEP-M0937',
+    kind: 'export',
+    status: 'planned',
+    entry: './theme',
     symbol: 'GlassThemeProvider',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2364,11 +2284,11 @@ const b = [
     breaking: 'B5',
     message:
       'GlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
-    doc: '#dep-m0942',
+    doc: '#dep-m0937',
     compat: 'GlassThemeProvider',
   },
   {
-    id: 'DEP-M0943',
+    id: 'DEP-M0938',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2381,14 +2301,14 @@ const b = [
     breaking: 'B5',
     message:
       'ThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
-    doc: '#dep-m0943',
+    doc: '#dep-m0938',
     compat: 'ThemeProvider',
   },
   {
-    id: 'DEP-M0944',
+    id: 'DEP-M0939',
     kind: 'export',
     status: 'planned',
-    entry: '.',
+    entry: './theme',
     symbol: 'useGlassTheme',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2398,11 +2318,11 @@ const b = [
     breaking: 'B5',
     message:
       'useGlassTheme is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
-    doc: '#dep-m0944',
+    doc: '#dep-m0939',
     compat: 'useGlassTheme',
   },
   {
-    id: 'DEP-M0945',
+    id: 'DEP-M0940',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2415,14 +2335,14 @@ const b = [
     breaking: 'B5',
     message:
       'AIGlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
-    doc: '#dep-m0945',
+    doc: '#dep-m0940',
     compat: 'AIGlassThemeProvider',
   },
   {
-    id: 'DEP-M0946',
+    id: 'DEP-M0941',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'ScreenReader',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2432,13 +2352,13 @@ const b = [
     breaking: 'B5',
     message:
       'ScreenReader is removed in 5.0; use useAnnouncer (ScreenReaderOnly → VisuallyHidden) (codemod: canonical-names).',
-    doc: '#dep-m0946',
+    doc: '#dep-m0941',
   },
   {
-    id: 'DEP-M0947',
+    id: 'DEP-M0942',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'ScreenReaderOnly',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2448,13 +2368,13 @@ const b = [
     breaking: 'B5',
     message:
       'ScreenReaderOnly is removed in 5.0; use VisuallyHidden (CMP) (codemod: canonical-names).',
-    doc: '#dep-m0947',
+    doc: '#dep-m0942',
   },
   {
-    id: 'DEP-M0948',
+    id: 'DEP-M0943',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'LiveRegion',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2464,13 +2384,13 @@ const b = [
     breaking: 'B5',
     message:
       'LiveRegion is removed in 5.0; use useAnnouncer (codemod: canonical-names).',
-    doc: '#dep-m0948',
+    doc: '#dep-m0943',
   },
   {
-    id: 'DEP-M0949',
+    id: 'DEP-M0944',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'announce',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2480,13 +2400,13 @@ const b = [
     breaking: 'B5',
     message:
       'announce is removed in 5.0; use useAnnouncer (codemod: canonical-names).',
-    doc: '#dep-m0949',
+    doc: '#dep-m0944',
   },
   {
-    id: 'DEP-M0950',
+    id: 'DEP-M0945',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'useAnnounce',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2496,29 +2416,13 @@ const b = [
     breaking: 'B5',
     message:
       'useAnnounce is removed in 5.0; use useAnnouncer (codemod: canonical-names).',
-    doc: '#dep-m0950',
+    doc: '#dep-m0945',
   },
   {
-    id: 'DEP-M0951',
+    id: 'DEP-M0946',
     kind: 'export',
     status: 'planned',
-    entry: '.',
-    symbol: 'announceToScreenReader',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'useAnnouncer (both 4.x implementations)',
-    codemod: 'canonical-names',
-    automation: 'full',
-    breaking: 'B5',
-    message:
-      'announceToScreenReader is removed in 5.0; use useAnnouncer (both 4.x implementations) (codemod: canonical-names).',
-    doc: '#dep-m0951',
-  },
-  {
-    id: 'DEP-M0952',
-    kind: 'export',
-    status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'FocusTrap',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2528,13 +2432,13 @@ const b = [
     breaking: 'B3',
     message:
       'FocusTrap is removed in 5.0; overlay components manage focus internally (codemod: removed).',
-    doc: '#dep-m0952',
+    doc: '#dep-m0946',
   },
   {
-    id: 'DEP-M0953',
+    id: 'DEP-M0947',
     kind: 'export',
     status: 'planned',
-    entry: './primitives',
+    entry: './primitives/focus',
     symbol: 'useFocusTrap',
     since: '4.2.0',
     removeIn: '5.0.0',
@@ -2544,27 +2448,11 @@ const b = [
     breaking: 'B3',
     message:
       'useFocusTrap is removed in 5.0; overlay components manage focus internally (codemod: removed).',
-    doc: '#dep-m0953',
-  },
-  {
-    id: 'DEP-M0954',
-    kind: 'export',
-    status: 'planned',
-    entry: './primitives',
-    symbol: 'trapFocus',
-    since: '4.2.0',
-    removeIn: '5.0.0',
-    replacement: 'the 5.x overlay components (focus managed internally)',
-    codemod: 'removed',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'trapFocus is removed in 5.0; overlay components manage focus internally (codemod: removed).',
-    doc: '#dep-m0954',
+    doc: '#dep-m0947',
   },
   // ---- MAT-373 · 4.3 · §9 accessibility CSS hooks ----
   {
-    id: 'DEP-M0955',
+    id: 'DEP-M0948',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2577,10 +2465,10 @@ const b = [
     breaking: 'B8',
     message:
       'the .high-contrast hook is removed in 5.0; use data-ag-contrast="more".',
-    doc: '#dep-m0955',
+    doc: '#dep-m0948',
   },
   {
-    id: 'DEP-M0956',
+    id: 'DEP-M0949',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2593,10 +2481,10 @@ const b = [
     breaking: 'B8',
     message:
       'the .large-text hook is removed in 5.0; use data-ag-text="large" (5.x preference attribute).',
-    doc: '#dep-m0956',
+    doc: '#dep-m0949',
   },
   {
-    id: 'DEP-M0957',
+    id: 'DEP-M0950',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2609,10 +2497,10 @@ const b = [
     breaking: 'B8',
     message:
       'the data-color-blindness hook is removed in 5.0; color-vision modes are dropped — contrast floors apply.',
-    doc: '#dep-m0957',
+    doc: '#dep-m0950',
   },
   {
-    id: 'DEP-M0958',
+    id: 'DEP-M0951',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2625,10 +2513,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-contrast-guard hook is removed in 5.0; use solved contrast floors (no CSS hook).',
-    doc: '#dep-m0958',
+    doc: '#dep-m0951',
   },
   {
-    id: 'DEP-M0959',
+    id: 'DEP-M0952',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2641,10 +2529,10 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-focus hook is removed in 5.0; use focus.css focus styles.',
-    doc: '#dep-m0959',
+    doc: '#dep-m0952',
   },
   {
-    id: 'DEP-M0960',
+    id: 'DEP-M0953',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2657,11 +2545,11 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-touch-target hook is removed in 5.0; use the 5.x target-size floor (built into components).',
-    doc: '#dep-m0960',
+    doc: '#dep-m0953',
   },
   // ---- MAT-339 · 4.3 · css vars + mode hooks + personas + theme APIs ----
   {
-    id: 'DEP-M0961',
+    id: 'DEP-M0954',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -2674,10 +2562,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --glass-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).',
-    doc: '#dep-m0961',
+    doc: '#dep-m0954',
   },
   {
-    id: 'DEP-M0962',
+    id: 'DEP-M0955',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -2690,10 +2578,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --aura-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).',
-    doc: '#dep-m0962',
+    doc: '#dep-m0955',
   },
   {
-    id: 'DEP-M0963',
+    id: 'DEP-M0956',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -2706,10 +2594,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --persona-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).',
-    doc: '#dep-m0963',
+    doc: '#dep-m0956',
   },
   {
-    id: 'DEP-M0964',
+    id: 'DEP-M0957',
     kind: 'css-var',
     status: 'planned',
     entry: '.',
@@ -2722,10 +2610,10 @@ const b = [
     breaking: 'B9',
     message:
       'the --glass-theme-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).',
-    doc: '#dep-m0964',
+    doc: '#dep-m0957',
   },
   {
-    id: 'DEP-M0965',
+    id: 'DEP-M0958',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2738,10 +2626,10 @@ const b = [
     breaking: 'B10',
     message:
       'the data-theme hook is removed in 5.0; use data-ag-scheme (compat/tokens.css aliases the scheme hooks only).',
-    doc: '#dep-m0965',
+    doc: '#dep-m0958',
   },
   {
-    id: 'DEP-M0966',
+    id: 'DEP-M0959',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2754,10 +2642,10 @@ const b = [
     breaking: 'B10',
     message:
       'the data-aura-theme hook is removed in 5.0; use data-ag-scheme.',
-    doc: '#dep-m0966',
+    doc: '#dep-m0959',
   },
   {
-    id: 'DEP-M0967',
+    id: 'DEP-M0960',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2770,10 +2658,10 @@ const b = [
     breaking: 'B10',
     message:
       'the data-aura-* hook is removed in 5.0; use data-ag-* attributes.',
-    doc: '#dep-m0967',
+    doc: '#dep-m0960',
   },
   {
-    id: 'DEP-M0968',
+    id: 'DEP-M0961',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2786,10 +2674,10 @@ const b = [
     breaking: 'B10',
     message:
       'the data-persona hook is removed in 5.0; use data-ag-preset.',
-    doc: '#dep-m0968',
+    doc: '#dep-m0961',
   },
   {
-    id: 'DEP-M0969',
+    id: 'DEP-M0962',
     kind: 'data-attr',
     status: 'planned',
     entry: '.',
@@ -2802,10 +2690,10 @@ const b = [
     breaking: 'B10',
     message:
       'the data-bg hook is removed in 5.0; use data-ag-backdrop.',
-    doc: '#dep-m0969',
+    doc: '#dep-m0962',
   },
   {
-    id: 'DEP-M0970',
+    id: 'DEP-M0963',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2818,10 +2706,10 @@ const b = [
     breaking: 'B10',
     message:
       'the .dark / .light hook is removed in 5.0; use data-ag-scheme="dark|light" (compat aliases the scheme hooks only).',
-    doc: '#dep-m0970',
+    doc: '#dep-m0963',
   },
   {
-    id: 'DEP-M0971',
+    id: 'DEP-M0964',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -2834,26 +2722,10 @@ const b = [
     breaking: 'B10',
     message:
       'the .glass-on-light / .glass-on-dark hook is removed in 5.0; use data-ag-scheme-scoped selectors.',
-    doc: '#dep-m0971',
+    doc: '#dep-m0964',
   },
   {
-    id: 'DEP-M0972',
-    kind: 'export',
-    status: 'planned',
-    entry: './tokens',
-    symbol: 'personas (10 persona records)',
-    since: '4.3.0',
-    removeIn: '5.0.0',
-    replacement: 'presets + createBrandTheme(accent)',
-    codemod: 'providers',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'personas (10 persona records) is removed in 5.0; use presets + createBrandTheme(accent) (codemod: providers).',
-    doc: '#dep-m0972',
-  },
-  {
-    id: 'DEP-M0973',
+    id: 'DEP-M0965',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
@@ -2866,10 +2738,10 @@ const b = [
     breaking: 'B3',
     message:
       'auraTokens is removed in 5.0; use tokens (the only aura-glass/tokens export in 5.0) (codemod: providers).',
-    doc: '#dep-m0973',
+    doc: '#dep-m0965',
   },
   {
-    id: 'DEP-M0974',
+    id: 'DEP-M0966',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2882,10 +2754,10 @@ const b = [
     breaking: 'B3',
     message:
       'PersonaPicker is removed in 5.0; use presets + createBrandTheme (no picker ships in 5.x) (codemod: providers).',
-    doc: '#dep-m0974',
+    doc: '#dep-m0966',
   },
   {
-    id: 'DEP-M0975',
+    id: 'DEP-M0967',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -2898,42 +2770,10 @@ const b = [
     breaking: 'B3',
     message:
       'usePersonaTheme is removed in 5.0; use createBrandTheme + usePreference (codemod: providers).',
-    doc: '#dep-m0975',
+    doc: '#dep-m0967',
   },
   {
-    id: 'DEP-M0976',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'PERSONA_IDS',
-    since: '4.3.0',
-    removeIn: '5.0.0',
-    replacement: 'the 5.x presets table',
-    codemod: 'providers',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'PERSONA_IDS is removed in 5.0; use the 5.x presets table (codemod: providers).',
-    doc: '#dep-m0976',
-  },
-  {
-    id: 'DEP-M0977',
-    kind: 'export',
-    status: 'planned',
-    entry: '.',
-    symbol: 'THEME_NAMES',
-    since: '4.3.0',
-    removeIn: '5.0.0',
-    replacement: 'the 5.x presets table',
-    codemod: 'providers',
-    automation: 'partial',
-    breaking: 'B3',
-    message:
-      'THEME_NAMES is removed in 5.0; use the 5.x presets table (codemod: providers).',
-    doc: '#dep-m0977',
-  },
-  {
-    id: 'DEP-M0978',
+    id: 'DEP-M0968',
     kind: 'export',
     status: 'planned',
     entry: './theme',
@@ -2946,10 +2786,10 @@ const b = [
     breaking: 'B3',
     message:
       'glassMaterialPresets is removed in 5.0; use the 5.x presets table / MaterialSpec (codemod: providers).',
-    doc: '#dep-m0978',
+    doc: '#dep-m0968',
   },
   {
-    id: 'DEP-M0979',
+    id: 'DEP-M0969',
     kind: 'export',
     status: 'planned',
     entry: './theme',
@@ -2962,11 +2802,11 @@ const b = [
     breaking: 'B5',
     message:
       'createBrandGlassTheme is deprecated; use createBrandTheme (codemod: providers). A compat re-export ships at aura-glass/compat.',
-    doc: '#dep-m0979',
+    doc: '#dep-m0969',
     compat: 'createBrandGlassTheme',
   },
   {
-    id: 'DEP-M0980',
+    id: 'DEP-M0970',
     kind: 'export',
     status: 'planned',
     entry: './theme',
@@ -2979,10 +2819,10 @@ const b = [
     breaking: 'B5',
     message:
       'createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (codemod: providers).',
-    doc: '#dep-m0980',
+    doc: '#dep-m0970',
   },
   {
-    id: 'DEP-M0981',
+    id: 'DEP-M0971',
     kind: 'prop-value',
     status: 'planned',
     entry: '.',
@@ -2995,10 +2835,10 @@ const b = [
     breaking: 'B6',
     message:
       'the "high-contrast" GlassThemeMode is removed in 5.0; high contrast is the contrast="more" preference (codemod: providers).',
-    doc: '#dep-m0981',
+    doc: '#dep-m0971',
   },
   {
-    id: 'DEP-M0982',
+    id: 'DEP-M0972',
     kind: 'prop-value',
     status: 'planned',
     entry: '.',
@@ -3011,14 +2851,14 @@ const b = [
     breaking: 'B6',
     message:
       'the "comfortable" GlassDensity is removed in 5.0; density maps onto the 5.x scale (codemod: providers; see §21 OI-03).',
-    doc: '#dep-m0982',
+    doc: '#dep-m0972',
   },
   {
-    id: 'DEP-M0983',
+    id: 'DEP-M0973',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
-    symbol: 'COLORS (designConstants)',
+    symbol: 'COLORS',
     since: '4.3.0',
     removeIn: '5.0.0',
     replacement: 'the 5.x tokens export',
@@ -3027,14 +2867,14 @@ const b = [
     breaking: 'B3',
     message:
       'the COLORS design constant is removed in 5.0; values ship as tokens (codemod: removed).',
-    doc: '#dep-m0983',
+    doc: '#dep-m0973',
   },
   {
-    id: 'DEP-M0984',
+    id: 'DEP-M0974',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
-    symbol: 'BORDER_RADIUS (designConstants)',
+    symbol: 'BORDER_RADIUS',
     since: '4.3.0',
     removeIn: '5.0.0',
     replacement: 'the 5.x tokens export',
@@ -3043,14 +2883,14 @@ const b = [
     breaking: 'B3',
     message:
       'the BORDER_RADIUS design constant is removed in 5.0; values ship as tokens (codemod: removed).',
-    doc: '#dep-m0984',
+    doc: '#dep-m0974',
   },
   {
-    id: 'DEP-M0985',
+    id: 'DEP-M0975',
     kind: 'export',
     status: 'planned',
     entry: './tokens',
-    symbol: 'BOX_SHADOW (designConstants)',
+    symbol: 'BOX_SHADOW',
     since: '4.3.0',
     removeIn: '5.0.0',
     replacement: 'the 5.x tokens export',
@@ -3059,10 +2899,10 @@ const b = [
     breaking: 'B3',
     message:
       'the BOX_SHADOW design constant is removed in 5.0; values ship as tokens (codemod: removed).',
-    doc: '#dep-m0985',
+    doc: '#dep-m0975',
   },
   {
-    id: 'DEP-M0986',
+    id: 'DEP-M0976',
     kind: 'css-global',
     status: 'planned',
     entry: '.',
@@ -3075,7 +2915,7 @@ const b = [
     breaking: 'B8',
     message:
       'the glass-* slash utilities are removed in 5.0; utility output is generated from --ag-* tokens (codemod: css-vars).',
-    doc: '#dep-m0986',
+    doc: '#dep-m0976',
   },
 ] as const;
 // --- lane 2e-B end ---
