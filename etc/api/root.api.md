@@ -5,6 +5,7 @@
 - `ButtonGroup`
 - `Checkbox`
 - `CheckboxGroup`
+- `Combobox`
 - `EmptyState`
 - `ErrorState`
 - `Field`
@@ -15,6 +16,7 @@
 - `RadioGroup`
 - `SearchField`
 - `SegmentedControl`
+- `Select`
 - `Slider`
 - `Switch`
 - `TextField`

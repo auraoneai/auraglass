@@ -10,9 +10,9 @@ describe('control families (field-shell)', () => {
     expect(CONTROL_FAMILIES.length).toBeGreaterThan(0);
   });
 
-  it.each(CONTROL_FAMILIES.map((f) => [f.family, f] as const))('%s fixture mounts with a root part', (_family, { fixture: Fixture }) => {
+  it.each(CONTROL_FAMILIES.map((f) => [f.family, f] as const))('%s fixture mounts with its first declared part', (_family, { fixture: Fixture, meta }) => {
     const { container } = render(<Fixture />);
-    expect(container.querySelector('[data-ag-part="root"]')).not.toBeNull();
+    expect(container.querySelector(`[data-ag-part="${meta.parts[0]}"]`)).not.toBeNull();
   });
 
   it('button family: three buttons incl. one prominent-safe identity and one danger', () => {
@@ -30,14 +30,15 @@ describe('control families (field-shell)', () => {
   });
 });
 
-/* CMP-118 (REQ-CMP-57/58): per-control Field wiring — label htmlFor→id,
-   aria-describedby description-then-error order, aria-invalid. Select/Combobox
-   rows join when lane 3d lands (PENDING until then). */
+/* CMP-118 (REQ-CMP-57/58): per-control Field wiring — label htmlFor→id (or
+   aria-labelledby for non-input roots), aria-describedby description-then-error
+   order, aria-invalid. */
 import { TextField } from '../../src/components/text-field';
 import { SearchField } from '../../src/components/search-field';
 import { NumberField } from '../../src/components/number-field';
 import { Switch } from '../../src/components/switch';
 import { Checkbox } from '../../src/components/checkbox';
+import { Select } from '../../src/components/select';
 import { Field } from '../../src/components/field';
 
 describe('field shell wiring (CMP-118)', () => {
@@ -69,6 +70,32 @@ describe('field shell wiring (CMP-118)', () => {
     );
     expect(container.querySelector('[data-ag-part="root"]')).not.toBeNull();
     expect(container.querySelector('[role="switch"]')).not.toBeNull();
+  });
+
+  it('Select trigger picks up Field label + describedby order + aria-invalid', () => {
+    const { container } = render(
+      <Field.Root invalid>
+        <Field.Label>Fruit</Field.Label>
+        <Field.Description>d</Field.Description>
+        <Select.Root>
+          <Select.Trigger placeholder="pick" />
+          <Select.Content>
+            <Select.Item value="a" label="Alpha" />
+          </Select.Content>
+        </Select.Root>
+        <Field.Error match={true}>e</Field.Error>
+      </Field.Root>,
+    );
+    const trigger = container.querySelector('[data-ag-part="trigger"]')!;
+    const label = container.querySelector('[data-ag-part="label"]')!;
+    const desc = container.querySelector('[data-ag-part="description"]')!;
+    const err = container.querySelector('[data-ag-part="error"]')!;
+    const describedBy = trigger.getAttribute('aria-describedby') ?? '';
+    expect(describedBy).toContain(desc.id);
+    expect(describedBy).toContain(err.id);
+    expect(describedBy.indexOf(desc.id)).toBeLessThan(describedBy.indexOf(err.id));
+    expect(trigger.getAttribute('aria-labelledby') ?? '').toContain(label.id);
+    expect(trigger).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('Checkbox aria-checked=mixed keeps Field error id order', () => {
