@@ -2,13 +2,13 @@
 import { describe, expect, it, jest, beforeEach, afterEach } from '@jest/globals';
 import * as React from 'react';
 import { render } from '@testing-library/react';
-import * as pub from '../public';
+import * as pub from '../../public';
 import { toMotionTransition } from '../toMotionTransition';
-import { MotionProvider, Shared, SharedLayout, magnetic, useDragDetents, useMomentum } from '../adapter';
-import { MotionCapabilityContext } from '../capability';
-import { motionTokens } from '../tokens.generated';
-import { DURATIONS_MS, EASES } from '../../contracts/motion';
-import type { DurationName, MotionTokenName } from '../../contracts/motion';
+import { MotionProvider, Shared, SharedLayout, magnetic, useDragDetents, useMomentum } from '../index';
+import { MotionCapabilityContext } from '../../capability';
+import { motionTokens } from '../../tokens.generated';
+import { DURATIONS_MS, EASES } from '../../../contracts/motion';
+import type { DurationName, MotionTokenName } from '../../../contracts/motion';
 
 type MagneticBindingsLocal = { ref: (el: HTMLElement | null) => void; style: { x: unknown; y: unknown } };
 

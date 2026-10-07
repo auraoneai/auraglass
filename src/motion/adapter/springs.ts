@@ -2,9 +2,9 @@
    emits `spring.<name>` linear() strings + `spring.<name>-duration` ms; this
    module derives the equivalent motion-library params from the frozen contract
    SPRINGS row and evaluates the analytic step response for equivalence tests. */
-import { SPRINGS } from '../contracts/motion';
-import type { SpringName } from '../contracts/motion';
-import { motionTokens } from './tokens.generated';
+import { SPRINGS } from '../../contracts/motion';
+import type { SpringName } from '../../contracts/motion';
+import { motionTokens } from '../tokens.generated';
 
 export interface SpringParams {
   name: SpringName;

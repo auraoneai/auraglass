@@ -2,9 +2,9 @@
    Springs emit {type:'spring', stiffness, damping, mass:1, velocity?} — never
    bounce/visualDuration. Durations emit {duration: ms/1000, ease}; exit uses
    durationExit + ease.accelerate. Only ms→s conversion is applied. */
-import { DURATIONS_MS, EASES } from '../contracts/motion';
-import type { DurationName, EaseName, MotionTokenName, SpringName } from '../contracts/motion';
-import { motionTokens } from './tokens.generated';
+import { DURATIONS_MS, EASES } from '../../contracts/motion';
+import type { DurationName, EaseName, MotionTokenName, SpringName } from '../../contracts/motion';
+import { motionTokens } from '../tokens.generated';
 import { springParams } from './springs';
 
 export interface SpringTransition {

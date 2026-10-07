@@ -1,7 +1,7 @@
 /* MAT-219/-220: DOM gesture engines behind MotionCapability — no React, no
    motion-library imports. Runs on the shared ticker and contract springs. */
 import { resolvedMotion, subscribeFrame } from './ticker';
-import { springParams } from './springs';
+import { springParams } from './adapter/springs';
 import type { DragBindings } from '../contracts/motion';
 
 const RUBBER = 0.55;

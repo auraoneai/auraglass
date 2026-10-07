@@ -2,9 +2,9 @@
    the compiled linear() tokens (2a-T output consumed through its frozen file). */
 /* @jest-environment node */
 import { describe, expect, it } from '@jest/globals';
-import { SPRINGS } from '../../contracts/motion';
-import type { SpringName } from '../../contracts/motion';
-import { motionTokens } from '../tokens.generated';
+import { SPRINGS } from '../../../contracts/motion';
+import type { SpringName } from '../../../contracts/motion';
+import { motionTokens } from '../../tokens.generated';
 import { parseLinear, springParams, springResponse } from '../springs';
 
 const NAMES: SpringName[] = ['snappy', 'smooth', 'fluid'];
