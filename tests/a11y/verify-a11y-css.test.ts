@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const FIX = 'scripts/ci/__fixtures__/a11y-css';
+const FIX = 'scripts/mat/__fixtures__/a11y-css';
 const GATE = 'scripts/mat/verify-a11y-css.mjs';
 
 const run = (file: string): { code: number; out: string } => {
@@ -57,7 +57,7 @@ describe('verify-a11y-css fixtures', () => {
   });
 
   it('baseline file is a decrease-only ratchet', () => {
-    const b = JSON.parse(fs.readFileSync('scripts/ci/a11y-baselines/focus-outline-none.json', 'utf8')) as { count: number; ratchet: string };
+    const b = JSON.parse(fs.readFileSync('scripts/mat/a11y-baselines/focus-outline-none.json', 'utf8')) as { count: number; ratchet: string };
     expect(b.ratchet).toBe('decrease-only');
     expect(b.count).toBeGreaterThanOrEqual(0);
   });

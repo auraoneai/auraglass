@@ -9,7 +9,7 @@
      no-global-element-selectors      — no bare element selectors (pseudo-elements and :root allowed)
      no-host-opacity-on-disabled      — no opacity on the disabled surface host
      a11y-selectors-keyed-on-data-ag-surface — every selector inside ag.a11y is keyed on data-ag-* (or :root)
-     focus-outline-none-count         — focus:outline-none occurrences vs scripts/ci/a11y-baselines/focus-outline-none.json (decrease-only; --enforce-zero at beta)
+     focus-outline-none-count         — focus:outline-none occurrences vs scripts/mat/a11y-baselines/focus-outline-none.json (decrease-only; --enforce-zero at beta)
    Enforces on src/a11y, src/theme, src/material; ratchets elsewhere.
    Prints `file:line rule message` per violation; exit 1 on any enforced-scope
    violation or a baseline increase. */
@@ -22,7 +22,7 @@ import selectorParser from 'postcss-selector-parser';
 const ROOT = process.cwd();
 const ENFORCED_DIRS = ['src/a11y', 'src/theme', 'src/material'];
 const A11Y_CSS = /(?:^|\/)src\/a11y\/css\/[^/]+\.css$/;
-const BASELINE_PATH = 'scripts/ci/a11y-baselines/focus-outline-none.json';
+const BASELINE_PATH = 'scripts/mat/a11y-baselines/focus-outline-none.json';
 const ENFORCE_ZERO = process.argv.includes('--enforce-zero');
 const arg = (n) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : null; };
 const SRC = arg('src');                    // scan a single dir (fixture tests)
