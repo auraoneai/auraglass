@@ -1,0 +1,6 @@
+{
+ "entry": "compat.surf",
+ "exports": [
+  "SURF_COMPAT_ADAPTERS"
+ ]
+}
