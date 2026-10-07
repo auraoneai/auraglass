@@ -1,0 +1,52 @@
+{
+  "$schema": "../$schema.json",
+  "mode": {
+    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0", "ag.axisDef": true },
+    "$description": "Mode axis definitions (REQ-MAT-03/05): value list, default, and the selector each non-default value expands to. The compiler reads these; they emit no CSS by themselves.",
+    "scheme": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axisDef": "scheme" },
+      "$value": {
+        "default": "light",
+        "values": ["light", "dark"],
+        "selectors": { "dark": ["[data-ag-scheme=\"dark\"]", "@media (prefers-color-scheme: dark)"] }
+      }
+    },
+    "contrast": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axisDef": "contrast" },
+      "$value": {
+        "default": "standard",
+        "values": ["standard", "more"],
+        "selectors": { "more": ["[data-ag-contrast=\"more\"]", "@media (prefers-contrast: more)"] }
+      }
+    },
+    "transparency": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axisDef": "transparency" },
+      "$value": {
+        "default": "tinted",
+        "values": ["tinted", "solid"],
+        "selectors": { "solid": ["[data-ag-transparency=\"solid\"]", "@media (prefers-reduced-transparency: reduce)"] }
+      }
+    },
+    "density": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axisDef": "density" },
+      "$value": {
+        "default": "regular",
+        "values": ["regular", "compact", "spacious"],
+        "selectors": { "compact": ["[data-ag-density=\"compact\"]"], "spacious": ["[data-ag-density=\"spacious\"]"] }
+      }
+    },
+    "preset": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axisDef": "preset" },
+      "$value": {
+        "default": "aura",
+        "values": ["aura", "graphite", "daylight", "midnight"],
+        "selectors": { "graphite": ["[data-ag-theme=\"graphite\"]"], "daylight": ["[data-ag-theme=\"daylight\"]"], "midnight": ["[data-ag-theme=\"midnight\"]"] }
+      }
+    }
+  }
+}

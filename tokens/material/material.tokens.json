@@ -1,0 +1,59 @@
+{
+  "$schema": "../$schema.json",
+  "material": {
+    "$extensions": { "ag.tier": "material", "ag.since": "5.0.0" },
+    "optics": {
+      "$description": "Glass optics constants (REQ-MAT values). Public readouts consumed by the material ladder CSS.",
+      "light-angle":  { "$type": "dimension", "$value": { "value": 300, "unit": "deg" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-light-angle" } },
+      "specular":     { "$type": "number", "$value": 0.5, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-specular" } },
+      "glass-opacity":{ "$type": "number", "$value": 0, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-glass-opacity" } },
+      "saturation":   { "$type": "number", "$value": 1.6, "$description": "backdrop-filter saturation multiplier.", "$extensions": { "ag.public": false } }
+    },
+    "blur": {
+      "$type": "dimension",
+      "$description": "Material blur ladder = the only blur ladder (REQ-MAT-02).",
+      "thin":    { "$value": "{ref.dimension.blur.thin}",    "$extensions": { "ag.public": false } },
+      "regular": { "$value": "{ref.dimension.blur.regular}", "$extensions": { "ag.public": false } },
+      "thick":   { "$value": "{ref.dimension.blur.thick}",   "$extensions": { "ag.public": false } }
+    },
+    "surface": {
+      "$description": "Default surface readouts for the root surface() recipe; per-cell overrides are generated into src/material/css/generated/ladders.css.",
+      "fill":    { "$type": "color", "$value": "{sys.color.canvas}",          "$extensions": { "ag.public": true, "ag.cssVar": "--ag-surface-fill" } },
+      "rim":     { "$type": "color", "$value": "{ref.color.white}",           "$extensions": { "ag.public": true, "ag.cssVar": "--ag-surface-rim" } },
+      "shadow":  { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0, 0, 0], "alpha": 0.18 }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-surface-shadow" } },
+      "radius":  { "$type": "dimension", "$value": "{sys.shape.radius-outer}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-surface-radius" } },
+      "on-surface":       { "$type": "color", "$value": "{sys.color.on-surface}",       "$extensions": { "ag.public": true, "ag.cssVar": "--ag-on-surface" } },
+      "on-surface-muted": { "$type": "color", "$value": "{sys.color.on-surface-muted}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-on-surface-muted" } }
+    },
+    "shadow": {
+      "$type": "shadow",
+      "$description": "Elevation shadows per thickness cell (REQ-MAT-10).",
+      "thin":    { "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 1, "unit": "px" },  "blur": { "value": 4, "unit": "px" },  "spread": { "value": 0, "unit": "px" }, "color": { "colorSpace": "oklch", "components": [0, 0, 0], "alpha": 0.10 } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-shadow-thin" } },
+      "regular": { "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 4, "unit": "px" },  "blur": { "value": 16, "unit": "px" }, "spread": { "value": 0, "unit": "px" }, "color": { "colorSpace": "oklch", "components": [0, 0, 0], "alpha": 0.14 } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-shadow-regular" } },
+      "thick":   { "$value": { "offsetX": { "value": 0, "unit": "px" }, "offsetY": { "value": 8, "unit": "px" },  "blur": { "value": 32, "unit": "px" }, "spread": { "value": 0, "unit": "px" }, "color": { "colorSpace": "oklch", "components": [0, 0, 0], "alpha": 0.20 } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-shadow-thick" } }
+    },
+    "tint": {
+      "$type": "number",
+      "$description": "Tint alpha applied over the backdrop per material variant (regular/clear/identity).",
+      "regular":  { "$value": 0.72, "$extensions": { "ag.public": false } },
+      "clear":    { "$value": 0.55, "$extensions": { "ag.public": false } },
+      "identity": { "$value": 0.85, "$extensions": { "ag.public": false } }
+    },
+    "ladder": {
+      "$type": "number",
+      "$description": "9-cell fill ladder offsets from the base tint alpha (cells 1..9, light scheme). Values are alpha deltas.",
+      "1": { "$value": 0.0 }, "2": { "$value": 0.03 }, "3": { "$value": 0.06 }, "4": { "$value": 0.09 }, "5": { "$value": 0.12 },
+      "6": { "$value": 0.15 }, "7": { "$value": 0.18 }, "8": { "$value": 0.21 }, "9": { "$value": 0.24 }
+    },
+    "thickness": {
+      "$description": "Thickness cells: blur px, rim px, bezel px per cell (REQ-MAT-10).",
+      "thin":    { "$type": "glass-material", "$value": { "blur": "{material.blur.thin}",    "rim": "{ref.dimension.rim.thin}",    "bezel": "{ref.dimension.bezel.thin}",    "shadow": "{material.shadow.thin}" },    "$extensions": { "ag.public": false } },
+      "regular": { "$type": "glass-material", "$value": { "blur": "{material.blur.regular}", "rim": "{ref.dimension.rim.regular}", "bezel": "{ref.dimension.bezel.regular}", "shadow": "{material.shadow.regular}" }, "$extensions": { "ag.public": false } },
+      "thick":   { "$type": "glass-material", "$value": { "blur": "{material.blur.thick}",   "rim": "{ref.dimension.rim.thick}",   "bezel": "{ref.dimension.bezel.thick}",   "shadow": "{material.shadow.thick}" },   "$extensions": { "ag.public": false } }
+    },
+    "fallback": {
+      "$description": "Opaque fallback for no-backdrop contexts (alpha must be >= 0.85 by schema).",
+      "fill": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.96, 0.008, 250], "alpha": 0.98 }, "$extensions": { "ag.public": false } }
+    }
+  }
+}

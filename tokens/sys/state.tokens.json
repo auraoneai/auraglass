@@ -1,0 +1,18 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "state": {
+      "$description": "Interaction-state constants (REQ-MAT values; §interaction states).",
+      "hover-specular":  { "$type": "number", "$value": 0.15, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-hover-specular" } },
+      "hover-floor":     { "$type": "number", "$value": 0.02, "$extensions": { "ag.public": false } },
+      "press-glow":      { "$type": "number", "$value": 0.25, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-press-glow" } },
+      "press-floor":     { "$type": "number", "$value": 0.04, "$extensions": { "ag.public": false } },
+      "selected-tint":   { "$type": "number", "$value": 0.16, "$extensions": { "ag.public": false } },
+      "disabled-alpha":  { "$type": "number", "$value": 0.45, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-disabled-alpha" } },
+      "loading-alpha":   { "$type": "number", "$value": 0.7,  "$extensions": { "ag.public": false } },
+      "drop-target-rim": { "$type": "dimension", "$value": { "value": 2, "unit": "px" }, "$extensions": { "ag.public": false } },
+      "drop-target-fill":{ "$type": "number", "$value": 0.06, "$extensions": { "ag.public": false } }
+    }
+  }
+}
