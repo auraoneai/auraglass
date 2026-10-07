@@ -1,0 +1,2189 @@
+{
+ "$schema": "./ownership.schema.json",
+ "version": 1,
+ "rows": [
+  {
+   "id": "A01",
+   "glob": "docs/auraglass-5/AURAGLASS_5_CONTRACTS.md",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A02",
+   "glob": "src/contracts/**",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A03",
+   "glob": "contracts/**",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A04",
+   "glob": "tests/contract-doubles/**",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A05",
+   "glob": ".github/CODEOWNERS",
+   "owner": "CONTRACT",
+   "note": "generated"
+  },
+  {
+   "id": "A06",
+   "glob": "src/index.ts",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A06",
+   "glob": "src/compat/index.ts",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A06",
+   "glob": "src/root/index.ts",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A07",
+   "glob": "src/root/cmp.ts",
+   "owner": "CMP"
+  },
+  {
+   "id": "A07",
+   "glob": "src/root/surf.ts",
+   "owner": "SURF"
+  },
+  {
+   "id": "A07",
+   "glob": "src/root/mat.ts",
+   "owner": "MAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/plat.ts",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/plat.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/mat.ts",
+   "owner": "MAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/mat.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/cmp.ts",
+   "owner": "CMP"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/cmp.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/surf.ts",
+   "owner": "SURF"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/surf.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/qual.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/qual.json",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A08-A12",
+   "glob": "fragments/*/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A13",
+   "glob": ".changeset/config.json",
+   "owner": "CONTRACT"
+  },
+  {
+   "id": "A14",
+   "glob": ".changeset/plat-*.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A15",
+   "glob": "lint/rules/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A16",
+   "glob": "stories/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A17",
+   "glob": "apps/docs/content/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A14",
+   "glob": ".changeset/mat-*.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "A15",
+   "glob": "lint/rules/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "A16",
+   "glob": "stories/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "A17",
+   "glob": "apps/docs/content/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "A14",
+   "glob": ".changeset/cmp-*.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "A15",
+   "glob": "lint/rules/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "A16",
+   "glob": "stories/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "A17",
+   "glob": "apps/docs/content/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "A14",
+   "glob": ".changeset/surf-*.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "A15",
+   "glob": "lint/rules/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "A16",
+   "glob": "stories/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "A17",
+   "glob": "apps/docs/content/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "A14",
+   "glob": ".changeset/qual-*.md",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A15",
+   "glob": "lint/rules/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A16",
+   "glob": "stories/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A17",
+   "glob": "apps/docs/content/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/AURAGLASS_PLATFORM_RELEASE_PRD.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/AURAGLASS_MATERIAL_SYSTEM_PRD.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/AURAGLASS_CORE_COMPONENTS_PRD.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/AURAGLASS_PRODUCT_SURFACES_PRD.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/AURAGLASS_QUALITY_SHOWCASE_PRD.md",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/prompts/*PLAT*.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/tasks/PLAT.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/prompts/*MAT*.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/tasks/MAT.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/prompts/*CMP*.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/tasks/CMP.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/prompts/*SURF*.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/tasks/SURF.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/prompts/*QUAL*.md",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A18",
+   "glob": "docs/auraglass-5/tasks/QUAL.json",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A19",
+   "glob": ".gitlab-ci.yml",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/plat.gitlab-ci.yml",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/mat.gitlab-ci.yml",
+   "owner": "MAT"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/cmp.gitlab-ci.yml",
+   "owner": "CMP"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/surf.gitlab-ci.yml",
+   "owner": "SURF"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/qual.gitlab-ci.yml",
+   "owner": "QUAL"
+  },
+  {
+   "id": "A20",
+   "glob": "ci/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B01",
+   "glob": "legacy/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B02",
+   "glob": "package.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B02",
+   "glob": "package-lock.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B03",
+   "glob": "tsconfig.storybook.json",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B04",
+   "glob": "tsconfig*.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": "tsdown.config.ts",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": "rollup.config.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": "vite.config.ts",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": "api-extractor.base.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".dependency-cruiser.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".npmignore",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".gitignore",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".prettierrc",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".husky/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".bundlesizerc",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".lighthouserc.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".dockerignore",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".env.example",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": ".eslintignore",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B04",
+   "glob": "patches/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B05",
+   "glob": "eslint.config.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B05",
+   "glob": "eslint-plugin-auraglass.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B05",
+   "glob": ".eslintrc.js",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B06",
+   "glob": "stylelint.showcase.config.mjs",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B07",
+   "glob": "stylelint.config.mjs",
+   "owner": "MAT"
+  },
+  {
+   "id": "B07",
+   "glob": "stylelint-plugin-auraglass/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "B08",
+   "glob": "jest.config.js",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "jest.*.config.js",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "jest.setup.js",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "playwright.config.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "playwright.*.config.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "vitest.storybook.config.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B08",
+   "glob": "__mocks__/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B09",
+   "glob": ".storybook/main.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B10",
+   "glob": ".storybook/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B11",
+   "glob": ".github/workflows/**",
+   "owner": "PLAT",
+   "note": "deletion only"
+  },
+  {
+   "id": "B12",
+   "glob": ".github/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B12a",
+   "glob": ".gitlab/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B13",
+   "glob": "deprecations.json",
+   "owner": "PLAT",
+   "note": "gen"
+  },
+  {
+   "id": "B14",
+   "glob": "CHANGELOG.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "README*.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "RELEASE_NOTES_*.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "SECURITY.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "INSTALLATION.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "CONTRIBUTING.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "LICENSE",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B14",
+   "glob": "llms.txt",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B15",
+   "glob": "build/exports.manifest.json",
+   "owner": "PLAT",
+   "note": "verbatim \u00a74.7"
+  },
+  {
+   "id": "B16",
+   "glob": "build/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B17",
+   "glob": "docs/dependency-allowlist.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B18",
+   "glob": "docs/size-budgets.json",
+   "owner": "PLAT",
+   "note": "gen"
+  },
+  {
+   "id": "B19",
+   "glob": "docs/certification/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B20",
+   "glob": "docs/motion.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B20",
+   "glob": "docs/design-tokens.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B20a",
+   "glob": "docs/auraglass-5/capability-ledger.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B20a",
+   "glob": "docs/auraglass-5/capability-ledger.schema.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B21",
+   "glob": "docs/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/root.cmp.api.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/root.surf.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/root.mat.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/compat.plat.api.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/compat.mat.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/compat.cmp.api.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/compat.surf.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/compat.qual.api.md",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/material.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/material.exports.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/material.css-api.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/theme.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/theme.exports.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/theme.css-api.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/tokens.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/tokens.exports.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/tokens.css-api.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/motion.api.md",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/motion.exports.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/motion.css-api.json",
+   "owner": "MAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/primitives.api.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/primitives.exports.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/primitives.css-api.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/icons.api.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/icons.exports.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/icons.css-api.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/forms.api.md",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/forms.exports.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/forms.css-api.json",
+   "owner": "CMP"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/app-shell.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/app-shell.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/app-shell.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/data.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/data.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/data.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/date.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/date.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/date.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/ai.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/ai.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/ai.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/media.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/media.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/media.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/backdrops.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/backdrops.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/backdrops.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/three.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/three.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/three.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/charts.api.md",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/charts.exports.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/charts.css-api.json",
+   "owner": "SURF"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/cli.api.md",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/cli.exports.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B22a",
+   "glob": "etc/api/cli.css-api.json",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B22",
+   "glob": "etc/api/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/next16/app/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/vite/src/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/*/fixtures/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/next16/app/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/vite/src/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/*/fixtures/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/next16/app/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/vite/src/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/*/fixtures/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/next16/app/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/vite/src/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/*/fixtures/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/next16/app/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/vite/src/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B23a",
+   "glob": "canaries/*/fixtures/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "B23",
+   "glob": "canaries/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "bin/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "server/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "Dockerfile",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "docker-compose*.yml",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "nginx.conf",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B24",
+   "glob": "/*.mjs",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B25",
+   "glob": "reports/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B25",
+   "glob": "visual-baselines/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "B25",
+   "glob": "examples/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/material/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/tokens/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/theme/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/a11y/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/motion/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/styles/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C01",
+   "glob": "src/hooks/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C02",
+   "glob": "src/compat/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "C03",
+   "glob": "src/foundation/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C03",
+   "glob": "src/primitives/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C03",
+   "glob": "src/icons/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C03",
+   "glob": "src/forms/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/tabs/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/tab-bar/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/breadcrumbs/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/pagination/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/command-palette/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/source-transition/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C04",
+   "glob": "src/components/timeline/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C05",
+   "glob": "src/components/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C06",
+   "glob": "src/compat/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "C07",
+   "glob": "src/app-shell/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/data/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/date/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/ai/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/media/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/backdrops/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/charts/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C07",
+   "glob": "src/three/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C08",
+   "glob": "src/compat/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "C09",
+   "glob": "src/internal/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "C09",
+   "glob": "src/compat/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "C09",
+   "glob": "src/compat/css/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "C11",
+   "glob": "src/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/contract/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/helpers/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/a11y/apg/harness.ts",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/a11y/apg/__selftest__/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/a11y/browser/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/storybook/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D01",
+   "glob": "tests/showcase/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/apg/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/apg/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/apg/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/apg/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/apg/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/records/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/records/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/records/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/records/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/records/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/scripts/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/scripts/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/scripts/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/scripts/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/a11y/manual/scripts/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/perf/browser/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/perf/browser/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/perf/browser/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/perf/browser/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/perf/browser/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/visual/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/visual/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/visual/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/visual/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/visual/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/e2e/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/e2e/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/e2e/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/e2e/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/e2e/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/ssr/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/ssr/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/ssr/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/ssr/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/ssr/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/rsc/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/rsc/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/rsc/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/rsc/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/rsc/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/types/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/types/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/types/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/types/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/types/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/lint/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/lint/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/lint/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/lint/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D02",
+   "glob": "tests/lint/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/a11y/apg/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/a11y/manual/records/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/a11y/manual/scripts/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/perf/browser/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/visual/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/e2e/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/ssr/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/rsc/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/types/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/lint/*/**",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/a11y/apg/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/a11y/manual/scripts/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/perf/browser/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/visual/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/e2e/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/ssr/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/rsc/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/types/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D02x",
+   "glob": "tests/lint/*",
+   "owner": "NONE",
+   "note": "invalid location: use tests/<kind>/<stream>/"
+  },
+  {
+   "id": "D03",
+   "glob": "tests/fixtures/consumer-4x/cases/plat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D03",
+   "glob": "tests/fixtures/consumer-4x/cases/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D03",
+   "glob": "tests/fixtures/consumer-4x/cases/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D03",
+   "glob": "tests/fixtures/consumer-4x/cases/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D03",
+   "glob": "tests/fixtures/consumer-4x/cases/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D04",
+   "glob": "tests/fixtures/consumer-4x/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D05",
+   "glob": "tests/perf/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D05",
+   "glob": "tests/fixtures/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D05",
+   "glob": "tests/visual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D05",
+   "glob": "tests/e2e/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "D06",
+   "glob": "tests/material/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D06",
+   "glob": "tests/tokens/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D06",
+   "glob": "tests/motion/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D06",
+   "glob": "tests/theme/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D06",
+   "glob": "tests/a11y/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/controls/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/overlays/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/foundation/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/primitives/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/icons/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D07",
+   "glob": "tests/compiler/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/app-shell/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/data/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/date/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/ai/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/media/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/backdrops/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/charts/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/labs/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D08",
+   "glob": "tests/capability/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/release/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/build/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/deps/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/pack/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/ci/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/dx/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/exports/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/side-effects/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/react19/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/css/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/removal/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/registry/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/compat/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/deprecations/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D09",
+   "glob": "tests/docs/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "D10",
+   "glob": "tests/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "E01",
+   "glob": "scripts/tokens/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "E02",
+   "glob": "scripts/storybook/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "E02",
+   "glob": "scripts/audit/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "E03",
+   "glob": "scripts/mat/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "E03",
+   "glob": "scripts/cmp/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "E03",
+   "glob": "scripts/surf/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "E03",
+   "glob": "scripts/qual/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "E04",
+   "glob": "scripts/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F01",
+   "glob": "packages/qa/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "F02",
+   "glob": "packages/labs/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F03",
+   "glob": "packages/cli/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F03",
+   "glob": "packages/registry/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F03",
+   "glob": "packages/mcp/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F04",
+   "glob": "apps/docs/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/app-frame/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/ai-workspace/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/data-workspace/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/analytics-dashboard/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/media-viewer/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/support-inbox/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/mobile-settings/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/commerce-cart/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/commerce-checkout/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/pricing/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/audit-log/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/permissions-matrix/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/overlay-flows/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/auth/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/blocks/settings/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/ai-*/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/app-shell-workspace/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/backdrop-hero/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/comment-thread/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/faceted-search/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/presence-stack/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/query-builder/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/schema-viewer/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/tree-select/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/media-*/**",
+   "owner": "SURF"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/account-menu/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/confirm-dialog/**",
+   "owner": "CMP"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/code-surface/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/diff-viewer/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/gantt/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/kanban/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/react-hook-form/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/rich-text/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F05",
+   "glob": "registry/items/transfer-list/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F06",
+   "glob": "registry/**",
+   "owner": "PLAT"
+  },
+  {
+   "id": "F07",
+   "glob": "showcase/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "F08",
+   "glob": "certification/**",
+   "owner": "QUAL"
+  },
+  {
+   "id": "F09",
+   "glob": "tokens/**",
+   "owner": "MAT"
+  },
+  {
+   "id": "H01",
+   "glob": "src/material/**",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "H01",
+   "glob": "tokens/**",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "H01",
+   "glob": "scripts/tokens/**",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "H02",
+   "glob": "src/styles/v5.css",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "H02",
+   "glob": "src/styles/preview-v5.css",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "H03",
+   "glob": "tokens/compat-alias-map.json",
+   "owner": "MAT",
+   "note": "4.x bridge",
+   "lines": [
+    "4x"
+   ]
+  },
+  {
+   "id": "Z01",
+   "glob": "**",
+   "owner": "PLAT"
+  }
+ ]
+}

@@ -1,24 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*"],
+  "include": ["src"],
   "exclude": [
-    "node_modules",
-    "dist",
-    "docs",
-    "examples",
-    "playwright.config.ts",
-    "*.config.ts",
-    "*.config.js",
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/**/*.stories.ts",
-    "src/**/*.stories.tsx",
-    "src/**/__tests__/**",
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "src/tests/**",
-    "src/utils/testSetup.ts",
-    "src/utils/testing/**",
-    "src/utils/testingUtils.tsx"
+    "legacy", "dist", "node_modules", "packages/*/dist", "apps/docs/.next",
+    "src/contracts/seed.tsx", "src/contracts/testing.ts",
+    "src/contracts/fragments.ts", "src/contracts/load-fragments.mjs"
   ]
 }

@@ -1,0 +1,163 @@
+{
+ "$schema": "./exports.manifest.schema.json",
+ "version": 1,
+ "entries": [
+  {
+   "subpath": ".",
+   "source": "src/index.ts",
+   "types": "dist/index.d.ts",
+   "default": "dist/index.js",
+   "css": "dist/styles.css"
+  },
+  {
+   "subpath": "./material",
+   "source": "src/material/index.ts",
+   "types": "dist/material/index.d.ts",
+   "default": "dist/material/index.js",
+   "css": "dist/material.css"
+  },
+  {
+   "subpath": "./theme",
+   "source": "src/theme/public.ts",
+   "types": "dist/theme/public.d.ts",
+   "default": "dist/theme/public.js"
+  },
+  {
+   "subpath": "./tokens",
+   "source": "src/tokens/index.ts",
+   "types": "dist/tokens/index.d.ts",
+   "default": "dist/tokens/index.js",
+   "css": "dist/tokens.css"
+  },
+  {
+   "subpath": "./motion",
+   "source": "src/motion/public.ts",
+   "types": "dist/motion/public.d.ts",
+   "default": "dist/motion/public.js"
+  },
+  {
+   "subpath": "./primitives",
+   "source": "src/primitives/index.ts",
+   "types": "dist/primitives/index.d.ts",
+   "default": "dist/primitives/index.js"
+  },
+  {
+   "subpath": "./icons",
+   "source": "src/icons/index.ts",
+   "types": "dist/icons/index.d.ts",
+   "default": "dist/icons/index.js"
+  },
+  {
+   "subpath": "./forms",
+   "source": "src/forms/index.ts",
+   "types": "dist/forms/index.d.ts",
+   "default": "dist/forms/index.js"
+  },
+  {
+   "subpath": "./app-shell",
+   "source": "src/app-shell/index.ts",
+   "types": "dist/app-shell/index.d.ts",
+   "default": "dist/app-shell/index.js",
+   "css": "dist/app-shell.css"
+  },
+  {
+   "subpath": "./data",
+   "source": "src/data/index.ts",
+   "types": "dist/data/index.d.ts",
+   "default": "dist/data/index.js",
+   "css": "dist/data.css"
+  },
+  {
+   "subpath": "./date",
+   "source": "src/date/index.ts",
+   "types": "dist/date/index.d.ts",
+   "default": "dist/date/index.js",
+   "css": "dist/date.css"
+  },
+  {
+   "subpath": "./ai",
+   "source": "src/ai/index.ts",
+   "types": "dist/ai/index.d.ts",
+   "default": "dist/ai/index.js",
+   "css": "dist/ai.css"
+  },
+  {
+   "subpath": "./media",
+   "source": "src/media/index.ts",
+   "types": "dist/media/index.d.ts",
+   "default": "dist/media/index.js",
+   "css": "dist/media.css"
+  },
+  {
+   "subpath": "./backdrops",
+   "source": "src/backdrops/index.ts",
+   "types": "dist/backdrops/index.d.ts",
+   "default": "dist/backdrops/index.js",
+   "css": "dist/backdrops.css"
+  },
+  {
+   "subpath": "./three",
+   "source": "src/three/index.ts",
+   "types": "dist/three/index.d.ts",
+   "default": "dist/three/index.js"
+  },
+  {
+   "subpath": "./charts",
+   "source": "src/charts/index.ts",
+   "types": "dist/charts/index.d.ts",
+   "default": "dist/charts/index.js"
+  },
+  {
+   "subpath": "./compat",
+   "source": "src/compat/index.ts",
+   "types": "dist/compat/index.d.ts",
+   "default": "dist/compat/index.js"
+  },
+  {
+   "subpath": "./styles.css",
+   "source": "build:css",
+   "default": "dist/styles.css",
+   "css": "dist/styles.css"
+  },
+  {
+   "subpath": "./tokens.css",
+   "source": "build:css",
+   "default": "dist/tokens.css",
+   "css": "dist/tokens.css"
+  },
+  {
+   "subpath": "./material.css",
+   "source": "build:css",
+   "default": "dist/material.css",
+   "css": "dist/material.css"
+  },
+  {
+   "subpath": "./tailwind.css",
+   "source": "build:css",
+   "default": "dist/tailwind.css",
+   "css": "dist/tailwind.css"
+  },
+  {
+   "subpath": "./compat/tokens.css",
+   "source": "build:css",
+   "default": "dist/compat/tokens.css",
+   "css": "dist/compat/tokens.css"
+  },
+  {
+   "subpath": "./compat/globals.css",
+   "source": "build:css",
+   "default": "dist/compat/globals.css",
+   "css": "dist/compat/globals.css"
+  },
+  {
+   "subpath": "./deprecations.json",
+   "source": "build:deprecations",
+   "default": "deprecations.json"
+  },
+  {
+   "subpath": "./package.json",
+   "source": "package.json",
+   "default": "package.json"
+  }
+ ]
+}

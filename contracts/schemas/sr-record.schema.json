@@ -1,0 +1,47 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "sr-record.schema.json",
+ "title": "SrRecord",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "flagship",
+  "at",
+  "result",
+  "date",
+  "tester",
+  "sha"
+ ],
+ "properties": {
+  "flagship": {
+   "type": "string"
+  },
+  "at": {
+   "enum": [
+    "voiceover-macos",
+    "voiceover-ios",
+    "nvda-chrome",
+    "talkback-chrome",
+    "touch"
+   ]
+  },
+  "result": {
+   "enum": [
+    "pass",
+    "fail"
+   ]
+  },
+  "date": {
+   "type": "string"
+  },
+  "tester": {
+   "type": "string"
+  },
+  "notes": {
+   "type": "string"
+  },
+  "sha": {
+   "type": "string"
+  }
+ }
+}

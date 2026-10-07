@@ -1,0 +1,120 @@
+{
+ "version": 1,
+ "packages": {
+  "@base-ui/react": {
+   "version": "1.8.0",
+   "kind": "dependency",
+   "importers": [
+    "src/components/**",
+    "src/foundation/**",
+    "src/app-shell/**",
+    "src/data/**",
+    "src/ai/**",
+    "src/media/**",
+    "src/date/**"
+   ]
+  },
+  "clsx": {
+   "version": "2.1.1",
+   "kind": "dependency",
+   "importers": [
+    "src/internal/cn.ts"
+   ]
+  },
+  "@tanstack/react-table": {
+   "version": "8.21.3",
+   "kind": "dependency",
+   "importers": [
+    "src/data/**"
+   ]
+  },
+  "@tanstack/react-virtual": {
+   "version": "3.14.13",
+   "kind": "dependency",
+   "importers": [
+    "src/data/**",
+    "src/ai/**"
+   ]
+  },
+  "react": {
+   "version": "^19.0.0",
+   "kind": "peer",
+   "optional": false,
+   "importers": [
+    "all"
+   ]
+  },
+  "react-dom": {
+   "version": "^19.0.0",
+   "kind": "peer",
+   "optional": false,
+   "importers": [
+    "all"
+   ]
+  },
+  "react-aria-components": {
+   "version": "^1.21.1",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/date/**",
+    "src/data/tree-view/**"
+   ]
+  },
+  "@internationalized/date": {
+   "version": "^3.12.4",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/date/**"
+   ]
+  },
+  "motion": {
+   "version": "^12.0.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/motion/public.ts",
+    "src/motion/adapter/**"
+   ]
+  },
+  "react-hook-form": {
+   "version": "^7.0.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/forms/**"
+   ]
+  },
+  "three": {
+   "version": ">=0.170.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/three/**"
+   ]
+  },
+  "@react-three/fiber": {
+   "version": "^9.0.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/three/**"
+   ]
+  },
+  "@react-three/drei": {
+   "version": "^10.0.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": [
+    "src/three/**"
+   ]
+  },
+  "tailwindcss": {
+   "version": "^4.0.0",
+   "kind": "peer",
+   "optional": true,
+   "importers": []
+  }
+ }
+}

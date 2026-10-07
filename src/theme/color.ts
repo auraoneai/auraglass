@@ -54,8 +54,7 @@ export const relativeLuminance = (input: string): number => {
       ? value / 12.92
       : Math.pow((value + 0.055) / 1.055, 2.4);
   };
-  const srgb = [convert(r), convert(g), convert(b)];
-  return srgb[0] * 0.2126 + srgb[1] * 0.7152 + srgb[2] * 0.0722;
+  return convert(r) * 0.2126 + convert(g) * 0.7152 + convert(b) * 0.0722;
 };
 
 export const contrastRatio = (

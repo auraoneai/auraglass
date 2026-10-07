@@ -1,7 +1,4 @@
-export { GlassButton, IconButton, type GlassButtonProps, type IconButtonProps } from './GlassButton';
-export { GlassFab, type FabProps } from './GlassFab';
-export { MagneticButton as GlassMagneticButton, type MagneticButtonProps } from './GlassMagneticButton';
-export { LiquidGlassButtonStyle, type LiquidGlassButtonStyleProps } from './LiquidGlassButtonStyle';
+/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
+import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
 
-// Alias for compatibility
-export { GlassButton as Button } from './GlassButton';
+export const Button = createSeedComponent('button', 'button');

@@ -1,0 +1,145 @@
+# ci/plat.gitlab-ci.yml (PLAT), seed per §4.13.4. Carries the 4.x equivalents of the deleted
+# workflows behind $AG_LINE rules, plus publish/pages. Job names are frozen (CI_JOBS, §4.9).
+.plat-base:
+  extends: .ag-node
+
+plat:build:dist:
+  extends: .plat-base
+  stage: build
+  allow_failure: true
+  rules:
+    - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
+  script:
+    - npm run build
+
+plat:package:pack:
+  extends: .plat-base
+  stage: package
+  allow_failure: true
+  rules:
+    - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release"
+  script:
+    - |
+      if [ "$AG_LINE" = "4x" ]; then
+        npm run verify:pack
+      else
+        npm run pack:verify
+      fi
+    - mkdir -p .artifacts/pack
+    - |
+      if compgen -G "*.tgz" > /dev/null; then
+        cp *.tgz .artifacts/pack/
+      else
+        echo "no tarball produced on this line; AURAGLASS_TARBALL stays empty"
+      fi
+    - echo "AURAGLASS_TARBALL=$(ls .artifacts/pack/*.tgz 2>/dev/null | head -1)" > pack.env
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [.artifacts/pack/]
+    reports: { dotenv: pack.env }
+
+plat:gate:glass-quality:
+  extends: .plat-base
+  stage: test
+  rules:
+    - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
+  script:
+    - |
+      if [ "$AG_LINE" = "4x" ]; then
+        node scripts/verify-glass-pipeline.js
+        npm run glass:validate
+        npm run lint:check
+      else
+        node scripts/ci/verify-glass-quality.mjs
+      fi
+
+plat:gate:change-class:
+  extends: .plat-base
+  stage: test
+  variables: { GIT_DEPTH: "0" }
+  rules:
+    - if: $AG_SCOPE == "pr"
+  script:
+    - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
+    - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
+    - node scripts/release/change-class.mjs --base "origin/$BASE" --line "$AG_LINE"
+
+plat:integration:next:
+  extends: .plat-base
+  stage: test
+  rules:
+    - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
+  script:
+    - |
+      if [ "$AG_LINE" = "4x" ]; then
+        npm run test:integration:next
+      else
+        node scripts/ci/run-next-integration.mjs
+      fi
+
+plat:integration:vite:
+  extends: .plat-base
+  stage: test
+  rules:
+    - if: $AG_SCOPE == "pr" || $AG_SCOPE == "main"
+  script:
+    - |
+      if [ "$AG_LINE" = "4x" ]; then
+        npm run test:integration:vite
+      else
+        node scripts/ci/run-vite-integration.mjs
+      fi
+
+plat:test:visual-4x:
+  extends: .ag-playwright
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "4x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm run build-storybook
+    - npx serve -s storybook-static -l 6006 &
+    - npx wait-on http://localhost:6006
+    - npm run test:visual -- --no-build
+
+plat:build:docs:
+  extends: .plat-base
+  stage: build
+  allow_failure: true
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm run docs:build
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    paths: [apps/docs/out/, .artifacts/]
+
+plat:publish:npm:
+  extends: [.ag-node, .ag-evidence-release]
+  stage: publish
+  tags: [saas-linux-small-amd64]
+  environment: { name: npm-publish, deployment_tier: production }
+  rules:
+    - if: $AG_SCOPE == "release"
+  needs:
+    - { job: "plat:package:pack", artifacts: true }
+    - { job: "qual:certify:release", artifacts: true, optional: true }
+  id_tokens:
+    NPM_ID_TOKEN:      { aud: "npm:registry.npmjs.org" }
+    SIGSTORE_ID_TOKEN: { aud: "sigstore" }
+  script:
+    - npm install -g "npm@$AG_NPM_VERSION"
+    - node scripts/release/verify-release-verdict.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE"
+    - node scripts/release/publish.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --v4-dist-tag "$AG_V4_DIST_TAG"
+
+pages:
+  extends: .plat-base
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $AG_PAGES_BRANCH
+  script:
+    - node scripts/ci/assemble-pages.mjs
+  artifacts:
+    paths: [public/]
