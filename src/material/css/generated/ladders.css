@@ -310,6 +310,31 @@
   }
   /* identity has no backdrop filter (MAT-038) */
 
+  [data-ag-content="content-raised"][data-ag-thickness="thin"] {
+    --_ag-mat-tint-alpha: 0.8;
+    --_ag-surface-alpha: 0.8;
+  }
+  [data-ag-content="content-raised"][data-ag-thickness="regular"] {
+    --_ag-mat-tint-alpha: 0.8;
+    --_ag-surface-alpha: 0.8;
+  }
+  [data-ag-content="content-raised"][data-ag-thickness="thick"] {
+    --_ag-mat-tint-alpha: 0.8;
+    --_ag-surface-alpha: 0.8;
+  }
+  [data-ag-content="content-sunken"][data-ag-thickness="thin"] {
+    --_ag-mat-tint-alpha: 0.64;
+    --_ag-surface-alpha: 0.64;
+  }
+  [data-ag-content="content-sunken"][data-ag-thickness="regular"] {
+    --_ag-mat-tint-alpha: 0.64;
+    --_ag-surface-alpha: 0.64;
+  }
+  [data-ag-content="content-sunken"][data-ag-thickness="thick"] {
+    --_ag-mat-tint-alpha: 0.64;
+    --_ag-surface-alpha: 0.64;
+  }
+
   /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-surface-alpha; no host opacity: (MAT-033) */
   [data-ag-variant="regular"][data-ag-thickness="thin"][data-ag-state~="disabled"] {
     --_ag-alpha: calc(

@@ -81,6 +81,19 @@ export function buildLadders(records, resolved) {
   }
   out.push('  /* identity has no backdrop filter (MAT-038) */');
   out.push('');
+  // content materials: [data-ag-content] on layer=content surfaces (AG_ATTRIBUTES)
+  for (const content of Object.keys(spec.content ?? {})) {
+    const cells = spec.content[content];
+    if (!cells) continue;
+    for (const th of THICKNESS) {
+      const c = cells[th];
+      out.push(`  [data-ag-content="content-${content}"][data-ag-thickness="${th}"] {`);
+      out.push(`    --_ag-mat-tint-alpha: ${c.alpha};`);
+      out.push(`    --_ag-surface-alpha: ${c.alpha};`);
+      out.push('  }');
+    }
+  }
+  out.push('');
   out.push('  /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-surface-alpha; no host opacity: (MAT-033) */');
   for (const variant of VARIANTS) {
     for (const th of THICKNESS) {
