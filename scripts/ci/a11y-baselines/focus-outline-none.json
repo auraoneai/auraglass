@@ -1,0 +1,9 @@
+{
+ "rule": "focus:outline-none occurrences in src/**",
+ "count": 0,
+ "ratchet": "decrease-only",
+ "measuredAt": "next",
+ "legacyBaseline": 109,
+ "legacyBaselineNote": "109 occurrences at 4.1 (all under legacy/**; 5.0 src/ starts at 0). Ratchet decreases the baseline only; --enforce-zero (beta gate) requires 0.",
+ "scopedDirs": ["src/a11y", "src/theme", "src/material"]
+}
