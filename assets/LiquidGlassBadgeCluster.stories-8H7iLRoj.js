@@ -1,0 +1,112 @@
+import{j as e}from"./iframe-Cqi-9gHA.js";import{L as r}from"./LiquidGlassBadgeCluster-BJKQO8Hv.js";import"./preload-helper-PPVm8Dsz.js";import"./LiquidGlassMaterial-D0WtSJtx.js";import"./LiquidGlassLayerProvider-BPcOSNPa.js";const n={title:"Data + Visualization/Liquid Glass Badge Cluster",component:r,parameters:{layout:"fullscreen",previewSurface:"app"}},d=`
+  .liquid-badge-cluster-story {
+    --badge-story-ink: #0f172a;
+    --badge-story-muted: #334155;
+    --badge-story-panel: rgba(255, 255, 255, 0.72);
+    --badge-story-border: rgba(15, 23, 42, 0.1);
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: clamp(18px, 4vw, 32px);
+    box-sizing: border-box;
+    color: var(--badge-story-ink);
+  }
+
+  .liquid-badge-cluster-panel {
+    display: grid;
+    gap: 18px;
+    width: min(560px, 100%);
+    border: 1px solid var(--badge-story-border);
+    border-radius: 28px;
+    padding: 28px;
+    background: linear-gradient(135deg, var(--badge-story-panel), rgba(255,255,255,0.28));
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.14);
+  }
+
+  .liquid-badge-cluster-story p {
+    color: var(--badge-story-muted);
+  }
+
+  .liquid-badge-cluster-story .liquid-glass-badge-cluster {
+    border: 1px solid rgba(255, 255, 255, 0.32) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.18)) !important;
+    box-shadow: 0 18px 54px rgba(15, 23, 42, 0.16), inset 0 1px 0 rgba(255,255,255,0.28) !important;
+    color: var(--badge-story-ink);
+  }
+
+  [data-storybook-preview-mode="dark"] .liquid-badge-cluster-story {
+    --badge-story-ink: #f8fafc;
+    --badge-story-muted: #dbeafe;
+    --badge-story-panel: rgba(15, 23, 42, 0.62);
+    --badge-story-border: rgba(226, 232, 240, 0.22);
+  }
+
+  [data-storybook-preview-mode="dark"] .liquid-badge-cluster-panel {
+    background: linear-gradient(135deg, rgba(255,255,255,0.30), rgba(255,255,255,0.14));
+    box-shadow: 0 28px 90px rgba(0, 0, 0, 0.36);
+  }
+
+  [data-storybook-preview-mode="dark"] .liquid-badge-cluster-story .liquid-glass-badge-cluster {
+    border-color: rgba(226, 232, 240, 0.28) !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.30), rgba(255,255,255,0.14)) !important;
+    box-shadow: 0 22px 64px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255,255,255,0.16) !important;
+  }
+
+  [data-storybook-preview-mode="liquid"] .liquid-badge-cluster-panel {
+    background: linear-gradient(135deg, rgba(255,255,255,0.35), rgba(255,255,255,0.18));
+  }
+
+  [data-storybook-preview-mode="liquid"] .liquid-badge-cluster-story .liquid-glass-badge-cluster {
+    background: linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.16)) !important;
+  }
+
+  [data-storybook-preview-mode="high-contrast"] .liquid-badge-cluster-story {
+    --badge-story-ink: #fff;
+    --badge-story-muted: #fff;
+    --badge-story-panel: #000;
+    --badge-story-border: #fff;
+  }
+
+  [data-storybook-preview-mode="high-contrast"] .liquid-badge-cluster-panel {
+    background: #000;
+    box-shadow: none;
+  }
+
+  [data-storybook-preview-mode="high-contrast"] .liquid-badge-cluster-story .liquid-glass-material,
+  [data-storybook-preview-mode="high-contrast"] .liquid-badge-cluster-story .glass-surface-primary {
+    border: 2px solid #fff !important;
+    background: #000 !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    text-shadow: none;
+  }
+`,a={render:()=>e.jsxs("div",{className:"liquid-badge-cluster-story",children:[e.jsx("style",{children:d}),e.jsxs("div",{className:"liquid-badge-cluster-panel",children:[e.jsxs("div",{children:[e.jsx("h2",{style:{margin:0,fontSize:20},children:"Review filters"}),e.jsx("p",{style:{margin:"6px 0 0"},children:"Collapsed badges retain context and reveal overflow intentionally."})]}),e.jsx(r,{items:[{id:"a",label:"Adaptive",selected:!0},{id:"b",label:"Grouped"},{id:"c",label:"Accessible"},{id:"d",label:"Motion-safe"}],maxCollapsed:2})]})]})};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: () => <div className="liquid-badge-cluster-story">
+      <style>{badgeClusterStoryCss}</style>
+      <div className="liquid-badge-cluster-panel">
+        <div>
+          <h2 style={{
+          margin: 0,
+          fontSize: 20
+        }}>Review filters</h2>
+          <p style={{
+          margin: "6px 0 0"
+        }}>Collapsed badges retain context and reveal overflow intentionally.</p>
+        </div>
+        <LiquidGlassBadgeCluster items={[{
+        id: "a",
+        label: "Adaptive",
+        selected: true
+      }, {
+        id: "b",
+        label: "Grouped"
+      }, {
+        id: "c",
+        label: "Accessible"
+      }, {
+        id: "d",
+        label: "Motion-safe"
+      }]} maxCollapsed={2} />
+      </div>
+    </div>
+}`,...a.parameters?.docs?.source}}};const b=["Collapsed"];export{a as Collapsed,b as __namedExportsOrder,n as default};

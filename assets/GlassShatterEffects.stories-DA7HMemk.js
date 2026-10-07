@@ -1,0 +1,28 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./GlassShatterEffects.r3f-DQ-kBCgx.js","./iframe-Cqi-9gHA.js","./preload-helper-PPVm8Dsz.js","./iframe-D_dsP_4R.css","./react-three-fiber.esm-BQGxF_rv.js","./index-CWG1rEj-.js","./components-D_brxh8E.js","./random-B9-1h0DP.js"])))=>i.map(i=>d[i]);
+import{r as d,j as e,c as o}from"./iframe-Cqi-9gHA.js";import{_ as m}from"./preload-helper-PPVm8Dsz.js";import{a as p}from"./reactVersion-B0utRS_d.js";let c=null;function r(i){const[a,u]=d.useState(c);if(d.useEffect(()=>{let s=!1;if(p())return a||m(()=>import("./GlassShatterEffects.r3f-DQ-kBCgx.js"),__vite__mapDeps([0,1,2,3,4,5,6,7]),import.meta.url).then(t=>{if(s)return;const l=t.GlassShatterEffectsR3F||t.default;c=l,u(()=>l)}).catch(()=>{}),()=>{s=!0}},[a]),!a){const{className:s,children:t,trigger:l="click",...f}=i;return e.jsx("div",{className:o("glass-shatter-effects glass-relative glass-overflow-hidden",s),style:{position:"relative",cursor:l==="click"?"pointer":"default"},...f,children:e.jsx("div",{className:o("content glass-transition-opacity glass-duration-300","glass-opacity-100"),children:t})})}return e.jsx(a,{...i})}try{r.displayName="GlassShatterEffects",r.__docgenInfo={description:"",displayName:"GlassShatterEffects",props:{className:{defaultValue:null,description:"",name:"className",required:!1,type:{name:"string | undefined"}},trigger:{defaultValue:null,description:"",name:"trigger",required:!1,type:{name:"enum",value:[{value:"undefined"},{value:'"auto"'},{value:'"manual"'},{value:'"hover"'},{value:'"click"'}]}},duration:{defaultValue:null,description:"",name:"duration",required:!1,type:{name:"number | undefined"}},intensity:{defaultValue:null,description:"",name:"intensity",required:!1,type:{name:"number | undefined"}},shardCount:{defaultValue:null,description:"",name:"shardCount",required:!1,type:{name:"number | undefined"}},autoReform:{defaultValue:null,description:"",name:"autoReform",required:!1,type:{name:"boolean | undefined"}},reformDelay:{defaultValue:null,description:"",name:"reformDelay",required:!1,type:{name:"number | undefined"}},onShatter:{defaultValue:null,description:"",name:"onShatter",required:!1,type:{name:"(() => void) | undefined"}},onReform:{defaultValue:null,description:"",name:"onReform",required:!1,type:{name:"(() => void) | undefined"}},disabled:{defaultValue:null,description:"",name:"disabled",required:!1,type:{name:"boolean | undefined"}},showControls:{defaultValue:null,description:"",name:"showControls",required:!1,type:{name:"boolean | undefined"}},seed:{defaultValue:null,description:"",name:"seed",required:!1,type:{name:"string | number | undefined"}}}}}catch{}const b={title:"Effects + Advanced/Glass Shatter Effects",component:r,parameters:{layout:"fullscreen",previewSurface:"app",docs:{description:{component:"The actual GlassShatterEffects export in a deterministic manual-trigger state. Its compatibility fallback remains visible without a surrogate certification surface."}}},tags:["autodocs"]},g={alignItems:"center",background:"radial-gradient(circle at 20% 14%, rgba(255, 255, 255, 0.98), transparent 35%), radial-gradient(circle at 80% 82%, rgba(148, 163, 184, 0.2), transparent 32%), linear-gradient(145deg, #dce3ea 0%, #f8fafc 52%, #e2e8f0 100%)",boxSizing:"border-box",display:"flex",justifyContent:"center",minHeight:"100dvh",padding:"clamp(20px, 5vw, 64px)",width:"100%"},n={name:"GlassShatterEffects",render:()=>e.jsx("main",{"data-bg":"light",style:g,children:e.jsx("div",{style:{minWidth:0,width:"min(100%, 760px)"},children:e.jsx(r,{className:"glass-foundation-complete glass-bg-black/20 glass-w-full glass-h-96 glass-radius-2xl glass-shadow-soft-xl",trigger:"manual",children:e.jsx("article",{className:"glass-flex glass-h-full glass-items-center glass-p-8",children:e.jsxs("div",{className:"glass-space-y-4",children:[e.jsx("p",{className:"glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-tertiary",children:"Material fracture"}),e.jsx("h2",{className:"glass-text-3xl glass-font-semibold glass-text-primary",children:"GlassShatterEffects"}),e.jsx("p",{className:"glass-text-base glass-leading-relaxed glass-text-secondary",children:"The public effect wrapper is mounted directly in a stable manual state, preserving the authored content boundary for responsive inspection."})]})})})})})};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`{
+  name: "GlassShatterEffects",
+  render: () => <main data-bg="light" style={stageStyle}>
+      <div style={{
+      minWidth: 0,
+      width: "min(100%, 760px)"
+    }}>
+        <GlassShatterEffectsComponent className="glass-foundation-complete glass-bg-black/20 glass-w-full glass-h-96 glass-radius-2xl glass-shadow-soft-xl" trigger="manual">
+          <article className="glass-flex glass-h-full glass-items-center glass-p-8">
+            <div className="glass-space-y-4">
+              <p className="glass-text-xs glass-font-semibold glass-uppercase glass-tracking-wide glass-text-tertiary">
+                Material fracture
+              </p>
+              <h2 className="glass-text-3xl glass-font-semibold glass-text-primary">
+                GlassShatterEffects
+              </h2>
+              <p className="glass-text-base glass-leading-relaxed glass-text-secondary">
+                The public effect wrapper is mounted directly in a stable manual
+                state, preserving the authored content boundary for responsive
+                inspection.
+              </p>
+            </div>
+          </article>
+        </GlassShatterEffectsComponent>
+      </div>
+    </main>
+}`,...n.parameters?.docs?.source}}};const v=["GlassShatterEffects"];export{n as GlassShatterEffects,v as __namedExportsOrder,b as default};
