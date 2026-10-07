@@ -31,6 +31,9 @@ export type { Tier };
 /** Component-internal size class (D-07): never a public prop; maps to thickness in resolveRole. */
 export type SizeClass = 'control' | 'bar' | 'panel' | 'sheet';
 
+/** SVG lens-map filter id (MAT-127): `ag-lens-<shape>-<sizeclass>`; 'sheet' is never present. */
+export type LensId = `ag-lens-${Shape}-${'control' | 'bar' | 'panel'}`;
+
 /** CSS length literal used inside a MaterialSpec (compiled to token references). */
 export type CssLength = `${number}px`;
 /** OKLCH colour string, e.g. `oklch(96% 0.01 260)`. */

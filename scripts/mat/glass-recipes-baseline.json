@@ -1,5 +1,5 @@
 {
-  "N": 1,
+  "N": 2,
   "noRegression": [],
-  "note": "MAT-102 baseline on next: 1 outside emitter (src/theme/materials.ts); src/material/** emits none yet. On release/4.x the same metric is expected ~121."
+  "note": "N=2 at next-mat lane head: src/theme/materials.ts (4.x emitter, removed by MAT-179 gate) + src/material/css (the canonical recipe). On release/4.x N was ~121."
 }

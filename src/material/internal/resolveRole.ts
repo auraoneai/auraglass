@@ -1,0 +1,76 @@
+/* MAT-134 — pure role→attribute resolution (§4.10 emission rules).
+   No DOM, no React, no side effects. Not exported from index.ts. */
+import type { MaterialRole, Layer, Thickness } from '../../contracts/material';
+import type { SizeClass } from '../types';
+
+/** sizeClass -> thickness (D-07 internal mapping) */
+const SIZECLASS_TO_THICKNESS: Record<SizeClass, Thickness> = {
+  control: 'thin',
+  bar: 'regular',
+  panel: 'regular',
+  sheet: 'thick',
+};
+
+/** thickness -> sizeClass for the refraction map key */
+const THICKNESS_TO_SIZECLASS: Record<Thickness, SizeClass> = {
+  thin: 'control',
+  regular: 'bar',
+  thick: 'panel',
+};
+
+export interface ResolvedAttributes {
+  'data-ag-surface': '';
+  'data-ag-layer': Layer;
+  'data-ag-variant'?: string;
+  'data-ag-thickness'?: Thickness;
+  'data-ag-content'?: string;
+  'data-ag-shape'?: string;
+  'data-ag-interactive'?: '';
+  'data-ag-prominent'?: '';
+  'data-ag-refraction'?: '';
+  'data-ag-allow-nested'?: '';
+  'data-ag-sizeclass'?: SizeClass;
+  'data-ag-radius'?: string;
+}
+
+export interface ResolvedRole extends MaterialRole {
+  sizeClass?: SizeClass;
+}
+
+export function resolveRole(role: MaterialRole = {}, sizeClass?: SizeClass): ResolvedAttributes {
+  const layer: Layer = role.layer ?? 'chrome';
+  const out: Record<string, string> = {
+    'data-ag-surface': '',
+    'data-ag-layer': layer,
+  };
+
+  if (layer === 'content') {
+    // variant is omitted on content unless the caller sets it explicitly (S-05)
+    if (role.variant !== undefined) out['data-ag-variant'] = role.variant;
+    out['data-ag-content'] = role.content ?? 'content-raised';
+  } else {
+    out['data-ag-variant'] = role.variant ?? 'regular';
+  }
+
+  // thickness resolution: explicit prop > sizeClass map > 'regular'. The
+  // attribute is emitted only when explicit; ladder cells default to regular.
+  const thickness: Thickness = role.thickness
+    ?? (sizeClass !== undefined ? SIZECLASS_TO_THICKNESS[sizeClass] : undefined!)
+    ?? 'regular';
+  if (role.thickness !== undefined) out['data-ag-thickness'] = thickness;
+
+  // shape default 'fixed' is emitted only when explicit
+  if (role.shape !== undefined) out['data-ag-shape'] = role.shape;
+
+  const isSheet = sizeClass === 'sheet';
+  if (role.interactive === true) out['data-ag-interactive'] = '';
+  if (role.prominent === true) out['data-ag-prominent'] = '';
+  if (role.refraction === true && !isSheet) {
+    out['data-ag-refraction'] = '';
+    out['data-ag-sizeclass'] = sizeClass ?? THICKNESS_TO_SIZECLASS[thickness] as SizeClass;
+  }
+  if (role.allowNested === true) out['data-ag-allow-nested'] = '';
+  if (role.fallbackRadius !== undefined) out['data-ag-radius'] = role.fallbackRadius;
+
+  return out as unknown as ResolvedAttributes;
+}

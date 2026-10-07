@@ -46,6 +46,33 @@ function* walk(dir) {
   }
 }
 
+/* Comments are not runtime usage: a doc sentence mentioning WebGL must not trip
+   the gate (MAT-153 requires that TSDoc). Strip block + line comments while
+   preserving line numbers and quoted strings (a string literal containing a
+   pattern is still a real usage). */
+function stripComments(src) {
+  const out = [];
+  let inBlock = false, inStr = null, i = 0;
+  while (i < src.length) {
+    const c = src[i], n = src[i + 1];
+    if (inBlock) {
+      if (c === '*' && n === '/') { inBlock = false; i += 2; continue; }
+      out.push(c === '\n' ? '\n' : ' '); i += 1; continue;
+    }
+    if (inStr) {
+      out.push(c);
+      if (c === '\\') { out.push(n ?? ''); i += 2; continue; }
+      if (c === inStr) inStr = null;
+      i += 1; continue;
+    }
+    if (c === '/' && n === '*') { inBlock = true; out.push('  '); i += 2; continue; }
+    if (c === '/' && n === '/') { while (i < src.length && src[i] !== '\n') { out.push(' '); i += 1; } continue; }
+    if (c === '"' || c === "'" || c === '`') inStr = c;
+    out.push(c); i += 1;
+  }
+  return out.join('');
+}
+
 export function scan(root) {
   const base = join(root, 'src/material');
   const hits = [];
@@ -55,7 +82,7 @@ export function scan(root) {
     const leaf = rel.split('/').pop() ?? '';
     const isTierHook = leaf === 'useMaterialTier.ts' || leaf === 'useMaterialTier.tsx';
     const isPureModule = leaf === 'materialProps.ts' || rel.includes('/internal/');
-    const lines = readFileSync(file, 'utf8').split('\n');
+    const lines = stripComments(readFileSync(file, 'utf8')).split('\n');
     lines.forEach((line, i) => {
       for (const p of GLOBAL_PATTERNS) {
         if (p.re.test(line)) hits.push({ file: rel, line: i + 1, label: p.label });

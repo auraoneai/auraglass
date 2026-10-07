@@ -1,0 +1,56 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* lens.css — enhanced-tier SVG edge refraction (REQ-MAT-36, MAT-126/127).
+   Eligibility: ONE selector — chromium engine + LensDefs mounted + refraction
+   attr + chrome layer. The filter is feImage(map) -> feDisplacementMap, scale
+   set statically per thickness (12/16/24px bezel; E-10), masked to the bezel
+   band; nothing writes scale at runtime. Never: tier standard/lightweight,
+   transparency tinted/solid, motion none, reduced transparency, contrast more,
+   forced colours, sheet size class. Without LensDefs or on WebKit/Gecko the
+   selector never matches — output is pixel-equal to standard. */
+@layer ag.material {
+
+  /* 9 maps keyed on [shape][sizeclass]; sheet is never present */
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="fixed"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-fixed-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="fixed"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-fixed-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="fixed"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-fixed-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-capsule-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-capsule-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="capsule"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-capsule-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="control"]::before { backdrop-filter: url(#ag-lens-concentric-control) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="bar"]::before { backdrop-filter: url(#ag-lens-concentric-bar) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+  :root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer="chrome"][data-ag-shape="concentric"][data-ag-sizeclass="panel"]::before { backdrop-filter: url(#ag-lens-concentric-panel) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); }
+
+  /* ---- exclusions: never refract under these rungs ---- */
+  [data-ag-tier="standard"] .ag-surface[data-ag-refraction]::before,
+  [data-ag-tier="lightweight"] .ag-surface[data-ag-refraction]::before,
+  .ag-surface[data-ag-tier="standard"]::before,
+  .ag-surface[data-ag-tier="lightweight"]::before {
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+  }
+  [data-ag-transparency="tinted"] .ag-surface[data-ag-refraction]::before,
+  [data-ag-transparency="solid"] .ag-surface[data-ag-refraction]::before,
+  .ag-surface[data-ag-transparency="tinted"]::before,
+  .ag-surface[data-ag-transparency="solid"]::before {
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+  }
+  [data-ag-motion="none"] .ag-surface[data-ag-refraction]::before {
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    :root:not([data-ag-transparency]) .ag-surface[data-ag-refraction]::before {
+      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    }
+  }
+  @media (prefers-contrast: more) {
+    .ag-surface[data-ag-refraction]::before {
+      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-surface[data-ag-refraction]::before {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}

@@ -1,0 +1,108 @@
+#!/usr/bin/env node
+/* MAT-182 — deterministic generator for the 9 convex-squircle displacement
+   maps consumed by LensDefs (REQ-MAT-58 interim, SC-37/E-10).
+   Output: src/material/assets/lens/ag-lens-<shape>-<sizeclass>.png, 64x64,
+   <= 3 KB each, R/G channels = unit outward normal * edge ramp^(1.5),
+   B = 128 (unused), A = 255. Pure math, no noise, no feTurbulence.
+
+   Geometry: a superellipse bezel band; within the bezel pixels displace along
+   the outward normal, ramp 1 at the physical edge -> 0 at the inner band edge
+   (convex profile exponent n = 1.5). bezel = 12px (control), 16px (bar),
+   24px (panel) — refraction.bezel.{thin,regular,thick}. Displacement scale is
+   STATIC per id in the SVG filter (never written at runtime).
+
+   Shape handling: capsule = ellipse (m=2); fixed = squircle (m=3);
+   concentric = squircle with a tighter corner reach (m=3, reach 0.92).
+
+   Usage: node scripts/tokens/lens-maps.mjs [--out-dir <dir>] [--check] */
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+
+const require = createRequire(import.meta.url);
+const { PNG } = require('pngjs');
+
+export const SIZE = 64;
+export const RAMP_EXPONENT = 1.5;
+export const BEZEL = { control: 12, bar: 16, panel: 24 };
+export const SHAPES = ['fixed', 'capsule', 'concentric'];
+export const SIZECLASSES = ['control', 'bar', 'panel'];
+
+const SHAPE_PARAMS = {
+  fixed: { m: 3, reach: 0.72 },
+  capsule: { m: 2, reach: 0.5 },
+  concentric: { m: 3, reach: 0.6 },
+};
+
+/** Signed distance to the bezel band: ~0 at the band midpoint. */
+function edgeDistance(x, y, shape) {
+  const { m, reach } = SHAPE_PARAMS[shape];
+  // superellipse norm with corner reach: (|x*reach|^m + |y*reach|^m)^(1/m)
+  const v = (Math.abs(x) * reach) ** m + (Math.abs(y) * reach) ** m;
+  return v ** (1 / m) - reach; // negative inside, ~0 at band edge
+}
+
+export function makeMap(shape, sizeClass) {
+  const bezel = BEZEL[sizeClass];
+  const png = new PNG({ width: SIZE, height: SIZE });
+  const half = SIZE / 2;
+  const bezelUnit = bezel / half; // bezel depth in unit coords
+  for (let y = 0; y < SIZE; y += 1) {
+    for (let x = 0; x < SIZE; x += 1) {
+      const ux = (x - half + 0.5) / half;
+      const uy = (y - half + 0.5) / half;
+      const d = edgeDistance(ux, uy, shape);
+      const o = (y * SIZE + x) * 4;
+      const depth = Math.max(0, -d); // 0 at edge, grows inward
+      let nx = 0, ny = 0;
+      if (depth > 0 && depth < bezelUnit) {
+        const e = 0.01;
+        const gx = edgeDistance(ux + e, uy, shape) - edgeDistance(ux - e, uy, shape);
+        const gy = edgeDistance(ux, uy + e, shape) - edgeDistance(ux, uy - e, shape);
+        const len = Math.hypot(gx, gy) || 1;
+        const ramp = (1 - depth / bezelUnit) ** RAMP_EXPONENT;
+        nx = (gx / len) * ramp;
+        ny = (gy / len) * ramp;
+      }
+      // quantise to 1/8 steps for compressibility under the 3 KB cap
+      png.data[o] = Math.round((128 + nx * 127) / 2) * 2;
+      png.data[o + 1] = Math.round((128 + ny * 127) / 2) * 2;
+      png.data[o + 2] = 128;
+      png.data[o + 3] = 255;
+    }
+  }
+  return png;
+}
+
+const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+
+if (isMain) {
+  const args = process.argv.slice(2);
+  const opt = (name, fallback) => {
+    const i = args.indexOf(name);
+    return i >= 0 ? args[i + 1] : fallback;
+  };
+  const outDir = resolve(opt('--out-dir', 'src/material/assets/lens'));
+  const check = args.includes('--check');
+  mkdirSync(outDir, { recursive: true });
+  let wrote = 0;
+  for (const shape of SHAPES) {
+    for (const sc of SIZECLASSES) {
+      const id = `ag-lens-${shape}-${sc}`;
+      const buf = PNG.sync.write(makeMap(shape, sc), { deflateLevel: 9 });
+      const file = join(outDir, `${id}.png`);
+      if (check) {
+        if (!existsSync(file) || !readFileSync(file).equals(buf)) {
+          console.error(`[lens-maps] drift: ${id}.png`);
+          process.exit(1);
+        }
+        continue;
+      }
+      writeFileSync(file, buf);
+      wrote += 1;
+      console.log(`[lens-maps] ${id}.png (${buf.length} B)`);
+    }
+  }
+  if (check) console.log('[lens-maps] check OK');
+  else console.log(`[lens-maps] wrote ${wrote} maps to ${outDir}`);
+}
