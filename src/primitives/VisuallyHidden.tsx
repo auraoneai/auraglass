@@ -1,16 +1,26 @@
-/* @ag-contract-seed: S-34. Owner CMP replaces internals; export frozen. */
+/* VisuallyHidden (CMP-033): <span data-ag-part="root" class="ag-visually-hidden">,
+   server-safe, render prop, focusable variant un-hides on :focus-visible.
+   Absorbs src/primitives/focus/ScreenReader.tsx. No asChild (use render). */
 import * as React from 'react';
+import { renderElement } from '../foundation/index';
+import type { RenderProp } from '../contracts/components';
+import './VisuallyHidden.css';
 
-export const VisuallyHidden = ({ children }: { children?: React.ReactNode }) => (
-  <span
-    data-ag-seed=""
-    data-ag-part="root"
-    style={{
-      position: 'absolute', width: 1, height: 1, padding: 0, margin: -1,
-      overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0,
-    }}
-  >
-    {children}
-  </span>
-);
-VisuallyHidden.displayName = 'Seed(visually-hidden)';
+export interface VisuallyHiddenProps extends React.HTMLAttributes<HTMLSpanElement> {
+  render?: RenderProp<React.HTMLAttributes<HTMLSpanElement>>;
+  /** When true the element becomes visible on :focus-visible (skip links). */
+  focusable?: boolean;
+  ref?: React.Ref<HTMLSpanElement>;
+}
+
+export function VisuallyHidden({ render, focusable, ...props }: VisuallyHiddenProps): React.ReactElement {
+  const spanProps = {
+    'data-ag-part': 'root',
+    ...(focusable ? { 'data-ag-focusable': '' } : {}),
+    ...props,
+    className: ['ag-visually-hidden', props.className].filter(Boolean).join(' '),
+  };
+  return renderElement(render, <span />, spanProps);
+}
+
+VisuallyHidden.displayName = 'VisuallyHidden';

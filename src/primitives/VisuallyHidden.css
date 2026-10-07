@@ -1,0 +1,24 @@
+/* VisuallyHidden (CMP-033): hides content visually while keeping it in the a11y
+   tree. The focusable variant un-hides on :focus-visible (skip-link pattern). */
+@layer ag.components {
+  .ag-visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+    padding: 0;
+  }
+  .ag-visually-hidden[data-ag-focusable]:focus-visible {
+    position: static;
+    inline-size: auto;
+    block-size: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+}
