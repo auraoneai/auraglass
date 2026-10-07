@@ -11,6 +11,14 @@ const w1 = {};
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
+// W2 builtin-rule assertions (SURF-137/138): the strict map only emits
+// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks and
+// no-restricted-properties (toLocale* ban) cannot be expressed here.
+// Coverage: rules-of-hooks is 'error' over '**/*.{ts,tsx,js,jsx,mjs,cjs}' in
+// eslint.config.js — asserted for SURF paths by
+// tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
+// fixture; the toLocale* ban is enforced repo-wide by
+// tests/lint/surf/locale-guard.test.ts (config-level form is contract-owned).
 const w2 = {};
 // --- lane W2 end ---
 

@@ -37,6 +37,14 @@
     {
       "name": "surf:visual",
       "testDir": "tests/visual/surf"
+    },
+    {
+      "name": "surf:cert-media-sampling",
+      "testDir": "tests/e2e/surf"
+    },
+    {
+      "name": "surf:cert-rtl",
+      "testDir": "tests/a11y/apg/surf"
     }
   ],
   "W3": [],

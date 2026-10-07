@@ -7,7 +7,10 @@ import * as React from 'react';
 import { ChartFrame } from '../data/chart-frame/ChartFrame';
 import type { ChartContext } from '../data/chart-frame/types';
 import { ChartTooltip } from './ChartTooltip';
-import { Area, Bar, Donut, Line } from './marks/marks';
+import { Area } from './marks/Area';
+import { Bar } from './marks/Bar';
+import { Donut } from './marks/Donut';
+import { Line } from './marks/Line';
 import type { ChartProps, PlotProps } from './types';
 
 const VIEW_W = 640;
