@@ -4,6 +4,10 @@ Source PRD: `docs/auraglass-5/prd/AURAGLASS_PRODUCT_SURFACES_PRD.md` (PRD-4, key
 
 SURF ships flagships 14 and 22–44: `./app-shell`, root navigation (`Tabs`, `TabBar`, `Breadcrumbs`, `Pagination`, `Command`, `CommandPalette`, `SourceTransition`, `Timeline`, `ActivityFeed`), `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./three` (empty at 5.0), 5.1 `./charts`, `@auraglass/labs`, the SURF registry blocks/items and the capability ledger. It is split into **five internal lanes that start on day 0 and run at the same time**. No lane waits for another lane, and the stream waits for no other PRD.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). Every SURF lane starts on day 0; no other PRD, stream or task has to finish first.
+
 ## Lane table
 
 | Prompt | Lane | Scope | REQ-SURF | AC-SURF (primary) | Tasks |

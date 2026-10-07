@@ -6,6 +6,10 @@ QUAL owns the certification system (8 licensed scenes, lanes L1-L14, the lane ru
 
 It is split into **8 internal lanes that start on day 0 and run at the same time**. Lanes own disjoint paths, `depends_on` never crosses a lane, and the stream waits for no other PRD.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). Every QUAL lane starts on day 0; no other PRD, stream or task has to finish first.
+
 ## Lane table
 
 | Prompt | Lane | Owned paths (PRD §20) | Tasks | REQ (primary) |

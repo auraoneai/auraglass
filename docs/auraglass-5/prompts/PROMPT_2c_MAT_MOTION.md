@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_2_MAT.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other MAT lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside MAT):** `src/motion/**` (except `tokens.generated.ts`), `scripts/mat/verify-motion-css.mjs`, `lint/rules/mat/motion-*.cjs`, `tests/lint/mat/motion-*.test.ts`, `tests/motion/**`, `tests/{e2e,perf/browser}/mat/motion/**`

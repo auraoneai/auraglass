@@ -6,7 +6,7 @@
   "system": "ci/root",
   "file": ".gitlab-ci.yml",
   "action": "INFRA",
-  "description": "Verify the C0 root pipeline is byte-identical to contract §4.13.3 on main, next and release/4.x; set only the allowed values: AG_NODE_IMAGE pinned to a node:22-bookworm@sha256 digest, AG_PLAYWRIGHT_IMAGE mcr.microsoft.com/playwright:v1.63.0-noble (equal to the @playwright/test pin), AG_NPM_VERSION an exact npm >= 11.5.1. Any other change is a contract PR (replaces archived TRUST-010/TRUST-062 GitHub job additions). [REQ-PLAT-01]",
+  "description": "Verify the C0 root pipeline is byte-identical to contract §4.13.3 on main, next and release/4.x; set only the allowed values: AG_NODE_IMAGE pinned to a node:22-bookworm@sha256 digest, AG_PLAYWRIGHT_IMAGE mcr.microsoft.com/playwright:v1.63.0-noble (equal to the @playwright/test pin), AG_NPM_VERSION an exact npm >= 11.5.1. Any other change is a contract PR (replaces archived TRUST-010/TRUST-062 GitHub job additions). [v1:REQ-PLAT-01]",
   "depends_on": [],
   "contract_seams": [
    "S-53"
@@ -467,7 +467,7 @@
   "system": "ci/status",
   "file": "NEW:scripts/ci/gitlab-status.mjs",
   "action": "CREATE",
-  "description": "gitlab-status.mjs --sha <sha> [--wait <min>]: GET https://gitlab.com/api/v4/projects/87152036/pipelines?sha=<sha> without a token (or glab ci status when an existing glab login exists), print pipeline URL, status and each non-allow_failure failed job (jobs API), exit 0 only on success; poll with --wait. Replaces archived 'gh run list/watch'. [REQ-PLAT-06]",
+  "description": "gitlab-status.mjs --sha <sha> [--wait <min>]: GET https://gitlab.com/api/v4/projects/87152036/pipelines?sha=<sha> without a token (or glab ci status when an existing glab login exists), print pipeline URL, status and each non-allow_failure failed job (jobs API), exit 0 only on success; poll with --wait. Replaces archived 'gh run list/watch'. [v1:REQ-PLAT-06]",
   "depends_on": [],
   "contract_seams": [
    "S-53"
@@ -945,7 +945,7 @@
   "system": "ci/dryrun",
   "file": "NEW:scripts/release/dry-run.mjs",
   "action": "CREATE",
-  "description": "Local and CI rehearsal: pack + PLAT gates + npm publish --dry-run, never a real publish. --tag <tag> mode (run by plat:package:pack on release scope, so plat:publish:npm cannot run when it fails): tag equals package.json version and the first ## [X.Y.Z] heading of CHANGELOG.md; tagged commit is an ancestor of origin/release/4.x (v4.*), origin/next (v5 pre-release) or origin/main (v5.x.y); re-runs classify-change.mjs against the previous tag on the same line; runs verify-release-ledger.mjs; runs the archived publish-npm.yml checks (integration smoke result present, verify-pack). [REQ-PLAT-12, REQ-PLAT-13]",
+  "description": "Local and CI rehearsal: pack + PLAT gates + npm publish --dry-run, never a real publish. --tag <tag> mode (run by plat:package:pack on release scope, so plat:publish:npm cannot run when it fails): tag equals package.json version and the first ## [X.Y.Z] heading of CHANGELOG.md; tagged commit is an ancestor of origin/release/4.x (v4.*), origin/next (v5 pre-release) or origin/main (v5.x.y); re-runs classify-change.mjs against the previous tag on the same line; runs verify-release-ledger.mjs; runs the archived publish-npm.yml checks (integration smoke result present, verify-pack). [v1:REQ-PLAT-12, v1:REQ-PLAT-13]",
   "depends_on": [],
   "contract_seams": [
    "S-53"
@@ -2079,7 +2079,7 @@
   "system": "4x/hooks-lint",
   "file": "src/components/button/GlassButton.tsx; src/components/layout/GlassContainer.tsx; src/components/input/GlassInput.tsx",
   "action": "MODIFY",
-  "description": "Hoist all 109 conditional hook calls in 24 files and every other rules-of-hooks violation reported by CI (count recorded in the PR): const x = useX(args); const v = cond ? x : undefined; provider hooks through the useOptional* readers. Batches: button/toggle/fab; layout/header/modal family; interactive/data/charts/a11y utils (archived TRUST-030..032 file lists). [REQ-PLAT-44]",
+  "description": "Hoist all 109 conditional hook calls in 24 files and every other rules-of-hooks violation reported by CI (count recorded in the PR): const x = useX(args); const v = cond ? x : undefined; provider hooks through the useOptional* readers. Batches: button/toggle/fab; layout/header/modal family; interactive/data/charts/a11y utils (archived TRUST-030..032 file lists). [v1:REQ-PLAT-44]",
   "depends_on": [
    "PLAT-085"
   ],
@@ -2372,13 +2372,13 @@
   "system": "4x/motion-batch2",
   "file": "src/components/interactive/GlassFacetSearch.tsx",
   "action": "MODIFY",
-  "description": "Batch 2: the remaining files (interactive, social, mobile, voice, animations; archived TRUST-043 list) with the same rewrite. [REQ-PLAT-48]",
+  "description": "Batch 2: the remaining files (interactive, social, mobile, voice, animations; archived TRUST-043 list) with the same rewrite. [v1:REQ-PLAT-48]",
   "depends_on": [
    "PLAT-097"
   ],
   "contract_seams": [],
   "priority": "P0",
-  "test": "both rg patterns of archived REQ-TRUST-28 return 0",
+  "test": "both rg patterns of archived v1:REQ-TRUST-28 return 0",
   "storybook": "n/a",
   "acceptance": "AC-PLAT-06",
   "reqs": [
@@ -4021,7 +4021,7 @@
   "system": "release/policy",
   "file": "NEW:scripts/release/lib/policy.mjs",
   "action": "CREATE",
-  "description": "The only code copy of the §4.4 taxonomy: classes C-I, C-I (visual fix), C-E, C-D, C-D (install-level), C-B; allowed classes per target (4.x patch, 4.x minor <= 4.3, 4.4 late finds, next pre-release, 5.x patch, 5.x minor); marker rules (! or BREAKING CHANGE: below C-B fails, C-B without ! fails, any ! on release/4.x fails); changeset bump >= class. Also the single paths module for scripts/release/* (archived REL-001). Line-neutral: lands identically on release/4.x. [REQ-PLAT-18]",
+  "description": "The only code copy of the §4.4 taxonomy: classes C-I, C-I (visual fix), C-E, C-D, C-D (install-level), C-B; allowed classes per target (4.x patch, 4.x minor <= 4.3, 4.4 late finds, next pre-release, 5.x patch, 5.x minor); marker rules (! or BREAKING CHANGE: below C-B fails, C-B without ! fails, any ! on release/4.x fails); changeset bump >= class. Also the single paths module for scripts/release/* (archived REL-001). Line-neutral: lands identically on release/4.x. [v1:REQ-PLAT-18]",
   "depends_on": [],
   "contract_seams": [],
   "priority": "P0",
@@ -5212,7 +5212,7 @@
   "system": "release/dispositions",
   "file": "NEW:scripts/removal/gen-component-dispositions.mjs",
   "action": "CREATE",
-  "description": "--inventory docs/auraglass-5/component-inventory.json --check: map all 496 components (500 records minus 4 notes) to exactly one destination (flagship, core, compat, labs, registry, removed) with owner stream, 5.0 target and codemod id using the archived FND §4.6 family map and §4.7 reconciliation R-01..R-18 (GlassHoverCard -> compat over Popover openOnHover; GlassTimelineRail and GlassAdvancedDataViz -> removed); write docs/inventory/component-dispositions.md; fail with 'UNMAPPED records' on any gap. [REQ-PLAT-80]",
+  "description": "--inventory docs/auraglass-5/component-inventory.json --check: map all 496 components (500 records minus 4 notes) to exactly one destination (flagship, core, compat, labs, registry, removed) with owner stream, 5.0 target and codemod id using the archived FND §4.6 family map and §4.7 reconciliation R-01..R-18 (GlassHoverCard -> compat over Popover openOnHover; GlassTimelineRail and GlassAdvancedDataViz -> removed); write docs/inventory/component-dispositions.md; fail with 'UNMAPPED records' on any gap. [v1:REQ-PLAT-80]",
   "depends_on": [],
   "contract_seams": [],
   "priority": "P0",
@@ -5907,7 +5907,7 @@
   "system": "build/skeleton",
   "file": "n/a (plat:build:dist + plat:package:pack on seeds)",
   "action": "TEST",
-  "description": "Skeleton build on the C0 seeds ('.', './tokens', './material', one CMP seed) with every PLAT artifact gate green (archived AC-PKG-16); pipeline URL recorded in build/README.md. This is PLAT's day-0 proof that gates run before real components exist. [REQ-PLAT-64]",
+  "description": "Skeleton build on the C0 seeds ('.', './tokens', './material', one CMP seed) with every PLAT artifact gate green (archived v1:AC-PKG-16); pipeline URL recorded in build/README.md. This is PLAT's day-0 proof that gates run before real components exist. [v1:REQ-PLAT-64]",
   "depends_on": [
    "PLAT-247"
   ],

@@ -6,6 +6,10 @@ CMP owns the Base UI wrapping pattern (`src/foundation/**`), the six KEEP primit
 
 It is split into **9 internal lanes that start on day 0 and run at the same time**. Lanes own disjoint paths, `depends_on` never crosses a lane, and the stream waits for no other PRD.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). Every CMP lane starts on day 0; no other PRD, stream or task has to finish first.
+
 ## Lane table
 
 | Prompt | Lane | Owned paths (PRD §20) | Tasks | REQ (primary) |

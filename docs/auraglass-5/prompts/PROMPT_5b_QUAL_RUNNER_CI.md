@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_5_QUAL.md` (its "Common rules" ar
 
 This lane starts on **day 0**, runs at the same time as every other QUAL lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside QUAL):** `certification/run.mjs`, `lanes.config.ts`, `matrix.config.ts`, `certification/runner/**`, `ci/qual.gitlab-ci.yml`, `ci/qual/**`, `packages/qa/src/{resolve,inventory,matrix}/**`
@@ -110,7 +114,7 @@ Read the full rows with `node -e 'for (const t of require("./docs/auraglass-5/ta
 | QUAL-083 | MODIFY | `jest.config.js` | SC-30/SC-29: add <rootDir>/tests/storybook/ and <rootDir>/tests/showcase/ to the Jest roots/testMatch of PRD-QA's jest.config.js (owner QA-003) so the *.test.ts(x) … | QUAL-007 | REQ-QUAL-10 |
 | QUAL-084 | MODIFY | `jest.config.js` | Add '<rootDir>/tests/perf/browser/', '<rootDir>/tests/perf/harness/self-test.spec.ts', '<rootDir>/tests/perf/devices/' to testPathIgnorePatterns so Jest (testMatch … | QUAL-007 |  |
 | QUAL-085 | MODIFY | `fragments/size-budgets/qual.ts` | REQ-PERF-01: add rows (integer limitBytesGz, min+gz level 9, React and optional peers external) { AppShell } app-shell 15360; { Sparkline } data 3072; { DatePicker } … |  | REQ-QUAL-10 |
-| QUAL-086 | MODIFY | `playwright.config.ts` | If PRD-19 has not: add project perf (testDir ./tests/perf, testMatch /(browser\/.*\|harness\/self-test)\.spec\.ts$/, retries 0) and testIgnore /tests\/perf\// on the six … | QUAL-084, QUAL-007, QUAL-016 |  |
+| QUAL-086 | MODIFY | `playwright.config.ts` | If QUAL-owned playwright.config.ts lacks it: add project perf (testDir ./tests/perf, testMatch /(browser\/.*\|harness\/self-test)\.spec\.ts$/, retries 0) and testIgnore … | QUAL-084, QUAL-007, QUAL-016 |  |
 | QUAL-087 | MODIFY | `ci/qual.gitlab-ci.yml` | L10 Performance inside QUAL's own lane jobs: main scope runs perf-self-test and profiles b/c/d on .ag-playwright (saas-linux-medium-amd64, AG_REMOTE_RUNNER=1, built … | QUAL-086, QUAL-029, QUAL-030 | REQ-QUAL-64 |
 | QUAL-088 | MODIFY | `fragments/lanes/qual.ts` | Register node-cold-import as a QUAL L2 lane step (fragments/lanes/qual.ts, kind node-script) that reads the packed tarball from AURAGLASS_TARBALL (plat:package:pack … |  | REQ-QUAL-47 |
 | QUAL-089 | MODIFY | `ci/qual.gitlab-ci.yml` | perf-pr-ratchet as part of qual:certify:l10 at PR scope for changes under src/** (rules: changes): GPU profile (a) from the sized .ag-gpu pool; when no GPU runner is … | QUAL-028 | REQ-QUAL-64 |

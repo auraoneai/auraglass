@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_2_MAT.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other MAT lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside MAT):** `tokens/**` (except `compat-alias-map.json` and `legacy/`), `scripts/tokens/**` (except `lens-maps.mjs`), `src/tokens/**`, `src/material/css/generated/**`, `src/motion/tokens.generated.ts`, `stylelint*`, `lint/rules/mat/no-raw-design-values.cjs`, `tests/lint/mat/no-raw-design-values.test.ts`, `fragments/literals-baseline/mat.json`, `tests/tokens/**`, `tests/a11y/contrast-matrix.test.ts`, `tests/visual/mat/tokens/**`, `src/theme/{color,createGlassTheme,createBrandTheme,createBrandGlassTheme,presets,materials}.ts` (`createBrandGlassTheme.ts` is deleted here once its compat adapter exists in lane B), `tests/theme/{presets,createGlassTheme,createBrandTheme,color}.test.ts`, `docs/{motion,design-tokens}.md` (deletion)

@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_5_QUAL.md` (its "Common rules" ar
 
 This lane starts on **day 0**, runs at the same time as every other QUAL lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside QUAL):** `.storybook/**` (except `main.ts` verbatim fields), `tsconfig.storybook.json`, `scripts/storybook/**`, `stories/qual/StartHere.mdx`, `tests/storybook/**`, `scripts/qual/lint-stories.mjs`, `tests/lint/qual/story-rules.test.ts`, `tests/e2e/qual/storybook/**`

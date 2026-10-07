@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_3_CMP.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other CMP lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside CMP):** `src/components/{button,icon-button,button-group,toolbar,toggle-group,segmented-control}/**`

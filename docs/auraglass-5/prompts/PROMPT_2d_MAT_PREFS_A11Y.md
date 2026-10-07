@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_2_MAT.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other MAT lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside MAT):** `src/theme/{index,public,AuraGlassProvider,announcer,portal}.ts(x)`, `src/theme/{preferences,script,layers,preferences-panel}/**`, `src/a11y/**`, `src/hooks/**`, `scripts/mat/{verify-preference-source,verify-a11y-css,build-prepaint-script}.mjs`, `lint/rules/mat/{no-document-escape,no-runtime-contrast}.cjs`, `tests/lint/mat/{no-document-escape,no-runtime-contrast}.test.ts`, `tests/theme/{resolve,store,usePreference,AuraGlassProvider,portal,LayerStack,announcer,AuraGlassScript,GlassPreferencesPanel}.test.ts(x)`, `tests/a11y/{css,contrast}/**`, `tests/{e2e,visual,ssr,perf/browser}/mat/a11y/**`, `tests/a11y/apg/mat/**`, `tests/a11y/manual/{scripts,records}/mat/**`

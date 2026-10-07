@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_2_MAT.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other MAT lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside MAT):** `tokens/compat-alias-map.json`, `tokens/legacy/**`, `src/styles/**` (incl. H02), `src/compat/mat/**`, `src/root/mat.ts`, `fragments/{deprecations,codemods,size-budgets,perf-budgets,lanes,playwright,css,review,side-effects,a11y-baseline}/mat*` (+ `mat/**`), `ci/mat.gitlab-ci.yml`, `ci/mat/**`, `etc/api/{material,theme,tokens,motion}.*`, `etc/api/{root,compat}.mat.api.md`, `stories/mat/**`, `apps/docs/content/mat/**`, `canaries/next16/app/mat/**`, `canaries/vite/src/mat/**`, `canaries/<app>/fixtures/mat/**`, `tests/fixtures/consumer-4x/cases/mat/**`, `tests/{rsc,types}/mat/**`, `tests/material/exports/**`, `.changeset/mat-*.md`
@@ -33,7 +37,7 @@ Read the full rows with `node -e 'for (const t of require("./docs/auraglass-5/ta
 |---|---|---|---|---|---|
 | MAT-327 | DOC | `.changeset/mat-ds.md` | Add a 4.2.0 'Changed (C-I)' entry: marketing/navigation private custom properties renamed --ag-* -> --_ag-*; the --ag-* namespace is reserved for the 5.0 public … |  | REQ-MAT-41 |
 | MAT-328 | CREATE | `NEW:tokens/legacy/4x-rendered.tokens.json` | Write NEW scripts/tokens/freeze-4x.mjs (uses the existing ts-node and transitive postcss) to extract the glass.ts:997 gradient, :1001 fill, :1030 border, the blur … |  | REQ-MAT-21 |
-| MAT-329 | MODIFY | `ci/mat.gitlab-ci.yml` | Interim, until QA L1/L4 exist: add a 'tokens' step to PKG's 'Glass Quality Gates' job (job name unchanged, SC-10): npm ci; npm run build:tokens; git diff --exit-code … |  |  |
+| MAT-329 | MODIFY | `ci/mat.gitlab-ci.yml` | Interim (MAT-owned job in ci/mat.gitlab-ci.yml, retired when QUAL lanes L1/L4 report on next; no wait): add a 'tokens' step to PKG's 'Glass Quality Gates' job (job name … |  |  |
 | MAT-330 | MODIFY | `fragments/lanes/mat.ts` | Register DS providers in QA's L4 Token contrast lane (SC-29, after QA-081): npm run build:tokens, git diff --exit-code on generated files, then … | MAT-329 | REQ-MAT-11 |
 | MAT-331 | MODIFY | `fragments/lanes/mat.ts` | L4 provider timing: fail if the full build:tokens takes > 20 s or the contrast solve > 10 s on the CI runner; print both numbers in the lane log. | MAT-330 |  |
 | MAT-332 | MODIFY | `fragments/lanes/mat.ts` | Register DS providers in QA's L1 Static lane (SC-29, after QA-078): npm run gates:tokens (undefined-vars, dead-vars, tier-skip, types-runtime, literals vs … | MAT-330 |  |

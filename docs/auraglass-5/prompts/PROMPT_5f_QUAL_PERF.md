@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_5_QUAL.md` (its "Common rules" ar
 
 This lane starts on **day 0**, runs at the same time as every other QUAL lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside QUAL):** `tests/perf/**` (QUAL), `packages/qa/src/perf/**`, `scripts/qual/{verify-css-perf.mjs,stylelint-perf/**,verify-dist-perf.mjs}`, `lint/rules/qual/**`, `stories/qual/perf/**`, `fragments/perf-budgets/qual.ts`, `certification/calibration.json`, `docs/certification/real-device-matrix.md`
@@ -63,7 +67,7 @@ Read the full rows with `node -e 'for (const t of require("./docs/auraglass-5/ta
 | QUAL-162 | MODIFY | `lint/rules/qual/` | REQ-PERF-28 rule auraglass/raf-requires-cancel: every requestAnimationFrame return value must be assigned and passed to cancelAnimationFrame in the enclosing … |  | REQ-QUAL-45 |
 | QUAL-163 | MODIFY | `lint/rules/qual/` | REQ-PERF-28 rule auraglass/raf-requires-visibility-gate: a self-rescheduling rAF loop must read document.visibilityState/document.hidden, listen to visibilitychange, or … |  | REQ-QUAL-45 |
 | QUAL-164 | MODIFY | `lint/rules/qual/` | REQ-PERF-29 rule auraglass/no-global-pointer-listener: report window/document/globalThis/documentElement/body addEventListener or on<type>= for mousemove, pointermove, … |  | REQ-QUAL-45 |
-| QUAL-165 | MODIFY | `lint/rules/qual/` | Register the six PERF rules as 'warn' (report-only, Wave 0) in eslint.config.js and .eslintrc.js; layer-forcing + pointer rules on src/**/*.{ts,tsx,js,jsx} minus … | QUAL-159, QUAL-160, QUAL-161, QUAL-162, QUAL-163, QUAL-164 | REQ-QUAL-05 |
+| QUAL-165 | MODIFY | `lint/rules/qual/` | Register the six PERF rules as 'warn' (report-only, ratchet step 0) in eslint.config.js and .eslintrc.js; layer-forcing + pointer rules on src/**/*.{ts,tsx,js,jsx} … | QUAL-159, QUAL-160, QUAL-161, QUAL-162, QUAL-163, QUAL-164 | REQ-QUAL-05 |
 | QUAL-166 | TEST | `NEW:tests/lint/qual/perf-lint-ratchet.test.ts` | Generate NEW tests/lint/baselines/perf-lint.baseline.json in CI at merge base (per-rule and per-file counts of the six rules over src/); test fails if any rule or file … | QUAL-165 | REQ-QUAL-30 |
 | QUAL-167 | TEST | `NEW:tests/lint/qual/layer-forcing-rules.test.ts` | RuleTester (@typescript-eslint/parser, JSX) for no-transition-all, no-permanent-will-change, no-translatez-hack: >=3 valid and >=3 invalid each, including transition … | QUAL-159, QUAL-160, QUAL-161 |  |
 | QUAL-168 | TEST | `NEW:tests/lint/qual/raf-rules.test.ts` | RuleTester for raf-requires-cancel and raf-requires-visibility-gate on virtual filenames under src/media, src/backdrops, src/three, src/motion: >=3 valid/>=3 invalid … | QUAL-162, QUAL-163 |  |
@@ -102,13 +106,13 @@ Read the full rows with `node -e 'for (const t of require("./docs/auraglass-5/ta
 | QUAL-201 | TEST | `NEW:tests/perf/browser/qual/evidence-captures.spec.ts` | Remote screenshots of Dialog open, AppShell dashboard and the six scenes at 1440 fine and 390 coarse over photo, each with a JSON sidecar of blurred elements and BCI; … | QUAL-187, QUAL-189, QUAL-190 | REQ-QUAL-61, REQ-QUAL-62 |
 | QUAL-202 | TEST | `NEW:tests/perf/browser/qual/regression-4x.spec.ts` | REQ-PERF-35: derive NEW tests/perf/baselines/runtime-4x.json by script from docs/auraglass-5/autopsy/remote-evidence/metrics.json (4 stories x desktop/mobile, source … | QUAL-174, QUAL-175, QUAL-189, QUAL-190 | REQ-QUAL-41 |
 | QUAL-203 | TEST | `NEW:tests/perf/browser/qual/pr-ratchet.spec.ts` | REQ-PERF-36: download main artifact perf-results-a120-<merge-base-sha>; run profile (a) 120 Hz on 44 flagships at standard; fail if p95 rises > max(10%, 1 ms) or … | QUAL-174 | REQ-QUAL-40 |
-| QUAL-204 | MODIFY | `lint/rules/qual/` | Wave 3 flip: six PERF rules warn -> error in .eslintrc.js and eslint.config.js once their baseline is 0 for src paths shipped in 5.0 (BLOCKED naming owner PRDs … | QUAL-165, QUAL-166 | REQ-QUAL-05 |
+| QUAL-204 | MODIFY | `lint/rules/qual/` | Ratchet flip (QUAL-internal, state-triggered): six PERF rules warn -> error in .eslintrc.js and eslint.config.js once their baseline is 0 for src paths shipped in 5.0 … | QUAL-165, QUAL-166 | REQ-QUAL-05 |
 | QUAL-205 | TEST | `tests/perf/harness/grade.mjs` | RC: run profiles a60, a120, b, c, d on the RC SHA; grade.mjs writes perf-grades.json for every flagship and T2; gate 0 T1 < C, 0 T2 < D, every T1 frame p95 <=16.7 ms at … | QUAL-176, QUAL-187, QUAL-194, QUAL-195 | REQ-QUAL-37, REQ-QUAL-62 |
 | QUAL-206 | CREATE | `NEW:tests/perf/devices/device-farm-run.mjs` | REQ-PERF-37: tagged AWS Device Farm (us-west-2) project via governed aws wrapper; remote-access/Appium sessions on iPhone 13 (Safari 18 and 26), Pixel 7 Chrome, Moto G … | QUAL-171 | REQ-QUAL-48 |
 | QUAL-207 | CREATE | `NEW:tests/perf/devices/appium-probe.mjs` | Inject instrument.js; Dialog open/close x10 and AppShell scroll x3 over the six scenes; frame p95 from rAF probe; Android LoAF counts via adb forward tcp:9222 … | QUAL-206 | REQ-QUAL-48 |
 | QUAL-208 | DOC | `NEW:docs/certification/real-device-matrix.md` | Manual sign-off record (§16.6): rows device x {Dialog open/close p95, AppShell scroll p95} with OS/browser version, session ARN, SHA, p95, budget, pass/fail, exception … | QUAL-206, QUAL-207 | REQ-QUAL-48, REQ-QUAL-64 |
 | QUAL-209 | DOC | `docs/certification/real-device-matrix.md` | DoD 8: hand perf-fixture-captures-<sha> and perf-budget-captures-<sha> for the RC SHA to a named human reviewer through PRD-19 L14 review-record flow (material still … | QUAL-201 | REQ-QUAL-48, REQ-QUAL-62 |
-| QUAL-210 | DOC | `docs/certification/real-device-matrix.md` | Build the AC-PERF-01..20 table for the RC SHA from CI artifacts (run URLs + artifact names) in the final report; verify the PRD-20 docs grade page reads … | QUAL-205, QUAL-208 | REQ-QUAL-48, REQ-QUAL-60 |
+| QUAL-210 | DOC | `docs/certification/real-device-matrix.md` | Build the AC-PERF-01..20 table for the RC SHA from CI artifacts (run URLs + artifact names) in the final report; verify the PLAT docs-site grade page reads … | QUAL-205, QUAL-208 | REQ-QUAL-48, REQ-QUAL-60 |
 | QUAL-211 | INFRA | `tests/perf/devices/device-farm-run.mjs` | DoD 9: list every EC2 instance, mac1.metal Dedicated Host, Device Farm project/session tagged with the attempt id; terminate/release/stop; report ids and final states. | QUAL-206, QUAL-205, QUAL-202 | REQ-QUAL-48, REQ-QUAL-05 |
 | QUAL-306 | CREATE | `NEW:packages/qa/src/perf/bci.ts` | Implement §4.6 BCI behind perf.bci (S-40; replaces the seed area-weighted fraction): effective nesting per element = ancestors whose ::before computed backdrop-filter … |  | REQ-QUAL-36 |
 

@@ -20,7 +20,7 @@
   "priority": "P0",
   "test": "harness.selftest.spec.ts (A11Y-075)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-20, REQ-QUAL-34; archived: AC-A11Y-14 (REQ-A11Y-40)",
+  "acceptance": "REQ-QUAL-20, REQ-QUAL-34; archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40)",
   "reqs": [
    "REQ-QUAL-20",
    "REQ-QUAL-34"
@@ -44,7 +44,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (harness) green",
   "storybook": "A11y/HarnessFixture",
-  "acceptance": "REQ-QUAL-20; archived: AC-A11Y-14 (REQ-A11Y-40)",
+  "acceptance": "REQ-QUAL-20; archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40)",
   "reqs": [
    "REQ-QUAL-20"
   ],
@@ -67,7 +67,7 @@
   "priority": "P0",
   "test": "selftest passes in 3 engines; a deliberately broken fixture makes it fail naming story, step and key",
   "storybook": "Button, IconButton flagship stories (parameters.a11y.apgScript)",
-  "acceptance": "archived: AC-A11Y-14 (REQ-A11Y-40)",
+  "acceptance": "archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-076",
@@ -96,7 +96,7 @@
   "priority": "P0",
   "test": "selftest passes in 3 engines; broken fixture fails with a named step",
   "storybook": "Dialog, AlertDialog flagship stories",
-  "acceptance": "archived: AC-A11Y-14 (REQ-A11Y-40, REQ-A11Y-33)",
+  "acceptance": "archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40, v1:REQ-A11Y-33)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-077",
@@ -120,7 +120,7 @@
   "priority": "P2",
   "test": "node scripts/audit/static-glass-material-audit.js runs; no 'dynamic-' findings in output",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MAT-03 (REQ-MAT-66)",
+  "acceptance": "archived: v1:AC-MAT-03 (v1:REQ-MAT-66)",
   "reqs": [],
   "branch": "next",
   "source": "MAT-012",
@@ -133,7 +133,7 @@
   "system": "qa package",
   "file": "NEW:packages/qa/package.json",
   "action": "INFRA",
-  "description": "[§8] Create private workspace package \"@auraglass/qa\" (\"private\": true, no \"files\", no publishConfig) with tsconfig packages/qa/tsconfig.json (extends root tsconfig.tests.json). Location rule: if PRD-02 added \"workspaces\" to root package.json use packages/qa/; otherwise create the identical layout at certification/qa/ and use that path everywhere (record which in the PR). Root package.json \"files\" must not include it.",
+  "description": "[§8] Create private workspace package \"@auraglass/qa\" (\"private\": true, no \"files\", no publishConfig) with tsconfig packages/qa/tsconfig.json (extends root tsconfig.tests.json). Location rule: if PLAT has added \"workspaces\" to root package.json use packages/qa/; otherwise create the identical layout at certification/qa/ and use that path everywhere (record which in the PR). Root package.json \"files\" must not include it.",
   "depends_on": [],
   "contract_seams": [
    "S-35",
@@ -143,7 +143,7 @@
   "priority": "P0",
   "test": "node -p \"require('./packages/qa/package.json').private\" prints true; remote CI `npm pack --dry-run --json` lists 0 paths under packages/ or certification/",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: Prerequisite for AC-QA-02, AC-QA-03 | Upstream contracts (SC-40, formerly in depends_on): PRD-02",
+  "acceptance": "REQ-QUAL-01; archived: Prerequisite for v1:AC-QA-02, v1:AC-QA-03 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-02",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -166,7 +166,7 @@
   "priority": "P0",
   "test": "`node_modules/.bin/jest --listTests | grep -c certification/lanes` prints 0; `--listTests | grep -c packages/qa/test` >= 1",
   "storybook": "n/a",
-  "acceptance": "archived: Prerequisite for AC-QA-13 (unit lane)",
+  "acceptance": "archived: Prerequisite for v1:AC-QA-13 (unit lane)",
   "reqs": [],
   "branch": "next",
   "source": "QA-003",
@@ -185,7 +185,7 @@
   "priority": "P0",
   "test": "packages/qa/test/inspect.fixtures.test.ts: 10/10 fixtures produce the HEAD verdicts; remote job URL recorded",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32, REQ-QUAL-20; archived: Prerequisite for AC-QA-01",
+  "acceptance": "REQ-QUAL-32, REQ-QUAL-20; archived: Prerequisite for v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-32",
    "REQ-QUAL-20"
@@ -209,7 +209,7 @@
   "priority": "P0",
   "test": "packages/qa/test/resolve.test.ts green; `rg -n \"normalizeName|candidateNames|storyNameForMatch|rankStory\" packages/qa certification` = 0",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: AC-QA-02 (resolution input) | Upstream contracts (SC-40, formerly in depends_on): PRD-17:REQ-SB-42",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-QA-02 (resolution input) | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-17:v1:REQ-SB-42",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -232,7 +232,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/resolve.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: AC-QA-02",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-QA-02",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -259,7 +259,7 @@
   "priority": "P0",
   "test": "packages/qa/test/inventory.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-02, REQ-QUAL-04; archived: AC-QA-02, AC-QA-03 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-10",
+  "acceptance": "REQ-QUAL-02, REQ-QUAL-04; archived: v1:AC-QA-02, v1:AC-QA-03 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-02:v1:REQ-PKG-10",
   "reqs": [
    "REQ-QUAL-02",
    "REQ-QUAL-04"
@@ -283,7 +283,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/inventory.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-02; archived: AC-QA-02, AC-QA-03",
+  "acceptance": "REQ-QUAL-02; archived: v1:AC-QA-02, v1:AC-QA-03",
   "reqs": [
    "REQ-QUAL-02"
   ],
@@ -306,7 +306,7 @@
   "priority": "P1",
   "test": "`rg -n \"coveredBy\" scripts/audit/public-export-audit.js` = 0; `node scripts/audit/public-export-audit.js --json` exits 0 on a fixture manifest",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-02; archived: AC-QA-02",
+  "acceptance": "REQ-QUAL-02; archived: v1:AC-QA-02",
   "reqs": [
    "REQ-QUAL-02"
   ],
@@ -327,7 +327,7 @@
   "priority": "P1",
   "test": "node_modules/.bin/jest packages/qa/test/dhash-duplicates.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-03; archived: AC-QA-02",
+  "acceptance": "REQ-QUAL-03; archived: v1:AC-QA-02",
   "reqs": [
    "REQ-QUAL-03"
   ],
@@ -353,7 +353,7 @@
   "priority": "P0",
   "test": "qual:build:cert-image green; docker manifest inspect of the lock digest resolves inside the job; tesseract --version prints 5",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: AC-QA-16, AC-QA-17",
+  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: v1:AC-QA-16, v1:AC-QA-17",
   "reqs": [
    "REQ-QUAL-66",
    "REQ-QUAL-11"
@@ -383,7 +383,7 @@
   "priority": "P0",
   "test": "packages/qa/test/cert-config.test.ts asserts projects, timeout 60000, retries 0, webServer command contains verify-fresh.mjs and 127.0.0.1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-66",
    "REQ-QUAL-11"
@@ -407,7 +407,7 @@
   "priority": "P0",
   "test": "packages/qa/test/remote-guard.test.ts: no env -> exit 2 + message; CI=true -> proceeds; AG_CERT_REMOTE=1 -> proceeds",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67, REQ-QUAL-34; archived: AC-QA-16 (remote-only execution; DoD item 9)",
+  "acceptance": "REQ-QUAL-67, REQ-QUAL-34; archived: v1:AC-QA-16 (remote-only execution; DoD item 9)",
   "reqs": [
    "REQ-QUAL-67",
    "REQ-QUAL-34"
@@ -431,7 +431,7 @@
   "priority": "P0",
   "test": "packages/qa/test/determinism.test.ts: two evaluations of the init script with one seed return identical Math.random sequences; route predicate rejects https://example.com and accepts http://127.0.0.1:6106",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: AC-QA-17",
+  "acceptance": "REQ-QUAL-66, REQ-QUAL-11; archived: v1:AC-QA-17",
   "reqs": [
    "REQ-QUAL-66",
    "REQ-QUAL-11"
@@ -459,7 +459,7 @@
   "priority": "P0",
   "test": "certification/runner/build-bundle.test.mjs (node --test): manifest lists every member with a sha256 that matches the extracted file",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67; archived: AC-QA-16 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-66",
+  "acceptance": "REQ-QUAL-67; archived: v1:AC-QA-16 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-02:v1:REQ-PKG-66",
   "reqs": [
    "REQ-QUAL-67"
   ],
@@ -483,7 +483,7 @@
   "priority": "P0",
   "test": "shellcheck clean in CI; certification/runner/worker-entry.test.mjs runs the script with a stub `aws` on PATH against a fixture bundle with one corrupted member -> exit 1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67; archived: AC-QA-16",
+  "acceptance": "REQ-QUAL-67; archived: v1:AC-QA-16",
   "reqs": [
    "REQ-QUAL-67"
   ],
@@ -504,7 +504,7 @@
   "priority": "P0",
   "test": "certification/runner/preflight.test.mjs: expired CA fixture -> exit 78 + exact message; 6-days-left fixture -> exit 78; bundle hash mismatch -> exit 1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67; archived: AC-QA-16",
+  "acceptance": "REQ-QUAL-67; archived: v1:AC-QA-16",
   "reqs": [
    "REQ-QUAL-67"
   ],
@@ -527,7 +527,7 @@
   "priority": "P0",
   "test": "node --test certification/runner/preflight.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67; archived: AC-QA-16",
+  "acceptance": "REQ-QUAL-67; archived: v1:AC-QA-16",
   "reqs": [
    "REQ-QUAL-67"
   ],
@@ -556,7 +556,7 @@
   "priority": "P1",
   "test": "remote run on 15b6de6f7 storybook-static completes; each test <60 s; lane manifest results.length>0",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-12; archived: AC-QA-01 (4.x parity)",
+  "acceptance": "REQ-QUAL-12; archived: v1:AC-QA-01 (4.x parity)",
   "reqs": [
    "REQ-QUAL-12"
   ],
@@ -581,7 +581,7 @@
   "priority": "P1",
   "test": "both runs produce lane-manifest.json with captureRatePerSec; EC2 instance terminated (describe-instances shows terminated)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-05; archived: AC-QA-16",
+  "acceptance": "REQ-QUAL-05; archived: v1:AC-QA-16",
   "reqs": [
    "REQ-QUAL-05"
   ],
@@ -604,7 +604,7 @@
   "priority": "P2",
   "test": "certification/runner/list-stale.test.mjs with a fixture describe-instances JSON: 1 expired tagged instance -> exit 1, untagged instance ignored",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-67; archived: AC-QA-16",
+  "acceptance": "REQ-QUAL-67; archived: v1:AC-QA-16",
   "reqs": [
    "REQ-QUAL-67"
   ],
@@ -627,7 +627,7 @@
   "priority": "P0",
   "test": "packages/qa/test/run-lane.test.ts: missing provider -> exit 1 + message; 0-test junit -> exit 1; empty subjects -> exit 1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-06; archived: AC-QA-10, AC-QA-11",
+  "acceptance": "REQ-QUAL-06; archived: v1:AC-QA-10, v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-06"
   ],
@@ -650,7 +650,7 @@
   "priority": "P0",
   "test": "packages/qa/test/affected.test.ts: diff touching only README.md -> sentinel set (length>0); diff touching src/components/button/GlassButton.tsx -> includes GlassButton subjects",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-06; archived: AC-QA-10",
+  "acceptance": "REQ-QUAL-06; archived: v1:AC-QA-10",
   "reqs": [
    "REQ-QUAL-06"
   ],
@@ -676,7 +676,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts parses the fragment: job names = CERT_JOBS + qual:build:storybook + qual:certify:{nightly,release}; contract:ci-fragments green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64, REQ-QUAL-06; archived: AC-QA-10",
+  "acceptance": "REQ-QUAL-64, REQ-QUAL-06; archived: v1:AC-QA-10",
   "reqs": [
    "REQ-QUAL-64",
    "REQ-QUAL-06"
@@ -700,7 +700,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts; first main pipeline URL",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64; archived: AC-QA-10",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-QA-10",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -723,7 +723,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts; first scheduled pipeline URL",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64, REQ-QUAL-66, REQ-QUAL-11; archived: AC-QA-17",
+  "acceptance": "REQ-QUAL-64, REQ-QUAL-66, REQ-QUAL-11; archived: v1:AC-QA-17",
   "reqs": [
    "REQ-QUAL-64",
    "REQ-QUAL-66",
@@ -748,7 +748,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts: no \"npm publish\" and no id_tokens in ci/qual.gitlab-ci.yml; release-verdict.json schema test",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64, REQ-QUAL-61, REQ-QUAL-62; archived: AC-QA-10, AC-QA-11",
+  "acceptance": "REQ-QUAL-64, REQ-QUAL-61, REQ-QUAL-62; archived: v1:AC-QA-10, v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-64",
    "REQ-QUAL-61",
@@ -776,7 +776,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/ci-fragment.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-06; archived: AC-QA-10",
+  "acceptance": "REQ-QUAL-06; archived: v1:AC-QA-10",
   "reqs": [
    "REQ-QUAL-06"
   ],
@@ -802,7 +802,7 @@
   "priority": "P0",
   "test": "packages/qa/test/scenes-manifest.test.ts green; SB scripts/storybook/__tests__/scene-bands.test.mjs green when it exists",
   "storybook": "Scenes mounted by .storybook/main.ts staticDirs at /scenes (Storybook PRD); no copy in .storybook/",
-  "acceptance": "REQ-QUAL-07; archived: AC-QA-04",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-QA-04",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -823,7 +823,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/scenes-manifest.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-07; archived: AC-QA-04",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-QA-04",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -847,7 +847,7 @@
   "priority": "P0",
   "test": "packages/qa/test/matrix-prune.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: AC-QA-02",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-QA-02",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -870,7 +870,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/matrix-prune.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-12, REQ-QUAL-01; archived: AC-QA-02",
+  "acceptance": "REQ-QUAL-12, REQ-QUAL-01; archived: v1:AC-QA-02",
   "reqs": [
    "REQ-QUAL-12",
    "REQ-QUAL-01"
@@ -892,7 +892,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/pixel-gates.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-15; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-15; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-15"
   ],
@@ -913,7 +913,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/material-presence.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-14; archived: AC-QA-05",
+  "acceptance": "REQ-QUAL-14; archived: v1:AC-QA-05",
   "reqs": [
    "REQ-QUAL-14"
   ],
@@ -934,7 +934,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/ocr-contrast.test.ts in the cert container",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-13; archived: AC-QA-06",
+  "acceptance": "REQ-QUAL-13; archived: v1:AC-QA-06",
   "reqs": [
    "REQ-QUAL-13"
   ],
@@ -957,7 +957,7 @@
   "priority": "P0",
   "test": "packages/qa/test/readback.test.ts: requested forced-colors with observed matchMedia false -> label-mismatch",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-17; archived: AC-QA-07, AC-QA-14",
+  "acceptance": "REQ-QUAL-17; archived: v1:AC-QA-07, v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-17"
   ],
@@ -980,7 +980,7 @@
   "priority": "P0",
   "test": "packages/qa/test/console-gate.test.ts: pageerror \"Invalid easing type 'ease-in-out'\" fails; allowlisted warn passes; expired entry fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-17; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-17; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-17"
   ],
@@ -1003,7 +1003,7 @@
   "priority": "P1",
   "test": "packages/qa/test/exemptions.test.ts: ocr-contrast exemption rejected; console exemption rejected; expired -> fail; valid separation exemption honoured for listed cells only",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-68; archived: AC-QA-07",
+  "acceptance": "REQ-QUAL-68; archived: v1:AC-QA-07",
   "reqs": [
    "REQ-QUAL-68"
   ],
@@ -1024,7 +1024,7 @@
   "priority": "P0",
   "test": "remote: 0 cost failures on 5.0 subjects; known-failures shows glass-modal 12 > 6",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-38; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-38; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-38"
   ],
@@ -1045,7 +1045,7 @@
   "priority": "P0",
   "test": "CI run URL with lane manifest showing every expected gate id",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-32; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-32"
   ],
@@ -1069,7 +1069,7 @@
   "priority": "P0",
   "test": "packages/qa/test/element-crop.test.ts (pure option builder): animations disabled, caret hide, no fullPage",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24, REQ-QUAL-26; archived: AC-QA-08, AC-QA-09",
+  "acceptance": "REQ-QUAL-24, REQ-QUAL-26; archived: v1:AC-QA-08, v1:AC-QA-09",
   "reqs": [
    "REQ-QUAL-24",
    "REQ-QUAL-26"
@@ -1093,7 +1093,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/baselines-budget.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-24; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-24"
   ],
@@ -1116,7 +1116,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts asserts --update-snapshots appears only in qual:certify:baseline-update",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-25; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-25; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-25"
   ],
@@ -1140,7 +1140,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts; throwaway branch without the marker fails L7",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-25; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-25; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-25"
   ],
@@ -1167,7 +1167,7 @@
   "priority": "P0",
   "test": "throwaway branch on next: visual-class.json present in the L7 job artifacts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-26; archived: AC-QA-09 | Upstream contracts (SC-40, formerly in depends_on): PRD-01:REQ-REL-12",
+  "acceptance": "REQ-QUAL-26; archived: v1:AC-QA-09 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-01:v1:REQ-REL-12",
   "reqs": [
    "REQ-QUAL-26"
   ],
@@ -1190,7 +1190,7 @@
   "priority": "P1",
   "test": "GitLab pipeline URLs: change-class red without the record",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-26; archived: AC-QA-09",
+  "acceptance": "REQ-QUAL-26; archived: v1:AC-QA-09",
   "reqs": [
    "REQ-QUAL-26"
   ],
@@ -1213,7 +1213,7 @@
   "priority": "P1",
   "test": "GitLab pipeline URL: L7 red with diff artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24, REQ-QUAL-25; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-24, REQ-QUAL-25; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-24",
    "REQ-QUAL-25"
@@ -1235,7 +1235,7 @@
   "priority": "P2",
   "test": "`rg -n \"maxDiffPixels: 1000\" playwright.config.ts` = 0",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-24; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-24"
   ],
@@ -1270,7 +1270,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l1: each provider either runs or fails \"provider missing: <path>\"; packages/qa/test/static-lane.test.ts asserts the provider list",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-27; archived: AC-QA-10 | Upstream contracts (SC-40, formerly in depends_on): PRD-03, PRD-04, PRD-02",
+  "acceptance": "REQ-QUAL-27; archived: v1:AC-QA-10 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-03, v1:PRD-04, v1:PRD-02",
   "reqs": [
    "REQ-QUAL-27"
   ],
@@ -1299,7 +1299,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l2 green or failing only with provider missing",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-28; archived: AC-QA-10 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-66",
+  "acceptance": "REQ-QUAL-28; archived: v1:AC-QA-10 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-02:v1:REQ-PKG-66",
   "reqs": [
    "REQ-QUAL-28"
   ],
@@ -1334,7 +1334,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l4; artifact contrast-matrix.json present",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-28; archived: AC-QA-06 | Upstream contracts (SC-40, formerly in depends_on): PRD-03:REQ-DS-37, PRD-05:REQ-A11Y-18",
+  "acceptance": "REQ-QUAL-28; archived: v1:AC-QA-06 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-03:v1:REQ-DS-37, v1:PRD-05:v1:REQ-A11Y-18",
   "reqs": [
    "REQ-QUAL-28"
   ],
@@ -1357,7 +1357,7 @@
   "priority": "P1",
   "test": "qual:certify:nightly L10; packages/qa/test/perf-regression.test.ts (B->C same host fails, different host not compared)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-37, REQ-QUAL-40; archived: AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-07:REQ-PERF-32, PRD-07:REQ-PERF-34",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-37, REQ-QUAL-40; archived: v1:AC-QA-14 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-07:v1:REQ-PERF-32, v1:PRD-07:v1:REQ-PERF-34",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-37",
@@ -1386,7 +1386,7 @@
   "priority": "P1",
   "test": "qual:certify:l11 green on release/4.x; on next pending until migrate exists",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-29; archived: AC-QA-15 | Upstream contracts (SC-40, formerly in depends_on): PRD-01, PRD-16",
+  "acceptance": "REQ-QUAL-29; archived: v1:AC-QA-15 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-01, v1:PRD-16",
   "reqs": [
    "REQ-QUAL-29"
   ],
@@ -1407,7 +1407,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/evidence-verify.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61; archived: AC-QA-11",
+  "acceptance": "REQ-QUAL-61; archived: v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-61"
   ],
@@ -1428,7 +1428,7 @@
   "priority": "P0",
   "test": "packages/qa/test/claims.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-62; archived: AC-QA-06, AC-QA-19",
+  "acceptance": "REQ-QUAL-62; archived: v1:AC-QA-06, v1:AC-QA-19",
   "reqs": [
    "REQ-QUAL-62"
   ],
@@ -1451,7 +1451,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/claims.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-62; archived: AC-QA-19",
+  "acceptance": "REQ-QUAL-62; archived: v1:AC-QA-19",
   "reqs": [
    "REQ-QUAL-62"
   ],
@@ -1466,7 +1466,7 @@
   "system": "no committed evidence",
   "file": "NEW:packages/qa/test/no-committed-evidence.test.ts",
   "action": "TEST",
-  "description": "REQ-QA-32: `git ls-files` must contain 0 paths matching reports/**, certification/out/**, test-results/**, playwright-report/**, **/*-snapshots/**, coverage/**, and 0 *.png outside certification/baselines/, certification/scenes/, docs/**/assets/, packages/qa/fixtures/ (fixture PNGs <=40 KB each). Red until PRD-00 removes reports/; never allowlisted.",
+  "description": "REQ-QA-32: `git ls-files` must contain 0 paths matching reports/**, certification/out/**, test-results/**, playwright-report/**, **/*-snapshots/**, coverage/**, and 0 *.png outside certification/baselines/, certification/scenes/, docs/**/assets/, packages/qa/fixtures/ (fixture PNGs <=40 KB each). Reports pre-existing failures on release/4.x and next until PLAT's 4.1.1 reports/ removal merges; never allowlisted, never waited on.",
   "depends_on": [
    "QUAL-006"
   ],
@@ -1477,7 +1477,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/no-committed-evidence.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-60; archived: AC-QA-12 | Upstream contracts (SC-40, formerly in depends_on): PRD-00",
+  "acceptance": "REQ-QUAL-60; archived: v1:AC-QA-12 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-00",
   "reqs": [
    "REQ-QUAL-60"
   ],
@@ -1503,7 +1503,7 @@
   "priority": "P1",
   "test": "dry-run pipeline URL: verify red, claims not started",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61, REQ-QUAL-63; archived: AC-QA-11",
+  "acceptance": "REQ-QUAL-61, REQ-QUAL-63; archived: v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-61",
    "REQ-QUAL-63"
@@ -1527,7 +1527,7 @@
   "priority": "P1",
   "test": "packages/qa/test/ci-fragment.test.ts asserts schema validation and no git push in the job",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-73; archived: AC-QA-18",
+  "acceptance": "REQ-QUAL-73; archived: v1:AC-QA-18",
   "reqs": [
    "REQ-QUAL-73"
   ],
@@ -1554,7 +1554,7 @@
   "priority": "P2",
   "test": "dry-run qual:certify:release shows the lint-claims step",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-62; archived: AC-QA-19 | Upstream contracts (SC-40, formerly in depends_on): PRD-16:REQ-DX-77",
+  "acceptance": "REQ-QUAL-62; archived: v1:AC-QA-19 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-16:v1:REQ-DX-77",
   "reqs": [
    "REQ-QUAL-62"
   ],
@@ -1582,7 +1582,7 @@
   "priority": "P2",
   "test": "`rg -n \"cert:bundle|baseline-update\" CONTRIBUTING.md` >= 2",
   "storybook": "n/a",
-  "acceptance": "archived: AC-QA-08, AC-QA-13",
+  "acceptance": "archived: v1:AC-QA-08, v1:AC-QA-13",
   "reqs": [],
   "branch": "next",
   "source": "QA-104",
@@ -1603,7 +1603,7 @@
   "priority": "P0",
   "test": "packages/qa/test/no-vacuous-assertions.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-31; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-31; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-31"
   ],
@@ -1626,7 +1626,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest packages/qa/test/no-vacuous-assertions.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-31; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-31; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-31"
   ],
@@ -1649,7 +1649,7 @@
   "priority": "P1",
   "test": "packages/qa/test/flagship-contract.test.ts with fixture tree: missing \"ssr\" describe -> fail",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-19, REQ-QUAL-30; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-19, REQ-QUAL-30; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-19",
    "REQ-QUAL-30"
@@ -1673,7 +1673,7 @@
   "priority": "P1",
   "test": "qual:certify:l12 runs `jest --coverage --ci` and fails below any floor; ratchets.test.ts rejects a decrease",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-30; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-30; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-30"
   ],
@@ -1694,7 +1694,7 @@
   "priority": "P1",
   "test": "NEW packages/qa/test/jest-config.test.ts: require(\"./jest.config.js\") mapping target exists; keys appear once (source text count); `test -e jest.visual.config.js` false",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-17; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-17; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-17"
   ],
@@ -1718,7 +1718,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l12 green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-30; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-30; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-30"
   ],
@@ -1742,7 +1742,7 @@
   "priority": "P2",
   "test": "NEW packages/qa/test/probe-disposition.test.ts: 45 entries, unique files, every detector path and fixture exists",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32; archived: AC-QA-20 | Upstream contracts (SC-40, formerly in depends_on): PRD-00:REQ-TRUST-36",
+  "acceptance": "REQ-QUAL-32; archived: v1:AC-QA-20 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-00:v1:REQ-TRUST-36",
   "reqs": [
    "REQ-QUAL-32"
   ],
@@ -1774,7 +1774,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ci-fragment.test.ts asserts the nightly/release L5 scope with 8 scenes x 2 engines; first nightly pipeline URL",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61, REQ-QUAL-19; archived: AC-QA-14; REQ-A11Y-42 (b); evidence verifier (REQ-QA-30) requires the manifest on RC/GA SHAs",
+  "acceptance": "REQ-QUAL-61, REQ-QUAL-19; archived: v1:AC-QA-14; v1:REQ-A11Y-42 (b); evidence verifier (v1:REQ-QA-30) requires the manifest on RC/GA SHAs",
   "reqs": [
    "REQ-QUAL-61",
    "REQ-QUAL-19"
@@ -1798,7 +1798,7 @@
   "priority": "P1",
   "test": "packages/qa/test/shard.test.ts asserts gpuPoolSize(44, s) = ceil(44*s/600); first ratchet pipeline completes <= 10 min",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-40, REQ-QUAL-37, REQ-QUAL-67; archived: REQ-PERF-36 runs on the pool; OI-QA-05 closed",
+  "acceptance": "REQ-QUAL-40, REQ-QUAL-37, REQ-QUAL-67; archived: v1:REQ-PERF-36 runs on the pool; OI-QA-05 closed",
   "reqs": [
    "REQ-QUAL-40",
    "REQ-QUAL-37",
@@ -1823,7 +1823,7 @@
   "priority": "P0",
   "test": "packages/qa/test/flagship-deliverables.test.ts: fixture flagship missing APG script -> exit 1 naming the item; perf grade D -> exit 1; complete fixture -> exit 0; flagship in §11.2 but not in config -> exit 1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-63; archived: REQ-QA-80 item 4 auto-ticked only from this gate's output; AI PRD §21 item 7 and OI-MED-07 closed",
+  "acceptance": "REQ-QUAL-63; archived: v1:REQ-QA-80 item 4 auto-ticked only from this gate's output; AI PRD §21 item 7 and OI-MED-07 closed",
   "reqs": [
    "REQ-QUAL-63"
   ],
@@ -1844,7 +1844,7 @@
   "priority": "P0",
   "test": "tests/storybook/ci-storybook.test.mjs asserts job name, script order and expire_in",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64; archived: AC-SB-14 (REQ-SB-50)",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-SB-14 (v1:REQ-SB-50)",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -1865,7 +1865,7 @@
   "priority": "P0",
   "test": "tests/storybook/ci-storybook.test.mjs asserts the needs edge and verify-fresh step",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64; archived: AC-SB-14 (REQ-SB-50)",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-SB-14 (v1:REQ-SB-50)",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -1888,7 +1888,7 @@
   "priority": "P1",
   "test": "tests/storybook/ci-storybook.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-15 (REQ-SB-56)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-15 (v1:REQ-SB-56)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -1916,7 +1916,7 @@
   "priority": "P1",
   "test": "release/4.x pipeline: qual:build:storybook green, artifact present",
   "storybook": "/v4/ frozen 4.x Storybook",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-14, AC-SB-15 (REQ-SB-50, REQ-SB-55..57; PRD §11)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-14, v1:AC-SB-15 (v1:REQ-SB-50, v1:REQ-SB-55..57; PRD §11)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -1940,7 +1940,7 @@
   "priority": "P1",
   "test": "rg -n \"verify-fresh\" certification/ packages/qa/ returns the webServer and bundle-builder calls",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-15 (REQ-SB-56)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-15 (v1:REQ-SB-56)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -1963,7 +1963,7 @@
   "priority": "P0",
   "test": "CI run URL with lint-gates + 4 vitest shards green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-57, REQ-QUAL-19; archived: AC-SB-10, AC-SB-11 (REQ-SB-15, REQ-SB-48)",
+  "acceptance": "REQ-QUAL-57, REQ-QUAL-19; archived: v1:AC-SB-10, v1:AC-SB-11 (v1:REQ-SB-15, v1:REQ-SB-48)",
   "reqs": [
    "REQ-QUAL-57",
    "REQ-QUAL-19"
@@ -1987,7 +1987,7 @@
   "priority": "P0",
   "test": "storybook-tests run URL with JUnit counts",
   "storybook": "Showcases S1-*, Material Lab",
-  "acceptance": "REQ-QUAL-64, REQ-QUAL-34; archived: AC-SB-10",
+  "acceptance": "REQ-QUAL-64, REQ-QUAL-34; archived: v1:AC-SB-10",
   "reqs": [
    "REQ-QUAL-64",
    "REQ-QUAL-34"
@@ -2015,7 +2015,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest --listTests | rg tests/storybook/",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10; archived: REQ-SB-01 (test location per SC-30)",
+  "acceptance": "REQ-QUAL-10; archived: v1:REQ-SB-01 (test location per v1:SC-30)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -2038,7 +2038,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest --listTests | grep -c tests/perf/browser prints 0",
   "storybook": "n/a",
-  "acceptance": "archived: Prerequisite for AC-PERF-07..17 lanes (specs run only in Playwright project perf)",
+  "acceptance": "archived: Prerequisite for v1:AC-PERF-07..17 lanes (specs run only in Playwright project perf)",
   "reqs": [],
   "branch": "next",
   "source": "PERF-001",
@@ -2062,7 +2062,7 @@
   "priority": "P0",
   "test": "tests/perf/size-budgets.test.ts and tests/perf/size-rows.test.ts green in perf-artifact/perf-static",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10; archived: AC-PERF-01",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-PERF-01",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -2077,7 +2077,7 @@
   "system": "perf test infra",
   "file": "playwright.config.ts",
   "action": "MODIFY",
-  "description": "If PRD-19 has not: add project perf (testDir ./tests/perf, testMatch /(browser\\/.*|harness\\/self-test)\\.spec\\.ts$/, retries 0) and testIgnore /tests\\/perf\\// on the six existing projects. (SC-29: QA owns the config file; MODIFY after QA-003/QA-018.)",
+  "description": "If QUAL-owned playwright.config.ts lacks it: add project perf (testDir ./tests/perf, testMatch /(browser\\/.*|harness\\/self-test)\\.spec\\.ts$/, retries 0) and testIgnore /tests\\/perf\\// on the six existing projects. (SC-29: QA owns the config file; MODIFY after QA-003/QA-018.)",
   "depends_on": [
    "QUAL-084",
    "QUAL-007",
@@ -2087,7 +2087,7 @@
   "priority": "P0",
   "test": "playwright test --list --project perf lists only tests/perf specs; other projects list none",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-07..17 lane wiring",
+  "acceptance": "archived: v1:AC-PERF-07..17 lane wiring",
   "reqs": [],
   "branch": "next",
   "source": "PERF-052",
@@ -2110,7 +2110,7 @@
   "priority": "P0",
   "test": "main and nightly pipeline URLs with all L10 profile jobs green or pending with the exact runner reason",
   "storybook": "Builds storybook-static remotely",
-  "acceptance": "REQ-QUAL-64; archived: AC-PERF-10, AC-PERF-17",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-PERF-10, v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -2135,7 +2135,7 @@
   "priority": "P0",
   "test": "CI run URL with both matrix legs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-47; archived: AC-PERF-04",
+  "acceptance": "REQ-QUAL-47; archived: v1:AC-PERF-04",
   "reqs": [
    "REQ-QUAL-47"
   ],
@@ -2158,7 +2158,7 @@
   "priority": "P1",
   "test": "PR-scope pipeline URL with pr-ratchet green, or profile-c leg with the recorded reason",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64; archived: AC-PERF-10",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-PERF-10",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -2192,7 +2192,7 @@
   "priority": "P0",
   "test": "perf-beta-gates job green on beta SHA; rg count 0 recorded",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-64; archived: AC-PERF-06, AC-PERF-19",
+  "acceptance": "REQ-QUAL-64; archived: v1:AC-PERF-06, v1:AC-PERF-19",
   "reqs": [
    "REQ-QUAL-64"
   ],
@@ -2221,7 +2221,7 @@
   "priority": "P0",
   "test": "size-budgets-ratchet.test.ts and budgets-frozen.test.ts pass on the PR and fail on a follow-up scratch raise",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-39; archived: AC-PERF-20, AC-PERF-01",
+  "acceptance": "REQ-QUAL-39; archived: v1:AC-PERF-20, v1:AC-PERF-01",
   "reqs": [
    "REQ-QUAL-39"
   ],
@@ -2242,7 +2242,7 @@
   "priority": "P0",
   "test": "packages/qa/test/inspect.fixtures.test.ts green; `npm run typecheck` green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32; archived: Prerequisite for AC-QA-01 (4.x parity)",
+  "acceptance": "REQ-QUAL-32; archived: Prerequisite for v1:AC-QA-01 (4.x parity)",
   "reqs": [
    "REQ-QUAL-32"
   ],
@@ -2265,7 +2265,7 @@
   "priority": "P0",
   "test": "packages/qa/test/inspect.fixtures.test.ts reads legacy4x and reproduces HEAD verdicts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-38, REQ-QUAL-05; archived: Prerequisite for AC-QA-01",
+  "acceptance": "REQ-QUAL-38, REQ-QUAL-05; archived: Prerequisite for v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-38",
    "REQ-QUAL-05"
@@ -2292,7 +2292,7 @@
   "priority": "P1",
   "test": "packages/qa/test/dhash-duplicates.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-03; archived: AC-QA-02 (honest counts)",
+  "acceptance": "REQ-QUAL-03; archived: v1:AC-QA-02 (honest counts)",
   "reqs": [
    "REQ-QUAL-03"
   ],
@@ -2313,7 +2313,7 @@
   "priority": "P0",
   "test": "packages/qa/test/scenes-manifest.test.ts",
   "storybook": "Storybook environment global reads this manifest (PRD-04/SB)",
-  "acceptance": "REQ-QUAL-07; archived: AC-QA-04",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-QA-04",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -2336,7 +2336,7 @@
   "priority": "P0",
   "test": "packages/qa/test/thresholds.test.ts: every key above present with exactly these values; schema validation",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-15; archived: AC-QA-01, AC-QA-06, AC-QA-07",
+  "acceptance": "REQ-QUAL-15; archived: v1:AC-QA-01, v1:AC-QA-06, v1:AC-QA-07",
   "reqs": [
    "REQ-QUAL-15"
   ],
@@ -2364,7 +2364,7 @@
   "priority": "P0",
   "test": "packages/qa/test/pixel-gates.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-15; archived: AC-QA-01, AC-QA-07",
+  "acceptance": "REQ-QUAL-15; archived: v1:AC-QA-01, v1:AC-QA-07",
   "reqs": [
    "REQ-QUAL-15"
   ],
@@ -2392,7 +2392,7 @@
   "priority": "P0",
   "test": "packages/qa/test/material-presence.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-14; archived: AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-03:REQ-DS-15",
+  "acceptance": "REQ-QUAL-14; archived: v1:AC-QA-05 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-03:v1:REQ-DS-15",
   "reqs": [
    "REQ-QUAL-14"
   ],
@@ -2415,7 +2415,7 @@
   "priority": "P0",
   "test": "packages/qa/test/ocr-contrast.test.ts (runs inside the cert image in L12)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-13; archived: AC-QA-06",
+  "acceptance": "REQ-QUAL-13; archived: v1:AC-QA-06",
   "reqs": [
    "REQ-QUAL-13"
   ],
@@ -2439,7 +2439,7 @@
   "priority": "P0",
   "test": "packages/qa/test/preference-delta.test.ts: identical capture pair -> preference-noop; 0.6% changed + higher ratio -> pass; tinted sigma drop 20% -> fail",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-16; archived: AC-QA-07",
+  "acceptance": "REQ-QUAL-16; archived: v1:AC-QA-07",
   "reqs": [
    "REQ-QUAL-16"
   ],
@@ -2462,7 +2462,7 @@
   "priority": "P1",
   "test": "packages/qa/test/focus-contrast.test.ts: 2:1 ring fails, 3.2:1 passes",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-14; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-14; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-14"
   ],
@@ -2487,7 +2487,7 @@
   "priority": "P0",
   "test": "remote: qual:certify:l6 on the sentinel set and the main-scope qual:certify:l* jobs full L6; 0 failing cells on 5.0 subjects",
   "storybook": "Consumes cert-manifest.json ids, Scenes/* (cert-scene) stories and parameters.ag on flagship stories",
-  "acceptance": "REQ-QUAL-09, REQ-QUAL-17; archived: AC-QA-05, AC-QA-06, AC-QA-14",
+  "acceptance": "REQ-QUAL-09, REQ-QUAL-17; archived: v1:AC-QA-05, v1:AC-QA-06, v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-09",
    "REQ-QUAL-17"
@@ -2512,7 +2512,7 @@
   "priority": "P0",
   "test": "remote the main-scope qual:certify:l* jobs: 0 preference-noop on 5.0 subjects; known-failures.spec.ts shows 12/12 noop on 4.1",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-16; archived: AC-QA-07",
+  "acceptance": "REQ-QUAL-16; archived: v1:AC-QA-07",
   "reqs": [
    "REQ-QUAL-16"
   ],
@@ -2535,7 +2535,7 @@
   "priority": "P0",
   "test": "remote the PR-scope qual:certify:l* jobs: 0 console failures on sentinel set; known-failures shows PageTransitionDemo pageerror",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-17; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-17; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-17"
   ],
@@ -2560,7 +2560,7 @@
   "priority": "P0",
   "test": "remote run on 15b6de6f7: all expected failures reported, 0 pass",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32, REQ-QUAL-64; archived: AC-QA-01",
+  "acceptance": "REQ-QUAL-32, REQ-QUAL-64; archived: v1:AC-QA-01",
   "reqs": [
    "REQ-QUAL-32",
    "REQ-QUAL-64"
@@ -2584,7 +2584,7 @@
   "priority": "P1",
   "test": "remote: 768x1024 cells exist only for kind=scene subjects (lane manifest query)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-04, REQ-QUAL-09; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-04, REQ-QUAL-09; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-04",
    "REQ-QUAL-09"
@@ -2608,7 +2608,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l8 green on sentinel set; webkit probe failure fixture (surface without -webkit-backdrop-filter) fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-22; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-22; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-22"
   ],
@@ -2629,7 +2629,7 @@
   "priority": "P0",
   "test": "packages/qa/test/evidence-manifest.test.ts: empty results => status fail; one quarantined => status fail; schema validates with ajv",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61; archived: Prerequisite for AC-QA-11",
+  "acceptance": "REQ-QUAL-61; archived: Prerequisite for v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-61"
   ],
@@ -2652,7 +2652,7 @@
   "priority": "P1",
   "test": "packages/qa/test/flake.test.ts: 1 of 1000 differing -> pass; 2 of 1000 -> fail; quarantine entry older than 7 days -> fail",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-66, REQ-QUAL-11, REQ-QUAL-61; archived: AC-QA-17",
+  "acceptance": "REQ-QUAL-66, REQ-QUAL-11, REQ-QUAL-61; archived: v1:AC-QA-17",
   "reqs": [
    "REQ-QUAL-66",
    "REQ-QUAL-11",
@@ -2675,7 +2675,7 @@
   "priority": "P2",
   "test": "packages/qa/test/budget-watch.test.ts: 5 overruns -> openIssue called once; 4 -> not called",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-65; archived: AC-QA-21",
+  "acceptance": "REQ-QUAL-65; archived: v1:AC-QA-21",
   "reqs": [
    "REQ-QUAL-65"
   ],
@@ -2696,7 +2696,7 @@
   "priority": "P0",
   "test": "packages/qa/test/a11y-pixel-contrast.test.ts validates rows against the schema; PRD-05 tests/a11y/... pixel-contrast-artifact.test.ts accepts the CI artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-13; archived: AC-QA-06",
+  "acceptance": "REQ-QUAL-13; archived: v1:AC-QA-06",
   "reqs": [
    "REQ-QUAL-13"
   ],
@@ -2717,7 +2717,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l7 green on sentinel set with committed baselines",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-24; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-24"
   ],
@@ -2743,7 +2743,7 @@
   "priority": "P1",
   "test": "packages/qa/test/diff-report.test.ts: 2 fixture pairs -> 2 rows with changed ratio",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-25; archived: AC-QA-08",
+  "acceptance": "REQ-QUAL-25; archived: v1:AC-QA-08",
   "reqs": [
    "REQ-QUAL-25"
   ],
@@ -2767,7 +2767,7 @@
   "priority": "P0",
   "test": "packages/qa/test/evidence-verify.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61, REQ-QUAL-63; archived: AC-QA-11",
+  "acceptance": "REQ-QUAL-61, REQ-QUAL-63; archived: v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-61",
    "REQ-QUAL-63"
@@ -2791,7 +2791,7 @@
   "priority": "P0",
   "test": "packages/qa/test/aggregate.test.ts: 12 lane fixtures -> 12 entries; duplicate lane -> error",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-61; archived: AC-QA-11",
+  "acceptance": "REQ-QUAL-61; archived: v1:AC-QA-11",
   "reqs": [
    "REQ-QUAL-61"
   ],
@@ -2814,7 +2814,7 @@
   "priority": "P1",
   "test": "packages/qa/test/release-bundle.test.ts: >2 GB synthetic size -> fail; PNG kept for regression cells",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-60; archived: AC-QA-12",
+  "acceptance": "REQ-QUAL-60; archived: v1:AC-QA-12",
   "reqs": [
    "REQ-QUAL-60"
   ],
@@ -2837,7 +2837,7 @@
   "priority": "P1",
   "test": "packages/qa/test/composite.test.ts: fixture cells -> 1 composite with 19 tiles, deterministic sha256",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-73; archived: AC-QA-18",
+  "acceptance": "REQ-QUAL-73; archived: v1:AC-QA-18",
   "reqs": [
    "REQ-QUAL-73"
   ],
@@ -2866,7 +2866,7 @@
   "priority": "P1",
   "test": "packages/qa/test/sr-matrix.test.ts: generated template lists all 44 flagships from PRD-A11Y scripts; GA rule = every SR-1..SR-4 + physical-touch cell pass for all 44 flagships (issue-#16 rule, SC-29); no waiver allowance",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-72, REQ-QUAL-73; archived: AC-QA-18 | Upstream contracts (SC-40, formerly in depends_on): PRD-05:REQ-A11Y-43, PRD-05:REQ-A11Y-44",
+  "acceptance": "REQ-QUAL-72, REQ-QUAL-73; archived: v1:AC-QA-18 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-05:v1:REQ-A11Y-43, v1:PRD-05:v1:REQ-A11Y-44",
   "reqs": [
    "REQ-QUAL-72",
    "REQ-QUAL-73"
@@ -2890,7 +2890,7 @@
   "priority": "P1",
   "test": "packages/qa/test/checklist.test.ts: failing lane -> item 2 unticked; no manual tick syntax accepted from input",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-63; archived: AC-QA-22",
+  "acceptance": "REQ-QUAL-63; archived: v1:AC-QA-22",
   "reqs": [
    "REQ-QUAL-63"
   ],
@@ -2913,7 +2913,7 @@
   "priority": "P1",
   "test": "cert:verify on the RC SHA passes the review-record checks",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-72, REQ-QUAL-73; archived: AC-QA-18",
+  "acceptance": "REQ-QUAL-72, REQ-QUAL-73; archived: v1:AC-QA-18",
   "reqs": [
    "REQ-QUAL-72",
    "REQ-QUAL-73"
@@ -2944,7 +2944,7 @@
   "priority": "P1",
   "test": "qual:certify:release pipeline URL on the GA SHA all green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-63; archived: AC-QA-06, AC-QA-07, AC-QA-14, AC-QA-15, AC-QA-21, AC-QA-22",
+  "acceptance": "REQ-QUAL-63; archived: v1:AC-QA-06, v1:AC-QA-07, v1:AC-QA-14, v1:AC-QA-15, v1:AC-QA-21, v1:AC-QA-22",
   "reqs": [
    "REQ-QUAL-63"
   ],
@@ -2965,7 +2965,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l9 green on sentinel set; fixture with infinite animation under reduce fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-23; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-23; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-23"
   ],
@@ -2986,7 +2986,7 @@
   "priority": "P1",
   "test": "NEW packages/qa/test/ratchets.test.ts compares the PR value with the merge-base value via git show and fails on a loosening",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-30, REQ-QUAL-63; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-30, REQ-QUAL-63; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-30",
    "REQ-QUAL-63"
@@ -3016,7 +3016,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l5; manifest lists browserVersions for chromium, webkit, firefox",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-19; archived: AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-05:REQ-A11Y-40, PRD-05:REQ-A11Y-42",
+  "acceptance": "REQ-QUAL-19; archived: v1:AC-QA-14 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-05:v1:REQ-A11Y-40, v1:PRD-05:v1:REQ-A11Y-42",
   "reqs": [
    "REQ-QUAL-19"
   ],
@@ -3047,7 +3047,7 @@
   "priority": "P0",
   "test": "remote qual:certify:l5 includes ssr-hydration tests in 3 engines",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-21; archived: AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-05",
+  "acceptance": "REQ-QUAL-21; archived: v1:AC-QA-14 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-05",
   "reqs": [
    "REQ-QUAL-21"
   ],
@@ -3070,7 +3070,7 @@
   "priority": "P1",
   "test": "remote 3 engines",
   "storybook": "Requires a stacked-overlay story from the overlays PRD",
-  "acceptance": "REQ-QUAL-21; archived: AC-QA-14",
+  "acceptance": "REQ-QUAL-21; archived: v1:AC-QA-14",
   "reqs": [
    "REQ-QUAL-21"
   ],
@@ -3095,7 +3095,7 @@
   "priority": "P0",
   "test": "remote the main-scope qual:certify:l* jobs L11",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-29; archived: AC-QA-15 | Upstream contracts (SC-40, formerly in depends_on): PRD-02",
+  "acceptance": "REQ-QUAL-29; archived: v1:AC-QA-15 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-02",
   "reqs": [
    "REQ-QUAL-29"
   ],
@@ -3116,7 +3116,7 @@
   "priority": "P1",
   "test": "alpha.1 run URLs; baseline PRs approved by design CODEOWNER",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-63; archived: AC-QA-08, AC-QA-21",
+  "acceptance": "REQ-QUAL-63; archived: v1:AC-QA-08, v1:AC-QA-21",
   "reqs": [
    "REQ-QUAL-63"
   ],
@@ -3141,7 +3141,7 @@
   "priority": "P0",
   "test": "`node_modules/.bin/eslint \"src/**/*.test.tsx\" -f json` in remote CI reports 0 auraglass/no-vacuous-assertions violations after the rewrite tasks",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-31; archived: AC-QA-13",
+  "acceptance": "REQ-QUAL-31; archived: v1:AC-QA-13",
   "reqs": [
    "REQ-QUAL-31"
   ],
@@ -3166,7 +3166,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/helper.test.ts loads eslint-plugin-auraglass.js and asserts the six story-* rule keys exist",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3189,7 +3189,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-optics.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3212,7 +3212,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-important.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3235,7 +3235,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-ink-override.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10, REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-03, REQ-SB-30)",
+  "acceptance": "REQ-QUAL-10, REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-03, v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-10",
    "REQ-QUAL-55"
@@ -3259,7 +3259,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-tone-class.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3282,7 +3282,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-stage-background.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30, REQ-SB-31)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30, v1:REQ-SB-31)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3305,7 +3305,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/story-no-private-vars.test.ts (RuleTester >=4 valid, >=4 invalid)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-30, REQ-SB-31)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-30, v1:REQ-SB-31)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -3330,7 +3330,7 @@
   "priority": "P0",
   "test": "npm run lint:stories exits 0 at warn; fixture import of aura-glass/src/x from showcase/ errors (SB-102 negative + lab-not-shipped.test.mjs)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-54, REQ-QUAL-59, REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-21, REQ-SB-23, REQ-SB-30)",
+  "acceptance": "REQ-QUAL-54, REQ-QUAL-59, REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-21, v1:REQ-SB-23, v1:REQ-SB-30)",
   "reqs": [
    "REQ-QUAL-54",
    "REQ-QUAL-59",
@@ -3356,7 +3356,7 @@
   "priority": "P0",
   "test": "lint-gates green at error with 0 violations; ratchet.mjs --check against 0 baseline",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55, REQ-QUAL-56; archived: AC-SB-09 (REQ-SB-32, REQ-SB-49)",
+  "acceptance": "REQ-QUAL-55, REQ-QUAL-56; archived: v1:AC-SB-09 (v1:REQ-SB-32, v1:REQ-SB-49)",
   "reqs": [
    "REQ-QUAL-55",
    "REQ-QUAL-56"
@@ -3381,7 +3381,7 @@
   "priority": "P1",
   "test": "PERF harness schema check over budgets.json (PERF-039 run-perf.mjs --validate)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-35; archived: AC-SB-13 (§16)",
+  "acceptance": "REQ-QUAL-35; archived: v1:AC-SB-13 (§16)",
   "reqs": [
    "REQ-QUAL-35"
   ],
@@ -3406,7 +3406,7 @@
   "priority": "P0",
   "test": "tests/perf/size-budgets.test.ts (job perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-39; archived: AC-PERF-01",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-39; archived: v1:AC-PERF-01",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-39"
@@ -3430,7 +3430,7 @@
   "priority": "P1",
   "test": "tests/perf/size-rows.test.ts (perf-static)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10; archived: AC-PERF-01",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-PERF-01",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -3455,7 +3455,7 @@
   "priority": "P0",
   "test": "tests/perf/size-budgets-ratchet.test.ts; scratch commit raising a row fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-39, REQ-QUAL-24; archived: AC-PERF-20",
+  "acceptance": "REQ-QUAL-39, REQ-QUAL-24; archived: v1:AC-PERF-20",
   "reqs": [
    "REQ-QUAL-39",
    "REQ-QUAL-24"
@@ -3481,7 +3481,7 @@
   "priority": "P0",
   "test": "tests/perf/tree-shake-zero.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-46; archived: AC-PERF-02",
+  "acceptance": "REQ-QUAL-46; archived: v1:AC-PERF-02",
   "reqs": [
    "REQ-QUAL-46"
   ],
@@ -3506,7 +3506,7 @@
   "priority": "P0",
   "test": "tests/side-effects/import-gate.test.ts green with the two traps; fixture reported",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-47; archived: AC-PERF-03",
+  "acceptance": "REQ-QUAL-47; archived: v1:AC-PERF-03",
   "reqs": [
    "REQ-QUAL-47"
   ],
@@ -3531,7 +3531,7 @@
   "priority": "P0",
   "test": "tests/perf/dist-purity.test.ts (perf-artifact); fixture with top-level new Foo() fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-32; archived: AC-PERF-03",
+  "acceptance": "REQ-QUAL-32; archived: v1:AC-PERF-03",
   "reqs": [
    "REQ-QUAL-32"
   ],
@@ -3552,7 +3552,7 @@
   "priority": "P1",
   "test": "tests/perf/no-global-mutation.test.ts (perf-static ratchet + perf-beta-gates strict)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-46; archived: DoD 1 (REQ-PERF-07 test green); supports AC-PERF-02",
+  "acceptance": "REQ-QUAL-46; archived: DoD 1 (v1:REQ-PERF-07 test green); supports v1:AC-PERF-02",
   "reqs": [
    "REQ-QUAL-46"
   ],
@@ -3588,7 +3588,7 @@
   "priority": "P1",
   "test": "tests/perf/dev-only-elimination.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-03 (dev-only code eliminated; REQ-PERF-08/39)",
+  "acceptance": "archived: v1:AC-PERF-03 (dev-only code eliminated; v1:REQ-PERF-08/39)",
   "reqs": [],
   "branch": "next",
   "source": "PERF-011",
@@ -3611,7 +3611,7 @@
   "priority": "P0",
   "test": "tests/perf/css-budget.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-24; archived: AC-PERF-01",
+  "acceptance": "REQ-QUAL-24; archived: v1:AC-PERF-01",
   "reqs": [
    "REQ-QUAL-24"
   ],
@@ -3632,7 +3632,7 @@
   "priority": "P0",
   "test": "tests/perf/css-blur-scale.test.ts, css-filter-chain.test.ts, css-layer-forcing.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-44; archived: AC-PERF-05",
+  "acceptance": "REQ-QUAL-44; archived: v1:AC-PERF-05",
   "reqs": [
    "REQ-QUAL-44"
   ],
@@ -3664,7 +3664,7 @@
   "priority": "P0",
   "test": "tests/perf/css-blur-scale.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-44; archived: AC-PERF-05",
+  "acceptance": "REQ-QUAL-44; archived: v1:AC-PERF-05",
   "reqs": [
    "REQ-QUAL-44"
   ],
@@ -3692,7 +3692,7 @@
   "priority": "P0",
   "test": "tests/perf/css-filter-chain.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-44; archived: AC-PERF-05",
+  "acceptance": "REQ-QUAL-44; archived: v1:AC-PERF-05",
   "reqs": [
    "REQ-QUAL-44"
   ],
@@ -3722,7 +3722,7 @@
   "priority": "P0",
   "test": "tests/perf/css-layer-forcing.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-05",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-05",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -3745,7 +3745,7 @@
   "priority": "P1",
   "test": "perf-static step node scripts/ci/verify-css-perf.mjs --baseline tests/perf/baselines/src-css-perf.baseline.json",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-04; archived: AC-PERF-05 (source ratchet until removals)",
+  "acceptance": "REQ-QUAL-04; archived: v1:AC-PERF-05 (source ratchet until removals)",
   "reqs": [
    "REQ-QUAL-04"
   ],
@@ -3769,7 +3769,7 @@
   "priority": "P1",
   "test": "tests/perf/js-animated-properties.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-44; archived: AC-PERF-05",
+  "acceptance": "REQ-QUAL-44; archived: v1:AC-PERF-05",
   "reqs": [
    "REQ-QUAL-44"
   ],
@@ -3800,7 +3800,7 @@
   "priority": "P1",
   "test": "tests/perf/no-runtime-sampling.test.ts (perf-artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-46; archived: AC-PERF-11 (static half: no default-on sampling)",
+  "acceptance": "REQ-QUAL-46; archived: v1:AC-PERF-11 (static half: no default-on sampling)",
   "reqs": [
    "REQ-QUAL-46"
   ],
@@ -3826,7 +3826,7 @@
   "priority": "P1",
   "test": "tests/perf/optics-residue.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-53; archived: AC-PERF-06",
+  "acceptance": "REQ-QUAL-53; archived: v1:AC-PERF-06",
   "reqs": [
    "REQ-QUAL-53"
   ],
@@ -3851,7 +3851,7 @@
   "priority": "P0",
   "test": "tests/perf/ci-wiring.test.ts (perf-static)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-27; archived: AC-PERF-19",
+  "acceptance": "REQ-QUAL-27; archived: v1:AC-PERF-19",
   "reqs": [
    "REQ-QUAL-27"
   ],
@@ -3878,7 +3878,7 @@
   "priority": "P1",
   "test": "tests/perf/ci-wiring.test.ts (perf-beta-gates)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-19",
+  "acceptance": "archived: v1:AC-PERF-19",
   "reqs": [],
   "branch": "next",
   "source": "PERF-023",
@@ -3901,7 +3901,7 @@
   "priority": "P1",
   "test": "tests/lint/layer-forcing-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-05 (source half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-05 (source half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -3926,7 +3926,7 @@
   "priority": "P1",
   "test": "tests/lint/layer-forcing-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-05 (source half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-05 (source half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -3951,7 +3951,7 @@
   "priority": "P1",
   "test": "tests/lint/layer-forcing-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-05 (source half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-05 (source half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -3978,7 +3978,7 @@
   "priority": "P1",
   "test": "tests/lint/raf-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-11 (static half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-11 (static half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -4005,7 +4005,7 @@
   "priority": "P1",
   "test": "tests/lint/raf-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-11 (static half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-11 (static half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -4032,7 +4032,7 @@
   "priority": "P1",
   "test": "tests/lint/no-global-pointer-listener.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-11 (static half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-11 (static half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -4047,7 +4047,7 @@
   "system": "lint config",
   "file": "lint/rules/qual/",
   "action": "MODIFY",
-  "description": "Register the six PERF rules as 'warn' (report-only, Wave 0) in eslint.config.js and .eslintrc.js; layer-forcing + pointer rules on src/**/*.{ts,tsx,js,jsx} minus stories/tests; rAF rules on src/three/**, src/media/**, src/backdrops/**, src/motion/**, packages/labs/src/** if present.",
+  "description": "Register the six PERF rules as 'warn' (report-only, ratchet step 0) in eslint.config.js and .eslintrc.js; layer-forcing + pointer rules on src/**/*.{ts,tsx,js,jsx} minus stories/tests; rAF rules on src/three/**, src/media/**, src/backdrops/**, src/motion/**, packages/labs/src/** if present.",
   "depends_on": [
    "QUAL-159",
    "QUAL-160",
@@ -4064,7 +4064,7 @@
   "priority": "P1",
   "test": "node_modules/.bin/eslint --print-config src/index.ts shows the six rules at warn",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-05; archived: AC-PERF-05, AC-PERF-11 (inputs)",
+  "acceptance": "REQ-QUAL-05; archived: v1:AC-PERF-05, v1:AC-PERF-11 (inputs)",
   "reqs": [
    "REQ-QUAL-05"
   ],
@@ -4087,7 +4087,7 @@
   "priority": "P1",
   "test": "tests/lint/perf-lint-ratchet.test.ts; adding a window mousemove listener on a scratch branch fails it",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-30; archived: AC-PERF-05, AC-PERF-11 (ratchet inputs)",
+  "acceptance": "REQ-QUAL-30; archived: v1:AC-PERF-05, v1:AC-PERF-11 (ratchet inputs)",
   "reqs": [
    "REQ-QUAL-30"
   ],
@@ -4112,7 +4112,7 @@
   "priority": "P1",
   "test": "node_modules/.bin/jest tests/lint/layer-forcing-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-05 (source half)",
+  "acceptance": "archived: v1:AC-PERF-05 (source half)",
   "reqs": [],
   "branch": "next",
   "source": "PERF-033",
@@ -4134,7 +4134,7 @@
   "priority": "P1",
   "test": "node_modules/.bin/jest tests/lint/raf-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-11 (static half)",
+  "acceptance": "archived: v1:AC-PERF-11 (static half)",
   "reqs": [],
   "branch": "next",
   "source": "PERF-034",
@@ -4155,7 +4155,7 @@
   "priority": "P1",
   "test": "node_modules/.bin/jest tests/lint/no-global-pointer-listener.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-45; archived: AC-PERF-11 (static half)",
+  "acceptance": "REQ-QUAL-45; archived: v1:AC-PERF-11 (static half)",
   "reqs": [
    "REQ-QUAL-45"
   ],
@@ -4179,7 +4179,7 @@
   "priority": "P2",
   "test": "rg -n '3.1-frame-loop-audit|runtime-cleanliness-audit|scan-motion-performance' package.json .github scripts returns 0; CI green",
   "storybook": "n/a",
-  "acceptance": "archived: AC-PERF-11 (no orphan audit gates)",
+  "acceptance": "archived: v1:AC-PERF-11 (no orphan audit gates)",
   "reqs": [],
   "branch": "next",
   "source": "PERF-036",
@@ -4200,7 +4200,7 @@
   "priority": "P0",
   "test": "tests/perf/harness/self-test.spec.ts (remote)",
   "storybook": "Used by addon panel PERF-049 and every perf story run",
-  "acceptance": "REQ-QUAL-42, REQ-QUAL-20; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-42, REQ-QUAL-20; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-42",
    "REQ-QUAL-20"
@@ -4222,7 +4222,7 @@
   "priority": "P0",
   "test": "run-perf.mjs validates output against schema; self-test asserts a record missing frameP95 is rejected",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-35; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-35; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-35"
@@ -4247,7 +4247,7 @@
   "priority": "P0",
   "test": "tests/perf/harness/self-test.spec.ts; local run exits 2",
   "storybook": "Consumes storybook-static index.json and perf stories",
-  "acceptance": "REQ-QUAL-34; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-34; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34"
   ],
@@ -4270,7 +4270,7 @@
   "priority": "P0",
   "test": "qual:certify:l10 (nightly profile a on .ag-gpu; profiles b-c-d on .ag-playwright) produce schema-valid perf-results.json per profile",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: AC-PERF-10, AC-PERF-17",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: v1:AC-PERF-10, v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-20"
@@ -4294,7 +4294,7 @@
   "priority": "P0",
   "test": "self-test.spec.ts asserts blank deltaVsBlank.frameP95 within 0 +/- 1 ms",
   "storybook": "perf-harness-blank--default",
-  "acceptance": "REQ-QUAL-35; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-35; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-35"
   ],
@@ -4318,7 +4318,7 @@
   "priority": "P0",
   "test": "tests/perf/harness/grade.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-37; archived: AC-PERF-14",
+  "acceptance": "REQ-QUAL-37; archived: v1:AC-PERF-14",
   "reqs": [
    "REQ-QUAL-37"
   ],
@@ -4341,7 +4341,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest tests/perf/harness/grade.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-37, REQ-QUAL-62; archived: AC-PERF-14",
+  "acceptance": "REQ-QUAL-37, REQ-QUAL-62; archived: v1:AC-PERF-14",
   "reqs": [
    "REQ-QUAL-37",
    "REQ-QUAL-62"
@@ -4363,7 +4363,7 @@
   "priority": "P0",
   "test": "tests/perf/harness/budgets-frozen.test.ts; tests/perf/size-rows.test.ts reads subjects",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-38, REQ-QUAL-34; archived: AC-PERF-20",
+  "acceptance": "REQ-QUAL-38, REQ-QUAL-34; archived: v1:AC-PERF-20",
   "reqs": [
    "REQ-QUAL-38",
    "REQ-QUAL-34"
@@ -4387,7 +4387,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest tests/perf/harness/budgets-frozen.test.ts; scratch commit raising bci.fine fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-39; archived: AC-PERF-20",
+  "acceptance": "REQ-QUAL-39; archived: v1:AC-PERF-20",
   "reqs": [
    "REQ-QUAL-39"
   ],
@@ -4418,7 +4418,7 @@
   "priority": "P1",
   "test": "self-test.spec.ts case requesting tier enhanced on a lightweight-forced fixture fails with label-mismatch",
   "storybook": "Requires tier/pointer/reducedMotion/environment globals",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-20"
@@ -4442,7 +4442,7 @@
   "priority": "P1",
   "test": "self-test.spec.ts fixture without parameters.perf -> non-zero exit",
   "storybook": "Every flagship story declares parameters.perf",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-20; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-20"
@@ -4469,7 +4469,7 @@
   "priority": "P0",
   "test": "playwright test --project perf tests/perf/harness/self-test.spec.ts (remote, the qual:certify:* jobs (QA) self-test)",
   "storybook": "perf-self-test--regression, perf-harness-blank--default",
-  "acceptance": "REQ-QUAL-34; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-34; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-34"
   ],
@@ -4494,7 +4494,7 @@
   "priority": "P0",
   "test": "node tests/perf/node-cold-import.test.mjs (remote job node-cold-import)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-47; archived: AC-PERF-04",
+  "acceptance": "REQ-QUAL-47; archived: v1:AC-PERF-04",
   "reqs": [
    "REQ-QUAL-47"
   ],
@@ -4515,7 +4515,7 @@
   "priority": "P0",
   "test": "node_modules/.bin/jest tests/perf/harness/bci.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-34; archived: AC-PERF-07",
+  "acceptance": "REQ-QUAL-34; archived: v1:AC-PERF-07",
   "reqs": [
    "REQ-QUAL-34"
   ],
@@ -4543,7 +4543,7 @@
   "priority": "P0",
   "test": "playwright test --project perf tests/perf/browser/host-backdrop-root.spec.ts (remote x3 engines)",
   "storybook": "PRD-04 Material.Lab.stories.tsx ids + subject stories over photo scene",
-  "acceptance": "REQ-QUAL-43; archived: AC-PERF-07",
+  "acceptance": "REQ-QUAL-43; archived: v1:AC-PERF-07",
   "reqs": [
    "REQ-QUAL-43"
   ],
@@ -4558,7 +4558,7 @@
   "system": "nesting collapse",
   "file": "NEW:tests/perf/browser/qual/nesting-collapse.spec.ts",
   "action": "TEST",
-  "description": "REQ-PERF-16, x3 engines: perf-nesting--nest-4 allowNestedLevel 0 -> exactly 1 element with non-none ::before backdrop-filter, nesting 1; allowNestedLevel 2 -> 2 and (dev build) exactly 1 warning matching /nested glass depth 2|allowNested at depth 2/ (warning assertion dropped only if PRD-04 rejected the tightening request; record observed text). (Cross-lane input 5g-Q7 is consumed through its frozen interface, never waited for.)",
+  "description": "REQ-PERF-16, x3 engines: perf-nesting--nest-4 allowNestedLevel 0 -> exactly 1 element with non-none ::before backdrop-filter, nesting 1; allowNestedLevel 2 -> 2 and (dev build) exactly 1 warning matching /nested glass depth 2|allowNested at depth 2/ (warning assertion dropped only if the frozen MAT seam rejects the tightening; record observed text). (Cross-lane input 5g-Q7 is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "QUAL-185"
   ],
@@ -4571,7 +4571,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/nesting-collapse.spec.ts (remote x3)",
   "storybook": "perf-nesting--nest-4",
-  "acceptance": "REQ-QUAL-34; archived: AC-PERF-07",
+  "acceptance": "REQ-QUAL-34; archived: v1:AC-PERF-07",
   "reqs": [
    "REQ-QUAL-34"
   ],
@@ -4600,7 +4600,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/surface-budget.spec.ts (remote x3)",
   "storybook": "Six PRD-19 product scenes; 44 flagship default stories with parameters.perf",
-  "acceptance": "REQ-QUAL-38; archived: AC-PERF-07",
+  "acceptance": "REQ-QUAL-38; archived: v1:AC-PERF-07",
   "reqs": [
    "REQ-QUAL-38"
   ],
@@ -4631,7 +4631,7 @@
   "priority": "P0",
   "test": "surface-budget.spec.ts describe 'fallbacks' (remote x3)",
   "storybook": "Six product scenes",
-  "acceptance": "REQ-QUAL-38; archived: AC-PERF-15",
+  "acceptance": "REQ-QUAL-38; archived: v1:AC-PERF-15",
   "reqs": [
    "REQ-QUAL-38"
   ],
@@ -4656,7 +4656,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/overlay-cost.spec.ts (remote x3)",
   "storybook": "dialog--default, alert-dialog, sheet, popover, tooltip, menu, toast stories",
-  "acceptance": "REQ-QUAL-44; archived: AC-PERF-08",
+  "acceptance": "REQ-QUAL-44; archived: v1:AC-PERF-08",
   "reqs": [
    "REQ-QUAL-44"
   ],
@@ -4682,7 +4682,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/appshell-cost.spec.ts (remote x3)",
   "storybook": "app-shell--saas, app-shell--ai-command-center, dashboard scene",
-  "acceptance": "REQ-QUAL-38; archived: AC-PERF-08",
+  "acceptance": "REQ-QUAL-38; archived: v1:AC-PERF-08",
   "reqs": [
    "REQ-QUAL-38"
   ],
@@ -4708,7 +4708,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/svg-lens-budget.spec.ts (remote x3)",
   "storybook": "perf-lens--lens-3",
-  "acceptance": "REQ-QUAL-43; archived: AC-PERF-07 (enhanced cell)",
+  "acceptance": "REQ-QUAL-43; archived: v1:AC-PERF-07 (enhanced cell)",
   "reqs": [
    "REQ-QUAL-43"
   ],
@@ -4736,7 +4736,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/webgl-budget.spec.ts (remote Chromium)",
   "storybook": "perf-webgl--webgl-3, perf-mount-cycle--default",
-  "acceptance": "REQ-QUAL-43; archived: AC-PERF-16",
+  "acceptance": "REQ-QUAL-43; archived: v1:AC-PERF-16",
   "reqs": [
    "REQ-QUAL-43"
   ],
@@ -4762,7 +4762,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/will-change-lifecycle.spec.ts (remote x3)",
   "storybook": "dialog--default",
-  "acceptance": "REQ-QUAL-23; archived: AC-PERF-11",
+  "acceptance": "REQ-QUAL-23; archived: v1:AC-PERF-11",
   "reqs": [
    "REQ-QUAL-23"
   ],
@@ -4794,7 +4794,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/settled-idle.spec.ts (remote x3)",
   "storybook": "All subject stories in budgets.json",
-  "acceptance": "REQ-QUAL-23; archived: AC-PERF-11",
+  "acceptance": "REQ-QUAL-23; archived: v1:AC-PERF-11",
   "reqs": [
    "REQ-QUAL-23"
   ],
@@ -4817,7 +4817,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/mount-unmount-leak.spec.ts (remote Chromium)",
   "storybook": "perf-mount-cycle--default",
-  "acceptance": "REQ-QUAL-42; archived: AC-PERF-12",
+  "acceptance": "REQ-QUAL-42; archived: v1:AC-PERF-12",
   "reqs": [
    "REQ-QUAL-42"
   ],
@@ -4846,7 +4846,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/hydration-stability.spec.ts (remote Chromium)",
   "storybook": "n/a (standalone SSR pages of the six scenes)",
-  "acceptance": "REQ-QUAL-21; archived: AC-PERF-13",
+  "acceptance": "REQ-QUAL-21; archived: v1:AC-PERF-13",
   "reqs": [
    "REQ-QUAL-21"
   ],
@@ -4872,7 +4872,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/dev-counter.spec.ts (remote Chromium)",
   "storybook": "perf-budget--budget-7",
-  "acceptance": "REQ-QUAL-34, REQ-QUAL-24; archived: AC-PERF-07 (dev counter thresholds verified)",
+  "acceptance": "REQ-QUAL-34, REQ-QUAL-24; archived: v1:AC-PERF-07 (dev counter thresholds verified)",
   "reqs": [
    "REQ-QUAL-34",
    "REQ-QUAL-24"
@@ -4897,7 +4897,7 @@
   "priority": "P2",
   "test": "surface-budget.spec.ts describe 'resize' (remote Chromium)",
   "storybook": "dashboard product scene",
-  "acceptance": "REQ-QUAL-38; archived: AC-PERF-07",
+  "acceptance": "REQ-QUAL-38; archived: v1:AC-PERF-07",
   "reqs": [
    "REQ-QUAL-38"
   ],
@@ -4922,7 +4922,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/input-latency.spec.ts (remote Chromium)",
   "storybook": "menu, select, combobox, tabs default stories",
-  "acceptance": "REQ-QUAL-38, REQ-QUAL-31; archived: AC-PERF-10 (interaction latency row of §16.4)",
+  "acceptance": "REQ-QUAL-38, REQ-QUAL-31; archived: v1:AC-PERF-10 (interaction latency row of §16.4)",
   "reqs": [
    "REQ-QUAL-38",
    "REQ-QUAL-31"
@@ -4950,7 +4950,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/component-budgets.spec.ts (remote; profile a cells on GPU worker)",
   "storybook": "tabs, segmented-control, tab-bar, table (10k rows arg), tree-view (500 nodes), toolbar, thread (500), now-playing-bar stories",
-  "acceptance": "REQ-QUAL-08; archived: AC-PERF-10, AC-PERF-11",
+  "acceptance": "REQ-QUAL-08; archived: v1:AC-PERF-10, v1:AC-PERF-11",
   "reqs": [
    "REQ-QUAL-08"
   ],
@@ -4975,7 +4975,7 @@
   "priority": "P2",
   "test": "Artifact perf-budget-captures-<sha> exists with 16+ PNGs and sidecars; every PNG non-blank (pixel variance check)",
   "storybook": "dialog--default, app-shell scenes, six product scenes",
-  "acceptance": "REQ-QUAL-61, REQ-QUAL-62; archived: AC-PERF-08 (evidence); DoD 8",
+  "acceptance": "REQ-QUAL-61, REQ-QUAL-62; archived: v1:AC-PERF-08 (evidence); DoD 8",
   "reqs": [
    "REQ-QUAL-61",
    "REQ-QUAL-62"
@@ -5002,7 +5002,7 @@
   "priority": "P0",
   "test": "tests/perf/browser/regression-4x.spec.ts (remote software raster)",
   "storybook": "dialog--default, app-shell--saas, app-shell--ai-command-center, perf-harness-blank--default",
-  "acceptance": "REQ-QUAL-41; archived: AC-PERF-09",
+  "acceptance": "REQ-QUAL-41; archived: v1:AC-PERF-09",
   "reqs": [
    "REQ-QUAL-41"
   ],
@@ -5025,7 +5025,7 @@
   "priority": "P1",
   "test": "tests/perf/browser/pr-ratchet.spec.ts (remote GPU)",
   "storybook": "44 flagship default stories",
-  "acceptance": "REQ-QUAL-40; archived: AC-PERF-10",
+  "acceptance": "REQ-QUAL-40; archived: v1:AC-PERF-10",
   "reqs": [
    "REQ-QUAL-40"
   ],
@@ -5040,7 +5040,7 @@
   "system": "lint config",
   "file": "lint/rules/qual/",
   "action": "MODIFY",
-  "description": "Wave 3 flip: six PERF rules warn -> error in .eslintrc.js and eslint.config.js once their baseline is 0 for src paths shipped in 5.0 (BLOCKED naming owner PRDs otherwise; no eslint-disable); confirm perf-static, perf-artifact, node-cold-import are in main's required checks (record exact list if not). (Cross-lane input 5b-Q2 is consumed through its frozen interface, never waited for.)",
+  "description": "Ratchet flip (QUAL-internal, state-triggered): six PERF rules warn -> error in .eslintrc.js and eslint.config.js once their baseline is 0 for src paths shipped in 5.0 (otherwise report the residual baseline per owning stream as a GA checklist item, not a block; no eslint-disable); confirm perf-static, perf-artifact, node-cold-import are in main's required checks (record exact list if not). (Cross-lane input 5b-Q2 is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "QUAL-165",
    "QUAL-166"
@@ -5053,7 +5053,7 @@
   "priority": "P0",
   "test": "npm run lint:check exits 0 with rules at error; ci-wiring.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-05; archived: AC-PERF-05, AC-PERF-11",
+  "acceptance": "REQ-QUAL-05; archived: v1:AC-PERF-05, v1:AC-PERF-11",
   "reqs": [
    "REQ-QUAL-05"
   ],
@@ -5079,7 +5079,7 @@
   "priority": "P0",
   "test": "the qual:certify:* jobs (QA) release run; grade.mjs exit 0; artifact perf-grades-<sha>",
   "storybook": "All subject stories",
-  "acceptance": "REQ-QUAL-37, REQ-QUAL-62; archived: AC-PERF-10, AC-PERF-14",
+  "acceptance": "REQ-QUAL-37, REQ-QUAL-62; archived: v1:AC-PERF-10, v1:AC-PERF-14",
   "reqs": [
    "REQ-QUAL-37",
    "REQ-QUAL-62"
@@ -5103,7 +5103,7 @@
   "priority": "P1",
   "test": "node tests/perf/devices/device-farm-run.mjs --dry-run on beta, full on RC (remote)",
   "storybook": "Six product scenes, dialog--default, app-shell scenes",
-  "acceptance": "REQ-QUAL-48; archived: AC-PERF-18",
+  "acceptance": "REQ-QUAL-48; archived: v1:AC-PERF-18",
   "reqs": [
    "REQ-QUAL-48"
   ],
@@ -5126,7 +5126,7 @@
   "priority": "P1",
   "test": "Device run artifact contains p95 per device x metric and LoAF for Android",
   "storybook": "dialog--default, app-shell scenes, six product scenes",
-  "acceptance": "REQ-QUAL-48; archived: AC-PERF-18",
+  "acceptance": "REQ-QUAL-48; archived: v1:AC-PERF-18",
   "reqs": [
    "REQ-QUAL-48"
   ],
@@ -5150,7 +5150,7 @@
   "priority": "P1",
   "test": "Matrix rows all within budget or one signed exception <=33 ms; values match device artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-48, REQ-QUAL-64; archived: AC-PERF-18",
+  "acceptance": "REQ-QUAL-48, REQ-QUAL-64; archived: v1:AC-PERF-18",
   "reqs": [
    "REQ-QUAL-48",
    "REQ-QUAL-64"
@@ -5174,7 +5174,7 @@
   "priority": "P1",
   "test": "L14 review-record.json artifact exists for the RC SHA with reviewer login and passing scores",
   "storybook": "Perf/* fixtures, scenes (captures)",
-  "acceptance": "REQ-QUAL-48, REQ-QUAL-62; archived: AC-PERF-07, AC-PERF-08 (human confirmation); DoD 8",
+  "acceptance": "REQ-QUAL-48, REQ-QUAL-62; archived: v1:AC-PERF-07, v1:AC-PERF-08 (human confirmation); DoD 8",
   "reqs": [
    "REQ-QUAL-48",
    "REQ-QUAL-62"
@@ -5190,7 +5190,7 @@
   "system": "release evidence",
   "file": "docs/certification/real-device-matrix.md",
   "action": "DOC",
-  "description": "Build the AC-PERF-01..20 table for the RC SHA from CI artifacts (run URLs + artifact names) in the final report; verify the PRD-20 docs grade page reads perf-grades.json (rg -n 'perf-grades.json' in the docs app) with no hand-written grades/fps; BLOCKED on PRD-20 if absent.",
+  "description": "Build the AC-PERF-01..20 table for the RC SHA from CI artifacts (run URLs + artifact names) in the final report; verify the PLAT docs-site grade page reads perf-grades.json (rg -n 'perf-grades.json' in the docs app) with no hand-written grades/fps; report pending (not blocked) if PLAT's docs page has not merged yet.",
   "depends_on": [
    "QUAL-205",
    "QUAL-208"
@@ -5202,7 +5202,7 @@
   "priority": "P1",
   "test": "Every AC row has an artifact; docs lint finds 0 unsourced perf claims",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-48, REQ-QUAL-60; archived: AC-PERF-14 (docs from artifact); AC-PERF-01..20 table",
+  "acceptance": "REQ-QUAL-48, REQ-QUAL-60; archived: v1:AC-PERF-14 (docs from artifact); v1:AC-PERF-01..20 table",
   "reqs": [
    "REQ-QUAL-48",
    "REQ-QUAL-60"
@@ -5228,7 +5228,7 @@
   "priority": "P1",
   "test": "aws ec2 describe-instances / describe-hosts and devicefarm list-remote-access-sessions filtered by attempt-id tag show none running",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-48, REQ-QUAL-05; archived: DoD 9 (supports AC-PERF-18 evidence integrity)",
+  "acceptance": "REQ-QUAL-48, REQ-QUAL-05; archived: DoD 9 (supports v1:AC-PERF-18 evidence integrity)",
   "reqs": [
    "REQ-QUAL-48",
    "REQ-QUAL-05"
@@ -5253,7 +5253,7 @@
   "priority": "P0",
   "test": "certification/lanes/environment-visual.spec.ts test \"certify-mode isolation\" (REQ-QA-11 a and b) green in 3 engines",
   "storybook": "iframe.html?id=<id>&globals=environment:<scene>;certify:1 renders scene + subject only",
-  "acceptance": "REQ-QUAL-09, REQ-QUAL-23; archived: AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-17:REQ-SB-05",
+  "acceptance": "REQ-QUAL-09, REQ-QUAL-23; archived: v1:AC-QA-05 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-17:v1:REQ-SB-05",
   "reqs": [
    "REQ-QUAL-09",
    "REQ-QUAL-23"
@@ -5282,7 +5282,7 @@
   "priority": "P1",
   "test": "environment-visual.spec.ts tests for cert-fixture-opaque-wrapper fail glass-over-nothing in chromium, webkit, firefox; cert-fixture-clean passes",
   "storybook": "Two stories, tag cert-fixture",
-  "acceptance": "REQ-QUAL-14; archived: AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-04",
+  "acceptance": "REQ-QUAL-14; archived: v1:AC-QA-05 | Upstream contracts (v1:SC-40, formerly in depends_on): v1:PRD-04",
   "reqs": [
    "REQ-QUAL-14"
   ],
@@ -5303,7 +5303,7 @@
   "priority": "P2",
   "test": "assemble-pages.test.mjs asserts redirects.json copied and has <=50 entries each targeting an id present in index.json",
   "storybook": "Start Here shows 'moved' banner when ?moved=1",
-  "acceptance": "archived: AC-SB-16 (REQ-SB-52, PRD §10)",
+  "acceptance": "archived: v1:AC-SB-16 (v1:REQ-SB-52, PRD §10)",
   "reqs": [],
   "branch": "next",
   "source": "SB-007",
@@ -5322,7 +5322,7 @@
   "priority": "P1",
   "test": "SB-009",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: REQ-SB-54 (AC-SB-14 pipeline)",
+  "acceptance": "REQ-QUAL-56; archived: v1:REQ-SB-54 (v1:AC-SB-14 pipeline)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5345,7 +5345,7 @@
   "priority": "P1",
   "test": "node --test tests/storybook/check-build-log.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: REQ-SB-54",
+  "acceptance": "REQ-QUAL-56; archived: v1:REQ-SB-54",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5366,7 +5366,7 @@
   "priority": "P0",
   "test": "verify-fresh.test.mjs consumes generated manifests (SB-012)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-15, AC-SB-16 (REQ-SB-55)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-15, v1:AC-SB-16 (v1:REQ-SB-55)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5389,7 +5389,7 @@
   "priority": "P0",
   "test": "SB-012",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-15 (REQ-SB-56)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-15 (v1:REQ-SB-56)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5412,7 +5412,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/verify-fresh.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-15 (REQ-SB-56)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-15 (v1:REQ-SB-56)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5433,7 +5433,7 @@
   "priority": "P0",
   "test": "rg -n \"storybook-visual-certification|story-presentation-audit\" package.json .gitlab-ci.yml ci .storybook = 0 (also enforced by static-gates.mjs)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-SB-17 (REQ-SB-41)",
+  "acceptance": "archived: v1:AC-SB-17 (v1:REQ-SB-41)",
   "reqs": [],
   "branch": "next",
   "source": "SB-016",
@@ -5455,7 +5455,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/ci-storybook.test.mjs (qual:certify:l1)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-SB-14 (REQ-SB-50..53)",
+  "acceptance": "archived: v1:AC-SB-14 (v1:REQ-SB-50..53)",
   "reqs": [],
   "branch": "next",
   "source": "SB-018",
@@ -5474,7 +5474,7 @@
   "priority": "P0",
   "test": "node --test tests/lint/story-rules/ratchet.test.mjs; injected-increase branch run fails in CI",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 ratchet (REQ-SB-32)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 ratchet (v1:REQ-SB-32)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -5495,7 +5495,7 @@
   "priority": "P0",
   "test": "tests/lint/story-rules/no-disable.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-55; archived: AC-SB-09 (REQ-SB-31)",
+  "acceptance": "REQ-QUAL-55; archived: v1:AC-SB-09 (v1:REQ-SB-31)",
   "reqs": [
    "REQ-QUAL-55"
   ],
@@ -5519,7 +5519,7 @@
   "priority": "P0",
   "test": "the qual:certify:l5 Storybook steps vitest job (SB-033) runs and reports per-story results",
   "storybook": "interaction-tagged stories executed",
-  "acceptance": "REQ-QUAL-57; archived: AC-SB-10 (REQ-SB-15)",
+  "acceptance": "REQ-QUAL-57; archived: v1:AC-SB-10 (v1:REQ-SB-15)",
   "reqs": [
    "REQ-QUAL-57"
   ],
@@ -5543,7 +5543,7 @@
   "priority": "P0",
   "test": "npm run typecheck:stories in lint-gates; injected type error in .storybook fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: REQ-SB-49 (AC-SB-09 ratchet)",
+  "acceptance": "REQ-QUAL-56; archived: v1:REQ-SB-49 (v1:AC-SB-09 ratchet)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5566,7 +5566,7 @@
   "priority": "P0",
   "test": "SB-036",
   "storybook": "sidebar titles conform",
-  "acceptance": "REQ-QUAL-49; archived: AC-SB-04 (REQ-SB-10)",
+  "acceptance": "REQ-QUAL-49; archived: v1:AC-SB-04 (v1:REQ-SB-10)",
   "reqs": [
    "REQ-QUAL-49"
   ],
@@ -5589,7 +5589,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/lint-titles.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-49; archived: AC-SB-04 (REQ-SB-10)",
+  "acceptance": "REQ-QUAL-49; archived: v1:AC-SB-04 (v1:REQ-SB-10)",
   "reqs": [
    "REQ-QUAL-49"
   ],
@@ -5612,7 +5612,7 @@
   "priority": "P0",
   "test": "SB-038",
   "storybook": "all stories",
-  "acceptance": "REQ-QUAL-50, REQ-QUAL-59; archived: AC-SB-05, AC-SB-08 (REQ-SB-13, REQ-SB-26)",
+  "acceptance": "REQ-QUAL-50, REQ-QUAL-59; archived: v1:AC-SB-05, v1:AC-SB-08 (v1:REQ-SB-13, v1:REQ-SB-26)",
   "reqs": [
    "REQ-QUAL-50",
    "REQ-QUAL-59"
@@ -5636,7 +5636,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/lint-story-copy.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-50, REQ-QUAL-59; archived: REQ-SB-13, REQ-SB-26",
+  "acceptance": "REQ-QUAL-50, REQ-QUAL-59; archived: v1:REQ-SB-13, v1:REQ-SB-26",
   "reqs": [
    "REQ-QUAL-50",
    "REQ-QUAL-59"
@@ -5660,7 +5660,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/static-gates.test.mjs; runs in lint-gates",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-50, REQ-QUAL-57; archived: AC-SB-10, AC-SB-17 (REQ-SB-13, -16, -33, -41, -45)",
+  "acceptance": "REQ-QUAL-50, REQ-QUAL-57; archived: v1:AC-SB-10, v1:AC-SB-17 (v1:REQ-SB-13, -16, -33, -41, -45)",
   "reqs": [
    "REQ-QUAL-50",
    "REQ-QUAL-57"
@@ -5682,7 +5682,7 @@
   "priority": "P0",
   "test": "StoryEnvironment.test.tsx (SB-044) renders all 8 via getScene",
   "storybook": "environment toolbar lists 8 scenes",
-  "acceptance": "REQ-QUAL-07; archived: AC-SB-02, AC-SB-03 (REQ-SB-04)",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-SB-02, v1:AC-SB-03 (v1:REQ-SB-04)",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -5705,7 +5705,7 @@
   "priority": "P0",
   "test": "storybook-config.test.ts asserts staticDirs /scenes and globs",
   "storybook": "/scenes/* served in built Storybook",
-  "acceptance": "REQ-QUAL-07; archived: AC-SB-02 (REQ-SB-04)",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-SB-02 (v1:REQ-SB-04)",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -5729,7 +5729,7 @@
   "priority": "P0",
   "test": "the qual:certify:l5 Storybook steps scene-bands job green",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-07; archived: AC-SB-02, AC-SB-03 (REQ-SB-04)",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-SB-02, v1:AC-SB-03 (v1:REQ-SB-04)",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -5757,7 +5757,7 @@
   "priority": "P0",
   "test": "SB-044",
   "storybook": "every story rendered over the selected scene; default photo",
-  "acceptance": "REQ-QUAL-10; archived: AC-SB-01, AC-SB-03 (REQ-SB-02, REQ-SB-03)",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-SB-01, v1:AC-SB-03 (v1:REQ-SB-02, v1:REQ-SB-03)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -5780,7 +5780,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/StoryEnvironment.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10; archived: AC-SB-01 (REQ-SB-02)",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-SB-01 (v1:REQ-SB-02)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -5803,7 +5803,7 @@
   "priority": "P0",
   "test": "SB-046, SB-047",
   "storybook": "all stories wrapped",
-  "acceptance": "REQ-QUAL-09, REQ-QUAL-11; archived: AC-SB-07 (REQ-SB-05, REQ-SB-43)",
+  "acceptance": "REQ-QUAL-09, REQ-QUAL-11; archived: v1:AC-SB-07 (v1:REQ-SB-05, v1:REQ-SB-43)",
   "reqs": [
    "REQ-QUAL-09",
    "REQ-QUAL-11"
@@ -5827,7 +5827,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/StoryRoot.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-09, REQ-QUAL-11; archived: REQ-SB-05, REQ-SB-43",
+  "acceptance": "REQ-QUAL-09, REQ-QUAL-11; archived: v1:REQ-SB-05, v1:REQ-SB-43",
   "reqs": [
    "REQ-QUAL-09",
    "REQ-QUAL-11"
@@ -5851,7 +5851,7 @@
   "priority": "P1",
   "test": "./node_modules/.bin/jest tests/storybook/story-ready.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-11, REQ-QUAL-09; archived: REQ-SB-43 (AC-SB-07 capture readiness)",
+  "acceptance": "REQ-QUAL-11, REQ-QUAL-09; archived: v1:REQ-SB-43 (v1:AC-SB-07 capture readiness)",
   "reqs": [
    "REQ-QUAL-11",
    "REQ-QUAL-09"
@@ -5881,7 +5881,7 @@
   "priority": "P0",
   "test": "SB-050 storybook-config.test.ts",
   "storybook": "toolbar shows the 9 globals; default view = photo scene",
-  "acceptance": "REQ-QUAL-10, REQ-QUAL-49; archived: AC-SB-01, AC-SB-03 (REQ-SB-01, -03, -06, -07, -48)",
+  "acceptance": "REQ-QUAL-10, REQ-QUAL-49; archived: v1:AC-SB-01, v1:AC-SB-03 (v1:REQ-SB-01, -03, -06, -07, -48)",
   "reqs": [
    "REQ-QUAL-10",
    "REQ-QUAL-49"
@@ -5905,7 +5905,7 @@
   "priority": "P0",
   "test": "rg -l \"previewSurface|StorySurface\" .storybook showcase -g '!__tests__' = 0 and rg -l \"previewSurface|StorySurface\" src -g '*.stories.tsx' -g '*.mdx' = 0; typecheck:stories count not increased",
   "storybook": "no grey stage in any story",
-  "acceptance": "REQ-QUAL-10; archived: AC-SB-01 (REQ-SB-01)",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-SB-01 (v1:REQ-SB-01)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -5931,7 +5931,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/storybook-config.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-10; archived: AC-SB-18 (REQ-SB-01, -06, -07, -46, -47)",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-SB-18 (v1:REQ-SB-01, -06, -07, -46, -47)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -5956,7 +5956,7 @@
   "priority": "P0",
   "test": "storybook-config.test.ts alias assertions; fixture story importing aura-glass/src/x fails remote build (check-build-log)",
   "storybook": "stories see the consumer surface",
-  "acceptance": "REQ-QUAL-56; archived: REQ-SB-47 (AC-SB-08 consumer parity)",
+  "acceptance": "REQ-QUAL-56; archived: v1:REQ-SB-47 (v1:AC-SB-08 consumer parity)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -5971,7 +5971,7 @@
   "system": "storybook/backend-externals",
   "file": ".storybook/main.ts",
   "action": "MODIFY",
-  "description": "Remove process.env define (:35-46) and serverOnlyPackages externals (:48-67: @google-cloud/vision, @pinecone-database/pinecone, bcryptjs, jsonwebtoken, openai, redis, plus socket.io-client which PRD omits); remove each as soon as rg shows no src/** importer; whole block once PRD-16 cuts the server graph. List may only shrink.",
+  "description": "Remove process.env define (:35-46) and serverOnlyPackages externals (:48-67: @google-cloud/vision, @pinecone-database/pinecone, bcryptjs, jsonwebtoken, openai, redis, plus socket.io-client which PRD omits); remove each as soon as rg shows no src/** importer; whole block once PLAT's removal of the server graph has merged (shrink-only list; no wait). List may only shrink.",
   "depends_on": [],
   "contract_seams": [
    "S-30",
@@ -5983,7 +5983,7 @@
   "priority": "P1",
   "test": "storybook-config.test.ts: no define['process.env'], no external among the packages",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-56; archived: AC-SB-18 (REQ-SB-46)",
+  "acceptance": "REQ-QUAL-56; archived: v1:AC-SB-18 (v1:REQ-SB-46)",
   "reqs": [
    "REQ-QUAL-56"
   ],
@@ -6011,7 +6011,7 @@
   "priority": "P0",
   "test": "SB-054 cert-scenes.test.ts",
   "storybook": "Scenes/* 8 stories",
-  "acceptance": "REQ-QUAL-08; archived: AC-SB-07 (REQ-SB-40)",
+  "acceptance": "REQ-QUAL-08; archived: v1:AC-SB-07 (v1:REQ-SB-40)",
   "reqs": [
    "REQ-QUAL-08"
   ],
@@ -6034,7 +6034,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/cert-scenes.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-08; archived: AC-SB-07 (REQ-SB-40)",
+  "acceptance": "REQ-QUAL-08; archived: v1:AC-SB-07 (v1:REQ-SB-40)",
   "reqs": [
    "REQ-QUAL-08"
   ],
@@ -6058,7 +6058,7 @@
   "priority": "P0",
   "test": "SB-056",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: AC-SB-07 (REQ-SB-42)",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-SB-07 (v1:REQ-SB-42)",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -6081,7 +6081,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/write-cert-manifest.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-01; archived: AC-SB-07 (REQ-SB-42)",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-SB-07 (v1:REQ-SB-42)",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -6104,7 +6104,7 @@
   "priority": "P1",
   "test": "static-gates.test.mjs timer fixture fails",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-11, REQ-QUAL-09; archived: REQ-SB-43",
+  "acceptance": "REQ-QUAL-11, REQ-QUAL-09; archived: v1:REQ-SB-43",
   "reqs": [
    "REQ-QUAL-11",
    "REQ-QUAL-09"
@@ -6132,7 +6132,7 @@
   "priority": "P1",
   "test": "cert-scenes.test.ts 6-flagship assertion",
   "storybook": "Scenes/* show the strip",
-  "acceptance": "REQ-QUAL-08; archived: AC-SB-07 (REQ-SB-40)",
+  "acceptance": "REQ-QUAL-08; archived: v1:AC-SB-07 (v1:REQ-SB-40)",
   "reqs": [
    "REQ-QUAL-08"
   ],
@@ -6155,7 +6155,7 @@
   "priority": "P0",
   "test": "PRD-19 capture lane + REQ-QA-11 assertion run URL",
   "storybook": "Scenes/* remote captures",
-  "acceptance": "REQ-QUAL-09, REQ-QUAL-08; archived: AC-SB-01, AC-SB-07 (REQ-SB-05, REQ-SB-40)",
+  "acceptance": "REQ-QUAL-09, REQ-QUAL-08; archived: v1:AC-SB-01, v1:AC-SB-07 (v1:REQ-SB-05, v1:REQ-SB-40)",
   "reqs": [
    "REQ-QUAL-09",
    "REQ-QUAL-08"
@@ -6184,7 +6184,7 @@
   "priority": "P0",
   "test": "MaterialLab.test.tsx (SB-064) badge + override-scope cases",
   "storybook": "used by PRD-04 src/material/stories/*",
-  "acceptance": "REQ-QUAL-53, REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-18, REQ-SB-19)",
+  "acceptance": "REQ-QUAL-53, REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-18, v1:REQ-SB-19)",
   "reqs": [
    "REQ-QUAL-53",
    "REQ-QUAL-54"
@@ -6215,7 +6215,7 @@
   "priority": "P0",
   "test": "MaterialLab.test.tsx one case per control",
   "storybook": "Material Lab pages controls",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-19)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-19)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6243,7 +6243,7 @@
   "priority": "P0",
   "test": "MaterialLab.test.tsx: changed-blur export validates; malformed patch fails validation",
   "storybook": "Export button on each material page",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-19)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-19)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6267,7 +6267,7 @@
   "priority": "P0",
   "test": "SB-065 ContrastReadout.test.ts",
   "storybook": "read-out panel on each material page",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-20)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-20)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6291,7 +6291,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/MaterialLab.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-19)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-19)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6314,7 +6314,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/ContrastReadout.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-20)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-20)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6343,7 +6343,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/lab-not-shipped.test.mjs in lint-gates",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-54; archived: AC-SB-06 (REQ-SB-21)",
+  "acceptance": "REQ-QUAL-54; archived: v1:AC-SB-06 (v1:REQ-SB-21)",
   "reqs": [
    "REQ-QUAL-54"
   ],
@@ -6367,7 +6367,7 @@
   "priority": "P1",
   "test": "the qual:certify:l5 Storybook steps vitest job runs the Lab plays 100% pass",
   "storybook": "Material Lab/Regular, Material Lab/Clear play",
-  "acceptance": "REQ-QUAL-57; archived: AC-SB-06, AC-SB-10 (REQ-SB-15)",
+  "acceptance": "REQ-QUAL-57; archived: v1:AC-SB-06, v1:AC-SB-10 (v1:REQ-SB-15)",
   "reqs": [
    "REQ-QUAL-57"
   ],
@@ -6395,7 +6395,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/material-lab-order.test.mjs (CI lint-gates)",
   "storybook": "Material Lab 12 stories",
-  "acceptance": "REQ-QUAL-53; archived: AC-SB-06 (REQ-SB-18)",
+  "acceptance": "REQ-QUAL-53; archived: v1:AC-SB-06 (v1:REQ-SB-18)",
   "reqs": [
    "REQ-QUAL-53"
   ],
@@ -6419,7 +6419,7 @@
   "priority": "P1",
   "test": "remote perf trace run URL with p95 per control",
   "storybook": "Material Lab remote captures",
-  "acceptance": "REQ-QUAL-41; archived: AC-SB-06, AC-SB-13 (PRD §16)",
+  "acceptance": "REQ-QUAL-41; archived: v1:AC-SB-06, v1:AC-SB-13 (PRD §16)",
   "reqs": [
    "REQ-QUAL-41"
   ],
@@ -6448,7 +6448,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts (SB-079) Matrix count == matrixCellCount",
   "storybook": "drives Matrix/States",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6475,7 +6475,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts; vitest Mobile plays",
   "storybook": "every flagship/core page",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12, REQ-SB-13, PRD §14)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12, v1:REQ-SB-13, PRD §14)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6498,7 +6498,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts asserts every data-ag-state-cell value in {hover,pressed,focus-visible}",
   "storybook": "States story",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6521,7 +6521,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts Matrix cell count == metadata product",
   "storybook": "Matrix story (tag matrix)",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6549,7 +6549,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts asserts 8 [data-ag-backdrop] in Scenes story",
   "storybook": "Scenes story",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6577,7 +6577,7 @@
   "priority": "P0",
   "test": "story-contract.test.ts asserts 4 fragments x 2 schemes; lint:stories 0 violations on file",
   "storybook": "InContext story",
-  "acceptance": "REQ-QUAL-50; archived: AC-SB-05 (REQ-SB-12)",
+  "acceptance": "REQ-QUAL-50; archived: v1:AC-SB-05 (v1:REQ-SB-12)",
   "reqs": [
    "REQ-QUAL-50"
   ],
@@ -6603,7 +6603,7 @@
   "priority": "P1",
   "test": "docs-pages.test.mjs (SB-080)",
   "storybook": "Docs pages for pilots",
-  "acceptance": "REQ-QUAL-51; archived: AC-SB-05 (REQ-SB-17)",
+  "acceptance": "REQ-QUAL-51; archived: v1:AC-SB-05 (v1:REQ-SB-17)",
   "reqs": [
    "REQ-QUAL-51"
   ],
@@ -6626,7 +6626,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/storybook/story-contract.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-50, REQ-QUAL-57; archived: AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-15)",
+  "acceptance": "REQ-QUAL-50, REQ-QUAL-57; archived: v1:AC-SB-05, v1:AC-SB-10 (v1:REQ-SB-12, v1:REQ-SB-15)",
   "reqs": [
    "REQ-QUAL-50",
    "REQ-QUAL-57"
@@ -6650,7 +6650,7 @@
   "priority": "P1",
   "test": "node --test tests/storybook/docs-pages.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-51; archived: AC-SB-05 (REQ-SB-17)",
+  "acceptance": "REQ-QUAL-51; archived: v1:AC-SB-05 (v1:REQ-SB-17)",
   "reqs": [
    "REQ-QUAL-51"
   ],
@@ -6674,7 +6674,7 @@
   "priority": "P0",
   "test": "node --test tests/storybook/storybook-index.test.mjs (CI lint-gates)",
   "storybook": "sidebar order",
-  "acceptance": "REQ-QUAL-49; archived: AC-SB-04 (REQ-SB-08, REQ-SB-11, REQ-SB-14)",
+  "acceptance": "REQ-QUAL-49; archived: v1:AC-SB-04 (v1:REQ-SB-08, v1:REQ-SB-11, v1:REQ-SB-14)",
   "reqs": [
    "REQ-QUAL-49"
   ],
@@ -6700,7 +6700,7 @@
   "priority": "P0",
   "test": "start-here.test.mjs: 0 unresolved links, 0 numeric literals in StartHere.stories.tsx other than layout values",
   "storybook": "Start Here",
-  "acceptance": "REQ-QUAL-52; archived: AC-SB-04 (REQ-SB-09)",
+  "acceptance": "REQ-QUAL-52; archived: v1:AC-SB-04 (v1:REQ-SB-09)",
   "reqs": [
    "REQ-QUAL-52"
   ],
@@ -6737,7 +6737,7 @@
   "priority": "P2",
   "test": "storybook-index.test.mjs Foundations titles present; lint-titles + lint-story-copy clean",
   "storybook": "Foundations/Icons, Tokens, Motion, Preferences",
-  "acceptance": "REQ-QUAL-49; archived: AC-SB-04 (PRD §3 item 1, REQ-SB-14)",
+  "acceptance": "REQ-QUAL-49; archived: v1:AC-SB-04 (PRD §3 item 1, v1:REQ-SB-14)",
   "reqs": [
    "REQ-QUAL-49"
   ],
@@ -6761,7 +6761,7 @@
   "priority": "P2",
   "test": "storybook-index.test.mjs Migration root present; lint-story-copy clean",
   "storybook": "Migration/*",
-  "acceptance": "REQ-QUAL-51; archived: AC-SB-04 (PRD §3 item 1)",
+  "acceptance": "REQ-QUAL-51; archived: v1:AC-SB-04 (PRD §3 item 1)",
   "reqs": [
    "REQ-QUAL-51"
   ],
@@ -6787,7 +6787,7 @@
   "priority": "P1",
   "test": "storybook-index.test.mjs asserts 0 {Default,Variants} titles at completion",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-49; archived: AC-SB-05 (REQ-SB-14)",
+  "acceptance": "REQ-QUAL-49; archived: v1:AC-SB-05 (v1:REQ-SB-14)",
   "reqs": [
    "REQ-QUAL-49"
   ],
@@ -6816,7 +6816,7 @@
   "priority": "P2",
   "test": "lint-titles.mjs (no 3.3 segment, :218); lint:stories clean or file absent",
   "storybook": "Showcases/Marketing or removed",
-  "acceptance": "archived: AC-SB-04 (REQ-SB-27)",
+  "acceptance": "archived: v1:AC-SB-04 (v1:REQ-SB-27)",
   "reqs": [],
   "branch": "next",
   "source": "SB-097",
@@ -6840,7 +6840,7 @@
   "priority": "P1",
   "test": "node --test tests/storybook/inventory-index.test.mjs (CI)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-02; archived: AC-SB-05 (PRD §18)",
+  "acceptance": "REQ-QUAL-02; archived: v1:AC-SB-05 (PRD §18)",
   "reqs": [
    "REQ-QUAL-02"
   ],
@@ -6864,7 +6864,7 @@
   "priority": "P1",
   "test": "storybook-tests vitest a11y report 0 violations; PRD-19 capture run URL",
   "storybook": "Component Lab remote captures",
-  "acceptance": "REQ-QUAL-57, REQ-QUAL-19; archived: AC-SB-11, AC-SB-05 (REQ-SB-48)",
+  "acceptance": "REQ-QUAL-57, REQ-QUAL-19; archived: v1:AC-SB-11, v1:AC-SB-05 (v1:REQ-SB-48)",
   "reqs": [
    "REQ-QUAL-57",
    "REQ-QUAL-19"
@@ -6892,7 +6892,7 @@
   "priority": "P0",
   "test": "SB-102",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-59; archived: AC-SB-08 (REQ-SB-23)",
+  "acceptance": "REQ-QUAL-59; archived: v1:AC-SB-08 (v1:REQ-SB-23)",
   "reqs": [
    "REQ-QUAL-59"
   ],
@@ -6915,7 +6915,7 @@
   "priority": "P2",
   "test": "node --test fixture dirs (over 60 MB synthetic sparse file fails; +11% fails)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-SB-13 (PRD §16)",
+  "acceptance": "archived: v1:AC-SB-13 (PRD §16)",
   "reqs": [],
   "branch": "next",
   "source": "SB-118",
@@ -6936,7 +6936,7 @@
   "priority": "P0",
   "test": "PRD-19 certify lane run URLs (cert-scene, showcase-s1, showcase-s2)",
   "storybook": "Scenes/*, Showcases/*",
-  "acceptance": "REQ-QUAL-01; archived: AC-SB-07, AC-SB-12",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-SB-07, v1:AC-SB-12",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -6965,7 +6965,7 @@
   "priority": "P1",
   "test": "release checklist entry signed by tester (manual lane)",
   "storybook": "Showcases S1-1, S1-2, S1-6",
-  "acceptance": "REQ-QUAL-05; archived: AC-SB-11 manual complement (PRD §15)",
+  "acceptance": "REQ-QUAL-05; archived: v1:AC-SB-11 manual complement (PRD §15)",
   "reqs": [
    "REQ-QUAL-05"
   ],
@@ -6988,7 +6988,7 @@
   "priority": "P1",
   "test": "signed review record linked to capture artifacts",
   "storybook": "Showcases S1-*",
-  "acceptance": "REQ-QUAL-01; archived: AC-SB-19",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-SB-19",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -7039,7 +7039,7 @@
   "priority": "P0",
   "test": "all referenced runs green on RC SHA",
   "storybook": "deployed /v5/<version>/",
-  "acceptance": "REQ-QUAL-01; archived: AC-SB-01..AC-SB-19",
+  "acceptance": "REQ-QUAL-01; archived: v1:AC-SB-01..v1:AC-SB-19",
   "reqs": [
    "REQ-QUAL-01"
   ],
@@ -7070,7 +7070,7 @@
   "priority": "P0",
   "test": "tests/storybook/storybook-config.test.ts asserts decorators.length === 1 and the provider is AuraGlassProvider",
   "storybook": "toolbar globals drive data-ag-* on the provider root",
-  "acceptance": "REQ-QUAL-10; archived: AC-SB-01 (REQ-SB-06)",
+  "acceptance": "REQ-QUAL-10; archived: v1:AC-SB-01 (v1:REQ-SB-06)",
   "reqs": [
    "REQ-QUAL-10"
   ],
@@ -7091,7 +7091,7 @@
   "priority": "P0",
   "test": "ids present in remote storybook-static/index.json; self-test.spec.ts",
   "storybook": "Material Lab 'Perf' section; ids stable (renaming requires schema bump)",
-  "acceptance": "REQ-QUAL-05; archived: AC-PERF-17",
+  "acceptance": "REQ-QUAL-05; archived: v1:AC-PERF-17",
   "reqs": [
    "REQ-QUAL-05"
   ],
@@ -7121,7 +7121,7 @@
   "priority": "P0",
   "test": "ids verified in remote index.json; consumed by PERF-058/063/064/067/069",
   "storybook": "Material Lab 'Perf' section stories listed in PRD §13.1",
-  "acceptance": "REQ-QUAL-35, REQ-QUAL-05; archived: AC-PERF-07, AC-PERF-12, AC-PERF-16",
+  "acceptance": "REQ-QUAL-35, REQ-QUAL-05; archived: v1:AC-PERF-07, v1:AC-PERF-12, v1:AC-PERF-16",
   "reqs": [
    "REQ-QUAL-35",
    "REQ-QUAL-05"
@@ -7145,7 +7145,7 @@
   "priority": "P2",
   "test": "Remote Storybook build: panel present in dev build, absent from production/certify build index (asserted in self-test.spec.ts)",
   "storybook": "Dev Storybook panel 'Perf budget'",
-  "acceptance": "REQ-QUAL-07; archived: AC-PERF-07 (developer read-out of the same metric)",
+  "acceptance": "REQ-QUAL-07; archived: v1:AC-PERF-07 (developer read-out of the same metric)",
   "reqs": [
    "REQ-QUAL-07"
   ],
@@ -7166,7 +7166,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/stylelint \"showcase/**/*.module.css\" --config stylelint.showcase.config.mjs; fixture rejection test",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-59; archived: AC-SB-08, AC-SB-09 (REQ-SB-24)",
+  "acceptance": "REQ-QUAL-59; archived: v1:AC-SB-08, v1:AC-SB-09 (v1:REQ-SB-24)",
   "reqs": [
    "REQ-QUAL-59"
   ],
@@ -7187,7 +7187,7 @@
   "priority": "P0",
   "test": "node --test tests/showcase/showcase-imports.test.mjs (CI)",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-59; archived: AC-SB-08 (REQ-SB-23)",
+  "acceptance": "REQ-QUAL-59; archived: v1:AC-SB-08 (v1:REQ-SB-23)",
   "reqs": [
    "REQ-QUAL-59"
   ],
@@ -7222,7 +7222,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/showcase/showcase-coverage.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08 (REQ-SB-22, PRD §14, §15)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08 (v1:REQ-SB-22, PRD §14, §15)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7246,7 +7246,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/showcase/showcase-determinism.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-QUAL-59; archived: AC-SB-08 (REQ-SB-25)",
+  "acceptance": "REQ-QUAL-59; archived: v1:AC-SB-08 (v1:REQ-SB-25)",
   "reqs": [
    "REQ-QUAL-59"
   ],
@@ -7272,7 +7272,7 @@
   "priority": "P1",
   "test": "showcase-coverage, showcase-determinism, showcase-imports, lint-story-copy, vitest play",
   "storybook": "Showcases/Ops Console",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7298,7 +7298,7 @@
   "priority": "P1",
   "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
   "storybook": "Showcases/Financial Dashboard",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7324,7 +7324,7 @@
   "priority": "P1",
   "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
   "storybook": "Showcases/AI Command Center",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7350,7 +7350,7 @@
   "priority": "P1",
   "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
   "storybook": "Showcases/Media Workspace",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-22..26, PRD §15)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-22..26, PRD §15)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7376,7 +7376,7 @@
   "priority": "P1",
   "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
   "storybook": "Showcases/Collaborative Workspace",
-  "acceptance": "REQ-QUAL-50, REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-16, REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-50, REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-16, v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-50",
    "REQ-QUAL-58"
@@ -7410,7 +7410,7 @@
   "priority": "P1",
   "test": "showcase-coverage (incl. 834), determinism, imports, copy lint, vitest play",
   "storybook": "Showcases/Mobile Productivity",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08, AC-SB-10 (REQ-SB-22..26, PRD §14)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08, v1:AC-SB-10 (v1:REQ-SB-22..26, PRD §14)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7433,7 +7433,7 @@
   "priority": "P2",
   "test": "showcase-coverage, determinism, imports, copy lint",
   "storybook": "Showcases/Music Player",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7463,7 +7463,7 @@
   "priority": "P2",
   "test": "showcase-coverage, determinism, imports, copy lint",
   "storybook": "Showcases/Spatial Control Center",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7489,7 +7489,7 @@
   "priority": "P2",
   "test": "showcase-coverage, determinism, imports, copy lint",
   "storybook": "Showcases/Ecommerce",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7512,7 +7512,7 @@
   "priority": "P2",
   "test": "showcase-coverage, determinism, imports, copy lint",
   "storybook": "Showcases/Analytics",
-  "acceptance": "REQ-QUAL-58; archived: AC-SB-08 (REQ-SB-22..26)",
+  "acceptance": "REQ-QUAL-58; archived: v1:AC-SB-08 (v1:REQ-SB-22..26)",
   "reqs": [
    "REQ-QUAL-58"
   ],
@@ -7535,7 +7535,7 @@
   "priority": "P1",
   "test": "PRD-19 perf lane run URL with per-showcase table",
   "storybook": "Showcases/*",
-  "acceptance": "REQ-QUAL-35; archived: AC-SB-13 (PRD §16)",
+  "acceptance": "REQ-QUAL-35; archived: v1:AC-SB-13 (PRD §16)",
   "reqs": [
    "REQ-QUAL-35"
   ],

@@ -17,7 +17,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/types-runtime-parity.test.ts green, 0 skipped",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-DS-07 (4.2 half); REQ-DS-30",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-DS-07 (4.2 half); v1:REQ-DS-30",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -43,7 +43,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/no-undefined-opacity.test.ts src/components/animations green; snapshot diff limited to the 4 token names",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-17; archived: PRD §20 step 1 (4.2); precondition for AC-DS-05 (0 undefined vars)",
+  "acceptance": "REQ-MAT-17; archived: PRD §20 step 1 (4.2); precondition for v1:AC-DS-05 (0 undefined vars)",
   "reqs": [
    "REQ-MAT-17"
   ],
@@ -69,7 +69,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/private-ag-namespace.test.ts src/components/marketing/AuroraOrb.test.tsx src/components/navigation green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-04; archived: AC-DS-17 (src half): rg -o -- '--ag-[a-z0-9-]+' src returns 0 names",
+  "acceptance": "REQ-MAT-04; archived: v1:AC-DS-17 (src half): rg -o -- '--ag-[a-z0-9-]+' src returns 0 names",
   "reqs": [
    "REQ-MAT-04"
   ],
@@ -90,7 +90,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/legacy-freeze.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21; archived: REQ-DS-42; precondition for AC-DS-14",
+  "acceptance": "REQ-MAT-21; archived: v1:REQ-DS-42; precondition for v1:AC-DS-14",
   "reqs": [
    "REQ-MAT-21"
   ],
@@ -116,7 +116,7 @@
   "priority": "P0",
   "test": "tests/tokens/schema.test.ts (DS-015)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: REQ-DS-01",
+  "acceptance": "REQ-MAT-01; archived: v1:REQ-DS-01",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -139,7 +139,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/schema.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: REQ-DS-01",
+  "acceptance": "REQ-MAT-01; archived: v1:REQ-DS-01",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -162,7 +162,7 @@
   "priority": "P0",
   "test": "tests/tokens/compiler-guards.test.ts (DS-017), tests/tokens/determinism.test.ts (DS-018)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-02, REQ-MAT-03; archived: REQ-DS-02, REQ-DS-03; AC-DS-03",
+  "acceptance": "REQ-MAT-02, REQ-MAT-03; archived: v1:REQ-DS-02, v1:REQ-DS-03; v1:AC-DS-03",
   "reqs": [
    "REQ-MAT-02",
    "REQ-MAT-03"
@@ -186,7 +186,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/compiler-guards.test.ts green (6 cases)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-02; archived: REQ-DS-02",
+  "acceptance": "REQ-MAT-02; archived: v1:REQ-DS-02",
   "reqs": [
    "REQ-MAT-02"
   ],
@@ -209,7 +209,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/determinism.test.ts green; CI git diff --exit-code after build (DS-047)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-03; archived: AC-DS-03",
+  "acceptance": "REQ-MAT-03; archived: v1:AC-DS-03",
   "reqs": [
    "REQ-MAT-03"
   ],
@@ -232,7 +232,7 @@
   "priority": "P0",
   "test": "tests/tokens/oklch.test.ts (DS-040)",
   "storybook": "Tokens.mdx swatches (DS-096)",
-  "acceptance": "REQ-MAT-05; archived: REQ-DS-08",
+  "acceptance": "REQ-MAT-05; archived: v1:REQ-DS-08",
   "reqs": [
    "REQ-MAT-05"
   ],
@@ -255,7 +255,7 @@
   "priority": "P0",
   "test": "tests/tokens/scales.test.ts (DS-041)",
   "storybook": "Tokens.mdx (DS-096)",
-  "acceptance": "REQ-MAT-06, REQ-MAT-07; archived: REQ-DS-12, REQ-DS-13, REQ-DS-14",
+  "acceptance": "REQ-MAT-06, REQ-MAT-07; archived: v1:REQ-DS-12, v1:REQ-DS-13, v1:REQ-DS-14",
   "reqs": [
    "REQ-MAT-06",
    "REQ-MAT-07"
@@ -279,7 +279,7 @@
   "priority": "P0",
   "test": "tests/tokens/motion-spring.test.ts (DS-054)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: REQ-DS-17",
+  "acceptance": "REQ-MAT-08; archived: v1:REQ-DS-17",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -302,7 +302,7 @@
   "priority": "P0",
   "test": "tests/tokens/oklch.test.ts (light-dark emission, dark on-surface L/C)",
   "storybook": "Tokens.mdx; Presets.stories.tsx",
-  "acceptance": "REQ-MAT-05; archived: REQ-DS-09; AC-DS-04 input",
+  "acceptance": "REQ-MAT-05; archived: v1:REQ-DS-09; v1:AC-DS-04 input",
   "reqs": [
    "REQ-MAT-05"
   ],
@@ -325,7 +325,7 @@
   "priority": "P1",
   "test": "tests/tokens/scales.test.ts (DS-041)",
   "storybook": "Tokens.mdx (DS-096)",
-  "acceptance": "REQ-MAT-06; archived: REQ-DS-11",
+  "acceptance": "REQ-MAT-06; archived: v1:REQ-DS-11",
   "reqs": [
    "REQ-MAT-06"
   ],
@@ -348,7 +348,7 @@
   "priority": "P1",
   "test": "tests/tokens/scales.test.ts (DS-041)",
   "storybook": "Tokens.mdx (DS-096)",
-  "acceptance": "REQ-MAT-06; archived: REQ-DS-12",
+  "acceptance": "REQ-MAT-06; archived: v1:REQ-DS-12",
   "reqs": [
    "REQ-MAT-06"
   ],
@@ -371,7 +371,7 @@
   "priority": "P1",
   "test": "tests/tokens/scales.test.ts (DS-041)",
   "storybook": "Tokens.mdx (DS-096)",
-  "acceptance": "REQ-MAT-06; archived: REQ-DS-13",
+  "acceptance": "REQ-MAT-06; archived: v1:REQ-DS-13",
   "reqs": [
    "REQ-MAT-06"
   ],
@@ -394,7 +394,7 @@
   "priority": "P0",
   "test": "tests/tokens/motion-spring.test.ts (DS-054)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: REQ-DS-17; SC-18/SC-19; rg --files tokens | rg '^tokens/motion\\.tokens\\.json$' returns 0",
+  "acceptance": "REQ-MAT-08; archived: v1:REQ-DS-17; v1:SC-18/v1:SC-19; rg --files tokens | rg '^tokens/motion\\.tokens\\.json$' returns 0",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -417,7 +417,7 @@
   "priority": "P1",
   "test": "tests/tokens/interaction-states.test.ts (DS-042)",
   "storybook": "InteractionStates.stories.tsx (DS-098)",
-  "acceptance": "REQ-MAT-09; archived: REQ-DS-19, REQ-DS-20",
+  "acceptance": "REQ-MAT-09; archived: v1:REQ-DS-19, v1:REQ-DS-20",
   "reqs": [
    "REQ-MAT-09"
   ],
@@ -440,7 +440,7 @@
   "priority": "P1",
   "test": "tests/tokens/environment-elevation.test.ts (DS-043)",
   "storybook": "ModesMatrix.stories.tsx backdrop control (DS-097)",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-18; SC-19 (--ag-scrim-media present in the manifest)",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-18; v1:SC-19 (--ag-scrim-media present in the manifest)",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -463,7 +463,7 @@
   "priority": "P1",
   "test": "tests/tokens/environment-elevation.test.ts (DS-043)",
   "storybook": "Tokens.mdx (DS-096)",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-16",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-16",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -488,7 +488,7 @@
   "priority": "P0",
   "test": "tests/tokens/compiler-guards.test.ts material-to-ref case; tests/tokens/material-transform.test.ts (DS-051)",
   "storybook": "ModesMatrix.stories.tsx (DS-097)",
-  "acceptance": "REQ-MAT-05, REQ-MAT-07; archived: REQ-DS-10, REQ-DS-14",
+  "acceptance": "REQ-MAT-05, REQ-MAT-07; archived: v1:REQ-DS-10, v1:REQ-DS-14",
   "reqs": [
    "REQ-MAT-05",
    "REQ-MAT-07"
@@ -513,7 +513,7 @@
   "priority": "P0",
   "test": "tests/tokens/modes-matrix.test.ts (DS-044)",
   "storybook": "Preview toolbar globals (DS-095)",
-  "acceptance": "REQ-MAT-12; archived: REQ-DS-21",
+  "acceptance": "REQ-MAT-12; archived: v1:REQ-DS-21",
   "reqs": [
    "REQ-MAT-12"
   ],
@@ -536,7 +536,7 @@
   "priority": "P1",
   "test": "tests/tokens/compiler-guards.test.ts preset cases; src/theme/__tests__/presets.test.ts (DS-082)",
   "storybook": "Presets.stories.tsx (DS-099)",
-  "acceptance": "REQ-MAT-14; archived: REQ-DS-25",
+  "acceptance": "REQ-MAT-14; archived: v1:REQ-DS-25",
   "reqs": [
    "REQ-MAT-14"
   ],
@@ -559,7 +559,7 @@
   "priority": "P0",
   "test": "tests/tokens/contrast-matrix.test.ts asserts the file content (DS-060)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-10; archived: AC-DS-04 input; SC-18 single CREATE",
+  "acceptance": "REQ-MAT-10; archived: v1:AC-DS-04 input; v1:SC-18 single CREATE",
   "reqs": [
    "REQ-MAT-10"
   ],
@@ -582,7 +582,7 @@
   "priority": "P3",
   "test": "tests/tokens/vars-gates.test.ts tier-skip comp case (DS-066)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-04; archived: REQ-DS-05",
+  "acceptance": "REQ-MAT-04; archived: v1:REQ-DS-05",
   "reqs": [
    "REQ-MAT-04"
   ],
@@ -607,7 +607,7 @@
   "priority": "P0",
   "test": "tests/tokens/modes-matrix.test.ts, tests/tokens/emitted-css.test.ts, tests/tokens/oklch.test.ts",
   "storybook": "Preview decorator consumes the attributes (DS-095)",
-  "acceptance": "REQ-MAT-05; archived: AC-DS-06; REQ-DS-09, -21, -22, -24 (core), -34, -35",
+  "acceptance": "REQ-MAT-05; archived: v1:AC-DS-06; v1:REQ-DS-09, -21, -22, -24 (core), -34, -35",
   "reqs": [
    "REQ-MAT-05"
   ],
@@ -631,7 +631,7 @@
   "priority": "P0",
   "test": "tests/tokens/environment-elevation.test.ts; tests/tokens/emitted-css.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-18; §16 '@property <= 16'",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-18; §16 '@property <= 16'",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -654,7 +654,7 @@
   "priority": "P0",
   "test": "tests/tokens/emitted-css.test.ts no-class-strings case; tests/tokens/determinism.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-04; archived: REQ-DS-06; REQ-DS-39 (generated TS half); §16 tokens JS <= 2 KB gz; SC-12",
+  "acceptance": "REQ-MAT-04; archived: v1:REQ-DS-06; v1:REQ-DS-39 (generated TS half); §16 tokens JS <= 2 KB gz; v1:SC-12",
   "reqs": [
    "REQ-MAT-04"
   ],
@@ -677,7 +677,7 @@
   "priority": "P0",
   "test": "tests/tokens/vars-gates.test.ts; manifest counts logged (public <= 260, private <= 200)",
   "storybook": "Tokens.mdx reads it (DS-096)",
-  "acceptance": "REQ-MAT-04; archived: REQ-DS-06; AC-DS-05 (count part)",
+  "acceptance": "REQ-MAT-04; archived: v1:REQ-DS-06; v1:AC-DS-05 (count part)",
   "reqs": [
    "REQ-MAT-04"
   ],
@@ -700,7 +700,7 @@
   "priority": "P1",
   "test": "tests/tokens/types-runtime-parity.test.ts; npm run typecheck",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-03, REQ-MAT-41; archived: AC-DS-07",
+  "acceptance": "REQ-MAT-03, REQ-MAT-41; archived: v1:AC-DS-07",
   "reqs": [
    "REQ-MAT-03",
    "REQ-MAT-41"
@@ -724,7 +724,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/oklch.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-05; archived: REQ-DS-08, REQ-DS-09",
+  "acceptance": "REQ-MAT-05; archived: v1:REQ-DS-08, v1:REQ-DS-09",
   "reqs": [
    "REQ-MAT-05"
   ],
@@ -748,7 +748,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/scales.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-06; archived: REQ-DS-11, REQ-DS-12, REQ-DS-13",
+  "acceptance": "REQ-MAT-06; archived: v1:REQ-DS-11, v1:REQ-DS-12, v1:REQ-DS-13",
   "reqs": [
    "REQ-MAT-06"
   ],
@@ -772,7 +772,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/interaction-states.test.ts green",
   "storybook": "InteractionStates.stories.tsx (DS-098)",
-  "acceptance": "REQ-MAT-09; archived: REQ-DS-19, REQ-DS-20",
+  "acceptance": "REQ-MAT-09; archived: v1:REQ-DS-19, v1:REQ-DS-20",
   "reqs": [
    "REQ-MAT-09"
   ],
@@ -796,7 +796,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/environment-elevation.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-16, REQ-DS-18",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-16, v1:REQ-DS-18",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -819,7 +819,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/modes-matrix.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-12; archived: REQ-DS-21, REQ-DS-22; AC-DS-06",
+  "acceptance": "REQ-MAT-12; archived: v1:REQ-DS-21, v1:REQ-DS-22; v1:AC-DS-06",
   "reqs": [
    "REQ-MAT-12"
   ],
@@ -844,7 +844,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/emitted-css.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-13, REQ-MAT-19; archived: AC-DS-06; REQ-DS-24 (core), REQ-DS-34, REQ-DS-35, REQ-DS-39",
+  "acceptance": "REQ-MAT-13, REQ-MAT-19; archived: v1:AC-DS-06; v1:REQ-DS-24 (core), v1:REQ-DS-34, v1:REQ-DS-35, v1:REQ-DS-39",
   "reqs": [
    "REQ-MAT-13",
    "REQ-MAT-19"
@@ -868,7 +868,7 @@
   "priority": "P2",
   "test": "tests/tokens/scales.test.ts breakpoint case; tests/tokens/tailwind-bridge.test.ts (DS-091)",
   "storybook": "n/a",
-  "acceptance": "archived: PRD §14 responsive requirements; REQ-DS-38 input",
+  "acceptance": "archived: PRD §14 responsive requirements; v1:REQ-DS-38 input",
   "reqs": [],
   "branch": "next",
   "source": "DS-046",
@@ -890,7 +890,7 @@
   "priority": "P0",
   "test": "tests/tokens/material-transform.test.ts (DS-051)",
   "storybook": "ModesMatrix.stories.tsx (DS-097)",
-  "acceptance": "REQ-MAT-07, REQ-MAT-05; archived: REQ-DS-14, REQ-DS-10",
+  "acceptance": "REQ-MAT-07, REQ-MAT-05; archived: v1:REQ-DS-14, v1:REQ-DS-10",
   "reqs": [
    "REQ-MAT-07",
    "REQ-MAT-05"
@@ -914,7 +914,7 @@
   "priority": "P0",
   "test": "tests/tokens/determinism.test.ts; CI git diff --exit-code",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-14; §16 material.css <= 8 KB gz (with PRD-04)",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-14; §16 material.css <= 8 KB gz (with v1:PRD-04)",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -937,7 +937,7 @@
   "priority": "P1",
   "test": "tests/tokens/material-transform.test.ts no intent/elevation keys; PRD-02 size gate (materialSpec excluded when not imported)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-14; §16 tokens JS <= 2 KB gz",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-14; §16 tokens JS <= 2 KB gz",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -961,7 +961,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/material-transform.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-07; archived: REQ-DS-14",
+  "acceptance": "REQ-MAT-07; archived: v1:REQ-DS-14",
   "reqs": [
    "REQ-MAT-07"
   ],
@@ -984,7 +984,7 @@
   "priority": "P0",
   "test": "tests/tokens/motion-spring.test.ts (DS-054)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: REQ-DS-17; PRD §15 motion (zeta >= 0.8, no overshoot eases)",
+  "acceptance": "REQ-MAT-08; archived: v1:REQ-DS-17; PRD §15 motion (zeta >= 0.8, no overshoot eases)",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -1008,7 +1008,7 @@
   "priority": "P0",
   "test": "tests/tokens/determinism.test.ts; PRD-06 REQ-MOT-01 acceptance test",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: REQ-DS-17",
+  "acceptance": "REQ-MAT-08; archived: v1:REQ-DS-17",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -1032,7 +1032,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/motion-spring.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: REQ-DS-17",
+  "acceptance": "REQ-MAT-08; archived: v1:REQ-DS-17",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -1055,7 +1055,7 @@
   "priority": "P0",
   "test": "src/theme/__tests__/color.test.ts (DS-056)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-15; archived: REQ-DS-27 (conversion); AC-DS-04 input",
+  "acceptance": "REQ-MAT-15; archived: v1:REQ-DS-27 (conversion); v1:AC-DS-04 input",
   "reqs": [
    "REQ-MAT-15"
   ],
@@ -1081,7 +1081,7 @@
   "priority": "P0",
   "test": "tests/tokens/contrast-matrix.test.ts (DS-060)",
   "storybook": "ContrastFloors.stories.tsx (DS-100)",
-  "acceptance": "REQ-MAT-10; archived: AC-DS-04; REQ-DS-15",
+  "acceptance": "REQ-MAT-10; archived: v1:AC-DS-04; v1:REQ-DS-15",
   "reqs": [
    "REQ-MAT-10"
   ],
@@ -1104,7 +1104,7 @@
   "priority": "P0",
   "test": "tests/tokens/contrast-matrix.test.ts re-solve equality",
   "storybook": "ContrastFloors.stories.tsx (DS-100)",
-  "acceptance": "REQ-MAT-10, REQ-MAT-52; archived: AC-DS-04 (re-solve diff = 0)",
+  "acceptance": "REQ-MAT-10, REQ-MAT-52; archived: v1:AC-DS-04 (re-solve diff = 0)",
   "reqs": [
    "REQ-MAT-10",
    "REQ-MAT-52"
@@ -1128,7 +1128,7 @@
   "priority": "P0",
   "test": "tests/tokens/contrast-matrix.test.ts max-over-key case; tests/tokens/emitted-css.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-10; archived: REQ-DS-15; AC-DS-04",
+  "acceptance": "REQ-MAT-10; archived: v1:REQ-DS-15; v1:AC-DS-04",
   "reqs": [
    "REQ-MAT-10"
   ],
@@ -1151,7 +1151,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/contrast-matrix.test.ts green, 0 skipped",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-11; archived: AC-DS-04; REQ-DS-37",
+  "acceptance": "REQ-MAT-11; archived: v1:AC-DS-04; v1:REQ-DS-37",
   "reqs": [
    "REQ-MAT-11"
   ],
@@ -1175,7 +1175,7 @@
   "priority": "P0",
   "test": "tests/tokens/vars-gates.test.ts (DS-066)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-17; archived: AC-DS-05 (undefined = 0); AC-DS-17; REQ-DS-31, REQ-DS-07 gate",
+  "acceptance": "REQ-MAT-17; archived: v1:AC-DS-05 (undefined = 0); v1:AC-DS-17; v1:REQ-DS-31, v1:REQ-DS-07 gate",
   "reqs": [
    "REQ-MAT-17"
   ],
@@ -1198,7 +1198,7 @@
   "priority": "P0",
   "test": "tests/tokens/vars-gates.test.ts dead-var fixture (DS-066)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-17; archived: AC-DS-05 (dead = 0); REQ-DS-32",
+  "acceptance": "REQ-MAT-17; archived: v1:AC-DS-05 (dead = 0); v1:REQ-DS-32",
   "reqs": [
    "REQ-MAT-17"
   ],
@@ -1221,7 +1221,7 @@
   "priority": "P0",
   "test": "tests/tokens/vars-gates.test.ts ref-in-src fixture",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-04; archived: REQ-DS-05",
+  "acceptance": "REQ-MAT-04; archived: v1:REQ-DS-05",
   "reqs": [
    "REQ-MAT-04"
   ],
@@ -1246,7 +1246,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/vars-gates.test.ts tests/tokens/emitted-css.test.ts green",
   "storybook": "n/a",
-  "acceptance": "archived: AC-DS-05 (compiler entries); REQ-DS-36, REQ-DS-39; §16 gates <= 30 s",
+  "acceptance": "archived: v1:AC-DS-05 (compiler entries); v1:REQ-DS-36, v1:REQ-DS-39; §16 gates <= 30 s",
   "reqs": [],
   "branch": "next",
   "source": "DS-066",
@@ -1271,7 +1271,7 @@
   "priority": "P0",
   "test": "tests/tokens/types-runtime-parity.test.ts (DS-068)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-DS-07; REQ-DS-30",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-DS-07; v1:REQ-DS-30",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -1294,7 +1294,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/types-runtime-parity.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-DS-07",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-DS-07",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -1321,7 +1321,7 @@
   "priority": "P0",
   "test": "tests/tokens/literals-lint.test.ts (DS-074)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18; archived: AC-DS-01; REQ-DS-33",
+  "acceptance": "REQ-MAT-18; archived: v1:AC-DS-01; v1:REQ-DS-33",
   "reqs": [
    "REQ-MAT-18"
   ],
@@ -1348,7 +1348,7 @@
   "priority": "P0",
   "test": "npx eslint --print-config src/index.ts shows the rule at error; tests/tokens/literals-lint.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18, REQ-MAT-39; archived: AC-DS-01",
+  "acceptance": "REQ-MAT-18, REQ-MAT-39; archived: v1:AC-DS-01",
   "reqs": [
    "REQ-MAT-18",
    "REQ-MAT-39"
@@ -1372,7 +1372,7 @@
   "priority": "P0",
   "test": "tests/tokens/literals-lint.test.ts css fixtures",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18; archived: AC-DS-01; REQ-DS-33",
+  "acceptance": "REQ-MAT-18; archived: v1:AC-DS-01; v1:REQ-DS-33",
   "reqs": [
    "REQ-MAT-18"
   ],
@@ -1396,7 +1396,7 @@
   "priority": "P0",
   "test": "tests/tokens/literals-lint.test.ts ratchet cases (DS-074)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18, REQ-MAT-16; archived: AC-DS-01 (ratchet mode)",
+  "acceptance": "REQ-MAT-18, REQ-MAT-16; archived: v1:AC-DS-01 (ratchet mode)",
   "reqs": [
    "REQ-MAT-18",
    "REQ-MAT-16"
@@ -1420,7 +1420,7 @@
   "priority": "P0",
   "test": "node scripts/tokens/gates/literals.mjs exits 0 on the commit that adds it",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18, REQ-MAT-12; archived: AC-DS-01 (before beta: no per-file increase)",
+  "acceptance": "REQ-MAT-18, REQ-MAT-12; archived: v1:AC-DS-01 (before beta: no per-file increase)",
   "reqs": [
    "REQ-MAT-18",
    "REQ-MAT-12"
@@ -1445,7 +1445,7 @@
   "priority": "P0",
   "test": "npx jest tests/tokens/literals-lint.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-16; archived: AC-DS-01",
+  "acceptance": "REQ-MAT-16; archived: v1:AC-DS-01",
   "reqs": [
    "REQ-MAT-16"
   ],
@@ -1491,7 +1491,7 @@
   "priority": "P1",
   "test": "src/theme/__tests__/presets.test.ts (DS-082)",
   "storybook": "Presets.stories.tsx (DS-099)",
-  "acceptance": "REQ-MAT-14; archived: REQ-DS-25",
+  "acceptance": "REQ-MAT-14; archived: v1:REQ-DS-25",
   "reqs": [
    "REQ-MAT-14"
   ],
@@ -1517,7 +1517,7 @@
   "priority": "P1",
   "test": "src/theme/__tests__/createGlassTheme.test.ts (DS-084)",
   "storybook": "Presets.stories.tsx playground (DS-099)",
-  "acceptance": "REQ-MAT-15; archived: AC-DS-12; REQ-DS-26, REQ-DS-27",
+  "acceptance": "REQ-MAT-15; archived: v1:AC-DS-12; v1:REQ-DS-26, v1:REQ-DS-27",
   "reqs": [
    "REQ-MAT-15"
   ],
@@ -1540,7 +1540,7 @@
   "priority": "P1",
   "test": "src/theme/__tests__/createBrandTheme.test.ts (DS-086)",
   "storybook": "Presets.stories.tsx playground (DS-099)",
-  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: AC-DS-13; REQ-DS-28",
+  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: v1:AC-DS-13; v1:REQ-DS-28",
   "reqs": [
    "REQ-MAT-16",
    "REQ-MAT-67"
@@ -1564,7 +1564,7 @@
   "priority": "P2",
   "test": "src/theme/__tests__/deprecations-4-3.test.ts (DS-107) warning case",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: REQ-DS-29",
+  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: v1:REQ-DS-29",
   "reqs": [
    "REQ-MAT-16",
    "REQ-MAT-67"
@@ -1589,7 +1589,7 @@
   "priority": "P2",
   "test": "src/theme/__tests__/deprecations-4-3.test.ts (DS-107)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: REQ-DS-29",
+  "acceptance": "REQ-MAT-16, REQ-MAT-67; archived: v1:REQ-DS-29",
   "reqs": [
    "REQ-MAT-16",
    "REQ-MAT-67"
@@ -1620,7 +1620,7 @@
   "priority": "P1",
   "test": "tests/tokens/tailwind-bridge.test.ts (DS-091)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20, REQ-MAT-41; archived: AC-DS-10 (unit half); REQ-DS-38",
+  "acceptance": "REQ-MAT-20, REQ-MAT-41; archived: v1:AC-DS-10 (unit half); v1:REQ-DS-38",
   "reqs": [
    "REQ-MAT-20",
    "REQ-MAT-41"
@@ -1644,7 +1644,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/tailwind-bridge.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20, REQ-MAT-41; archived: AC-DS-10 (unit half)",
+  "acceptance": "REQ-MAT-20, REQ-MAT-41; archived: v1:AC-DS-10 (unit half)",
   "reqs": [
    "REQ-MAT-20",
    "REQ-MAT-41"
@@ -1668,7 +1668,7 @@
   "priority": "P1",
   "test": "tests/tokens/shadcn-interop.test.ts (DS-093)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20; archived: AC-DS-11 (unit half); REQ-DS-40",
+  "acceptance": "REQ-MAT-20; archived: v1:AC-DS-11 (unit half); v1:REQ-DS-40",
   "reqs": [
    "REQ-MAT-20"
   ],
@@ -1691,7 +1691,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/shadcn-interop.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20; archived: AC-DS-11 (unit half)",
+  "acceptance": "REQ-MAT-20; archived: v1:AC-DS-11 (unit half)",
   "reqs": [
    "REQ-MAT-20"
   ],
@@ -1714,7 +1714,7 @@
   "priority": "P2",
   "test": "tests/tokens/shadcn-interop.test.ts registry schema case",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20; archived: REQ-DS-40",
+  "acceptance": "REQ-MAT-20; archived: v1:REQ-DS-40",
   "reqs": [
    "REQ-MAT-20"
   ],
@@ -1738,7 +1738,7 @@
   "priority": "P1",
   "test": "tests/tokens/legacy-freeze.test.ts (DS-102)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21; archived: REQ-DS-42; AC-DS-14 input",
+  "acceptance": "REQ-MAT-21; archived: v1:REQ-DS-42; v1:AC-DS-14 input",
   "reqs": [
    "REQ-MAT-21"
   ],
@@ -1761,7 +1761,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/legacy-freeze.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21; archived: REQ-DS-42; AC-DS-14 input",
+  "acceptance": "REQ-MAT-21; archived: v1:REQ-DS-42; v1:AC-DS-14 input",
   "reqs": [
    "REQ-MAT-21"
   ],
@@ -1787,7 +1787,7 @@
   "priority": "P1",
   "test": "tests/tokens/compat-aliases.test.ts (DS-104)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21, REQ-MAT-13; archived: AC-DS-15 (aliases); REQ-DS-43, REQ-DS-24 (compat half)",
+  "acceptance": "REQ-MAT-21, REQ-MAT-13; archived: v1:AC-DS-15 (aliases); v1:REQ-DS-43, v1:REQ-DS-24 (compat half)",
   "reqs": [
    "REQ-MAT-21",
    "REQ-MAT-13"
@@ -1811,7 +1811,7 @@
   "priority": "P1",
   "test": "npx jest tests/tokens/compat-aliases.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-13; archived: AC-DS-15 (first half)",
+  "acceptance": "REQ-MAT-13; archived: v1:AC-DS-15 (first half)",
   "reqs": [
    "REQ-MAT-13"
   ],
@@ -1864,7 +1864,7 @@
   "priority": "P1",
   "test": "npm run test:tokens:exports green on the remote runner",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-DS-07; PRD §10 aura-glass/tokens row",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-DS-07; PRD §10 aura-glass/tokens row",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -1892,7 +1892,7 @@
   "priority": "P0",
   "test": "Remote run green in all 3 engines; 0 skipped except declared N/A cells",
   "storybook": "Per-engine diff images and forced-colours captures as CI artifacts; human sign-off",
-  "acceptance": "REQ-MAT-12; archived: AC-DS-08, AC-DS-09, AC-DS-12 (browser half); REQ-DS-21, REQ-DS-23",
+  "acceptance": "REQ-MAT-12; archived: v1:AC-DS-08, v1:AC-DS-09, v1:AC-DS-12 (browser half); v1:REQ-DS-21, v1:REQ-DS-23",
   "reqs": [
    "REQ-MAT-12"
   ],
@@ -1926,7 +1926,7 @@
   "priority": "P1",
   "test": "Remote canary jobs green",
   "storybook": "Side-by-side utility vs attribute captures and shadcn captures in both authority modes as CI artifacts",
-  "acceptance": "archived: AC-DS-10, AC-DS-11",
+  "acceptance": "archived: v1:AC-DS-10, v1:AC-DS-11",
   "reqs": [],
   "branch": "next",
   "source": "DS-115",
@@ -1983,7 +1983,7 @@
   "priority": "P0",
   "test": "npm run gates:tokens green with an empty baseline on the remote runner",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18; archived: AC-DS-01, AC-DS-02, AC-DS-05; PRD §18 DoD",
+  "acceptance": "REQ-MAT-18; archived: v1:AC-DS-01, v1:AC-DS-02, v1:AC-DS-05; PRD §18 DoD",
   "reqs": [
    "REQ-MAT-18"
   ],
@@ -2008,7 +2008,7 @@
   "priority": "P1",
   "test": "tests/tokens/schema.test.ts validates the file; the manifest lists each --ag-app-shell-* var; dead-vars passes (ag.public or NAV readers)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01, REQ-MAT-04; archived: SC-18 single creator under tokens/; REQ-DS-01, REQ-DS-06",
+  "acceptance": "REQ-MAT-01, REQ-MAT-04; archived: v1:SC-18 single creator under tokens/; v1:REQ-DS-01, v1:REQ-DS-06",
   "reqs": [
    "REQ-MAT-01",
    "REQ-MAT-04"
@@ -2035,7 +2035,7 @@
   "priority": "P2",
   "test": "rg gate; build remote green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-12",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-12",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2058,7 +2058,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T01 (MOT-025)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -2083,7 +2083,7 @@
   "priority": "P0",
   "test": "T01 fixture: compile of overshoot bezier fails",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03; AC-MOT-05 (0 overshoot beziers)",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03; v1:AC-MOT-05 (0 overshoot beziers)",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -2108,7 +2108,7 @@
   "priority": "P0",
   "test": "T01 fixture: compile of zeta=0.5 fails",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -2131,7 +2131,7 @@
   "priority": "P1",
   "test": "jest: four policy inputs map to the four preference outputs",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-15; archived: REQ-MOT-07 mapping verified (AC-MOT-18 deprecation path)",
+  "acceptance": "REQ-MAT-15; archived: v1:REQ-MOT-07 mapping verified (v1:AC-MOT-18 deprecation path)",
   "reqs": [
    "REQ-MAT-15"
   ],
@@ -2160,7 +2160,7 @@
   "priority": "P0",
   "test": "T17 cases for the motion categories; DS ratchet test: injected extra duration literal fails literals.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18; archived: AC-MOT-04",
+  "acceptance": "REQ-MAT-18; archived: v1:AC-MOT-04",
   "reqs": [
    "REQ-MAT-18"
   ],
@@ -2184,7 +2184,7 @@
   "priority": "P1",
   "test": "docs lint (DX) passes; sign-off recorded in the PR",
   "storybook": "Motion docs tables generated per flagship",
-  "acceptance": "REQ-MAT-66; archived: AC-MOT-19, AC-MOT-20",
+  "acceptance": "REQ-MAT-66; archived: v1:AC-MOT-19, v1:AC-MOT-20",
   "reqs": [
    "REQ-MAT-66"
   ],
@@ -2207,7 +2207,7 @@
   "priority": "P0",
   "test": "tests/a11y/contrast-matrix.test.ts case \"busy reference\" loads the file and asserts length 9 and exact order",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-10; archived: AC-A11Y-03 (REQ-A11Y-15)",
+  "acceptance": "REQ-MAT-10; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-15)",
   "reqs": [
    "REQ-MAT-10"
   ],
@@ -2230,7 +2230,7 @@
   "priority": "P0",
   "test": "tests/a11y/contrast-matrix.test.ts imports only src/theme/color.ts; rg \"0\\.2126\" src outside color.ts reported",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-11; archived: AC-A11Y-03 (REQ-A11Y-18)",
+  "acceptance": "REQ-MAT-11; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-18)",
   "reqs": [
    "REQ-MAT-11"
   ],
@@ -2255,7 +2255,7 @@
   "priority": "P0",
   "test": "tests/a11y/contrast-matrix.test.ts green in QA L4 Token contrast (the PR-scope qual:certify:l* jobs)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54, REQ-MAT-33, REQ-MAT-10, REQ-MAT-11; archived: AC-A11Y-03 (REQ-A11Y-13, REQ-A11Y-14, REQ-A11Y-15, REQ-A11Y-16, REQ-A11Y-17, REQ-A11Y-18)",
+  "acceptance": "REQ-MAT-54, REQ-MAT-33, REQ-MAT-10, REQ-MAT-11; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-13, v1:REQ-A11Y-14, v1:REQ-A11Y-15, v1:REQ-A11Y-16, v1:REQ-A11Y-17, v1:REQ-A11Y-18)",
   "reqs": [
    "REQ-MAT-54",
    "REQ-MAT-33",
@@ -2282,7 +2282,7 @@
   "priority": "P0",
   "test": "'focus bands' case green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-10 (REQ-A11Y-24)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-10 (v1:REQ-A11Y-24)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -2303,7 +2303,7 @@
   "priority": "P0",
   "test": "tsc --noEmit passes; Surface.test.tsx @ts-expect-error cases (MAT-057) compile as errors",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22, REQ-MAT-23, REQ-MAT-24; archived: AC-MAT-03 (REQ-MAT-01, REQ-MAT-03 unions, REQ-MAT-12 typed out)",
+  "acceptance": "REQ-MAT-22, REQ-MAT-23, REQ-MAT-24; archived: v1:AC-MAT-03 (v1:REQ-MAT-01, v1:REQ-MAT-03 unions, v1:REQ-MAT-12 typed out)",
   "reqs": [
    "REQ-MAT-22",
    "REQ-MAT-23",
@@ -2332,7 +2332,7 @@
   "priority": "P1",
   "test": "tests/release/material-css-api.test.ts (NEW): fixture with a removed public var exits non-zero; with a deprecations.json css-var entry exits 0; data-ag-material in input exits non-zero",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-04, REQ-MAT-22, REQ-MAT-27, REQ-MAT-28, REQ-MAT-29; archived: AC-MAT-03 (REQ-MAT-16, REQ-MAT-17 vocabulary)",
+  "acceptance": "REQ-MAT-04, REQ-MAT-22, REQ-MAT-27, REQ-MAT-28, REQ-MAT-29; archived: v1:AC-MAT-03 (v1:REQ-MAT-16, v1:REQ-MAT-17 vocabulary)",
   "reqs": [
    "REQ-MAT-04",
    "REQ-MAT-22",
@@ -2361,7 +2361,7 @@
   "priority": "P0",
   "test": "tests/lint/no-optics-outside-material.test.ts (MAT-005)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 (REQ-MAT-63)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 (v1:REQ-MAT-63)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2384,7 +2384,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/lint/no-optics-outside-material.test.ts green; every pattern has a failing case",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 (REQ-MAT-63)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 (v1:REQ-MAT-63)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2411,7 +2411,7 @@
   "priority": "P0",
   "test": "eslint src --rule set reports W warnings = recorded baseline; CI fails at W+1",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 ratchet (REQ-MAT-63)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 ratchet (v1:REQ-MAT-63)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2436,7 +2436,7 @@
   "priority": "P0",
   "test": "tests/ci/verify-optics-css.test.ts (MAT-008)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 (REQ-MAT-64)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 (v1:REQ-MAT-64)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2459,7 +2459,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/ci/verify-optics-css.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 (REQ-MAT-64)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 (v1:REQ-MAT-64)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2480,7 +2480,7 @@
   "priority": "P0",
   "test": "tests/ci/count-glass-recipes.test.ts (MAT-010)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-01 ratchet (REQ-MAT-65)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-01 ratchet (v1:REQ-MAT-65)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2503,7 +2503,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest tests/ci/count-glass-recipes.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-01 (REQ-MAT-65)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-01 (v1:REQ-MAT-65)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -2526,7 +2526,7 @@
   "priority": "P0",
   "test": "src/material/__tests__/defineMaterial.test.ts (NEW): each invalid spec throws with field name; valid spec frozen",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-MAT-03 (REQ-MAT-01 defineMaterial export, REQ-MAT-29 cap)",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-MAT-03 (v1:REQ-MAT-01 defineMaterial export, v1:REQ-MAT-29 cap)",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -2549,7 +2549,7 @@
   "priority": "P0",
   "test": "properties.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-28; archived: AC-MAT-03 (REQ-MAT-13)",
+  "acceptance": "REQ-MAT-28; archived: v1:AC-MAT-03 (v1:REQ-MAT-13)",
   "reqs": [
    "REQ-MAT-28"
   ],
@@ -2572,7 +2572,7 @@
   "priority": "P0",
   "test": "css-contract.test.ts (MAT-042); layer-stack.spec.ts host computed transform none/will-change auto/contain none/opacity 1/filter none (MAT-071)",
   "storybook": "Material Lab default story renders surface",
-  "acceptance": "REQ-MAT-19, REQ-MAT-30; archived: AC-MAT-03 (REQ-MAT-19, REQ-MAT-22)",
+  "acceptance": "REQ-MAT-19, REQ-MAT-30; archived: v1:AC-MAT-03 (v1:REQ-MAT-19, v1:REQ-MAT-22)",
   "reqs": [
    "REQ-MAT-19",
    "REQ-MAT-30"
@@ -2588,7 +2588,7 @@
   "system": "material/layer-stack",
   "file": "src/material/css/material.css",
   "action": "MODIFY",
-  "description": "::before (content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;backdrop-filter:blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness))) and ::after (inset:0;border-radius:inherit;pointer-events:none); REQ-MAT-13a inherit list on '.ag-surface::before, .ag-surface::after' for --_ag-blur, --_ag-saturation, --_ag-brightness, --_ag-dim, --_ag-surface-alpha, --_ag-refraction-scale, --_ag-rim-width, --_ag-grain-opacity, --ag-specular.",
+  "description": "::before (content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;backdrop-filter:blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness))) and ::after (inset:0;border-radius:inherit;pointer-events:none); v1:REQ-MAT-13a inherit list on '.ag-surface::before, .ag-surface::after' for --_ag-blur, --_ag-saturation, --_ag-brightness, --_ag-dim, --_ag-surface-alpha, --_ag-refraction-scale, --_ag-rim-width, --_ag-grain-opacity, --ag-specular.",
   "depends_on": [
    "MAT-106"
   ],
@@ -2596,7 +2596,7 @@
   "priority": "P0",
   "test": "layer-stack.spec.ts: host backdrop-filter none; ::before --_ag-blur equals ladder px; ::after --ag-specular changes on [data-ag-interactive]:hover (MAT-071)",
   "storybook": "Material/Optics 'layer stack' story",
-  "acceptance": "REQ-MAT-28, REQ-MAT-30; archived: AC-MAT-03 (REQ-MAT-13a, REQ-MAT-21)",
+  "acceptance": "REQ-MAT-28, REQ-MAT-30; archived: v1:AC-MAT-03 (v1:REQ-MAT-13a, v1:REQ-MAT-21)",
   "reqs": [
    "REQ-MAT-28",
    "REQ-MAT-30"
@@ -2620,7 +2620,7 @@
   "priority": "P1",
   "test": "layer-stack.spec.ts: all six read-outs non-empty on every Material.Matrix surface (MAT-071)",
   "storybook": "Material Lab read-out panel shows computed --ag-surface-fill",
-  "acceptance": "REQ-MAT-29; archived: AC-MAT-03 (REQ-MAT-14)",
+  "acceptance": "REQ-MAT-29; archived: v1:AC-MAT-03 (v1:REQ-MAT-14)",
   "reqs": [
    "REQ-MAT-29"
   ],
@@ -2643,7 +2643,7 @@
   "priority": "P0",
   "test": "src/material/__tests__/tint-formula.test.ts (NEW): --ag-glass-opacity ∈ {−1,0,0.3,0.7,1,2} × every floor → floor ≤ alpha ≤ 1; declaration text equals formula",
   "storybook": "Material Lab --ag-glass-opacity slider with resolved floor alpha read-out",
-  "acceptance": "REQ-MAT-29, REQ-MAT-10; archived: AC-MAT-04 (REQ-MAT-15, REQ-MAT-33, REQ-MAT-79; DS contrast lane is input)",
+  "acceptance": "REQ-MAT-29, REQ-MAT-10; archived: v1:AC-MAT-04 (v1:REQ-MAT-15, v1:REQ-MAT-33, v1:REQ-MAT-79; DS contrast lane is input)",
   "reqs": [
    "REQ-MAT-29",
    "REQ-MAT-10"
@@ -2667,7 +2667,7 @@
   "priority": "P1",
   "test": "optics.spec.ts: --ag-on-surface differs between light and dark backdrop on TabBar-sized chrome surface (MAT-075)",
   "storybook": "Material Lab 'Clear' light/dark/media/auto stories",
-  "acceptance": "REQ-MAT-27, REQ-MAT-29; archived: AC-MAT-04 (REQ-MAT-17 backdrop, REQ-MAT-83)",
+  "acceptance": "REQ-MAT-27, REQ-MAT-29; archived: v1:AC-MAT-04 (v1:REQ-MAT-17 backdrop, v1:REQ-MAT-83)",
   "reqs": [
    "REQ-MAT-27",
    "REQ-MAT-29"
@@ -2691,7 +2691,7 @@
   "priority": "P0",
   "test": "nesting.spec.ts: nested ::before none, fill = inner fill; allowNested keeps optics; portaled overlay keeps optics (MAT-072)",
   "storybook": "Material Lab 'Nesting & Groups' stories",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-08 (REQ-MAT-23, REQ-MAT-41)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-08 (v1:REQ-MAT-23, v1:REQ-MAT-41)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -2714,7 +2714,7 @@
   "priority": "P0",
   "test": "group.spec.ts: 5-control SurfaceGroup → exactly 1 visible backdrop filter; children rim/shadow present (MAT-073)",
   "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar' story",
-  "acceptance": "REQ-MAT-31, REQ-MAT-26; archived: AC-MAT-08 (REQ-MAT-25, REQ-MAT-08 CSS)",
+  "acceptance": "REQ-MAT-31, REQ-MAT-26; archived: v1:AC-MAT-08 (v1:REQ-MAT-25, v1:REQ-MAT-08 CSS)",
   "reqs": [
    "REQ-MAT-31",
    "REQ-MAT-26"
@@ -2738,7 +2738,7 @@
   "priority": "P0",
   "test": "content-materials.spec.ts: no backdrop-filter for layer=content in every tier; explicit variant blurs (MAT-074)",
   "storybook": "Material.Matrix content-raised/content-sunken columns",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-04 (REQ-MAT-26, REQ-MAT-42)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-04 (v1:REQ-MAT-26, v1:REQ-MAT-42)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -2761,7 +2761,7 @@
   "priority": "P1",
   "test": "nesting.spec.ts disabled host opacity 1 (MAT-072); responsive.spec.ts modal scrim blur ≤12px (MAT-083)",
   "storybook": "Material Lab 'Nesting & Groups' 'disabled' and Material Lab 'Tiers' 'modal scrim' stories",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-04 (REQ-MAT-27, REQ-MAT-28)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-04 (v1:REQ-MAT-27, v1:REQ-MAT-28)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -2784,7 +2784,7 @@
   "priority": "P0",
   "test": "optics.spec.ts filter order and 12/20/32px by thickness, no blur >32 (MAT-075); css-contract.test.ts no blur >32px (MAT-042)",
   "storybook": "Material/Optics 'blur ladder' story",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-04 (REQ-MAT-29, REQ-MAT-30, REQ-MAT-31)",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-04 (v1:REQ-MAT-29, v1:REQ-MAT-30, v1:REQ-MAT-31)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -2807,7 +2807,7 @@
   "priority": "P2",
   "test": "optics.spec.ts: prominent surface fill accent share ≤0.18 (computed color-mix parse) (MAT-075)",
   "storybook": "Material/Optics 'prominent' story",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-04 (REQ-MAT-32)",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-04 (v1:REQ-MAT-32)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -2830,7 +2830,7 @@
   "priority": "P1",
   "test": "optics.spec.ts grain URL on ::before and host mix-blend-mode normal (MAT-075); verify-size-budgets.mjs (PKG) AVIF ≤4096 B (MAT-044)",
   "storybook": "Material/Optics 'grain on/off' story",
-  "acceptance": "REQ-MAT-23, REQ-MAT-25; archived: AC-MAT-11 (REQ-MAT-34, REQ-MAT-70 asset)",
+  "acceptance": "REQ-MAT-23, REQ-MAT-25; archived: v1:AC-MAT-11 (v1:REQ-MAT-34, v1:REQ-MAT-70 asset)",
   "reqs": [
    "REQ-MAT-23",
    "REQ-MAT-25"
@@ -2854,7 +2854,7 @@
   "priority": "P0",
   "test": "optics.spec.ts: non-zero luminance delta in the 2px edge band in chromium, webkit, firefox (MAT-075)",
   "storybook": "Material/Optics 'rim only' story",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-04 (REQ-MAT-35)",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-04 (v1:REQ-MAT-35)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -2877,7 +2877,7 @@
   "priority": "P2",
   "test": "optics.spec.ts: over flat-black scene, lit-side 4px inner band mean 8-bit luminance ≥ opposite side +12 levels (MAT-075)",
   "storybook": "Material/Optics 'light angle sweep' story",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-04 (REQ-MAT-36)",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-04 (v1:REQ-MAT-36)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -2900,7 +2900,7 @@
   "priority": "P1",
   "test": "optics.spec.ts specular 0 under contrast 'more' emulation (MAT-075)",
   "storybook": "Material/Optics 'specular' story",
-  "acceptance": "REQ-MAT-07, REQ-MAT-28; archived: AC-MAT-04 (REQ-MAT-37)",
+  "acceptance": "REQ-MAT-07, REQ-MAT-28; archived: v1:AC-MAT-04 (v1:REQ-MAT-37)",
   "reqs": [
    "REQ-MAT-07",
    "REQ-MAT-28"
@@ -2924,7 +2924,7 @@
   "priority": "P1",
   "test": "optics.spec.ts computed box-shadow per thickness and none under forcedColors (MAT-075, MAT-084)",
   "storybook": "Material.Matrix thickness rows",
-  "acceptance": "REQ-MAT-07, REQ-MAT-31; archived: AC-MAT-04 (REQ-MAT-40)",
+  "acceptance": "REQ-MAT-07, REQ-MAT-31; archived: v1:AC-MAT-04 (v1:REQ-MAT-40)",
   "reqs": [
    "REQ-MAT-07",
    "REQ-MAT-31"
@@ -2948,7 +2948,7 @@
   "priority": "P1",
   "test": "optics.spec.ts hover specular rise and instant under reducedMotion emulation (MAT-075); css-contract.test.ts no transition on backdrop-filter/filter (MAT-042)",
   "storybook": "Material/Optics 'interaction' story",
-  "acceptance": "REQ-MAT-42, REQ-MAT-44; archived: AC-MAT-04 (REQ-MAT-44, REQ-MAT-84)",
+  "acceptance": "REQ-MAT-42, REQ-MAT-44; archived: v1:AC-MAT-04 (v1:REQ-MAT-44, v1:REQ-MAT-84)",
   "reqs": [
    "REQ-MAT-42",
    "REQ-MAT-44"
@@ -2973,7 +2973,7 @@
   "priority": "P0",
   "test": "clear-fallback.spec.ts computed filter/fill equal to regular without backdrop and under auto (MAT-076); optics.spec.ts --_ag-dim 0.35 (MAT-075)",
   "storybook": "Material Lab 'Clear' 'clear over light/media' and 'clear without backdrop'",
-  "acceptance": "REQ-MAT-33; archived: AC-MAT-04 (REQ-MAT-43, REQ-MAT-45)",
+  "acceptance": "REQ-MAT-33; archived: v1:AC-MAT-04 (v1:REQ-MAT-43, v1:REQ-MAT-45)",
   "reqs": [
    "REQ-MAT-33"
   ],
@@ -2996,7 +2996,7 @@
   "priority": "P2",
   "test": "optics.spec.ts identity computed backdrop none/transparent/no shadow; a11y-coverage.spec.ts identity still matched by [data-ag-surface] (MAT-075, MAT-084)",
   "storybook": "Material.Matrix identity column",
-  "acceptance": "REQ-MAT-32; archived: AC-MAT-04 (REQ-MAT-46)",
+  "acceptance": "REQ-MAT-32; archived: v1:AC-MAT-04 (v1:REQ-MAT-46)",
   "reqs": [
    "REQ-MAT-32"
   ],
@@ -3020,7 +3020,7 @@
   "priority": "P0",
   "test": "tiers.spec.ts (MAT-077); kill-switches.spec.ts (MAT-079); css-contract.test.ts static @supports-not block (MAT-042)",
   "storybook": "Material Lab 'Tiers' side-by-side",
-  "acceptance": "REQ-MAT-35, REQ-MAT-27; archived: AC-MAT-04/AC-MAT-05 (REQ-MAT-48, REQ-MAT-49, REQ-MAT-17 subtree override)",
+  "acceptance": "REQ-MAT-35, REQ-MAT-27; archived: v1:AC-MAT-04/v1:AC-MAT-05 (v1:REQ-MAT-48, v1:REQ-MAT-49, v1:REQ-MAT-17 subtree override)",
   "reqs": [
    "REQ-MAT-35",
    "REQ-MAT-27"
@@ -3036,7 +3036,7 @@
   "system": "material/lens-css",
   "file": "NEW:src/material/css/lens.css",
   "action": "CREATE",
-  "description": "Single eligibility selector :root[data-ag-engine=chromium]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer=chrome] (lens-ready lives on LensDefs, REQ-MAT-87; no JS attribute write), excluded under [data-ag-tier=standard|lightweight], [data-ag-transparency=tinted|solid], [data-ag-motion=none], prefers-reduced-transparency: reduce, prefers-contrast: more, forced-colors: active; 9 [data-ag-shape][data-ag-sizeclass] rules → backdrop-filter:url(#ag-lens-<shape>-<sizeclass>) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); no sheet rule; no dispersion. File starts with the SC-20 order statement.",
+  "description": "Single eligibility selector :root[data-ag-engine=chromium]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer=chrome] (lens-ready lives on LensDefs, v1:REQ-MAT-87; no JS attribute write), excluded under [data-ag-tier=standard|lightweight], [data-ag-transparency=tinted|solid], [data-ag-motion=none], prefers-reduced-transparency: reduce, prefers-contrast: more, forced-colors: active; 9 [data-ag-shape][data-ag-sizeclass] rules → backdrop-filter:url(#ag-lens-<shape>-<sizeclass>) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); no sheet rule; no dispersion. File starts with the SC-20 order statement.",
   "depends_on": [
    "MAT-115",
    "MAT-183"
@@ -3045,7 +3045,7 @@
   "priority": "P1",
   "test": "enhanced-gating.spec.ts (MAT-078); css-contract.test.ts counts 9 lens rules, none for sheet (MAT-042)",
   "storybook": "Material Lab 'Tiers' enhanced column with 'inert on this engine' label",
-  "acceptance": "REQ-MAT-36; archived: AC-MAT-10 (REQ-MAT-38, REQ-MAT-39, REQ-MAT-50, REQ-MAT-57, REQ-MAT-81)",
+  "acceptance": "REQ-MAT-36; archived: v1:AC-MAT-10 (v1:REQ-MAT-38, v1:REQ-MAT-39, v1:REQ-MAT-50, v1:REQ-MAT-57, v1:REQ-MAT-81)",
   "reqs": [
    "REQ-MAT-36"
   ],
@@ -3068,7 +3068,7 @@
   "priority": "P2",
   "test": "tsc: LensId accepts 'ag-lens-capsule-bar', rejects 'ag-lens-capsule-sheet' (@ts-expect-error in materialProps.test.ts)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-36; archived: AC-MAT-10 (REQ-MAT-58; interim §16 PRD-15 contract owned here)",
+  "acceptance": "REQ-MAT-36; archived: v1:AC-MAT-10 (v1:REQ-MAT-58; interim §16 v1:PRD-15 contract owned here)",
   "reqs": [
    "REQ-MAT-36"
   ],
@@ -3091,7 +3091,7 @@
   "priority": "P1",
   "test": "responsive.spec.ts inner radius ≥0 at compact/regular/spacious (MAT-083); components.test.tsx attributes (MAT-060)",
   "storybook": "Material Lab 'Shape & Concentricity' 'ConcentricFrame radius rhythm' and 'capsule'",
-  "acceptance": "REQ-MAT-26, REQ-MAT-06; archived: AC-MAT-04 (REQ-MAT-11 CSS, REQ-MAT-75)",
+  "acceptance": "REQ-MAT-26, REQ-MAT-06; archived: v1:AC-MAT-04 (v1:REQ-MAT-11 CSS, v1:REQ-MAT-75)",
   "reqs": [
    "REQ-MAT-26",
    "REQ-MAT-06"
@@ -3115,7 +3115,7 @@
   "priority": "P1",
   "test": "responsive.spec.ts ScrollEdge height 16–32px and no overlap with focusable boxes (MAT-083)",
   "storybook": "Material Lab 'Shape & Concentricity' 'ScrollEdge soft/hard'",
-  "acceptance": "REQ-MAT-26, REQ-MAT-63; archived: AC-MAT-04 (REQ-MAT-10 CSS, REQ-MAT-77)",
+  "acceptance": "REQ-MAT-26, REQ-MAT-63; archived: v1:AC-MAT-04 (v1:REQ-MAT-10 CSS, v1:REQ-MAT-77)",
   "reqs": [
    "REQ-MAT-26",
    "REQ-MAT-63"
@@ -3137,9 +3137,9 @@
   ],
   "contract_seams": [],
   "priority": "P1",
-  "test": "css-contract.test.ts 'REQ-MAT-73 coarse pointer ladder'; responsive.spec.ts coarse emulation (MAT-083)",
+  "test": "css-contract.test.ts 'v1:REQ-MAT-73 coarse pointer ladder'; responsive.spec.ts coarse emulation (MAT-083)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-40; archived: AC-MAT-03 (REQ-MAT-73)",
+  "acceptance": "REQ-MAT-40; archived: v1:AC-MAT-03 (v1:REQ-MAT-73)",
   "reqs": [
    "REQ-MAT-40"
   ],
@@ -3162,7 +3162,7 @@
   "priority": "P2",
   "test": "css-contract.test.ts 'private token-keyed attributes'",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23; archived: AC-MAT-03 (REQ-MAT-03/08/11/57 private attributes)",
+  "acceptance": "REQ-MAT-23; archived: v1:AC-MAT-03 (v1:REQ-MAT-03/08/11/57 private attributes)",
   "reqs": [
    "REQ-MAT-23"
   ],
@@ -3186,7 +3186,7 @@
   "priority": "P0",
   "test": "css-contract.test.ts green; each assertion fails when its rule is reverted (MAT-094)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-13, REQ-MAT-21; archived: AC-MAT-03 (REQ-MAT-18, 19, 22, 47, 49, 60; REQ-MAT-69 core side, compat/tokens.css owned by DS)",
+  "acceptance": "REQ-MAT-13, REQ-MAT-21; archived: v1:AC-MAT-03 (v1:REQ-MAT-18, 19, 22, 47, 49, 60; v1:REQ-MAT-69 core side, compat/tokens.css owned by DS)",
   "reqs": [
    "REQ-MAT-13",
    "REQ-MAT-21"
@@ -3211,7 +3211,7 @@
   "priority": "P1",
   "test": "tailwind-bridge-parity.test.ts 5/5 equal",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-14 (REQ-MAT-68)",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-14 (v1:REQ-MAT-68)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -3234,7 +3234,7 @@
   "priority": "P0",
   "test": "materialProps.test.ts defaults table and size-class mapping (MAT-056)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23, REQ-MAT-36; archived: AC-MAT-03 (REQ-MAT-03, REQ-MAT-57, REQ-MAT-74)",
+  "acceptance": "REQ-MAT-23, REQ-MAT-36; archived: v1:AC-MAT-03 (v1:REQ-MAT-03, v1:REQ-MAT-57, v1:REQ-MAT-74)",
   "reqs": [
    "REQ-MAT-23",
    "REQ-MAT-36"
@@ -3258,7 +3258,7 @@
   "priority": "P0",
   "test": "materialProps.test.ts full matrix determinism, no style key (MAT-056); verify-material-runtime.mjs (MAT-064)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23; archived: AC-MAT-07 (REQ-MAT-02)",
+  "acceptance": "REQ-MAT-23; archived: v1:AC-MAT-07 (v1:REQ-MAT-02)",
   "reqs": [
    "REQ-MAT-23"
   ],
@@ -3285,7 +3285,7 @@
   "priority": "P0",
   "test": "Surface.test.tsx (MAT-057); server-safe.test.tsx (MAT-058)",
   "storybook": "Material Lab primary story",
-  "acceptance": "REQ-MAT-24, REQ-MAT-25; archived: AC-MAT-07 (REQ-MAT-04, REQ-MAT-05, REQ-MAT-06, REQ-MAT-12)",
+  "acceptance": "REQ-MAT-24, REQ-MAT-25; archived: v1:AC-MAT-07 (v1:REQ-MAT-04, v1:REQ-MAT-05, v1:REQ-MAT-06, v1:REQ-MAT-12)",
   "reqs": [
    "REQ-MAT-24",
    "REQ-MAT-25"
@@ -3309,7 +3309,7 @@
   "priority": "P0",
   "test": "components.test.tsx (MAT-060); group.spec.ts (MAT-073)",
   "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar'",
-  "acceptance": "REQ-MAT-26; archived: AC-MAT-08 (REQ-MAT-08)",
+  "acceptance": "REQ-MAT-26; archived: v1:AC-MAT-08 (v1:REQ-MAT-08)",
   "reqs": [
    "REQ-MAT-26"
   ],
@@ -3332,7 +3332,7 @@
   "priority": "P1",
   "test": "components.test.tsx media aria-hidden and data-ag-backdrop=media (MAT-060)",
   "storybook": "Material Lab 'Clear' image/video stories",
-  "acceptance": "REQ-MAT-26, REQ-MAT-65; archived: AC-MAT-03 (REQ-MAT-09, REQ-MAT-82)",
+  "acceptance": "REQ-MAT-26, REQ-MAT-65; archived: v1:AC-MAT-03 (v1:REQ-MAT-09, v1:REQ-MAT-82)",
   "reqs": [
    "REQ-MAT-26",
    "REQ-MAT-65"
@@ -3356,7 +3356,7 @@
   "priority": "P1",
   "test": "components.test.tsx attrs (MAT-060); responsive.spec.ts (MAT-083)",
   "storybook": "Material Lab 'Shape & Concentricity' 'ScrollEdge soft/hard'",
-  "acceptance": "REQ-MAT-26; archived: AC-MAT-03 (REQ-MAT-10)",
+  "acceptance": "REQ-MAT-26; archived: v1:AC-MAT-03 (v1:REQ-MAT-10)",
   "reqs": [
    "REQ-MAT-26"
   ],
@@ -3379,7 +3379,7 @@
   "priority": "P1",
   "test": "components.test.tsx attrs, no style (MAT-060)",
   "storybook": "Material Lab 'Shape & Concentricity' 'ConcentricFrame radius rhythm'",
-  "acceptance": "REQ-MAT-26; archived: AC-MAT-03 (REQ-MAT-11)",
+  "acceptance": "REQ-MAT-26; archived: v1:AC-MAT-03 (v1:REQ-MAT-11)",
   "reqs": [
    "REQ-MAT-26"
   ],
@@ -3402,7 +3402,7 @@
   "priority": "P1",
   "test": "useMaterialTier.test.tsx (MAT-059)",
   "storybook": "Material Lab 'Tiers' shows hook value",
-  "acceptance": "REQ-MAT-25; archived: AC-MAT-03 (REQ-MAT-07)",
+  "acceptance": "REQ-MAT-25; archived: v1:AC-MAT-03 (v1:REQ-MAT-07)",
   "reqs": [
    "REQ-MAT-25"
   ],
@@ -3431,7 +3431,7 @@
   "priority": "P0",
   "test": "tests/exports/material-exports.test.ts (MAT-063)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22, REQ-MAT-37; archived: AC-MAT-03 (REQ-MAT-01, REQ-MAT-60)",
+  "acceptance": "REQ-MAT-22, REQ-MAT-37; archived: v1:AC-MAT-03 (v1:REQ-MAT-01, v1:REQ-MAT-60)",
   "reqs": [
    "REQ-MAT-22",
    "REQ-MAT-37"
@@ -3455,7 +3455,7 @@
   "priority": "P1",
   "test": "dev-warnings.test.tsx (MAT-061)",
   "storybook": "Material Lab 'Clear' 'clear with no backdrop' shows console warning",
-  "acceptance": "REQ-MAT-31, REQ-MAT-33, REQ-MAT-36; archived: AC-MAT-03 (REQ-MAT-24, REQ-MAT-45, REQ-MAT-51)",
+  "acceptance": "REQ-MAT-31, REQ-MAT-33, REQ-MAT-36; archived: v1:AC-MAT-03 (v1:REQ-MAT-24, v1:REQ-MAT-45, v1:REQ-MAT-51)",
   "reqs": [
    "REQ-MAT-31",
    "REQ-MAT-33",
@@ -3480,7 +3480,7 @@
   "priority": "P1",
   "test": "dev-warnings.test.tsx counter thresholds (MAT-061); responsive.spec.ts full-width refracting bar warning (MAT-083)",
   "storybook": "Material Lab 'Tiers' 'budget exceeded' story logs warning",
-  "acceptance": "REQ-MAT-38, REQ-MAT-36; archived: AC-MAT-03 (REQ-MAT-52, REQ-MAT-72, REQ-MAT-74)",
+  "acceptance": "REQ-MAT-38, REQ-MAT-36; archived: v1:AC-MAT-03 (v1:REQ-MAT-52, v1:REQ-MAT-72, v1:REQ-MAT-74)",
   "reqs": [
    "REQ-MAT-38",
    "REQ-MAT-36"
@@ -3504,7 +3504,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/material/__tests__/materialProps.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23; archived: AC-MAT-03 (REQ-MAT-02, 03, 05, 57, 74)",
+  "acceptance": "REQ-MAT-23; archived: v1:AC-MAT-03 (v1:REQ-MAT-02, 03, 05, 57, 74)",
   "reqs": [
    "REQ-MAT-23"
   ],
@@ -3527,7 +3527,7 @@
   "priority": "P0",
   "test": "jest + tsc --noEmit over test file green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-24; archived: AC-MAT-07 36/36 (REQ-MAT-04, 05, 12)",
+  "acceptance": "REQ-MAT-24; archived: v1:AC-MAT-07 36/36 (v1:REQ-MAT-04, 05, 12)",
   "reqs": [
    "REQ-MAT-24"
   ],
@@ -3550,7 +3550,7 @@
   "priority": "P0",
   "test": "server-safe.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-25, REQ-MAT-35; archived: AC-MAT-06 unit half (REQ-MAT-06, REQ-MAT-48)",
+  "acceptance": "REQ-MAT-25, REQ-MAT-35; archived: v1:AC-MAT-06 unit half (v1:REQ-MAT-06, v1:REQ-MAT-48)",
   "reqs": [
    "REQ-MAT-25",
    "REQ-MAT-35"
@@ -3574,7 +3574,7 @@
   "priority": "P1",
   "test": "useMaterialTier.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-25; archived: AC-MAT-03 (REQ-MAT-07)",
+  "acceptance": "REQ-MAT-25; archived: v1:AC-MAT-03 (v1:REQ-MAT-07)",
   "reqs": [
    "REQ-MAT-25"
   ],
@@ -3600,7 +3600,7 @@
   "priority": "P1",
   "test": "components.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-26, REQ-MAT-65; archived: AC-MAT-03 (REQ-MAT-08..11, REQ-MAT-82)",
+  "acceptance": "REQ-MAT-26, REQ-MAT-65; archived: v1:AC-MAT-03 (v1:REQ-MAT-08..11, v1:REQ-MAT-82)",
   "reqs": [
    "REQ-MAT-26",
    "REQ-MAT-65"
@@ -3625,7 +3625,7 @@
   "priority": "P1",
   "test": "dev-warnings.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-03 (REQ-MAT-24, 45, 51, 52)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-03 (v1:REQ-MAT-24, 45, 51, 52)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -3648,7 +3648,7 @@
   "priority": "P0",
   "test": "import-side-effects.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23, REQ-MAT-25; archived: AC-MAT-03 (REQ-MAT-71)",
+  "acceptance": "REQ-MAT-23, REQ-MAT-25; archived: v1:AC-MAT-03 (v1:REQ-MAT-71)",
   "reqs": [
    "REQ-MAT-23",
    "REQ-MAT-25"
@@ -3676,7 +3676,7 @@
   "priority": "P0",
   "test": "tests/ci/verify-material-runtime.test.ts (NEW): fixture with requestAnimationFrame in src/material/x.ts fails; in dev/ passes",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-35, REQ-MAT-37, REQ-MAT-27; archived: AC-MAT-03 (REQ-MAT-53, REQ-MAT-60, REQ-MAT-17 read-only)",
+  "acceptance": "REQ-MAT-35, REQ-MAT-37, REQ-MAT-27; archived: v1:AC-MAT-03 (v1:REQ-MAT-53, v1:REQ-MAT-60, v1:REQ-MAT-17 read-only)",
   "reqs": [
    "REQ-MAT-35",
    "REQ-MAT-37",
@@ -3701,7 +3701,7 @@
   "priority": "P3",
   "test": "API Extractor report contains the TSDoc (reviewed in MAT-002 diff)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-37; archived: AC-MAT-03 contract for EXP (interim §16 PRD-21) (REQ-MAT-60, REQ-MAT-61, REQ-MAT-62)",
+  "acceptance": "REQ-MAT-37; archived: v1:AC-MAT-03 contract for EXP (interim §16 v1:PRD-21) (v1:REQ-MAT-60, v1:REQ-MAT-61, v1:REQ-MAT-62)",
   "reqs": [
    "REQ-MAT-37"
   ],
@@ -3724,7 +3724,7 @@
   "priority": "P0",
   "test": "hydration.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MAT-06 unit half",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MAT-06 unit half",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -3745,7 +3745,7 @@
   "priority": "P0",
   "test": "helpers exercised by every spec; a self-check spec asserts ΔE2000 of identical images = 0 and of black/white = 100",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-16; archived: AC-MAT-03 infra",
+  "acceptance": "REQ-MAT-16; archived: v1:AC-MAT-03 infra",
   "reqs": [
    "REQ-MAT-16"
   ],
@@ -3769,7 +3769,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material.Matrix, Material/Optics",
-  "acceptance": "REQ-MAT-28; archived: AC-MAT-03 (REQ-MAT-13a, 14, 21, 22)",
+  "acceptance": "REQ-MAT-28; archived: v1:AC-MAT-03 (v1:REQ-MAT-13a, 14, 21, 22)",
   "reqs": [
    "REQ-MAT-28"
   ],
@@ -3794,7 +3794,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Nesting & Groups'",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-08 (REQ-MAT-23, 24, 27)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-08 (v1:REQ-MAT-23, 24, 27)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -3818,7 +3818,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar'",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-08 (REQ-MAT-25)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-08 (v1:REQ-MAT-25)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -3841,7 +3841,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material.Matrix content columns",
-  "acceptance": "REQ-MAT-31; archived: AC-MAT-04 (REQ-MAT-26, 42)",
+  "acceptance": "REQ-MAT-31; archived: v1:AC-MAT-04 (v1:REQ-MAT-26, 42)",
   "reqs": [
    "REQ-MAT-31"
   ],
@@ -3873,7 +3873,7 @@
   "priority": "P0",
   "test": "3 engines green remotely; titles carry REQ ids",
   "storybook": "Material/Optics (one story per optic)",
-  "acceptance": "REQ-MAT-28; archived: AC-MAT-04 (REQ-MAT-29..37, 40..44, 83, 84)",
+  "acceptance": "REQ-MAT-28; archived: v1:AC-MAT-04 (v1:REQ-MAT-29..37, 40..44, 83, 84)",
   "reqs": [
    "REQ-MAT-28"
   ],
@@ -3896,7 +3896,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Clear' 'clear with no backdrop'",
-  "acceptance": "REQ-MAT-33; archived: AC-MAT-04 (REQ-MAT-45)",
+  "acceptance": "REQ-MAT-33; archived: v1:AC-MAT-04 (v1:REQ-MAT-45)",
   "reqs": [
    "REQ-MAT-33"
   ],
@@ -3919,7 +3919,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Tiers'",
-  "acceptance": "REQ-MAT-35, REQ-MAT-59; archived: AC-MAT-04/05 (REQ-MAT-48, REQ-MAT-49; A11Y inputs REQ-MAT-54, REQ-MAT-55, REQ-MAT-56)",
+  "acceptance": "REQ-MAT-35, REQ-MAT-59; archived: v1:AC-MAT-04/05 (v1:REQ-MAT-48, v1:REQ-MAT-49; A11Y inputs v1:REQ-MAT-54, v1:REQ-MAT-55, v1:REQ-MAT-56)",
   "reqs": [
    "REQ-MAT-35",
    "REQ-MAT-59"
@@ -3944,7 +3944,7 @@
   "priority": "P1",
   "test": "3 engines green remotely, or documented D-05 deferral (inert = standard)",
   "storybook": "Material Lab 'Tiers' enhanced column",
-  "acceptance": "REQ-MAT-36, REQ-MAT-35; archived: AC-MAT-10 (REQ-MAT-50, REQ-MAT-51, REQ-MAT-56, REQ-MAT-57, REQ-MAT-59, REQ-MAT-81, REQ-MAT-87)",
+  "acceptance": "REQ-MAT-36, REQ-MAT-35; archived: v1:AC-MAT-10 (v1:REQ-MAT-50, v1:REQ-MAT-51, v1:REQ-MAT-56, v1:REQ-MAT-57, v1:REQ-MAT-59, v1:REQ-MAT-81, v1:REQ-MAT-87)",
   "reqs": [
    "REQ-MAT-36",
    "REQ-MAT-35"
@@ -3968,7 +3968,7 @@
   "priority": "P1",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Tiers' 'kill switches'",
-  "acceptance": "REQ-MAT-27; archived: AC-MAT-04 (REQ-MAT-17, §4.6 kill switches)",
+  "acceptance": "REQ-MAT-27; archived: v1:AC-MAT-04 (v1:REQ-MAT-17, §4.6 kill switches)",
   "reqs": [
    "REQ-MAT-27"
   ],
@@ -3996,7 +3996,7 @@
   "priority": "P1",
   "test": "webkit project green remotely",
   "storybook": "Material/Optics 'blur ladder' over busy scene",
-  "acceptance": "REQ-MAT-34; archived: AC-MAT-03 (REQ-MAT-47)",
+  "acceptance": "REQ-MAT-34; archived: v1:AC-MAT-03 (v1:REQ-MAT-47)",
   "reqs": [
    "REQ-MAT-34"
   ],
@@ -4019,7 +4019,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Tiers' 'density 20'",
-  "acceptance": "REQ-MAT-35; archived: AC-MAT-03 (REQ-MAT-53, D-09)",
+  "acceptance": "REQ-MAT-35; archived: v1:AC-MAT-03 (v1:REQ-MAT-53, D-09)",
   "reqs": [
    "REQ-MAT-35"
   ],
@@ -4047,7 +4047,7 @@
   "priority": "P0",
   "test": "remote canary job green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-25; archived: AC-MAT-06 (REQ-MAT-06)",
+  "acceptance": "REQ-MAT-25; archived: v1:AC-MAT-06 (v1:REQ-MAT-06)",
   "reqs": [
    "REQ-MAT-25"
   ],
@@ -4073,7 +4073,7 @@
   "priority": "P1",
   "test": "3 engines green remotely",
   "storybook": "Material Lab 'Shape & Concentricity', Material Lab 'Tiers' 'modal scrim'",
-  "acceptance": "REQ-MAT-38, REQ-MAT-40, REQ-MAT-36, REQ-MAT-06, REQ-MAT-26, REQ-MAT-63; archived: AC-MAT-04 (REQ-MAT-72, REQ-MAT-73, REQ-MAT-74, REQ-MAT-75, REQ-MAT-76, REQ-MAT-77)",
+  "acceptance": "REQ-MAT-38, REQ-MAT-40, REQ-MAT-36, REQ-MAT-06, REQ-MAT-26, REQ-MAT-63; archived: v1:AC-MAT-04 (v1:REQ-MAT-72, v1:REQ-MAT-73, v1:REQ-MAT-74, v1:REQ-MAT-75, v1:REQ-MAT-76, v1:REQ-MAT-77)",
   "reqs": [
    "REQ-MAT-38",
    "REQ-MAT-40",
@@ -4104,7 +4104,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "all Material Lab stories",
-  "acceptance": "REQ-MAT-65; archived: AC-MAT-05 (REQ-MAT-78, 80, 82)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-MAT-05 (v1:REQ-MAT-78, 80, 82)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -4130,7 +4130,7 @@
   "priority": "P0",
   "test": "3 engines green remotely",
   "storybook": "all Material Lab stories",
-  "acceptance": "REQ-MAT-65; archived: AC-MAT-03 (REQ-MAT-85)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-MAT-03 (v1:REQ-MAT-85)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -4156,7 +4156,7 @@
   "priority": "P0",
   "test": "axe.spec.ts and layer-stack.spec.ts target its stories (MAT-085, MAT-071)",
   "storybook": "Material Lab: Overview..Content Sunken in REQ-SB-18 order",
-  "acceptance": "archived: AC-MAT-03 (§13; DoD 5)",
+  "acceptance": "archived: v1:AC-MAT-03 (§13; DoD 5)",
   "reqs": [],
   "branch": "next",
   "source": "MAT-086",
@@ -4180,7 +4180,7 @@
   "priority": "P0",
   "test": "environment matrix (MAT-091) and optics.spec.ts consume it",
   "storybook": "Material/Matrix",
-  "acceptance": "archived: AC-MAT-04",
+  "acceptance": "archived: v1:AC-MAT-04",
   "reqs": [],
   "branch": "next",
   "source": "MAT-087",
@@ -4201,7 +4201,7 @@
   "priority": "P0",
   "test": "SB's storybook-index.test.mjs asserts the 12 Material Lab stories in order",
   "storybook": "Material Lab: Tiers..Motion in REQ-SB-18 order",
-  "acceptance": "archived: AC-MAT-08",
+  "acceptance": "archived: v1:AC-MAT-08",
   "reqs": [],
   "branch": "next",
   "source": "MAT-088",
@@ -4225,7 +4225,7 @@
   "priority": "P1",
   "test": "optics/clear-fallback/responsive specs target these stories",
   "storybook": "Material/Optics, Material/Environment, Material/Shape",
-  "acceptance": "REQ-MAT-32; archived: AC-MAT-04",
+  "acceptance": "REQ-MAT-32; archived: v1:AC-MAT-04",
   "reqs": [
    "REQ-MAT-32"
   ],
@@ -4249,7 +4249,7 @@
   "priority": "P1",
   "test": "perf JSON artifact meets budgets",
   "storybook": "Material/Tiers 'density' stories",
-  "acceptance": "archived: AC-MAT-09 (§16)",
+  "acceptance": "archived: v1:AC-MAT-09 (§16)",
   "reqs": [],
   "branch": "next",
   "source": "MAT-092",
@@ -4274,7 +4274,7 @@
   "priority": "P1",
   "test": "5/5 reverts produce a failing named spec (run URLs)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: DoD item 9 (AC-MAT-03 integrity)",
+  "acceptance": "REQ-MAT-01; archived: DoD item 9 (v1:AC-MAT-03 integrity)",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -4302,7 +4302,7 @@
   "priority": "P1",
   "test": "css-contract.test.ts extension: preview-v5.css declarations byte-identical to ladders cells; count-glass-recipes N unchanged",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-41; archived: AC-MAT-13 (REQ-MAT-20, API-6)",
+  "acceptance": "REQ-MAT-41; archived: v1:AC-MAT-13 (v1:REQ-MAT-20, API-6)",
   "reqs": [
    "REQ-MAT-41"
   ],
@@ -4328,7 +4328,7 @@
   "priority": "P0",
   "test": "preview-v5.spec.ts green on 3 engines remotely",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-41, REQ-MAT-20; archived: AC-MAT-13",
+  "acceptance": "REQ-MAT-41, REQ-MAT-20; archived: v1:AC-MAT-13",
   "reqs": [
    "REQ-MAT-41",
    "REQ-MAT-20"
@@ -4350,7 +4350,7 @@
   "priority": "P0",
   "test": "tests/ci/verify-recipe-removal.test.ts (NEW): fixture with createGlassStyle outside compat fails",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67; archived: AC-MAT-12 (REQ-MAT-67)",
+  "acceptance": "REQ-MAT-67; archived: v1:AC-MAT-12 (v1:REQ-MAT-67)",
   "reqs": [
    "REQ-MAT-67"
   ],
@@ -4371,7 +4371,7 @@
   "priority": "P1",
   "test": "Glass Quality Gates fails when a migrated family file reintroduces optics",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-18; archived: AC-MAT-01/AC-MAT-02 ratchet",
+  "acceptance": "REQ-MAT-18; archived: v1:AC-MAT-01/v1:AC-MAT-02 ratchet",
   "reqs": [
    "REQ-MAT-18"
   ],
@@ -4395,7 +4395,7 @@
   "priority": "P3",
   "test": "eslint config loads; rg 'no-inline-glass' returns 0",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-39; archived: AC-MAT-02 (REQ-MAT-63 replacement; DoD 6 handoff)",
+  "acceptance": "REQ-MAT-39; archived: v1:AC-MAT-02 (v1:REQ-MAT-63 replacement; DoD 6 handoff)",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -4418,7 +4418,7 @@
   "priority": "P2",
   "test": "src/material/__tests__/lens-maps.test.ts (MAT-121): two runs byte-identical; 9 files; each ≤3072 B",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-36; archived: AC-MAT-10 (REQ-MAT-86, REQ-MAT-58)",
+  "acceptance": "REQ-MAT-36; archived: v1:AC-MAT-10 (v1:REQ-MAT-86, v1:REQ-MAT-58)",
   "reqs": [
    "REQ-MAT-36"
   ],
@@ -4442,7 +4442,7 @@
   "priority": "P2",
   "test": "lens-maps.test.ts renderToString case; enhanced-gating.spec.ts (MAT-078); kill-switches.spec.ts (MAT-079)",
   "storybook": "Material Lab 'Tiers' enhanced column",
-  "acceptance": "REQ-MAT-36; archived: AC-MAT-10 (REQ-MAT-87, REQ-MAT-50)",
+  "acceptance": "REQ-MAT-36; archived: v1:AC-MAT-10 (v1:REQ-MAT-87, v1:REQ-MAT-50)",
   "reqs": [
    "REQ-MAT-36"
   ],
@@ -4466,7 +4466,7 @@
   "priority": "P2",
   "test": "./node_modules/.bin/jest src/material/__tests__/lens-maps.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-36; archived: AC-MAT-10 (REQ-MAT-86, REQ-MAT-87)",
+  "acceptance": "REQ-MAT-36; archived: v1:AC-MAT-10 (v1:REQ-MAT-86, v1:REQ-MAT-87)",
   "reqs": [
    "REQ-MAT-36"
   ],
@@ -4481,7 +4481,7 @@
   "system": "overlays/_shared",
   "file": "src/material/css/material.css",
   "action": "MODIFY",
-  "description": "REQ-OVL-08 decision: add [data-ag-obscured] .ag-surface::before{backdrop-filter:none;-webkit-backdrop-filter:none} ONLY if dialog-perf 'obscured page' ΔE2000 p95 <=2.0 over 8 scenes; otherwise do not ship the rule. Record measured value and decision in the PR either way. Blocked until PRD-05 sets data-ag-obscured on the inert app root. The rule lives in @layer ag.material in MAT's material.css (layer owner MAT, SC-20) and needs MAT review. data-ag-obscured itself is set by the A11Y provider (SC-21). (Cross-lane input 2d-P is consumed through its frozen interface, never waited for.)",
+  "description": "REQ-OVL-08 decision: add [data-ag-obscured] .ag-surface::before{backdrop-filter:none;-webkit-backdrop-filter:none} ONLY if dialog-perf 'obscured page' ΔE2000 p95 <=2.0 over 8 scenes; otherwise do not ship the rule. Record measured value and decision in the PR either way. Reads data-ag-obscured on the inert app root as declared in the frozen S-25 seam and contract attribute registry (MAT P lane implements it; reported pending until merged). The rule lives in @layer ag.material in MAT's material.css (layer owner MAT, SC-20) and needs MAT review. data-ag-obscured itself is set by the A11Y provider (SC-21). (Cross-lane input 2d-P is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "MAT-106"
   ],
@@ -4491,7 +4491,7 @@
   "priority": "P1",
   "test": "overlays-dialog-perf.spec.ts 'obscured page'",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-31, REQ-MAT-01; archived: AC-OVL-04 (REQ-OVL-08)",
+  "acceptance": "REQ-MAT-31, REQ-MAT-01; archived: v1:AC-OVL-04 (v1:REQ-OVL-08)",
   "reqs": [
    "REQ-MAT-31",
    "REQ-MAT-01"
@@ -4519,7 +4519,7 @@
   "priority": "P0",
   "test": "RuleTester valid/invalid cases for both patterns; eslint src = 0 errors for the rule",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51; archived: AC-MOT-15 (4.x lint gate); DoD §18 rule is error on release/4.x",
+  "acceptance": "REQ-MAT-51; archived: v1:AC-MOT-15 (4.x lint gate); DoD §18 rule is error on release/4.x",
   "reqs": [
    "REQ-MAT-51"
   ],
@@ -4547,7 +4547,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/motion/reduced-motion-visible-4x.spec.ts on chromium/webkit/firefox against static Storybook",
   "storybook": "minimal <Name>.stories.tsx for each M-01 file lacking a story",
-  "acceptance": "REQ-MAT-44, REQ-MAT-66; archived: AC-MOT-15",
+  "acceptance": "REQ-MAT-44, REQ-MAT-66; archived: v1:AC-MOT-15",
   "reqs": [
    "REQ-MAT-44",
    "REQ-MAT-66"
@@ -4569,7 +4569,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T02 green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03 (spring error <= 0.005)",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03 (spring error <= 0.005)",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -4590,7 +4590,7 @@
   "priority": "P0",
   "test": "unit: smooth stiffness 322.3+/-0.1, damping 32.31+/-0.01; snappy 987.0/62.83; fluid 195.0/22.90; type test stiffness is number",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -4611,7 +4611,7 @@
   "priority": "P0",
   "test": "npm run build:tokens && npm test -- src/motion/__tests__/tokens.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MOT-03",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MOT-03",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -4636,7 +4636,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T03 asserts four @property rules in dist/styles.css and no registerProperty in dist JS",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-42, REQ-MAT-01; archived: AC-MOT-05 inputs; REQ-MOT-10",
+  "acceptance": "REQ-MAT-42, REQ-MAT-01; archived: v1:AC-MOT-05 inputs; v1:REQ-MOT-10",
   "reqs": [
    "REQ-MAT-42",
    "REQ-MAT-01"
@@ -4660,7 +4660,7 @@
   "priority": "P0",
   "test": "T03 parse: exactly two scale/translate rules under hover/press selectors; lint MOT-067 passes",
   "storybook": "Motion/Interactions hover lift + press compression stories (MOT-104)",
-  "acceptance": "REQ-MAT-42; archived: AC-MOT-05; AC-MOT-20 human review (no bounce)",
+  "acceptance": "REQ-MAT-42; archived: v1:AC-MOT-05; v1:AC-MOT-20 human review (no bounce)",
   "reqs": [
    "REQ-MAT-42"
   ],
@@ -4689,7 +4689,7 @@
   "priority": "P0",
   "test": "T03 parse: each popup part selector present; settle spec MOT-096",
   "storybook": "Motion/Interactions enter/exit, menu expansion, modal emergence, sheet, toast stories",
-  "acceptance": "REQ-MAT-43; archived: AC-MOT-06, AC-MOT-08",
+  "acceptance": "REQ-MAT-43; archived: v1:AC-MOT-06, v1:AC-MOT-08",
   "reqs": [
    "REQ-MAT-43"
   ],
@@ -4712,7 +4712,7 @@
   "priority": "P1",
   "test": "T03 parse: no @starting-style for layout part names; REQ-MOT-T19 (MOT-100)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-43; archived: REQ-MOT-15 via T19",
+  "acceptance": "REQ-MAT-43; archived: v1:REQ-MOT-15 via T19",
   "reqs": [
    "REQ-MAT-43"
   ],
@@ -4735,7 +4735,7 @@
   "priority": "P0",
   "test": "T03: no backdrop-filter in motion.css; will-change only under the three selectors; lane will-change check (MOT-096)",
   "storybook": "Motion/Interactions modal emergence",
-  "acceptance": "REQ-MAT-43; archived: AC-MOT-05; REQ-MOT-129 via AC-MOT-06 run",
+  "acceptance": "REQ-MAT-43; archived: v1:AC-MOT-05; v1:REQ-MOT-129 via v1:AC-MOT-06 run",
   "reqs": [
    "REQ-MAT-43"
   ],
@@ -4758,7 +4758,7 @@
   "priority": "P0",
   "test": "verify-motion-css.mjs on src/motion = 0; perf trace 0 Layout events (MOT-101)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-42; archived: AC-MOT-05, AC-MOT-13 (0 layout events)",
+  "acceptance": "REQ-MAT-42; archived: v1:AC-MOT-05, v1:AC-MOT-13 (0 layout events)",
   "reqs": [
    "REQ-MAT-42"
   ],
@@ -4781,7 +4781,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T04 (MOT-039)",
   "storybook": "Motion/Interactions full/calm/none side-by-side",
-  "acceptance": "REQ-MAT-44; archived: AC-MOT-06, AC-MOT-07",
+  "acceptance": "REQ-MAT-44; archived: v1:AC-MOT-06, v1:AC-MOT-07",
   "reqs": [
    "REQ-MAT-44"
   ],
@@ -4804,7 +4804,7 @@
   "priority": "P0",
   "test": "T04: no bare * selector; none rules scoped",
   "storybook": "Motion/Interactions none column",
-  "acceptance": "REQ-MAT-44; archived: AC-MOT-06",
+  "acceptance": "REQ-MAT-44; archived: v1:AC-MOT-06",
   "reqs": [
    "REQ-MAT-44"
   ],
@@ -4833,7 +4833,7 @@
   "priority": "P0",
   "test": "T03 ag-sweep only loading keyframes; MOT-097 luminance check; MOT-098 gating",
   "storybook": "Motion/Interactions loading story with allowContinuous toggle",
-  "acceptance": "REQ-MAT-46; archived: AC-MOT-09 (only ag-sweep when on)",
+  "acceptance": "REQ-MAT-46; archived: v1:AC-MOT-09 (only ag-sweep when on)",
   "reqs": [
    "REQ-MAT-46"
   ],
@@ -4857,7 +4857,7 @@
   "priority": "P1",
   "test": "T04 parse assertions for both blocks",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-44, REQ-MAT-45; archived: REQ-MOT-113/-117 (D-11 floor)",
+  "acceptance": "REQ-MAT-44, REQ-MAT-45; archived: v1:REQ-MOT-113/-117 (D-11 floor)",
   "reqs": [
    "REQ-MAT-44",
    "REQ-MAT-45"
@@ -4883,7 +4883,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/__tests__/css-output.test.ts (after remote build artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-03, AC-MOT-05",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-03, v1:AC-MOT-05",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -4908,7 +4908,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/__tests__/modes.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MOT-06 input",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MOT-06 input",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -4929,7 +4929,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T09 (MOT-041)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-47; archived: AC-MOT-07 input; REQ-MOT-128",
+  "acceptance": "REQ-MAT-47; archived: v1:AC-MOT-07 input; v1:REQ-MOT-128",
   "reqs": [
    "REQ-MAT-47"
   ],
@@ -4953,7 +4953,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/__tests__/ticker.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-49; archived: REQ-MOT-128; AC-MOT-07 input",
+  "acceptance": "REQ-MAT-49; archived: v1:REQ-MOT-128; v1:AC-MOT-07 input",
   "reqs": [
    "REQ-MAT-49"
   ],
@@ -4977,7 +4977,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T10 (MOT-044)",
   "storybook": "Motion/Interactions pointer light story",
-  "acceptance": "REQ-MAT-49; archived: AC-MOT-11",
+  "acceptance": "REQ-MAT-49; archived: v1:AC-MOT-11",
   "reqs": [
    "REQ-MAT-49"
   ],
@@ -5000,7 +5000,7 @@
   "priority": "P0",
   "test": "T10 cases for calm, none, tinted, solid, coarse pointer, lightweight tier",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-49; archived: AC-MOT-11",
+  "acceptance": "REQ-MAT-49; archived: v1:AC-MOT-11",
   "reqs": [
    "REQ-MAT-49"
   ],
@@ -5024,7 +5024,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/__tests__/pointerLight.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-49, REQ-MAT-38; archived: AC-MOT-11 (unit part)",
+  "acceptance": "REQ-MAT-49, REQ-MAT-38; archived: v1:AC-MOT-11 (unit part)",
   "reqs": [
    "REQ-MAT-49",
    "REQ-MAT-38"
@@ -5048,7 +5048,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T11 (MOT-050)",
   "storybook": "Motion/View Transitions stories (MOT-104)",
-  "acceptance": "REQ-MAT-48; archived: AC-MOT-10",
+  "acceptance": "REQ-MAT-48; archived: v1:AC-MOT-10",
   "reqs": [
    "REQ-MAT-48"
   ],
@@ -5071,7 +5071,7 @@
   "priority": "P0",
   "test": "T11: FLIP keyframes contain only transform; finish on preference change",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-48; archived: AC-MOT-10 (FLIP path)",
+  "acceptance": "REQ-MAT-48; archived: v1:AC-MOT-10 (FLIP path)",
   "reqs": [
    "REQ-MAT-48"
   ],
@@ -5094,7 +5094,7 @@
   "priority": "P0",
   "test": "T03 extended: view-transition.css rules present in dist/styles.css; MOT-099 per engine",
   "storybook": "Motion/View Transitions optics debug toggle",
-  "acceptance": "REQ-MAT-48; archived: AC-MOT-10",
+  "acceptance": "REQ-MAT-48; archived: v1:AC-MOT-10",
   "reqs": [
    "REQ-MAT-48"
   ],
@@ -5117,7 +5117,7 @@
   "priority": "P1",
   "test": "T11: sanitised names; duplicate warning fires in dev only",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-48; archived: AC-MOT-10",
+  "acceptance": "REQ-MAT-48; archived: v1:AC-MOT-10",
   "reqs": [
    "REQ-MAT-48"
   ],
@@ -5140,7 +5140,7 @@
   "priority": "P1",
   "test": "T11 with mocked React module exposing ViewTransition",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-48; archived: AC-MOT-10",
+  "acceptance": "REQ-MAT-48; archived: v1:AC-MOT-10",
   "reqs": [
    "REQ-MAT-48"
   ],
@@ -5166,7 +5166,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/__tests__/viewTransition.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-42; archived: AC-MOT-10 (unit part)",
+  "acceptance": "REQ-MAT-42; archived: v1:AC-MOT-10 (unit part)",
   "reqs": [
    "REQ-MAT-42"
   ],
@@ -5187,7 +5187,7 @@
   "priority": "P1",
   "test": "typecheck; rg motion import in file = 0",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23; archived: AC-MOT-17 (core works without peer)",
+  "acceptance": "REQ-MAT-23; archived: v1:AC-MOT-17 (core works without peer)",
   "reqs": [
    "REQ-MAT-23"
   ],
@@ -5210,7 +5210,7 @@
   "priority": "P1",
   "test": "T09 cases for tween, preference change mid-tween, single announcement",
   "storybook": "AnimatedNumber story owned by PRD-11 uses tween",
-  "acceptance": "REQ-MAT-44; archived: REQ-MOT-34/-116; AC-MOT-06 for StatCard when PRD-11 lands",
+  "acceptance": "REQ-MAT-44; archived: v1:REQ-MOT-34/-116; v1:AC-MOT-06 for StatCard as soon as SURF's StatCard is in the SubjectIndex (pending until then)",
   "reqs": [
    "REQ-MAT-44"
   ],
@@ -5237,7 +5237,7 @@
   "priority": "P0",
   "test": "npm test -- scripts/ci/__tests__/verify-motion-deps.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-02; archived: AC-MOT-01 (T16 green)",
+  "acceptance": "REQ-MAT-02; archived: v1:AC-MOT-01 (T16 green)",
   "reqs": [
    "REQ-MAT-02"
   ],
@@ -5264,7 +5264,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T14 (MOT-063)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-50; archived: AC-MOT-12 (/motion <= 4 KB); API report locks surface",
+  "acceptance": "REQ-MAT-50; archived: v1:AC-MOT-12 (/motion <= 4 KB); API report locks surface",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5288,7 +5288,7 @@
   "priority": "P0",
   "test": "T14: full->never, calm/none->always",
   "storybook": "Motion/Physics stories (MOT-104)",
-  "acceptance": "REQ-MAT-50; archived: AC-MOT-17 (with/without provider)",
+  "acceptance": "REQ-MAT-50; archived: v1:AC-MOT-17 (with/without provider)",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5312,7 +5312,7 @@
   "priority": "P0",
   "test": "T14: detents [0,300,600] from 300 -> +1500 px/s => 600, -1500 => 0, 0 => 300",
   "storybook": "Motion/Physics Sheet detents with velocity read-out",
-  "acceptance": "REQ-MAT-50; archived: AC-MOT-17",
+  "acceptance": "REQ-MAT-50; archived: v1:AC-MOT-17",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5335,7 +5335,7 @@
   "priority": "P1",
   "test": "T14: settle time <= 1000 ms; pointerdown stops animation",
   "storybook": "Motion/Physics TabBar momentum",
-  "acceptance": "REQ-MAT-50; archived: REQ-MOT-56 via T14",
+  "acceptance": "REQ-MAT-50; archived: v1:REQ-MOT-56 via T14",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5358,7 +5358,7 @@
   "priority": "P2",
   "test": "T14: offset <= 8 px for 200x200 at strength 0.3; inactive under calm",
   "storybook": "Motion/Physics magnetic story",
-  "acceptance": "REQ-MAT-50; archived: REQ-MOT-57 via T14",
+  "acceptance": "REQ-MAT-50; archived: v1:REQ-MOT-57 via T14",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5381,7 +5381,7 @@
   "priority": "P2",
   "test": "T14: attributes set during layout animation and removed after",
   "storybook": "Motion/Physics Shared/layoutId story",
-  "acceptance": "REQ-MAT-50; archived: REQ-MOT-58 via T14",
+  "acceptance": "REQ-MAT-50; archived: v1:REQ-MOT-58 via T14",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5409,7 +5409,7 @@
   "priority": "P0",
   "test": "npm test -- src/motion/adapter/__tests__/adapter.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-50; archived: AC-MOT-12 (/motion), REQ-MOT-53",
+  "acceptance": "REQ-MAT-50; archived: v1:AC-MOT-12 (/motion), v1:REQ-MOT-53",
   "reqs": [
    "REQ-MAT-50"
   ],
@@ -5443,7 +5443,7 @@
   "priority": "P0",
   "test": "remote: npm pack + fixture build + playwright test tests/motion/no-peer.spec.ts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MOT-17",
+  "acceptance": "archived: v1:AC-MOT-17",
   "reqs": [],
   "branch": "next",
   "source": "MOT-064",
@@ -5468,7 +5468,7 @@
   "priority": "P0",
   "test": "T17 valid (adapter path) + invalid cases",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-47, REQ-MAT-51; archived: AC-MOT-01",
+  "acceptance": "REQ-MAT-47, REQ-MAT-51; archived: v1:AC-MOT-01",
   "reqs": [
    "REQ-MAT-47",
    "REQ-MAT-51"
@@ -5497,7 +5497,7 @@
   "priority": "P0",
   "test": "T17: hover scale invalid, press scale invalid, Card hover translate invalid, whileHover invalid, scalar-only hover valid",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-42, REQ-MAT-51; archived: AC-MOT-05; REQ-MOT-11",
+  "acceptance": "REQ-MAT-42, REQ-MAT-51; archived: v1:AC-MOT-05; v1:REQ-MOT-11",
   "reqs": [
    "REQ-MAT-42",
    "REQ-MAT-51"
@@ -5523,7 +5523,7 @@
   "priority": "P0",
   "test": "T17 valid (preferences + compat paths) and invalid cases",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-45, REQ-MAT-51; archived: REQ-MOT-25; AC-MOT-16 support",
+  "acceptance": "REQ-MAT-45, REQ-MAT-51; archived: v1:REQ-MOT-25; v1:AC-MOT-16 support",
   "reqs": [
    "REQ-MAT-45",
    "REQ-MAT-51"
@@ -5551,7 +5551,7 @@
   "priority": "P1",
   "test": "T17 cases",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51; archived: REQ-MOT-64 + DoD §18: rule is error on main; AC-MOT-15 rule parity with 4.x",
+  "acceptance": "REQ-MAT-51; archived: v1:REQ-MOT-64 + DoD §18: rule is error on main; v1:AC-MOT-15 rule parity with 4.x",
   "reqs": [
    "REQ-MAT-51"
   ],
@@ -5578,7 +5578,7 @@
   "priority": "P0",
   "test": "T17 cases including setState-in-callback",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51; archived: AC-MOT-07 (static support)",
+  "acceptance": "REQ-MAT-51; archived: v1:AC-MOT-07 (static support)",
   "reqs": [
    "REQ-MAT-51"
   ],
@@ -5606,7 +5606,7 @@
   "priority": "P0",
   "test": "T17: ungated infinite invalid, gated ag-sweep valid, guarded JS loop valid",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51; archived: AC-MOT-09",
+  "acceptance": "REQ-MAT-51; archived: v1:AC-MOT-09",
   "reqs": [
    "REQ-MAT-51"
   ],
@@ -5631,7 +5631,7 @@
   "priority": "P2",
   "test": "T17 valid (id usage) and invalid (animate delay) cases",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-46; archived: REQ-MOT-35",
+  "acceptance": "REQ-MAT-46; archived: v1:REQ-MOT-35",
   "reqs": [
    "REQ-MAT-46"
   ],
@@ -5654,7 +5654,7 @@
   "priority": "P0",
   "test": "T17 CSS fixtures; node scripts/ci/verify-motion-css.mjs src/motion = 0",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51, REQ-MAT-42; archived: AC-MOT-05",
+  "acceptance": "REQ-MAT-51, REQ-MAT-42; archived: v1:AC-MOT-05",
   "reqs": [
    "REQ-MAT-51",
    "REQ-MAT-42"
@@ -5689,7 +5689,7 @@
   "priority": "P0",
   "test": "npm run lint:ci runs the motion checks; warn counts recorded",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-51; archived: AC-MOT-04, AC-MOT-05 (gates live)",
+  "acceptance": "REQ-MAT-51; archived: v1:AC-MOT-04, v1:AC-MOT-05 (gates live)",
   "reqs": [
    "REQ-MAT-51"
   ],
@@ -5712,7 +5712,7 @@
   "priority": "P0",
   "test": "npm test -- tests/lint/motion-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MOT-04, AC-MOT-05 (T17 green)",
+  "acceptance": "archived: v1:AC-MOT-04, v1:AC-MOT-05 (T17 green)",
   "reqs": [],
   "branch": "next",
   "source": "MOT-075",
@@ -5734,7 +5734,7 @@
   "priority": "P0",
   "test": "tsc -p tests/types/tsconfig.json (remote with full build)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MOT-16",
+  "acceptance": "archived: v1:AC-MOT-16",
   "reqs": [],
   "branch": "next",
   "source": "MOT-079",
@@ -5760,7 +5760,7 @@
   "priority": "P0",
   "test": "rg 'cubic-bezier\\(0\\.68' src = 0; checker 0 overshoot beziers",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-46, REQ-MAT-51; archived: AC-MOT-05 (0 overshoot beziers)",
+  "acceptance": "REQ-MAT-46, REQ-MAT-51; archived: v1:AC-MOT-05 (0 overshoot beziers)",
   "reqs": [
    "REQ-MAT-46",
    "REQ-MAT-51"
@@ -5782,7 +5782,7 @@
   "priority": "P0",
   "test": "helpers exercised by MOT-096..098 specs; self-test spec on a fixture story with a known transition",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: AC-MOT-06, -07, -08",
+  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: v1:AC-MOT-06, -07, -08",
   "reqs": [
    "REQ-MAT-44",
    "REQ-MAT-46"
@@ -5809,7 +5809,7 @@
   "priority": "P0",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/settle.spec.ts",
   "storybook": "subject stories must not use forceVisible",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-06",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-06",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -5836,7 +5836,7 @@
   "priority": "P0",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/frame-strip.spec.ts",
   "storybook": "frame strips uploaded as artifacts for human review",
-  "acceptance": "archived: AC-MOT-08",
+  "acceptance": "archived: v1:AC-MOT-08",
   "reqs": [],
   "branch": "next",
   "source": "MOT-097",
@@ -5859,7 +5859,7 @@
   "priority": "P0",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/continuous.spec.ts",
   "storybook": "all stories in the 5.0 Storybook",
-  "acceptance": "REQ-MAT-46; archived: AC-MOT-07, AC-MOT-09",
+  "acceptance": "REQ-MAT-46; archived: v1:AC-MOT-07, v1:AC-MOT-09",
   "reqs": [
    "REQ-MAT-46"
   ],
@@ -5888,7 +5888,7 @@
   "priority": "P1",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/view-transition-optics.spec.ts",
   "storybook": "Motion/View Transitions stories with optics debug outline",
-  "acceptance": "REQ-MAT-48, REQ-MAT-50; archived: AC-MOT-10",
+  "acceptance": "REQ-MAT-48, REQ-MAT-50; archived: v1:AC-MOT-10",
   "reqs": [
    "REQ-MAT-48",
    "REQ-MAT-50"
@@ -5921,7 +5921,7 @@
   "priority": "P1",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/no-mount-motion.spec.ts",
   "storybook": "layout primitive stories",
-  "acceptance": "REQ-MAT-43; archived: REQ-MOT-15 (AC-MOT-09 support)",
+  "acceptance": "REQ-MAT-43; archived: v1:REQ-MOT-15 (v1:AC-MOT-09 support)",
   "reqs": [
    "REQ-MAT-43"
   ],
@@ -5949,7 +5949,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T18 on remote runners: REQ-MOT-124 Dialog p95, REQ-MOT-125 Button hover/press sweep with pointerLight (p95 <= 8.3 ms, <= 0.5 ms/frame scripting, 0 commits), REQ-MOT-126 Tabs/SegmentedControl morph setup <= 4 ms desktop / <= 12 ms mobile, REQ-MOT-127 idle, REQ-MOT-130 glass-modal comparison; fails closed against tests/perf/harness/budgets.json",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MOT-11 (runtime), AC-MOT-13, AC-MOT-14",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MOT-11 (runtime), v1:AC-MOT-13, v1:AC-MOT-14",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -5975,7 +5975,7 @@
   "priority": "P0",
   "test": "verify-visual-evidence.js fails when motion-report.json missing (fixture test)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: AC-MOT-20 (report attached for SHA)",
+  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: v1:AC-MOT-20 (report attached for SHA)",
   "reqs": [
    "REQ-MAT-44",
    "REQ-MAT-46"
@@ -6001,7 +6001,7 @@
   "priority": "P1",
   "test": "Storybook test-runner (remote) executes play functions; lane subjects list grows per flagship",
   "storybook": "play functions on all flagship stories",
-  "acceptance": "REQ-MAT-65; archived: AC-MOT-06/-07/-08 for every flagship",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-MOT-06/-07/-08 for every flagship",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -6029,7 +6029,7 @@
   "priority": "P1",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/a11y-focus.spec.ts tests/motion/responsive.spec.ts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MOT-06 support; REQ-MOT-114/-115",
+  "acceptance": "archived: v1:AC-MOT-06 support; v1:REQ-MOT-114/-115",
   "reqs": [],
   "branch": "next",
   "source": "MOT-106",
@@ -6048,7 +6048,7 @@
   "priority": "P0",
   "test": "npx jest src/theme/__tests__/color.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-15; archived: REQ-DS-27; AC-DS-04 input",
+  "acceptance": "REQ-MAT-15; archived: v1:REQ-DS-27; v1:AC-DS-04 input",
   "reqs": [
    "REQ-MAT-15"
   ],
@@ -6069,7 +6069,7 @@
   "priority": "P1",
   "test": "npx jest src/theme/__tests__/presets.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-14; archived: REQ-DS-25; AC-DS-04 (per preset)",
+  "acceptance": "REQ-MAT-14; archived: v1:REQ-DS-25; v1:AC-DS-04 (per preset)",
   "reqs": [
    "REQ-MAT-14"
   ],
@@ -6090,7 +6090,7 @@
   "priority": "P1",
   "test": "npx jest src/theme/__tests__/createGlassTheme.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-02; archived: AC-DS-12 (unit half); REQ-DS-02 theme-output guard",
+  "acceptance": "REQ-MAT-02; archived: v1:AC-DS-12 (unit half); v1:REQ-DS-02 theme-output guard",
   "reqs": [
    "REQ-MAT-02"
   ],
@@ -6111,7 +6111,7 @@
   "priority": "P1",
   "test": "npx jest src/theme/__tests__/createBrandTheme.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-16; archived: AC-DS-13; §16 createBrandTheme <= 2 ms median",
+  "acceptance": "REQ-MAT-16; archived: v1:AC-DS-13; §16 createBrandTheme <= 2 ms median",
   "reqs": [
    "REQ-MAT-16"
   ],
@@ -6132,7 +6132,7 @@
   "priority": "P1",
   "test": "npm run gates:tokens (types-runtime) green; API report --check passes",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-33; archived: AC-DS-07",
+  "acceptance": "REQ-MAT-33; archived: v1:AC-DS-07",
   "reqs": [
    "REQ-MAT-33"
   ],
@@ -6153,7 +6153,7 @@
   "priority": "P0",
   "test": "contrast-matrix.test.ts reads thresholds from this file; JSON schema check in verify-a11y-css.test.ts fixture",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54, REQ-MAT-33, REQ-MAT-10; archived: AC-A11Y-03 (REQ-A11Y-13, REQ-A11Y-14, REQ-A11Y-15, REQ-A11Y-16, REQ-A11Y-17)",
+  "acceptance": "REQ-MAT-54, REQ-MAT-33, REQ-MAT-10; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-13, v1:REQ-A11Y-14, v1:REQ-A11Y-15, v1:REQ-A11Y-16, v1:REQ-A11Y-17)",
   "reqs": [
    "REQ-MAT-54",
    "REQ-MAT-33",
@@ -6181,7 +6181,7 @@
   "priority": "P1",
   "test": "rg -l \"theme/contrast\" src returns 0 files in the L1 Static run",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-11; archived: AC-A11Y-20 (REQ-A11Y-18 one implementation)",
+  "acceptance": "REQ-MAT-11; archived: v1:AC-A11Y-20 (v1:REQ-A11Y-18 one implementation)",
   "reqs": [
    "REQ-MAT-11"
   ],
@@ -6204,7 +6204,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- color.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-11; archived: AC-A11Y-03 (REQ-A11Y-18)",
+  "acceptance": "REQ-MAT-11; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-18)",
   "reqs": [
    "REQ-MAT-11"
   ],
@@ -6225,7 +6225,7 @@
   "priority": "P0",
   "test": "tests/a11y/verify-a11y-css.test.ts (A11Y-011)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-19, REQ-MAT-54, REQ-MAT-10, REQ-MAT-61; archived: AC-A11Y-07, AC-A11Y-08, AC-A11Y-22 (REQ-A11Y-03, REQ-A11Y-05, REQ-A11Y-08, REQ-A11Y-13, REQ-A11Y-17, REQ-A11Y-27)",
+  "acceptance": "REQ-MAT-19, REQ-MAT-54, REQ-MAT-10, REQ-MAT-61; archived: v1:AC-A11Y-07, v1:AC-A11Y-08, v1:AC-A11Y-22 (v1:REQ-A11Y-03, v1:REQ-A11Y-05, v1:REQ-A11Y-08, v1:REQ-A11Y-13, v1:REQ-A11Y-17, v1:REQ-A11Y-27)",
   "reqs": [
    "REQ-MAT-19",
    "REQ-MAT-54",
@@ -6251,7 +6251,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- verify-a11y-css green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-19; archived: AC-A11Y-08 (REQ-A11Y-05)",
+  "acceptance": "REQ-MAT-19; archived: v1:AC-A11Y-08 (v1:REQ-A11Y-05)",
   "reqs": [
    "REQ-MAT-19"
   ],
@@ -6276,7 +6276,7 @@
   "priority": "P0",
   "test": "tests/eslint/auraglass-a11y-rules.test.ts RuleTester valid/invalid incl. src/backdrops allowance",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-64; archived: AC-A11Y-25 (REQ-A11Y-20; §16 runtime contrast observers 0)",
+  "acceptance": "REQ-MAT-64; archived: v1:AC-A11Y-25 (v1:REQ-A11Y-20; §16 runtime contrast observers 0)",
   "reqs": [
    "REQ-MAT-64"
   ],
@@ -6301,7 +6301,7 @@
   "priority": "P0",
   "test": "RuleTester cases in tests/eslint/auraglass-a11y-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-33)",
+  "acceptance": "REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-33)",
   "reqs": [
    "REQ-MAT-57"
   ],
@@ -6326,7 +6326,7 @@
   "priority": "P1",
   "test": "RuleTester cases in tests/eslint/auraglass-a11y-rules.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-22 (REQ-A11Y-27)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-22 (v1:REQ-A11Y-27)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -6355,7 +6355,7 @@
   "priority": "P1",
   "test": "npm run lint:check exits 0 on main; a fixture violation under src/theme fails",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-64, REQ-MAT-61, REQ-MAT-57; archived: AC-A11Y-13, AC-A11Y-22 (REQ-A11Y-20, REQ-A11Y-27, REQ-A11Y-33)",
+  "acceptance": "REQ-MAT-64, REQ-MAT-61, REQ-MAT-57; archived: v1:AC-A11Y-13, v1:AC-A11Y-22 (v1:REQ-A11Y-20, v1:REQ-A11Y-27, v1:REQ-A11Y-33)",
   "reqs": [
    "REQ-MAT-64",
    "REQ-MAT-61",
@@ -6382,7 +6382,7 @@
   "priority": "P1",
   "test": "jest tests/eslint green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-64, REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-20, REQ-A11Y-33)",
+  "acceptance": "REQ-MAT-64, REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-20, v1:REQ-A11Y-33)",
   "reqs": [
    "REQ-MAT-64",
    "REQ-MAT-57"
@@ -6404,7 +6404,7 @@
   "priority": "P0",
   "test": "tsc --noEmit",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53; archived: AC-A11Y-19 (REQ-A11Y-01, REQ-A11Y-21)",
+  "acceptance": "REQ-MAT-53; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-01, v1:REQ-A11Y-21)",
   "reqs": [
    "REQ-MAT-53"
   ],
@@ -6427,7 +6427,7 @@
   "priority": "P0",
   "test": "resolve.test.ts (A11Y-022)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-44; archived: AC-A11Y-06 (REQ-A11Y-01, REQ-A11Y-02, REQ-A11Y-03, REQ-A11Y-07)",
+  "acceptance": "REQ-MAT-44; archived: v1:AC-A11Y-06 (v1:REQ-A11Y-01, v1:REQ-A11Y-02, v1:REQ-A11Y-03, v1:REQ-A11Y-07)",
   "reqs": [
    "REQ-MAT-44"
   ],
@@ -6450,7 +6450,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- resolve.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-52, REQ-MAT-02; archived: AC-A11Y-06 (REQ-A11Y-01, REQ-A11Y-02, REQ-A11Y-03, REQ-A11Y-07)",
+  "acceptance": "REQ-MAT-52, REQ-MAT-02; archived: v1:AC-A11Y-06 (v1:REQ-A11Y-01, v1:REQ-A11Y-02, v1:REQ-A11Y-03, v1:REQ-A11Y-07)",
   "reqs": [
    "REQ-MAT-52",
    "REQ-MAT-02"
@@ -6474,7 +6474,7 @@
   "priority": "P0",
   "test": "store.test.ts 'throwing storage falls back to memory'",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53; archived: AC-A11Y-19 (REQ-A11Y-23)",
+  "acceptance": "REQ-MAT-53; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-23)",
   "reqs": [
    "REQ-MAT-53"
   ],
@@ -6497,7 +6497,7 @@
   "priority": "P0",
   "test": "usePreference.test.tsx 'shared MQL' and import-time matchMedia count 0",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53; archived: AC-A11Y-19, AC-A11Y-25 (REQ-A11Y-22; §16 <=6 MQL)",
+  "acceptance": "REQ-MAT-53; archived: v1:AC-A11Y-19, v1:AC-A11Y-25 (v1:REQ-A11Y-22; §16 <=6 MQL)",
   "reqs": [
    "REQ-MAT-53"
   ],
@@ -6522,7 +6522,7 @@
   "priority": "P0",
   "test": "store.test.ts (A11Y-026)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53, REQ-MAT-60; archived: AC-A11Y-19 (REQ-A11Y-23, REQ-A11Y-39)",
+  "acceptance": "REQ-MAT-53, REQ-MAT-60; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-23, v1:REQ-A11Y-39)",
   "reqs": [
    "REQ-MAT-53",
    "REQ-MAT-60"
@@ -6546,7 +6546,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- store.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53, REQ-MAT-60; archived: AC-A11Y-19 (REQ-A11Y-23, REQ-A11Y-39)",
+  "acceptance": "REQ-MAT-53, REQ-MAT-60; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-23, v1:REQ-A11Y-39)",
   "reqs": [
    "REQ-MAT-53",
    "REQ-MAT-60"
@@ -6570,7 +6570,7 @@
   "priority": "P0",
   "test": "usePreference.test.tsx (A11Y-028)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53; archived: AC-A11Y-19, AC-A11Y-23 (REQ-A11Y-21)",
+  "acceptance": "REQ-MAT-53; archived: v1:AC-A11Y-19, v1:AC-A11Y-23 (v1:REQ-A11Y-21)",
   "reqs": [
    "REQ-MAT-53"
   ],
@@ -6593,7 +6593,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- usePreference.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53; archived: AC-A11Y-23 (REQ-A11Y-21, REQ-A11Y-22)",
+  "acceptance": "REQ-MAT-53; archived: v1:AC-A11Y-23 (v1:REQ-A11Y-21, v1:REQ-A11Y-22)",
   "reqs": [
    "REQ-MAT-53"
   ],
@@ -6616,7 +6616,7 @@
   "priority": "P0",
   "test": "AuraGlassProvider.test.tsx (A11Y-030)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-55; archived: AC-A11Y-19 (REQ-A11Y-31)",
+  "acceptance": "REQ-MAT-55; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-31)",
   "reqs": [
    "REQ-MAT-55"
   ],
@@ -6639,7 +6639,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- AuraGlassProvider.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-55; archived: AC-A11Y-19 (REQ-A11Y-31)",
+  "acceptance": "REQ-MAT-55; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-31)",
   "reqs": [
    "REQ-MAT-55"
   ],
@@ -6666,7 +6666,7 @@
   "priority": "P0",
   "test": "AuraGlassScript.test.tsx 'minified budget' and fixture execution",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-59; archived: AC-A11Y-09, AC-A11Y-25 (REQ-A11Y-37; REQ-MAT-54..55)",
+  "acceptance": "REQ-MAT-59; archived: v1:AC-A11Y-09, v1:AC-A11Y-25 (v1:REQ-A11Y-37; v1:REQ-MAT-54..55)",
   "reqs": [
    "REQ-MAT-59"
   ],
@@ -6689,7 +6689,7 @@
   "priority": "P0",
   "test": "AuraGlassScript.test.tsx (A11Y-033)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-59; archived: AC-A11Y-09 (REQ-A11Y-37)",
+  "acceptance": "REQ-MAT-59; archived: v1:AC-A11Y-09 (v1:REQ-A11Y-37)",
   "reqs": [
    "REQ-MAT-59"
   ],
@@ -6712,7 +6712,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- AuraGlassScript.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-59; archived: AC-A11Y-25 (REQ-A11Y-37)",
+  "acceptance": "REQ-MAT-59; archived: v1:AC-A11Y-25 (v1:REQ-A11Y-37)",
   "reqs": [
    "REQ-MAT-59"
   ],
@@ -6736,7 +6736,7 @@
   "priority": "P0",
   "test": "tests/exports package-exports tests include the new ./theme names (remote build); directive lint green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-53, REQ-MAT-55, REQ-MAT-59; archived: AC-A11Y-19 (REQ-A11Y-21, REQ-A11Y-31, REQ-A11Y-37)",
+  "acceptance": "REQ-MAT-53, REQ-MAT-55, REQ-MAT-59; archived: v1:AC-A11Y-19 (v1:REQ-A11Y-21, v1:REQ-A11Y-31, v1:REQ-A11Y-37)",
   "reqs": [
    "REQ-MAT-53",
    "REQ-MAT-55",
@@ -6761,7 +6761,7 @@
   "priority": "P0",
   "test": "rungs.spec.ts 'tinted','solid','contrast more'; verify-a11y-css.mjs green",
   "storybook": "A11y/Rungs",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-06, AC-A11Y-08 (REQ-A11Y-08, REQ-A11Y-09, REQ-A11Y-10, REQ-A11Y-11)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-06, v1:AC-A11Y-08 (v1:REQ-A11Y-08, v1:REQ-A11Y-09, v1:REQ-A11Y-10, v1:REQ-A11Y-11)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6784,7 +6784,7 @@
   "priority": "P0",
   "test": "floors.spec.ts, forced-colors.spec.ts, supports-fallback.test.ts",
   "storybook": "A11y/Floors",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-05, AC-A11Y-06 (REQ-A11Y-04, REQ-A11Y-06, REQ-A11Y-12)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-05, v1:AC-A11Y-06 (v1:REQ-A11Y-04, v1:REQ-A11Y-06, v1:REQ-A11Y-12)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6807,7 +6807,7 @@
   "priority": "P1",
   "test": "contrast-matrix.test.ts 'disabled pair'; verify-a11y-css.mjs no-host-opacity-on-disabled",
   "storybook": "A11y/Rungs (disabled row)",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-03 (REQ-A11Y-13)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-03 (v1:REQ-A11Y-13)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6834,7 +6834,7 @@
   "priority": "P0",
   "test": "verify-a11y-css.mjs layer-order on remote-built styles.css; gz size reported",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-25 (REQ-A11Y-08; §16 <=3 KB gz)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-25 (v1:REQ-A11Y-08; §16 <=3 KB gz)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6858,7 +6858,7 @@
   "priority": "P1",
   "test": "jest tests/a11y/css/supports-fallback.test.ts green against remote build artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-06 (REQ-A11Y-06)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-06 (v1:REQ-A11Y-06)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6879,7 +6879,7 @@
   "priority": "P0",
   "test": "exercised by floors/rungs/forced-colors/pixel-modes specs",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-05 (REQ-A11Y-12)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-05 (v1:REQ-A11Y-12)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6904,7 +6904,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour + L6 Environment visual A11Y cells (exit) green chromium/webkit/firefox",
   "storybook": "A11y/Floors",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-06 (REQ-A11Y-02, REQ-A11Y-04)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-06 (v1:REQ-A11Y-02, v1:REQ-A11Y-04)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6928,7 +6928,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
   "storybook": "A11y/Rungs",
-  "acceptance": "REQ-MAT-54, REQ-MAT-33; archived: AC-A11Y-06 (REQ-A11Y-07, REQ-A11Y-09, REQ-A11Y-10, REQ-A11Y-11, REQ-A11Y-14)",
+  "acceptance": "REQ-MAT-54, REQ-MAT-33; archived: v1:AC-A11Y-06 (v1:REQ-A11Y-07, v1:REQ-A11Y-09, v1:REQ-A11Y-10, v1:REQ-A11Y-11, v1:REQ-A11Y-14)",
   "reqs": [
    "REQ-MAT-54",
    "REQ-MAT-33"
@@ -6958,7 +6958,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour + L6 Environment visual A11Y cells (exit) green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-05 (REQ-A11Y-12)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-05 (v1:REQ-A11Y-12)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -6982,7 +6982,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-A11Y-04 (REQ-A11Y-10)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-A11Y-04 (v1:REQ-A11Y-10)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -7011,7 +7011,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-59; archived: AC-A11Y-09, AC-A11Y-23 (REQ-A11Y-37)",
+  "acceptance": "REQ-MAT-59; archived: v1:AC-A11Y-09, v1:AC-A11Y-23 (v1:REQ-A11Y-37)",
   "reqs": [
    "REQ-MAT-59"
   ],
@@ -7059,7 +7059,7 @@
   "priority": "P0",
   "test": "src/theme/layers/__tests__/LayerStack.test.ts (A11Y-057)",
   "storybook": "A11y/LayerStack",
-  "acceptance": "REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-33)",
+  "acceptance": "REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-33)",
   "reqs": [
    "REQ-MAT-57"
   ],
@@ -7082,7 +7082,7 @@
   "priority": "P0",
   "test": "LayerStack.test.ts inert/scroll-lock refcount; layer-stack.spec.ts 'inert background'",
   "storybook": "A11y/LayerStack",
-  "acceptance": "REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-34)",
+  "acceptance": "REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-34)",
   "reqs": [
    "REQ-MAT-57"
   ],
@@ -7106,7 +7106,7 @@
   "priority": "P0",
   "test": "AuraGlassProvider.test.tsx 'single portal root'",
   "storybook": "A11y/LayerStack",
-  "acceptance": "REQ-MAT-55, REQ-MAT-56; archived: AC-A11Y-13 (REQ-A11Y-32)",
+  "acceptance": "REQ-MAT-55, REQ-MAT-56; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-32)",
   "reqs": [
    "REQ-MAT-55",
    "REQ-MAT-56"
@@ -7130,7 +7130,7 @@
   "priority": "P0",
   "test": "announcer.test.tsx (A11Y-055)",
   "storybook": "A11y/Announcer",
-  "acceptance": "REQ-MAT-58; archived: AC-A11Y-20 (REQ-A11Y-35, REQ-A11Y-36)",
+  "acceptance": "REQ-MAT-58; archived: v1:AC-A11Y-20 (v1:REQ-A11Y-35, v1:REQ-A11Y-36)",
   "reqs": [
    "REQ-MAT-58"
   ],
@@ -7153,7 +7153,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit -- announcer.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-58; archived: AC-A11Y-20, AC-A11Y-25 (REQ-A11Y-35, REQ-A11Y-36)",
+  "acceptance": "REQ-MAT-58; archived: v1:AC-A11Y-20, v1:AC-A11Y-25 (v1:REQ-A11Y-35, v1:REQ-A11Y-36)",
   "reqs": [
    "REQ-MAT-58"
   ],
@@ -7177,7 +7177,7 @@
   "priority": "P0",
   "test": "npm run test:a11y:unit green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-55, REQ-MAT-56, REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-32, REQ-A11Y-33, REQ-A11Y-34)",
+  "acceptance": "REQ-MAT-55, REQ-MAT-56, REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-32, v1:REQ-A11Y-33, v1:REQ-A11Y-34)",
   "reqs": [
    "REQ-MAT-55",
    "REQ-MAT-56",
@@ -7210,7 +7210,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (layer) green",
   "storybook": "A11y/LayerStack",
-  "acceptance": "REQ-MAT-55, REQ-MAT-56, REQ-MAT-57; archived: AC-A11Y-13 (REQ-A11Y-32, REQ-A11Y-33, REQ-A11Y-34)",
+  "acceptance": "REQ-MAT-55, REQ-MAT-56, REQ-MAT-57; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-32, v1:REQ-A11Y-33, v1:REQ-A11Y-34)",
   "reqs": [
    "REQ-MAT-55",
    "REQ-MAT-56",
@@ -7236,7 +7236,7 @@
   "priority": "P1",
   "test": "CI Storybook build renders; screenshots uploaded",
   "storybook": "A11y/LayerStack, A11y/Announcer",
-  "acceptance": "REQ-MAT-39; archived: DoD §18.7; AC-A11Y-13",
+  "acceptance": "REQ-MAT-39; archived: DoD §18.7; v1:AC-A11Y-13",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -7259,7 +7259,7 @@
   "priority": "P0",
   "test": "verify-a11y-css.mjs green; focus-appearance.spec.ts; forced-colors.spec.ts 'focus ring'",
   "storybook": "A11y/FocusRing",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-10 (REQ-A11Y-24, REQ-A11Y-26, REQ-A11Y-27)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-10 (v1:REQ-A11Y-24, v1:REQ-A11Y-26, v1:REQ-A11Y-27)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -7283,7 +7283,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5/L6 A11Y cells (focus) green",
   "storybook": "A11y/FocusRing",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-05, AC-A11Y-10 (REQ-A11Y-26)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-05, v1:AC-A11Y-10 (v1:REQ-A11Y-26)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -7307,7 +7307,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5/L6 A11Y cells (focus): 0 fail rows",
   "storybook": "A11y/FocusRing",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-10 (REQ-A11Y-25)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-10 (v1:REQ-A11Y-25)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -7328,9 +7328,9 @@
   ],
   "contract_seams": [],
   "priority": "P1",
-  "test": "static job fails on any increase; beta-gate green with --enforce-zero after PRD-16",
+  "test": "static job fails on any increase; beta-gate green with --enforce-zero once PLAT removals have merged (release-checklist gate, not a task dependency)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-61; archived: AC-A11Y-22 (REQ-A11Y-27)",
+  "acceptance": "REQ-MAT-61; archived: v1:AC-A11Y-22 (v1:REQ-A11Y-27)",
   "reqs": [
    "REQ-MAT-61"
   ],
@@ -7353,7 +7353,7 @@
   "priority": "P0",
   "test": "target-size.spec.ts",
   "storybook": "A11y/Targets",
-  "acceptance": "REQ-MAT-62; archived: AC-A11Y-12 (REQ-A11Y-29, REQ-A11Y-30)",
+  "acceptance": "REQ-MAT-62; archived: v1:AC-A11Y-12 (v1:REQ-A11Y-29, v1:REQ-A11Y-30)",
   "reqs": [
    "REQ-MAT-62"
   ],
@@ -7376,7 +7376,7 @@
   "priority": "P0",
   "test": "NEW:src/a11y/__tests__/HitArea.test.tsx aria-hidden, absent from a11y tree, exactly 1 node",
   "storybook": "A11y/Targets",
-  "acceptance": "REQ-MAT-62; archived: AC-A11Y-12 (REQ-A11Y-30)",
+  "acceptance": "REQ-MAT-62; archived: v1:AC-A11Y-12 (v1:REQ-A11Y-30)",
   "reqs": [
    "REQ-MAT-62"
   ],
@@ -7400,7 +7400,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5/L6 A11Y cells (focus) green",
   "storybook": "A11y/Targets",
-  "acceptance": "REQ-MAT-62; archived: AC-A11Y-12 (REQ-A11Y-29, REQ-A11Y-30)",
+  "acceptance": "REQ-MAT-62; archived: v1:AC-A11Y-12 (v1:REQ-A11Y-29, v1:REQ-A11Y-30)",
   "reqs": [
    "REQ-MAT-62"
   ],
@@ -7423,7 +7423,7 @@
   "priority": "P1",
   "test": "focus-not-obscured.spec.ts",
   "storybook": "A11y/ScrollPadding",
-  "acceptance": "REQ-MAT-63; archived: AC-A11Y-11 (REQ-A11Y-28)",
+  "acceptance": "REQ-MAT-63; archived: v1:AC-A11Y-11 (v1:REQ-A11Y-28)",
   "reqs": [
    "REQ-MAT-63"
   ],
@@ -7446,7 +7446,7 @@
   "priority": "P1",
   "test": "useStickyScrollPadding.test.tsx (A11Y-070)",
   "storybook": "A11y/ScrollPadding",
-  "acceptance": "REQ-MAT-63; archived: AC-A11Y-11 (REQ-A11Y-28)",
+  "acceptance": "REQ-MAT-63; archived: v1:AC-A11Y-11 (v1:REQ-A11Y-28)",
   "reqs": [
    "REQ-MAT-63"
   ],
@@ -7469,7 +7469,7 @@
   "priority": "P1",
   "test": "npm run test:a11y:unit green",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-25 (§16 sticky observers)",
+  "acceptance": "archived: v1:AC-A11Y-25 (§16 sticky observers)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-070",
@@ -7491,7 +7491,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5/L6 A11Y cells (focus) green",
   "storybook": "A11y/ScrollPadding",
-  "acceptance": "REQ-MAT-63; archived: AC-A11Y-11 (REQ-A11Y-28)",
+  "acceptance": "REQ-MAT-63; archived: v1:AC-A11Y-11 (v1:REQ-A11Y-28)",
   "reqs": [
    "REQ-MAT-63"
   ],
@@ -7516,7 +7516,7 @@
   "priority": "P1",
   "test": "CI Storybook build renders; screenshot artifacts uploaded and signed off",
   "storybook": "A11y/FocusRing, A11y/Targets, A11y/ScrollPadding",
-  "acceptance": "REQ-MAT-39; archived: DoD §18.7; AC-A11Y-10, AC-A11Y-11, AC-A11Y-12",
+  "acceptance": "REQ-MAT-39; archived: DoD §18.7; v1:AC-A11Y-10, v1:AC-A11Y-11, v1:AC-A11Y-12",
   "reqs": [
    "REQ-MAT-39"
   ],
@@ -7545,7 +7545,7 @@
   "priority": "P0",
   "test": "static job runs verify-apg-coverage.mjs; fixture with missing spec fails",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-63; archived: AC-A11Y-14 (REQ-A11Y-40, REQ-A11Y-41)",
+  "acceptance": "REQ-MAT-63; archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40, v1:REQ-A11Y-41)",
   "reqs": [
    "REQ-MAT-63"
   ],
@@ -7578,7 +7578,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (axe) green; nightly full scope green",
   "storybook": "all stories via environment global",
-  "acceptance": "archived: AC-A11Y-15 (REQ-A11Y-42)",
+  "acceptance": "archived: v1:AC-A11Y-15 (v1:REQ-A11Y-42)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-078",
@@ -7599,7 +7599,7 @@
   "priority": "P1",
   "test": "npm run test:a11y:unit -- storybook-a11y-config green",
   "storybook": ".storybook/preview.tsx globals (contract)",
-  "acceptance": "archived: AC-A11Y-15 (REQ-A11Y-42; §13)",
+  "acceptance": "archived: v1:AC-A11Y-15 (v1:REQ-A11Y-42; §13)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-079",
@@ -7621,7 +7621,7 @@
   "priority": "P1",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (zoom) green",
   "storybook": "T0/T1 stories + product surfaces",
-  "acceptance": "REQ-MAT-65; archived: AC-A11Y-17 (REQ-A11Y-45)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-A11Y-17 (v1:REQ-A11Y-45)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -7642,7 +7642,7 @@
   "priority": "P1",
   "test": "the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (zoom) green",
   "storybook": "T0/T1 stories",
-  "acceptance": "REQ-MAT-65; archived: AC-A11Y-17 (REQ-A11Y-45)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-A11Y-17 (v1:REQ-A11Y-45)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -7666,7 +7666,7 @@
   "priority": "P1",
   "test": "the PR-scope qual:certify:l* jobs L6 Environment visual A11Y cells (cvd) green; color-math.test.ts green",
   "storybook": "A11y/ColorVision",
-  "acceptance": "REQ-MAT-65; archived: AC-A11Y-18 (REQ-A11Y-46)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-A11Y-18 (v1:REQ-A11Y-46)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -7690,9 +7690,9 @@
    "S-43"
   ],
   "priority": "P0",
-  "test": "pixel-contrast-artifact.test.ts green in CI after PRD-19 a11y-pixel-contrast job",
+  "test": "pixel-contrast-artifact.test.ts green in CI when QUAL's a11y-pixel-contrast job runs (reported pending until it exists; no wait)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-65; archived: AC-A11Y-01, AC-A11Y-02 (REQ-A11Y-19)",
+  "acceptance": "REQ-MAT-65; archived: v1:AC-A11Y-01, v1:AC-A11Y-02 (v1:REQ-A11Y-19)",
   "reqs": [
    "REQ-MAT-65"
   ],
@@ -7713,7 +7713,7 @@
   "priority": "P1",
   "test": "verify-a11y-manual.mjs fixture valid/invalid records in NEW:tests/a11y/verify-a11y-manual.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-66; archived: AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+  "acceptance": "REQ-MAT-66; archived: v1:AC-A11Y-16 (v1:REQ-A11Y-43, v1:REQ-A11Y-44)",
   "reqs": [
    "REQ-MAT-66"
   ],
@@ -7736,7 +7736,7 @@
   "priority": "P1",
   "test": "markdown link check (npm run test:docs:links) green",
   "storybook": "parameters.a11y.srScript on Button, Dialog",
-  "acceptance": "REQ-MAT-66; archived: AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+  "acceptance": "REQ-MAT-66; archived: v1:AC-A11Y-16 (v1:REQ-A11Y-43, v1:REQ-A11Y-44)",
   "reqs": [
    "REQ-MAT-66"
   ],
@@ -7761,7 +7761,7 @@
   "priority": "P1",
   "test": "verify-a11y-manual.mjs green on uploaded artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-66; archived: AC-A11Y-16 (pilot; REQ-A11Y-43)",
+  "acceptance": "REQ-MAT-66; archived: v1:AC-A11Y-16 (pilot; v1:REQ-A11Y-43)",
   "reqs": [
    "REQ-MAT-66"
   ],
@@ -7787,7 +7787,7 @@
   "priority": "P1",
   "test": "GlassPreferencesPanel.test.tsx and glass-preferences-panel.apg.spec.ts (A11Y-089)",
   "storybook": "Theme/GlassPreferencesPanel",
-  "acceptance": "REQ-MAT-60; archived: AC-A11Y-25 (REQ-A11Y-38, REQ-A11Y-39; panel <=3 KB beyond parts)",
+  "acceptance": "REQ-MAT-60; archived: v1:AC-A11Y-25 (v1:REQ-A11Y-38, v1:REQ-A11Y-39; panel <=3 KB beyond parts)",
   "reqs": [
    "REQ-MAT-60"
   ],
@@ -7818,7 +7818,7 @@
   "priority": "P1",
   "test": "npm run test:a11y:unit green; the PR-scope qual:certify:l* jobs L5 Behaviour A11Y cells (harness) green",
   "storybook": "Theme/GlassPreferencesPanel",
-  "acceptance": "REQ-MAT-60; archived: AC-A11Y-14, AC-A11Y-25 (REQ-A11Y-38, REQ-A11Y-39)",
+  "acceptance": "REQ-MAT-60; archived: v1:AC-A11Y-14, v1:AC-A11Y-25 (v1:REQ-A11Y-38, v1:REQ-A11Y-39)",
   "reqs": [
    "REQ-MAT-60"
   ],
@@ -7872,7 +7872,7 @@
   "priority": "P1",
   "test": "PRD-20 docs lint run shows 0 unsourced a11y claims on main",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-24 (REQ-A11Y-49)",
+  "acceptance": "archived: v1:AC-A11Y-24 (v1:REQ-A11Y-49)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-094",
@@ -7900,7 +7900,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L1 Static beta-gate cell green on beta SHA",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-19, AC-A11Y-20, AC-A11Y-21, AC-A11Y-22",
+  "acceptance": "archived: v1:AC-A11Y-19, v1:AC-A11Y-20, v1:AC-A11Y-21, v1:AC-A11Y-22",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-095",
@@ -7925,7 +7925,7 @@
   "priority": "P0",
   "test": "verify-a11y-manual.mjs green on RC artifact; gh issue view 16 shows CLOSED with link",
   "storybook": "parameters.a11y.srScript on every flagship",
-  "acceptance": "REQ-MAT-66; archived: AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+  "acceptance": "REQ-MAT-66; archived: v1:AC-A11Y-16 (v1:REQ-A11Y-43, v1:REQ-A11Y-44)",
   "reqs": [
    "REQ-MAT-66"
   ],
@@ -7950,7 +7950,7 @@
   "priority": "P0",
   "test": "ga-cert job green; NEW:tests/a11y/a11y-cert-summary.test.ts rejects mismatched-SHA fixture",
   "storybook": "n/a",
-  "acceptance": "archived: DoD §18.2 and §18.11; AC-A11Y-01..AC-A11Y-25",
+  "acceptance": "archived: DoD §18.2 and §18.11; v1:AC-A11Y-01..v1:AC-A11Y-25",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-098",
@@ -7977,7 +7977,7 @@
   "priority": "P2",
   "test": "parts-contract, ref-forwarding harness entries",
   "storybook": "Core/GlassPreferencesPanel: full §13 set + Keyboard",
-  "acceptance": "REQ-MAT-60; archived: REQ-FND-25 (./theme); AC-FND-06",
+  "acceptance": "REQ-MAT-60; archived: v1:REQ-FND-25 (./theme); v1:AC-FND-06",
   "reqs": [
    "REQ-MAT-60"
   ],
@@ -7998,7 +7998,7 @@
   "priority": "P2",
   "test": "PRD-01 changelog/ledger check passes on release/4.x",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-41; archived: REQ-DS-07 changelog requirement (PRD §11 item 8)",
+  "acceptance": "REQ-MAT-41; archived: v1:REQ-DS-07 changelog requirement (PRD §11 item 8)",
   "reqs": [
    "REQ-MAT-41"
   ],
@@ -8019,7 +8019,7 @@
   "priority": "P0",
   "test": "tests/tokens/legacy-freeze.test.ts (DS-012)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21; archived: REQ-DS-42; precondition for AC-DS-14",
+  "acceptance": "REQ-MAT-21; archived: v1:REQ-DS-42; precondition for v1:AC-DS-14",
   "reqs": [
    "REQ-MAT-21"
   ],
@@ -8034,7 +8034,7 @@
   "system": "CI gates (interim, until QA L1/L4)",
   "file": "ci/mat.gitlab-ci.yml",
   "action": "MODIFY",
-  "description": "Interim, until QA L1/L4 exist: add a 'tokens' step to PKG's 'Glass Quality Gates' job (job name unchanged, SC-10): npm ci; npm run build:tokens; git diff --exit-code tokens/generated src/tokens/generated src/material/css/generated src/motion/tokens.generated.ts; npx jest tests/tokens; fail if build:tokens > 20 s. Do not edit qual:certify:l1; QA-118 deletes it (SC-39). DS-076 removes this step once the L1/L4 providers are live. (Cross-lane input 2a-T is consumed through its frozen interface, never waited for.)",
+  "description": "Interim (MAT-owned job in ci/mat.gitlab-ci.yml, retired when QUAL lanes L1/L4 report on next; no wait): add a 'tokens' step to PKG's 'Glass Quality Gates' job (job name unchanged, SC-10): npm ci; npm run build:tokens; git diff --exit-code tokens/generated src/tokens/generated src/material/css/generated src/motion/tokens.generated.ts; npx jest tests/tokens; fail if build:tokens > 20 s. Do not edit qual:certify:l1; QA-118 deletes it (SC-39). DS-076 removes this step once the L1/L4 providers are live. (Cross-lane input 2a-T is consumed through its frozen interface, never waited for.)",
   "depends_on": [],
   "contract_seams": [
    "S-35",
@@ -8044,7 +8044,7 @@
   "priority": "P0",
   "test": "A deliberate one-byte edit to a generated file fails Glass Quality Gates (canary PR link in the report)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-DS-03",
+  "acceptance": "archived: v1:AC-DS-03",
   "reqs": [],
   "branch": "next",
   "source": "DS-047",
@@ -8071,7 +8071,7 @@
   "priority": "P0",
   "test": "A canary PR lowering one floor fails L4 (link in the report)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-11; archived: Architecture §16 PRD-03 exit criterion (contrast matrix runs in CI); REQ-DS-37",
+  "acceptance": "REQ-MAT-11; archived: Architecture §16 v1:PRD-03 exit criterion (contrast matrix runs in CI); v1:REQ-DS-37",
   "reqs": [
    "REQ-MAT-11"
   ],
@@ -8096,7 +8096,7 @@
   "priority": "P1",
   "test": "L4 log shows both timings under budget",
   "storybook": "n/a",
-  "acceptance": "archived: AC-DS-03 (<= 20 s); §16 contrast solve <= 10 s",
+  "acceptance": "archived: v1:AC-DS-03 (<= 20 s); §16 contrast solve <= 10 s",
   "reqs": [],
   "branch": "next",
   "source": "DS-062",
@@ -8109,7 +8109,7 @@
   "system": "CI gates (QA L1 Static)",
   "file": "fragments/lanes/mat.ts",
   "action": "MODIFY",
-  "description": "Register DS providers in QA's L1 Static lane (SC-29, after QA-078): npm run gates:tokens (undefined-vars, dead-vars, tier-skip, types-runtime, literals vs literals-baseline.json) and stylelint on src/**/*.css after a full remote npm run build; gate time <= 30 s. Then remove the interim 'tokens' step from the stream CI fragment (DS-047; MODIFY after PKG-038). DS does not edit design-system-compliance.yml or its score job; QA-118 deletes the file after confirming these providers (SC-39).",
+  "description": "Register DS providers in QA's L1 Static lane (SC-29, after QA-078): npm run gates:tokens (undefined-vars, dead-vars, tier-skip, types-runtime, literals vs literals-baseline.json) and stylelint on src/**/*.css after a full remote npm run build; gate time <= 30 s. Then remove the interim 'tokens' step from the stream CI fragment (DS-047; MODIFY after PKG-038). MAT does not recreate the score job; design-system-compliance.yml is deleted at C0 (PLAT, contract row B11) and its checks live in QUAL lanes L1-L4 (contract seam).",
   "depends_on": [
    "MAT-330"
   ],
@@ -8130,7 +8130,7 @@
   "priority": "P0",
   "test": "Canary PRs that each add one undefined var, one dead var and one literal fail L1 (links in the report)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-DS-01, AC-DS-05, AC-DS-07 (fail-closed in CI)",
+  "acceptance": "archived: v1:AC-DS-01, v1:AC-DS-05, v1:AC-DS-07 (fail-closed in CI)",
   "reqs": [],
   "branch": "next",
   "source": "DS-076",
@@ -8170,7 +8170,7 @@
   "system": "Storybook modes",
   "file": "NEW:stories/mat/ModesMatrix.stories.tsx",
   "action": "CREATE",
-  "description": "One MAT Surface (MAT-047) per variant x thickness over the 8 SC-28 certification scenes (certification/scenes/, QA-038/039, story ids scenes--<id>). Stock-image substitutes are not allowed (the task is blocked if scenes are missing). play toggles scheme and asserts that computed --ag-on-surface differs between light and dark. (Cross-lane input 2a-T, 2b-M is consumed through its frozen interface, never waited for.)",
+  "description": "One MAT Surface (MAT-047) per variant x thickness over the 8 SC-28 certification scenes (certification/scenes/, QA-038/039, story ids scenes--<id>). Stock-image substitutes are not allowed (scene ids are frozen in contract S-42; the story reports pending, never blocked, until QUAL's scene assets merge). play toggles scheme and asserts that computed --ag-on-surface differs between light and dark. (Cross-lane input 2a-T, 2b-M is consumed through its frozen interface, never waited for.)",
   "depends_on": [],
   "contract_seams": [
    "S-03",
@@ -8185,7 +8185,7 @@
   "priority": "P2",
   "test": "play assertion passes in the remote Storybook test-runner job",
   "storybook": "Remote captures per scheme x transparency x contrast on photo, flat-white, flat-black and dense-text scenes",
-  "acceptance": "archived: PRD §13; supports AC-DS-08",
+  "acceptance": "archived: PRD §13; supports v1:AC-DS-08",
   "reqs": [],
   "branch": "next",
   "source": "DS-097",
@@ -8209,7 +8209,7 @@
   "priority": "P2",
   "test": "play assertions pass in the remote Storybook test-runner job",
   "storybook": "Remote captures per state (Chromium + WebKit)",
-  "acceptance": "REQ-MAT-09; archived: REQ-DS-19 (selector contract proven in browser); PRD §13",
+  "acceptance": "REQ-MAT-09; archived: v1:REQ-DS-19 (selector contract proven in browser); PRD §13",
   "reqs": [
    "REQ-MAT-09"
   ],
@@ -8235,7 +8235,7 @@
   "priority": "P2",
   "test": "play: changing L to 0.85 shows >= 1 adjusted step; remote test-runner",
   "storybook": "Remote captures of 4 presets x light/dark (Chromium + WebKit); human sign-off",
-  "acceptance": "REQ-MAT-01; archived: PRD §13; supports AC-DS-13",
+  "acceptance": "REQ-MAT-01; archived: PRD §13; supports v1:AC-DS-13",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -8375,7 +8375,7 @@
   "priority": "P1",
   "test": "rg -c -- '--(glass|aura|persona|glass-theme|liquid|gm|grad)-' dist/css/styles.css = 0; undefined-vars/dead-vars = 0 on styles.css",
   "storybook": "Remote full-Storybook capture diff reviewed by a human (5.0 alpha, breaking allowed on main)",
-  "acceptance": "REQ-MAT-13; archived: AC-DS-02, AC-DS-05 (styles.css); REQ-DS-24, REQ-DS-41",
+  "acceptance": "REQ-MAT-13; archived: v1:AC-DS-02, v1:AC-DS-05 (styles.css); v1:REQ-DS-24, v1:REQ-DS-41",
   "reqs": [
    "REQ-MAT-13"
   ],
@@ -8405,7 +8405,7 @@
   "priority": "P1",
   "test": "node scripts/ci/verify-size-budgets.mjs green for DS rows; L10 perf trace shows <= 8 ms and 0 layouts",
   "storybook": "n/a",
-  "acceptance": "archived: AC-DS-16; AC-DS-05 (counts)",
+  "acceptance": "archived: v1:AC-DS-16; v1:AC-DS-05 (counts)",
   "reqs": [],
   "branch": "next",
   "source": "DS-117",
@@ -8428,7 +8428,7 @@
   "priority": "P0",
   "test": "tests/release/api-report.test.ts covers the material slug; the report run in the Glass Quality Gates job produces no unreviewed diff",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-MAT-03 (REQ-MAT-01 frozen contract draft; DoD 3)",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-MAT-03 (v1:REQ-MAT-01 frozen contract draft; DoD 3)",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -8453,7 +8453,7 @@
   "priority": "P0",
   "test": "Workflow run on the PR is green and the summary shows independent-glass-recipes: N",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MAT-01/AC-MAT-02 ratchet mode",
+  "acceptance": "archived: v1:AC-MAT-01/v1:AC-MAT-02 ratchet mode",
   "reqs": [],
   "branch": "next",
   "source": "MAT-011",
@@ -8472,7 +8472,7 @@
   "priority": "P1",
   "test": "material-css-api --check validates list names exist in properties.css/material.css; a11y-coverage.spec.ts (MAT-084) verifies rung outcomes",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-54; archived: AC-MAT-05 (REQ-MAT-80 exposure, REQ-MAT-30, REQ-MAT-37)",
+  "acceptance": "REQ-MAT-54; archived: v1:AC-MAT-05 (v1:REQ-MAT-80 exposure, v1:REQ-MAT-30, v1:REQ-MAT-37)",
   "reqs": [
    "REQ-MAT-54"
   ],
@@ -8487,7 +8487,7 @@
   "system": "material/size-css",
   "file": "fragments/size-budgets/mat.ts",
   "action": "MODIFY",
-  "description": "Submit MAT rows to PKG's docs/size-budgets.json (integer limitBytesGz, min+gz, peers external; SC-15, no size-limit, no MAT-specific size script): aura-glass/material JS (all value exports) ≤3072 B; material.css ≤8192 B gz (within PERF's per-subpath CSS default); ag-grain-128.avif ≤4096 B; each lens map ≤3072 B and LensDefs markup + maps ≤30720 B (REQ-MAT-86). Calibrated at alpha by QA L10, ratchet down only. (Cross-lane input 2b-M is consumed through its frozen interface, never waited for.)",
+  "description": "Submit MAT rows to PKG's docs/size-budgets.json (integer limitBytesGz, min+gz, peers external; SC-15, no size-limit, no MAT-specific size script): aura-glass/material JS (all value exports) ≤3072 B; material.css ≤8192 B gz (within PERF's per-subpath CSS default); ag-grain-128.avif ≤4096 B; each lens map ≤3072 B and LensDefs markup + maps ≤30720 B (v1:REQ-MAT-86). Calibrated at alpha by QA L10, ratchet down only. (Cross-lane input 2b-M is consumed through its frozen interface, never waited for.)",
   "depends_on": [],
   "contract_seams": [
    "S-35",
@@ -8498,7 +8498,7 @@
   "priority": "P1",
   "test": "node scripts/ci/verify-size-budgets.mjs (PKG) green with the MAT rows; production bundle contains no surfaceCounter or \"allowNested at depth\" strings",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-23, REQ-MAT-25, REQ-MAT-36, REQ-MAT-38; archived: AC-MAT-11 (REQ-MAT-70, REQ-MAT-86 sizes, REQ-MAT-52 prod strip)",
+  "acceptance": "REQ-MAT-23, REQ-MAT-25, REQ-MAT-36, REQ-MAT-38; archived: v1:AC-MAT-11 (v1:REQ-MAT-70, v1:REQ-MAT-86 sizes, v1:REQ-MAT-52 prod strip)",
   "reqs": [
    "REQ-MAT-23",
    "REQ-MAT-25",
@@ -8527,7 +8527,7 @@
   "priority": "P0",
   "test": "jest tests/exports/material-exports.test.ts green in CI after build",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-22; archived: AC-MAT-03 (REQ-MAT-01)",
+  "acceptance": "REQ-MAT-22; archived: v1:AC-MAT-03 (v1:REQ-MAT-01)",
   "reqs": [
    "REQ-MAT-22"
   ],
@@ -8554,7 +8554,7 @@
   "priority": "P0",
   "test": "remote: playwright test -c certification/playwright.cert.config.ts --project material --list lists every tests/material spec; jest no longer collects tests/material",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MAT-03 infra",
+  "acceptance": "archived: v1:AC-MAT-03 infra",
   "reqs": [],
   "branch": "next",
   "source": "MAT-068",
@@ -8580,7 +8580,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs run green on the PR with the material project listed and artifacts attached",
   "storybook": "build-storybook succeeds remotely",
-  "acceptance": "archived: AC-MAT-03 (3-engine remote lane)",
+  "acceptance": "archived: v1:AC-MAT-03 (3-engine remote lane)",
   "reqs": [],
   "branch": "next",
   "source": "MAT-070",
@@ -8609,7 +8609,7 @@
   "priority": "P1",
   "test": "checklist exists with artifact links; sign-off field filled by human",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MAT-15",
+  "acceptance": "archived: v1:AC-MAT-15",
   "reqs": [],
   "branch": "next",
   "source": "MAT-093",
@@ -8634,7 +8634,7 @@
   "priority": "P0",
   "test": "REL deprecations schema gate green; verify-recipe-removal.mjs row check (MAT-115)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67, REQ-MAT-20; archived: AC-MAT-12",
+  "acceptance": "REQ-MAT-67, REQ-MAT-20; archived: v1:AC-MAT-12",
   "reqs": [
    "REQ-MAT-67",
    "REQ-MAT-20"
@@ -8663,7 +8663,7 @@
   "priority": "P1",
   "test": "NEW src/primitives/__tests__/deprecations.test.tsx: each export warns exactly once in dev, 0 in production, render output unchanged",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20; archived: AC-MAT-12 (API-7, API-8)",
+  "acceptance": "REQ-MAT-20; archived: v1:AC-MAT-12 (API-7, API-8)",
   "reqs": [
    "REQ-MAT-20"
   ],
@@ -8691,7 +8691,7 @@
   "priority": "P2",
   "test": "deprecations schema gate green; doctor --v5 fixture reports the shim",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-20; archived: AC-MAT-12 (API-18 4.2 step)",
+  "acceptance": "REQ-MAT-20; archived: v1:AC-MAT-12 (API-18 4.2 step)",
   "reqs": [
    "REQ-MAT-20"
   ],
@@ -8717,7 +8717,7 @@
   "priority": "P1",
   "test": "adapters.test.tsx (MAT-105)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-24; archived: AC-MAT-12 (REQ-MAT-12 compat, API-10/11/12)",
+  "acceptance": "REQ-MAT-24; archived: v1:AC-MAT-12 (v1:REQ-MAT-12 compat, API-10/11/12)",
   "reqs": [
    "REQ-MAT-24"
   ],
@@ -8742,7 +8742,7 @@
   "priority": "P1",
   "test": "adapters.test.tsx (MAT-105)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-24; archived: AC-MAT-12 (REQ-MAT-12 compat)",
+  "acceptance": "REQ-MAT-24; archived: v1:AC-MAT-12 (v1:REQ-MAT-12 compat)",
   "reqs": [
    "REQ-MAT-24"
   ],
@@ -8766,7 +8766,7 @@
   "priority": "P1",
   "test": "./node_modules/.bin/jest src/compat green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-24; archived: AC-MAT-12 (REQ-MAT-12)",
+  "acceptance": "REQ-MAT-24; archived: v1:AC-MAT-12 (v1:REQ-MAT-12)",
   "reqs": [
    "REQ-MAT-24"
   ],
@@ -8795,7 +8795,7 @@
   "priority": "P2",
   "test": "npm pack tarball styles contain no .flex/.absolute global rules (PKG tarball check)",
   "storybook": "Storybook still renders (shim imported in preview only)",
-  "acceptance": "REQ-MAT-21; archived: AC-MAT-12 (API-18)",
+  "acceptance": "REQ-MAT-21; archived: v1:AC-MAT-12 (API-18)",
   "reqs": [
    "REQ-MAT-21"
   ],
@@ -8824,7 +8824,7 @@
   "priority": "P0",
   "test": "CI summary 'independent-glass-recipes: 1'; 0 lint and CSS violations on beta.1 SHA",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MAT-01, AC-MAT-02",
+  "acceptance": "archived: v1:AC-MAT-01, v1:AC-MAT-02",
   "reqs": [],
   "branch": "next",
   "source": "MAT-117",
@@ -8847,7 +8847,7 @@
   "priority": "P1",
   "test": "tests/perf/harness/budgets-frozen.test.ts (PERF-045) green with MAT rows",
   "storybook": "Material/Matrix",
-  "acceptance": "REQ-MAT-38, REQ-MAT-36, REQ-MAT-40; archived: AC-MAT-09 (§16, REQ-MAT-72, REQ-MAT-74, REQ-MAT-76)",
+  "acceptance": "REQ-MAT-38, REQ-MAT-36, REQ-MAT-40; archived: v1:AC-MAT-09 (§16, v1:REQ-MAT-72, v1:REQ-MAT-74, v1:REQ-MAT-76)",
   "reqs": [
    "REQ-MAT-38",
    "REQ-MAT-36",
@@ -8874,7 +8874,7 @@
   "priority": "P0",
   "test": "REQ-MOT-T21 fixtures (MOT-002)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67; archived: AC-MOT-15, AC-MOT-18: codemod fixtures pass and are idempotent",
+  "acceptance": "REQ-MAT-67; archived: v1:AC-MOT-15, v1:AC-MOT-18: codemod fixtures pass and are idempotent",
   "reqs": [
    "REQ-MAT-67"
   ],
@@ -8901,7 +8901,7 @@
   "priority": "P0",
   "test": "jest: npm test -- packages/cli/src/migrate/4to5/__tests__/reduced-motion-initial.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67, REQ-MAT-21; archived: AC-MOT-18: passing codemod fixture for reduced-motion-initial",
+  "acceptance": "REQ-MAT-67, REQ-MAT-21; archived: v1:AC-MOT-18: passing codemod fixture for reduced-motion-initial",
   "reqs": [
    "REQ-MAT-67",
    "REQ-MAT-21"
@@ -8934,7 +8934,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs run on release/4.x green; fails closed on an injected failing fixture",
   "storybook": "n/a",
-  "acceptance": "archived: AC-MOT-15: T06 + T07 green on release/4.x before 4.2.0 is tagged",
+  "acceptance": "archived: v1:AC-MOT-15: T06 + T07 green on release/4.x before 4.2.0 is tagged",
   "reqs": [],
   "branch": "next",
   "source": "MOT-014",
@@ -8958,7 +8958,7 @@
   "priority": "P0",
   "test": "T03 runs against built dist/styles.css (remote full build)",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-17; archived: AC-MOT-12 input (CSS size measured in MOT-102)",
+  "acceptance": "REQ-MAT-17; archived: v1:AC-MOT-12 input (CSS size measured in MOT-102)",
   "reqs": [
    "REQ-MAT-17"
   ],
@@ -8973,7 +8973,7 @@
   "system": "motion deprecations",
   "file": "fragments/deprecations/mat.ts",
   "action": "DOC",
-  "description": "AC-MOT-18: one entry per §9/§10 export, prop and token (Motion x2, animationPresets, GlassMotionController/GlassTransitions/OrganicAnimationEngine families, AdvancedAnimations, MotionPreferenceProvider, ReducedMotionProvider, reduced-motion hooks, physics hooks/engines, ANIMATION, AURA_GLASS.motion, LIQUID_GLASS.motionFluency, --glass-motion-default, --glass-theme-duration-*, tokens/keyframes, removed props) with since 4.2.0, removedIn 5.0.0, replacement, codemod id; 4.2 one-time dev warnings (BLOCKED if PRD-00/01 file+schema absent). MODIFY of the TRUST-075 seed at the repo root (SC-02); codemod field is one of reduced-motion-initial, motion-imports, motion-props, removed, css-vars, providers or null (SC-33).",
+  "description": "AC-MOT-18: one entry per §9/§10 export, prop and token (Motion x2, animationPresets, GlassMotionController/GlassTransitions/OrganicAnimationEngine families, AdvancedAnimations, MotionPreferenceProvider, ReducedMotionProvider, reduced-motion hooks, physics hooks/engines, ANIMATION, AURA_GLASS.motion, LIQUID_GLASS.motionFluency, --glass-motion-default, --glass-theme-duration-*, tokens/keyframes, removed props) with since 4.2.0, removedIn 5.0.0, replacement, codemod id; 4.2 one-time dev warnings (coded against the frozen PLAT deprecation-registry schema seam; reported pending if the PLAT file is not yet merged). MODIFY of the TRUST-075 seed at the repo root (SC-02); codemod field is one of reduced-motion-initial, motion-imports, motion-props, removed, css-vars, providers or null (SC-33).",
   "depends_on": [],
   "contract_seams": [
    "S-37",
@@ -8984,7 +8984,7 @@
   "priority": "P0",
   "test": "PRD-01 deprecations gate validates schema; jest: dev warning fires once per symbol",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67, REQ-MAT-52; archived: AC-MOT-18",
+  "acceptance": "REQ-MAT-67, REQ-MAT-52; archived: v1:AC-MOT-18",
   "reqs": [
    "REQ-MAT-67",
    "REQ-MAT-52"
@@ -9013,7 +9013,7 @@
   "priority": "P0",
   "test": "npm test -- packages/cli/src/migrate/4to5/__tests__ (motion-imports, motion-props) green and idempotent; DX-059 area contract green",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-21, REQ-MAT-67; archived: AC-MOT-18",
+  "acceptance": "REQ-MAT-21, REQ-MAT-67; archived: v1:AC-MOT-18",
   "reqs": [
    "REQ-MAT-21",
    "REQ-MAT-67"
@@ -9043,7 +9043,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs L9 green on an empty MOT spec set and fails closed on a failing fixture spec",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: AC-MOT-20 (lane exists)",
+  "acceptance": "REQ-MAT-44, REQ-MAT-46; archived: v1:AC-MOT-20 (lane exists)",
   "reqs": [
    "REQ-MAT-44",
    "REQ-MAT-46"
@@ -9074,7 +9074,7 @@
   "priority": "P0",
   "test": "scripts/ci/verify-size-budgets.mjs (lane L2 Artifact, remote build) fails closed on any overage",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-01; archived: AC-MOT-12",
+  "acceptance": "REQ-MAT-01; archived: v1:AC-MOT-12",
   "reqs": [
    "REQ-MAT-01"
   ],
@@ -9103,7 +9103,7 @@
   "priority": "P2",
   "test": "remote Storybook build + test-runner play functions pass; continuous.spec covers them",
   "storybook": "Motion Lab section with 4 pages",
-  "acceptance": "REQ-MAT-08; archived: AC-MOT-20 (human motion review material)",
+  "acceptance": "REQ-MAT-08; archived: v1:AC-MOT-20 (human motion review material)",
   "reqs": [
    "REQ-MAT-08"
   ],
@@ -9137,7 +9137,7 @@
   "priority": "P0",
   "test": "npm test does not collect Playwright specs; playwright test --list on CI lists 3 projects",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-14 (REQ-A11Y-40 three engines)",
+  "acceptance": "archived: v1:AC-A11Y-14 (v1:REQ-A11Y-40 three engines)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-018",
@@ -9164,7 +9164,7 @@
   "priority": "P0",
   "test": "the PR-scope qual:certify:l* jobs run on a PR touching src/theme shows the A11Y suites inside L1/L4/L5/L6/L12 with 0 skips",
   "storybook": "n/a",
-  "acceptance": "archived: DoD §18.10 (no local browser); AC-A11Y-05 (cells exist in L5/L6)",
+  "acceptance": "archived: DoD §18.10 (no local browser); v1:AC-A11Y-05 (cells exist in L5/L6)",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-019",
@@ -9194,7 +9194,7 @@
   "priority": "P1",
   "test": "CI run URL with size numbers and canary console logs (0 hydration warnings)",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-23, AC-A11Y-25",
+  "acceptance": "archived: v1:AC-A11Y-23, v1:AC-A11Y-25",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-035",
@@ -9217,7 +9217,7 @@
   "priority": "P0",
   "test": "green CI run URL recorded; reviewer sign-off in PR",
   "storybook": "A11y/Rungs",
-  "acceptance": "archived: PRD-05 exit criterion (L5/L6 cells, SC-29) §18.3; AC-A11Y-04, AC-A11Y-05, AC-A11Y-06",
+  "acceptance": "archived: v1:PRD-05 exit criterion (L5/L6 cells, v1:SC-29) §18.3; v1:AC-A11Y-04, v1:AC-A11Y-05, v1:AC-A11Y-06",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-048",
@@ -9241,7 +9241,7 @@
   "priority": "P0",
   "test": "PRD-01 deprecations schema validation against docs/schemas/deprecations.schema.json green in CI",
   "storybook": "n/a",
-  "acceptance": "REQ-MAT-67; archived: AC-A11Y-21 (REQ-A11Y-47)",
+  "acceptance": "REQ-MAT-67; archived: v1:AC-A11Y-21 (v1:REQ-A11Y-47)",
   "reqs": [
    "REQ-MAT-67"
   ],
@@ -9273,7 +9273,7 @@
   "priority": "P1",
   "test": "ga-cert job green with budget table artifact",
   "storybook": "n/a",
-  "acceptance": "archived: AC-A11Y-25",
+  "acceptance": "archived: v1:AC-A11Y-25",
   "reqs": [],
   "branch": "next",
   "source": "A11Y-096",

@@ -39,6 +39,8 @@ All five start on day 0. Each has its own task fragment, its own GitLab CI fragm
 
 The first decomposition (19 PRDs, `_shared-contracts.md` SC-01..SC-40, 149 prompts, 2,405 tasks, 1,487 cross-group dependency edges) is archived, unchanged, at [`archive/v1-19-prd/`](archive/v1-19-prd/). It was rejected as overkill and is **superseded**: do not execute it. Its requirements are carried into the five PRDs (each PRD's Appendix A maps every archived REQ), and [`archive/v1-19-prd/task-disposition.json`](archive/v1-19-prd/task-disposition.json) records where each of the 2,405 archived tasks went. The coupling analysis that motivated the change is [`archive/v1-19-prd/cross-prd-coupling-analysis.txt`](archive/v1-19-prd/cross-prd-coupling-analysis.txt).
 
+The latest completeness and concurrency review of this set is [`prd/_completeness-review.md`](prd/_completeness-review.md).
+
 ## Reading order
 
 1. [`AURAGLASS_5_MASTER_PRD.md`](AURAGLASS_5_MASTER_PRD.md): problem, metrics, the five streams, branch model, GitLab CI/CD, lane index, release train, GA checklist, owner decisions.

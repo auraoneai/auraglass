@@ -4,6 +4,10 @@ Stream index: `docs/auraglass-5/prompts/PROMPT_3_CMP.md` (its "Common rules" are
 
 This lane starts on **day 0**, runs at the same time as every other CMP lane and every other stream, and waits for nothing: its `depends_on` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). No other PRD, stream, lane or task has to finish first. If a C0 seed, double or stub this lane names is missing, report the contract bootstrap as incomplete; do not create it and do not wait.
+
 ## Scope
 
 **Owned paths (exclusive inside CMP):** `src/components/{overlays/_shared,dialog,alert-dialog,sheet}/**`, `tests/overlays/**`
@@ -46,7 +50,7 @@ Read the full rows with `node -e 'for (const t of require("./docs/auraglass-5/ta
 | CMP-205 | TEST | `NEW:src/components/overlays/_shared/popup-contract.test.tsx` | Parametrised over anchored kinds (popover, tooltip, menu; toast for material only): Positioner→Popup structure, data-ag-part positioner\|popup\|arrow, Base UI … | CMP-192, CMP-193, CMP-201 | REQ-CMP-85 |
 | CMP-206 | TEST | `NEW:src/components/overlays/_shared/overlay-ssr.test.tsx` | Per subject: renderToString closed and defaultOpen, then hydrateRoot in jsdom; console.error spy 0 calls; no hydration warnings. | CMP-201 | REQ-CMP-04 |
 | CMP-207 | INFRA | `fragments/playwright/cmp.json` | Add projects overlays-chromium, overlays-webkit, overlays-firefox (testMatch … |  | REQ-CMP-138, REQ-CMP-141 |
-| CMP-208 | INFRA | `fragments/playwright/cmp.json` | No overlay-specific workflow (SC-29; workflows are the PR-scope qual:certify:l* jobs/main/release.yml owned by QA). Register the overlay specs in the QA lanes: … | CMP-207 | REQ-CMP-138 |
+| CMP-208 | INFRA | `fragments/playwright/cmp.json` | No overlay-specific workflow (SC-29; CI is the qual:certify:l* jobs in QUAL-owned ci/qual.gitlab-ci.yml at pr/main/release scope). Register the overlay specs in the QA … | CMP-207 | REQ-CMP-138 |
 | CMP-209 | CREATE | `NEW:src/components/dialog/Dialog.client.tsx` | Dialog.Root over Base UI Dialog: open, defaultOpen, onOpenChange(open, details: OverlayOpenChangeDetails reason … | CMP-191, CMP-196 | REQ-CMP-86 |
 | CMP-210 | MODIFY | `src/components/dialog/Dialog.client.tsx` | Dialog.Trigger, Dialog.Close (aria-label from labels.close default 'Close'; >=24px target, 44px hit area under (pointer:coarse) via pseudo-element), Dialog.Portal via … | CMP-209 | REQ-CMP-86 |
 | CMP-211 | MODIFY | `src/components/dialog/Dialog.client.tsx` | Dialog.Backdrop: the single [data-ag-part=backdrop].ag-scrim with data-ag-overlay-depth; not rendered when modal={false}; only opacity animates. | CMP-194, CMP-209 | REQ-CMP-79 |

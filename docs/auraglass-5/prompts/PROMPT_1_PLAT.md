@@ -9,6 +9,10 @@ Repo root: `/Users/gurbakshchahal/platforms/AuraGlass`.
 
 PLAT owns the whole `release/4.x` line (4.1.1 trust patch, 4.2/4.3/4.4 bridge, LTS), the 5.0 build and artifact gates, GitLab CI/CD and npm publishing, change control and deprecations, compat composition, the `migrate 4to5` engine and CLI, the registry, the docs site and agent DX, and the deletion of `legacy/**`. It is split into six lanes. **All six start on day 0 and run at the same time; their files are disjoint; no lane waits for another lane or for any other stream.**
 
+## Prerequisites
+
+**None except the frozen contract** (`contract-v1.1`, landed at C0). Every PLAT lane starts on day 0; no other PRD, stream or task has to finish first.
+
 ## Lane table
 
 | Prompt | Lane | Branch prefixes | REQ-PLAT (primary) | AC-PLAT | Tasks |

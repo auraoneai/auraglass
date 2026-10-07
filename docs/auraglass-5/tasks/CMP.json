@@ -15,7 +15,7 @@
   "priority": "P0",
   "test": "jest targeted run green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-33; archived: AC-MOT-15",
+  "acceptance": "REQ-CMP-33; archived: v1:AC-MOT-15",
   "reqs": [
    "REQ-CMP-33"
   ],
@@ -47,7 +47,7 @@
   "priority": "P0",
   "test": "AuraGlassProvider.test.tsx \"single portal root\"; layer-stack.spec.ts portal-root count === 1",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-26; archived: AC-A11Y-13 (REQ-A11Y-32)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-26; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-32)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-26"
@@ -79,7 +79,7 @@
   "priority": "P0",
   "test": "LayerStack.test.ts \"DismissableLayer registers\"; eslint auraglass/no-document-escape reports 0 in src/primitives",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-27; archived: AC-A11Y-13 (REQ-A11Y-33)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-27; archived: v1:AC-A11Y-13 (v1:REQ-A11Y-33)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-27"
@@ -111,7 +111,7 @@
   "priority": "P1",
   "test": "src/theme/__tests__/announcer.test.tsx imports VisuallyHidden and asserts accessible text; renderToString output has no client-only markup",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-29; archived: AC-A11Y-20 (REQ-A11Y-35 consolidation; §9 ScreenReaderOnly replacement)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-29; archived: v1:AC-A11Y-20 (v1:REQ-A11Y-35 consolidation; §9 ScreenReaderOnly replacement)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-29"
@@ -134,9 +134,9 @@
   ],
   "contract_seams": [],
   "priority": "P2",
-  "test": "npm run test:a11y:unit -- icon-a11y green (Icon half blocked if REQ-FND-40 absent)",
+  "test": "npm run test:a11y:unit -- icon-a11y green (Icon half reports pending until the CMP Icon task for REQ-CMP-30 merges; same stream)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-30; archived: AC-A11Y-15 (REQ-A11Y-50)",
+  "acceptance": "REQ-CMP-30; archived: v1:AC-A11Y-15 (v1:REQ-A11Y-50)",
   "reqs": [
    "REQ-CMP-30"
   ],
@@ -163,7 +163,7 @@
   "priority": "P0",
   "test": "jest tests/foundation/base-ui-pin.test.ts green; fails when the specifier is changed to ^x.y.z (demonstrated once)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01; archived: REQ-FND-01",
+  "acceptance": "REQ-CMP-01; archived: v1:REQ-FND-01",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -190,7 +190,7 @@
   "priority": "P0",
   "test": "tests/types/change-details.test-d.ts and meta-shape.test-d.ts compile (FND-010, FND-011)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-02, REQ-CMP-04, REQ-CMP-22; archived: REQ-FND-05, REQ-FND-12",
+  "acceptance": "REQ-CMP-02, REQ-CMP-04, REQ-CMP-22; archived: v1:REQ-FND-05, v1:REQ-FND-12",
   "reqs": [
    "REQ-CMP-02",
    "REQ-CMP-04",
@@ -207,13 +207,13 @@
   "system": "foundation/parts",
   "file": "NEW:src/foundation/parts.ts",
   "action": "CREATE",
-  "description": "Export AG_PARTS as a readonly const tuple of the 38 PRD §4.3 part names in order (root … actions) and type AgPart; header comment: new names need a PR that also regenerates docs.",
+  "description": "Re-export PART_NAME_RE, COMMON_PARTS and type AgPart from src/contracts (S-33) plus a dev-only assertPartName() helper; no closed vocabulary (archived FND-11 39-name list is replaced, PRD Appendix A). Header comment: any kebab-case name matching PART_NAME_RE is valid; compound part keys come from COMPOUND_PARTS.",
   "depends_on": [],
   "contract_seams": [],
   "priority": "P0",
   "test": "meta-shape.test-d.ts rejects an unknown part; parts-contract self-test (FND-016)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-06; archived: REQ-FND-11",
+  "acceptance": "REQ-CMP-06; archived: v1:REQ-FND-11",
   "reqs": [
    "REQ-CMP-06"
   ],
@@ -234,7 +234,7 @@
   "priority": "P0",
   "test": "src/foundation/__tests__/parts-contract.test.tsx legal-value check plus a unit block for each precedence case",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-07; archived: REQ-FND-14",
+  "acceptance": "REQ-CMP-07; archived: v1:REQ-FND-14",
   "reqs": [
    "REQ-CMP-07"
   ],
@@ -249,7 +249,7 @@
   "system": "foundation/portal",
   "file": "NEW:src/foundation/portal.ts",
   "action": "CREATE",
-  "description": "usePortalContainer(): HTMLElement|null reads PRD-05 AuraGlassProvider portal-root context; null on server; document.body only when no provider is mounted; never creates a root. Blocked (not stubbed) if PRD-05 context is absent. SC-25: usePortalContainer() is the single accessor over A11Y's [data-ag-portal-root] context (A11Y-029); Base UI per-root dismissal is routed through LayerStack (A11Y-049), so no wrapper handles Escape itself.",
+  "description": "usePortalContainer(): HTMLElement|null reads PRD-05 AuraGlassProvider portal-root context; null on server; document.body only when no provider is mounted; never creates a root. Codes against the frozen S-23 portal seam (contract seed); never stubs a local root. SC-25: usePortalContainer() is the single accessor over A11Y's [data-ag-portal-root] context (A11Y-029); Base UI per-root dismissal is routed through LayerStack (A11Y-049), so no wrapper handles Escape itself.",
   "depends_on": [],
   "contract_seams": [
    "S-20",
@@ -263,7 +263,7 @@
   "priority": "P0",
   "test": "src/foundation/__tests__/portal-root.test.tsx (FND-015)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-11; archived: REQ-FND-04",
+  "acceptance": "REQ-CMP-11; archived: v1:REQ-FND-04",
   "reqs": [
    "REQ-CMP-11"
   ],
@@ -287,7 +287,7 @@
   "priority": "P0",
   "test": "tsc -p tests/types/tsconfig.json --noEmit passes; removing the @ts-expect-error makes it fail",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: REQ-FND-12",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-FND-12",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -310,7 +310,7 @@
   "priority": "P0",
   "test": "tsc -p tests/types/tsconfig.json --noEmit",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-02, REQ-CMP-04; archived: REQ-FND-05",
+  "acceptance": "REQ-CMP-02, REQ-CMP-04; archived: v1:REQ-FND-05",
   "reqs": [
    "REQ-CMP-02",
    "REQ-CMP-04"
@@ -334,7 +334,7 @@
   "priority": "P0",
   "test": "tsc -p tests/types/tsconfig.json --noEmit",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-05; archived: REQ-FND-06",
+  "acceptance": "REQ-CMP-05; archived: v1:REQ-FND-06",
   "reqs": [
    "REQ-CMP-05"
   ],
@@ -361,7 +361,7 @@
   "priority": "P0",
   "test": "remote job build-dts in cmp:test:foundation-pattern",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01; archived: AC-FND-03 (REQ-FND-02)",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-FND-03 (v1:REQ-FND-02)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -386,7 +386,7 @@
   "priority": "P0",
   "test": "jest src/foundation/__tests__/ref-forwarding.test.tsx; BadProbe fixture fails as designed",
   "storybook": "consumes every owned *.stories.tsx Default story",
-  "acceptance": "REQ-CMP-03; archived: REQ-FND-03; AC-FND-04 harness",
+  "acceptance": "REQ-CMP-03; archived: v1:REQ-FND-03; v1:AC-FND-04 harness",
   "reqs": [
    "REQ-CMP-03"
   ],
@@ -410,7 +410,7 @@
   "priority": "P0",
   "test": "jest src/foundation/__tests__/portal-root.test.tsx",
   "storybook": "consumes overlay-bearing stories (Tour, ColorPicker, Dialog)",
-  "acceptance": "REQ-CMP-11; archived: REQ-FND-04; AC-FND-04 harness",
+  "acceptance": "REQ-CMP-11; archived: v1:REQ-FND-04; v1:AC-FND-04 harness",
   "reqs": [
    "REQ-CMP-11"
   ],
@@ -434,7 +434,7 @@
   "priority": "P0",
   "test": "jest src/foundation/__tests__/parts-contract.test.tsx; self-test Probe passes, BadProbe reports both errors",
   "storybook": "consumes all stories of registered components",
-  "acceptance": "REQ-CMP-06, REQ-CMP-07; archived: REQ-FND-13, REQ-FND-14; AC-FND-04 harness",
+  "acceptance": "REQ-CMP-06, REQ-CMP-07; archived: v1:REQ-FND-13, v1:REQ-FND-14; v1:AC-FND-04 harness",
   "reqs": [
    "REQ-CMP-06",
    "REQ-CMP-07"
@@ -462,7 +462,7 @@
   "priority": "P0",
   "test": "node scripts/tokens/gates/literals.mjs --check exits 0; FND dirs at 0 in literals-baseline.json",
   "storybook": "n/a (stories are linted, not exempt)",
-  "acceptance": "REQ-CMP-08; archived: REQ-FND-08 (literal half, SC-17)",
+  "acceptance": "REQ-CMP-08; archived: v1:REQ-FND-08 (literal half, v1:SC-17)",
   "reqs": [
    "REQ-CMP-08"
   ],
@@ -485,7 +485,7 @@
   "priority": "P1",
   "test": "jest tests/lint/require-data-ag-part.test.js",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-06; archived: REQ-FND-13 (static half)",
+  "acceptance": "REQ-CMP-06; archived: v1:REQ-FND-13 (static half)",
   "reqs": [
    "REQ-CMP-06"
   ],
@@ -508,7 +508,7 @@
   "priority": "P1",
   "test": "tests/ci/verify-foundation-pattern.test.mjs fixture with one violation per pattern",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-08; archived: REQ-FND-08 (CSS half)",
+  "acceptance": "REQ-CMP-08; archived: v1:REQ-FND-08 (CSS half)",
   "reqs": [
    "REQ-CMP-08"
   ],
@@ -529,7 +529,7 @@
   "priority": "P0",
   "test": "node --test tests/ci/verify-foundation-pattern.test.mjs",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-05; archived: REQ-FND-07, REQ-FND-24 (check), PRD §18 no-skip rule",
+  "acceptance": "REQ-CMP-05; archived: v1:REQ-FND-07, v1:REQ-FND-24 (check), PRD §18 no-skip rule",
   "reqs": [
    "REQ-CMP-05"
   ],
@@ -565,7 +565,7 @@
   "priority": "P0",
   "test": "workflow run URL green on the 08a PR",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01, REQ-CMP-14; archived: AC-FND-03; REQ-FND-02; REQ-FND-09 (no-random-in-render enforced)",
+  "acceptance": "REQ-CMP-01, REQ-CMP-14; archived: v1:AC-FND-03; v1:REQ-FND-02; v1:REQ-FND-09 (no-random-in-render enforced)",
   "reqs": [
    "REQ-CMP-01",
    "REQ-CMP-14"
@@ -593,7 +593,7 @@
   "priority": "P0",
   "test": "jest tests/lint/no-forward-ref.test.js",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-03; archived: AC-FND-01",
+  "acceptance": "REQ-CMP-03; archived: v1:AC-FND-01",
   "reqs": [
    "REQ-CMP-03"
   ],
@@ -623,9 +623,9 @@
    "S-49"
   ],
   "priority": "P0",
-  "test": "foundation-pattern.yml eslint step green with 0 violations",
+  "test": "cmp:test:foundation-pattern job (ci/cmp.gitlab-ci.yml) eslint step green with 0 violations",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-03; archived: AC-FND-01",
+  "acceptance": "REQ-CMP-03; archived: v1:AC-FND-01",
   "reqs": [
    "REQ-CMP-03"
   ],
@@ -654,7 +654,7 @@
   "priority": "P0",
   "test": "src/primitives/Slot.react19.test.tsx (FND-030)",
   "storybook": "Foundation/Slot: Default, RTL",
-  "acceptance": "REQ-CMP-25; archived: REQ-FND-19; AC-FND-02",
+  "acceptance": "REQ-CMP-25; archived: v1:REQ-FND-19; v1:AC-FND-02",
   "reqs": [
    "REQ-CMP-25"
   ],
@@ -677,7 +677,7 @@
   "priority": "P0",
   "test": "jest src/primitives/Slot.react19.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-25; archived: REQ-FND-19; AC-FND-02",
+  "acceptance": "REQ-CMP-25; archived: v1:REQ-FND-19; v1:AC-FND-02",
   "reqs": [
    "REQ-CMP-25"
   ],
@@ -706,7 +706,7 @@
   "priority": "P0",
   "test": "tests/ssr/portal-hydration.test.tsx (FND-032)",
   "storybook": "Foundation/Portal: Default, ForcedColors",
-  "acceptance": "REQ-CMP-26; archived: REQ-FND-22",
+  "acceptance": "REQ-CMP-26; archived: v1:REQ-FND-22",
   "reqs": [
    "REQ-CMP-26"
   ],
@@ -729,7 +729,7 @@
   "priority": "P0",
   "test": "jest tests/ssr/portal-hydration.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-26; archived: REQ-FND-22",
+  "acceptance": "REQ-CMP-26; archived: v1:REQ-FND-22",
   "reqs": [
    "REQ-CMP-26"
   ],
@@ -756,7 +756,7 @@
   "priority": "P1",
   "test": "parts-contract + ref-forwarding harness entries for FocusScope; existing FocusScope behaviour tests still green",
   "storybook": "Foundation/FocusScope: Default, Keyboard (play: Tab loops)",
-  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: AC-FND-04 (primitives)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: v1:AC-FND-04 (primitives)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-28"
@@ -786,7 +786,7 @@
   "priority": "P1",
   "test": "NEW src/primitives/Label.test.tsx: required text exposed to AT, asterisk aria-hidden, data-disabled",
   "storybook": "Foundation/Label: Default, States (required, disabled), RTL",
-  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: AC-FND-04 (primitives); REQ-FND-20",
+  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: v1:AC-FND-04 (primitives); v1:REQ-FND-20",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-28"
@@ -802,7 +802,7 @@
   "system": "primitives/DismissableLayer",
   "file": "src/primitives/DismissableLayer.tsx",
   "action": "MODIFY",
-  "description": "Remove its own document keydown Escape listener; register via PRD-05 useLayer({kind, modal:false, onEscape}) in LayerStack (src/theme/layers/LayerStack.ts); keep local outside-pointer dismissal; restore focus to the element recorded at open; remove GlassDismissableLayer alias. Blocked (no local stack) if PRD-05 LayerStack is absent. SC-26: FND is the only creator/editor of DismissableLayer; it registers with LayerStack (A11Y-049) and keeps no document Escape listener (SC-25).",
+  "description": "Remove its own document keydown Escape listener; register via PRD-05 useLayer({kind, modal:false, onEscape}) in LayerStack (src/theme/layers/LayerStack.ts); keep local outside-pointer dismissal; restore focus to the element recorded at open; remove GlassDismissableLayer alias. Uses the frozen S-25 LayerStack seam (contract seed); never builds a local stack. SC-26: FND is the only creator/editor of DismissableLayer; it registers with LayerStack (A11Y-049) and keeps no document Escape listener (SC-25).",
   "depends_on": [],
   "contract_seams": [
    "S-20",
@@ -821,7 +821,7 @@
   "priority": "P0",
   "test": "src/primitives/DismissableLayer.stack.test.tsx (FND-036)",
   "storybook": "Foundation/DismissableLayer: Default, Stacked",
-  "acceptance": "REQ-CMP-27; archived: REQ-FND-21",
+  "acceptance": "REQ-CMP-27; archived: v1:REQ-FND-21",
   "reqs": [
    "REQ-CMP-27"
   ],
@@ -844,7 +844,7 @@
   "priority": "P0",
   "test": "jest src/primitives/DismissableLayer.stack.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-27; archived: REQ-FND-21",
+  "acceptance": "REQ-CMP-27; archived: v1:REQ-FND-21",
   "reqs": [
    "REQ-CMP-27"
   ],
@@ -871,7 +871,7 @@
   "priority": "P0",
   "test": "NEW src/primitives/VisuallyHidden.test.tsx (class + stylesheet text); computed styles in the FND-133 remote matrix",
   "storybook": "Foundation/VisuallyHidden: Default, Focusable (focused/unfocused), ForcedColors",
-  "acceptance": "REQ-CMP-29, REQ-CMP-05; archived: REQ-FND-23",
+  "acceptance": "REQ-CMP-29, REQ-CMP-05; archived: v1:REQ-FND-23",
   "reqs": [
    "REQ-CMP-29",
    "REQ-CMP-05"
@@ -903,7 +903,7 @@
   "priority": "P0",
   "test": "tests/exports/primitives-surface.test.ts (FND-041)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: REQ-FND-20",
+  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: v1:REQ-FND-20",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-28"
@@ -934,7 +934,7 @@
   "priority": "P0",
   "test": "parts-contract, ref-forwarding, portal-root harnesses green for the 6 primitives",
   "storybook": "Foundation/Slot, Foundation/Portal, Foundation/FocusScope, Foundation/Label, Foundation/DismissableLayer, Foundation/VisuallyHidden",
-  "acceptance": "REQ-CMP-23; archived: AC-FND-04 (6/6 primitives)",
+  "acceptance": "REQ-CMP-23; archived: v1:AC-FND-04 (6/6 primitives)",
   "reqs": [
    "REQ-CMP-23"
   ],
@@ -957,7 +957,7 @@
   "priority": "P0",
   "test": "runs after remote npm run build",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: REQ-FND-20",
+  "acceptance": "REQ-CMP-23, REQ-CMP-28; archived: v1:REQ-FND-20",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-28"
@@ -985,7 +985,7 @@
   "priority": "P1",
   "test": "src/icons/__tests__/icon-a11y.test.tsx (FND-049); per-glyph ≤1 KB gz in budget lane",
   "storybook": "Foundation/Icon: Default (glyph grid), Labelled, ForcedColors, RTL",
-  "acceptance": "REQ-CMP-30; archived: REQ-FND-40; AC-FND-06 (T0)",
+  "acceptance": "REQ-CMP-30; archived: v1:REQ-FND-40; v1:AC-FND-06 (T0)",
   "reqs": [
    "REQ-CMP-30"
   ],
@@ -1008,7 +1008,7 @@
   "priority": "P1",
   "test": "jest src/icons/__tests__/icon-a11y.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-30; archived: REQ-FND-40",
+  "acceptance": "REQ-CMP-30; archived: v1:REQ-FND-40",
   "reqs": [
    "REQ-CMP-30"
   ],
@@ -1032,7 +1032,7 @@
   "priority": "P1",
   "test": "NEW src/components/state-views/StateViews.test.tsx (roles, aria-busy)",
   "storybook": "Core/EmptyState, Core/ErrorState, Core/LoadingState: full §13 sets",
-  "acceptance": "REQ-CMP-118; archived: AC-FND-06; REQ-FND-30 (aria-busy container)",
+  "acceptance": "REQ-CMP-118; archived: v1:AC-FND-06; v1:REQ-FND-30 (aria-busy container)",
   "reqs": [
    "REQ-CMP-118"
   ],
@@ -1056,7 +1056,7 @@
   "priority": "P1",
   "test": "NEW src/components/steps/Steps.test.tsx; tests/a11y/apg/steps.apg.spec.ts (FND-066)",
   "storybook": "Core/Steps: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-48; archived: REQ-FND-37; AC-FND-06",
+  "acceptance": "REQ-CMP-48; archived: v1:REQ-FND-37; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-48"
   ],
@@ -1079,7 +1079,7 @@
   "priority": "P2",
   "test": "NEW src/components/avatar-group/AvatarGroup.test.tsx (overflow count + label)",
   "storybook": "Core/AvatarGroup: full §13 set",
-  "acceptance": "REQ-CMP-17; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -1105,7 +1105,7 @@
   "priority": "P0",
   "test": "jest tests/ssr/t2-server-safe.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: REQ-FND-54; AC-FND-06 (T0 SSR)",
+  "acceptance": "REQ-CMP-17; archived: v1:REQ-FND-54; v1:AC-FND-06 (T0 SSR)",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -1132,7 +1132,7 @@
   "priority": "P0",
   "test": "canaries/next16/tests/rsc.spec.ts (run in FND-140)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17, REQ-CMP-130; archived: REQ-FND-26; AC-FND-16",
+  "acceptance": "REQ-CMP-17, REQ-CMP-130; archived: v1:REQ-FND-26; v1:AC-FND-16",
   "reqs": [
    "REQ-CMP-17",
    "REQ-CMP-130"
@@ -1161,7 +1161,7 @@
   "priority": "P1",
   "test": "scripts/ci/verify-size-budgets.mjs (PRD-02) in the remote budget job",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: REQ-FND-53; AC-FND-10",
+  "acceptance": "REQ-CMP-136; archived: v1:REQ-FND-53; v1:AC-FND-10",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -1184,7 +1184,7 @@
   "priority": "P0",
   "test": "tests/exports/t2-surface.test.ts (FND-095)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: REQ-FND-25 (server set)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: v1:REQ-FND-25 (server set)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-02"
@@ -1210,9 +1210,9 @@
    "S-34"
   ],
   "priority": "P1",
-  "test": "gen-component-docs.mjs --check green in foundation-pattern.yml",
+  "test": "gen-component-docs.mjs --check green in the cmp:test:foundation-pattern GitLab job",
   "storybook": "Docs page per component",
-  "acceptance": "REQ-CMP-22; archived: REQ-FND-16",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-FND-16",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -1241,7 +1241,7 @@
   "priority": "P1",
   "test": "NEW src/components/chip/Chip.test.tsx; tests/a11y/apg/chip.apg.spec.ts (FND-089)",
   "storybook": "Core/Chip: full §13 set + Keyboard",
-  "acceptance": "archived: AC-FND-06; AC-FND-07",
+  "acceptance": "archived: v1:AC-FND-06; v1:AC-FND-07",
   "reqs": [],
   "branch": "next",
   "source": "FND-071",
@@ -1262,7 +1262,7 @@
   "priority": "P2",
   "test": "NEW src/components/key-value-editor/KeyValueEditor.test.tsx (duplicate key error, add/remove)",
   "storybook": "Core/KeyValueEditor: full §13 set + Keyboard",
-  "acceptance": "archived: REQ-FND-25 (./data); AC-FND-06",
+  "acceptance": "archived: v1:REQ-FND-25 (./data); v1:AC-FND-06",
   "reqs": [],
   "branch": "next",
   "source": "FND-080",
@@ -1283,7 +1283,7 @@
   "priority": "P1",
   "test": "NEW src/components/form/Form.test.tsx (focus-first-invalid, errors mapping)",
   "storybook": "Core/Form: full §13 set + Keyboard (submit invalid)",
-  "acceptance": "archived: AC-FND-06; AC-FND-04",
+  "acceptance": "archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [],
   "branch": "next",
   "source": "FND-083",
@@ -1305,7 +1305,7 @@
   "priority": "P0",
   "test": "runs after remote npm run build",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-97, REQ-CMP-131; archived: REQ-FND-25; REQ-FND-36",
+  "acceptance": "REQ-CMP-97, REQ-CMP-131; archived: v1:REQ-FND-25; v1:REQ-FND-36",
   "reqs": [
    "REQ-CMP-97",
    "REQ-CMP-131"
@@ -1340,7 +1340,7 @@
   "priority": "P0",
   "test": "tests/exports/t2-surface.test.ts (FND-095)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: REQ-FND-25 (interactive set)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: v1:REQ-FND-25 (interactive set)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-02"
@@ -1368,7 +1368,7 @@
   "priority": "P1",
   "test": "CI run of tests/compiler/react-compiler.fixture.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-24; archived: REQ-FND-55",
+  "acceptance": "REQ-CMP-24; archived: v1:REQ-FND-55",
   "reqs": [
    "REQ-CMP-24"
   ],
@@ -1398,7 +1398,7 @@
   "priority": "P1",
   "test": "scripts/ci/verify-size-budgets.mjs remote budget job",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: REQ-FND-53; AC-FND-10",
+  "acceptance": "REQ-CMP-136; archived: v1:REQ-FND-53; v1:AC-FND-10",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -1426,9 +1426,9 @@
    "S-38"
   ],
   "priority": "P0",
-  "test": "runs after remote build; red until PRD-18 compat exists (never skipped)",
+  "test": "runs after remote build; reports pending until the PLAT compat seam implementation merges (never skipped, never waited on)",
   "storybook": "Migration/<family> stories render adapter beside target",
-  "acceptance": "REQ-CMP-131, REQ-CMP-97; archived: AC-FND-12 (REQ-FND-43, REQ-FND-36)",
+  "acceptance": "REQ-CMP-131, REQ-CMP-97; archived: v1:AC-FND-12 (v1:REQ-FND-43, v1:REQ-FND-36)",
   "reqs": [
    "REQ-CMP-131",
    "REQ-CMP-97"
@@ -1456,7 +1456,7 @@
   "priority": "P0",
   "test": "root-export-count.test.ts --strict; package-exports.test.ts + .spec.mjs after remote build",
   "storybook": "remote Storybook build",
-  "acceptance": "REQ-CMP-17; archived: AC-FND-13 (REQ-FND-49)",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-FND-13 (v1:REQ-FND-49)",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -1487,7 +1487,7 @@
   "priority": "P1",
   "test": "node --test tests/ci/verify-selector-coverage.test.mjs; remote Storybook lane run URL",
   "storybook": "all owned stories",
-  "acceptance": "REQ-CMP-09, REQ-CMP-10; archived: REQ-FND-15",
+  "acceptance": "REQ-CMP-09, REQ-CMP-10; archived: v1:REQ-FND-15",
   "reqs": [
    "REQ-CMP-09",
    "REQ-CMP-10"
@@ -1514,7 +1514,7 @@
   "priority": "P0",
   "test": "lane run URL, cells pass/total",
   "storybook": "all Core/ stories",
-  "acceptance": "archived: AC-FND-06 (T2)",
+  "acceptance": "archived: v1:AC-FND-06 (T2)",
   "reqs": [],
   "branch": "next",
   "source": "FND-133",
@@ -1540,7 +1540,7 @@
   "priority": "P0",
   "test": "lane run URL, cells pass/total",
   "storybook": "Foundation/ stories of the six T0 components",
-  "acceptance": "archived: AC-FND-06 (T0)",
+  "acceptance": "archived: v1:AC-FND-06 (T0)",
   "reqs": [],
   "branch": "next",
   "source": "FND-134",
@@ -1559,7 +1559,7 @@
   "priority": "P0",
   "test": "APG lane run URL per engine",
   "storybook": "Keyboard stories",
-  "acceptance": "archived: AC-FND-07",
+  "acceptance": "archived: v1:AC-FND-07",
   "reqs": [],
   "branch": "next",
   "source": "FND-135",
@@ -1585,7 +1585,7 @@
   "priority": "P0",
   "test": "lane run URLs with counts",
   "storybook": "ForcedColors, ContrastMore, ReducedTransparency stories; composite T2 page story",
-  "acceptance": "archived: AC-FND-08; PRD §15 preference lanes, §16 blurred surfaces",
+  "acceptance": "archived: v1:AC-FND-08; PRD §15 preference lanes, §16 blurred surfaces",
   "reqs": [],
   "branch": "next",
   "source": "FND-136",
@@ -1611,7 +1611,7 @@
   "priority": "P0",
   "test": "OCR lane run URL; min ratio per story",
   "storybook": "all Core/ stories on the 8 scenes",
-  "acceptance": "archived: AC-FND-09",
+  "acceptance": "archived: v1:AC-FND-09",
   "reqs": [],
   "branch": "next",
   "source": "FND-137",
@@ -1643,7 +1643,7 @@
   "priority": "P0",
   "test": "perf lane + budget job run URLs",
   "storybook": "interaction stories for the four INP targets",
-  "acceptance": "archived: AC-FND-10",
+  "acceptance": "archived: v1:AC-FND-10",
   "reqs": [],
   "branch": "next",
   "source": "FND-138",
@@ -1671,7 +1671,7 @@
   "priority": "P0",
   "test": "lane run URLs for Button and Dialog; harness run",
   "storybook": "Button and Dialog stories (owned by PRD-08/09)",
-  "acceptance": "archived: AC-FND-05; AC-FND-04 (Button, Dialog)",
+  "acceptance": "archived: v1:AC-FND-05; v1:AC-FND-04 (Button, Dialog)",
   "reqs": [],
   "branch": "next",
   "source": "FND-139",
@@ -1710,7 +1710,7 @@
   "priority": "P0",
   "test": "canary run URL; AC table complete with links",
   "storybook": "n/a",
-  "acceptance": "archived: AC-FND-16; AC-FND-01..18 table (PRD §18 DoD)",
+  "acceptance": "archived: v1:AC-FND-16; v1:AC-FND-01..18 table (PRD §18 DoD)",
   "reqs": [],
   "branch": "next",
   "source": "FND-140",
@@ -1737,7 +1737,7 @@
   "priority": "P0",
   "test": "tsc -p tests/types/tsconfig.json; jest src/foundation/__tests__/prop-grammar.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-05, REQ-CMP-34; archived: REQ-FND-56",
+  "acceptance": "REQ-CMP-05, REQ-CMP-34; archived: v1:REQ-FND-56",
   "reqs": [
    "REQ-CMP-05",
    "REQ-CMP-34"
@@ -1765,7 +1765,7 @@
   "priority": "P0",
   "test": "MOT-096/097/101 on Button subjects; typecheck metadata",
   "storybook": "Button stories: rest, hover, press, focus, pressed-toggle, pointerLight with play functions",
-  "acceptance": "REQ-CMP-35, REQ-CMP-01; archived: AC-MOT-20 (Button)",
+  "acceptance": "REQ-CMP-35, REQ-CMP-01; archived: v1:AC-MOT-20 (Button)",
   "reqs": [
    "REQ-CMP-35",
    "REQ-CMP-01"
@@ -1792,7 +1792,7 @@
   "priority": "P0",
   "test": "src/components/button/Button.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Button",
-  "acceptance": "REQ-CMP-32, REQ-CMP-35; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-20..26, -176",
+  "acceptance": "REQ-CMP-32, REQ-CMP-35; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-20..26, -176",
   "reqs": [
    "REQ-CMP-32",
    "REQ-CMP-35"
@@ -1816,7 +1816,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Button Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-32; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-20..26, -176",
+  "acceptance": "REQ-CMP-32; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-20..26, -176",
   "reqs": [
    "REQ-CMP-32"
   ],
@@ -1839,7 +1839,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -1863,7 +1863,7 @@
   "priority": "P0",
   "test": "jest src/components/button",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-32; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-20..26, -176",
+  "acceptance": "REQ-CMP-32; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-20..26, -176",
   "reqs": [
    "REQ-CMP-32"
   ],
@@ -1890,7 +1890,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Button: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -1911,7 +1911,7 @@
   "priority": "P0",
   "test": "src/components/icon-button/IconButton.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/IconButton",
-  "acceptance": "REQ-CMP-36; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-27, -28",
+  "acceptance": "REQ-CMP-36; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-27, -28",
   "reqs": [
    "REQ-CMP-36"
   ],
@@ -1934,7 +1934,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "IconButton Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-36; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-27, -28",
+  "acceptance": "REQ-CMP-36; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-27, -28",
   "reqs": [
    "REQ-CMP-36"
   ],
@@ -1957,7 +1957,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -1981,7 +1981,7 @@
   "priority": "P0",
   "test": "jest src/components/icon-button",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-36; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-27, -28",
+  "acceptance": "REQ-CMP-36; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-27, -28",
   "reqs": [
    "REQ-CMP-36"
   ],
@@ -2008,7 +2008,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/IconButton: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-13; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-13; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-13"
   ],
@@ -2029,7 +2029,7 @@
   "priority": "P0",
   "test": "src/components/toolbar/Toolbar.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Toolbar",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-30..36, -163",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-30..36, -163",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -2054,7 +2054,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Toolbar Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-30..36, -163",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-30..36, -163",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -2079,7 +2079,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -2103,7 +2103,7 @@
   "priority": "P0",
   "test": "jest src/components/toolbar",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-30..36, -163",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-30..36, -163",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -2132,7 +2132,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Toolbar: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -2155,7 +2155,7 @@
   "priority": "P0",
   "test": "src/components/toolbar/ButtonGroup.test.tsx (role group with name; no tabindex management; renderToString without provider)",
   "storybook": "Flagships/Controls/ButtonGroup (Overview, Matrix, InContext)",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-30, -31",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-30, -31",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -2180,7 +2180,7 @@
   "priority": "P0",
   "test": "src/components/toolbar/ToggleGroup.test.tsx",
   "storybook": "Flagships/Controls/ToggleGroup (Overview, Matrix, Keyboard)",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-31, -32, -35",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-31, -32, -35",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -2205,7 +2205,7 @@
   "priority": "P2",
   "test": "src/components/toolbar/Toolbar.overflow.test.tsx (NEW) + remote controls-sizing.spec.ts 390px case",
   "storybook": "Toolbar InContext 390px",
-  "acceptance": "REQ-CMP-40; archived: REQ-CTL-163 (no AC; 5.1-eligible)",
+  "acceptance": "REQ-CMP-40; archived: v1:REQ-CTL-163 (no AC; 5.1-eligible)",
   "reqs": [
    "REQ-CMP-40"
   ],
@@ -2229,7 +2229,7 @@
   "priority": "P0",
   "test": "src/components/segmented-control/SegmentedControl.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/SegmentedControl",
-  "acceptance": "REQ-CMP-41; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-40..46, -164",
+  "acceptance": "REQ-CMP-41; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-40..46, -164",
   "reqs": [
    "REQ-CMP-41"
   ],
@@ -2252,7 +2252,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "SegmentedControl Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-41; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-40..46, -164",
+  "acceptance": "REQ-CMP-41; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-40..46, -164",
   "reqs": [
    "REQ-CMP-41"
   ],
@@ -2275,7 +2275,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -2299,7 +2299,7 @@
   "priority": "P0",
   "test": "jest src/components/segmented-control",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-41; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-40..46, -164",
+  "acceptance": "REQ-CMP-41; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-40..46, -164",
   "reqs": [
    "REQ-CMP-41"
   ],
@@ -2326,7 +2326,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/SegmentedControl: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
-  "acceptance": "REQ-CMP-03; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-03; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-03"
   ],
@@ -2351,7 +2351,7 @@
   "priority": "P0",
   "test": "controls-meta.test.ts; scripts/docs/gen-selectors.mjs (DX-105) exit 0; REL scripts/release/gen-deprecations.mjs --codemods (REL-070, SC-33) regenerates packages/cli/src/migrate/4to5/mappings/*.json without error",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-16, AC-CTL-20; REQ-CTL-17, -19",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-16, v1:AC-CTL-20; v1:REQ-CTL-17, -19",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -2372,7 +2372,7 @@
   "priority": "P1",
   "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
   "storybook": "removed 4.x stories gone from storybook index",
-  "acceptance": "archived: AC-CTL-15; PRD §20 step 8",
+  "acceptance": "archived: v1:AC-CTL-15; PRD §20 step 8",
   "reqs": [],
   "branch": "next",
   "source": "CTL-156",
@@ -2391,7 +2391,7 @@
   "priority": "P1",
   "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
   "storybook": "removed 4.x stories gone from storybook index",
-  "acceptance": "REQ-CMP-47; archived: AC-CTL-15; PRD §20 step 8",
+  "acceptance": "REQ-CMP-47; archived: v1:AC-CTL-15; PRD §20 step 8",
   "reqs": [
    "REQ-CMP-47"
   ],
@@ -2424,7 +2424,7 @@
   "priority": "P0",
   "test": "tests/storybook/story-contract.test.ts (Button)",
   "storybook": "Flagships/Controls/Button",
-  "acceptance": "REQ-CMP-01; archived: AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-15)",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-SB-05, v1:AC-SB-10 (v1:REQ-SB-12, v1:REQ-SB-15)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -2454,7 +2454,7 @@
   "priority": "P0",
   "test": "jest tests/controls/base-ui-parts.test.ts passes against the real installed package (no jest.mock)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01, REQ-CMP-69, REQ-CMP-32; archived: AC-CTL-01 prerequisite; REQ-CTL-01, REQ-CTL-120 gap rule",
+  "acceptance": "REQ-CMP-01, REQ-CMP-69, REQ-CMP-32; archived: v1:AC-CTL-01 prerequisite; v1:REQ-CTL-01, v1:REQ-CTL-120 gap rule",
   "reqs": [
    "REQ-CMP-01",
    "REQ-CMP-69",
@@ -2479,7 +2479,7 @@
   "priority": "P0",
   "test": "covered by controls-contract.test.tsx (data-ag-size on every root)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-21; archived: AC-CTL-03; REQ-CTL-05",
+  "acceptance": "REQ-CMP-21; archived: v1:AC-CTL-03; v1:REQ-CTL-05",
   "reqs": [
    "REQ-CMP-21"
   ],
@@ -2502,7 +2502,7 @@
   "priority": "P0",
   "test": "controls-contract.test.tsx: controlled->uncontrolled warns exactly once; production build path warns 0 times",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-04, REQ-CMP-02; archived: AC-CTL-03; REQ-CTL-03",
+  "acceptance": "REQ-CMP-04, REQ-CMP-02; archived: v1:AC-CTL-03; v1:REQ-CTL-03",
   "reqs": [
    "REQ-CMP-04",
    "REQ-CMP-02"
@@ -2534,7 +2534,7 @@
   "priority": "P1",
   "test": "NEW tests/controls/control-messages.test.tsx: provider override and prop override each win in that order; missing provider falls back to defaults",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-73; archived: AC-CTL-07 (accessible names); REQ-CTL-174",
+  "acceptance": "REQ-CMP-73; archived: v1:AC-CTL-07 (accessible names); v1:REQ-CTL-174",
   "reqs": [
    "REQ-CMP-73"
   ],
@@ -2557,7 +2557,7 @@
   "priority": "P0",
   "test": "controls-meta.test.ts type-checks every *.meta.ts against ControlMeta (tsc --noEmit)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -2592,7 +2592,7 @@
   "priority": "P0",
   "test": "controls-css.test.ts (layer, 0 !important, 0 transition: all); controls-sizing.spec.ts, controls-focus.spec.ts, controls-motion.spec.ts (remote)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-21; archived: AC-CTL-05, AC-CTL-09, AC-CTL-10; REQ-CTL-05, -06, -09, -10, -11, -12",
+  "acceptance": "REQ-CMP-21; archived: v1:AC-CTL-05, v1:AC-CTL-09, v1:AC-CTL-10; v1:REQ-CTL-05, -06, -09, -10, -11, -12",
   "reqs": [
    "REQ-CMP-21"
   ],
@@ -2621,7 +2621,7 @@
   "priority": "P0",
   "test": "src/components/field/Field.test.tsx; tests/controls/field-shell.test.tsx",
   "storybook": "Flagships/Controls/Field (Overview, Matrix, Density, InContext)",
-  "acceptance": "REQ-CMP-57; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-90, -93, -94, -175",
+  "acceptance": "REQ-CMP-57; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-90, -93, -94, -175",
   "reqs": [
    "REQ-CMP-57"
   ],
@@ -2644,7 +2644,7 @@
   "priority": "P0",
   "test": "src/components/field/Fieldset.test.tsx (legend names the group: getByRole('group', { name }))",
   "storybook": "Flagships/Controls/Fieldset (Overview, InContext settings form)",
-  "acceptance": "REQ-CMP-57; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-90",
+  "acceptance": "REQ-CMP-57; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-90",
   "reqs": [
    "REQ-CMP-57"
   ],
@@ -2667,7 +2667,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts (no @base-ui symbol, @tier Certified present)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01; archived: AC-CTL-02; REQ-CTL-01, -04",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-CTL-02; v1:REQ-CTL-01, -04",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -2691,7 +2691,7 @@
   "priority": "P0",
   "test": "controls-meta.test.ts",
   "storybook": "drives Field Matrix story",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -2715,7 +2715,7 @@
   "priority": "P0",
   "test": "controls-css.test.ts; controls-matrix.visual.spec.ts (error text >=4.5:1 in 8 scenes, remote)",
   "storybook": "Field Matrix (invalid column)",
-  "acceptance": "REQ-CMP-61; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-95, -96, -160, -172",
+  "acceptance": "REQ-CMP-61; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-95, -96, -160, -172",
   "reqs": [
    "REQ-CMP-61"
   ],
@@ -2740,7 +2740,7 @@
   "priority": "P0",
   "test": "controls-ssr.test.tsx imports the family index from a server-module context without error",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01, AC-CTL-12; REQ-CTL-14",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01, v1:AC-CTL-12; v1:REQ-CTL-14",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -2763,7 +2763,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts lists Field and Fieldset with @tier Certified; root export count stays <=160 (D-15, PRD-FND root-export-count.test.ts)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -2787,7 +2787,7 @@
   "priority": "P0",
   "test": "jest src/components/field",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-58; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-93, -94, -175",
+  "acceptance": "REQ-CMP-58; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-93, -94, -175",
   "reqs": [
    "REQ-CMP-58"
   ],
@@ -2814,7 +2814,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) renders every story without console error",
   "storybook": "Flagships/Controls/Field and Flagships/Controls/Fieldset per PRD §13 items 1-4, 6, 7, 9",
-  "acceptance": "REQ-CMP-01; archived: AC-CTL-19 input; PRD §13",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-CTL-19 input; PRD §13",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -2837,7 +2837,7 @@
   "priority": "P0",
   "test": "NEW tests/controls/families.test.ts: registry entries == *.meta.ts files under $CONTROLS",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-139; archived: AC-CTL-03 (coverage of 100% of families)",
+  "acceptance": "REQ-CMP-139; archived: v1:AC-CTL-03 (coverage of 100% of families)",
   "reqs": [
    "REQ-CMP-139"
   ],
@@ -2861,7 +2861,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-contract.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-06; archived: AC-CTL-03; REQ-CTL-02, -03, -10",
+  "acceptance": "REQ-CMP-06; archived: v1:AC-CTL-03; v1:REQ-CTL-02, -03, -10",
   "reqs": [
    "REQ-CMP-06"
   ],
@@ -2884,7 +2884,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-hooks.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-15; archived: AC-CTL-04; REQ-CTL-08, -94",
+  "acceptance": "REQ-CMP-15; archived: v1:AC-CTL-04; v1:REQ-CTL-08, -94",
   "reqs": [
    "REQ-CMP-15"
   ],
@@ -2907,7 +2907,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-side-effects.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-16; archived: AC-CTL-14 input; REQ-CTL-13",
+  "acceptance": "REQ-CMP-16; archived: v1:AC-CTL-14 input; v1:REQ-CTL-13",
   "reqs": [
    "REQ-CMP-16"
   ],
@@ -2930,7 +2930,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-ssr.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-12; REQ-CTL-14",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-12; v1:REQ-CTL-14",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -2957,7 +2957,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-api-report.test.ts (runs after the API report job, remote build artifact)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01; archived: AC-CTL-01, AC-CTL-02; REQ-CTL-01, -04",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-CTL-01, v1:AC-CTL-02; v1:REQ-CTL-01, -04",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -2983,7 +2983,7 @@
   "priority": "P1",
   "test": "node scripts/docs/gen-selectors.mjs (DX-105) exits 0 over $CONTROLS; controls-meta.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-20; REQ-CTL-17",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-20; v1:REQ-CTL-17",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3007,7 +3007,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-meta.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-20; REQ-CTL-15, -17",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-20; v1:REQ-CTL-15, -17",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3031,7 +3031,7 @@
   "priority": "P0",
   "test": "jest tests/controls/controls-css.test.ts against the remote build artifact",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-08, REQ-CMP-03; archived: AC-CTL-05; REQ-CTL-07, -09, -16",
+  "acceptance": "REQ-CMP-08, REQ-CMP-03; archived: v1:AC-CTL-05; v1:REQ-CTL-07, -09, -16",
   "reqs": [
    "REQ-CMP-08",
    "REQ-CMP-03"
@@ -3047,7 +3047,7 @@
   "system": "test suite",
   "file": "NEW:tests/controls/field-shell.test.tsx",
   "action": "TEST",
-  "description": "Field wiring for TextField, NumberField, Select trigger, Combobox input, Switch, Checkbox: Field.Label for/id (or aria-labelledby for non-input roots); aria-describedby = description id then error id; aria-invalid=\"true\" when error set. Each control case is added by the wave that ships the control; the aura-glass/date DateField case is added in PROMPT_09e (CTL lane task) once PRD-DATA ships ./date. No case is skipped.",
+  "description": "Field wiring for TextField, NumberField, Select trigger, Combobox input, Switch, Checkbox: Field.Label for/id (or aria-labelledby for non-input roots); aria-describedby = description id then error id; aria-invalid=\"true\" when error set. Each control case is added by the CMP lane that ships the control; the aura-glass/date DateField case is added in PROMPT_09e (CTL lane task) as soon as SURF's ./date export is present on next (reported pending until then; nothing waits). No case is skipped.",
   "depends_on": [
    "CMP-100",
    "CMP-109"
@@ -3056,7 +3056,7 @@
   "priority": "P0",
   "test": "jest tests/controls/field-shell.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-57; archived: AC-CTL-01 (date half later), AC-CTL-03; REQ-CTL-90..95",
+  "acceptance": "REQ-CMP-57; archived: v1:AC-CTL-01 (date half later), v1:AC-CTL-03; v1:REQ-CTL-90..95",
   "reqs": [
    "REQ-CMP-57"
   ],
@@ -3093,7 +3093,7 @@
   "priority": "P0",
   "test": "npm run lint:check reports 0 errors in $CONTROLS; NEW tests/lint/controls-guard.test.js asserts the $CONTROLS block enables each listed rule (rules are tested by their owners)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-08, REQ-CMP-03; archived: AC-CTL-04, AC-CTL-05; REQ-CTL-07, -08",
+  "acceptance": "REQ-CMP-08, REQ-CMP-03; archived: v1:AC-CTL-04, v1:AC-CTL-05; v1:REQ-CTL-07, -08",
   "reqs": [
    "REQ-CMP-08",
    "REQ-CMP-03"
@@ -3123,7 +3123,7 @@
   "priority": "P1",
   "test": "workflow run URL with all steps green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-141; archived: AC-CTL-03/04/05/12 evidence (D-32 CI artifacts)",
+  "acceptance": "REQ-CMP-141; archived: v1:AC-CTL-03/04/05/12 evidence (D-32 CI artifacts)",
   "reqs": [
    "REQ-CMP-141"
   ],
@@ -3149,7 +3149,7 @@
   "priority": "P0",
   "test": "src/components/checkbox/Checkbox.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Checkbox",
-  "acceptance": "REQ-CMP-52; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-70..75",
+  "acceptance": "REQ-CMP-52; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-70..75",
   "reqs": [
    "REQ-CMP-52"
   ],
@@ -3172,7 +3172,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Checkbox Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-52, REQ-CMP-20; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-70..75",
+  "acceptance": "REQ-CMP-52, REQ-CMP-20; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-70..75",
   "reqs": [
    "REQ-CMP-52",
    "REQ-CMP-20"
@@ -3198,7 +3198,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3222,7 +3222,7 @@
   "priority": "P0",
   "test": "jest src/components/checkbox",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-52; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-70..75",
+  "acceptance": "REQ-CMP-52; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-70..75",
   "reqs": [
    "REQ-CMP-52"
   ],
@@ -3249,7 +3249,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Checkbox: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -3275,7 +3275,7 @@
   "priority": "P0",
   "test": "src/components/radio-group/RadioGroup.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/RadioGroup",
-  "acceptance": "REQ-CMP-55; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-80..84",
+  "acceptance": "REQ-CMP-55; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-80..84",
   "reqs": [
    "REQ-CMP-55"
   ],
@@ -3298,7 +3298,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "RadioGroup Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-55, REQ-CMP-20; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-80..84",
+  "acceptance": "REQ-CMP-55, REQ-CMP-20; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-80..84",
   "reqs": [
    "REQ-CMP-55",
    "REQ-CMP-20"
@@ -3324,7 +3324,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3348,7 +3348,7 @@
   "priority": "P0",
   "test": "jest src/components/radio-group",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-55; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-80..84",
+  "acceptance": "REQ-CMP-55; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-80..84",
   "reqs": [
    "REQ-CMP-55"
   ],
@@ -3375,7 +3375,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/RadioGroup: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -3401,7 +3401,7 @@
   "priority": "P0",
   "test": "src/components/switch/Switch.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Switch",
-  "acceptance": "REQ-CMP-45; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-50..55",
+  "acceptance": "REQ-CMP-45; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-50..55",
   "reqs": [
    "REQ-CMP-45"
   ],
@@ -3424,7 +3424,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Switch Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-45; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-50..55",
+  "acceptance": "REQ-CMP-45; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-50..55",
   "reqs": [
    "REQ-CMP-45"
   ],
@@ -3449,7 +3449,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3473,7 +3473,7 @@
   "priority": "P0",
   "test": "jest src/components/switch",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-45; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-50..55",
+  "acceptance": "REQ-CMP-45; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-50..55",
   "reqs": [
    "REQ-CMP-45"
   ],
@@ -3500,7 +3500,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Switch: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -3526,7 +3526,7 @@
   "priority": "P0",
   "test": "src/components/text-field/TextField.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/TextField",
-  "acceptance": "REQ-CMP-60; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-91..98, -160, -165",
+  "acceptance": "REQ-CMP-60; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-91..98, -160, -165",
   "reqs": [
    "REQ-CMP-60"
   ],
@@ -3549,7 +3549,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "TextField Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-60; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-91..98, -160, -165",
+  "acceptance": "REQ-CMP-60; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-91..98, -160, -165",
   "reqs": [
    "REQ-CMP-60"
   ],
@@ -3574,7 +3574,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3598,7 +3598,7 @@
   "priority": "P0",
   "test": "jest src/components/text-field",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-60; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-91..98, -160, -165",
+  "acceptance": "REQ-CMP-60; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-91..98, -160, -165",
   "reqs": [
    "REQ-CMP-60"
   ],
@@ -3625,7 +3625,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/TextField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-31; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-31; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-31"
   ],
@@ -3648,7 +3648,7 @@
   "priority": "P0",
   "test": "jest tests/controls/text-field-ime.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-62; archived: AC-CTL-03; REQ-CTL-97",
+  "acceptance": "REQ-CMP-62; archived: v1:AC-CTL-03; v1:REQ-CTL-97",
   "reqs": [
    "REQ-CMP-62"
   ],
@@ -3674,7 +3674,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts; PRD-FND root-export-count.test.ts (<=160)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -3700,7 +3700,7 @@
   "priority": "P0",
   "test": "src/components/search-field/SearchField.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/SearchField",
-  "acceptance": "REQ-CMP-63; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-100..104, -165, -176",
+  "acceptance": "REQ-CMP-63; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-100..104, -165, -176",
   "reqs": [
    "REQ-CMP-63"
   ],
@@ -3723,7 +3723,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "SearchField Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-63; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-100..104, -165, -176",
+  "acceptance": "REQ-CMP-63; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-100..104, -165, -176",
   "reqs": [
    "REQ-CMP-63"
   ],
@@ -3748,7 +3748,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3772,7 +3772,7 @@
   "priority": "P0",
   "test": "jest src/components/search-field",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-63; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-100..104, -165, -176",
+  "acceptance": "REQ-CMP-63; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-100..104, -165, -176",
   "reqs": [
    "REQ-CMP-63"
   ],
@@ -3799,7 +3799,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/SearchField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-12; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-12; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-12"
   ],
@@ -3822,7 +3822,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts; root-export-count.test.ts (<=160)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -3850,7 +3850,7 @@
   "priority": "P0",
   "test": "src/components/slider/Slider.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Slider",
-  "acceptance": "REQ-CMP-48; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-60..66, -166",
+  "acceptance": "REQ-CMP-48; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-60..66, -166",
   "reqs": [
    "REQ-CMP-48"
   ],
@@ -3873,7 +3873,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Slider Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-48; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-60..66, -166",
+  "acceptance": "REQ-CMP-48; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-60..66, -166",
   "reqs": [
    "REQ-CMP-48"
   ],
@@ -3898,7 +3898,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -3922,7 +3922,7 @@
   "priority": "P0",
   "test": "jest src/components/slider",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-48; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-60..66, -166",
+  "acceptance": "REQ-CMP-48; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-60..66, -166",
   "reqs": [
    "REQ-CMP-48"
   ],
@@ -3949,7 +3949,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Slider: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -3975,7 +3975,7 @@
   "priority": "P0",
   "test": "src/components/number-field/NumberField.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/NumberField",
-  "acceptance": "REQ-CMP-75; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-130..134",
+  "acceptance": "REQ-CMP-75; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-130..134",
   "reqs": [
    "REQ-CMP-75"
   ],
@@ -3998,7 +3998,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "NumberField Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-75; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-130..134",
+  "acceptance": "REQ-CMP-75; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-130..134",
   "reqs": [
    "REQ-CMP-75"
   ],
@@ -4023,7 +4023,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -4047,7 +4047,7 @@
   "priority": "P0",
   "test": "jest src/components/number-field",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-75; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-130..134",
+  "acceptance": "REQ-CMP-75; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-130..134",
   "reqs": [
    "REQ-CMP-75"
   ],
@@ -4074,7 +4074,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/NumberField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -4097,7 +4097,7 @@
   "priority": "P0",
   "test": "jest tests/controls/number-field-format.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-75; archived: AC-CTL-03; REQ-CTL-131..134",
+  "acceptance": "REQ-CMP-75; archived: v1:AC-CTL-03; v1:REQ-CTL-131..134",
   "reqs": [
    "REQ-CMP-75"
   ],
@@ -4118,7 +4118,7 @@
   "priority": "P0",
   "test": "jest tests/controls/select-form.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-68; archived: AC-CTL-03; REQ-CTL-116",
+  "acceptance": "REQ-CMP-68; archived: v1:AC-CTL-03; v1:REQ-CTL-116",
   "reqs": [
    "REQ-CMP-68"
   ],
@@ -4139,7 +4139,7 @@
   "priority": "P0",
   "test": "jest tests/controls/combobox-async.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-71; archived: AC-CTL-03; REQ-CTL-124, -125, -127, -128, -129",
+  "acceptance": "REQ-CMP-71; archived: v1:AC-CTL-03; v1:REQ-CTL-124, -125, -127, -128, -129",
   "reqs": [
    "REQ-CMP-71"
   ],
@@ -4163,7 +4163,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts; root-export-count.test.ts (<=160)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -4190,7 +4190,7 @@
   "priority": "P0",
   "test": "remote: playwright test --list --project=controls-chromium lists the 11 APG specs + 5 controls specs; local run without AG_REMOTE_RUNNER exits with \"remote-only\"",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-138; archived: AC-CTL-06 lane wiring",
+  "acceptance": "REQ-CMP-138; archived: v1:AC-CTL-06 lane wiring",
   "reqs": [
    "REQ-CMP-138"
   ],
@@ -4216,7 +4216,7 @@
   "priority": "P0",
   "test": "Storybook test runner renders it; used by controls-nesting, controls-perf, controls-matrix specs",
   "storybook": "Flagships/Controls/DenseForm (Overview, Open)",
-  "acceptance": "archived: AC-CTL-11, AC-CTL-14 subject",
+  "acceptance": "archived: v1:AC-CTL-11, v1:AC-CTL-14 subject",
   "reqs": [],
   "branch": "next",
   "source": "CTL-122",
@@ -4242,7 +4242,7 @@
   "priority": "P0",
   "test": "remote: node scripts/ci/verify-size-budgets.mjs against the packed tarball; tests/perf/size-budgets.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22, REQ-CMP-136; archived: AC-CTL-13",
+  "acceptance": "REQ-CMP-22, REQ-CMP-136; archived: v1:AC-CTL-13",
   "reqs": [
    "REQ-CMP-22",
    "REQ-CMP-136"
@@ -4272,7 +4272,7 @@
   "priority": "P0",
   "test": "remote: verify-size-budgets.mjs green with all control rows hard",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22, REQ-CMP-136; archived: AC-CTL-13, AC-CTL-14",
+  "acceptance": "REQ-CMP-22, REQ-CMP-136; archived: v1:AC-CTL-13, v1:AC-CTL-14",
   "reqs": [
    "REQ-CMP-22",
    "REQ-CMP-136"
@@ -4288,7 +4288,7 @@
   "system": "flagship 14 contract",
   "file": "tests/controls/field-shell.test.tsx",
   "action": "TEST",
-  "description": "Add the aura-glass/date cases: DateField, TimeField, DatePicker, DateRangePicker use Field.Root/Label/Description/Error wiring and render data-ag-part control-shell, segment (role spinbutton), trigger (\"Open calendar\"), popup, calendar, grid, cell; value/defaultValue/onValueChange contract with CalendarDate/Time/{start,end}; also add them to controls-sizing.spec.ts and controls-focus.spec.ts subjects. Requires PRD-DATA ./date; if absent the cases fail (no skip) and the report marks AC-CTL-01 date half blocked on PRD-DATA. (Cross-lane input 3i-Q is consumed through its frozen interface, never waited for.)",
+  "description": "Add the aura-glass/date cases: DateField, TimeField, DatePicker, DateRangePicker use Field.Root/Label/Description/Error wiring and render data-ag-part control-shell, segment (role spinbutton), trigger (\"Open calendar\"), popup, calendar, grid, cell; value/defaultValue/onValueChange contract with CalendarDate/Time/{start,end}; also add them to controls-sizing.spec.ts and controls-focus.spec.ts subjects. Requires PRD-DATA ./date; if absent the cases fail (no skip) and the report marks AC-CTL-01 date half pending (SURF ./date not yet merged; contract seam). (Cross-lane input 3i-Q is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-118"
   ],
@@ -4299,7 +4299,7 @@
   "priority": "P1",
   "test": "jest tests/controls/field-shell.test.tsx (date describe) + remote sizing/focus specs",
   "storybook": "n/a (PRD-DATA owns date stories)",
-  "acceptance": "REQ-CMP-22, REQ-CMP-58; archived: AC-CTL-01 (date half); REQ-CTL-150..152",
+  "acceptance": "REQ-CMP-22, REQ-CMP-58; archived: v1:AC-CTL-01 (date half); v1:REQ-CTL-150..152",
   "reqs": [
    "REQ-CMP-22",
    "REQ-CMP-58"
@@ -4328,7 +4328,7 @@
   "priority": "P1",
   "test": "remote canary job green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17, REQ-CMP-130; archived: PRD §12.4; AC-CTL-13 (Button gzip)",
+  "acceptance": "REQ-CMP-17, REQ-CMP-130; archived: PRD §12.4; v1:AC-CTL-13 (Button gzip)",
   "reqs": [
    "REQ-CMP-17",
    "REQ-CMP-130"
@@ -4350,7 +4350,7 @@
   "priority": "P1",
   "test": "review-record.json exists in the RC artifacts with a human GitHub login",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-139; archived: AC-CTL-19; REQ-CTL-154",
+  "acceptance": "REQ-CMP-139; archived: v1:AC-CTL-19; v1:REQ-CTL-154",
   "reqs": [
    "REQ-CMP-139"
   ],
@@ -4373,7 +4373,7 @@
   "priority": "P1",
   "test": "PRD-DATA suite consumes it (AURAGLASS_DATA_PRD.md §6); JSON schema check in controls-meta.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-01; archived: REQ-CTL-153",
+  "acceptance": "REQ-CMP-01; archived: v1:REQ-CTL-153",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -4394,7 +4394,7 @@
   "priority": "P0",
   "test": "jest tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -4417,7 +4417,7 @@
   "priority": "P0",
   "test": "controls-api-report.test.ts; PRD-FND root-export-count.test.ts; classify-change.mjs (PRD-REL) green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: AC-CTL-01, AC-CTL-15",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-CTL-01, v1:AC-CTL-15",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -4441,7 +4441,7 @@
   "priority": "P1",
   "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
   "storybook": "removed 4.x stories gone from storybook index",
-  "acceptance": "REQ-CMP-60; archived: AC-CTL-15; PRD §20 step 8",
+  "acceptance": "REQ-CMP-60; archived: v1:AC-CTL-15; PRD §20 step 8",
   "reqs": [
    "REQ-CMP-60"
   ],
@@ -4474,7 +4474,7 @@
   "priority": "P0",
   "test": "every AC-CTL row green on the same SHA",
   "storybook": "all Flagships/Controls/* stories",
-  "acceptance": "archived: AC-CTL-01..20",
+  "acceptance": "archived: v1:AC-CTL-01..20",
   "reqs": [],
   "branch": "next",
   "source": "CTL-162",
@@ -4501,7 +4501,7 @@
   "priority": "P0",
   "test": "src/components/select/Select.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Select",
-  "acceptance": "REQ-CMP-65; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-110..116, -161, -162",
+  "acceptance": "REQ-CMP-65; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-110..116, -161, -162",
   "reqs": [
    "REQ-CMP-65"
   ],
@@ -4524,7 +4524,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Select Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-65; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-110..116, -161, -162",
+  "acceptance": "REQ-CMP-65; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-110..116, -161, -162",
   "reqs": [
    "REQ-CMP-65"
   ],
@@ -4547,7 +4547,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -4571,7 +4571,7 @@
   "priority": "P0",
   "test": "jest src/components/select",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-65; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-110..116, -161, -162",
+  "acceptance": "REQ-CMP-65; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-110..116, -161, -162",
   "reqs": [
    "REQ-CMP-65"
   ],
@@ -4598,7 +4598,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Select: Overview, Matrix, Density, Keyboard, InContext, Preferences",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -4627,7 +4627,7 @@
   "priority": "P0",
   "test": "src/components/combobox/Combobox.test.tsx; tests/controls/controls-contract.test.tsx",
   "storybook": "Flagships/Controls/Combobox",
-  "acceptance": "REQ-CMP-69; archived: AC-CTL-01, AC-CTL-03; REQ-CTL-120..127, -161, -162, -167",
+  "acceptance": "REQ-CMP-69; archived: v1:AC-CTL-01, v1:AC-CTL-03; v1:REQ-CTL-120..127, -161, -162, -167",
   "reqs": [
    "REQ-CMP-69"
   ],
@@ -4650,7 +4650,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
   "storybook": "Combobox Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-69; archived: AC-CTL-05, AC-CTL-08; REQ-CTL-120..127, -161, -162, -167",
+  "acceptance": "REQ-CMP-69; archived: v1:AC-CTL-05, v1:AC-CTL-08; v1:REQ-CTL-120..127, -161, -162, -167",
   "reqs": [
    "REQ-CMP-69"
   ],
@@ -4673,7 +4673,7 @@
   "priority": "P0",
   "test": "tests/controls/controls-meta.test.ts; families.test.ts",
   "storybook": "drives Matrix and argTypes",
-  "acceptance": "REQ-CMP-22; archived: AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-CTL-03, v1:AC-CTL-20; v1:REQ-CTL-15",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -4697,7 +4697,7 @@
   "priority": "P0",
   "test": "jest src/components/combobox",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-69; archived: AC-CTL-03, AC-CTL-04; REQ-CTL-120..127, -161, -162, -167",
+  "acceptance": "REQ-CMP-69; archived: v1:AC-CTL-03, v1:AC-CTL-04; v1:REQ-CTL-120..127, -161, -162, -167",
   "reqs": [
    "REQ-CMP-69"
   ],
@@ -4724,7 +4724,7 @@
   "priority": "P1",
   "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
   "storybook": "Flagships/Controls/Combobox: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
-  "acceptance": "REQ-CMP-01; archived: PRD §13; AC-CTL-19 input",
+  "acceptance": "REQ-CMP-01; archived: PRD §13; v1:AC-CTL-19 input",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -4751,7 +4751,7 @@
   "priority": "P0",
   "test": "tests/controls/combobox-async.test.tsx (virtualization cases); remote controls-perf.spec.ts 10,000-item case <=60 option nodes",
   "storybook": "Combobox story \"LargeList\" (10,000 items)",
-  "acceptance": "REQ-CMP-72; archived: AC-CTL-03, AC-CTL-13, AC-CTL-14; REQ-CTL-125",
+  "acceptance": "REQ-CMP-72; archived: v1:AC-CTL-03, v1:AC-CTL-13, v1:AC-CTL-14; v1:REQ-CTL-125",
   "reqs": [
    "REQ-CMP-72"
   ],
@@ -4774,7 +4774,7 @@
   "priority": "P0",
   "test": "tests/controls/combobox-async.test.tsx (loadOptions and autocomplete cases)",
   "storybook": "Combobox stories \"AsyncSearch\" and \"Autocomplete\"",
-  "acceptance": "REQ-CMP-71; archived: AC-CTL-03, AC-CTL-13; REQ-CTL-124, -128",
+  "acceptance": "REQ-CMP-71; archived: v1:AC-CTL-03, v1:AC-CTL-13; v1:REQ-CTL-124, -128",
   "reqs": [
    "REQ-CMP-71"
   ],
@@ -4797,7 +4797,7 @@
   "priority": "P0",
   "test": "tests/controls/combobox-async.test.tsx (creatable cases)",
   "storybook": "Combobox story \"CreatableTags\" (multiple creatable)",
-  "acceptance": "REQ-CMP-74; archived: AC-CTL-03; REQ-CTL-129",
+  "acceptance": "REQ-CMP-74; archived: v1:AC-CTL-03; v1:REQ-CTL-129",
   "reqs": [
    "REQ-CMP-74"
   ],
@@ -4818,7 +4818,7 @@
   "priority": "P1",
   "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
   "storybook": "removed 4.x stories gone from storybook index",
-  "acceptance": "archived: AC-CTL-15; PRD §20 step 8",
+  "acceptance": "archived: v1:AC-CTL-15; PRD §20 step 8",
   "reqs": [],
   "branch": "next",
   "source": "CTL-159",
@@ -4843,7 +4843,7 @@
   "priority": "P0",
   "test": "MOT-096/097/101/106 on Dialog subjects",
   "storybook": "Dialog stories: open, close, nested AlertDialog over Dialog, Escape, with play functions",
-  "acceptance": "REQ-CMP-01; archived: AC-MOT-20 (Dialog)",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-MOT-20 (Dialog)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -4866,7 +4866,7 @@
   "priority": "P1",
   "test": "./node_modules/.bin/jest src/components/modal/__tests__/overlay-deprecations-4x.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-132; archived: AC-OVL-16 (REQ-OVL-73/-74)",
+  "acceptance": "REQ-CMP-132; archived: v1:AC-OVL-16 (v1:REQ-OVL-73/-74)",
   "reqs": [
    "REQ-CMP-132"
   ],
@@ -4895,7 +4895,7 @@
   "priority": "P0",
   "test": "overlay-layer.test.tsx 'portals into provider root', 'fallback warns once'",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-11; archived: REQ-OVL-01 (AC-OVL-07 precondition)",
+  "acceptance": "REQ-CMP-11; archived: v1:REQ-OVL-01 (v1:AC-OVL-07 precondition)",
   "reqs": [
    "REQ-CMP-11"
   ],
@@ -4921,7 +4921,7 @@
   "priority": "P0",
   "test": "popup-contract.test.tsx material attribute rows; unit table test in overlay-dom-contract.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-85; archived: REQ-OVL-14, §11.2 thickness (AC-OVL-01)",
+  "acceptance": "REQ-CMP-85; archived: v1:REQ-OVL-14, §11.2 thickness (v1:AC-OVL-01)",
   "reqs": [
    "REQ-CMP-85"
   ],
@@ -4948,7 +4948,7 @@
   "priority": "P0",
   "test": "popup-contract.test.tsx asserts props reach Base UI Positioner (data-side present, offset)",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-85, REQ-CMP-97; archived: REQ-OVL-14, REQ-OVL-41",
+  "acceptance": "REQ-CMP-85, REQ-CMP-97; archived: v1:REQ-OVL-14, v1:REQ-OVL-41",
   "reqs": [
    "REQ-CMP-85",
    "REQ-CMP-97"
@@ -4979,7 +4979,7 @@
   "priority": "P0",
   "test": "overlay-a11y-modes.spec.ts forced colors count 0; overlays-dialog-perf.spec.ts 'scrim count and radius'",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-79; archived: REQ-OVL-04, -09, -12 (AC-OVL-01, AC-OVL-08)",
+  "acceptance": "REQ-CMP-79; archived: v1:REQ-OVL-04, -09, -12 (v1:AC-OVL-01, v1:AC-OVL-08)",
   "reqs": [
    "REQ-CMP-79"
   ],
@@ -5002,7 +5002,7 @@
   "priority": "P1",
   "test": "overlay-motion.spec.ts 'will-change auto at rest'",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-83; archived: REQ-OVL-09",
+  "acceptance": "REQ-CMP-83; archived: v1:REQ-OVL-09",
   "reqs": [
    "REQ-CMP-83"
   ],
@@ -5031,7 +5031,7 @@
   "priority": "P0",
   "test": "overlay-stack.spec.ts T-OVL-STACK-01 one layer per Escape (OVL-095); overlay-layer.test.tsx 'registers with LayerStack'",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-80; archived: REQ-OVL-03 (AC-OVL-07)",
+  "acceptance": "REQ-CMP-80; archived: v1:REQ-OVL-03 (v1:AC-OVL-07)",
   "reqs": [
    "REQ-CMP-80"
   ],
@@ -5056,7 +5056,7 @@
   "priority": "P0",
   "test": "lint-overlays.test.ts invalid fixtures per event type + body.style.overflow",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-12; archived: AC-OVL-12 (REQ-OVL-02)",
+  "acceptance": "REQ-CMP-12; archived: v1:AC-OVL-12 (v1:REQ-OVL-02)",
   "reqs": [
    "REQ-CMP-12"
   ],
@@ -5081,7 +5081,7 @@
   "priority": "P0",
   "test": "eslint --print-config src/components/dialog/Dialog.client.tsx shows auraglass/no-random-in-render at error; lint-overlays.test.ts fixture with Date.now() in render fails lint",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-14; archived: AC-OVL-12 (REQ-OVL-10)",
+  "acceptance": "REQ-CMP-14; archived: v1:AC-OVL-12 (v1:REQ-OVL-10)",
   "reqs": [
    "REQ-CMP-14"
   ],
@@ -5109,7 +5109,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/eslint over the overlay file set exits 0; lint-overlays.test.ts restricted-import fixture fails",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-12; archived: AC-OVL-12 (REQ-OVL-02, -10, -19, -45)",
+  "acceptance": "REQ-CMP-12; archived: v1:AC-OVL-12 (v1:REQ-OVL-02, -10, -19, -45)",
   "reqs": [
    "REQ-CMP-12"
   ],
@@ -5132,7 +5132,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/overlays/_shared/lint-overlays.test.ts green; every invalid fixture reports",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-12; archived: AC-OVL-12 (REQ-OVL-02, -10)",
+  "acceptance": "REQ-CMP-12; archived: v1:AC-OVL-12 (v1:REQ-OVL-02, -10)",
   "reqs": [
    "REQ-CMP-12"
   ],
@@ -5155,7 +5155,7 @@
   "priority": "P0",
   "test": "jest green on fixture subject; fails if OVERLAY_SUBJECTS is empty",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-11; archived: REQ-OVL-01",
+  "acceptance": "REQ-CMP-11; archived: v1:REQ-OVL-01",
   "reqs": [
    "REQ-CMP-11"
   ],
@@ -5178,7 +5178,7 @@
   "priority": "P0",
   "test": "jest green per subject",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-14, REQ-CMP-06, REQ-CMP-07; archived: REQ-OVL-10, REQ-OVL-15 (AC-OVL-18 5.0 analogue)",
+  "acceptance": "REQ-CMP-14, REQ-CMP-06, REQ-CMP-07; archived: v1:REQ-OVL-10, v1:REQ-OVL-15 (v1:AC-OVL-18 5.0 analogue)",
   "reqs": [
    "REQ-CMP-14",
    "REQ-CMP-06",
@@ -5203,7 +5203,7 @@
   "priority": "P0",
   "test": "jest green per subject",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-82; archived: AC-OVL-02 (REQ-OVL-06)",
+  "acceptance": "REQ-CMP-82; archived: v1:AC-OVL-02 (v1:REQ-OVL-06)",
   "reqs": [
    "REQ-CMP-82"
   ],
@@ -5231,7 +5231,7 @@
   "priority": "P1",
   "test": "jest green per subject",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-04; archived: REQ-OVL-11",
+  "acceptance": "REQ-CMP-04; archived: v1:REQ-OVL-11",
   "reqs": [
    "REQ-CMP-04"
   ],
@@ -5256,7 +5256,7 @@
   "priority": "P0",
   "test": "jest green on fixture, then real flagships",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-85; archived: REQ-OVL-14",
+  "acceptance": "REQ-CMP-85; archived: v1:REQ-OVL-14",
   "reqs": [
    "REQ-CMP-85"
   ],
@@ -5279,7 +5279,7 @@
   "priority": "P1",
   "test": "jest green per subject",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-04; archived: AC-OVL-15 (unit half)",
+  "acceptance": "REQ-CMP-04; archived: v1:AC-OVL-15 (unit half)",
   "reqs": [
    "REQ-CMP-04"
   ],
@@ -5306,7 +5306,7 @@
   "priority": "P0",
   "test": "remote dry run lists overlays-* projects; local invocation throws the guard error",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-138, REQ-CMP-141; archived: AC-OVL-06 lane precondition",
+  "acceptance": "REQ-CMP-138, REQ-CMP-141; archived: v1:AC-OVL-06 lane precondition",
   "reqs": [
    "REQ-CMP-138",
    "REQ-CMP-141"
@@ -5322,7 +5322,7 @@
   "system": "infra/ci",
   "file": "fragments/playwright/cmp.json",
   "action": "INFRA",
-  "description": "No overlay-specific workflow (SC-29; workflows are the PR-scope qual:certify:l* jobs/main/release.yml owned by QA). Register the overlay specs in the QA lanes: tests/a11y/apg/*.apg.spec.ts are picked up by L5 Behaviour (QA-082); tests/e2e/overlays/*.spec.ts run in L5 Behaviour and L8 Engine-specific; tests/perf/browser/overlays-*.spec.ts run in L10 Performance (QA-085). the PR-scope qual:certify:l* jobs (QA-031) runs them remotely with D-32 artifacts.",
+  "description": "No overlay-specific workflow (SC-29; CI is the qual:certify:l* jobs in QUAL-owned ci/qual.gitlab-ci.yml at pr/main/release scope). Register the overlay specs in the QA lanes: tests/a11y/apg/*.apg.spec.ts are picked up by L5 Behaviour (QA-082); tests/e2e/overlays/*.spec.ts run in L5 Behaviour and L8 Engine-specific; tests/perf/browser/overlays-*.spec.ts run in L10 Performance (QA-085). the PR-scope qual:certify:l* jobs (QA-031) runs them remotely with D-32 artifacts.",
   "depends_on": [
    "CMP-207"
   ],
@@ -5336,7 +5336,7 @@
   "priority": "P0",
   "test": "remote the PR-scope qual:certify:l* jobs dry run lists the overlay specs under L5, L8 and L10; no a cmp:* job extending .ag-aws-remote exists",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-138; archived: AC-OVL-06..10 lane precondition (D-32 artifacts)",
+  "acceptance": "REQ-CMP-138; archived: v1:AC-OVL-06..10 lane precondition (D-32 artifacts)",
   "reqs": [
    "REQ-CMP-138"
   ],
@@ -5366,7 +5366,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'reason values'",
   "storybook": "Dialog Default",
-  "acceptance": "REQ-CMP-86; archived: REQ-OVL-17 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-86; archived: v1:REQ-OVL-17 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-86"
   ],
@@ -5389,7 +5389,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'close label localisable'; overlay-dom-contract",
   "storybook": "Dialog Default",
-  "acceptance": "REQ-CMP-86; archived: REQ-OVL-16, -01",
+  "acceptance": "REQ-CMP-86; archived: v1:REQ-OVL-16, -01",
   "reqs": [
    "REQ-CMP-86"
   ],
@@ -5413,7 +5413,7 @@
   "priority": "P0",
   "test": "overlays-dialog-perf.spec.ts 'scrim count and radius'; Dialog.test.tsx 'non-modal has no backdrop'",
   "storybook": "Dialog Default, NonModal",
-  "acceptance": "REQ-CMP-79; archived: REQ-OVL-04 (AC-OVL-01)",
+  "acceptance": "REQ-CMP-79; archived: v1:REQ-OVL-04 (v1:AC-OVL-01)",
   "reqs": [
    "REQ-CMP-79"
   ],
@@ -5437,7 +5437,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'role on popup', 'sizes', 'material attributes', 'form render', 'palette shell'",
   "storybook": "Dialog Default, Sizes, Form, PaletteShell",
-  "acceptance": "REQ-CMP-87; archived: REQ-OVL-18, -19, -21, -22, -25, -60 (AC-OVL-06, AC-OVL-20)",
+  "acceptance": "REQ-CMP-87; archived: v1:REQ-OVL-18, -19, -21, -22, -25, -60 (v1:AC-OVL-06, v1:AC-OVL-20)",
   "reqs": [
    "REQ-CMP-87"
   ],
@@ -5460,7 +5460,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'dev error without name', 'labelled and described'",
   "storybook": "Dialog Default",
-  "acceptance": "REQ-CMP-87; archived: REQ-OVL-18 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-87; archived: v1:REQ-OVL-18 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-87"
   ],
@@ -5483,7 +5483,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'layout parts are not surfaces', 'body padding none'; dialog.apg.spec.ts 'focus not obscured'",
   "storybook": "Dialog LongContent, PaletteShell",
-  "acceptance": "REQ-CMP-81; archived: REQ-OVL-07, -21, -60 (AC-OVL-01)",
+  "acceptance": "REQ-CMP-81; archived: v1:REQ-OVL-07, -21, -60 (v1:AC-OVL-01)",
   "reqs": [
    "REQ-CMP-81"
   ],
@@ -5511,7 +5511,7 @@
   "priority": "P0",
   "test": "Dialog.test.tsx 'sizes'; overlay-motion.spec.ts Dialog row; visual baselines 1440/390",
   "storybook": "Dialog Sizes, Nested",
-  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78; archived: REQ-OVL-21, -23 (AC-OVL-14)",
+  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78; archived: v1:REQ-OVL-21, -23 (v1:AC-OVL-14)",
   "reqs": [
    "REQ-CMP-86",
    "REQ-CMP-89",
@@ -5537,7 +5537,7 @@
   "priority": "P1",
   "test": "overlay-stack.spec.ts T-OVL-STACK-04 (OVL-059)",
   "storybook": "Dialog Nested",
-  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78, REQ-CMP-79; archived: REQ-OVL-23, REQ-OVL-04 stacked (AC-OVL-07)",
+  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78, REQ-CMP-79; archived: v1:REQ-OVL-23, v1:REQ-OVL-04 stacked (v1:AC-OVL-07)",
   "reqs": [
    "REQ-CMP-86",
    "REQ-CMP-89",
@@ -5564,7 +5564,7 @@
   "priority": "P0",
   "test": "AlertDialog.test.tsx; alert-dialog.apg.spec.ts",
   "storybook": "AlertDialog DestructiveConfirm, NeutralConfirm",
-  "acceptance": "REQ-CMP-86; archived: REQ-OVL-16, -26, -27 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-86; archived: v1:REQ-OVL-16, -26, -27 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-86"
   ],
@@ -5587,7 +5587,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test green; gen-selector-table --check (OVL-140)",
   "storybook": "docs page generated from meta",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -5614,7 +5614,7 @@
   "priority": "P0",
   "test": "tests/exports suite; API Extractor report shows no @base-ui specifier",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: §10.1 (AC-OVL-13 precondition)",
+  "acceptance": "REQ-CMP-23, REQ-CMP-02; archived: §10.1 (v1:AC-OVL-13 precondition)",
   "reqs": [
    "REQ-CMP-23",
    "REQ-CMP-02"
@@ -5640,7 +5640,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/dialog green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-86; archived: REQ-OVL-16..-22, -25, -60",
+  "acceptance": "REQ-CMP-86; archived: v1:REQ-OVL-16..-22, -25, -60",
   "reqs": [
    "REQ-CMP-86"
   ],
@@ -5663,7 +5663,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/alert-dialog green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-91; archived: REQ-OVL-26, -27",
+  "acceptance": "REQ-CMP-91; archived: v1:REQ-OVL-26, -27",
   "reqs": [
    "REQ-CMP-91"
   ],
@@ -5690,7 +5690,7 @@
   "priority": "P0",
   "test": "remote Storybook build green; story ids stable (PRD-18 id check)",
   "storybook": "listed stories",
-  "acceptance": "REQ-CMP-01; archived: §13 items 1,2,7,8 (AC-OVL-09/-14 inputs)",
+  "acceptance": "REQ-CMP-01; archived: §13 items 1,2,7,8 (v1:AC-OVL-09/-14 inputs)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -5720,7 +5720,7 @@
   "priority": "P0",
   "test": "remote Storybook build; used by overlays-dialog-perf.spec.ts",
   "storybook": "Overlays/Perf/Dialog over dashboard",
-  "acceptance": "REQ-CMP-01; archived: §13 item 4 (AC-OVL-01..05 subject)",
+  "acceptance": "REQ-CMP-01; archived: §13 item 4 (v1:AC-OVL-01..05 subject)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -5744,7 +5744,7 @@
   "priority": "P0",
   "test": "jest _shared green; remote overlay-motion + a11y-modes green for both",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-04; archived: AC-OVL-02, -08, -10, -15 (Dialog/AlertDialog)",
+  "acceptance": "REQ-CMP-04; archived: v1:AC-OVL-02, -08, -10, -15 (Dialog/AlertDialog)",
   "reqs": [
    "REQ-CMP-04"
   ],
@@ -5787,7 +5787,7 @@
   "priority": "P0",
   "test": "jest green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-85; archived: REQ-OVL-14",
+  "acceptance": "REQ-CMP-85; archived: v1:REQ-OVL-14",
   "reqs": [
    "REQ-CMP-85"
   ],
@@ -5815,7 +5815,7 @@
   "priority": "P1",
   "test": "PRD-02 size lane green; rg check 0 hits",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: AC-OVL-13 (REQ-OVL-77, -45)",
+  "acceptance": "REQ-CMP-136; archived: v1:AC-OVL-13 (v1:REQ-OVL-77, -45)",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -5865,7 +5865,7 @@
   "priority": "P1",
   "test": "PRD-02 size lane; overlays-perf; jest _shared",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: AC-OVL-13, AC-OVL-02 (REQ-OVL-77, §16.2)",
+  "acceptance": "REQ-CMP-136; archived: v1:AC-OVL-13, v1:AC-OVL-02 (v1:REQ-OVL-77, §16.2)",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -5889,7 +5889,7 @@
   "priority": "P0",
   "test": "Sheet.test.tsx 'sides incl RTL flip'",
   "storybook": "Sheet RightPanel, LeftPanelRTL",
-  "acceptance": "REQ-CMP-92; archived: REQ-OVL-30 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-92; archived: v1:REQ-OVL-30 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-92"
   ],
@@ -5904,7 +5904,7 @@
   "system": "Sheet",
   "file": "src/components/sheet/Sheet.client.tsx",
   "action": "MODIFY",
-  "description": "preset 'panel'|'action': action forces side=bottom and renders Sheet.Action <button> items plus a separated cancel Sheet.Close (replaces GlassActionSheet); Sheet.Action part blocked on AG_PARTS 'action'. (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
+  "description": "preset 'panel'|'action': action forces side=bottom and renders Sheet.Action <button> items plus a separated cancel Sheet.Close (replaces GlassActionSheet); Sheet.Action part name 'action' is valid under PART_NAME_RE (contract S-33; no registry edit, no wait). (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-230"
   ],
@@ -5912,7 +5912,7 @@
   "priority": "P1",
   "test": "Sheet.test.tsx 'preset action'",
   "storybook": "Sheet ActionPreset",
-  "acceptance": "REQ-CMP-93; archived: REQ-OVL-31",
+  "acceptance": "REQ-CMP-93; archived: v1:REQ-OVL-31",
   "reqs": [
    "REQ-CMP-93"
   ],
@@ -5935,7 +5935,7 @@
   "priority": "P1",
   "test": "Sheet.test.tsx 'detent state machine' table cases",
   "storybook": "Sheet BottomDetents",
-  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: REQ-OVL-32",
+  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: v1:REQ-OVL-32",
   "reqs": [
    "REQ-CMP-94",
    "REQ-CMP-96"
@@ -5966,7 +5966,7 @@
   "priority": "P1",
   "test": "overlays-sheet-perf.spec.ts 0 commits/pointermove",
   "storybook": "Sheet BottomDetents",
-  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: REQ-OVL-32, -39",
+  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: v1:REQ-OVL-32, -39",
   "reqs": [
    "REQ-CMP-94",
    "REQ-CMP-96"
@@ -5998,7 +5998,7 @@
   "priority": "P1",
   "test": "sheet.apg.spec.ts; Sheet.test.tsx 'handle label localisable'",
   "storybook": "Sheet BottomDetents",
-  "acceptance": "REQ-CMP-95; archived: REQ-OVL-33 (WCAG 2.1.1, 2.5.7)",
+  "acceptance": "REQ-CMP-95; archived: v1:REQ-OVL-33 (WCAG 2.1.1, 2.5.7)",
   "reqs": [
    "REQ-CMP-95"
   ],
@@ -6026,7 +6026,7 @@
   "priority": "P1",
   "test": "Sheet.test.tsx 'full height raises floor' (attribute + computed tinted fill)",
   "storybook": "Sheet FullHeight",
-  "acceptance": "REQ-CMP-95; archived: REQ-OVL-34",
+  "acceptance": "REQ-CMP-95; archived: v1:REQ-OVL-34",
   "reqs": [
    "REQ-CMP-95"
   ],
@@ -6054,7 +6054,7 @@
   "priority": "P1",
   "test": "visual baselines 390x844 with emulated insets; overlay-motion Sheet rows",
   "storybook": "all Sheet stories",
-  "acceptance": "REQ-CMP-95; archived: REQ-OVL-35, -36, -38 (AC-OVL-14)",
+  "acceptance": "REQ-CMP-95; archived: v1:REQ-OVL-35, -36, -38 (v1:AC-OVL-14)",
   "reqs": [
    "REQ-CMP-95"
   ],
@@ -6077,7 +6077,7 @@
   "priority": "P1",
   "test": "Sheet.test.tsx 'non-modal'",
   "storybook": "Sheet NonModalInspector",
-  "acceptance": "REQ-CMP-92; archived: REQ-OVL-37",
+  "acceptance": "REQ-CMP-92; archived: v1:REQ-OVL-37",
   "reqs": [
    "REQ-CMP-92"
   ],
@@ -6100,7 +6100,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test",
   "storybook": "generated docs page",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6150,7 +6150,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/sheet green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-92; archived: REQ-OVL-30..-37",
+  "acceptance": "REQ-CMP-92; archived: v1:REQ-OVL-30..-37",
   "reqs": [
    "REQ-CMP-92"
   ],
@@ -6176,7 +6176,7 @@
   "priority": "P0",
   "test": "remote Storybook build; id stability",
   "storybook": "listed stories",
-  "acceptance": "REQ-CMP-95; archived: §13 item 2, REQ-OVL-35 (AC-OVL-14)",
+  "acceptance": "REQ-CMP-95; archived: §13 item 2, v1:REQ-OVL-35 (v1:AC-OVL-14)",
   "reqs": [
    "REQ-CMP-95"
   ],
@@ -6204,7 +6204,7 @@
   "priority": "P1",
   "test": "PRD-02 size lane green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: AC-OVL-13 (REQ-OVL-77)",
+  "acceptance": "REQ-CMP-136; archived: v1:AC-OVL-13 (v1:REQ-OVL-77)",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -6253,7 +6253,7 @@
   "priority": "P0",
   "test": "PRD-02 artifact lane side-effect gate green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-110; archived: REQ-OVL-68 (AC-OVL-19)",
+  "acceptance": "REQ-CMP-110; archived: v1:REQ-OVL-68 (v1:AC-OVL-19)",
   "reqs": [
    "REQ-CMP-110"
   ],
@@ -6281,7 +6281,7 @@
   "priority": "P1",
   "test": "PRD-02 size lane; overlays-perf; jest _shared",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-109; archived: AC-OVL-13, AC-OVL-02 (REQ-OVL-66, -77)",
+  "acceptance": "REQ-CMP-109; archived: v1:AC-OVL-13, v1:AC-OVL-02 (v1:REQ-OVL-66, -77)",
   "reqs": [
    "REQ-CMP-109"
   ],
@@ -6296,7 +6296,7 @@
   "system": "provider-integration",
   "file": "NEW:src/components/overlays/_shared/provider-mount.test.tsx",
   "action": "TEST",
-  "description": "With real AuraGlassProvider: useToast() works without extra wrapper; Tooltip opens without explicit Tooltip.Provider; toasts={false}/tooltips={false} remove the respective provider; Toast.Viewport lives inside [data-ag-portal-root]. Blocked until PRD-05 adds the mounts/opt-outs (PRD-10 §10.4 request). (Cross-lane input 3f-O2 is consumed through its frozen interface, never waited for.)",
+  "description": "With real AuraGlassProvider: useToast() works without extra wrapper; Tooltip opens without explicit Tooltip.Provider; toasts={false}/tooltips={false} remove the respective provider; Toast.Viewport lives inside [data-ag-portal-root]. Codes against the mounts/opt-outs declared in the frozen MAT provider seam (S-22/S-23); reports pending (never blocked) until MAT's implementation merges. (Cross-lane input 3f-O2 is consumed through its frozen interface, never waited for.)",
   "depends_on": [],
   "contract_seams": [
    "S-20",
@@ -6310,7 +6310,7 @@
   "priority": "P1",
   "test": "jest green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-99; archived: REQ-OVL-46, -61 provider mounting (§10.4)",
+  "acceptance": "REQ-CMP-99; archived: v1:REQ-OVL-46, -61 provider mounting (§10.4)",
   "reqs": [
    "REQ-CMP-99"
   ],
@@ -6338,7 +6338,7 @@
   "priority": "P1",
   "test": "overlay-mappings.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-133, REQ-CMP-140; archived: AC-OVL-16 (REQ-OVL-59, §10.2)",
+  "acceptance": "REQ-CMP-133, REQ-CMP-140; archived: v1:AC-OVL-16 (v1:REQ-OVL-59, §10.2)",
   "reqs": [
    "REQ-CMP-133",
    "REQ-CMP-140"
@@ -6366,7 +6366,7 @@
   "priority": "P1",
   "test": "node scripts/docs/gen-overlay-selector-table.mjs --check exits 0; fails on stale fixture",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: AC-OVL-16 selector row (REQ-OVL-76)",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-OVL-16 selector row (v1:REQ-OVL-76)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6389,7 +6389,7 @@
   "priority": "P3",
   "test": "PRD-16 docs lint passes on referenced anchors",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: §11 items 1,4,5,6,7 (AC-OVL-16 guide input)",
+  "acceptance": "REQ-CMP-22; archived: §11 items 1,4,5,6,7 (v1:AC-OVL-16 guide input)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6419,7 +6419,7 @@
   "priority": "P0",
   "test": "token + pixel lanes green on RC SHA",
   "storybook": "all flagship stories",
-  "acceptance": "REQ-CMP-36; archived: AC-OVL-09 (REQ-OVL-13)",
+  "acceptance": "REQ-CMP-36; archived: v1:AC-OVL-09 (v1:REQ-OVL-13)",
   "reqs": [
    "REQ-CMP-36"
   ],
@@ -6443,7 +6443,7 @@
   "priority": "P1",
   "test": "remote Storybook build; PRD-18 environment-matrix lane captures all cells",
   "storybook": "Overlays/Matrix/*",
-  "acceptance": "REQ-CMP-141; archived: §13 item 3, DoD environment matrix (AC-OVL-09)",
+  "acceptance": "REQ-CMP-141; archived: §13 item 3, DoD environment matrix (v1:AC-OVL-09)",
   "reqs": [
    "REQ-CMP-141"
   ],
@@ -6471,7 +6471,7 @@
   "priority": "P0",
   "test": "pixel lane green; RTL baselines present",
   "storybook": "all overlay stories",
-  "acceptance": "REQ-CMP-96; archived: AC-OVL-14",
+  "acceptance": "REQ-CMP-96; archived: v1:AC-OVL-14",
   "reqs": [
    "REQ-CMP-96"
   ],
@@ -6499,7 +6499,7 @@
   "priority": "P0",
   "test": "canary lane run URLs green",
   "storybook": "n/a",
-  "acceptance": "archived: AC-OVL-15",
+  "acceptance": "archived: v1:AC-OVL-15",
   "reqs": [],
   "branch": "next",
   "source": "OVL-151",
@@ -6523,7 +6523,7 @@
   "priority": "P0",
   "test": "living matrix 35/35 cells with tester records, 0 open P0/P1",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-138; archived: AC-OVL-11",
+  "acceptance": "REQ-CMP-138; archived: v1:AC-OVL-11",
   "reqs": [
    "REQ-CMP-138"
   ],
@@ -6556,7 +6556,7 @@
   "priority": "P0",
   "test": "perf lane + size lane green; grades published",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: AC-OVL-05, AC-OVL-13 (REQ-OVL-77)",
+  "acceptance": "REQ-CMP-136; archived: v1:AC-OVL-05, v1:AC-OVL-13 (v1:REQ-OVL-77)",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -6579,7 +6579,7 @@
   "priority": "P0",
   "test": "lint artifact 0 hits on RC SHA",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-05; archived: AC-OVL-12",
+  "acceptance": "REQ-CMP-05; archived: v1:AC-OVL-12",
   "reqs": [
    "REQ-CMP-05"
   ],
@@ -6629,7 +6629,7 @@
   "priority": "P0",
   "test": "API Extractor run shows no unreviewed overlay diff",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-17; archived: DoD API freeze (AC-OVL-01..20 at RC)",
+  "acceptance": "REQ-CMP-17; archived: DoD API freeze (v1:AC-OVL-01..20 at RC)",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -6652,7 +6652,7 @@
   "priority": "P1",
   "test": "each linked run green",
   "storybook": "n/a",
-  "acceptance": "archived: DoD consumer re-verification; AC-OVL-20",
+  "acceptance": "archived: DoD consumer re-verification; v1:AC-OVL-20",
   "reqs": [],
   "branch": "next",
   "source": "OVL-162",
@@ -6676,7 +6676,7 @@
   "priority": "P2",
   "test": "PRD-16 docs lint green",
   "storybook": "generated docs pages",
-  "acceptance": "REQ-CMP-22; archived: §13 item 6 (REQ-OVL-75)",
+  "acceptance": "REQ-CMP-22; archived: §13 item 6 (v1:REQ-OVL-75)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6709,7 +6709,7 @@
   "priority": "P0",
   "test": "tests/storybook/story-contract.test.ts (Dialog)",
   "storybook": "Flagships/Overlays/Dialog",
-  "acceptance": "REQ-CMP-01; archived: AC-SB-05, AC-SB-10 (REQ-SB-07, REQ-SB-12)",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-SB-05, v1:AC-SB-10 (v1:REQ-SB-07, v1:REQ-SB-12)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -6730,7 +6730,7 @@
   "priority": "P0",
   "test": "Popover.test.tsx; popover.apg.spec.ts",
   "storybook": "Popover Click, Hover",
-  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: REQ-OVL-40..-43 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: v1:REQ-OVL-40..-43 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-97",
    "REQ-CMP-85"
@@ -6754,7 +6754,7 @@
   "priority": "P0",
   "test": "overlays-overlay-budget.spec.ts Popover adds exactly 1 blurred layer (OVL-079)",
   "storybook": "Popover Arrow, Collision",
-  "acceptance": "REQ-CMP-98; archived: REQ-OVL-44 (AC-OVL-14)",
+  "acceptance": "REQ-CMP-98; archived: v1:REQ-OVL-44 (v1:AC-OVL-14)",
   "reqs": [
    "REQ-CMP-98"
   ],
@@ -6777,7 +6777,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test",
   "storybook": "generated docs page",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6798,7 +6798,7 @@
   "priority": "P0",
   "test": "Tooltip.test.tsx; tooltip.apg.spec.ts",
   "storybook": "Tooltip Default, Grouped",
-  "acceptance": "REQ-CMP-99; archived: REQ-OVL-46, -47, -48 (AC-OVL-06; fixes ACCESSIBILITY-10)",
+  "acceptance": "REQ-CMP-99; archived: v1:REQ-OVL-46, -47, -48 (v1:AC-OVL-06; fixes ACCESSIBILITY-10)",
   "reqs": [
    "REQ-CMP-99"
   ],
@@ -6821,7 +6821,7 @@
   "priority": "P1",
   "test": "Tooltip.test.tsx 'dev error on interactive content'",
   "storybook": "Tooltip LongTextWrap",
-  "acceptance": "REQ-CMP-100; archived: REQ-OVL-49",
+  "acceptance": "REQ-CMP-100; archived: v1:REQ-OVL-49",
   "reqs": [
    "REQ-CMP-100"
   ],
@@ -6844,7 +6844,7 @@
   "priority": "P1",
   "test": "tooltip.touch.spec.ts 'tap does not open', 'long-press opens', 'outside tap closes'",
   "storybook": "Tooltip OnIconButton (mobile viewport)",
-  "acceptance": "REQ-CMP-101; archived: REQ-OVL-50 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-101; archived: v1:REQ-OVL-50 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-101"
   ],
@@ -6872,7 +6872,7 @@
   "priority": "P1",
   "test": "overlay-motion.spec.ts Tooltip row; overlay-budget 1 layer",
   "storybook": "Tooltip EachSide",
-  "acceptance": "REQ-CMP-101; archived: REQ-OVL-51",
+  "acceptance": "REQ-CMP-101; archived: v1:REQ-OVL-51",
   "reqs": [
    "REQ-CMP-101"
   ],
@@ -6895,7 +6895,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test",
   "storybook": "generated docs page",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -6918,7 +6918,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/popover green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: REQ-OVL-40, -42, -43",
+  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: v1:REQ-OVL-40, -42, -43",
   "reqs": [
    "REQ-CMP-97",
    "REQ-CMP-85"
@@ -6942,7 +6942,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/tooltip green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-99; archived: REQ-OVL-46, -47, -49",
+  "acceptance": "REQ-CMP-99; archived: v1:REQ-OVL-46, -47, -49",
   "reqs": [
    "REQ-CMP-99"
   ],
@@ -6969,7 +6969,7 @@
   "priority": "P0",
   "test": "remote Storybook build; id stability check",
   "storybook": "listed stories",
-  "acceptance": "REQ-CMP-01; archived: §13 item 2 (AC-OVL-09/-14 inputs)",
+  "acceptance": "REQ-CMP-01; archived: §13 item 2 (v1:AC-OVL-09/-14 inputs)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -6984,13 +6984,13 @@
   "system": "Menu",
   "file": "NEW:src/components/menu/Menu.client.tsx",
   "action": "CREATE",
-  "description": "Menu.Root, Trigger, Portal, Positioner, Popup, Item, LinkItem, CheckboxItem, CheckboxItemIndicator, RadioGroup, RadioItem, RadioItemIndicator, Group, GroupLabel, Separator, Shortcut, SubmenuRoot, SubmenuTrigger, Arrow over Base UI Menu; data-ag-part from AG_PARTS (root, trigger, positioner, popup, item, item-indicator, group, group-label, separator, arrow, shortcut; SubmenuTrigger=trigger); useOverlayLayer({kind:'menu', modal:false}) once per root. (Cross-lane input 3e-O1, 3i-Q, 3a-F is consumed through its frozen interface, never waited for.)",
+  "description": "Menu.Root, Trigger, Portal, Positioner, Popup, Item, LinkItem, CheckboxItem, CheckboxItemIndicator, RadioGroup, RadioItem, RadioItemIndicator, Group, GroupLabel, Separator, Shortcut, SubmenuRoot, SubmenuTrigger, Arrow over Base UI Menu; data-ag-part names matching PART_NAME_RE, S-33 (root, trigger, positioner, popup, item, item-indicator, group, group-label, separator, arrow, shortcut; SubmenuTrigger=trigger); useOverlayLayer({kind:'menu', modal:false}) once per root. (Cross-lane input 3e-O1, 3i-Q, 3a-F is consumed through its frozen interface, never waited for.)",
   "depends_on": [],
   "contract_seams": [],
   "priority": "P0",
   "test": "Menu.test.tsx 'roles'; overlay-dom-contract Menu rows",
   "storybook": "Menu Default",
-  "acceptance": "REQ-CMP-102; archived: REQ-OVL-52 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-102; archived: v1:REQ-OVL-52 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-102"
   ],
@@ -7013,7 +7013,7 @@
   "priority": "P0",
   "test": "menu.apg.spec.ts full script",
   "storybook": "Menu Default, Submenus",
-  "acceptance": "REQ-CMP-103; archived: REQ-OVL-53 (AC-OVL-06; fixes ACCESSIBILITY-12)",
+  "acceptance": "REQ-CMP-103; archived: v1:REQ-OVL-53 (v1:AC-OVL-06; fixes ACCESSIBILITY-12)",
   "reqs": [
    "REQ-CMP-103"
   ],
@@ -7028,7 +7028,7 @@
   "system": "Menu",
   "file": "src/components/menu/Menu.client.tsx",
   "action": "MODIFY",
-  "description": "Item semantics: role menuitem|menuitemcheckbox|menuitemradio; CheckboxItem checked='indeterminate' → aria-checked='mixed'; disabled items focusable with aria-disabled='true' and visible focus ring; closeOnClick default true (Item) / false (CheckboxItem, RadioItem); Shortcut renders aria-hidden text and sets aria-keyshortcuts on its item. Blocked on AG_PARTS 'shortcut'. (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
+  "description": "Item semantics: role menuitem|menuitemcheckbox|menuitemradio; CheckboxItem checked='indeterminate' → aria-checked='mixed'; disabled items focusable with aria-disabled='true' and visible focus ring; closeOnClick default true (Item) / false (CheckboxItem, RadioItem); Shortcut renders aria-hidden text and sets aria-keyshortcuts on its item. Part names 'shortcut' are valid under PART_NAME_RE (contract S-33; no registry edit, no wait). (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-273"
   ],
@@ -7036,7 +7036,7 @@
   "priority": "P0",
   "test": "Menu.test.tsx 'aria-checked mixed', 'aria-disabled focusable', 'aria-keyshortcuts', 'closeOnClick defaults'",
   "storybook": "Menu CheckboxRadio, Shortcuts, DisabledItems",
-  "acceptance": "REQ-CMP-104; archived: REQ-OVL-54 (fixes ACCESSIBILITY-14 for menus)",
+  "acceptance": "REQ-CMP-104; archived: v1:REQ-OVL-54 (fixes ACCESSIBILITY-14 for menus)",
   "reqs": [
    "REQ-CMP-104"
   ],
@@ -7059,7 +7059,7 @@
   "priority": "P1",
   "test": "Menu.test.tsx 'openOnHover outside menubar warns'; menu.apg.spec.ts submenu cases",
   "storybook": "Menu Submenus",
-  "acceptance": "REQ-CMP-103; archived: REQ-OVL-55",
+  "acceptance": "REQ-CMP-103; archived: v1:REQ-OVL-55",
   "reqs": [
    "REQ-CMP-103"
   ],
@@ -7082,7 +7082,7 @@
   "priority": "P0",
   "test": "context-menu.apg.spec.ts",
   "storybook": "Menu ContextMenuRegion",
-  "acceptance": "REQ-CMP-105; archived: REQ-OVL-56 (AC-OVL-06; fixes E-20)",
+  "acceptance": "REQ-CMP-105; archived: v1:REQ-OVL-56 (v1:AC-OVL-06; fixes E-20)",
   "reqs": [
    "REQ-CMP-105"
   ],
@@ -7106,7 +7106,7 @@
   "priority": "P0",
   "test": "menubar.apg.spec.ts",
   "storybook": "Menu Menubar (File/Edit/View)",
-  "acceptance": "REQ-CMP-105; archived: REQ-OVL-57 (AC-OVL-06; fixes E-21)",
+  "acceptance": "REQ-CMP-105; archived: v1:REQ-OVL-57 (v1:AC-OVL-06; fixes E-21)",
   "reqs": [
    "REQ-CMP-105"
   ],
@@ -7129,7 +7129,7 @@
   "priority": "P0",
   "test": "Menu.test.tsx 'coarse target size'; overlay-budget Menu 1 layer",
   "storybook": "Menu LongList",
-  "acceptance": "REQ-CMP-104; archived: REQ-OVL-58",
+  "acceptance": "REQ-CMP-104; archived: v1:REQ-OVL-58",
   "reqs": [
    "REQ-CMP-104"
   ],
@@ -7152,7 +7152,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test",
   "storybook": "generated docs page",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -7177,7 +7177,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/menu green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-104; archived: REQ-OVL-54, -58",
+  "acceptance": "REQ-CMP-104; archived: v1:REQ-OVL-54, -58",
   "reqs": [
    "REQ-CMP-104"
   ],
@@ -7203,7 +7203,7 @@
   "priority": "P0",
   "test": "remote Storybook build; id stability",
   "storybook": "listed stories",
-  "acceptance": "REQ-CMP-06; archived: §13 item 2 (AC-OVL-09/-14 inputs)",
+  "acceptance": "REQ-CMP-06; archived: §13 item 2 (v1:AC-OVL-09/-14 inputs)",
   "reqs": [
    "REQ-CMP-06"
   ],
@@ -7232,7 +7232,7 @@
   "priority": "P0",
   "test": "Toast.test.tsx 'single provider'",
   "storybook": "Toast EachIntent",
-  "acceptance": "REQ-CMP-106; archived: REQ-OVL-61 (AC-OVL-19)",
+  "acceptance": "REQ-CMP-106; archived: v1:REQ-OVL-61 (v1:AC-OVL-19)",
   "reqs": [
    "REQ-CMP-106"
   ],
@@ -7255,7 +7255,7 @@
   "priority": "P0",
   "test": "Toast.test.tsx 'intent', 'type rejected', 'promise updates in place'",
   "storybook": "Toast Promise",
-  "acceptance": "REQ-CMP-107; archived: REQ-OVL-62",
+  "acceptance": "REQ-CMP-107; archived: v1:REQ-OVL-62",
   "reqs": [
    "REQ-CMP-107"
   ],
@@ -7278,7 +7278,7 @@
   "priority": "P0",
   "test": "toast.apg.spec.ts a11y tree: exactly one live-region entry per toast",
   "storybook": "Toast EachIntent",
-  "acceptance": "REQ-CMP-107; archived: REQ-OVL-63 (AC-OVL-06)",
+  "acceptance": "REQ-CMP-107; archived: v1:REQ-OVL-63 (v1:AC-OVL-06)",
   "reqs": [
    "REQ-CMP-107"
   ],
@@ -7301,7 +7301,7 @@
   "priority": "P0",
   "test": "toast-timers.test.tsx",
   "storybook": "Toast WithAction",
-  "acceptance": "REQ-CMP-108; archived: REQ-OVL-64",
+  "acceptance": "REQ-CMP-108; archived: v1:REQ-OVL-64",
   "reqs": [
    "REQ-CMP-108"
   ],
@@ -7316,7 +7316,7 @@
   "system": "Toast",
   "file": "NEW:src/components/toast/Toast.css",
   "action": "CREATE",
-  "description": "Toast.Progress part: CSS @keyframes scale on --_ag-toast-progress, animation-duration = toast duration, animation-play-state bound to paused state attribute; 0 React commits while counting; no setInterval (replaces data-display/GlassToast.tsx:153-169). Blocked on AG_PARTS 'progress'. (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
+  "description": "Toast.Progress part: CSS @keyframes scale on --_ag-toast-progress, animation-duration = toast duration, animation-play-state bound to paused state attribute; 0 React commits while counting; no setInterval (replaces data-display/GlassToast.tsx:153-169). Part names 'progress' are valid under PART_NAME_RE (contract S-33; no registry edit, no wait). (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-286"
   ],
@@ -7324,7 +7324,7 @@
   "priority": "P1",
   "test": "overlay-idle.test.tsx Toast row 0 commits; toast-timers 'one timeout per toast'",
   "storybook": "Toast WithAction (progress)",
-  "acceptance": "REQ-CMP-108; archived: REQ-OVL-64, AC-OVL-02",
+  "acceptance": "REQ-CMP-108; archived: v1:REQ-OVL-64, v1:AC-OVL-02",
   "reqs": [
    "REQ-CMP-108"
   ],
@@ -7347,7 +7347,7 @@
   "priority": "P1",
   "test": "toast.touch.spec.ts 'swipe dismiss'",
   "storybook": "Toast StackOf5, Swipe",
-  "acceptance": "REQ-CMP-109; archived: REQ-OVL-65",
+  "acceptance": "REQ-CMP-109; archived: v1:REQ-OVL-65",
   "reqs": [
    "REQ-CMP-109"
   ],
@@ -7375,7 +7375,7 @@
   "priority": "P0",
   "test": "Toast.test.tsx 'stack shares one backdrop'; overlay-budget Toast stack 1",
   "storybook": "Toast StackOf5",
-  "acceptance": "REQ-CMP-109; archived: REQ-OVL-66 (AC-OVL-02)",
+  "acceptance": "REQ-CMP-109; archived: v1:REQ-OVL-66 (v1:AC-OVL-02)",
   "reqs": [
    "REQ-CMP-109"
   ],
@@ -7390,7 +7390,7 @@
   "system": "Toast/history",
   "file": "NEW:src/components/toast/ToastHistory.client.tsx",
   "action": "CREATE",
-  "description": "With history {limit:50}: dismissed/expired toasts move to useToast().history {entries: ToastHistoryEntry[] (id,title,description,intent,createdAt,read), unread, markRead(id), markAllRead(), clear()} (NEW historyStore.ts); Toast.History role=list + Toast.HistoryItem role=listitem; no overlay of its own; createdAt stamped in toast() call path not render; no storage writes, no <style> injection. Blocked on AG_PARTS 'history','history-item'. (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
+  "description": "With history {limit:50}: dismissed/expired toasts move to useToast().history {entries: ToastHistoryEntry[] (id,title,description,intent,createdAt,read), unread, markRead(id), markAllRead(), clear()} (NEW historyStore.ts); Toast.History role=list + Toast.HistoryItem role=listitem; no overlay of its own; createdAt stamped in toast() call path not render; no storage writes, no <style> injection. Part names 'history','history-item' are valid under PART_NAME_RE (contract S-33; no registry edit, no wait). (Cross-lane input 3a-F is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-284"
   ],
@@ -7398,7 +7398,7 @@
   "priority": "P1",
   "test": "Toast.test.tsx 'history entries','markRead','markAllRead','clear','unread count','no style injection'",
   "storybook": "Toast NotificationCenterInSheet",
-  "acceptance": "REQ-CMP-110; archived: REQ-OVL-67 (AC-OVL-19)",
+  "acceptance": "REQ-CMP-110; archived: v1:REQ-OVL-67 (v1:AC-OVL-19)",
   "reqs": [
    "REQ-CMP-110"
   ],
@@ -7421,7 +7421,7 @@
   "priority": "P1",
   "test": "PRD-16 meta schema test",
   "storybook": "generated docs page",
-  "acceptance": "REQ-CMP-22; archived: REQ-OVL-75 (AC-OVL-16)",
+  "acceptance": "REQ-CMP-22; archived: v1:REQ-OVL-75 (v1:AC-OVL-16)",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -7445,7 +7445,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/toast green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-106; archived: AC-OVL-19 (REQ-OVL-61, -62, -66, -67)",
+  "acceptance": "REQ-CMP-106; archived: v1:AC-OVL-19 (v1:REQ-OVL-61, -62, -66, -67)",
   "reqs": [
    "REQ-CMP-106"
   ],
@@ -7468,7 +7468,7 @@
   "priority": "P0",
   "test": "./node_modules/.bin/jest src/components/toast/toast-timers.test.tsx green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-108; archived: REQ-OVL-64",
+  "acceptance": "REQ-CMP-108; archived: v1:REQ-OVL-64",
   "reqs": [
    "REQ-CMP-108"
   ],
@@ -7494,7 +7494,7 @@
   "priority": "P0",
   "test": "remote Storybook build; id stability",
   "storybook": "listed stories",
-  "acceptance": "REQ-CMP-01; archived: §13 item 2 (AC-OVL-09/-14 inputs)",
+  "acceptance": "REQ-CMP-01; archived: §13 item 2 (v1:AC-OVL-09/-14 inputs)",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -7520,7 +7520,7 @@
   "priority": "P1",
   "test": "NEW src/components/text/Text.test.tsx (props→attrs, ref, jest-axe); t2-server-safe.test.tsx",
   "storybook": "Foundation/Text: Default, variant matrix, States, ReducedTransparency, ForcedColors, ContrastMore, RTL, Mobile390",
-  "acceptance": "archived: AC-FND-06 (T0); AC-FND-04",
+  "acceptance": "archived: v1:AC-FND-06 (T0); v1:AC-FND-04",
   "reqs": [],
   "branch": "next",
   "source": "FND-043",
@@ -7544,7 +7544,7 @@
   "priority": "P1",
   "test": "NEW src/components/heading/Heading.test.tsx (level→element, size independent)",
   "storybook": "Foundation/Heading: full §13 story set",
-  "acceptance": "REQ-CMP-17; archived: AC-FND-06 (T0); AC-FND-04",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-FND-06 (T0); v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -7570,7 +7570,7 @@
   "priority": "P1",
   "test": "NEW src/components/stack/Stack.test.tsx",
   "storybook": "Foundation/Stack: full §13 story set",
-  "acceptance": "REQ-CMP-12; archived: AC-FND-06 (T0); AC-FND-04",
+  "acceptance": "REQ-CMP-12; archived: v1:AC-FND-06 (T0); v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-12"
   ],
@@ -7596,7 +7596,7 @@
   "priority": "P1",
   "test": "NEW src/components/grid/Grid.test.tsx; tests/e2e/layout/grid-masonry.spec.ts (FND-065)",
   "storybook": "Foundation/Grid: full §13 set + Masonry",
-  "acceptance": "REQ-CMP-112; archived: REQ-FND-39; AC-FND-06 (T0)",
+  "acceptance": "REQ-CMP-112; archived: v1:REQ-FND-39; v1:AC-FND-06 (T0)",
   "reqs": [
    "REQ-CMP-112"
   ],
@@ -7622,7 +7622,7 @@
   "priority": "P1",
   "test": "NEW src/components/container/Container.test.tsx",
   "storybook": "Foundation/Container: full §13 story set",
-  "acceptance": "REQ-CMP-11; archived: AC-FND-06 (T0); AC-FND-04",
+  "acceptance": "REQ-CMP-11; archived: v1:AC-FND-06 (T0); v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-11"
   ],
@@ -7648,7 +7648,7 @@
   "priority": "P0",
   "test": "NEW src/components/card/Card.test.tsx; tests/e2e/material/content-layer.spec.ts (FND-064)",
   "storybook": "Core/Card: full §13 set + RegularOverMedia (photo, video frame scenes), RegularNoMedia",
-  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: REQ-FND-27; AC-FND-06",
+  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: v1:REQ-FND-27; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-113",
    "REQ-CMP-116",
@@ -7676,7 +7676,7 @@
   "priority": "P1",
   "test": "NEW src/components/badge/Badge.test.tsx (count max, hidden label)",
   "storybook": "Core/Badge: full §13 story set",
-  "acceptance": "REQ-CMP-17; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -7703,7 +7703,7 @@
   "priority": "P2",
   "test": "NEW src/components/separator/Separator.test.tsx",
   "storybook": "Core/Separator: full §13 story set",
-  "acceptance": "REQ-CMP-01; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -7729,7 +7729,7 @@
   "priority": "P2",
   "test": "NEW src/components/kbd/Kbd.test.tsx",
   "storybook": "Core/Kbd: full §13 story set",
-  "acceptance": "archived: AC-FND-06; AC-FND-04",
+  "acceptance": "archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [],
   "branch": "next",
   "source": "FND-053",
@@ -7748,7 +7748,7 @@
   "priority": "P2",
   "test": "NEW src/components/description-list/DescriptionList.test.tsx (dl/dt/dd structure, jest-axe)",
   "storybook": "Core/DescriptionList: full §13 story set",
-  "acceptance": "REQ-CMP-17; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-17; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-17"
   ],
@@ -7769,7 +7769,7 @@
   "priority": "P2",
   "test": "NEW src/components/link/Link.test.tsx (rel, hidden text, render prop)",
   "storybook": "Core/Link: full §13 story set",
-  "acceptance": "archived: AC-FND-06; AC-FND-04",
+  "acceptance": "archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [],
   "branch": "next",
   "source": "FND-057",
@@ -7793,7 +7793,7 @@
   "priority": "P1",
   "test": "NEW src/components/alert/Alert.test.tsx incl. 'banner layout roles'; content-layer.spec.ts",
   "storybook": "Core/Alert: full §13 set + Banner",
-  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: REQ-FND-27; AC-FND-06",
+  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: v1:REQ-FND-27; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-113",
    "REQ-CMP-116",
@@ -7827,7 +7827,7 @@
   "priority": "P1",
   "test": "NEW src/components/skeleton/Skeleton.test.tsx (aria-hidden, no shimmer without attributes, aria-busy from LoadingState); motion lane in FND-136",
   "storybook": "Core/Skeleton: full §13 set",
-  "acceptance": "REQ-CMP-118, REQ-CMP-113, REQ-CMP-116; archived: REQ-FND-30; REQ-FND-27",
+  "acceptance": "REQ-CMP-118, REQ-CMP-113, REQ-CMP-116; archived: v1:REQ-FND-30; v1:REQ-FND-27",
   "reqs": [
    "REQ-CMP-118",
    "REQ-CMP-113",
@@ -7857,7 +7857,7 @@
   "priority": "P2",
   "test": "src/components/image-list/ImageList.test.tsx rewritten (cols reduction, ItemBar backdrop attr)",
   "storybook": "Core/ImageList: full §13 set on photo and video frame scenes",
-  "acceptance": "REQ-CMP-03; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-03; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-03"
   ],
@@ -7893,7 +7893,7 @@
   "priority": "P0",
   "test": "parts-contract.test.tsx union check; remote Storybook build",
   "storybook": "the §13 story set per component",
-  "acceptance": "REQ-CMP-06; archived: AC-FND-04 (server set); PRD §13",
+  "acceptance": "REQ-CMP-06; archived: v1:AC-FND-04 (server set); PRD §13",
   "reqs": [
    "REQ-CMP-06"
   ],
@@ -7920,7 +7920,7 @@
   "priority": "P2",
   "test": "NEW src/components/avatar/Avatar.test.tsx (alt required dev warning, initials label)",
   "storybook": "Core/Avatar: full §13 set",
-  "acceptance": "REQ-CMP-01; archived: AC-FND-06; AC-FND-04",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-FND-06; v1:AC-FND-04",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -7951,7 +7951,7 @@
   "priority": "P1",
   "test": "NEW src/components/progress/Progress.test.tsx",
   "storybook": "Core/Progress, Core/ProgressRing: full §13 sets",
-  "acceptance": "REQ-CMP-117; archived: REQ-FND-29; AC-FND-06",
+  "acceptance": "REQ-CMP-117; archived: v1:REQ-FND-29; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-117"
   ],
@@ -7978,7 +7978,7 @@
   "priority": "P2",
   "test": "NEW src/components/meter/Meter.test.tsx",
   "storybook": "Core/Meter: full §13 set",
-  "acceptance": "REQ-CMP-117; archived: REQ-FND-29; AC-FND-06",
+  "acceptance": "REQ-CMP-117; archived: v1:REQ-FND-29; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-117"
   ],
@@ -8009,7 +8009,7 @@
   "priority": "P0",
   "test": "NEW src/components/accordion/Accordion.test.tsx; tests/a11y/apg/accordion.apg.spec.ts (FND-086)",
   "storybook": "Core/Accordion: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-121; archived: REQ-FND-28; AC-FND-07",
+  "acceptance": "REQ-CMP-121; archived: v1:REQ-FND-28; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-121"
   ],
@@ -8040,7 +8040,7 @@
   "priority": "P2",
   "test": "NEW src/components/collapsible/Collapsible.test.tsx; tests/a11y/apg/collapsible.apg.spec.ts (FND-087)",
   "storybook": "Core/Collapsible: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-01; archived: AC-FND-07; AC-FND-06",
+  "acceptance": "REQ-CMP-01; archived: v1:AC-FND-07; v1:AC-FND-06",
   "reqs": [
    "REQ-CMP-01"
   ],
@@ -8071,7 +8071,7 @@
   "priority": "P1",
   "test": "NEW src/components/scroll-area/ScrollArea.test.tsx (test-driven ResizeObserver class); tests/a11y/apg/scroll-area.apg.spec.ts (FND-088)",
   "storybook": "Core/ScrollArea: full §13 set + Keyboard (Overflowing, NotOverflowing)",
-  "acceptance": "REQ-CMP-122; archived: REQ-FND-38; AC-FND-07",
+  "acceptance": "REQ-CMP-122; archived: v1:REQ-FND-38; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-122"
   ],
@@ -8098,7 +8098,7 @@
   "priority": "P1",
   "test": "NEW src/components/rating/Rating.test.tsx; tests/a11y/apg/rating.apg.spec.ts (FND-090)",
   "storybook": "Core/Rating: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-123; archived: REQ-FND-31; AC-FND-07",
+  "acceptance": "REQ-CMP-123; archived: v1:REQ-FND-31; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-123"
   ],
@@ -8119,7 +8119,7 @@
   "priority": "P1",
   "test": "NEW src/components/inline-edit/InlineEdit.test.tsx; tests/a11y/apg/inline-edit.apg.spec.ts (FND-091)",
   "storybook": "Core/InlineEdit: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-124; archived: REQ-FND-34; AC-FND-07",
+  "acceptance": "REQ-CMP-124; archived: v1:REQ-FND-34; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-124"
   ],
@@ -8148,7 +8148,7 @@
   "priority": "P0",
   "test": "NEW src/components/file-upload/FileUpload.test.tsx incl. 'no onUpload → never complete', 'abort on remove', 'rejects by type/size/count'; tests/a11y/apg/file-upload.apg.spec.ts (FND-092)",
   "storybook": "Core/FileUpload: full §13 set + Keyboard + Rejected",
-  "acceptance": "REQ-CMP-126; archived: REQ-FND-32; AC-FND-07",
+  "acceptance": "REQ-CMP-126; archived: v1:REQ-FND-32; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-126"
   ],
@@ -8175,7 +8175,7 @@
   "priority": "P1",
   "test": "NEW src/components/color-picker/ColorPicker.test.tsx incl. 'area keyboard steps', 'hex↔oklch round-trip within 1 ΔE'; tests/a11y/apg/color-picker.apg.spec.ts (FND-093)",
   "storybook": "Core/ColorPicker: full §13 set + Keyboard",
-  "acceptance": "REQ-CMP-125; archived: REQ-FND-33; AC-FND-07; AC-FND-10 (drag INP/frame time)",
+  "acceptance": "REQ-CMP-125; archived: v1:REQ-FND-33; v1:AC-FND-07; v1:AC-FND-10 (drag INP/frame time)",
   "reqs": [
    "REQ-CMP-125"
   ],
@@ -8196,7 +8196,7 @@
   "priority": "P1",
   "test": "NEW src/components/tour/Tour.test.tsx; tests/a11y/apg/tour.apg.spec.ts (FND-094)",
   "storybook": "Core/Tour: full §13 set + Keyboard + Mobile390 flip",
-  "acceptance": "REQ-CMP-128; archived: REQ-FND-35; AC-FND-07",
+  "acceptance": "REQ-CMP-128; archived: v1:REQ-FND-35; v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-128"
   ],
@@ -8235,7 +8235,7 @@
   "priority": "P0",
   "test": "parts-contract/ref-forwarding/portal-root harnesses; gen-component-docs --check; remote Storybook build",
   "storybook": "the §13 story set per component",
-  "acceptance": "REQ-CMP-22; archived: AC-FND-04 (36/36 + 6/6); REQ-FND-16",
+  "acceptance": "REQ-CMP-22; archived: v1:AC-FND-04 (36/36 + 6/6); v1:REQ-FND-16",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -8265,7 +8265,7 @@
   "priority": "P2",
   "test": "DX fixture suite (packages/cli/src/migrate/4to5/__tests__/) passes for every fnd-* case",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-22; archived: PRD §18 DoD (codemod fixture per absorbed name); REQ-FND-12 migration field",
+  "acceptance": "REQ-CMP-22; archived: PRD §18 DoD (codemod fixture per absorbed name); v1:REQ-FND-12 migration field",
   "reqs": [
    "REQ-CMP-22"
   ],
@@ -8292,7 +8292,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131, REQ-CMP-35; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131, REQ-CMP-35; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131",
    "REQ-CMP-35"
@@ -8320,7 +8320,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8347,7 +8347,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8372,7 +8372,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8397,7 +8397,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8422,7 +8422,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8447,7 +8447,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8472,7 +8472,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8497,7 +8497,7 @@
   "priority": "P0",
   "test": "tests/controls/compat-controls.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-CTL-15; REQ-CTL-18",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-CTL-15; v1:REQ-CTL-18",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8522,7 +8522,7 @@
   "priority": "P0",
   "test": "DX fixture runner packages/cli/src/migrate/4to5/__tests__/fixtures.test.ts (DX-053, remote CI) green for every pair",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-133, REQ-CMP-134; archived: AC-CTL-16; REQ-CTL-19",
+  "acceptance": "REQ-CMP-133, REQ-CMP-134; archived: v1:AC-CTL-16; v1:REQ-CTL-19",
   "reqs": [
    "REQ-CMP-133",
    "REQ-CMP-134"
@@ -8549,7 +8549,7 @@
   "priority": "P0",
   "test": "node scripts/release/verify-deprecations.mjs --compare-branch release/4.x green on main; tests/release/warn-deprecated.test.ts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-132; archived: AC-CTL-15 prerequisite; PRD §9, DoD 8",
+  "acceptance": "REQ-CMP-132; archived: v1:AC-CTL-15 prerequisite; PRD §9, DoD 8",
   "reqs": [
    "REQ-CMP-132"
   ],
@@ -8576,7 +8576,7 @@
   "priority": "P1",
   "test": "gen-deprecations.mjs --check green; PRD-01 deprecations schema gate green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-132; archived: AC-OVL-16 deprecations half (REQ-OVL-73)",
+  "acceptance": "REQ-CMP-132; archived: v1:AC-OVL-16 deprecations half (v1:REQ-OVL-73)",
   "reqs": [
    "REQ-CMP-132"
   ],
@@ -8605,7 +8605,7 @@
   "priority": "P1",
   "test": "gen-deprecations.mjs --check; overlay-deprecations-4x.test.tsx rename cases",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-132; archived: AC-OVL-16 (REQ-OVL-74)",
+  "acceptance": "REQ-CMP-132; archived: v1:AC-OVL-16 (v1:REQ-OVL-74)",
   "reqs": [
    "REQ-CMP-132"
   ],
@@ -8635,7 +8635,7 @@
   "priority": "P2",
   "test": "removed transform fixtures emit the TODO text",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-133; archived: AC-OVL-16 (REQ-OVL-69)",
+  "acceptance": "REQ-CMP-133; archived: v1:AC-OVL-16 (v1:REQ-OVL-69)",
   "reqs": [
    "REQ-CMP-133"
   ],
@@ -8661,7 +8661,7 @@
   "priority": "P1",
   "test": "GlassModal.compat.test.tsx, GlassDialog.compat.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16 (REQ-OVL-78, -24)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16 (v1:REQ-OVL-78, -24)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8686,7 +8686,7 @@
   "priority": "P1",
   "test": "*.compat.test.tsx per adapter",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16 (REQ-OVL-78)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16 (v1:REQ-OVL-78)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8711,7 +8711,7 @@
   "priority": "P1",
   "test": "*.compat.test.tsx per adapter",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16 (REQ-OVL-78, -45)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16 (v1:REQ-OVL-78, -45)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8736,7 +8736,7 @@
   "priority": "P1",
   "test": "*.compat.test.tsx per adapter",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16 (REQ-OVL-78)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16 (v1:REQ-OVL-78)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8761,7 +8761,7 @@
   "priority": "P1",
   "test": "GlassToast.compat.test.tsx, GlassNotificationCenter.compat.test.tsx",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16, AC-OVL-19 (REQ-OVL-78)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16, v1:AC-OVL-19 (v1:REQ-OVL-78)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8788,7 +8788,7 @@
   "priority": "P1",
   "test": "./node_modules/.bin/jest src/compat green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-131; archived: AC-OVL-16 (REQ-OVL-78)",
+  "acceptance": "REQ-CMP-131; archived: v1:AC-OVL-16 (v1:REQ-OVL-78)",
   "reqs": [
    "REQ-CMP-131"
   ],
@@ -8815,7 +8815,7 @@
   "priority": "P1",
   "test": "packages/cli/src/migrate/4to5/__tests__/runner.test.ts green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-134, REQ-CMP-22; archived: AC-OVL-16 (codemod fixture half)",
+  "acceptance": "REQ-CMP-134, REQ-CMP-22; archived: v1:AC-OVL-16 (codemod fixture half)",
   "reqs": [
    "REQ-CMP-134",
    "REQ-CMP-22"
@@ -8840,7 +8840,7 @@
   "priority": "P2",
   "test": "PRD-16 recipe render harness renders the item",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-140; archived: REQ-OVL-28",
+  "acceptance": "REQ-CMP-140; archived: v1:REQ-OVL-28",
   "reqs": [
    "REQ-CMP-140"
   ],
@@ -8864,7 +8864,7 @@
   "priority": "P2",
   "test": "PRD-16 recipe render harness renders the item",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-133, REQ-CMP-140; archived: REQ-OVL-59",
+  "acceptance": "REQ-CMP-133, REQ-CMP-140; archived: v1:REQ-OVL-59",
   "reqs": [
    "REQ-CMP-133",
    "REQ-CMP-140"
@@ -8889,7 +8889,7 @@
   "priority": "P1",
   "test": "DX registry render harness renders overlay-flows; DX-081 asserts the 10 GA block names",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-140; archived: REQ-OVL-79 (DoD registry)",
+  "acceptance": "REQ-CMP-140; archived: v1:REQ-OVL-79 (DoD registry)",
   "reqs": [
    "REQ-CMP-140"
   ],
@@ -8922,7 +8922,7 @@
   "priority": "P0",
   "test": "L5 Behaviour lane run URL, 3 engines",
   "storybook": "Foundation/DismissableLayer Stacked (Keyboard play mirrors the spec)",
-  "acceptance": "REQ-CMP-27; archived: AC-FND-07 (1 of 11); REQ-FND-21",
+  "acceptance": "REQ-CMP-27; archived: v1:AC-FND-07 (1 of 11); v1:REQ-FND-21",
   "reqs": [
    "REQ-CMP-27"
   ],
@@ -8948,7 +8948,7 @@
   "priority": "P0",
   "test": "remote material lane run URL",
   "storybook": "Core/Card RegularOverMedia, RegularNoMedia; Core/Alert Default; Core/Skeleton Default",
-  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: REQ-FND-27",
+  "acceptance": "REQ-CMP-113, REQ-CMP-116, REQ-CMP-118; archived: v1:REQ-FND-27",
   "reqs": [
    "REQ-CMP-113",
    "REQ-CMP-116",
@@ -8976,7 +8976,7 @@
   "priority": "P1",
   "test": "remote behaviour lane run URL",
   "storybook": "Foundation/Grid Masonry",
-  "acceptance": "REQ-CMP-112; archived: REQ-FND-39",
+  "acceptance": "REQ-CMP-112; archived: v1:REQ-FND-39",
   "reqs": [
    "REQ-CMP-112"
   ],
@@ -9009,7 +9009,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Steps Keyboard",
-  "acceptance": "REQ-CMP-128; archived: AC-FND-07 (1 of 11); REQ-FND-37",
+  "acceptance": "REQ-CMP-128; archived: v1:AC-FND-07 (1 of 11); v1:REQ-FND-37",
   "reqs": [
    "REQ-CMP-128"
   ],
@@ -9042,7 +9042,7 @@
   "priority": "P0",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Accordion Keyboard",
-  "acceptance": "REQ-CMP-121; archived: AC-FND-07; REQ-FND-28",
+  "acceptance": "REQ-CMP-121; archived: v1:AC-FND-07; v1:REQ-FND-28",
   "reqs": [
    "REQ-CMP-121"
   ],
@@ -9075,7 +9075,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Collapsible Keyboard",
-  "acceptance": "REQ-CMP-120, REQ-CMP-01; archived: AC-FND-07",
+  "acceptance": "REQ-CMP-120, REQ-CMP-01; archived: v1:AC-FND-07",
   "reqs": [
    "REQ-CMP-120",
    "REQ-CMP-01"
@@ -9109,7 +9109,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/ScrollArea Overflowing, NotOverflowing",
-  "acceptance": "REQ-CMP-122; archived: AC-FND-07; REQ-FND-38",
+  "acceptance": "REQ-CMP-122; archived: v1:AC-FND-07; v1:REQ-FND-38",
   "reqs": [
    "REQ-CMP-122"
   ],
@@ -9142,7 +9142,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Chip Keyboard",
-  "acceptance": "archived: AC-FND-07",
+  "acceptance": "archived: v1:AC-FND-07",
   "reqs": [],
   "branch": "next",
   "source": "FND-089",
@@ -9173,7 +9173,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Rating Keyboard, ReadOnly, RTL",
-  "acceptance": "REQ-CMP-123; archived: AC-FND-07; REQ-FND-31",
+  "acceptance": "REQ-CMP-123; archived: v1:AC-FND-07; v1:REQ-FND-31",
   "reqs": [
    "REQ-CMP-123"
   ],
@@ -9206,7 +9206,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/InlineEdit Keyboard",
-  "acceptance": "REQ-CMP-124; archived: AC-FND-07; REQ-FND-34",
+  "acceptance": "REQ-CMP-124; archived: v1:AC-FND-07; v1:REQ-FND-34",
   "reqs": [
    "REQ-CMP-124"
   ],
@@ -9239,7 +9239,7 @@
   "priority": "P0",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/FileUpload Keyboard, Rejected",
-  "acceptance": "REQ-CMP-126; archived: AC-FND-07; REQ-FND-32",
+  "acceptance": "REQ-CMP-126; archived: v1:AC-FND-07; v1:REQ-FND-32",
   "reqs": [
    "REQ-CMP-126"
   ],
@@ -9272,7 +9272,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/ColorPicker Keyboard",
-  "acceptance": "REQ-CMP-125; archived: AC-FND-07; REQ-FND-33",
+  "acceptance": "REQ-CMP-125; archived: v1:AC-FND-07; v1:REQ-FND-33",
   "reqs": [
    "REQ-CMP-125"
   ],
@@ -9305,7 +9305,7 @@
   "priority": "P1",
   "test": "L5 Behaviour lane run URL",
   "storybook": "Core/Tour Keyboard, Mobile390",
-  "acceptance": "REQ-CMP-128; archived: AC-FND-07; REQ-FND-35",
+  "acceptance": "REQ-CMP-128; archived: v1:AC-FND-07; v1:REQ-FND-35",
   "reqs": [
    "REQ-CMP-128"
   ],
@@ -9332,7 +9332,7 @@
   "priority": "P0",
   "test": "remote material lane run URL",
   "storybook": "States story per component",
-  "acceptance": "REQ-CMP-13; archived: REQ-FND-10",
+  "acceptance": "REQ-CMP-13; archived: v1:REQ-FND-10",
   "reqs": [
    "REQ-CMP-13"
   ],
@@ -9365,7 +9365,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/checkbox.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Checkbox Keyboard story is the target",
-  "acceptance": "REQ-CMP-53; archived: AC-CTL-06; REQ-CTL-74, -170",
+  "acceptance": "REQ-CMP-53; archived: v1:AC-CTL-06; v1:REQ-CTL-74, -170",
   "reqs": [
    "REQ-CMP-53"
   ],
@@ -9398,7 +9398,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/radio-group.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "RadioGroup Keyboard story is the target",
-  "acceptance": "REQ-CMP-56; archived: AC-CTL-06; REQ-CTL-82, -170",
+  "acceptance": "REQ-CMP-56; archived: v1:AC-CTL-06; v1:REQ-CTL-82, -170",
   "reqs": [
    "REQ-CMP-56"
   ],
@@ -9431,7 +9431,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/switch.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Switch Keyboard story is the target",
-  "acceptance": "REQ-CMP-47; archived: AC-CTL-06; REQ-CTL-55, -170",
+  "acceptance": "REQ-CMP-47; archived: v1:AC-CTL-06; v1:REQ-CTL-55, -170",
   "reqs": [
    "REQ-CMP-47"
   ],
@@ -9443,10 +9443,10 @@
   "id": "CMP-364",
   "prd": "PRD-3",
   "lane": "3i-Q",
-  "system": "wave gate",
+  "system": "checkpoint gate (CMP-internal, runs on merged next)",
   "file": "tests/a11y/apg/cmp/{checkbox,radio-group,switch}.apg.spec.ts",
   "action": "TEST",
-  "description": "Wave A remote gate: one remote run (GitLab CI or auraone-remote-run) of jest test:controls, the Storybook test runner over Flagships/Controls/{Checkbox,CheckboxGroup,RadioGroup,Switch,TextField,Field}, and checkbox/radio-group/switch APG specs on 3 engines. Record run URLs. (Cross-lane input 3c-I is consumed through its frozen interface, never waited for.)",
+  "description": "Checkpoint A remote gate: one remote run (GitLab CI or auraone-remote-run) of jest test:controls, the Storybook test runner over Flagships/Controls/{Checkbox,CheckboxGroup,RadioGroup,Switch,TextField,Field}, and checkbox/radio-group/switch APG specs on 3 engines. Record run URLs. (Cross-lane input 3c-I is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-361",
    "CMP-362",
@@ -9455,8 +9455,8 @@
   "contract_seams": [],
   "priority": "P0",
   "test": "9/9 APG runs green; Storybook test runner green; jest green",
-  "storybook": "all Wave A stories",
-  "acceptance": "archived: AC-CTL-06 (3 of 11 scripts), AC-CTL-03",
+  "storybook": "all Checkpoint A stories",
+  "acceptance": "archived: v1:AC-CTL-06 (3 of 11 scripts), v1:AC-CTL-03",
   "reqs": [],
   "branch": "next",
   "source": "CTL-054",
@@ -9487,7 +9487,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/button.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Button Keyboard story is the target",
-  "acceptance": "REQ-CMP-35; archived: AC-CTL-06; REQ-CTL-25, -09, -170",
+  "acceptance": "REQ-CMP-35; archived: v1:AC-CTL-06; v1:REQ-CTL-25, -09, -170",
   "reqs": [
    "REQ-CMP-35"
   ],
@@ -9520,7 +9520,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/toolbar.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Toolbar Keyboard story is the target",
-  "acceptance": "REQ-CMP-38, REQ-CMP-40; archived: AC-CTL-06; REQ-CTL-34, -35, -170",
+  "acceptance": "REQ-CMP-38, REQ-CMP-40; archived: v1:AC-CTL-06; v1:REQ-CTL-34, -35, -170",
   "reqs": [
    "REQ-CMP-38",
    "REQ-CMP-40"
@@ -9554,7 +9554,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/search-field.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "SearchField Keyboard story is the target",
-  "acceptance": "REQ-CMP-64; archived: AC-CTL-06; REQ-CTL-103, -104",
+  "acceptance": "REQ-CMP-64; archived: v1:AC-CTL-06; v1:REQ-CTL-103, -104",
   "reqs": [
    "REQ-CMP-64"
   ],
@@ -9587,7 +9587,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/segmented-control.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "SegmentedControl Keyboard story is the target",
-  "acceptance": "REQ-CMP-43; archived: AC-CTL-06; REQ-CTL-45, -170",
+  "acceptance": "REQ-CMP-43; archived: v1:AC-CTL-06; v1:REQ-CTL-45, -170",
   "reqs": [
    "REQ-CMP-43"
   ],
@@ -9599,10 +9599,10 @@
   "id": "CMP-369",
   "prd": "PRD-3",
   "lane": "3i-Q",
-  "system": "wave gate",
+  "system": "checkpoint gate (CMP-internal, runs on merged next)",
   "file": "tests/a11y/apg/cmp/{button,toolbar,segmented-control,search-field}.apg.spec.ts",
   "action": "TEST",
-  "description": "Wave B remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Button,IconButton,ButtonGroup,Toolbar,ToggleGroup,SearchField,SegmentedControl}, and the four APG specs on 3 engines. Record run URLs. (Cross-lane input 3b-A, 3c-I is consumed through its frozen interface, never waited for.)",
+  "description": "Checkpoint B remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Button,IconButton,ButtonGroup,Toolbar,ToggleGroup,SearchField,SegmentedControl}, and the four APG specs on 3 engines. Record run URLs. (Cross-lane input 3b-A, 3c-I is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-365",
    "CMP-366",
@@ -9612,8 +9612,8 @@
   "contract_seams": [],
   "priority": "P0",
   "test": "12/12 APG runs green; Storybook test runner green",
-  "storybook": "all Wave B stories",
-  "acceptance": "archived: AC-CTL-06 (4 of 11 scripts), AC-CTL-03",
+  "storybook": "all Checkpoint B stories",
+  "acceptance": "archived: v1:AC-CTL-06 (4 of 11 scripts), v1:AC-CTL-03",
   "reqs": [],
   "branch": "next",
   "source": "CTL-088",
@@ -9644,7 +9644,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/slider.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Slider Keyboard story is the target",
-  "acceptance": "REQ-CMP-50; archived: AC-CTL-06; REQ-CTL-63, -170",
+  "acceptance": "REQ-CMP-50; archived: v1:AC-CTL-06; v1:REQ-CTL-63, -170",
   "reqs": [
    "REQ-CMP-50"
   ],
@@ -9677,7 +9677,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/number-field.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "NumberField Keyboard story is the target",
-  "acceptance": "REQ-CMP-77; archived: AC-CTL-06; REQ-CTL-132, -170",
+  "acceptance": "REQ-CMP-77; archived: v1:AC-CTL-06; v1:REQ-CTL-132, -170",
   "reqs": [
    "REQ-CMP-77"
   ],
@@ -9710,7 +9710,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/select.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Select Keyboard story is the target",
-  "acceptance": "REQ-CMP-66; archived: AC-CTL-06; REQ-CTL-113, -170",
+  "acceptance": "REQ-CMP-66; archived: v1:AC-CTL-06; v1:REQ-CTL-113, -170",
   "reqs": [
    "REQ-CMP-66"
   ],
@@ -9743,7 +9743,7 @@
   "priority": "P0",
   "test": "remote: playwright test tests/a11y/apg/combobox.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
   "storybook": "Combobox Keyboard story is the target",
-  "acceptance": "REQ-CMP-70; archived: AC-CTL-06; REQ-CTL-123, -170",
+  "acceptance": "REQ-CMP-70; archived: v1:AC-CTL-06; v1:REQ-CTL-123, -170",
   "reqs": [
    "REQ-CMP-70"
   ],
@@ -9755,10 +9755,10 @@
   "id": "CMP-374",
   "prd": "PRD-3",
   "lane": "3i-Q",
-  "system": "wave gate",
+  "system": "checkpoint gate (CMP-internal, runs on merged next)",
   "file": "tests/a11y/apg/cmp/{slider,number-field,select,combobox}.apg.spec.ts",
   "action": "TEST",
-  "description": "Wave C remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Slider,NumberField,Select,Combobox}, the four APG specs on 3 engines. Record run URLs. (Cross-lane input 3c-I is consumed through its frozen interface, never waited for.)",
+  "description": "Checkpoint C remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Slider,NumberField,Select,Combobox}, the four APG specs on 3 engines. Record run URLs. (Cross-lane input 3c-I is consumed through its frozen interface, never waited for.)",
   "depends_on": [
    "CMP-370",
    "CMP-371",
@@ -9768,8 +9768,8 @@
   "contract_seams": [],
   "priority": "P0",
   "test": "12/12 APG runs green; Storybook test runner green",
-  "storybook": "all Wave C stories",
-  "acceptance": "archived: AC-CTL-06 (4 of 11 scripts), AC-CTL-03",
+  "storybook": "all Checkpoint C stories",
+  "acceptance": "archived: v1:AC-CTL-06 (4 of 11 scripts), v1:AC-CTL-03",
   "reqs": [],
   "branch": "next",
   "source": "CTL-120",
@@ -9796,7 +9796,7 @@
   "priority": "P0",
   "test": "remote: 13 families x 2 x 4 x 3 engines all green",
   "storybook": "Overview stories",
-  "acceptance": "REQ-CMP-90; archived: AC-CTL-07; REQ-CTL-171, -172",
+  "acceptance": "REQ-CMP-90; archived: v1:AC-CTL-07; v1:REQ-CTL-171, -172",
   "reqs": [
    "REQ-CMP-90"
   ],
@@ -9817,7 +9817,7 @@
   "priority": "P0",
   "test": "remote: 3 engines green",
   "storybook": "Matrix focus-visible column",
-  "acceptance": "REQ-CMP-19; archived: AC-CTL-08 (ring), AC-CTL-19 input; REQ-CTL-09, -10, -171",
+  "acceptance": "REQ-CMP-19; archived: v1:AC-CTL-08 (ring), v1:AC-CTL-19 input; v1:REQ-CTL-09, -10, -171",
   "reqs": [
    "REQ-CMP-19"
   ],
@@ -9838,7 +9838,7 @@
   "priority": "P0",
   "test": "remote: 3 engines green",
   "storybook": "Density stories",
-  "acceptance": "REQ-CMP-21; archived: AC-CTL-09; REQ-CTL-05, -06, -23, -52, -72, -160..162, -165..167",
+  "acceptance": "REQ-CMP-21; archived: v1:AC-CTL-09; v1:REQ-CTL-05, -06, -23, -52, -72, -160..162, -165..167",
   "reqs": [
    "REQ-CMP-21"
   ],
@@ -9859,7 +9859,7 @@
   "priority": "P1",
   "test": "remote: 3 engines green",
   "storybook": "Select InContext-in-Dialog story",
-  "acceptance": "REQ-CMP-27; archived: AC-CTL-06 support; PRD §12.2; PRD-FND REQ-FND-21",
+  "acceptance": "REQ-CMP-27; archived: v1:AC-CTL-06 support; PRD §12.2; PRD-FND v1:REQ-FND-21",
   "reqs": [
    "REQ-CMP-27"
   ],
@@ -9883,7 +9883,7 @@
   "priority": "P0",
   "test": "remote: 3 engines green",
   "storybook": "Preferences stories (motion none)",
-  "acceptance": "REQ-CMP-18; archived: AC-CTL-10; REQ-CTL-11, -12, -44, -54, -115",
+  "acceptance": "REQ-CMP-18; archived: v1:AC-CTL-10; v1:REQ-CTL-11, -12, -44, -54, -115",
   "reqs": [
    "REQ-CMP-18"
   ],
@@ -9909,7 +9909,7 @@
   "priority": "P0",
   "test": "remote: certify lane artifact (lane-manifest.json) green",
   "storybook": "Matrix + Preferences stories",
-  "acceptance": "REQ-CMP-36; archived: AC-CTL-08; REQ-CTL-28, -95, -171..173",
+  "acceptance": "REQ-CMP-36; archived: v1:AC-CTL-08; v1:REQ-CTL-28, -95, -171..173",
   "reqs": [
    "REQ-CMP-36"
   ],
@@ -9930,7 +9930,7 @@
   "priority": "P1",
   "test": "remote: engine lane artifact",
   "storybook": "Button/SearchField Matrix (refraction)",
-  "acceptance": "REQ-CMP-63; archived: AC-CTL-17; REQ-CTL-102, §10.1 A14",
+  "acceptance": "REQ-CMP-63; archived: v1:AC-CTL-17; v1:REQ-CTL-102, §10.1 A14",
   "reqs": [
    "REQ-CMP-63"
   ],
@@ -9951,7 +9951,7 @@
   "priority": "P0",
   "test": "remote: 3 engines green",
   "storybook": "Toolbar/SegmentedControl/SearchField InContext stories",
-  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: AC-CTL-11; REQ-CTL-33, -102, §4.2, §16",
+  "acceptance": "REQ-CMP-37, REQ-CMP-38, REQ-CMP-39; archived: v1:AC-CTL-11; v1:REQ-CTL-33, -102, §4.2, §16",
   "reqs": [
    "REQ-CMP-37",
    "REQ-CMP-38",
@@ -9977,7 +9977,7 @@
   "priority": "P0",
   "test": "remote perf lane: perf-results.json + perf-grades.json artifacts",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-90; archived: AC-CTL-14; §16 runtime table",
+  "acceptance": "REQ-CMP-90; archived: v1:AC-CTL-14; §16 runtime table",
   "reqs": [
    "REQ-CMP-90"
   ],
@@ -10010,7 +10010,7 @@
   "priority": "P1",
   "test": "records for the RC SHA validate against A11Y-084 schema with 0 blocking issues",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-138; archived: AC-CTL-18; REQ-CTL-177",
+  "acceptance": "REQ-CMP-138; archived: v1:AC-CTL-18; v1:REQ-CTL-177",
   "reqs": [
    "REQ-CMP-138"
   ],
@@ -10035,7 +10035,7 @@
   "priority": "P0",
   "test": "remote Playwright run: 6 captures, 0 px diff each",
   "storybook": "existing 4.x stories glass-modal/glass-dialog/glass-drawer, unchanged",
-  "acceptance": "archived: AC-OVL-18 (REQ-OVL-70 pixel-identical, D-27)",
+  "acceptance": "archived: v1:AC-OVL-18 (v1:REQ-OVL-70 pixel-identical, D-27)",
   "reqs": [],
   "branch": "next",
   "source": "OVL-006",
@@ -10061,7 +10061,7 @@
   "priority": "P0",
   "test": "remote run produces the 4-entry attribution artifact",
   "storybook": "existing glass-modal story",
-  "acceptance": "REQ-CMP-82; archived: AC-OVL-05 prerequisite (REQ-OVL-05 attribution)",
+  "acceptance": "REQ-CMP-82; archived: v1:AC-OVL-05 prerequisite (v1:REQ-OVL-05 attribution)",
   "reqs": [
    "REQ-CMP-82"
   ],
@@ -10084,7 +10084,7 @@
   "priority": "P1",
   "test": "remote overlays-perf run on release/4.x Storybook",
   "storybook": "n/a",
-  "acceptance": "archived: AC-OVL-05 (REQ-OVL-71)",
+  "acceptance": "archived: v1:AC-OVL-05 (v1:REQ-OVL-71)",
   "reqs": [],
   "branch": "next",
   "source": "OVL-009",
@@ -10105,7 +10105,7 @@
   "priority": "P1",
   "test": "remote run: count 0",
   "storybook": "existing glass-modal story",
-  "acceptance": "REQ-CMP-19; archived: AC-OVL-08 (REQ-OVL-72)",
+  "acceptance": "REQ-CMP-19; archived: v1:AC-OVL-08 (v1:REQ-OVL-72)",
   "reqs": [
    "REQ-CMP-19"
   ],
@@ -10133,7 +10133,7 @@
   "priority": "P1",
   "test": "remote overlays-chromium|webkit|firefox green per subject",
   "storybook": "subjects' default stories",
-  "acceptance": "REQ-CMP-83; archived: REQ-OVL-09, §16.2 durations",
+  "acceptance": "REQ-CMP-83; archived: v1:REQ-OVL-09, §16.2 durations",
   "reqs": [
    "REQ-CMP-83"
   ],
@@ -10162,7 +10162,7 @@
   "priority": "P0",
   "test": "remote 3-engine run green on fixture subject",
   "storybook": "subjects' default stories + preference globals",
-  "acceptance": "REQ-CMP-84; archived: AC-OVL-08, AC-OVL-10 (REQ-OVL-12)",
+  "acceptance": "REQ-CMP-84; archived: v1:AC-OVL-08, v1:AC-OVL-10 (v1:REQ-OVL-12)",
   "reqs": [
    "REQ-CMP-84"
   ],
@@ -10191,7 +10191,7 @@
   "priority": "P0",
   "test": "overlays-chromium|webkit|firefox green",
   "storybook": "Dialog Default, LongContent, Form",
-  "acceptance": "REQ-CMP-88; archived: AC-OVL-06 (REQ-OVL-19, -20)",
+  "acceptance": "REQ-CMP-88; archived: v1:AC-OVL-06 (v1:REQ-OVL-19, -20)",
   "reqs": [
    "REQ-CMP-88"
   ],
@@ -10220,7 +10220,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "AlertDialog stories",
-  "acceptance": "REQ-CMP-91; archived: AC-OVL-06 (REQ-OVL-26, -27)",
+  "acceptance": "REQ-CMP-91; archived: v1:AC-OVL-06 (v1:REQ-OVL-26, -27)",
   "reqs": [
    "REQ-CMP-91"
   ],
@@ -10248,7 +10248,7 @@
   "priority": "P0",
   "test": "overlays-perf remote run green; artifact with before/after table",
   "storybook": "Overlays/Perf/Dialog over dashboard",
-  "acceptance": "REQ-CMP-79; archived: AC-OVL-01, -02, -03, -04, -05 (REQ-OVL-04, -05, -07, -08, -29)",
+  "acceptance": "REQ-CMP-79; archived: v1:AC-OVL-01, -02, -03, -04, -05 (v1:REQ-OVL-04, -05, -07, -08, -29)",
   "reqs": [
    "REQ-CMP-79"
   ],
@@ -10269,7 +10269,7 @@
   "priority": "P0",
   "test": "overlays-* 3-engine green",
   "storybook": "Dialog Nested",
-  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78; archived: AC-OVL-07 (REQ-OVL-23, -03)",
+  "acceptance": "REQ-CMP-86, REQ-CMP-89, REQ-CMP-78; archived: v1:AC-OVL-07 (v1:REQ-OVL-23, -03)",
   "reqs": [
    "REQ-CMP-86",
    "REQ-CMP-89",
@@ -10300,7 +10300,7 @@
   "priority": "P0",
   "test": "overlays-perf green; PRD-02 size lane green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-136; archived: AC-OVL-13 (REQ-OVL-77), §16.2",
+  "acceptance": "REQ-CMP-136; archived: v1:AC-OVL-13 (v1:REQ-OVL-77), §16.2",
   "reqs": [
    "REQ-CMP-136"
   ],
@@ -10315,7 +10315,7 @@
   "system": "Dialog/palette-shell",
   "file": "tests/perf/browser/cmp/overlays-dialog-perf.spec.ts",
   "action": "MODIFY",
-  "description": "Add the PaletteShell story and, once PRD-11 lands them, CommandPalette story ids to the subject list so REQ-OVL-04/-06 assertions run on them; write hand-off note to PRD-11 listing the public parts (Popup initialFocus, size lg, placement top, Body padding none). Report AC-OVL-20 CommandPalette half as pending until PRD-11 stories exist.",
+  "description": "Add the PaletteShell story and, as soon as SURF's stories appear in the SubjectIndex, CommandPalette story ids to the subject list so REQ-OVL-04/-06 assertions run on them; write hand-off note to PRD-11 listing the public parts (Popup initialFocus, size lg, placement top, Body padding none). Report AC-OVL-20 CommandPalette half as pending until SURF's CommandPalette stories appear in the SubjectIndex (no wait).",
   "depends_on": [
    "CMP-393"
   ],
@@ -10326,7 +10326,7 @@
   "priority": "P1",
   "test": "overlays-dialog-perf.spec.ts subjects include palette stories",
   "storybook": "Dialog PaletteShell",
-  "acceptance": "REQ-CMP-90, REQ-CMP-79; archived: AC-OVL-20 (REQ-OVL-60)",
+  "acceptance": "REQ-CMP-90, REQ-CMP-79; archived: v1:AC-OVL-20 (v1:REQ-OVL-60)",
   "reqs": [
    "REQ-CMP-90",
    "REQ-CMP-79"
@@ -10356,7 +10356,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Popover Click, Collision",
-  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: AC-OVL-06, AC-OVL-14 (REQ-OVL-41, -42)",
+  "acceptance": "REQ-CMP-97, REQ-CMP-85; archived: v1:AC-OVL-06, v1:AC-OVL-14 (v1:REQ-OVL-41, -42)",
   "reqs": [
    "REQ-CMP-97",
    "REQ-CMP-85"
@@ -10386,7 +10386,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Tooltip Default, OnIconButton",
-  "acceptance": "REQ-CMP-99; archived: AC-OVL-06 (REQ-OVL-47, -48, -50)",
+  "acceptance": "REQ-CMP-99; archived: v1:AC-OVL-06 (v1:REQ-OVL-47, -48, -50)",
   "reqs": [
    "REQ-CMP-99"
   ],
@@ -10410,7 +10410,7 @@
   "priority": "P0",
   "test": "overlays-* 3-engine green",
   "storybook": "Dialog Default + Popover in body",
-  "acceptance": "REQ-CMP-80; archived: AC-OVL-07 (REQ-OVL-03)",
+  "acceptance": "REQ-CMP-80; archived: v1:AC-OVL-07 (v1:REQ-OVL-03)",
   "reqs": [
    "REQ-CMP-80"
   ],
@@ -10433,7 +10433,7 @@
   "priority": "P0",
   "test": "overlays-perf green; jest _shared green",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-98; archived: AC-OVL-02, §16.2 (REQ-OVL-44, -51)",
+  "acceptance": "REQ-CMP-98; archived: v1:AC-OVL-02, §16.2 (v1:REQ-OVL-44, -51)",
   "reqs": [
    "REQ-CMP-98"
   ],
@@ -10462,7 +10462,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Menu Default, Submenus",
-  "acceptance": "REQ-CMP-103; archived: AC-OVL-06 (REQ-OVL-53)",
+  "acceptance": "REQ-CMP-103; archived: v1:AC-OVL-06 (v1:REQ-OVL-53)",
   "reqs": [
    "REQ-CMP-103"
   ],
@@ -10491,7 +10491,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Menu ContextMenuRegion",
-  "acceptance": "REQ-CMP-105; archived: AC-OVL-06 (REQ-OVL-56)",
+  "acceptance": "REQ-CMP-105; archived: v1:AC-OVL-06 (v1:REQ-OVL-56)",
   "reqs": [
    "REQ-CMP-105"
   ],
@@ -10520,7 +10520,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Menu Menubar",
-  "acceptance": "REQ-CMP-105; archived: AC-OVL-06 (REQ-OVL-57)",
+  "acceptance": "REQ-CMP-105; archived: v1:AC-OVL-06 (v1:REQ-OVL-57)",
   "reqs": [
    "REQ-CMP-105"
   ],
@@ -10544,7 +10544,7 @@
   "priority": "P0",
   "test": "overlays-* 3-engine green",
   "storybook": "composed stack story in overlay-stack fixture page",
-  "acceptance": "REQ-CMP-80; archived: AC-OVL-07 (REQ-OVL-03)",
+  "acceptance": "REQ-CMP-80; archived: v1:AC-OVL-07 (v1:REQ-OVL-03)",
   "reqs": [
    "REQ-CMP-80"
   ],
@@ -10573,7 +10573,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Sheet BottomDetents, RightPanel",
-  "acceptance": "REQ-CMP-95; archived: AC-OVL-06 (REQ-OVL-33)",
+  "acceptance": "REQ-CMP-95; archived: v1:AC-OVL-06 (v1:REQ-OVL-33)",
   "reqs": [
    "REQ-CMP-95"
   ],
@@ -10601,7 +10601,7 @@
   "priority": "P1",
   "test": "overlays-perf green",
   "storybook": "Sheet BottomDetents",
-  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: REQ-OVL-39, §16.2 Sheet drag",
+  "acceptance": "REQ-CMP-94, REQ-CMP-96; archived: v1:REQ-OVL-39, §16.2 Sheet drag",
   "reqs": [
    "REQ-CMP-94",
    "REQ-CMP-96"
@@ -10625,7 +10625,7 @@
   "priority": "P0",
   "test": "overlays-perf; jest _shared",
   "storybook": "n/a",
-  "acceptance": "REQ-CMP-79, REQ-CMP-81; archived: AC-OVL-01, AC-OVL-02 (Sheet), REQ-OVL-38",
+  "acceptance": "REQ-CMP-79, REQ-CMP-81; archived: v1:AC-OVL-01, v1:AC-OVL-02 (Sheet), v1:REQ-OVL-38",
   "reqs": [
    "REQ-CMP-79",
    "REQ-CMP-81"
@@ -10655,7 +10655,7 @@
   "priority": "P0",
   "test": "overlays-* green",
   "storybook": "Toast EachIntent, Swipe",
-  "acceptance": "REQ-CMP-107; archived: AC-OVL-06 (REQ-OVL-63, -65)",
+  "acceptance": "REQ-CMP-107; archived: v1:AC-OVL-06 (v1:REQ-OVL-63, -65)",
   "reqs": [
    "REQ-CMP-107"
   ],
@@ -10679,7 +10679,7 @@
   "priority": "P0",
   "test": "overlays-* 3-engine green",
   "storybook": "Dialog Default + toast() fired",
-  "acceptance": "REQ-CMP-131, REQ-CMP-04; archived: AC-OVL-07",
+  "acceptance": "REQ-CMP-131, REQ-CMP-04; archived: v1:AC-OVL-07",
   "reqs": [
    "REQ-CMP-131",
    "REQ-CMP-04"
@@ -10704,7 +10704,7 @@
   "priority": "P0",
   "test": "overlays-* 3-engine green on RC SHA",
   "storybook": "all flagship default stories + preference globals",
-  "acceptance": "REQ-CMP-84; archived: AC-OVL-08, AC-OVL-10 (REQ-OVL-12)",
+  "acceptance": "REQ-CMP-84; archived: v1:AC-OVL-08, v1:AC-OVL-10 (v1:REQ-OVL-12)",
   "reqs": [
    "REQ-CMP-84"
   ],
