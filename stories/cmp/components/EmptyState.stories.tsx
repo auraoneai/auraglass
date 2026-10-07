@@ -7,7 +7,7 @@ const meta = {
   title: 'Core/EmptyState',
   component: EmptyState,
   tags: ['core'],
-  parameters: { ag: { subject: 'EmptyState', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { subject: 'EmptyState', kind: 'component' } },
 } satisfies Meta<typeof EmptyState>;
 export default meta;
 type Story = StoryObj<typeof meta>;

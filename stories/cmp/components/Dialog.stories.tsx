@@ -12,7 +12,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Dialog',
   component: Dialog.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'component' } },
 } satisfies Meta<typeof Dialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

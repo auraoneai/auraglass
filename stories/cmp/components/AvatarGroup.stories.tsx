@@ -7,7 +7,7 @@ const meta = {
   title: 'Core/AvatarGroup',
   component: AvatarGroup,
   tags: ['core'],
-  parameters: { ag: { subject: 'AvatarGroup', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { subject: 'AvatarGroup', kind: 'component' } },
 } satisfies Meta<typeof AvatarGroup>;
 export default meta;
 type Story = StoryObj<typeof meta>;

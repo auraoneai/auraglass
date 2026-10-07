@@ -7,7 +7,7 @@ const meta = {
   title: 'Core/Steps',
   component: Steps,
   tags: ['core'],
-  parameters: { ag: { subject: 'Steps', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { subject: 'Steps', kind: 'component' } },
 } satisfies Meta<typeof Steps>;
 export default meta;
 type Story = StoryObj<typeof meta>;

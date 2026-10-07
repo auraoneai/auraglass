@@ -9,7 +9,7 @@ import type { StoryAgParameters } from '../../../src/contracts/testing';
 const sbMeta = {
   title: 'Flagships/Overlays/DialogPerf',
   component: Dialog.Root,
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'component' } },
 } satisfies Meta<typeof Dialog.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

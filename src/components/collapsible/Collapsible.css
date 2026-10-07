@@ -1,0 +1,5 @@
+/* CMP-314 Collapsible */
+@layer ag.components {
+  .ag-collapsible-trigger { cursor: pointer; }
+  .ag-collapsible-content { overflow: hidden; }
+}

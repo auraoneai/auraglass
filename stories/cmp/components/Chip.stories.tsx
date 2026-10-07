@@ -7,7 +7,7 @@ const meta = {
   title: 'Core/Chip',
   component: Chip,
   tags: ['core'],
-  parameters: { ag: { subject: 'Chip', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { subject: 'Chip', kind: 'component' } },
 } satisfies Meta<typeof Chip>;
 export default meta;
 type Story = StoryObj<typeof meta>;

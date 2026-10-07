@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Toolbar',
   component: Toolbar.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Toolbar', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Toolbar', kind: 'component' } },
   args: { 'aria-label': 'Formatting' },
 } satisfies Meta<typeof Toolbar.Root>;
 export default sbMeta;

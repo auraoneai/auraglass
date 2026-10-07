@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/ToggleGroup',
   component: ToggleGroup.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'ToggleGroup', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'ToggleGroup', kind: 'component' } },
 } satisfies Meta<typeof ToggleGroup.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

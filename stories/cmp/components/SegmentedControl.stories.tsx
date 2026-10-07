@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/SegmentedControl',
   component: SegmentedControl.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'SegmentedControl', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'SegmentedControl', kind: 'component' } },
   args: { 'aria-label': 'View mode' },
 } satisfies Meta<typeof SegmentedControl.Root>;
 export default sbMeta;

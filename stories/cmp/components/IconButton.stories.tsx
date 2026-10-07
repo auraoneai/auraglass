@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/IconButton',
   component: IconButton,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'IconButton', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'IconButton', kind: 'component' } },
   args: { label: 'Close' },
 } satisfies Meta<typeof IconButton>;
 export default sbMeta;

@@ -11,7 +11,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Popover',
   component: Popover.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Popover', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Popover', kind: 'component' } },
 } satisfies Meta<typeof Popover.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

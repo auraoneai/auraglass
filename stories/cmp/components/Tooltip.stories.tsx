@@ -11,7 +11,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Tooltip',
   component: Tooltip.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Tooltip', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Tooltip', kind: 'component' } },
 } satisfies Meta<typeof Tooltip.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
