@@ -1,0 +1,130 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "environment": {
+      "$description": "Environment optics + scrims (MAT-019). Backdrop tints select by data-ag-backdrop.",
+      "light": {
+        "angle": {
+          "$type": "dimension",
+          "$value": {
+            "value": 300,
+            "unit": "deg"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-light-angle"
+          }
+        },
+        "specular": {
+          "$type": "number",
+          "$value": 0.5,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-specular"
+          }
+        }
+      },
+      "glass-opacity": {
+        "$type": "number",
+        "$value": 0,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-glass-opacity"
+        }
+      },
+      "backdrop": {
+        "light": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0.99,
+              0.002,
+              250
+            ],
+            "alpha": 1
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false
+          }
+        },
+        "dark": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0.15,
+              0.01,
+              250
+            ],
+            "alpha": 1
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false
+          }
+        },
+        "media": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0.5,
+              0.01,
+              250
+            ],
+            "alpha": 1
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false
+          }
+        }
+      },
+      "scrim": {
+        "clear": {
+          "$type": "number",
+          "$value": 0.35,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-scrim-clear"
+          }
+        },
+        "media": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.72
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-scrim-media"
+          }
+        }
+      }
+    }
+  }
+}

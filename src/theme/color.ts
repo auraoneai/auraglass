@@ -18,7 +18,7 @@ export const normalizeHexColor = (input: string): string => {
   if (/^[0-9a-fA-F]{6}$/.test(value)) {
     return `#${value.toLowerCase()}`;
   }
-  return "#7dd3fc";
+  return "#7dd3fc"; // @ag-literal-allowed: color-math
 };
 
 export const hexToRgb = (input: string): GlassRgb => {
@@ -70,8 +70,8 @@ export const contrastRatio = (
 
 export const bestTextColor = (
   background: string,
-  light = "#f8fafc",
-  dark = "#06111f"
+  light = "#f8fafc", // @ag-literal-allowed: color-math
+  dark = "#06111f" // @ag-literal-allowed: color-math
 ): string =>
   contrastRatio(light, background) >= contrastRatio(dark, background)
     ? light

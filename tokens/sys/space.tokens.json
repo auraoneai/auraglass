@@ -1,39 +1,340 @@
 {
   "$schema": "../$schema.json",
   "sys": {
-    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
     "space": {
-      "$type": "mode-table",
-      "$extensions": { "ag.axis": "density", "ag.valueType": "dimension" },
-      "$description": "4pt grid. Each step is n x 4px at regular density; compact multiplies by 0.875, spacious by 1.125 (REQ-MAT-07).",
-      "0":  { "$value": { "regular": { "value": 0, "unit": "px" }, "compact": { "value": 0, "unit": "px" }, "spacious": { "value": 0, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-0" } },
-      "1":  { "$value": { "regular": { "value": 4, "unit": "px" }, "compact": { "value": 3.5, "unit": "px" }, "spacious": { "value": 4.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-1" } },
-      "2":  { "$value": { "regular": { "value": 8, "unit": "px" }, "compact": { "value": 7, "unit": "px" }, "spacious": { "value": 9, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-2" } },
-      "3":  { "$value": { "regular": { "value": 12, "unit": "px" }, "compact": { "value": 10.5, "unit": "px" }, "spacious": { "value": 13.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-3" } },
-      "4":  { "$value": { "regular": { "value": 16, "unit": "px" }, "compact": { "value": 14, "unit": "px" }, "spacious": { "value": 18, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-4" } },
-      "5":  { "$value": { "regular": { "value": 20, "unit": "px" }, "compact": { "value": 17.5, "unit": "px" }, "spacious": { "value": 22.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-5" } },
-      "6":  { "$value": { "regular": { "value": 24, "unit": "px" }, "compact": { "value": 21, "unit": "px" }, "spacious": { "value": 27, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-6" } },
-      "8":  { "$value": { "regular": { "value": 32, "unit": "px" }, "compact": { "value": 28, "unit": "px" }, "spacious": { "value": 36, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-8" } },
-      "10": { "$value": { "regular": { "value": 40, "unit": "px" }, "compact": { "value": 35, "unit": "px" }, "spacious": { "value": 45, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-10" } },
-      "12": { "$value": { "regular": { "value": 48, "unit": "px" }, "compact": { "value": 42, "unit": "px" }, "spacious": { "value": 54, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-12" } },
-      "16": { "$value": { "regular": { "value": 64, "unit": "px" }, "compact": { "value": 56, "unit": "px" }, "spacious": { "value": 72, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-space-16" } }
+      "$description": "4pt grid; emitted as calc(<px> * var(--_ag-density)) so density scales at runtime (MAT-015).",
+      "0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-0",
+          "ag.calc": "density"
+        }
+      },
+      "1": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-1",
+          "ag.calc": "density"
+        }
+      },
+      "2": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-2",
+          "ag.calc": "density"
+        }
+      },
+      "3": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-3",
+          "ag.calc": "density"
+        }
+      },
+      "4": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-4",
+          "ag.calc": "density"
+        }
+      },
+      "5": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-5",
+          "ag.calc": "density"
+        }
+      },
+      "6": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-6",
+          "ag.calc": "density"
+        }
+      },
+      "8": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-8",
+          "ag.calc": "density"
+        }
+      },
+      "10": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-10",
+          "ag.calc": "density"
+        }
+      },
+      "12": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-12",
+          "ag.calc": "density"
+        }
+      },
+      "16": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-space-16",
+          "ag.calc": "density"
+        }
+      }
     },
     "density": {
-      "$type": "mode-table",
-      "$extensions": { "ag.axis": "density", "ag.valueType": "number" },
       "factor": {
-        "$value": { "regular": 1, "compact": 0.875, "spacious": 1.125 },
-        "$extensions": { "ag.public": true, "ag.cssVar": "--ag-density" }
+        "$type": "mode-table",
+        "$value": {
+          "regular": 1,
+          "compact": 0.875,
+          "spacious": 1.125
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-density",
+          "ag.axis": "density",
+          "ag.valueType": "number"
+        }
+      },
+      "readout": {
+        "$type": "string",
+        "$value": "var(--_ag-density)",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-density"
+        }
+      }
+    },
+    "target": {
+      "$description": "Hit-target sizes; NOT density-scaled (MAT-015).",
+      "min": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-target-min"
+        }
+      },
+      "coarse": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-target-coarse"
+        }
       }
     },
     "shape": {
-      "radius-outer": { "$type": "dimension", "$value": { "value": 20, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-outer" } },
-      "inset":        { "$type": "dimension", "$value": { "value": 8, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-inset" } },
-      "radius-inner": { "$type": "dimension", "$value": { "value": 12, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-inner" } }
+      "radius-outer": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-radius-outer"
+        }
+      },
+      "inset": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-inset"
+        }
+      },
+      "radius-inner": {
+        "$type": "string",
+        "$value": "max(0px, calc(var(--ag-radius-outer) - var(--ag-inset)))",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-radius-inner"
+        }
+      }
     },
     "layout": {
-      "scroll-padding-top":    { "$type": "dimension", "$value": { "value": 0, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-scroll-padding-top" } },
-      "scroll-padding-bottom": { "$type": "dimension", "$value": { "value": 0, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-scroll-padding-bottom" } }
+      "scroll-padding-top": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-scroll-padding-top"
+        }
+      },
+      "scroll-padding-bottom": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-scroll-padding-bottom"
+        }
+      }
+    },
+    "breakpoint": {
+      "$description": "Breakpoints (MAT-037): consumed only by the Tailwind bridge @theme; never emitted as public vars.",
+      "sm": {
+        "$type": "dimension",
+        "$value": {
+          "value": 640,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false
+        }
+      },
+      "md": {
+        "$type": "dimension",
+        "$value": {
+          "value": 768,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false
+        }
+      },
+      "lg": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1024,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false
+        }
+      },
+      "xl": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1280,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false
+        }
+      }
     }
   }
 }

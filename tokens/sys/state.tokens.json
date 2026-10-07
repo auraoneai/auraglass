@@ -1,18 +1,267 @@
 {
   "$schema": "../$schema.json",
   "sys": {
-    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
     "state": {
-      "$description": "Interaction-state constants (REQ-MAT values; §interaction states).",
-      "hover-specular":  { "$type": "number", "$value": 0.15, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-hover-specular" } },
-      "hover-floor":     { "$type": "number", "$value": 0.02, "$extensions": { "ag.public": false } },
-      "press-glow":      { "$type": "number", "$value": 0.25, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-press-glow" } },
-      "press-floor":     { "$type": "number", "$value": 0.04, "$extensions": { "ag.public": false } },
-      "selected-tint":   { "$type": "number", "$value": 0.16, "$extensions": { "ag.public": false } },
-      "disabled-alpha":  { "$type": "number", "$value": 0.45, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-state-disabled-alpha" } },
-      "loading-alpha":   { "$type": "number", "$value": 0.7,  "$extensions": { "ag.public": false } },
-      "drop-target-rim": { "$type": "dimension", "$value": { "value": 2, "unit": "px" }, "$extensions": { "ag.public": false } },
-      "drop-target-fill":{ "$type": "number", "$value": 0.06, "$extensions": { "ag.public": false } }
+      "$description": "Interaction states (MAT-018, REQ-DS-19). Keys 'default' | 'contrast.more' | 'transparency.solid'. Under contrast=more specular/glow deltas collapse to 0 and rim/floor deltas rise; under transparency=solid fills rise to keep separation. disabled dims via --_ag-surface-alpha (never a host opacity: declaration).",
+      "hover": {
+        "$description": "Hover: specular lifts the highlight, floor lifts the tint floor.",
+        "specular": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.15,
+            "contrast.more": 0,
+            "transparency.solid": 0.15
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-state-hover-specular",
+            "ag.valueType": "number"
+          }
+        },
+        "floor": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.02,
+            "contrast.more": 0.03,
+            "transparency.solid": 0.06
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-hover-floor",
+            "ag.valueType": "number"
+          }
+        }
+      },
+      "press": {
+        "$description": "Press: rim glow + floor lift.",
+        "glow": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.25,
+            "contrast.more": 0,
+            "transparency.solid": 0.25
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-state-press-glow",
+            "ag.valueType": "number"
+          }
+        },
+        "floor": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.04,
+            "contrast.more": 0.06,
+            "transparency.solid": 0.08
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-press-floor",
+            "ag.valueType": "number"
+          }
+        }
+      },
+      "selected": {
+        "$description": "Selected: accent tint plus a rim weight (not colour-only).",
+        "tint": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.16,
+            "contrast.more": 0.2,
+            "transparency.solid": 0.28
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-selected-tint",
+            "ag.valueType": "number"
+          }
+        },
+        "rim-width": {
+          "$type": "mode-table",
+          "$value": {
+            "default": {
+              "value": 2,
+              "unit": "px"
+            },
+            "contrast.more": {
+              "value": 2,
+              "unit": "px"
+            },
+            "transparency.solid": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-selected-rim-width",
+            "ag.valueType": "dimension"
+          }
+        }
+      },
+      "focus": {
+        "$description": "Focus ring weight; colours are sys.focus.inner/outer.",
+        "width": {
+          "$type": "mode-table",
+          "$value": {
+            "default": {
+              "value": 2,
+              "unit": "px"
+            },
+            "contrast.more": {
+              "value": 3,
+              "unit": "px"
+            },
+            "transparency.solid": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-focus-width",
+            "ag.valueType": "dimension"
+          }
+        }
+      },
+      "disabled": {
+        "$description": "Disabled: surface fill alpha is scaled by this value via --_ag-surface-alpha; no host opacity:.",
+        "alpha": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.45,
+            "contrast.more": 0.5,
+            "transparency.solid": 0.5
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-state-disabled-alpha",
+            "ag.valueType": "number"
+          }
+        }
+      },
+      "loading": {
+        "$description": "Loading: surface alpha while pending.",
+        "alpha": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.7,
+            "contrast.more": 0.75,
+            "transparency.solid": 0.8
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-loading-alpha",
+            "ag.valueType": "number"
+          }
+        }
+      },
+      "dragging": {
+        "$description": "Dragging: lift offset + specular boost.",
+        "lift": {
+          "$type": "mode-table",
+          "$value": {
+            "default": {
+              "value": 4,
+              "unit": "px"
+            },
+            "contrast.more": {
+              "value": 4,
+              "unit": "px"
+            },
+            "transparency.solid": {
+              "value": 4,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-dragging-lift",
+            "ag.valueType": "dimension"
+          }
+        },
+        "specular": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.2,
+            "contrast.more": 0,
+            "transparency.solid": 0.2
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-dragging-specular",
+            "ag.valueType": "number"
+          }
+        }
+      },
+      "drop-target": {
+        "$description": "Drop target: rim width plus fill lift (rim + tint, not colour-only).",
+        "rim": {
+          "$type": "mode-table",
+          "$value": {
+            "default": {
+              "value": 2,
+              "unit": "px"
+            },
+            "contrast.more": {
+              "value": 3,
+              "unit": "px"
+            },
+            "transparency.solid": {
+              "value": 2,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-drop-target-rim",
+            "ag.valueType": "dimension"
+          }
+        },
+        "fill": {
+          "$type": "mode-table",
+          "$value": {
+            "default": 0.06,
+            "contrast.more": 0.08,
+            "transparency.solid": 0.12
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-state-drop-target-fill",
+            "ag.valueType": "number"
+          }
+        }
+      }
     }
   }
 }

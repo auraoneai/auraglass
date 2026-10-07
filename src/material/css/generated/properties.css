@@ -59,3 +59,18 @@
   inherits: false;
   initial-value: 0.35;
 }
+@property --_ag-surface-alpha {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+@property --_ag-alpha {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+@property --_ag-density {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}

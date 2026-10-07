@@ -1,0 +1,138 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "app-shell": {
+      "$description": "App-shell metrics (MAT-083, NAV row request SC-18). Values change only by NAV row request. The -bp-* vars are documented read-only/non-functional markers.",
+      "sidebar-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-sidebar-width"
+        }
+      },
+      "rail-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-rail-width"
+        }
+      },
+      "inspector-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-inspector-width"
+        }
+      },
+      "topbar-height": {
+        "$type": "mode-table",
+        "$value": {
+          "default": {
+            "value": 3.25,
+            "unit": "rem"
+          },
+          "density.compact": {
+            "value": 2.75,
+            "unit": "rem"
+          }
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-topbar-height",
+          "ag.valueType": "dimension"
+        }
+      },
+      "tabbar-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 3.5,
+          "unit": "rem"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-tabbar-height"
+        }
+      },
+      "gap": {
+        "$type": "mode-table",
+        "$value": {
+          "default": "{sys.space.4}",
+          "density.compact": "{sys.space.2}",
+          "density.spacious": "{sys.space.6}"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-gap",
+          "ag.valueType": "dimension"
+        }
+      },
+      "bp-compact": {
+        "$type": "dimension",
+        "$value": {
+          "value": 600,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-bp-compact"
+        }
+      },
+      "bp-expanded": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1024,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-bp-expanded"
+        }
+      },
+      "bp-wide": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1440,
+          "unit": "px"
+        },
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-app-shell-bp-wide"
+        }
+      }
+    }
+  }
+}

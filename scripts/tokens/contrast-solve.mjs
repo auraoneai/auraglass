@@ -10,6 +10,9 @@
 import { createHash } from 'node:crypto';
 import { colorToSrgb, composite, contrastRatio, hexToSrgb, relativeLuminance } from './color.mjs';
 
+// Backdrop samples come from contrast.matrix.samples (MAT-024): 'white'/'black' and the
+// nine busy mid-luminance hexes. Kept here as the single authoritative list too, with a
+// consistency check against the token table in solveContrastMatrix.
 const BUSY = ['#777777', '#ff3b30', '#34c759', '#0a84ff', '#ffcc00', '#af52de', '#ff9500', '#5ac8fa', '#8e8e93'];
 const BACKDROPS = {
   light: ['#ffffff'],
@@ -67,14 +70,15 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
     alphaStep: rec_(records, resolved, 'contrast.matrix.targets.alphaStep'),
   };
   const floors = Object.fromEntries(axes.thickness.map((t) => [t, rec_(records, resolved, `contrast.matrix.floors.${t}`)]));
-  const tints = {
-    regular: rec_(records, resolved, 'material.tint.regular'),
-    clear: rec_(records, resolved, 'material.tint.clear'),
-    identity: rec_(records, resolved, 'material.tint.identity'),
-    raised: rec_(records, resolved, 'material.tint.regular'),
-    sunken: rec_(records, resolved, 'material.tint.regular') * 1.1,
-  };
-  const scrimClear = rec_(records, resolved, 'sys.scrim.clear');
+  const spec = rec_(records, resolved, 'material.material');
+  // fill alpha per [variant][thickness]; raised/sunken are content adjustments (spec.content)
+  const tintAt = (variant, th) =>
+    (spec.variants[variant] ?? spec.content[variant])[th].alpha;
+  const scrimClear = spec.scrim.clear;
+  const declared = rec_(records, resolved, 'contrast.matrix.samples');
+  const declaredHex = declared.filter((s) => s.startsWith('#'));
+  if (declaredHex.length !== BUSY.length || declaredHex.some((h, i) => h.toLowerCase() !== BUSY[i]))
+    throw new Error(`contrast-solve: contrast.matrix.samples busy hexes must be exactly ${BUSY.join(' ')}`);
   const colors = (scheme) => ({
     onSurface: colorToSrgb(rec_(records, resolved, 'sys.color.on-surface')[scheme]).rgb,
     onSurfaceMuted: colorToSrgb(rec_(records, resolved, 'sys.color.on-surface-muted')[scheme]).rgb,
@@ -100,8 +104,8 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
       for (const contrast of axes.contrast) {
         for (const tr of axes.transparency) {
           for (const variant of axes.variants) {
-            const tint = tints[variant];
             for (const th of axes.thickness) {
+              const tint = tintAt(variant, th);
               const floor = floors[th];
               for (const bd of axes.backdrop) {
                 const samples = BACKDROPS[bd].map(hexToSrgb);

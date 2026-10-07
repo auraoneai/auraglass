@@ -6,7 +6,7 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="thin"][data-ag-backdrop="light"],
   [data-ag-transparency="glass"][data-ag-thickness="thin"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.615;
+    --_ag-tint-floor: 0.695;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="thin"][data-ag-backdrop="dark"],
@@ -21,7 +21,7 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="regular"][data-ag-backdrop="light"],
   [data-ag-transparency="glass"][data-ag-thickness="regular"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.565;
+    --_ag-tint-floor: 0.645;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="regular"][data-ag-backdrop="dark"],
@@ -36,7 +36,7 @@
   [data-ag-transparency="glass"]
     [data-ag-thickness="thick"][data-ag-backdrop="light"],
   [data-ag-transparency="glass"][data-ag-thickness="thick"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.515;
+    --_ag-tint-floor: 0.595;
   }
   [data-ag-transparency="glass"]
     [data-ag-thickness="thick"][data-ag-backdrop="dark"],
@@ -51,7 +51,7 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thin"][data-ag-backdrop="light"],
   [data-ag-transparency="tinted"][data-ag-thickness="thin"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.615;
+    --_ag-tint-floor: 0.695;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thin"][data-ag-backdrop="dark"],
@@ -66,7 +66,7 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="regular"][data-ag-backdrop="light"],
   [data-ag-transparency="tinted"][data-ag-thickness="regular"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.565;
+    --_ag-tint-floor: 0.645;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="regular"][data-ag-backdrop="dark"],
@@ -81,7 +81,7 @@
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thick"][data-ag-backdrop="light"],
   [data-ag-transparency="tinted"][data-ag-thickness="thick"][data-ag-backdrop="light"] {
-    --_ag-tint-floor: 0.515;
+    --_ag-tint-floor: 0.595;
   }
   [data-ag-transparency="tinted"]
     [data-ag-thickness="thick"][data-ag-backdrop="dark"],
@@ -214,12 +214,22 @@
     --_ag-floor-alpha: 0.5;
   }
 
-  /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing). */
+  /* Opaque fallback: forced-colors flattens the glass (blur contributes nothing);
+     transparency=solid raises fills to the authored floors via --_ag-tint-floor above. */
   @media (forced-colors: active) {
     [data-ag-variant] {
       --ag-glass-opacity: 1;
       --_ag-mat-blur: 0px;
       --_ag-scrim-clear: 0.35;
+    }
+  }
+
+  /* No backdrop-filter support: opaque fill at fallbackFill.alpha 0.98. */
+  @supports not (
+    (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+  ) {
+    [data-ag-variant] {
+      --_ag-alpha: 0.98;
     }
   }
 }

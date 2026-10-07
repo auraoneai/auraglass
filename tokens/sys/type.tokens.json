@@ -1,79 +1,615 @@
 {
   "$schema": "../$schema.json",
   "sys": {
-    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
     "type": {
-      "$description": "Type roles (REQ-MAT-09). Fluid roles emit clamp() between their min/max ref endpoints over a 360-1280px viewport; weight is a unitless number.",
+      "$description": "Type roles (MAT-014/032): size (fluid clamp over 320-1440px), unitless leading, weight, private tracking; body has the exact clamp; caption >= 12px.",
       "display": {
-        "size":    { "$type": "dimension", "$value": { "min": { "value": 32, "unit": "px" }, "max": { "value": 44, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.fluid": true, "ag.cssVar": "--ag-type-display-size" } },
-        "leading": { "$type": "number", "$value": 1.1, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-display-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 650, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-display-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 32,
+              "unit": "px"
+            },
+            "max": {
+              "value": 44,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-display-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.1,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-display-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 650,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-display-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": -0.02,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-display-tracking"
+          }
+        }
       },
       "title-1": {
-        "size":    { "$type": "dimension", "$value": { "min": { "value": 26, "unit": "px" }, "max": { "value": 32, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.fluid": true, "ag.cssVar": "--ag-type-title-1-size" } },
-        "leading": { "$type": "number", "$value": 1.15, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-1-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 620, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-1-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 26,
+              "unit": "px"
+            },
+            "max": {
+              "value": 32,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-1-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.15,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-1-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 620,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-1-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": -0.015,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-title-1-tracking"
+          }
+        }
       },
       "title-2": {
-        "size":    { "$type": "dimension", "$value": { "min": { "value": 22, "unit": "px" }, "max": { "value": 26, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.fluid": true, "ag.cssVar": "--ag-type-title-2-size" } },
-        "leading": { "$type": "number", "$value": 1.2, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-2-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 600, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-2-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 22,
+              "unit": "px"
+            },
+            "max": {
+              "value": 26,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-2-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.2,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-2-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 615,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-2-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": -0.01,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-title-2-tracking"
+          }
+        }
       },
       "title-3": {
-        "size":    { "$type": "dimension", "$value": { "min": { "value": 19, "unit": "px" }, "max": { "value": 21, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.fluid": true, "ag.cssVar": "--ag-type-title-3-size" } },
-        "leading": { "$type": "number", "$value": 1.25, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-3-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 560, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-title-3-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 19,
+              "unit": "px"
+            },
+            "max": {
+              "value": 21,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-3-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.25,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-3-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 610,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-title-3-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": -0.005,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-title-3-tracking"
+          }
+        }
       },
       "body": {
-        "size":    { "$type": "dimension", "$value": { "value": 15, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-body-size" } },
-        "leading": { "$type": "number", "$value": 1.5, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-body-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 400, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-body-weight" } }
+        "size": {
+          "$type": "string",
+          "$value": "clamp(15px, 0.9rem + 0.2vw, 17px)",
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-body-size"
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.45,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-body-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-body-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": 0,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-body-tracking"
+          }
+        }
       },
       "callout": {
-        "size":    { "$type": "dimension", "$value": { "min": { "value": 14, "unit": "px" }, "max": { "value": 16, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.fluid": true, "ag.cssVar": "--ag-type-callout-size" } },
-        "leading": { "$type": "number", "$value": 1.4, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-callout-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 450, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-callout-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 14,
+              "unit": "px"
+            },
+            "max": {
+              "value": 16,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-callout-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.45,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-callout-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-callout-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": 0.0,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-callout-tracking"
+          }
+        }
       },
       "caption": {
-        "size":    { "$type": "dimension", "$value": { "value": 12, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-caption-size" } },
-        "leading": { "$type": "number", "$value": 1.35, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-caption-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 400, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-caption-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 12,
+              "unit": "px"
+            },
+            "max": {
+              "value": 13,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-caption-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.3,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-caption-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-caption-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": 0.01,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-caption-tracking"
+          }
+        }
       },
       "label": {
-        "size":    { "$type": "dimension", "$value": { "value": 13, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-label-size" } },
-        "leading": { "$type": "number", "$value": 1.3, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-label-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 500, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-label-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 13,
+              "unit": "px"
+            },
+            "max": {
+              "value": 14,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-label-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.35,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-label-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 600,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-label-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": 0.01,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-label-tracking"
+          }
+        }
       },
       "mono": {
-        "size":    { "$type": "dimension", "$value": { "value": 14, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-mono-size" } },
-        "leading": { "$type": "number", "$value": 1.45, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-mono-leading" } },
-        "weight":  { "$type": "fontWeight", "$value": 450, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-type-mono-weight" } }
+        "size": {
+          "$type": "dimension",
+          "$value": {
+            "min": {
+              "value": 14,
+              "unit": "px"
+            },
+            "max": {
+              "value": 15,
+              "unit": "px"
+            },
+            "minVw": {
+              "value": 320,
+              "unit": "px"
+            },
+            "maxVw": {
+              "value": 1440,
+              "unit": "px"
+            }
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-mono-size",
+            "ag.fluid": true
+          }
+        },
+        "leading": {
+          "$type": "number",
+          "$value": 1.45,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-mono-leading"
+          }
+        },
+        "weight": {
+          "$type": "fontWeight",
+          "$value": 500,
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": true,
+            "ag.cssVar": "--ag-type-mono-weight"
+          }
+        },
+        "tracking": {
+          "$type": "dimension",
+          "$value": {
+            "value": 0.0,
+            "unit": "em"
+          },
+          "$extensions": {
+            "ag.tier": "sys",
+            "ag.since": "5.0.0",
+            "ag.public": false,
+            "ag.cssVar": "--_ag-type-mono-tracking"
+          }
+        }
+      },
+      "on-glass-weight-delta": {
+        "$type": "number",
+        "$value": 50,
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": false,
+          "ag.cssVar": "--_ag-type-on-glass-weight-delta"
+        }
       }
     },
     "font": {
-      "sans": { "$type": "fontFamily", "$value": "Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-font-sans" } },
-      "mono": { "$type": "fontFamily", "$value": "'SF Mono', ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-font-mono" } }
-    },
-    "target": {
-      "min":    { "$type": "dimension", "$value": { "value": 24, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-target-min" } },
-      "coarse": { "$type": "dimension", "$value": { "value": 44, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-target-coarse" } }
-    },
-    "z": {
-      "$type": "number",
-      "content":   { "$value": 0,    "$extensions": { "ag.public": true, "ag.cssVar": "--ag-z-content" } },
-      "chrome":   { "$value": 100,  "$extensions": { "ag.public": true, "ag.cssVar": "--ag-z-chrome" } },
-      "overlay":  { "$value": 1000, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-z-overlay" } },
-      "transient":{ "$value": 1100, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-z-transient" } },
-      "toast":    { "$value": 1200, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-z-toast" } }
-    },
-    "scrim": {
-      "clear": { "$type": "number", "$value": 0.35, "$description": "Alpha of the clear scrim (REQ-MAT values).", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-scrim-clear" } },
-      "media": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0, 0, 0], "alpha": 0.72 }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-scrim-media" } }
+      "sans": {
+        "$type": "fontFamily",
+        "$value": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", system-ui, sans-serif",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-font-sans"
+        }
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": "ui-monospace, \"SF Mono\", \"Cascadia Code\", Menlo, monospace",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-font-mono"
+        }
+      }
     },
     "focus": {
-      "inner": { "$type": "color", "$value": "{sys.color.focus-inner}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-focus-inner" } },
-      "outer": { "$type": "color", "$value": "{sys.color.focus-outer}", "$extensions": { "ag.public": true, "ag.cssVar": "--ag-focus-outer" } },
-      "width": { "$type": "dimension", "$value": { "value": 2, "unit": "px" }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-focus-width" } }
+      "inner": {
+        "$type": "color",
+        "$value": "{sys.color.focus-inner}",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-focus-inner"
+        }
+      },
+      "outer": {
+        "$type": "color",
+        "$value": "{sys.color.focus-outer}",
+        "$extensions": {
+          "ag.tier": "sys",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-focus-outer"
+        }
+      }
     }
   }
 }

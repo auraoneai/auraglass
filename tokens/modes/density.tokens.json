@@ -1,0 +1,31 @@
+{
+  "$schema": "../$schema.json",
+  "mode": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "density": {
+      "$type": "mode-table",
+      "$extensions": {
+        "ag.axisDef": "density"
+      },
+      "$value": {
+        "default": "regular",
+        "values": [
+          "regular",
+          "compact",
+          "spacious"
+        ],
+        "selectors": {
+          "compact": [
+            "[data-ag-density=\"compact\"]"
+          ],
+          "spacious": [
+            "[data-ag-density=\"spacious\"]"
+          ]
+        }
+      }
+    }
+  }
+}
