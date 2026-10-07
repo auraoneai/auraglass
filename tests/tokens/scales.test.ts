@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-032: scale tests — 9 roles x 4 props; caption >= 12px; exact body clamp;
 // unitless line-heights; space = calc(px * var(--_ag-density)); target tokens
 // unscaled; exact radius ladder + radius-inner formula; no 'Aeonik'.
@@ -11,7 +12,7 @@ const ROLES = ['display', 'title-1', 'title-2', 'title-3', 'body', 'callout', 'c
 
 const prop = (v: string) => {
   const m = new RegExp(`${v.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:\\s*([^;]+);`).exec(css);
-  return m?.[1].trim();
+  return m?.[1]!.trim();
 };
 
 describe('scale contract (MAT-032)', () => {
@@ -26,7 +27,7 @@ describe('scale contract (MAT-032)', () => {
 
   test('caption >= 12px', () => {
     const size = prop('--ag-type-caption-size')!;
-    const nums = [...size.matchAll(/(\d+(?:\.\d+)?)px/g)].map((m) => +m[1]);
+    const nums = [...size.matchAll(/(\d+(?:\.\d+)?)px/g)].map((m) => +m[1]!);
     expect(Math.min(...nums)).toBeGreaterThanOrEqual(12);
   });
 

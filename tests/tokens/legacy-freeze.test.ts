@@ -1,11 +1,12 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-004: legacy freeze — re-run the 4.x extraction in memory and deep-equal the
 // committed tokens/legacy/4x-rendered.tokens.json; >= 1 entry per --glass-*
 // primitive found in the frozen 4.x tokens.css (REQ-MAT-21).
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
-import { extractLegacyDeclarations, legacySourceCss, legacyTokensJson } from '../../scripts/tokens/compat.mjs';
+import { extractLegacyDeclarations, legacySourceCss, legacyTokensJson } from '../../scripts/tokens/formats/compat-aliases.mjs';
 
 const FROZEN = join(ROOT, 'tokens/legacy/4x-rendered.tokens.json');
 

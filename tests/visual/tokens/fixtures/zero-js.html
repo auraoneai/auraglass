@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- MAT-079 fixture: zero-JS baseline. Pure attribute-driven surface + text
+     over canvas; identical DOM to attr.html minus the AuraGlassScript block.
+     Served with the packed CSS — link href resolves relative to the fixture. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>zero-js token modes fixture</title>
+<link rel="stylesheet" href="../../../dist/css/tokens.css">
+<link rel="stylesheet" href="../../../dist/css/material.css">
+<style>
+  body { font-family: var(--ag-font-sans); margin: 0; padding: var(--ag-space-4); background: var(--ag-color-canvas); color: var(--ag-color-on-surface); }
+  .row { display: grid; gap: var(--ag-space-3); grid-template-columns: repeat(3, 1fr); }
+  .cell { border-radius: var(--ag-radius-lg); padding: var(--ag-space-4); min-block-size: 96px; border: 1px solid var(--ag-color-border); }
+  .label { font-size: var(--ag-type-label-size); color: var(--ag-color-on-surface-muted); }
+  button { font: inherit; padding: var(--ag-space-2) var(--ag-space-3); border-radius: var(--ag-radius-md); border: 1px solid var(--ag-color-border); background: var(--ag-color-accent); color: var(--ag-color-on-accent); }
+  button:focus-visible { outline: var(--ag-focus-width, 2px) solid var(--ag-focus-inner); outline-offset: 2px; box-shadow: 0 0 0 calc(var(--ag-focus-width, 2px) + 2px) var(--ag-focus-outer); }
+</style>
+</head>
+<body>
+<h1>Token modes fixture</h1>
+<div class="row">
+  <div class="cell" data-ag-surface data-ag-variant="regular" data-ag-thickness="thin" data-ag-transparency="glass">
+    <span class="label">glass regular thin</span>
+  </div>
+  <div class="cell" data-ag-surface data-ag-variant="regular" data-ag-thickness="regular" data-ag-transparency="glass">
+    <span class="label">glass regular regular</span>
+  </div>
+  <div class="cell" data-ag-surface data-ag-variant="regular" data-ag-thickness="thick" data-ag-transparency="tinted">
+    <span class="label">tinted regular thick</span>
+  </div>
+  <div class="cell" data-ag-surface data-ag-variant="clear" data-ag-thickness="regular" data-ag-transparency="glass">
+    <span class="label">clear regular</span>
+  </div>
+  <div class="cell" data-ag-surface data-ag-content="content-raised" data-ag-thickness="regular" data-ag-transparency="glass">
+    <span class="label">content-raised</span>
+  </div>
+  <div class="cell" data-ag-surface data-ag-content="content-sunken" data-ag-thickness="regular" data-ag-transparency="solid">
+    <span class="label">solid sunken</span>
+  </div>
+</div>
+<p><button data-ag-focusable>Focusable button</button>
+<button aria-disabled="true" data-ag-focusable>Disabled-focusable</button></p>
+</body>
+</html>

@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-003 (5.0 form): --ag-* namespace integrity.
 // - every public --ag-* name referenced in src/** is manifest-public, a template
 //   prefix of manifest names, or one of the documented runtime/component vars
@@ -32,8 +33,8 @@ const generatedVars = (): Set<string> => {
     'src/material/css/generated/properties.css',
   ]) {
     const text = readFileSync(join(ROOT, f), 'utf8');
-    for (const m of text.matchAll(/(--_?ag-[a-z0-9-]+)\s*:/g)) defined.add(m[1]);
-    for (const m of text.matchAll(/@property\s+(--_?ag-[a-z0-9-]+)/g)) defined.add(m[1]);
+    for (const m of text.matchAll(/(--_?ag-[a-z0-9-]+)\s*:/g)) defined.add(m[1]!);
+    for (const m of text.matchAll(/@property\s+(--_?ag-[a-z0-9-]+)/g)) defined.add(m[1]!);
   }
   return defined;
 };
@@ -41,7 +42,7 @@ const generatedVars = (): Set<string> => {
 describe('--ag-* namespace (MAT-003)', () => {
   const srcFiles = walkFiles(join(ROOT, 'src'), ['.ts', '.tsx', '.css', '.mts', '.mjs'])
     // generated files legitimately contain emitted names; they are checked by the build
-    .filter((f) => !f.includes('/generated/'));
+    .filter((f: string) => !f.includes('/generated/'));
 
   test('public --ag-* names in src are all manifest-public', () => {
     const pub = manifestVars();

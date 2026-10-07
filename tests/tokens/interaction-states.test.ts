@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-033: interaction states — all 8 states have standard + contrast=more +
 // transparency=solid values; disabled dims via --_ag-surface-alpha channel (never a
 // host 'opacity:' declaration); selected/drop-target carry rim or weight tokens.

@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-006: schema validation — every tokens/**.tokens.json validates, plus failure fixtures.
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

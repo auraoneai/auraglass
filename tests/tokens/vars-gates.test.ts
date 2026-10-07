@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-053: gate tests — undefined-vars, dead-vars and tier-skip exit 0 on the real
 // build; each fixture dir under tests/tokens/fixtures/gates exits 1 with the
 // expected message; total gate runtime <= 30 s.

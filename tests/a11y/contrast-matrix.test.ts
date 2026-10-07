@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-091..094: a11y contrast matrix — recompute every cell of
 // dist/contrast-matrix.json over white, black and the 9 busy samples at the
 // emitted floor alpha; assert equality with the solver within 0.01 and the
@@ -112,7 +113,7 @@ const canvasOf = (preset: string, scheme: Scheme) => {
 
 const SCRIM_BLACK = { r: 0, g: 0, b: 0, alpha: SCRIM_CLEAR };
 const composite = (fg: any, alpha: number | undefined, bg: any) =>
-  compositeOver({ ...fg, alpha: alpha ?? fg.alpha ?? 1 }, bg);
+  compositeOver({ ...fg, alpha: alpha ?? fg.alpha ?? 1 }, { ...bg, alpha: bg.alpha ?? 1 });
 
 /** Recompute a cell's minRatio exactly as the solver does (color.mjs). */
 const recomputeCell = (preset: string, scheme: Scheme, tr: string, variant: string, th: string, bd: string, floorAlpha: number) => {
@@ -126,7 +127,7 @@ const recomputeCell = (preset: string, scheme: Scheme, tr: string, variant: stri
   const focusInner = sysColor('--ag-color-focus-inner', scheme);
   const mins: number[] = [];
   for (const s of samples) {
-    let sample = hex(s);
+    let sample = hex(s) as import('../../src/theme/color').Srgb;
     if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
     const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
     const disabledSurface = composite(surface, 0.45, canvas);
@@ -148,7 +149,7 @@ const pairRatio = (preset: string, scheme: Scheme, tr: string, variant: string, 
   const canvas = canvasOf(preset, scheme);
   let worst = Infinity;
   for (const s of (bd === 'light' ? ['#ffffff'] : bd === 'dark' ? ['#000000'] : BUSY)) {
-    let sample = hex(s);
+    let sample = hex(s) as import('../../src/theme/color').Srgb;
     if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
     const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
     const bg = pair === 'disabled' ? composite(surface, 0.45, canvas) : surface;

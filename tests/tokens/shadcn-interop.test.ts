@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-071: shadcn interop — a var() resolver over the emitted tokens.css.
 // Without [data-ag-shadcn-source], --primary resolves to the --ag-color-accent
 // value; with the attribute and a consumer-provided --primary, --ag-color-accent
@@ -21,7 +22,7 @@ const collectScopes = () => {
     const isDefault = sel === ':where(:root:not([data-ag-shadcn-source]))';
     if (!isSource && !isDefault) return;
     const map = isSource ? scopeSource : scopeDefault;
-    rule.walkDecls((d) => map.set(d.prop, d.value));
+    rule.walkDecls((d) => { map.set(d.prop, d.value); });
   });
   return { scopeDefault, scopeSource };
 };
@@ -54,7 +55,7 @@ describe('shadcn interop (MAT-071)', () => {
     const root = postcss.parse(CSS);
     const m = new Map<string, string>();
     root.walkRules((rule) => {
-      if (rule.selector.trim() === ':root') rule.walkDecls((d) => m.set(d.prop, d.value));
+      if (rule.selector.trim() === ':root') rule.walkDecls((d) => { m.set(d.prop, d.value); });
     });
     return m;
   })();

@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-034: environment/elevation — exact @property rules; z-scale 0/100/1000/1100/1200;
 // no 'elevation' token; shadows for 4 layers x 3 thicknesses x 2 schemes; scrim.clear 0.35.
 import { readFileSync } from 'node:fs';
@@ -27,7 +28,7 @@ describe('environment/elevation (MAT-034)', () => {
   });
 
   test('z-scale is exactly 0/100/1000/1100/1200', () => {
-    const z = [...css.matchAll(/--ag-z-([a-z]+):\s*(\d+)/g)].map((m) => +m[2]).sort((a, b) => a - b);
+    const z = [...css.matchAll(/--ag-z-([a-z]+):\s*(\d+)/g)].map((m) => +m[2]!).sort((a, b) => a - b);
     expect(z).toEqual([0, 100, 1000, 1100, 1200]);
   });
 

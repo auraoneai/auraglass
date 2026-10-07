@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { test, expect } from '@jest/globals';
 // MAT-009: two sequential builds produce byte-identical outputs (deterministic compiler).
 import { createHash } from 'node:crypto';
 import { mkdtempSync, readdirSync, readFileSync, statSync } from 'node:fs';

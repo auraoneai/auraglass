@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-031: colour tests — ramps monotone in L (dL >= 0.03); every sys.color leaf
 // emits light-dark(; hex only inside @supports not; dark on-surface L>=0.92 C<=0.02.
 import { readFileSync } from 'node:fs';
@@ -50,9 +51,9 @@ describe('oklch colour contract (MAT-031)', () => {
 
   test('dark on-surface L >= 0.92 and C <= 0.02', () => {
     const onSurface = sys.sys.color['on-surface'];
-    const alias = /^\{(.+)\}$/.exec(onSurface.$value.dark)![1];
+    const alias = /^\{(.+)\}$/.exec(onSurface.$value.dark)![1]!;
     const [ramp, step] = alias.split('.').slice(-2);
-    const dark = ref.ref.color[ramp][step].$value;
+    const dark = ref.ref.color[ramp!][step!].$value;
     const [l, c] = dark.components;
     expect(l).toBeGreaterThanOrEqual(0.92);
     expect(c).toBeLessThanOrEqual(0.02);

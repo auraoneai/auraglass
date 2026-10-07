@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-002: every --glass-opacity-<n> referenced in src/**/*.{ts,tsx,css} must be
 // defined in src/styles/**/*.css (the shipped compat layer also defines the
 // legacy primitives). A fixture string containing an undefined name like

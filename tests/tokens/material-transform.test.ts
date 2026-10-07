@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-041: material transform — exactly 3 variants x 3 thicknesses; every blur
 // <= 32px; -webkit-backdrop-filter literal count = variants_with_blur x
 // thicknesses x tiers (18); materialSpec carries no intent/elevation keys;
@@ -9,7 +10,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// CJS require: the generated module has no .d.ts (jest transforms it)
 const { materialSpec } = require('../../src/tokens/generated/material-spec.ts');
 
 const LADDERS = readFileSync(join(ROOT, 'src/material/css/generated/ladders.css'), 'utf8');
@@ -41,8 +42,8 @@ describe('material transform (MAT-041)', () => {
     // every webkit line is immediately followed by the unprefixed declaration
     const lines = LADDERS.split('\n');
     for (let i = 0; i < lines.length; i++)
-      if (lines[i].includes('-webkit-backdrop-filter:'))
-        expect(lines[i + 1]).toContain('backdrop-filter:');
+      if (lines[i]!.includes('-webkit-backdrop-filter:'))
+        expect(lines[i + 1]!).toContain('backdrop-filter:');
   });
 
   test('materialSpec has no intent/elevation keys', () => {

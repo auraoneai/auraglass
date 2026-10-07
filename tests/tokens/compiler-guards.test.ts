@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-008: guard fixtures exit 1 naming the failing token path.
 import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';

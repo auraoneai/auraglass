@@ -1,0 +1,209 @@
+{
+ "$comment": "MAT-075 compat successor table. Ordered: first match wins. 'to' is a var name with $N group refs; {'group':N,'map':{...}} looks the capture up in a table; null/'to' absent = frozen verbatim 4.x emission. 'shims' declares compat-emitted alias vars successors may point at.",
+ "shims": {
+  "--ag-on-surface-tertiary": "var(--ag-on-surface-muted)",
+  "--ag-color-on-surface": "var(--ag-on-surface)",
+  "--ag-color-on-surface-muted": "var(--ag-on-surface-muted)"
+ },
+ "rules": [
+  {
+   "match": "^--glass-theme-text$",
+   "to": "--ag-color-on-surface"
+  },
+  {
+   "match": "^--glass-theme-text-secondary$",
+   "to": "--ag-color-on-surface-muted"
+  },
+  {
+   "match": "^--glass-theme-text-tertiary$",
+   "to": "--ag-on-surface-tertiary"
+  },
+  {
+   "match": "^--glass-radius-(xs|sm|md|lg|xl|full)$",
+   "to": "--ag-radius-$1"
+  },
+  {
+   "match": "^--aura-radius-(sm|md|lg|xl)$",
+   "to": "--ag-radius-$1"
+  },
+  {
+   "match": "^--aura-radius-2xl$",
+   "to": "--ag-radius-xl"
+  },
+  {
+   "match": "^--glass-(motion-duration-|duration-)instant$",
+   "to": "--ag-duration-instant"
+  },
+  {
+   "match": "^--glass-(motion-duration-|duration-)fast$",
+   "to": "--ag-duration-micro"
+  },
+  {
+   "match": "^--glass-(motion-duration-|duration-)normal$",
+   "to": "--ag-duration-small"
+  },
+  {
+   "match": "^--glass-(motion-duration-|duration-)slow$",
+   "to": "--ag-duration-medium"
+  },
+  {
+   "match": "^--glass-(motion-duration-|duration-)slower$",
+   "to": "--ag-duration-large"
+  },
+  {
+   "match": "^--aura-motion-duration-fast$",
+   "to": "--ag-duration-micro"
+  },
+  {
+   "match": "^--aura-motion-duration-medium$",
+   "to": "--ag-duration-small"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-standard$",
+   "to": "--ag-ease-standard"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-emphasized$",
+   "to": "--ag-ease-emphasized"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-decelerated$",
+   "to": "--ag-ease-emphasized-decelerate"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-accelerated$",
+   "to": "--ag-ease-accelerate"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-(in|in-out)$",
+   "to": "--ag-ease-standard"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-out$",
+   "to": "--ag-ease-emphasized-decelerate"
+  },
+  {
+   "match": "^--glass-(motion-ease|motion-easing|easing)-spring$",
+   "to": "--ag-spring-smooth"
+  },
+  {
+   "match": "^--aura-motion-easing-(standard|emphasized)$",
+   "to": "--ag-ease-$1"
+  },
+  {
+   "match": "^--aura-space-(0|1|2|3|4|5|6|8|10|12|16)$",
+   "to": "--ag-space-$1"
+  },
+  {
+   "match": "^--(glass|aura)-font-size-(xs|sm|base|lg|xl|2xl|3xl)$",
+   "to": {
+    "group": 2,
+    "map": {
+     "xs": "--ag-type-caption-size",
+     "sm": "--ag-type-label-size",
+     "base": "--ag-type-body-size",
+     "lg": "--ag-type-callout-size",
+     "xl": "--ag-type-title-3-size",
+     "2xl": "--ag-type-title-2-size",
+     "3xl": "--ag-type-title-1-size"
+    }
+   }
+  },
+  {
+   "match": "^--aura-font-(family-)?sans$",
+   "to": "--ag-font-sans"
+  },
+  {
+   "match": "^--aura-shadow-elevation-(1|sm)$",
+   "to": "--ag-shadow-thin"
+  },
+  {
+   "match": "^--aura-shadow-elevation-(2|3|md)$",
+   "to": "--ag-shadow-regular"
+  },
+  {
+   "match": "^--aura-shadow-elevation-(4|lg|xl)$",
+   "to": "--ag-shadow-thick"
+  },
+  {
+   "match": "^--glass-focus-width$",
+   "to": "--ag-focus-width"
+  },
+  {
+   "match": "^--glass-focus-color-(primary|default)$",
+   "to": "--ag-color-focus-inner"
+  },
+  {
+   "match": "^--glass-color-accent$",
+   "to": "--ag-color-accent"
+  },
+  {
+   "match": "^--glass-color-(danger|error)$",
+   "to": "--ag-color-danger"
+  },
+  {
+   "match": "^--glass-color-info$",
+   "to": "--ag-color-info"
+  },
+  {
+   "match": "^--aura-accent-color$",
+   "to": "--ag-color-accent"
+  },
+  {
+   "match": "^--aura-color-highlight$",
+   "to": "--ag-color-accent"
+  },
+  {
+   "match": "^--aura-color-muted$",
+   "to": "--ag-on-surface-muted"
+  },
+  {
+   "match": "^--aura-color-semantic-primary$",
+   "to": "--ag-color-accent"
+  },
+  {
+   "match": "^--aura-color-semantic-(danger|error)$",
+   "to": "--ag-color-danger"
+  },
+  {
+   "match": "^--aura-color-global-border-(soft|strong)$",
+   "to": "--ag-color-border"
+  },
+  {
+   "match": "^--aura-color-global-surface$",
+   "to": "--ag-color-canvas"
+  },
+  {
+   "match": "^--aura-color-global-text-primary$",
+   "to": "--ag-on-surface"
+  },
+  {
+   "match": "^--aura-color-global-text-secondary$",
+   "to": "--ag-on-surface-muted"
+  },
+  {
+   "match": "^--aura-color-glass-border$",
+   "to": "--ag-color-border"
+  },
+  {
+   "match": "^--glass-text-primary$",
+   "to": "--ag-on-surface"
+  },
+  {
+   "match": "^--glass-text-(secondary|tertiary)(-dark)?$",
+   "to": "--ag-on-surface-muted"
+  },
+  {
+   "match": "^--glass-touch-target-(min|md)$",
+   "to": "--ag-target-min"
+  },
+  {
+   "match": "^--glass-touch-target-lg$",
+   "to": "--ag-target-coarse"
+  },
+  {
+   "match": "^--glass-z-0$",
+   "to": "--ag-z-content"
+  }
+ ]
+}

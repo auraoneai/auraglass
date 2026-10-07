@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-001 + MAT-055: types-runtime honesty — the d.ts/export snapshot must equal
 // runtime exports for aura-glass/tokens and aura-glass/theme, modulo the removed
 // deprecated set {getPersona, getPersonaModeTokens} (DS-068: 0 differences at 5.0).

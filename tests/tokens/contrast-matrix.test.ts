@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-049: contrast matrix — re-solve every cell and deep-equal
 // dist/contrast-matrix.json; cellCount === 2160; emitted floors are the max per
 // key; busy reference has exactly 9 samples; a tampered fixture fails; solve
@@ -6,7 +7,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
-import { solveContrastMatrix, matrixJson } from '../../scripts/tokens/contrast-solve.mjs';
+import { solveContrastMatrix, matrixJson } from '../../scripts/tokens/transforms/contrast-solve.mjs';
 
 const DIST = JSON.parse(readFileSync(join(ROOT, 'dist/contrast-matrix.json'), 'utf8'));
 
@@ -99,7 +100,7 @@ describe('contrast matrix (MAT-049)', () => {
       const key = contrast === 'more' ? `more.${th}.${bd}` : `${tr}.${th}.${bd}`;
       max[key] = Math.max(max[key] ?? 0, c.floorAlpha);
     }
-    const [, , contrast2, tr2, , th2, bd2] = path;
+    const [, , contrast2, tr2, , th2, bd2] = path as [string, string, string, string, string, string, string];
     const key = contrast2 === 'more' ? `more.${th2}.${bd2}` : `${tr2}.${th2}.${bd2}`;
     const emitted = contrast2 === 'more'
       ? (DIST.tintFloorsMore as any)[th2][bd2]

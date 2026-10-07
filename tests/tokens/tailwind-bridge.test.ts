@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect, beforeAll } from '@jest/globals';
 // MAT-069: Tailwind bridge — compile the fixture input.css with @tailwindcss/node
 // over glass-regular glass-thin content-sunken bg-accent/50 ag-dark:bg-canvas;
 // each @utility output byte-equals its attribute rule; bg-accent/50 emits
@@ -35,7 +36,7 @@ const utilityDecls = (css: string, klass: string): string[] => {
   const decls: string[] = [];
   root.walkRules((r) => {
     if (r.selector === `.${klass}`) {
-      r.walkDecls((d) => decls.push(`${d.prop}: ${d.value}`.replace(/\s+/g, ' ')));
+      r.walkDecls((d) => { decls.push(`${d.prop}: ${d.value}`.replace(/\s+/g, ' ')); });
     }
   });
   return decls;

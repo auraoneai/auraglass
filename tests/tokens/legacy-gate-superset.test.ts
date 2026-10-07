@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-062: gate superset proof. The 4.x gates (scripts/ci/token-lint.js,
 // check-undefined-custom-props.mjs, audit-css-var-coverage.js) cannot even run
 // on next (CJS inside type:module / missing dist/styles), so their scan logic is
@@ -30,7 +31,7 @@ const SHIPPED_CSS = [
   'dist/tailwind.css',
   'dist/compat/tokens.css',
   'dist/css/compat/legacy-primitives.css',
-].map((f) => join(ROOT, f)).filter(existsSync);
+].map((f: string) => join(ROOT, f)).filter(existsSync);
 
 // The legacy checks scoped "defined" to the importable entry — on next that is
 // the @import closure of the shipped file (compat/tokens.css @imports tokens.css).
@@ -91,7 +92,7 @@ const LEGACY_TO_LITERAL: Record<string, string | null> = {
 };
 
 const srcFiles = walkFiles(join(ROOT, 'src'), ['.ts', '.tsx', '.css'])
-  .filter((f) => !f.includes('/generated/'));
+  .filter((f: string) => !f.includes('/generated/'));
 
 const legacyLiteralFindings = () => {
   const findings: Array<{ file: string; kind: string; category: string | null }> = [];

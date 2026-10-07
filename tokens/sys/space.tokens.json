@@ -284,57 +284,6 @@
           "ag.cssVar": "--ag-scroll-padding-bottom"
         }
       }
-    },
-    "breakpoint": {
-      "$description": "Breakpoints (MAT-037): consumed only by the Tailwind bridge @theme; never emitted as public vars.",
-      "sm": {
-        "$type": "dimension",
-        "$value": {
-          "value": 640,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "sys",
-          "ag.since": "5.0.0",
-          "ag.public": false
-        }
-      },
-      "md": {
-        "$type": "dimension",
-        "$value": {
-          "value": 768,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "sys",
-          "ag.since": "5.0.0",
-          "ag.public": false
-        }
-      },
-      "lg": {
-        "$type": "dimension",
-        "$value": {
-          "value": 1024,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "sys",
-          "ag.since": "5.0.0",
-          "ag.public": false
-        }
-      },
-      "xl": {
-        "$type": "dimension",
-        "$value": {
-          "value": 1280,
-          "unit": "px"
-        },
-        "$extensions": {
-          "ag.tier": "sys",
-          "ag.since": "5.0.0",
-          "ag.public": false
-        }
-      }
     }
   }
 }

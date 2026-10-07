@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-036 (+MAT-053): emitted CSS hygiene — 0 !important; every rule in its
 // expected ag.* layer; :root only inside ag.tokens/ag.compat; only @property
 // unlayered; no legacy-hook selectors; no class strings in src/tokens/generated;
@@ -27,7 +28,7 @@ const layerOf = (node: postcss.ChildNode): string | null => {
     if (n?.type === 'atrule' && (n as postcss.AtRule).name === 'layer')
       return (n as postcss.AtRule).params.trim().replace(/['"]/g, '');
     if (n?.type === 'atrule' && ['media', 'supports'].includes((n as postcss.AtRule).name)) {
-      let m = n;
+      let m: postcss.Container | postcss.Document | undefined = n;
       while (m?.parent) {
         m = m.parent;
         if (m?.type === 'atrule' && (m as postcss.AtRule).name === 'layer')

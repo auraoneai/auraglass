@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-042/044: motion-spring transform — snappy/smooth/fluid emit linear() with
 // <= 40 stops, last stop exactly 1, max |x(t) - analytic(t)| <= 0.005 over 1,000
 // samples; omega0 = 2*pi/r; exits exactly 60/80/140/220/320 ms; zeta<0.8, zeta>1.0,
@@ -7,7 +8,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
-import { compileSpring } from '../../scripts/tokens/spring.mjs';
+import { compileSpring } from '../../scripts/tokens/transforms/motion-spring.mjs';
 import { validateTokenFile, loadSchema } from '../../scripts/tokens/validate.mjs';
 
 const CSS = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');

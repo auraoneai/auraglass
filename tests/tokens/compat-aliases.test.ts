@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-076: compat aliases — every name in the 4.x reader set has an entry in the
 // map (count logged); the whole emitted file is inside @layer ag.compat (after
 // the @import); only legacy hook selectors that could ever appear are
@@ -8,7 +9,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
-import { legacyReaderSet } from '../../scripts/tokens/compat.mjs';
+import { legacyReaderSet } from '../../scripts/tokens/formats/compat-aliases.mjs';
 
 const CSS_PATH = join(ROOT, 'dist/compat/tokens.css');
 const MAP = JSON.parse(readFileSync(join(ROOT, 'tokens/generated/compat-alias-map.json'), 'utf8'));

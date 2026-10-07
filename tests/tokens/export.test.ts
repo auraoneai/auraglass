@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-078: export tests for the 5.0 map — ESM aura-glass/tokens exposes exactly
 // {tokens, token, materialSpec, manifest}; tokens.css, material.css, tailwind.css
 // and compat/tokens.css resolve; removed 4.x subpaths throw
@@ -31,7 +32,7 @@ describe('5.0 exports map (MAT-078)', () => {
       entryPoints: [join(ROOT, 'src/tokens/index.ts')],
       bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent',
     });
-    const m = /export\s*\{([^}]*)\}\s*;?\s*$/m.exec(res.outputFiles[0].text);
+    const m = /export\s*\{([^}]*)\}\s*;?\s*$/m.exec(res.outputFiles[0]!.text);
     const names = (m?.[1] ?? '').split(',')
       .map((s) => s.trim().replace(/\s+as\s+\w+$/, ''))
       .filter((s) => s && !s.startsWith('type '))

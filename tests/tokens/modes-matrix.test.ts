@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-035: mode matrix — every scheme/contrast/transparency/density axis value has
 // an attribute block AND a media mirror; OS floors re-emitted in ag.a11y;
 // contrast=more selects >= tinted floor row; zero 'prefers-contrast: high';
@@ -54,7 +55,7 @@ describe('mode matrix (MAT-035)', () => {
     const floorAt = (sel: string) => {
       const re = new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[\\s\\S]*?--_ag-tint-floor:\\s*([\\d.]+)');
       const m = re.exec(floors);
-      return m ? parseFloat(m[1]) : null;
+      return m ? parseFloat(m[1]!) : null;
     };
     for (const th of ['thin', 'regular', 'thick']) {
       for (const b of ['light', 'dark', 'media']) {

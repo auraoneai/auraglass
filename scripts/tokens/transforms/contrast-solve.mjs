@@ -8,7 +8,7 @@
    'clear' over light/media adds a scrim.clear 0.35 underlay. Blur contributes nothing.
    An unsolvable cell throws naming the cell, the pair and the best ratio found. */
 import { createHash } from 'node:crypto';
-import { colorToSrgb, composite, contrastRatio, hexToSrgb, relativeLuminance } from './color.mjs';
+import { colorToSrgb, composite, contrastRatio, hexToSrgb, relativeLuminance } from '../color.mjs';
 
 // Backdrop samples come from contrast.matrix.samples (MAT-024): 'white'/'black' and the
 // nine busy mid-luminance hexes. Kept here as the single authoritative list too, with a

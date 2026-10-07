@@ -1,4 +1,5 @@
 /** @jest-environment node */
+import { describe, test, expect } from '@jest/globals';
 // MAT-061 (+ MAT-059 ratchet): literal lint tests — the five fixture files are
 // each flagged by the shared matchers; exempt paths are allowed; the ratchet
 // fails on +1, passes on -1, --update rewrites downward, and --update with an
