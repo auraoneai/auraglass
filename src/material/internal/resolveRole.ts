@@ -38,14 +38,17 @@ export interface ResolvedRole extends MaterialRole {
 }
 
 export function resolveRole(role: MaterialRole = {}, sizeClass?: SizeClass): ResolvedAttributes {
-  const layer: Layer = role.layer ?? 'chrome';
+  // S-05 (frozen contract test): layer defaults to 'content'; the variant
+  // attribute is emitted for non-content layers (default 'regular') and for
+  // content only when explicit; data-ag-content is emitted only when
+  // layer=content (default 'content-raised'), ignored otherwise.
+  const layer: Layer = role.layer ?? 'content';
   const out: Record<string, string> = {
     'data-ag-surface': '',
     'data-ag-layer': layer,
   };
 
   if (layer === 'content') {
-    // variant is omitted on content unless the caller sets it explicitly (S-05)
     if (role.variant !== undefined) out['data-ag-variant'] = role.variant;
     out['data-ag-content'] = role.content ?? 'content-raised';
   } else {

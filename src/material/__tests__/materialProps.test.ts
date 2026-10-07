@@ -27,26 +27,29 @@ describe('materialProps matrix', () => {
     for (const v of Object.values(out)) expect(v).not.toMatch(/var\(.*:.*\)/);
   });
 
-  it('always emits className + data-ag-surface + data-ag-layer', () => {
+  it('emits only data-ag-* keys: no className, no style (S-05)', () => {
     const out = materialProps({ layer: 'overlay' });
-    expect(out.className).toBe('ag-surface');
+    expect(Object.keys(out).every((k) => k.startsWith('data-ag-'))).toBe(true);
     expect(out['data-ag-surface']).toBe('');
     expect(out['data-ag-layer']).toBe('overlay');
   });
 
   describe('defaults', () => {
-    it('layer defaults to chrome through the resolveRole delegation', () => {
-      expect(resolveRole({})['data-ag-layer']).toBe('chrome');
-      expect(materialProps({})['data-ag-layer']).toBe('chrome');
+    it('layer defaults to content (frozen contract S-05)', () => {
+      expect(resolveRole({})['data-ag-layer']).toBe('content');
+      expect(materialProps({})['data-ag-layer']).toBe('content');
     });
     it('variant regular emitted for non-content, omitted for content without explicit variant', () => {
       expect(materialProps({ layer: 'chrome' })['data-ag-variant']).toBe('regular');
       expect(materialProps({ layer: 'content' })).not.toHaveProperty('data-ag-variant');
       expect(materialProps({ layer: 'content', variant: 'clear' })['data-ag-variant']).toBe('clear');
     });
-    it('content default content-raised on content layer only', () => {
+    it('content default content-raised on content layer only; content ignored off-layer', () => {
       expect(materialProps({ layer: 'content' })['data-ag-content']).toBe('content-raised');
       expect(materialProps({ layer: 'chrome' })).not.toHaveProperty('data-ag-content');
+      // contract: content passed on a non-content layer is dropped entirely
+      expect(materialProps({ layer: 'transient', content: 'content-raised' }))
+        .not.toHaveProperty('data-ag-content');
     });
     it('shape/thickness attrs only when explicit', () => {
       const out = materialProps({ layer: 'overlay' });

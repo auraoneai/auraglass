@@ -38,7 +38,7 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
     warnSurface,
   );
 
-  const cls = clsx(attrs.className, className);
+  const cls = clsx('ag-surface', className);
   const merged: Record<string, unknown> = {
     ...attrs,
     ...domProps,          // consumer wins for non-data-ag-* attributes
@@ -48,7 +48,6 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
   };
   // data-ag-* attributes are authoritative: re-apply over any consumer spread
   for (const [k, v] of Object.entries(attrs)) {
-    if (k === 'className') continue;
     merged[k] = v;
   }
 

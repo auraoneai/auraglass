@@ -44,7 +44,7 @@ describe('hydration', () => {
 
   it('materialProps output is hydration-stable', () => {
     const a = materialProps({ layer: 'chrome', thickness: 'thin' });
-    expect(a.className).toBe('ag-surface');
+    expect(Object.keys(a).every((k) => k.startsWith('data-ag-'))).toBe(true);
     expect(a['data-ag-thickness']).toBe('thin');
   });
 });
