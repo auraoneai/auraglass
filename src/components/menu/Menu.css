@@ -1,0 +1,144 @@
+/* CMP-281 (REQ-CMP-103/105): Menu/ContextMenu/Menubar styles — regular
+   overlay surface, item grid (indicator | label | shortcut/submenu arrow),
+   highlighted/disabled/checked states, 120ms scale+fade enter. */
+@layer ag.components {
+  .ag-menu-positioner { z-index: var(--ag-z-overlay, 40); }
+
+  .ag-menu-popup,
+  .ag-contextmenu-popup {
+    min-width: 180px;
+    max-width: min(320px, calc(100vw - 16px));
+    max-height: var(--available-height, calc(100vh - 16px));
+    overflow-y: auto;
+    padding: var(--ag-space-1, 4px);
+    border-radius: var(--ag-radius-md, 10px);
+    outline: none;
+  }
+
+  .ag-menu-popup[data-state='open'],
+  .ag-contextmenu-popup[data-state='open'] {
+    animation: ag-menu-enter 120ms ease-out;
+  }
+  .ag-menu-popup[data-state='closed'],
+  .ag-contextmenu-popup[data-state='closed'] {
+    animation: ag-menu-exit 80ms ease-in;
+  }
+  @keyframes ag-menu-enter {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes ag-menu-exit {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .ag-menu-item,
+  .ag-menu-submenu-trigger {
+    display: grid;
+    grid-template-columns: 1.25em 1fr auto;
+    align-items: center;
+    gap: var(--ag-space-2, 8px);
+    padding: var(--ag-space-1-5, 6px) var(--ag-space-2, 8px);
+    border-radius: var(--ag-radius-sm, 6px);
+    font: inherit;
+    font-size: var(--ag-font-sm, 13px);
+    color: var(--ag-fg, #1a1a1a);
+    cursor: default;
+    user-select: none;
+    outline: none;
+  }
+  .ag-menu-item[data-highlighted],
+  .ag-menu-submenu-trigger[data-highlighted] {
+    background: var(--ag-accent-subtle, rgba(99, 102, 241, 0.12));
+  }
+  .ag-menu-item[data-disabled],
+  .ag-menu-submenu-trigger[data-disabled] {
+    opacity: 0.45;
+  }
+  .ag-menu-item[data-checked] .ag-menu-item-indicator::after,
+  .ag-menu-checkbox-item[data-checked] .ag-menu-item-indicator::after,
+  .ag-menu-radio-item[data-checked] .ag-menu-item-indicator::after {
+    content: '';
+    display: block;
+    width: 0.7em;
+    height: 0.4em;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg) translateY(-1px);
+  }
+  .ag-menu-radio-item[data-checked] .ag-menu-item-indicator::after {
+    width: 0.5em;
+    height: 0.5em;
+    border: none;
+    border-radius: 50%;
+    background: currentColor;
+    transform: none;
+  }
+  .ag-menu-checkbox-item[data-ag-indeterminate] .ag-menu-item-indicator::after {
+    width: 0.6em;
+    height: 2px;
+    border: none;
+    background: currentColor;
+    transform: none;
+  }
+  .ag-menu-item-label { grid-column: 2; }
+  .ag-menu-item-indicator { grid-column: 1; display: inline-flex; }
+  .ag-menu-shortcut,
+  .ag-menu-submenu-indicator { grid-column: 3; justify-self: end; }
+  .ag-menu-shortcut {
+    font-family: inherit;
+    font-size: var(--ag-font-xs, 11px);
+    opacity: 0.6;
+    letter-spacing: 0.02em;
+  }
+  .ag-menu-submenu-indicator::after {
+    content: '';
+    display: block;
+    width: 0.45em;
+    height: 0.45em;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    transform: rotate(45deg);
+  }
+  [dir='rtl'] .ag-menu-submenu-indicator::after { transform: rotate(-135deg); }
+
+  .ag-menu-group-label {
+    padding: var(--ag-space-1-5, 6px) var(--ag-space-2, 8px);
+    font-size: var(--ag-font-xs, 11px);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ag-fg-muted, #666);
+  }
+  .ag-menu-separator {
+    height: 1px;
+    margin: var(--ag-space-1, 4px) var(--ag-space-1, 4px);
+    background: var(--ag-border, rgba(0, 0, 0, 0.1));
+  }
+
+  .ag-menu-arrow {
+    fill: var(--ag-surface-fill, rgba(255, 255, 255, 0.7));
+    width: 10px;
+    height: 5px;
+  }
+
+  .ag-menubar {
+    display: flex;
+    gap: var(--ag-space-0-5, 2px);
+    padding: var(--ag-space-0-5, 2px);
+    border-radius: var(--ag-radius-md, 10px);
+  }
+  .ag-menubar .ag-menu-trigger {
+    padding: var(--ag-space-1-5, 6px) var(--ag-space-2-5, 10px);
+    border-radius: var(--ag-radius-sm, 6px);
+  }
+  .ag-menubar .ag-menu-trigger[data-popup-open],
+  .ag-menubar .ag-menu-trigger[data-highlighted] {
+    background: var(--ag-accent-subtle, rgba(99, 102, 241, 0.12));
+  }
+
+  .ag-contextmenu-trigger {
+    /* host region — the element right-clicked; visually inert by default */
+    display: contents;
+  }
+}

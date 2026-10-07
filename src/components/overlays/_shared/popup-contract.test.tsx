@@ -22,7 +22,7 @@ describe('popup contract (CMP-205)', () => {
     async (_name, subject) => {
       render(<AuraGlassProvider>{subject.mount!()}</AuraGlassProvider>);
       await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
-      const popup = document.querySelector('[data-ag-part="popup"]')!;
+      const popup = document.querySelector(subject.popupSelector)!;
       expect(popup.getAttribute('data-ag-layer')).toBe('overlay');
       expect(popup.getAttribute('data-ag-thickness')).toBeTruthy();
       expect(popup.getAttribute('data-ag-overlay')).toBeTruthy();

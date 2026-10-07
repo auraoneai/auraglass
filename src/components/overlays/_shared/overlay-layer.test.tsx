@@ -24,9 +24,9 @@ describe('overlay-layer (CMP-201)', () => {
     async (_name, subject) => {
       render(<AuraGlassProvider>{subject.mount!()}</AuraGlassProvider>);
       await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
-      const popup = document.querySelector('[data-ag-part="popup"]');
+      const popup = document.querySelector(subject.popupSelector);
       expect(popup).toBeTruthy();
-      const layerRoot = document.querySelector('[data-ag-portal-root] [data-ag-layer-root="overlay"]');
+      const layerRoot = document.querySelector(`[data-ag-portal-root] [data-ag-layer-root="${subject.layerRoot}"]`);
       expect(layerRoot).toBeTruthy();
       expect(layerRoot!.contains(popup)).toBe(true);
       // body must not host overlay children directly

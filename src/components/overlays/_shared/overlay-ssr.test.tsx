@@ -11,6 +11,10 @@ import { MOUNTED_SUBJECTS } from './__tests__/subjects';
 import { Dialog } from '../../dialog/index';
 import { AlertDialog } from '../../alert-dialog/index';
 import { Sheet } from '../../sheet/index';
+import { Popover } from '../../popover/index';
+import { Tooltip } from '../../tooltip/index';
+import { Menu } from '../../menu/index';
+import { Toast } from '../../toast/index';
 
 const CLOSED: Record<string, React.ReactElement> = {
   Dialog: (
@@ -30,6 +34,31 @@ const CLOSED: Record<string, React.ReactElement> = {
       <Sheet.Trigger>Open</Sheet.Trigger>
       <Sheet.Portal><Sheet.Popup><Sheet.Title>T</Sheet.Title></Sheet.Popup></Sheet.Portal>
     </Sheet.Root>
+  ),
+  Popover: (
+    <Popover.Root>
+      <Popover.Trigger>Open</Popover.Trigger>
+      <Popover.Portal><Popover.Positioner><Popover.Popup><Popover.Title>T</Popover.Title></Popover.Popup></Popover.Positioner></Popover.Portal>
+    </Popover.Root>
+  ),
+  Tooltip: (
+    <Tooltip.Provider>
+      <Tooltip.Root>
+        <Tooltip.Trigger>Hover</Tooltip.Trigger>
+        <Tooltip.Portal><Tooltip.Positioner><Tooltip.Popup>T</Tooltip.Popup></Tooltip.Positioner></Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  ),
+  Menu: (
+    <Menu.Root>
+      <Menu.Trigger>Open</Menu.Trigger>
+      <Menu.Portal><Menu.Positioner><Menu.Popup><Menu.Item>T</Menu.Item></Menu.Popup></Menu.Positioner></Menu.Portal>
+    </Menu.Root>
+  ),
+  Toast: (
+    <Toast.Provider>
+      <Toast.Viewport />
+    </Toast.Provider>
   ),
 };
 

@@ -21,7 +21,7 @@ describe('overlay dom contract (CMP-202)', () => {
     async (_name, subject) => {
       render(subject.mount!());
       await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
-      const popup = document.querySelector('[data-ag-part="popup"]')!;
+      const popup = document.querySelector(subject.popupSelector)!;
       const names = attrNames(popup);
       expect(names).toContain('data-ag-part');
       expect(names).toContain('data-ag-layer');
@@ -37,15 +37,16 @@ describe('overlay dom contract (CMP-202)', () => {
   );
 
   it.each(MOUNTED_SUBJECTS.map((s) => [s.name, s] as const))(
-    '%s: scrim and parts carry data-ag-part; scrim count is 1 (modal default)',
+    '%s: scrim count follows modality; parts carry data-ag-part',
     async (_name, subject) => {
       render(subject.mount!());
       await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
       const scrims = document.querySelectorAll('[data-ag-part="backdrop"].ag-scrim');
-      expect(scrims.length).toBe(1);
-      const parts = [...document.querySelectorAll('[data-ag-part]')].map((el) => el.getAttribute('data-ag-part'));
-      expect(parts).toContain('popup');
-      expect(parts.filter((p) => p === 'popup').length).toBe(1);
+      expect(scrims.length).toBe(subject.modal ? 1 : 0);
+      const surface = document.querySelector(subject.popupSelector);
+      expect(surface).not.toBeNull();
+      const part = subject.popupSelector.match(/\[data-ag-part="(.+?)"\]/)![1];
+      expect(surface!.getAttribute('data-ag-part')).toBe(part);
     },
   );
 
