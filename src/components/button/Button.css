@@ -99,3 +99,12 @@
     }
   }
 }
+
+/* REQ-33: hit-area — expands the interactive target to --ag-target-min
+   (44px coarse) without changing the visual box. */
+.ag-button [data-ag-part='hit-area'] {
+  position: absolute;
+  inset: calc((var(--ag-target-min) - 100%) / -2);
+  inset-inline: calc((var(--ag-target-min) - 100%) / -2);
+  z-index: -1;
+}

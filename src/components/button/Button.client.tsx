@@ -34,8 +34,11 @@ function Spinner() {
 }
 
 function Inner({ startIcon, endIcon, loading, children }: Pick<ButtonProps, 'startIcon' | 'endIcon' | 'loading' | 'children'>) {
+
   return (
     <>
+      {/* REQ-33: hit-area expands the pointer target to --ag-target-min without affecting layout */}
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {loading ? <Spinner /> : null}
       {startIcon ? <span data-ag-part="icon">{startIcon}</span> : null}
       {/* label stays mounted while loading so width is stable (hidden via CSS visibility); omitted when icon-only */}

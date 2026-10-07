@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T1',
   flagship: 3,
   rsc: 'client',
-  parts: ['root', 'button', 'icon', 'label', 'group', 'separator', 'link'],
+  parts: ['root', 'button', 'icon', 'label', 'group', 'separator', 'link', 'hit-area'],
   states: ['hover', 'active', 'focus-visible', 'pressed', 'disabled'],
   variants: {
     orientation: ['horizontal', 'vertical'],
