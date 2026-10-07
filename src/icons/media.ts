@@ -1,6 +1,3 @@
-export { ImageIcon, MediaIcon, MicIcon, PlayIcon, VideoIcon } from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { ImageIcon } from './media/image';
+export { PlayIcon, MediaIcon } from './media/play';
+export { VideoIcon } from './media/video';

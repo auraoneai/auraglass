@@ -1,14 +1,4 @@
-export {
-  BellIcon,
-  CopyIcon,
-  MicIcon,
-  NotificationIcon,
-  SendIcon,
-  UserIcon,
-  UsersIcon,
-} from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { BellIcon, NotificationIcon } from './collaboration/bell';
+export { MicIcon } from './collaboration/mic';
+export { UserIcon, UserRound } from './collaboration/user';
+export { UsersIcon } from './collaboration/users';

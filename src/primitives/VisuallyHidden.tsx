@@ -4,7 +4,6 @@
 import * as React from 'react';
 import { renderElement } from '../foundation/index';
 import type { RenderProp } from '../contracts/components';
-import './VisuallyHidden.css';
 
 export interface VisuallyHiddenProps extends React.HTMLAttributes<HTMLSpanElement> {
   render?: RenderProp<React.HTMLAttributes<HTMLSpanElement>>;

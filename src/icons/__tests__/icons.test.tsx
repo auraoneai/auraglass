@@ -3,13 +3,13 @@ import '@testing-library/jest-dom/jest-globals';
 import React from "react";
 import { render, screen } from "@testing-library/react";
 
-import { GlassIcon, SearchIcon, SettingsIcon } from "../index";
+import { Icon, SearchIcon, SettingsIcon } from "../index";
 
 describe("AuraGlass icons", () => {
   it("renders named and component icons without third-party icon dependencies", () => {
     render(
       <>
-        <GlassIcon name="search" aria-label="Search symbol" />
+        <Icon name="search" aria-label="Search symbol" />
         <SearchIcon aria-label="Search icon" />
         <SettingsIcon aria-label="Settings icon" />
       </>
