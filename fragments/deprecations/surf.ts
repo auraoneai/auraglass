@@ -1862,12 +1862,12 @@ const w4 = [
     symbol: 'GlassLazyImage',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'native <img loading='lazy'>',
+    replacement: 'native img loading="lazy"',
     codemod: 'removed',
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassLazyImage is removed in 5.0; native <img loading='lazy'>.',
+      'GlassLazyImage is removed in 5.0; native img loading="lazy".',
     doc: '#dep-s0617',
   },
   {
