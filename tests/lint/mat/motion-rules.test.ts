@@ -7,7 +7,7 @@ import { RuleTester } from 'eslint';
 import tsParser from '@typescript-eslint/parser';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { checkCss } from '../../scripts/ci/verify-motion-css.mjs';
+import { checkCss } from '../../../scripts/mat/verify-motion-css.mjs';
 
 const rule = (name: string) =>
   require(join(process.cwd(), 'lint/rules/mat', `${name}.cjs`)) as {
@@ -123,7 +123,7 @@ describe('auraglass lint rules (MAT)', () => {
 });
 
 describe('checkCss fixtures (MAT-232/-234)', () => {
-  const dir = join(__dirname, 'fixtures', 'motion');
+  const dir = join(__dirname, '..', 'fixtures', 'motion');
   const files = readdirSync(dir).filter((f) => f.endsWith('.css'));
   it.each(files)('%s', (f) => {
     const { issues } = checkCss(readFileSync(join(dir, f), 'utf8'), f);
