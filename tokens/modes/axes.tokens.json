@@ -1,8 +1,8 @@
 {
   "$schema": "../$schema.json",
   "mode": {
-    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0", "ag.axisDef": true },
-    "$description": "Mode axis definitions (REQ-MAT-03/05): value list, default, and the selector each non-default value expands to. The compiler reads these; they emit no CSS by themselves.",
+    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "$description": "Mode axis definitions; values/selectors come from contract AG_ATTRIBUTES (material.ts). The compiler reads these; they emit no CSS by themselves.",
     "scheme": {
       "$type": "mode-table",
       "$extensions": { "ag.axisDef": "scheme" },
@@ -25,9 +25,12 @@
       "$type": "mode-table",
       "$extensions": { "ag.axisDef": "transparency" },
       "$value": {
-        "default": "tinted",
-        "values": ["tinted", "solid"],
-        "selectors": { "solid": ["[data-ag-transparency=\"solid\"]", "@media (prefers-reduced-transparency: reduce)"] }
+        "default": "glass",
+        "values": ["glass", "tinted", "solid"],
+        "selectors": {
+          "tinted": ["[data-ag-transparency=\"tinted\"]"],
+          "solid": ["[data-ag-transparency=\"solid\"]", "@media (prefers-reduced-transparency: reduce)"]
+        }
       }
     },
     "density": {

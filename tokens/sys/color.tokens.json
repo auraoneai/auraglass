@@ -17,7 +17,8 @@
       },
       "on-surface-muted": {
         "$type": "color",
-        "$value": { "light": "{ref.color.slate.8}", "dark": "{ref.color.slate.4}" },
+        "$description": "Muted text; must hold 4.5:1 against the surface (contrast matrix pair).",
+        "$value": { "light": "{ref.color.slate.10}", "dark": "{ref.color.slate.4}" },
         "$extensions": { "ag.public": true, "ag.cssVar": "--ag-color-on-surface-muted" }
       },
       "accent": {
@@ -32,12 +33,14 @@
       },
       "border": {
         "$type": "color",
-        "$value": { "light": "{ref.color.slate.5}", "dark": "{ref.color.slate.8}" },
+        "$description": "Boundary border, must hold 3:1 against the surface (contrast matrix pair).",
+        "$value": { "light": "{ref.color.slate.8}", "dark": "{ref.color.slate.5}" },
         "$extensions": { "ag.public": true, "ag.cssVar": "--ag-color-border" }
       },
       "focus-inner": {
         "$type": "color",
-        "$value": { "light": "{ref.color.accent.6}", "dark": "{ref.color.accent.5}" },
+        "$description": "Focus band; must hold 3:1 against the surface (contrast matrix pair).",
+        "$value": { "light": "{ref.color.accent.8}", "dark": "{ref.color.accent.5}" },
         "$extensions": { "ag.public": true, "ag.cssVar": "--ag-color-focus-inner", "ag.forcedColor": "Highlight" }
       },
       "focus-outer": {
