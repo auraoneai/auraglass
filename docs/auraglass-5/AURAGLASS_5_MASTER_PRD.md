@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Document | Program-level PRD. It ties the evidence, the canonical architecture, the frozen contract, the **5 concurrent PRDs**, the 38 prompt files (5 stream index prompts and 33 lane prompts) and the 2,158-task ledger into one plan |
+| Document | Program-level PRD. It ties the evidence, the canonical architecture, the frozen contract, the **5 concurrent PRDs**, the 5 prompts (one per PRD) and the 2,158-task ledger into one plan |
 | Status | Draft, rewritten 2026-10-07 for the 5-stream concurrent model (supersedes the 19-PRD version of 2026-10-06, kept at [`archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md`](archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md)) |
 | Baseline | `aura-glass` 4.1.0 at `15b6de6f7` |
 | Canonical sources | Decisions and architecture: [`AURAGLASS_5_TARGET_ARCHITECTURE.md`](AURAGLASS_5_TARGET_ARCHITECTURE.md) (D-01..D-32, unchanged). Ownership, seams, branches, CI/CD and the GA checklist: [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`, frozen). Precedence: Gurbaksh's live instructions → contract → architecture → PRDs → this document |
@@ -168,7 +168,7 @@ The first decomposition had 19 PRDs, 149 prompts and 2,405 tasks with **1,487 cr
 | PRD-4 | **SURF** | [`AURAGLASS_PRODUCT_SURFACES_PRD.md`](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | NAV, DATA, AI, MED, EXP | flagship 14 and 22–44: `./app-shell`, root navigation, `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./three`, 5.1 `./charts`; `@auraglass/labs`; SURF blocks and items; capability ledger | (none cross-stream beyond its public entries; composition rule, contract §3.3) | 196 / 31 | 645 | 5 |
 | PRD-5 | **QUAL** | [`AURAGLASS_QUALITY_SHOWCASE_PRD.md`](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | QA, SB, PERF | certification lanes L1–L14 and the lane runner; scenes; pixel, OCR and regression gates; evidence and `ReleaseVerdict`; perf harness; Storybook, Material Lab, showcases; GA checklist runner | S-40..S-43, S-44 (runtime half), S-48, S-51, S-55 | 73 / 31 | 309 | 8 |
 
-Totals: **584 requirements, 155 acceptance criteria, 2,158 tasks, 33 lanes.** Each PRD carries an Appendix A that maps every archived requirement to its new REQ id, or records why it was dropped or moved. The architecture's §16 ids (PRD-00..PRD-21) are retired; the archived 19 PRDs are at [`archive/v1-19-prd/`](archive/v1-19-prd/) for traceability only. Two-digit ids (`PRD-00`..`PRD-21`, `SC-NN`, old group keys such as `FND`, `PKG`, `QA`) that survive inside task `source`/`acceptance` text and generated lane prompts are archived provenance, not dependencies, and are unrelated to the new one-digit `PRD-1`..`PRD-5`; the old 19-file numbering and the architecture §16 numbering also differ from each other (resolve either through each PRD's Appendix A and `archive/v1-19-prd/task-disposition.json`).
+Totals: **584 requirements, 155 acceptance criteria, 2,158 tasks, 5 prompts.** Each PRD carries an Appendix A that maps every archived requirement to its new REQ id, or records why it was dropped or moved. The architecture's §16 ids (PRD-00..PRD-21) are retired; the archived 19 PRDs are at [`archive/v1-19-prd/`](archive/v1-19-prd/) for traceability only. Two-digit ids (`PRD-00`..`PRD-21`, `SC-NN`, old group keys such as `FND`, `PKG`, `QA`) that survive inside task `source`/`acceptance` text and the prompts are archived provenance, not dependencies, and are unrelated to the new one-digit `PRD-1`..`PRD-5`; the old 19-file numbering and the architecture §16 numbering also differ from each other (resolve either through each PRD's Appendix A and `archive/v1-19-prd/task-disposition.json`).
 
 ### 5.3 The frozen contract
 
@@ -193,7 +193,7 @@ Totals: **584 requirements, 155 acceptance criteria, 2,158 tasks, 33 lanes.** Ea
 | `main` | existing | frozen at C0 except contract PRs and planning docs; at GA PLAT merges `next` into `main`, which becomes the 5.x line | nothing until GA, then `latest` (5.x) |
 
 - **The two lines run at the same time.** Nothing on `next` waits for a 4.x release and nothing on `release/4.x` waits for 5.0 work. The only ordering between them is release gate G-07 on the GA tag (§12.2).
-- **One worktree per lane.** `git worktree add ../AuraGlass.wt/<stream>-<lane> -b next-<stream>/<lane>-<topic> origin/next`; 4.x work uses `4x-<stream>/<topic>` from `origin/release/4.x` (PLAT for everything; other streams only for their deprecation fragments, MAT also for row group H, CMP also for its frozen 4.x cases). Contract PRs use `contract/<topic>`; PLAT's operator-run fragment sync uses `sync/fragments-*`.
+- **One worktree per stream (or per work package if the agent fans out).** `git worktree add ../AuraGlass.wt/<stream>-<lane> -b next-<stream>/<lane>-<topic> origin/next`; 4.x work uses `4x-<stream>/<topic>` from `origin/release/4.x` (PLAT for everything; other streams only for their deprecation fragments, MAT also for row group H, CMP also for its frozen 4.x cases). Contract PRs use `contract/<topic>`; PLAT's operator-run fragment sync uses `sync/fragments-*`.
 - **Independent merges.** Each stream merges small PRs into `next` at least once per working day while it has open work, whenever the GitLab pipeline for the PR head SHA is `success` (`node scripts/ci/gitlab-status.mjs --sha <sha>`; pipeline URL in the PR). A lane failure caused only by another stream's paths is `pre-existing` and blocks nobody. No general forward-merge from `release/4.x`: a 4.x fix that also applies on `next` is cherry-picked by that file's `next` owner.
 - **Pre-releases** are cut by PLAT from whatever is on `next` on the train date. Work that is not merged ships in the next pre-release; the train never waits.
 
@@ -209,52 +209,19 @@ Owner instruction (2026-10-06): GitHub Actions are not used for anything; GitLab
 - **Publishing.** Only the tag pipeline publishes: `plat:publish:npm` uses npm trusted publishing over GitLab OIDC `id_tokens` with provenance, and reads QUAL's `ReleaseVerdict` artifact. `publish-npm.yml`, `GITHUB_WORKFLOW_REF`, `gh run` and `actions/*` have GitLab equivalents (`CI_PIPELINE_SOURCE`, `CI_COMMIT_TAG`, `id_tokens`, `glab`) everywhere in the PRDs, prompts and tasks.
 - **Deleted at C0 on every branch:** `.github/workflows/{deploy-storybook,design-system-compliance,glass-pipeline,publish-npm,visual-regression}.yml`. `mirror-to-gitlab.yml` is org-managed and outside every PRD; replacing it with GitLab pull mirroring is owner decision **OD-8**. G-16 checks that no other workflow exists on the GA SHA.
 
-### 5.6 Lane index (every prompt file)
+### 5.6 Prompt index (5 prompts, one per PRD)
 
-Every prompt is in [`prompts/`](prompts/). A stream's index prompt holds its concurrency rules, seams and common rules; each lane prompt names its exclusive paths, its order, its tasks and its done criteria. **All 33 lanes start on day 0.**
+There are exactly five prompts in [`prompts/`](prompts/), one per PRD. Give each to one agent; all five start on day 0 and none waits on another. Inside each prompt, work packages touch disjoint files, so an agent that can spawn subagents runs them in parallel; otherwise it works through them in order.
 
-| Prompt | Stream | Lane | Tasks |
+| Prompt | PRD | Work packages | Tasks |
 |---|---|---|---|
-| [`PROMPT_1_PLAT.md`](prompts/PROMPT_1_PLAT.md) | PLAT | stream index | 402 |
-| [`PROMPT_1a_PLAT_CI.md`](prompts/PROMPT_1a_PLAT_CI.md) | PLAT | 1a-CI: GitLab CI/CD, Pages, npm publishing | 54 (PLAT-001..054) |
-| [`PROMPT_1b_PLAT_4X.md`](prompts/PROMPT_1b_PLAT_4X.md) | PLAT | 1b-4X: 4.1.1 trust patch, 4.2/4.3 bridge, frozen 4.x fixture | 113 (PLAT-055..167) |
-| [`PROMPT_1c_PLAT_REL.md`](prompts/PROMPT_1c_PLAT_REL.md) | PLAT | 1c-REL: change control, deprecations, release governance, removal of `legacy/**` | 74 (PLAT-168..241) |
-| [`PROMPT_1d_PLAT_BUILD.md`](prompts/PROMPT_1d_PLAT_BUILD.md) | PLAT | 1d-BUILD: 5.0 build, exports, artifact gates, CSS assembly, canaries | 57 (PLAT-242..298) |
-| [`PROMPT_1e_PLAT_CLI.md`](prompts/PROMPT_1e_PLAT_CLI.md) | PLAT | 1e-CLI: `@auraglass/cli`, `migrate 4to5`, TypeScript DX | 51 (PLAT-299..349) |
-| [`PROMPT_1f_PLAT_DX.md`](prompts/PROMPT_1f_PLAT_DX.md) | PLAT | 1f-DX: registry, docs site, claims, `llms.txt`, MCP | 53 (PLAT-350..402) |
-| [`PROMPT_2_MAT.md`](prompts/PROMPT_2_MAT.md) | MAT | stream index | 374 |
-| [`PROMPT_2a_MAT_TOKENS.md`](prompts/PROMPT_2a_MAT_TOKENS.md) | MAT | T: tokens and compiler | 94 |
-| [`PROMPT_2b_MAT_MATERIAL.md`](prompts/PROMPT_2b_MAT_MATERIAL.md) | MAT | M: material engine and tiers | 91 |
-| [`PROMPT_2c_MAT_MOTION.md`](prompts/PROMPT_2c_MAT_MOTION.md) | MAT | V: motion | 61 |
-| [`PROMPT_2d_MAT_PREFS_A11Y.md`](prompts/PROMPT_2d_MAT_PREFS_A11Y.md) | MAT | P: preferences, provider, a11y rungs | 80 |
-| [`PROMPT_2e_MAT_BRIDGE.md`](prompts/PROMPT_2e_MAT_BRIDGE.md) | MAT | B: bridge, compat, integration | 48 |
-| [`PROMPT_3_CMP.md`](prompts/PROMPT_3_CMP.md) | CMP | stream index | 428 |
-| [`PROMPT_3a_CMP_FOUNDATION.md`](prompts/PROMPT_3a_CMP_FOUNDATION.md) | CMP | F: foundation and platform glue | 67 |
-| [`PROMPT_3b_CMP_ACTIONS.md`](prompts/PROMPT_3b_CMP_ACTIONS.md) | CMP | A: actions (Button first, the pattern proof with Dialog) | 30 |
-| [`PROMPT_3c_CMP_INPUTS.md`](prompts/PROMPT_3c_CMP_INPUTS.md) | CMP | I: inputs | 87 |
-| [`PROMPT_3d_CMP_PICKERS.md`](prompts/PROMPT_3d_CMP_PICKERS.md) | CMP | P: pickers | 15 |
-| [`PROMPT_3e_CMP_MODAL_OVERLAYS.md`](prompts/PROMPT_3e_CMP_MODAL_OVERLAYS.md) | CMP | O1: modal overlays (Dialog first) | 73 |
-| [`PROMPT_3f_CMP_ANCHORED_OVERLAYS.md`](prompts/PROMPT_3f_CMP_ANCHORED_OVERLAYS.md) | CMP | O2: anchored and transient overlays | 33 |
-| [`PROMPT_3g_CMP_CORE.md`](prompts/PROMPT_3g_CMP_CORE.md) | CMP | T: core T0 and T2 | 33 |
-| [`PROMPT_3h_CMP_MIGRATION.md`](prompts/PROMPT_3h_CMP_MIGRATION.md) | CMP | M: migration and registry | 26 |
-| [`PROMPT_3i_CMP_BROWSER_SPECS.md`](prompts/PROMPT_3i_CMP_BROWSER_SPECS.md) | CMP | Q: browser specs | 64 |
-| [`PROMPT_4_SURF.md`](prompts/PROMPT_4_SURF.md) | SURF | stream index | 645 |
-| [`PROMPT_4a_SURF_SHELL_NAV.md`](prompts/PROMPT_4a_SURF_SHELL_NAV.md) | SURF | W1: app shell and root navigation | 133 (SURF-001..133) |
-| [`PROMPT_4b_SURF_DATA_DATE.md`](prompts/PROMPT_4b_SURF_DATA_DATE.md) | SURF | W2: data, date, charts | 142 (SURF-134..275) |
-| [`PROMPT_4c_SURF_AI.md`](prompts/PROMPT_4c_SURF_AI.md) | SURF | W3: presentational AI | 120 (SURF-276..395) |
-| [`PROMPT_4d_SURF_MEDIA_BACKDROPS.md`](prompts/PROMPT_4d_SURF_MEDIA_BACKDROPS.md) | SURF | W4: media, backdrops, `./three` | 128 (SURF-396..523) |
-| [`PROMPT_4e_SURF_PLATFORM_GLUE.md`](prompts/PROMPT_4e_SURF_PLATFORM_GLUE.md) | SURF | W5: platform glue (CI fragment, gates, ledger, labs, migration skeleton) | 122 (SURF-524..645) |
-| [`PROMPT_5_QUAL.md`](prompts/PROMPT_5_QUAL.md) | QUAL | stream index | 309 |
-| [`PROMPT_5a_QUAL_CONTRACT_HELPERS.md`](prompts/PROMPT_5a_QUAL_CONTRACT_HELPERS.md) | QUAL | Q1: contract conformance and test helpers | 6 |
-| [`PROMPT_5b_QUAL_RUNNER_CI.md`](prompts/PROMPT_5b_QUAL_RUNNER_CI.md) | QUAL | Q2: lane runner and GitLab CI | 87 |
-| [`PROMPT_5c_QUAL_SCENES_PIXEL.md`](prompts/PROMPT_5c_QUAL_SCENES_PIXEL.md) | QUAL | Q3: scenes and pixel gates | 17 |
-| [`PROMPT_5d_QUAL_REGRESSION_EVIDENCE.md`](prompts/PROMPT_5d_QUAL_REGRESSION_EVIDENCE.md) | QUAL | Q4: regression and evidence | 15 |
-| [`PROMPT_5e_QUAL_BEHAVIOUR.md`](prompts/PROMPT_5e_QUAL_BEHAVIOUR.md) | QUAL | Q5: behaviour, motion, canaries, unit | 8 |
-| [`PROMPT_5f_QUAL_PERF.md`](prompts/PROMPT_5f_QUAL_PERF.md) | QUAL | Q6: performance | 84 |
-| [`PROMPT_5g_QUAL_STORYBOOK_LAB.md`](prompts/PROMPT_5g_QUAL_STORYBOOK_LAB.md) | QUAL | Q7: Storybook and Material Lab | 77 |
-| [`PROMPT_5h_QUAL_SHOWCASES.md`](prompts/PROMPT_5h_QUAL_SHOWCASES.md) | QUAL | Q8: showcases | 15 |
+| [`PROMPT_1_PLAT.md`](prompts/PROMPT_1_PLAT.md) | [Platform & release](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | 1a CI/CD, Pages, npm publish · 1b 4.1.1 + 4.2/4.3 bridge · 1c release governance · 1d build/exports · 1e CLI/codemods · 1f registry/docs | 402 |
+| [`PROMPT_2_MAT.md`](prompts/PROMPT_2_MAT.md) | [Material system](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | 2a tokens · 2b material engine/tiers · 2c motion · 2d preferences/a11y · 2e bridge/compat | 374 |
+| [`PROMPT_3_CMP.md`](prompts/PROMPT_3_CMP.md) | [Core components](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | 3a foundation · 3b actions · 3c inputs · 3d pickers · 3e modal overlays · 3f anchored overlays · 3g core · 3h migration · 3i browser specs | 428 |
+| [`PROMPT_4_SURF.md`](prompts/PROMPT_4_SURF.md) | [Product surfaces](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | 4a app shell/nav · 4b data/date/charts · 4c AI · 4d media/backdrops · 4e glue | 645 |
+| [`PROMPT_5_QUAL.md`](prompts/PROMPT_5_QUAL.md) | [Quality & showcase](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | 5a contract helpers · 5b GitLab CI lanes · 5c scenes/pixel · 5d regression · 5e behaviour · 5f perf · 5g Storybook/Material Lab · 5h showcases | 309 |
 
-The MAT, CMP and QUAL prompts are generated from each PRD's §19–§21 and the task fragments by `tools/build-stream-prompts.mjs`; the PLAT and SURF prompts are hand-written. To run the whole program, start the 33 lane prompts at once (one agent per lane, each in its own worktree).
+To run the whole program: start these five prompts at once, one agent each, each in its own worktree.
 
 ### 5.7 Task ledger
 
