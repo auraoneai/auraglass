@@ -1,8 +1,0 @@
-import{j as t}from"./iframe-DFMMcocb.js";import{G as s}from"./GlassButton-XgI0pEAb.js";import{G as e}from"./GlassFilterBar-DQ1rpeZi.js";import"./preload-helper-PPVm8Dsz.js";import"./LiquidGlassMaterial-D8CGevp8.js";import"./LiquidGlassLayerProvider-B-mIHSJM.js";import"./a11y-Q0mX7KvA.js";import"./GlassPredictiveEngine-D_3E50m3.js";import"./GlassAchievementSystem-BqTd0FRN.js";import"./OptimizedGlassCore-1D6AE-uZ.js";import"./deviceCapabilities-iDxBLJQX.js";import"./GlassBiometricAdaptation-CNYoTdw5.js";import"./MotionPreferenceContext-VYRcsRrk.js";import"./GlassEyeTracking-DFVitI9H.js";import"./GlassSpatialAudio-BRwfDyUV.js";import"./MotionFramer-Cvto7X39.js";import"./utilsCore-D5Hayjvj.js";import"./components-Ue9Uo88O.js";const b={title:"Controls/Filtering/Glass Filter Bar",component:e,parameters:{layout:"centered",docs:{description:{component:"Direct coverage of the filter-summary surface, removable filter chips, clear action, and trailing actions."}}},args:{label:"Active filters",filters:[{id:"status",label:"Status",value:"Open"},{id:"owner",label:"Owner",value:"Design"},{id:"period",label:"Period",value:"This week"}],onClear:()=>{}}},r={render:i=>t.jsx("div",{style:{width:"min(44rem, calc(100vw - 32px))",maxWidth:"100%"},children:t.jsx(e,{...i,actions:t.jsx(s,{size:"sm",children:"Apply"})})})};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`{
-  render: args => <div style={{
-    width: "min(44rem, calc(100vw - 32px))",
-    maxWidth: "100%"
-  }}>
-      <GlassFilterBar {...args} actions={<GlassButton size="sm">Apply</GlassButton>} />
-    </div>
-}`,...r.parameters?.docs?.source}}};const j=["Default"];export{r as Default,j as __namedExportsOrder,b as default};
