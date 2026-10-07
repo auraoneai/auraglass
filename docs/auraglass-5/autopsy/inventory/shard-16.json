@@ -1,0 +1,329 @@
+[
+  {
+    "name": "GlassWhiteboard",
+    "file": "src/components/interactive/GlassWhiteboard.tsx",
+    "lines": 879,
+    "category": "collaboration/canvas",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassWhiteboard.stories.tsx",
+      "count": 2,
+      "names": [
+        "Default",
+        "Collaborative"
+      ],
+      "title": "Workflows/Glass Whiteboard"
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassWhiteboard.test.tsx",
+      "notes": "Template smoke/axe/snapshot; focus test is conditional (if element) and asserts outline!=='none' which jsdom always satisfies; no drawing, tool, eraser, select or export behavior tested."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasswhiteboard/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-glasswhiteboard/mobile.png",
+      "reports/audit/glass-whiteboard/desktop.png"
+    ],
+    "material_impl": "OptimizedGlass shell (intent=neutral, level1) at :652-661; inner text modal uses OptimizedGlass level2 :815. Canvas painting is hard-coded: grid 'rgba(48,48,48,0.16)' :374, dots 'rgba(255,255,255,0.20)' :390, text font '\u2026px Arial' :472. Palette type is a closed union mixing var() tokens and raw rgba :18-30. Canvas strokeStyle given CSS var strings ('var(--glass-white)' :495, 'var(--glass-white)80' :588) which canvas rejects, so selection outlines inherit the previous stroke color; text fillStyle uses unresolved element.color :473. Classes glass-z-20 :812 and glass-surface-dark/20 do not exist in shipped CSS (only glass-z-10/30/40/50 in src/styles/glass.css).",
+    "motion": "None. useReducedMotion and ANIMATION imported :5,:7 but never used; only CSS transition-colors classes on buttons.",
+    "a11y": "role='application' + aria-label on root :663-664 (application role removes browse-mode for SR without providing any keyboard model). Tool buttons have no aria-pressed (:677-689) while color swatches do (:708) - inconsistent. Color swatch labels read raw CSS strings ('Select color rgba(255, 255, 255, 0.30)') :707. Hard-coded ids 'brush-size'/'brush-opacity' :720,:726,:751,:757 collide with multiple instances. Canvas has no keyboard alternative, no text description of content. Text 'modal' :809-836 is not a dialog (no role, no focus trap, no label; placeholder-only input). Mouse-only: no touch/pointer handlers on canvas :857-860 despite getCanvasPosition handling touches :201 - unusable on mobile/tablet.",
+    "api": "forwardRef, className passthrough, ...props spread. Uncontrolled only: initialData seeds state once :141, no value/controlled data, no imperative clear/export/undo. Props collaborative, userId, showMinimap destructured and never used :113-121 (dead API). enabledTools default slices off text/select :115. Root style hard-coded and placed before {...props} only partially (style prop overrides maxHeight entirely).",
+    "ssr": "'use client'. window/document touched only in callbacks/effects (resolveCanvasColor :159, export :645) - SSR-safe. No heavy imports.",
+    "fake_complexity": "High. 'collaborative'/'userId'/'showMinimap' do nothing (no network, no presence, no minimap). Eraser paints a white stroke rather than clearing (color 'var(--glass-white)' :228, no globalCompositeOperation='destination-out'), so it draws white lines over the glass. 'select' only highlights + allows delete; no move/resize. No undo/redo. No devicePixelRatio scaling, so strokes are blurry on retina. Every mousemove clones the full points array and redraws all elements :283-286,:556-610 (O(n) per move).",
+    "duplicates": [
+      "src/components/social/GlassSharedWhiteboard.tsx (697 lines, also root-exported at src/index.ts:747, has framer-motion, sound, a11y ids) - direct functional overlap",
+      "src/components/interactive/GlassMindMap.tsx (canvas-ish diagram surface)"
+    ],
+    "visual_note": "Image Read returned empty in this session; judged via pixel analysis + code. Desktop cert shot: content band y=232-880, only 0.59% of pixels darker than mid-gray; toolbar is a single row of small text-only chips and swatches above a small grid canvas with a thin rectangle and polyline - reads as a dev tool panel on a flat light page, not a premium surface. Canvas does not scale to container (fixed intrinsic width/height attrs, CSS height clamp(180px,32vw,300px) :847 crops it).",
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 4,
+      "responsive": 3,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 4,
+      "performance": 4,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 3.3,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassSharedWhiteboard (single Whiteboard with real pointer events, controlled data, adapter-based collaboration)",
+    "flagship_candidate": false,
+    "justification": "A working-but-naive canvas sketchpad dressed as a collaborative whiteboard. Three advertised props are dead, the eraser paints white, canvas color handling is broken for var() tokens, there is no touch/pointer support, no DPR scaling, no undo, and the a11y story is role=application with nothing behind it. It overlaps almost entirely with GlassSharedWhiteboard, which is also root-exported. Merge into one Whiteboard built on Pointer Events with controlled document state, a collaboration adapter interface (not a boolean), destination-out erasing, DPR-aware rendering and token-resolved colors; deprecate this export behind an alias for one major.",
+    "evidence": [
+      "src/components/interactive/GlassWhiteboard.tsx:113-121",
+      "src/components/interactive/GlassWhiteboard.tsx:228",
+      "src/components/interactive/GlassWhiteboard.tsx:473",
+      "src/components/interactive/GlassWhiteboard.tsx:495",
+      "src/components/interactive/GlassWhiteboard.tsx:588",
+      "src/components/interactive/GlassWhiteboard.tsx:663-664",
+      "src/components/interactive/GlassWhiteboard.tsx:720",
+      "src/components/interactive/GlassWhiteboard.tsx:812",
+      "src/components/interactive/GlassWhiteboard.tsx:847",
+      "src/components/interactive/GlassWhiteboard.tsx:850-861",
+      "src/styles/glass.css (only .glass-z-10/30/40/50)",
+      "src/index.ts:393",
+      "src/index.ts:747"
+    ]
+  },
+  {
+    "name": "LiquidGlassCommandSurface",
+    "file": "src/components/interactive/LiquidGlassCommandSurface.tsx",
+    "lines": 163,
+    "category": "overlay/command-palette",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/LiquidGlassCommandSurface.stories.tsx",
+      "count": 1,
+      "names": [
+        "Default"
+      ],
+      "title": "Effects + Advanced/Liquid Glass Command Surface"
+    },
+    "tests": {
+      "file": "src/components/interactive/LiquidGlassCommandSurface.test.tsx",
+      "notes": "8-line test: renders one option. No keyboard, filtering, escape, disabled, or a11y tests."
+    },
+    "screenshots": [
+      "reports/audit/liquid-glass-command-surface/desktop.png",
+      "reports/audit/liquid-glass-command-surface/mobile.png",
+      "reports/audit/liquid-glass-command-surface/tablet.png",
+      "(not in glassmorphism-storybook-visual-certification set)"
+    ],
+    "material_impl": "LiquidGlassMaterial material='liquid' radius='2xl' :63-66 (shared primitive) but immediately overridden by an inline hard-coded white gradient 'linear-gradient(135deg, rgba(255,255,255,0.30)\u2026)' :73-74 and forced slate text '--glass-theme-text: rgba(15,23,42,0.94)' :76-77, making it light-only regardless of theme. Item fills hard-coded rgba(255,255,255,0.24/0.12) :122-127. Backdrop is a utility blur 'glass-bg-white/20 glass-backdrop-blur-md' :60. Several classes used do not exist in shipped CSS: glass-z-1200 :56 (overlay has no z-index), glass-place-items-start, glass-max-h-[min(24rem,\u2026)] :103 (list never constrains height). Button reset (border:0, transparent bg, font:inherit) exists only in the story's injected <style> (stories :51-57), so consumers get UA button borders.",
+    "motion": "None in component; LiquidGlassScrollEdge provides scroll-edge fade :106-110. No open/close transition, no reduced-motion concern.",
+    "a11y": "Weak. Not a dialog: no role='dialog', aria-modal, label, portal, focus trap, scroll lock or focus restore. Input has role='combobox' with aria-expanded hard-coded true :95-96, no aria-controls, no aria-activedescendant, no aria-label (placeholder only). listbox :102 has no id/label. Options are focusable <button role=option> creating tab stops inside a listbox. No autofocus on open. Disabled items remain arrow-reachable and Enter fires onSelect regardless of disabled :93. Selection highlight is color-only.",
+    "api": "forwardRef targets the panel; className/...props passthrough. Controlled open only (no defaultOpen, no trigger/hotkey). Query uncontrolled with no onQueryChange. selectedIndex not reset when query changes :43-51, so it can point past filtered length and Enter becomes a no-op. Item.group declared :12 but never rendered. Selecting an item doesn't close the surface. No empty state.",
+    "ssr": "'use client'; no window access at render; returns null when closed. Fine.",
+    "fake_complexity": "Moderate: billed as a Liquid Glass command surface but is a simple label substring filter with color-only highlight; story copy promises 'groups' that the component does not implement.",
+    "duplicates": [
+      "src/components/interactive/GlassCommandPalette.tsx (758 lines, has role=dialog/aria-modal at :554-555)",
+      "src/components/interactive/GlassCommand.tsx (558 lines)",
+      "src/components/navigation/GlassCommandBar.tsx"
+    ],
+    "visual_note": "Image Read returned empty; judged by pixel analysis of reports/audit/liquid-glass-command-surface/desktop.png: near-white canvas (mean 251), only 0.75% dark pixels, text rows clustered at the far left rather than in a centered panel - consistent with missing glass-place-items-start/max-width utilities. Low tonal separation between panel, backdrop and story cards: white-on-white glass without depth.",
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 3,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 7,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 3.2,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassCommandPalette (rebuilt on the library Dialog/Portal/FocusScope + combobox primitives, with LiquidGlassMaterial as a material option)",
+    "flagship_candidate": false,
+    "justification": "Command palettes are a flagship-grade surface in premium systems, but this is the weakest of four overlapping implementations: no dialog semantics, broken combobox ARIA, missing utility classes that silently drop z-index and list height, light-only hard-coded colors that defeat the LiquidGlassMaterial primitive, and styling that only looks right because the story injects CSS. Fold its one useful idea (Liquid material + scroll edge) into a single CommandPalette as material='liquid'.",
+    "evidence": [
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:56",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:60",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:73-77",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:93",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:95-96",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:103",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx:122-127",
+      "src/components/interactive/LiquidGlassCommandSurface.stories.tsx:51-57",
+      "src/components/interactive/GlassCommandPalette.tsx:554-555",
+      "src/index.ts:411-413"
+    ]
+  },
+  {
+    "name": "LiquidGlassMapControls",
+    "file": "src/components/interactive/LiquidGlassMapControls.tsx",
+    "lines": 73,
+    "category": "controls/map-overlay",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/LiquidGlassMapControls.stories.tsx",
+      "count": 1,
+      "names": [
+        "Satellite"
+      ],
+      "title": "Effects + Advanced/Liquid Glass Map Controls"
+    },
+    "tests": {
+      "file": "src/components/interactive/LiquidGlassMapControls.test.tsx",
+      "notes": "8-line test: one labelled button renders."
+    },
+    "screenshots": [
+      "reports/audit/liquid-glass-map-controls/desktop.png",
+      "reports/audit/liquid-glass-map-controls/mobile.png",
+      "reports/audit/liquid-glass-map-controls/tablet.png",
+      "(not in glassmorphism-storybook-visual-certification set)"
+    ],
+    "material_impl": "Wraps LiquidGlassControlGroup -> LiquidGlassMaterial (shared primitive) :46-55, but passes an inline hard-coded white gradient background :51-54 that overrides the 'clear' vs 'regular' materialVariant, so the variant prop has no visible effect on background.",
+    "motion": "None.",
+    "a11y": "Buttons get aria-label from control.label :61 (good for icon-only). Group labelled 'Map controls' :49 (hard-coded, not overridable). No role='toolbar', and LiquidGlassControlGroup's rovingFocus is only a data attribute (src/components/input/LiquidGlassControlGroup.tsx:37) - no arrow-key navigation exists. Buttons have no intrinsic size (glass-p-2 only :62); 42px target comes from story CSS (stories :58-66). No pressed/selected state for toggles like Layers.",
+    "api": "forwardRef, className, ...props. placement prop only emits data-placement :43 and no CSS anywhere consumes it (rg for data-placement/liquid-glass-map-controls in CSS: none) - placement is a no-op; story positions via style top/right. Controls are data-driven objects rather than composable children; no toggle/pressed field, no tooltip.",
+    "ssr": "'use client'; pure render. Fine.",
+    "fake_complexity": "Low-moderate: name implies a map-control system but it is a vertical button stack with a non-functional placement prop.",
+    "duplicates": [
+      "src/components/input/LiquidGlassControlGroup.tsx (this is a 25-line wrapper over it)",
+      "toolbar/button-group components elsewhere in navigation/"
+    ],
+    "visual_note": "Image Read returned empty; pixel analysis of reports/audit/liquid-glass-map-controls/desktop.png shows a varied map-like backdrop (6.8k colors) with a vertical control column on the right - the strongest-looking story in this shard, but the look depends on story CSS for button size/typography and icons are placeholder letters (+, -, O, L).",
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 4,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 2,
+      "consistency": 4,
+      "performance": 8,
+      "docs": 2,
+      "storybook": 5,
+      "production": 3
+    },
+    "overall": 4.0,
+    "disposition": "POLISH",
+    "target": "Keep as thin recipe over LiquidGlassControlGroup; implement placement CSS, toolbar role + roving focus, intrinsic 44px targets, pressed state, remove inline gradient",
+    "flagship_candidate": false,
+    "justification": "Small and honest in scope, built on the right primitive, and map/floating-control clusters are a legitimate Liquid Glass pattern. But the placement prop does nothing, the inline gradient overrides the material variant, keyboard roving focus is advertised but absent, and touch targets/typography live in the story instead of the component. Fix those and it is a reasonable recipe; it does not justify a standalone flagship.",
+    "evidence": [
+      "src/components/interactive/LiquidGlassMapControls.tsx:43",
+      "src/components/interactive/LiquidGlassMapControls.tsx:49",
+      "src/components/interactive/LiquidGlassMapControls.tsx:51-54",
+      "src/components/interactive/LiquidGlassMapControls.tsx:62",
+      "src/components/input/LiquidGlassControlGroup.tsx:37",
+      "src/components/interactive/LiquidGlassMapControls.stories.tsx:58-66",
+      "src/index.ts:415-417"
+    ]
+  },
+  {
+    "name": "PageTransitionDemo",
+    "file": "src/components/interactive/PageTransitionDemo.tsx",
+    "lines": 153,
+    "category": "demo/animation",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/PageTransitionDemo.stories.tsx",
+      "count": 1,
+      "names": [
+        "Default"
+      ],
+      "title": "Effects + Advanced/Page Transition Demo"
+    },
+    "tests": {
+      "file": "src/components/interactive/PageTransitionDemo.test.tsx",
+      "notes": "Template smoke/axe/snapshot only."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-pagetransitiondemo/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-pagetransitiondemo/mobile.png"
+    ],
+    "material_impl": "createGlassStyle({intent:'neutral', elevation:'level2'}) for section card :121 (shared mixin). Buttons fully inline-styled with color-mix rgba and color:'white' :143-151. Gradient tints use invalid CSS 'var(--glass-color-primary-light)33' (hex alpha appended to a var) :87,:93, so those gradients are dropped by the browser.",
+    "motion": "framer-motion AnimatePresence + opacity/y/filter blur :59-103. useReducedMotion called :18 but prefersReducedMotion never used - reduced motion is NOT honored. filter: 'blur(var(--glass-blur-md))' cannot be interpolated by framer-motion, so the blur step snaps.",
+    "a11y": "Tab-like buttons without role=tablist/tab, aria-selected or aria-controls :28-48; no type='button'. White button text on a light surface: pixel min luminance in the cert screenshot is 210/255 - labels effectively invisible.",
+    "api": "Not forwardRef, fixed 520x320 inline size :25, only className/data-testid. Hard-coded copy 'Glass page transition demo' :132. Default export plus named export.",
+    "ssr": "'use client'; fine. framer-motion import.",
+    "fake_complexity": "It is a demo, not a component: three hard-coded pages with placeholder text.",
+    "duplicates": [
+      "src/components/animations/GlassTransitions.tsx GlassPageTransition :258",
+      "components-advanced-glassliquidtransition"
+    ],
+    "visual_note": "Image Read returned empty; pixel analysis of the desktop cert shot: luminance range 210-255, stddev 7, a faint blob in the center - essentially a washed-out near-blank frame with invisible white text. Fails the premium bar outright.",
+    "scores": {
+      "visual": 2,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 1,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.8,
+    "disposition": "REMOVE",
+    "target": "Move as a story example for GlassPageTransition (src/components/animations/GlassTransitions.tsx:258)",
+    "flagship_candidate": false,
+    "justification": "Not exported from the root, fixed-size, placeholder content, broken gradients, invisible white labels on a light background, and reduced-motion is imported but ignored. It is demo code living in src/components and inflating the component count. Delete it and, if the pattern is wanted, show it as a GlassPageTransition story.",
+    "evidence": [
+      "src/components/interactive/PageTransitionDemo.tsx:18",
+      "src/components/interactive/PageTransitionDemo.tsx:25",
+      "src/components/interactive/PageTransitionDemo.tsx:64",
+      "src/components/interactive/PageTransitionDemo.tsx:87",
+      "src/components/interactive/PageTransitionDemo.tsx:93",
+      "src/components/interactive/PageTransitionDemo.tsx:150",
+      "src/components/animations/GlassTransitions.tsx:258"
+    ]
+  },
+  {
+    "name": "ThemedGlassComponents",
+    "file": "src/components/interactive/ThemedGlassComponents.tsx",
+    "lines": 137,
+    "category": "theme/wrapper",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/ThemedGlassComponents.stories.tsx",
+      "count": 2,
+      "names": [
+        "Default",
+        "Variants"
+      ],
+      "title": "Foundations/Tokens/Themed Glass Components"
+    },
+    "tests": {
+      "file": "src/components/interactive/ThemedGlassComponents.test.tsx",
+      "notes": "Template tests render without required children; reduced-motion test asserts jsdom computed durations (always 0) so it cannot fail."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-themedglasscomponents/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-themedglasscomponents/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass with elevation mapped from glassIntensity :31-36,:111-116 - adds nothing over OptimizedGlass directly. Uses unprefixed Tailwind 'transition-all duration-300' :119 which exist only in src/styles/storybook-utility-shim.css:710,719 (not shipped); 'glass-transitioning' class :120 has no CSS anywhere.",
+    "motion": "setTimeout toggles an isTransitioning flag :97-106 that drives a class with no styles - fake. Reduced motion is checked :116,:119,:125 (wired, but guards no-ops).",
+    "a11y": "Plain div wrapper; nothing to evaluate. Default story renders an empty box.",
+    "api": "forwardRef, but props interface is not exported (a different ThemedGlassComponentsProps exists in src/components/interactive/types.ts:323). variant/colorMode are string-typed and only trigger the timer; preserveOriginalStyle unused; contextData passed through a context whose hook useThemedGlass is not root-exported. Context value recreated every render.",
+    "ssr": "'use client'; uses useGlassTheme hook; fine.",
+    "fake_complexity": "High: claims to 'apply themed glass styling to its children' but just renders OptimizedGlass with an intensity->elevation map; the transition system is a timer flipping an unstyled class.",
+    "duplicates": [
+      "OptimizedGlass primitive (src/primitives)",
+      "src/components/interactive/GlassThemeDemo.tsx",
+      "theme providers under src/theme"
+    ],
+    "visual_note": "Image Read returned empty; pixel analysis: 23 distinct colors, luminance 233-255 - effectively a blank light page with an empty faint box.",
+    "scores": {
+      "visual": 1,
+      "material": 3,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 3,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 1,
+      "storybook": 1,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "OptimizedGlass (elevation prop) / theme provider",
+    "flagship_candidate": false,
+    "justification": "Not publicly exported, functionally a renamed OptimizedGlass, with dead props, an unstyled 'transition' class driven by setTimeout, and Tailwind classes that only exist in the Storybook shim. Its story is blank. Remove it and its tests; nothing in the public API depends on it.",
+    "evidence": [
+      "src/components/interactive/ThemedGlassComponents.tsx:31-36",
+      "src/components/interactive/ThemedGlassComponents.tsx:97-106",
+      "src/components/interactive/ThemedGlassComponents.tsx:119-120",
+      "src/styles/storybook-utility-shim.css:710",
+      "src/components/interactive/types.ts:323",
+      "src/components/interactive/ThemedGlassComponents.stories.tsx:33-37"
+    ]
+  }
+]

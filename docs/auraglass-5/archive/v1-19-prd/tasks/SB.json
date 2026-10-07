@@ -1,0 +1,2264 @@
+[
+  {
+    "id": "SB-001",
+    "prd": "PRD-17",
+    "system": "ci/deploy-storybook",
+    "file": ".github/workflows/deploy-storybook.yml",
+    "action": "MODIFY",
+    "description": "Rewrite header and build job: top-level `permissions: contents: read` (replacing contents/issues/pull-requests: write at :9-12); triggers push main, push tags v5.*, pull_request main (drop develop); job `build`: checkout, setup-node 20 npm cache, npm ci, `npm run build-storybook 2>&1 | tee sb-build.log`, `node scripts/storybook/check-build-log.mjs sb-build.log`, `node scripts/storybook/verify-fresh.mjs`, upload artifact `storybook-${{ github.sha }}` retention 30 days.",
+    "depends_on": [
+      "SB-008",
+      "SB-010",
+      "SB-011"
+    ],
+    "priority": "P0",
+    "test": "tests/storybook/deploy-workflow.test.mjs (SB-018) asserts top-level permissions == {contents: read} and artifact name/retention",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14 (REQ-SB-50)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-002",
+    "prd": "PRD-17",
+    "system": "ci/storybook-tests",
+    "file": "NEW:.github/workflows/storybook-tests.yml",
+    "action": "INFRA",
+    "description": "Reusable workflow (`on: workflow_call` + `pull_request`), `permissions: contents: read`; initial job downloads `storybook-<sha>` artifact, runs verify-fresh.mjs and records build duration (target <=6 min, PRD §16). PROMPT_17b adds `lint-gates` and sharded `vitest` jobs.",
+    "depends_on": [
+      "SB-011"
+    ],
+    "priority": "P0",
+    "test": "deploy-workflow.test.mjs asserts deploy-storybook `storybook-tests` job `uses: ./.github/workflows/storybook-tests.yml` and the callee declares workflow_call",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14 (REQ-SB-50)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-003",
+    "prd": "PRD-17",
+    "system": "ci/deploy-storybook",
+    "file": ".github/workflows/deploy-storybook.yml",
+    "action": "MODIFY",
+    "description": "Job `deploy-pages`: if push and (refs/heads/main or tags v5.*), needs [build, storybook-tests, cert-scene-gate], job-level `pages: write`, `id-token: write`, environment github-pages; runs assemble-pages.mjs then actions/upload-pages-artifact + actions/deploy-pages; CNAME storybook.aura-glass.auraone.com written into assembled root; remove peaceiris/actions-gh-pages and every contents: write. Pages build_type cutover (`gh api -X PUT repos/auraoneai/auraglass/pages -f build_type=workflow`) is recorded, not executed, until /v4/ release asset exists.",
+    "depends_on": [
+      "SB-001",
+      "SB-002",
+      "SB-004",
+      "SB-006"
+    ],
+    "priority": "P0",
+    "test": "deploy-workflow.test.mjs: deploy-pages needs ⊇ {build,storybook-tests,cert-scene-gate}; write perms only under gated `if`; peaceiris absent",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14, AC-SB-16 (REQ-SB-50)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-004",
+    "prd": "PRD-17",
+    "system": "ci/deploy-storybook",
+    "file": ".github/workflows/deploy-storybook.yml",
+    "action": "MODIFY",
+    "description": "Job `cert-scene-gate` (job-level `checks: read`): `gh api repos/${{ github.repository }}/commits/${{ github.sha }}/check-runs --jq` selects check named `certify / cert-scene`; exits 1 unless conclusion == success. No continue-on-error. Fails closed until PRD-19 certify workflow exists.",
+    "depends_on": [
+      "SB-001",
+      "QA-032"
+    ],
+    "priority": "P0",
+    "test": "deploy-workflow.test.mjs asserts cert-scene-gate has checks: read only and no continue-on-error",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14 (REQ-SB-53)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-005",
+    "prd": "PRD-17",
+    "system": "ci/pr-preview",
+    "file": ".github/workflows/deploy-storybook.yml",
+    "action": "MODIFY",
+    "description": "Job `deploy-preview`: if pull_request and head.repo.full_name == github.repository; step output from `secrets.CLOUDFLARE_PAGES_STORYBOOK_TOKEN != ''` gates later steps; cloudflare/wrangler-action pinned by full commit SHA, `pages deploy storybook-static --project-name=auraglass-storybook --branch=pr-<n>`; comment step (job-level pull-requests: write) posts steps.<id>.outputs.deployment-url. Fork PRs: artifact link only, no secret steps. Pages project created with existing Wrangler auth if absent; token/secret never created or copied by agent (report exact grant needed).",
+    "depends_on": [
+      "SB-001"
+    ],
+    "priority": "P1",
+    "test": "deploy-workflow.test.mjs: comment consumes steps.*.outputs.deployment-url; no secrets in fork-reachable steps; curl preview URL -> 200 or no comment",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14 (REQ-SB-51)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-006",
+    "prd": "PRD-17",
+    "system": "ci/versioned-paths",
+    "file": "NEW:scripts/storybook/assemble-pages.mjs",
+    "action": "CREATE",
+    "description": "Assemble _site/: /next/ (main build), /v5/<version>/ for every v5.* from GitHub Release assets storybook-static-<version>.tar.gz (`gh release download`, never Actions artifacts), /latest/ = highest non-prerelease v5.* by semver, /v4/ from release asset storybook-static-4.x.tar.gz (fail if missing), root index.html redirect to /latest/ (or /next/ before first GA), CNAME, redirects.json. Plus tag-only job `release-asset` (job-level contents: write) uploading the tarball. Test NEW tests/storybook/assemble-pages.test.mjs.",
+    "depends_on": [
+      "SB-007"
+    ],
+    "priority": "P1",
+    "test": "assemble-pages.test.mjs (layout, latest selection, missing-v4 failure); deploy-workflow.test.mjs asserts tag trigger and gh release download",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-16 (REQ-SB-52)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-007",
+    "prd": "PRD-17",
+    "system": "docs-hosting/redirects",
+    "file": "NEW:.storybook/redirects.json",
+    "action": "CREATE",
+    "description": "Map the 50 most-linked 4.x story ids (ranked from `rg -o \"\\?path=/(story|docs)/[a-z0-9-]+\" README.md docs/ -g '!docs/auraglass-5/**'`) to 5.0 ids, else start-here--page with moved=1; NEW .storybook/manager-head.html containing only the redirect lookup script (PRD §10 C-E row, §11 External links).",
+    "depends_on": [],
+    "priority": "P2",
+    "test": "assemble-pages.test.mjs asserts redirects.json copied and has <=50 entries each targeting an id present in index.json",
+    "storybook": "Start Here shows 'moved' banner when ?moved=1",
+    "acceptance": "AC-SB-16 (REQ-SB-52, PRD §10)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-008",
+    "prd": "PRD-17",
+    "system": "gates/build-log",
+    "file": "NEW:scripts/storybook/check-build-log.mjs",
+    "action": "CREATE",
+    "description": "Scan Storybook build log; exit 1 on duplicate story id, missing/unknown story id, 'Failed to resolve import', 'Could not resolve', and vite unresolved-import warnings; print matching lines. Build must not use --quiet.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "SB-009",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-54 (AC-SB-14 pipeline)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-009",
+    "prd": "PRD-17",
+    "system": "gates/build-log",
+    "file": "NEW:tests/storybook/check-build-log.test.mjs",
+    "action": "TEST",
+    "description": "node --test with fixture logs under tests/storybook/fixtures/build-logs/: 1 clean (exit 0) and 1 per failure class (duplicate id, missing id, unresolved import, vite warning) each exit 1.",
+    "depends_on": [
+      "SB-008"
+    ],
+    "priority": "P1",
+    "test": "node --test tests/storybook/check-build-log.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-54",
+    "status": "todo"
+  },
+  {
+    "id": "SB-010",
+    "prd": "PRD-17",
+    "system": "freshness/manifest",
+    "file": "NEW:scripts/storybook/write-build-manifest.mjs",
+    "action": "CREATE",
+    "description": "Write storybook-static/ag-build.json {sha: git rev-parse HEAD, dirty: git status --porcelain non-empty, builtAt, storybookVersion (node_modules/storybook/package.json), packageVersion, storyCount (index.json type story), indexSha256}; package.json script `postbuild-storybook`.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "verify-fresh.test.mjs consumes generated manifests (SB-012)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15, AC-SB-16 (REQ-SB-55)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-011",
+    "prd": "PRD-17",
+    "system": "freshness/verify",
+    "file": "NEW:scripts/storybook/verify-fresh.mjs",
+    "action": "CREATE",
+    "description": "`verify-fresh.mjs [dir=storybook-static]` exits 1 with one-line reason unless ag-build.json exists, sha == HEAD, dirty == false when CI=true, indexSha256 matches index.json.",
+    "depends_on": [
+      "SB-010"
+    ],
+    "priority": "P0",
+    "test": "SB-012",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-56)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-012",
+    "prd": "PRD-17",
+    "system": "freshness/verify",
+    "file": "NEW:tests/storybook/verify-fresh.test.mjs",
+    "action": "TEST",
+    "description": "node --test with temp-dir fixtures: pass; missing manifest; SHA mismatch; dirty with CI=true fails; dirty locally passes; index hash mismatch; deliberately stale build (manifest from older commit) fails.",
+    "depends_on": [
+      "SB-011"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/verify-fresh.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-56)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-013",
+    "prd": "PRD-17",
+    "system": "freshness/interim-readers",
+    "file": "scripts/visual-test-runner.js",
+    "action": "MODIFY",
+    "description": "release/4.x back-port only (SC-09: on main PRD-QA REQ-QA-52 deletes the file and this task makes no main edit): run `node scripts/storybook/verify-fresh.mjs` and abort on failure before the `npx http-server storybook-static` call at :109.",
+    "depends_on": [
+      "SB-011",
+      "SB-017"
+    ],
+    "priority": "P1",
+    "test": "on release/4.x: rg -n \"verify-fresh\" scripts/visual-test-runner.js returns the call before :109; on main the file is absent",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-56)",
+    "status": "todo",
+    "gate": "release/4.x branch exists (REL branch policy REL-054)"
+  },
+  {
+    "id": "SB-014",
+    "prd": "PRD-17",
+    "system": "freshness/interim-readers",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "TEST",
+    "description": "Contract check only (SC-09; QA owns certify-pr.yml via QA-031, and QA-119 deletes visual-regression.yml on main): assert the `build-storybook` job runs `node scripts/storybook/verify-fresh.mjs storybook-static` after `npm run build-storybook` and before any upload or serve step, and that no workflow on main references visual-regression.yml. No edit by this PRD; a missing step is filed against QA-031. The release/4.x visual-regression.yml guard ships in SB-017.",
+    "depends_on": [
+      "SB-011",
+      "QA-031"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/deploy-workflow.test.mjs parses certify-pr.yml and asserts verify-fresh precedes upload/serve in build-storybook",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-56)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-015",
+    "prd": "PRD-17",
+    "system": "freshness/untracked",
+    "file": "scripts/ci/forbidden-check.js",
+    "action": "MODIFY",
+    "description": "Add a check failing when `git ls-files storybook-static` prints anything; keep the existing ignore entry at :20. .gitignore:87 unchanged.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "node scripts/ci/forbidden-check.js exits 0 at HEAD; temp-index fixture with a tracked storybook-static/x file exits 1 (assert in verify-fresh.test.mjs or a new case)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-57)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-016",
+    "prd": "PRD-17",
+    "system": "legacy-cert/callers",
+    "file": "scripts/audit/story-presentation-audit.js",
+    "action": "REMOVE",
+    "description": "Delete scripts/audit/story-presentation-audit.js and package.json script `audit:storybook:presentation` (:339). Do not delete scripts/audit/storybook-visual-certification.mjs (PRD-19 REQ-QA-50). Record which checks are uncovered until lint-titles/lint-story-copy/storybook-index land.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "rg -n \"storybook-visual-certification|story-presentation-audit\" package.json .github .storybook = 0 (also enforced by static-gates.mjs SB-039)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-17 (REQ-SB-41)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-017",
+    "prd": "PRD-17",
+    "system": "ci/release-4x-backport",
+    "file": ".github/workflows/deploy-storybook.yml",
+    "action": "INFRA",
+    "description": "On branch release/4.x (created by PRD-01; blocked if absent): back-port top-level contents: read, job-scoped writes, write-build-manifest.mjs, verify-fresh.mjs, forbidden-check addition; no story/visual change (D-27). Build that branch's Storybook in CI and attach storybook-static-4.x.tar.gz to GitHub release `v4-storybook` (frozen /v4/ input). On release/4.x only, also insert the `verify-fresh.mjs` step before `npx serve -s storybook-static` in .github/workflows/visual-regression.yml (:36) (SC-09: TRUST-062 is the only other edit of that file and is evidence-only).",
+    "depends_on": [
+      "SB-001",
+      "SB-010",
+      "SB-011",
+      "SB-015",
+      "REL-054"
+    ],
+    "priority": "P1",
+    "test": "deploy-workflow.test.mjs passes on release/4.x; `gh release view v4-storybook` lists storybook-static-4.x.tar.gz",
+    "storybook": "/v4/ frozen 4.x Storybook",
+    "acceptance": "AC-SB-14, AC-SB-15 (REQ-SB-50, REQ-SB-55..57; PRD §11)",
+    "status": "todo",
+    "gate": "release/4.x branch exists (REL branch policy REL-054)"
+  },
+  {
+    "id": "SB-018",
+    "prd": "PRD-17",
+    "system": "ci/deploy-storybook",
+    "file": "NEW:tests/storybook/deploy-workflow.test.mjs",
+    "action": "TEST",
+    "description": "node --test; `yaml` devDependency exact pin. Parse deploy-storybook.yml and storybook-tests.yml: top-level permissions exactly {contents: read}; every job with write perms has an if restricting to push/tag or same-repo PR; deploy-pages.needs ⊇ {build, storybook-tests, cert-scene-gate}; preview comment uses steps.*.outputs.deployment-url; fork-reachable steps reference no secrets except GITHUB_TOKEN; peaceiris absent; v5.* tags trigger release-asset; assemble-pages.mjs invoked using gh release download.",
+    "depends_on": [
+      "SB-003",
+      "SB-004",
+      "SB-005",
+      "SB-006"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/deploy-workflow.test.mjs (CI)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-14 (REQ-SB-50..53)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-019",
+    "prd": "PRD-17",
+    "system": "freshness/prd19-consumers",
+    "file": "certification/playwright.cert.config.ts",
+    "action": "TEST",
+    "description": "Read-only check (no edit; PRD-QA owns certification/** and QA-018 already specifies the command): webServer.command of certification/playwright.cert.config.ts starts with `node scripts/storybook/verify-fresh.mjs storybook-static`; a missing call is filed against QA-018.",
+    "depends_on": [
+      "SB-011",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "rg -n \"verify-fresh\" certification/ packages/qa/ returns the webServer and bundle-builder calls",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-15 (REQ-SB-56)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-020",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "MODIFY PKG's eslint-plugin-auraglass.js (SC-16: one plugin, namespace auraglass/, wired by PKG-015; no separate eslint-plugin-aura-stories package). Add a shared internal helper isLibraryElement(): a JSX identifier bound by an import from a specifier matching ^aura-glass(/|$), or by a relative import resolving into src/** outside .storybook/; ancestry = JSX ancestors in the same returned tree. Register the six auraglass/story-* rules (SB-021..026) on it.",
+    "depends_on": [
+      "SB-002",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/helper.test.ts loads eslint-plugin-auraglass.js and asserts the six story-* rule keys exist",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-021",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-optics (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report style/object keys backdropFilter, WebkitBackdropFilter, filter, mixBlendMode and string/template literals containing `backdrop-filter`. Test NEW tests/lint/story-rules/story-no-optics.test.ts (RuleTester >=4 valid, >=4 invalid).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-optics.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-022",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-important (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report `!important` in template literals, string literals, <style> JSX children and *.module.css (processor in index.js, or stylelint rule if adopted first; document which). Test NEW tests/no-important.test.js (>=4 valid, >=4 invalid incl. CSS-module case).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-important.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-023",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-ink-override (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report `color`, `--ag-on-surface*`, `--glass-text-*` set via style or CSS-in-JS on a library component or any JSX ancestor of one (REQ-SB-03). Test NEW tests/no-ink-override.test.js (>=4 valid, >=4 invalid).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-ink-override.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-03, REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-024",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-tone-class (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report className strings/templates/clsx args matching /(^|\\s)glass(-on-|-contrast|-neutral-|-level)/ or /(^|\\s)liquid-glass-/. Test NEW tests/no-tone-class.test.js (>=4 valid, >=4 invalid).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-tone-class.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-025",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-stage-background (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report background/backgroundColor/backgroundImage/background* on any JSX ancestor of a library component except an Environment element; in .storybook/environment/** allowed only on the scene element (REQ-SB-31). Test NEW tests/no-stage-background.test.js (>=4 valid, >=4 invalid).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-stage-background.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30, REQ-SB-31)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-026",
+    "prd": "PRD-17",
+    "system": "lint/story-rules",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Rule auraglass/story-no-private-vars (REQ-SB-30, SC-16) added to eslint-plugin-auraglass.js. Report any `--_ag-` occurrence (style keys, strings, templates) outside .storybook/lab/**. Test NEW tests/no-private-vars.test.js (>=4 valid incl. .storybook/lab/LabControls.tsx filename, >=4 invalid).",
+    "depends_on": [
+      "SB-020"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/story-no-private-vars.test.ts (RuleTester >=4 valid, >=4 invalid)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-30, REQ-SB-31)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-027",
+    "prd": "PRD-17",
+    "system": "lint/ratchet",
+    "file": "NEW:scripts/storybook/story-lint-baseline.json",
+    "action": "CREATE",
+    "description": "NEW ratchet.mjs runs the 6 rules via ESLint Node API and writes per-rule {files, occurrences}; `--check` fails on any increase and on a decrease not reflected in baseline.json. Commit measured baseline (HEAD expectation: 49 optics occurrences in 27 files, 34 files with !important; record actual cmd output). Test NEW tests/ratchet.test.mjs.",
+    "depends_on": [
+      "SB-021",
+      "SB-022",
+      "SB-023",
+      "SB-024",
+      "SB-025",
+      "SB-026"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/lint/story-rules/ratchet.test.mjs; injected-increase branch run fails in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 ratchet (REQ-SB-32)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-028",
+    "prd": "PRD-17",
+    "system": "lint/config",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Add flat-config blocks: (1) ['**/*.stories.tsx','showcase/**/*.{ts,tsx}','.storybook/**/*.{ts,tsx}'] with TS parser + auraglass/story-* at warn; (2) showcase/** no-restricted-imports patterns **/src/**, @/**, **/.storybook/**, aura-glass/compat(/*) and importNames banning 4.x ^Glass[A-Z] exports generated from src/index.ts at lint time; (3) src/** and showcase/** ban imports of **/.storybook/lab/**. Add package.json `lint:stories` (eslint \"**/*.stories.tsx\" showcase .storybook) and run in CI. Existing src/** block rules unchanged.",
+    "depends_on": [
+      "SB-027",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "npm run lint:stories exits 0 at warn; fixture import of aura-glass/src/x from showcase/ errors (SB-102 negative + lab-not-shipped.test.mjs)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-21, REQ-SB-23, REQ-SB-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-029",
+    "prd": "PRD-17",
+    "system": "lint/disable-ban",
+    "file": "NEW:tests/lint/story-rules/no-disable.test.ts",
+    "action": "TEST",
+    "description": "Add @eslint-community/eslint-plugin-eslint-comments (exact pin) with `no-restricted-disable: ['error','auraglass/story-*']` on the story/showcase/.storybook globs; test lints a fixture string containing `// eslint-disable-next-line auraglass/story-no-important` via ESLint Node API and asserts an error.",
+    "depends_on": [
+      "SB-028"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/story-rules/no-disable.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-31)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-030",
+    "prd": "PRD-17",
+    "system": "tooling/test-imports",
+    "file": "src/**/*.stories.tsx",
+    "action": "MODIFY",
+    "description": "In the 53 files matched by `rg -l \"@storybook/(test|jest|testing-library)['\\\"]\" src .storybook`, replace import specifiers with `storybook/test`; merge duplicates; rename jest.fn -> fn only where needed; list every renamed call. No other story edits.",
+    "depends_on": [
+      "SB-031"
+    ],
+    "priority": "P0",
+    "test": "static-gates.mjs REQ-SB-45 check = 0; existing 7 play functions pass in storybook-tests vitest job",
+    "storybook": "existing interaction stories still run",
+    "acceptance": "AC-SB-10 (REQ-SB-45)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-031",
+    "prd": "PRD-17",
+    "system": "tooling/dependencies",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "Remove devDeps @storybook/jest (:433), @storybook/test 9.0.0-alpha.2 (:436), @storybook/testing-library (:437); add exact pins @storybook/addon-vitest == installed storybook version (9.1.20), vitest + @vitest/browser + playwright exact within the addon's peer range (Vitest 3.2.x), @eslint-community/eslint-plugin-eslint-comments; regenerate package-lock.json.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "npm ls @storybook/test @storybook/jest @storybook/testing-library -> empty; no ^/~ on added pins",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-10 (REQ-SB-45)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-032",
+    "prd": "PRD-17",
+    "system": "tooling/vitest-project",
+    "file": "NEW:vitest.storybook.config.ts",
+    "action": "CREATE",
+    "description": "Project `storybook` with storybookTest({configDir:'.storybook', tags:{include:['interaction','showcase-s1','lab']}}), browser {enabled:true, provider:'playwright', headless:true, instances:[{browser:'chromium'}]}, setupFiles NEW .storybook/vitest.setup.ts (setProjectAnnotations with a11y addon + preview). Add '@storybook/addon-vitest' to .storybook/main.ts addons; package.json `test-storybook` = `vitest run --project=storybook`. No @storybook/test-runner.",
+    "depends_on": [
+      "SB-031"
+    ],
+    "priority": "P0",
+    "test": "storybook-tests.yml vitest job (SB-033) runs and reports per-story results",
+    "storybook": "interaction-tagged stories executed",
+    "acceptance": "AC-SB-10 (REQ-SB-15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-033",
+    "prd": "PRD-17",
+    "system": "ci/storybook-tests",
+    "file": "NEW:.github/workflows/storybook-tests.yml",
+    "action": "MODIFY",
+    "description": "Add job `lint-gates` (lint:stories, ratchet --check, lint-titles, static-gates, typecheck:stories, RuleTester + node tests) and job `vitest` (matrix shard 1..4; `npx playwright install --with-deps chromium` on runner only; `npm run test-storybook -- --shard=N/4`; upload JUnit + a11y reports `storybook-tests-<sha>-<shard>`); <=12 min wall; permissions contents: read.",
+    "depends_on": [
+      "SB-002",
+      "SB-032"
+    ],
+    "priority": "P0",
+    "test": "CI run URL with lint-gates + 4 vitest shards green",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-10, AC-SB-11 (REQ-SB-15, REQ-SB-48)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-034",
+    "prd": "PRD-17",
+    "system": "tooling/story-typecheck",
+    "file": "NEW:tsconfig.storybook.json",
+    "action": "CREATE",
+    "description": "Extends tsconfig.json; strict, noImplicitAny, noEmit; include .storybook/**/*, **/*.stories.tsx, showcase/**/*. NEW scripts/storybook/count-tsc-errors.mjs compares error count to NEW scripts/storybook/tsc-stories-baseline.json (fail on increase; .storybook/** and showcase/** always 0). Explicit deviation: ratchet until SB-117 flips to 0 before beta (4.x stories contain as any / invalid args, E9).",
+    "depends_on": [
+      "SB-031"
+    ],
+    "priority": "P0",
+    "test": "npm run typecheck:stories in lint-gates; injected type error in .storybook fails",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-49 (AC-SB-09 ratchet)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-035",
+    "prd": "PRD-17",
+    "system": "gates/title-lint",
+    "file": "NEW:scripts/storybook/lint-titles.mjs",
+    "action": "CREATE",
+    "description": "Input storybook-static/index.json (after verify-fresh) or --from-source CSF parse via loadCsf; reject segment /^\\d+\\.\\d+/, lowercase-initial leaf, leaf /^Glass[A-Z]/ (D-14), same component export under two titles, leaf != default export component display name. Fails CI.",
+    "depends_on": [
+      "SB-011"
+    ],
+    "priority": "P0",
+    "test": "SB-036",
+    "storybook": "sidebar titles conform",
+    "acceptance": "AC-SB-04 (REQ-SB-10)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-036",
+    "prd": "PRD-17",
+    "system": "gates/title-lint",
+    "file": "NEW:tests/storybook/lint-titles.test.mjs",
+    "action": "TEST",
+    "description": "node --test fixtures: version segment (3.2/AppShell), lowercase leaf, Glass prefix, cross-group duplicate, leaf/export mismatch each fail; clean fixture passes.",
+    "depends_on": [
+      "SB-035"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/lint-titles.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-04 (REQ-SB-10)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-037",
+    "prd": "PRD-17",
+    "system": "gates/copy-lint",
+    "file": "NEW:scripts/storybook/lint-story-copy.mjs",
+    "action": "CREATE",
+    "description": "Render each story with composeStories under jsdom and read textContent; fail on case-insensitive banned strings `glass morphism`, `Lorem`, `Sample `, `This is a`, `Click Me`, `consciousness`, `quantum`, `predictive`, `eye tracking`, exact rendered `Default`; for showcase/** also `AuraGlass`, `glass`, `certification`, `Storybook` and regions with <40 text runs (REQ-SB-26); claim-check hook (copy naming a feature prop whose arg is false/absent) fed by PRD-07 metadata in 17e. Ratchet key `copy` in baseline.json until 17f.",
+    "depends_on": [
+      "SB-027"
+    ],
+    "priority": "P0",
+    "test": "SB-038",
+    "storybook": "all stories",
+    "acceptance": "AC-SB-05, AC-SB-08 (REQ-SB-13, REQ-SB-26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-038",
+    "prd": "PRD-17",
+    "system": "gates/copy-lint",
+    "file": "NEW:tests/storybook/lint-story-copy.test.mjs",
+    "action": "TEST",
+    "description": "node --test fixture stories: one per banned string fails, showcase meta-copy fixture fails, <40-run showcase fails, clean fixture passes.",
+    "depends_on": [
+      "SB-037"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/lint-story-copy.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-13, REQ-SB-26",
+    "status": "todo"
+  },
+  {
+    "id": "SB-039",
+    "prd": "PRD-17",
+    "system": "gates/static",
+    "file": "NEW:scripts/storybook/static-gates.mjs",
+    "action": "CREATE",
+    "description": "Node (no rg on runner) checks, each printing offending paths: previewUsers in *.stories.tsx/*.showcase.tsx under src showcase .storybook = 0 (REQ-SB-16); LiquidGlassShowcase|LiquidGlassStateMatrix|ComprehensiveShowcase|EnhancementShowcase|StorybookVisualShowcase in *.stories.tsx/*.mdx = 0 (REQ-SB-33); storybook-visual-certification|story-presentation-audit in package.json .github .storybook = 0 (REQ-SB-41); deprecated test imports = 0 (REQ-SB-45); `as any|: any` in *.stories.tsx = 0 (REQ-SB-13). Non-zero-at-start keys ratchet in baseline.json. Test NEW tests/storybook/static-gates.test.mjs.",
+    "depends_on": [
+      "SB-027"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/static-gates.test.mjs; runs in lint-gates",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-10, AC-SB-17 (REQ-SB-13, -16, -33, -41, -45)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-040",
+    "prd": "PRD-17",
+    "system": "storybook/environment",
+    "file": "NEW:.storybook/environment/scenes.ts",
+    "action": "CREATE",
+    "description": "Typed loader over PRD-19 certification/scenes/scenes.manifest.json merged with NEW .storybook/environment/scene-presentation.json ({id,label,backdrop:'light'|'dark'|'media',focal:{x,y}}); SceneId union of the 8 ids; getScene(id) -> {id,label,backdrop,src:'/scenes/<file>',video?,focal,sha256}; id mismatch throws at import; video-frame src = still, video = 2 s webm. No assets copied.",
+    "depends_on": [
+      "QA-038",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "StoryEnvironment.test.tsx (SB-044) renders all 8 via getScene",
+    "storybook": "environment toolbar lists 8 scenes",
+    "acceptance": "AC-SB-02, AC-SB-03 (REQ-SB-04)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-041",
+    "prd": "PRD-17",
+    "system": "storybook/main",
+    "file": ".storybook/main.ts",
+    "action": "MODIFY",
+    "description": "Add stories globs '../showcase/**/*.stories.tsx' and '../src/material/stories/*.stories.tsx'; staticDirs [{from:'../certification/scenes', to:'/scenes'}]. Keep mdx globs and 17b addon entry.",
+    "depends_on": [
+      "SB-040"
+    ],
+    "priority": "P0",
+    "test": "storybook-config.test.ts asserts staticDirs /scenes and globs",
+    "storybook": "/scenes/* served in built Storybook",
+    "acceptance": "AC-SB-02 (REQ-SB-04)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-042",
+    "prd": "PRD-17",
+    "system": "storybook/scene-bands",
+    "file": "NEW:tests/storybook/scene-bands.test.mjs",
+    "action": "TEST",
+    "description": "node --test, remote CI job `scene-bands` only. Decode via PRD-19 packages/qa image utils if exported else `sharp` exact-pinned devDep; OCR via PRD-19 OCR module or apt tesseract-ocr on runner. Assert flat-white mean >=245, flat-black <=12, dark-media <=70, video-frame still <=100, photo & saturated-abstract stddev >=40, saturated-abstract Hasler-Süsstrunk colourfulness >=60, hf-pattern >=30% of 8x8 blocks with range >=40, dense-text >=400 OCR words, and sha256 of built storybook-static/scenes/<file> == manifest. Band failure -> PRD-19 defect, no asset swap.",
+    "depends_on": [
+      "SB-040",
+      "SB-041",
+      "SB-033",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "storybook-tests.yml scene-bands job green",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-02, AC-SB-03 (REQ-SB-04)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-043",
+    "prd": "PRD-17",
+    "system": "storybook/environment",
+    "file": "NEW:.storybook/environment/StoryEnvironment.tsx",
+    "action": "CREATE",
+    "description": "Render <Environment backdrop image video> from aura-glass/material with getScene(global environment); layout in NEW .storybook/environment/scenes.module.css (object-fit: cover, object-position from focal); no background/color/.glass*/tone class/--ag-on-surface on any subject ancestor; video muted, visible native button 'Pause background video', not playing under prefers-reduced-motion or motion none/calm (WCAG 2.2.2); captures use still frame.",
+    "depends_on": [
+      "SB-040",
+      "MAT-049",
+      "MAT-053"
+    ],
+    "priority": "P0",
+    "test": "SB-044",
+    "storybook": "every story rendered over the selected scene; default photo",
+    "acceptance": "AC-SB-01, AC-SB-03 (REQ-SB-02, REQ-SB-03)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-044",
+    "prd": "PRD-17",
+    "system": "storybook/environment",
+    "file": "NEW:tests/storybook/StoryEnvironment.test.tsx",
+    "action": "TEST",
+    "description": "Jest: render each of 8 scenes with a test subject; walk ancestors: no class matching /glass-on-|glass-contrast|tone-/, no inline background/color except on the Environment element; video absent under mocked reduced motion; pause button labelled.",
+    "depends_on": [
+      "SB-043",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/StoryEnvironment.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-01 (REQ-SB-02)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-045",
+    "prd": "PRD-17",
+    "system": "storybook/story-root",
+    "file": "NEW:.storybook/contract/StoryRoot.tsx",
+    "action": "CREATE",
+    "description": "Exactly one <div data-ag-story-content data-ag-story-kind> (kind from parameters.agKind or tags: lab, matrix, cert-scene->scene, showcase-s1|s2->showcase, else component); sets data-ag-cert-ready after document.fonts.ready, all img decode() resolved, useLayoutEffect + 1 rAF; paints nothing (only dir, data-ag-density, data-ag-tier attributes from globals). Compatible with PRD-19 certify:1 (REQ-QA-11).",
+    "depends_on": [
+      "SB-041"
+    ],
+    "priority": "P0",
+    "test": "SB-046, SB-047",
+    "storybook": "all stories wrapped",
+    "acceptance": "AC-SB-07 (REQ-SB-05, REQ-SB-43)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-046",
+    "prd": "PRD-17",
+    "system": "storybook/story-root",
+    "file": "NEW:tests/storybook/StoryRoot.test.tsx",
+    "action": "TEST",
+    "description": "Jest: exactly one [data-ag-story-content]; data-ag-story-kind in {lab,component,matrix,scene,showcase}; data-ag-cert-ready absent until mocked fonts.ready and image decode resolve, present after; no class/style attribute on the root.",
+    "depends_on": [
+      "SB-045",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/StoryRoot.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-05, REQ-SB-43",
+    "status": "todo"
+  },
+  {
+    "id": "SB-047",
+    "prd": "PRD-17",
+    "system": "storybook/ready",
+    "file": "NEW:tests/storybook/story-ready.test.tsx",
+    "action": "TEST",
+    "description": "Jest with jest.useFakeTimers() and no timer advance: an overlay story using defaultOpen and a StreamingText story at step=n reach final DOM and data-ag-cert-ready; fails if any story needs a timer.",
+    "depends_on": [
+      "SB-045",
+      "SB-127"
+    ],
+    "priority": "P1",
+    "test": "./node_modules/.bin/jest tests/storybook/story-ready.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-43 (AC-SB-07 capture readiness)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-048",
+    "prd": "PRD-17",
+    "system": "storybook/preview",
+    "file": ".storybook/preview.tsx",
+    "action": "REDESIGN",
+    "description": "Rewrite: globalTypes exactly PRD §4.2 (environment 8 ids default photo; scheme light|dark default OS; transparency system|glass|tinted|solid default system; contrast system|standard|more default system; glassOpacity 0|0.5|1; forcedColors off|active with CI-emulated note; motion system|full|calm|none default system (MOT-091 adds the toolbar entry by MODIFY); tier auto|lightweight|standard|enhanced default auto; density comfortable|compact; dir ltr|rtl), each with text title; ONE decorator <ProviderSlot> > StoryEnvironment > StoryRoot, where ProviderSlot is the 4.x provider stack (minus persona/preview toolbars) until SB-128 swaps in AuraGlassProvider (split so this anchor does not wait on A11Y: A11Y-019 depends on QA-031, which reaches this task through QA-008 -> SB-055); backgrounds {disable:true}; viewports desktop 1440x900, laptop 1280x800, tablet 834x1194, mobile 390x844; a11y {test:'error', color-contrast enabled}; storySort.order per REQ-SB-08; delete persona/preview toolbars (:61-88), backgrounds (:116-136), initialSettings.reducedMotion (:168-174) and ContrastGuard main + skip links (:185-197). If PKG-101 moved storybook CSS into .storybook/, strip its !important/StorySurface/.sb-story paint rules. MAT-090 is a contract check of this file; QA-041, MOT-091, AI-074, DS-095, NAV-103 and REL-118/120 add their globals/decorators by MODIFY tasks that depend on this task (SC-31/OV-17).",
+    "depends_on": [
+      "SB-043",
+      "SB-045",
+      "MAT-049"
+    ],
+    "priority": "P0",
+    "test": "SB-050 storybook-config.test.ts",
+    "storybook": "toolbar shows the 9 globals; default view = photo scene",
+    "acceptance": "AC-SB-01, AC-SB-03 (REQ-SB-01, -03, -06, -07, -48)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-049",
+    "prd": "PRD-17",
+    "system": "storybook/stage-removal",
+    "file": ".storybook/StorySurface.tsx",
+    "action": "REMOVE",
+    "description": "Delete .storybook/StorySurface.tsx; NEW scripts/codemods/internal/remove-preview-surface.mjs (@babel/parser AST locate + exact-range text removal) removes `previewSurface: \"component\"|\"app\"|\"marketing\"` (single/double quotes, trailing ` }` forms; 239 files match previewSurface|StorySurface at HEAD) and then-empty `parameters: {}`; no other story edits.",
+    "depends_on": [
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "rg -l \"previewSurface|StorySurface\" .storybook showcase -g '!__tests__' = 0 and rg -l \"previewSurface|StorySurface\" src -g '*.stories.tsx' -g '*.mdx' = 0; typecheck:stories count not increased",
+    "storybook": "no grey stage in any story",
+    "acceptance": "AC-SB-01 (REQ-SB-01)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-050",
+    "prd": "PRD-17",
+    "system": "storybook/config-test",
+    "file": "NEW:tests/storybook/storybook-config.test.ts",
+    "action": "TEST",
+    "description": "Jest: globalTypes keys/values/defaults == PRD §4.2; decorators.length === 1; parameters.backgrounds.disable === true; no initialSettings; motion default system and no data-ag-motion rendered for system; contrast values system|standard|more; glassOpacity present (SC-23); staticDirs includes /scenes; viteFinal output has no define['process.env'], no external among the 6 backend packages, every alias find is an exact package.json exports key and every target is a file (no directory alias to src).",
+    "depends_on": [
+      "SB-048",
+      "SB-051",
+      "SB-052",
+      "SB-127",
+      "SB-128"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/storybook-config.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-18 (REQ-SB-01, -06, -07, -46, -47)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-051",
+    "prd": "PRD-17",
+    "system": "storybook/resolution",
+    "file": ".storybook/main.ts",
+    "action": "MODIFY",
+    "description": "Resolve aura-glass and aura-glass/<subpath> through package.json exports: preferred PRD-02 source condition first in resolve.conditions; fallback one exact-match alias per exports key to its declared source entry file (generated at config time); never a directory alias, src/** glob or @/. Importing a non-exported path fails the build. Blocked without PRD-02 exports map.",
+    "depends_on": [
+      "PKG-005",
+      "PKG-115"
+    ],
+    "priority": "P0",
+    "test": "storybook-config.test.ts alias assertions; fixture story importing aura-glass/src/x fails remote build (check-build-log)",
+    "storybook": "stories see the consumer surface",
+    "acceptance": "REQ-SB-47 (AC-SB-08 consumer parity)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-052",
+    "prd": "PRD-17",
+    "system": "storybook/backend-externals",
+    "file": ".storybook/main.ts",
+    "action": "MODIFY",
+    "description": "Remove process.env define (:35-46) and serverOnlyPackages externals (:48-67: @google-cloud/vision, @pinecone-database/pinecone, bcryptjs, jsonwebtoken, openai, redis, plus socket.io-client which PRD omits); remove each as soon as rg shows no src/** importer; whole block once PRD-16 cuts the server graph. List may only shrink.",
+    "depends_on": [
+      "FND-118"
+    ],
+    "priority": "P1",
+    "test": "storybook-config.test.ts: no define['process.env'], no external among the packages",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-18 (REQ-SB-46)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-053",
+    "prd": "PRD-17",
+    "system": "storybook/cert-scenes",
+    "file": "NEW:src/stories/Scenes.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Scenes, tags ['cert-scene','!autodocs'], 8 exports -> ids scenes--photo, scenes--saturated-abstract, scenes--dense-text, scenes--dark-media, scenes--flat-white, scenes--flat-black, scenes--hf-pattern, scenes--video-frame; each sets globals.environment and takes no args; Surface x {regular,clear,identity,content-raised} x {thin,regular,thick} = 12 cells (>=240x160 @1440, >=160x120 @390) each with 2-line label and 14px body paragraph of real sentences; reads scheme/transparency/contrast/tier/motion from globals only.",
+    "depends_on": [
+      "SB-048",
+      "MAT-047",
+      "MAT-053",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "SB-054 cert-scenes.test.ts",
+    "storybook": "Scenes/* 8 stories",
+    "acceptance": "AC-SB-07 (REQ-SB-40)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-054",
+    "prd": "PRD-17",
+    "system": "storybook/cert-scenes",
+    "file": "NEW:tests/storybook/cert-scenes.test.ts",
+    "action": "TEST",
+    "description": "Jest composeStories on Scenes.stories.tsx: 8 ids exactly; 12 [data-ag-surface] cells per story; root data-ag-backdrop equals scene-presentation backdrop for that id; after SB-058, 6 flagship roots (Button, SegmentedControl, Slider, TextField, Tabs, Toast) by data-ag-part.",
+    "depends_on": [
+      "SB-053",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/cert-scenes.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-07 (REQ-SB-40)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-055",
+    "prd": "PRD-17",
+    "system": "storybook/cert-manifest",
+    "file": "NEW:scripts/storybook/write-cert-manifest.mjs",
+    "action": "CREATE",
+    "description": "After verify-fresh, read storybook-static/index.json and write .storybook/cert-manifest.json {schemaVersion:1, sha, stories:[{id,tags,kind,viewports:[1440,390],axes:['scheme','transparency','contrast','forcedColors','tier','motion']}]} for tags cert-scene, showcase-s1, showcase-s2, lab, matrix; fail on duplicate ids; chained in postbuild-storybook after write-build-manifest.",
+    "depends_on": [
+      "SB-010",
+      "SB-053"
+    ],
+    "priority": "P0",
+    "test": "SB-056",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-07 (REQ-SB-42)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-056",
+    "prd": "PRD-17",
+    "system": "storybook/cert-manifest",
+    "file": "NEW:tests/storybook/write-cert-manifest.test.mjs",
+    "action": "TEST",
+    "description": "node --test fixture index.json: correct selection by tag and kind; duplicate id fails; id present in index but not manifest (and vice versa) reported for cert-scene/showcase-s1/lab/matrix.",
+    "depends_on": [
+      "SB-055"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/write-cert-manifest.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-07 (REQ-SB-42)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-057",
+    "prd": "PRD-17",
+    "system": "gates/timers",
+    "file": "NEW:scripts/storybook/static-gates.mjs",
+    "action": "MODIFY",
+    "description": "Add check: setTimeout|setInterval in *.stories.tsx and *.showcase.tsx; ratchet key `timers` in baseline.json, must reach 0 by SB-117; overlays use defaultOpen, streaming uses StreamingText step arg.",
+    "depends_on": [
+      "SB-039"
+    ],
+    "priority": "P1",
+    "test": "static-gates.test.mjs timer fixture fails",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-43",
+    "status": "todo"
+  },
+  {
+    "id": "SB-058",
+    "prd": "PRD-17",
+    "system": "storybook/cert-scenes",
+    "file": "NEW:.storybook/environment/scene-strip.tsx",
+    "action": "CREATE",
+    "description": "Flagship strip at rest for Scenes stories: Button, SegmentedControl, Slider, TextField (PRD-08), Tabs (PRD-10), Toast (PRD-09) imported from public aura-glass entries; added to all 8 Scenes stories; cert-scenes.test.ts asserts the 6 roots.",
+    "depends_on": [
+      "SB-053",
+      "CTL-055",
+      "CTL-085",
+      "CTL-093",
+      "CTL-051",
+      "NAV-064",
+      "OVL-128"
+    ],
+    "priority": "P1",
+    "test": "cert-scenes.test.ts 6-flagship assertion",
+    "storybook": "Scenes/* show the strip",
+    "acceptance": "AC-SB-07 (REQ-SB-40)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-059",
+    "prd": "PRD-17",
+    "system": "evidence/scenes",
+    "file": "NEW:.storybook/cert-manifest.json",
+    "action": "TEST",
+    "description": "Remote only (PRD-19 certify-pr.yml or auraone-remote-run worker against verified storybook-static): capture scenes--* at 1440 and 390, light and dark; record REQ-QA-11 outside-root diff <=0.5% of frame, AC-SB-01 photo->flat-black change >=30% inside largest regular cell, axe violations from vitest job. Artifact URLs for human review (agent cannot view PNGs).",
+    "depends_on": [
+      "SB-053",
+      "SB-033",
+      "QA-031",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "PRD-19 capture lane + REQ-QA-11 assertion run URL",
+    "storybook": "Scenes/* remote captures",
+    "acceptance": "AC-SB-01, AC-SB-07 (REQ-SB-05, REQ-SB-40)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-060",
+    "prd": "PRD-17",
+    "system": "material-lab/harness",
+    "file": "NEW:.storybook/lab/MaterialLabFrame.tsx",
+    "action": "CREATE",
+    "description": "Props {subject:(p:SurfaceProps)=>ReactNode; materials?; showReadout?}; layout in NEW .storybook/lab/lab.module.css (Overview subjects >=360x240 @1440; cells >=240x160 @1440, >=160x120 @390); wraps subject in <div data-ag-lab-override> (only element allowed --_ag-*); engine badge 'Enhanced: inert on this engine' when data-ag-engine != chromium and enhanced/refraction selected; motion read-out of resolved data-ag-motion; 'Spec deviation — not shipped' badge when any spec knob != compiled default. Barrel NEW .storybook/lab/index.ts.",
+    "depends_on": [
+      "SB-048",
+      "MAT-053"
+    ],
+    "priority": "P0",
+    "test": "MaterialLab.test.tsx (SB-064) badge + override-scope cases",
+    "storybook": "used by PRD-04 src/material/stories/*",
+    "acceptance": "AC-SB-06 (REQ-SB-18, REQ-SB-19)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-061",
+    "prd": "PRD-17",
+    "system": "material-lab/controls",
+    "file": "NEW:.storybook/lab/LabControls.tsx",
+    "action": "CREATE",
+    "description": "Native labelled inputs, sliders with aria-valuetext ('Blur 20 pixels'). Discrete -> public Surface props variant, thickness, layer, content, shape, tier, transparency (glass|tinted|solid), interactive, prominent, refraction. Public knobs via style: --ag-light-angle 0-360deg, --ag-specular 0-1, --ag-glass-opacity 0-1. Spec knobs -> --_ag-* on [data-ag-lab-override] with names imported from PRD-03 emitted TS constants (never hand-typed): blur 0-32px/thickness, saturation 1.0-2.0, brightness 0.9-1.2, tint alpha floor 0-1, grain 0-0.06, refraction bezel 8-32px + scale 0-1 (Chromium), rim 0.5-2px. Motion: replay entrance (remount by key), --ag-duration-* select, pointerLight checkbox, real pointer hover/press; never animates blur. 'Reset to shipped' removes every inline --_ag-*.",
+    "depends_on": [
+      "SB-060",
+      "DS-048",
+      "MOT-042"
+    ],
+    "priority": "P0",
+    "test": "MaterialLab.test.tsx one case per control",
+    "storybook": "Material Lab pages controls",
+    "acceptance": "AC-SB-06 (REQ-SB-19)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-062",
+    "prd": "PRD-17",
+    "system": "material-lab/export",
+    "file": "NEW:.storybook/lab/spec-export.ts",
+    "action": "CREATE",
+    "description": "buildSpecPatch(current, compiledDefaults) -> DTCG {\"<variant>\":{\"$type\":\"glass-material\",\"$value\":{changed MaterialSpec fields}}} for defineMaterial(); validateSpecPatch uses ajv against tokens/$schema.json (PRD-03); 'Export MaterialSpec patch' downloads material-patch-<variant>-<thickness>.json via Blob URL.",
+    "depends_on": [
+      "SB-061",
+      "DS-014",
+      "DS-030"
+    ],
+    "priority": "P0",
+    "test": "MaterialLab.test.tsx: changed-blur export validates; malformed patch fails validation",
+    "storybook": "Export button on each material page",
+    "acceptance": "AC-SB-06 (REQ-SB-19)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-063",
+    "prd": "PRD-17",
+    "system": "material-lab/contrast",
+    "file": "NEW:.storybook/lab/ContrastReadout.tsx",
+    "action": "CREATE",
+    "description": "NEW .storybook/lab/contrast.ts WCAG math via PRD-03-designated public export of src/theme/color.ts (relativeLuminance/contrastRatio) or a local copy tested against it on 200 seeded pairs. Readout: offscreen canvas of current same-origin /scenes asset, subject rect mapped through object-fit cover + focal, composite resolved --ag-surface-fill, worst-case ratio for --ag-on-surface and --ag-on-surface-muted vs 4.5:1/3:1 (7:1 under contrast more), pass/fail, label 'estimate (gate: PRD-19 OCR)'; 100 ms debounce + 1 rAF; role=status aria-live=polite announcing on settle; never writes to subject; imports none of ContrastGuard, useAutoTextContrast, validate*Contrast, sampleBackdropLuminance.",
+    "depends_on": [
+      "SB-060",
+      "SB-040"
+    ],
+    "priority": "P0",
+    "test": "SB-065 ContrastReadout.test.ts",
+    "storybook": "read-out panel on each material page",
+    "acceptance": "AC-SB-06 (REQ-SB-20)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-064",
+    "prd": "PRD-17",
+    "system": "material-lab/tests",
+    "file": "NEW:tests/storybook/MaterialLab.test.tsx",
+    "action": "TEST",
+    "description": "Jest jsdom: for every REQ-SB-19 control, diff subject props + inline style before/after and assert exactly the documented key changes; Reset removes all --_ag-* inline properties; export of a changed blur validates against tokens/$schema.json, invalid patch fails; every slider has <label> and aria-valuetext; spec deviation badge toggles.",
+    "depends_on": [
+      "SB-061",
+      "SB-062",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/MaterialLab.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-06 (REQ-SB-19)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-065",
+    "prd": "PRD-17",
+    "system": "material-lab/tests",
+    "file": "NEW:tests/storybook/ContrastReadout.test.ts",
+    "action": "TEST",
+    "description": "Fixture pixel arrays (solid white, solid black, 50% grey, 2-colour checker, seeded noisy patch): ratios within ±0.05 of an inline reference WCAG 2.x implementation; thresholds 4.5/3 and 7/7 under more; debounce settles within 100 ms + 1 frame (fake timers on readout only).",
+    "depends_on": [
+      "SB-063",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/ContrastReadout.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-06 (REQ-SB-20)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-066",
+    "prd": "PRD-17",
+    "system": "material-lab/not-shipped",
+    "file": "NEW:tests/storybook/lab-not-shipped.test.mjs",
+    "action": "TEST",
+    "description": "CI: (a) ESLint Node API on fixtures in src/ and showcase/ importing .storybook/lab errors (SB-028 ban); (b) `npm pack --dry-run --json` lists no .storybook/ path; (c) no dist file contains data-ag-lab-override|ContrastReadout|LabControls after CI build. No edit to scripts/ci/verify-pack.js.",
+    "depends_on": [
+      "SB-028",
+      "SB-060",
+      "PKG-068",
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/lab-not-shipped.test.mjs in lint-gates",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-06 (REQ-SB-21)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-067",
+    "prd": "PRD-17",
+    "system": "material-lab/play",
+    "file": "NEW:.storybook/lab/play.ts",
+    "action": "CREATE",
+    "description": "labRoundTrip(canvas,{control,value,expect}) with storybook/test userEvent: sets control, asserts computed style/attr change, presses Reset, asserts no --_ag-* inline remains. Handed to PRD-04 for play on Material Lab/Regular and Material Lab/Clear (tag interaction); report exact usage snippet.",
+    "depends_on": [
+      "SB-061",
+      "SB-032"
+    ],
+    "priority": "P1",
+    "test": "storybook-tests.yml vitest job runs the Lab plays 100% pass",
+    "storybook": "Material Lab/Regular, Material Lab/Clear play",
+    "acceptance": "AC-SB-06, AC-SB-10 (REQ-SB-15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-068",
+    "prd": "PRD-17",
+    "system": "material-lab/ia",
+    "file": "NEW:tests/storybook/material-lab-order.test.mjs",
+    "action": "TEST",
+    "description": "From verified index.json: Material Lab contains exactly, in order, Overview, Regular, Clear, Identity, Content Raised, Content Sunken, Tiers, Nesting & Groups, Shape & Concentricity, Scroll Edge, Preferences, Motion, each tagged lab. If PRD-04 MAT-086..089 titles differ (Material/Lab, Material.Matrix...), file rename list to PRD-04; do not edit src/material/stories.",
+    "depends_on": [
+      "SB-011",
+      "MAT-086",
+      "MAT-088"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/material-lab-order.test.mjs (CI lint-gates)",
+    "storybook": "Material Lab 12 stories",
+    "acceptance": "AC-SB-06 (REQ-SB-18)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-069",
+    "prd": "PRD-17",
+    "system": "evidence/material-lab",
+    "file": "NEW:.storybook/lab/LabControls.tsx",
+    "action": "TEST",
+    "description": "Remote: capture the 12 Material Lab stories at 1440 and 390 over photo, flat-black, dense-text (PRD-19 lane or auraone-remote-run); measure main-thread work per control change for blur, tint alpha, light angle on desktop over 10 changes, p95 <=16 ms (PRD §16); artifact URLs for human review.",
+    "depends_on": [
+      "SB-068",
+      "SB-064"
+    ],
+    "priority": "P1",
+    "test": "remote perf trace run URL with p95 per control",
+    "storybook": "Material Lab remote captures",
+    "acceptance": "AC-SB-06, AC-SB-13 (PRD §16)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-070",
+    "prd": "PRD-17",
+    "system": "component-lab/metadata",
+    "file": "NEW:.storybook/contract/metadata.ts",
+    "action": "CREATE",
+    "description": "Typed accessors over PRD-07 colocated <Name>.meta.ts (parts, states, variants, tier, rsc, apg, budgetKb, props, sizes, defaults): matrixAxes(meta) = variant x thickness x (interactive, prominent) restricted to supported axes; matrixCellCount(meta) = product; stateCells(meta) = public-prop states; group/§11.2 index derivation. No hard-coded component lists; missing fields requested from PRD-07.",
+    "depends_on": [
+      "SB-048",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts (SB-079) Matrix count == matrixCellCount",
+    "storybook": "drives Matrix/States",
+    "acceptance": "AC-SB-05 (REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-071",
+    "prd": "PRD-17",
+    "system": "component-lab/generator",
+    "file": "NEW:.storybook/contract/defineComponentStories.tsx",
+    "action": "CREATE",
+    "description": "defineComponentStories(meta,{metadata,fixtures,contexts}) returns Playground, States, Matrix, Scenes, InContext, LightDark, Preferences, RTL, Mobile (+Keyboard for flagships tagged apg with parameters.a11y.apgScript='tests/a11y/apg/<component>.apg.spec.ts'); tags flagship|core; Matrix tags matrix+!autodocs and a11y.test 'off'; title Flagships/<Group>/<Name> or Core/<Name>; meta satisfies Meta<typeof C>, StoryObj typing, no as any; LightDark/Preferences via globals (scheme; transparency glass|tinted|solid x contrast more; forcedColors note; motion none); RTL globals.dir rtl; Mobile viewport mobile with interaction play asserting scrollWidth <= clientWidth+1 on [data-ag-story-content] and targets >=44x44 (flagship) / >=24x24 (core).",
+    "depends_on": [
+      "SB-070",
+      "SB-072",
+      "SB-073",
+      "SB-074",
+      "SB-075"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts; vitest Mobile plays",
+    "storybook": "every flagship/core page",
+    "acceptance": "AC-SB-05 (REQ-SB-12, REQ-SB-13, PRD §14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-072",
+    "prd": "PRD-17",
+    "system": "component-lab/states",
+    "file": "NEW:.storybook/contract/StatesGrid.tsx",
+    "action": "CREATE",
+    "description": "Rest + each applicable public-prop state (disabled, loading, invalid, checked/value, selected, defaultOpen) producing the component's own data-state/Base UI attributes; plus 3 rest cells with data-ag-state-cell=\"hover\"|\"pressed\"|\"focus-visible\" for PRD-19 real input; no pseudo-class simulation CSS.",
+    "depends_on": [
+      "SB-070"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts asserts every data-ag-state-cell value in {hover,pressed,focus-visible}",
+    "storybook": "States story",
+    "acceptance": "AC-SB-05 (REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-073",
+    "prd": "PRD-17",
+    "system": "component-lab/matrix",
+    "file": "NEW:.storybook/contract/MatrixGrid.tsx",
+    "action": "CREATE",
+    "description": "Render exactly matrixCellCount(meta) cells, each data-ag-matrix-cell=\"<variant>/<thickness>/<interactive>/<prominent>\"; layout via NEW .storybook/contract/contract.module.css (layout properties only).",
+    "depends_on": [
+      "SB-070"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts Matrix cell count == metadata product",
+    "storybook": "Matrix story (tag matrix)",
+    "acceptance": "AC-SB-05 (REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-074",
+    "prd": "PRD-17",
+    "system": "component-lab/scenes-strip",
+    "file": "NEW:.storybook/contract/ScenesStrip.tsx",
+    "action": "CREATE",
+    "description": "Subject over each of the 8 scenes via 8 nested Environment (aura-glass/material) using getScene(); read-only use of .storybook/environment/scenes.ts; no background on wrappers.",
+    "depends_on": [
+      "SB-040",
+      "MAT-049"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts asserts 8 [data-ag-backdrop] in Scenes story",
+    "storybook": "Scenes story",
+    "acceptance": "AC-SB-05 (REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-075",
+    "prd": "PRD-17",
+    "system": "component-lab/in-context",
+    "file": "NEW:.storybook/contract/InContextFragments.tsx",
+    "action": "CREATE",
+    "description": "Four fragments from Surface/SurfaceGroup + subject only: gradient (saturated-abstract), photography (photo), colorful UI (3x3 control grid), dense dashboard (KPI row of 4 Surface cards with real metric copy); each light and dark; no background/ink overrides (passes auraglass/story-* lint).",
+    "depends_on": [
+      "SB-074",
+      "MAT-048"
+    ],
+    "priority": "P0",
+    "test": "story-contract.test.ts asserts 4 fragments x 2 schemes; lint:stories 0 violations on file",
+    "storybook": "InContext story",
+    "acceptance": "AC-SB-05 (REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-076",
+    "prd": "PRD-17",
+    "system": "component-lab/pilot-button",
+    "file": "src/components/button/Button.stories.tsx",
+    "action": "TEST",
+    "description": "Contract check only (SC-31/OV-16: CTL-059 authors Button.stories.tsx and deletes GlassButton.stories.tsx): run story-contract.test.ts against the CTL-059 file as the generator pilot; assert the REQ-SB-12 required exports, §4.4 tags (flagship, apg on Keyboard), Matrix cell count from Button.meta.ts (SC-24 axes) and Keyboard story id == ApgScript.story in tests/a11y/apg/button.apg.spec.ts. Defects are filed against CTL-059 (open item O-SB-04); this task creates no story file.",
+    "depends_on": [
+      "SB-071",
+      "SB-079",
+      "CTL-059",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "tests/storybook/story-contract.test.ts (Button)",
+    "storybook": "Flagships/Controls/Button",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-077",
+    "prd": "PRD-17",
+    "system": "component-lab/pilot-dialog",
+    "file": "src/components/dialog/Dialog.stories.tsx",
+    "action": "TEST",
+    "description": "Contract check only (SC-31: OVL-055 authors Dialog.stories.tsx): run story-contract.test.ts against it; assert Playground opens via defaultOpen (REQ-SB-07 entrance proof used by PRD-QA L9 Motion, REQ-QA-21), REQ-SB-12 required exports, tags, Keyboard id == ApgScript.story in tests/a11y/apg/dialog.apg.spec.ts. Defects are filed against OVL-055.",
+    "depends_on": [
+      "SB-071",
+      "SB-079",
+      "OVL-055",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "tests/storybook/story-contract.test.ts (Dialog)",
+    "storybook": "Flagships/Overlays/Dialog",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-07, REQ-SB-12)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-078",
+    "prd": "PRD-17",
+    "system": "component-lab/docs",
+    "file": "NEW:.storybook/contract/docs-blocks.tsx",
+    "action": "CREATE",
+    "description": "<Anatomy of={meta}/> (data-ag-part table), <KeyboardTable script/> (from APG spec steps), <MigrationTable names/> (deprecations.json entries whose replacement is this component), <DoDont/> (2 live pairs over ScenesStrip scenes); pilot NEW src/components/button/Button.mdx and NEW src/components/overlays/dialog/Dialog.mdx titled Flagships/<Group>/<Name>/Docs with headings Usage, Anatomy, Material role, Do/Don't, Keyboard, Migration from 4.x.",
+    "depends_on": [
+      "SB-071",
+      "REL-070",
+      "REL-117"
+    ],
+    "priority": "P1",
+    "test": "docs-pages.test.mjs (SB-080)",
+    "storybook": "Docs pages for pilots",
+    "acceptance": "AC-SB-05 (REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-079",
+    "prd": "PRD-17",
+    "system": "component-lab/tests",
+    "file": "NEW:tests/storybook/story-contract.test.ts",
+    "action": "TEST",
+    "description": "Jest composeStories over files tagged flagship/core: exact REQ-SB-12 export set (+Keyboard for flagships tagged apg); Matrix cell count == matrixCellCount(metadata); data-ag-state-cell values in {hover,pressed,focus-visible}; each Keyboard id == ApgScript.story read from tests/a11y/apg/<component>.apg.spec.ts, missing spec fails 'apg spec missing: <component>'.",
+    "depends_on": [
+      "SB-071",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/storybook/story-contract.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-080",
+    "prd": "PRD-17",
+    "system": "component-lab/tests",
+    "file": "NEW:tests/storybook/docs-pages.test.mjs",
+    "action": "TEST",
+    "description": "node --test: one MDX per flagship (per-family expected count until 44/44), each with the 6 headings in order Usage, Anatomy, Material role, Do/Don't, Keyboard, Migration from 4.x.",
+    "depends_on": [
+      "SB-078"
+    ],
+    "priority": "P1",
+    "test": "node --test tests/storybook/docs-pages.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-05 (REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-081",
+    "prd": "PRD-17",
+    "system": "ia/index-test",
+    "file": "NEW:tests/storybook/storybook-index.test.mjs",
+    "action": "TEST",
+    "description": "From verified index.json: first segments in ['Start Here','Material Lab','Scenes','Showcases','Flagships','Core','Foundations','Migration']; Flagships groups Controls, Overlays, App Shell, Data, AI, Media with titles ordered by §11.2 number; <=12 non-matrix stories per component title; no title outside Flagships/Showcases/Material Lab exceeds smallest flagship title; 0 {Default,Variants} titles; 8 cert-scene ids; 0 titles under 3.2, 3.3, Reference, Effects + Advanced, Certification, Legacy.",
+    "depends_on": [
+      "SB-048",
+      "SB-011"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/storybook/storybook-index.test.mjs (CI lint-gates)",
+    "storybook": "sidebar order",
+    "acceptance": "AC-SB-04 (REQ-SB-08, REQ-SB-11, REQ-SB-14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-082",
+    "prd": "PRD-17",
+    "system": "ia/start-here",
+    "file": "NEW:scripts/storybook/build-start-here.mjs",
+    "action": "CREATE",
+    "description": "Generate NEW src/stories/StartHere.stories.tsx from previous verified index.json (first build: loadCsf static parse) + inventory: computed counts (flagships, core, stories, interaction stories), version read from package.json, linkTo links validated against index (unresolved -> exit 1), moved banner when ?moved=1; chained in prebuild-storybook after ensure-component-inventory.js. Test NEW tests/storybook/start-here.test.mjs.",
+    "depends_on": [
+      "SB-081",
+      "SB-096"
+    ],
+    "priority": "P0",
+    "test": "start-here.test.mjs: 0 unresolved links, 0 numeric literals in StartHere.stories.tsx other than layout values",
+    "storybook": "Start Here",
+    "acceptance": "AC-SB-04 (REQ-SB-09)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-083",
+    "prd": "PRD-17",
+    "system": "component-lab/family-controls",
+    "file": "NEW:src/stories/flagships/controls/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the CTL (+DATA-101 date fields) PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 1-14 (Button, IconButton, ButtonGroup/Toolbar, SegmentedControl, Switch, Slider, Checkbox/CheckboxGroup, RadioGroup, TextField, SearchField, Select, Combobox, NumberField, DateField/TimeField/DatePicker/DateRangePicker) at src/stories/flagships/controls/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-076",
+      "SB-078",
+      "CTL-015",
+      "CTL-033",
+      "CTL-039",
+      "CTL-045",
+      "CTL-051",
+      "CTL-065",
+      "CTL-070",
+      "CTL-079",
+      "CTL-085",
+      "CTL-093",
+      "CTL-099",
+      "CTL-106",
+      "CTL-113",
+      "DATA-101"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/Controls/* (14)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-084",
+    "prd": "PRD-17",
+    "system": "component-lab/family-overlays",
+    "file": "NEW:src/stories/flagships/overlays/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the OVL PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 15-21 (Dialog, AlertDialog, Sheet, Popover, Tooltip, Menu/ContextMenu/Menubar, Toast) at src/stories/flagships/overlays/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-077",
+      "SB-078",
+      "OVL-055",
+      "OVL-077",
+      "OVL-094",
+      "OVL-110",
+      "OVL-128",
+      "OVL-149"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/Overlays/* (7)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-085",
+    "prd": "PRD-17",
+    "system": "component-lab/family-app-shell",
+    "file": "NEW:src/stories/flagships/app-shell/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the NAV PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 22-31 (AppShell, Sidebar, TopBar, Tabs, TabBar, Breadcrumbs, Pagination, CommandPalette, ResizablePanels, SourceTransition) at src/stories/flagships/app-shell/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-078",
+      "SB-079",
+      "NAV-101",
+      "NAV-102",
+      "NAV-064"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/App Shell/* (10)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-086",
+    "prd": "PRD-17",
+    "system": "component-lab/family-data",
+    "file": "NEW:src/stories/flagships/data/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the DATA PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 32-37 (Table, TreeView, FilterBar, StatCard, Sparkline + ChartFrame, Timeline/ActivityFeed) at src/stories/flagships/data/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-078",
+      "SB-079",
+      "DATA-043",
+      "DATA-058",
+      "DATA-062",
+      "DATA-067",
+      "DATA-082",
+      "DATA-087"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/Data/* (6)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-087",
+    "prd": "PRD-17",
+    "system": "component-lab/family-ai",
+    "file": "NEW:src/stories/flagships/ai/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the AI PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 38-42 (Thread, Message, Composer, ToolCall, SourceList/Citation) at src/stories/flagships/ai/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-078",
+      "SB-079",
+      "AI-076",
+      "AI-077",
+      "AI-078"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/AI/* (5)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-088",
+    "prd": "PRD-17",
+    "system": "component-lab/family-media",
+    "file": "NEW:src/stories/flagships/media/*.mdx",
+    "action": "CREATE",
+    "description": "Family docs + conformance (SC-31: the MED PRD authors the component story files and deletes absorbed 4.x stories with its FND RM squash PR; this PRD creates no story file). Create one MDX docs page per flagship for flagships 43-44 (MediaControls/NowPlayingBar, CarouselRail) at src/stories/flagships/media/<Name>.mdx with the six REQ-SB-17 headings via docs-blocks.tsx (SB-078), and extend story-contract.test.ts / docs-pages.test.mjs expected counts to cover the family. Contract failures are filed against the owner story task (O-SB-04).",
+    "depends_on": [
+      "SB-078",
+      "SB-079",
+      "MED-101",
+      "MED-124",
+      "MED-138"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts + tests/storybook/docs-pages.test.mjs green for the family",
+    "storybook": "Flagships/Media/* (2)",
+    "acceptance": "AC-SB-05, AC-SB-10 (REQ-SB-12, REQ-SB-14, REQ-SB-17)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-089",
+    "prd": "PRD-17",
+    "system": "component-lab/family-core",
+    "file": "src/**/*.stories.tsx",
+    "action": "TEST",
+    "description": "Conformance only (SC-31: FND-069/FND-099 author the T2 core story files, titled Core/<Name>; no Keyboard/MDX requirement): story-contract.test.ts covers 100% of core titles; storybook-index.test.mjs asserts 0 Default/Variants stubs remain once FND RM PRs land. Failures are filed against FND.",
+    "depends_on": [
+      "SB-079",
+      "FND-069",
+      "FND-099"
+    ],
+    "priority": "P1",
+    "test": "tests/storybook/story-contract.test.ts covers 100% core titles",
+    "storybook": "Core/*",
+    "acceptance": "AC-SB-05 (REQ-SB-12, REQ-SB-14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-090",
+    "prd": "PRD-17",
+    "system": "ia/foundations",
+    "file": "NEW:src/stories/foundations/Icons.stories.tsx",
+    "action": "CREATE",
+    "description": "Foundations/Icons rebuilt from src/stories/IconsGallery.stories.tsx (real icons, no hard-coded '412' at :100; delete old file); NEW Foundations/Tokens (generated from PRD-03 token TS), Foundations/Motion (PRD-06 tokens with replay), Foundations/Preferences (GlassPreferencesPanel, PRD-05) in src/stories/foundations/{Tokens,Motion,Preferences}.stories.tsx.",
+    "depends_on": [
+      "SB-048",
+      "DS-016",
+      "DS-026",
+      "A11Y-088",
+      "MOT-042"
+    ],
+    "priority": "P2",
+    "test": "storybook-index.test.mjs Foundations titles present; lint-titles + lint-story-copy clean",
+    "storybook": "Foundations/Icons, Tokens, Motion, Preferences",
+    "acceptance": "AC-SB-04 (PRD §3 item 1, REQ-SB-14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-091",
+    "prd": "PRD-17",
+    "system": "ia/migration",
+    "file": "NEW:src/stories/migration/",
+    "action": "DOC",
+    "description": "One MDX per §12 consolidation family with a 5.0 target, title Migration/<Family>: before (4.x code text only, no live 4.x components) / after (live 5.0 component).",
+    "depends_on": [
+      "SB-083"
+    ],
+    "priority": "P2",
+    "test": "storybook-index.test.mjs Migration root present; lint-story-copy clean",
+    "storybook": "Migration/*",
+    "acceptance": "AC-SB-04 (PRD §3 item 1)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-092",
+    "prd": "PRD-17",
+    "system": "ia/deletions",
+    "file": "src/stories/ButtonGallery.stories.tsx",
+    "action": "REMOVE",
+    "description": "Delete 12 text galleries in src/stories/ (BackgroundsGallery, ButtonGallery, ChartsGallery, ComponentGallery, ComponentsGallery, CoreGallery, DataDisplayGallery, FocusGallery, InteractiveGallery, LayoutGallery, NavigationGallery, WidgetsGallery) plus AppShell.stories.tsx (6 aliases), AuraGlassIcons.stories.tsx, GlassAuditCoverage.stories.tsx, ProductionWorkflowComponents.stories.tsx, AuraGlass33ThemeShowcase.stories.tsx.",
+    "depends_on": [
+      "SB-081"
+    ],
+    "priority": "P1",
+    "test": "storybook-index.test.mjs: 0 Reference/*, 3.2/*, 3.3/* titles; files absent",
+    "storybook": "sidebar without galleries",
+    "acceptance": "AC-SB-04 (REQ-SB-14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-093",
+    "prd": "PRD-17",
+    "system": "ia/deletions",
+    "file": "src/stories/CuratedComponentGuide.stories.tsx",
+    "action": "REMOVE",
+    "description": "Delete after SB-082 Start Here is green (replaces the guide with broken links, stale '3.0 Release Scope', hard-coded 29/65).",
+    "depends_on": [
+      "SB-082"
+    ],
+    "priority": "P1",
+    "test": "start-here.test.mjs green; file absent",
+    "storybook": "Start Here replaces guide",
+    "acceptance": "AC-SB-04 (REQ-SB-09)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-094",
+    "prd": "PRD-17",
+    "system": "ia/deletions",
+    "file": "src/components/showcase/LiquidGlassStateMatrix.stories.tsx",
+    "action": "REMOVE",
+    "description": "Delete src/components/showcase/LiquidGlassStateMatrix.stories.tsx, src/components/templates/showcase/ComprehensiveShowcase.stories.tsx and every *.stories.tsx/*.mdx matching LiquidGlassShowcase|LiquidGlassStateMatrix|ComprehensiveShowcase|EnhancementShowcase|StorybookVisualShowcase under src showcase .storybook. Component sources are RM-08's; confirm deprecations.json entry for root export LiquidGlassShowcase (src/index.ts:736) exists via PRD-01/RM-08 and report if not; no edit to src/index.ts.",
+    "depends_on": [
+      "SB-039",
+      "FND-124"
+    ],
+    "priority": "P1",
+    "test": "static-gates.mjs REQ-SB-33 check = 0 (no ratchet)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-04 (REQ-SB-33)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-095",
+    "prd": "PRD-17",
+    "system": "ia/stubs",
+    "file": "NEW:scripts/storybook/list-stubs.mjs",
+    "action": "CREATE",
+    "description": "List titles whose story set is exactly {Default, Variants} (autopsy: 128; record measured count) joined with inventory action; REMOVE records -> stub deleted in PRD-16 family PR; survivors -> replaced by contract file in SB-083..089.",
+    "depends_on": [
+      "SB-011",
+      "SB-096"
+    ],
+    "priority": "P1",
+    "test": "storybook-index.test.mjs asserts 0 {Default,Variants} titles at completion",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-05 (REQ-SB-14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-096",
+    "prd": "PRD-17",
+    "system": "ia/inventory",
+    "file": "scripts/ensure-component-inventory.js",
+    "action": "MODIFY",
+    "description": "Additionally emit `tier` (flagship|core|foundation|remove) per record from the post-PRD-16 inventory; existing output fields unchanged.",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P1",
+    "test": "inventory-index.test.mjs (SB-098) reads tier",
+    "storybook": "tags flagship/core derived from tier",
+    "acceptance": "AC-SB-05 (PRD §4.4, §18)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-097",
+    "prd": "PRD-17",
+    "system": "ia/marketing",
+    "file": "src/stories/AuraGlass33MarketingLaunch.stories.tsx",
+    "action": "MODIFY",
+    "description": "If inventory keeps the marketing components (action != REMOVE), retitle to Showcases/Marketing and make it pass auraglass/story-* lint, title and copy lint; otherwise delete the file.",
+    "depends_on": [
+      "SB-096",
+      "SB-028",
+      "FND-124"
+    ],
+    "priority": "P2",
+    "test": "lint-titles.mjs (no 3.3 segment, :218); lint:stories clean or file absent",
+    "storybook": "Showcases/Marketing or removed",
+    "acceptance": "AC-SB-04 (REQ-SB-27)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-098",
+    "prd": "PRD-17",
+    "system": "ia/inventory",
+    "file": "NEW:tests/storybook/inventory-index.test.mjs",
+    "action": "TEST",
+    "description": "DoD: every non-REMOVE record in docs/auraglass-5/component-inventory.json (post-PRD-16) has exactly one title in verified index.json; every flagship/core title maps to an inventory record.",
+    "depends_on": [
+      "SB-096",
+      "SB-081"
+    ],
+    "priority": "P1",
+    "test": "node --test tests/storybook/inventory-index.test.mjs (CI)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-05 (PRD §18)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-099",
+    "prd": "PRD-17",
+    "system": "evidence/component-lab",
+    "file": "NEW:.storybook/contract/defineComponentStories.tsx",
+    "action": "TEST",
+    "description": "Per pilot and family PR, remote capture via PRD-19 lane of States, Matrix, Scenes, Mobile at 1440 and 390 over photo and flat-black; attach artifact URL, axe result (0 violations, color-contrast on, non-matrix), Mobile play results; human review of PNGs.",
+    "depends_on": [
+      "SB-076",
+      "SB-077",
+      "SB-033",
+      "QA-056"
+    ],
+    "priority": "P1",
+    "test": "storybook-tests vitest a11y report 0 violations; PRD-19 capture run URL",
+    "storybook": "Component Lab remote captures",
+    "acceptance": "AC-SB-11, AC-SB-05 (REQ-SB-48)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-100",
+    "prd": "PRD-17",
+    "system": "showcase/css-lint",
+    "file": "NEW:stylelint.showcase.config.mjs",
+    "action": "CREATE",
+    "description": "stylelint (exact-pinned devDep; or override in PRD-02 config if adopted) on showcase/**/*.module.css: declaration-property-allowlist (display, grid*, flex*, gap, row/column-gap, padding*, margin*, inline-size, block-size, min-*, max-*, position, inset*, overflow*, container*), declaration-no-important, color-no-hex, function-disallowed-list rgb/rgba/hsl/hsla/oklch/color-mix; package.json lint:showcase-css; fixture test allowed + rejected property.",
+    "depends_on": [
+      "SB-028"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/stylelint \"showcase/**/*.module.css\" --config stylelint.showcase.config.mjs; fixture rejection test",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08, AC-SB-09 (REQ-SB-24)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-101",
+    "prd": "PRD-17",
+    "system": "showcase/tarball-imports",
+    "file": "NEW:scripts/storybook/verify-showcase-imports.mjs",
+    "action": "CREATE",
+    "description": "CI only: npm pack -> temp dir -> npm init -y && npm i <tgz> react/react-dom at repo versions; copy showcase/; Vite library build of every *.showcase.tsx with default consumer resolution; fail on unresolved import or path not in tarball exports.",
+    "depends_on": [
+      "TRUST-002",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "SB-102",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08 (REQ-SB-23)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-102",
+    "prd": "PRD-17",
+    "system": "showcase/tarball-imports",
+    "file": "NEW:tests/showcase/showcase-imports.test.mjs",
+    "action": "TEST",
+    "description": "Wraps verify-showcase-imports.mjs; negative fixture importing aura-glass/src/... must fail; runs in storybook-tests.yml job showcase-imports.",
+    "depends_on": [
+      "SB-101"
+    ],
+    "priority": "P0",
+    "test": "node --test tests/showcase/showcase-imports.test.mjs (CI)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08 (REQ-SB-23)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-103",
+    "prd": "PRD-17",
+    "system": "showcase/coverage",
+    "file": "NEW:tests/showcase/showcase-coverage.test.ts",
+    "action": "TEST",
+    "description": "Jest composeStories per full-page story: each listed component root data-ag-part present (name->part from PRD-07 meta); union S1-1..S1-6 == 44 §11.2 flagships; at matchMedia max-width 390 collapsed parts present (Sidebar drawer Sheet, Inspector bottom Sheet); one <main>, skip link first focusable, ordered headings, named landmarks, S1-1 Thread role=log.",
+    "depends_on": [
+      "SB-105",
+      "SB-107",
+      "SB-109",
+      "SB-110",
+      "SB-111",
+      "SB-112",
+      "SB-113",
+      "SB-114",
+      "SB-115",
+      "SB-116",
+      "AI-079",
+      "AI-080",
+      "DATA-123",
+      "MED-161",
+      "NAV-144",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/showcase/showcase-coverage.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08 (REQ-SB-22, PRD §14, §15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-104",
+    "prd": "PRD-17",
+    "system": "showcase/determinism",
+    "file": "NEW:tests/showcase/showcase-determinism.test.ts",
+    "action": "TEST",
+    "description": "Render each showcase story twice in fresh module registries, innerHTML identical; source scan showcase/**: Math.random, Date.now, argless new Date(), fetch(, setTimeout/setInterval = 0; times from fixed epoch 2026-03-02T09:30:00Z via now prop.",
+    "depends_on": [
+      "SB-105",
+      "SB-116",
+      "SB-127"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/showcase/showcase-determinism.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08 (REQ-SB-25)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-105",
+    "prd": "PRD-17",
+    "system": "showcase/S1-3-ops-console",
+    "file": "NEW:showcase/ops-console/OpsConsole.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 ops console, default scene flat-black, seeded from src/stories/AppChromeVisualBaseline.stories.tsx:167-168; flagships AppShell, Sidebar (rail), TopBar, Table (grid mode), Timeline/ActivityFeed, TreeView, ResizablePanels, Menu, Tooltip, AlertDialog, Toast from public entries only; files OpsConsole.stories.tsx (title Showcases/Ops Console, tag showcase-s1, Page fullscreen + fragments 'Incident table', 'Tree + panel split'), ops-console.module.css (layout only), data.ts (mulberry32 seed), copy.ts; play: filter incident Table, open AlertDialog, confirm.",
+    "depends_on": [
+      "SB-100",
+      "SB-101",
+      "SB-085",
+      "SB-086",
+      "SB-084"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage, showcase-determinism, showcase-imports, lint-story-copy, vitest play",
+    "storybook": "Showcases/Ops Console",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-106",
+    "prd": "PRD-17",
+    "system": "showcase/S1-3-ops-console",
+    "file": "src/stories/AppChromeVisualBaseline.stories.tsx; src/stories/AppShell.stories.tsx",
+    "action": "REMOVE",
+    "description": "Single remover (SC-31/OV-18; NAV-105 only verifies): delete src/stories/AppChromeVisualBaseline.stories.tsx once S1-3 lands (REQ-SB-27, removes version-named title :237) and src/stories/AppShell.stories.tsx (6 aliased domain stories, STORYBOOK-SHOWCASE-10) in the same PR.",
+    "depends_on": [
+      "SB-105"
+    ],
+    "priority": "P1",
+    "test": "test ! -e src/stories/AppChromeVisualBaseline.stories.tsx && test ! -e src/stories/AppShell.stories.tsx; storybook-index.test.mjs has no 3.2/* titles",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-04 (REQ-SB-27)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-107",
+    "prd": "PRD-17",
+    "system": "showcase/S1-2-financial-dashboard",
+    "file": "NEW:showcase/financial-dashboard/FinancialDashboard.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 financial dashboard, default flat-white; composition from Data PRD (deviation 5); AppShell, TopBar, StatCard x4, Sparkline, ChartFrame, Table (sort, select, sticky header, 10,000 virtualized rows), FilterBar, DateRangePicker, SegmentedControl, Tabs, Select (currency), Pagination (statement list); fragments 'KPI row', 'Table header + 20 rows'; play: sort by amount, select 2 rows, change currency Select.",
+    "depends_on": [
+      "SB-105",
+      "SB-086",
+      "SB-083",
+      "SB-085"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
+    "storybook": "Showcases/Financial Dashboard",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-108",
+    "prd": "PRD-17",
+    "system": "showcase/S1-2-financial-dashboard",
+    "file": "examples/dashboard.tsx",
+    "action": "REMOVE",
+    "description": "Delete examples/dashboard.tsx and examples/page-button-spacing.tsx (superseded by S1-2 and Component Lab).",
+    "depends_on": [
+      "SB-107"
+    ],
+    "priority": "P2",
+    "test": "files absent; rg -n \"examples/(dashboard|page-button-spacing)\" package.json .github = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-08 (PRD §9)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-109",
+    "prd": "PRD-17",
+    "system": "showcase/S1-1-ai-command-center",
+    "file": "NEW:showcase/ai-command-center/AiCommandCenter.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 AI command center, default dark-media; composition from AI PRD AI Workspace; AppShell, Sidebar, TopBar, Thread (role=log), Message (+StreamingText step arg), Composer, ToolCall (+Reasoning, AgentSteps; all 5 states), SourceList/Citation, CommandPalette, Toast, Button (approve/deny on needs-approval), IconButton (stop/regenerate); fragments 'Thread', 'Composer', 'ToolCall stack'; play: send message -> approve needs-approval ToolCall -> state approved. No provider calls (D-30).",
+    "depends_on": [
+      "SB-105",
+      "SB-087",
+      "SB-085",
+      "SB-084"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
+    "storybook": "Showcases/AI Command Center",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-110",
+    "prd": "PRD-17",
+    "system": "showcase/S1-4-media-workspace",
+    "file": "NEW:showcase/media-workspace/MediaWorkspace.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 media workspace, default video-frame; MediaControls, NowPlayingBar, ImageViewer chrome, CarouselRail, Toolbar, Slider, Popover, Sheet; fragments 'Clear-over-media controls' (canonical clear demonstration), 'Inspector sheet'; video muted, pause control, no autoplay under reduced motion; play: scrub Slider, open inspector Sheet.",
+    "depends_on": [
+      "SB-105",
+      "SB-088",
+      "SB-084",
+      "SB-083"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
+    "storybook": "Showcases/Media Workspace",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-22..26, PRD §15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-111",
+    "prd": "PRD-17",
+    "system": "showcase/S1-5-collaborative-workspace",
+    "file": "NEW:showcase/collaborative-workspace/CollaborativeWorkspace.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 collaborative workspace, default saturated-abstract; AppShell, Tabs, ResizablePanels, Thread, Message, Menu/ContextMenu, Popover, Combobox (multi, chips), Breadcrumbs, Dialog (share settings), Avatar (core); fragments 'Document + comments split', 'Share popover'; play: open Share Dialog, add 2 people in Combobox, Escape closes. No previewUsers / collaboration 4.x components.",
+    "depends_on": [
+      "SB-105",
+      "SB-085",
+      "SB-087",
+      "SB-084",
+      "SB-089"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage, determinism, imports, copy lint, vitest play",
+    "storybook": "Showcases/Collaborative Workspace",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-16, REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-112",
+    "prd": "PRD-17",
+    "system": "showcase/S1-6-mobile-productivity",
+    "file": "NEW:showcase/mobile-productivity/MobileProductivity.showcase.tsx",
+    "action": "CREATE",
+    "description": "S1 mobile productivity 390x844 (also checked at 834), default photo; AppShell MobileShell, TabBar (+bottom accessory), Sheet (detents), SearchField, Switch, Checkbox, TextField, RadioGroup and NumberField (settings sheet), Toast, SourceTransition, GlassPreferencesPanel (core); fragments 'Tab bar + accessory', 'Sheet at 3 detents'; play: Sheet through 3 detents, toggle Switch.",
+    "depends_on": [
+      "SB-105",
+      "SB-085",
+      "SB-083",
+      "SB-084",
+      "A11Y-088"
+    ],
+    "priority": "P1",
+    "test": "showcase-coverage (incl. 834), determinism, imports, copy lint, vitest play",
+    "storybook": "Showcases/Mobile Productivity",
+    "acceptance": "AC-SB-08, AC-SB-10 (REQ-SB-22..26, PRD §14)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-113",
+    "prd": "PRD-17",
+    "system": "showcase/S2-1-music-player",
+    "file": "NEW:showcase/music-player/MusicPlayer.showcase.tsx",
+    "action": "CREATE",
+    "description": "S2 music player, default photo (album art); composition from Media PRD 'Music Player over Album Art'; NowPlayingBar, MediaControls, Slider, CarouselRail, SegmentedControl, IconButton; fragment 'Now-playing bar'; tag showcase-s2.",
+    "depends_on": [
+      "SB-110"
+    ],
+    "priority": "P2",
+    "test": "showcase-coverage, determinism, imports, copy lint",
+    "storybook": "Showcases/Music Player",
+    "acceptance": "AC-SB-08 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-114",
+    "prd": "PRD-17",
+    "system": "showcase/S2-2-spatial-control-center",
+    "file": "NEW:showcase/spatial-control-center/SpatialControlCenter.showcase.tsx",
+    "action": "CREATE",
+    "description": "S2 spatial control center, default hf-pattern; SurfaceGroup, ButtonGroup/Toolbar, Slider, Switch, SegmentedControl, IconButton, ConcentricFrame; refraction on one chrome surface (enhanced, Chromium), labelled inert elsewhere, non-blocking while PRD-15 uncertified; fragment 'Control grid'.",
+    "depends_on": [
+      "SB-105",
+      "SB-083",
+      "MAT-048",
+      "MAT-051"
+    ],
+    "priority": "P2",
+    "test": "showcase-coverage, determinism, imports, copy lint",
+    "storybook": "Showcases/Spatial Control Center",
+    "acceptance": "AC-SB-08 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-115",
+    "prd": "PRD-17",
+    "system": "showcase/S2-3-ecommerce",
+    "file": "NEW:showcase/ecommerce/Ecommerce.showcase.tsx",
+    "action": "CREATE",
+    "description": "S2 ecommerce, default photo; CarouselRail, Select, NumberField, RadioGroup, Button (prominent), Sheet (cart), Breadcrumbs, Pagination, Toast; fragments 'Product detail', 'Cart sheet'; product images licensed AVIF <=300 KB, <=12, assets/LICENSES.json.",
+    "depends_on": [
+      "SB-105",
+      "SB-083",
+      "SB-084",
+      "SB-085",
+      "SB-088"
+    ],
+    "priority": "P2",
+    "test": "showcase-coverage, determinism, imports, copy lint",
+    "storybook": "Showcases/Ecommerce",
+    "acceptance": "AC-SB-08 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-116",
+    "prd": "PRD-17",
+    "system": "showcase/S2-4-analytics",
+    "file": "NEW:showcase/analytics/Analytics.showcase.tsx",
+    "action": "CREATE",
+    "description": "S2 analytics, default dense-text; StatCard, Sparkline + ChartFrame, Table, FilterBar, DateRangePicker, Tabs, Popover; fragment 'Filter bar + chart'.",
+    "depends_on": [
+      "SB-107"
+    ],
+    "priority": "P2",
+    "test": "showcase-coverage, determinism, imports, copy lint",
+    "storybook": "Showcases/Analytics",
+    "acceptance": "AC-SB-08 (REQ-SB-22..26)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-117",
+    "prd": "PRD-17",
+    "system": "lint/flip",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Before 5.0 beta: all six auraglass/story-* rules to error; scripts/storybook/story-lint-baseline.json 0/0 for optics, !important, copy, timers; tsc-stories-baseline.json 0 and typecheck:stories becomes plain `tsc --noEmit -p tsconfig.storybook.json`; static-gates.mjs with no ratchet keys. Flip only; violations are removed by family PRs. Blocked (report files) if any count > 0.",
+    "depends_on": [
+      "SB-083",
+      "SB-084",
+      "SB-085",
+      "SB-086",
+      "SB-087",
+      "SB-088",
+      "SB-089",
+      "SB-116"
+    ],
+    "priority": "P0",
+    "test": "lint-gates green at error with 0 violations; ratchet.mjs --check against 0 baseline",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-09 (REQ-SB-32, REQ-SB-49)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-118",
+    "prd": "PRD-17",
+    "system": "perf/build-size",
+    "file": "NEW:scripts/storybook/check-build-size.mjs",
+    "action": "CREATE",
+    "description": "In deploy-storybook build job: storybook-static total excluding *.map <=60 MB; gzip preview-iframe JS for scenes--photo recorded as ag-build.json previewJsGzip (additive field in write-build-manifest.mjs) and fails if >10% above previous release's value; build time reported (<=6 min).",
+    "depends_on": [
+      "SB-001",
+      "SB-010"
+    ],
+    "priority": "P2",
+    "test": "node --test fixture dirs (over 60 MB synthetic sparse file fails; +11% fails)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-13 (PRD §16)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-119",
+    "prd": "PRD-17",
+    "system": "perf/showcases",
+    "file": "NEW:showcase/",
+    "action": "TEST",
+    "description": "Remote PRD-19 perf harness (4x CPU, 390x844 DPR3; 1440x900 120 Hz) on 10 showcases + Material Lab Overview: blurred surfaces <=6 fine / <=3 coarse, refracting <=2; 0 infinite animations after settle; hover+scroll p50 >=110 fps desktop, >=55 mobile; long tasks <=2 >50 ms, none >150 ms as delta over REQ-PERF-33 blank story; LCP <=1.8 s desktop, <=2.8 s mobile; assets <=12 x 300 KB. Budgets are read from PRD-PERF tests/perf/harness/budgets.json rows registered by SB-126 (SC-15); run by PRD-QA L10 Performance (QA-085) via PERF-039 run-perf.mjs.",
+    "depends_on": [
+      "SB-116",
+      "SB-126",
+      "PERF-039",
+      "QA-085"
+    ],
+    "priority": "P1",
+    "test": "PRD-19 perf lane run URL with per-showcase table",
+    "storybook": "Showcases/*",
+    "acceptance": "AC-SB-13 (PRD §16)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-120",
+    "prd": "PRD-17",
+    "system": "certification/pixel-gates",
+    "file": "NEW:.storybook/cert-manifest.json",
+    "action": "TEST",
+    "description": "PRD-19 lanes on SHA: S1 full §15.1 matrix, S2 reduced matrix, 8 scenes--* across §15.1 axes: OCR worst-case contrast >=4.5:1 body (7:1 contrast more), glass density <=0.3, material presence pass, frame fill >=3%. No threshold or scene exclusion.",
+    "depends_on": [
+      "SB-055",
+      "SB-116",
+      "QA-032",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "PRD-19 certify lane run URLs (cert-scene, showcase-s1, showcase-s2)",
+    "storybook": "Scenes/*, Showcases/*",
+    "acceptance": "AC-SB-07, AC-SB-12",
+    "status": "todo"
+  },
+  {
+    "id": "SB-121",
+    "prd": "PRD-17",
+    "system": "a11y/manual",
+    "file": "NEW:docs/auraglass-5/release/sr-walkthrough-sb.md",
+    "action": "DOC",
+    "description": "Prepare screen-reader script and remote preview URLs for human VoiceOver/Safari and NVDA/Chrome walkthrough of S1-1, S1-2, S1-6 (GA blocker §15.2); result recorded in the release checklist by the human tester; agent does not claim results.",
+    "depends_on": [
+      "SB-109",
+      "SB-107",
+      "SB-112",
+      "A11Y-084",
+      "QA-100"
+    ],
+    "priority": "P1",
+    "test": "release checklist entry signed by tester (manual lane)",
+    "storybook": "Showcases S1-1, S1-2, S1-6",
+    "acceptance": "AC-SB-11 manual complement (PRD §15)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-122",
+    "prd": "PRD-17",
+    "system": "visual/human-review",
+    "file": "NEW:.storybook/cert-manifest.json",
+    "action": "TEST",
+    "description": "Assemble artifact index of S1-1..S1-6 remote captures at 1440 and 390, light and dark; human reviewer signs off specular quality, optical hierarchy, radius rhythm, 'reads as one hand' (manual lane §15.2).",
+    "depends_on": [
+      "SB-120",
+      "QA-099",
+      "QA-100"
+    ],
+    "priority": "P1",
+    "test": "signed review record linked to capture artifacts",
+    "storybook": "Showcases S1-*",
+    "acceptance": "AC-SB-19",
+    "status": "todo"
+  },
+  {
+    "id": "SB-123",
+    "prd": "PRD-17",
+    "system": "docs/storybook-readme",
+    "file": ".storybook/README.md",
+    "action": "DOC",
+    "description": "Rewrite for 5.0 (<300 lines): story contract (defineComponentStories exports), globals table, tags table, auraglass/story-* lint rules and allowlist, StoryRoot ready signal, cert-manifest schema v1, remote-only validation rule.",
+    "depends_on": [
+      "SB-071",
+      "SB-048",
+      "SB-055"
+    ],
+    "priority": "P2",
+    "test": "docs lint (PRD-20) if present; manual review",
+    "storybook": "n/a",
+    "acceptance": "PRD §18 DoD",
+    "status": "todo"
+  },
+  {
+    "id": "SB-124",
+    "prd": "PRD-17",
+    "system": "interaction/aggregate",
+    "file": "NEW:.github/workflows/storybook-tests.yml",
+    "action": "TEST",
+    "description": "On RC SHA the vitest job shows >=6 S1 showcase play flows and Material Lab round-trips at 100% pass and 0 deprecated test imports.",
+    "depends_on": [
+      "SB-112",
+      "SB-067",
+      "SB-033"
+    ],
+    "priority": "P0",
+    "test": "storybook-tests run URL with JUnit counts",
+    "storybook": "Showcases S1-*, Material Lab",
+    "acceptance": "AC-SB-10",
+    "status": "todo"
+  },
+  {
+    "id": "SB-125",
+    "prd": "PRD-17",
+    "system": "release/sign-off",
+    "file": "NEW:.storybook/cert-manifest.json",
+    "action": "DOC",
+    "description": "RC sign-off table AC-SB-01..19: per row CI run URL, artifact name and SHA (D-32, not committed files); AC-SB-16 from 17a procedure at tag (ag-build.json sha == tag SHA).",
+    "depends_on": [
+      "SB-117",
+      "SB-119",
+      "SB-120",
+      "SB-121",
+      "SB-122",
+      "SB-124",
+      "SB-006"
+    ],
+    "priority": "P0",
+    "test": "all referenced runs green on RC SHA",
+    "storybook": "deployed /v5/<version>/",
+    "acceptance": "AC-SB-01..AC-SB-19",
+    "status": "todo"
+  },
+  {
+    "id": "SB-126",
+    "prd": "PRD-17",
+    "system": "perf/budget-rows",
+    "file": "tests/perf/harness/budgets.json",
+    "action": "MODIFY",
+    "description": "SC-15: register the PRD §16 runtime rows (blurred surfaces <=6 fine / <=3 coarse, refracting <=2; 0 infinite animations after settle; showcase hover+scroll p50 >=110 fps desktop 120 Hz and >=55 fps mobile; <=2 long tasks >50 ms and none >150 ms over the REQ-PERF-33 blank-story baseline; LCP <=1.8 s desktop / <=2.8 s mobile; Lab control repaint <=16 ms) as rows in PRD-PERF's budgets.json for the 10 showcases and Material Lab Overview. Initial values are uncalibrated (O-SB-09); PERF calibrates at alpha and rows only ratchet down. No second budget file in this PRD.",
+    "depends_on": [
+      "PERF-044",
+      "PERF-039",
+      "SB-116"
+    ],
+    "priority": "P1",
+    "test": "PERF harness schema check over budgets.json (PERF-039 run-perf.mjs --validate)",
+    "storybook": "n/a",
+    "acceptance": "AC-SB-13 (§16)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-127",
+    "prd": "PRD-17",
+    "system": "tooling/jest-roots",
+    "file": "jest.config.js",
+    "action": "MODIFY",
+    "description": "SC-30/SC-29: add <rootDir>/tests/storybook/ and <rootDir>/tests/showcase/ to the Jest roots/testMatch of PRD-QA's jest.config.js (owner QA-003) so the *.test.ts(x) suites of this PRD run under the existing Jest config; node --test *.test.mjs files under tests/storybook/ are excluded from Jest via testPathIgnorePatterns.",
+    "depends_on": [
+      "QA-003",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest --listTests | rg tests/storybook/",
+    "storybook": "n/a",
+    "acceptance": "REQ-SB-01 (test location per SC-30)",
+    "status": "todo"
+  },
+  {
+    "id": "SB-128",
+    "prd": "PRD-17",
+    "system": "storybook/provider",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "REQ-SB-06: replace the interim ProviderSlot of SB-048 with the single PRD-A11Y AuraGlassProvider (A11Y-029) fed by the globals: scheme, transparency, glassOpacity, contrast (system|standard|more), motion (system -> undefined) and density (SC-23); delete AccessibilityProvider, AnimationProvider and ThemeProvider imports. AuraGlassScript (A11Y-032) is not rendered in Storybook; the provider resolves preferences client-side. Exactly one decorator remains.",
+    "depends_on": [
+      "SB-048",
+      "A11Y-029",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "tests/storybook/storybook-config.test.ts asserts decorators.length === 1 and the provider is AuraGlassProvider",
+    "storybook": "toolbar globals drive data-ag-* on the provider root",
+    "acceptance": "AC-SB-01 (REQ-SB-06)",
+    "status": "todo"
+  }
+]

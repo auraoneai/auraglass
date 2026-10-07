@@ -1,0 +1,1691 @@
+[
+  {
+    "id": "EXP-001",
+    "prd": "PRD-15",
+    "system": "ledger/schema",
+    "file": "NEW:docs/auraglass-5/capability-ledger.schema.json",
+    "action": "CREATE",
+    "description": "JSON Schema 2020-12 for CapabilityRow exactly per PRD §4.7 plus optional artifacts[{release,url}], demand[], stories[] (PRD §4.7 optional fields); keywords limited to type/enum/pattern/required/items/properties/additionalProperties; id ^X-(R)?[0-9]{2}$, owner ^(PRD-[0-9]{2}|PRD-EXP)$, evidence ^(research/competitors\\.md:[0-9]+|exception:.+)$.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/capability/ledger-schema.test.ts \"every row validates\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-002",
+    "prd": "PRD-15",
+    "system": "ledger/rows-foundation-navigation",
+    "file": "NEW:docs/auraglass-5/capability-ledger.json",
+    "action": "CREATE",
+    "description": "Transcribe PRD §4.2 rows X-01..X-11 (foundation, navigation): single owner, collaborators per deviation 6, form, names, subpath, release, evidence with pinned research/competitors.md lines or exception:<reason>, findings, reqRefs, rubric, exportDelta from owner lists, status planned.",
+    "depends_on": [
+      "EXP-001"
+    ],
+    "priority": "P0",
+    "test": "ledger-schema.test.ts \"every row validates\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-003",
+    "prd": "PRD-15",
+    "system": "ledger/rows-inputs",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Add rows X-12..X-19 (inputs). X-12/X-13 reqRefs REQ-CTL-128, REQ-CTL-129; X-15 REQ-DATA-68; X-17 REQ-FND-32 and X-18 REQ-FND-33 (owner REQs exist, gaps closed); open gap rows X-16 (REQ-EXP-23) and X-19 (REQ-EXP-26) status planned; X-16 and X-19 release 5.1.",
+    "depends_on": [
+      "EXP-002"
+    ],
+    "priority": "P0",
+    "test": "ledger-schema.test.ts; req-refs.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01, AC-EXP-07 (REQ-EXP-01, REQ-EXP-21)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-004",
+    "prd": "PRD-15",
+    "system": "ledger/rows-overlays-data",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Add rows X-20..X-30. X-21 REQ-OVL-40; X-24 REQ-DATA-10/14; X-25 REQ-DATA-10/15 + REQ-EXP-27 (reorder gap); X-26 REQ-DATA-10/13 + REQ-EXP-28 (inline edit 5.1); X-28 REQ-DATA-72, release 5.1, subpath ./charts; X-30 owner PRD-18 (DX content DX-082..084) collaborators none, form registry-item.",
+    "depends_on": [
+      "EXP-003"
+    ],
+    "priority": "P0",
+    "test": "ledger-schema.test.ts; req-refs.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01, AC-EXP-07 (REQ-EXP-01, REQ-EXP-20)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-005",
+    "prd": "PRD-15",
+    "system": "ledger/rows-ai-media",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Add rows X-31..X-43. AI rows cite REQ-AI-02 / REQ-AI-41 (X-35, X-36 registry items; ai-eval-dashboard is a registry-item per SC-32). Media rows per REQ-EXP-29: X-37 REQ-MED-10; X-38 REQ-MED-23, REQ-MED-24; X-39 REQ-MED-40, REQ-MED-43; X-40 REQ-MED-50; X-41 REQ-MED-29; X-42 REQ-MED-35, REQ-MED-36, release 5.1 (SC-12); X-43 REQ-MED-95, release 5.1.",
+    "depends_on": [
+      "EXP-004"
+    ],
+    "priority": "P0",
+    "test": "req-refs.test.ts \"media rows X-37..X-43 cite REQ-MED ids per REQ-EXP-29\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-20, REQ-EXP-29)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-006",
+    "prd": "PRD-15",
+    "system": "ledger/rows-workspaces-commerce-enterprise-spatial",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Add rows X-44..X-58. X-46..X-50 owner PRD-EXP collaborators [PRD-18], release 5.1, form registry-item/registry-block; X-55 owner PRD-EXP collaborators [PRD-18] release 5.0 (settings, DX-078) with wave 2 noted; X-56 owner PRD-04 (no elevation tokens); X-57/X-58 owner PRD-21 (interim owner this PRD, SC-37; X-58 collaborators [PRD-04] for the engine), form labs, release labs, reqRefs REQ-EXP-31, REQ-EXP-38.",
+    "depends_on": [
+      "EXP-005"
+    ],
+    "priority": "P1",
+    "test": "ledger-schema.test.ts \"58 capability + 13 rejected rows\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-007",
+    "prd": "PRD-15",
+    "system": "ledger/rows-rejected",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Add X-R01..X-R13 from PRD §4.4/§9: form [rejected], release never, status rejected, failing rubric rules false, names = every 4.x symbol in §9 plus family keywords (Quantum, Consciousness, Biometric, EyeTracking, Gaze, GAN, DeepDream, StyleTransfer, Hologram, Vortex, Fractal, Orbital, Tessellation, Houdini, elevation, Autocomplete, TagInput, HoverCard, NotificationCenter, Banner, Lightbox, Dock, NavBar).",
+    "depends_on": [
+      "EXP-006"
+    ],
+    "priority": "P0",
+    "test": "ledger-schema.test.ts \"58 capability + 13 rejected rows\"; verify-ledger.test.ts \"GlassHologram cites X-R04\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01, REQ-EXP-06)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-008",
+    "prd": "PRD-15",
+    "system": "gate/core",
+    "file": "NEW:scripts/ci/verify-capability-ledger.mjs",
+    "action": "CREATE",
+    "description": "Node 20 ESM, zero dependencies: load ledger + schema, embedded checker for the schema keyword subset, stderr \"X-nn: <msg>\" per failure, exit 1 on any; flags --ledger, --prd-dir.",
+    "depends_on": [
+      "EXP-001"
+    ],
+    "priority": "P0",
+    "test": "verify-ledger.test.ts \"real ledger exits 0\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-009",
+    "prd": "PRD-15",
+    "system": "gate/rules",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-02 checks: owner missing/array/bad pattern; owner repeated in collaborators; duplicate id; non-rejected rubric false; evidence line must exist in docs/auraglass-5/research/competitors.md or be exception: non-empty; findings E-ids must be defined in the expansion PRD §2 tables.",
+    "depends_on": [
+      "EXP-008"
+    ],
+    "priority": "P0",
+    "test": "verify-ledger.test.ts one case per fixture: exit 1 + row id in stderr",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-02 (REQ-EXP-02)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-010",
+    "prd": "PRD-15",
+    "system": "gate/req-refs",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-20: built-in owner->PRD file crosswalk (PRD header table, SC-01); each reqRefs id must appear in the owner file, or be REQ-EXP-22/-23/-26/-27/-28 on one of the 5 open planned gap rows; owner PRD-21 maps to the expansion PRD (interim owner, SC-37).",
+    "depends_on": [
+      "EXP-008"
+    ],
+    "priority": "P0",
+    "test": "tests/capability/req-refs.test.ts \"every reqRefs id exists in its owner file or is a planned gap contract\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-20)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-011",
+    "prd": "PRD-15",
+    "system": "gate/rejected-match",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-06: any non-rejected row whose names match (case-insensitive) a rejected row names entry exits 1 with \"X-Rnn rejected: <reason>\".",
+    "depends_on": [
+      "EXP-009"
+    ],
+    "priority": "P0",
+    "test": "verify-ledger.test.ts \"GlassHologram cites X-R04\" (fixture rejected-hologram.json)",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-02 (REQ-EXP-06)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-012",
+    "prd": "PRD-15",
+    "system": "gate/diff",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-05 --diff <base>: git diff --name-only; new registry/blocks/*, registry/items/*, packages/labs/src/* ids must be names of a row changed in the same diff; --exports <before.json> <after.json> added value names must be ledger names; without --exports print \"exports diff not evaluated\".",
+    "depends_on": [
+      "EXP-009"
+    ],
+    "priority": "P1",
+    "test": "verify-ledger.test.ts fixture \"export added without row\" exits 1",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-05)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-013",
+    "prd": "PRD-15",
+    "system": "gate/report-md",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-04 --report md emits the §4.2 totals paragraph from the ledger; --check-docs compares it with the text between capability-ledger:totals markers in the PRD and exits 1 on difference.",
+    "depends_on": [
+      "EXP-009"
+    ],
+    "priority": "P1",
+    "test": "tests/capability/report.test.ts \"md totals for fixture ledger\", \"committed PRD totals match generator\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-04)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-014",
+    "prd": "PRD-15",
+    "system": "gate/report-release-notes",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-35 --report release-notes --version x.y: \"## New capability\" listing delivered rows with release x.y, each linked to its artifacts[] URL for that release; a listed row without artifact exits 1 (D-32).",
+    "depends_on": [
+      "EXP-013"
+    ],
+    "priority": "P1",
+    "test": "report.test.ts \"release notes section lists only matching release and requires artifact\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-15 (REQ-EXP-35)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-015",
+    "prd": "PRD-15",
+    "system": "gate/promotion",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "REQ-EXP-36: a row moving from registry-item/registry-block to export (vs git show <base>:ledger) needs exportDelta sum >0, subpath set and >=10 distinct demand URLs (GitHub issue or doctor report).",
+    "depends_on": [
+      "EXP-012"
+    ],
+    "priority": "P2",
+    "test": "verify-ledger.test.ts \"promotion with 9 links exits 1, with 10 exits 0\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-02 (REQ-EXP-36)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-016",
+    "prd": "PRD-15",
+    "system": "gate/runtime",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "Print \"ledger gate: <ms> ms\" via process.hrtime; CI step fails above 3000 ms (PRD §16).",
+    "depends_on": [
+      "EXP-009"
+    ],
+    "priority": "P2",
+    "test": "certify-pr.yml L1 Static step asserts runtime <=3000 ms",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (PRD §16 gate budget)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-017",
+    "prd": "PRD-15",
+    "system": "gate/fixtures",
+    "file": "NEW:tests/capability/fixtures/",
+    "action": "TEST",
+    "description": "Fixtures dup-owner, missing-evidence, bad-line (competitors.md:99999), rubric-false, unknown-finding (E-99), rejected-hologram, promotion-9, promotion-10, bad-reqref, owner-array, export-added-without-row; each a full small ledger with exactly one defect.",
+    "depends_on": [
+      "EXP-009"
+    ],
+    "priority": "P0",
+    "test": "used by verify-ledger.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-02 (REQ-EXP-02, -05, -06, -36)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-018",
+    "prd": "PRD-15",
+    "system": "tests/ledger-schema",
+    "file": "NEW:tests/capability/ledger-schema.test.ts",
+    "action": "TEST",
+    "description": "\"every row validates\", \"58 capability + 13 rejected rows\", \"ids unique\".",
+    "depends_on": [
+      "EXP-007",
+      "EXP-008"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/capability/ledger-schema.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-019",
+    "prd": "PRD-15",
+    "system": "tests/verify-ledger",
+    "file": "NEW:tests/capability/verify-ledger.test.ts",
+    "action": "TEST",
+    "description": "spawnSync the gate per fixture; assert status 1 and row id in stderr; \"real ledger exits 0\".",
+    "depends_on": [
+      "EXP-017"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/capability/verify-ledger.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-02 (REQ-EXP-02)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-020",
+    "prd": "PRD-15",
+    "system": "tests/req-refs",
+    "file": "NEW:tests/capability/req-refs.test.ts",
+    "action": "TEST",
+    "description": "\"every reqRefs id exists in its owner file or is a planned gap contract\"; \"the open REQ-EXP-21 gap rows are exactly X-07, X-16, X-19, X-25, X-26\"; \"X-17, X-18, X-43 cite REQ-FND-32, REQ-FND-33, REQ-MED-95\"; media mapping per REQ-EXP-29.",
+    "depends_on": [
+      "EXP-010"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/capability/req-refs.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-20, -21, -29)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-021",
+    "prd": "PRD-15",
+    "system": "tests/report",
+    "file": "NEW:tests/capability/report.test.ts",
+    "action": "TEST",
+    "description": "md snapshot for fixture ledger (written once, never -u to pass), --check-docs on real PRD, release-notes filtering and artifact requirement.",
+    "depends_on": [
+      "EXP-013",
+      "EXP-014"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/capability/report.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-15 (REQ-EXP-04, -35)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-022",
+    "prd": "PRD-15",
+    "system": "infra/npm-script",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "Add scripts.\"verify:capability\": \"node scripts/ci/verify-capability-ledger.mjs\"; no dependency changes.",
+    "depends_on": [
+      "EXP-008"
+    ],
+    "priority": "P0",
+    "test": "npm run verify:capability exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-01)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-023",
+    "prd": "PRD-15",
+    "system": "infra/static-workflow",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "MODIFY",
+    "description": "Add an L1 Static step group to QA's certify-pr.yml (QA-031 owns the workflow; SC-29): npm ci, verify:capability --check-docs, --diff origin/<base> (fetch-depth 0), jest over the 4 static capability tests; fail >3000 ms; no secrets, no continue-on-error. No separate capability workflow.",
+    "depends_on": [
+      "EXP-018",
+      "EXP-019",
+      "EXP-020",
+      "EXP-021",
+      "EXP-022",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml run green on the PR (run URL in report)",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01, AC-EXP-02 (REQ-EXP-02, DoD 1)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-024",
+    "prd": "PRD-15",
+    "system": "docs/totals-markers",
+    "file": "docs/auraglass-5/prd/AURAGLASS_COMPONENT_EXPANSION_PRD.md",
+    "action": "DOC",
+    "description": "Wrap the §4.2 \"Totals:\" paragraph (line 274) in <!-- capability-ledger:totals:start/end --> and replace it with --report md output; report any PRD arithmetic mismatch with row ids instead of hand-editing counts.",
+    "depends_on": [
+      "EXP-013"
+    ],
+    "priority": "P1",
+    "test": "report.test.ts \"committed PRD totals match generator\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-01 (REQ-EXP-04)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-025",
+    "prd": "PRD-15",
+    "system": "gate/enumerate-exports",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "--enumerate-exports <installDir> --out <file>: for each build/exports.manifest.json entry (wildcards expanded from the installed tarball), await import() the subpath from a scratch install of the packed tarball and write {subpath: sorted value names}; exit 1 if any import fails (REQ-EXP-03(a); manifest PKG-005).",
+    "depends_on": [
+      "EXP-008",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "export-budget.test.ts fixture manifest case; Artifact run uploads exports-<sha>",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-04 (REQ-EXP-07)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-026",
+    "prd": "PRD-15",
+    "system": "gate/budget",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "--budget <exports.json>: root value names <=160, total <=250; every name of delivered export rows present in its subpath; ledger sum of exportDelta over delivered rows equals names found, else print both numbers and exit 1.",
+    "depends_on": [
+      "EXP-025"
+    ],
+    "priority": "P0",
+    "test": "tests/capability/export-budget.test.ts \"root <=160 and total <=250\", \"ledger count = manifest count\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-04 (REQ-EXP-07)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-027",
+    "prd": "PRD-15",
+    "system": "gate/headroom",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "--budget --ga: assert 160-root >=1 and 250-total >=5 (OtpField root; DateTimePicker, Chart, Waveform, CompareSlider subpath; SC-12).",
+    "depends_on": [
+      "EXP-026"
+    ],
+    "priority": "P1",
+    "test": "export-budget.test.ts \"5.1 headroom\": 159/245 pass, 160/245 fail, 159/246 fail",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-04 (REQ-EXP-09)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-028",
+    "prd": "PRD-15",
+    "system": "tests/export-budget",
+    "file": "NEW:tests/capability/export-budget.test.ts",
+    "action": "TEST",
+    "description": "Fixture cases plus real exports.json via AURAGLASS_EXPORTS_JSON (fails, not skips, when set but missing).",
+    "depends_on": [
+      "EXP-026",
+      "EXP-027"
+    ],
+    "priority": "P0",
+    "test": "Artifact lane: jest tests/capability/export-budget.test.ts with AURAGLASS_EXPORTS_JSON",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-04 (REQ-EXP-07, -09)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-029",
+    "prd": "PRD-15",
+    "system": "tests/expansion-no-alias",
+    "file": "NEW:tests/exports/expansion-no-alias.test.ts",
+    "action": "TEST",
+    "description": "Assert Autocomplete, TagInput, HoverCard, NotificationCenter, Banner, Lightbox, Dock, NavBar, ModelPicker, QueryBuilder, TraceTree, Artifact are absent from every subpath of the enumerated exports.",
+    "depends_on": [
+      "EXP-025"
+    ],
+    "priority": "P0",
+    "test": "Artifact lane jest run green on the real tarball",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-05 (REQ-EXP-08)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-030",
+    "prd": "PRD-15",
+    "system": "gate/delivery",
+    "file": "scripts/ci/verify-capability-ledger.mjs",
+    "action": "MODIFY",
+    "description": "--delivery --exports --storybook-index --version: delivered rows resolve as (a) value export of subpath, (b) data-ag-part in owner <Component>.meta.ts parts (SC-27), or (c) registry/registry.json item with matching type (SC-32; built JSON at apps/docs/public/r/<id>.json); every stories id exists in storybook-static/index.json; at 5.0.0-rc.* every 5.0 P0/P1 row must be delivered.",
+    "depends_on": [
+      "EXP-025",
+      "PKG-005",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "tests/capability/delivery.test.ts fixture cases (a)/(b)/(c)/missing story",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-03 (REQ-EXP-03, PRD §13.3)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-031",
+    "prd": "PRD-15",
+    "system": "tests/delivery",
+    "file": "NEW:tests/capability/delivery.test.ts",
+    "action": "TEST",
+    "description": "Fixture resolution cases; \"all 5.0 P0/P1 delivered at rc\" with AURAGLASS_RELEASE_VERSION set by the release workflow at v5.0.0-rc.1.",
+    "depends_on": [
+      "EXP-030"
+    ],
+    "priority": "P0",
+    "test": "release workflow job at v5.0.0-rc.1 green (job name in report)",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-03 (REQ-EXP-03)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-032",
+    "prd": "PRD-15",
+    "system": "lint/no-simulation-random",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Register rule auraglass/no-simulation in the existing PKG-owned plugin (MODIFY, never CREATE; SC-16, OV-10). messageId (messageId mathRandom): flag Math.random unless the enclosing function is a JSX on[A-Z]* attribute value or a function referenced only from such attributes; render bodies, effects, useState/useMemo/useRef initialisers, module scope and timer callbacks flagged.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/no-simulation.test.ts mathRandom invalid/valid cases",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-10)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-033",
+    "prd": "PRD-15",
+    "system": "lint/no-simulation-timers",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "no-simulation messageId fakeProgressTimer: setTimeout/setInterval whose callback calls set[A-Z]* with a numeric literal or prev => prev + literal.",
+    "depends_on": [
+      "EXP-032"
+    ],
+    "priority": "P0",
+    "test": "no-simulation.test.ts \"setInterval(() => setProgress(p => p + 10), 300)\" invalid",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-10)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-034",
+    "prd": "PRD-15",
+    "system": "lint/no-simulation-blob-demo",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "no-simulation messageIds mockBlob (new Blob([<string or template literal>, ...])) and demoDataDefault (default param/defaultProps array literal with >=3 object literals).",
+    "depends_on": [
+      "EXP-032"
+    ],
+    "priority": "P0",
+    "test": "no-simulation.test.ts mockBlob and demoDataDefault cases",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-10)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-035",
+    "prd": "PRD-15",
+    "system": "tests/no-simulation",
+    "file": "NEW:tests/lint/no-simulation.test.ts",
+    "action": "TEST",
+    "description": "RuleTester (API matching installed ESLint major) with invalid: Math.random in body, useEffect, useState initialiser, module scope, setTimeout; fake setInterval progress; new Blob([\"mock audio data\"]); items default of 3 objects. Valid: onClick handler, handler-only function, useId, new Blob([buffer]), 2-object default.",
+    "depends_on": [
+      "EXP-034"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/lint/no-simulation.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-10)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-036",
+    "prd": "PRD-15",
+    "system": "lint/enable-no-simulation",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "New flat-config object enabling auraglass/no-simulation: error for src/date, src/data, src/charts, src/ai, src/media, registry/blocks, registry/items, packages/labs and the EXP_REALITY_FILES constant (5.0 src/app-shell rewrites and new T2 files, appended per landing PR; never 4.x files).",
+    "depends_on": [
+      "EXP-035",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "npx eslint src/data reports 0 no-simulation errors; CI lint over enabled globs",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-10)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-037",
+    "prd": "PRD-15",
+    "system": "lint/restricted-imports",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "no-restricted-imports for registry/** and packages/labs/**: forbid **/src/components/**/{Glass,LiquidGlass,Enhanced}*, **/src/hooks/**, **/src/utils/**, aura-glass/compat and deep aura-glass paths that are not manifest subpaths.",
+    "depends_on": [
+      "EXP-036",
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/restricted-imports.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-11)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-038",
+    "prd": "PRD-15",
+    "system": "tests/restricted-imports",
+    "file": "NEW:tests/lint/restricted-imports.test.ts",
+    "action": "TEST",
+    "description": "Lint tests/lint/fixtures/registry/bad-import.tsx (imports src/components/input/GlassCombobox) as filePath registry/blocks/fixture/bad-import.tsx with the repo config; expect exactly one no-restricted-imports error.",
+    "depends_on": [
+      "EXP-037"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/lint/restricted-imports.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-11)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-039",
+    "prd": "PRD-15",
+    "system": "lint/no-spatial-core",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Config object files src/** ignores src/three/**: no-restricted-imports paths three, patterns @react-three/*; no-restricted-properties navigator.xr.",
+    "depends_on": [
+      "EXP-036",
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "no-spatial-core.test.ts lint fixture fails",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-14 (REQ-EXP-32)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-040",
+    "prd": "PRD-15",
+    "system": "tests/no-spatial-core",
+    "file": "NEW:tests/capability/no-spatial-core.test.ts",
+    "action": "TEST",
+    "description": "Walk src/ excluding src/three/: 0 files import three or @react-three/* or reference navigator.xr; plus a lint fixture that must error. Record HEAD count; list hits with FND removal disposition (FND-103), never allowlist.",
+    "depends_on": [
+      "EXP-039"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/capability/no-spatial-core.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-14 (REQ-EXP-32)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-041",
+    "prd": "PRD-15",
+    "system": "tests/no-network",
+    "file": "NEW:tests/capability/no-network.test.ts",
+    "action": "TEST",
+    "description": "Artifact lane: 0 matches of fetch(, XMLHttpRequest, WebSocket(, EventSource( in packed dist entry of ./ai and in registry sources of ai-model-picker, ai-artifact-panel, ai-trace-tree, ai-eval-dashboard, media-transcript, presence-stack, comment-thread, commerce-cart, commerce-checkout, pricing (ai-sdk-adapter excluded); entries not yet built must not be delivered in the ledger.",
+    "depends_on": [
+      "EXP-025",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "Artifact lane jest run green",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-06 (REQ-EXP-12)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-042",
+    "prd": "PRD-15",
+    "system": "tests/registry-only",
+    "file": "NEW:tests/capability/registry-only.test.ts",
+    "action": "TEST",
+    "description": "Artifact lane: ProductCard|CartSummary|CheckoutSteps|PricingTable|PlanComparison|PresenceStack|CommentThread match 0 times in the unpacked tarball dist/.",
+    "depends_on": [
+      "EXP-025",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "Artifact lane jest run green",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-34)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-043",
+    "prd": "PRD-15",
+    "system": "tests/charts-subpath",
+    "file": "tests/capability/delivery.test.ts",
+    "action": "TEST",
+    "description": "Case \"charts subpath absent before 5.1\": ./charts not a key of enumerated exports when version < 5.1.0, present at >= 5.1.0 (mirrors REQ-DATA-75).",
+    "depends_on": [
+      "EXP-031"
+    ],
+    "priority": "P1",
+    "test": "Artifact lane delivery.test.ts with AURAGLASS_RELEASE_VERSION",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-33)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-044",
+    "prd": "PRD-15",
+    "system": "infra/artifact-wiring",
+    "file": ".github/workflows/artifact.yml",
+    "action": "MODIFY",
+    "description": "Add L2 Artifact steps to PKG's artifact.yml (PKG-073 owns the file; SC-39): npm ci, npm run build, npm pack, scratch install, --enumerate-exports, upload exports-<sha>, --budget, L2 Artifact tests with AURAGLASS_EXPORTS_JSON, --delivery with Storybook index when present. Remote CI only.",
+    "depends_on": [
+      "EXP-028",
+      "EXP-029",
+      "EXP-031",
+      "EXP-041",
+      "EXP-042",
+      "PKG-073"
+    ],
+    "priority": "P0",
+    "test": "workflow run URL with exports-<sha> artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-03, AC-EXP-04 (REQ-EXP-03, -07)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-045",
+    "prd": "PRD-15",
+    "system": "ledger/export-delta-reconcile",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Correct exportDelta values proven wrong by the first live --budget run, citing the owner PRD line per change; no change to the 160/250 ceilings.",
+    "depends_on": [
+      "EXP-044"
+    ],
+    "priority": "P1",
+    "test": "--budget ledger-vs-manifest diff = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-04 (REQ-EXP-07)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-046",
+    "prd": "PRD-15",
+    "system": "tests/no-rejected-exports",
+    "file": "tests/capability/export-budget.test.ts",
+    "action": "TEST",
+    "description": "Case \"no rejected name is a value export\": every names entry of X-R01..X-R13 absent from every subpath of the enumerated exports.",
+    "depends_on": [
+      "EXP-028"
+    ],
+    "priority": "P1",
+    "test": "Artifact lane jest run green",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-13 (manifest half)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-047",
+    "prd": "PRD-15",
+    "system": "registry/commerce-cart",
+    "file": "NEW:registry/blocks/commerce-cart/ProductCard.tsx",
+    "action": "CREATE",
+    "description": "ProductCard({ title, price:{amount,currency}, image?:{src,alt}, badge?, href?, onAddToCart? }) as <article> on Card (content-raised; no material prop, SC-24), price via Intl.NumberFormat(provider locale, currency), add button >=24x24 (>=44x44 pointer:coarse); tokens only, logical properties.",
+    "depends_on": [
+      "EXP-023",
+      "FND-050",
+      "A11Y-029",
+      "DX-067"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/commerce-cart.test.tsx \"formats JPY with 0 fraction digits\", \"formats EUR with comma decimal\"",
+    "storybook": "src/stories/blocks/CommerceCart.stories.tsx Default/Empty/RTL/ReducedTransparency/ForcedColors",
+    "acceptance": "AC-EXP-09 (REQ-EXP-13)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-048",
+    "prd": "PRD-15",
+    "system": "registry/commerce-cart",
+    "file": "NEW:registry/blocks/commerce-cart/LineItem.tsx",
+    "action": "CREATE",
+    "description": "LineItem({ id, title, quantity, onQuantityChange(id,q), unitPrice, lineTotal?, onRemove?(id), maxQuantity? }) using NumberField min 1; remove IconButton named \"Remove <title>\"; line total change announced politely via provider announcer.",
+    "depends_on": [
+      "EXP-047",
+      "CTL-095"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/commerce-cart.test.tsx \"quantity uses NumberField min 1\", \"onRemove called with id\", \"line total change is announced politely\"",
+    "storybook": "CommerceCart.stories.tsx",
+    "acceptance": "AC-EXP-09 (REQ-EXP-13)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-049",
+    "prd": "PRD-15",
+    "system": "registry/commerce-cart",
+    "file": "NEW:registry/blocks/commerce-cart/CartSummary.tsx",
+    "action": "CREATE",
+    "description": "CartSummary({ lines:{label,amount}[], total, currency, cta, footnote? }) as <dl>; commerce-cart.css layout per PRD §14.2 (>=1024 side by side, summary inline-size 360px; below, sticky CTA bar with padding-block-end env(safe-area-inset-bottom)); layout.assert.json encodes both.",
+    "depends_on": [
+      "EXP-047"
+    ],
+    "priority": "P2",
+    "test": "registry-render.spec.ts layout assertions for commerce-cart",
+    "storybook": "CommerceCart.stories.tsx",
+    "acceptance": "AC-EXP-09 (REQ-EXP-13, PRD §14.2)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-050",
+    "prd": "PRD-15",
+    "system": "tests/commerce-cart",
+    "file": "NEW:tests/registry/commerce-cart.test.tsx",
+    "action": "TEST",
+    "description": "Tests: formats JPY with 0 fraction digits (ja-JP); formats EUR with comma decimal (de-DE); quantity uses NumberField min 1; onRemove called with id; line total change is announced politely.",
+    "depends_on": [
+      "EXP-048",
+      "EXP-049"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/registry/commerce-cart.test.tsx --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-13)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-051",
+    "prd": "PRD-15",
+    "system": "registry/commerce-checkout",
+    "file": "NEW:registry/blocks/commerce-checkout/CheckoutSteps.tsx",
+    "action": "CREATE",
+    "description": "CheckoutSteps({ steps:{id,label,status}[], value, onValueChange }) as <ol> with aria-current=\"step\" on exactly one item; below 768px container width \"Step n of m: label\" with full list in a Sheet; plus CheckoutPage.tsx composing Form + Fieldset (contact, shipping) and a payment ReactNode slot, no payment SDK.",
+    "depends_on": [
+      "EXP-023",
+      "OVL-097",
+      "FND-083"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/commerce-checkout.test.tsx \"aria-current on exactly one step\", \"list is an ol\", \"compact label at narrow width\"",
+    "storybook": "src/stories/blocks/CommerceCheckout.stories.tsx 6 states",
+    "acceptance": "AC-EXP-09 (REQ-EXP-14, PRD §14.3)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-052",
+    "prd": "PRD-15",
+    "system": "tests/commerce-checkout",
+    "file": "NEW:tests/registry/commerce-checkout.test.tsx",
+    "action": "TEST",
+    "description": "Tests: aria-current on exactly one step; list is an ol; compact label at narrow width.",
+    "depends_on": [
+      "EXP-051"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/registry/commerce-checkout.test.tsx --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-14)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-053",
+    "prd": "PRD-15",
+    "system": "registry/pricing",
+    "file": "NEW:registry/blocks/pricing/PricingTable.tsx",
+    "action": "CREATE",
+    "description": "PricingTable({ plans, period, onPeriodChange, highlightPlanId? }) with SegmentedControl period toggle (radiogroup); 1/2/3+ columns at 390/768/>=1024, toggle sticky at 390.",
+    "depends_on": [
+      "EXP-023",
+      "CTL-081"
+    ],
+    "priority": "P3",
+    "test": "tests/registry/pricing.test.tsx \"period toggle is a radiogroup\"",
+    "storybook": "src/stories/blocks/Pricing.stories.tsx 6 states",
+    "acceptance": "AC-EXP-09 (REQ-EXP-15, PRD §14.1)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-054",
+    "prd": "PRD-15",
+    "system": "registry/pricing",
+    "file": "NEW:registry/blocks/pricing/PlanComparison.tsx",
+    "action": "CREATE",
+    "description": "PlanComparison({ plans, features }) as <table> with th scope=col plans and th scope=row features; boolean cells icon + visually hidden Included/Not included (prop strings, English defaults); at 390 inside ScrollArea with sticky first column inset-inline-start 0, never cards.",
+    "depends_on": [
+      "EXP-053",
+      "FND-077"
+    ],
+    "priority": "P3",
+    "test": "tests/registry/pricing.test.tsx \"comparison has scoped headers\", \"boolean cells have hidden text\"",
+    "storybook": "Pricing.stories.tsx",
+    "acceptance": "AC-EXP-09 (REQ-EXP-15, PRD §14.1, §15.4)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-055",
+    "prd": "PRD-15",
+    "system": "tests/pricing",
+    "file": "NEW:tests/registry/pricing.test.tsx",
+    "action": "TEST",
+    "description": "Tests: comparison has scoped headers; boolean cells have hidden text; period toggle is a radiogroup.",
+    "depends_on": [
+      "EXP-054"
+    ],
+    "priority": "P3",
+    "test": "npx jest tests/registry/pricing.test.tsx --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-15)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-056",
+    "prd": "PRD-15",
+    "system": "registry/presence-stack",
+    "file": "NEW:registry/items/presence-stack/PresenceStack.tsx",
+    "action": "CREATE",
+    "description": "PresenceStack({ users:{id,name,avatarUrl?,color?,status?}[], max=4, onOverflowClick? }) as <ul> on AvatarGroup with names as text; overflow +N button \"N more collaborators\"; colour = FNV-1a hash of id over categorical palette tokens; max 3 below 390px container width (@container); no transport or timers.",
+    "depends_on": [
+      "EXP-023",
+      "FND-060",
+      "DS-022"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/presence-stack.test.tsx \"same id -> same colour across renders\", \"overflow label\", \"no timers\"",
+    "storybook": "src/stories/blocks/PresenceStack.stories.tsx 6 states",
+    "acceptance": "AC-EXP-09 (REQ-EXP-16, PRD §14.4)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-057",
+    "prd": "PRD-15",
+    "system": "tests/presence-stack",
+    "file": "NEW:tests/registry/presence-stack.test.tsx",
+    "action": "TEST",
+    "description": "Tests: same id -> same colour across renders; overflow label; no timers (jest.getTimerCount() === 0 after render with fake timers).",
+    "depends_on": [
+      "EXP-056"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/registry/presence-stack.test.tsx --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-16)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-058",
+    "prd": "PRD-15",
+    "system": "registry/comment-thread",
+    "file": "NEW:registry/items/comment-thread/CommentThread.tsx",
+    "action": "CREATE",
+    "description": "CommentThread({ comments, onSubmit(body), onResolve?, anchorLabel? }) as <ol> of <article> with <time dateTime>, Card content-raised, TextField multiline, IME-safe submit (no submit while isComposing), resolve Button; avatar column collapses below 360px container width.",
+    "depends_on": [
+      "EXP-023",
+      "CTL-047",
+      "FND-050"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/comment-thread.test.tsx \"Enter during composition does not submit\"",
+    "storybook": "src/stories/blocks/CommentThread.stories.tsx Default/Empty/Loading/RTL/ReducedTransparency/ForcedColors",
+    "acceptance": "AC-EXP-09 (REQ-EXP-17, PRD §14.5)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-059",
+    "prd": "PRD-15",
+    "system": "tests/comment-thread",
+    "file": "NEW:tests/registry/comment-thread.test.tsx",
+    "action": "TEST",
+    "description": "Tests: Enter during composition does not submit; time element has dateTime; resolve calls onResolve.",
+    "depends_on": [
+      "EXP-058"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/registry/comment-thread.test.tsx --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-17)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-060",
+    "prd": "PRD-15",
+    "system": "registry/index",
+    "file": "registry/registry.json",
+    "action": "MODIFY",
+    "description": "MODIFY of DX-067 (SC-32, OV-20): add commerce-cart, commerce-checkout, pricing (registry:block) and presence-stack, comment-thread (registry:item) with files, registryDependencies [\"auraglass\"], meta.auraglass.components = exact aura-glass import set; 5.1 train only; the REQ-DX-45 GA block-count assertion is DX's (PRD §21 O-07).",
+    "depends_on": [
+      "EXP-050",
+      "EXP-052",
+      "EXP-055",
+      "EXP-057",
+      "EXP-059",
+      "DX-067"
+    ],
+    "priority": "P2",
+    "test": "scripts/registry/build.mjs succeeds; tests/dx/registry-blocks.test.ts status reported",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-19, A-16)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-061",
+    "prd": "PRD-15",
+    "system": "stories/blocks",
+    "file": "NEW:src/stories/blocks/{CommerceCart,CommerceCheckout,Pricing,PresenceStack,CommentThread}.stories.tsx",
+    "action": "CREATE",
+    "description": "Five story files inside DX's src/stories/blocks/ directory (DX-097 owns the directory, OV-29) importing from registry/blocks/<id>/ or registry/items/<id>/ (no copies), stories Default, Empty, Loading (where async), RTL (he-IL or ar-EG), ReducedTransparency, ForcedColors; product copy, SB StoryEnvironment decorator and environment global (SB-048), no story CSS.",
+    "depends_on": [
+      "EXP-060",
+      "DX-097",
+      "SB-048"
+    ],
+    "priority": "P2",
+    "test": "Storybook CI build lists all story ids in storybook-static/index.json",
+    "storybook": "6 states per block (PRD §13.2)",
+    "acceptance": "AC-EXP-11, AC-EXP-12 (PRD §13.2)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-062",
+    "prd": "PRD-15",
+    "system": "tests/blocks-lint",
+    "file": "NEW:tests/registry/blocks-lint.test.ts",
+    "action": "TEST",
+    "description": "Run scripts/registry/lint.mjs over the 7 EXP ids (exit 0) and assert REQ-EXP-19 extras: only aura-glass/manifest-subpath imports, 0 inline colour/blur style literals, 0 !important, meta.auraglass.components complete.",
+    "depends_on": [
+      "EXP-060"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/registry/blocks-lint.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-19)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-063",
+    "prd": "PRD-15",
+    "system": "cert/render-canaries",
+    "file": "tests/dx/registry-render.spec.ts",
+    "action": "TEST",
+    "description": "MODIFY of DX-094: add the 5 ids to DX's render harness and run it remotely in the Next 16 and Vite packed-tarball canaries (PKG-120) over the 8 SC-28 scenes; 0 console errors, axe 0 violations with colour contrast; layout.assert.json per block encodes PRD §14 rules incl. no horizontal overflow at 390 (L11 Consumer canaries).",
+    "depends_on": [
+      "EXP-060",
+      "DX-094",
+      "PKG-120"
+    ],
+    "priority": "P2",
+    "test": "CI run URL green for all 5 ids",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (PRD §12 blocks-render, §14)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-064",
+    "prd": "PRD-15",
+    "system": "cert/visual-capture",
+    "file": "src/stories/blocks/{CommerceCart,CommerceCheckout,Pricing,PresenceStack,CommentThread}.stories.tsx",
+    "action": "TEST",
+    "description": "L14 Human visual review: remote capture of every block story at 390/768/1024/1440/1920 x 8 scenes x light/dark via QA's cert runner (QA-018); human review recorded as CI artifact; first capture approved by a person, never auto-accepted.",
+    "depends_on": [
+      "EXP-061",
+      "QA-018"
+    ],
+    "priority": "P2",
+    "test": "human review record attached to the run",
+    "storybook": "all block stories",
+    "acceptance": "AC-EXP-11 (DoD 8)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-065",
+    "prd": "PRD-15",
+    "system": "cert/blocks-perf",
+    "file": "NEW:tests/perf/browser/registry-blocks.spec.ts",
+    "action": "TEST",
+    "description": "Remote mid-tier mobile: min+gz per block (cart 6, checkout 6, pricing 5, presence 2, comment 4 KB; audit-log 6, permissions-matrix 4 at 5.2), <=3 visible backdrop-filters, >=50 fps median and grade >=C under scripted hover+scroll, 0 long tasks >200 ms, TBT <=150 ms. Perf browser spec per SC-30, driven by tests/perf/harness/run-perf.mjs (PERF-039); byte rows submitted to docs/size-budgets.json (PKG-048), runtime rows to tests/perf/harness/budgets.json (L10 Performance).",
+    "depends_on": [
+      "EXP-061",
+      "PERF-039"
+    ],
+    "priority": "P2",
+    "test": "node tests/perf/harness/run-perf.mjs --spec tests/perf/browser/registry-blocks.spec.ts (remote) green",
+    "storybook": "all block stories",
+    "acceptance": "AC-EXP-10 (PRD §16)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-066",
+    "prd": "PRD-15",
+    "system": "cert/contrast-preferences",
+    "file": "src/stories/blocks/{CommerceCart,CommerceCheckout,Pricing,PresenceStack,CommentThread}.stories.tsx",
+    "action": "TEST",
+    "description": "QA OCR gate (QA-049) and L6 preference cells: remote OCR worst case >=4.5:1 body, >=3:1 large/non-text over 8 scenes; forced-colors 0 visible backdrop-filters (CDP computed style); prefers-contrast more and reduced-transparency drop to tinted/solid.",
+    "depends_on": [
+      "EXP-061",
+      "QA-049",
+      "MAT-047",
+      "A11Y-029"
+    ],
+    "priority": "P2",
+    "test": "QA OCR and preference lanes green for every block story",
+    "storybook": "ReducedTransparency, ForcedColors stories",
+    "acceptance": "AC-EXP-11, AC-EXP-12 (PRD §15.1, §15.2)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-067",
+    "prd": "PRD-15",
+    "system": "ledger/blocks-delivered",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Set X-46..X-50 status delivered, release 5.1, artifacts (run URLs of EXP-063..EXP-066), stories ids, budgetKb.",
+    "depends_on": [
+      "EXP-063",
+      "EXP-064",
+      "EXP-065",
+      "EXP-066"
+    ],
+    "priority": "P2",
+    "test": "npm run verify:capability and --delivery at 5.1.0 green",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-03)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-068",
+    "prd": "PRD-15",
+    "system": "registry/audit-log",
+    "file": "NEW:registry/blocks/audit-log/AuditLogPage.tsx",
+    "action": "CREATE",
+    "description": "5.2: Table with manualPagination, pageCount, onPaginationChange, FilterBar, DateRangePicker; virtualization on at all widths; filters behind a Sheet trigger at 390; plus layout.assert.json.",
+    "depends_on": [
+      "EXP-067",
+      "DATA-038",
+      "DATA-080",
+      "DATA-097"
+    ],
+    "priority": "P3",
+    "test": "tests/registry/audit-log.test.tsx \"calls onPaginationChange with pageIndex\"",
+    "storybook": "src/stories/blocks/AuditLog.stories.tsx 6 states",
+    "acceptance": "AC-EXP-09 (REQ-EXP-18, PRD §14.6)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-069",
+    "prd": "PRD-15",
+    "system": "registry/permissions-matrix",
+    "file": "NEW:registry/blocks/permissions-matrix/PermissionsMatrix.tsx",
+    "action": "CREATE",
+    "description": "5.2: <table> of roles x permissions with Checkbox cells named \"<role> <permission>\", aria-describedby to the permission description, scoped row/column headers.",
+    "depends_on": [
+      "EXP-067",
+      "CTL-029",
+      "DATA-038"
+    ],
+    "priority": "P3",
+    "test": "tests/registry/permissions-matrix.test.tsx \"each checkbox name = role + permission\"",
+    "storybook": "src/stories/blocks/PermissionsMatrix.stories.tsx 6 states",
+    "acceptance": "AC-EXP-09 (REQ-EXP-18, PRD §15.4)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-070",
+    "prd": "PRD-15",
+    "system": "registry/wave2-index",
+    "file": "registry/registry.json",
+    "action": "MODIFY",
+    "description": "5.2: MODIFY of DX-067: register audit-log and permissions-matrix (registry:block); add src/stories/blocks/{AuditLog,PermissionsMatrix}.stories.tsx and tests/registry/{audit-log,permissions-matrix}.test.tsx; blocks-lint.test.ts covers them.",
+    "depends_on": [
+      "EXP-068",
+      "EXP-069",
+      "DX-067"
+    ],
+    "priority": "P3",
+    "test": "blocks-lint.test.ts green incl. wave-2 ids",
+    "storybook": "AuditLog, PermissionsMatrix stories",
+    "acceptance": "AC-EXP-09 (REQ-EXP-18, -19, A-17)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-071",
+    "prd": "PRD-15",
+    "system": "cert/wave2",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "TEST",
+    "description": "5.2: repeat EXP-063..EXP-066 lanes for audit-log and permissions-matrix, then mark X-55 wave 2 delivered with artifacts.",
+    "depends_on": [
+      "EXP-070"
+    ],
+    "priority": "P3",
+    "test": "render, perf, OCR, forced-colors runs green for both blocks",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-10, AC-EXP-11, AC-EXP-12 (REQ-EXP-18, DoD 4)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-072",
+    "prd": "PRD-15",
+    "system": "handoff/x-07",
+    "file": "docs/auraglass-5/prd/AURAGLASS_ACCESSIBILITY_PRD.md",
+    "action": "DOC",
+    "description": "Append one owner REQ (next free REQ-A11Y id) copying REQ-EXP-22 verbatim: AuraGlassProvider dir/locale, provider locale for Intl formatting, logical CSS only, tests/a11y/rtl.spec.ts; suffix \"(ledger X-07; contract source REQ-EXP-22)\". Gap O-01 (open).",
+    "depends_on": [
+      "EXP-023"
+    ],
+    "priority": "P1",
+    "test": "req-refs.test.ts finds the new id in the owner file",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-21, -22)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-073",
+    "prd": "PRD-15",
+    "system": "handoff/x-16-x-25-x-26",
+    "file": "docs/auraglass-5/prd/AURAGLASS_DATA_PRD.md",
+    "action": "DOC",
+    "description": "Append three owner REQs (next free REQ-DATA ids) copying REQ-EXP-23 (DateTimePicker, 5.1), REQ-EXP-27 (columnOrder/enableColumnReordering, Column actions menu, announcer, pin boundary) and REQ-EXP-28 (meta.editor, onCellEditCommit, 5.1) verbatim with ledger suffixes. Gap O-01 (open); tests/a11y/apg/date-time-picker.apg.spec.ts per SC-30.",
+    "depends_on": [
+      "EXP-023"
+    ],
+    "priority": "P1",
+    "test": "req-refs.test.ts finds the new ids",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-21, -23, -27, -28)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-074",
+    "prd": "PRD-15",
+    "system": "handoff/x-17-x-18-x-19",
+    "file": "docs/auraglass-5/prd/AURAGLASS_COMPONENT_REMEDIATION_PRD.md",
+    "action": "DOC",
+    "description": "Append one owner REQ (next free REQ-FND id) copying REQ-EXP-26 (OtpField single input, 5.1) verbatim with ledger suffix \"(ledger X-19; contract source REQ-EXP-26)\". X-17 and X-18 are already owned by REQ-FND-32 and REQ-FND-33 and need no edit. Gap O-01 (open).",
+    "depends_on": [
+      "EXP-023"
+    ],
+    "priority": "P1",
+    "test": "req-refs.test.ts finds the new ids",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-21, -24, -25, -26)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-075",
+    "prd": "PRD-15",
+    "system": "handoff/x-43",
+    "file": "docs/auraglass-5/prd/AURAGLASS_MEDIA_BACKDROPS_PRD.md",
+    "action": "TEST",
+    "description": "Verify-only (no edit): REQ-MED-95 in the MED PRD adopts the REQ-EXP-30 contract (cues as <ol>, aria-current, seek, auto-scroll rules, no network, 5.1). Diff the two texts; report any divergence to MED. Record the SC-30 test-path question as PRD §21 O-06.",
+    "depends_on": [
+      "EXP-023"
+    ],
+    "priority": "P2",
+    "test": "req-refs.test.ts finds REQ-MED-95 on X-43",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-21, -30)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-076",
+    "prd": "PRD-15",
+    "system": "ledger/flip-gap-refs",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "Replace REQ-EXP-22/-23/-26/-27/-28 in reqRefs of the open gap rows X-07, X-16, X-19, X-25, X-26 with the new owner ids (REQ-EXP id kept as second entry); confirm X-17 REQ-FND-32, X-18 REQ-FND-33, X-43 REQ-MED-95.",
+    "depends_on": [
+      "EXP-072",
+      "EXP-073",
+      "EXP-074",
+      "EXP-075"
+    ],
+    "priority": "P1",
+    "test": "npm run verify:capability exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-20, -21)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-077",
+    "prd": "PRD-15",
+    "system": "handoff/backrefs",
+    "file": "docs/auraglass-5/prd/",
+    "action": "DOC",
+    "description": "Append \"Capability ledger rows: X-..\" line to each owner PRD (MATERIAL_ENGINE, ACCESSIBILITY, COMPONENT_REMEDIATION, FLAGSHIP_CONTROLS, FLAGSHIP_OVERLAYS, APP_SHELL_NAVIGATION, DATA, AI, MEDIA_BACKDROPS, DEVELOPER_EXPERIENCE) listing exactly its owned row ids.",
+    "depends_on": [
+      "EXP-076"
+    ],
+    "priority": "P1",
+    "test": "req-refs.test.ts \"every owner PRD file cites each of its ledger row ids\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (DoD 3)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-078",
+    "prd": "PRD-15",
+    "system": "tests/backrefs",
+    "file": "tests/capability/req-refs.test.ts",
+    "action": "TEST",
+    "description": "Add cases \"every owner PRD file cites each of its ledger row ids\" and \"no gap row cites only a REQ-EXP id\".",
+    "depends_on": [
+      "EXP-077"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/capability/req-refs.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-07 (REQ-EXP-21)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-079",
+    "prd": "PRD-15",
+    "system": "a11y/rtl-spec",
+    "file": "NEW:tests/a11y/rtl.spec.ts",
+    "action": "TEST",
+    "description": "Playwright vs CI Storybook with dir=rtl, locale he-IL: Sheet side=start pinned to right edge (+-1 px), Breadcrumbs and Table header x-order reversed vs LTR, Slider ArrowRight decreases aria-valuenow, axe 0 violations; projects chromium, webkit, firefox; jest ignores the file. Remote only.",
+    "depends_on": [
+      "EXP-023",
+      "A11Y-029",
+      "FND-001",
+      "OVL-097",
+      "NAV-078",
+      "DATA-038",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "npx playwright test tests/a11y/rtl.spec.ts --project=chromium --project=webkit --project=firefox (remote) green",
+    "storybook": "owner stories Sheet, Slider, Breadcrumbs, Table with RTL globals",
+    "acceptance": "AC-EXP-08 (REQ-EXP-22)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-080",
+    "prd": "PRD-15",
+    "system": "lint/logical-properties",
+    "file": "NEW:tests/lint/logical-properties.test.ts",
+    "action": "TEST",
+    "description": "Scan CSS in src/{date,data,ai,media,charts}/**, kebab-case src/components/*/ (5.0 layout) and registry/{blocks,items}/**; fail on left:, right:, margin-left, margin-right, padding-left, padding-right with file:line; 4.x Glass* dirs out of scope.",
+    "depends_on": [
+      "EXP-023"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/lint/logical-properties.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-08 (REQ-EXP-22 static half)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-081",
+    "prd": "PRD-15",
+    "system": "contract/x-16",
+    "file": "NEW:tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-16: src/date/DateTimePicker.test.tsx and tests/a11y/apg/date-time-picker.apg.spec.ts (SC-30) exist and the row is delivered only at >=5.1 with owner CI artifact; not-yet-due asserts not delivered.",
+    "depends_on": [
+      "EXP-076",
+      "DATA-097"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/capability/contract-tests.test.ts --ci with AURAGLASS_RELEASE_VERSION",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-09 (REQ-EXP-23)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-082",
+    "prd": "PRD-15",
+    "system": "contract/x-17",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-17: owner src/components/file-upload/FileUpload.test.tsx (REQ-FND-32, FND-081) contains \"no onUpload → never complete\", \"abort sets status cancelled\", \"rejected promise sets status error\"; row delivered only then, with artifact.",
+    "depends_on": [
+      "EXP-081",
+      "FND-081"
+    ],
+    "priority": "P0",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner FileUpload story",
+    "acceptance": "AC-EXP-03 (REQ-EXP-24)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-083",
+    "prd": "PRD-15",
+    "system": "contract/x-18",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-18: owner src/components/color-picker/ColorPicker.test.tsx (REQ-FND-33, FND-082) contains \"area keyboard steps\" and the area is one focusable element with aria-valuetext \"saturation S%, brightness B%\" (owner wins over the earlier two-input proposal); row delivered only then.",
+    "depends_on": [
+      "EXP-081",
+      "FND-082"
+    ],
+    "priority": "P1",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner story ColorPicker/Area",
+    "acceptance": "AC-EXP-03 (REQ-EXP-25)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-084",
+    "prd": "PRD-15",
+    "system": "contract/x-19",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-19: src/components/otp-field/OtpField.test.tsx contains \"paste 6 digits fires onComplete once\"; delivered only at >=5.1.",
+    "depends_on": [
+      "EXP-081",
+      "EXP-074"
+    ],
+    "priority": "P2",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner OtpField story (5.1)",
+    "acceptance": "AC-EXP-09 (REQ-EXP-26)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-085",
+    "prd": "PRD-15",
+    "system": "contract/x-25",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-25: src/data/table/Table.reorder.test.tsx contains \"move right updates columnOrder and announces\", \"pinned column cannot move into the unpinned group\"; delivered only then.",
+    "depends_on": [
+      "EXP-081",
+      "DATA-038"
+    ],
+    "priority": "P0",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner story Table/ColumnReorder",
+    "acceptance": "AC-EXP-03 (REQ-EXP-27)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-086",
+    "prd": "PRD-15",
+    "system": "contract/x-26",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-26 inline edit: src/data/table/Table.edit.test.tsx contains \"Escape cancels without callback\", \"Enter commits once\"; inline-edit part delivered only at >=5.1.",
+    "depends_on": [
+      "EXP-081",
+      "DATA-038"
+    ],
+    "priority": "P1",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner story Table/InlineEdit (5.1)",
+    "acceptance": "AC-EXP-09 (REQ-EXP-28)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-087",
+    "prd": "PRD-15",
+    "system": "contract/x-43",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "describe X-43 (owner REQ-MED-95; test path as named by MED, PRD §21 O-06): registry/items/media-transcript/media-transcript.test.tsx contains \"click cue seeks\", \"aria-current follows currentTime\"; delivered only at >=5.1.",
+    "depends_on": [
+      "EXP-081",
+      "MED-041",
+      "DX-067"
+    ],
+    "priority": "P3",
+    "test": "contract-tests.test.ts green",
+    "storybook": "owner media-transcript story (5.1)",
+    "acceptance": "AC-EXP-09 (REQ-EXP-30)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-088",
+    "prd": "PRD-15",
+    "system": "labs/spatial-admission",
+    "file": "NEW:tests/labs/spatial-admission.spec.ts",
+    "action": "TEST",
+    "description": "Remote mid-tier mobile CDP probe: p95 main-thread <=4 ms/frame over 300 frames, <=1 extra composited layer, 0 rAF in 500 ms after visibilitychange hidden and after scroll-out, byte-identical reduced-motion captures (SHA-256); negative control rAF page must fail; jest ignores tests/labs/. Driven by tests/perf/harness/run-perf.mjs (PERF-039); L10 Performance.",
+    "depends_on": [
+      "EXP-023",
+      "EXP-094",
+      "PERF-039"
+    ],
+    "priority": "P3",
+    "test": "npx playwright test tests/labs/spatial-admission.spec.ts (remote): residents pass, negative control fails",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-14, AC-EXP-16 (REQ-EXP-31, -39)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-089",
+    "prd": "PRD-15",
+    "system": "stories/capability-roadmap",
+    "file": "NEW:src/stories/capability/CapabilityRoadmap.stories.tsx",
+    "action": "CREATE",
+    "description": "Ledger table read at build time from docs/auraglass-5/capability-ledger.json, filters area/priority/owner/release/form/status, link per row to its first stories id, \"Rejected novelty\" tab with reasons, no hard-coded counts.",
+    "depends_on": [
+      "EXP-076",
+      "SB-048"
+    ],
+    "priority": "P2",
+    "test": "Storybook CI build contains the story id; no digit literals in JSX text besides P0..P3 filter labels",
+    "storybook": "CapabilityRoadmap Default + Rejected novelty tab",
+    "acceptance": "AC-EXP-15 (PRD §13.1, DoD 6)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-090",
+    "prd": "PRD-15",
+    "system": "ledger/part-prop-stories",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "MODIFY",
+    "description": "For every part/prop row set stories to the owner named story id (e.g. combobox--autocomplete, popover--hover-intent, toast--history, alert--banner, mediacontrols--scrubber) once present in CI storybook-static/index.json.",
+    "depends_on": [
+      "EXP-089",
+      "EXP-030"
+    ],
+    "priority": "P1",
+    "test": "--delivery with --storybook-index green",
+    "storybook": "owner named stories (PRD §13.3)",
+    "acceptance": "AC-EXP-03 (PRD §13.3)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-091",
+    "prd": "PRD-15",
+    "system": "tests/rejected-absent",
+    "file": "NEW:tests/capability/rejected-absent.test.ts",
+    "action": "TEST",
+    "description": "After 5.0-beta: 0 matches of any X-R names entry in src/**/*.stories.*; before beta print hits per file and assert no increase vs previous artifact. Removal itself is FND (FND-103 consumer grep).",
+    "depends_on": [
+      "EXP-023",
+      "FND-103"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/capability/rejected-absent.test.ts --ci with AURAGLASS_RELEASE_VERSION",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-13 (PRD §13.4)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-092",
+    "prd": "PRD-15",
+    "system": "a11y/manual-matrix",
+    "file": "tests/capability/contract-tests.test.ts",
+    "action": "TEST",
+    "description": "Assert tests/a11y/manual/scripts/<component>.md exist for Combobox, DatePicker, Table, Composer, ToolCall, MediaScrubber, ResizablePanels (+DateTimePicker at 5.1) and that rows X-12, X-14, X-24, X-25, X-32, X-33, X-38, X-44 are delivered only when the RC a11y-manual-<sha>.json (AURAGLASS_SR_RECORD) has their record.",
+    "depends_on": [
+      "EXP-081",
+      "A11Y-084"
+    ],
+    "priority": "P1",
+    "test": "contract-tests.test.ts green at RC with AURAGLASS_SR_RECORD",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-03 (PRD §15.9)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-093",
+    "prd": "PRD-15",
+    "system": "release/notes-charts",
+    "file": "docs/auraglass-5/capability-ledger.json",
+    "action": "DOC",
+    "description": "At v5.0.0 and v5.1.0 run --report release-notes --version 5.0 / 5.1 and hand the section to REL's scripts/release/release-notes.mjs (REL-033) with artifact links; at 5.1 set X-28 delivered only when L2 Artifact shows { Chart } from aura-glass/charts <=15 KB min+gz (DATA row in docs/size-budgets.json, SC-15/SC-38) with d3-scale/d3-shape external.",
+    "depends_on": [
+      "EXP-014",
+      "EXP-043",
+      "REL-033",
+      "DATA-038"
+    ],
+    "priority": "P1",
+    "test": "report.test.ts green; release notes section present with links; Artifact budget line for { Chart }",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-15, AC-EXP-09 (REQ-EXP-33, -35)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-094",
+    "prd": "PRD-15",
+    "system": "labs/package",
+    "file": "NEW:packages/labs/package.json",
+    "action": "INFRA",
+    "description": "REQ-EXP-37: @auraglass/labs workspace (interim §16 PRD-21 owner, SC-37; name per SC-13, fallback aura-glass-labs): version 0.1.0, \"sideEffects\": false, peerDependencies aura-glass ^5.0.0 and react/react-dom at the core peer range, \"exports\" (one entry per resident plus ./package.json), no bin; registered in the root workspaces list that QA-001 introduces.",
+    "depends_on": [
+      "QA-001",
+      "PKG-005"
+    ],
+    "priority": "P2",
+    "test": "tests/labs/package.test.ts \"peer aura-glass ^5\", \"sideEffects false\", \"no bin\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-37)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-095",
+    "prd": "PRD-15",
+    "system": "labs/barrel",
+    "file": "NEW:packages/labs/src/index.ts",
+    "action": "CREATE",
+    "description": "REQ-EXP-37: empty-by-default barrel plus packages/labs/README.md stating the 0.x/no-guarantee contract, the §13.4 admission criteria and the promotion path; residents live in packages/labs/src/<kebab-resident>/ and are added only with a ledger row (REQ-EXP-05). No resident code is added by this task.",
+    "depends_on": [
+      "EXP-094"
+    ],
+    "priority": "P2",
+    "test": "tests/labs/package.test.ts \"every exports entry resolves in the packed tarball\"",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-37)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-096",
+    "prd": "PRD-15",
+    "system": "tests/labs-package",
+    "file": "NEW:tests/labs/package.test.ts",
+    "action": "TEST",
+    "description": "REQ-EXP-37 package-shape assertions over packages/labs/package.json and, in L2 Artifact, over the packed labs tarball.",
+    "depends_on": [
+      "EXP-095"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/labs/package.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-37)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-097",
+    "prd": "PRD-15",
+    "system": "labs/admission-gate",
+    "file": "NEW:scripts/ci/verify-labs-admission.mjs",
+    "action": "CREATE",
+    "description": "REQ-EXP-38 admission check per architecture §13.4: (a) ledger row with form labs per resident; (b) auraglass/no-simulation 0 over packages/labs/src/**; (c) only public aura-glass entries (manifest PKG-005; no aura-glass/compat, no deep paths); (d) no import side effects via PKG's verify-side-effects.mjs (PKG-042); (e) every loop pauses on visibilitychange/IntersectionObserver and is static under reduced motion/transparency. Exit 1 naming the rule and resident.",
+    "depends_on": [
+      "EXP-094",
+      "EXP-036",
+      "PKG-042",
+      "EXP-009"
+    ],
+    "priority": "P2",
+    "test": "tests/labs/admission.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-38)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-098",
+    "prd": "PRD-15",
+    "system": "tests/labs-admission",
+    "file": "NEW:tests/labs/admission.test.ts",
+    "action": "TEST",
+    "description": "REQ-EXP-38: fixtures tests/labs/fixtures/{math-random,deep-import,side-effect,no-pause}/ each make verify-labs-admission.mjs exit 1 naming its rule; the real package exits 0.",
+    "depends_on": [
+      "EXP-097"
+    ],
+    "priority": "P2",
+    "test": "npx jest tests/labs/admission.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-38)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-099",
+    "prd": "PRD-15",
+    "system": "infra/labs-ci",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "MODIFY",
+    "description": "REQ-EXP-39: L1 Static step running verify-labs-admission.mjs and tests/labs/*.test.ts on PRs touching packages/labs/**; labs publishing uses REL's publish-npm.yml contract (SC-05) and is gated on this step; no new workflow.",
+    "depends_on": [
+      "EXP-098",
+      "EXP-023",
+      "QA-031"
+    ],
+    "priority": "P2",
+    "test": "certify-pr.yml run green on a labs PR (run URL)",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-39)",
+    "status": "todo"
+  },
+  {
+    "id": "EXP-100",
+    "prd": "PRD-15",
+    "system": "tests/labs-promotion",
+    "file": "NEW:tests/labs/promotion.test.ts",
+    "action": "TEST",
+    "description": "REQ-EXP-40: fixture \"promoted resident without core export\" exits 1; labs re-export of a promoted symbol warns once and is removed after one labs minor; ledger row must satisfy REQ-EXP-36 demand rules.",
+    "depends_on": [
+      "EXP-097",
+      "EXP-015"
+    ],
+    "priority": "P3",
+    "test": "npx jest tests/labs/promotion.test.ts --ci",
+    "storybook": "n/a",
+    "acceptance": "AC-EXP-16 (REQ-EXP-40)",
+    "status": "todo"
+  }
+]

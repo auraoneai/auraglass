@@ -1,0 +1,1040 @@
+[
+  {
+    "name": "ContextAwareGlass",
+    "file": "src/components/interactive/ContextAwareGlass.tsx",
+    "lines": 674,
+    "category": "surface/adaptive-container",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/ContextAwareGlass.stories.tsx",
+      "count": 2,
+      "note": "Default story passes no children/args; renders an empty surface"
+    },
+    "tests": {
+      "file": "src/components/interactive/ContextAwareGlass.test.tsx",
+      "count": 5,
+      "note": "templated render/axe/props/snapshot"
+    },
+    "screenshots": [
+      "components-interactive-contextawareglass"
+    ],
+    "material_impl": "Wraps OptimizedGlass (primitives/OptimizedGlassCore). All 'adaptation' is mapped to elevation (blur buckets) and intensity (opacity buckets) - but OptimizedGlassCore destructures and discards `intensity` (OptimizedGlassCore.tsx:154,249), so only the 4 elevation buckets do anything. Adds bespoke boxShadow/filter drop-shadow inline; default glowColor '#6366F1' hard-coded.",
+    "motion": "No animation. useReducedMotion only caps blur and disables drop-shadow glow (ContextAwareGlass.tsx:543,642) - a reduced-motion pref used for a non-motion concern.",
+    "a11y": "No role/semantics (plain div). Debug overlay uses bg-white/70 text-black etc. 'contrast' mode only nudges opacity buckets; no real contrast measurement.",
+    "api": "forwardRef with merged ref. Props interface doesn't extend HTMLAttributes so `...rest` is effectively empty (no style passthrough, style is overwritten). 20+ props (min/max blur/opacity, forceLight/Dark) mostly have no visible effect.",
+    "ssr": "'use client'. DOM access only in effects/callbacks. Optional setInterval polling (adaptationInterval 1000ms) re-runs querySelectorAll + getComputedStyle.",
+    "fake_complexity": "High. 'Context-aware' = querySelectorAll counts + parent getComputedStyle backgroundColor parse; computed blur/opacity values then collapse to 4 elevation buckets and a discarded intensity prop. hex parser ignores 3-digit hex; rgba alpha ignored.",
+    "duplicates": [
+      "src/components/advanced/GlassContextAware.tsx (543 lines, same concept)",
+      "OptimizedGlass/GlassCard (it is effectively a GlassCard)"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 2,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "OptimizedGlass / GlassCard (adaptive contrast belongs in the material primitive)",
+    "flagship_candidate": false,
+    "justification": "Not exported from root, duplicates advanced/GlassContextAware, and its core promise is hollow: the adaptation math feeds an `intensity` prop the primitive throws away, so the only output is a choice among 4 elevation classes. The certified screenshot has no ink at all (darkest pixel 228/255): it is an empty pale rectangle on a near-white gradient. If background-adaptive legibility is wanted for 5.0 it should be a real luminance-sampling capability inside the material primitive, not a wrapper.",
+    "evidence": [
+      "src/components/interactive/ContextAwareGlass.tsx:183-196",
+      "src/components/interactive/ContextAwareGlass.tsx:615-633",
+      "src/primitives/OptimizedGlassCore.tsx:154",
+      "src/primitives/OptimizedGlassCore.tsx:245-269",
+      "src/components/interactive/ContextAwareGlass.stories.tsx:31-35",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-contextawareglass/desktop.png (darkest=228, zero ink)"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "CursorGlow",
+    "file": "src/components/interactive/CursorGlow.tsx",
+    "lines": 125,
+    "category": "effect/pointer",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/CursorGlow.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/interactive/CursorGlow.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-interactive-cursorglow"
+    ],
+    "material_impl": "Bespoke: radial-gradient written to element.style.background in rAF, plus filter blur(size/16) saturate() and mix-blend-mode: screen. Builds color as `${color}${toAlpha(opacity)}` - with the default color 'var(--glass-white)' this yields 'var(--glass-white)2e', an invalid CSS value, so the gradient never paints with defaults (CursorGlow.tsx:46,82). Works only for 6-digit hex colors.",
+    "motion": "rAF-throttled pointermove (good). Reduced motion: listener not attached when reduce && respectMotionPreference (CursorGlow.tsx:74) - correctly wired.",
+    "a11y": "aria-hidden unless aria-label given; pointer-events none. OK for decoration; role=img with label on a decorative overlay is questionable.",
+    "api": "forwardRef. Declares intent/elevation/tier props that are not destructured and get spread onto the DOM div (unknown-attribute warnings). In non-global mode it uses clientX/clientY against an absolutely positioned element - offset is wrong whenever the container is not at viewport origin.",
+    "ssr": "'use client'; window access in effect only. Fine.",
+    "fake_complexity": "Low, but default config is broken (invalid color concatenation).",
+    "duplicates": [
+      "src/components/advanced/GlassMagneticCursor.tsx",
+      "src/components/social/GlassCollaborativeCursor.tsx / collaboration/GlassCollaborativeCursor.tsx (different purpose)",
+      "OptimizedGlass cursorHighlight flag (OptimizedGlassCore.tsx:266, data attr only)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 4,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 6,
+      "motion": 6,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "A single pointer-light/specular-highlight primitive in the material system (OptimizedGlass cursorHighlight / LiquidGlass specular)",
+    "flagship_candidate": false,
+    "justification": "A pointer-following specular highlight is a legitimate premium-glass ingredient, but this implementation is a full-viewport screen-blended blob, is broken with its own default color, mispositions in local mode, and leaks props to the DOM. It is not root-exported. Fold the idea into the material primitive as a per-surface specular response (local coordinates, token colors, reduced-motion aware) and delete this file.",
+    "evidence": [
+      "src/components/interactive/CursorGlow.tsx:46",
+      "src/components/interactive/CursorGlow.tsx:82-84",
+      "src/components/interactive/CursorGlow.tsx:116-122",
+      "src/components/interactive/CursorGlow.tsx:52-53,111",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-interactive-cursorglow/desktop.png (story supplies its own dark gradient; static capture cannot show glow)"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassA11yAuditor",
+    "file": "src/components/interactive/GlassA11yAuditor.tsx",
+    "lines": 726,
+    "category": "devtool/accessibility",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassA11yAuditor.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassA11yAuditor.test.tsx",
+      "count": 7
+    },
+    "screenshots": [
+      "components-interactive-glassa11yauditor"
+    ],
+    "material_impl": "OptimizedGlass panels (intensity/blur props passed but discarded by primitive). Raw Tailwind palette classes for status (text-green-400, bg-red-500/10, ring-white/50) mixed with glass-* utilities; injected <style> with hard-coded #ff6b6b/#ff4444 outline.",
+    "motion": "Motion preset fadeIn wrapper; injected infinite pulse keyframe with no reduced-motion guard; respectMotionPreference prop unused; scrollIntoView smooth unconditionally.",
+    "a11y": "role='application' on the whole panel (wrong; disables browse mode). Filter buttons lack aria-pressed. Issues list is buttons (good). Score colour-only. Ironically lists 'color-contrast' and 'keyboard-navigation' rules in defaultRules but implements neither.",
+    "api": "forwardRef but ref goes to inner div while className is applied twice (Motion wrapper and inner). `id || useA11yId()` is a conditional hook call. Audits the entire `document`, not `children`, despite children prop.",
+    "ssr": "'use client'; document access only in callbacks. Fine.",
+    "fake_complexity": "Medium. A real but naive DOM heuristic scanner: focus-visible check inspects non-focused computed outline (meaningless), aria-label rule flags every [role] element, highlight picks the first element of the same tag name rather than the offending node. useA11yAudit only checks img alt. axe-core would do all of this correctly.",
+    "duplicates": [
+      "src/components/accessibility/GlassA11y.tsx",
+      "src/utils/a11yTesting.ts",
+      "axe-core (industry standard)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 4,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 4,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REMOVE",
+    "target": "Docs/devtools package backed by axe-core, not the design-system runtime bundle",
+    "flagship_candidate": false,
+    "justification": "A homemade accessibility linter shipped inside a UI kit is a liability: its heuristics produce false positives/negatives, it audits the whole document regardless of children, and it is itself mis-roled (role=application). This is not a visual component a premium design system needs; if kept at all it belongs in a Storybook addon powered by axe-core.",
+    "evidence": [
+      "src/components/interactive/GlassA11yAuditor.tsx:69-80",
+      "src/components/interactive/GlassA11yAuditor.tsx:120",
+      "src/components/interactive/GlassA11yAuditor.tsx:137,156,179",
+      "src/components/interactive/GlassA11yAuditor.tsx:205-230",
+      "src/components/interactive/GlassA11yAuditor.tsx:327-340",
+      "src/components/interactive/GlassA11yAuditor.tsx:368-386",
+      "src/components/interactive/GlassA11yAuditor.tsx:656-669"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassAdvancedSearch",
+    "file": "src/components/interactive/GlassAdvancedSearch.tsx",
+    "lines": 891,
+    "category": "search/composite",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassAdvancedSearch.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassAdvancedSearch.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-interactive-glassadvancedsearch"
+    ],
+    "material_impl": "GlassCard shell + ad-hoc glass-surface-subtle/10, glass-surface-dark/80 + glass-backdrop-blur-md suggestion dropdown (bespoke second material). No tokenised field component - raw <input>/<select> with utility classes instead of GlassInput/GlassSelect.",
+    "motion": "Motion fadeIn/slideDown presets (MotionFramer reduced-motion aware). respectMotionPreference prop accepted and unused; prefersReducedMotion computed and unused.",
+    "a11y": "role=search + label (good). Suggestions are not a combobox/listbox: no aria-expanded/activedescendant, no arrow-key navigation, no Escape. Clear, sort-order, view-mode, star and more buttons are icon-only without aria-label. Result rows are clickable Motion divs - not keyboard reachable. Filter labels not associated with inputs.",
+    "api": "forwardRef to GlassCard. Fully uncontrolled query/filters (no value/onValueChange). `id || useA11yId()` conditional hook. Declared filter types multiselect/range/boolean are never rendered. sortBy/sortOrder/viewMode state is never applied to results.",
+    "ssr": "'use client'; window.prompt() used for saving searches.",
+    "fake_complexity": "High. 'Debounced search' creates a setTimeout per keystroke and returns a cleanup from an onChange handler that React ignores - so onSearch fires for every prefix and history fills with partial queries. Saved searches are stored but never displayed. Favorite/more buttons are no-ops.",
+    "duplicates": [
+      "src/components/interactive/GlassSearchInterface.tsx (768)",
+      "src/components/interactive/GlassFacetSearch.tsx",
+      "src/components/search/GlassSpotlightSearch.tsx",
+      "src/components/search/GlassIntelligentSearch.tsx",
+      "src/components/search/LiquidGlassSearchField.tsx",
+      "src/components/input/GlassSearchField.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 4,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "LiquidGlassSearchField + a composable SearchCombobox/FilterBar (GlassFilterBar) recipe",
+    "flagship_candidate": false,
+    "justification": "One of at least six search surfaces. Most of its advertised features are broken or unwired (debounce, sort, view mode, saved searches, three of six filter types) and the suggestion list lacks combobox semantics. The certification capture shows only the card header region (ink bbox 254x74px) on a near-white page - nothing premium. Keep one search field primitive and a documented composition pattern; delete this monolith.",
+    "evidence": [
+      "src/components/interactive/GlassAdvancedSearch.tsx:257-277",
+      "src/components/interactive/GlassAdvancedSearch.tsx:313-320",
+      "src/components/interactive/GlassAdvancedSearch.tsx:252",
+      "src/components/interactive/GlassAdvancedSearch.tsx:522-561",
+      "src/components/interactive/GlassAdvancedSearch.tsx:611-669",
+      "src/components/interactive/GlassAdvancedSearch.tsx:717-766",
+      "src/components/interactive/GlassAdvancedSearch.tsx:792-801",
+      "src/components/interactive/GlassAdvancedSearch.tsx:852-871"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassAvatarGroup",
+    "file": "src/components/interactive/GlassAvatarGroup.tsx",
+    "lines": 204,
+    "category": "data-display/avatar",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassAvatarGroup.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassAvatarGroup.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-interactive-glassavatargroup"
+    ],
+    "material_impl": "createGlassStyle({intent:'neutral',elevation:'level2'}) at module scope for fallback chips, then overridden inline with hard-coded border 'rgba(255,255,255,0.22)' and text 'rgba(248,250,252,0.92)' (white text - unreadable on light themes). Status dots use raw Tailwind bg-green-500 etc. Duplicate sizing in className and inline style.",
+    "motion": "None.",
+    "a11y": "role=group with computed label (good); each avatar role=img with name+status. Status dot nested role=img inside role=img (redundant). Overflow '+N' labelled. No tooltip/focus for names. Initial is single charAt(0) (no surname initial).",
+    "api": "forwardRef; className passthrough; size sm|md|lg. Two input modes (users[] or children). No spacing/overlap prop, no onOverflowClick, no shape option. Imports ContrastGuard/TextWithContrast but never uses them.",
+    "ssr": "Safe.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "src/components/data-display/GlassAvatar.tsx:302 (second GlassAvatarGroup implementation with its own props interface at :49)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 5,
+      "api": 5,
+      "responsive": 6,
+      "a11y": 6,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 8,
+      "docs": 4,
+      "storybook": 4,
+      "production": 4
+    },
+    "overall": 4.5,
+    "disposition": "CONSOLIDATE",
+    "target": "src/components/data-display/GlassAvatar.tsx GlassAvatarGroup (single Avatar + AvatarGroup family)",
+    "flagship_candidate": false,
+    "justification": "Functional and reasonably accessible, but it is the second GlassAvatarGroup in the codebase and hard-codes dark-theme white text/borders over the glass mixin. Certified capture shows a tiny 119x23px ink cluster on a pale page. Merge into the data-display Avatar family, render via the Avatar component (so images/fallbacks/status are shared), and use tokens for ring/status colors.",
+    "evidence": [
+      "src/components/interactive/GlassAvatarGroup.tsx:11-14",
+      "src/components/interactive/GlassAvatarGroup.tsx:120-143",
+      "src/components/interactive/GlassAvatarGroup.tsx:146-168",
+      "src/components/interactive/GlassAvatarGroup.tsx:5-8",
+      "src/components/data-display/GlassAvatar.tsx:49,302"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCardLink (interactive)",
+    "file": "src/components/interactive/GlassCardLink.tsx",
+    "lines": 221,
+    "category": "card/link",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/GlassCardLink.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCardLink.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-interactive-glasscardlink"
+    ],
+    "material_impl": "OptimizedGlass with intensity/tint/depth/border/animation='float' - all discarded by OptimizedGlassCore, so the four glassVariant values (clear/frosted/tinted/luminous) render identically. Large pile of Tailwind utilities that likely don't exist in the glass utility set (perspective-1000, transform-style-preserve-3d, hover:rotate-x-1, glass-hover-scale-1-01, bg-gradient-radial).",
+    "motion": "Claims '3D transform effects and physics-inspired animations'; actually CSS hover translate/scale classes. prefersReducedMotion computed, never used; respectMotionPreference unused.",
+    "a11y": "Real <a href> (good) with focus classes. aria-label concatenates title+description+buttonText, overriding visible content, plus a redundant sr-only description via aria-describedby - double announcement. className duplicated literally in anchor class string.",
+    "api": "forwardRef<HTMLAnchorElement> but className and ...props go to the inner OptimizedGlass, not the anchor (so href-level attrs like target/rel can't be passed). onClick always preventDefault when provided - breaks cmd-click. No asChild for Next.js Link.",
+    "ssr": "Safe.",
+    "fake_complexity": "Medium - '3D/physics' description is marketing.",
+    "duplicates": [
+      "src/components/card/glass-card-link.tsx (the root-exported GlassCardLink, src/index.ts:271 - different API: href/children)",
+      "GlassCard with interactive/asChild"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 4,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 5,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 5,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "REMOVE",
+    "target": "GlassCard (interactive + asChild/href) or card/glass-card-link.tsx",
+    "flagship_candidate": false,
+    "justification": "This file is not what consumers get: src/index.ts:271 exports a different 38-line GlassCardLink from components/card. Having two same-named components with incompatible APIs is a pure maintenance hazard. Its variant system is a no-op because the primitive discards intensity/tint. Replace with a linkable GlassCard (asChild) and delete.",
+    "evidence": [
+      "src/index.ts:271",
+      "src/components/card/glass-card-link.tsx:1-38",
+      "src/components/interactive/GlassCardLink.tsx:100-107",
+      "src/components/interactive/GlassCardLink.tsx:156-205",
+      "src/components/interactive/GlassCardLink.tsx:165",
+      "src/primitives/OptimizedGlassCore.tsx:154-158"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCarousel",
+    "file": "src/components/interactive/GlassCarousel.tsx",
+    "lines": 1022,
+    "category": "media/carousel",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCarousel.stories.tsx",
+      "count": 2,
+      "note": "Default story has no items -> renders 'No items to display'"
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCarousel.test.tsx",
+      "count": 4,
+      "note": "templated, no navigation/keyboard tests"
+    },
+    "screenshots": [
+      "components-interactive-glasscarousel"
+    ],
+    "material_impl": "GlassCard shell; controls are GlassButton; dots use raw Tailwind (bg-primary, bg-white/15, border-white/30). Transition duration hard-coded 500ms in class and style regardless of animationDuration prop.",
+    "motion": "CSS transform translateX transition. No reduced-motion handling for slide transition or autoplay (WCAG 2.2.2 risk).",
+    "a11y": "Severe: global window keydown listener (GlassCarousel.tsx:363-390) - every carousel on the page reacts to ArrowLeft/Right and Space, and Space is preventDefault'ed globally, breaking page scroll and typing a space in any input. Arrow/play/fullscreen buttons have no aria-label; dots have no label or aria-current. No aria-roledescription='carousel', no slide labelling, no live region. Custom arrows wrapped in clickable div.",
+    "api": "forwardRef. Uncontrolled only (no index/onIndexChange controlled pair). Conditional hooks: `predictive ? usePredictiveEngine() : null` etc. (GlassCarousel.tsx:183-191) - toggling those props at runtime violates Rules of Hooks and crashes. gap combined with percentage widths causes slide misalignment. Thumbnail variant: clicking a thumbnail only updates local selectedIndex and never moves the carousel.",
+    "ssr": "'use client'. Imports five 'advanced' consciousness modules (PredictiveEngine, Achievements, BiometricAdaptation, EyeTracking, SpatialAudio) - heavy and not tree-shakeable away from the core carousel.",
+    "fake_complexity": "Very high. Eye tracking code is commented out ('methods may need to be implemented', GlassCarousel.tsx:448-455); predictive engine is a random-weight 'neural network simulation' (advanced/GlassPredictiveEngine.tsx:180-205); 'biometric stress level' drives autoplay speed. Six marketing variants (GlassConsciousnessCarousel etc.) are thin prop presets.",
+    "duplicates": [
+      "src/components/data-display/LiquidGlassCarouselRail.tsx (96-line modern rail)",
+      "GlassThumbnailCarousel (same file)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 4,
+      "usability": 3,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 1,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REPLACE",
+    "target": "LiquidGlassCarouselRail rebuilt as a proper APG carousel (scroll-snap, controlled index, scoped keyboard, reduced-motion autoplay pause)",
+    "flagship_candidate": false,
+    "justification": "The carousel hijacks global keyboard input, has unlabeled controls, breaks Rules of Hooks, and drags in a pseudo-AI 'consciousness' stack whose eye-tracking is literally commented out. The certification screenshot certified the empty state ('No items to display', ink bbox 117x13px) because the Default story passes no items. A carousel is a likely showcase surface in 5.0, so it needs a ground-up rewrite on scroll-snap with real a11y rather than polishing this.",
+    "evidence": [
+      "src/components/interactive/GlassCarousel.tsx:183-191",
+      "src/components/interactive/GlassCarousel.tsx:363-390",
+      "src/components/interactive/GlassCarousel.tsx:448-455",
+      "src/components/interactive/GlassCarousel.tsx:553-561",
+      "src/components/interactive/GlassCarousel.tsx:617,630",
+      "src/components/interactive/GlassCarousel.tsx:679-697",
+      "src/components/interactive/GlassCarousel.tsx:835-854",
+      "src/components/interactive/GlassCarousel.tsx:944-1016",
+      "src/components/interactive/GlassCarousel.stories.tsx:31-35",
+      "src/components/advanced/GlassPredictiveEngine.tsx:180-205",
+      "reports/glassmorphism-storybook-visual-certification.json (bodyTextSample '...No items to display', status passed)"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassChat",
+    "file": "src/components/interactive/GlassChat.tsx",
+    "lines": 1245,
+    "category": "workflow/chat",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassChat.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassChat.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-interactive-glasschat"
+    ],
+    "material_impl": "GlassCard shell; bubbles use raw Tailwind (bg-primary text-primary-foreground, bg-white/10, rounded-2xl, max-w-[70%]); status dots bg-green-400 etc.; participant ring border-black hard-coded. Bubbles are not glass and not tokenised.",
+    "motion": "animate-slide-in-up CSS class per message with staggered delay; no reduced-motion guard at component level. scrollIntoView({behavior:'smooth'}) on every messages change - scrolls the whole page/ancestor, not just the log.",
+    "a11y": "Message list lacks role='log'/aria-live, so new messages aren't announced. Textarea has no label (placeholder only). Hover-only message actions (opacity-0 group-hover) unreachable by keyboard. Header search/call/video/more buttons have no handlers. Status dots colour-only. Uses deprecated onKeyPress (IME composition sends prematurely).",
+    "api": "React.FC (no forwardRef). Conditional hook calls for six consciousness hooks (GlassChat.tsx:193-198). Emoji picker toggles state that renders nothing. Voice toggle only flips a boolean ('Voice recording logic would go here').",
+    "ssr": "'use client'. Imports the same five advanced consciousness modules as the carousel; installs a document-level click listener when consciousness=true.",
+    "fake_complexity": "Very high. 'Suggested responses' and 'conversation insights' come from the random-weight predictive engine; eye-tracking code commented out (GlassChat.tsx:294-296); 'adaptive' input height driven by simulated stress level. Six variant wrappers are presets.",
+    "duplicates": [
+      "GlassChatInput (same folder, overlapping composer)",
+      "src/components/chat/GlassTypingIndicator.tsx",
+      "src/components/collaboration/GlassCollaborativeComments.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REDESIGN",
+    "target": "Composable Chat primitives: ChatLog(role=log) + MessageBubble + GlassChatInput composer; drop consciousness features",
+    "flagship_candidate": false,
+    "justification": "Chat is a high-value surface for an AI-era glass system, but this is a 1,245-line monolith where half the code is simulated intelligence and many visible controls do nothing. Bubbles are flat Tailwind, not the material system. Rebuild as small composable parts (log, bubble, composer, typing indicator) with real ARIA log semantics and token-driven bubble materials.",
+    "evidence": [
+      "src/components/interactive/GlassChat.tsx:193-198",
+      "src/components/interactive/GlassChat.tsx:201-208",
+      "src/components/interactive/GlassChat.tsx:294-296",
+      "src/components/interactive/GlassChat.tsx:432-433",
+      "src/components/interactive/GlassChat.tsx:542-545",
+      "src/components/interactive/GlassChat.tsx:610-644",
+      "src/components/interactive/GlassChat.tsx:788-795",
+      "src/components/interactive/GlassChat.tsx:876-895",
+      "src/components/interactive/GlassChat.tsx:1055-1060"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassChatInput",
+    "file": "src/components/interactive/GlassChatInput.tsx",
+    "lines": 704,
+    "category": "workflow/chat-composer",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassChatInput.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassChatInput.test.tsx",
+      "count": 6,
+      "note": "no Enter-to-send test"
+    },
+    "screenshots": [
+      "components-interactive-glasschatinput"
+    ],
+    "material_impl": "GlassCard shell; textarea uses bg-glass-fill ring-white/10 placeholder-white/50 (dark-only assumptions); emoji/format panels glass-surface-subtle/10.",
+    "motion": "Spinner only; none otherwise.",
+    "a11y": "Textarea aria-label present; icon buttons mostly labelled (remove-attachment and formatting buttons are not). Hard-coded id='chat-message-input' and id='char-count' collide when two instances mount. Emoji grid is plain buttons w/o grid navigation.",
+    "api": "React.FC, no forwardRef, uncontrolled only (no value/onChange). Bug: handleKeyPress is useCallback with [] deps and closes over the first-render handleSendMessage whose `message` is '' - Enter-to-send silently does nothing; only the button works (GlassChatInput.tsx:206-211). Deprecated onKeyPress. enableMentions declared, unused. Oversized files silently dropped without feedback.",
+    "ssr": "'use client'; FileReader in handlers only.",
+    "fake_complexity": "High for voice: recording is a timer and on stop emits `new Blob(['mock audio data'])` to onVoiceRecording (GlassChatInput.tsx:301-304) - a fake payload delivered to consumer code.",
+    "duplicates": [
+      "GlassChat inline composer (GlassChat.tsx:1017-1137)",
+      "LiquidGlass composer patterns if any in chat/"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 3,
+      "api": 3,
+      "responsive": 6,
+      "a11y": 5,
+      "motion": 5,
+      "consistency": 4,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REDESIGN",
+    "target": "Single GlassChatComposer used by the Chat family (controlled value, IME-safe Enter handling, real MediaRecorder or no voice)",
+    "flagship_candidate": false,
+    "justification": "A composer is worth having, but this one ships a broken primary interaction (Enter never sends because of a stale closure), ID collisions, and a mock audio blob handed to the consumer. It should become the one composer for GlassChat with a controlled API, onKeyDown + isComposing handling, and either genuine MediaRecorder support or no voice feature.",
+    "evidence": [
+      "src/components/interactive/GlassChatInput.tsx:206-211",
+      "src/components/interactive/GlassChatInput.tsx:214-230",
+      "src/components/interactive/GlassChatInput.tsx:301-304",
+      "src/components/interactive/GlassChatInput.tsx:553,576",
+      "src/components/interactive/GlassChatInput.tsx:443-449",
+      "src/components/interactive/GlassChatInput.tsx:125"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCoachmarks",
+    "file": "src/components/interactive/GlassCoachmarks.tsx",
+    "lines": 80,
+    "category": "overlay/onboarding",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCoachmarks.stories.tsx",
+      "count": 2,
+      "note": "story builds its own dashboard backdrop"
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCoachmarks.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-interactive-glasscoachmarks"
+    ],
+    "material_impl": "Utility classes only (glass-surface-overlay, glass-surface-dark/45 scrim, glass-surface-blue button). No primitive, no anchor/spotlight cutout.",
+    "motion": "None (no enter/exit).",
+    "a11y": "Not a dialog: no role=dialog/aria-modal, no labelling, no focus move/trap/restore, no Escape. Scrim div with onClick isn't keyboard operable. No step indicator ('2 of 5'). Next shown on last step with no 'Done'.",
+    "api": "Plain function, no forwardRef. Fully controlled (current/onNext/onPrev/onClose) - fine - but no target/anchor prop, so it cannot point at anything. Mixed raw Tailwind (fixed inset-0 z-[2000]) and glass-* classes.",
+    "ssr": "Safe (no portal, renders inline fixed).",
+    "fake_complexity": "Medium: named 'coachmarks' but it is just a bottom-centered card; no element highlighting or positioning.",
+    "duplicates": [
+      "Any GlassTour/onboarding in other shards (none found by rg)",
+      "GlassModal/GlassPopover could compose this"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 4,
+      "performance": 9,
+      "docs": 3,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REDESIGN",
+    "target": "GlassTour built on primitives/positioning + dismissable-layer + focus scope with spotlight cutout",
+    "flagship_candidate": false,
+    "justification": "Small and cheap, but it does not do what coachmarks do (anchor to and spotlight a target) and fails basic dialog accessibility. The capture shows a full-width bottom bar (ink bbox 1359x80px) over the story's own mock dashboard. A real tour component built on the existing positioning/dismissable-layer/focus primitives would be a credible premium feature.",
+    "evidence": [
+      "src/components/interactive/GlassCoachmarks.tsx:19-33",
+      "src/components/interactive/GlassCoachmarks.tsx:35-46",
+      "src/components/interactive/GlassCoachmarks.tsx:49-71"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCodeEditor",
+    "file": "src/components/interactive/GlassCodeEditor.tsx",
+    "lines": 492,
+    "category": "input/code",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCodeEditor.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCodeEditor.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-interactive-glasscodeeditor"
+    ],
+    "material_impl": "OptimizedGlass + two createGlassStyle calls stacked (double surface) + glass-surface-dark/30 classes; then hard-codes text vars to rgba(15,23,42,0.94) (dark navy) while also using glass-caret-white and dark line-number gutter - light/dark mixed in one surface.",
+    "motion": "None.",
+    "a11y": "Textarea has no label/aria-label. Toolbar Clear/Copy buttons lack type='button' and feedback. Tab key is trapped for indentation with no escape (WCAG 2.1.2 keyboard trap risk; no Esc-then-Tab pattern). Copy has no confirmation.",
+    "api": "React.FC, no forwardRef (onMount callback instead). Controlled/uncontrolled hybrid but uncontrolled default injects demo code when no value/onChange. minimap, theme, autoComplete (beyond attr) props are no-ops. Gutter line numbers don't scroll with content (only <pre> is synced).",
+    "ssr": "Safe. placeholder rendered through dangerouslySetInnerHTML unescaped when value empty (GlassCodeEditor.tsx:377) - XSS if placeholder is user-derived.",
+    "fake_complexity": "High: 'syntax highlighting' returns escaped plain text for every language (GlassCodeEditor.tsx:184-196); syntaxPatterns table is dead code. 24-language Language union is decorative.",
+    "duplicates": [
+      "Any GlassCodeBlock/syntax components in other shards",
+      "CodeMirror/Monaco (should wrap)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REPLACE",
+    "target": "GlassCodeSurface: themed chrome around CodeMirror 6 (lazy-loaded) or a read-only Shiki code block",
+    "flagship_candidate": false,
+    "justification": "Advertises syntax highlighting, minimap and themes but delivers a transparent textarea over plain text with a non-scrolling gutter and an unescaped placeholder sink. The capture is a cramped 268x104px ink region. A design system should supply glass chrome and tokens for a real editor engine, not reimplement one badly.",
+    "evidence": [
+      "src/components/interactive/GlassCodeEditor.tsx:184-196",
+      "src/components/interactive/GlassCodeEditor.tsx:145-149",
+      "src/components/interactive/GlassCodeEditor.tsx:282-287",
+      "src/components/interactive/GlassCodeEditor.tsx:376-384",
+      "src/components/interactive/GlassCodeEditor.tsx:388-399",
+      "src/components/interactive/GlassCodeEditor.tsx:199-221",
+      "src/components/interactive/GlassCodeEditor.tsx:402-431"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassColorSchemeGenerator",
+    "file": "src/components/interactive/GlassColorSchemeGenerator.tsx",
+    "lines": 517,
+    "category": "devtool/theming",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassColorSchemeGenerator.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassColorSchemeGenerator.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-interactive-glasscolorschemegenerator"
+    ],
+    "material_impl": "Three stacked OptimizedGlass panels; button states use raw bg-white/20 / bg-white/10 Tailwind; predefined palettes hard-coded hex. Status colors emitted as 'hsl(var(--glass-color-success))' strings, which are meaningless when exported to a file outside AuraGlass.",
+    "motion": "None.",
+    "a11y": "Color input labelled; hex text input's <label> not associated (no htmlFor/id). Palette/harmony toggles lack aria-pressed. Swatch preview colour-only with hex text. No contrast check between generated text/background despite being a theming tool.",
+    "api": "forwardRef, HTMLAttributes passthrough. Uncontrolled only. Invalid hex typed into the text field produces '#NaNNaNNaN' scheme (no validation). l*1.2/l*1.3 can exceed 100. onSchemeChange fires in effect on every render if parent passes inline callback.",
+    "ssr": "Safe; Blob/URL/document in click handler only.",
+    "fake_complexity": "Low - basic HSL rotation is real.",
+    "duplicates": [
+      "Theme builder / token tooling elsewhere (tokens package)",
+      "GlassColorPicker / GlassColorWheel for the input part"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 4,
+      "api": 5,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "DEPRECATE",
+    "target": "Docs-site theme playground (not runtime library)",
+    "flagship_candidate": false,
+    "justification": "A naive HSL palette generator is docs tooling, not a UI component customers ship. It exports non-portable var() strings and has no contrast validation, which is the one thing a design-system palette tool must do. Move to the docs site or a separate devtools package.",
+    "evidence": [
+      "src/components/interactive/GlassColorSchemeGenerator.tsx:111-139",
+      "src/components/interactive/GlassColorSchemeGenerator.tsx:186-208",
+      "src/components/interactive/GlassColorSchemeGenerator.tsx:212-222",
+      "src/components/interactive/GlassColorSchemeGenerator.tsx:353-362",
+      "src/components/interactive/GlassColorSchemeGenerator.tsx:234-236"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassColorWheel",
+    "file": "src/components/interactive/GlassColorWheel.tsx",
+    "lines": 672,
+    "category": "input/color",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/interactive/GlassColorWheel.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassColorWheel.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-interactive-glasscolorwheel"
+    ],
+    "material_impl": "OptimizedGlass shell plus glass-backdrop-blur-md + border-border/20 (double material). Canvas draws use fillStyle='var(--glass-white)' which canvas cannot resolve - silently ignored, so the inner circle and checkerboard use stale fill colours (GlassColorWheel.tsx:295,360). Default swatches include 'var(--glass-black)'/'var(--glass-white)' which hexToRgb rejects - those swatches do nothing on click.",
+    "motion": "Motion presets gated on isMotionSafe && respectMotionPreference (wired correctly). Plays a 'tap' sound on every color update including every mousemove during drag.",
+    "a11y": "Canvas-only, mouse-only: no role=slider, no keyboard, no aria-valuetext, no touch/pointer events. Swatches are clickable Motion divs (not buttons, no labels). Hex input is derived from hsv so partial typing snaps back - effectively uneditable.",
+    "api": "forwardRef; HTMLAttributes passthrough. `value` prop only read for initial state - not actually controlled. HSL output is wrong (uses v as l). Saturation canvas has CSS w-full but hit-testing uses canvas.width, so picks are off when scaled.",
+    "ssr": "'use client'; canvas in effects. Full 2D per-pixel loop on every hue change (fine at 160px).",
+    "fake_complexity": "Low/medium - it is a real picker with broken details.",
+    "duplicates": [
+      "src/components/input/GlassColorPicker.tsx (868 lines, root-relevant picker)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "CONSOLIDATE",
+    "target": "src/components/input/GlassColorPicker.tsx (rebuild on accessible 2D slider + hue slider primitives)",
+    "flagship_candidate": false,
+    "justification": "Not exported, duplicates GlassColorPicker, and is completely inaccessible to keyboard and touch. Canvas fillStyle with CSS vars and var() swatches are outright bugs. Fold any useful conversion utilities into the main picker and delete.",
+    "evidence": [
+      "src/components/interactive/GlassColorWheel.tsx:174-183",
+      "src/components/interactive/GlassColorWheel.tsx:295",
+      "src/components/interactive/GlassColorWheel.tsx:360",
+      "src/components/interactive/GlassColorWheel.tsx:389",
+      "src/components/interactive/GlassColorWheel.tsx:435",
+      "src/components/interactive/GlassColorWheel.tsx:489-492",
+      "src/components/interactive/GlassColorWheel.tsx:523-534",
+      "src/components/interactive/GlassColorWheel.tsx:615-630",
+      "src/components/interactive/GlassColorWheel.tsx:647-661",
+      "src/components/input/GlassColorPicker.tsx"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCommand",
+    "file": "src/components/interactive/GlassCommand.tsx",
+    "lines": 558,
+    "category": "navigation/command",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCommand.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCommand.test.tsx",
+      "count": 8
+    },
+    "screenshots": [
+      "components-interactive-glasscommand"
+    ],
+    "material_impl": "OptimizedGlass, then overridden inline with background var(--glass-primary-level2-surface), hard-coded border rgba(148,163,184,0.18) and bespoke boxShadow; input wrapper another OptimizedGlass with more inline rgba. Primitive props intensity/depth/tint/border/animation passed and discarded.",
+    "motion": "GlassCommandDialog uses Motion scaleIn; items have hover translate classes. No reduced-motion concerns beyond Motion's.",
+    "a11y": "Items are divs with onClick and no role=option; list has no role=listbox; input lacks role=combobox/aria-activedescendant/aria-controls - screen readers get no indication of the highlighted item. Dialog variant has no role=dialog, no focus trap, no restore. autoFocus always on (steals focus in inline usage).",
+    "api": "React.FC, no forwardRef. Context provider is created but CommandContext is never consumed by children (dead). data-glass-component passed to a Context.Provider (ignored). GlassCommandDialog/GlassCommandInput/GlassCommandList/useCommandPalette are not root-exported. Default items are no-op demo actions. CommandItem type name collides with GlassCommandPalette's CommandItem (different shape).",
+    "ssr": "Safe.",
+    "fake_complexity": "Low.",
+    "duplicates": [
+      "src/components/interactive/GlassCommandPalette.tsx",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx",
+      "src/components/navigation/GlassCommandBar.tsx",
+      "src/app-shell/GlassCommandDock.tsx",
+      "src/components/search/GlassSpotlightSearch.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 5,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 5,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "One cmdk-style GlassCommand (Command/Input/List/Group/Item compound, combobox ARIA) that GlassCommandPalette and LiquidGlassCommandSurface become thin shells of",
+    "flagship_candidate": true,
+    "justification": "Command menus are a signature premium surface (Raycast/Linear/Apple Spotlight), so the concept is flagship-worthy, but the library has five overlapping command components and this one lacks listbox/combobox semantics. Make this the single compound headless+glass command primitive (borrowing the compound structure already sketched here) and delete the rest. Capture shows a modest 262x304px card with legible ink.",
+    "evidence": [
+      "src/components/interactive/GlassCommand.tsx:156-171",
+      "src/components/interactive/GlassCommand.tsx:279-305",
+      "src/components/interactive/GlassCommand.tsx:308-314",
+      "src/components/interactive/GlassCommand.tsx:343-356",
+      "src/components/interactive/GlassCommand.tsx:395-451",
+      "src/components/interactive/GlassCommand.tsx:128-153"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCommandPalette",
+    "file": "src/components/interactive/GlassCommandPalette.tsx",
+    "lines": 758,
+    "category": "navigation/command",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCommandPalette.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCommandPalette.test.tsx",
+      "count": 8
+    },
+    "screenshots": [
+      "components-interactive-glasscommandpalette"
+    ],
+    "material_impl": "OptimizedGlass elevation level4 (intensity/depth/tint/border='glow'/animation='float' all discarded by primitive). Backdrop is 'glass-bg-white/20' + glass-backdrop-blur-md - a white scrim regardless of theme. Items use raw Tailwind (bg-primary/10 border-l-2 border-primary, hover:bg-muted/20).",
+    "motion": "Motion scaleIn 200ms (reduced-motion aware via MotionFramer). scrollIntoView smooth unconditional.",
+    "a11y": "Best of the shard: role=dialog, aria-modal, listbox/option with aria-selected, Home/End/Arrows/Enter/Esc. Gaps: input not role=combobox and no aria-activedescendant (focus stays in input, so SR doesn't hear the active option); no focus trap/restore; scroll-into-view targets listRef.children which are category groups, not items.",
+    "api": "forwardRef (to inner panel, not root). `...props` collected and dropped. Bugs: fuzzy search builds RegExp from unescaped user input - typing '(' , '[' or '+' throws SyntaxError and crashes render (GlassCommandPalette.tsx:300-303). Recents are JSON-serialised (icons/actions/components lost) and the stored copies, not live items, are rendered - selecting a recent runs no action (:247-254, :327-331, :395). result.sort mutates memoised allItems/recentCommands in place.",
+    "ssr": "'use client'; localStorage guarded by typeof window. Fine.",
+    "fake_complexity": "Low - but 'fuzzy search' is a naive regex.",
+    "duplicates": [
+      "src/components/interactive/GlassCommand.tsx",
+      "src/components/interactive/LiquidGlassCommandSurface.tsx",
+      "src/components/navigation/GlassCommandBar.tsx",
+      "src/app-shell/GlassCommandDock.tsx",
+      "src/components/search/GlassSpotlightSearch.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 5,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 5,
+      "motion": 6,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 5,
+      "storybook": 5,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "CONSOLIDATE",
+    "target": "Unified GlassCommand compound primitive (palette = dialog shell around it)",
+    "flagship_candidate": true,
+    "justification": "The most complete command surface here (dialog semantics, listbox, shortcuts, footer hints) and the capture is the richest in the shard (edge density 3.3%, full-width overlay). But the regex crash on common characters and dead recents are release-blocking, and it duplicates four sibling command components. Merge its features into one command primitive with combobox ARIA, an escaped/scored matcher, and recents stored by id.",
+    "evidence": [
+      "src/components/interactive/GlassCommandPalette.tsx:243-271",
+      "src/components/interactive/GlassCommandPalette.tsx:298-308",
+      "src/components/interactive/GlassCommandPalette.tsx:319-368",
+      "src/components/interactive/GlassCommandPalette.tsx:462-477",
+      "src/components/interactive/GlassCommandPalette.tsx:513-521",
+      "src/components/interactive/GlassCommandPalette.tsx:533-556",
+      "src/components/interactive/GlassCommandPalette.tsx:608-621",
+      "src/components/interactive/GlassCommandPalette.tsx:663-679"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassCommentThread",
+    "file": "src/components/interactive/GlassCommentThread.tsx",
+    "lines": 99,
+    "category": "workflow/collaboration",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassCommentThread.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassCommentThread.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-interactive-glasscommentthread"
+    ],
+    "material_impl": "OptimizedGlass level1 per comment + glass-border-white-15. Reply inputs bg-transparent with white border (dark-only).",
+    "motion": "None.",
+    "a11y": "No list/article semantics, no heading/author structure, no time element. Every comment renders an always-visible unlabeled reply input (placeholder only). Reply button fine. Gap utilities used on non-flex block divs so spacing likely doesn't apply.",
+    "api": "Plain function (no forwardRef), HTMLAttributes passthrough. No avatar, timestamps as raw strings, no edit/delete/resolve, no collapse for deep threads. `depth` computed but unused (no indentation cap).",
+    "ssr": "Safe.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "src/components/collaboration/GlassCollaborativeComments.tsx (688 lines)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 5,
+      "performance": 8,
+      "docs": 3,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "src/components/collaboration/GlassCollaborativeComments.tsx (or a single CommentThread built on Avatar + Composer)",
+    "flagship_candidate": false,
+    "justification": "Simple and honest, but visually a stack of identical pale boxes with an input under every comment, and it overlaps the larger collaboration comments component. Merge into one comment-thread component that reuses Avatar and the chat composer, with list semantics and reply-on-demand.",
+    "evidence": [
+      "src/components/interactive/GlassCommentThread.tsx:32-90",
+      "src/components/interactive/GlassCommentThread.tsx:62-69",
+      "src/components/interactive/GlassCommentThread.tsx:33,84,93",
+      "src/components/collaboration/GlassCollaborativeComments.tsx"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassComponentPlayground",
+    "file": "src/components/interactive/GlassComponentPlayground.tsx",
+    "lines": 582,
+    "category": "devtool/docs",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassComponentPlayground.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassComponentPlayground.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-interactive-glasscomponentplayground"
+    ],
+    "material_impl": "OptimizedGlass shell; every button re-skinned with long inline style blocks (rgba(255,255,255,.22), rgba(148,163,184,.28)) duplicated 5x - bypasses GlassButton/GlassTabs entirely.",
+    "motion": "None.",
+    "a11y": "Tabs are plain buttons: no role=tablist/tab/tabpanel, no aria-selected, no arrow keys. Category select unlabeled. Prop labels not associated with inputs.",
+    "api": "React.FC, no forwardRef, no style passthrough. generateCodeFromProps used inside an effect declared before it (works only due to hoisting order of renders); theme/codeTheme props unused. Code output is naive (no children, functions stringified).",
+    "ssr": "Safe; navigator.clipboard in handler.",
+    "fake_complexity": "Low - but it is a mini-Storybook re-implementation.",
+    "duplicates": [
+      "Storybook itself",
+      "src/client/pages/PlaygroundPage.tsx",
+      "GlassTabs (should be used for tabs)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 4,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3,
+    "disposition": "REMOVE",
+    "target": "Docs site / Storybook controls",
+    "flagship_candidate": false,
+    "justification": "A component playground is documentation infrastructure; shipping it in the runtime package bloats the API and it hand-rolls tabs and buttons with inline rgba instead of using the library's own components - the opposite of dogfooding. Move to the docs app.",
+    "evidence": [
+      "src/components/interactive/GlassComponentPlayground.tsx:92-132",
+      "src/components/interactive/GlassComponentPlayground.tsx:294-306",
+      "src/components/interactive/GlassComponentPlayground.tsx:327-438",
+      "src/components/interactive/GlassComponentPlayground.tsx:262-273",
+      "src/components/interactive/GlassComponentPlayground.tsx:55-56"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  },
+  {
+    "name": "GlassDraggable",
+    "file": "src/components/interactive/GlassDraggable.tsx",
+    "lines": 561,
+    "category": "interaction/dnd",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/interactive/GlassDraggable.stories.tsx",
+      "count": 2,
+      "note": "templated; argTypes/children '' "
+    },
+    "tests": {
+      "file": "src/components/interactive/GlassDraggable.test.tsx",
+      "count": 4,
+      "note": "no drag behaviour tested"
+    },
+    "screenshots": [
+      "components-interactive-glassdraggable"
+    ],
+    "material_impl": "No material at all - Motion div + raw Tailwind (shadow-2xl scale-105 rotate-2, ring-primary, border-red-500). Not glass.",
+    "motion": "Intended translate follow; drop-zone transition-all. No reduced-motion handling for the rotate/scale lift.",
+    "a11y": "Mouse-only: no keyboard drag (space to lift, arrows to move), no touch/pointer events, no aria-grabbed/live-region announcements, handle not focusable. GlassSortable similarly HTML5-DnD-only, which never works on touch.",
+    "api": "React.FC, no forwardRef. Core bug: handleMouseDown registers the handleMouseMove/handleMouseUp from the render where isDragging===false, and both early-return on !isDragging (GlassDraggable.tsx:126-157) - the element never moves, mouseup never clears state, listeners leak, ghost stays. GlassDraggable uses mouse events while GlassDroppable reads HTML5 dataTransfer - they cannot interoperate; GlassDroppable JSON.parse(getData()) on dragover throws because data is empty/protected during dragover (:288-290). DragProvider/useDragContext unused by the components. GlassSortable/GlassDroppable/DragProvider not root-exported.",
+    "ssr": "Safe.",
+    "fake_complexity": "High: the root-exported GlassDraggable does not actually drag.",
+    "duplicates": [
+      "src/hooks/extended/useDraggableListPhysics.ts",
+      "dnd-kit (industry standard)",
+      "GlassSortable/GlassDroppable (same file)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 1,
+      "usability": 1,
+      "api": 2,
+      "responsive": 2,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 3,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REPLACE",
+    "target": "dnd-kit-based GlassSortable/Draggable recipes (keyboard sensor, pointer sensor, announcements) with a glass 'lifted' material state",
+    "flagship_candidate": false,
+    "justification": "The headline component is non-functional due to stale closures, the droppable throws on dragover, and the pieces use incompatible event models. It has no glass material and zero accessibility. Rebuild on dnd-kit (or a pointer-events + keyboard sensor implementation) and contribute only the visual lifted/drop-target states from the design system.",
+    "evidence": [
+      "src/components/interactive/GlassDraggable.tsx:109-130",
+      "src/components/interactive/GlassDraggable.tsx:133-157",
+      "src/components/interactive/GlassDraggable.tsx:283-302",
+      "src/components/interactive/GlassDraggable.tsx:330-332",
+      "src/components/interactive/GlassDraggable.tsx:483-495",
+      "src/components/interactive/GlassDraggable.tsx:535-559",
+      "src/components/interactive/GlassDraggable.test.tsx:27-67"
+    ],
+    "visual_review_method": "Read tool returned empty for PNGs in this session; visual judged from pixel analysis of desktop/mobile PNGs (luminance histogram, ink bbox, edge density) plus certification inspection JSON. All captures sit on a near-white (#fff->#eaeaea) gradient where neutral glass has almost no visible material."
+  }
+]

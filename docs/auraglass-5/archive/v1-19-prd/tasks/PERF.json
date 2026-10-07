@@ -1,0 +1,1495 @@
+[
+  {
+    "id": "PERF-001",
+    "prd": "PRD-07",
+    "system": "perf test infra",
+    "file": "jest.config.js",
+    "action": "MODIFY",
+    "description": "Add '<rootDir>/tests/perf/browser/', '<rootDir>/tests/perf/harness/self-test.spec.ts', '<rootDir>/tests/perf/devices/' to testPathIgnorePatterns so Jest (testMatch **/*.{spec,test}.{ts,tsx}) never collects Playwright perf specs. (SC-29: QA owns the config file; MODIFY after QA-003/QA-018.)",
+    "depends_on": [
+      "QA-003"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest --listTests | grep -c tests/perf/browser prints 0",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-PERF-07..17 lanes (specs run only in Playwright project perf)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-002",
+    "prd": "PRD-07",
+    "system": "import budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "REQ-PERF-01: add rows (integer limitBytesGz, min+gz level 9, React and optional peers external) { AppShell } app-shell 15360; { Sparkline } data 3072; { DatePicker } date 30720; { AuraGlassProvider, AuraGlassScript } theme 6144 (production define); aura-glass/three 35840; aura-glass/motion 8192; accept REQ-PKG-42 rows { cn } 512, { Surface } 3072, one ./tokens constant 512, tailwind.css 6144; log in docs/size-budgets.changelog.md. Uses PRD-02 file names (no size-limit, .size-limit.json or build/budgets.lock.json; SC-15).",
+    "depends_on": [
+      "PKG-048"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/size-budgets.test.ts and tests/perf/size-rows.test.ts green in perf-artifact/perf-static",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-01",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-003",
+    "prd": "PRD-07",
+    "system": "import budgets",
+    "file": "tests/perf/size-budgets.test.ts",
+    "action": "MODIFY",
+    "description": "REQ-PERF-01: extend PKG-050's tests/perf/size-budgets.test.ts (PKG creates it; SC-15, OV-07) with PERF's rows: run scripts/ci/verify-size-budgets.mjs --json against CI dist/; fail if any row measured gzip > limitBytesGz or any row failed to bundle; fixture budget with limitBytesGz 1 for { Button } must fail.",
+    "depends_on": [
+      "PERF-002",
+      "PKG-050"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/size-budgets.test.ts (job perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-01",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-004",
+    "prd": "PRD-07",
+    "system": "import budgets",
+    "file": "NEW:tests/perf/size-rows.test.ts",
+    "action": "TEST",
+    "description": "Assert every PRD §16.1 row and every subject in tests/perf/harness/budgets.json (44 §11.2 flagships + T2 core) has a docs/size-budgets.json row; a graded component with no row is reported (grade F fail-closed).",
+    "depends_on": [
+      "PERF-002",
+      "PERF-044"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/size-rows.test.ts (perf-static)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-01",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-005",
+    "prd": "PRD-07",
+    "system": "budget ratchet",
+    "file": "tests/perf/size-budgets-ratchet.test.ts",
+    "action": "MODIFY",
+    "description": "REQ-PERF-02/-38: extend PKG-052's tests/perf/size-budgets-ratchet.test.ts (PKG creates it) with the x1.10 assertion: compare docs/size-budgets.json to merge base; any limitBytesGz increase fails unless tag v5.0.0-alpha.1 absent AND label perf-budget-raise AND docs/size-budgets.changelog.md entry with artifact URL; after the tag any increase fails; calibrated rows must satisfy limit <= ceil(measured*1.10/256)*256.",
+    "depends_on": [
+      "PERF-002",
+      "PKG-052"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/size-budgets-ratchet.test.ts; scratch commit raising a row fails",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-20",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-006",
+    "prd": "PRD-07",
+    "system": "tree shaking",
+    "file": "NEW:tests/perf/tree-shake-zero.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-03: for every value export X of '.' in build/exports.manifest.json, esbuild-bundle import { X } (minify, metafile, React external, sideEffects honoured); fail if metafile inputs include chart.js, react-chartjs-2, date-fns, three, @react-three/*, motion, framer-motion, d3-*. Assert PRD-02 bare-import-drops.test.ts exists and uses the 64 B ceiling.",
+    "depends_on": [
+      "PKG-044",
+      "PKG-049"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/tree-shake-zero.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-02",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-007",
+    "prd": "PRD-07",
+    "system": "side-effect gate",
+    "file": "scripts/ci/verify-side-effects.mjs",
+    "action": "MODIFY",
+    "description": "REQ-PERF-04: if absent, add traps for globalThis.requestIdleCallback and Storage.prototype.setItem to PRD-02's single side-effect implementation (no new script); fixture tests/perf/fixtures/side-effect-ric.mjs with top-level requestIdleCallback must be reported.",
+    "depends_on": [
+      "PKG-042"
+    ],
+    "priority": "P0",
+    "test": "tests/side-effects/import-gate.test.ts green with the two traps; fixture reported",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-03",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-008",
+    "prd": "PRD-07",
+    "system": "dist purity",
+    "file": "tests/perf/dist-purity.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-05 = REQ-PKG-04: verify only. PKG-024 creates and owns tests/perf/dist-purity.test.ts (acorn parse of dist/**/*.js; impure top-level statements, memo(/createContext(/forwardRef( without /*#__PURE__*/, X.displayName assignments, top-level new [A-Z]\\w*( fail). PERF cites its result for AC-PERF-03 and adds nothing.",
+    "depends_on": [
+      "PKG-024"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/dist-purity.test.ts (perf-artifact); fixture with top-level new Foo() fails",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-03",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-009",
+    "prd": "PRD-07",
+    "system": "entry isolation",
+    "file": "docs/dependency-allowlist.json",
+    "action": "MODIFY",
+    "description": "REQ-PERF-06: verify/add allowedImporters: three, @react-three/fiber, @react-three/drei -> src/three/**; motion -> src/motion/adapter/** (PRD-02 stricter glob); react-hook-form -> src/forms/**; d3-scale, d3-shape -> src/charts/** with since 5.1.0; no entries for chart.js, react-chartjs-2, date-fns, framer-motion.",
+    "depends_on": [
+      "PKG-056",
+      "PKG-061"
+    ],
+    "priority": "P0",
+    "test": "tests/deps/import-confinement.test.ts green in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-02",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-010",
+    "prd": "PRD-07",
+    "system": "global mutation",
+    "file": "NEW:tests/perf/no-global-mutation.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-07: scan src/**/*.{ts,tsx,js} (excluding stories/tests) for ChartJS.register, Chart.defaults, defaults.plugins, module-scope window.<x> = (TypeScript AST confirms top level). Strict 0 in perf-beta-gates; non-increasing vs NEW tests/perf/baselines/global-mutation.baseline.json in perf-static (4.x includes GlassDataChart.tsx:718).",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "tests/perf/no-global-mutation.test.ts (perf-static ratchet + perf-beta-gates strict)",
+    "storybook": "n/a",
+    "acceptance": "DoD 1 (REQ-PERF-07 test green); supports AC-PERF-02",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-011",
+    "prd": "PRD-07",
+    "system": "dev-only code",
+    "file": "NEW:tests/perf/dev-only-elimination.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-08: esbuild bundle of { AuraGlassProvider } from aura-glass/theme with NODE_ENV=production, minify: 0 'surfaceCounter', 0 /\\[aura-glass\\][^\"']*surface/, 0 MutationObserver; control bundle with development must contain surfaceCounter.",
+    "depends_on": [
+      "MAT-055",
+      "A11Y-029",
+      "PKG-049"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/dev-only-elimination.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-03 (dev-only code eliminated; REQ-PERF-08/39)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-012",
+    "prd": "PRD-07",
+    "system": "CSS budget",
+    "file": "NEW:tests/perf/css-budget.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-10: gzip-9 dist/css/styles.css <= 32768 B; each manifest per-subpath CSS (data, date, ai, media, app-shell, backdrops) <= 6144 B (PRD-02 accepted 6 KB); listed-but-missing CSS fails; source maps contain no storybook-enhancements.css or storybook-utility-shim.css origin.",
+    "depends_on": [
+      "PKG-048",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/css-budget.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-01",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-013",
+    "prd": "PRD-07",
+    "system": "CSS perf checker",
+    "file": "NEW:scripts/ci/verify-css-perf.mjs",
+    "action": "CREATE",
+    "description": "REQ-PERF-12/-13/-23: PostCSS AST checker (no stylelint). Rules: backdrop-filter blur radii in {0,12px,20px,32px} with same-file var() resolution (unresolvable = fail); value matches REQ-PERF-13 regex, no contrast(); no translateZ(0)/translate3d(0,0,0)/backface-visibility:hidden; will-change only under [data-ag-animating]/[data-starting-style]/[data-ending-style]. CLI --files, --json, --baseline (ratchet). transition properties stay REQ-MOT-67's.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/perf/css-blur-scale.test.ts, css-filter-chain.test.ts, css-layer-forcing.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-014",
+    "prd": "PRD-07",
+    "system": "CSS blur scale",
+    "file": "NEW:tests/perf/css-blur-scale.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-12: run verify-css-perf.mjs strictly over dist/**/*.css, assert 0 blur-scale findings; fixture tests/perf/fixtures/css/blur-40.css must produce >=1 finding.",
+    "depends_on": [
+      "PERF-013",
+      "MAT-015",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/css-blur-scale.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-015",
+    "prd": "PRD-07",
+    "system": "CSS filter chain",
+    "file": "NEW:tests/perf/css-filter-chain.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-13: every shipped backdrop-filter value matches the 3-function chain or ag-lens url regex; 0 contrast(); fixture contrast-chain.css must fail.",
+    "depends_on": [
+      "PERF-013",
+      "MAT-015",
+      "MAT-035"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/css-filter-chain.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-016",
+    "prd": "PRD-07",
+    "system": "CSS layer forcing",
+    "file": "NEW:tests/perf/css-layer-forcing.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-23 CSS half: verify-css-perf.mjs strict over dist/**/*.css asserts 0 translateZ(0)/translate3d(0,0,0)/backface-visibility:hidden and 0 unscoped will-change; fixtures translatez.css and unscoped-will-change.css must fail.",
+    "depends_on": [
+      "PERF-013",
+      "MAT-015",
+      "MOT-031"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/css-layer-forcing.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-017",
+    "prd": "PRD-07",
+    "system": "CSS source ratchet",
+    "file": "NEW:tests/perf/baselines/src-css-perf.baseline.json",
+    "action": "INFRA",
+    "description": "Generate (in CI, at merge base) the per-rule/per-file finding counts of verify-css-perf.mjs over src/**/*.css and src/**/*.module.css (seeds: src/styles/glass.generated.css:992-994, src/components/navigation/GlassTabBar.module.css:98-104); perf-static runs --baseline ratchet so counts never increase.",
+    "depends_on": [
+      "PERF-013"
+    ],
+    "priority": "P1",
+    "test": "perf-static step node scripts/ci/verify-css-perf.mjs --baseline tests/perf/baselines/src-css-perf.baseline.json",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05 (source ratchet until removals)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-018",
+    "prd": "PRD-07",
+    "system": "JS animated properties",
+    "file": "NEW:tests/perf/js-animated-properties.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-20 and REQ-PERF-25 JS half: acorn over dist/**/*.js flags .animate( keyframes with backdropFilter, filter, --_ag-blur, left/top/right/bottom/width/height/margin*/padding*/inset*, and style.transition / setProperty('transition') strings naming those or 'all'; fixtures prove each pattern fails.",
+    "depends_on": [
+      "MOT-073"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/js-animated-properties.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-019",
+    "prd": "PRD-07",
+    "system": "runtime sampling",
+    "file": "NEW:tests/perf/no-runtime-sampling.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-31: dist/**/*.js has 0 elementsFromPoint; new MutationObserver( only in files whose source-map origin is src/primitives/DismissableLayer* or @base-ui; 0 getComputedStyle in parentElement walks; no entry exports useLiquidGlassBackdrop, useEnhancedPerformance, GlassPerformanceOptimization, OptimizedGlassCore.",
+    "depends_on": [
+      "FND-128",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/no-runtime-sampling.test.ts (perf-artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half: no default-on sampling)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-020",
+    "prd": "PRD-07",
+    "system": "optics residue",
+    "file": "NEW:tests/perf/optics-residue.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-14: count backdrop-filter|backdropFilter|backdrop-blur in src/** outside src/material/**, stories, tests; ratchet vs NEW tests/perf/baselines/optics-residue.baseline.json (4.x 513/537) in perf-static, strict 0 in perf-beta-gates; ESLint API run of PRD-04 auraglass/no-optics-outside-material on className=\"p-2 backdrop-blur-md\" fixture must report 1 error.",
+    "depends_on": [
+      "MAT-007",
+      "MAT-004"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/optics-residue.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-06",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-021",
+    "prd": "PRD-07",
+    "system": "CI wiring",
+    "file": "tests/perf/ci-wiring.test.ts",
+    "action": "MODIFY",
+    "description": "REQ-PERF-11: extend PKG-055's tests/perf/ci-wiring.test.ts: parse .github/workflows/glass-pipeline.yml with yaml; assert PKG's size, side-effects, isolation and node-import steps plus PERF's perf-static and perf-artifact steps exist inside the required checks named per SC-10 (Glass Quality Gates; no new required check names), none has continue-on-error, no job/step if: references PR labels.",
+    "depends_on": [
+      "PKG-055",
+      "PKG-054"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/ci-wiring.test.ts (perf-static)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-19",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-022",
+    "prd": "PRD-07",
+    "system": "CI wiring",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "Add steps perf-static (no dist) and perf-artifact (after PKG's build step, downloads dist artifact) inside the existing PKG-038 jobs, keeping the SC-10 required check names (Glass Quality Gates); add a non-required perf-beta-gates job (runs every PR, no continue-on-error, no label condition); Node 20.19.0 and 22 matrix; npm ci. Do not rename or edit PKG's own steps.",
+    "depends_on": [
+      "PKG-038",
+      "PERF-024"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/ci-wiring.test.ts; CI run shows the three jobs",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-19",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-023",
+    "prd": "PRD-07",
+    "system": "rigged gates",
+    "file": "tests/perf/ci-wiring.test.ts",
+    "action": "MODIFY",
+    "description": "AC-PERF-19 package.json half, added to PKG-055's tests/perf/ci-wiring.test.ts: no bundlesize key/devDependency, no size-check or check:perf scripts, no chart.js/react-chartjs-2/date-fns/framer-motion in dependencies, scripts/ci/verify-tree-shaking.js absent (PKG-054, SC-39). Runs in perf-beta-gates until PKG-053/PKG-054 and FND removals land; this task does not delete them.",
+    "depends_on": [
+      "PERF-021",
+      "PKG-053",
+      "PKG-055"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/ci-wiring.test.ts (perf-beta-gates)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-19",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-024",
+    "prd": "PRD-07",
+    "system": "CI wiring",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "Add scripts test:perf:static (jest on no-global-mutation, size-rows, size-budgets-ratchet, optics-residue, ci-wiring, tests/lint) and test:perf:artifact (jest on dist tests: size-budgets, tree-shake-zero, dist-purity, dev-only-elimination, css-*, js-animated-properties, no-runtime-sampling). scripts field only.",
+    "depends_on": [
+      "PERF-001"
+    ],
+    "priority": "P1",
+    "test": "npm run test:perf:static exits 0 locally; test:perf:artifact green in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-19",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-025",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-23 rule auraglass/no-transition-all: report transition values matching /(^|,)\\s*all\\b/ and transitionProperty 'all' in JSX style objects, Object.assign(el.style,...), CSS-in-JS objects, el.style.transition assignments. messageId transitionAll. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/layer-forcing-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05 (source half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-026",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-23 rule auraglass/no-permanent-will-change: report willChange/will-change with any non-'auto' value (including conditional expressions) in style contexts and el.style.willChange assignments, except files under src/motion/**. messageId permanentWillChange. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/layer-forcing-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05 (source half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-027",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-23 rule auraglass/no-translatez-hack: report translateZ(0|0px), translate3d(0,0,0) any spacing/units, backfaceVisibility/WebkitBackfaceVisibility 'hidden' in style contexts; excludes src/three/**. messageId layerHack. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/layer-forcing-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05 (source half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-028",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-28 rule auraglass/raf-requires-cancel: every requestAnimationFrame return value must be assigned and passed to cancelAnimationFrame in the enclosing useEffect/useLayoutEffect cleanup or a stop/dispose/destroy/cancel/unsubscribe function. messageIds rafUnassigned, rafNotCancelled. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015",
+      "MOT-040"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/raf-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-029",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-28 rule auraglass/raf-requires-visibility-gate: a self-rescheduling rAF loop must read document.visibilityState/document.hidden, listen to visibilitychange, or use src/motion/ticker subscribe. messageId rafNoVisibilityGate. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015",
+      "MOT-040"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/raf-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-030",
+    "prd": "PRD-07",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-PERF-29 rule auraglass/no-global-pointer-listener: report window/document/globalThis/documentElement/body addEventListener or on<type>= for mousemove, pointermove, scroll, deviceorientation (+ touchmove, wheel: recorded deviation) and target-less useEventListener hooks, except src/motion/pointerLight.ts and src/motion/ticker.ts. (SC-16: MODIFY of the existing plugin file owned by PKG, wired by PKG-015; rule name auraglass/<kebab>, owner PERF.)",
+    "depends_on": [
+      "PKG-015",
+      "MOT-042"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/no-global-pointer-listener.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-031",
+    "prd": "PRD-07",
+    "system": "lint config",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register the six PERF rules as 'warn' (report-only, Wave 0) in eslint.config.js and .eslintrc.js; layer-forcing + pointer rules on src/**/*.{ts,tsx,js,jsx} minus stories/tests; rAF rules on src/three/**, src/media/**, src/backdrops/**, src/motion/**, packages/labs/src/** if present.",
+    "depends_on": [
+      "PKG-015",
+      "PERF-025",
+      "PERF-026",
+      "PERF-027",
+      "PERF-028",
+      "PERF-029",
+      "PERF-030"
+    ],
+    "priority": "P1",
+    "test": "node_modules/.bin/eslint --print-config src/index.ts shows the six rules at warn",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05, AC-PERF-11 (inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-032",
+    "prd": "PRD-07",
+    "system": "lint ratchet",
+    "file": "NEW:tests/lint/perf-lint-ratchet.test.ts",
+    "action": "TEST",
+    "description": "Generate NEW tests/lint/baselines/perf-lint.baseline.json in CI at merge base (per-rule and per-file counts of the six rules over src/); test fails if any rule or file count exceeds the baseline. Must include TreeItem.tsx:378, GlassMagneticCursor.tsx, useMouseMagneticEffect.ts:110-120 offenders. No eslint-disable additions allowed.",
+    "depends_on": [
+      "PERF-031"
+    ],
+    "priority": "P1",
+    "test": "tests/lint/perf-lint-ratchet.test.ts; adding a window mousemove listener on a scratch branch fails it",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05, AC-PERF-11 (ratchet inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-033",
+    "prd": "PRD-07",
+    "system": "lint tests",
+    "file": "NEW:tests/lint/layer-forcing-rules.test.ts",
+    "action": "TEST",
+    "description": "RuleTester (@typescript-eslint/parser, JSX) for no-transition-all, no-permanent-will-change, no-translatez-hack: >=3 valid and >=3 invalid each, including transition 'all 200ms', 'opacity .2s, all .3s', willChange conditional, translate3d(0, 0, 0) template, backfaceVisibility hidden; valid src/three translateZ, src/motion dynamic willChange; assert exact messageId.",
+    "depends_on": [
+      "PERF-025",
+      "PERF-026",
+      "PERF-027"
+    ],
+    "priority": "P1",
+    "test": "node_modules/.bin/jest tests/lint/layer-forcing-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05 (source half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-034",
+    "prd": "PRD-07",
+    "system": "lint tests",
+    "file": "NEW:tests/lint/raf-rules.test.ts",
+    "action": "TEST",
+    "description": "RuleTester for raf-requires-cancel and raf-requires-visibility-gate on virtual filenames under src/media, src/backdrops, src/three, src/motion: >=3 valid/>=3 invalid each (unassigned rAF, missing cleanup, ungated loop; valid effect cleanup, class stop(), visibilityState gate, ticker.subscribe).",
+    "depends_on": [
+      "PERF-028",
+      "PERF-029"
+    ],
+    "priority": "P1",
+    "test": "node_modules/.bin/jest tests/lint/raf-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-035",
+    "prd": "PRD-07",
+    "system": "lint tests",
+    "file": "NEW:tests/lint/no-global-pointer-listener.test.ts",
+    "action": "TEST",
+    "description": "RuleTester: invalid window mousemove, document pointermove passive, window.onscroll=, window deviceorientation; valid same in src/motion/pointerLight.ts, element-ref pointermove, window resize; >=3 valid/>=3 invalid.",
+    "depends_on": [
+      "PERF-030"
+    ],
+    "priority": "P1",
+    "test": "node_modules/.bin/jest tests/lint/no-global-pointer-listener.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-036",
+    "prd": "PRD-07",
+    "system": "audit seeds",
+    "file": "scripts/audit/3.1-frame-loop-audit.js",
+    "action": "REMOVE",
+    "description": "After mapping every check of scripts/audit/3.1-frame-loop-audit.js, scripts/audit/runtime-cleanliness-audit.js, scripts/scan-motion-performance.js to a successor (PERF rules, REQ-MOT-65/66, verify-css-perf.mjs), delete the three scripts and their package.json/workflow references; if a check has no successor keep the script and report the gap.",
+    "depends_on": [
+      "PERF-032",
+      "PERF-013"
+    ],
+    "priority": "P2",
+    "test": "rg -n '3.1-frame-loop-audit|runtime-cleanliness-audit|scan-motion-performance' package.json .github scripts returns 0; CI green",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-11 (no orphan audit gates)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-037",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "NEW:tests/perf/harness/instrument.js",
+    "action": "CREATE",
+    "description": "Page init script: wrappers for rAF/cAF, setInterval/clearInterval, setTimeout, window/document add/removeEventListener per type, Mutation/Resize/IntersectionObserver live counts, WebGL getContext + loseContext live count, rAF-timestamp frame probe, PerformanceObserver longtask/long-animation-frame (script attribution)/event; window.__agPerf.snapshot() returns counters, infinite animations, blurred elements with ::before+host backdrop-filter, effective nesting, BCI (bci.mjs), svg filter ids, lens-defs count, will-change count; throws if uninitialised.",
+    "depends_on": [
+      "PERF-056"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/harness/self-test.spec.ts (remote)",
+    "storybook": "Used by addon panel PERF-049 and every perf story run",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-038",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "NEW:tests/perf/harness/perf-results.schema.json",
+    "action": "CREATE",
+    "description": "JSON Schema 2020-12 for perf-results.json: sha, runnerInstanceType, browser, gpu status, profile (a60|a120|b|c|d-webkit|d-gecko), records with every §4.6 metric required; {unsupported:<engine>} allowed only for the profile-(d) metric list.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "run-perf.mjs validates output against schema; self-test asserts a record missing frameP95 is rejected",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-039",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "NEW:tests/perf/harness/run-perf.mjs",
+    "action": "CREATE",
+    "description": "REQ-PERF-32 core: remote-only guard (exit 2 'remote-only' without AG_REMOTE_RUNNER=1); serves storybook-static on 127.0.0.1; per subject x viewport x tier x scene opens iframe.html with globals (environment, certify:1, tier, pointer, reducedMotion); 5 s scripted interaction (scroll/hover/open-close/type); CDP Tracing (devtools.timeline, disabled-by-default-devtools.timeline.frame, gpu, viz) frame p50/p95/p99 from PipelineReporter/DrawFrame; Performance.getMetrics deltas; LayerTree count; heap after 10 remounts + GC; settle 500 ms then snapshot; fail closed on page error, 0 frames, missing metric, scene/story missing.",
+    "depends_on": [
+      "PERF-037",
+      "PERF-038",
+      "QA-018",
+      "QA-019"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/harness/self-test.spec.ts; local run exits 2",
+    "storybook": "Consumes storybook-static index.json and perf stories",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-040",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "tests/perf/harness/run-perf.mjs",
+    "action": "MODIFY",
+    "description": "Profiles: (a) headed Chromium on GPU worker (g5/g4dn), DPR 2, --enable-gpu-rasterization, vsync on, virtual display 60 Hz and 120 Hz verified from DrawFrame spacing (fail if >5% off), fail if chrome://gpu reports software compositing/raster; (b) 390x844 DPR 3 touch, pointer coarse, CPU throttle 4x; (c) chrome-headless-shell on r7i (record type + version); (d) WebKit/Firefox rAF probe + DOM counts, CDP/LoAF unsupported.",
+    "depends_on": [
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "certify-*.yml (QA) jobs profile-a and profiles-b-c-d produce schema-valid perf-results.json per profile",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-10, AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-041",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "tests/perf/harness/run-perf.mjs",
+    "action": "MODIFY",
+    "description": "REQ-PERF-33: measure perf-harness-blank--default first per profile; every record carries deltaVsBlank {frameP95, longTasksTotalMs}; grades use absolute frame time and delta long tasks.",
+    "depends_on": [
+      "PERF-039",
+      "PERF-046"
+    ],
+    "priority": "P0",
+    "test": "self-test.spec.ts asserts blank deltaVsBlank.frameP95 within 0 +/- 1 ms",
+    "storybook": "perf-harness-blank--default",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-042",
+    "prd": "PRD-07",
+    "system": "perf grades",
+    "file": "NEW:tests/perf/harness/grade.mjs",
+    "action": "CREATE",
+    "description": "REQ-PERF-34: per subject worst cell over profiles a120 and b at standard/photo; column letters per PRD §4.7 (frame, LoAF>100ms, settled idle, heap delta, bundle % of docs/size-budgets.json, BCI % of budgets.json); lowest column wins; no size row = F; T1 BCI >100% = F; writes perf-grades.json; exit 1 if any T1 < C or T2 < D.",
+    "depends_on": [
+      "PERF-039",
+      "PERF-044",
+      "PERF-002"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/harness/grade.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-14",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-043",
+    "prd": "PRD-07",
+    "system": "perf grades",
+    "file": "NEW:tests/perf/harness/grade.test.ts",
+    "action": "TEST",
+    "description": "Table-driven boundaries: 8.3 ms->A, 8.31->B, 16.7->C, 25->D, 25.1->F (a120); heap 0.5->A, 0.51->B; bundle 80%->A, 80.1%->B; settled 1->F; LoAF 1->C, 4->F; T2 BCI 150%->D; T1 BCI 101%->F; lowest column wins; missing size row->F.",
+    "depends_on": [
+      "PERF-042"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest tests/perf/harness/grade.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-14",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-044",
+    "prd": "PRD-07",
+    "system": "perf budgets",
+    "file": "NEW:tests/perf/harness/budgets.json",
+    "action": "CREATE",
+    "description": "Provisional targets: subjects (44 §11.2 flagships tier T1 with flagshipNo, ~40 §11.1 T2 Core names, storyIds filled as PRDs land; empty storyIds grades F), scenes (6 PRD-19 product scene ids), surface {fine 6, coarse 3}, bci {fine 2.0, coarse 1.2}, nesting 1, frame {a60P95 16.7, bP95 25}, calibratedAt null. Include surface.appShellFine = 3 (REQ-PERF-19, SC-38: AppShell blurred chrome at fine pointer, StatusBar unblurred). This file is the SC-15 canonical runtime budget file (owner PERF), read by run-perf.mjs.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/perf/harness/budgets-frozen.test.ts; tests/perf/size-rows.test.ts reads subjects",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-20",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-045",
+    "prd": "PRD-07",
+    "system": "perf budgets",
+    "file": "NEW:tests/perf/harness/budgets-frozen.test.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-38: surface/bci/nesting/frame values may not increase vs merge base unless tag v5.0.0-alpha.1 absent and PR labelled perf-budget-raise; after the tag, git log -p of budgets.json must show at most one increasing commit.",
+    "depends_on": [
+      "PERF-044"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest tests/perf/harness/budgets-frozen.test.ts; scratch commit raising bci.fine fails",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-20",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-046",
+    "prd": "PRD-07",
+    "system": "perf stories",
+    "file": "NEW:src/stories/perf/HarnessBlank.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories Perf/Harness Blank Default (id perf-harness-blank--default: scene only) and Perf/Self Test Regression (id perf-self-test--regression: click runs 200 ms busy loop; 20 px backdrop-filter element with infinite @keyframes on backdrop-filter; excluded from budgets.json subjects). Both set parameters.perf.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "ids present in remote storybook-static/index.json; self-test.spec.ts",
+    "storybook": "Material Lab 'Perf' section; ids stable (renaming requires schema bump)",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-047",
+    "prd": "PRD-07",
+    "system": "perf stories",
+    "file": "NEW:src/stories/perf/PerfFixtures.stories.tsx",
+    "action": "CREATE",
+    "description": "Fixtures on PRD-04 Surface: Perf/Nesting Nest4 (arg allowNestedLevel 0|2), Perf/Budget Budget7 (arg count 4-7), Perf/Lens Lens3 (enhanced, arg count up to 10), Perf/WebGL Webgl3 (3 lazy ./three surfaces), Perf/Mount Cycle Default (toggle mounting a chosen flagship); ids perf-nesting--nest-4, perf-budget--budget-7, perf-lens--lens-3, perf-webgl--webgl-3, perf-mount-cycle--default; each sets parameters.perf.",
+    "depends_on": [
+      "MAT-047",
+      "MAT-048",
+      "MAT-035",
+      "EXP-088",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "ids verified in remote index.json; consumed by PERF-058/063/064/067/069",
+    "storybook": "Material Lab 'Perf' section stories listed in PRD §13.1",
+    "acceptance": "AC-PERF-07, AC-PERF-12, AC-PERF-16",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-048",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "tests/perf/harness/run-perf.mjs",
+    "action": "MODIFY",
+    "description": "Label read-back: after load read <html data-ag-tier>, matchMedia pointer coarse, prefers-reduced-motion and preview scene id; any mismatch with the requested cell fails 'label-mismatch' (§13.4 determinism).",
+    "depends_on": [
+      "PERF-039",
+      "A11Y-032",
+      "QA-041"
+    ],
+    "priority": "P1",
+    "test": "self-test.spec.ts case requesting tier enhanced on a lightweight-forced fixture fails with label-mismatch",
+    "storybook": "Requires tier/pointer/reducedMotion/environment globals",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-049",
+    "prd": "PRD-07",
+    "system": "Storybook addon",
+    "file": "NEW:.storybook/addons/perf-budget/manager.tsx",
+    "action": "CREATE",
+    "description": "§13.3 dev-only budget read-out panel (manager.tsx, preview.ts, register.ts; registered in .storybook/main.ts only for non-production, non-certify builds): blurred count, BCI, max nesting, infinite animations, tier from instrument.js/bci.mjs; red over budgets.json for current pointer; injects nothing into story DOM.",
+    "depends_on": [
+      "PERF-037",
+      "PERF-056",
+      "PERF-044",
+      "SB-048"
+    ],
+    "priority": "P2",
+    "test": "Remote Storybook build: panel present in dev build, absent from production/certify build index (asserted in self-test.spec.ts)",
+    "storybook": "Dev Storybook panel 'Perf budget'",
+    "acceptance": "AC-PERF-07 (developer read-out of the same metric)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-050",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "tests/perf/harness/run-perf.mjs",
+    "action": "MODIFY",
+    "description": "§13.6 metadata contract: read parameters.perf {budget {surfaces, bci}, interaction} from the preview story store; missing on a subject story fails 'missing parameters.perf: <id>'.",
+    "depends_on": [
+      "PERF-039"
+    ],
+    "priority": "P1",
+    "test": "self-test.spec.ts fixture without parameters.perf -> non-zero exit",
+    "storybook": "Every flagship story declares parameters.perf",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-051",
+    "prd": "PRD-07",
+    "system": "perf harness",
+    "file": "NEW:tests/perf/harness/self-test.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-32/-33: run run-perf.mjs on perf-self-test--regression (profiles c and b): exit != 0, longTasks.maxMs >= 190, settled.infinite >= 1 on backdrop-filter; blank delta 0 +/- 1 ms; nonexistent story id and missing parameters.perf -> non-zero exit.",
+    "depends_on": [
+      "PERF-039",
+      "PERF-040",
+      "PERF-041",
+      "PERF-046",
+      "PERF-050"
+    ],
+    "priority": "P0",
+    "test": "playwright test --project perf tests/perf/harness/self-test.spec.ts (remote, certify-*.yml (QA) self-test)",
+    "storybook": "perf-self-test--regression, perf-harness-blank--default",
+    "acceptance": "AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-052",
+    "prd": "PRD-07",
+    "system": "perf test infra",
+    "file": "playwright.config.ts",
+    "action": "MODIFY",
+    "description": "If PRD-19 has not: add project perf (testDir ./tests/perf, testMatch /(browser\\/.*|harness\\/self-test)\\.spec\\.ts$/, retries 0) and testIgnore /tests\\/perf\\// on the six existing projects. (SC-29: QA owns the config file; MODIFY after QA-003/QA-018.)",
+    "depends_on": [
+      "PERF-001",
+      "QA-003",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "playwright test --list --project perf lists only tests/perf specs; other projects list none",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-07..17 lane wiring",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-053",
+    "prd": "PRD-07",
+    "system": "perf CI",
+    "file": ".github/workflows/certify-main.yml; .github/workflows/certify-nightly.yml",
+    "action": "MODIFY",
+    "description": "Add L10 Performance jobs to QA's workflows (SC-29; PERF creates no workflow file): certify-main.yml (push main) and certify-nightly.yml (schedule + workflow_dispatch) get jobs perf-self-test and perf-profiles-b-c-d on ubuntu-latest (remote Storybook build, AG_REMOTE_RUNNER=1) and perf-profile-a dispatching the GPU EC2 worker via OIDC on main only (never pull_request/fork code with credentials); artifacts perf-results-<profile>-<sha>, perf-grades-<sha>, perf-fixture-captures-<sha>. The jobs run through QA-085 certification/lanes/perf.spec.ts.",
+    "depends_on": [
+      "PERF-039",
+      "PERF-052",
+      "QA-032",
+      "QA-033"
+    ],
+    "priority": "P0",
+    "test": "Workflow run URL with all jobs green or profile-a BLOCKED with exact denial",
+    "storybook": "Builds storybook-static remotely",
+    "acceptance": "AC-PERF-10, AC-PERF-17",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-054",
+    "prd": "PRD-07",
+    "system": "Node import",
+    "file": "NEW:tests/perf/node-cold-import.test.mjs",
+    "action": "TEST",
+    "description": "REQ-PERF-09: npm pack -> install into scratch project; per Node 20.19.0 and 22 LTS drop page cache (sudo tee /proc/sys/vm/drop_caches) then 11 fresh processes per entry using PRD-02 scripts/ci/measure-node-import.mjs; fail if '.' median >150 ms or p90 >200 ms, or ./material, ./tokens, ./primitives median >30 ms; output must contain runnerInstanceType else fail.",
+    "depends_on": [
+      "PKG-046",
+      "PKG-047"
+    ],
+    "priority": "P0",
+    "test": "node tests/perf/node-cold-import.test.mjs (remote job node-cold-import)",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-04",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-055",
+    "prd": "PRD-07",
+    "system": "perf CI",
+    "file": ".github/workflows/artifact.yml",
+    "action": "MODIFY",
+    "description": "Add job node-cold-import to PKG-073's .github/workflows/artifact.yml (L2 Artifact): ubuntu-latest matrix node [20.19.0, 22], builds and packs remotely, runs tests/perf/node-cold-import.test.mjs (REQ-PERF-09 canonical method, measured by PKG-047 scripts/ci/measure-node-import.mjs), uploads node-import-<node>-<sha> artifact; also on pull_request (no credentials needed).",
+    "depends_on": [
+      "PERF-054",
+      "PKG-073"
+    ],
+    "priority": "P0",
+    "test": "CI run URL with both matrix legs",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-04",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-056",
+    "prd": "PRD-07",
+    "system": "BCI metric",
+    "file": "NEW:tests/perf/harness/bci.mjs",
+    "action": "CREATE",
+    "description": "Pure computeBci(elements, viewport) = sum(visibleArea/viewportArea x blurPx/20) for non-none backdrop-filter (::before or host); visibleArea clipped by viewport and clipping ancestors; lens url without blur counts 1.0; plus NEW tests/perf/harness/bci.test.ts: full-viewport 20px=1.0, 12px scrim=0.6, 4.1 modal reconstruction >=2.4, half-offscreen counts half, none=0.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest tests/perf/harness/bci.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-07",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-057",
+    "prd": "PRD-07",
+    "system": "Surface host",
+    "file": "NEW:tests/perf/browser/host-backdrop-root.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-15, Chromium/WebKit/Gecko: every .ag-surface host in budgets.json subject stories and PRD-04 Material Lab matrix has computed backdrop-filter none, filter none, opacity 1 (incl. disabled), mix-blend-mode normal, will-change auto unless [data-ag-animating]. Includes shared helpers tests/perf/browser/helpers/open-story.ts and cells.ts.",
+    "depends_on": [
+      "PERF-037",
+      "PERF-052",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "playwright test --project perf tests/perf/browser/host-backdrop-root.spec.ts (remote x3 engines)",
+    "storybook": "PRD-04 Material.Lab.stories.tsx ids + subject stories over photo scene",
+    "acceptance": "AC-PERF-07",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-058",
+    "prd": "PRD-07",
+    "system": "nesting collapse",
+    "file": "NEW:tests/perf/browser/nesting-collapse.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-16, x3 engines: perf-nesting--nest-4 allowNestedLevel 0 -> exactly 1 element with non-none ::before backdrop-filter, nesting 1; allowNestedLevel 2 -> 2 and (dev build) exactly 1 warning matching /nested glass depth 2|allowNested at depth 2/ (warning assertion dropped only if PRD-04 rejected the tightening request; record observed text).",
+    "depends_on": [
+      "PERF-047",
+      "PERF-057",
+      "MAT-054",
+      "MAT-055"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/nesting-collapse.spec.ts (remote x3)",
+    "storybook": "perf-nesting--nest-4",
+    "acceptance": "AC-PERF-07",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-059",
+    "prd": "PRD-07",
+    "system": "surface budget",
+    "file": "NEW:tests/perf/browser/surface-budget.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-17, x3 engines: six product scenes + every T1 default story at scroll top/middle/bottom and with all overlays opened: 1440x900 and 1920x1080 fine -> blurred <=6, BCI <=2.0, nesting <=1; 390x844 and 768x1024 coarse -> <=3, <=1.2, <=1; blur radii in {12,20,32}; any >=95%-viewport element blur <=12 px and is the scrim. Budgets read from budgets.json.",
+    "depends_on": [
+      "PERF-057",
+      "PERF-044",
+      "PERF-056",
+      "QA-038",
+      "QA-039",
+      "CTL-055",
+      "OVL-040",
+      "NAV-016"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/surface-budget.spec.ts (remote x3)",
+    "storybook": "Six PRD-19 product scenes; 44 flagship default stories with parameters.perf",
+    "acceptance": "AC-PERF-07",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-060",
+    "prd": "PRD-07",
+    "system": "accessible fallback",
+    "file": "tests/perf/browser/surface-budget.spec.ts",
+    "action": "TEST",
+    "description": "§15.1: under forcedColors active, prefers-reduced-transparency reduce (Chromium setEmulatedMedia; attribute-only cell label where an engine lacks it) and data-ag-transparency=solid: 0 elements with non-none backdrop-filter (host or ::before) on all six scenes (4.1: app shell 3, showcase 12).",
+    "depends_on": [
+      "PERF-059",
+      "A11Y-036"
+    ],
+    "priority": "P0",
+    "test": "surface-budget.spec.ts describe 'fallbacks' (remote x3)",
+    "storybook": "Six product scenes",
+    "acceptance": "AC-PERF-15",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-061",
+    "prd": "PRD-07",
+    "system": "Dialog/AlertDialog/Sheet/Popover/Tooltip/Menu/Toast",
+    "file": "NEW:tests/perf/browser/overlay-cost.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-18 + REQ-PERF-12 scrim, x3 engines: Dialog open over photo = exactly 2 blurred (scrim <=12 px full viewport, panel 32 px), 0 blurred panel descendants, BCI <= 0.6 + panelAreaFraction x 1.6; AlertDialog, Sheet bottom/side same; full-height Sheet tinted (1 blurred); Popover/Tooltip/Menu +1 each; 5 Toasts -> <=3 blurred.",
+    "depends_on": [
+      "PERF-059",
+      "OVL-040"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/overlay-cost.spec.ts (remote x3)",
+    "storybook": "dialog--default, alert-dialog, sheet, popover, tooltip, menu, toast stories",
+    "acceptance": "AC-PERF-08",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-062",
+    "prd": "PRD-07",
+    "system": "AppShell",
+    "file": "NEW:tests/perf/browser/appshell-cost.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-19, x3 engines: AppShell + TopBar + Sidebar + Inspector + StatusBar + 8 Card + Table -> blurred <=3 at fine pointer per SC-38 (TopBar, Sidebar, Inspector; adjacent TopBar+Sidebar in one SurfaceGroup count 1); StatusBar content-sunken with computed ::before backdrop-filter none; Card/Table 0 (sticky header chrome thin allowed within 3), max nesting 1 (4.1: 29, nesting 4).",
+    "depends_on": [
+      "PERF-059",
+      "NAV-016",
+      "NAV-022",
+      "DATA-038"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/appshell-cost.spec.ts (remote x3)",
+    "storybook": "app-shell--saas, app-shell--ai-command-center, dashboard scene",
+    "acceptance": "AC-PERF-08",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-063",
+    "prd": "PRD-07",
+    "system": "enhanced lens",
+    "file": "NEW:tests/perf/browser/svg-lens-budget.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-21, x3 engines: perf-lens--lens-3 count 10 at enhanced: one svg[data-ag-lens-defs]; filter ids match ^ag-lens-(fixed|capsule|concentric)-(control|bar|panel)$; 0 feTurbulence; visible url(#ag-lens-) <=2 fine / <=1 coarse, each <=25% viewport; over-budget variant triggers dev-counter warning; WebKit/Gecko 0 url() backdrop values.",
+    "depends_on": [
+      "PERF-047",
+      "MAT-035",
+      "MAT-045"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/svg-lens-budget.spec.ts (remote x3)",
+    "storybook": "perf-lens--lens-3",
+    "acceptance": "AC-PERF-07 (enhanced cell)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-064",
+    "prd": "PRD-07",
+    "system": "./three WebGL",
+    "file": "NEW:tests/perf/browser/webgl-budget.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-22, Chromium: perf-webgl--webgl-3 live contexts <=1; after unmount 0 and loseContext called; real hidden tab (second page bringToFront, verify visibilityState hidden) -> 0 rAF in 1 s; offscreen -> 0; canvas backing ratio <=1.5 at DPR 3; LiquidGlassGPU absent from index.json and dist.",
+    "depends_on": [
+      "PERF-047",
+      "EXP-088",
+      "FND-123"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/webgl-budget.spec.ts (remote Chromium)",
+    "storybook": "perf-webgl--webgl-3, perf-mount-cycle--default",
+    "acceptance": "AC-PERF-16",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-065",
+    "prd": "PRD-07",
+    "system": "will-change lifecycle",
+    "file": "NEW:tests/perf/browser/will-change-lifecycle.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-24, x3 engines: Dialog open/close: panel has [data-starting-style] or [data-ag-animating] with will-change != auto during transition; 100 ms after transitionend no such attribute anywhere and willChangeCount 0; under reducedMotion reduce data-ag-animating never lasts >1 frame.",
+    "depends_on": [
+      "PERF-061",
+      "MOT-031"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/will-change-lifecycle.spec.ts (remote x3)",
+    "storybook": "dialog--default",
+    "acceptance": "AC-PERF-11",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-066",
+    "prd": "PRD-07",
+    "system": "settled idle",
+    "file": "NEW:tests/perf/browser/settled-idle.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-26, x3 engines: every T1/T2 subject story 500 ms after last transition/animation end with no input -> pending rAF 0, intervals 0, infinite animations 0; indeterminate Progress/Spinner <=1 infinite on transform/opacity only and 0 under reduced motion; Switch/Slider 0 infinite at rest and after toggle.",
+    "depends_on": [
+      "PERF-057",
+      "PERF-044",
+      "MOT-071",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/settled-idle.spec.ts (remote x3)",
+    "storybook": "All subject stories in budgets.json",
+    "acceptance": "AC-PERF-11",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-067",
+    "prd": "PRD-07",
+    "system": "leaks",
+    "file": "NEW:tests/perf/browser/mount-unmount-leak.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-27, Chromium --js-flags=--expose-gc: per flagship via perf-mount-cycle--default, 10 mount/unmount cycles; window/document listener counts, observers, intervals, pending rAF return to pre-mount values; heap delta <=1 MB after gc().",
+    "depends_on": [
+      "PERF-047",
+      "PERF-037"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/mount-unmount-leak.spec.ts (remote Chromium)",
+    "storybook": "perf-mount-cycle--default",
+    "acceptance": "AC-PERF-12",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-068",
+    "prd": "PRD-07",
+    "system": "hydration",
+    "file": "NEW:tests/perf/browser/hydration-stability.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-30, Chromium: NEW helpers/hydration-build.mjs + hydration-page.tsx build each product scene with renderToString (AuraGlassScript in head) and a client bundle aliasing react-dom/client to react-dom/profiling (+ scheduler alias per installed React major); after hydrateRoot, 1 s idle: 0 Profiler onRender after hydration, 0 class/data-ag-tier mutations on [data-ag-surface], tier set before first paint.",
+    "depends_on": [
+      "A11Y-032",
+      "A11Y-029",
+      "QA-018",
+      "PERF-052"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/hydration-stability.spec.ts (remote Chromium)",
+    "storybook": "n/a (standalone SSR pages of the six scenes)",
+    "acceptance": "AC-PERF-13",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-069",
+    "prd": "PRD-07",
+    "system": "dev budget counter",
+    "file": "NEW:tests/perf/browser/dev-counter.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-39, Chromium dev Storybook: perf-budget--budget-7 count 7 fine -> exactly 1 '[aura-glass] surface budget' warning per crossing; 6 -> 0; 4 coarse -> 1; no repeat on scroll/re-render; production Storybook build -> 0 warnings and no surfaceCounter script.",
+    "depends_on": [
+      "PERF-047",
+      "MAT-055"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/dev-counter.spec.ts (remote Chromium)",
+    "storybook": "perf-budget--budget-7",
+    "acceptance": "AC-PERF-07 (dev counter thresholds verified)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-070",
+    "prd": "PRD-07",
+    "system": "responsive",
+    "file": "tests/perf/browser/surface-budget.spec.ts",
+    "action": "TEST",
+    "description": "§14 resize, Chromium: dashboard scene in the Profiler page, 1440x900 -> 390x844: library commits <=1 per component, 0 new composited layers for .ag-surface (CDP LayerTree), 0 lens-defs filter mutations unless size class changed.",
+    "depends_on": [
+      "PERF-059",
+      "PERF-068"
+    ],
+    "priority": "P2",
+    "test": "surface-budget.spec.ts describe 'resize' (remote Chromium)",
+    "storybook": "dashboard product scene",
+    "acceptance": "AC-PERF-07",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-071",
+    "prd": "PRD-07",
+    "system": "Menu/Select/Combobox/Tabs",
+    "file": "NEW:tests/perf/browser/input-latency.spec.ts",
+    "action": "TEST",
+    "description": "§15.7 (new spec file, recorded deviation): event-timing entries for scripted keydown (ArrowDown x10, Enter, Escape) on Menu, Select, Combobox, Tabs: p95 <=50 ms desktop Chromium, <=100 ms under profile (b) emulation.",
+    "depends_on": [
+      "PERF-040",
+      "CTL-055",
+      "OVL-040"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/input-latency.spec.ts (remote Chromium)",
+    "storybook": "menu, select, combobox, tabs default stories",
+    "acceptance": "AC-PERF-10 (interaction latency row of §16.4)",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-072",
+    "prd": "PRD-07",
+    "system": "Tabs/SegmentedControl/TabBar/Table/TreeView/Toolbar/Thread/NowPlayingBar",
+    "file": "NEW:tests/perf/browser/component-budgets.spec.ts",
+    "action": "TEST",
+    "description": "§7 specific budgets (new spec file, recorded deviation): indicator switch LayoutCount delta 0 after first frame, transform only; Table 10,000 rows virtualized (DOM rows <= visible+overscan) and scroll p95 <=16.7 ms on profile a; TreeView 500 nodes virtualized, 0 permanent will-change; Button in Toolbar no own blurred ::before; Thread 500 messages 0 blur, virtualized, StreamingText <=1 commit/frame; NowPlayingBar paused 0 rAF.",
+    "depends_on": [
+      "PERF-040",
+      "CTL-055",
+      "NAV-016",
+      "DATA-038",
+      "AI-034",
+      "MED-130"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/component-budgets.spec.ts (remote; profile a cells on GPU worker)",
+    "storybook": "tabs, segmented-control, tab-bar, table (10k rows arg), tree-view (500 nodes), toolbar, thread (500), now-playing-bar stories",
+    "acceptance": "AC-PERF-10, AC-PERF-11",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-073",
+    "prd": "PRD-07",
+    "system": "visual evidence",
+    "file": "NEW:tests/perf/browser/evidence-captures.spec.ts",
+    "action": "TEST",
+    "description": "Remote screenshots of Dialog open, AppShell dashboard and the six scenes at 1440 fine and 390 coarse over photo, each with a JSON sidecar of blurred elements and BCI; artifact perf-budget-captures-<sha>; not baselines, not committed; input to human review PERF-084.",
+    "depends_on": [
+      "PERF-059",
+      "PERF-061",
+      "PERF-062"
+    ],
+    "priority": "P2",
+    "test": "Artifact perf-budget-captures-<sha> exists with 16+ PNGs and sidecars; every PNG non-blank (pixel variance check)",
+    "storybook": "dialog--default, app-shell scenes, six product scenes",
+    "acceptance": "AC-PERF-08 (evidence); DoD 8",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-074",
+    "prd": "PRD-07",
+    "system": "regression vs 4.1",
+    "file": "NEW:tests/perf/browser/regression-4x.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-35: derive NEW tests/perf/baselines/runtime-4x.json by script from docs/auraglass-5/autopsy/remote-evidence/metrics.json (4 stories x desktop/mobile, source sha256); spec runs profile (c) on r7i chrome-headless-shell: dialog--default, app-shell--saas, app-shell--ai-command-center >=50 fps desktop and mobile, >=0.85x perf-harness-blank--default, 0 long tasks >50 ms attributed outside storybook/vite chunks; reports 4.1 -> 5.0 deltas.",
+    "depends_on": [
+      "PERF-040",
+      "PERF-041",
+      "PERF-061",
+      "PERF-062"
+    ],
+    "priority": "P0",
+    "test": "tests/perf/browser/regression-4x.spec.ts (remote software raster)",
+    "storybook": "dialog--default, app-shell--saas, app-shell--ai-command-center, perf-harness-blank--default",
+    "acceptance": "AC-PERF-09",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-075",
+    "prd": "PRD-07",
+    "system": "PR frame ratchet",
+    "file": "NEW:tests/perf/browser/pr-ratchet.spec.ts",
+    "action": "TEST",
+    "description": "REQ-PERF-36: download main artifact perf-results-a120-<merge-base-sha>; run profile (a) 120 Hz on 44 flagships at standard; fail if p95 rises > max(10%, 1 ms) or blurred count/BCI increases; missing base artifact fails (never compare to nothing).",
+    "depends_on": [
+      "PERF-040",
+      "PERF-053"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/browser/pr-ratchet.spec.ts (remote GPU)",
+    "storybook": "44 flagship default stories",
+    "acceptance": "AC-PERF-10",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-076",
+    "prd": "PRD-07",
+    "system": "perf CI",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "MODIFY",
+    "description": "Add job perf-pr-ratchet to QA-031's .github/workflows/certify-pr.yml on pull_request paths src/** (L10 Performance): GPU worker from the QA-sized pool (SC-29) only when head repo == base repo (no cloud credentials to fork code); fork PRs run profile (c) on GitHub-hosted runners and are re-measured on main after merge (documented limitation).",
+    "depends_on": [
+      "PERF-075",
+      "QA-031"
+    ],
+    "priority": "P1",
+    "test": "Same-repo PR run shows pr-ratchet green; fork PR run shows profile-c leg only",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-10",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-077",
+    "prd": "PRD-07",
+    "system": "lint config",
+    "file": ".eslintrc.js",
+    "action": "MODIFY",
+    "description": "Wave 3 flip: six PERF rules warn -> error in .eslintrc.js and eslint.config.js once their baseline is 0 for src paths shipped in 5.0 (BLOCKED naming owner PRDs otherwise; no eslint-disable); confirm perf-static, perf-artifact, node-cold-import are in main's required checks (record exact list if not).",
+    "depends_on": [
+      "PERF-031",
+      "PERF-032",
+      "PERF-079",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "npm run lint:check exits 0 with rules at error; ci-wiring.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-05, AC-PERF-11",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-078",
+    "prd": "PRD-07",
+    "system": "beta gates",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "Beta: on the beta SHA rg -n 'backdrop-filter|backdropFilter|backdrop-blur' src excluding src/material/**, stories, tests = 0 (4.1: 513/537); perf-beta-gates green; record it in required checks for main and release/4.x (DoD 3).",
+    "depends_on": [
+      "PERF-020",
+      "PERF-010",
+      "PERF-023",
+      "FND-128",
+      "MAT-007",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "perf-beta-gates job green on beta SHA; rg count 0 recorded",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-06, AC-PERF-19",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-079",
+    "prd": "PRD-07",
+    "system": "budget calibration",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "REQ-PERF-38 at 5.0.0-alpha.1 (Button+Dialog pattern gate): remote L10 Performance lane + verify-size-budgets.mjs on the candidate SHA; set limitBytesGz = min(provisional, ceil(measured x 1.10 / 256) x 256) with calibrated true + measuredBytesGz; set tests/perf/harness/budgets.json surface/bci/frame = min(provisional, measured x 1.10), calibratedAt SHA; raises only here with artifact URL in docs/size-budgets.changelog.md; one PR labelled perf-budget-raise with owner approval.",
+    "depends_on": [
+      "PERF-005",
+      "PERF-045",
+      "PERF-053",
+      "CTL-055",
+      "OVL-040",
+      "PKG-052"
+    ],
+    "priority": "P0",
+    "test": "size-budgets-ratchet.test.ts and budgets-frozen.test.ts pass on the PR and fail on a follow-up scratch raise",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-20, AC-PERF-01",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-080",
+    "prd": "PRD-07",
+    "system": "perf grades",
+    "file": "tests/perf/harness/grade.mjs",
+    "action": "TEST",
+    "description": "RC: run profiles a60, a120, b, c, d on the RC SHA; grade.mjs writes perf-grades.json for every flagship and T2; gate 0 T1 < C, 0 T2 < D, every T1 frame p95 <=16.7 ms at 60 Hz (a) and <=25 ms (b), 0 LoAF >100 ms on (a); at beta list every T1 below B for its owner PRD.",
+    "depends_on": [
+      "PERF-042",
+      "PERF-079",
+      "PERF-059",
+      "PERF-066",
+      "PERF-067"
+    ],
+    "priority": "P0",
+    "test": "certify-*.yml (QA) release run; grade.mjs exit 0; artifact perf-grades-<sha>",
+    "storybook": "All subject stories",
+    "acceptance": "AC-PERF-10, AC-PERF-14",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-081",
+    "prd": "PRD-07",
+    "system": "real devices",
+    "file": "NEW:tests/perf/devices/device-farm-run.mjs",
+    "action": "CREATE",
+    "description": "REQ-PERF-37: tagged AWS Device Farm (us-west-2) project via governed aws wrapper; remote-access/Appium sessions on iPhone 13 (Safari 18 and 26), Pixel 7 Chrome, Moto G Power-class Chrome, plus EC2 mac1.metal Safari (safaridriver) as Intel-Mac proxy; failed session or 0 frames = failure; output JSON with session ARNs/instance id.",
+    "depends_on": [
+      "PERF-037",
+      "QA-019"
+    ],
+    "priority": "P1",
+    "test": "node tests/perf/devices/device-farm-run.mjs --dry-run on beta, full on RC (remote)",
+    "storybook": "Six product scenes, dialog--default, app-shell scenes",
+    "acceptance": "AC-PERF-18",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-082",
+    "prd": "PRD-07",
+    "system": "real devices",
+    "file": "NEW:tests/perf/devices/appium-probe.mjs",
+    "action": "CREATE",
+    "description": "Inject instrument.js; Dialog open/close x10 and AppShell scroll x3 over the six scenes; frame p95 from rAF probe; Android LoAF counts via adb forward tcp:9222 localabstract:chrome_devtools_remote CDP trace.",
+    "depends_on": [
+      "PERF-081"
+    ],
+    "priority": "P1",
+    "test": "Device run artifact contains p95 per device x metric and LoAF for Android",
+    "storybook": "dialog--default, app-shell scenes, six product scenes",
+    "acceptance": "AC-PERF-18",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-083",
+    "prd": "PRD-07",
+    "system": "real devices",
+    "file": "NEW:docs/auraglass-5/cert/real-device-matrix.md",
+    "action": "DOC",
+    "description": "Manual sign-off record (§16.6): rows device x {Dialog open/close p95, AppShell scroll p95} with OS/browser version, session ARN, SHA, p95, budget, pass/fail, exception (mid-tier Android only, <=33 ms, owner + date); values written by device-farm-run.mjs --write-matrix, not typed; 2020 MacBook Air row labelled replaced by mac1.metal proxy; dry run at beta, gate at RC-1.",
+    "depends_on": [
+      "PERF-081",
+      "PERF-082"
+    ],
+    "priority": "P1",
+    "test": "Matrix rows all within budget or one signed exception <=33 ms; values match device artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-18",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-084",
+    "prd": "PRD-07",
+    "system": "visual review",
+    "file": "docs/auraglass-5/cert/real-device-matrix.md",
+    "action": "DOC",
+    "description": "DoD 8: hand perf-fixture-captures-<sha> and perf-budget-captures-<sha> for the RC SHA to a named human reviewer through PRD-19 L14 review-record flow (material still reads as glass after caps, both pointer types); agent records reviewer login, SHA and review-record artifact name in the final report; agent never self-approves.",
+    "depends_on": [
+      "PERF-073",
+      "PERF-053",
+      "QA-098"
+    ],
+    "priority": "P1",
+    "test": "L14 review-record.json artifact exists for the RC SHA with reviewer login and passing scores",
+    "storybook": "Perf/* fixtures, scenes (captures)",
+    "acceptance": "AC-PERF-07, AC-PERF-08 (human confirmation); DoD 8",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-085",
+    "prd": "PRD-07",
+    "system": "release evidence",
+    "file": "docs/auraglass-5/cert/real-device-matrix.md",
+    "action": "DOC",
+    "description": "Build the AC-PERF-01..20 table for the RC SHA from CI artifacts (run URLs + artifact names) in the final report; verify the PRD-20 docs grade page reads perf-grades.json (rg -n 'perf-grades.json' in the docs app) with no hand-written grades/fps; BLOCKED on PRD-20 if absent.",
+    "depends_on": [
+      "PERF-080",
+      "PERF-083",
+      "DX-101"
+    ],
+    "priority": "P1",
+    "test": "Every AC row has an artifact; docs lint finds 0 unsourced perf claims",
+    "storybook": "n/a",
+    "acceptance": "AC-PERF-14 (docs from artifact); AC-PERF-01..20 table",
+    "status": "todo"
+  },
+  {
+    "id": "PERF-086",
+    "prd": "PRD-07",
+    "system": "remote resources",
+    "file": "tests/perf/devices/device-farm-run.mjs",
+    "action": "INFRA",
+    "description": "DoD 9: list every EC2 instance, mac1.metal Dedicated Host, Device Farm project/session tagged with the attempt id; terminate/release/stop; report ids and final states.",
+    "depends_on": [
+      "PERF-081",
+      "PERF-080",
+      "PERF-074"
+    ],
+    "priority": "P1",
+    "test": "aws ec2 describe-instances / describe-hosts and devicefarm list-remote-access-sessions filtered by attempt-id tag show none running",
+    "storybook": "n/a",
+    "acceptance": "DoD 9 (supports AC-PERF-18 evidence integrity)",
+    "status": "todo"
+  }
+]

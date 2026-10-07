@@ -1,0 +1,2349 @@
+[
+  {
+    "id": "MED-001",
+    "prd": "PRD-14",
+    "system": "GlassAdvancedVideoPlayer (4.1.1, consumer of TRUST)",
+    "file": "src/components/media/GlassAdvancedVideoPlayer.datasrc.test.tsx (TRUST-owned, TRUST-025)",
+    "action": "TEST",
+    "description": "REQ-MED-90 (consumer, SC-36): TRUST owns the 4.1.1 isStorybookDataMedia removal (REQ-TRUST-17, TRUST-025: delete :82-83, usePosterSurface = !mediaFile.src at :985-986, new GlassAdvancedVideoPlayer.datasrc.test.tsx). This PRD does not edit the file in 4.1.1; it verifies on the 4.1.1 commit that the TRUST test is green and that MED's 4.2 C-D wiring (MED-005) applies on top without conflict.",
+    "depends_on": [
+      "TRUST-025"
+    ],
+    "priority": "P0",
+    "test": "TRUST datasrc test green on the 4.1.1 SHA (CI artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-16: data:video/ source plays on the 4.1.1 commit (TRUST evidence, MED verified)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-003",
+    "prd": "PRD-14",
+    "system": "4.1.1 visual parity",
+    "file": ".github/workflows/certify-pr.yml (QA-owned, job regression; REL scripts/release/visual-class.mjs)",
+    "action": "TEST",
+    "description": "REQ-MED-90 / D-27 / SC-09: verify via REL's visual-class gate (pixelmatch threshold 0.1, includeAA false, changedRatio > 0.001) on QA's certify-pr.yml regression job that only GlassAdvancedVideoPlayer data:video stories change at 4.1.1; all other 4.x baselines unchanged. visual-regression.yml is not used on main (QA-119 deletes it; TRUST-062 edits it on release/4.x only). No workflow edit by MED.",
+    "depends_on": [
+      "MED-001",
+      "REL-040",
+      "QA-072"
+    ],
+    "priority": "P0",
+    "test": "remote pixel diff = 0 px, artifact URL",
+    "storybook": "existing 4.x stories (capture only)",
+    "acceptance": "AC-MED-16: other 4.x baselines unchanged",
+    "status": "todo"
+  },
+  {
+    "id": "MED-004",
+    "prd": "PRD-14",
+    "system": "deprecations (4.2)",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "REQ-MED-91 (SC-02/SC-03): MODIFY the repo-root deprecations.json (version 1, seeded by TRUST-075, schema docs/schemas/deprecations.schema.json REL-010): since 4.2.0 / removeIn 5.0.0 entries with all SC-03 required fields (id DEP-NNNN, kind, status, entry, symbol, since, removeIn, replacement, codemod media-backdrops|imports-subpaths|null, automation, breaking, message <=200 chars, doc) for every §9 name except ImageList* (LiquidGlassMediaControls, GlassMediaControls, LiquidGlassNowPlayingBar, LiquidGlassPhotoInspector, GlassImageViewer, GlassGallery, GlassLazyImage, GlassCarousel, LiquidGlassCarouselRail, the three players, GlassMediaProvider, GlassVoiceWaveform and GlassMusicVisualizer (replacement: 'no successor until 5.1 (Waveform)'), AuroraBackground, AuroraOrb, AtmosphericBackground, DynamicAtmosphere/GlassDynamicAtmosphere, GlassMeshGradient, particle components). Lands on main before the release/4.x cut.",
+    "depends_on": [
+      "TRUST-075",
+      "REL-010"
+    ],
+    "priority": "P0",
+    "test": "REL gate scripts/release/verify-deprecations.mjs; MED-012",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15 (deprecation half)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-005",
+    "prd": "PRD-14",
+    "system": "deprecation warnings: media/",
+    "file": "src/components/media/{LiquidGlassMediaControls,LiquidGlassNowPlayingBar,LiquidGlassPhotoInspector,GlassAdvancedAudioPlayer,GlassAdvancedVideoPlayer,GlassMediaProvider}.tsx; src/components/media/index.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: warnDeprecated(id) once per symbol at render/first use (alias GlassMediaControls in index.ts); no render-output change, no new render-order hooks.",
+    "depends_on": [
+      "MED-004",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "MED-010",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15: dev warning per §9 name",
+    "status": "todo"
+  },
+  {
+    "id": "MED-006",
+    "prd": "PRD-14",
+    "system": "deprecation warnings: interactive/",
+    "file": "src/components/interactive/{GlassVideoPlayer,GlassImageViewer,GlassGallery,GlassLazyImage,GlassCarousel}.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: warnDeprecated(id) once per symbol; render output unchanged.",
+    "depends_on": [
+      "MED-004",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "MED-010",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-007",
+    "prd": "PRD-14",
+    "system": "deprecation warnings: rail/waveforms",
+    "file": "src/components/data-display/LiquidGlassCarouselRail.tsx; src/components/social/GlassVoiceWaveform.tsx; src/components/ai/GlassMusicVisualizer.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: warnDeprecated(id) once per symbol; render output unchanged.",
+    "depends_on": [
+      "MED-004",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "MED-010",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-008",
+    "prd": "PRD-14",
+    "system": "deprecation warnings: backdrops",
+    "file": "src/components/marketing/{AuroraBackground,AuroraOrb}.tsx; src/components/backgrounds/{AtmosphericBackground,GlassDynamicAtmosphere,ParticleBackground}.tsx; src/components/advanced/{GlassMeshGradient,GlassParticles}.tsx; src/components/immersive/GlassParticleField.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: warnDeprecated(id) once per symbol (incl. DynamicAtmosphere alias); render output unchanged.",
+    "depends_on": [
+      "MED-004",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "MED-010",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-009",
+    "prd": "PRD-14",
+    "system": "generated deprecations",
+    "file": "src/internal/deprecations.generated.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: regenerate via node scripts/release/gen-deprecations.mjs only (no hand edit).",
+    "depends_on": [
+      "MED-004",
+      "MED-011",
+      "REL-070"
+    ],
+    "priority": "P1",
+    "test": "node scripts/release/gen-deprecations.mjs --check exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-010",
+    "prd": "PRD-14",
+    "system": "deprecation tests",
+    "file": "NEW:src/components/media/__tests__/media-backdrops-deprecations-4x.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-91: each wired id warns exactly once across two renders, REQ-REL-08 one-line format, silent under NODE_ENV=production.",
+    "depends_on": [
+      "MED-005",
+      "MED-006",
+      "MED-007",
+      "MED-008",
+      "MED-009"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-011",
+    "prd": "PRD-14",
+    "system": "deprecations (4.3) ImageList",
+    "file": "deprecations.json; src/components/image-list/{ImageList,ImageListItem,ImageListItemBar}.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MED-91: on release/4.x (4.3 train; §16 PRD-17 bridge, interim owner REL, SC-37), since 4.3.0 entries for ImageList, ImageListItem, ImageListItemBar and Glass* aliases in the root deprecations.json, plus warnDeprecated(id) wiring (REL-072) in the three files; forward-port the entries to main.",
+    "depends_on": [
+      "MED-004",
+      "REL-010",
+      "REL-072"
+    ],
+    "priority": "P2",
+    "test": "MED-010 extended to the 3 ids; gen-deprecations --check",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-012",
+    "prd": "PRD-14",
+    "system": "deprecation coverage",
+    "file": "NEW:tests/deprecations/media-backdrops-coverage.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-91: every §9 name (incl. PRD-04 sampler names and PRD-16 REMOVE names AuroraPro, SeasonalParticles, GlassAuroraDisplay, GlassNebulaClouds with 'Backdrop preset=\"aurora\"' hint) has an entry with since, removeIn, successor in message, codemod id|null; missing upstream entries fail and are reported to owner.",
+    "depends_on": [
+      "MED-004",
+      "MED-011"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15: every §9 name has an entry",
+    "status": "todo"
+  },
+  {
+    "id": "MED-013",
+    "prd": "PRD-14",
+    "system": "Codemod transform media-backdrops",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/media-backdrops.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-92 (SC-33): area transform id media-backdrops (registered by REL in the §11.2 catalogue and schema enum; engine DX-041, catalogue DX-042). Reads only the generated packages/cli/src/migrate/4to5/mappings/media-backdrops.json (REL-070 gen-deprecations.mjs --codemods from the *.meta.ts migration fields, MED-014); rewrites imports and props per §10 API-MED-03..13; manual cases emit '// TODO(aura-glass 5): <reason>, see <doc>'. No hand-written mapping file (replaces the former src/media/__codemod__/mapping.json).",
+    "depends_on": [
+      "MED-014",
+      "DX-041",
+      "DX-042"
+    ],
+    "priority": "P1",
+    "test": "DX engine tests in packages/cli/src/migrate/4to5/__tests__/ over MED-157 fixtures",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-014",
+    "prd": "PRD-14",
+    "system": "Codemod mapping data (meta migration fields)",
+    "file": "src/media/MediaControls/MediaControls.meta.ts; src/media/NowPlayingBar/NowPlayingBar.meta.ts; src/media/ImageViewer/ImageViewer.meta.ts; src/media/CarouselRail/CarouselRail.meta.ts; NEW:src/backdrops/Backdrop.meta.ts; generated packages/cli/src/migrate/4to5/mappings/media-backdrops.json",
+    "action": "MODIFY",
+    "description": "REQ-MED-92 (SC-27/SC-33): write the §10 API-MED-03..13 rows as `migration` fields in each successor's <Component>.meta.ts (players, GlassMediaProvider and GlassGallery/ImageList rows hang off MediaControls/ImageViewer meta as manual registry-item pointers; backdrop rows in the new Backdrop.meta.ts); then regenerate mappings/media-backdrops.json only via REL's scripts/release/gen-deprecations.mjs --codemods (no hand edit).",
+    "depends_on": [
+      "MED-090",
+      "MED-097",
+      "MED-121",
+      "MED-135",
+      "MED-067",
+      "FND-005",
+      "REL-070"
+    ],
+    "priority": "P1",
+    "test": "gen-deprecations.mjs --codemods --check clean; MED-157 fixtures consume the generated mapping",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-020",
+    "prd": "PRD-14",
+    "system": "subpath entries",
+    "file": "build/exports.manifest.json",
+    "action": "MODIFY",
+    "description": "REQ-MED-01/03 (SC-12): MODIFY PKG's build/exports.manifest.json (PKG-005; exports generated by scripts/build/generate-exports.mjs) with rows ./media → src/media/index.ts, ./media.css → src/media/media.css, ./backdrops → src/backdrops/index.ts, ./backdrops.css → src/backdrops/backdrops.css. Rows only; no schema change.",
+    "depends_on": [
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "PRD-02 manifest/exports check + tests/css/per-subpath-ownership.test.ts include the 2 css entries",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (entries exist)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-021",
+    "prd": "PRD-14",
+    "system": "media barrel",
+    "file": "NEW:src/media/index.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-01/04: pure re-export barrel, no \"use client\", no statements besides export…from; starts with formatMediaTime; later tasks append to exactly 7 values at 5.0.0 (Waveform is added in 5.1 by MED-167, SC-12); sampling internals never exported.",
+    "depends_on": [
+      "MED-020"
+    ],
+    "priority": "P0",
+    "test": "PKG directive lint (auraglass/use-client-required, PKG-023); MED-140 final list",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01",
+    "status": "todo"
+  },
+  {
+    "id": "MED-022",
+    "prd": "PRD-14",
+    "system": "media.css",
+    "file": "NEW:src/media/media.css",
+    "action": "CREATE",
+    "description": "REQ-MED-03: @layer ag.components skeleton with sections MediaScrubber/MediaControls/NowPlayingBar/Waveform/ImageViewer/CarouselRail; 0 !important, 0 backdrop-filter, 0 colour literals.",
+    "depends_on": [
+      "MED-020"
+    ],
+    "priority": "P0",
+    "test": "verify-media-purity.mjs + stylelint no-raw-design-values (PRD-03)",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-023",
+    "prd": "PRD-14",
+    "system": "formatMediaTime",
+    "file": "NEW:src/media/formatMediaTime.ts",
+    "action": "CREATE",
+    "description": "§8 + REQ-MED-04/23: formatMediaTime(seconds, {spoken?, hours?:'auto'|'always'}) pure, Intl.NumberFormat only; 92→\"1:32\", 3725→\"1:02:05\", spoken \"1 minute 32 seconds\", NaN→\"--:--\"/\"unknown duration\", negatives clamp to 0.",
+    "depends_on": [
+      "MED-021"
+    ],
+    "priority": "P0",
+    "test": "MED-024",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (export formatMediaTime)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-024",
+    "prd": "PRD-14",
+    "system": "formatMediaTime",
+    "file": "NEW:src/media/__tests__/formatMediaTime.test.ts",
+    "action": "TEST",
+    "description": "§12.1: 0→\"0:00\", 92→\"1:32\", 3725→\"1:02:05\", hours always, spoken forms incl. hours, NaN/Infinity, negative clamp; one node-env case (no DOM).",
+    "depends_on": [
+      "MED-023"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-10 prerequisite (valuetext source)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-025",
+    "prd": "PRD-14",
+    "system": "media purity gate",
+    "file": "NEW:scripts/ci/verify-media-purity.mjs",
+    "action": "CREATE",
+    "description": "REQ-MED-16/26/67/77/80: TS-AST + CSS scan of src/media/** and src/backdrops/** banning fetch, XMLHttpRequest, AudioContext, webkitAudioContext, MediaRecorder, Math.random, media .src= and .load(), window/document keydown listeners, elementsFromPoint/elementFromPoint/html2canvas/foreignObject/getComputedStyle( in sampling+backdrops, backdrop-filter/backdropFilter, !important, filter: in presets, colour and duration literals outside var() fallbacks, inline style keys other than --ag-start/--ag-end/--ag-chapter-start/--ag-media-progress, imports from .storybook/ certification/ showcase/; empty allowlist.",
+    "depends_on": [
+      "MED-021"
+    ],
+    "priority": "P0",
+    "test": "MED-026",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-026",
+    "prd": "PRD-14",
+    "system": "media purity gate",
+    "file": "NEW:tests/ci/verify-media-purity.test.ts",
+    "action": "TEST",
+    "description": "One violating fixture per rule under NEW:tests/ci/fixtures/media-purity/<rule>/ fails with its rule id; one clean fixture passes; real tree passes.",
+    "depends_on": [
+      "MED-025"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-027",
+    "prd": "PRD-14",
+    "system": "CI wiring",
+    "file": "package.json; .github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "SC-10: add script verify:media-purity to package.json and one step running it inside the existing 'Glass Quality Gates' job of PKG's .github/workflows/glass-pipeline.yml (after lint:check). No new job and no required-check rename.",
+    "depends_on": [
+      "MED-025",
+      "PKG-038"
+    ],
+    "priority": "P1",
+    "test": "CI run shows step green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11 enforced in CI",
+    "status": "todo"
+  },
+  {
+    "id": "MED-028",
+    "prd": "PRD-14",
+    "system": "owned-pixel sampler",
+    "file": "NEW:src/media/sampling/sampleOwnedPixels.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-60: computeLumaStats(data,w,h)→{mean,p10,p90,stdev} via the single BT.709 helper in src/theme/color.ts (C-I extraction relativeLuminanceFromChannels if needed, byte-identical); sampleOwnedPixels(el, region?) draws to 32×32 OffscreenCanvas or detached canvas, one getImageData, performance.measure('ag:sample').",
+    "depends_on": [
+      "MED-021"
+    ],
+    "priority": "P0",
+    "test": "MED-029",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-029",
+    "prd": "PRD-14",
+    "system": "owned-pixel sampler",
+    "file": "NEW:src/media/sampling/__tests__/sampleOwnedPixels.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-60: synthetic RGBA buffers: white mean 1.000±0.001, black 0.000±0.001, 50/50 split p10 0/p90 1, #777777 equals relativeLuminance; no canvas/jest-canvas-mock dependency.",
+    "depends_on": [
+      "MED-028"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-030",
+    "prd": "PRD-14",
+    "system": "classifyTone",
+    "file": "NEW:src/media/sampling/classifyTone.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-61/04: pure, server-safe; constants TONE_LIGHT_MEAN 0.60, TONE_LIGHT_P10 0.35, TONE_DARK_MEAN 0.30, TONE_DARK_P90 0.55 (module export only); null→undefined.",
+    "depends_on": [
+      "MED-028"
+    ],
+    "priority": "P0",
+    "test": "MED-032",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-031",
+    "prd": "PRD-14",
+    "system": "tone calibration",
+    "file": "NEW:scripts/audit/calibrate-media-tone.mjs; NEW:src/media/sampling/__fixtures__/scene-stats.json",
+    "action": "INFRA",
+    "description": "REQ-MED-61: remote Chromium run samples the 8 QA scene thumbnails (certification/scenes/, SC-28 ids photo, saturated-abstract, dense-text, dark-media, flat-white, flat-black, hf-pattern, video-frame), emits media-tone-calibration.json as a CI artifact under the evidence dir (scripts/ci/lib/evidence-dir.js, SC-07; D-32); commits only per-scene {mean,p10,p90,stdev,sha256}; thresholds not tuned (mismatch → stop and report). Script lives in scripts/audit/ (dev-only, never a required check, SC-11).",
+    "depends_on": [
+      "MED-028",
+      "QA-038",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "remote job green; artifact URL",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-032",
+    "prd": "PRD-14",
+    "system": "classifyTone",
+    "file": "NEW:src/media/sampling/__tests__/classifyTone.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-61: boundary table at/below/above each constant; 8-scene table from scene-stats.json: photo→light, dark-media→dark, flat-white→light, flat-black→dark, hf-pattern/saturated-abstract/dense-text→undefined, video-frame→recorded.",
+    "depends_on": [
+      "MED-030",
+      "MED-031"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05: classifyTone correct for 8 scenes",
+    "status": "todo"
+  },
+  {
+    "id": "MED-033",
+    "prd": "PRD-14",
+    "system": "tone cache + scheduling",
+    "file": "NEW:src/media/sampling/toneCache.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-63/64: LRU Map 64 keyed currentSrc|region; getOrSampleTone(el, region, onResult) returns cache hit sync else one requestIdleCallback(timeout 500)/setTimeout(0) sample per key, de-dupes in-flight; result {tone, luma(3dp)}; no scroll/resize/mutation/timeupdate/seeked listeners.",
+    "depends_on": [
+      "MED-028",
+      "MED-030"
+    ],
+    "priority": "P0",
+    "test": "MED-034",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-06 (once per source)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-034",
+    "prd": "PRD-14",
+    "system": "tone cache",
+    "file": "NEW:src/media/sampling/__tests__/toneCache.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-63: 100 calls same key → getImageData once; eviction at 65th insert; setTimeout fallback when requestIdleCallback undefined.",
+    "depends_on": [
+      "MED-033"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-06",
+    "status": "todo"
+  },
+  {
+    "id": "MED-035",
+    "prd": "PRD-14",
+    "system": "sampler error path",
+    "file": "src/media/sampling/sampleOwnedPixels.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-65: SecurityError, decode/draw failure, naturalWidth/videoWidth 0, zero region → null, no throw, one dev-only console.warn per src with exact text \"[aura-glass] Cannot sample <src>: add crossOrigin=\\\"anonymous\\\" and CORS headers, or pass tone=\\\"light|dark\\\" to Backdrop.\"; production silent.",
+    "depends_on": [
+      "MED-028"
+    ],
+    "priority": "P0",
+    "test": "MED-036",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05 (one warning)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-036",
+    "prd": "PRD-14",
+    "system": "sampler error path",
+    "file": "NEW:src/media/sampling/__tests__/sampleErrors.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-65: SecurityError → null + exact warn; same src again → no extra warn; zero-size → null; NODE_ENV=production → 0 warns.",
+    "depends_on": [
+      "MED-035"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-037",
+    "prd": "PRD-14",
+    "system": "contract requests",
+    "file": "n/a (GitHub issues on repo origin via gh)",
+    "action": "DOC",
+    "description": "§21 open items: file one issue per open owner item quoting PRD text and its fallback: OI-MED-01 EXP X-42 Waveform → 5.1; OI-MED-02 MAT glyph-flip selector for data-ag-media-tone; OI-MED-03 OVL media scrim variant blur 0 (REQ-MED-46); OI-MED-04 MOT REQ-MOT-T08 admits ag-backdrop-drift + ticker importable from src/media; OI-MED-05 DX sample-media; OI-MED-06 A11Y no-runtime-contrast allowance for src/media/sampling/**; OI-MED-07 QA creator task for verify-flagship-deliverables.mjs. Items settled by the registry (tokens SC-19, attributes and offscreen observer SC-21, Waveform 5.1 SC-12, CarouselRail autoplay SC-38) are not filed.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "7 issue URLs in report",
+    "storybook": "n/a",
+    "acceptance": "DoD item 5 (inputs to AC-MED-02/09/12)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-040",
+    "prd": "PRD-14",
+    "system": "mediaStore",
+    "file": "NEW:src/media/mediaStore.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-11/12/18: WeakMap per-element external store (subscribe/getSnapshot/getServerSnapshot); 16 wired events with {signal} from one AbortController per element; immutable MediaState; discrete events publish immediately, timeupdate coalesced to snapshotHz (default 4, clamp 1–15); frozen server snapshot per REQ-MED-17.",
+    "depends_on": [
+      "MED-021"
+    ],
+    "priority": "P0",
+    "test": "MED-043, MED-044",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-07 (≤4 commits/s)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-041",
+    "prd": "PRD-14",
+    "system": "useMediaElement",
+    "file": "NEW:src/media/useMediaElement.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-10/13/14/15/16/17: \"use client\" hook, exact MediaHandle; play() native promise, NotAllowedError → error {code:0,message:'autoplay-blocked'}; never sets src/load()/AudioContext/fetch; --ag-media-progress (4dp) on [data-ag-media-root] from PRD-06 ticker or REQ-PERF-28 rAF fallback only while playing+visible+intersecting; mediaSession metadata + play/pause/seekbackward/seekforward/seekto set/cleared; internal registerMediaRoot.",
+    "depends_on": [
+      "MED-040",
+      "MOT-040",
+      "A11Y-027"
+    ],
+    "priority": "P0",
+    "test": "MED-043..047",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-07",
+    "status": "todo"
+  },
+  {
+    "id": "MED-042",
+    "prd": "PRD-14",
+    "system": "useMediaElement sampleTone",
+    "file": "src/media/useMediaElement.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-67/63: sampleTone samples only the ref-bound HTMLMediaElement (poster as image preferred, else first loadeddata) via getOrSampleTone; writes only data-ag-media-tone and --ag-media-luma on media root; no element/selector/point parameter.",
+    "depends_on": [
+      "MED-041",
+      "MED-033"
+    ],
+    "priority": "P0",
+    "test": "MED-043 tone cases; MED-048 negatives",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-06",
+    "status": "todo"
+  },
+  {
+    "id": "MED-043",
+    "prd": "PRD-14",
+    "system": "useMediaElement",
+    "file": "NEW:src/media/__tests__/useMediaElement.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-11/14/18: each of 16 events updates its MediaState field on a jsdom HTMLVideoElement stub (NEW:src/media/__tests__/helpers/mediaElementStub.ts); commands call native methods; autoplay-blocked; after unmount and ref swap every listener on element 1 had aborted signal, 0 live registrations; src setter never called.",
+    "depends_on": [
+      "MED-042"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-06/07 unit halves",
+    "status": "todo"
+  },
+  {
+    "id": "MED-044",
+    "prd": "PRD-14",
+    "system": "useMediaElement",
+    "file": "NEW:src/media/__tests__/useMediaElement.throttle.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-12: fake timers, 60 timeupdate in 1 s → ≤4 renders; snapshotHz 0→1, 99→15; pause/seeked immediate.",
+    "depends_on": [
+      "MED-041"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-07 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-045",
+    "prd": "PRD-14",
+    "system": "useMediaElement progress loop",
+    "file": "NEW:src/media/__tests__/useMediaElement.raf.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-13: mocked rAF/cancel/IntersectionObserver: 0 callbacks paused, hidden or offscreen; cancel within 1 frame of each transition; --ag-media-progress 4dp.",
+    "depends_on": [
+      "MED-041"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-07",
+    "status": "todo"
+  },
+  {
+    "id": "MED-046",
+    "prd": "PRD-14",
+    "system": "useMediaElement SSR",
+    "file": "NEW:src/media/__tests__/useMediaElement.ssr.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-17: node-env renderToString yields server snapshot values; jsdom hydrateRoot with console.error spy = 0.",
+    "depends_on": [
+      "MED-041"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-09 prerequisite (server-safe media core)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-047",
+    "prd": "PRD-14",
+    "system": "useMediaElement mediaSession",
+    "file": "NEW:src/media/__tests__/useMediaElement.session.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-15: stubbed navigator.mediaSession + MediaMetadata: metadata and 5 handlers set on mount, nulled on unmount; false → 0 writes.",
+    "depends_on": [
+      "MED-041"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "REQ-MED-15 test green (DoD item 1)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-048",
+    "prd": "PRD-14",
+    "system": "media type tests",
+    "file": "NEW:tests/types/media.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-10/67: positive MediaHandle/MediaState types; @ts-expect-error for RefObject<HTMLDivElement>, sampleTone:'auto', extra target/element/selector option, assignment to state.currentTime.",
+    "depends_on": [
+      "MED-042"
+    ],
+    "priority": "P0",
+    "test": "remote npm run build then tsc -p tests/types --noEmit green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11 (no arbitrary-element sampling API)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-049",
+    "prd": "PRD-14",
+    "system": "media barrel",
+    "file": "src/media/index.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-01: append useMediaElement and types MediaState, MediaHandle, UseMediaElementOptions (NEW:src/media/types.ts).",
+    "depends_on": [
+      "MED-041"
+    ],
+    "priority": "P0",
+    "test": "PRD-02 directive lint; MED-140",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01",
+    "status": "todo"
+  },
+  {
+    "id": "MED-060",
+    "prd": "PRD-14",
+    "system": "Backdrop",
+    "file": "NEW:src/backdrops/Backdrop.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-70/73/04: server component (no directive/hooks/context); discriminated-union props; root .ag-backdrop with data-ag-backdrop-preset, data-ag-backdrop (media for photo/video, scheme for aurora/mesh, auto→'auto', none for grain), data-ag-palette, data-ag-motion; aria-hidden backdrop-layer + backdrop-content; tone prop written server-side; ref as prop.",
+    "depends_on": [
+      "MED-020",
+      "DS-016",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "MED-068, MED-069",
+    "storybook": "MED-075",
+    "acceptance": "AC-MED-09 (SSR without DOM)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-061",
+    "prd": "PRD-14",
+    "system": "Backdrop aurora preset",
+    "file": "NEW:src/backdrops/presets/aurora.css",
+    "action": "CREATE",
+    "description": "REQ-MED-71: port 3 radial + linear base gradients from src/components/marketing/marketing.css:380-396 onto the single layer; palettes aurora|prism|ocean|ember|mono → --ag-ref-* tokens; no particles, no filter:.",
+    "depends_on": [
+      "MED-060",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "MED-069 DOM count; purity gate filter: ban",
+    "storybook": "Aurora (each palette)",
+    "acceptance": "AC-MED-09",
+    "status": "todo"
+  },
+  {
+    "id": "MED-062",
+    "prd": "PRD-14",
+    "system": "Backdrop mesh preset",
+    "file": "NEW:src/backdrops/presets/mesh.css",
+    "action": "CREATE",
+    "description": "REQ-MED-71: 4 %-positioned radial blobs over linear base, light-dark() token sets; no canvas, no filter:.",
+    "depends_on": [
+      "MED-060",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "MED-069",
+    "storybook": "Mesh Light / Dark",
+    "acceptance": "AC-MED-09",
+    "status": "todo"
+  },
+  {
+    "id": "MED-063",
+    "prd": "PRD-14",
+    "system": "Backdrop grain",
+    "file": "NEW:src/backdrops/presets/grain.css; NEW:src/backdrops/assets/grain-112.avif; NEW:src/backdrops/assets/grain-112.png; NEW:scripts/build/gen-grain-tile.mjs",
+    "action": "CREATE",
+    "description": "REQ-MED-75: deterministic seeded (mulberry32 0x41475235) 112×112 PNG via zlib, AVIF encoded remotely with avifenc; image-set() on layer, opacity var(--_ag-grain-opacity,0.03); no mix-blend-mode on host.",
+    "depends_on": [
+      "MED-060",
+      "MAT-015"
+    ],
+    "priority": "P1",
+    "test": "MED-076 asset-size gate (AVIF ≤8 KB, PNG ≤16 KB); computed opacity",
+    "storybook": "Grain Overlay",
+    "acceptance": "AC-MED-08 (asset budgets)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-064",
+    "prd": "PRD-14",
+    "system": "Backdrop photo/video",
+    "file": "NEW:src/backdrops/presets/media.css",
+    "action": "CREATE",
+    "description": "REQ-MED-72/76: photo <img aria-hidden alt=\"\" decoding=async fetchpriority object-fit:cover>; video <video aria-hidden muted playsInline loop disablePictureInPicture preload=metadata poster> with no autoplay attr; fixed via position:fixed; forced-colors layer display:none + root Canvas; reduced transparency keeps media visible.",
+    "depends_on": [
+      "MED-060"
+    ],
+    "priority": "P0",
+    "test": "MED-069, MED-073",
+    "storybook": "Photo with Sampled Tone; Video (poster by default; plays with allowContinuous)",
+    "acceptance": "AC-MED-13",
+    "status": "todo"
+  },
+  {
+    "id": "MED-065",
+    "prd": "PRD-14",
+    "system": "BackdropTone island",
+    "file": "NEW:src/backdrops/BackdropTone.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-62/63/65/72: \"use client\", internal; samples image after decode() or video poster/first loadeddata via getOrSampleTone, skipped when tone given; writes only data-ag-media-tone + --ag-media-luma; video play() only with ancestor data-ag-continuous=\"on\", intersecting, !document.hidden, else pause+poster within 250 ms; renders backdrop-pause aria-pressed button (\"Pause background video\", chrome thin) while playing.",
+    "depends_on": [
+      "MED-064",
+      "MED-033",
+      "MOT-040",
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "MED-070, MED-072",
+    "storybook": "Video (poster by default; plays with allowContinuous)",
+    "acceptance": "AC-MED-12 (video paused at defaults/reduced motion)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-066",
+    "prd": "PRD-14",
+    "system": "Backdrop drift",
+    "file": "src/backdrops/presets/aurora.css; src/backdrops/presets/mesh.css",
+    "action": "MODIFY",
+    "description": "REQ-MED-74: @keyframes ag-backdrop-drift translate3d on 120% layer, duration var(--ag-duration-ambient), only under [data-ag-continuous=\"on\"] .ag-backdrop[data-ag-motion=drift], paused under [data-ag-offscreen]; default 0 animations; if PRD-03/06 reject → motion 'static' only (fallback b).",
+    "depends_on": [
+      "MED-061",
+      "MED-062",
+      "MOT-035",
+      "MOT-020",
+      "DS-026"
+    ],
+    "priority": "P1",
+    "test": "MED-069 getAnimations 0; MED-072 exactly 1 ag-backdrop-drift",
+    "storybook": "Aurora (each palette) drift arg",
+    "acceptance": "AC-MED-09, AC-MED-12",
+    "status": "todo"
+  },
+  {
+    "id": "MED-067",
+    "prd": "PRD-14",
+    "system": "backdrops entry",
+    "file": "NEW:src/backdrops/index.ts; NEW:src/backdrops/backdrops.css; NEW:src/backdrops/types.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-01/03/04: index exports Backdrop value + types BackdropProps, BackdropPreset, MediaTone only, server-safe; backdrops.css concatenates presets in @layer ag.components, no !important/colour literals/backdrop-filter.",
+    "depends_on": [
+      "MED-060",
+      "MED-061",
+      "MED-062",
+      "MED-063",
+      "MED-064"
+    ],
+    "priority": "P0",
+    "test": "MED-068; MED-140",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (backdrops exports exactly 1)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-068",
+    "prd": "PRD-14",
+    "system": "Backdrop SSR",
+    "file": "NEW:src/backdrops/__tests__/Backdrop.ssr.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-04/73: @jest-environment node; renderToString for 5 presets; data-ag-backdrop per preset/scheme; server module sources contain no \"use client\".",
+    "depends_on": [
+      "MED-067"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-09 (server render without DOM)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-069",
+    "prd": "PRD-14",
+    "system": "Backdrop DOM",
+    "file": "NEW:src/backdrops/__tests__/Backdrop.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-71/72/74: aurora/mesh exactly 1 layer with 0 children, no aurora-particle nodes; video no autoplay attr + preload=metadata; photo/video aria-hidden alt=\"\"; getAnimations().length 0 at defaults.",
+    "depends_on": [
+      "MED-067",
+      "MED-066"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-09",
+    "status": "todo"
+  },
+  {
+    "id": "MED-070",
+    "prd": "PRD-14",
+    "system": "BackdropTone",
+    "file": "NEW:src/backdrops/__tests__/BackdropTone.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-62/63/72: MutationObserver records only data-ag-media-tone and --ag-media-luma; skipped with tone; play() not called without data-ag-continuous=\"on\"; paused on hidden/offscreen; pause button toggles paused + aria-pressed; 100 timeupdate + 10 seeked → 1 sample.",
+    "depends_on": [
+      "MED-065"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-06, AC-MED-12 (unit halves)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-071",
+    "prd": "PRD-14",
+    "system": "Backdrop type tests",
+    "file": "NEW:tests/types/backdrops.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-70: @ts-expect-error for photo/video without src, scheme on photo, motion='full'; positive cases for all presets.",
+    "depends_on": [
+      "MED-067"
+    ],
+    "priority": "P1",
+    "test": "remote build then tsc -p tests/types --noEmit green",
+    "storybook": "n/a",
+    "acceptance": "REQ-MED-70 test green (DoD item 1)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-072",
+    "prd": "PRD-14",
+    "system": "Backdrop motion lane",
+    "file": "NEW:tests/backdrops/Backdrop.motion.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-72/74 in QA lane L9 Motion (remote): every preset at defaults 0 animations + 0 rAF over 5 s; video paused with poster at defaults (no allowContinuous); with data-ag-continuous=on exactly 1 ag-backdrop-drift animation and video plays; paused within 250 ms offscreen ([data-ag-offscreen], MOT-040) or document.hidden; reduced motion → poster; pause button toggles.",
+    "depends_on": [
+      "MED-065",
+      "MED-066",
+      "MED-075",
+      "QA-076"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright (Chromium/WebKit/Gecko) green",
+    "storybook": "Backdrop stories",
+    "acceptance": "AC-MED-09, AC-MED-12",
+    "status": "todo"
+  },
+  {
+    "id": "MED-073",
+    "prd": "PRD-14",
+    "system": "Backdrop modes lane",
+    "file": "NEW:tests/backdrops/Backdrop.modes.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-76 remote: forcedColors active → layer display:none, root background Canvas, 0 visible backdrop-filter; reduced transparency/solid → photo/video visible.",
+    "depends_on": [
+      "MED-064",
+      "MED-075",
+      "QA-056",
+      "A11Y-044"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright green",
+    "storybook": "Backdrop stories",
+    "acceptance": "AC-MED-13 (backdrop half)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-074",
+    "prd": "PRD-14",
+    "system": "sampling engine lane",
+    "file": "NEW:tests/media/media-sampling.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-60/65 remote in QA lane L8 Engine-specific, 3 engines: flat-white mean 1.000±0.001 tone light, flat-black 0.000±0.001 tone dark (QA-038 scene assets); CORS-less image → no tone + exactly one dev warn; CORS image → tone.",
+    "depends_on": [
+      "MED-065",
+      "QA-075",
+      "QA-038"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright Chromium/WebKit/Gecko green",
+    "storybook": "Photo with Sampled Tone",
+    "acceptance": "AC-MED-05",
+    "status": "todo"
+  },
+  {
+    "id": "MED-075",
+    "prd": "PRD-14",
+    "system": "Backdrop stories",
+    "file": "NEW:src/backdrops/Backdrop.stories.tsx",
+    "action": "DOC",
+    "description": "§13: stories Aurora (each palette), Mesh Light / Dark, Photo with Sampled Tone, Photo with Precomputed Tone, Video (poster by default; plays with allowContinuous), Grain Overlay, Glass Over Each Preset; StoryEnvironment decorator; /scenes assets; play functions; no previewSurface/inline optics.",
+    "depends_on": [
+      "MED-067",
+      "SB-048",
+      "SB-071",
+      "QA-039"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "7 stories listed",
+    "acceptance": "AC-MED-10 (axe 0 on §13 stories)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-076",
+    "prd": "PRD-14",
+    "system": "backdrop budgets + tarball",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "REQ-MED-75/77 (SC-15): MODIFY PKG's docs/size-budgets.json (PKG-048; gate scripts/ci/verify-size-budgets.mjs PKG-049) with rows grain-112.avif ≤8192 B, grain-112.png ≤16384 B, backdrops.css ≤3 KB gz; confirm PKG's tarball gate (tests/pack/tarball-contents.test.ts, PKG-068) excludes certification/ and .storybook/ assets.",
+    "depends_on": [
+      "MED-063",
+      "MED-067",
+      "PKG-048",
+      "PKG-049",
+      "PKG-068"
+    ],
+    "priority": "P1",
+    "test": "remote size + tarball gates green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-08",
+    "status": "todo"
+  },
+  {
+    "id": "MED-080",
+    "prd": "PRD-14",
+    "system": "MediaScrubber",
+    "file": "NEW:src/media/MediaScrubber/MediaScrubber.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-23/25: Base UI Slider wrapper; props value/max/onValueChange/onValueCommit/buffered/chapters/step 1/largeStep 10/frameRate/formatHoverTime; aria-label Seek, spoken aria-valuetext \"X of Y\" / \"of unknown duration\"; onValueChange ≤1 per rAF while dragging, 1 commit; thumb data-ag-layer=transient only while data-dragging; fill from --ag-media-progress.",
+    "depends_on": [
+      "MED-049",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "MED-082, MED-083",
+    "storybook": "MediaScrubber stories",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-081",
+    "prd": "PRD-14",
+    "system": "MediaScrubber layers",
+    "file": "NEW:src/media/MediaScrubber/BufferedLayer.tsx; NEW:src/media/MediaScrubber/ChapterMarkers.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-24: media-scrubber-buffered with --ag-start/--ag-end; media-scrubber-chapter with title + --ag-chapter-start; hover tooltip media-scrubber-hover aria-hidden at (hover:hover), above-thumb time while dragging at coarse; ::before ≥44 px hit area at coarse.",
+    "depends_on": [
+      "MED-080"
+    ],
+    "priority": "P0",
+    "test": "MED-082",
+    "storybook": "Buffered and Chapters",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-082",
+    "prd": "PRD-14",
+    "system": "MediaScrubber",
+    "file": "NEW:src/media/__tests__/MediaScrubber.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-23/24/25: valuetext for 0, 92, 3725, NaN duration; buffered/chapter nodes and custom properties; one onValueCommit per simulated drag.",
+    "depends_on": [
+      "MED-081"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-10 (unit)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-083",
+    "prd": "PRD-14",
+    "system": "MediaScrubber drag",
+    "file": "NEW:tests/media/MediaScrubber.drag.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-25 remote interaction lane: 300 px pointer drag over 30 frames → ≤30 seek calls, exactly 1 commit.",
+    "depends_on": [
+      "MED-081",
+      "MED-101",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright 3 engines green",
+    "storybook": "Buffered and Chapters",
+    "acceptance": "AC-MED-07 (scrub cost input)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-084",
+    "prd": "PRD-14",
+    "system": "MediaControls.Root (flagship 43)",
+    "file": "NEW:src/media/MediaControls/MediaControls.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-20/21/22/82/83: Base UI Toolbar role=toolbar aria-label default \"Media controls\", one tab stop, roving Left/Right/Home/End; inside PRD-04 SurfaceGroup chrome variant default clear thin (1 backdrop-filter); media handle or controlled props, dev error once if both; data-ag-media-root, data-state playing|paused|waiting|ended|error; registerMediaRoot; default children PlayButton/Scrubber/Time/Volume; ref as prop.",
+    "depends_on": [
+      "MED-080",
+      "FND-001",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "MED-091, MED-092, MED-095",
+    "storybook": "MediaControls stories",
+    "acceptance": "AC-MED-02, AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-085",
+    "prd": "PRD-14",
+    "system": "MediaControls toggles",
+    "file": "NEW:src/media/MediaControls/parts/{PlayButton,Mute,PictureInPicture,Fullscreen}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-27: Base UI Toggle (FND-001 pin) with aria-pressed, fixed labels Play/Mute/Picture in picture/Full screen; glyphs from per-glyph modules src/icons/glyphs/** exported via PKG's manifest (PKG-005); hit targets via A11Y targets.css (A11Y-065): ≥44×44 coarse, ≥32×32 fine with --ag-space-* tokens. PiP renders nothing when unsupported.",
+    "depends_on": [
+      "MED-084",
+      "PKG-005",
+      "A11Y-065"
+    ],
+    "priority": "P0",
+    "test": "MED-094 + PRD-19 target lane computed size",
+    "storybook": "Over Video (Clear)",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-086",
+    "prd": "PRD-14",
+    "system": "MediaControls parts",
+    "file": "NEW:src/media/MediaControls/parts/{Time,Volume,Rate,Spacer}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-20/28: Time <time dateTime=PT1M32S> tabular-nums, aria-hidden when Scrubber present; Volume Base UI Slider aria-label Volume valuetext \"N percent\"; Rate 0.5–2 with </> keys; Spacer aria-hidden; every part data-ag-part=media-<part>.",
+    "depends_on": [
+      "MED-084"
+    ],
+    "priority": "P0",
+    "test": "MED-091",
+    "storybook": "Captions and Rate",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-087",
+    "prd": "PRD-14",
+    "system": "MediaControls.Captions",
+    "file": "NEW:src/media/MediaControls/parts/Captions.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-29: captions/subtitles tracks only; 0 → renders nothing; 1 → Toggle flips mode showing/disabled; >1 → Base UI Menu of labels + Off; no caption generation.",
+    "depends_on": [
+      "MED-084",
+      "FND-001"
+    ],
+    "priority": "P0",
+    "test": "MED-094 (jsdom TextTrack stub cases)",
+    "storybook": "Captions and Rate",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-088",
+    "prd": "PRD-14",
+    "system": "MediaControls shortcuts",
+    "file": "NEW:src/media/MediaControls/shortcuts.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-26: keydown on Root (and shortcutTarget ref) only when target inside and not editable: Space/K, J/L ±10 s, M, F, C, </>; shortcuts=false disables; never window/document.",
+    "depends_on": [
+      "MED-084"
+    ],
+    "priority": "P0",
+    "test": "MED-093; purity gate keydown ban",
+    "storybook": "Headless with useMediaElement",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-089",
+    "prd": "PRD-14",
+    "system": "MediaControls/Scrubber CSS",
+    "file": "src/media/media.css",
+    "action": "MODIFY",
+    "description": "§14/REQ-MED-80: @container ag-media ≥480 full row; 320–479 Volume→Mute, Rate/PiP into MoreMenu (NEW:src/media/MediaControls/parts/MoreMenu.tsx, Base UI Menu aria-label More), elapsed-only Time; <320 Play+Scrubber; flex-wrap nowrap; on-surface track tokens, forced-colors CanvasText/Highlight; no literals or backdrop-filter.",
+    "depends_on": [
+      "MED-085",
+      "MED-086"
+    ],
+    "priority": "P0",
+    "test": "MED-100; purity gate",
+    "storybook": "Compact (Play + Scrubber)",
+    "acceptance": "AC-MED-18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-090",
+    "prd": "PRD-14",
+    "system": "MediaControls meta",
+    "file": "NEW:src/media/MediaControls/MediaControls.meta.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-81: typed variant metadata (variant clear|regular, refraction), data-ag-part list, data-state values (§11.3 shape).",
+    "depends_on": [
+      "MED-084",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "MED-156 deliverables gate",
+    "storybook": "docs page part/state table generated from meta",
+    "acceptance": "AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-091",
+    "prd": "PRD-14",
+    "system": "MediaControls",
+    "file": "NEW:src/media/__tests__/MediaControls.parts.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-20/82: every part's data-ag-part; 5 data-state values driven by stub-element events.",
+    "depends_on": [
+      "MED-086",
+      "MED-087"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-14 (part/state table accuracy)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-092",
+    "prd": "PRD-14",
+    "system": "MediaControls",
+    "file": "NEW:src/media/__tests__/MediaControls.controlled.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-21: headless vs controlled DOM equal minus data-ag-media-root id; one dev error when media and playing both supplied.",
+    "depends_on": [
+      "MED-084"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15 (codemod target equivalence)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-093",
+    "prd": "PRD-14",
+    "system": "MediaControls shortcuts",
+    "file": "NEW:src/media/__tests__/MediaControls.shortcuts.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-26: Space in external <input> does not toggle; Space inside Root toggles; shortcutTarget extends scope; no window/document keydown addEventListener.",
+    "depends_on": [
+      "MED-088"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-094",
+    "prd": "PRD-14",
+    "system": "MediaControls a11y",
+    "file": "NEW:src/media/__tests__/MediaControls.a11y.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-27/29: jest-axe 0 violations default/clear/captions-menu; aria-pressed on toggles; captions 0/1/2 track cases.",
+    "depends_on": [
+      "MED-085",
+      "MED-087"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-10 (jest-axe)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-095",
+    "prd": "PRD-14",
+    "system": "MediaControls APG",
+    "file": "NEW:tests/a11y/apg/media-controls.apg.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-22 (SC-30: APG spec owned by the component PRD at tests/a11y/apg/<kebab>.apg.spec.ts): remote via A11Y harness tests/a11y/apg/harness.ts (A11Y-073) in QA lane L5 Behaviour (QA-082): toolbar roving, slider Arrow semantics when focused, Tab exits, 3 engines.",
+    "depends_on": [
+      "MED-089",
+      "MED-101",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright Chromium/WebKit/Gecko green",
+    "storybook": "MediaControls stories",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-096",
+    "prd": "PRD-14",
+    "system": "NowPlayingBar (flagship 43)",
+    "file": "NEW:src/media/NowPlayingBar/NowPlayingBar.tsx; NEW:src/media/NowPlayingBar/parts/{Artwork,Title,Subtitle,Progress,Actions,Expand}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-30..33: Root media|controlled playing/progress, onPrevious/onNext, expanded/onExpandedChange, variant default regular, sampleTone; Progress role=progressbar 0–100 integer valuenow + spoken valuetext, fill from --ag-media-progress (no inline width); Expand aria-expanded + aria-controls=expandedId (dev error if missing); Artwork <img alt=\"\"> with size reserved, one tone sample per src when sampleTone.",
+    "depends_on": [
+      "MED-084",
+      "MED-033",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "MED-098",
+    "storybook": "NowPlayingBar stories",
+    "acceptance": "AC-MED-02",
+    "status": "todo"
+  },
+  {
+    "id": "MED-097",
+    "prd": "PRD-14",
+    "system": "NowPlayingBar CSS + meta",
+    "file": "src/media/media.css; NEW:src/media/NowPlayingBar/NowPlayingBar.meta.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-34/81: @container ag-now-playing ≥360 single row; below hide Subtitle and non-play Actions, Title ellipsis, never wraps; height 56 coarse/48 fine via tokens; safe-area inset when fixed; meta per §11.3.",
+    "depends_on": [
+      "MED-096"
+    ],
+    "priority": "P0",
+    "test": "MED-099",
+    "storybook": "Collapsed at 320px",
+    "acceptance": "AC-MED-18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-098",
+    "prd": "PRD-14",
+    "system": "NowPlayingBar",
+    "file": "NEW:src/media/__tests__/NowPlayingBar.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-30..33: progressbar values, style.width empty (regression LiquidGlassNowPlayingBar.tsx:79-84), aria-expanded/aria-controls, dev error without expandedId, one sample per artwork src.",
+    "depends_on": [
+      "MED-096"
+    ],
+    "priority": "P0",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-10 (unit)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-099",
+    "prd": "PRD-14",
+    "system": "NowPlayingBar responsive",
+    "file": "NEW:tests/media/NowPlayingBar.container.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-34 remote: container widths 320/360/600 → hidden parts, ellipsis, single line.",
+    "depends_on": [
+      "MED-097",
+      "MED-101",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "remote Playwright green",
+    "storybook": "Collapsed at 320px",
+    "acceptance": "AC-MED-18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-100",
+    "prd": "PRD-14",
+    "system": "MediaControls responsive",
+    "file": "NEW:tests/media/MediaControls.container.spec.ts",
+    "action": "TEST",
+    "description": "§14 / AC-MED-18 (file not named in PRD §12.2): container 320/480/600 part visibility, MoreMenu contents, no wrap; 0 horizontal overflow at 390 viewport.",
+    "depends_on": [
+      "MED-089",
+      "MED-101",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "remote Playwright green",
+    "storybook": "Compact (Play + Scrubber)",
+    "acceptance": "AC-MED-18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-101",
+    "prd": "PRD-14",
+    "system": "flagship 43 stories + exports",
+    "file": "NEW:src/media/MediaControls.stories.tsx; NEW:src/media/MediaScrubber.stories.tsx; NEW:src/media/NowPlayingBar.stories.tsx; src/media/index.ts",
+    "action": "DOC",
+    "description": "§13 exact story names (MediaControls 7, MediaScrubber 3, NowPlayingBar 3) with play functions, inside SB's single decorator (.storybook/preview.tsx, SB-048) and SB story contract (defineComponentStories, SB-071) over the QA scenes (/scenes, QA-039); no previewSurface, no inline optics; append MediaControls, MediaScrubber, NowPlayingBar + types to src/media/index.ts.",
+    "depends_on": [
+      "MED-089",
+      "MED-097",
+      "SB-048",
+      "SB-071",
+      "QA-039"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "Over Video (Clear); Over Photo (Clear); Over Flat Canvas (falls back to Regular); Headless with useMediaElement; Captions and Rate; Compact (Play + Scrubber); Enhanced Refraction (Chromium); Buffered and Chapters; Frame Step (paused, 24 fps); Unknown Duration (live); Over Album Art; Collapsed at 320px; With Expanded Player",
+    "acceptance": "AC-MED-01, AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-110",
+    "prd": "PRD-14",
+    "system": "Waveform downsample",
+    "file": "NEW:src/media/Waveform/downsample.ts",
+    "action": "CREATE",
+    "description": "5.1 (C-E, SC-12): REQ-MED-36: downsamplePeaks(peaks, bars) pure max-abs per bucket, values clamped 0–1, bars clamp 8–256, deterministic; no Math.random. Not exported or gated at 5.0.0.",
+    "depends_on": [
+      "MED-021"
+    ],
+    "priority": "P2",
+    "test": "MED-114",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11 (no Math.random)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-111",
+    "prd": "PRD-14",
+    "system": "Waveform",
+    "file": "NEW:src/media/Waveform/Waveform.tsx",
+    "action": "CREATE",
+    "description": "5.1 (C-E, SC-12): REQ-MED-35/38/39: server-safe Waveform; one <svg role=img aria-label={label}>, ≤2 <path> (played/unplayed via one clipPath at progress), no per-bar nodes; colours --ag-on-surface / --ag-on-surface-muted (DS), CanvasText/GrayText under forced colors.",
+    "depends_on": [
+      "MED-110",
+      "DS-016"
+    ],
+    "priority": "P2",
+    "test": "MED-114, MED-125",
+    "storybook": "Voice Memo Peaks; Played Progress",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-112",
+    "prd": "PRD-14",
+    "system": "WaveformLevel",
+    "file": "NEW:src/media/Waveform/WaveformLevel.tsx",
+    "action": "CREATE",
+    "description": "5.1 (C-E): REQ-MED-37: \"use client\" WaveformLevel single-bar meter, transform scaleY(level), transition var(--ag-duration-micro) (DS motion token file, MOT values), none under data-ag-motion=calm|none.",
+    "depends_on": [
+      "MED-111",
+      "DS-026",
+      "MOT-020"
+    ],
+    "priority": "P2",
+    "test": "MED-125",
+    "storybook": "Live Level Meter",
+    "acceptance": "AC-MED-12 (Waveform level no transition under reduced motion)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-113",
+    "prd": "PRD-14",
+    "system": "peaks fixture",
+    "file": "NEW:src/media/__fixtures__/peaks-voice.json; NEW:scripts/fixtures/gen-peaks-voice.mjs",
+    "action": "CREATE",
+    "description": "5.1 (C-E): §13 fixture: 1,024 max-abs peaks decoded remotely (ffmpeg) from a licensed/CC0 voice clip; JSON records source, licence and sha256.",
+    "depends_on": [
+      "MED-110"
+    ],
+    "priority": "P2",
+    "test": "script run in remote job; fixture sha matches",
+    "storybook": "Voice Memo Peaks",
+    "acceptance": "AC-MED-10 (story renders real data)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-114",
+    "prd": "PRD-14",
+    "system": "Waveform",
+    "file": "NEW:src/media/__tests__/Waveform.test.tsx",
+    "action": "TEST",
+    "description": "5.1 (C-E): REQ-MED-35..38: 1 svg role=img; ≤2 paths (1 without progress); 10,000 peaks → bars columns; deterministic d snapshot for fixture; renderToString with peaks in node env.",
+    "depends_on": [
+      "MED-111",
+      "MED-112"
+    ],
+    "priority": "P2",
+    "test": "jest file green (no -u after first write)",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-11",
+    "status": "todo"
+  },
+  {
+    "id": "MED-115",
+    "prd": "PRD-14",
+    "system": "Waveform stories",
+    "file": "NEW:src/media/Waveform.stories.tsx",
+    "action": "DOC",
+    "description": "5.1 (C-E): §13 Waveform stories Voice Memo Peaks (peaks-voice.json), Live Level Meter (fixture-driven, Storybook clock), Played Progress, via SB story contract (SB-071).",
+    "depends_on": [
+      "MED-113",
+      "MED-114",
+      "SB-071"
+    ],
+    "priority": "P2",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "Voice Memo Peaks; Live Level Meter; Played Progress",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-116",
+    "prd": "PRD-14",
+    "system": "ImageViewer Root/Trigger/Popup",
+    "file": "NEW:src/media/ImageViewer/ImageViewer.tsx; NEW:src/media/ImageViewer/parts/{Trigger,Popup}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-40/41/43: items keyed by id, value/defaultValue/onValueChange(id), open/defaultOpen/onOpenChange, loop; Popup is OVL's Dialog (OVL-040) portalled via usePortalContainer() (FND-007); Escape, inert and scroll lock dispatched only by A11Y LayerStack (A11Y-049, SC-25); Trigger itemId resolves by id.",
+    "depends_on": [
+      "MED-021",
+      "OVL-040",
+      "FND-007",
+      "A11Y-049"
+    ],
+    "priority": "P1",
+    "test": "MED-122, MED-123",
+    "storybook": "Lightbox from Grid",
+    "acceptance": "AC-MED-10 (Dialog), AC-MED-17",
+    "status": "todo"
+  },
+  {
+    "id": "MED-117",
+    "prd": "PRD-14",
+    "system": "ImageViewer Stage + zoom/pan",
+    "file": "NEW:src/media/ImageViewer/parts/Stage.tsx; NEW:src/media/ImageViewer/useZoomPan.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-44/46/47/82: Stage data-ag-backdrop=media, data-state zoomed|fit; ≤3 <img> (current + hidden prev/next eager/async/fetchpriority low), no new Image()/fetch; samples current image tone; zoom 1–8× step 1.25; non-passive wheel on Stage only, preventDefault only with ctrl/meta or when zoomed; pointer pan setPointerCapture, two-pointer pinch; translate3d/scale on <img>; touch-action none zoomed, pan-y at 1×.",
+    "depends_on": [
+      "MED-116",
+      "MED-033"
+    ],
+    "priority": "P1",
+    "test": "MED-122, MED-123",
+    "storybook": "Zoom and Pan",
+    "acceptance": "AC-MED-17",
+    "status": "todo"
+  },
+  {
+    "id": "MED-118",
+    "prd": "PRD-14",
+    "system": "ImageViewer chrome parts",
+    "file": "NEW:src/media/ImageViewer/parts/{Toolbar,Caption,Counter,Prev,Next,ZoomIn,ZoomOut,ZoomReset,Close}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-42/45/46: Toolbar (Base UI Toolbar, FND-001) and Caption as 2 separate chrome clear thin surfaces with safe-area insets; Counter '3 of 12' through the A11Y announcer (A11Y-054), once per navigation; Prev/Next/Zoom*/Close keyboard inside popup only (no window/document keydown); no Escape handler in the popup (LayerStack).",
+    "depends_on": [
+      "MED-117",
+      "A11Y-054",
+      "FND-001"
+    ],
+    "priority": "P1",
+    "test": "MED-122, MED-123",
+    "storybook": "Lightbox from Grid",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-119",
+    "prd": "PRD-14",
+    "system": "ImageViewer.Inspector",
+    "file": "NEW:src/media/ImageViewer/parts/Inspector.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-48: overlay regular side panel 320 px at ≥768; <768 bottom region max 50dvh inside same popup (not a second dialog); LiquidGlassPhotoInspector section markup.",
+    "depends_on": [
+      "MED-116",
+      "MAT-047"
+    ],
+    "priority": "P2",
+    "test": "MED-122 viewport cases 390/1440",
+    "storybook": "With Inspector; Mobile (390) Inspector Sheet",
+    "acceptance": "AC-MED-18 (no overflow at 390)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-120",
+    "prd": "PRD-14",
+    "system": "ImageViewer CSS",
+    "file": "src/media/media.css",
+    "action": "MODIFY",
+    "description": "REQ-MED-46/49/§14: full-viewport popup; media scrim variant on OVL's .ag-scrim (OVL-023): background var(--ag-scrim-media) (DS row in tokens/sys/environment.tokens.json, DS-028; SC-19) and --_ag-scrim-blur: 0 so computed backdrop-filter is none; if OVL rejects the variant (OI-MED-03) use the standard scrim and the ≤3 filter budget; reduced motion → opacity-only ≤ --ag-duration-micro, zoom without transition.",
+    "depends_on": [
+      "MED-118",
+      "OVL-023",
+      "DS-028"
+    ],
+    "priority": "P1",
+    "test": "MED-122 computed scrim; MED-125 reduced-motion record",
+    "storybook": "Lightbox from Grid",
+    "acceptance": "AC-MED-12, AC-MED-13",
+    "status": "todo"
+  },
+  {
+    "id": "MED-121",
+    "prd": "PRD-14",
+    "system": "ImageViewer meta",
+    "file": "NEW:src/media/ImageViewer/ImageViewer.meta.ts",
+    "action": "CREATE",
+    "description": "§8/REQ-MED-82: parts, data-state zoomed|fit, variants in §11.3 shape.",
+    "depends_on": [
+      "MED-118"
+    ],
+    "priority": "P2",
+    "test": "docs part/state table generation",
+    "storybook": "docs page table",
+    "acceptance": "AC-MED-14 (shared meta shape)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-122",
+    "prd": "PRD-14",
+    "system": "ImageViewer",
+    "file": "NEW:src/media/__tests__/ImageViewer.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-43/45/46/47/48: id-keyed navigation; filter 10→3 then Trigger p7 opens p7 (10 iterations); ≤3 stage <img>; announcer once per navigation; scrim backdrop-filter none; Inspector region at 390, side panel at 1440.",
+    "depends_on": [
+      "MED-119",
+      "MED-120"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-17",
+    "status": "todo"
+  },
+  {
+    "id": "MED-123",
+    "prd": "PRD-14",
+    "system": "ImageViewer APG",
+    "file": "NEW:tests/a11y/apg/image-viewer.apg.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-41/42/44 (SC-30): remote via A11Y harness (A11Y-073) in QA lane L5 Behaviour (QA-082): focus to Close on open and back to Trigger on close, inert background, Escape via LayerStack, keys, pointer pan, pinch, ctrl/meta wheel zoom, page scroll not prevented at 1×, 3 engines.",
+    "depends_on": [
+      "MED-120",
+      "MED-124",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "remote Playwright Chromium/WebKit/Gecko green",
+    "storybook": "ImageViewer stories",
+    "acceptance": "AC-MED-10 (Dialog)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-124",
+    "prd": "PRD-14",
+    "system": "ImageViewer + Waveform exports, stories",
+    "file": "NEW:src/media/ImageViewer.stories.tsx; src/media/index.ts",
+    "action": "DOC",
+    "description": "§13: Lightbox from Grid, Zoom and Pan, With Inspector, Mobile (390) Inspector Sheet, Filtered Gallery (id-keyed) with play functions over /scenes images (SB-048 decorator, SB-071 contract); append ImageViewer + types to src/media/index.ts (Waveform is not exported at 5.0.0, SC-12).",
+    "depends_on": [
+      "MED-122",
+      "SB-048",
+      "SB-071",
+      "QA-039"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "Lightbox from Grid; Zoom and Pan; With Inspector; Mobile (390) Inspector Sheet; Filtered Gallery (id-keyed)",
+    "acceptance": "AC-MED-01, AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-125",
+    "prd": "PRD-14",
+    "system": "Waveform/ImageViewer modes",
+    "file": "NEW:tests/media/Waveform.modes.spec.ts",
+    "action": "TEST",
+    "description": "5.1 (C-E): REQ-MED-37/39/49 remote: Waveform forced-colors fills CanvasText/GrayText in QA lane L6 Environment visual (QA-056); WaveformLevel transition 0s under calm/none in L9 Motion (QA-076). The ImageViewer REQ-MED-49 opacity-only check stays in MED-151 for 5.0.",
+    "depends_on": [
+      "MED-115",
+      "QA-056",
+      "QA-076"
+    ],
+    "priority": "P2",
+    "test": "remote Playwright green",
+    "storybook": "Live Level Meter; Zoom and Pan",
+    "acceptance": "AC-MED-12, AC-MED-13",
+    "status": "todo"
+  },
+  {
+    "id": "MED-130",
+    "prd": "PRD-14",
+    "system": "CarouselRail Root/Viewport/Slide (flagship 44)",
+    "file": "NEW:src/media/CarouselRail/CarouselRail.tsx; NEW:src/media/CarouselRail/parts/{Viewport,Slide}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-50/51/52/55/82/83: props index/defaultIndex/onIndexChange, required label, slidesPerView 'auto', loop false, autoplay {interval ≥5000}|false, overMedia; <section aria-roledescription=carousel aria-label> data-state autoplaying|stopped; overMedia → data-ag-backdrop=media; Viewport scroll-snap-type x mandatory, overscroll-behavior-x contain, aria-live off while autoplaying else polite; Slide content-raised, aspect-ratio reserved; ref as prop.",
+    "depends_on": [
+      "MED-021",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "MED-136, MED-137",
+    "storybook": "Product Rail",
+    "acceptance": "AC-MED-10 (Carousel)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-131",
+    "prd": "PRD-14",
+    "system": "CarouselRail index",
+    "file": "NEW:src/media/CarouselRail/useCarouselIndex.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-52: active index from one IntersectionObserver threshold 0.6, 0 scroll listeners; scrollTo({left, behavior}) with 'auto' under reduced motion; controlled index honoured; onIndexChange once per settled change.",
+    "depends_on": [
+      "MED-130"
+    ],
+    "priority": "P1",
+    "test": "MED-136, MED-137 swipe sequence",
+    "storybook": "Product Rail",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-132",
+    "prd": "PRD-14",
+    "system": "CarouselRail controls",
+    "file": "NEW:src/media/CarouselRail/parts/{Prev,Next,Indicators}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-51/53/55: Prev/Next aria-label \"Previous slide\"/\"Next slide\", aria-disabled at ends without loop, chrome thin clear when overMedia else regular, hidden at coarse pointer; Indicators as='tabs' (tablist/tab aria-selected aria-controls roving tabindex; slides tabpanel roledescription slide \"N of M\") or 'buttons' (slides group; <button aria-label=\"Slide N\"> aria-current); Left/Right only while an indicator has focus; no global key listener.",
+    "depends_on": [
+      "MED-131",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "MED-136, MED-137",
+    "storybook": "Media Slides with Clear Controls",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-133",
+    "prd": "PRD-14",
+    "system": "CarouselRail autoplay",
+    "file": "NEW:src/media/CarouselRail/parts/AutoplayToggle.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-54 (SC-38: timer rotation counts as a loop): off by default; rotates only when the consumer autoplay prop is set AND data-ag-continuous=\"on\" is resolved (allowContinuous true AND resolved motion full; attribute written via the A11Y provider A11Y-029 per MOT semantics, A11Y-027 usePreference); AutoplayToggle first focusable ('Stop automatic slide show'/'Start automatic slide show'); pauses on hover, focus within, [data-ag-offscreen] (MOT-040 observer) and document.hidden; non-autoplay slide changes announce via the A11Y announcer (A11Y-054).",
+    "depends_on": [
+      "MED-132",
+      "A11Y-027",
+      "A11Y-029",
+      "A11Y-054",
+      "MOT-040"
+    ],
+    "priority": "P1",
+    "test": "MED-136 fake timers + preference mock",
+    "storybook": "Autoplay (opt-in, stops under reduced motion)",
+    "acceptance": "AC-MED-12 (autoplay half: prop alone does not rotate; reduced motion / calm / none never rotates)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-134",
+    "prd": "PRD-14",
+    "system": "CarouselRail CSS",
+    "file": "src/media/media.css",
+    "action": "MODIFY",
+    "description": "REQ-MED-55/§14: numeric slidesPerView calc((100% - gaps)/n), n=1 below 480 px container; no backdrop-filter/backdropFilter; forced-colors ButtonText/Highlight indicators; 0 horizontal overflow at 390.",
+    "depends_on": [
+      "MED-132"
+    ],
+    "priority": "P1",
+    "test": "purity gate; PRD-04 optics lint scoped src/media/**; MED-137 filter count",
+    "storybook": "Loop",
+    "acceptance": "AC-MED-11, AC-MED-18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-135",
+    "prd": "PRD-14",
+    "system": "CarouselRail meta",
+    "file": "NEW:src/media/CarouselRail/CarouselRail.meta.ts",
+    "action": "CREATE",
+    "description": "REQ-MED-81: parts, data-state autoplaying|stopped, variants overMedia and Indicators as (§11.3 shape).",
+    "depends_on": [
+      "MED-133"
+    ],
+    "priority": "P1",
+    "test": "MED-156",
+    "storybook": "docs part/state table",
+    "acceptance": "AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-136",
+    "prd": "PRD-14",
+    "system": "CarouselRail",
+    "file": "NEW:src/media/__tests__/CarouselRail.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-50/51/53/54: roles/roledescriptions/labels both variants; Prev/Next disabled at ends, wrap with loop; autoplay prop alone (no allowContinuous) → no rotation; prop + allowContinuous + motion full → rotation; never under reduced motion or calm/none; pauses on hover/focus/hidden (fake timers, preference mock).",
+    "depends_on": [
+      "MED-133",
+      "MED-134"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-10, AC-MED-12",
+    "status": "todo"
+  },
+  {
+    "id": "MED-137",
+    "prd": "PRD-14",
+    "system": "CarouselRail APG",
+    "file": "NEW:tests/a11y/apg/carousel-rail.apg.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-51..53 (SC-30): remote via A11Y harness (A11Y-073) in QA lane L5 Behaviour (QA-082): APG carousel script tabs + buttons, axe 0 (tests/a11y/browser/axe.spec.ts), touch swipe and horizontal trackpad → onIndexChange sequence, 3 engines.",
+    "depends_on": [
+      "MED-136",
+      "MED-138",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "remote Playwright Chromium/WebKit/Gecko green",
+    "storybook": "CarouselRail stories",
+    "acceptance": "AC-MED-10 (Carousel)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-138",
+    "prd": "PRD-14",
+    "system": "CarouselRail stories",
+    "file": "NEW:src/media/CarouselRail.stories.tsx",
+    "action": "DOC",
+    "description": "§13: Product Rail, Media Slides with Clear Controls (/scenes slides, overMedia), Autoplay (opt-in, stops under reduced motion), Loop; play functions; StoryEnvironment; no generated Default stub.",
+    "depends_on": [
+      "MED-134",
+      "SB-048",
+      "SB-071",
+      "QA-039"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "Product Rail; Media Slides with Clear Controls; Autoplay (opt-in, stops under reduced motion); Loop",
+    "acceptance": "AC-MED-10",
+    "status": "todo"
+  },
+  {
+    "id": "MED-139",
+    "prd": "PRD-14",
+    "system": "media barrel",
+    "file": "src/media/index.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-01: append CarouselRail and its prop types to src/media/index.ts (7th value).",
+    "depends_on": [
+      "MED-130"
+    ],
+    "priority": "P1",
+    "test": "MED-140",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01",
+    "status": "todo"
+  },
+  {
+    "id": "MED-140",
+    "prd": "PRD-14",
+    "system": "export lists",
+    "file": "NEW:tests/exports/media-backdrops-subpath.spec.mjs",
+    "action": "TEST",
+    "description": "REQ-MED-01: packed tarball (TRUST-002 npm-pack helper) aura-glass/media sorted value exports == [CarouselRail, ImageViewer, MediaControls, MediaScrubber, NowPlayingBar, formatMediaTime, useMediaElement] (7 at 5.0.0; Waveform is 5.1, SC-12); aura-glass/backdrops == [Backdrop].",
+    "depends_on": [
+      "MED-049",
+      "MED-067",
+      "MED-101",
+      "MED-124",
+      "MED-139",
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "remote build+pack then node --test green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01",
+    "status": "todo"
+  },
+  {
+    "id": "MED-141",
+    "prd": "PRD-14",
+    "system": "root exports",
+    "file": "NEW:tests/exports/root-no-media.spec.mjs",
+    "action": "TEST",
+    "description": "REQ-MED-02: root API report (etc/api/index.exports.json, REL-003, SC-04 slug index) and root module keys contain 0 REQ-MED-01 names and 0 §9 names after FND's root index cleanup (FND-096).",
+    "depends_on": [
+      "MED-140",
+      "REL-003",
+      "FND-096"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (root exports 0)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-142",
+    "prd": "PRD-14",
+    "system": "API reports",
+    "file": "NEW:etc/api/media.api.md; NEW:etc/api/media.exports.json; NEW:etc/api/backdrops.api.md; NEW:etc/api/backdrops.exports.json",
+    "action": "DOC",
+    "description": "REQ-MED-01 / DoD 4 (SC-04): generated by REL's scripts/release/api-report.mjs and export-snapshot.mjs --tarball (REL-003; no hand edit); approved; frozen at RC-1 with diff = 0.",
+    "depends_on": [
+      "MED-140",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "API Extractor check in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01",
+    "status": "todo"
+  },
+  {
+    "id": "MED-143",
+    "prd": "PRD-14",
+    "system": "size budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "§16 byte rows (SC-15) in PKG's docs/size-budgets.json (PKG-048; gate scripts/ci/verify-size-budgets.mjs PKG-049; no size-limit), set before measuring (D-26): {useMediaElement,MediaControls} 14 KB, {useMediaElement} 2.5 KB, {MediaScrubber} 7 KB, {formatMediaTime} 0.6 KB, {NowPlayingBar} 6 KB, {ImageViewer} 24 KB, {CarouselRail} 5 KB, {Backdrop} server 1.5 KB, BackdropTone island 2 KB, media.css 6 KB, backdrops.css 3 KB (stricter than PERF's 8 KB CSS default). Waveform row is added in 5.1 (MED-167).",
+    "depends_on": [
+      "MED-140",
+      "PKG-048",
+      "PKG-049"
+    ],
+    "priority": "P0",
+    "test": "remote scripts/ci/verify-size-budgets.mjs green at RC-1",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-08",
+    "status": "todo"
+  },
+  {
+    "id": "MED-144",
+    "prd": "PRD-14",
+    "system": "side-effect + directive gates",
+    "file": "tests/side-effects/import-gate.test.ts",
+    "action": "TEST",
+    "description": "REQ-MED-04/05: confirm PKG's side-effect gate scripts/ci/verify-side-effects.mjs (PKG-042) covers ./media and ./backdrops with 0 listeners/timers/observers/<style>/<html> attributes at import; add the entries only if the gate does not enumerate the manifest automatically.",
+    "depends_on": [
+      "MED-140",
+      "PKG-042"
+    ],
+    "priority": "P0",
+    "test": "remote PRD-02 gates green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-09 (server-safe), AC-MED-08",
+    "status": "todo"
+  },
+  {
+    "id": "MED-145",
+    "prd": "PRD-14",
+    "system": "playback perf lane",
+    "file": "NEW:tests/perf/browser/media-playback.spec.ts",
+    "action": "TEST",
+    "description": "§16 via PERF harness tests/perf/harness/run-perf.mjs (PERF-039), QA lane L10 Performance, remote Chromium 4× CPU: 30 s video-frame.webm (QA-038) playback + 3 scrubs → 0 long tasks >50 ms, TBT ≤100 ms, median FPS ≥55 during scrub / ≥58 at rest, ≤4 React commits/s per MediaControls. SC-30 naming (no .perf.ts).",
+    "depends_on": [
+      "MED-101",
+      "PERF-039",
+      "QA-038"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane green",
+    "storybook": "Headless with useMediaElement",
+    "acceptance": "AC-MED-07",
+    "status": "todo"
+  },
+  {
+    "id": "MED-146",
+    "prd": "PRD-14",
+    "system": "sampling perf lane",
+    "file": "NEW:tests/perf/browser/media-sampling.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-63/64 via run-perf.mjs (PERF-039), L10 Performance: performance.measure('ag:sample') ≤4 ms per source at 4× throttle; getImageData exactly once per source across 30 s playback + 10 seeks. SC-30 naming.",
+    "depends_on": [
+      "MED-075",
+      "MED-101",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane green",
+    "storybook": "Photo with Sampled Tone; Over Video (Clear)",
+    "acceptance": "AC-MED-06",
+    "status": "todo"
+  },
+  {
+    "id": "MED-147",
+    "prd": "PRD-14",
+    "system": "backdrop perf lane",
+    "file": "NEW:tests/perf/browser/backdrops-presets.spec.ts",
+    "action": "TEST",
+    "description": "§16 via run-perf.mjs (PERF-039), L10 Performance: every preset at defaults 0 running animations, 0 rAF over 5 s, 0 main-thread work per frame after load; drift ≤2 ms paint per frame at 1440 if background-position is chosen. SC-30 naming.",
+    "depends_on": [
+      "MED-075",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane green",
+    "storybook": "Backdrop stories",
+    "acceptance": "AC-MED-09",
+    "status": "todo"
+  },
+  {
+    "id": "MED-148",
+    "prd": "PRD-14",
+    "system": "clear-over-media scene",
+    "file": "NEW:tests/visual/media/clear-over-media.spec.ts",
+    "action": "TEST",
+    "description": "§15 clear-over-media scene in QA lanes L6 Environment visual (QA-056) + L7 Pixel regression (QA-066; tolerance from REL visual-class.mjs, SC-09): MediaControls clear + NowPlayingBar variant=clear × 8 scenes × light/dark × glass/tinted/solid × default/contrast more/forced colors/reduced motion × tier lightweight/standard/enhanced (Chromium only; enhanced tier = §16 PRD-15, interim owner MAT, MAT-035) × 1440/390 × 3 engines; pixel gates + OCR contrast.",
+    "depends_on": [
+      "MED-101",
+      "QA-056",
+      "QA-066",
+      "MAT-015",
+      "MAT-035"
+    ],
+    "priority": "P0",
+    "test": "remote environment-matrix run green, 0 failures",
+    "storybook": "Over Video (Clear); Over Photo (Clear); Over Album Art",
+    "acceptance": "AC-MED-02, AC-MED-03",
+    "status": "todo"
+  },
+  {
+    "id": "MED-149",
+    "prd": "PRD-14",
+    "system": "tone never lowers legibility",
+    "file": "tests/visual/media/clear-over-media.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MED-66: each scene run twice (data-ag-media-tone forced on vs removed); worst-case OCR contrast with tone ≥ without; three-composite check per PRD-19.",
+    "depends_on": [
+      "MED-148"
+    ],
+    "priority": "P0",
+    "test": "remote run green; per-scene on/off table artifact",
+    "storybook": "Over Video (Clear)",
+    "acceptance": "AC-MED-04",
+    "status": "todo"
+  },
+  {
+    "id": "MED-150",
+    "prd": "PRD-14",
+    "system": "flagship visuals",
+    "file": "NEW:tests/visual/media/flagships.spec.ts",
+    "action": "TEST",
+    "description": "§12.2: ImageViewer chrome and CarouselRail over media and flat scenes through QA L6/L7 pixel gates + OCR.",
+    "depends_on": [
+      "MED-124",
+      "MED-138",
+      "QA-056",
+      "QA-066"
+    ],
+    "priority": "P1",
+    "test": "remote environment-matrix run green",
+    "storybook": "Lightbox from Grid; Media Slides with Clear Controls",
+    "acceptance": "AC-MED-03",
+    "status": "todo"
+  },
+  {
+    "id": "MED-151",
+    "prd": "PRD-14",
+    "system": "story mode sweep",
+    "file": "NEW:tests/media/media-stories.modes.spec.ts",
+    "action": "TEST",
+    "description": "AC-MED-10/12/13: every src/media/*.stories.tsx and Backdrop story: L9 Motion under reduced motion and default preferences (0 running animations, video paused with poster, consumer-set CarouselRail autoplay does not rotate without allowContinuous; ImageViewer transitions opacity-only, REQ-MED-49) and L6 Environment visual forced-colors axis (0 visible backdrop-filter, 0 visible decorative layers); Playwright axe 0.",
+    "depends_on": [
+      "MED-075",
+      "MED-101",
+      "MED-124",
+      "MED-138",
+      "QA-056",
+      "QA-076"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright 3 engines green",
+    "storybook": "all §13 stories",
+    "acceptance": "AC-MED-10, AC-MED-12, AC-MED-13",
+    "status": "todo"
+  },
+  {
+    "id": "MED-152",
+    "prd": "PRD-14",
+    "system": "registry items",
+    "file": "NEW:registry/items/{media-video-player,media-audio-player,media-gallery,media-now-playing,backdrop-hero}/",
+    "action": "CREATE",
+    "description": "REQ-MED-81 / §8 (SC-32 layout registry/items/<id>/): registry:item sources built only from package exports: video player (native <video> + <track kind=captions> + useMediaElement + MediaControls), audio player (useMediaElement + MediaControls; Waveform peaks added in 5.1), gallery (T2 Grid + ImageViewer.Trigger), now-playing, backdrop-hero; render-gate fixtures. DX owns schema, registry/registry.json entries (DX-067), build and render harness.",
+    "depends_on": [
+      "MED-101",
+      "MED-124",
+      "MED-075",
+      "DX-067"
+    ],
+    "priority": "P1",
+    "test": "DX registry lint + render harness green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-14 (registry usage deliverable)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-153",
+    "prd": "PRD-14",
+    "system": "media-viewer block",
+    "file": "registry/blocks/media-viewer/ (content; scaffold and registration by DX-075)",
+    "action": "MODIFY",
+    "description": "REQ-MED-81 / SC-32: this PRD owns the content of the GA block media-viewer: fill DX-075's skeleton page with the MediaControls + ImageViewer + CarouselRail composition built only from package exports. DX-075 (scaffold + registration only) consumes this content; no dependency from MED on DX-075 to avoid a cycle.",
+    "depends_on": [
+      "MED-152",
+      "DX-067"
+    ],
+    "priority": "P1",
+    "test": "PRD-18 block render gate green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-154",
+    "prd": "PRD-14",
+    "system": "selector-change tables",
+    "file": "NEW:src/media/MediaControls/MediaControls.selectors.json; NEW:src/media/CarouselRail/CarouselRail.selectors.json",
+    "action": "DOC",
+    "description": "REQ-MED-81 §11.3: 4.x → 5.0 selector maps (LiquidGlassMediaControls/LiquidGlassNowPlayingBar → media-* parts; LiquidGlassCarouselRail/GlassCarousel → CarouselRail parts); path/format as verify-flagship-deliverables.mjs requires.",
+    "depends_on": [
+      "MED-090",
+      "MED-135"
+    ],
+    "priority": "P1",
+    "test": "MED-156",
+    "storybook": "docs selector table",
+    "acceptance": "AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-155",
+    "prd": "PRD-14",
+    "system": "flagship budget + grade lines",
+    "file": "src/media/MediaControls/MediaControls.meta.ts; src/media/CarouselRail/CarouselRail.meta.ts",
+    "action": "MODIFY",
+    "description": "REQ-MED-81 §11.3: add budget line (§16 rows), perf grade (from MED-145/MED-137 data, ≥C), APG script links, environment-baseline ids, codemod fixture links to meta.",
+    "depends_on": [
+      "MED-143",
+      "MED-145",
+      "MED-137",
+      "MED-148"
+    ],
+    "priority": "P1",
+    "test": "MED-156",
+    "storybook": "docs page",
+    "acceptance": "AC-MED-14 (perf grade ≥C)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-156",
+    "prd": "PRD-14",
+    "system": "flagship deliverables gate",
+    "file": "scripts/ci/verify-flagship-deliverables.mjs",
+    "action": "TEST",
+    "description": "REQ-MED-81: add entries media-controls and carousel-rail to QA's scripts/ci/verify-flagship-deliverables.mjs (QA-owned; created by QA-127, which closes OI-MED-07); gate green for both with all §11.3 items.",
+    "depends_on": [
+      "MED-154",
+      "MED-155",
+      "MED-152",
+      "MED-153",
+      "MED-157",
+      "QA-127"
+    ],
+    "priority": "P0",
+    "test": "node scripts/ci/verify-flagship-deliverables.mjs green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-157",
+    "prd": "PRD-14",
+    "system": "codemod fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/media-backdrops/",
+    "action": "CREATE",
+    "description": "REQ-MED-92 (SC-33): <case>/{input.tsx,output.tsx} per §9 name under the DX engine layout: full/mostly rows rewrite imports+props per §10; manual rows emit '// TODO(aura-glass 5): <reason>, see <doc>'.",
+    "depends_on": [
+      "MED-013",
+      "DX-041"
+    ],
+    "priority": "P1",
+    "test": "PRD-18 migrate fixture runner green, idempotent second run",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-158",
+    "prd": "PRD-14",
+    "system": "codemod canaries",
+    "file": "tests/dx/codemod-canary.spec.ts (DX-owned, DX-060) over tests/fixtures/consumer-4x/ (REL-115)",
+    "action": "TEST",
+    "description": "AC-MED-15: run migrate 4to5 --transform media-backdrops through DX's codemod canary over REL's frozen 4.x fixture (SC-08) for its media/backdrop usages; apply recorded fixture outputs for manual TODOs; canary type-checks with 0 TS errors.",
+    "depends_on": [
+      "MED-157",
+      "DX-060",
+      "REL-115"
+    ],
+    "priority": "P1",
+    "test": "remote canary job: 0 TS errors",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-159",
+    "prd": "PRD-14",
+    "system": "compat adapters",
+    "file": "NEW:src/compat/media/{LiquidGlassMediaControls,GlassMediaControls,LiquidGlassNowPlayingBar,LiquidGlassPhotoInspector,GlassImageViewer,GlassCarousel,LiquidGlassCarouselRail}.tsx; NEW:src/compat/backdrops/{AuroraBackground,AuroraOrb,AtmosphericBackground,GlassDynamicAtmosphere,GlassMeshGradient}.tsx",
+    "action": "CREATE",
+    "description": "REQ-MED-93 (SC-34): 13 adapters (DynamicAtmosphere aliases GlassDynamicAtmosphere) over 5.0 components with §10 prop mapping, each calling warnDeprecated(id) (REL-072); re-exported by DX's generated src/compat/index.ts (DX-065, gen-deprecations.mjs --compat); no adapter for names without a 5.0 component successor.",
+    "depends_on": [
+      "MED-101",
+      "MED-124",
+      "MED-138",
+      "MED-067",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "MED-160",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15 (compat path)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-160",
+    "prd": "PRD-14",
+    "system": "compat adapters",
+    "file": "NEW:tests/compat/media-backdrops.compat.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MED-93: each of 13 adapters renders with 4.x props, asserts 5.0 data-ag-part DOM and exactly 1 dev warning.",
+    "depends_on": [
+      "MED-159"
+    ],
+    "priority": "P1",
+    "test": "jest file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-15",
+    "status": "todo"
+  },
+  {
+    "id": "MED-161",
+    "prd": "PRD-14",
+    "system": "Showcase music-player (composition)",
+    "file": "showcase/music-player/MusicPlayer.showcase.tsx (SB-owned, SB-113)",
+    "action": "MODIFY",
+    "description": "§13 / SC-31: supply the 'Music Player over Album Art' composition and fixtures for SB's showcase file (SB-113 owns the file and the import/determinism contract), composed only from package exports over QA scenes, with play functions.",
+    "depends_on": [
+      "MED-101",
+      "MED-124",
+      "MED-075",
+      "SB-113"
+    ],
+    "priority": "P2",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "Music Player over Album Art; Photos Viewer",
+    "acceptance": "AC-MED-10 (axe 0 on §13 stories)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-162",
+    "prd": "PRD-14",
+    "system": "4.x source deletion verification",
+    "file": "n/a (verification on main; PRD-16 PRs)",
+    "action": "TEST",
+    "description": "DoD 7: on main, rg --files src finds 0 of the §6 4.x paths after FND's per-family removal PRs (consumer grep scripts/removal/consumer-grep.mjs, FND-103, recorded in each PR).",
+    "depends_on": [
+      "MED-141",
+      "FND-103"
+    ],
+    "priority": "P1",
+    "test": "rg check output = 0 lines",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (root exports 0 media names)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-163",
+    "prd": "PRD-14",
+    "system": "RC-1 certification",
+    "file": "n/a (CI artifacts keyed to RC-1 SHA)",
+    "action": "TEST",
+    "description": "DoD 2–5,8: compile AC-MED-01..18 table with artifact URL per row on RC-1 build; re-verify AC-MED-05/11/16/17/18; record the §21 open-item outcomes (OI-MED-01..07: accepted or fallback), drift property choice and enhanced-axis status (§16 PRD-15, interim MAT); API freeze. Waveform (5.1) and media-transcript (5.1) are excluded from the 5.0 table.",
+    "depends_on": [
+      "MED-142",
+      "MED-143",
+      "MED-144",
+      "MED-145",
+      "MED-146",
+      "MED-147",
+      "MED-149",
+      "MED-150",
+      "MED-151",
+      "MED-156",
+      "MED-158",
+      "MED-160",
+      "MED-162",
+      "MED-037"
+    ],
+    "priority": "P0",
+    "test": "all listed lanes green on RC-1 SHA",
+    "storybook": "all §13 stories published",
+    "acceptance": "AC-MED-01..18",
+    "status": "todo"
+  },
+  {
+    "id": "MED-164",
+    "prd": "PRD-14",
+    "system": "Runtime perf budgets",
+    "file": "tests/perf/harness/budgets.json (PERF-owned, PERF-044)",
+    "action": "MODIFY",
+    "description": "§16 / SC-15: submit runtime rows for flagships 43/44 and Backdrop to PERF's tests/perf/harness/budgets.json: playback 0 long tasks >50 ms, TBT ≤100 ms, median FPS ≥55 scrub / ≥58 rest, ≤4 commits/s; sampling ≤4 ms; backdrop rest 0 animations / 0 rAF; INP ≤100 ms ImageViewer next/prev and CarouselRail Prev/Next; perf grade ≥C (target B). Provisional, calibrated by QA L10 at alpha (D-26).",
+    "depends_on": [
+      "MED-145",
+      "MED-146",
+      "MED-147",
+      "PERF-044"
+    ],
+    "priority": "P1",
+    "test": "PERF budgets-frozen test (PERF-045) and MED-145..147 read the rows",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-07, AC-MED-14",
+    "status": "todo"
+  },
+  {
+    "id": "MED-165",
+    "prd": "PRD-14",
+    "system": "Showcase media-workspace (composition)",
+    "file": "showcase/media-workspace/MediaWorkspace.showcase.tsx (SB-owned, SB-110)",
+    "action": "MODIFY",
+    "description": "§13 / SC-31: supply the 'Photos Viewer' media-workspace composition (MediaControls clear over video-frame, NowPlayingBar, ImageViewer chrome, CarouselRail) and fixtures for SB's showcase file; package exports only; play functions.",
+    "depends_on": [
+      "MED-101",
+      "MED-124",
+      "MED-138",
+      "SB-110"
+    ],
+    "priority": "P2",
+    "test": "remote Storybook build + play functions green",
+    "storybook": "showcase/media-workspace",
+    "acceptance": "AC-MED-10 (axe 0 on §13 stories)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-166",
+    "prd": "PRD-14",
+    "system": "Registry item media-transcript (5.1)",
+    "file": "NEW:registry/items/media-transcript/",
+    "action": "CREATE",
+    "description": "5.1 (C-E): REQ-MED-95 (EXP X-43, REQ-EXP-30 contract): consumer cues {start,end,text,speaker?}[] or TextTrack cues as <ol>; active cue aria-current=true; activate → media.seek(start); auto-scroll only when not hovered/focused and resolved motion full; no transcription, no network. DX registers it in registry/registry.json (DX-067).",
+    "depends_on": [
+      "MED-152",
+      "MED-049",
+      "DX-067"
+    ],
+    "priority": "P3",
+    "test": "registry/items/media-transcript/media-transcript.test.tsx 'click cue seeks', 'aria-current follows currentTime'; DX render harness",
+    "storybook": "registry item preview",
+    "acceptance": "REQ-MED-95 (5.1 gate)",
+    "status": "todo"
+  },
+  {
+    "id": "MED-167",
+    "prd": "PRD-14",
+    "system": "Waveform 5.1 export",
+    "file": "src/media/index.ts; docs/size-budgets.json; etc/api/media.api.md; etc/api/media.exports.json; deprecations.json",
+    "action": "MODIFY",
+    "description": "5.1 (C-E, SC-12): export Waveform (8th ./media value) with its types; add the {Waveform} ≤2 KB row to docs/size-budgets.json (PKG gate); regenerate etc/api/media.* via REL scripts; update the GlassVoiceWaveform/GlassMusicVisualizer deprecations.json replacement to Waveform (OI-MED-10).",
+    "depends_on": [
+      "MED-114",
+      "MED-115",
+      "MED-125",
+      "MED-142",
+      "MED-143"
+    ],
+    "priority": "P2",
+    "test": "tests/exports/media-backdrops-subpath.spec.mjs 5.1 list; verify-size-budgets.mjs; verify-deprecations.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-MED-01 (5.1: 8 values)",
+    "status": "todo"
+  }
+]

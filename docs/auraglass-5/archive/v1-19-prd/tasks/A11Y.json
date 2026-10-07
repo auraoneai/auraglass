@@ -1,0 +1,1769 @@
+[
+  {
+    "id": "A11Y-001",
+    "prd": "PRD-05",
+    "system": "a11y/contrast-contract",
+    "file": "tokens/contrast/busy-reference.json",
+    "action": "TEST",
+    "description": "Consumer of DS-033 (SC-18: only DS creates files under tokens/). Verify the DS-created file holds exactly the 9 ordered sRGB busy samples #777777 #ff3b30 #34c759 #0a84ff #ffcc00 #af52de #ff9500 #5ac8fa #8e8e93 and the composite list [#ffffff,#000000,busy] (no gradient, PRD deviation 6); a mismatch is filed against DS-033, never fixed here.",
+    "depends_on": [
+      "DS-033"
+    ],
+    "priority": "P0",
+    "test": "tests/a11y/contrast-matrix.test.ts case \"busy reference\" loads the file and asserts length 9 and exact order",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-15)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-002",
+    "prd": "PRD-05",
+    "system": "a11y/contrast-contract",
+    "file": "NEW:tests/a11y/contrast/matrix-contract.json",
+    "action": "CREATE",
+    "description": "Machine-readable matrix contract (A11Y-owned data outside tokens/, SC-18) for the PRD-03 solver: axes preset x scheme{light,dark} x contrast{standard,more} x transparency{glass,tinted,solid} x variant{regular,clear+scrim,identity,content-raised,content-sunken} x thickness{thin,regular,thick} x backdrop{light,dark,media} (no auto); pairs/thresholds on-surface 4.5, on-surface-muted 4.5 (3 if usage large-only), non-text border-strong/icon/focus-inner/focus-outer/control-boundary 3, all text 7 under more, on-surface-disabled 3; clear scrim 0.35; solver step 0.005; apca advisory.",
+    "depends_on": [
+      "A11Y-001"
+    ],
+    "priority": "P0",
+    "test": "contrast-matrix.test.ts reads thresholds from this file; JSON schema check in verify-a11y-css.test.ts fixture",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-13, REQ-A11Y-14, REQ-A11Y-15, REQ-A11Y-16, REQ-A11Y-17)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-003",
+    "prd": "PRD-05",
+    "system": "theme/color",
+    "file": "src/theme/color.ts",
+    "action": "TEST",
+    "description": "Consumer of DS-055 (PRD-03 owns src/theme/color.ts edits). Verify the single luminance implementation exports what this PRD needs under the DS names: relativeLuminance, contrastRatio/wcagContrast (WCAG 2.2), compositeOver (source-over sRGB), oklchToSrgb with CSS Color 4 gamut mapping, apcaLc (advisory), deltaE2000. Missing functions are requested from DS-055, not added here.",
+    "depends_on": [
+      "DS-055"
+    ],
+    "priority": "P0",
+    "test": "tests/a11y/contrast-matrix.test.ts imports only src/theme/color.ts; rg \"0\\.2126\" src outside color.ts reported",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-18)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-004",
+    "prd": "PRD-05",
+    "system": "theme/contrast",
+    "file": "src/theme/contrast.ts",
+    "action": "TEST",
+    "description": "Consumer of DS-109, which deletes src/theme/contrast.ts (re-export pointed at color.ts by DS-055). Verify 0 importers of theme/contrast remain in src (rg -l \"theme/contrast\" src = 0) after DS-109.",
+    "depends_on": [
+      "A11Y-003",
+      "DS-109"
+    ],
+    "priority": "P1",
+    "test": "rg -l \"theme/contrast\" src returns 0 files in the L1 Static run",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-20 (REQ-A11Y-18 one implementation)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-005",
+    "prd": "PRD-05",
+    "system": "utils/contrast",
+    "file": "src/utils/contrast.ts",
+    "action": "CONSOLIDATE",
+    "description": "Fold the luminance copy at src/utils/contrast.ts:77-89 onto the DS-055 functions in src/theme/color.ts, rewrite importers, delete the file; report remaining 0.2126 copies that belong to PRD-16 deletions.",
+    "depends_on": [
+      "A11Y-003",
+      "DS-055"
+    ],
+    "priority": "P1",
+    "test": "rg -n '0\\.2126' src matches only src/theme/color.ts plus listed PRD-16 files",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-20 (REQ-A11Y-18)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-006",
+    "prd": "PRD-05",
+    "system": "theme/color",
+    "file": "src/theme/__tests__/color.test.ts",
+    "action": "MODIFY",
+    "description": "DS-056 creates src/theme/__tests__/color.test.ts. Add (MODIFY) the a11y reference vectors: contrastRatio(\"#777777\",\"#ffffff\")=4.48+-0.01; #000 vs #fff = 21; compositeOver(\"#fff\",\"#000\",0.5)=#808080+-1/255; out-of-gamut OKLCH maps into [0,1].",
+    "depends_on": [
+      "A11Y-003",
+      "DS-056"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- color.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-18)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-007",
+    "prd": "PRD-05",
+    "system": "a11y/contrast-matrix",
+    "file": "NEW:tests/a11y/contrast-matrix.test.ts",
+    "action": "TEST",
+    "description": "Parse built material.css/tokens.css (PostCSS) and dist/contrast-matrix.json; import only src/theme/color.ts; recompute every cell's minRatio over white, black and 9 busy samples at the emitted floor alpha; assert equality with solver within 0.01 and REQ-A11Y-16 thresholds; cases 'clear cells' (0.35 scrim present) and 'disabled pair' (>=3). Fails with 'PRD-03 output missing' if inputs absent; never skips.",
+    "depends_on": [
+      "A11Y-002",
+      "A11Y-003",
+      "DS-057",
+      "DS-059"
+    ],
+    "priority": "P0",
+    "test": "tests/a11y/contrast-matrix.test.ts green in QA L4 Token contrast (certify-pr.yml)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-13, REQ-A11Y-14, REQ-A11Y-15, REQ-A11Y-16, REQ-A11Y-17, REQ-A11Y-18)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-008",
+    "prd": "PRD-05",
+    "system": "a11y/contrast-matrix",
+    "file": "tests/a11y/contrast-matrix.test.ts",
+    "action": "TEST",
+    "description": "Add case 'focus bands': per scheme ratio(--ag-focus-inner, --ag-focus-outer) >= 3 and for 4,096 backdrops (16 levels per sRGB channel) max(ratio(inner,bg), ratio(outer,bg)) >= 3.",
+    "depends_on": [
+      "A11Y-007",
+      "DS-022"
+    ],
+    "priority": "P0",
+    "test": "'focus bands' case green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-10 (REQ-A11Y-24)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-009",
+    "prd": "PRD-05",
+    "system": "tests/legacy-contrast",
+    "file": "src/__tests__/glass-contrast.spec.ts",
+    "action": "REMOVE",
+    "description": "Delete the spec (own WCAG copy at :18-37, fixed dark backdrop) and the package.json script test:glass-contrast; superseded by tests/a11y/contrast-matrix.test.ts.",
+    "depends_on": [
+      "A11Y-007"
+    ],
+    "priority": "P2",
+    "test": "npm test has no reference to glass-contrast; rg 'glass-contrast' package.json = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-18)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-010",
+    "prd": "PRD-05",
+    "system": "ci/a11y-css-gate",
+    "file": "NEW:scripts/ci/verify-a11y-css.mjs; NEW:scripts/ci/a11y-baselines/focus-outline-none.json",
+    "action": "INFRA",
+    "description": "PostCSS gate with rules layer-order, no-important, max-specificity ((0,2,0); (0,1,1) only forced-colors pseudos), no-prefers-contrast-high (src+dist), no-handwritten-floor, no-outline-none-focus, no-global-element-selectors, no-host-opacity-on-disabled, a11y-selectors-keyed-on-data-ag-surface, focus-outline-none-count vs scripts/ci/a11y-baselines/focus-outline-none.json (109, decrease-only, --enforce-zero at beta). Enforcing on src/a11y, src/theme, src/material; ratchet baselines elsewhere. Prints file:line rule. Ships with its baseline file scripts/ci/a11y-baselines/focus-outline-none.json (109 at 4.1, decrease-only), which A11Y-064 ratchets.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/a11y/verify-a11y-css.test.ts (A11Y-011)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-07, AC-A11Y-08, AC-A11Y-22 (REQ-A11Y-03, REQ-A11Y-05, REQ-A11Y-08, REQ-A11Y-13, REQ-A11Y-17, REQ-A11Y-27)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-011",
+    "prd": "PRD-05",
+    "system": "ci/a11y-css-gate",
+    "file": "NEW:tests/a11y/verify-a11y-css.test.ts",
+    "action": "TEST",
+    "description": "Fixtures scripts/ci/__fixtures__/a11y-css/<rule>/{pass,fail}.(css|tsx) for each of the 10 rules; each rule fires on fail and is silent on pass; ratchet baseline cannot increase.",
+    "depends_on": [
+      "A11Y-010"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- verify-a11y-css green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-08 (REQ-A11Y-05)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-012",
+    "prd": "PRD-05",
+    "system": "eslint/no-runtime-contrast",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/no-runtime-contrast: flags getComputedStyle color/background reads feeding contrast/luminance calls, canvas getImageData, and Resize/MutationObserver callbacks calling contrast functions; allowed only under src/backdrops/** (PRD-13 sampler). Rule owner A11Y per SC-16; plugin file and wiring owned by PKG (PKG-015), so this is a MODIFY only.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/eslint/auraglass-a11y-rules.test.ts RuleTester valid/invalid incl. src/backdrops allowance",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-25 (REQ-A11Y-20; §16 runtime contrast observers 0)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-013",
+    "prd": "PRD-05",
+    "system": "eslint/no-document-escape",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/no-document-escape: flags document/window keydown|keyup listeners whose handler compares 'Escape'|'Esc'|27; exempt src/theme/layers/**.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "RuleTester cases in tests/eslint/auraglass-a11y-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-014",
+    "prd": "PRD-05",
+    "system": "eslint/no-outline-none-focus",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/no-outline-none-focus: flags TSX string literals and cn()/clsx() args containing focus:outline-none or focus-visible:outline-none.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "RuleTester cases in tests/eslint/auraglass-a11y-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-22 (REQ-A11Y-27)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-015",
+    "prd": "PRD-05",
+    "system": "eslint/config",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Enable the three new rules as error on src/a11y/**, src/theme/**, src/material/** and warn elsewhere (ratchet).",
+    "depends_on": [
+      "A11Y-012",
+      "A11Y-013",
+      "A11Y-014",
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "npm run lint:check exits 0 on main; a fixture violation under src/theme fails",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13, AC-A11Y-22 (REQ-A11Y-20, REQ-A11Y-27, REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-016",
+    "prd": "PRD-05",
+    "system": "eslint/tests",
+    "file": "NEW:tests/eslint/auraglass-a11y-rules.test.ts",
+    "action": "TEST",
+    "description": "ESLint RuleTester suites for no-runtime-contrast, no-document-escape, no-outline-none-focus with >=3 invalid and >=3 valid cases each.",
+    "depends_on": [
+      "A11Y-012",
+      "A11Y-013",
+      "A11Y-014"
+    ],
+    "priority": "P1",
+    "test": "jest tests/eslint green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-20, REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-017",
+    "prd": "PRD-05",
+    "system": "package/deps",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "Add @axe-core/playwright exact-pinned devDependency (version from npm view, no ^/~); remove unused @axe-core/react (:416) after rg confirms 0 uses; add scripts verify:a11y-css, test:a11y:unit, test:a11y:browser (playwright test --project=a11y-chromium --project=a11y-webkit --project=a11y-firefox, projects added by A11Y-018); the axe dependency is added to docs/dependency-allowlist.json through PKG-056.",
+    "depends_on": [
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "npm ci succeeds in CI; node -e asserts the pin has no range operator",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-15 (REQ-A11Y-42)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-018",
+    "prd": "PRD-05",
+    "system": "a11y/infra",
+    "file": "playwright.config.ts",
+    "action": "MODIFY",
+    "description": "SC-29: QA owns playwright.config.ts and jest.config.js; add (MODIFY) projects a11y-chromium, a11y-webkit, a11y-firefox with testDir tests/a11y, testMatch browser/**/*.spec.ts and apg/__selftest__/**/*.spec.ts, forbidOnly true, retries 0, baseURL from STORYBOOK_URL serving storybook-static; and add <rootDir>/tests/a11y/browser/ and <rootDir>/tests/a11y/apg/ to jest.config.js testPathIgnorePatterns. No playwright.config.ts a11y-* projects is created. Per-widget apg specs run in QA L5 Behaviour (QA-082).",
+    "depends_on": [
+      "A11Y-017",
+      "QA-003",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "npm test does not collect Playwright specs; playwright test --list on CI lists 3 projects",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40 three engines)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-019",
+    "prd": "PRD-05",
+    "system": "a11y/infra",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "SC-29: register A11Y suites in QA lanes instead of a separate a11y-lanes.yml: L1 Static (eslint auraglass/no-runtime-contrast + no-document-escape, verify-a11y-css.mjs, apg coverage check), L4 Token contrast (tests/a11y/contrast-matrix.test.ts next to the DS test), L5 Behaviour (floors, rungs, forced-colors, layer-stack, prepaint, target-size, focus-not-obscured, zoom-reflow, text-spacing, axe AXE_SCOPE=pr, apg self-tests), L6 Environment visual (pixel-modes, focus-appearance, color-vision), L12 Unit (src/theme/**/__tests__). Remote only; artifacts named with run id + SHA via certify-pr.yml. Nightly/RC AXE_SCOPE=full job is requested from QA (PRD §21 OI-03).",
+    "depends_on": [
+      "A11Y-010",
+      "A11Y-018",
+      "QA-031",
+      "QA-081",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml run on a PR touching src/theme shows the A11Y suites inside L1/L4/L5/L6/L12 with 0 skips",
+    "storybook": "n/a",
+    "acceptance": "DoD §18.10 (no local browser); AC-A11Y-05 (cells exist in L5/L6)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-020",
+    "prd": "PRD-05",
+    "system": "theme/preferences",
+    "file": "NEW:src/theme/preferences/types.ts",
+    "action": "CREATE",
+    "description": "Types PreferenceKey (exact PRD §4.4 list), TransparencySetting, ContrastSetting, MotionSetting, OsSignals, ResolvedPreferences incl. floors.reasons union, PreferenceStorage, UserSettableKey.",
+    "depends_on": [
+      "A11Y-019"
+    ],
+    "priority": "P0",
+    "test": "tsc --noEmit",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-01, REQ-A11Y-21)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-021",
+    "prd": "PRD-05",
+    "system": "theme/preferences/resolve",
+    "file": "NEW:src/theme/preferences/resolve.ts",
+    "action": "CREATE",
+    "description": "Pure resolveTransparency (max of OS floor, capability floor, app, user, glassOpacity>=0.7->tinted; clamp 0..1), resolveContrast (less/custom->standard; never 'high'), resolveMotion (REQ-MOT-20: reduced-motion -> at most calm), resolvePreferences (forced colors -> solid + more, absolute). No DOM access.",
+    "depends_on": [
+      "A11Y-020"
+    ],
+    "priority": "P0",
+    "test": "resolve.test.ts (A11Y-022)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-06 (REQ-A11Y-01, REQ-A11Y-02, REQ-A11Y-03, REQ-A11Y-07)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-022",
+    "prd": "PRD-05",
+    "system": "theme/preferences/resolve",
+    "file": "NEW:src/theme/preferences/__tests__/resolve.test.ts",
+    "action": "TEST",
+    "description": "Generated cartesian product asserted toHaveLength(1024) with no result below any floor; cases 'forced colors is absolute', 'glassOpacity 0.69 stays glass, 0.7 tinted', 'less and custom map to standard', 'clamps glassOpacity'.",
+    "depends_on": [
+      "A11Y-021"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- resolve.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-06 (REQ-A11Y-01, REQ-A11Y-02, REQ-A11Y-03, REQ-A11Y-07)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-023",
+    "prd": "PRD-05",
+    "system": "theme/preferences/storage",
+    "file": "NEW:src/theme/preferences/storage.ts",
+    "action": "CREATE",
+    "description": "createLocalStorageAdapter (every access try/catch; a throw switches permanently to memory) and createMemoryStorage; key ag:prefs:v1 JSON {transparency, glassOpacity, contrast, motion, scheme, density}.",
+    "depends_on": [
+      "A11Y-020"
+    ],
+    "priority": "P0",
+    "test": "store.test.ts 'throwing storage falls back to memory'",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-23)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-024",
+    "prd": "PRD-05",
+    "system": "theme/preferences/media",
+    "file": "NEW:src/theme/preferences/media.ts",
+    "action": "CREATE",
+    "description": "Shared MediaQueryList registry WeakMap<Window, Map<query, entry>>; lazy creation on first subscribe, never at import; listener removed at 0 subscribers; the 6 queries forced-colors, prefers-contrast more, reduced-transparency, reduced-motion, color-scheme dark, pointer coarse.",
+    "depends_on": [
+      "A11Y-020"
+    ],
+    "priority": "P0",
+    "test": "usePreference.test.tsx 'shared MQL' and import-time matchMedia count 0",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19, AC-A11Y-25 (REQ-A11Y-22; §16 <=6 MQL)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-025",
+    "prd": "PRD-05",
+    "system": "theme/preferences/store",
+    "file": "NEW:src/theme/preferences/store.ts",
+    "action": "CREATE",
+    "description": "createPreferenceStore({storage, storageKey, legacyStorageKey, app, target}) with getSnapshot/getServerSnapshot/subscribe/set/resolved; set persists user value, re-resolves, writes effective data-ag-transparency/contrast/motion/scheme/density and --ag-glass-opacity on target only on change; corrupt JSON -> system; below-floor set keeps user value but resolved stays at floor; one-time legacy migration from aura-glass-accessibility-settings (highContrast->more, reducedTransparency->tinted).",
+    "depends_on": [
+      "A11Y-021",
+      "A11Y-023",
+      "A11Y-024"
+    ],
+    "priority": "P0",
+    "test": "store.test.ts (A11Y-026)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-23, REQ-A11Y-39)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-026",
+    "prd": "PRD-05",
+    "system": "theme/preferences/store",
+    "file": "NEW:src/theme/preferences/__tests__/store.test.ts",
+    "action": "TEST",
+    "description": "Cases: persistence round-trip; corrupt JSON ignored without throw; throwing storage -> memory; set('transparency','glass') under contrastMoreOS persists glass but resolved().transparency==='tinted'; legacy migration; attributes written only on change.",
+    "depends_on": [
+      "A11Y-025"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- store.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-23, REQ-A11Y-39)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-027",
+    "prd": "PRD-05",
+    "system": "theme/usePreference",
+    "file": "NEW:src/theme/preferences/usePreference.ts",
+    "action": "CREATE",
+    "description": "usePreference(key) via useSyncExternalStore with server snapshots (settings 'system', OS booleans false, glassOpacity 0); useResolvedPreferences(); usePreferenceActions() -> {set}; module singleton created lazily on first call when no provider.",
+    "depends_on": [
+      "A11Y-025"
+    ],
+    "priority": "P0",
+    "test": "usePreference.test.tsx (A11Y-028)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19, AC-A11Y-23 (REQ-A11Y-21)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-028",
+    "prd": "PRD-05",
+    "system": "theme/usePreference",
+    "file": "NEW:src/theme/preferences/__tests__/usePreference.test.tsx",
+    "action": "TEST",
+    "description": "renderToString uses server snapshot; hydrateRoot emits 0 console.error hydration warnings; 'shared MQL': 200 components calling usePreference('reducedMotionOS') -> matchMedia called exactly 1 time, listeners removed after unmount; importing the module calls matchMedia 0 times.",
+    "depends_on": [
+      "A11Y-027"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- usePreference.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-23 (REQ-A11Y-21, REQ-A11Y-22)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-029",
+    "prd": "PRD-05",
+    "system": "theme/AuraGlassProvider",
+    "file": "NEW:src/theme/AuraGlassProvider.tsx",
+    "action": "CREATE",
+    "description": "'use client' provider with PRD §10 props (transparency, glassOpacity, contrast, motion, scheme, density, storage|false, storageKey, legacyStorageKey, portalContainer, deprecations); outermost targets <html>, nested renders <div data-ag-provider> scope; writes only data-ag-* plus --ag-glass-opacity and optional brand <style>; dev-only PRD-04 startSurfaceCounter() with disposal; leaves marked slot for 05d portal root. Also: outermost provider sets data-ag-root on <html>, nested sets it on its wrapper; toasts?/tooltips? opt-out props (SC-21); portalContainer override feeds the context read by FND-007 usePortalContainer() (SC-25).",
+    "depends_on": [
+      "A11Y-027",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "AuraGlassProvider.test.tsx (A11Y-030)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-31)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-030",
+    "prd": "PRD-05",
+    "system": "theme/AuraGlassProvider",
+    "file": "NEW:src/theme/__tests__/AuraGlassProvider.test.tsx",
+    "action": "TEST",
+    "description": "Cases 'writes only data-ag and --ag-glass-opacity' (walk all elements, style empty except --ag-glass-opacity), 'legacy key migration', 'nested provider scopes attributes', 'deprecations silent'.",
+    "depends_on": [
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- AuraGlassProvider.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-31)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-031",
+    "prd": "PRD-05",
+    "system": "theme/prepaint",
+    "file": "NEW:src/theme/preferences/prepaint.ts",
+    "action": "CREATE",
+    "description": "Pre-paint function importing resolve.ts (no logic copy): reads storage, 4 OS media queries, CSS.supports backdrop-filter capability; sets preference attributes, --ag-glass-opacity, data-ag-engine (UA-CH brands then UA, REQ-MAT-54) and data-ag-tier=lightweight (REQ-MAT-55 conditions). NEW:scripts/build/build-prepaint-script.mjs (SC-11 layout) bundles+minifies to NEW:src/theme/generated/prepaint-script.ts and fails above 1,536 bytes; wired as prebuild hook.",
+    "depends_on": [
+      "A11Y-021",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "AuraGlassScript.test.tsx 'minified budget' and fixture execution",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-09, AC-A11Y-25 (REQ-A11Y-37; REQ-MAT-54..55)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-032",
+    "prd": "PRD-05",
+    "system": "theme/AuraGlassScript",
+    "file": "NEW:src/theme/AuraGlassScript.tsx",
+    "action": "CREATE",
+    "description": "Server Component ({nonce, storageKey='ag:prefs:v1', defaults}) rendering one synchronous inline <script nonce> with PREPAINT and JSON args escaped (< as \\u003c); no eval / new Function. Also export the same compiled body as the string constant auraGlassPrepaintScript for Vite/non-RSC heads (SC-23, DX REQ-DX-12).",
+    "depends_on": [
+      "A11Y-031"
+    ],
+    "priority": "P0",
+    "test": "AuraGlassScript.test.tsx (A11Y-033)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-09 (REQ-A11Y-37)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-033",
+    "prd": "PRD-05",
+    "system": "theme/AuraGlassScript",
+    "file": "NEW:src/theme/__tests__/AuraGlassScript.test.tsx",
+    "action": "TEST",
+    "description": "Cases 'nonce present', 'no eval', 'minified budget' (Buffer.byteLength<=1536), 'engine and tier fixtures' executing the emitted script in jsdom with mocked matchMedia/userAgentData/UA for chromium/webkit/gecko/unknown, saveData, deviceMemory 2 + coarse; persisted solid -> data-ag-transparency=solid.",
+    "depends_on": [
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- AuraGlassScript.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-25 (REQ-A11Y-37)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-034",
+    "prd": "PRD-05",
+    "system": "theme/exports",
+    "file": "src/theme/index.ts",
+    "action": "MODIFY",
+    "description": "Export AuraGlassProvider, AuraGlassScript, usePreference, useResolvedPreferences, usePreferenceActions and preference types; PRD-02 per-file directive lint passes (script server-safe, hooks client). Exports include auraGlassPrepaintScript (SC-23).",
+    "depends_on": [
+      "A11Y-029",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "tests/exports package-exports tests include the new ./theme names (remote build); directive lint green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19 (REQ-A11Y-21, REQ-A11Y-31, REQ-A11Y-37)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-035",
+    "prd": "PRD-05",
+    "system": "theme/budgets-hydration",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "Remote: measure {AuraGlassProvider, usePreference} min+gz via PKG size gate (docs/size-budgets.json + scripts/ci/verify-size-budgets.mjs, SC-15) (<=4 KB) and run QA L11 Consumer canaries (QA-086) for Next 15/16 with provider + script in app/layout.tsx asserting 0 hydration warnings; blocker if canary missing.",
+    "depends_on": [
+      "A11Y-034",
+      "PKG-049",
+      "QA-086",
+      "A11Y-019"
+    ],
+    "priority": "P1",
+    "test": "CI run URL with size numbers and canary console logs (0 hydration warnings)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-23, AC-A11Y-25",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-036",
+    "prd": "PRD-05",
+    "system": "a11y/rungs",
+    "file": "NEW:src/a11y/css/rungs.css",
+    "action": "CREATE",
+    "description": "@layer ag.a11y attribute rungs keyed on :where([data-ag-transparency|contrast]) [data-ag-surface]: tinted (--_ag-tint-floor: var(--_ag-tint-floor-tinted); --_ag-refraction-scale:0; blur kept), solid (host+::before backdrop-filter/-webkit-backdrop-filter none, background var(--ag-fallback-fill), background-image none, refraction 0), contrast=more (--ag-on-surface: var(--ag-color-on-surface-max); border 1px solid var(--ag-color-border-strong); --ag-specular:0; grain 0; >= tinted). Zero !important.",
+    "depends_on": [
+      "A11Y-010",
+      "DS-059",
+      "MAT-015"
+    ],
+    "priority": "P0",
+    "test": "rungs.spec.ts 'tinted','solid','contrast more'; verify-a11y-css.mjs green",
+    "storybook": "A11y/Rungs",
+    "acceptance": "AC-A11Y-06, AC-A11Y-08 (REQ-A11Y-08, REQ-A11Y-09, REQ-A11Y-10, REQ-A11Y-11)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-037",
+    "prd": "PRD-05",
+    "system": "a11y/rungs",
+    "file": "src/a11y/css/rungs.css",
+    "action": "MODIFY",
+    "description": "Append raise-only floors at equal specificity later in source: @media (prefers-reduced-transparency: reduce) tinted guarded by :not(:where([data-ag-transparency=solid] *)); @media (prefers-contrast: more) contrast-more ink/border + tinted; @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) solid; @media (forced-colors: active) host+::before+::after filters none, background-image none, box-shadow none, Canvas/CanvasText/1px CanvasText border, scrims [data-ag-layer=scrim] transparent.",
+    "depends_on": [
+      "A11Y-036"
+    ],
+    "priority": "P0",
+    "test": "floors.spec.ts, forced-colors.spec.ts, supports-fallback.test.ts",
+    "storybook": "A11y/Floors",
+    "acceptance": "AC-A11Y-05, AC-A11Y-06 (REQ-A11Y-04, REQ-A11Y-06, REQ-A11Y-12)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-038",
+    "prd": "PRD-05",
+    "system": "a11y/rungs-disabled",
+    "file": "src/a11y/css/rungs.css",
+    "action": "MODIFY",
+    "description": "[data-ag-surface]:is([aria-disabled=true],[data-disabled]) sets --ag-on-surface: var(--ag-color-on-surface-disabled); no opacity on host (gate no-host-opacity-on-disabled).",
+    "depends_on": [
+      "A11Y-036"
+    ],
+    "priority": "P1",
+    "test": "contrast-matrix.test.ts 'disabled pair'; verify-a11y-css.mjs no-host-opacity-on-disabled",
+    "storybook": "A11y/Rungs (disabled row)",
+    "acceptance": "AC-A11Y-03 (REQ-A11Y-13)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-039",
+    "prd": "PRD-05",
+    "system": "a11y/css-entry",
+    "file": "NEW:src/a11y/css/index.css",
+    "action": "CREATE",
+    "description": "Aggregate @import of rungs.css (05d/05e add focus, targets, scroll-padding; .ag-visually-hidden is FND-038 in ag.components, not here) for PRD-02 to emit inside @layer ag.a11y of styles.css; src/a11y/css gz <=3 KB.",
+    "depends_on": [
+      "A11Y-036",
+      "PKG-101"
+    ],
+    "priority": "P0",
+    "test": "verify-a11y-css.mjs layer-order on remote-built styles.css; gz size reported",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-25 (REQ-A11Y-08; §16 <=3 KB gz)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-040",
+    "prd": "PRD-05",
+    "system": "a11y/supports-fallback",
+    "file": "NEW:tests/a11y/css/supports-fallback.test.ts",
+    "action": "TEST",
+    "description": "Parse built styles.css: @supports not block exists inside ag.a11y keyed on [data-ag-surface] setting backdrop-filter none on host and ::before. Browser case only if remote Chromium exposes a backdrop-filter disable switch [verify at alpha]; otherwise report 'switch unavailable'.",
+    "depends_on": [
+      "A11Y-037",
+      "A11Y-039"
+    ],
+    "priority": "P1",
+    "test": "jest tests/a11y/css/supports-fallback.test.ts green against remote build artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-06 (REQ-A11Y-06)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-041",
+    "prd": "PRD-05",
+    "system": "a11y/browser-helpers",
+    "file": "NEW:tests/a11y/browser/helpers/surfaces.ts",
+    "action": "CREATE",
+    "description": "Helpers: surfaces.ts listSurfaces, computed(page, sel, pseudo), countVisibleBackdropFilters (host+::before+::after non-none, area>0, visible; runtime-remote run-2 method); NEW:tests/a11y/browser/helpers/emulate.ts emulateReducedTransparency via CDP Emulation.setEmulatedMedia (throws off Chromium); NEW:tests/a11y/browser/helpers/pixels.ts diffRatioInBox with pngjs+pixelmatch (exact pins).",
+    "depends_on": [
+      "A11Y-018"
+    ],
+    "priority": "P0",
+    "test": "exercised by floors/rungs/forced-colors/pixel-modes specs",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-05 (REQ-A11Y-12)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-042",
+    "prd": "PRD-05",
+    "system": "a11y/floors",
+    "file": "NEW:tests/a11y/browser/floors.spec.ts",
+    "action": "TEST",
+    "description": "With data-ag-transparency=glass on <html> and provider transparency=glass: 'forced colors ignores data-ag-transparency=glass', 'contrast more floor', 'reduced transparency floor' (Chromium CDP; WebKit/Gecko via user tinted path, named as such), and 'no-js floors' (javaScriptEnabled:false) repeating all; 100% of [data-ag-surface] at required rung; 3 engines.",
+    "depends_on": [
+      "A11Y-037",
+      "A11Y-041",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour + L6 Environment visual A11Y cells (exit) green chromium/webkit/firefox",
+    "storybook": "A11y/Floors",
+    "acceptance": "AC-A11Y-06 (REQ-A11Y-02, REQ-A11Y-04)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-043",
+    "prd": "PRD-05",
+    "system": "a11y/rungs",
+    "file": "NEW:tests/a11y/browser/rungs.spec.ts",
+    "action": "TEST",
+    "description": "Cases 'tinted', 'contrast more', 'solid' (alpha>=0.85, filters none, background-image none), 'clear fail-safe' (clear without data-ag-backdrop computes regular, one dev warning per surface id, --_ag-dim 0.35 over light/media), 'glassOpacity raises alpha monotonically' (dial 0,.25,.5,.75,1 non-decreasing >= floor).",
+    "depends_on": [
+      "A11Y-036",
+      "A11Y-041"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
+    "storybook": "A11y/Rungs",
+    "acceptance": "AC-A11Y-06 (REQ-A11Y-07, REQ-A11Y-09, REQ-A11Y-10, REQ-A11Y-11, REQ-A11Y-14)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-044",
+    "prd": "PRD-05",
+    "system": "a11y/forced-colors",
+    "file": "NEW:tests/a11y/browser/forced-colors.spec.ts",
+    "action": "TEST",
+    "description": "'zero visible backdrop filters' on every T0/T1 story from Storybook index.json (tier metadata) plus Dialog/Sheet/AlertDialog scrims, AppShell, Toast, Tooltip, Material Lab under forcedColors active: count 0, Canvas/CanvasText computed; Chromium, Gecko if runner pref exists [verify] else reported unsupported (no skip). Report 4.1 baselines modal 10, showcase 12, liquid-glass-material 1, shell 3 -> after.",
+    "depends_on": [
+      "A11Y-037",
+      "A11Y-041",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour + L6 Environment visual A11Y cells (exit) green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-05 (REQ-A11Y-12)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-045",
+    "prd": "PRD-05",
+    "system": "a11y/pixel-modes",
+    "file": "NEW:tests/a11y/browser/pixel-modes.spec.ts",
+    "action": "TEST",
+    "description": "Per story screenshot of largest surface box at default and emulateMedia contrast more; diffRatioInBox > 0.005 on 100% of stories (4.1: 0.000% on 12/12).",
+    "depends_on": [
+      "A11Y-036",
+      "A11Y-041"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-04 (REQ-A11Y-10)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-046",
+    "prd": "PRD-05",
+    "system": "theme/prepaint",
+    "file": "NEW:tests/a11y/browser/prepaint.spec.ts",
+    "action": "TEST",
+    "description": "addInitScript rAF probe recording first Surface backdrop-filter per frame; persisted {transparency:'solid'} via context.addInitScript; canary page with AuraGlassScript in <head> and CSP nonce injected via page.route; first frame none and 0 blur frames across 20 reloads per engine; repeat for tinted; CLS 0.000 via PerformanceObserver layout-shift.",
+    "depends_on": [
+      "A11Y-032",
+      "A11Y-037",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour + L6 Environment visual A11Y cells (exit) green 3 engines",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-09, AC-A11Y-23 (REQ-A11Y-37)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-047",
+    "prd": "PRD-05",
+    "system": "a11y/stories",
+    "file": "NEW:src/a11y/stories/Rungs.stories.tsx",
+    "action": "CREATE",
+    "description": "A11y/Rungs (Surface per variant x thickness on each scene, read-out of effective transparency/contrast, floor alpha and minRatio imported from dist/contrast-matrix.json) and NEW:src/a11y/stories/Floors.stories.tsx A11y/Floors (shows useResolvedPreferences().floors); no !important, no opaque stage, no preference-disabling prop.",
+    "depends_on": [
+      "A11Y-036",
+      "A11Y-027"
+    ],
+    "priority": "P1",
+    "test": "Storybook static build in CI renders both; static story lint (Storybook PRD) passes",
+    "storybook": "A11y/Rungs, A11y/Floors",
+    "acceptance": "DoD §18.7 (§13 stories)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-048",
+    "prd": "PRD-05",
+    "system": "a11y/exit-lane",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "Dispatch certify-pr.yml for the L5/L6 A11Y exit cells: floors, rungs, forced-colors, pixel-modes on Surface all variants x thicknesses x 8 scenes x chromium/webkit/firefox; upload remote screenshots of A11y/Rungs on photo, flat-black, hf-pattern for glass/tinted/solid/contrast-more/forced for human review sign-off.",
+    "depends_on": [
+      "A11Y-042",
+      "A11Y-043",
+      "A11Y-044",
+      "A11Y-045",
+      "A11Y-046",
+      "A11Y-047",
+      "A11Y-019"
+    ],
+    "priority": "P0",
+    "test": "green CI run URL recorded; reviewer sign-off in PR",
+    "storybook": "A11y/Rungs",
+    "acceptance": "PRD-05 exit criterion (L5/L6 cells, SC-29) §18.3; AC-A11Y-04, AC-A11Y-05, AC-A11Y-06",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-049",
+    "prd": "PRD-05",
+    "system": "theme/layers",
+    "file": "NEW:src/theme/layers/LayerStack.ts",
+    "action": "CREATE",
+    "description": "createLayerStack(doc): push({id, kind overlay|transient|toast, modal, onEscape, restoreFocusTo}) -> pop; top(); one keydown listener per document dispatching Escape to top layer only (O(1), stopPropagation), ignored while event.isComposing.",
+    "depends_on": [
+      "A11Y-013",
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "src/theme/layers/__tests__/LayerStack.test.ts (A11Y-057)",
+    "storybook": "A11y/LayerStack",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-050",
+    "prd": "PRD-05",
+    "system": "theme/layers",
+    "file": "NEW:src/theme/layers/useLayer.ts",
+    "action": "CREATE",
+    "description": "useLayer({kind, modal, onEscape, open}): modal sets inert on body children except portal root and on lower [data-ag-layer-root] > * (refcounted); scroll lock refcounted via data-ag-scroll-locked attribute (no inline style); focus restored to restoreFocusTo or opener on close.",
+    "depends_on": [
+      "A11Y-049"
+    ],
+    "priority": "P0",
+    "test": "LayerStack.test.ts inert/scroll-lock refcount; layer-stack.spec.ts 'inert background'",
+    "storybook": "A11y/LayerStack",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-34)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-051",
+    "prd": "PRD-05",
+    "system": "theme/AuraGlassProvider",
+    "file": "src/theme/AuraGlassProvider.tsx",
+    "action": "MODIFY",
+    "description": "Fill 05b slot: createPortal to document.body of exact §4.5 markup (data-ag-portal-root with layer roots overlay/transient/toast role=region aria-label=Notifications, data-ag-announcer); z-index from --ag-layer-z-*; nested providers reuse outer root (0 extra); portalContainer override; portal-root context in src/theme/layers/ read by FND-007 usePortalContainer() (the only public accessor, SC-25); provider root carries data-ag-root; toasts/tooltips opt-outs skip those layer roots (SC-21).",
+    "depends_on": [
+      "A11Y-029",
+      "A11Y-049",
+      "DS-029"
+    ],
+    "priority": "P0",
+    "test": "AuraGlassProvider.test.tsx 'single portal root'",
+    "storybook": "A11y/LayerStack",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-32)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-052",
+    "prd": "PRD-05",
+    "system": "primitives/Portal",
+    "file": "src/primitives/Portal.tsx",
+    "action": "TEST",
+    "description": "SC-26/SC-25: FND-031 owns Portal.tsx and FND-007 owns usePortalContainer(); this task creates nothing. Verify the requirement: default container = usePortalContainer() -> provider portal root (REQ-A11Y-32); without provider document.body with one dev warning; explicit container prop wins. Assertions live in src/theme/__tests__/AuraGlassProvider.test.tsx \"single portal root\" and tests/a11y/browser/layer-stack.spec.ts.",
+    "depends_on": [
+      "A11Y-051",
+      "FND-007",
+      "FND-031"
+    ],
+    "priority": "P0",
+    "test": "AuraGlassProvider.test.tsx \"single portal root\"; layer-stack.spec.ts portal-root count === 1",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-32)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-053",
+    "prd": "PRD-05",
+    "system": "primitives/DismissableLayer",
+    "file": "src/primitives/DismissableLayer.tsx",
+    "action": "TEST",
+    "description": "SC-26/SC-25: FND-035 owns DismissableLayer.tsx and removes its document Escape listener; this task creates nothing. Verify it registers via useLayer, outside-pointer dismissal kept, and Escape is dispatched only by LayerStack (REQ-A11Y-33). Assertions in src/theme/layers/__tests__/LayerStack.test.ts and layer-stack.spec.ts \"stacked escape\".",
+    "depends_on": [
+      "A11Y-050",
+      "FND-035"
+    ],
+    "priority": "P0",
+    "test": "LayerStack.test.ts \"DismissableLayer registers\"; eslint auraglass/no-document-escape reports 0 in src/primitives",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-054",
+    "prd": "PRD-05",
+    "system": "theme/announcer",
+    "file": "NEW:src/theme/announcer/Announcer.tsx",
+    "action": "CREATE",
+    "description": "Announcer regions (polite + assertive, aria-atomic) in the portal root; NEW:src/theme/announcer/useAnnouncer.ts announce(message,{politeness,id})/clear(); 500ms identical coalescing; clear 7,000ms after last write; id replacement; no-op + one dev warning without provider; createStreamingAnnouncer(announce,{intervalMs:1000}) for PRD-12; export useAnnouncer from src/theme/index.ts.",
+    "depends_on": [
+      "A11Y-051"
+    ],
+    "priority": "P0",
+    "test": "announcer.test.tsx (A11Y-055)",
+    "storybook": "A11y/Announcer",
+    "acceptance": "AC-A11Y-20 (REQ-A11Y-35, REQ-A11Y-36)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-055",
+    "prd": "PRD-05",
+    "system": "theme/announcer",
+    "file": "NEW:src/theme/__tests__/announcer.test.tsx",
+    "action": "TEST",
+    "description": "Fake timers: polite/assertive routing, 'coalesces within 500ms', 'clears after 7000ms', 'id replacement', 'streaming budget' (10s stream, token every 50ms -> <=11 writes), 'no-op without provider' (exactly 1 warning).",
+    "depends_on": [
+      "A11Y-054"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit -- announcer.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-20, AC-A11Y-25 (REQ-A11Y-35, REQ-A11Y-36)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-056",
+    "prd": "PRD-05",
+    "system": "primitives/VisuallyHidden",
+    "file": "src/primitives/VisuallyHidden.tsx",
+    "action": "TEST",
+    "description": "SC-26: FND-038 owns VisuallyHidden.tsx and VisuallyHidden.css (.ag-visually-hidden in @layer ag.components); this task creates nothing. Verify the a11y requirement (REQ-A11Y-35 consolidation): server-safe, text exposed to the accessibility tree, focusable variant un-hides on :focus-visible, ScreenReaderOnly replaced. The [data-ag-scroll-locked] rule moves to src/a11y/css/scroll-padding.css (A11Y-068).",
+    "depends_on": [
+      "FND-038",
+      "A11Y-039"
+    ],
+    "priority": "P1",
+    "test": "src/theme/__tests__/announcer.test.tsx imports VisuallyHidden and asserts accessible text; renderToString output has no client-only markup",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-20 (REQ-A11Y-35 consolidation; §9 ScreenReaderOnly replacement)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-057",
+    "prd": "PRD-05",
+    "system": "theme/layers",
+    "file": "NEW:src/theme/layers/__tests__/LayerStack.test.ts",
+    "action": "TEST",
+    "description": "Escape to top only, pop order, isComposing guard, inert refcount, scroll-lock refcount; plus AuraGlassProvider.test.tsx 'single portal root' (two nested providers -> 1 [data-ag-portal-root]).",
+    "depends_on": [
+      "A11Y-050",
+      "A11Y-051"
+    ],
+    "priority": "P0",
+    "test": "npm run test:a11y:unit green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-32, REQ-A11Y-33, REQ-A11Y-34)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-058",
+    "prd": "PRD-05",
+    "system": "theme/layers",
+    "file": "NEW:tests/a11y/browser/layer-stack.spec.ts",
+    "action": "TEST",
+    "description": "3 engines: 'single portal root' (Dialog+Popover+Tooltip+Toast -> 1), 'stacked escape' (3 Escapes close Tooltip, Popover, Dialog; focus returns to each trigger), 'inert background' (30 Tabs stay in panel; role dialog + aria-modal on panel; scrim has no role), 'inert timing' Chromium <=2 ms for 1,000 nodes. Runs on A11y/LayerStack, then on PRD-09 flagship stories once present.",
+    "depends_on": [
+      "A11Y-052",
+      "A11Y-053",
+      "A11Y-059"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour A11Y cells (layer) green",
+    "storybook": "A11y/LayerStack",
+    "acceptance": "AC-A11Y-13 (REQ-A11Y-32, REQ-A11Y-33, REQ-A11Y-34)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-059",
+    "prd": "PRD-05",
+    "system": "a11y/stories",
+    "file": "NEW:src/a11y/stories/LayerStack.stories.tsx",
+    "action": "CREATE",
+    "description": "A11y/LayerStack (Dialog -> Popover -> Tooltip -> Toast built on KEEP Portal/DismissableLayer/FocusScope with Escape-order instructions) and NEW:src/a11y/stories/Announcer.stories.tsx A11y/Announcer (polite/assertive buttons + streaming demo); remote screenshots light/dark photo + forced colors.",
+    "depends_on": [
+      "A11Y-051",
+      "A11Y-054"
+    ],
+    "priority": "P1",
+    "test": "CI Storybook build renders; screenshots uploaded",
+    "storybook": "A11y/LayerStack, A11y/Announcer",
+    "acceptance": "DoD §18.7; AC-A11Y-13",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-060",
+    "prd": "PRD-05",
+    "system": "icons/a11y",
+    "file": "src/icons/__tests__/icon-a11y.test.tsx",
+    "action": "TEST",
+    "description": "Contract check on FND-049 (owner of src/icons/__tests__/icon-a11y.test.tsx, Icon owner FND-048): add the REQ-A11Y-50 \"label prop\" case if FND-049 lacks it (unnamed -> aria-hidden=true, no role; aria-label/title/label -> role=img with accessible name via getByRole(\"img\",{name})). No separate src/a11y test file.",
+    "depends_on": [
+      "FND-048",
+      "FND-049"
+    ],
+    "priority": "P2",
+    "test": "npm run test:a11y:unit -- icon-a11y green (Icon half blocked if REQ-FND-40 absent)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-15 (REQ-A11Y-50)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-061",
+    "prd": "PRD-05",
+    "system": "a11y/focus",
+    "file": "NEW:src/a11y/css/focus.css",
+    "action": "CREATE",
+    "description": "PRD §4.6 block verbatim in @layer ag.a11y: :where([data-ag-focusable], .ag-focusable):focus-visible outline var(--ag-focus-width,2px) solid var(--ag-focus-outer), outline-offset var(--ag-focus-offset, var(--ag-focus-width,2px)), box-shadow inner band + var(--_ag-shadow); :where([data-ag-focus-inset]) --ag-focus-offset:-2px; forced-colors outline 2px solid Highlight; aria-disabled stays focusable with ring; no outline:none, no element selectors; @import in index.css.",
+    "depends_on": [
+      "A11Y-008",
+      "A11Y-039",
+      "DS-022"
+    ],
+    "priority": "P0",
+    "test": "verify-a11y-css.mjs green; focus-appearance.spec.ts; forced-colors.spec.ts 'focus ring'",
+    "storybook": "A11y/FocusRing",
+    "acceptance": "AC-A11Y-10 (REQ-A11Y-24, REQ-A11Y-26, REQ-A11Y-27)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-062",
+    "prd": "PRD-05",
+    "system": "a11y/forced-colors",
+    "file": "tests/a11y/browser/forced-colors.spec.ts",
+    "action": "TEST",
+    "description": "Add case 'focus ring' (Chromium): each focusable in T0/T1 fixtures under forcedColors active computes outline-style solid, outline-width >=2px, outline-color equal to a probe element styled color: Highlight.",
+    "depends_on": [
+      "A11Y-044",
+      "A11Y-061"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5/L6 A11Y cells (focus) green",
+    "storybook": "A11y/FocusRing",
+    "acceptance": "AC-A11Y-05, AC-A11Y-10 (REQ-A11Y-26)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-063",
+    "prd": "PRD-05",
+    "system": "a11y/focus-appearance",
+    "file": "NEW:tests/a11y/browser/focus-appearance.spec.ts",
+    "action": "TEST",
+    "description": "For every focusable part (Tab order) on every T0/T1/T2 story x 8 scenes x 3 engines: capture box+4px unfocused vs focused (2 rAFs); changed-pixel area >= 2 CSS px perimeter (2*(2w+2h)*dpr^2); worst decile of focused-vs-unfocused ratio (src/theme/color.ts) >= 3:1; emit focus-appearance.json rows story, part, scene, engine, area, required, worstRatio, fail.",
+    "depends_on": [
+      "A11Y-061",
+      "A11Y-072"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5/L6 A11Y cells (focus): 0 fail rows",
+    "storybook": "A11y/FocusRing",
+    "acceptance": "AC-A11Y-10 (REQ-A11Y-25)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-064",
+    "prd": "PRD-05",
+    "system": "ci/focus-outline-ratchet",
+    "file": "scripts/ci/a11y-baselines/focus-outline-none.json",
+    "action": "MODIFY",
+    "description": "Lower baseline (109 at 4.1) to current rg -c 'focus:outline-none' src total after each flagship/removal PR; add beta-gate invocation verify-a11y-css.mjs --enforce-zero registered in certification/lanes.config.ts L1 Static behind the beta gate.",
+    "depends_on": [
+      "A11Y-010",
+      "A11Y-019"
+    ],
+    "priority": "P1",
+    "test": "static job fails on any increase; beta-gate green with --enforce-zero after PRD-16",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-22 (REQ-A11Y-27)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-065",
+    "prd": "PRD-05",
+    "system": "a11y/targets",
+    "file": "NEW:src/a11y/css/targets.css",
+    "action": "CREATE",
+    "description": "[data-ag-part=hit-area] absolute, centred (inset 50% + translate -50%), width/height max(100%, var(--ag-target-min)); @media (pointer: coarse) var(--ag-target-coarse); [data-ag-hit-clamp=start|end|both] limits extension to half of --ag-hit-gap; [data-ag-debug-targets] dashed outline; @import in index.css.",
+    "depends_on": [
+      "A11Y-039",
+      "DS-024"
+    ],
+    "priority": "P0",
+    "test": "target-size.spec.ts",
+    "storybook": "A11y/Targets",
+    "acceptance": "AC-A11Y-12 (REQ-A11Y-29, REQ-A11Y-30)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-066",
+    "prd": "PRD-05",
+    "system": "a11y/HitArea",
+    "file": "NEW:src/a11y/HitArea.tsx",
+    "action": "CREATE",
+    "description": "Internal server-safe <span data-ag-part=\"hit-area\" aria-hidden=\"true\" /> (deviation 4: not a pseudo-element); internal barrel NEW:src/a11y/index.ts; not a public subpath.",
+    "depends_on": [
+      "A11Y-065"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/a11y/__tests__/HitArea.test.tsx aria-hidden, absent from a11y tree, exactly 1 node",
+    "storybook": "A11y/Targets",
+    "acceptance": "AC-A11Y-12 (REQ-A11Y-30)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-067",
+    "prd": "PRD-05",
+    "system": "a11y/target-size",
+    "file": "NEW:tests/a11y/browser/target-size.spec.ts",
+    "action": "TEST",
+    "description": "Fine 1440x900: elementsFromPoint on 24px grid -> each part owns >=24x24 or meets 24px-circle spacing exception. 'coarse' (hasTouch, isMobile, 390x844, WebKit + Chromium): every REQ-A11Y-30 part (Button, IconButton, Checkbox, Radio, Switch thumb, Slider thumb, Tab, TabBar item, Menu item, Toast action, Chip remove, Pagination item, CarouselRail controls, MediaControls buttons) >=44x44; no hit-area rects intersect; host layout box unchanged with/without HitArea.",
+    "depends_on": [
+      "A11Y-066",
+      "A11Y-072"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5/L6 A11Y cells (focus) green",
+    "storybook": "A11y/Targets",
+    "acceptance": "AC-A11Y-12 (REQ-A11Y-29, REQ-A11Y-30)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-068",
+    "prd": "PRD-05",
+    "system": "a11y/scroll-padding",
+    "file": "NEW:src/a11y/css/scroll-padding.css",
+    "action": "CREATE",
+    "description": "[data-ag-scroll-container], :root { scroll-padding-block: var(--ag-scroll-padding-top,0px) var(--ag-scroll-padding-bottom,0px) } inside ag.a11y; @import in index.css. Also holds the [data-ag-scroll-locked] rule written by LayerStack (overflow hidden + scrollbar-gutter stable on <html>), moved here from the dropped visually-hidden.css.",
+    "depends_on": [
+      "A11Y-039"
+    ],
+    "priority": "P1",
+    "test": "focus-not-obscured.spec.ts",
+    "storybook": "A11y/ScrollPadding",
+    "acceptance": "AC-A11Y-11 (REQ-A11Y-28)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-069",
+    "prd": "PRD-05",
+    "system": "a11y/useStickyScrollPadding",
+    "file": "NEW:src/a11y/useStickyScrollPadding.ts",
+    "action": "CREATE",
+    "description": "Client hook useStickyScrollPadding(ref,{edge:'top'|'bottom', enabled}): one ResizeObserver per element; writes --ag-scroll-padding-<edge> = border-box block size + 8px on closest [data-ag-scroll-container] or <html>; skips unchanged writes; removes property and disconnects on unmount. Documented as the named REQ-A11Y-28 inline custom-property exception.",
+    "depends_on": [
+      "A11Y-068"
+    ],
+    "priority": "P1",
+    "test": "useStickyScrollPadding.test.tsx (A11Y-070)",
+    "storybook": "A11y/ScrollPadding",
+    "acceptance": "AC-A11Y-11 (REQ-A11Y-28)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-070",
+    "prd": "PRD-05",
+    "system": "a11y/useStickyScrollPadding",
+    "file": "NEW:src/a11y/__tests__/useStickyScrollPadding.test.tsx",
+    "action": "TEST",
+    "description": "Mocked ResizeObserver: exactly 1 observer per element; <=1 style write per callback; 0 writes when size unchanged; unmount removes property and disconnects.",
+    "depends_on": [
+      "A11Y-069"
+    ],
+    "priority": "P1",
+    "test": "npm run test:a11y:unit green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-25 (§16 sticky observers)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-071",
+    "prd": "PRD-05",
+    "system": "a11y/focus-not-obscured",
+    "file": "NEW:tests/a11y/browser/focus-not-obscured.spec.ts",
+    "action": "TEST",
+    "description": "On A11y/ScrollPadding (sticky TopBar + bottom TabBar + Composer) at 1440 and 390, 3 engines: Tab through >=50 focusables; for each intersectionArea(chrome, el)/area(el) < 1.0 and median coverage = 0.",
+    "depends_on": [
+      "A11Y-069",
+      "A11Y-072"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5/L6 A11Y cells (focus) green",
+    "storybook": "A11y/ScrollPadding",
+    "acceptance": "AC-A11Y-11 (REQ-A11Y-28)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-072",
+    "prd": "PRD-05",
+    "system": "a11y/stories",
+    "file": "NEW:src/a11y/stories/FocusRing.stories.tsx",
+    "action": "CREATE",
+    "description": "A11y/FocusRing (every focusable part focused on all 8 scenes + aria-disabled), NEW:src/a11y/stories/Targets.stories.tsx A11y/Targets (fine vs coarse with data-ag-debug-targets), NEW:src/a11y/stories/ScrollPadding.stories.tsx A11y/ScrollPadding (long form under sticky chrome); remote screenshots flat-white/flat-black/photo/high-frequency light+dark+forced for human review.",
+    "depends_on": [
+      "A11Y-061",
+      "A11Y-066",
+      "A11Y-069"
+    ],
+    "priority": "P1",
+    "test": "CI Storybook build renders; screenshot artifacts uploaded and signed off",
+    "storybook": "A11y/FocusRing, A11y/Targets, A11y/ScrollPadding",
+    "acceptance": "DoD §18.7; AC-A11Y-10, AC-A11Y-11, AC-A11Y-12",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-073",
+    "prd": "PRD-05",
+    "system": "a11y/apg-harness",
+    "file": "NEW:tests/a11y/apg/harness.ts",
+    "action": "CREATE",
+    "description": "Export ApgScript type (exact PRD shape), runApgScript(page, script) (story -> /iframe.html?id=<story>; per step press/type then assert focused by data-ag-part or role+name incl. aria-activedescendant target, attr, announced from live regions, open via data-state/aria-expanded) and defineApgSpec(component, scripts[]) generating one test per script per project; empty steps throws; failure prints step, key, expected vs actual.",
+    "depends_on": [
+      "A11Y-018",
+      "A11Y-054",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "harness.selftest.spec.ts (A11Y-075)",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-074",
+    "prd": "PRD-05",
+    "system": "a11y/apg-coverage",
+    "file": "NEW:tests/a11y/apg/coverage.json",
+    "action": "CREATE",
+    "description": "Map every interactive T0/T1/T2 component to spec path, owner PRD and required keys[] from the §5.8 table; NEW:tests/a11y/apg/README.md reproduces the table; NEW:scripts/ci/verify-apg-coverage.mjs fails 'provider missing' for absent specs and for specs lacking a listed key; ratchet until beta, --enforce at beta.",
+    "depends_on": [
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "static job runs verify-apg-coverage.mjs; fixture with missing spec fails",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40, REQ-A11Y-41)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-075",
+    "prd": "PRD-05",
+    "system": "a11y/apg-harness",
+    "file": "NEW:tests/a11y/apg/harness.selftest.spec.ts",
+    "action": "TEST",
+    "description": "Fixture story A11y/HarnessFixture (native button + input): correct script passes; deliberately wrong script rejects (expect(...).rejects); empty steps throws; 3 engines.",
+    "depends_on": [
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour A11Y cells (harness) green",
+    "storybook": "A11y/HarnessFixture",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-076",
+    "prd": "PRD-05",
+    "system": "a11y/apg-button",
+    "file": "NEW:tests/a11y/apg/__selftest__/button-pattern.selftest.spec.ts",
+    "action": "TEST",
+    "description": "Harness self-test fixture (SC-30, OV-15): a minimal button/toggle-button fixture story drives runApgScript (Enter/Space activate, aria-pressed toggles) to prove the harness. The Button/IconButton widget spec tests/a11y/apg/button.apg.spec.ts is owned by CTL-060; nothing here targets the shipped Button.",
+    "depends_on": [
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "selftest passes in 3 engines; a deliberately broken fixture makes it fail naming story, step and key",
+    "storybook": "Button, IconButton flagship stories (parameters.a11y.apgScript)",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-077",
+    "prd": "PRD-05",
+    "system": "a11y/apg-dialog",
+    "file": "NEW:tests/a11y/apg/__selftest__/dialog-pattern.selftest.spec.ts",
+    "action": "TEST",
+    "description": "Harness self-test fixture (SC-30, OV-15): minimal modal dialog fixture proves runApgScript expectations for focus-in, Tab cycle, Escape-closes-topmost via LayerStack (REQ-A11Y-33) and focus restore. The Dialog/AlertDialog widget spec is owned by OVL-053.",
+    "depends_on": [
+      "A11Y-073",
+      "A11Y-058"
+    ],
+    "priority": "P0",
+    "test": "selftest passes in 3 engines; broken fixture fails with a named step",
+    "storybook": "Dialog, AlertDialog flagship stories",
+    "acceptance": "AC-A11Y-14 (REQ-A11Y-40, REQ-A11Y-33)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-078",
+    "prd": "PRD-05",
+    "system": "a11y/axe",
+    "file": "NEW:tests/a11y/browser/axe.spec.ts",
+    "action": "TEST",
+    "description": "@axe-core/playwright with wcag2a/2aa/21aa/22aa tags and color-contrast on (color-contrast-enhanced under contrast=more). AXE_SCOPE=pr: REQ-QA-18 coverage (subject-states, photo + flat-white, light/dark, 3 engines). AXE_SCOPE=full nightly/RC/GA: all T0/T1/T2 stories x 8 scenes, Chromium + WebKit. 0 serious/critical; moderate fails T1, ratcheted for T2 via NEW:tests/a11y/axe-moderate-baseline.json; writes axe-results.json with run id + SHA; jest-axe never merged.",
+    "depends_on": [
+      "A11Y-017",
+      "A11Y-018",
+      "QA-018",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L5 Behaviour A11Y cells (axe) green; nightly full scope green",
+    "storybook": "all stories via environment global",
+    "acceptance": "AC-A11Y-15 (REQ-A11Y-42)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-079",
+    "prd": "PRD-05",
+    "system": "storybook/a11y-contract",
+    "file": "NEW:tests/a11y/storybook-a11y-config.test.ts",
+    "action": "TEST",
+    "description": "Import .storybook/preview config and assert: addon-a11y color-contrast not disabled; globals transparency, contrast, forcedColors, motion, environment, glassOpacity exist; decorator maps contrast default->standard, motion os->system, reduce->calm, glassOpacity -> provider prop; no global maps to a component prop. Failures filed against the Storybook PRD (no edit here).",
+    "depends_on": [
+      "A11Y-034"
+    ],
+    "priority": "P1",
+    "test": "npm run test:a11y:unit -- storybook-a11y-config green",
+    "storybook": ".storybook/preview.tsx globals (contract)",
+    "acceptance": "AC-A11Y-15 (REQ-A11Y-42; §13)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-080",
+    "prd": "PRD-05",
+    "system": "a11y/zoom-reflow",
+    "file": "NEW:tests/a11y/browser/zoom-reflow.spec.ts",
+    "action": "TEST",
+    "description": "200%: viewport 640x400 deviceScaleFactor 2, no text clipped/overlapped (range rects vs clipping ancestor and siblings). 400%: 320x256 and 320x640 deviceScaleFactor 4, scrollWidth<=clientWidth except data-ag-reflow-exempt on Table, CodeSurface, ImageViewer only; overlays fit viewport; sticky chrome sum <=50% viewport height. Never style.zoom. T0/T1 + six product surfaces.",
+    "depends_on": [
+      "A11Y-018",
+      "NAV-016"
+    ],
+    "priority": "P1",
+    "test": "certify-pr.yml L5 Behaviour A11Y cells (zoom) green",
+    "storybook": "T0/T1 stories + product surfaces",
+    "acceptance": "AC-A11Y-17 (REQ-A11Y-45)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-081",
+    "prd": "PRD-05",
+    "system": "a11y/text-spacing",
+    "file": "NEW:tests/a11y/browser/text-spacing.spec.ts",
+    "action": "TEST",
+    "description": "Inject unlayered WCAG 1.4.12 bookmarklet stylesheet (line-height 1.5, paragraph 2em, letter .12em, word .16em; !important allowed in test code only); assert every text node's clipping ancestor scrollWidth<=clientWidth and scrollHeight<=clientHeight.",
+    "depends_on": [
+      "A11Y-018"
+    ],
+    "priority": "P1",
+    "test": "certify-pr.yml L5 Behaviour A11Y cells (zoom) green",
+    "storybook": "T0/T1 stories",
+    "acceptance": "AC-A11Y-17 (REQ-A11Y-45)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-082",
+    "prd": "PRD-05",
+    "system": "a11y/color-vision",
+    "file": "NEW:tests/a11y/browser/color-vision.spec.ts",
+    "action": "TEST",
+    "description": "NEW:tests/a11y/browser/helpers/machado.ts (Machado 2009 protan/deutan/tritan severity 1.0, linear RGB) and helpers/ciede2000.ts (unit-tested in NEW:tests/a11y/color-math.test.ts vs Sharma 2005 pairs +-0.0001); render intent matrix (danger, warning, success, info, selected, current, invalid) + FilterBar/Tabs/Table selection; each pair ΔE2000>=10 under all three or registered cue (data-ag-part=intent-icon with name, or text). Story NEW:src/a11y/stories/ColorVision.stories.tsx A11y/ColorVision with SVG feColorMatrix toggle.",
+    "depends_on": [
+      "A11Y-018",
+      "DATA-038",
+      "DATA-080",
+      "NAV-064"
+    ],
+    "priority": "P1",
+    "test": "certify-pr.yml L6 Environment visual A11Y cells (cvd) green; color-math.test.ts green",
+    "storybook": "A11y/ColorVision",
+    "acceptance": "AC-A11Y-18 (REQ-A11Y-46)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-083",
+    "prd": "PRD-05",
+    "system": "a11y/pixel-contrast-contract",
+    "file": "NEW:tests/a11y/pixel-contrast.contract.json",
+    "action": "DOC",
+    "description": "Thresholds body 4.5, large 3 (>=24px or >=18.66px @700), more 7; sample every visible text run, worst sample; matrix 8 SC-28 scenes (photo, saturated-abstract, dense-text, dark-media, flat-white, flat-black, hf-pattern, video-frame) x 3 engines x light/dark x glass/tinted/solid x default/more/forced x 1440/390; row schema text, color, alpha, bg, ratio, worstRatio, need, fail, storyId, viewport, background, mode, engine, scheme, transparency, tier. NEW:tests/a11y/pixel-contrast-artifact.test.ts validates downloaded a11y-pixel-contrast.json: schema, run id/SHA, full matrix present, 0 fail rows for T0/T1.",
+    "depends_on": [
+      "A11Y-019",
+      "QA-057"
+    ],
+    "priority": "P0",
+    "test": "pixel-contrast-artifact.test.ts green in CI after PRD-19 a11y-pixel-contrast job",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-01, AC-A11Y-02 (REQ-A11Y-19)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-084",
+    "prd": "PRD-05",
+    "system": "a11y/manual-schema",
+    "file": "NEW:tests/a11y/manual/sr-record.schema.json",
+    "action": "CREATE",
+    "description": "JSON Schema 2020-12 requiring sha, cell SR-1..SR-6, at+atVersion, browser+browserVersion, os+osVersion, device (required SR-2/SR-4/touch), tester, date, component, steps[{nameRoleValue, stateChange, openClose, liveRegion, pass, notes}]; touch adds gesture, nonDragAlternative. NEW:scripts/ci/verify-a11y-manual.mjs rejects missing fields or SHA mismatch.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "verify-a11y-manual.mjs fixture valid/invalid records in NEW:tests/a11y/verify-a11y-manual.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-085",
+    "prd": "PRD-05",
+    "system": "a11y/manual-protocols",
+    "file": "NEW:tests/a11y/manual/scripts/_TEMPLATE.md",
+    "action": "DOC",
+    "description": "Protocol template plus NEW:tests/a11y/manual/scripts/button.md and dialog.md with exact keystrokes/gestures per AT (VoiceOver macOS, VoiceOver iOS, NVDA, TalkBack) and expected announcements; flagship stories declare parameters.a11y.srScript paths.",
+    "depends_on": [
+      "A11Y-084"
+    ],
+    "priority": "P1",
+    "test": "markdown link check (npm run test:docs:links) green",
+    "storybook": "parameters.a11y.srScript on Button, Dialog",
+    "acceptance": "AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-086",
+    "prd": "PRD-05",
+    "system": "a11y/manual-pilot",
+    "file": "NEW:tests/a11y/manual/scripts/button.md",
+    "action": "TEST",
+    "description": "Human tester records SR-1 and SR-3 for Button and Dialog on a pre-release SHA; records uploaded as a11y-manual-<sha>.json via workflow_dispatch and validated by verify-a11y-manual.mjs. Agent prepares and requests session only; never authors records.",
+    "depends_on": [
+      "A11Y-085",
+      "CTL-060",
+      "OVL-053"
+    ],
+    "priority": "P1",
+    "test": "verify-a11y-manual.mjs green on uploaded artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-16 (pilot; REQ-A11Y-43)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-087",
+    "prd": "PRD-05",
+    "system": "tests/legacy-visual-a11y",
+    "file": "tests/visual/accessibility/a11y-visual.spec.ts",
+    "action": "REMOVE",
+    "description": "After forced-colors.spec.ts and rungs.spec.ts are green on main, delete seeds tests/visual/accessibility/a11y-visual.spec.ts and tests/visual/accessibility/contrast.spec.ts and drop their test:visual:a11y grep coverage.",
+    "depends_on": [
+      "A11Y-048"
+    ],
+    "priority": "P3",
+    "test": "rg --files tests/visual/accessibility returns neither file; certify-pr.yml A11Y cells still green",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-05 (§12 retirement)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-088",
+    "prd": "PRD-05",
+    "system": "theme/GlassPreferencesPanel",
+    "file": "NEW:src/theme/GlassPreferencesPanel.tsx",
+    "action": "CREATE",
+    "description": "'use client' T2 panel on flagship RadioGroup/Slider rendered through Surface; props show (default transparency, glassOpacity, contrast, motion), onChange(key,value), labels; fieldset/legend per group: Transparency radio System/Glass/Tinted/Solid, Glass opacity slider 0-100% step 5 aria-valuetext '40% more opaque', Contrast System/Standard/More, Motion System/Full/Calm/None, optional Scheme/Density; options below floors aria-disabled (focusable) + aria-describedby floor note; selecting disabled is a no-op; changes via usePreferenceActions().set and polite useAnnouncer message 'Transparency set to Tinted'; single column at <=390px; export from src/theme/index.ts.",
+    "depends_on": [
+      "A11Y-034",
+      "A11Y-054",
+      "CTL-035",
+      "CTL-089"
+    ],
+    "priority": "P1",
+    "test": "GlassPreferencesPanel.test.tsx and glass-preferences-panel.apg.spec.ts (A11Y-089)",
+    "storybook": "Theme/GlassPreferencesPanel",
+    "acceptance": "AC-A11Y-25 (REQ-A11Y-38, REQ-A11Y-39; panel <=3 KB beyond parts)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-089",
+    "prd": "PRD-05",
+    "system": "theme/GlassPreferencesPanel",
+    "file": "NEW:src/theme/__tests__/GlassPreferencesPanel.test.tsx",
+    "action": "TEST",
+    "description": "Cases 'fieldset legend names', 'floor-locked options' (contrastMoreOS true via injected store: Glass aria-disabled + described, click keeps resolved transparency tinted while user value persisted), 'change announced', 'show filtering', 're-renders only the panel' (React Profiler <=1 commit outside panel); plus NEW:tests/a11y/apg/glass-preferences-panel.apg.spec.ts radio arrows move+select one tab stop, slider arrows/PageUp/PageDown/Home/End, 3 engines remote; add row to tests/a11y/apg/coverage.json.",
+    "depends_on": [
+      "A11Y-088",
+      "A11Y-073"
+    ],
+    "priority": "P1",
+    "test": "npm run test:a11y:unit green; certify-pr.yml L5 Behaviour A11Y cells (harness) green",
+    "storybook": "Theme/GlassPreferencesPanel",
+    "acceptance": "AC-A11Y-14, AC-A11Y-25 (REQ-A11Y-38, REQ-A11Y-39)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-090",
+    "prd": "PRD-05",
+    "system": "release/deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "Append one PRD-01-schema entry per §9 row (id, symbol, path, class C-D, since 4.2.0, removal 5.0.0, replacement, codemod removed|providers|canonical-names|null+todo, doc): ContrastGuard family, useAutoTextContrast, validateTextContrast/validateLiquidContrast/sampleBackdropLuminance, GlassA11y + 4 sub-panels, GlassFocusIndicators + SkipLinks/LandmarkAnnouncer/KeyboardShortcutsHelper + CSS, GlassA11yAuditor, GlassFocusRing, FocusIndicator, AccessibilityProvider/useAccessibility, useAccessibilitySettings, FocusTrap/useFocusTrap/trapFocus, ScreenReader family, primitives SkipLinks, ReducedMotionProvider/MotionPreferenceContext/useReducedMotion/useMotionPreference, CSS classes glass-contrast-guard/glass-focus/glass-touch-target/.high-contrast/.large-text/data-color-blindness. File path is repo-root deprecations.json (PRD-01/PRD-00 location; created there, appended here). File is repo-root deprecations.json (SC-02, version 1, seeded by TRUST-075); entries follow REL-010 schema docs/schemas/deprecations.schema.json; lands on release/4.x for 4.2.",
+    "depends_on": [
+      "A11Y-034",
+      "REL-010",
+      "TRUST-075"
+    ],
+    "priority": "P0",
+    "test": "PRD-01 deprecations schema validation against docs/schemas/deprecations.schema.json green in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-21 (REQ-A11Y-47)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-091",
+    "prd": "PRD-05",
+    "system": "theme/GlassPreferencesPanel",
+    "file": "NEW:src/theme/GlassPreferencesPanel.stories.tsx",
+    "action": "CREATE",
+    "description": "Theme/GlassPreferencesPanel stories: default, floor-locked (contrast=more global emulation), show subsets, dark scheme, RTL; remote screenshots for human review in PR.",
+    "depends_on": [
+      "A11Y-088"
+    ],
+    "priority": "P2",
+    "test": "CI Storybook build renders all 5; screenshots signed off",
+    "storybook": "Theme/GlassPreferencesPanel",
+    "acceptance": "DoD §18.7 (§13)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-092",
+    "prd": "PRD-05",
+    "system": "4x/honesty-verify",
+    "file": "src/components/accessibility/ContrastGuard.tsx",
+    "action": "TEST",
+    "description": "Read-only verification of PRD-00 4.1.1 output on the unpacked published tarball (scratch dir, not executed): ContrastGuard reports 'unverified'; validateTextContrast no longer returns true; no data-meets-wcag or 'AA' indicator emitted; reports/FOCUS_MANAGEMENT_SUMMARY.md, reports/contrastguard-integration-report.json, reports/a11y_summary.md absent. Report pass/fail per item to PRD-00.",
+    "depends_on": [
+      "TRUST-026"
+    ],
+    "priority": "P1",
+    "test": "verification checklist with file:line evidence in report",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-24 (REQ-A11Y-48)",
+    "status": "todo",
+    "gate": "aura-glass@4.1.1 published to npm"
+  },
+  {
+    "id": "A11Y-093",
+    "prd": "PRD-05",
+    "system": "4x/bridge-verify",
+    "file": "src/styles/theme-transitions.css",
+    "action": "TEST",
+    "description": "Read-only verification of PRD-17 4.2 tag: rg 'prefers-contrast:\\s*high' src dist = 0; no nested forced-colors: active; declaration at theme-transitions.css:51-53; 4.x forced-colors/reduced-transparency selectors include .liquid-glass-material and overlay classes; labelled before/after composites exist in PRD-17 release artifacts.",
+    "depends_on": [
+      "REL-089"
+    ],
+    "priority": "P1",
+    "test": "rg outputs and artifact links recorded in report",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-07 (REQ-A11Y-48)",
+    "status": "todo",
+    "gate": "v4.2.0 tag on release/4.x (interim PRD-17 owner REL, SC-37); implementing edit task is open item OI-09"
+  },
+  {
+    "id": "A11Y-094",
+    "prd": "PRD-05",
+    "system": "docs/claims-sources",
+    "file": "NEW:tests/a11y/claims-sources.json",
+    "action": "DOC",
+    "description": "Map each permitted a11y claim key (WCAG level, contrast minimum, SR coverage, reduced-transparency support, forced-colors support) to source artifact (contrast-matrix.json, a11y-pixel-contrast.json, axe-results.json, a11y-manual-<sha>.json) and JSON path for PRD-20 no-unsourced-claim; verify the lint flags README.md:3 'accessibility guardrails'; gaps filed to PRD-20.",
+    "depends_on": [
+      "A11Y-083",
+      "A11Y-084",
+      "DX-136",
+      "QA-091"
+    ],
+    "priority": "P1",
+    "test": "PRD-20 docs lint run shows 0 unsourced a11y claims on main",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-24 (REQ-A11Y-49)",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-095",
+    "prd": "PRD-05",
+    "system": "ci/removal-verify",
+    "file": "NEW:scripts/ci/verify-a11y-removals.mjs",
+    "action": "TEST",
+    "description": "beta-gate job: (a) no §9 symbol in any dist entry/subpath .d.ts or runtime export keys; (b) matchMedia( outside src/theme/preferences/media.ts = 0 and reduced-motion hooks/settings providers = 0 (1 store, 1 provider); (c) focus traps outside Base UI + src/primitives/FocusScope.tsx = 0, live regions outside src/theme/announcer = 0, focus CSS outside src/a11y/css/focus.css = 0; (d) runs verify-a11y-css.mjs --enforce-zero and verify-apg-coverage.mjs --enforce.",
+    "depends_on": [
+      "A11Y-064",
+      "A11Y-074",
+      "A11Y-090",
+      "FND-102"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L1 Static beta-gate cell green on beta SHA",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-19, AC-A11Y-20, AC-A11Y-21, AC-A11Y-22",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-096",
+    "prd": "PRD-05",
+    "system": "perf/a11y-budgets",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "ga-cert step collecting §16 numbers on GA SHA from their lanes and failing on any overrun: script <=1.5 KB min and <=1 ms mid-tier, ./theme <=4 KB gz, panel <=3 KB delta, src/a11y/css <=3 KB gz, <=6 MQL, 0 contrast observers, sticky writes, <=1 re-render, recalc <=16 ms, inert <=2 ms, announcer <=1 write/1000ms, 0 hydration warnings and CLS 0.000, solid-rung frame time <= lightweight +5%, hit-area 0 layout.",
+    "depends_on": [
+      "A11Y-035",
+      "A11Y-058",
+      "A11Y-070",
+      "A11Y-089",
+      "QA-031",
+      "PERF-039"
+    ],
+    "priority": "P1",
+    "test": "ga-cert job green with budget table artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-A11Y-25",
+    "status": "todo",
+    "gate": null
+  },
+  {
+    "id": "A11Y-097",
+    "prd": "PRD-05",
+    "system": "a11y/sr-touch-cert",
+    "file": "n/a (RC SHA manual run; release artifact a11y-manual-<sha>.json)",
+    "action": "TEST",
+    "description": "RC SHA: human testers record SR-1..SR-4 for all 44 flagships (176 cells) and iOS + Android touch (88 cells), SR-5/SR-6 non-blocking; validate a11y-manual-<sha>.json with verify-a11y-manual.mjs; close issue #16 with artifact link only at 176/176 + 88/88. Agents coordinate and validate, never author records.",
+    "depends_on": [
+      "A11Y-086",
+      "CTL-055",
+      "OVL-040",
+      "NAV-016",
+      "DATA-038",
+      "AI-034",
+      "MED-084"
+    ],
+    "priority": "P0",
+    "test": "verify-a11y-manual.mjs green on RC artifact; gh issue view 16 shows CLOSED with link",
+    "storybook": "parameters.a11y.srScript on every flagship",
+    "acceptance": "AC-A11Y-16 (REQ-A11Y-43, REQ-A11Y-44)",
+    "status": "todo",
+    "gate": "RC SHA cut (REL)"
+  },
+  {
+    "id": "A11Y-098",
+    "prd": "PRD-05",
+    "system": "ci/a11y-cert-summary",
+    "file": "NEW:scripts/ci/a11y-cert-summary.mjs",
+    "action": "INFRA",
+    "description": "ga-cert job: read contrast-matrix.json, a11y-pixel-contrast.json, axe-results.json, focus-appearance.json, a11y-manual-<sha>.json and budget results; reject any artifact whose SHA != GA SHA; emit a11y-cert-summary.json with one row per AC-A11Y-01..25 (value, target, pass, source artifact URL) for PRD-20 generated docs.",
+    "depends_on": [
+      "A11Y-095",
+      "A11Y-096",
+      "A11Y-097"
+    ],
+    "priority": "P0",
+    "test": "ga-cert job green; NEW:tests/a11y/a11y-cert-summary.test.ts rejects mismatched-SHA fixture",
+    "storybook": "n/a",
+    "acceptance": "DoD §18.2 and §18.11; AC-A11Y-01..AC-A11Y-25",
+    "status": "todo",
+    "gate": null
+  }
+]

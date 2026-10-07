@@ -1,0 +1,2555 @@
+[
+  {
+    "id": "NAV-001",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/reducer",
+    "file": "NEW:src/app-shell/resizePanels.ts",
+    "action": "CREATE",
+    "description": "Pure reducer resizePanels(layout:number[], constraints:PanelConstraint[], handleIndex, deltaPercent):number[] plus collapsePanel/expandPanel and toPercent('240px', containerPx). PanelConstraint={minSize,maxSize,collapsible,collapsedSize} in percent. Sum stays 100±0.01; push next panel only if it can shrink else clamp; collapsible panel snaps to collapsedSize below minSize/2. No DOM access.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "src/app-shell/resizePanels.test.ts (NAV-002)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-69; input to AC-NAV-14",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-002",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/reducer",
+    "file": "NEW:src/app-shell/resizePanels.test.ts",
+    "action": "TEST",
+    "description": "Jest: 'sum stays 100', 'clamp and push', 'collapse snap below half min', 'property: 1,000 seeded random drags' (log seed; assert sum 100±0.01 and every panel within [min,max] or collapsedSize).",
+    "depends_on": [
+      "NAV-001"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/resizePanels.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-69; AC-NAV-14 (constraint half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-003",
+    "prd": "PRD-11",
+    "system": "Pagination/range",
+    "file": "NEW:src/components/navigation/getPaginationRange.ts",
+    "action": "CREATE",
+    "description": "Pure getPaginationRange({page,pageCount,siblingCount=1,boundaryCount=1}) returning Array<number|'ellipsis-start'|'ellipsis-end'>; length never exceeds 2*boundaryCount+2*siblingCount+3 and is constant across pages when pageCount exceeds it.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "getPaginationRange.test.ts (NAV-004)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-55, REQ-NAV-56",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-004",
+    "prd": "PRD-11",
+    "system": "Pagination/range",
+    "file": "NEW:src/components/navigation/getPaginationRange.test.ts",
+    "action": "TEST",
+    "description": "40 table-driven cases (pageCount 1..20, siblingCount 0..2, boundaryCount 0..2, first/middle/last page) plus 'stable length' test.",
+    "depends_on": [
+      "NAV-003"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/components/navigation/getPaginationRange.test.ts green (40 cases)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-56",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-005",
+    "prd": "PRD-11",
+    "system": "Command/score",
+    "file": "NEW:src/components/navigation/commandScore.ts",
+    "action": "CREATE",
+    "description": "Pure commandScore(query,value,keywords?) in [0,1]: case-insensitive, NFD + \\p{Diacritic} folding, index-walk subsequence match; ranking exact > prefix > word-start > subsequence > 0. Zero RegExp constructed from input (fixes E-22).",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "commandScore.test.ts (NAV-006); rg -n 'new RegExp' commandScore.ts = 0",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-59; AC-NAV-15",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-006",
+    "prd": "PRD-11",
+    "system": "Command/score",
+    "file": "NEW:src/components/navigation/commandScore.test.ts",
+    "action": "TEST",
+    "description": "Tests 'regex metacharacters' (( [ * + ? \\ ^ $ |), 'ranking: prefix > word-start > subsequence', 'diacritic folding', 'fuzz: 10,000 random printable-ASCII strings, 0 exceptions' (seeded).",
+    "depends_on": [
+      "NAV-005"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/components/navigation/commandScore.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-15 (scorer half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-007",
+    "prd": "PRD-11",
+    "system": "AppShell/persistence",
+    "file": "NEW:src/app-shell/parseAppShellCookie.ts",
+    "action": "CREATE",
+    "description": "Server-safe parseAppShellCookie(value) -> {sidebar?: 'expanded'|'rail'|'collapsed', inspector?: 'open'|'closed'} (any key order, ignore unknown, {} for >4096 chars, never throws) and serializeAppShellCookie(key,state) -> 'ag-shell-<key>=sidebar:<s>;inspector:<s>; Path=/; Max-Age=31536000; SameSite=Lax'.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "parseAppShellCookie.test.ts (NAV-008)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-09",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-008",
+    "prd": "PRD-11",
+    "system": "AppShell/persistence",
+    "file": "NEW:src/app-shell/parseAppShellCookie.test.ts",
+    "action": "TEST",
+    "description": "Valid, partial, malformed, oversized (>4 KB) inputs; never throws; serialize/parse round-trip.",
+    "depends_on": [
+      "NAV-007"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/parseAppShellCookie.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-09",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-009",
+    "prd": "PRD-11",
+    "system": "tokens/app-shell",
+    "file": "tokens/sys/ (DS-owned token tree; NAV submits rows, creates no file under tokens/)",
+    "action": "MODIFY",
+    "description": "Row request to PRD-DS (SC-18): NAV owns the values, DS lands them through its compiler (DS-016) in the group DS chooses. Values: --ag-app-shell-sidebar-width 16rem, -rail-width 4rem, -inspector-width 20rem, -topbar-height 3.25rem (compact 2.75rem), -tabbar-height 3.5rem, -gap per density aliasing --ag-space-* (DS-024); read-only -bp-compact 600px, -bp-expanded 1024px, -bp-wide 1440px documented as non-functional. Deliverable: the row table attached to the DS token task (PRD §21 O-06).",
+    "depends_on": [
+      "DS-016",
+      "DS-024"
+    ],
+    "priority": "P0",
+    "test": "DS compiler (scripts/tokens/build.mjs) emits --ag-app-shell-sidebar-width in dist/tokens.css (@layer ag.tokens); DS dead/undefined-var gate green",
+    "storybook": "n/a",
+    "acceptance": "API-16; SC-18; input to AC-NAV-01",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-010",
+    "prd": "PRD-11",
+    "system": "AppShell/css",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "CREATE",
+    "description": "File starts with exactly '@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;' (SC-20, PKG owns the order); rules in @layer ag.components: .ag-app-shell container ag-app-shell/inline-size, 4-row named-area grid, block-size 100dvh, env(safe-area-inset-*) padding, sidebar/inspector column vars from data-ag-sidebar/data-ag-inspector, sidebar-side end swap, exactly three @container conditions (<600, 600..1023, >=1440), main slot overflow:auto + overscroll-behavior:contain + scroll-padding-block from --ag-scroll-padding-*, :has(> .ag-top-bar[data-ag-placement=overlay]) sets --ag-scroll-padding-top, grid-template-columns transition only under [data-ag-animating] and never at motion calm/none, .ag-app-shell__auto-grid, data-ag-layout desktop/mobile overrides. 0 !important, 0 transform/will-change/contain:paint. Durations only from --ag-duration-* (SC-19). Built to dist/css/app-shell.css via the PKG-005 manifest row.",
+    "depends_on": [
+      "NAV-009",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "app-shell.css.test.ts (NAV-011); layout.spec.ts static half (NAV-013)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-02, -04, -06, -07, -13; AC-NAV-02 (CSS half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-011",
+    "prd": "PRD-11",
+    "system": "AppShell/css",
+    "file": "NEW:src/app-shell/app-shell.css.test.ts",
+    "action": "TEST",
+    "description": "postcss parse of built dist/css/app-shell.css: exactly three @container ag-app-shell conditions (width < 600px; 600px <= width < 1024px; width >= 1440px), 0 !important, 0 'transition: all', 0 will-change outside [data-ag-animating].",
+    "depends_on": [
+      "NAV-010"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/app-shell.css.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-02, REQ-NAV-04, REQ-NAV-13; AC-NAV-02",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-012",
+    "prd": "PRD-11",
+    "system": "AppShell/fixture",
+    "file": "NEW:tests/e2e/app-shell/fixtures/static-shell.html",
+    "action": "CREATE",
+    "description": "Plain-HTML fixture loading only dist tokens/core CSS and dist/css/app-shell.css (no Tailwind): sidebar, top, tall main, inspector, status using 5.0 classes/data-ag-* attributes; a 900px wrapper inside 1920px viewport; safe-area env() override fixture.",
+    "depends_on": [
+      "NAV-010"
+    ],
+    "priority": "P0",
+    "test": "consumed by layout.spec.ts (NAV-013)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-03, -04, -07 (pre-React proof, §20 step 2)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-013",
+    "prd": "PRD-11",
+    "system": "AppShell/layout",
+    "file": "NEW:tests/e2e/app-shell/layout.spec.ts",
+    "action": "TEST",
+    "description": "Remote Playwright (Chromium/WebKit/Gecko) static half: 'desktop sidebar beside main' at 1440 and 1024 (sidebar.right <= main.left+1; |top delta| <= topbar height), 'layout follows container not viewport', 'main owns scroll', 'safe-area insets', 'no promoted layers at rest'. Run in CI/auraone-remote-run only.",
+    "depends_on": [
+      "NAV-012",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote run green in 3 engines; artifact URL in report",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-03, -04, -06, -07, -13; AC-NAV-01 (fixture half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-014",
+    "prd": "PRD-11",
+    "system": "static/class-coverage",
+    "file": "tests/css/class-coverage.test.ts",
+    "action": "MODIFY",
+    "description": "Add src/app-shell/** and src/components/navigation/{Tabs,TabBar,Breadcrumbs,BreadcrumbsOverflow,Pagination,Command,CommandPalette}.tsx to the scope of the PRD-PKG class-coverage test (file owned by PKG-105, OV-27; MODIFY only).",
+    "depends_on": [
+      "PKG-105"
+    ],
+    "priority": "P0",
+    "test": "class-coverage test reports 0 undefined classes for the scoped paths",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-02; AC-NAV-02",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-015",
+    "prd": "PRD-11",
+    "system": "4.1.1 proposals",
+    "file": "NEW:docs/auraglass-5/proposals/NAV-to-TRUST-4.1.1-E-22.md",
+    "action": "DOC",
+    "description": "Handover to PRD-TRUST for the accepted 4.1.1 fix (SC-36): E-22 escape user input in src/components/interactive/GlassCommandPalette.tsx:298-303 fuzzy search (crash class, C-I). Contains file:line, the escape rule (no RegExp from unescaped input), and a failing-test sketch. PRD-TRUST implements it on release/4.x. E-15 is deferred to 4.2 and handled by NAV-143, not here.",
+    "depends_on": [],
+    "priority": "P2",
+    "test": "n/a (handover; done when PRD-TRUST lists a task id for E-22, PRD §21 O-03)",
+    "storybook": "n/a",
+    "acceptance": "API-18 (E-22 half); SC-36",
+    "status": "todo",
+    "gate": "PRD-TRUST adds the E-22 task to tasks/TRUST.json"
+  },
+  {
+    "id": "NAV-016",
+    "prd": "PRD-11",
+    "system": "AppShell",
+    "file": "NEW:src/app-shell/AppShell.tsx",
+    "action": "CREATE",
+    "description": "Server namespace AppShell {Root, Main, PageHeader, SkipLink, SidebarToggle, InspectorToggle, Controller}. Root renders one div.ag-app-shell data-ag-part=root with data-ag-sidebar/inspector/layout/sidebar-side/density/backdrop/persist-key from serializable props (defaultSidebar='expanded', defaultInspector='closed', sidebarSide='start', layout='auto'). Parts self-place via data-ag-slot (no displayName sniffing/cloneElement). Main = <main id tabIndex=-1> content material. SkipLink first focusable, visible on :focus-visible. PageHeader title in h{headingLevel=1} + eyebrow/description/actions/tabs. No role=region/main/contentinfo.",
+    "depends_on": [
+      "NAV-010",
+      "MAT-047",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "app-shell.test.tsx (NAV-026), ssr.test.tsx (NAV-027)",
+    "storybook": "S-01, S-02 AppShell matrix",
+    "acceptance": "REQ-NAV-01, -05, -08, -12, -36",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-017",
+    "prd": "PRD-11",
+    "system": "AppShell/store",
+    "file": "NEW:src/app-shell/appShellStore.ts",
+    "action": "CREATE",
+    "description": "'use client' per-root store (WeakMap<HTMLElement>) with getSnapshot/getServerSnapshot (rendered attribute)/subscribe/setSidebar/setInspector; writes root data-ag-* and inert on collapsed sidebar; data-ag-animating for --ag-duration-medium only at motion=full; writes cookie via serializeAppShellCookie when data-ag-persist-key set; controlled mode calls handlers only; one shared ResizeObserver deriving mode compact|medium|expanded|wide for ARIA.",
+    "depends_on": [
+      "NAV-007",
+      "NAV-016"
+    ],
+    "priority": "P0",
+    "test": "appShellStore.test.ts (NAV-028)",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-09, REQ-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-018",
+    "prd": "PRD-11",
+    "system": "AppShell/SidebarToggle",
+    "file": "NEW:src/app-shell/AppShellSidebarToggle.tsx",
+    "action": "CREATE",
+    "description": "'use client' PRD-08 IconButton; root via closest('[data-ag-part=root].ag-app-shell'); useSyncExternalStore. Expanded/wide: toggles expanded<->collapseTo ('rail' default), aria-label next action from labels, aria-controls sidebar id, no aria-pressed/expanded. Compact/medium ARIA (aria-expanded, aria-haspopup=dialog, aria-controls drawer id) applied in layout effect. shortcut prop (default false) registers one keydown for mod+B.",
+    "depends_on": [
+      "NAV-017",
+      "CTL-061"
+    ],
+    "priority": "P0",
+    "test": "AppShellSidebarToggle.test.tsx (NAV-029)",
+    "storybook": "S-08 drawer play",
+    "acceptance": "REQ-NAV-20 (inline half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-019",
+    "prd": "PRD-11",
+    "system": "AppShell/InspectorToggle",
+    "file": "NEW:src/app-shell/AppShellInspectorToggle.tsx",
+    "action": "CREATE",
+    "description": "'use client' IconButton toggling data-ag-inspector open/closed through the store; aria-controls inspector id; aria-expanded reflects open; sheet portal wiring added by NAV-059.",
+    "depends_on": [
+      "NAV-017",
+      "CTL-061"
+    ],
+    "priority": "P1",
+    "test": "appShellStore.test.ts inspector cases; inspector.spec.ts (NAV-061)",
+    "storybook": "S-02 inspector states",
+    "acceptance": "REQ-NAV-31 (toggle), REQ-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-020",
+    "prd": "PRD-11",
+    "system": "AppShell/Controller",
+    "file": "NEW:src/app-shell/AppShellController.tsx",
+    "action": "CREATE",
+    "description": "'use client' controlled wrapper: props sidebar, onSidebarChange(state), inspector, onInspectorChange(state); registers controlled handlers on the store; attributes change only when props change.",
+    "depends_on": [
+      "NAV-017"
+    ],
+    "priority": "P1",
+    "test": "appShellStore.test.ts › controlled mode",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-021",
+    "prd": "PRD-11",
+    "system": "TopBar",
+    "file": "NEW:src/app-shell/TopBar.tsx",
+    "action": "CREATE",
+    "description": "Server TopBar {Root, Leading, Title, Center, Trailing}; Root <header data-ag-slot=top class=ag-top-bar data-ag-placement inline|overlay>, no explicit role; chrome regular material; exactly one PRD-04 ScrollEdge edge=top (scrollEdge soft|hard|none maps to the ScrollEdge edgeStyle prop, SC-22) and dev warning registry per scroll container+edge; Center hidden <600px unless keepCenter; Title one-line ellipsis; no shadow at transparency=solid; outline bottom edge under forced colors.",
+    "depends_on": [
+      "NAV-016",
+      "MAT-050",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "TopBar.test.tsx (NAV-030); layout.spec top bar 320 (NAV-035)",
+    "storybook": "S-02 TopBar inline/overlay/scrolled",
+    "acceptance": "REQ-NAV-25, -26, -28, -29",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-022",
+    "prd": "PRD-11",
+    "system": "StatusBar",
+    "file": "NEW:src/app-shell/StatusBar.tsx",
+    "action": "CREATE",
+    "description": "Server StatusBar {Root, Item} (content-sunken, thin, NO role) and NEW src/app-shell/StatusBarLive.tsx 'use client' StatusBar.Live announcing via PRD-05 announcer, politeness polite default, 1000 ms debounce, no announcement on first mount.",
+    "depends_on": [
+      "NAV-016",
+      "A11Y-054"
+    ],
+    "priority": "P0",
+    "test": "StatusBar.test.tsx (NAV-031)",
+    "storybook": "S-01 AiCommandCenter",
+    "acceptance": "REQ-NAV-33; AC-NAV-13 (status half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-023",
+    "prd": "PRD-11",
+    "system": "MobileShell",
+    "file": "NEW:src/app-shell/MobileShell.tsx",
+    "action": "CREATE",
+    "description": "Server preset rendering AppShell.Root layout=mobile with topBar (overlay TopBar), children (Main), tabBar slots; 100dvh; CSS sets --ag-scroll-padding-bottom: calc(var(--ag-app-shell-tabbar-height) + env(safe-area-inset-bottom) + var(--ag-space-2)).",
+    "depends_on": [
+      "NAV-016",
+      "NAV-021"
+    ],
+    "priority": "P1",
+    "test": "MobileShell.test.tsx (NAV-032); layout.spec mobile last item (NAV-035)",
+    "storybook": "S-01 MobileApp",
+    "acceptance": "REQ-NAV-34, REQ-NAV-07",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-024",
+    "prd": "PRD-11",
+    "system": "AppShell/css",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "MODIFY",
+    "description": "Add frame rules: page-header action wrap <600px, top-bar heights (2.75rem compact/landscape <500px height), status bar, mobile shell padding, accent/focus/indicator colours from --ag-* only (createBrandTheme recolours), display-mode:standalone env(titlebar-area-*) for TopBar. No literals.",
+    "depends_on": [
+      "NAV-010",
+      "NAV-021",
+      "NAV-022",
+      "NAV-023"
+    ],
+    "priority": "P0",
+    "test": "app-shell.css.test.ts; theme.spec.ts (NAV-034)",
+    "storybook": "S-05 toolbar combinations",
+    "acceptance": "REQ-NAV-12, -14, -28, -29, -34",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-025",
+    "prd": "PRD-11",
+    "system": "app-shell/barrel",
+    "file": "src/app-shell/index.ts",
+    "action": "MODIFY",
+    "description": "Add plain re-exports (no directive) of AppShell, TopBar, StatusBar, MobileShell, parseAppShellCookie alongside the existing 4.x exports (4.x names removed in NAV-123).",
+    "depends_on": [
+      "NAV-016",
+      "NAV-021",
+      "NAV-022",
+      "NAV-023"
+    ],
+    "priority": "P0",
+    "test": "npm run typecheck; ssr.test.tsx imports from barrel",
+    "storybook": "n/a",
+    "acceptance": "API-01, API-17",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-026",
+    "prd": "PRD-11",
+    "system": "AppShell",
+    "file": "src/app-shell/app-shell.test.tsx",
+    "action": "TEST",
+    "description": "Add describe('5.0 AppShell'): 'renders slots wrapped in memo/HOC in the right grid areas', 'single main landmark', 'props render as data attributes', 'page header heading level', 'landmark inventory' (banner<=1, main=1, navigation = labelled navs, complementary = #Inspector). 4.x cases removed with their component in NAV-123.",
+    "depends_on": [
+      "NAV-016"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/app-shell.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-01, -05, -08, -12, -36",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-027",
+    "prd": "PRD-11",
+    "system": "AppShell/SSR",
+    "file": "NEW:src/app-shell/ssr.test.tsx",
+    "action": "TEST",
+    "description": "@jest-environment node: renderToString of AppShell.Root, Sidebar, TopBar, Inspector, StatusBar, MobileShell, Breadcrumbs, Pagination succeeds in a server-only graph; 'renderToString has no client hooks'. Cases for Sidebar/Inspector/Breadcrumbs/Pagination added when NAV-036/057/078/083 land.",
+    "depends_on": [
+      "NAV-016",
+      "NAV-021",
+      "NAV-022",
+      "NAV-023"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/ssr.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-08; AC-NAV-17 (input)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-028",
+    "prd": "PRD-11",
+    "system": "AppShell/store",
+    "file": "NEW:src/app-shell/appShellStore.test.ts",
+    "action": "TEST",
+    "description": "'toggle updates root attribute', 'writes cookie' (exact string + attributes), 'controlled mode' (no write until prop change), 'server snapshot equals rendered attribute'.",
+    "depends_on": [
+      "NAV-017",
+      "NAV-020"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/appShellStore.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-09, REQ-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-029",
+    "prd": "PRD-11",
+    "system": "AppShell/SidebarToggle",
+    "file": "NEW:src/app-shell/AppShellSidebarToggle.test.tsx",
+    "action": "TEST",
+    "description": "'ARIA by container mode' (stubbed ResizeObserver entries 390/800/1200/1600), 'collapseTo rail|collapsed', 'mod+B only when shortcut'.",
+    "depends_on": [
+      "NAV-018"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/AppShellSidebarToggle.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-20",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-030",
+    "prd": "PRD-11",
+    "system": "TopBar",
+    "file": "NEW:src/app-shell/TopBar.test.tsx",
+    "action": "TEST",
+    "description": "'one scroll edge per edge' (second top ScrollEdge in same container warns), 'banner only as direct shell child' (getAllByRole('banner') = 1 when a nested TopBar sits in Main).",
+    "depends_on": [
+      "NAV-021"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/TopBar.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-25, REQ-NAV-26",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-031",
+    "prd": "PRD-11",
+    "system": "StatusBar",
+    "file": "NEW:src/app-shell/StatusBar.test.tsx",
+    "action": "TEST",
+    "description": "'bar has no role=status', 'live item announces once per change after debounce' (fake timers 1000 ms), 'no announcement on mount'.",
+    "depends_on": [
+      "NAV-022"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/StatusBar.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-33; AC-NAV-13 (status half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-032",
+    "prd": "PRD-11",
+    "system": "MobileShell",
+    "file": "NEW:src/app-shell/MobileShell.test.tsx",
+    "action": "TEST",
+    "description": "'renders layout=mobile', 'slot order', '--ag-scroll-padding-bottom rule present in compiled CSS', 'top and bottom edge, no warning' (bottom edge case enabled once TabBar NAV-070 lands).",
+    "depends_on": [
+      "NAV-023"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/app-shell/MobileShell.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-34, REQ-NAV-26",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-033",
+    "prd": "PRD-11",
+    "system": "AppShell/hydration",
+    "file": "NEW:tests/e2e/app-shell/ssr-hydration.spec.ts",
+    "action": "TEST",
+    "description": "Remote, Next 16 + React 19.3 and Next 15 + React 19.0 canaries (PRD-19): shell route renderToString->hydrateRoot with and without cookie ag-shell-main=sidebar:rail; 0 hydration warnings, 0 attribute mismatches, CLS <= 0.01. Covers all six S-01 shells once NAV-101 lands.",
+    "depends_on": [
+      "NAV-016",
+      "NAV-018",
+      "QA-018",
+      "QA-086"
+    ],
+    "priority": "P0",
+    "test": "remote canary jobs green; console captured",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-10; AC-NAV-16",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-034",
+    "prd": "PRD-11",
+    "system": "AppShell/a11y+theme",
+    "file": "NEW:tests/e2e/app-shell/a11y.spec.ts",
+    "action": "TEST",
+    "description": "Remote: 'skip link focuses main', 'focus not obscured by top bar' (overlay; element.top >= topbar.bottom after focus), 'landmark-unique' axe = 0. Also NEW tests/e2e/app-shell/theme.spec.ts 'brand theme recolours chrome' (createBrandTheme changes indicator/focus colour, no prop).",
+    "depends_on": [
+      "NAV-016",
+      "NAV-021",
+      "NAV-024",
+      "DS-083"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-05, -14, -27, -37",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-035",
+    "prd": "PRD-11",
+    "system": "AppShell/layout",
+    "file": "NEW:tests/e2e/app-shell/layout.spec.ts",
+    "action": "TEST",
+    "description": "Add React-frame cases: 'page header actions wrap', 'top bar no overflow at 320', 'mobile last item not hidden under tab bar', 'no promoted layers at rest' on rendered components, 'main owns scroll' on stories.",
+    "depends_on": [
+      "NAV-013",
+      "NAV-024"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-06, -12, -13, -28, -34",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-036",
+    "prd": "PRD-11",
+    "system": "Sidebar",
+    "file": "NEW:src/app-shell/Sidebar.tsx",
+    "action": "CREATE",
+    "description": "Server Sidebar {Root, Header, Content, Footer, Group, GroupLabel, Separator} + namespace members from SidebarNav/SidebarCollapsible. Root data-ag-slot=sidebar, id, data-ag-appearance sidebar|inset|floating (inset via ConcentricFrame); data-ag-variant only for a material variant; chrome thick material; Content is the only scroll area.",
+    "depends_on": [
+      "NAV-016",
+      "MAT-047",
+      "MAT-051"
+    ],
+    "priority": "P0",
+    "test": "Sidebar.test.tsx (NAV-043)",
+    "storybook": "S-02 Sidebar item matrix",
+    "acceptance": "REQ-NAV-15",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-037",
+    "prd": "PRD-11",
+    "system": "Sidebar/Nav",
+    "file": "NEW:src/app-shell/SidebarNav.tsx",
+    "action": "CREATE",
+    "description": "Server Sidebar.Nav (<nav aria-label>, dev warning without label) > ul > li > Sidebar.Item (<a href> default; href required unless render; render prop merges onto element; current -> aria-current=page; render=<button/> dev warning 'destinations should be links'), ItemIcon, ItemBadge.",
+    "depends_on": [
+      "NAV-036",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "Sidebar.test.tsx item cases",
+    "storybook": "S-02 Sidebar item default/hover/focus/current/disabled/badge",
+    "acceptance": "REQ-NAV-15, REQ-NAV-16; AC-NAV-12",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-038",
+    "prd": "PRD-11",
+    "system": "Sidebar/rail",
+    "file": "NEW:src/app-shell/SidebarNav.tsx",
+    "action": "MODIFY",
+    "description": "Rail state: labels visually hidden (PRD-A11Y rule, not removed); each item wrapped in PRD-OVL Tooltip (OVL-066) using the PRD-OVL Tooltip delay default (OVL prop constant, not a token; SC-19), active only when data-ag-sidebar=rail; hit area >=40x40 fine, >=44x44 at (pointer: coarse).",
+    "depends_on": [
+      "NAV-037",
+      "OVL-066"
+    ],
+    "priority": "P0",
+    "test": "Sidebar.test.tsx › rail keeps accessible names; a11y.spec › rail target size (NAV-046)",
+    "storybook": "S-02 AppShell sidebar=rail",
+    "acceptance": "REQ-NAV-17",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-039",
+    "prd": "PRD-11",
+    "system": "Sidebar/css",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "MODIFY",
+    "description": "Sidebar rules: collapsed -> display:none (store also sets inert); compact container -> inline sidebar display:none; medium -> column forced to rail width; drawer width min(85%,20rem); item target sizes; RTL via logical properties.",
+    "depends_on": [
+      "NAV-036",
+      "NAV-010"
+    ],
+    "priority": "P0",
+    "test": "app-shell.css.test.ts; layout.spec (NAV-046)",
+    "storybook": "S-03 container playground",
+    "acceptance": "REQ-NAV-18, -19, -22",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-040",
+    "prd": "PRD-11",
+    "system": "Sidebar/Collapsible",
+    "file": "NEW:src/app-shell/SidebarCollapsible.tsx",
+    "action": "CREATE",
+    "description": "'use client' Sidebar.Collapsible on Base UI Collapsible: trigger aria-expanded, panel hidden; defaultOpen true when a direct Sidebar.Item child has current (computed by server parent), explicit defaultOpen overrides.",
+    "depends_on": [
+      "NAV-037",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "Sidebar.test.tsx › group containing current opens",
+    "storybook": "S-02 nested open/closed",
+    "acceptance": "REQ-NAV-23",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-041",
+    "prd": "PRD-11",
+    "system": "Sidebar/Drawer",
+    "file": "NEW:src/app-shell/SidebarDrawer.tsx",
+    "action": "CREATE",
+    "description": "'use client', React.lazy-loaded PRD-09 Sheet side=start modal rendering the same server children (mounted only while open; inline sidebar display:none+inert meanwhile; ids via useId only). Closes on Escape (PRD-05 layer stack), scrim click and any Sidebar.Item activation; returns focus to the toggle.",
+    "depends_on": [
+      "NAV-036",
+      "OVL-097",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "sidebar-drawer.spec.ts (NAV-044)",
+    "storybook": "S-01 MobileApp, S-02 drawer-open",
+    "acceptance": "REQ-NAV-19",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-042",
+    "prd": "PRD-11",
+    "system": "AppShell/SidebarToggle",
+    "file": "NEW:src/app-shell/AppShellSidebarToggle.tsx",
+    "action": "MODIFY",
+    "description": "Compact/medium: toggle opens SidebarDrawer with aria-expanded/aria-haspopup=dialog/aria-controls=drawer popup id; uncontrolled toggling changes data-ag-sidebar without props (E-19 regression); store keeps 'expanded' preference while medium forces rail and restores at >=1024.",
+    "depends_on": [
+      "NAV-018",
+      "NAV-041"
+    ],
+    "priority": "P0",
+    "test": "AppShellSidebarToggle.test.tsx; Sidebar.test.tsx › uncontrolled toggle changes state",
+    "storybook": "S-08 drawer play",
+    "acceptance": "REQ-NAV-20, -21, -22",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-043",
+    "prd": "PRD-11",
+    "system": "Sidebar",
+    "file": "NEW:src/app-shell/Sidebar.test.tsx",
+    "action": "TEST",
+    "description": "'appearance is not variant', 'item is a link with aria-current', 'render prop composes router link', 'button render warns', 'rail keeps accessible names', 'collapsed sidebar is inert' (0 tabbable), 'uncontrolled toggle changes state', 'group containing current opens', 'missing aria-label on Sidebar.Nav warns'.",
+    "depends_on": [
+      "NAV-036",
+      "NAV-037",
+      "NAV-038",
+      "NAV-040",
+      "NAV-042"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/Sidebar.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-15..18, -21, -23; AC-NAV-12, AC-NAV-13",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-044",
+    "prd": "PRD-11",
+    "system": "Sidebar/Drawer",
+    "file": "NEW:tests/e2e/app-shell/sidebar-drawer.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: compact drawer opens from toggle, traps focus, closes on Escape/scrim/navigation, restores focus; stacked Escape with an open Menu closes Menu first; 'medium toggle opens drawer'.",
+    "depends_on": [
+      "NAV-041",
+      "NAV-042",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-19, REQ-NAV-22",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-045",
+    "prd": "PRD-11",
+    "system": "Sidebar/APG",
+    "file": "NEW:tests/a11y/apg/sidebar.apg.spec.ts",
+    "action": "TEST",
+    "description": "PRD-05 runApgScript: Tab between item links (no roving tabindex), Enter activates, Space/Enter toggles Collapsible; LTR + RTL; Chromium/WebKit/Gecko; remote behaviour lane.",
+    "depends_on": [
+      "NAV-043",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "remote green 3 engines x 2 directions",
+    "storybook": "S-08 mirror",
+    "acceptance": "REQ-NAV-24; AC-NAV-10 (sidebar)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-046",
+    "prd": "PRD-11",
+    "system": "Sidebar/layout+a11y",
+    "file": "NEW:tests/e2e/app-shell/layout.spec.ts",
+    "action": "TEST",
+    "description": "Add 'medium forces rail and restores' (resize container 1200->800->1200, stored expanded restored) and in tests/e2e/app-shell/a11y.spec.ts 'rail target size' (>=40 fine, >=44 coarse) plus axe aria-hidden-focus = 0 on collapsed shell.",
+    "depends_on": [
+      "NAV-039",
+      "NAV-042",
+      "NAV-035"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-17, -18, -22; AC-NAV-13",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-047",
+    "prd": "PRD-11",
+    "system": "Sidebar/perf",
+    "file": "NEW:tests/perf/browser/sidebar-toggle.spec.ts",
+    "action": "TEST",
+    "description": "Perf-harness spec (tests/perf/harness/run-perf.mjs): mid-tier mobile toggle INP <= 100 ms, no long task > 50 ms; width transition only under [data-ag-animating], <= --ag-duration-medium, 0 layout-property animations at motion=calm|none. Executed in NAV-118.",
+    "depends_on": [
+      "NAV-042",
+      "PERF-039",
+      "PERF-044"
+    ],
+    "priority": "P1",
+    "test": "remote perf lane green",
+    "storybook": "n/a",
+    "acceptance": "§16.2 sidebar rows; AC-NAV-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-048",
+    "prd": "PRD-11",
+    "system": "ResizablePanels",
+    "file": "NEW:src/app-shell/ResizablePanels.tsx",
+    "action": "CREATE",
+    "description": "'use client' Owned ResizablePanels {Root, Panel, Handle}. Root: orientation, onLayout, autoSaveId, defaultLayout, keyboardStep=2, keyboardStepLarge=10, stackBelow; Panel: id (required), defaultSize, minSize, maxSize, collapsible, collapsedSize=0, onCollapse, onExpand, label, px strings via toPercent; Handle: disabled, withGrip, aria-label. Ref registry in DOM order; flex + flex-basis %; N>=2; nestable; React 19 ref prop.",
+    "depends_on": [
+      "NAV-001",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "ResizablePanels.test.tsx (NAV-053)",
+    "storybook": "S-02 ResizablePanels 2/3 panels, horizontal/vertical, nested",
+    "acceptance": "REQ-NAV-64",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-049",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/pointer",
+    "file": "NEW:src/app-shell/ResizablePanels.tsx",
+    "action": "MODIFY",
+    "description": "Pointer Events + setPointerCapture; root getBoundingClientRect read once on pointerdown; delta=(clientX-startX)/rect.width*100 (height for vertical); rAF-coalesced flex-basis writes (<=1/frame); no React state until pointerup, then onLayout once and aria-valuenow DOM update; touch-action:none on handle only; no window.innerWidth/innerHeight.",
+    "depends_on": [
+      "NAV-048"
+    ],
+    "priority": "P0",
+    "test": "ResizablePanels.test.tsx › drag inside offset 600px container, › single onLayout per drag; resizable.spec.ts (NAV-054)",
+    "storybook": "S-02 handle focus",
+    "acceptance": "REQ-NAV-65, REQ-NAV-66; AC-NAV-14",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-050",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/a11y",
+    "file": "NEW:src/app-shell/ResizablePanels.tsx",
+    "action": "MODIFY",
+    "description": "Handle role=separator, aria-orientation perpendicular to panel axis, aria-valuenow (rounded preceding size), aria-valuemin/max, aria-controls preceding panel id, aria-label prop or labels.resize(label), tabIndex=0; keys arrows +-keyboardStep, Shift+arrow +-keyboardStepLarge, Home/End min/max, Enter toggles collapse with restore, RTL flips horizontal arrows.",
+    "depends_on": [
+      "NAV-048"
+    ],
+    "priority": "P0",
+    "test": "ResizablePanels.test.tsx › separator ARIA; splitter.apg.spec.ts (NAV-055)",
+    "storybook": "S-08 splitter keyboard play",
+    "acceptance": "REQ-NAV-67, REQ-NAV-68",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-051",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/css",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "MODIFY",
+    "description": "Handle 1px visual line, ::before hit area 24px fine / 44px (pointer:coarse) absolutely positioned, PRD-05 focus ring; container ag-panels/inline-size with stackBelow steps data-ag-stack-below=480|640|768 stacking horizontal groups vertically and hiding handles (deviation recorded: arbitrary widths impossible in container conditions).",
+    "depends_on": [
+      "NAV-048"
+    ],
+    "priority": "P1",
+    "test": "a11y.spec › splitter target size; layout.spec › resizable stacks below threshold (NAV-054)",
+    "storybook": "S-03 container playground",
+    "acceptance": "REQ-NAV-70, REQ-NAV-72",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-052",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/persistence",
+    "file": "NEW:src/app-shell/ResizablePanels.tsx",
+    "action": "MODIFY",
+    "description": "autoSaveId persists to localStorage['ag-panels:<id>'] read in useLayoutEffect after hydration (never during render), written on commit; defaultLayout seeds SSR inline flex-basis; ResizeObserver/ref callbacks return cleanup.",
+    "depends_on": [
+      "NAV-049"
+    ],
+    "priority": "P1",
+    "test": "ResizablePanels.test.tsx › restores saved layout after hydration without mismatch, › observer cleanup",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-71, REQ-NAV-83",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-053",
+    "prd": "PRD-11",
+    "system": "ResizablePanels",
+    "file": "NEW:src/app-shell/ResizablePanels.test.tsx",
+    "action": "TEST",
+    "description": "'drag inside offset 600px container', 'single onLayout per drag', 'separator ARIA', 'keyboard steps and Enter collapse', 'restores saved layout after hydration without mismatch', 'observer cleanup'.",
+    "depends_on": [
+      "NAV-049",
+      "NAV-050",
+      "NAV-052"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/ResizablePanels.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-65..68, -71, -83; AC-NAV-14 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-054",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/e2e",
+    "file": "NEW:tests/e2e/app-shell/resizable.spec.ts",
+    "action": "TEST",
+    "description": "Remote: 'drag in nested container' (handle within 1px of pointer in a container offset 600px), 'touch drag via page.touchscreen' incl. WebKit, 'React commits during drag = 0' (Profiler fixture); plus layout.spec 'resizable stacks below threshold' and a11y.spec 'splitter target size'.",
+    "depends_on": [
+      "NAV-049",
+      "NAV-051",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-65, -66, -70, -72; AC-NAV-14",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-055",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/APG",
+    "file": "NEW:tests/a11y/apg/splitter.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG window-splitter script via runApgScript: arrows, Shift+arrows, Home/End, Enter collapse/restore, focus ring visible; LTR+RTL; 3 engines; remote.",
+    "depends_on": [
+      "NAV-050",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "S-08 splitter play",
+    "acceptance": "REQ-NAV-68; AC-NAV-10 (splitter)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-056",
+    "prd": "PRD-11",
+    "system": "ResizablePanels/perf",
+    "file": "NEW:tests/perf/browser/resizable-drag.spec.ts",
+    "action": "TEST",
+    "description": "Remote perf: 3 panels, mid-tier mobile, scripted drag; <=1 DOM write per frame (MutationObserver count), 0 React commits until pointerup, p95 frame <= 16.7 ms. Executed in NAV-118.",
+    "depends_on": [
+      "NAV-049",
+      "PERF-039",
+      "PERF-044"
+    ],
+    "priority": "P1",
+    "test": "remote perf lane green",
+    "storybook": "n/a",
+    "acceptance": "§16.2 ResizablePanels row; AC-NAV-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-057",
+    "prd": "PRD-11",
+    "system": "Inspector",
+    "file": "NEW:src/app-shell/Inspector.tsx",
+    "action": "CREATE",
+    "description": "Server Inspector {Root (<aside aria-label> required, data-ag-slot=inspector, mode auto|docked|floating|sheet), Header (title + PRD-08 IconButton close via store), Content (scroll area), Field (label, htmlFor, value; grid minmax(6rem,40%) minmax(0,1fr), stacks <280px via @container ag-inspector)}. Docked=content-sunken (no blur); floating=chrome regular. No resizable prop.",
+    "depends_on": [
+      "NAV-016",
+      "NAV-017",
+      "CTL-061"
+    ],
+    "priority": "P0",
+    "test": "Inspector.test.tsx (NAV-060)",
+    "storybook": "S-02 inspector closed/floating/docked/sheet",
+    "acceptance": "REQ-NAV-30, REQ-NAV-32",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-058",
+    "prd": "PRD-11",
+    "system": "Inspector/Section",
+    "file": "NEW:src/app-shell/InspectorSection.tsx",
+    "action": "CREATE",
+    "description": "'use client' Inspector.Section on Base UI Collapsible with title and defaultOpen; aria-expanded on trigger; hidden panel.",
+    "depends_on": [
+      "NAV-057",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "Inspector.test.tsx › section collapse",
+    "storybook": "S-01 AiCommandCenter",
+    "acceptance": "REQ-NAV-30",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-059",
+    "prd": "PRD-11",
+    "system": "Inspector/modes",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "MODIFY",
+    "description": "Inspector container modes: wide docked column, expanded/medium floating chrome panel inline-end min(20rem,45%), compact hidden inline; AppShellInspectorToggle in compact portals content into PRD-09 Sheet side=bottom detents [0.5,1] when opened (closed by default; no SSR flash) and restores focus; mode prop overrides.",
+    "depends_on": [
+      "NAV-057",
+      "NAV-019",
+      "OVL-097",
+      "OVL-099"
+    ],
+    "priority": "P0",
+    "test": "inspector.spec.ts (NAV-061)",
+    "storybook": "S-03 container playground",
+    "acceptance": "REQ-NAV-31",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-060",
+    "prd": "PRD-11",
+    "system": "Inspector",
+    "file": "NEW:src/app-shell/Inspector.test.tsx",
+    "action": "TEST",
+    "description": "Parts render, 'required label warns', 'section collapse', 'Field label association (htmlFor)', close button sets data-ag-inspector=closed.",
+    "depends_on": [
+      "NAV-057",
+      "NAV-058"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/app-shell/Inspector.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-30",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-061",
+    "prd": "PRD-11",
+    "system": "Inspector/e2e",
+    "file": "NEW:tests/e2e/app-shell/inspector.spec.ts",
+    "action": "TEST",
+    "description": "Remote: 'mode by container width' (1600 docked, 1200 and 800 floating, 390 sheet), 'compact sheet opens from toggle and restores focus', 'resizable via panels' (Inspector inside ResizablePanels resizes via Handle).",
+    "depends_on": [
+      "NAV-059",
+      "NAV-049",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-31, REQ-NAV-32",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-062",
+    "prd": "PRD-11",
+    "system": "registry/items/app-shell-workspace",
+    "file": "NEW:registry/items/app-shell-workspace/",
+    "action": "CREATE",
+    "description": "registry:item content (SC-32: the 'workspace' block becomes an item, not a GA block) re-expressing the six src/workspace/index.tsx components as AppShell + PageHeader tabs + ResizablePanels + Inspector + Tabs + Card with .ag-app-shell__auto-grid; asserts sidebar-beside-main and docked inspector at 1440; 0 !important, 0 hex. Adds its registry/registry.json entry by MODIFY (DX-067 owns the index); passes scripts/registry/lint.mjs (DX-070).",
+    "depends_on": [
+      "NAV-057",
+      "NAV-048",
+      "NAV-064",
+      "DX-067",
+      "DX-070",
+      "FND-050"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/registry-render.spec.ts (DX-094, remote) case app-shell-workspace green; scripts/registry/lint.mjs green",
+    "storybook": "n/a (registry item)",
+    "acceptance": "REQ-NAV-35; DoD 6",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-063",
+    "prd": "PRD-11",
+    "system": "navigation/css",
+    "file": "NEW:src/components/navigation/navigation.css",
+    "action": "CREATE",
+    "description": "@layer ag.components stylesheet compiled into styles.css (PRD-02): Tabs list/tab/panel/indicator (pill + underline), TabBar bottom/floating capsule, later Breadcrumbs and Pagination sections; --ag-* tokens only; 0 !important, 0 literals, no layout-property transitions.",
+    "depends_on": [
+      "PKG-005",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "static lane no-important/no-literals; class-coverage (NAV-014)",
+    "storybook": "S-02 Tabs/TabBar matrices",
+    "acceptance": "REQ-NAV-02; AC-NAV-02",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-064",
+    "prd": "PRD-11",
+    "system": "Tabs",
+    "file": "NEW:src/components/navigation/Tabs.tsx",
+    "action": "CREATE",
+    "description": "Tabs {Root, List, Tab, Panel, Indicator} over Base UI Tabs with own public types (no Base UI type in .d.ts). value/defaultValue/onValueChange(value), orientation, activateOnFocus=false, appearance pill|underline (data-ag-appearance), size sm|md. Root plain div (no landmark). Ids from useId + value. data-ag-part list|tab|panel|indicator + data-state active|inactive. Panel unmounts inactive; keepMounted keeps hidden.",
+    "depends_on": [
+      "NAV-063",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "Tabs.test.tsx (NAV-067)",
+    "storybook": "S-02 Tabs underline/pill x horizontal/vertical x states",
+    "acceptance": "REQ-NAV-38, -39, -43; AC-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-065",
+    "prd": "PRD-11",
+    "system": "Tabs/indicator",
+    "file": "NEW:src/components/navigation/Tabs.tsx",
+    "action": "MODIFY",
+    "description": "Tabs.Indicator: data-ag-vt-participant, view-transition-name ag-tabs-indicator-<useId>; activation wrapped in PRD-06 startMorph; feature-detected fallback CSS transition of translate+scale only from Base UI active-tab CSS vars with --ag-duration-*/--ag-ease-*; motion=calm opacity only, none jumps; never transitions left/width/top/height; no will-change.",
+    "depends_on": [
+      "NAV-064",
+      "MOT-045",
+      "MOT-048"
+    ],
+    "priority": "P1",
+    "test": "tabs-indicator.spec.ts (NAV-069)",
+    "storybook": "S-02 active state; S-05 motion toggle",
+    "acceptance": "REQ-NAV-41",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-066",
+    "prd": "PRD-11",
+    "system": "Tabs/overflow",
+    "file": "NEW:src/components/navigation/navigation.css",
+    "action": "MODIFY",
+    "description": "Tabs.List overflow-x:auto, mask-image edge fade, scrollbar hidden, no scroll buttons; Tabs.tsx calls scrollIntoView({block:'nearest', inline:'nearest'}) on activation.",
+    "depends_on": [
+      "NAV-064"
+    ],
+    "priority": "P1",
+    "test": "Tabs.test.tsx › active tab scrolled into view; layout.spec › tabs no page overflow at 320",
+    "storybook": "S-02 overflowing",
+    "acceptance": "REQ-NAV-42",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-067",
+    "prd": "PRD-11",
+    "system": "Tabs",
+    "file": "NEW:src/components/navigation/Tabs.test.tsx",
+    "action": "TEST",
+    "description": "'two instances have unique ids', 'no landmark role', 'active tab scrolled into view', 'part contract', 'keepMounted keeps hidden panel', 'onValueChange receives value string'.",
+    "depends_on": [
+      "NAV-064",
+      "NAV-066"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/components/navigation/Tabs.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-39, -42, -43; AC-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-068",
+    "prd": "PRD-11",
+    "system": "Tabs/APG",
+    "file": "NEW:tests/a11y/apg/tabs.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG tabs: Left/Right (Up/Down vertical) with wrap, Home/End, manual Enter/Space, disabled skipped, Tab into active panel, RTL reverses arrows; axe duplicate-id-aria = 0 with two instances; 3 engines remote.",
+    "depends_on": [
+      "NAV-067",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "remote green 3 engines x LTR/RTL",
+    "storybook": "S-08 tab keyboard play",
+    "acceptance": "REQ-NAV-40; AC-NAV-10 (tabs), AC-NAV-11",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-069",
+    "prd": "PRD-11",
+    "system": "Tabs/motion",
+    "file": "NEW:tests/motion/tabs-indicator.spec.ts",
+    "action": "TEST",
+    "description": "Remote motion lane: engines with startViewTransition observe ::view-transition-group(ag-tabs-indicator-*); fixture with startViewTransition deleted: frame strip shows only translate/scale changing; all engines no layout-property transition; reduced motion: no WAAPI after settle.",
+    "depends_on": [
+      "NAV-065",
+      "QA-076"
+    ],
+    "priority": "P1",
+    "test": "remote motion lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-41",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-070",
+    "prd": "PRD-11",
+    "system": "TabBar",
+    "file": "NEW:src/components/navigation/TabBar.tsx",
+    "action": "CREATE",
+    "description": "TabBar {Root, Item, ItemIcon, ItemLabel, ItemBadge, Accessory, Search}; semantics='navigation' default: <nav aria-label required> > ul > li > Item link (href/render/button warning as Sidebar.Item), aria-current=page, 0 role=tab/tablist/aria-controls; placement bottom|floating (capsule max-inline-size min(100% - 2*var(--ag-space-4), 36rem)); 2-5 items, >5 dev warning; >=44x44 at coarse pointer; data-ag-slot=tabbar.",
+    "depends_on": [
+      "NAV-063",
+      "NAV-037"
+    ],
+    "priority": "P0",
+    "test": "TabBar.test.tsx (NAV-075)",
+    "storybook": "S-02 TabBar bottom/floating x navigation",
+    "acceptance": "REQ-NAV-44, -45, -46; AC-NAV-12",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-071",
+    "prd": "PRD-11",
+    "system": "TabBar/tabs",
+    "file": "NEW:src/components/navigation/TabBar.tsx",
+    "action": "MODIFY",
+    "description": "semantics='tabs': renders Tabs.List semantics via Tabs (NAV-064) and requires matching Tabs.Panel; dev error if no panel registered within one commit (useEffect check).",
+    "depends_on": [
+      "NAV-070",
+      "NAV-064"
+    ],
+    "priority": "P1",
+    "test": "TabBar.test.tsx › tabs semantics requires panels",
+    "storybook": "S-02 TabBar tabs semantics",
+    "acceptance": "REQ-NAV-45",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-072",
+    "prd": "PRD-11",
+    "system": "TabBar/material",
+    "file": "NEW:src/components/navigation/TabBar.tsx",
+    "action": "MODIFY",
+    "description": "One PRD-04 SurfaceGroup (chrome) owns the only backdrop-filter; items tint/rim only; refraction prop requests enhanced tier per D-05 (inert unless PRD-15 enables); renders the single ScrollEdge edge=bottom for its scroll container; no inline background/colour literal (E-18).",
+    "depends_on": [
+      "NAV-070",
+      "MAT-048",
+      "MAT-050"
+    ],
+    "priority": "P0",
+    "test": "TabBar.test.tsx › no inline background; blur-budget.spec › tab bar = 1 backdrop filter",
+    "storybook": "S-02 tier lightweight/standard/enhanced",
+    "acceptance": "REQ-NAV-47; AC-NAV-06 (input)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-073",
+    "prd": "PRD-11",
+    "system": "TabBar/minimize+accessory",
+    "file": "NEW:src/components/navigation/navigation.css",
+    "action": "MODIFY",
+    "description": "minimizeOnScroll via @supports (animation-timeline: scroll()) CSS animation on scroll(nearest block) collapsing labels, disabled at motion calm|none, no JS scroll listener; TabBar.Accessory inside the same SurfaceGroup, hidden when minimized unless accessoryPlacement='persist'; TabBar.Search renders PRD-08 SearchField trigger (absorbs LiquidGlassSearchTab).",
+    "depends_on": [
+      "NAV-070",
+      "CTL-075"
+    ],
+    "priority": "P2",
+    "test": "tabbar-minimize.spec.ts (NAV-077); TabBar.test.tsx › accessory placement",
+    "storybook": "S-02 expanded/minimized x accessory",
+    "acceptance": "REQ-NAV-48, REQ-NAV-49",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-074",
+    "prd": "PRD-11",
+    "system": "TabBar/shell",
+    "file": "NEW:src/app-shell/app-shell.css",
+    "action": "MODIFY",
+    "description": "@container ag-app-shell (width >= 600px) hides [data-ag-slot=tabbar] .ag-tab-bar[data-ag-placement=bottom]; floating stays; overlay TabBar adds env(safe-area-inset-bottom) to its own block-end padding.",
+    "depends_on": [
+      "NAV-070",
+      "NAV-010"
+    ],
+    "priority": "P0",
+    "test": "layout.spec › bottom tab bar only in compact, › safe-area insets",
+    "storybook": "S-03 container playground",
+    "acceptance": "REQ-NAV-50, REQ-NAV-07",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-075",
+    "prd": "PRD-11",
+    "system": "TabBar",
+    "file": "NEW:src/components/navigation/TabBar.test.tsx",
+    "action": "TEST",
+    "description": "'navigation semantics' (0 role=tab/tablist, exactly one aria-current), 'tabs semantics requires panels', 'warns over 5 items', 'accessory placement', 'no inline background'.",
+    "depends_on": [
+      "NAV-070",
+      "NAV-071",
+      "NAV-072",
+      "NAV-073"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/components/navigation/TabBar.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-45, -46, -47, -49; AC-NAV-12",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-076",
+    "prd": "PRD-11",
+    "system": "TabBar/APG+a11y",
+    "file": "NEW:tests/a11y/apg/tabbar.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote APG: navigation semantics = Tab between links, Enter activates; tabs semantics = APG tabs keys; LTR/RTL 3 engines; plus a11y.spec 'tab bar target size' (>=44x44 coarse).",
+    "depends_on": [
+      "NAV-075",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-45, REQ-NAV-46; AC-NAV-10 (tabbar)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-077",
+    "prd": "PRD-11",
+    "system": "TabBar/motion+layout",
+    "file": "NEW:tests/motion/tabbar-minimize.spec.ts",
+    "action": "TEST",
+    "description": "Remote: Chromium label collapses on scroll; engines without animation-timeline register 0 scroll listeners (instrumented addEventListener); layout.spec 'bottom tab bar only in compact'.",
+    "depends_on": [
+      "NAV-073",
+      "NAV-074",
+      "QA-076"
+    ],
+    "priority": "P2",
+    "test": "remote motion + layout lanes green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-48, REQ-NAV-50",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-078",
+    "prd": "PRD-11",
+    "system": "Breadcrumbs",
+    "file": "NEW:src/components/navigation/Breadcrumbs.tsx",
+    "action": "CREATE",
+    "description": "Server Breadcrumbs {Root <nav aria-label=labels.breadcrumb ?? 'Breadcrumb'>, List <ol>, Item <li>, Link <a> with render, Current <span aria-current=page>, Separator aria-hidden chevron from aura-glass/icons flipped under RTL, Ellipsis}; no surface/backdrop filter; segments max-inline-size 16ch ellipsis, Current takes remaining space; navigation.css section.",
+    "depends_on": [
+      "NAV-063"
+    ],
+    "priority": "P1",
+    "test": "Breadcrumbs.test.tsx (NAV-080)",
+    "storybook": "S-02 Breadcrumbs 2/4/8 items",
+    "acceptance": "REQ-NAV-51, -53, -54",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-079",
+    "prd": "PRD-11",
+    "system": "Breadcrumbs/Overflow",
+    "file": "NEW:src/components/navigation/BreadcrumbsOverflow.tsx",
+    "action": "CREATE",
+    "description": "'use client' island used only when maxItems is exceeded (itemsAfterCollapse=2): PRD-08 IconButton labelled labels.showMore(n) ?? 'Show N more' opening PRD-09 Menu of link items; imported only on the overflow branch.",
+    "depends_on": [
+      "NAV-078",
+      "CTL-061",
+      "OVL-081"
+    ],
+    "priority": "P1",
+    "test": "Breadcrumbs.test.tsx › collapses middle items; breadcrumbs-overflow.apg.spec.ts",
+    "storybook": "S-02 Breadcrumbs collapsed",
+    "acceptance": "REQ-NAV-52",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-080",
+    "prd": "PRD-11",
+    "system": "Breadcrumbs",
+    "file": "NEW:src/components/navigation/Breadcrumbs.test.tsx",
+    "action": "TEST",
+    "description": "'nav > ol > li structure', 'separators aria-hidden', 'aria-current on Current', 'collapses middle items'; layout.spec 'breadcrumbs truncate at 390' (remote).",
+    "depends_on": [
+      "NAV-078",
+      "NAV-079"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/components/navigation/Breadcrumbs.test.tsx green; remote layout case green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-51, -52, -54",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-081",
+    "prd": "PRD-11",
+    "system": "Breadcrumbs/APG",
+    "file": "NEW:tests/a11y/apg/breadcrumbs-overflow.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote APG: overflow button Enter/Space opens Menu, arrows move, Escape closes and restores focus, link activation navigates; LTR/RTL; 3 engines.",
+    "depends_on": [
+      "NAV-079",
+      "A11Y-073"
+    ],
+    "priority": "P1",
+    "test": "remote green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-52; AC-NAV-10 (breadcrumbs-overflow)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-082",
+    "prd": "PRD-11",
+    "system": "Breadcrumbs/RSC",
+    "file": "NEW:tests/canary/next16/breadcrumbs-server.spec.ts",
+    "action": "TEST",
+    "description": "PRD-19 Next 16 canary: page with Breadcrumbs (no overflow) and server AppShell.Root+Main+TopBar contributes 0 client modules to the RSC client manifest; with overflow only BreadcrumbsOverflow appears.",
+    "depends_on": [
+      "NAV-078",
+      "NAV-016",
+      "QA-086"
+    ],
+    "priority": "P1",
+    "test": "remote canary green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-53; AC-NAV-17",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-083",
+    "prd": "PRD-11",
+    "system": "Pagination",
+    "file": "NEW:src/components/navigation/Pagination.tsx",
+    "action": "CREATE",
+    "description": "Pagination {Root <nav aria-label=Pagination>, Previous, Next, Item, Ellipsis}; page, defaultPage=1, pageCount, onPageChange, siblingCount=1, boundaryCount=1, getHref (link mode, server), labels; button mode via NEW src/components/navigation/PaginationButtons.tsx ('use client'); aria-current=page; Previous/Next aria-disabled at bounds and focusable; 'Page N' names; @container ag-pagination <400px shows Previous, 'Page N of M', Next; content material, no blur.",
+    "depends_on": [
+      "NAV-003",
+      "NAV-063"
+    ],
+    "priority": "P1",
+    "test": "Pagination.test.tsx (NAV-084)",
+    "storybook": "S-02 Pagination first/middle/last/compact",
+    "acceptance": "REQ-NAV-55, -56, -57",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-084",
+    "prd": "PRD-11",
+    "system": "Pagination",
+    "file": "NEW:src/components/navigation/Pagination.test.tsx",
+    "action": "TEST",
+    "description": "'stable item count', 'aria-disabled bounds stay focusable', 'link mode uses getHref', 'labels override'; remote layout.spec 'pagination compact'.",
+    "depends_on": [
+      "NAV-083"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/components/navigation/Pagination.test.tsx green; remote layout case green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-56, REQ-NAV-57",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-085",
+    "prd": "PRD-11",
+    "system": "Command",
+    "file": "NEW:src/components/navigation/Command.tsx",
+    "action": "CREATE",
+    "description": "'use client' Command {Root, Input, List, Group(heading), Item(value, keywords, onSelect, disabled, shortcut), Empty, Loading, Separator} on Base UI Combobox inline list (role=combobox + listbox, aria-activedescendant); default filter commandScore, filter override, shouldFilter=false; keys Up/Down wrap (loop), Home/End, Enter, Escape clears then propagates to PRD-05 layer stack, isComposing guard; result count announced via provider announcer, polite, 500 ms debounce.",
+    "depends_on": [
+      "NAV-005",
+      "FND-001",
+      "FND-005",
+      "A11Y-049"
+    ],
+    "priority": "P0",
+    "test": "Command.test.tsx (NAV-088)",
+    "storybook": "S-02 Command empty query/results/empty/loading",
+    "acceptance": "REQ-NAV-58, -59, -60, -63",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-086",
+    "prd": "PRD-11",
+    "system": "Command/virtualization",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "Add @tanstack/react-virtual at an exact pinned version (must already be on the PRD-02/D-29 allowlist; BLOCKED otherwise); Command.List loads it via dynamic import() above 100 rendered items, keeps active item in the virtual window (scrollToIndex), <=30 item nodes at 5,000 items.",
+    "depends_on": [
+      "NAV-085",
+      "PKG-056"
+    ],
+    "priority": "P1",
+    "test": "Command.test.tsx › 5,000 items virtualized; dependency allowlist gate green",
+    "storybook": "S-02 Command 5,000 items",
+    "acceptance": "REQ-NAV-62",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-087",
+    "prd": "PRD-11",
+    "system": "CommandPalette",
+    "file": "NEW:src/components/navigation/CommandPalette.tsx",
+    "action": "CREATE",
+    "description": "'use client' PRD-09 Dialog.Root > Dialog.Popup size=lg placement=top initialFocus=input > Dialog.Body padding=none > Command (REQ-OVL-60 public parts only; no own scrim/blur/material); hotkey='mod+k' default (false disables), one document keydown listener per mounted palette; open focuses input; close restores previous focus.",
+    "depends_on": [
+      "NAV-085",
+      "OVL-040"
+    ],
+    "priority": "P0",
+    "test": "CommandPalette.test.tsx (NAV-089)",
+    "storybook": "S-01 CommandCenter",
+    "acceptance": "REQ-NAV-58, REQ-NAV-61",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-088",
+    "prd": "PRD-11",
+    "system": "Command",
+    "file": "NEW:src/components/navigation/Command.test.tsx",
+    "action": "TEST",
+    "description": "'5,000 items virtualized' (<=30 item nodes, aria-activedescendant valid after End), 'announces result count', 'metacharacter queries do not throw', 'fuzz 10,000 printable-ASCII queries through Command.Input, 0 exceptions', 'IME composition does not select'.",
+    "depends_on": [
+      "NAV-085",
+      "NAV-086"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/components/navigation/Command.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-60, -62, -63; AC-NAV-15",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-089",
+    "prd": "PRD-11",
+    "system": "CommandPalette",
+    "file": "NEW:src/components/navigation/CommandPalette.test.tsx",
+    "action": "TEST",
+    "description": "'hotkey opens and restores focus', 'hotkey=false registers no listener', 'one listener per palette' (spy document.addEventListener), 'adds no scrim or blur element of its own'.",
+    "depends_on": [
+      "NAV-087"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/components/navigation/CommandPalette.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-61, REQ-NAV-58",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-090",
+    "prd": "PRD-11",
+    "system": "Command/APG",
+    "file": "NEW:tests/a11y/apg/command.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote APG combobox+listbox: Up/Down wrap, Home/End, Enter selects, Escape clears query then closes palette (stacked Escape), focus restore; LTR/RTL; 3 engines.",
+    "depends_on": [
+      "NAV-087",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "S-08 command search play",
+    "acceptance": "REQ-NAV-60; AC-NAV-10 (command)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-091",
+    "prd": "PRD-11",
+    "system": "Command/perf",
+    "file": "NEW:tests/perf/browser/command-5000.spec.ts",
+    "action": "TEST",
+    "description": "Remote perf: 5,000 items, scripted typing; input -> filtered render <= 50 ms p95; <= 30 DOM item nodes mounted. Executed and gated in NAV-118.",
+    "depends_on": [
+      "NAV-086",
+      "PERF-039",
+      "PERF-044"
+    ],
+    "priority": "P1",
+    "test": "remote perf lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-62; §16.2 command row; AC-NAV-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-092",
+    "prd": "PRD-11",
+    "system": "SourceTransition",
+    "file": "NEW:src/primitives/SourceTransition.tsx",
+    "action": "CREATE",
+    "description": "'use client' SourceTransition {Root, Source(id), Destination(id)} + startSourceTransition(id, update): registry per Root; view-transition-name ag-src-<sanitised id> on source only during the transition then on destination; engine = PRD-06 startMorph (no own engine); data-ag-vt-participant on both; duplicate active id dev warning; calm -> PRD-06 cross-fade <= --ag-duration-small, none -> synchronous; focus moves to destination first focusable (or tabIndex=-1) when source had focus; final opacity 1, identity transform.",
+    "depends_on": [
+      "MOT-045",
+      "MOT-048"
+    ],
+    "priority": "P2",
+    "test": "SourceTransition.test.tsx (NAV-093)",
+    "storybook": "S-02 SourceTransition before/mid(paused)/after",
+    "acceptance": "REQ-NAV-73, -74, -75, -76",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-093",
+    "prd": "PRD-11",
+    "system": "SourceTransition",
+    "file": "NEW:src/primitives/SourceTransition.test.tsx",
+    "action": "TEST",
+    "description": "'unique view-transition-name allocation and cleanup', 'focus follows morph', 'FLIP fallback path when startViewTransition is absent' (asserts startMorph invoked; engine behaviour is PRD-06's).",
+    "depends_on": [
+      "NAV-092"
+    ],
+    "priority": "P2",
+    "test": "npm test -- src/primitives/SourceTransition.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-73, REQ-NAV-76",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-094",
+    "prd": "PRD-11",
+    "system": "SourceTransition/motion",
+    "file": "NEW:tests/motion/source-transition.spec.ts",
+    "action": "TEST",
+    "description": "Remote motion lane per engine path (fixtures: React <ViewTransition> present, startViewTransition only, neither): morph runs; 'reduced motion final state visible' (opacity 1, identity transform) at calm and none.",
+    "depends_on": [
+      "NAV-092",
+      "QA-076"
+    ],
+    "priority": "P2",
+    "test": "remote motion lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-74, REQ-NAV-75",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-095",
+    "prd": "PRD-11",
+    "system": "metadata/app-shell",
+    "file": "NEW:src/app-shell/AppShell.meta.ts; src/app-shell/Sidebar.meta.ts; src/app-shell/TopBar.meta.ts; src/app-shell/Inspector.meta.ts; src/app-shell/StatusBar.meta.ts; src/app-shell/MobileShell.meta.ts; src/app-shell/ResizablePanels.meta.ts; NEW:src/app-shell/meta.ts",
+    "action": "CREATE",
+    "description": "One <Component>.meta.ts per exported component (SC-27) for AppShell, Sidebar, TopBar, Inspector, StatusBar, MobileShell, ResizablePanels: kebab-case data-ag-part names from src/foundation/parts.ts (FND-005), states (data-state), slots, typed variants incl. appearance, keyboard table, selectorChanges4x (§11 item 4), the migration table consumed by the 4to5 mappings (SC-33), budget row name (§16.1), storyIds. src/app-shell/meta.ts only re-exports them.",
+    "depends_on": [
+      "NAV-016",
+      "NAV-036",
+      "NAV-048",
+      "NAV-057",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "meta.test.ts (NAV-097)",
+    "storybook": "drives S-02 and S-07",
+    "acceptance": "REQ-NAV-82; AC-NAV-22",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-096",
+    "prd": "PRD-11",
+    "system": "metadata/navigation",
+    "file": "NEW:src/components/navigation/Tabs.meta.ts; src/components/navigation/TabBar.meta.ts; src/components/navigation/Breadcrumbs.meta.ts; src/components/navigation/Pagination.meta.ts; src/components/navigation/Command.meta.ts; src/components/navigation/CommandPalette.meta.ts; NEW:src/primitives/SourceTransition.meta.ts; NEW:src/components/navigation/meta.ts",
+    "action": "CREATE",
+    "description": "Same per-component metadata shape (SC-27) for Tabs, TabBar, Breadcrumbs, Pagination, Command, CommandPalette and SourceTransition (flagship 31), each in its own <Component>.meta.ts; src/components/navigation/meta.ts only re-exports them.",
+    "depends_on": [
+      "NAV-064",
+      "NAV-070",
+      "NAV-078",
+      "NAV-083",
+      "NAV-085",
+      "NAV-092",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "meta.test.ts (NAV-097)",
+    "storybook": "drives S-02 and S-07",
+    "acceptance": "REQ-NAV-82; AC-NAV-22",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-097",
+    "prd": "PRD-11",
+    "system": "metadata",
+    "file": "NEW:src/app-shell/meta.test.ts",
+    "action": "TEST",
+    "description": "'every rendered part is declared': render each flagship's full composition, collect data-ag-part/data-state values, assert set equality with meta.ts; also NEW src/components/navigation/meta.test.ts. Also asserts each aggregate meta.ts re-exports, and does not redefine, the per-component metas (SC-27).",
+    "depends_on": [
+      "NAV-095",
+      "NAV-096"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/app-shell/meta.test.ts src/components/navigation/meta.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-82",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-098",
+    "prd": "PRD-11",
+    "system": "i18n/labels",
+    "file": "NEW:src/app-shell/AppShell.tsx",
+    "action": "MODIFY",
+    "description": "Typed labels prop on every root rendering text: AppShell (skipToMain, collapseSidebar, expandSidebar, openNavigation), Breadcrumbs (breadcrumb, showMore(n)), Pagination (pagination, page(n), pageOf(n,m), previous, next), Command (results(n), empty, loading), ResizablePanels (resize(label)), Inspector (close). No English literal without an override path.",
+    "depends_on": [
+      "NAV-016",
+      "NAV-078",
+      "NAV-083",
+      "NAV-085",
+      "NAV-048",
+      "NAV-057"
+    ],
+    "priority": "P1",
+    "test": "labels.test.tsx (NAV-099)",
+    "storybook": "S-04 RTL uses pseudo-locale labels",
+    "acceptance": "REQ-NAV-84",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-099",
+    "prd": "PRD-11",
+    "system": "i18n/labels",
+    "file": "NEW:src/app-shell/labels.test.tsx",
+    "action": "TEST",
+    "description": "Render all flagships with a pseudo-locale ('[!! … !!]') labels object; assert 0 English default strings remain in DOM text and ARIA attributes.",
+    "depends_on": [
+      "NAV-098"
+    ],
+    "priority": "P1",
+    "test": "npm test -- src/app-shell/labels.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-84",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-100",
+    "prd": "PRD-11",
+    "system": "static/ref-pattern",
+    "file": "NEW:src/app-shell/ResizablePanels.test.tsx",
+    "action": "TEST",
+    "description": "Add src/app-shell/**, the navigation flagship files and src/primitives/SourceTransition.tsx to the PRD-19 static lane no-forwardRef scope; rg -n forwardRef over them = 0; ResizablePanels.test.tsx › observer cleanup green.",
+    "depends_on": [
+      "NAV-053",
+      "NAV-092",
+      "QA-003"
+    ],
+    "priority": "P1",
+    "test": "static lane no-forwardRef green for scoped paths",
+    "storybook": "n/a",
+    "acceptance": "REQ-NAV-83",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-101",
+    "prd": "PRD-11",
+    "system": "Storybook/component-stories",
+    "file": "NEW:src/app-shell/{AppShell,Sidebar,TopBar,Inspector,StatusBar,MobileShell,ResizablePanels}.stories.tsx; NEW:src/components/navigation/{Tabs,TabBar,Breadcrumbs,Pagination,Command,CommandPalette}.stories.tsx; NEW:src/primitives/SourceTransition.stories.tsx",
+    "action": "CREATE",
+    "description": "NAV-owned component story files (SC-31) authored with defineComponentStories (SB-071), titles Flagships/App Shell/<Name> (REQ-SB-08/10). src/app-shell/AppShell.stories.tsx holds the six S-01 non-aliased product shells as InContext variants from unmodified 5.0 components: Saas ('SaaS Admin': Sidebar expanded + TopBar + Breadcrumbs + Tabs + real PRD-DATA Table), AiCommandCenter ('AI Workspace': rail + ResizablePanels + Inspector + StatusBar.Live), Mail (three-pane), Settings (Sidebar + PageHeader + vertical Tabs), MobileApp (MobileShell + TabBar + Sheet), CommandCenter (CommandPalette open). Ids flagships-app-shell-appshell--saas and flagships-app-shell-appshell--ai-command-center (PRD §21 O-04). 0 <style>, 0 inline layout, 0 hex, 0 !important. Saas BLOCKED (not mocked) if Table is uncertified.",
+    "depends_on": [
+      "NAV-036",
+      "NAV-048",
+      "NAV-057",
+      "NAV-064",
+      "NAV-070",
+      "NAV-078",
+      "NAV-087",
+      "DATA-038",
+      "FND-047",
+      "FND-050",
+      "SB-071"
+    ],
+    "priority": "P0",
+    "test": "Storybook test-runner (remote): S-01 DOM hashes pairwise different; 0 <style>/!important; PRD-SB story-contract and lint-titles checks green",
+    "storybook": "S-01; Flagships/App Shell/*",
+    "acceptance": "AC-NAV-20 (automated half); REQ-PERF-35 subjects",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-102",
+    "prd": "PRD-11",
+    "system": "Storybook/S-02..S-04",
+    "file": "src/app-shell/*.stories.tsx; src/components/navigation/*.stories.tsx (Matrix/Playground exports generated by SB-071)",
+    "action": "TEST",
+    "description": "S-02 state matrices are generated by the PRD-SB contract (defineComponentStories Matrix, SB-071) from the NAV *.meta.ts states; NAV writes no matrix generator or separate StateMatrices file (SC-31). NAV adds S-03 (containerWidth 320-1920 playground arg on AppShell) and S-04 (RTL InContext variants of every S-01 shell) inside the NAV component story files. Verifies every state listed in PRD §13 S-02 appears in the generated matrix.",
+    "depends_on": [
+      "NAV-095",
+      "NAV-096",
+      "NAV-101",
+      "SB-071"
+    ],
+    "priority": "P1",
+    "test": "Storybook build + test-runner remote green; every meta state has a Matrix cell; axe sweep (NAV-111)",
+    "storybook": "S-02, S-03, S-04",
+    "acceptance": "REQ-NAV-04 (demo); AC-NAV-09 subjects",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-103",
+    "prd": "PRD-11",
+    "system": "Storybook/config",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "Add 'App Shell' and 'Navigation' to storySort (STORYBOOK-SHOWCASE-15); S-05 consumes existing PRD-19 toolbar globals (scheme, transparency, contrast, motion, tier) with no new globals; S-06 enables the PRD-05 dev blur-counter overlay on S-01 stories via parameters. Registered through the PRD-SB-owned preview (SB-048, OV-17): MODIFY only, adds globals/decorator options, never a second decorator.",
+    "depends_on": [
+      "NAV-101",
+      "SB-048",
+      "A11Y-029"
+    ],
+    "priority": "P1",
+    "test": "Storybook build remote; S-01 stories show counter label app-shell",
+    "storybook": "S-05, S-06",
+    "acceptance": "S-05, S-06; inputs to AC-NAV-03..06",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-104",
+    "prd": "PRD-11",
+    "system": "Storybook/S-07+S-08",
+    "file": "NEW:src/app-shell/AppShell.mdx",
+    "action": "CREATE",
+    "description": "S-07 MDX page per flagship (parts, data-ag-part/data-state, keyboard table, 4.x->5.0 role/selector table) generated from meta.ts; S-08 play functions on S-01/S-02 stories: drawer open/close, tab keyboard, splitter keyboard, command search (mirroring APG specs). Uses the PRD-SB docs template; content generated from the per-component *.meta.ts (SC-27).",
+    "depends_on": [
+      "NAV-095",
+      "NAV-096",
+      "NAV-101",
+      "SB-071"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook test-runner: play functions green",
+    "storybook": "S-07, S-08",
+    "acceptance": "AC-NAV-22 (docs); §13 S-07/S-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-105",
+    "prd": "PRD-11",
+    "system": "Storybook/cleanup",
+    "file": "src/stories/AppChromeVisualBaseline.stories.tsx; src/stories/AppShell.stories.tsx; src/stories/NavigationGallery.stories.tsx (deleted by PRD-SB)",
+    "action": "TEST",
+    "description": "Removal dropped in favour of SB-106 and SB-092 (SC-31, OV-18): NAV only verifies that PRD-SB has deleted src/stories/AppChromeVisualBaseline.stories.tsx, src/stories/AppShell.stories.tsx and src/stories/NavigationGallery.stories.tsx and that no NAV story imports them.",
+    "depends_on": [
+      "NAV-101",
+      "NAV-102",
+      "SB-092",
+      "SB-106"
+    ],
+    "priority": "P1",
+    "test": "rg --files src/stories | rg 'AppChromeVisualBaseline|AppShell.stories|NavigationGallery' = 0",
+    "storybook": "S-01 replaces",
+    "acceptance": "AC-NAV-20 (automated half)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-106",
+    "prd": "PRD-11",
+    "system": "registry/blocks/app-frame",
+    "file": "NEW:registry/blocks/app-frame/",
+    "action": "CREATE",
+    "description": "Content of the GA block app-frame (SC-32; NAV owns content, PRD-DX scaffolds/registers via DX-067/DX-071 and runs lint/render). Replaces the saas-admin-shell recipe: AppShell + Sidebar + TopBar + StatusBar + Inspector with layout.assert.json (sidebar-beside-main at 1440; no overflow at 390); 0 !important, 0 hex. mobile-settings and support-inbox are PRD-DX blocks, not built here.",
+    "depends_on": [
+      "NAV-101",
+      "DX-067",
+      "DX-070"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/registry-render.spec.ts (DX-094, remote) green for app-frame; scripts/registry/lint.mjs green",
+    "storybook": "n/a (block)",
+    "acceptance": "AC-NAV-01 (app-frame block), DoD 6",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-107",
+    "prd": "PRD-11",
+    "system": "docs",
+    "file": "docs/app-shell/readme.md",
+    "action": "DOC",
+    "description": "Rewrite from meta.ts for 5.0: remove fragment-as-sidebar example (:62-67); document cookies() + parseAppShellCookie recipe, router render usage for Sidebar.Item/TabBar.Item, layout='desktop' override for narrow embeds, blur budget per surface.",
+    "depends_on": [
+      "NAV-095",
+      "NAV-096"
+    ],
+    "priority": "P2",
+    "test": "PRD-20 docs lint green; every code sample compiles in docs typecheck",
+    "storybook": "n/a",
+    "acceptance": "DoD 5",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-108",
+    "prd": "PRD-11",
+    "system": "cert/blur",
+    "file": "NEW:tests/e2e/app-shell/blur-budget.spec.ts",
+    "action": "TEST",
+    "description": "Remote: per S-01 story with no overlay, count visible elements with computed backdrop-filter != none inside .ag-app-shell: <=3 at (pointer:fine) 1440x900, <=2 coarse 390x844; nesting depth 1; max blur <=32px chrome, <=12px [data-ag-part=scrim]; TabBar subtree = 1; cross-check PRD-05 dev counter label app-shell.",
+    "depends_on": [
+      "NAV-101",
+      "NAV-072",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green on release SHA",
+    "storybook": "S-01, S-06",
+    "acceptance": "REQ-NAV-81, REQ-NAV-47; AC-NAV-06",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-109",
+    "prd": "PRD-11",
+    "system": "cert/forced-colors",
+    "file": "NEW:tests/e2e/app-shell/forced-colors.spec.ts",
+    "action": "TEST",
+    "description": "Remote forcedColors 'active': 0 visible backdrop filters in every shell story; current Sidebar/TabBar/Breadcrumbs/Pagination item has outline-style != none or text-decoration-line != none besides Highlight; system colours only.",
+    "depends_on": [
+      "NAV-101",
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "remote green",
+    "storybook": "S-05 forced colors",
+    "acceptance": "REQ-NAV-79; AC-NAV-05",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-110",
+    "prd": "PRD-11",
+    "system": "cert/idle",
+    "file": "NEW:tests/motion/shell-idle.spec.ts",
+    "action": "TEST",
+    "description": "Remote: 1,000 ms after load with no input, document.getAnimations().length = 0 and injected rAF counter = 0, at motion full/calm/none, every App Shell/* story.",
+    "depends_on": [
+      "NAV-101",
+      "QA-076"
+    ],
+    "priority": "P0",
+    "test": "remote motion lane green",
+    "storybook": "S-05 motion",
+    "acceptance": "REQ-NAV-80; AC-NAV-07",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-111",
+    "prd": "PRD-11",
+    "system": "cert/axe",
+    "file": "NEW:tests/e2e/app-shell/a11y.spec.ts",
+    "action": "TEST",
+    "description": "Sweep every story under 'App Shell/*' and 'Navigation/*' with @axe-core/playwright, color-contrast ON, in Chromium/WebKit/Gecko; 0 violations; also target sizes and landmark-unique.",
+    "depends_on": [
+      "NAV-102",
+      "NAV-034"
+    ],
+    "priority": "P0",
+    "test": "remote 3 engines green on release SHA",
+    "storybook": "all App Shell/*, Navigation/*",
+    "acceptance": "AC-NAV-09; REQ-NAV-37",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-112",
+    "prd": "PRD-11",
+    "system": "cert/pixel",
+    "file": "certification/lanes/environment-visual.spec.ts (QA-owned L6 lane; NAV registers subjects via story parameters.ag)",
+    "action": "MODIFY",
+    "description": "scripts/audit/storybook-visual-certification.mjs is removed by QA-115 (SC-39), so the shell subjects move to L6: declare Flagships/App Shell/* subjects and cells through story parameters.ag and the packages/qa matrix (QA-056): S-01 x 8 SC-28 scenes x light/dark x glass/tinted/solid x 1440/390 x default/contrast-more/forced-colors/reduced-motion x tier lightweight/standard (+enhanced TabBar refraction on Chromium); gates OCR contrast >=4.5:1 (3:1 large/non-text, QA-049), glass density <=0.3, material presence under TopBar/Sidebar/TabBar, overlap/overflow, 0 story !important.",
+    "depends_on": [
+      "NAV-101",
+      "QA-056",
+      "QA-038",
+      "QA-049"
+    ],
+    "priority": "P0",
+    "test": "remote pixel-gate lane green; 0 text runs below threshold",
+    "storybook": "S-01, S-05",
+    "acceptance": "REQ-NAV-77; AC-NAV-03; §12.3",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-113",
+    "prd": "PRD-11",
+    "system": "cert/contrast-more",
+    "file": "certification/lanes/environment-visual.spec.ts (QA-owned L6 lane; NAV subject cell assertions)",
+    "action": "MODIFY",
+    "description": "Moves to L6 (SC-39): contrast=more cell assertions through the QA preference-delta gate (QA-051): pixel diff inside TopBar and Sidebar > 0.5% of their pixels vs default, 0 contrast failures; plus env-matrix baselines topbar__* (no shadow at solid, outline edge under forced colors).",
+    "depends_on": [
+      "NAV-112",
+      "A11Y-027",
+      "QA-051",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "remote env-matrix lane green",
+    "storybook": "S-05 contrast",
+    "acceptance": "REQ-NAV-78, REQ-NAV-29; AC-NAV-04",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-114",
+    "prd": "PRD-11",
+    "system": "registry/render-harness",
+    "file": "tests/dx/registry-render.spec.ts (DX-owned; NAV adds shell cases)",
+    "action": "MODIFY",
+    "description": "scripts/ci/verify-recipes-render.js is removed by DX-100 (SC-39); add the shell cases to its replacement, the PRD-DX render harness: accumulate console/page errors across all blocks and viewports (no per-viewport reset), fail on any layoutIssues, and add the rail-beside-main geometric assertion that catches R-09.",
+    "depends_on": [
+      "NAV-106",
+      "DX-094"
+    ],
+    "priority": "P1",
+    "test": "remote registry-render lane: fails on a seeded stacked-rail fixture, passes on app-frame and app-shell-workspace",
+    "storybook": "n/a",
+    "acceptance": "§12.2 last row; AC-NAV-01",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-115",
+    "prd": "PRD-11",
+    "system": "cert/perf-scroll",
+    "file": "NEW:tests/perf/browser/app-shell-scroll.spec.ts",
+    "action": "TEST",
+    "description": "Remote perf: 2 s scripted wheel on Main; 120 Hz desktop p95 <= 8.3 ms, dropped <= 2%; mid-tier mobile p95 <= 16.7 ms, dropped <= 5%; LCP delta vs no-shell page <= +50 ms; long tasks > 50 ms attributable to library = 0.",
+    "depends_on": [
+      "NAV-101",
+      "PERF-039",
+      "PERF-044"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane green",
+    "storybook": "S-01 Saas, AiCommandCenter",
+    "acceptance": "§16.2; AC-NAV-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-116",
+    "prd": "PRD-11",
+    "system": "cert/bundle",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Submit §16.1 rows to the PKG-owned byte-budget file (SC-15, OV-07; no size-limit, no build/budgets.lock.json): app-shell.css <=8 KB gz; 'app-shell client islands' (AppShell+Sidebar+TopBar client) <=12 KB, distinct from the PERF row '{ AppShell } all slots' <=15 KB; server frame 0 KB; ResizablePanels <=6; Tabs <=8; TabBar <=6; Breadcrumbs <=2 + overflow <=3; Pagination <=3; Command <=12 (+virtual <=5 lazy); CommandPalette <=32; SourceTransition <=3. Integer limitBytesGz; changes recorded in docs/size-budgets.changelog.md; calibrated once at 5.0.0-alpha.1, ratchet-down thereafter.",
+    "depends_on": [
+      "NAV-101",
+      "PKG-048",
+      "PKG-049"
+    ],
+    "priority": "P0",
+    "test": "scripts/ci/verify-size-budgets.mjs (PKG-049) green",
+    "storybook": "n/a",
+    "acceptance": "§16.1; AC-NAV-08",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-117",
+    "prd": "PRD-11",
+    "system": "cert/static",
+    "file": "tests/css/class-coverage.test.ts; certification/lanes.config.ts L1 scope (QA-078)",
+    "action": "MODIFY",
+    "description": "Scope the static checks to src/app-shell/**, the seven nav flagship files and src/primitives/SourceTransition.tsx: PKG-105 class coverage (OV-27, MODIFY only), and the QA L1 providers no-important, no-transition-all and auraglass/no-raw-design-values (DS literals gate, SC-17); 0 findings.",
+    "depends_on": [
+      "NAV-014",
+      "PKG-105",
+      "QA-078"
+    ],
+    "priority": "P0",
+    "test": "static lane green",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-02",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-118",
+    "prd": "PRD-11",
+    "system": "cert/release-run",
+    "file": "NEW:tests/e2e/app-shell/",
+    "action": "TEST",
+    "description": "Release-SHA run of every lane: layout, a11y, sidebar-drawer, inspector, resizable, blur-budget, forced-colors, theme, ssr-hydration (both canaries), six APG specs LTR/RTL x 3 engines, motion specs, breadcrumbs canary, packed-tarball Vite fixture (no Tailwind, SaaSAdmin block adjacency), all perf specs + performance PRD regression-4x (app-shell--saas, app-shell--ai-command-center >=50 fps and >=0.85x blank); calibrate and freeze budgets at alpha; grades >=B/C per §16.2.",
+    "depends_on": [
+      "NAV-108",
+      "NAV-109",
+      "NAV-110",
+      "NAV-111",
+      "NAV-112",
+      "NAV-113",
+      "NAV-115",
+      "NAV-116",
+      "NAV-117",
+      "NAV-047",
+      "NAV-056",
+      "NAV-091"
+    ],
+    "priority": "P0",
+    "test": "all remote lanes green on release SHA; artifact URLs recorded",
+    "storybook": "all",
+    "acceptance": "AC-NAV-01, -03..-10, -14, -16, -17",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-119",
+    "prd": "PRD-11",
+    "system": "cert/manual-prep",
+    "file": "NEW:docs/auraglass-5/release/NAV-review-sheet.md",
+    "action": "DOC",
+    "description": "Generate the AC-NAV-20/21 review sheet from NAV-118 artifacts: per S-01 story x scene screenshot URLs and the four human-review items (specular quality, optical hierarchy, radius rhythm, reads as one hand); manual SR/touch scripts from tests/a11y/apg/*. Sheet contains no results; reviewers fill it.",
+    "depends_on": [
+      "NAV-118"
+    ],
+    "priority": "P1",
+    "test": "n/a (input to NAV-139/NAV-140)",
+    "storybook": "S-01",
+    "acceptance": "AC-NAV-20, AC-NAV-21 (preparation)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-120",
+    "prd": "PRD-11",
+    "system": "migration/fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/app-shell-slots/<case>/{input,output}.tsx",
+    "action": "TEST",
+    "description": "One input/output fixture pair per absorbed §7 name (both GlassAppShell, ZSpaceAppLayout, GlassSidebar/Rail/Panel, LiquidGlassInsetSidebar, GlassNavigationMenu, GlassTopBar, GlassHeader, GlassTabs, GlassPageTabs, GlassTabBar, GlassWorkspaceTabs, LiquidGlassTabBar, GlassBottomNav, LiquidGlassBottomAccessory, GlassMobileNav, GlassBreadcrumb(s), GlassPagination(+WithInfo), GlassCommandPalette, GlassCommand, LiquidGlassCommandSurface, root GlassSplitPane, LiquidGlass Transition Provider/Source/Destination, LiquidGlassInspectorPanel, workspace GlassInspectorPanel, GlassStatusBar, GlassMobileShell, GlassMain, GlassPage, GlassPageHeader, GlassActionBar, GlassCommandBar) plus mapping JSON (left->start, collapsed->sidebar rail/expanded, currentPage/totalPages->page/pageCount, direction->orientation, handler-only items -> render=<button type=button onClick>). Fixtures live under the SC-33 layout __fixtures__/<id>/<case>/; cases for core ids (prop-grammar, imports-subpaths, canonical-names, removed) go under those ids' folders. Mapping rows are emitted from the migration fields in the NAV *.meta.ts (NAV-095/096) through gen-deprecations --codemods, not hand-written JSON. Unmappable cases emit '// TODO(aura-glass 5): <reason>, see <doc>'.",
+    "depends_on": [
+      "NAV-095",
+      "NAV-096",
+      "DX-041",
+      "DX-042",
+      "REL-070",
+      "NAV-145"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/src/migrate/4to5/__tests__ transform tests (DX-041 engine) green over the fixtures",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-18 (every §7 name has a passing fixture); API-02..API-13",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-121",
+    "prd": "PRD-11",
+    "system": "compat",
+    "file": "NEW:src/compat/app-shell/",
+    "action": "CREATE",
+    "description": "Adapters src/compat/app-shell/<OldName>.tsx and src/compat/navigation/<OldName>.tsx (SC-34; re-exported from src/compat/index.ts by DX-065; each calls warnDeprecated(id) from src/internal/warnDeprecated.ts, REL-072) for every name with a successor (KEEP/POLISH/REDESIGN/REPLACE/CONSOLIDATE), incl. ZSpaceAppLayout (depth dropped with one-time warning); one dev warning per symbol. None for EnhancedGlassTabs, GlassTabItem, GlassResponsiveNav, GlassCommandDock, GlassNavigation/GlassNavbar, TabBarContainer/TabSelector, LiquidGlassSearchTab, MobileGlassNavigation, app-shell GlassSplitPane, GlassResizablePanel, app-shell GlassIconButton, GlassHeader consciousness exports. Test NEW src/compat/__tests__/app-shell.test.tsx.",
+    "depends_on": [
+      "NAV-120",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/compat/__tests__/app-shell.test.tsx: every adapter renders with 4.x props, exactly one warning per symbol",
+    "storybook": "n/a",
+    "acceptance": "§11 item 8; AC-NAV-19 (input)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-122",
+    "prd": "PRD-11",
+    "system": "deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "Add entries (SC-02/SC-03 shape, MODIFY only) to the repo-root deprecations.json created by TRUST-075 (version 1; schema docs/schemas/deprecations.schema.json, REL-010) for every §9 row: id DEP-NNNN, kind, status, entry, symbol, since 4.2.0 (subpaths, DEPRECATE/REMOVE names) or 4.3.0 (renamed and CONSOLIDATE losers), removeIn 5.0.0, replacement, codemod (an SC-33 id such as app-shell-slots, prop-grammar, imports-subpaths, or null), automation, breaking, message <=200 chars, doc, compat. Reasons include API-CONSISTENCY-02 (consciousness headers) and the §4.7 budget (ZSpace depth).",
+    "depends_on": [
+      "TRUST-075",
+      "REL-010",
+      "REL-082"
+    ],
+    "priority": "P0",
+    "test": "scripts/release/verify-deprecations.mjs (REL) green; published 4.2/4.3 tarballs contain the entries",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-19; DoD 4; SC-02",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-123",
+    "prd": "PRD-11",
+    "system": "removal/shell",
+    "file": "src/components/layout/GlassAppShell.tsx",
+    "action": "REMOVE",
+    "description": "Shell family PR: delete src/components/layout/GlassAppShell.tsx(+test, stories, __snapshots__), ZSpaceAppLayout.tsx(+test, stories), src/components/navigation/GlassResponsiveNav.tsx(+test, stories, snapshot), src/app-shell/components.tsx and the 14 one-line shims (GlassAppShell, GlassTopBar, GlassSidebarRail, GlassSidebarPanel, GlassMain, GlassPage, GlassPageHeader, GlassBreadcrumbs, GlassActionBar, GlassSplitPane, GlassResizablePanel, GlassCommandDock, GlassStatusBar, GlassMobileShell), 4.x cases in src/app-shell/app-shell.test.tsx; update src/components/layout/index.ts and src/app-shell/index.ts.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-118"
+    ],
+    "priority": "P1",
+    "test": "npm run typecheck + npm test green; rg --files for deleted paths = 0",
+    "storybook": "n/a",
+    "acceptance": "DoD 7; AC-NAV-19",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-124",
+    "prd": "PRD-11",
+    "system": "removal/subpaths",
+    "file": "src/workspace/index.tsx",
+    "action": "REMOVE",
+    "description": "Delete src/workspace/index.tsx, src/workspace/workspace.test.tsx, src/workflows/index.ts and package.json exports ./workspace (:124) and ./workflows (:154) after their 4.2 dev warning shipped; imports-subpaths codemod covers consumers.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-062"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 exports/publint gate green; typecheck green",
+    "storybook": "n/a",
+    "acceptance": "API-15; REQ-NAV-35; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-125",
+    "prd": "PRD-11",
+    "system": "removal/sidebar",
+    "file": "src/components/navigation/GlassSidebar.tsx",
+    "action": "REMOVE",
+    "description": "Sidebar family PR: delete GlassSidebar.tsx (incl. SidebarBrand/SidebarUserInfo), LiquidGlassInsetSidebar.tsx, GlassNavigationMenu.tsx, GlassMobileNav.tsx with their tests/stories/snapshots; barrel updates.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-043"
+    ],
+    "priority": "P1",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-126",
+    "prd": "PRD-11",
+    "system": "removal/header-nav",
+    "file": "src/components/navigation/GlassHeader.tsx",
+    "action": "REMOVE",
+    "description": "Header/nav family PR: delete GlassHeader.tsx (incl. ConsciousGlassHeader, PredictiveHeader, GazeResponsiveHeader, AccessibleHeader, HeaderConsciousnessPresets, HeaderBreadcrumbs, HeaderNavigation; no successor for consciousness variants) and GlassNavigation.tsx (GlassNavbar) with tests/stories/snapshots. HeaderUserMenu/GlassMenubar stay (PRD-09).",
+    "depends_on": [
+      "NAV-122",
+      "NAV-030"
+    ],
+    "priority": "P1",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-127",
+    "prd": "PRD-11",
+    "system": "removal/tabs",
+    "file": "src/components/navigation/GlassTabs.tsx",
+    "action": "REMOVE",
+    "description": "Tabs family PR: delete GlassTabs.tsx, GlassPageTabs.tsx + .module.css, EnhancedGlassTabs.tsx, GlassTabItem.tsx, GlassTabBar.tsx + GlassTabBar.module.css, styled.tsx, components/TabItem.tsx, utils/tabUtils.ts + tabUtils.test.ts, with tests/stories/snapshots; rewrite src/components/navigation/index.ts and types.ts.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-067"
+    ],
+    "priority": "P1",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-07, API-08; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-128",
+    "prd": "PRD-11",
+    "system": "removal/tabbar",
+    "file": "src/components/navigation/LiquidGlassTabBar.tsx",
+    "action": "REMOVE",
+    "description": "Tab bar family PR: delete LiquidGlassTabBar.tsx, GlassBottomNav.tsx, LiquidGlassBottomAccessory.tsx, src/components/search/LiquidGlassSearchTab.tsx and MobileGlassNavigation from src/components/mobile/TouchGlassOptimization.tsx (useSwipe stays, PRD-14), with tests/stories.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-075"
+    ],
+    "priority": "P1",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-09; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-129",
+    "prd": "PRD-11",
+    "system": "removal/breadcrumbs",
+    "file": "src/components/navigation/GlassBreadcrumb.tsx",
+    "action": "REMOVE",
+    "description": "Breadcrumbs family PR: delete GlassBreadcrumb.tsx (+Item/Separator/Link/Compound) with test/story/snapshot.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-080"
+    ],
+    "priority": "P2",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-10; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-130",
+    "prd": "PRD-11",
+    "system": "removal/pagination",
+    "file": "src/components/navigation/GlassPagination.tsx",
+    "action": "REMOVE",
+    "description": "Pagination family PR: delete GlassPagination.tsx (parts, usePagination, GlassPaginationWithInfo; WithInfo documented as composition) with test/story/snapshot.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-084"
+    ],
+    "priority": "P2",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-11; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-131",
+    "prd": "PRD-11",
+    "system": "removal/command",
+    "file": "src/components/interactive/GlassCommandPalette.tsx",
+    "action": "REMOVE",
+    "description": "Command family PR: delete src/components/interactive/GlassCommandPalette.tsx, GlassCommand.tsx, LiquidGlassCommandSurface.tsx and src/components/navigation/GlassCommandBar.tsx (codemod maps to PRD-08 Toolbar) with tests/stories/snapshots.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-089",
+      "CTL-066"
+    ],
+    "priority": "P2",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-12; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-132",
+    "prd": "PRD-11",
+    "system": "removal/split",
+    "file": "src/components/layout/GlassSplitPane.tsx",
+    "action": "REMOVE",
+    "description": "Split/resizable family PR: delete src/components/layout/GlassSplitPane.tsx (+test, stories, __snapshots__/GlassSplitPane.test.tsx.snap) after ResizablePanels ported its keyboard model; layout barrel update.",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-053"
+    ],
+    "priority": "P1",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "API-13; DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-133",
+    "prd": "PRD-11",
+    "system": "removal/source-transition",
+    "file": "src/primitives/LiquidGlassSourceTransition.tsx",
+    "action": "REMOVE",
+    "description": "Source transition family PR: delete src/primitives/LiquidGlassSourceTransition.tsx and .test.tsx (LiquidGlassTransitionProvider/Source/Destination).",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-093"
+    ],
+    "priority": "P2",
+    "test": "typecheck + jest green",
+    "storybook": "n/a",
+    "acceptance": "DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-134",
+    "prd": "PRD-11",
+    "system": "removal/inspector",
+    "file": "src/components/navigation/LiquidGlassInspectorPanel.tsx",
+    "action": "REMOVE",
+    "description": "Inspector family PR: delete LiquidGlassInspectorPanel.tsx (+test/story); lands with or after PRD-13's LiquidGlassPhotoInspector removal (it imports this file at :4).",
+    "depends_on": [
+      "NAV-122",
+      "NAV-121",
+      "NAV-060",
+      "MED-119"
+    ],
+    "priority": "P2",
+    "test": "typecheck + jest green; rg -n LiquidGlassInspectorPanel src = 0",
+    "storybook": "n/a",
+    "acceptance": "DoD 7",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-135",
+    "prd": "PRD-11",
+    "system": "exports/root",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Root exports switch to 5.0 names: remove 4.x shell/nav names at :72, :82, :91 and nav exports; export Tabs, TabBar, Breadcrumbs, Pagination, CommandPalette, Command, SourceTransition, ResizablePanels, getPaginationRange, commandScore, startSourceTransition.",
+    "depends_on": [
+      "NAV-123",
+      "NAV-125",
+      "NAV-126",
+      "NAV-127",
+      "NAV-128",
+      "NAV-129",
+      "NAV-130",
+      "NAV-131",
+      "NAV-132",
+      "NAV-133"
+    ],
+    "priority": "P0",
+    "test": "API Extractor report for '.' matches §10 (NAV-138)",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-19",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-136",
+    "prd": "PRD-11",
+    "system": "registry/recipes",
+    "file": "src/registry/recipes.ts",
+    "action": "REMOVE",
+    "description": "Retire app-shell recipes (incl. saas-admin-shell with !important overrides at :874-890 and responsive shim at :1484) in favour of registry blocks; 0 !important remains for shell recipes. Sole remover of src/registry/recipes.ts (SC-38, OV-30); AI-112 depends on this task.",
+    "depends_on": [
+      "NAV-106",
+      "NAV-062",
+      "NAV-114"
+    ],
+    "priority": "P1",
+    "test": "rg -c '!important' over remaining shell recipe strings = 0; PRD-18 block harness green",
+    "storybook": "n/a",
+    "acceptance": "DoD 6",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-137",
+    "prd": "PRD-11",
+    "system": "migration/canary",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/app-shell/frozen-fixture.test.ts",
+    "action": "TEST",
+    "description": "Remote: run migrate 4to5 on the PRD-19 frozen 4.x consumer fixture (root GlassAppShell page + aura-glass/app-shell page); compiles, renders, 0 TODOs on the flagship subset; handler-only items become render=<button onClick>.",
+    "depends_on": [
+      "NAV-120",
+      "NAV-121"
+    ],
+    "priority": "P0",
+    "test": "remote migration job green; TODO count = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-18",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-138",
+    "prd": "PRD-11",
+    "system": "api-report",
+    "file": "etc/api/app-shell.api.md; etc/api/app-shell.exports.json; etc/api/index.api.md (nav rows)",
+    "action": "TEST",
+    "description": "Run the PRD-REL API report and export snapshot (scripts/release/api-report.mjs, export-snapshot.mjs --tarball; SC-04, REL-003) for '.' (slug index) and './app-shell' (slug app-shell); they match §10 API-01..18; every removed name is present in deprecations.json with a 4.x since version.",
+    "depends_on": [
+      "NAV-135",
+      "NAV-122",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "tests/release/api-report.test.ts and tests/release/export-snapshot.test.ts green with no unreviewed diff",
+    "storybook": "n/a",
+    "acceptance": "AC-NAV-19",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-139",
+    "prd": "PRD-11",
+    "system": "manual/visual-review",
+    "file": "NEW:docs/auraglass-5/release/NAV-review-sheet.md",
+    "action": "TEST",
+    "description": "Design reviewer (human) records pass/fail per S-01 story per item (specular quality, optical hierarchy, radius rhythm, reads as one hand) from remote screenshots in the release checklist; agents may not mark PASS; any fail blocks GA.",
+    "depends_on": [
+      "NAV-119"
+    ],
+    "priority": "P0",
+    "test": "signed review sheet with reviewer name/date; 0 fails",
+    "storybook": "S-01",
+    "acceptance": "AC-NAV-20",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-140",
+    "prd": "PRD-11",
+    "system": "manual/screen-reader",
+    "file": "NEW:docs/auraglass-5/release/NAV-review-sheet.md",
+    "action": "TEST",
+    "description": "Manual lane on the six S-01 shells: VoiceOver macOS + iOS, NVDA/Chrome, TalkBack/Chrome, physical touch, using tests/a11y/apg/* as checklist; record defects with severity; reviewer named.",
+    "depends_on": [
+      "NAV-119"
+    ],
+    "priority": "P0",
+    "test": "0 blocker defects recorded",
+    "storybook": "S-01",
+    "acceptance": "AC-NAV-21",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-141",
+    "prd": "PRD-11",
+    "system": "migration/doctor",
+    "file": "NEW:tests/dx/fixtures/doctor-v5/app-shell-selectors.css",
+    "action": "CREATE",
+    "description": "Supply to PRD-DX doctor --v5 (DX-037) the 4.x selector list (.glass-app-shell*, .glass-sidebar*, .glass-top-bar, .glass-status-bar) as a fixture stylesheet that must be flagged. doctor reads DEPRECATIONS_PATH; selectors are data, the check is DX's.",
+    "depends_on": [
+      "NAV-120",
+      "DX-037"
+    ],
+    "priority": "P2",
+    "test": "doctor --v5 flags every selector in the fixture",
+    "storybook": "n/a",
+    "acceptance": "§11 item 2",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-142",
+    "prd": "PRD-11",
+    "system": "release/deliverables",
+    "file": "NEW:docs/auraglass-5/release/NAV-deliverables.md",
+    "action": "DOC",
+    "description": "Generated from meta.ts: per flagship 22-31 links to typed metadata, part contract, 4.x selector table, registry block, APG script, budget row, perf grade artifact, env-matrix baseline artifact, codemod fixtures; pointers only, no claimed results (D-32).",
+    "depends_on": [
+      "NAV-118",
+      "NAV-120",
+      "NAV-097"
+    ],
+    "priority": "P1",
+    "test": "every row has all links resolving to release-SHA artifacts",
+    "storybook": "S-07",
+    "acceptance": "AC-NAV-22; DoD 3",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-143",
+    "prd": "PRD-11",
+    "system": "4.2 bridge/workspace-tabs",
+    "file": "src/workspace/index.tsx (release/4.x only)",
+    "action": "MODIFY",
+    "description": "E-15, deferred from 4.1.1 to the 4.2 train by SC-36 (PRD-REL holds the 4.2 scope and gates, SC-37; content stays with NAV): stop spreading value/onValueChange onto <div role=tablist> in GlassWorkspaceTabs (src/workspace/index.tsx:93); no API change (C-I). Not a D-28 visual fix.",
+    "depends_on": [
+      "REL-046"
+    ],
+    "priority": "P1",
+    "test": "NEW src/workspace/workspace.test.tsx case 'no value/onValueChange DOM attributes' on release/4.x",
+    "storybook": "n/a",
+    "acceptance": "API-18 (E-15 half); SC-36",
+    "status": "todo",
+    "gate": "lands on release/4.x before the 4.2.0 gate record (REL-090)"
+  },
+  {
+    "id": "NAV-144",
+    "prd": "PRD-11",
+    "system": "showcase/shell-parts",
+    "file": "showcase/{ops-console,collaborative-workspace,mobile-productivity}/ (SB-owned; NAV supplies shell compositions)",
+    "action": "MODIFY",
+    "description": "Supply the AppShell/Sidebar/TopBar/Tabs/ResizablePanels/MobileShell/TabBar compositions used by the PRD-SB showcases (SC-31: NAV supplies shell parts; SB owns files and the import/determinism contract). Public API only (aura-glass, aura-glass/app-shell), no inline layout, no !important.",
+    "depends_on": [
+      "NAV-101",
+      "SB-105",
+      "SB-111",
+      "SB-112"
+    ],
+    "priority": "P1",
+    "test": "showcase/__tests__/showcase-imports.test.mjs and showcase-determinism.test.ts (SB) green",
+    "storybook": "Showcases/* (SB)",
+    "acceptance": "REQ-NAV-01, REQ-NAV-03; AC-NAV-20 (showcase use)",
+    "status": "todo"
+  },
+  {
+    "id": "NAV-145",
+    "prd": "PRD-11",
+    "system": "migration/app-shell-slots",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/app-shell-slots.ts",
+    "action": "CREATE",
+    "description": "NAV area transform app-shell-slots (SC-33) on the PRD-DX engine (DX-041 registry, DX-042 catalogue): slot props topBar/sidebar/actionBar/statusBar -> compound children with data-ag-slot when props are inline JSX (API-02); GlassAppShell header/footer -> TopBar/StatusBar (API-04); sidebarPlacement left|right -> sidebarSide start|end is left to prop-grammar mappings. Mapping data only from the NAV *.meta.ts migration fields and generated mappings/*.json; unmappable cases emit '// TODO(aura-glass 5): <reason>, see <doc>'.",
+    "depends_on": [
+      "DX-041",
+      "DX-042",
+      "NAV-095",
+      "NAV-096"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/src/migrate/4to5/__tests__/app-shell-slots.test.ts over __fixtures__/app-shell-slots/ (NAV-120)",
+    "storybook": "n/a",
+    "acceptance": "API-02, API-04; AC-NAV-18",
+    "status": "todo",
+    "gate": "REL registers app-shell-slots in the §11.2 catalogue (PRD §21 O-08)"
+  }
+]

@@ -1,0 +1,2635 @@
+[
+  {
+    "id": "DX-001",
+    "prd": "PRD-16",
+    "system": "cli/package",
+    "file": "NEW:packages/cli/package.json",
+    "action": "CREATE",
+    "description": "Create the CLI package manifest: name from PACKAGE_NAME (DX-002), \"type\":\"module\", bin {\"auraglass\":\"./dist/bin.js\"} (never an `aura-glass` bin name, §11.1), engines.node \">=20.19\", ESM-only exports, files [\"dist\",\"schema\",\"README.md\",\"LICENSE\"], build script `tsdown` (same toolchain as PRD-02), devDependencies vitest/typescript/tsdown exact-pinned. Add `packages/cli/tsconfig.json` and `packages/cli/tsdown.config.ts`.",
+    "depends_on": [
+      "PKG-008"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/package.test.ts: bin key equals {auraglass:'./dist/bin.js'}, type=module, engines.node='>=20.19', no `main` CJS entry, name === PACKAGE_NAME",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (pre-publish half), AC-DX-02 (REQ-DX-01)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-002",
+    "prd": "PRD-16",
+    "system": "cli/meta",
+    "file": "NEW:packages/cli/src/meta.ts",
+    "action": "CREATE",
+    "description": "Single source for PACKAGE_NAME ('@auraglass/cli' or 'aura-glass-cli' per D-23 decision recorded in DX-018), MCP_PACKAGE_NAME, REGISTRY_PACKAGE_NAME, VERSION (read from packages/cli/package.json at build time), and MOVED_NOTICE = 'aura-glass CLI moved: use npx <PACKAGE_NAME> <command>' (REQ-DX-84 text; the 4.x implementation is shipped on release/4.x by the bridge work). No other file may hard-code the scope.",
+    "depends_on": [
+      "DX-001"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/package.test.ts 'name constant' + `rg -n \"@auraglass/cli|aura-glass-cli\" packages/cli/src` hits only meta.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-01, REQ-DX-84)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-003",
+    "prd": "PRD-16",
+    "system": "cli/deps",
+    "file": "NEW:packages/cli/dependency-allowlist.json",
+    "action": "CREATE",
+    "description": "Allowlist exactly [jscodeshift, postcss, postcss-value-parser, zod, picocolors, prompts], each exact-pinned in packages/cli/package.json dependencies (no ^/~). Wire PRD-02's scripts/ci/verify-deps.mjs (PRD names it `scripts/ci/verify-deps`; PRD-02 file is `.mjs`) with --cwd packages/cli --allowlist packages/cli/dependency-allowlist.json. If verify-deps.mjs does not exist, stop this sub-step with a blocker on PRD-02; do not write a substitute.",
+    "depends_on": [
+      "DX-001",
+      "PKG-056",
+      "PKG-057"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/deps.test.ts: Object.keys(dependencies) deep-equals allowlist; every version matches /^\\d+\\.\\d+\\.\\d+$/; `npm pack` + install into a temp dir measures unpacked size incl. deps ≤15 MB (remote CI)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-02, §16 install size)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-004",
+    "prd": "PRD-16",
+    "system": "cli/router",
+    "file": "NEW:packages/cli/src/bin.ts",
+    "action": "CREATE",
+    "description": "Command router for init, add, diff, update, doctor, audit, migrate, list, info. Global flags --cwd <dir>, --json, --yes, --silent, --version, --help on every command. Exit codes: 0 success, 1 validation/TODO failure, 2 usage error, 3 safety refusal, 4 network/registry failure. Colour via picocolors only when process.stdout.isTTY and NO_COLOR unset; no spinners when !isTTY; status words pass/info/warn/fail always printed (§15.5).",
+    "depends_on": [
+      "DX-002"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/contract.test.ts 'exit codes' (unknown command → 2) and 'no colour without TTY' (output contains no \\u001b when stdout is a pipe or NO_COLOR=1)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-04, §15.5)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-005",
+    "prd": "PRD-16",
+    "system": "cli/contract",
+    "file": "NEW:packages/cli/schema/output/",
+    "action": "CREATE",
+    "description": "One JSON Schema per command (init.json, add.json, diff.json, update.json, doctor.json, audit.json, migrate.json, list.json, info.json) plus migrate-report.json (DX-061). Every `--json` output validates. Fixtures `packages/cli/test/fixtures/projects/{next-app-plain,vite-react-ts,legacy-audit,...}` are complete minimal projects (real package.json, real source files).",
+    "depends_on": [
+      "DX-004"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/contract.test.ts runs each command with --json against test/fixtures/projects/* and validates stdout with ajv against packages/cli/schema/output/<command>.json; asserts exit code matches documented status",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-04)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-006",
+    "prd": "PRD-16",
+    "system": "cli/fs-safety",
+    "file": "NEW:packages/cli/src/core/fs-safety.ts",
+    "action": "CREATE",
+    "description": "Port ensureInsideCwd verbatim from bin/aura-glass.cjs:295-300 (same semantics), then extend: fs.realpathSync on cwd and on the nearest existing ancestor of the target before the containment check; on escape throw SafetyError → exit 3 with message `Refusing to write outside the current project: <path>`. Writes are staged in memory; apply() writes each file to `<file>.auraglass-tmp-<pid>` then fs.renameSync; on any exception after file k, stop, delete pending temp files, and return the applied list in the report.",
+    "depends_on": [
+      "DX-004"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/fs-safety.test.ts cases `../x`, absolute `/tmp/x`, symlink to /tmp, `--out ../` (all exit 3, exact message); 'aborts cleanly': failure injected after the 3rd of 5 files → files 1–3 reported applied, files 4–5 byte-identical to before, no *.auraglass-tmp-* left",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-03 (path-escape 4/4; REQ-DX-05, REQ-DX-07)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-007",
+    "prd": "PRD-16",
+    "system": "cli/git-guard",
+    "file": "NEW:packages/cli/src/core/git-guard.ts",
+    "action": "CREATE",
+    "description": "NEW dirty-tree refusal (E-04: absent in 4.x; deviation from architecture §3.1/§14.2 recorded). Before any write: `git rev-parse --is-inside-work-tree`; outside a work tree exit 3 unless --allow-no-git. Inside: `git status --porcelain -- <touched paths>`; non-empty → exit 3 listing the dirty paths unless --allow-dirty. Used by init, add, update, migrate 4to5, migrate icons --write.",
+    "depends_on": [
+      "DX-006"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/git-guard.test.ts: real temp git repos (git init in os.tmpdir()); dirty touched path → 3; dirty untouched path → proceeds; --allow-dirty → proceeds; non-git → 3; --allow-no-git → proceeds",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-03 (REQ-DX-06)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-008",
+    "prd": "PRD-16",
+    "system": "cli/report",
+    "file": "NEW:packages/cli/src/core/report.ts",
+    "action": "CREATE",
+    "description": "Change report + --dry-run: in dry-run, print a unified diff per staged file (text mode) or `changes[]` with {path, beforeSha256, afterSha256} (--json) and perform zero writes. Report shape shared by every writing command.",
+    "depends_on": [
+      "DX-006"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/dry-run.test.ts: fs.writeFileSync/renameSync/mkdirSync spies record 0 calls under --dry-run for init, add, update, migrate 4to5, migrate icons --write (cases added as each command lands, DX-042)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-08)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-009",
+    "prd": "PRD-16",
+    "system": "cli/project-detect",
+    "file": "NEW:packages/cli/src/core/project-detect.ts; NEW:packages/cli/src/core/package-manager.ts; NEW:packages/cli/src/core/config.ts",
+    "action": "CREATE",
+    "description": "Detect framework (next-app if app/layout.(t|j)sx or src/app/layout.*; next-pages if pages/_app.*; vite if vite.config.* + index.html; react-router; unknown), TypeScript + tsconfig `paths` aliases (e.g. @/*), package manager from lockfile (pnpm-lock.yaml, yarn.lock, bun.lock, package-lock.json), Tailwind major from package.json and `@import \"tailwindcss\"`, global CSS entry (app/globals.css, src/app/globals.css, src/index.css, src/main.css), components.json presence. Also package-manager.ts (install argv per PM) and config.ts (zod schema for auraglass.json) with packages/cli/schema/config.json ($schema https://auraglass.dev/schema/config.json).",
+    "depends_on": [
+      "DX-004"
+    ],
+    "priority": "P0",
+    "test": "NEW packages/cli/test/core/project-detect.test.ts: one assertion per detected field over test/fixtures/projects/*; config.ts rejects unknown keys",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (§4.2 project detection; supports REQ-DX-11..15)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-010",
+    "prd": "PRD-16",
+    "system": "cli/version",
+    "file": "NEW:packages/cli/test/version.test.ts",
+    "action": "TEST",
+    "description": "`auraglass --version` prints packages/cli/package.json version; `rg \"3\\.2 target|3\\.3|3\\.0\\.x\" packages/cli/src` returns 0 (the 4.x `3.2 target:` string at bin/aura-glass.cjs:911 and the unused spawnSync import are not ported).",
+    "depends_on": [
+      "DX-004"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/version.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-09)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-011",
+    "prd": "PRD-16",
+    "system": "cli/registry-client",
+    "file": "NEW:packages/cli/src/registry/fetch.ts; NEW:packages/cli/src/registry/resolve.ts; NEW:packages/cli/src/registry/hash.ts",
+    "action": "CREATE",
+    "description": "Registry client: fetch.ts (http(s) URL or local path, 10 s timeout, network failure → exit 4), resolve.ts (index lookup), hash.ts (sha256 of file body after header). Registry URL resolution: auraglass.json `registry`, default https://auraglass.dev/r; version pinned by reading the consumer's installed node_modules/aura-glass/package.json → /r/v/<version>/.",
+    "depends_on": [
+      "DX-009"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/list-info.test.ts (served from test/fixtures/registry/ via a node:http server on an ephemeral port in the test); unreachable URL → exit 4",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-10)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-012",
+    "prd": "PRD-16",
+    "system": "cli/list-info",
+    "file": "NEW:packages/cli/src/commands/list.ts",
+    "action": "CREATE",
+    "description": "`list` (and `info.ts`) read the registry index (not src/registry/recipes.ts). `info <name>` prints type, files, dependencies, registryDependencies, cssVars keys, meta.auraglass.certified SHA. `list --type registry:block` filters.",
+    "depends_on": [
+      "DX-011"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/list-info.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-10)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-013",
+    "prd": "PRD-16",
+    "system": "cli/audit-legacy",
+    "file": "NEW:packages/cli/src/commands/audit.ts",
+    "action": "CREATE",
+    "description": "Port `audit deps` and `audit imports` from bin/aura-glass.cjs with unchanged JSON output shape. Capture the 4.1.0 baseline by running `node bin/aura-glass.cjs audit deps --json` and `audit imports --json` against packages/cli/test/fixtures/projects/legacy-audit at 15b6de6f7 and commit the outputs as packages/cli/test/fixtures/projects/legacy-audit/expected-4.1.0/{deps,imports}.json (captured from the real 4.x binary, never hand-written).",
+    "depends_on": [
+      "DX-005"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/audit.compat.test.ts: new output deep-equals expected-4.1.0/*.json (only `cliVersion` key may differ)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-26)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-014",
+    "prd": "PRD-16",
+    "system": "cli/migrate-legacy",
+    "file": "NEW:packages/cli/src/migrate/legacy/icons-from-lucide.ts",
+    "action": "CREATE",
+    "description": "Port `migrate icons --from lucide` (logic from bin/aura-glass.cjs and scripts/migrate/icons-from-lucide.js) plus radix-report.ts and mui-report.ts. `migrate radix|mui --write` exits 2 with exactly `report-only; no automated migration`; the `report-only-write-requested` mode (bin/aura-glass.cjs:605) is not ported. `migrate icons --write` goes through git-guard + fs-safety.",
+    "depends_on": [
+      "DX-007",
+      "DX-008"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/migrate-legacy.test.ts: radix --write → 2 + message; mui --write → 2; `icons --from lucide` output on a lucide fixture equals the 4.1.0 binary's output (captured baseline)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02, AC-DX-03 (REQ-DX-28)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-015",
+    "prd": "PRD-16",
+    "system": "cli/perf",
+    "file": "NEW:packages/cli/test/perf.test.ts",
+    "action": "TEST",
+    "description": "Cold start: spawn installed `auraglass --version` 20 times; p95 ≤300 ms. Runs in .github/workflows/cli.yml on the CI runner (not on a developer Mac); records runner class in the artifact.",
+    "depends_on": [
+      "DX-004",
+      "DX-017"
+    ],
+    "priority": "P2",
+    "test": "packages/cli/test/perf.test.ts (remote CI only; local run is allowed to execute but its timing is not evidence)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (§16 cold start ≤300 ms)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-016",
+    "prd": "PRD-16",
+    "system": "cli/coverage",
+    "file": "NEW:packages/cli/vitest.config.ts",
+    "action": "CREATE",
+    "description": "Vitest config for packages/cli with v8 coverage; thresholds lines ≥90 (never lowered); reporter writes packages/cli/coverage/. A command/flag coverage table test enumerates every command and flag from bin.ts and asserts ≥1 test references it. Also create NEW tests/dx/vitest.config.ts (node environment, includes tests/dx/**/*.test.ts, excludes *.spec.ts which run under Playwright remotely). The repo's root Jest config (package.json `test: jest`) is not changed; vitest is added as an exact-pinned devDependency because it is not installed today.",
+    "depends_on": [
+      "DX-004"
+    ],
+    "priority": "P1",
+    "test": "NEW packages/cli/test/command-coverage.test.ts + `vitest run --coverage` threshold",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (coverage lines ≥90%)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-017",
+    "prd": "PRD-16",
+    "system": "ci/cli",
+    "file": "NEW:.github/workflows/cli.yml",
+    "action": "INFRA",
+    "description": "CI on every PR touching packages/cli/**, registry/**, scripts/docs/paths.mjs: npm ci, build packages/cli, vitest run --coverage, perf.test.ts, deps.test.ts install-size check, upload coverage + perf JSON as artifacts. Node matrix 20.19.x and 22.x. No publish step.",
+    "depends_on": [
+      "DX-001"
+    ],
+    "priority": "P0",
+    "test": "workflow run green on the PR; artifact links in the report",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02",
+    "status": "todo"
+  },
+  {
+    "id": "DX-018",
+    "prd": "PRD-16",
+    "system": "cli/publishing",
+    "file": "NEW:packages/cli/PUBLISHING.md",
+    "action": "DOC",
+    "description": "Record the D-23 scope decision with evidence (`npm view @auraglass/cli name` result, npm org owner check result, date) and lock PACKAGE_NAME. Record the npm trusted-publisher binding to request from the operator: package name, repository auraoneai/auraglass, workflow file .github/workflows/publish-npm.yml. No token publishing. If scope ownership cannot be verified, use `aura-glass-cli` and say so.",
+    "depends_on": [
+      "DX-002"
+    ],
+    "priority": "P0",
+    "test": "package.test.ts asserts PACKAGE_NAME equals the name recorded in PUBLISHING.md",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (DoD 4)",
+    "status": "todo",
+    "gate": "npm scope @auraglass ownership verified before 4.2 (D-23); else aura-glass-cli fallback"
+  },
+  {
+    "id": "DX-019",
+    "prd": "PRD-16",
+    "system": "docs/paths",
+    "file": "NEW:scripts/docs/paths.mjs",
+    "action": "CREATE",
+    "description": "Constants DEPRECATIONS_PATH ('deprecations.json', repo root, SC-02; seeded by TRUST-075, schema REL-010), BREAKING_CHANGES_PATH ('docs/release/breaking-changes.json', REL-100), CONSUMER_4X_PATH ('tests/fixtures/consumer-4x', SC-08, REL-115), CONSUMER_4X_FLAGSHIP_SUBSET ('tests/fixtures/consumer-4x/flagship-subset.json', SC-08), API_DIR ('etc/api', SC-04; slug '.' -> 'index'). Every DX generator and test imports these; no other file hard-codes the paths.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "NEW tests/dx/paths.test.ts: every exported path exists once its owning PRD has landed (skips nothing; reports which owner is missing and fails)",
+    "storybook": "n/a",
+    "acceptance": "supports AC-DX-05, AC-DX-06, AC-DX-18",
+    "status": "todo"
+  },
+  {
+    "id": "DX-020",
+    "prd": "PRD-16",
+    "system": "package/no-bin",
+    "file": "NEW:tests/dx/no-bin.test.ts",
+    "action": "TEST",
+    "description": "Reads `npm pack --json --dry-run` of the root aura-glass package on main at ≥5.0.0-beta.1: manifest has no `bin` key; no file path starting with `bin/`; `llms.txt` is included. On 4.x branches the test is not registered (branch-scoped in cli.yml, not skipped).",
+    "depends_on": [
+      "DX-021"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/no-bin.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (`npm view aura-glass@5 bin` empty; REQ-DX-03)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-021",
+    "prd": "PRD-16",
+    "system": "package/manifest",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "main at 5.0.0-beta.1: remove `bin` (:8-10) and `bin` from `files` (:233 region); add `llms.txt` to `files`; replace scripts `test:cli` (:277), `test:recipes:render`, `test:recipes:cli` (:300-301) with `test:dx:unit` (vitest over tests/dx/*.test.ts), `test:dx:cli` (packages/cli), `test:dx:remote` (dispatches the remote workflows). bin/aura-glass.cjs deletion on main is DX-149; the ./registry subpath and src/registry removal is NAV-136.",
+    "depends_on": [
+      "DX-014",
+      "NAV-136"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/no-bin.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (REQ-DX-03)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-022",
+    "prd": "PRD-16",
+    "system": "cli/legacy-scripts",
+    "file": "scripts/migrate/",
+    "action": "REMOVE",
+    "description": "main at 5.0.0-beta.1, after DX-013/DX-014 parity tests are green: delete scripts/migrate/{doctor,audit-mui,audit-radix,icons-from-lucide,export-tokens}.js, scripts/codemods/{tw-to-glass,cleanup-glass-duplicates}.js, tools/codemods/{auraglass-from-raw,focusify}.mjs and scripts/ci/verify-cli.js; remove any package.json script referencing them (`rg -n \"scripts/migrate|scripts/codemods|tools/codemods|verify-cli\" package.json .github` returns 0 after).",
+    "depends_on": [
+      "DX-013",
+      "DX-014",
+      "DX-021"
+    ],
+    "priority": "P2",
+    "test": "tests/dx/docs-removed.test.ts 'internal codemods' asserts the paths are absent on main",
+    "storybook": "n/a",
+    "acceptance": "DoD 6 (§9.1)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-023",
+    "prd": "PRD-16",
+    "system": "cli/init-next",
+    "file": "NEW:packages/cli/src/commands/init.ts",
+    "action": "CREATE",
+    "description": "Next App Router path: (a) app/globals.css (or src/app/globals.css) begins with `@layer theme, base, ag, components, utilities;` then `@import \"aura-glass/styles.css\" layer(ag);`; when Tailwind v4 detected keep `@import \"tailwindcss\";` and add `@import \"aura-glass/tailwind.css\";` after it. (b) app/layout.tsx: AST edit (jscodeshift tsx) adds `import { AuraGlassScript } from \"aura-glass/theme\"`, renders `<AuraGlassScript />` as first child of <head> (inserting <head> if absent), wraps {children} in `<Providers>` from NEW app/providers.tsx (`\"use client\"` line 1, renders `<AuraGlassProvider>{children}</AuraGlassProvider>`). (c) writes auraglass.json. Through git-guard + fs-safety + report.",
+    "depends_on": [
+      "DX-007",
+      "DX-008",
+      "DX-009",
+      "A11Y-029",
+      "A11Y-032",
+      "DS-090"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/init.next.test.ts fixtures next-app-tailwind, next-app-plain, next-app-existing-head, next-app-src-dir: expected trees committed under each fixture's `expected/`; second run reports `no changes` and tree is byte-identical; init (no install) ≤2 s",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-04 (input), AC-DX-02 (REQ-DX-11, REQ-DX-13, §16 init ≤2 s)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-024",
+    "prd": "PRD-16",
+    "system": "cli/init-vite",
+    "file": "packages/cli/src/commands/init.ts",
+    "action": "MODIFY",
+    "description": "Vite path (index.html + src/main.tsx): import 'aura-glass/styles.css' once before the app CSS import; wrap <App /> in <AuraGlassProvider>; inline `<script>` with body = `auraGlassPrepaintScript` from aura-glass/theme into index.html <head>. Verify the export exists in the installed aura-glass .d.ts; if PRD-05 has not exported it, write no script and emit info `prepaint-script-unavailable` (Vite quickstart then documents zero-JS media mirrors). Never inline a hand-copied script body.",
+    "depends_on": [
+      "DX-023",
+      "A11Y-032",
+      "A11Y-034"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/init.vite.test.ts fixtures vite-react-ts, vite-react-tailwind; run twice → byte-identical",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-04 (input; REQ-DX-12, REQ-DX-13)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-025",
+    "prd": "PRD-16",
+    "system": "cli/init-install",
+    "file": "packages/cli/src/core/package-manager.ts",
+    "action": "MODIFY",
+    "description": "init installs `aura-glass@^<CLI major>` with the detected PM (npm i / pnpm add / yarn add / bun add), prints the exact command first; `--no-install` prints only. Never installs optional peers.",
+    "depends_on": [
+      "DX-023"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/init.install.test.ts: child_process.spawn mocked; asserts argv for npm, pnpm, yarn, bun; --no-install → 0 spawns",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-14)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-026",
+    "prd": "PRD-16",
+    "system": "cli/init-shadcn",
+    "file": "packages/cli/src/commands/init.ts",
+    "action": "MODIFY",
+    "description": "When components.json exists: reuse its `aliases` and `tailwind.css` path, create no second globals file, append AuraGlass imports after shadcn's `@import \"tailwindcss\"`.",
+    "depends_on": [
+      "DX-023"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/init.shadcn.test.ts fixture next-shadcn-base-ui (generated with the real shadcn CLI once, committed)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02, AC-DX-10 (input; REQ-DX-15)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-027",
+    "prd": "PRD-16",
+    "system": "cli/add",
+    "file": "NEW:packages/cli/src/commands/add.ts; NEW:packages/cli/src/registry/install.ts",
+    "action": "CREATE",
+    "description": "`add <name…>`: fetch <registry>/<name>.json; validate with zod built from vendored packages/cli/schema/registry-item.json + meta.auraglass {minVersion, certified, surface, client, components}; resolve registryDependencies depth-first, cycle → exit 1 printing `a -> b -> a`; write files to aliases.* honouring `target`; merge cssVars into the configured CSS inside `@layer ag { }` without duplicating existing variables; print and run install for dependencies/devDependencies unless --no-install. Implementation in src/registry/install.ts.",
+    "depends_on": [
+      "DX-011",
+      "DX-007",
+      "DX-028"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/add.test.ts against test/fixtures/registry/ (local http): resolve order, cycle error text, cssVars merge idempotent, 'header', `add app-frame` (fixture item) ≤3 s without install",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02, AC-DX-04 (input; REQ-DX-16, §16 add ≤3 s)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-028",
+    "prd": "PRD-16",
+    "system": "cli/registry-schema",
+    "file": "NEW:packages/cli/schema/registry-item.json",
+    "action": "CREATE",
+    "description": "Vendor shadcn CLI v4 registry-item.json and registry.json schemas fetched from https://ui.shadcn.com/schema/registry-item.json and /registry.json; record source URL, fetch date and sha256 of each in NEW packages/cli/schema/SOURCE.md. A test re-hashes the vendored files against SOURCE.md.",
+    "depends_on": [
+      "DX-001"
+    ],
+    "priority": "P0",
+    "test": "NEW packages/cli/test/schema-pin.test.ts (sha256 equality)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (input; REQ-DX-43 pin)",
+    "status": "todo",
+    "gate": "vendored shadcn v4 registry-item schema hash recorded in packages/cli/schema/SOURCE.md"
+  },
+  {
+    "id": "DX-029",
+    "prd": "PRD-16",
+    "system": "cli/add-header",
+    "file": "packages/cli/src/registry/hash.ts",
+    "action": "MODIFY",
+    "description": "Every written file starts with `// @auraglass/registry <name>@<version> sha256:<64 hex>` (CSS `/* … */`); hash covers the body after the header exactly as published. Header uses REGISTRY_PACKAGE_NAME from meta.ts.",
+    "depends_on": [
+      "DX-027"
+    ],
+    "priority": "P0",
+    "test": "add.test.ts 'header': regex /^\\/\\/ @auraglass\\/registry [a-z0-9-]+@\\d+\\.\\d+\\.\\d+(-[\\w.]+)? sha256:[0-9a-f]{64}$/ on line 1, or on line 2 when line 1 is the `\"use client\";` directive (DX-030), and recomputed hash equality",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-18)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-030",
+    "prd": "PRD-16",
+    "system": "cli/add-rsc",
+    "file": "packages/cli/src/registry/install.ts",
+    "action": "MODIFY",
+    "description": "Insert `\"use client\";` as line 1 iff the registry file declares meta.auraglass.client === true (header then goes on line 2); never for client === false. Rewrite `@/components/…` imports in item files to the project's configured alias (tsconfig paths or auraglass.json aliases).",
+    "depends_on": [
+      "DX-027",
+      "DX-029"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/add.rsc-alias.test.ts: client:true file line1 === '\"use client\";'; client:false file has none; alias `~/ui` fixture rewrites imports",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-17)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-031",
+    "prd": "PRD-16",
+    "system": "cli/diff",
+    "file": "NEW:packages/cli/src/commands/diff.ts",
+    "action": "CREATE",
+    "description": "`diff [name]`: for each header-tagged file report `unchanged` | `locally-modified` (body hash ≠ header) | `upstream-changed` (registry hash ≠ header) | `both`; `--patch` prints the upstream unified diff.",
+    "depends_on": [
+      "DX-029"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/diff.test.ts four states, each from a real fixture tree",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-19)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-032",
+    "prd": "PRD-16",
+    "system": "cli/update",
+    "file": "NEW:packages/cli/src/commands/update.ts",
+    "action": "CREATE",
+    "description": "`update <name>`: apply upstream for unchanged/upstream-changed; refuse locally-modified and both (exit 1, list files) unless --force, which writes `<file>.auraglass-upstream` next to the local file and never overwrites it. git-guard + fs-safety + --dry-run.",
+    "depends_on": [
+      "DX-031"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/update.test.ts: refusal exit 1; --force sidecar content equals upstream; local file byte-identical",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02, AC-DX-03 (REQ-DX-20)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-033",
+    "prd": "PRD-16",
+    "system": "cli/eject",
+    "file": "packages/cli/src/commands/add.ts",
+    "action": "MODIFY",
+    "description": "`add <component> --source`: install registry item `aura-glass-src/<component>` (generated by DX-098) into <aliases.components>/<slug>/; rewrite internal `@/…` and relative library imports to public aura-glass/* subpaths; resolve each rewritten specifier against node_modules/aura-glass/package.json `exports`; any unresolved → exit 1 listing them. T0 (Surface, SurfaceGroup, Environment) → exit 1 `not ejectable: material stays centrally upgradeable`. Record the version tag in the header. The item-generation function lives in NEW packages/cli/src/registry/eject-source.ts and is reused by DX-098 (no duplicate); unit fixtures test/fixtures/registry/aura-glass-src/{button,dialog,table}.json are produced by it from the packed tarball source.",
+    "depends_on": [
+      "DX-027",
+      "MAT-047",
+      "CTL-055",
+      "OVL-040",
+      "DATA-108"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/test/commands/add.eject.test.ts ejects Button, Dialog, Table into a fixture with the packed 5.0 tarball installed, then `tsc --noEmit` exit 0; `--source Surface` → exit 1",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-21)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-034",
+    "prd": "PRD-16",
+    "system": "cli/eject-optics",
+    "file": "packages/cli/test/commands/add.eject.test.ts",
+    "action": "TEST",
+    "description": "After ejecting Button, Dialog, Table: written files contain 0 matches of /backdrop-filter|rgba\\(|#[0-9a-fA-F]{3,8}\\b|blur\\(/ and import materialProps from 'aura-glass/material' where the source does.",
+    "depends_on": [
+      "DX-033"
+    ],
+    "priority": "P1",
+    "test": "add.eject.test.ts 'no optics literals'",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-22)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-035",
+    "prd": "PRD-16",
+    "system": "cli/doctor",
+    "file": "NEW:packages/cli/src/commands/doctor.ts",
+    "action": "CREATE",
+    "description": "Checks with ids and status pass|info|warn|fail: node-version (fail <20.19), react-version (fail <19.0 for aura-glass@5), duplicate-react, duplicate-base-ui (fail when lockfile/`npm ls --json` shows >1 resolved copy), undeclared-transitive (warn per date-fns, chart.js, react-chartjs-2, zod, framer-motion, motion imported but undeclared), global-css-reliance (warn when source relies on selectors in compat/globals.css and it is not imported), layer-order (warn when global CSS lacks `@layer theme, base, ag, components, utilities;`), script-missing (warn when Next App Router layout lacks AuraGlassScript), tailwind-source (info: no @source needed). doctor on consumer-4x ≤5 s.",
+    "depends_on": [
+      "DX-009",
+      "DS-016",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/doctor.test.ts: one real fixture per check id asserting exact id+status",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-23)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-036",
+    "prd": "PRD-16",
+    "system": "cli/doctor-shadcn",
+    "file": "packages/cli/src/commands/doctor.ts",
+    "action": "MODIFY",
+    "description": "Port the 4.x forbidden-UI list (bin/aura-glass.cjs:31-40) as: Radix and MUI → info `Coexists with AuraGlass; not required`; Lucide → warn only when aura-glass/icons is imported in the same file, else info. No check can return fail for a shadcn/Radix app (deviation §11.7).",
+    "depends_on": [
+      "DX-035"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/doctor.shadcn.test.ts on fixture next-shadcn-base-ui + a Radix-based shadcn fixture: 0 `fail`, exit 0",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-24)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-037",
+    "prd": "PRD-16",
+    "system": "cli/doctor-v5",
+    "file": "packages/cli/src/commands/doctor.ts",
+    "action": "MODIFY",
+    "description": "`doctor --v5`: read DEPRECATIONS_PATH (scripts/docs/paths.mjs); scan consumer source; report per file:line every usage with an entry `removeIn: \"5.0.0\"`, grouped by `codemod` id with `automation`, summary {automatic, needsReview, manual}. Includes recipe `kind: cli` entries (`symbol: recipe:<id>`, DX-096). The same text/expected output is ported to the 4.x CLI on release/4.x by DX-150 (SC-37: doctor --v5 content is DX; REL holds the 4.2 gate).",
+    "depends_on": [
+      "DX-035",
+      "DX-019",
+      "TRUST-075",
+      "REL-010",
+      "REL-115"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/test/commands/doctor.v5.test.ts against CONSUMER_4X_PATH: summary deep-equals committed packages/cli/test/fixtures/doctor-v5.expected.json (generated by running the command once and reviewed line-by-line, not hand-typed); covers one recipe entry; ≤5 s",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02, DoD 5 (REQ-DX-25, REQ-DX-52 test half)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-038",
+    "prd": "PRD-16",
+    "system": "cli/audit-backdrop",
+    "file": "packages/cli/src/commands/audit.ts",
+    "action": "MODIFY",
+    "description": "`audit backdrop --url <url> [--selector <css>]`: POST {url, selector, viewport} to the remote capture endpoint in AURAGLASS_AUDIT_ENDPOINT (PRD-QA QA remote capture); print per [data-ag-surface]: backdrop luminance variance, OCR text contrast, matched transparency rung, using architecture §15.2 thresholds (material presence, ≥4.5:1 / ≥3:1). No endpoint → exit 4 with setup text. The CLI bundle never resolves playwright/chromium/puppeteer.",
+    "depends_on": [
+      "DX-013",
+      "QA-018"
+    ],
+    "priority": "P2",
+    "test": "packages/cli/test/commands/audit-backdrop.test.ts: HTTP mocked (request/response validated against packages/cli/schema/output/audit.json); bundle scan of dist/** for require/import of playwright|chromium|puppeteer = 0; no endpoint → exit 4",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-27 unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-039",
+    "prd": "PRD-16",
+    "system": "cli/audit-backdrop-remote",
+    "file": "NEW:tests/dx/audit-backdrop.remote.spec.ts",
+    "action": "TEST",
+    "description": "Remote, no mocks: serve NEW tests/dx/fixtures/audit-backdrop/index.html (one surface over a declared photo backdrop, one 'glass over nothing' surface) from the remote job, run the packed CLI `audit backdrop` against the real PRD-QA capture endpoint; assert surface 1 `pass`, surface 2 `fail` (material presence). If PRD-QA has no capture endpoint, the task is BLOCKED (report it); a mocked pass does not satisfy REQ-DX-27.",
+    "depends_on": [
+      "DX-038",
+      "QA-018",
+      "QA-039"
+    ],
+    "priority": "P2",
+    "test": "tests/dx/audit-backdrop.remote.spec.ts in .github/workflows/cli.yml remote job",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-02 (REQ-DX-27 remote half)",
+    "status": "todo",
+    "gate": "QA remote capture endpoint contract exists (no QA task yet; PRD §21 OI-DX-04)"
+  },
+  {
+    "id": "DX-040",
+    "prd": "PRD-16",
+    "system": "cli/safety-matrix",
+    "file": "packages/cli/test/git-guard.test.ts",
+    "action": "TEST",
+    "description": "Extend git-guard.test.ts and dry-run.test.ts to the writing commands that exist after PROMPT_16b: init, add, update, migrate icons --write. Each: dirty touched path → exit 3; --dry-run → 0 fs writes. Plus the fs-safety escape case for add (item file `target: ../x`). The fifth row (migrate 4to5) is added by DX-062.",
+    "depends_on": [
+      "DX-023",
+      "DX-027",
+      "DX-032",
+      "DX-014"
+    ],
+    "priority": "P0",
+    "test": "git-guard.test.ts 'writing commands' (4/4 here, 5/5 after DX-062), dry-run.test.ts (same), fs-safety.test.ts escape cases",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-03",
+    "status": "todo"
+  },
+  {
+    "id": "DX-041",
+    "prd": "PRD-16",
+    "system": "codemod/runner",
+    "file": "NEW:packages/cli/src/migrate/4to5/index.ts",
+    "action": "CREATE",
+    "description": "Transform registry + DEFAULT_ORDER (PRD §4.3): imports-subpaths, providers, canonical-names, prop-grammar, dead-optical-props, then registered area transforms in registration order (ai-chat from AI PRD REQ-AI-48; reduced-motion-initial, motion-imports, motion-props from the Motion PRD; they run after prop-grammar and before css-vars), then css-vars, deps, removed. Glob <paths> honouring .gitignore, skipping node_modules, dist, .next, build. JS/TS via jscodeshift parser 'tsx'; CSS via postcss; package.json via JSON transform. Unknown --transform id → exit 2 listing valid ids. Wire `migrate 4to5` in packages/cli/src/commands/migrate.ts with flags --transform, --dry-run, --report, --allow-todo, --allow-dirty.",
+    "depends_on": [
+      "DX-007",
+      "DX-008",
+      "DX-014"
+    ],
+    "priority": "P0",
+    "test": "packages/cli/src/migrate/4to5/__tests__/runner.test.ts: order assertion on a recording transform set, unknown id → 2 + list, exit 1 on TODO without --allow-todo, exit 0 with it",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-29)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-042",
+    "prd": "PRD-16",
+    "system": "codemod/catalogue",
+    "file": "NEW:packages/cli/src/migrate/4to5/catalogue.json",
+    "action": "CREATE",
+    "description": "Machine copy of PRD-01 §11.2 (docs/auraglass-5/prd/AURAGLASS_RELEASE_MIGRATION_PRD.md:449-462): 8 ids, automation levels, required cases — imports-subpaths: basic, aliased-import, already-migrated, ssr-wrapper-unwrap, css-import, icon-category-split, mixed-root-and-subpath; canonical-names: basic, aliased-import, already-migrated, namespace-import, re-export, compat-fallback, todo; prop-grammar: basic, already-migrated, spread-props-untouched, dynamic-value, onchange-signature, todo; dead-optical-props: basic, already-migrated, spread-props-untouched, new-refraction-not-removed; providers: basic, nested-providers, already-migrated, next-layout-script, pages-router-document; css-vars: basic-css, css-module, inline-style-object, template-literal-computed, already-migrated; deps: basic, already-declared, workspace-nearest-package-json, no-lockfile; removed: basic, registry-pointer, services-import, allow-todo-exit-0, already-annotated. Plus preserve-attrs per JSX transform (DX-057).",
+    "depends_on": [
+      "REL-106"
+    ],
+    "priority": "P0",
+    "test": "__tests__/catalogue-coverage.test.ts (every case dir exists under __fixtures__/<id>/<case>/) and __tests__/catalogue-sync.test.ts (parses the §11.2 markdown table; fails if catalogue.json drops any id or case; additions allowed)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-31)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-043",
+    "prd": "PRD-16",
+    "system": "codemod/mappings",
+    "file": "NEW:scripts/docs/gen-codemod-tables.mjs",
+    "action": "CREATE",
+    "description": "Run PRD-01 `node scripts/release/gen-deprecations.mjs --codemods` to emit packages/cli/src/migrate/4to5/mappings/{names,subpaths,props,css-vars,removed}.json; gen-codemod-tables.mjs merges each flagship `src/**/<Component>.meta.ts` `migration` prop table into props.json (sorted keys, LF). Generated files carry `\"$generated\": \"scripts/...\"` and are never hand-edited. If gen-deprecations.mjs has no --codemods mode yet, BLOCK on PRD-01 (do not hand-author mappings).",
+    "depends_on": [
+      "DX-019",
+      "REL-070",
+      "CTL-057",
+      "OVL-131",
+      "NAV-095",
+      "DATA-108",
+      "AI-075",
+      "MED-155"
+    ],
+    "priority": "P0",
+    "test": "NEW tests/dx/codemod-tables.test.ts: regenerating twice is byte-identical; every props.json component exists in a .meta.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-33)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-044",
+    "prd": "PRD-16",
+    "system": "codemod/todo",
+    "file": "NEW:packages/cli/src/migrate/4to5/todo.ts",
+    "action": "CREATE",
+    "description": "Single TODO emitter: JS `// TODO(aura-glass 5): <message>, see <doc>`, CSS `/* TODO(aura-glass 5): <message>, see <doc> */`, with message/doc from the deprecations entry. Area transforms must use it; the AI PRD's `TODO(auraglass-5)` spelling is normalised (deviation §11.6; ask the AI PRD owner to adopt). Canonical per SC-33; the AI PRD edits AI-115 to this spelling.",
+    "depends_on": [
+      "DX-041"
+    ],
+    "priority": "P0",
+    "test": "__tests__/todo-format.test.ts: every TODO in every fixture output matches /^\\s*(\\/\\/|\\/\\*) TODO\\(aura-glass 5\\): .+, see https?:\\/\\/\\S+#dep-\\d{4}( \\*\\/)?$/; `rg -n \"TODO\\(auraglass-5\\)\" packages/cli` = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-35)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-045",
+    "prd": "PRD-16",
+    "system": "codemod/imports-subpaths",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/imports-subpaths.ts",
+    "action": "CREATE",
+    "description": "PRD-01 §11.2 row: facade/alias subpaths (data, workflows, workspace, navigation, overlays, marketing, ssr, server, client, styles, tokens/css, primitives/slot, icons/action…) → 5.0 subpaths from mappings/subpaths.json; delete ssr/server/client imports and unwrap AuraGlassSSRProvider wrappers; B17–B19 asset and granular subpath rewrites including CSS `@import` (postcss). Fixtures for all 7 required cases.",
+    "depends_on": [
+      "DX-043",
+      "DX-044"
+    ],
+    "priority": "P0",
+    "test": "__tests__/fixtures.test.ts over __fixtures__/imports-subpaths/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-046",
+    "prd": "PRD-16",
+    "system": "codemod/providers",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/providers.ts",
+    "action": "CREATE",
+    "description": "5 theme providers + MotionPreferenceProvider (list from mappings/names.json kind provider, PRD-05) → one <AuraGlassProvider> with merged props; insert <AuraGlassScript /> once in <head> of app/layout.tsx; pages/_document.tsx case. 5 required fixture cases.",
+    "depends_on": [
+      "DX-043",
+      "DX-044",
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/providers/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-047",
+    "prd": "PRD-16",
+    "system": "codemod/canonical-names",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/canonical-names.ts",
+    "action": "CREATE",
+    "description": "Prefix drop, 90 aliases, 35 duplicated names, CONSOLIDATE losers → 5.0 names from mappings/names.json; non-mechanical → import from 'aura-glass/compat' + TODO. Handles aliased, namespace (`import * as AG`), re-export. Area subfolders such as __fixtures__/canonical-names/controls/* (REQ-CTL-19) are discovered, not registered. 7 required cases.",
+    "depends_on": [
+      "DX-043",
+      "DX-044"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/canonical-names/** incl. area subfolders",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-048",
+    "prd": "PRD-16",
+    "system": "codemod/prop-grammar",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/prop-grammar.ts",
+    "action": "CREATE",
+    "description": "Per-component tables from mappings/props.json, following SC-24: material axes use variant: regular|clear|identity, thickness, prominent, refraction; semantic status is intent; no material prop, no elevation, no `as` (render). Button mapping: 4.x primary -> prominent, secondary -> variant=\"regular\", ghost -> variant=\"identity\", danger -> intent=\"danger\". onChange -> onValueChange; data-ag-button-variant selectors -> data-ag-intent. Dynamic values (`variant={v}`) unchanged + TODO; unmapped literal values -> TODO, never guessed. 6 required cases (REL §11.2 prop-grammar row).",
+    "depends_on": [
+      "DX-043",
+      "DX-044",
+      "CTL-057",
+      "OVL-131",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/prop-grammar/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-049",
+    "prd": "PRD-16",
+    "system": "codemod/dead-optical-props",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/dead-optical-props.ts",
+    "action": "CREATE",
+    "description": "Remove ior, caustics, 4.x `refraction`, chromatic, quality, tier (list from mappings/props.json `dead` group); keep the 5.0 boolean `refraction` on flagship chrome (new-refraction-not-removed). 4 required cases.",
+    "depends_on": [
+      "DX-043"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/dead-optical-props/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-050",
+    "prd": "PRD-16",
+    "system": "codemod/css-vars",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/css-vars.ts",
+    "action": "CREATE",
+    "description": "var(--glass-*) → var(--ag-*) from mappings/css-vars.json (the compat/tokens.css alias table, PRD-03) in .css, CSS modules, inline style objects, template literals; computed names (`--glass-${k}`) listed in the report unchanged. 5 required cases.",
+    "depends_on": [
+      "DX-043",
+      "DS-103"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/css-vars/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-051",
+    "prd": "PRD-16",
+    "system": "codemod/deps",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/deps.ts",
+    "action": "CREATE",
+    "description": "Add directly imported date-fns, chart.js, react-chartjs-2, zod, framer-motion/motion, tailwind-merge to the nearest package.json dependencies at the lockfile-resolved version (never `latest`); print install command, do not run it; no lockfile → report TODO, no guessed range. 4 required cases.",
+    "depends_on": [
+      "DX-041"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/deps/*",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-052",
+    "prd": "PRD-16",
+    "system": "codemod/removed",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/removed.ts",
+    "action": "CREATE",
+    "description": "Imports of deleted components (mappings/removed.json) keep the import and get the TODO; D-17 items get `npx <PACKAGE_NAME> add <item>` pointer; services-import case; already-annotated is idempotent; allow-todo-exit-0. 5 required cases.",
+    "depends_on": [
+      "DX-043",
+      "DX-044"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts over __fixtures__/removed/*; runner.test.ts exit codes",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-30)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-053",
+    "prd": "PRD-16",
+    "system": "codemod/fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/fixtures.test.ts",
+    "action": "TEST",
+    "description": "Discover every __fixtures__/<transform>/**/<case>/ (including area subfolders); for each: run the transform on input.<ext> and assert byte-equality with output.<ext>; run again on output and assert unchanged (idempotence). input/output are complete compilable files, never fragments.",
+    "depends_on": [
+      "DX-045",
+      "DX-046",
+      "DX-047",
+      "DX-048",
+      "DX-049",
+      "DX-050",
+      "DX-051",
+      "DX-052"
+    ],
+    "priority": "P0",
+    "test": "fixtures.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-31)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-054",
+    "prd": "PRD-16",
+    "system": "codemod/typecheck",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/fixtures-typecheck.test.ts",
+    "action": "TEST",
+    "description": "Install the packed aura-glass 4.3 tarball into NEW packages/cli/test/types-4x/ and the current 5.0 packed .d.ts (first alpha until beta, §20.5) into packages/cli/test/types-5x/; compile every input.tsx against 4.3 and every output.tsx against 5.0 with `tsc --noEmit --strict`; TODO-bearing outputs may import aura-glass/compat. Runs in cli.yml (remote CI; heavy).",
+    "depends_on": [
+      "DX-053",
+      "TRUST-002",
+      "PKG-009"
+    ],
+    "priority": "P0",
+    "test": "fixtures-typecheck.test.ts: 0 diagnostics",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-32)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-055",
+    "prd": "PRD-16",
+    "system": "codemod/no-hardcoded",
+    "file": "NEW:packages/cli/eslint.config.js",
+    "action": "CREATE",
+    "description": "no-restricted-syntax on packages/cli/src/migrate/4to5/transforms/**: Literal and TemplateElement matching /^Glass[A-Z]/ or /^--glass-/ are errors. Transforms read mappings only.",
+    "depends_on": [
+      "DX-045"
+    ],
+    "priority": "P0",
+    "test": "__tests__/no-hardcoded-names.test.ts runs ESLint over transforms/** (0 errors) and over a seeded bad file in __tests__/seeds/ (≥1 error)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-33)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-056",
+    "prd": "PRD-16",
+    "system": "codemod/deprecation-coverage",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/deprecation-coverage.test.ts",
+    "action": "TEST",
+    "description": "For every DEPRECATIONS_PATH entry with codemod != null: codemod is a registered transform id and entry.symbol appears in ≥1 fixture input; entries with automation 'full' whose fixture outputs contain a TODO fail.",
+    "depends_on": [
+      "DX-053",
+      "DX-019",
+      "TRUST-075",
+      "REL-010"
+    ],
+    "priority": "P0",
+    "test": "deprecation-coverage.test.ts (100%)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-34)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-057",
+    "prd": "PRD-16",
+    "system": "codemod/preserve",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/preserve.test.ts",
+    "action": "TEST",
+    "description": "Add a preserve-attrs case to each JSX transform (imports-subpaths, providers, canonical-names, prop-grammar, dead-optical-props, removed): aria-*, data-testid, className, style, ref, key and {...spread} survive in original order and text. Changed files reprinted with recast quote:'auto'; unchanged files are not written (mtime unchanged).",
+    "depends_on": [
+      "DX-053"
+    ],
+    "priority": "P0",
+    "test": "preserve.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-36)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-058",
+    "prd": "PRD-16",
+    "system": "codemod/report",
+    "file": "NEW:packages/cli/schema/output/migrate-report.json",
+    "action": "CREATE",
+    "description": "`--report <file>` writes {version, cliVersion, transforms[], files:[{path, changes:[{transform,line,before,after}], todos:[]}], summary:{filesChanged, changes, todos}} validated against this schema.",
+    "depends_on": [
+      "DX-041"
+    ],
+    "priority": "P1",
+    "test": "runner.test.ts 'report schema' (ajv)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (REQ-DX-37)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-059",
+    "prd": "PRD-16",
+    "system": "codemod/area-contract",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/area-contract.test.ts",
+    "action": "TEST",
+    "description": "Every registered area transform (ai-chat, reduced-motion-initial, motion-imports, motion-props; canonical path transforms/<id>.ts, fixtures __fixtures__/<id>/<case>/, §11.8) meets the core contract: has basic + already-migrated cases, uses todo.ts, contains no hard-coded names (DX-055), and runs between prop-grammar and css-vars. Area transforms are authored by their owning PRDs; if one is absent the test lists it as missing (fails) and the report names the owner.",
+    "depends_on": [
+      "DX-041",
+      "AI-115",
+      "MOT-001",
+      "MOT-090",
+      "NAV-145"
+    ],
+    "priority": "P1",
+    "test": "area-contract.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06",
+    "status": "todo"
+  },
+  {
+    "id": "DX-060",
+    "prd": "PRD-16",
+    "system": "codemod/canary",
+    "file": "NEW:tests/dx/codemod-canary.spec.ts",
+    "action": "TEST",
+    "description": "Remote (QA PRD harness): copy CONSUMER_4X_PATH, run packed CLI `migrate 4to5` (≤15 s), replace aura-glass@4 with the packed 5.0 tarball, assert 0 TODOs in the files listed in CONSUMER_4X_FLAGSHIP_SUBSET, `tsc --noEmit` 0, `next build` 0 and Vite build 0, the canary Playwright smoke in Chromium, WebKit, Gecko, second migrate run reports 0 changes. Upload report + traces as artifacts.",
+    "depends_on": [
+      "DX-053",
+      "DX-054",
+      "REL-115",
+      "QA-087"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/codemod-canary.spec.ts in the `codemod-canary` remote job of .github/workflows/cli.yml",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-05 (REQ-DX-38)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-061",
+    "prd": "PRD-16",
+    "system": "codemod/recipes-4x",
+    "file": "NEW:tests/dx/fixtures/recipes-4x/",
+    "action": "CREATE",
+    "description": "Extract the 28 recipe file sets from src/registry/recipes.ts at the 4.3.0 tag with NEW scripts/registry/extract-recipes-4x.mjs (reads auraGlassRecipes from the built 4.3 dist/registry; writes one directory per AuraGlassRecipeId). Run migrate 4to5 once, review, and commit tests/dx/fixtures/recipes-4x/expected-todos.json.",
+    "depends_on": [
+      "DX-053",
+      "REL-115"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/recipes-4x.test.ts: all 28 terminate without exception; residual TODO set equals expected-todos.json exactly",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-05 (support), DoD 3 (REQ-DX-39 part a)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-062",
+    "prd": "PRD-16",
+    "system": "cli/safety-matrix",
+    "file": "packages/cli/test/git-guard.test.ts",
+    "action": "TEST",
+    "description": "Add the `migrate 4to5` row to git-guard.test.ts, dry-run.test.ts and fs-safety.test.ts (path argument outside cwd → exit 3), completing 5/5 writing commands.",
+    "depends_on": [
+      "DX-040",
+      "DX-041"
+    ],
+    "priority": "P0",
+    "test": "git-guard.test.ts 5/5, dry-run.test.ts 5/5",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-03",
+    "status": "todo"
+  },
+  {
+    "id": "DX-063",
+    "prd": "PRD-16",
+    "system": "codemod/auraone-consumers",
+    "file": "NEW:tests/dx/fixtures/auraone-consumers/",
+    "action": "CREATE",
+    "description": "Pinned snapshot of each AuraOne consumer app's aura-glass import sites (path list from PRD-01 §2.4 grep; copy only the importing files + their package.json, no secrets, no .env). Remote job runs migrate 4to5 --dry-run --report and uploads auraone-consumer-report.json; release owner reviews before RC (record reviewer + date in the PR).",
+    "depends_on": [
+      "DX-060",
+      "REL-115"
+    ],
+    "priority": "P2",
+    "test": "remote job artifact present and schema-valid (migrate-report.json); no assertion on TODO count (review gate)",
+    "storybook": "n/a",
+    "acceptance": "DoD 3 (REQ-DX-39 part b)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-064",
+    "prd": "PRD-16",
+    "system": "codemod/perf",
+    "file": "NEW:tests/dx/codemod-perf.test.ts",
+    "action": "TEST",
+    "description": "Generate tests/dx/fixtures/large-tree/ (2,000 TSX files) deterministically with NEW tests/dx/fixtures/large-tree/generate.mjs (seeded; uses names from mappings so every transform fires); run migrate 4to5 on the remote runner; assert wall ≤60 s and peak RSS ≤1.5 GB (/usr/bin/time -v or process.resourceUsage).",
+    "depends_on": [
+      "DX-053"
+    ],
+    "priority": "P2",
+    "test": "codemod-perf.test.ts (remote)",
+    "storybook": "n/a",
+    "acceptance": "§16 (REQ-DX-40)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-065",
+    "prd": "PRD-16",
+    "system": "compat/adapters",
+    "file": "NEW:src/compat/index.ts",
+    "action": "CREATE",
+    "description": "Export exactly the names from `gen-deprecations.mjs --compat` (PRD-01 §4.6). Each adapter src/compat/<area>/<OldName>.tsx maps props through the same mappings/props.json the codemod uses, calls warnDeprecated(id) (src/internal/warnDeprecated.ts, PRD-01) at call time once per page load, drops unmappable props with a warning, never throws, silent when NODE_ENV=production. AI PRD's src/compat/ai.tsx becomes src/compat/ai/*.tsx.",
+    "depends_on": [
+      "DX-043",
+      "REL-072",
+      "REL-070",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "src/compat/__tests__/manifest.test.ts (runtime export list deep-equals manifest); src/compat/__tests__/adapters.test.tsx (one render per adapter: no throw, exactly 1 warning across 2 renders, 0 in production)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (support; REQ-DX-41)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-066",
+    "prd": "PRD-16",
+    "system": "compat/no-removed",
+    "file": "src/compat/__tests__/manifest.test.ts",
+    "action": "TEST",
+    "description": "Assert intersection of compat exports with DEPRECATIONS_PATH entries where compat == null is empty (B3: removed components never in compat).",
+    "depends_on": [
+      "DX-065"
+    ],
+    "priority": "P1",
+    "test": "manifest.test.ts 'no removed component'",
+    "storybook": "n/a",
+    "acceptance": "REQ-DX-42",
+    "status": "todo"
+  },
+  {
+    "id": "DX-067",
+    "prd": "PRD-16",
+    "system": "registry/index",
+    "file": "NEW:registry/registry.json",
+    "action": "CREATE",
+    "description": "shadcn v4 registry index (SC-32 owner anchor): \"$schema\": \"https://ui.shadcn.com/schema/registry.json\", \"name\": \"auraglass\", \"homepage\": \"https://auraglass.dev\", items[] listing base, the 10 GA blocks, every registry:item (incl. ai-* items and aura-glass-src/*). Item sources live only under registry/base/<id>/, registry/blocks/<id>/ and registry/items/<id>/ (no registry/ai/). Other PRDs add entries by MODIFY depending on this task (AI-110, EXP-060/070).",
+    "depends_on": [
+      "DX-028"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/registry-schema.test.ts: registry.json validates against vendored registry.json schema; every built item validates against vendored registry-item.json (ajv, strict)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-43)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-068",
+    "prd": "PRD-16",
+    "system": "registry/base",
+    "file": "NEW:registry/base/auraglass/",
+    "action": "CREATE",
+    "description": "registry:base item `auraglass`: dependencies [\"aura-glass@^5\"]; cssVars {theme, light, dark} mapping --background, --foreground, --primary, --primary-foreground, --muted, --border, --ring, --radius to var(--ag-*) per PRD-03 shadcn interchange (architecture §4.4); css entry `@import \"aura-glass/styles.css\" layer(ag);` and, for Tailwind v4 projects, `@import \"aura-glass/tailwind.css\";`; files: lib/auraglass.ts re-exporting `cn` from 'aura-glass'. Built JSON ≤40 KB.",
+    "depends_on": [
+      "DX-067",
+      "DS-090"
+    ],
+    "priority": "P0",
+    "test": "registry-schema.test.ts; registry-build.test.ts size; registry-lint.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07, AC-DX-10 (REQ-DX-44)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-069",
+    "prd": "PRD-16",
+    "system": "registry/shadcn-interop",
+    "file": "NEW:tests/dx/registry-shadcn-interop.spec.ts",
+    "action": "TEST",
+    "description": "Remote: scaffold a fresh shadcn Base UI Next app with the real `shadcn@<exact pinned>` CLI; `npx shadcn add <served>/r/auraglass.json` and `/r/app-frame.json` (registry served from the job's built apps/docs/public/r via a static server; GA run uses https://auraglass.dev/r); `next build` exit 0; render a page with shadcn Button and AuraGlass Button side by side; assert both resolve the same computed --primary colour (getComputedStyle). Screenshots 1440×900 light/dark uploaded.",
+    "depends_on": [
+      "DX-068",
+      "DX-071",
+      "DX-091"
+    ],
+    "priority": "P0",
+    "test": "registry-shadcn-interop.spec.ts (remote, registry.yml)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-10 (REQ-DX-44, REQ-DX-67)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-070",
+    "prd": "PRD-16",
+    "system": "registry/lint",
+    "file": "NEW:scripts/registry/lint.mjs",
+    "action": "CREATE",
+    "description": "Rules over registry/** (and src/stories/blocks/**): 0 `!important`; 0 colour literals (#[0-9a-fA-F]{3,8}\\b, rgb(, rgba(, hsl(, hsla(, oklch(, oklab(, color-mix() incl. var() fallbacks; 0 backdrop-filter/blur(; 0 `style={{` with colour/blur/shadow/radius; imports only aura-glass, aura-glass/* public subpaths (checked against exports map), react, next/* (Next route/layout files only), own files, declared dependencies; every declared dependency imported; no controlled input with constant value + no-op onChange (AST); /[A-Z_]*API_KEY/ fails except PRISM_API_KEY in app/api/**/route.ts; NEXT_PUBLIC_*KEY fails; /\\b(lorem|ipsum|demo|placeholder text)\\b/i in JSX text/string props fails (example.com in auth placeholders allowed); /\\b(sm|md|lg|xl|2xl):/ fails unless Tailwind v4 core utility, AuraGlass-prefixed responsive classes always fail (§14.2); 4.x selectors .glass-app-shell__body, .glass-sidebar-rail fail (REQ-DX-53).",
+    "depends_on": [
+      "DX-067"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/registry-lint.test.ts: 0 findings over registry/**; one seeded bad fixture per rule under NEW tests/dx/fixtures/registry-lint-bad/<rule>/ and each must fail with its rule id",
+    "storybook": "rules also applied to src/stories/blocks/**",
+    "acceptance": "AC-DX-08 (REQ-DX-46, REQ-DX-53)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-071",
+    "prd": "PRD-16",
+    "system": "registry/block app-frame",
+    "file": "NEW:registry/blocks/app-frame/",
+    "action": "MODIFY",
+    "description": "Registration-only (SC-32: app-frame content is NAV, created by NAV-106): add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components = exact import set, meta.auraglass.client per file), add layout.assert.json (at 1440 sidebar.x+sidebar.width <= main.x and |sidebar.y-main.y| <= 1; at 390 no horizontal overflow, sidebar collapsed) and run registry lint. Block bugs are filed to NAV, never patched here.",
+    "depends_on": [
+      "DX-068",
+      "DX-070",
+      "NAV-106"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts (all cells)",
+    "storybook": "src/stories/blocks/AppFrame.stories.tsx (DX-097)",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45, REQ-DX-53)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-072",
+    "prd": "PRD-16",
+    "system": "registry/block ai-workspace",
+    "file": "NEW:registry/blocks/ai-workspace/",
+    "action": "CREATE",
+    "description": "Scaffold + registration only (SC-32): create registry/blocks/ai-workspace/ skeleton (empty page file the content owner fills, layout.assert.json for 1440/390), add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components derived from imports), wire lint and the render lane. Block content is owned by AI (AI-107 page, AI-108 server route calling Kiro Prism with PRISM_API_KEY server-side only), which MODIFYs these files after this task; content completeness is gated in DX-081.",
+    "depends_on": [
+      "DX-067",
+      "DX-068",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts (PRISM_API_KEY allowed only in route.ts), registry-render.spec.ts",
+    "storybook": "src/stories/blocks/AiWorkspace.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-073",
+    "prd": "PRD-16",
+    "system": "registry/block data-workspace",
+    "file": "NEW:registry/blocks/data-workspace/",
+    "action": "CREATE",
+    "description": "Scaffold + registration only (SC-32): create registry/blocks/data-workspace/ skeleton (empty page file the content owner fills, layout.assert.json for 1440/390), add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components derived from imports), wire lint and the render lane. Block content is owned by DATA (no DATA content task exists yet; see PRD §21 open item), which MODIFYs these files after this task; content completeness is gated in DX-081.",
+    "depends_on": [
+      "DX-067",
+      "DX-068",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/DataWorkspace.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-074",
+    "prd": "PRD-16",
+    "system": "registry/block analytics-dashboard",
+    "file": "NEW:registry/blocks/analytics-dashboard/",
+    "action": "CREATE",
+    "description": "Scaffold + registration only (SC-32): create registry/blocks/analytics-dashboard/ skeleton (empty page file the content owner fills, layout.assert.json for 1440/390), add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components derived from imports), wire lint and the render lane. Block content is owned by DATA (DATA-133), which MODIFYs these files after this task; content completeness is gated in DX-081.",
+    "depends_on": [
+      "DX-067",
+      "DX-068",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/AnalyticsDashboard.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-075",
+    "prd": "PRD-16",
+    "system": "registry/block media-viewer",
+    "file": "NEW:registry/blocks/media-viewer/",
+    "action": "CREATE",
+    "description": "Scaffold + registration only (SC-32): create registry/blocks/media-viewer/ skeleton (empty page file the content owner fills, layout.assert.json for 1440/390), add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components derived from imports), wire lint and the render lane. Block content is owned by MED (MED-153), which MODIFYs these files after this task; content completeness is gated in DX-081.",
+    "depends_on": [
+      "DX-067",
+      "DX-068",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/MediaViewer.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-076",
+    "prd": "PRD-16",
+    "system": "registry/block overlay-flows",
+    "file": "NEW:registry/blocks/overlay-flows/",
+    "action": "CREATE",
+    "description": "Scaffold + registration only (SC-32): create registry/blocks/overlay-flows/ skeleton (empty page file the content owner fills, layout.assert.json for 1440/390), add the registry/registry.json entry (registryDependencies [\"auraglass\"], meta.auraglass.components derived from imports), wire lint and the render lane. Block content is owned by OVL (OVL-164), which MODIFYs these files after this task; content completeness is gated in DX-081.",
+    "depends_on": [
+      "DX-067",
+      "DX-068",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts (no frozen input), registry-render.spec.ts",
+    "storybook": "src/stories/blocks/OverlayFlows.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-077",
+    "prd": "PRD-16",
+    "system": "registry/block auth",
+    "file": "NEW:registry/blocks/auth/",
+    "action": "CREATE",
+    "description": "sign-in, sign-up, reset forms from TextField, Button (and Switch for remember-me); example.com allowed only in placeholders; no provider calls. New block (no recipe ancestor). layout.assert.json.",
+    "depends_on": [
+      "DX-068",
+      "DX-070",
+      "CTL-055"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/Auth.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-078",
+    "prd": "PRD-16",
+    "system": "registry/block settings",
+    "file": "NEW:registry/blocks/settings/",
+    "action": "CREATE",
+    "description": "Desktop settings with GlassPreferencesPanel (PRD-05), Switch, SegmentedControl, Select, TextField. Intent from settings-billing, settings-and-billing-suite. layout.assert.json. OVL contributes overlay content through OVL-143 (MODIFY, after this task).",
+    "depends_on": [
+      "DX-068",
+      "DX-070",
+      "A11Y-088",
+      "CTL-055"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/Settings.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-079",
+    "prd": "PRD-16",
+    "system": "registry/block mobile-settings",
+    "file": "NEW:registry/blocks/mobile-settings/",
+    "action": "CREATE",
+    "description": "MobileShell + TabBar + Sheet at 390 px; certified at 390×844 and 360×740 only (§14.1); primary mobile controls ≥44×44 CSS px. New block.",
+    "depends_on": [
+      "DX-068",
+      "DX-070",
+      "NAV-095",
+      "OVL-105"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts (390 + 360 cells, touch-target boxes)",
+    "storybook": "src/stories/blocks/MobileSettings.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45, §14.5)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-080",
+    "prd": "PRD-16",
+    "system": "registry/block support-inbox",
+    "file": "NEW:registry/blocks/support-inbox/",
+    "action": "CREATE",
+    "description": "List/detail with Thread and FilterBar; inputs wired to state (fixes frozen input of support-triage-workspace). Intent from customer-support-console, support-triage-workspace. layout.assert.json.",
+    "depends_on": [
+      "DX-068",
+      "DX-070",
+      "DATA-108",
+      "AI-075"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts, registry-lint.test.ts, registry-render.spec.ts",
+    "storybook": "src/stories/blocks/SupportInbox.stories.tsx",
+    "acceptance": "AC-DX-07, AC-DX-08, AC-DX-09 (REQ-DX-45)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-081",
+    "prd": "PRD-16",
+    "system": "registry/blocks-test",
+    "file": "NEW:tests/dx/registry-blocks.test.ts",
+    "action": "TEST",
+    "description": "Assert exactly the 10 registry:block names {app-frame, ai-workspace, data-workspace, analytics-dashboard, media-viewer, overlay-flows, auth, settings, mobile-settings, support-inbox}; each registryDependencies includes 'auraglass'; meta.auraglass.components equals the set of aura-glass imports parsed (TS compiler API) from its files; 'items' case asserts the GA item set of REQ-DX-47 with ai-eval-dashboard typed registry:item. Content-complete gate (SC-32): runs only after the area content tasks for app-frame, ai-workspace, analytics-dashboard, media-viewer, overlay-flows and settings have landed.",
+    "depends_on": [
+      "DX-071",
+      "DX-072",
+      "DX-073",
+      "DX-074",
+      "DX-075",
+      "DX-076",
+      "DX-077",
+      "DX-078",
+      "DX-079",
+      "DX-080",
+      "NAV-106",
+      "AI-107",
+      "AI-108",
+      "DATA-133",
+      "MED-153",
+      "OVL-164",
+      "OVL-143"
+    ],
+    "priority": "P0",
+    "test": "registry-blocks.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-45, REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-082",
+    "prd": "PRD-16",
+    "system": "registry/item kanban",
+    "file": "NEW:registry/items/kanban/",
+    "action": "CREATE",
+    "description": "D-17 re-authored item on @dnd-kit/core (exact pin in item dependencies, never in aura-glass); keyboard drag per dnd-kit sensors; ≤400 KB JSON. Recipe #6 kanban-workspace fate target.",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P1",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, registry-render.spec.ts item lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07, AC-DX-08 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-083",
+    "prd": "PRD-16",
+    "system": "registry/item gantt",
+    "file": "NEW:registry/items/gantt/",
+    "action": "CREATE",
+    "description": "D-17 item `gantt` built on aura-glass public exports; declared deps only.",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-084",
+    "prd": "PRD-16",
+    "system": "registry/item transfer-list",
+    "file": "NEW:registry/items/transfer-list/",
+    "action": "CREATE",
+    "description": "D-17 item `transfer-list` (two lists + move buttons, keyboard operable).",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-085",
+    "prd": "PRD-16",
+    "system": "registry/item schema-viewer",
+    "file": "NEW:registry/items/schema-viewer/",
+    "action": "CREATE",
+    "description": "D-17 item `schema-viewer` (JSON schema tree on TreeView).",
+    "depends_on": [
+      "DX-070",
+      "DATA-108"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-086",
+    "prd": "PRD-16",
+    "system": "registry/item code-surface",
+    "file": "NEW:registry/items/code-surface/",
+    "action": "CREATE",
+    "description": "D-17 item: lazy CodeMirror 6 editor (dynamic import) + Shiki highlighting; deps exact-pinned in item; ≤400 KB JSON.",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-build.test.ts size, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-087",
+    "prd": "PRD-16",
+    "system": "registry/item rich-text",
+    "file": "NEW:registry/items/rich-text/",
+    "action": "CREATE",
+    "description": "D-17 item on Tiptap (exact pins); ≤400 KB JSON.",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-build.test.ts size, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-088",
+    "prd": "PRD-16",
+    "system": "registry/item diff-viewer",
+    "file": "NEW:registry/items/diff-viewer/",
+    "action": "CREATE",
+    "description": "D-17 item `diff-viewer` (side-by-side/unified, data-ag-part styling only).",
+    "depends_on": [
+      "DX-070"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-089",
+    "prd": "PRD-16",
+    "system": "registry/item react-hook-form",
+    "file": "NEW:registry/items/react-hook-form/",
+    "action": "CREATE",
+    "description": "Adapter item wiring react-hook-form Controller to TextField/Select/Switch/Checkbox value + onValueChange; react-hook-form exact-pinned as item dependency.",
+    "depends_on": [
+      "DX-070",
+      "CTL-055"
+    ],
+    "priority": "P2",
+    "test": "registry-blocks.test.ts 'items', registry-lint.test.ts, render lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-090",
+    "prd": "PRD-16",
+    "system": "registry/ai-items",
+    "file": "registry/registry.json",
+    "action": "MODIFY",
+    "description": "Register the AI PRD items (content owned by AI, sources at registry/items/ai-<name>/ per SC-32): ai-sdk-adapter, ai-markdown, ai-model-picker, ai-artifact-panel, ai-trace-tree, ai-eval-dashboard (registry:item per SC-32), ai-voice-input. Registration only (registry.json entry, lint, render lane). Items missing certification by RC are not published (ship in 5.1, C-E).",
+    "depends_on": [
+      "DX-067",
+      "AI-099",
+      "AI-101",
+      "AI-102",
+      "AI-103",
+      "AI-104",
+      "AI-105",
+      "AI-106"
+    ],
+    "priority": "P1",
+    "test": "registry-blocks.test.ts 'items'; registry-lint.test.ts over registry/items/ai-*/**",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-091",
+    "prd": "PRD-16",
+    "system": "registry/build",
+    "file": "NEW:scripts/registry/build.mjs",
+    "action": "CREATE",
+    "description": "Read registry/registry.json, inline file contents, validate every item with the vendored schema, write apps/docs/public/r/<name>.json, apps/docs/public/r/registry.json and immutable apps/docs/public/r/v/<version>/<name>.json (version = root package.json version); deterministic output (sorted keys, LF, no timestamps). Size budgets: block ≤150 KB, code-surface/rich-text ≤400 KB, auraglass base ≤40 KB. apps/docs/public/r/ is git-ignored.",
+    "depends_on": [
+      "DX-067",
+      "DX-070"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/registry-build.test.ts: build twice → identical sha256 per file; size budgets; schema validity",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-49, §16 item sizes)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-092",
+    "prd": "PRD-16",
+    "system": "registry/certified",
+    "file": "scripts/registry/build.mjs",
+    "action": "MODIFY",
+    "description": "`--release <sha>` mode: read registry-render.spec.ts results artifact (per item pass + sha), write meta.auraglass.certified = <sha> into each published item; fail if any published item lacks a pass on that exact SHA. Items without a pass are excluded from /r/ (never published uncertified).",
+    "depends_on": [
+      "DX-091",
+      "DX-094"
+    ],
+    "priority": "P0",
+    "test": "registry-build.test.ts 'certified': a fixture results file missing one item → build exits 1 naming it",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-50)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-093",
+    "prd": "PRD-16",
+    "system": "registry/npm",
+    "file": "NEW:packages/registry/package.json",
+    "action": "CREATE",
+    "description": "Data-only package REGISTRY_PACKAGE_NAME (`@auraglass/registry` or `aura-glass-registry`, D-23): files r/*.json, index.json; no runtime code; populated by build.mjs `--pack`. Path packages/registry/ is chosen here (PRD names the package, not the directory). Add packages/registry/PUBLISHING.md with the trusted-publisher binding to request.",
+    "depends_on": [
+      "DX-091",
+      "DX-018"
+    ],
+    "priority": "P1",
+    "test": "registry-build.test.ts 'pack': `npm pack --dry-run --json` lists only r/*.json, index.json, package.json, README",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (DoD 4)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-094",
+    "prd": "PRD-16",
+    "system": "registry/render-gate",
+    "file": "NEW:tests/dx/registry-render.spec.ts",
+    "action": "TEST",
+    "description": "Replaces scripts/ci/verify-recipes-render.js (reuse its pack → scaffold → build → capture flow :90-140, :348-410; not its gating :354-355, :398-399, :1325-1342). Per block: pack aura-glass + registry; fresh Next 16 and Vite apps; `auraglass init --yes`, `auraglass add <block> --yes`; production build + serve; capture 1440×900 and 390×844 × light/dark × glass/solid (mobile-settings: 390×844 + 360×740). Per capture (own buffers): fail on any pageerror/console.error; QA PRD §15.2 pixel gates via packages/qa (not blank, surface separation, OCR text contrast ≥4.5/3, glass density ≤0.3, mobile containment, material presence); layout.assert.json; scrollWidth ≤ innerWidth at 390; axe (Chromium+WebKit, contrast on, + forcedColors active, prefers-contrast more, reducedMotion reduce) 0 serious/critical; scripted tab walk reaches every interactive element; touch targets ≥24×24 (≥44×44 primary mobile controls); app-frame first-render JS ≤60 KB gzip excl. React/Next; trace: 0 long tasks >200 ms, ≤2 >50 ms at 4× CPU throttle. Pass = conjunction of all assertions, never screenshot count. Writes registry-render-results.json {item, sha, cells[]}.",
+    "depends_on": [
+      "DX-081",
+      "DX-091",
+      "DX-023",
+      "DX-027",
+      "QA-018",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "registry-render.spec.ts (remote; registry.yml), 160 block cells + mobile-settings 360 cells + item lane",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-09 (REQ-DX-48, §14.1-14.5, §15.1-15.3, §16 block runtime)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-095",
+    "prd": "PRD-16",
+    "system": "registry/recipe-fates",
+    "file": "NEW:docs/auraglass-5/registry-recipe-fates.json",
+    "action": "CREATE",
+    "description": "28 rows copied from PRD §9.2: {id, fate: 'block'|'item'|'delete', target|null, secondary|null, reason}. Totals 16 block, 1 item (kanban), 11 delete; #21 ai-ops-control-room secondary item ai-trace-tree.",
+    "depends_on": [
+      "DX-067"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/recipe-fates.test.ts: 28 entries; ids equal AuraGlassRecipeId union parsed from src/registry/recipes.ts:1-29 (4.x) or from tests/dx/fixtures/recipes-4x after deletion; each target exists in registry/registry.json; counts 16/1/11",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-11 (REQ-DX-51)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-096",
+    "prd": "PRD-16",
+    "system": "registry/recipe-deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "release/4.x for 4.2.0: MODIFY the repo-root deprecations.json (SC-02; instance seeded by TRUST-075, schema REL-010, path via DEPRECATIONS_PATH): add 28 entries kind 'cli', symbol 'recipe:<id>', status 'active', replacement = block/item from registry-recipe-fates.json or null, since '4.2.0', removeIn '5.0.0', codemod 'removed', automation per fate, message names the replacement command (<=200 chars), doc anchor #dep-NNNN. Validated by REL scripts/release/verify-deprecations.mjs.",
+    "depends_on": [
+      "DX-095",
+      "TRUST-075",
+      "REL-010"
+    ],
+    "priority": "P1",
+    "test": "PRD-01 scripts/release/verify-deprecations.mjs exit 0; doctor.v5.test.ts covers one recipe entry",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-11 (REQ-DX-52)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-097",
+    "prd": "PRD-16",
+    "system": "storybook/blocks",
+    "file": "NEW:src/stories/blocks/",
+    "action": "CREATE",
+    "description": "One story per block (AppFrame, AiWorkspace, DataWorkspace, AnalyticsDashboard, MediaViewer, OverlayFlows, Auth, Settings, MobileSettings, SupportInbox).stories.tsx importing from registry/blocks/<name>/ (no copies), under the `environment` toolbar global with all 8 scenes (Storybook PRD-SB contract), tags ['block','certified'], no story-level CSS, 0 !important, product copy. Delete any 4.x recipe story found by `rg -l \"recipes\" src/stories` with src/registry in 5.0.",
+    "depends_on": [
+      "DX-081",
+      "SB-048"
+    ],
+    "priority": "P1",
+    "test": "registry-lint.test.ts over src/stories/blocks/**; Storybook build in remote CI",
+    "storybook": "src/stories/blocks/*.stories.tsx, remote Storybook capture per block × 8 scenes",
+    "acceptance": "AC-DX-08 (§13.1, §13.3, §13.5)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-098",
+    "prd": "PRD-16",
+    "system": "registry/eject-items",
+    "file": "scripts/registry/build.mjs",
+    "action": "MODIFY",
+    "description": "Generate one `aura-glass-src/<component>` registry:item per ejectable component (44 flagships + T2 core, from .meta.ts `ejectable`/tier; T0 Surface, SurfaceGroup, Environment excluded) from src/** at the release SHA; files are the component's source with internal imports left for the CLI rewrite (DX-033), produced by importing packages/cli/src/registry/eject-source.ts (no second implementation).",
+    "depends_on": [
+      "DX-091",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "registry-build.test.ts 'eject items': no item for Surface/SurfaceGroup/Environment; count equals ejectable set from meta",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-07 (REQ-DX-21, REQ-DX-47)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-099",
+    "prd": "PRD-16",
+    "system": "ci/registry",
+    "file": "NEW:.github/workflows/registry.yml",
+    "action": "INFRA",
+    "description": "On PRs touching registry/**, scripts/registry/**, packages/cli/**: registry-lint, registry-schema/blocks/build/recipe-fates tests (node), then remote Playwright jobs registry-render.spec.ts (sharded by block) and registry-shadcn-interop.spec.ts on hosted runners; upload screenshots, traces, axe JSON, registry-render-results.json. Repo visibility decides hosted vs private handling per ci-selection policy; no cloud credentials to PR code.",
+    "depends_on": [
+      "DX-094",
+      "DX-069"
+    ],
+    "priority": "P0",
+    "test": "workflow run green; artifacts linked",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-09, AC-DX-10",
+    "status": "todo"
+  },
+  {
+    "id": "DX-100",
+    "prd": "PRD-16",
+    "system": "registry/legacy-gates",
+    "file": "scripts/ci/verify-recipes-render.js",
+    "action": "REMOVE",
+    "description": "main at 5.0.0-beta.1, after DX-094 is green in CI: delete scripts/ci/verify-recipes-render.js and scripts/ci/verify-recipes-cli.js (replaced by tests/dx/registry-*.test.ts/spec.ts). src/registry/** and the ./registry subpath are deleted by NAV-136 (SC-38), not here; this task is the only remover of verify-recipes-render.js (SC-39).",
+    "depends_on": [
+      "DX-094",
+      "DX-021",
+      "NAV-136"
+    ],
+    "priority": "P2",
+    "test": "tests/dx/docs-removed.test.ts 'legacy gates' asserts both paths absent; AC-DX-11 check `rg --files src/registry` empty on main",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-11 (src/registry absent at beta.1), §9.1",
+    "status": "todo"
+  },
+  {
+    "id": "DX-101",
+    "prd": "PRD-16",
+    "system": "docs-app/scaffold",
+    "file": "NEW:apps/docs/package.json",
+    "action": "CREATE",
+    "description": "Next 16 + React 19 app (exact pins), next.config.ts `output: \"export\"`, dependency `\"aura-glass\": \"file:../../.artifacts/aura-glass-<version>.tgz\"` produced by PRD-02's packed-tarball recipe (never src/ or a workspace link). apps/docs/generated/** and apps/docs/public/r/** git-ignored.",
+    "depends_on": [
+      "TRUST-002",
+      "PKG-009"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/docs-artifact.test.ts: apps/docs/node_modules/aura-glass/package.json version === packed version; `rg -n \"\\.\\./\\.\\./src|from ['\\\"]@/\" apps/docs` = 0 outside generated/",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-15 (support; REQ-DX-69)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-102",
+    "prd": "PRD-16",
+    "system": "docs-app/ia",
+    "file": "NEW:apps/docs/nav.config.ts",
+    "action": "CREATE",
+    "description": "Top-level IA exactly: Get started (Introduction, Next quickstart, Vite quickstart, CLI); Foundations (Choosing a material, Theming, Accessibility, Motion, Layers & CSS); Components (Flagships grouped Controls/Overlays/Navigation/Data/AI/Media, then Core); Surfaces (10 blocks); Guides (Next.js, Vite, React Router, RSC, Tailwind, Plain CSS, shadcn, Testing); Migrate (4→5, From MUI, From Radix, From Lucide icons); API (generated per subpath).",
+    "depends_on": [
+      "DX-101"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/docs-ia.test.ts snapshot of the nav tree (snapshot reviewed and approved by the DX owner in the PR; never updated with -u to pass)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-70)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-103",
+    "prd": "PRD-16",
+    "system": "docs-app/components",
+    "file": "NEW:apps/docs/components/Example.tsx",
+    "action": "CREATE",
+    "description": "Example.tsx (`<Example file=\"…\" />` renders apps/docs/examples/<slug>/<example>.tsx live inside <Environment> with declared backdrop + scene switcher = SegmentedControl radiogroup over the 8 QA PRD scenes + 390 px preview toggle), Claim.tsx (resolves apps/docs/generated/claims.json; unknown id throws at build), PropsTable.tsx, PartsTable.tsx. Layout: skip link, visible focus ring from the library focus token, scrollable code blocks get tabindex=0 role=region aria-label, nav collapses into Sheet <768 px, usable at 320 px. No forced preferences (respect reduced motion/transparency).",
+    "depends_on": [
+      "DX-101",
+      "MAT-047",
+      "A11Y-029",
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "docs-a11y.spec.ts (DX-114); NEW tests/dx/docs-components.test.tsx (Claim unknown id throws; Example renders inside Environment)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-16 (REQ-DX-76, §14.3, §15.4)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-104",
+    "prd": "PRD-16",
+    "system": "docs-gen/props",
+    "file": "NEW:scripts/docs/gen-props.mjs",
+    "action": "CREATE",
+    "description": "From src/**/<Component>.meta.ts (schema owned by foundation, PRD-FND) + API_DIR reports: generate apps/docs/generated/props/<slug>.json and component pages with import line (correct subpath), live examples (meta.examples), props table (name, type, default, description), data-ag-part and data-state tables, keyboard table (APG script, REQ-A11Y-40), RSC status, size + perf grade as <Claim>, 'Replaces in 4.x', selector change table. Fails if a public prop lacks TSDoc, or a page's component is absent from the runtime export snapshot. If the meta schema does not exist, BLOCK on PRD-08.",
+    "depends_on": [
+      "DX-101",
+      "FND-005",
+      "REL-070",
+      "PKG-005",
+      "TRUST-071"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/docs-pages.test.ts: one page per exported flagship/T2 symbol, 0 pages for non-exported symbols",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-21 (REQ-DX-71)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-105",
+    "prd": "PRD-16",
+    "system": "docs-gen/selectors",
+    "file": "NEW:scripts/docs/gen-selectors.mjs",
+    "action": "CREATE",
+    "description": "Render per-component selector change tables (B10) from .meta.ts `selectorChanges: Array<{before, after}>`; a flagship without the field fails the generator naming it.",
+    "depends_on": [
+      "DX-104",
+      "CTL-057",
+      "OVL-131",
+      "NAV-095",
+      "DATA-108",
+      "AI-075",
+      "MED-155"
+    ],
+    "priority": "P1",
+    "test": "docs-pages.test.ts 'selector tables'",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-18 (support; REQ-DX-83)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-106",
+    "prd": "PRD-16",
+    "system": "docs-gen/story-parity",
+    "file": "tests/dx/docs-pages.test.ts",
+    "action": "TEST",
+    "description": "'story parity': example ids used by apps/docs/examples/** equal those used by flagship stories (both from .meta.ts `examples`); a usage present in one but not the other fails.",
+    "depends_on": [
+      "DX-104",
+      "SB-048"
+    ],
+    "priority": "P2",
+    "test": "docs-pages.test.ts 'story parity'",
+    "storybook": "flagship stories consume meta.examples (Storybook PRD contract)",
+    "acceptance": "§13.2",
+    "status": "todo"
+  },
+  {
+    "id": "DX-107",
+    "prd": "PRD-16",
+    "system": "docs-gate/snippets",
+    "file": "NEW:scripts/docs/compile-snippets.mjs",
+    "action": "CREATE",
+    "description": "Type-check every apps/docs/examples/**/*.tsx and every fenced tsx|ts|jsx block in apps/docs/content/**, docs/quickstart/**, docs/guides/** and README.md against the packed .d.ts (strict, jsx react-jsx, moduleResolution bundler); `{fragment}` blocks are wrapped in a generated component. First run records the baseline (PRD cites 79/278 failing at 4.1.0; re-measure and report the measured number). Gate 0 failures, ≤5 min. CI job `docs:snippets` in docs.yml.",
+    "depends_on": [
+      "DX-101"
+    ],
+    "priority": "P0",
+    "test": "CI job docs:snippets (0 failures); NEW tests/dx/compile-snippets.test.ts seeds one broken block → non-zero exit",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-14 (REQ-DX-73)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-108",
+    "prd": "PRD-16",
+    "system": "docs-gate/imports",
+    "file": "NEW:tests/dx/docs-imports.test.ts",
+    "action": "TEST",
+    "description": "No docs file (apps/docs/content/**, apps/docs/examples/**, docs/quickstart/**, docs/guides/**, README.md) imports from `@/`, `../src`, `@aura/glass`, or any specifier absent from the packed exports map.",
+    "depends_on": [
+      "DX-101"
+    ],
+    "priority": "P0",
+    "test": "docs-imports.test.ts (0 violations)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-15 (REQ-DX-74)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-109",
+    "prd": "PRD-16",
+    "system": "docs-gate/links",
+    "file": "scripts/ci/verify-markdown-links.js",
+    "action": "MODIFY",
+    "description": "Extend (not replace): resolve targets with fs.realpathSync.native and compare path case exactly on every OS (catches docs/components/choosing.md:129 class); also check apps/docs routes from the static export's out/ tree.",
+    "depends_on": [
+      "DX-101"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/links.test.ts: seeded case-mismatched link fails; 0 broken links over docs + apps/docs",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-15 (REQ-DX-75)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-110",
+    "prd": "PRD-16",
+    "system": "docs-app/redirects",
+    "file": "NEW:apps/docs/redirects.json",
+    "action": "CREATE",
+    "description": "Generated from DEPRECATIONS_PATH `doc` fields + a hand list for deleted guides (REQ-DX-72 paths) → compiled into apps/docs/vercel.json `redirects` (permanent 301), because `output: export` ignores next.config redirects; `/v4` → 4.x GitHub tag docs. NEW scripts/docs/gen-redirects.mjs produces both.",
+    "depends_on": [
+      "DX-101",
+      "DX-019"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/links.test.ts 'redirects': every deleted docs path in REQ-DX-72 has an entry; remote check against the Vercel preview that each returns 301",
+    "storybook": "n/a",
+    "acceptance": "DoD 6 (§11.11)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-111",
+    "prd": "PRD-16",
+    "system": "docs/removal",
+    "file": "NEW:tests/dx/docs-removed.test.ts",
+    "action": "TEST",
+    "description": "Consume-only (SC-38: 4.x docs deletion is owned by FND, FND-142): assert that after 5.0.0-beta.1 every REQ-DX-72 path is absent on main, the kept paths (docs/release-rollback-deprecation.md, docs/auraglass-5/**) exist, 4.x docs are excluded from the npm tarball, and every deleted path has a 301 entry in apps/docs/redirects.json (DX-110). This task supplies the path list to FND-142; it deletes nothing.",
+    "depends_on": [
+      "DX-110",
+      "DX-112",
+      "FND-142"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/docs-removed.test.ts: each path absent on main after beta.1; the kept paths exist",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-21, DoD 6 (REQ-DX-72)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-112",
+    "prd": "PRD-16",
+    "system": "docs/migrate-from",
+    "file": "NEW:apps/docs/content/migrate/",
+    "action": "CREATE",
+    "description": "Rewrite docs/migration/{lucide-to-auraglass-icons,mui-to-auraglass,radix-to-auraglass}.md into apps/docs/content/migrate/{from-lucide,from-mui,from-radix}.mdx with 5.0 names, every code block an example file or compile-snippets-clean block, `migrate icons --from lucide` and report-only radix/mui commands.",
+    "depends_on": [
+      "DX-101",
+      "DX-107"
+    ],
+    "priority": "P2",
+    "test": "docs:snippets; docs-imports.test.ts; links.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-14, AC-DX-22 (REQ-DX-72)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-113",
+    "prd": "PRD-16",
+    "system": "docs/migration-guide",
+    "file": "NEW:apps/docs/content/migrate/5.mdx",
+    "action": "CREATE",
+    "description": "Thin template whose body renders PRD-01 `gen-deprecations.mjs --docs` output docs/migration/5.0/deprecations.generated.md + BREAKING_CHANGES_PATH. Sections: Before you start (4.3 + `doctor --v5`), Run the codemods (one subsection per transform with automation level + fixture example from __fixtures__/<id>/basic), Breaking changes (B1–B21 table), By component (old→new, prop table, selector table), Removed with no successor (registry item or 4.x LTS pointer), Rollback. One anchor #dep-NNNN per entry.",
+    "depends_on": [
+      "DX-104",
+      "DX-105",
+      "DX-053",
+      "REL-070",
+      "REL-100"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/migration-guide.test.ts: one anchor per entry; every `doc` URL in DEPRECATIONS_PATH resolves to an anchor in the built page",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-18 (REQ-DX-81)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-114",
+    "prd": "PRD-16",
+    "system": "docs-gate/a11y",
+    "file": "NEW:tests/dx/docs-a11y.spec.ts",
+    "action": "TEST",
+    "description": "Remote: serve apps/docs/out; for every route run @axe-core/playwright with colour-contrast ON in Chromium and WebKit, 0 serious/critical; capture 390×844 and assert scrollWidth ≤ innerWidth; skip link focus; scrollable code regions focusable. Upload axe JSON + screenshots.",
+    "depends_on": [
+      "DX-103",
+      "DX-104",
+      "DX-118"
+    ],
+    "priority": "P0",
+    "test": "docs-a11y.spec.ts (remote, docs.yml)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-16 (REQ-DX-76, §14.3, §15.4)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-115",
+    "prd": "PRD-16",
+    "system": "docs-gate/lighthouse",
+    "file": "NEW:tests/dx/docs-lighthouse.spec.ts",
+    "action": "TEST",
+    "description": "Remote Lighthouse (mobile) on home, one component page (Button), and /migrate/5: Performance ≥90, Accessibility 100, Best practices ≥95, LCP ≤2.5 s, CLS ≤0.05, TBT ≤200 ms. Thresholds are constants in the spec and never lowered.",
+    "depends_on": [
+      "DX-113",
+      "DX-118"
+    ],
+    "priority": "P1",
+    "test": "docs-lighthouse.spec.ts (remote)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-16 (§16)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-116",
+    "prd": "PRD-16",
+    "system": "docs/content-gate",
+    "file": "NEW:tests/dx/docs-content.test.ts",
+    "action": "TEST",
+    "description": "Create the file with the REQ-DX-82 case: non-generated parts of apps/docs/content/migrate/5.mdx contain 0 /Glass[A-Z]\\w+/ tokens. Later cases are added by DX-124 (theming), DX-128 (rsc) and DX-139 (ai-agents JSON).",
+    "depends_on": [
+      "DX-113"
+    ],
+    "priority": "P0",
+    "test": "docs-content.test.ts 'migration prose'",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-18 (REQ-DX-82)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-117",
+    "prd": "PRD-16",
+    "system": "docs/foundations-pages",
+    "file": "NEW:apps/docs/content/",
+    "action": "CREATE",
+    "description": "Hand-written prose pages required by the IA that no other task creates: introduction.mdx, cli.mdx (every command + flag from bin.ts, examples compile), foundations/accessibility.mdx, foundations/motion.mdx, foundations/layers-and-css.mdx. No numbers outside <Claim>, no API tables (those are generated).",
+    "depends_on": [
+      "DX-102",
+      "DX-107"
+    ],
+    "priority": "P1",
+    "test": "docs-ia.test.ts (every nav entry resolves to a page), docs:snippets, lint-claims (DX-136)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22",
+    "status": "todo"
+  },
+  {
+    "id": "DX-118",
+    "prd": "PRD-16",
+    "system": "ci/docs",
+    "file": "NEW:.github/workflows/docs.yml",
+    "action": "INFRA",
+    "description": "Build: pack aura-glass → install into apps/docs → run scripts/docs/gen-* → next build (static export) ≤10 min, out/ ≤150 MB; jobs docs:snippets, docs-imports, links, docs-pages, docs-ia, migration-guide; remote browser jobs docs-a11y.spec.ts and docs-lighthouse.spec.ts. Deploy: Vercel preview per PR and production on GA tag via the project's existing deployment path; if no Vercel project is linked for this repo, report it as a blocker for the operator (do not create credentials or run login).",
+    "depends_on": [
+      "DX-101"
+    ],
+    "priority": "P0",
+    "test": "workflow green; preview URL in report; build time + out size in job summary",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-14, AC-DX-15, AC-DX-16, DoD 4 (docs deploy from same SHA)",
+    "status": "todo",
+    "gate": "auraglass.dev domain and hosting on the existing deployment path"
+  },
+  {
+    "id": "DX-119",
+    "prd": "PRD-16",
+    "system": "quickstart/next",
+    "file": "NEW:docs/quickstart/next.md",
+    "action": "CREATE",
+    "description": "Complete path from `npx create-next-app@latest` to a rendered app-frame block: ≤6 shell commands, ≤2 manual edits (target 0; `init` does them). Each step a fenced block tagged `{step}` executed literally by quickstart.spec.ts. No step installs an optional peer, configures Tailwind @source, or edits tsconfig.json. Package names from the docs-build variable bound to PACKAGE_NAME (D-23). Until PRD-11 certifies AppShell family, the alpha target is tests/dx/fixtures/alpha-smoke (DX-121); GA acceptance uses app-frame only.",
+    "depends_on": [
+      "DX-023",
+      "DX-027",
+      "DX-071"
+    ],
+    "priority": "P0",
+    "test": "quickstart.spec.ts next-tailwind + next-plain cells; NEW tests/dx/quickstart-shape.test.ts counts {step} shell commands ≤6 and manual-edit steps ≤2, and greps for @source/tsconfig/optional peers = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-04 (REQ-DX-54, REQ-DX-56)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-120",
+    "prd": "PRD-16",
+    "system": "quickstart/vite",
+    "file": "NEW:docs/quickstart/vite.md",
+    "action": "CREATE",
+    "description": "Same contract from `npm create vite@latest -- --template react-ts`; zero-Tailwind default; documents the zero-JS media mirrors if auraGlassPrepaintScript is unavailable (DX-024).",
+    "depends_on": [
+      "DX-024",
+      "DX-027",
+      "DX-071"
+    ],
+    "priority": "P0",
+    "test": "quickstart.spec.ts vite-plain + vite-tailwind cells; quickstart-shape.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-04 (REQ-DX-54, REQ-DX-56)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-121",
+    "prd": "PRD-16",
+    "system": "quickstart/alpha-smoke",
+    "file": "NEW:tests/dx/fixtures/alpha-smoke/",
+    "action": "CREATE",
+    "description": "Unpublished alpha quickstart target registry item rendering Surface, Button, Dialog (the alpha-gate flagships, architecture §16 Wave 3) so the quickstart lane runs and calibrates timing before app-frame is certified. Removed from the quickstart once app-frame certifies; never published to /r/.",
+    "depends_on": [
+      "DX-027",
+      "MAT-047",
+      "CTL-055",
+      "OVL-040"
+    ],
+    "priority": "P1",
+    "test": "quickstart.spec.ts alpha mode (remote)",
+    "storybook": "n/a",
+    "acceptance": "§20 step 5 (AC-DX-04 calibration)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-122",
+    "prd": "PRD-16",
+    "system": "quickstart/spec",
+    "file": "NEW:tests/dx/quickstart.spec.ts",
+    "action": "TEST",
+    "description": "Remote runner, clean container: verdaccio seeded with packed aura-glass, CLI and registry packages; third-party npm cache warmed only. Execute each quickstart's {step} blocks in order for matrix {next-tailwind, next-plain, vite-plain, vite-tailwind}. Measured time excludes create-next-app/create-vite downloads, includes AuraGlass install, init, add, build, first render. Assert wall ≤300 s (Next) / ≤240 s (Vite); first screenshot after load + 2 rAF shows [data-ag-surface][data-ag-layer=\"chrome\"] passing QA material-presence gate at 1440 and 390; 0 console errors; next build output has no 'use client' boundary error; next-tailwind cell: element styled only with glass-regular utilities has computed backdrop-filter equal to [data-ag-variant=regular]. Write quickstart-timing.json {cell, seconds, sha, runnerClass}.",
+    "depends_on": [
+      "DX-119",
+      "DX-120",
+      "DX-093",
+      "QA-018",
+      "DS-090"
+    ],
+    "priority": "P0",
+    "test": "quickstart.spec.ts (remote; docs.yml or registry.yml job `quickstart`)",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-04 (REQ-DX-55, REQ-DX-56, REQ-DX-64)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-123",
+    "prd": "PRD-16",
+    "system": "readme/quickstart",
+    "file": "NEW:scripts/docs/gen-readme.mjs",
+    "action": "CREATE",
+    "description": "Generate README 'Quick start' between `<!-- generated:quickstart -->` markers from docs/quickstart/next.md {step} blocks. CI regenerates and diffs; hand edits fail. Full README template generation is DX-137.",
+    "depends_on": [
+      "DX-119"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/readme-generated.test.ts 'quickstart': regenerated section byte-equals committed section",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-17 (support; REQ-DX-57)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-124",
+    "prd": "PRD-16",
+    "system": "guides/theming",
+    "file": "NEW:docs/guides/theming.md",
+    "action": "CREATE",
+    "description": "Rendered at /docs/theming: exactly one provider pair (AuraGlassProvider client, AuraGlassScript server), createGlassTheme + createBrandTheme from aura-glass/theme, the ThemePreset list as a table generated by gen-props.mjs `--presets` from the aura-glass/theme export (no typed count), five mode axes (scheme, contrast, transparency, motion, density) as data-ag-* attributes, nested provider scoping, OS-floor rule (B13), and a 'Coming from 4.x' table mapping the 5 old providers and both createGlassTheme variants (E-26) to 5.0.",
+    "depends_on": [
+      "DX-107",
+      "DS-083",
+      "A11Y-029",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "docs:snippets; docs-content.test.ts 'theming': no 4.x provider name outside the 'Coming from 4.x' table",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-63)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-125",
+    "prd": "PRD-16",
+    "system": "guides/tailwind",
+    "file": "NEW:docs/guides/tailwind.md",
+    "action": "CREATE",
+    "description": "Tailwind v4 only: `@import \"tailwindcss\"; @import \"aura-glass/tailwind.css\";`, generated @theme inline mapping, glass-regular|clear|thin|thick and content-raised utilities, ag-dark|ag-tinted|ag-solid custom variants, no @source needed, the layer statement; states Tailwind v3 unsupported in 5.0 (B17) and points v3 users to plain-css.",
+    "depends_on": [
+      "DX-107",
+      "DS-090"
+    ],
+    "priority": "P1",
+    "test": "docs:snippets; quickstart.spec.ts next-tailwind utility parity assertion",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-64)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-126",
+    "prd": "PRD-16",
+    "system": "guides/plain-css",
+    "file": "NEW:docs/guides/plain-css.md",
+    "action": "CREATE",
+    "description": "Zero-Tailwind path: `@layer theme, base, ag, components, utilities;`, why unlayered app CSS wins (architecture §10), styling only via [data-ag-part]/[data-state], token overrides by redefining --ag-* in the app layer, partial sheets (tokens.css, material.css, per-subpath CSS). Plus NEW tests/dx/plain-css.spec.ts (remote): Vite app with unlayered app.css `.cta[data-ag-part=\"root\"] { border-radius: 0 }` on <Button className=\"cta\">; computed border-radius '0px'; app.css contains 0 !important.",
+    "depends_on": [
+      "DX-107",
+      "PKG-101",
+      "CTL-055"
+    ],
+    "priority": "P1",
+    "test": "plain-css.spec.ts (remote); docs:snippets",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-65)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-127",
+    "prd": "PRD-16",
+    "system": "guides/choosing-a-material",
+    "file": "NEW:docs/guides/choosing-a-material.md",
+    "action": "CREATE",
+    "description": "Decision table layer × variant × thickness × backdrop with one live example per cell from NEW apps/docs/examples/material/*.tsx; rule 'content is not glass by default' (B12); contrast minima only as <Claim id=\"contrast-min-regular\"/> etc.",
+    "depends_on": [
+      "DX-103",
+      "DX-107",
+      "MAT-001",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "docs:snippets; lint-claims (DX-136); docs-a11y.spec.ts covers the page",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-66)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-128",
+    "prd": "PRD-16",
+    "system": "guides/rsc",
+    "file": "NEW:docs/guides/rsc.md",
+    "action": "CREATE",
+    "description": "Server-safe vs client exports per subpath as a table generated from PRD-02 build/server-safe-exports.json + exports manifest (generation in gen-props.mjs `--rsc`), plus App Router usage. Adds docs-content.test.ts case.",
+    "depends_on": [
+      "DX-104",
+      "DX-116",
+      "PKG-092"
+    ],
+    "priority": "P1",
+    "test": "docs-content.test.ts 'rsc table' equals build/server-safe-exports.json",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-68)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-129",
+    "prd": "PRD-16",
+    "system": "guides/frameworks",
+    "file": "NEW:docs/guides/nextjs.md",
+    "action": "CREATE",
+    "description": "docs/guides/{nextjs,vite,react-router,testing}.md. testing.md documents the data-ag-part/data-state testing contract and Jest ESM setup (B2). All code blocks compile.",
+    "depends_on": [
+      "DX-107"
+    ],
+    "priority": "P2",
+    "test": "docs:snippets; docs-imports.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-68)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-130",
+    "prd": "PRD-16",
+    "system": "guides/shadcn",
+    "file": "NEW:docs/guides/shadcn.md",
+    "action": "CREATE",
+    "description": "Installing the auraglass base into an existing shadcn app, which interchange variables are read vs emitted (architecture §4.4), AuraGlass + shadcn components on one page.",
+    "depends_on": [
+      "DX-068",
+      "DX-107"
+    ],
+    "priority": "P1",
+    "test": "registry-shadcn-interop.spec.ts side-by-side --primary assertion (DX-069); docs:snippets",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-22 (REQ-DX-67)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-131",
+    "prd": "PRD-16",
+    "system": "types/autocomplete",
+    "file": "NEW:tests/types/autocomplete.test-d.ts",
+    "action": "TEST",
+    "description": "tsd/expectType over the packed .d.ts (add tsd exact-pinned devDependency), prop grammar per SC-24: ComponentProps<typeof Button>['variant'] is exactly 'regular'|'clear'|'identity'|undefined; ComponentProps<typeof Button>['intent'] is exactly Button's status subset of 'neutral'|'info'|'success'|'warning'|'danger' (from Button.meta.ts) |undefined; ComponentProps<typeof Button>['prominent'] is boolean|undefined; Button has no 'material' or 'elevation' key; ComponentProps<typeof Surface>['variant'] exactly MaterialVariant|undefined; `<Button variant=\"primary\" />`, `<Button variant=\"solid\" />` and `<Surface variant=\"solid\" />` are @ts-expect-error; role props on every flagship are literal unions re-exported from aura-glass/material (MaterialVariant, Thickness, Layer, ContentMaterial, Shape, Tier, Transparency, Backdrop), never string; 'parts': each flagship exports `<Component>Part` union equal to its .meta.ts parts.",
+    "depends_on": [
+      "MAT-001",
+      "CTL-057",
+      "OVL-131",
+      "NAV-095",
+      "DATA-108",
+      "AI-075",
+      "MED-155"
+    ],
+    "priority": "P0",
+    "test": "tests/types/autocomplete.test-d.ts (tsd) in cli.yml types job",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-12 (REQ-DX-58, REQ-DX-62)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-132",
+    "prd": "PRD-16",
+    "system": "types/completions",
+    "file": "NEW:tests/types/completions.test.ts",
+    "action": "TEST",
+    "description": "ts.createLanguageService over the packed .d.ts; getCompletionsAtPosition at `<Button variant=\"|`, `<Button intent=\"|`, `<Surface thickness=\"|`, `<Dialog.|` and `import { | } from \"aura-glass/data\"`; each list equals the expected set from the flagship .meta.ts exactly (no `string & {}`, no internal symbols, no Glass* from root). 'compat strike-through': every aura-glass/compat export has kindModifiers containing 'deprecated'; every deprecations entry of kind export|prop|prop-value carries `@deprecated since <since>, removed in <removeIn>. Use {@link <replacement>}.` (checked by PRD-01 check-tsdoc-deprecated.mjs).",
+    "depends_on": [
+      "DX-131",
+      "DX-065",
+      "REL-077"
+    ],
+    "priority": "P0",
+    "test": "tests/types/completions.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-12 (REQ-DX-59, REQ-DX-60)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-133",
+    "prd": "PRD-16",
+    "system": "types/tsdoc",
+    "file": "NEW:tests/dx/tsdoc-coverage.test.ts",
+    "action": "TEST",
+    "description": "Using gen-props.mjs output: every public prop has a one-line TSDoc description and @default when a default exists. Thresholds: T0/T1 100%; T2 ≥95% at beta, 100% at RC (stage read from package.json prerelease id). Thresholds are constants, never lowered.",
+    "depends_on": [
+      "DX-104"
+    ],
+    "priority": "P1",
+    "test": "tsdoc-coverage.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-13 (REQ-DX-61)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-134",
+    "prd": "PRD-16",
+    "system": "claims/gen",
+    "file": "NEW:scripts/docs/gen-claims.mjs",
+    "action": "CREATE",
+    "description": "Read release-SHA CI artifacts: claims.json (QA PRD REQ-QA-31, packages/qa/src/claims/build.ts), size.json, perf-grades.json (REQ-PERF-34), contrast-matrix.json (PRD-03), quickstart-timing.json (DX-122), etc/api/*.exports.json; write apps/docs/generated/claims.json {id:{value,unit,source:{artifact,sha,path}}}. Missing artifact or sha ≠ build SHA → exit 1. Does not write README claim regions; fails if a README `<!-- ag:claim id=\"…\" -->…<!-- /ag:claim -->` value differs from claims.json. Deviation: the DX PRD names the region renderer `packages/qa/src/claims/render.ts`, which the QA PRD does not define (it defines build.ts only); if no renderer exists, report the gap to the QA PRD owner and do not write README values here.",
+    "depends_on": [
+      "DX-122",
+      "QA-091",
+      "PERF-042",
+      "DS-016",
+      "PKG-048"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/lint-claims.test.ts 'claims resolve': fixture artifacts with wrong sha → exit 1; README region mismatch → exit 1",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-17 (REQ-DX-77)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-135",
+    "prd": "PRD-16",
+    "system": "claims/ids",
+    "file": "scripts/docs/gen-claims.mjs",
+    "action": "MODIFY",
+    "description": "Claim ids at GA (minimum): flagship-count, component-count, root-value-exports, button-gzip-kb, styles-css-gzip-kb, tarball-mb, contrast-min-regular, contrast-min-large, glass-recipes (must equal 1), quickstart-seconds-next, quickstart-seconds-vite, registry-block-count, codemod-transform-count, pixel-gates-passed. Emit the DX-owned ones as artifacts: quickstart-timing.json (DX-122), NEW registry-counts.json from build.mjs (blocks = 10), NEW codemod-counts.json from the runner (registered transform count); add them to the QA renderer input as artifacts, never typed values.",
+    "depends_on": [
+      "DX-134",
+      "DX-091",
+      "DX-041"
+    ],
+    "priority": "P0",
+    "test": "lint-claims.test.ts 'ids': every id present with artifact source; glass-recipes === 1",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-17 (REQ-DX-78)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-136",
+    "prd": "PRD-16",
+    "system": "claims/lint",
+    "file": "NEW:scripts/docs/lint-claims.mjs",
+    "action": "CREATE",
+    "description": "Fail on /\\b\\d+(\\.\\d+)?\\s?(%|KB|MB|ms|s|components|flagships|targets|recipes|blocks|transforms)\\b/ outside a <Claim> or ag:claim region in README.md, INSTALLATION.md (until deleted), apps/docs/content/**, llms.txt.tmpl, and the release body from PRD-01 scripts/release/release-notes.mjs (REQ-REL-23). Allow-list NEW scripts/docs/claims-allow.json (versions, 1440, 390, Node 20.19, …) each with a reason. Every <Claim> id must exist in generated claims.json.",
+    "depends_on": [
+      "DX-134"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/lint-claims.test.ts: seeded '498 certified' fixture fails; allow-listed '1440' passes; repo run 0 findings",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-17 (REQ-DX-79)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-137",
+    "prd": "PRD-16",
+    "system": "readme/template",
+    "file": "NEW:README.tmpl.md",
+    "action": "CREATE",
+    "description": "5.0 README generated by gen-readme.mjs from README.tmpl.md: one-paragraph pitch, generated quickstart, the 10 surfaces with links, CLI + registry commands, docs links, peer matrix generated from package.json peerDependenciesMeta; claim regions only for numbers. No certification runbook (README.md:525-576 headings), no agent-directed instructions, no 'final summary' string, no font redistribution claim (D-31).",
+    "depends_on": [
+      "DX-123",
+      "DX-136"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/readme-generated.test.ts: regenerated README byte-equals committed; absence of every README.md:525-576 heading (captured list from 4.1.0) and of 'final summary'",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-17 (REQ-DX-80)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-138",
+    "prd": "PRD-16",
+    "system": "docs/installation",
+    "file": "INSTALLATION.md",
+    "action": "REMOVE",
+    "description": "main at 5.0.0-beta.1: delete INSTALLATION.md (content lives in docs/quickstart/*); redirect entry in apps/docs/redirects.json.",
+    "depends_on": [
+      "DX-119",
+      "DX-120",
+      "DX-110"
+    ],
+    "priority": "P2",
+    "test": "docs-removed.test.ts 'INSTALLATION.md'",
+    "storybook": "n/a",
+    "acceptance": "DoD 6 (§6, REQ-DX-79 note)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-139",
+    "prd": "PRD-16",
+    "system": "docs/ai-agents",
+    "file": "NEW:apps/docs/content/ai-agents.mdx",
+    "action": "CREATE",
+    "description": "/docs/ai-agents: MCP config snippets for Claude Code, Cursor and VS Code (command uses MCP_PACKAGE_NAME), and the registry URL for the shadcn MCP/registry flow.",
+    "depends_on": [
+      "DX-143",
+      "DX-116"
+    ],
+    "priority": "P2",
+    "test": "docs-content.test.ts 'mcp snippets': each JSON block parses and matches the client's documented config shape",
+    "storybook": "n/a",
+    "acceptance": "REQ-DX-90",
+    "status": "todo"
+  },
+  {
+    "id": "DX-140",
+    "prd": "PRD-16",
+    "system": "agent/llms",
+    "file": "NEW:scripts/docs/gen-llms.mjs",
+    "action": "CREATE",
+    "description": "Generate llms.txt from NEW llms.txt.tmpl + exports manifest + .meta.ts per the llms.txt convention (H1, blockquote summary, H2 link sections): package version from package.json, install + init commands, subpath map, 44 flagships one line each linking /components/<slug>.md, 'do not' list (no Glass* names from root, no inline optics, no !important, style via data-ag-part), nothing about removed components; claim regions filled from claims.json. ≤12 KB. 4.2 run on release/4.x uses 4.x names with the correct version (fixes llms.txt:39 '3.0.x'); 5.0 run on main uses 5.0 names.",
+    "depends_on": [
+      "DX-104",
+      "DX-134",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "tests/dx/llms.test.ts: version === package.json version; every linked .md exists in the build; 0 symbols absent from the runtime export snapshot; size ≤12 KB",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-19 (REQ-DX-85)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-141",
+    "prd": "PRD-16",
+    "system": "agent/llms-full",
+    "file": "scripts/docs/gen-llms.mjs",
+    "action": "MODIFY",
+    "description": "`--full` writes apps/docs/out/llms-full.txt concatenating every component markdown and the guides; ≤400 KB; served at https://auraglass.dev/llms-full.txt only, never in the npm tarball (llms.txt does ship in the tarball).",
+    "depends_on": [
+      "DX-140",
+      "DX-142"
+    ],
+    "priority": "P2",
+    "test": "llms.test.ts 'full': size ≤400 KB; `npm pack --dry-run --json` lists llms.txt and not llms-full.txt",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-19 (REQ-DX-86)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-142",
+    "prd": "PRD-16",
+    "system": "agent/component-md",
+    "file": "scripts/docs/gen-props.mjs",
+    "action": "MODIFY",
+    "description": "Also emit apps/docs/public/components/<slug>.md from the same data as the HTML page: import line, props table, parts table, one minimal example (passes compile-snippets), a11y notes.",
+    "depends_on": [
+      "DX-104",
+      "DX-107"
+    ],
+    "priority": "P2",
+    "test": "docs-pages.test.ts 'markdown parity': props set of each .md equals the HTML page's",
+    "storybook": "n/a",
+    "acceptance": "REQ-DX-87",
+    "status": "todo"
+  },
+  {
+    "id": "DX-143",
+    "prd": "PRD-16",
+    "system": "agent/mcp",
+    "file": "NEW:packages/mcp/package.json",
+    "action": "CREATE",
+    "description": "MCP_PACKAGE_NAME with bin {\"auraglass-mcp\":\"./dist/server.js\"}; NEW packages/mcp/src/server.ts (stdio, @modelcontextprotocol/sdk exact pin) and packages/mcp/src/tools/{search_components,get_component,list_registry,get_registry_item,get_migration}.ts with zod input schemas; exactly these 5 tools, read-only, no network, no fs writes, no LLM calls (Prism policy n/a: data server). search ranks Dialog first for 'modal'; get_migration('GlassModal') returns the canonical-names entry. Start → initialize ≤500 ms.",
+    "depends_on": [
+      "DX-144"
+    ],
+    "priority": "P1",
+    "test": "packages/mcp/test/tools.test.ts: each tool schema-valid for known + unknown name; ranking; run under `node --permission --allow-fs-read=<pkg dir>` on Node ≥22.13 and `--experimental-permission` on Node 20.19 with no --allow-fs-write / --allow-child-process; startup timing",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-20 (REQ-DX-88)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-144",
+    "prd": "PRD-16",
+    "system": "agent/mcp-data",
+    "file": "NEW:scripts/docs/gen-mcp-data.mjs",
+    "action": "CREATE",
+    "description": "Generate packages/mcp/data/mcp-data.json at release from the same sources as the docs (components, props, parts, registry index, migration entries from DEPRECATIONS_PATH) with {version, sha}; ≤5 MB. The server reports version and sha in serverInfo.",
+    "depends_on": [
+      "DX-104",
+      "DX-091",
+      "DX-019"
+    ],
+    "priority": "P1",
+    "test": "packages/mcp/test/tools.test.ts 'version': serverInfo.version/sha equal mcp-data.json; data ≤5 MB",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-20 (REQ-DX-89)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-145",
+    "prd": "PRD-16",
+    "system": "release/publish",
+    "file": ".github/workflows/publish-npm.yml",
+    "action": "MODIFY",
+    "description": "Extend the tag workflow (the only publish path; OIDC trusted publishing with provenance, PRD-01 alignment note 4(c)) to publish packages/cli, packages/registry and packages/mcp after every gate is green; no NPM_TOKEN usage. Bindings recorded in packages/{cli,registry,mcp}/PUBLISHING.md are an operator action; until bound, the job reports `trusted publisher not configured` and does not fall back to a token. Coordinate edits with PRD-01 (owner of the workflow). Contract per SC-05 (owner REL, instance TRUST-077): keep the filename publish-npm.yml (trusted-publisher binding), tags-only trigger, OIDC only, guard scripts/ci/require-ci-publish.js (TRUST-079) checks GITHUB_WORKFLOW_REF contains /.github/workflows/publish-npm.yml@refs/tags/v. This task only adds the three package publish steps by MODIFY.",
+    "depends_on": [
+      "DX-018",
+      "DX-093",
+      "DX-143",
+      "TRUST-077",
+      "TRUST-079"
+    ],
+    "priority": "P0",
+    "test": "dry-run of the workflow on a pre-release tag in CI (npm publish --dry-run --provenance); `npm view <PACKAGE_NAME> --json` shows provenance after the first real publish",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (DoD 4)",
+    "status": "todo",
+    "gate": "npm trusted-publisher binding for each new package (operator-only npm setting, SC-05)"
+  },
+  {
+    "id": "DX-146",
+    "prd": "PRD-16",
+    "system": "release/4.3-cli-beta",
+    "file": "packages/cli/package.json",
+    "action": "MODIFY",
+    "description": "4.3 (2027-01-18): set version 0.x beta and publish `migrate 4to5 --dry-run` beta via DX-145; entry gate = fixtures.test.ts, catalogue-coverage, deprecation-coverage, fixtures-typecheck green (architecture §14.1, REQ-REL-27). `canonical-names`/`prop-grammar` mappings must be complete at the 4.3 code freeze.",
+    "depends_on": [
+      "DX-053",
+      "DX-054",
+      "DX-056",
+      "DX-145"
+    ],
+    "priority": "P0",
+    "test": "CI run links for the four gates on the publish SHA",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-06 (4.3 gate)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-147",
+    "prd": "PRD-16",
+    "system": "release/rc-agent-gate",
+    "file": "tests/dx/llms.test.ts",
+    "action": "TEST",
+    "description": "Release blocker check (REQ-DX-91): on every release SHA, llms.txt version mismatch fails the release (required check in the publish workflow); MCP + llms-full are required from 5.0.0-rc.1 but not GA blockers.",
+    "depends_on": [
+      "DX-140",
+      "DX-145"
+    ],
+    "priority": "P1",
+    "test": "llms.test.ts registered as a required check in publish-npm.yml gates",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-19 (REQ-DX-91)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-148",
+    "prd": "PRD-16",
+    "system": "release/published-quickstart",
+    "file": "NEW:tests/dx/published-quickstart.spec.ts",
+    "action": "TEST",
+    "description": "After GA promotion: remote run of the Next and Vite quickstarts against the published npm packages (not tarballs, no verdaccio); compare timing with the GA quickstart-timing.json; >20% deviation files a P1. The DX owner also runs both once by hand from published packages (DoD 8) and records timings in the release issue. Blind 'reads as one hand' review of the 10 blocks on remote captures is recorded in the architecture §15.2 Manual lane checklist (DoD 7).",
+    "depends_on": [
+      "DX-122",
+      "DX-145"
+    ],
+    "priority": "P2",
+    "test": "published-quickstart.spec.ts (remote)",
+    "storybook": "n/a",
+    "acceptance": "DoD 7, DoD 8",
+    "status": "todo"
+  },
+  {
+    "id": "DX-149",
+    "prd": "PRD-16",
+    "system": "cli/removal",
+    "file": "bin/aura-glass.cjs",
+    "action": "REMOVE",
+    "description": "main at 5.0.0-beta.1 (B15, D-22): delete bin/aura-glass.cjs on main; it stays on release/4.x (REL-114 adds the moved notice there). No other fragment removes this file, so DX is the single remover (SC-39 rule). Runs in the same PR as DX-021 (package.json bin/files edit).",
+    "depends_on": [
+      "DX-021",
+      "DX-146"
+    ],
+    "priority": "P1",
+    "test": "tests/dx/no-bin.test.ts: packed aura-glass@5 has no bin key and no bin/ files; `git ls-files bin/` on main is empty",
+    "storybook": "n/a",
+    "acceptance": "AC-DX-01 (REQ-DX-03)",
+    "status": "todo"
+  },
+  {
+    "id": "DX-150",
+    "prd": "PRD-16",
+    "system": "cli/bridge",
+    "file": "bin/aura-glass.cjs",
+    "action": "MODIFY",
+    "description": "release/4.x for 4.2.0 (SC-37: §16 PRD-SB bridge, REL holds the gate, doctor --v5 content is DX): add `doctor --v5` to the 4.x CLI with the same checks, grouping and summary {automatic, needsReview, manual} as DX-037, reading the repo-root deprecations.json (SC-02). Output text and doctor-v5.expected.json are shared with packages/cli. Does not touch the moved notice (REL-114).",
+    "depends_on": [
+      "DX-037",
+      "TRUST-075",
+      "REL-010",
+      "REL-115"
+    ],
+    "priority": "P0",
+    "test": "release/4.x tests/cli/doctor-v5.test.js: output on tests/fixtures/consumer-4x/ equals doctor-v5.expected.json; REL-090 gate record shows doctor --v5 on the undeclared-deps fixture (REL-071)",
+    "storybook": "n/a",
+    "acceptance": "DoD 5 (REQ-DX-25)",
+    "status": "todo"
+  }
+]

@@ -1,0 +1,2157 @@
+[
+  {
+    "id": "QA-001",
+    "prd": "PRD-18",
+    "system": "qa package",
+    "file": "NEW:packages/qa/package.json",
+    "action": "INFRA",
+    "description": "[§8] Create private workspace package \"@auraglass/qa\" (\"private\": true, no \"files\", no publishConfig) with tsconfig packages/qa/tsconfig.json (extends root tsconfig.tests.json). Location rule: if PRD-02 added \"workspaces\" to root package.json use packages/qa/; otherwise create the identical layout at certification/qa/ and use that path everywhere (record which in the PR). Root package.json \"files\" must not include it.",
+    "depends_on": [
+      "PKG-016"
+    ],
+    "priority": "P0",
+    "test": "node -p \"require('./packages/qa/package.json').private\" prints true; remote CI `npm pack --dry-run --json` lists 0 paths under packages/ or certification/",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-02, AC-QA-03 | Upstream contracts (SC-40, formerly in depends_on): PRD-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-002",
+    "prd": "PRD-18",
+    "system": "qa package",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "[REQ-QA-03, REQ-QA-24] Add exact-pinned devDependencies pngjs and pixelmatch (skip pixelmatch if PRD-01 REL-040 already added it; never a second version). No tesseract npm wrapper: OCR uses the tesseract 5 binary from the cert image (18b). ajv 8.20.0 and yaml 2.8.4 already resolve; add them as exact devDependencies only if not declared.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "node -e \"require('pngjs');require('pixelmatch')\" succeeds; `npm ls pngjs pixelmatch --depth=0` shows one exact version each; package.json values contain no ^ or ~",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-003",
+    "prd": "PRD-18",
+    "system": "test infra",
+    "file": "jest.config.js",
+    "action": "INFRA",
+    "description": "[§12.1] Add <rootDir>/certification/lanes/, <rootDir>/certification/runner/ and <rootDir>/canaries/ to testPathIgnorePatterns; add <rootDir>/packages/qa/test to roots/testMatch so packages/qa/test/*.test.ts run in L12. Do not change coverageThreshold here (18i).",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "`node_modules/.bin/jest --listTests | grep -c certification/lanes` prints 0; `--listTests | grep -c packages/qa/test` >= 1",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-13 (unit lane)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-004",
+    "prd": "PRD-18",
+    "system": "inspect layer",
+    "file": "NEW:packages/qa/src/inspect/{computedStyle,compositedContrast,census,layout,presentation}.ts",
+    "action": "CONSOLIDATE",
+    "description": "[§4.3] Move the measurement code of tests/visual/design-system/token-purity-layout-audit.spec.ts:852-2232 (computed-style extraction, composited local contrast, paint/pixel census incl. checkViewportColorCensus :2214-2232, collectLayoutIssues :1107-1530, collectPresentationIssues :1849-2100) plus checkFilterChain :2958-2993 and checkTokenInvariants :2995-3244 into these modules with identical behaviour. Split each into (1) an in-page collector serialisable for page.evaluate and (2) a pure Node judge taking the collected JSON and a thresholds object. No rule or number changes.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/inspect.fixtures.test.ts green; `npm run typecheck` green",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-01 (4.x parity)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-005",
+    "prd": "PRD-18",
+    "system": "thresholds",
+    "file": "NEW:certification/thresholds.json",
+    "action": "CREATE",
+    "description": "[§4.3] Create thresholds.json with \"version\": 1 and key \"legacy4x\" holding the 4.x numbers verbatim from token-purity-layout-audit.spec.ts: blur set {16,24,32,40,48}px, saturate>=1.4, brightness>=1.0, contrast [0.95,1.2], gradient stop min channel>=245 spread<=6 alpha [0.015,0.35], slate scrim rgb(15,23,42)+-2 alpha [0.20,0.30], opaque dark fill fail alpha>=0.50, border alpha>=0.12, inset sheen [0.10,0.18], highlight<=0.32, noise<=0.10, text alpha floors 0.90/0.70/0.50, local contrast 4.5/3.0. 5.0 keys are added by 18c.",
+    "depends_on": [
+      "QA-004"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/inspect.fixtures.test.ts reads legacy4x and reproduces HEAD verdicts",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-006",
+    "prd": "PRD-18",
+    "system": "inspect self-test",
+    "file": "NEW:packages/qa/test/inspect.fixtures.test.ts",
+    "action": "TEST",
+    "description": "[§4.3, §12.1] Port the 10 detector self-test fixtures (token-purity-layout-audit.spec.ts:3930-4128) to packages/qa/fixtures/inspect/<name>.html plus the collector JSON captured from them on 15b6de6f7 by a remote Chromium job (packages/qa/fixtures/inspect/<name>.collected.json, <=50 KB each, captured, never hand-written; the capture job id goes in the PR). The Jest test feeds each collected JSON to the pure judge with thresholds.legacy4x and asserts the exact verdict list the original fixture block expects.",
+    "depends_on": [
+      "QA-004",
+      "QA-005"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/inspect.fixtures.test.ts: 10/10 fixtures produce the HEAD verdicts; remote job URL recorded",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-007",
+    "prd": "PRD-18",
+    "system": "evidence",
+    "file": "NEW:packages/qa/src/evidence/manifest.ts",
+    "action": "CREATE",
+    "description": "[§4.8, REQ-QA-30] Lane manifest writer + JSON Schema packages/qa/src/evidence/lane-manifest.schema.json: {lane, sha, imageDigest, browserVersions{chromium,webkit,firefox}, subjects[], cells[], results[{cellId,subject,state,gate,status:pass|fail|quarantined,observed{},artifact}], thresholdsSha256, scenesSha256, inventorySha256, baselinesSha256, durationMs, captureRatePerSec, perfHost?, status}. status=pass only if results.length>0 and no fail/quarantined. Written to $CERT_OUT/<sha>/<lane>/lane-manifest.json. Every lane in 18b-18i uses this writer.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/evidence-manifest.test.ts: empty results => status fail; one quarantined => status fail; schema validates with ajv",
+    "storybook": "n/a",
+    "acceptance": "Prerequisite for AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-008",
+    "prd": "PRD-18",
+    "system": "subject resolver",
+    "file": "NEW:packages/qa/src/resolve/resolveSubject.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-01: map subject id -> story id only via explicit story parameters.ag.subject, cross-checked against .storybook/cert-manifest.json (REQ-SB-42 {id,tags,kind,viewports,axes}) and storybook-static/index.json. Errors: subject-without-story, manifest-id-missing-from-index, index-cert-tag-missing-from-manifest (cert-scene|showcase-s1|lab|matrix). For 4.x legacy subjects only, read NEW certification/legacy4x-subjects.json (explicit export->storyId table generated once from the current matcher output on 15b6de6f7 and reviewed); no normalizeName/candidateNames/storyNameForMatch/rankStory code exists in packages/qa or certification.",
+    "depends_on": [
+      "QA-001",
+      "SB-055"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/resolve.test.ts green; `rg -n \"normalizeName|candidateNames|storyNameForMatch|rankStory\" packages/qa certification` = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02 (resolution input) | Upstream contracts (SC-40, formerly in depends_on): PRD-17:REQ-SB-42",
+    "status": "todo"
+  },
+  {
+    "id": "QA-009",
+    "prd": "PRD-18",
+    "system": "subject resolver",
+    "file": "NEW:packages/qa/test/resolve.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-01] Fixtures under packages/qa/fixtures/resolve/: story without parameters.ag.subject -> error subject-without-story; manifest id absent from index.json -> error; cert-scene story in index but not manifest -> error; happy path resolves; static assertion that resolveSubject.ts contains no fuzzy/Levenshtein/lowercase-normalisation path (grep in test).",
+    "depends_on": [
+      "QA-008"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/resolve.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-010",
+    "prd": "PRD-18",
+    "system": "inventory",
+    "file": "NEW:packages/qa/src/inventory/buildInventory.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-02, REQ-QA-04] REQ-QA-02: read build/exports.manifest.json (PRD-02 REQ-PKG-10) and the TS export graph of each subpath; classify each value export visual|nonvisual|alias from `/** @nonvisual */` JSDoc or the typed variant metadata registry; aliases counted once against their target. Unclassified -> error code unclassified-export. Registry blocks/recipes from the packed tarball are visual subjects (REQ-QA-04). Outputs inventory.json + sha256 for lane manifests. If build/exports.manifest.json is absent, exit 1 with \"provider missing: build/exports.manifest.json\".",
+    "depends_on": [
+      "QA-001",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/inventory.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02, AC-QA-03 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-011",
+    "prd": "PRD-18",
+    "system": "inventory",
+    "file": "NEW:packages/qa/test/inventory.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-02] Fixture manifests under packages/qa/fixtures/inventory/: unclassified export -> unclassified-export; @nonvisual provider excluded; alias counted once; removing @nonvisual from a provider fixture -> unclassified-export (AC-QA-03 mechanism); grep of packages/qa and certification (excluding fixtures of this test) for /\\b(470|498|356)\\b/ returns 0 hits.",
+    "depends_on": [
+      "QA-010"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/inventory.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02, AC-QA-03",
+    "status": "todo"
+  },
+  {
+    "id": "QA-012",
+    "prd": "PRD-18",
+    "system": "inventory",
+    "file": "scripts/audit/public-export-audit.js",
+    "action": "REPLACE",
+    "description": "[REQ-QA-02] Delete the PascalCase coveredBy heuristic (:318-324) and make the script a thin wrapper that prints buildInventory output (kept for 4.x callers); its own normalizeName copy is removed.",
+    "depends_on": [
+      "QA-010"
+    ],
+    "priority": "P1",
+    "test": "`rg -n \"coveredBy\" scripts/audit/public-export-audit.js` = 0; `node scripts/audit/public-export-audit.js --json` exits 0 on a fixture manifest",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-013",
+    "prd": "PRD-18",
+    "system": "distinctness",
+    "file": "NEW:packages/qa/src/pixel/dhash.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-03: 64-bit dHash over a 9x8 greyscale downscale; captures of different subjects in the same cell with Hamming <=2 AND pixelmatch diff ratio <0.001 -> duplicate-visual; a visual subject duplicated in >=90% of its cells fails unless classified alias.",
+    "depends_on": [
+      "QA-002"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/dhash-duplicates.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02 (honest counts)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-014",
+    "prd": "PRD-18",
+    "system": "distinctness",
+    "file": "NEW:packages/qa/test/dhash-duplicates.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-03] Two byte-identical PNG fixtures -> duplicate-visual; a pair differing in >0.1% of pixels -> not flagged; subject duplicated in 9/10 cells -> fail; same subject declared alias -> pass.",
+    "depends_on": [
+      "QA-013"
+    ],
+    "priority": "P1",
+    "test": "node_modules/.bin/jest packages/qa/test/dhash-duplicates.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-015",
+    "prd": "PRD-18",
+    "system": "recipes",
+    "file": "tests/visual/design-system/token-purity-layout-audit.spec.ts",
+    "action": "MODIFY",
+    "description": "REQ-QA-04 and §4.3: reduce the spec to a 4.x driver importing packages/qa/src/inspect/* and thresholds.json#legacy4x; delete inline measurement, the hardcoded counts (:206-211, :2294-2306) and the recipe file re-reading (:2421-2462, :3398-3440). Recipes become live subjects from inventory.",
+    "depends_on": [
+      "QA-004",
+      "QA-010",
+      "QA-005"
+    ],
+    "priority": "P1",
+    "test": "`rg -n \"verify-recipes-render|readFileSync\" tests/visual/design-system/token-purity-layout-audit.spec.ts` = 0; inspect.fixtures.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-016",
+    "prd": "PRD-18",
+    "system": "determinism",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "REQ-QA-63: replace \"@playwright/test\": \"^1.55.0\" (:422) with the exact version currently resolved in package-lock.json (`node -p \"require('@playwright/test/package.json').version\"`); lockfile updated by `npm install --package-lock-only` in CI.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "`node -p \"require('./package.json').devDependencies['@playwright/test']\"` matches /^\\d+\\.\\d+\\.\\d+$/",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-17 (determinism input)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-017",
+    "prd": "PRD-18",
+    "system": "cert image",
+    "file": "NEW:certification/runner/image/Dockerfile",
+    "action": "INFRA",
+    "description": "[REQ-QA-63, §4.7] Cert container: FROM mcr.microsoft.com/playwright:v<exact>-noble@sha256:<digest>; apt install tesseract-ocr (5.x) + tesseract-ocr-eng, fonts-inter, fonts-noto-core, zstd; write /opt/ag-cert/fonts.json (fc-list output). Built and pushed ONLY by GitHub Actions (NEW .github/workflows/certify-image.yml, push to main on certification/runner/image/** + workflow_dispatch, permissions packages: write) to ghcr.io/auraoneai/auraglass-cert; digest written to NEW certification/image.lock.json by the dispatch job PR. Deviation: PRD §8 lists 4 workflows; a 5th image workflow is required to pin tesseract + fonts into one digest (REQ-QA-63). Never built on the Mac.",
+    "depends_on": [
+      "QA-016"
+    ],
+    "priority": "P0",
+    "test": "certify-image.yml run green; `docker manifest inspect` run in CI resolves the lock digest; `tesseract --version` in the image prints 5.",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16, AC-QA-17",
+    "status": "todo"
+  },
+  {
+    "id": "QA-018",
+    "prd": "PRD-18",
+    "system": "playwright config",
+    "file": "NEW:certification/playwright.cert.config.ts",
+    "action": "CREATE",
+    "description": "[§8, REQ-QA-63] One config: projects chromium|webkit|firefox; testDir certification/lanes; timeout 60_000; retries 0; fullyParallel; workers from AG_CERT_WORKERS; reporter junit ($CERT_OUT/<sha>/<lane>/junit.xml) + html; use.deviceScaleFactor set per cell (1 desktop, 3 mobile); webServer.command `node scripts/storybook/verify-fresh.mjs storybook-static && node certification/runner/static-server.mjs storybook-static 6106` (SB-019; if verify-fresh.mjs is absent the command fails: provider missing); globalSetup = packages/qa/src/remote/guard.ts. NEW certification/runner/static-server.mjs: zero-dependency node:http static server bound to 127.0.0.1.",
+    "depends_on": [
+      "QA-001",
+      "QA-019",
+      "QA-016"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/cert-config.test.ts asserts projects, timeout 60000, retries 0, webServer command contains verify-fresh.mjs and 127.0.0.1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-019",
+    "prd": "PRD-18",
+    "system": "remote guard",
+    "file": "NEW:packages/qa/src/remote/guard.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-60: any code path that launches a browser exits 2 and prints the remote command (`gh workflow run certify-main.yml -f lanes=<lane>` or `node certification/runner/build-bundle.mjs`) unless CI===\"true\" or AG_CERT_REMOTE===\"1\"; AG_CERT_ALLOW_LOCAL=1 is honoured only when set explicitly by the operator. The runner entrypoint sets AG_CERT_REMOTE=1 and AG_REMOTE_RUNNER=1 (REQ-PERF-32).",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/remote-guard.test.ts: no env -> exit 2 + message; CI=true -> proceeds; AG_CERT_REMOTE=1 -> proceeds",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16 (remote-only execution; DoD item 9)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-020",
+    "prd": "PRD-18",
+    "system": "determinism",
+    "file": "NEW:packages/qa/src/determinism/initScript.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-63: page.addInitScript stubbing Date.now (fixed 2026-01-01T00:00:00Z epoch + monotonic counter) and Math.random (seeded mulberry32, seed from cell id); context.route(\"**\") aborting any request whose host is not 127.0.0.1; fonts list from /opt/ag-cert/fonts.json copied into lane manifest. Used by every visual lane.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/determinism.test.ts: two evaluations of the init script with one seed return identical Math.random sequences; route predicate rejects https://example.com and accepts http://127.0.0.1:6106",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-17",
+    "status": "todo"
+  },
+  {
+    "id": "QA-021",
+    "prd": "PRD-18",
+    "system": "offline bundle",
+    "file": "NEW:certification/runner/build-bundle.mjs",
+    "action": "CREATE",
+    "description": "REQ-QA-61: produce cert-bundle-<sha>.tar.zst containing storybook-static/, aura-glass-<ver>.tgz (via scripts/ci/lib/npm-pack.js), certification/ (scenes, configs, baselines), packages/qa/dist, node_modules tarball from `npm ci --omit=optional` for the harness, PLAYWRIGHT_BROWSERS_PATH dir for chromium/webkit/firefox, tesseract binary + eng.traineddata, and bundle.manifest.json {gitSha, imageDigest, members[{path, sha256, bytes}]}. Runs only in CI (guard). Calls verify-fresh.mjs before packing storybook-static (SB-019).",
+    "depends_on": [
+      "QA-019",
+      "QA-017",
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "certification/runner/build-bundle.test.mjs (node --test): manifest lists every member with a sha256 that matches the extracted file",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-66",
+    "status": "todo"
+  },
+  {
+    "id": "QA-022",
+    "prd": "PRD-18",
+    "system": "offline bundle",
+    "file": "NEW:certification/runner/worker-entry.sh",
+    "action": "CREATE",
+    "description": "REQ-QA-61: EC2 user-data entrypoint. `trap \"shutdown -h now\" EXIT`; background `sleep 7200 && shutdown -h now`; download bundle from the S3 runner prefix human-ei/sources/<sha>/<attempt-id>/ via the S3 gateway endpoint (aws s3 cp, no other egress); verify every sha256 in bundle.manifest.json (mismatch -> exit 1); export AG_CERT_REMOTE=1 AG_REMOTE_RUNNER=1; run requested lanes/shards; upload $CERT_OUT to human-ei/evidence/<attempt-id>/. No package install, no proxy use.",
+    "depends_on": [
+      "QA-021",
+      "QA-023"
+    ],
+    "priority": "P0",
+    "test": "shellcheck clean in CI; certification/runner/worker-entry.test.mjs runs the script with a stub `aws` on PATH against a fixture bundle with one corrupted member -> exit 1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-023",
+    "prd": "PRD-18",
+    "system": "preflight",
+    "file": "NEW:certification/runner/preflight.mjs",
+    "action": "CREATE",
+    "description": "REQ-QA-62: check bundle hash and presence of all three browser builds (exit 1 on mismatch); only when AG_CERT_EGRESS=1, read the proxy CA notAfter (openssl x509 -enddate) and exit 78 with exactly `runner egress CA expired: notAfter=<date>; offline bundle required` if expired or expiring within 7 days. Never rotates or bypasses the CA.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "certification/runner/preflight.test.mjs: expired CA fixture -> exit 78 + exact message; 6-days-left fixture -> exit 78; bundle hash mismatch -> exit 1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-024",
+    "prd": "PRD-18",
+    "system": "preflight",
+    "file": "NEW:certification/runner/preflight.test.mjs",
+    "action": "TEST",
+    "description": "node --test cases from REQ-QA-62 using PEM fixtures generated in the test with node:crypto (no committed keys): notAfter Sep 27 17:34:57 2026 GMT -> 78; +30 days -> 0; corrupted bundle member -> 1; missing webkit dir -> 1.",
+    "depends_on": [
+      "QA-023"
+    ],
+    "priority": "P0",
+    "test": "node --test certification/runner/preflight.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-025",
+    "prd": "PRD-18",
+    "system": "legacy driver",
+    "file": "NEW:certification/lanes/legacy-4x.spec.ts",
+    "action": "CREATE",
+    "description": "[§4.3, §11 item 2] §4.3 driver: one Playwright test per (legacy subject x {1440x900, 768x1024, 390x844}) from certification/legacy4x-subjects.json, 60 s timeout, judged by packages/qa inspect + thresholds.legacy4x; writes lane manifest. Runs on release/4.x; on main only until 5.0.0-alpha.1 then removed. Report-only for OCR-over-dark and glass-over-nothing on release/4.x (PRD §11 item 2); legacy4x rules and visual-class remain blocking.",
+    "depends_on": [
+      "QA-015",
+      "QA-008",
+      "QA-018",
+      "QA-007"
+    ],
+    "priority": "P1",
+    "test": "remote run on 15b6de6f7 storybook-static completes; each test <60 s; lane manifest results.length>0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01 (4.x parity)",
+    "status": "todo"
+  },
+  {
+    "id": "QA-026",
+    "prd": "PRD-18",
+    "system": "remote parity",
+    "file": "NEW:certification/runner/README.md",
+    "action": "TEST",
+    "description": "§20 step 2: build the offline bundle for 15b6de6f7 in CI, run legacy-4x lane on (a) GitHub-hosted shards and (b) the gated EC2 runner (launch template lt-001ac3e8c702c66d7 via skill auraone-remote-run, tagged attempt-id/sha/lane/ttl, terminated at end). Record in the PR (not committed evidence): pass/fail counts vs the 2026-08-14 run summary, capture rate per host (captures/s), and that worker egress was never used. README.md documents the remote procedure (bundle build, S3 upload path, worker launch, evidence download) and the parity run URLs only; no screenshots or numbers copied as evidence.",
+    "depends_on": [
+      "QA-025",
+      "QA-022",
+      "QA-021"
+    ],
+    "priority": "P1",
+    "test": "both runs produce lane-manifest.json with captureRatePerSec; EC2 instance terminated (describe-instances shows terminated)",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-027",
+    "prd": "PRD-18",
+    "system": "flake gate",
+    "file": "NEW:packages/qa/src/evidence/flake.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-63: compare two L7 lane manifests for the same SHA; any cell whose verdict differs -> flake record; >0.1% differing cells fails; a flaky cell may be marked quarantined for <=7 days in NEW certification/quarantine.json {cell, since, issue, expires}; quarantined cells are status quarantined (not pass) and block release (REQ-QA-30).",
+    "depends_on": [
+      "QA-007"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/flake.test.ts: 1 of 1000 differing -> pass; 2 of 1000 -> fail; quarantine entry older than 7 days -> fail",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-17",
+    "status": "todo"
+  },
+  {
+    "id": "QA-028",
+    "prd": "PRD-18",
+    "system": "resource hygiene",
+    "file": "NEW:certification/runner/list-stale.mjs",
+    "action": "CREATE",
+    "description": "REQ-QA-64: list EC2 instances tagged ag-cert=1 whose launch time + ttl tag < now and print attempt-id/sha/lane; exit 1 if any; never terminates (and never touches untagged instances such as prism-budget-build). Run by agents through the governed /Users/gurbakshchahal/.local/bin/aws wrapper and in certify-nightly.yml only if an OIDC role exists (otherwise the job fails with provider missing: aws-oidc-role and the role is recorded as an operator action; creating IAM trust is outside autonomous scope).",
+    "depends_on": [
+      "QA-022"
+    ],
+    "priority": "P2",
+    "test": "certification/runner/list-stale.test.mjs with a fixture describe-instances JSON: 1 expired tagged instance -> exit 1, untagged instance ignored",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-029",
+    "prd": "PRD-18",
+    "system": "lane runner",
+    "file": "NEW:packages/qa/src/lanes/runLane.ts; NEW:certification/lanes.config.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-36] Generic lane runner used by every workflow job: `node packages/qa/dist/lanes/runLane.js --lane <L1..L12> --set <pr|main|full>`; checks each declared provider path exists (missing -> lane fails with \"provider missing: <path>\" and a lane manifest with status fail), runs the lane commands or Playwright projects, fails if junit has 0 tests or results.length==0, writes lane-manifest.json with durationMs and captureRatePerSec. Lane -> provider table in NEW certification/lanes.config.ts (the single place listing provider paths per lane).",
+    "depends_on": [
+      "QA-007",
+      "QA-019"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/run-lane.test.ts: missing provider -> exit 1 + message; 0-test junit -> exit 1; empty subjects -> exit 1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10, AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-030",
+    "prd": "PRD-18",
+    "system": "affected subjects",
+    "file": "NEW:packages/qa/src/matrix/affected.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-36: compute affected subjects from the PR diff via the TS import graph of src/** -> stories (parameters.ag.subject); always add the sentinel set: Surface regular/regular, Button default, Dialog open once they exist in cert-manifest.json; before that the 4.x GlassButton default. Result is never empty.",
+    "depends_on": [
+      "QA-008"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/affected.test.ts: diff touching only README.md -> sentinel set (length>0); diff touching src/components/button/GlassButton.tsx -> includes GlassButton subjects",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-031",
+    "prd": "PRD-18",
+    "system": "CI",
+    "file": "NEW:.github/workflows/certify-pr.yml",
+    "action": "INFRA",
+    "description": "[REQ-QA-34, REQ-QA-36] REQ-QA-34: on pull_request (main, release/4.x) + workflow_dispatch; permissions contents: read; no secrets; container = ghcr image @digest from certification/image.lock.json; actions/*@v6, Node 24; checkout fetch-depth 1 filter blob:none; job build-storybook (npm run build-storybook + verify-fresh.mjs, artifact storybook-<sha> retention 14). Jobs with name: exactly `certify-pr / static`, `certify-pr / artifact`, `certify-pr / token`, `certify-pr / behaviour`, `certify-pr / visual-reduced`, `certify-pr / regression`, `certify-pr / engine`, `certify-pr / motion`, `certify-pr / unit`, plus `certify-pr / canaries` when package.json or src/**/index.ts change (paths filter inside the job via dorny-free git diff, never workflow-level paths so required checks always report). Each job runs runLane.ts and uploads $CERT_OUT/<sha>/<lane> with retention-days 14. visual-reduced shards via strategy.matrix from shard.ts output.",
+    "depends_on": [
+      "QA-029",
+      "QA-030",
+      "QA-017",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/workflows.test.ts; first PR run shows all 9 checks reporting (red with provider missing where a lane is not built yet)",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-032",
+    "prd": "PRD-18",
+    "system": "CI",
+    "file": "NEW:.github/workflows/certify-main.yml",
+    "action": "INFRA",
+    "description": "[REQ-QA-34] push: main: all PR lanes on all subjects (set main) + full L6 (shards from shard.ts, Option A GitHub-hosted) + L11; retention-days 30; plus job id cert-scene with name `certify / cert-scene` running environment-visual.spec.ts on stories tagged cert-scene (consumed by the Storybook PRD deploy gate SB-004).",
+    "depends_on": [
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts; `rg -n \"name: certify / cert-scene\" .github/workflows/certify-main.yml` = 1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-033",
+    "prd": "PRD-18",
+    "system": "CI",
+    "file": "NEW:.github/workflows/certify-nightly.yml",
+    "action": "INFRA",
+    "description": "[REQ-QA-34, REQ-QA-63] schedule \"0 3 * * *\" + workflow_dispatch: full L6 in chromium/webkit/firefox; L10 perf (GPU profile (a) job fails \"provider missing: gpu-host\" if no GPU runner label/instance exists); L7 run twice on the same SHA and compared by flake.ts (REQ-QA-63); stale-instance report (list-stale.mjs) when the OIDC role exists; retention-days 30.",
+    "depends_on": [
+      "QA-031",
+      "QA-027"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts; first nightly run URL",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-17",
+    "status": "todo"
+  },
+  {
+    "id": "QA-034",
+    "prd": "PRD-18",
+    "system": "CI",
+    "file": "NEW:.github/workflows/certify-release.yml",
+    "action": "INFRA",
+    "description": "[REQ-QA-34] on: workflow_call (input sha, required) + workflow_dispatch (input sha; dry run): every lane L1-L12 on that SHA (full set), then job verify (cert:verify, REQ-QA-30) and claims (cert:claims, REQ-QA-31); artifacts retention-days 90; NO npm publish step, NO id-token: write. Option B (EC2) only if an OIDC role exists and only for refs main or tags.",
+    "depends_on": [
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts: no \"npm publish\", no \"id-token: write\" in certify-release.yml",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10, AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-035",
+    "prd": "PRD-18",
+    "system": "CI meta-test",
+    "file": "NEW:packages/qa/test/workflows.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-36] Parse every .github/workflows/certify-*.yml and publish-npm.yml (SC-05; the file name is kept) with yaml: 0 continue-on-error, 0 \"|| true\", 0 jobs/steps named or computing a \"score\"; every actions/upload-artifact step has retention-days in {14,30,90}; jobs triggered by pull_request reference no secrets.* except GITHUB_TOKEN and request no id-token; certify-release.yml has no npm publish; publish-npm.yml publish job needs both the job that uses ./.github/workflows/certify-release.yml and the existing verify job that calls glass-pipeline.yml (SC-10); no workflow named release.yml exists (asserted once 18h lands; before that the assertion is present and red, not skipped); the 9 required check names exist verbatim; --update-snapshots only in workflow_dispatch jobs. Required checks are additive: Glass Quality Gates, Next.js npm Integration, Vite npm Integration and change-class keep their names (SC-10).",
+    "depends_on": [
+      "QA-031",
+      "QA-032",
+      "QA-033",
+      "QA-034"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/workflows.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-036",
+    "prd": "PRD-18",
+    "system": "time budgets",
+    "file": "NEW:packages/qa/src/evidence/budgetWatch.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-37: compare workflow wall clock to budgets (certify-pr p90 <=20 min over last 20 runs, certify-main <=45, certify-release <=90) using `gh run list --workflow <file> --json` in a main-only job with issues: write; after 5 consecutive overruns open (or update) one issue labelled cert-budget; never fails the release. Per-cell capture p95 <=2.5 s recorded from lane manifests.",
+    "depends_on": [
+      "QA-032"
+    ],
+    "priority": "P2",
+    "test": "packages/qa/test/budget-watch.test.ts: 5 overruns -> openIssue called once; 4 -> not called",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-21",
+    "status": "todo"
+  },
+  {
+    "id": "QA-037",
+    "prd": "PRD-18",
+    "system": "required checks",
+    "file": "certification/runner/README.md",
+    "action": "DOC",
+    "description": "[REQ-QA-36] Record the operator action (do not apply): branch protection on main and release/4.x requiring the 9 `certify-pr / *` checks and code-owner review, with the exact `gh api -X PUT repos/auraoneai/auraglass/branches/<b>/protection` payload; apply only after each lane is green on main (PRD §20 step 4).",
+    "depends_on": [
+      "QA-031"
+    ],
+    "priority": "P1",
+    "test": "README section present; report lists it under operator actions",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10",
+    "status": "todo"
+  },
+  {
+    "id": "QA-038",
+    "prd": "PRD-18",
+    "system": "scenes",
+    "file": "NEW:certification/scenes/{photo,saturated-abstract,dense-text,dark-media,flat-white,flat-black,hf-pattern,video-frame}.{webp|png} + video-frame.webm",
+    "action": "CREATE",
+    "description": "REQ-QA-10: exactly 8 still assets >=2880x1800 plus a 2 s looping video-frame.webm (motion lane only); total <=6 MB. flat-white, flat-black, hf-pattern generated by NEW certification/scenes/generate.mjs (pngjs, deterministic); saturated-abstract and dense-text generated deterministically by the same script (dense-text: >=400 OCR-readable words of public-domain prose rendered remotely in Chromium, captured once); photo and dark-media sourced CC0-1.0 (source URL + author recorded) or owned. Must meet REQ-SB-04 bands: flat-white mean>=245, flat-black mean<=12, dark-media mean<=70, video-frame still mean<=100, photo and saturated-abstract stddev>=40, saturated-abstract Hasler-Susstrunk colourfulness>=60, hf-pattern >=30% of 8x8 blocks with >=40-level range.",
+    "depends_on": [
+      "QA-002"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/scenes-manifest.test.ts green; SB scripts/storybook/__tests__/scene-bands.test.mjs green when it exists",
+    "storybook": "Scenes mounted by .storybook/main.ts staticDirs at /scenes (Storybook PRD); no copy in .storybook/",
+    "acceptance": "AC-QA-04",
+    "status": "todo"
+  },
+  {
+    "id": "QA-039",
+    "prd": "PRD-18",
+    "system": "scenes",
+    "file": "NEW:certification/scenes/scenes.manifest.json",
+    "action": "CREATE",
+    "description": "[REQ-QA-10] Per asset: id, file, sha256, licence (SPDX id or written-grant reference), source (URL/author or \"generated: certification/scenes/generate.mjs\"), width, height, meanLuminance, luminanceStdDev (computed by generate.mjs --manifest, not typed by hand).",
+    "depends_on": [
+      "QA-038"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/scenes-manifest.test.ts",
+    "storybook": "Storybook environment global reads this manifest (PRD-04/SB)",
+    "acceptance": "AC-QA-04",
+    "status": "todo"
+  },
+  {
+    "id": "QA-040",
+    "prd": "PRD-18",
+    "system": "scenes",
+    "file": "NEW:packages/qa/test/scenes-manifest.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-10] Asserts the 8 ids exactly (set equality), sha256 of each file equals the manifest, licence non-empty and photo/dark-media licence in {CC0-1.0, owned}, width>=2880 and height>=1800, total bytes <=6 MB, mean/stddev recomputed from pixels within 0.5 of manifest values, and the REQ-SB-04 bands.",
+    "depends_on": [
+      "QA-039"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/scenes-manifest.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-04",
+    "status": "todo"
+  },
+  {
+    "id": "QA-041",
+    "prd": "PRD-18",
+    "system": "cert decorator",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "[REQ-QA-11, REQ-QA-21] REQ-QA-11 and §13 item 3: add global certify (0|1). When certify=1 the decorator renders no StorySurface, no ContrastGuard (glass-contrast-guard), no SkipLinks, no padding wrapper and does NOT pass reducedMotion: true (:168-174); paints the environment scene as <body> background (cover, center, fixed) from /scenes/<file>; the only wrapper is the Storybook PRD StoryRoot [data-ag-story-content]; sets document.body.dataset.agCertReady=\"true\" after document.fonts.ready + 2 requestAnimationFrame. Touch only the certify branch; if PROMPT_17c has rewritten preview.tsx, add the branch inside its structure. Depends on SB-048 (SC-31: .storybook/preview.tsx is SB-owned; this is a cert-mode MODIFY).",
+    "depends_on": [
+      "QA-039",
+      "SB-048",
+      "SB-045"
+    ],
+    "priority": "P0",
+    "test": "certification/lanes/environment-visual.spec.ts test \"certify-mode isolation\" (REQ-QA-11 a and b) green in 3 engines",
+    "storybook": "iframe.html?id=<id>&globals=environment:<scene>;certify:1 renders scene + subject only",
+    "acceptance": "AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-17:REQ-SB-05",
+    "status": "todo"
+  },
+  {
+    "id": "QA-042",
+    "prd": "PRD-18",
+    "system": "matrix",
+    "file": "NEW:packages/qa/src/matrix/{axes,prune,force,shard}.ts + NEW:certification/matrix.config.ts",
+    "action": "CREATE",
+    "description": "§4.4: axes verbatim (engine x 8 environments x scheme x transparency x preference x tier x viewport); prune rules: forced-colors => lightweight+solid and only engines in matrix.config forcedColorsEngines (chromium at minimum); solid => lightweight; enhanced => chromium AND glass AND motion!=none AND subject refraction=true AND preference default. Subject sets T0 (180), flagship (148 [+32 refraction]), other T0 primitives (148/state), T2 (29), product scenes (96), PR reduced (24) computed from rules, never constants. force.ts emits <html> data-ag-tier/engine/transparency/contrast/motion/scheme + emulateMedia {colorScheme,reducedMotion,forcedColors,contrast}. shard.ts: shards=ceil(captures/(rate*3600)), rate read from the last lane manifest captureRatePerSec for the host class (fixture default from parity run).",
+    "depends_on": [
+      "QA-010",
+      "QA-008"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/matrix-prune.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-043",
+    "prd": "PRD-18",
+    "system": "matrix",
+    "file": "NEW:packages/qa/test/matrix-prune.test.ts",
+    "action": "TEST",
+    "description": "Asserts every prune rule; T0=180, flagship=148 (+32 refraction-eligible), T2=29, PR reduced=24 equal the §4.4 formulas computed independently in the test; shard.ts returns ceil(captures/(rate*3600)) for rate 1.26 and 99000 captures (=22); AC-QA-02: adding a stub subject (fixture story with parameters.ag.subject, 1 state, flagship set) to the fixture cert-manifest grows the cell count by exactly 148 with no edit under certification/.",
+    "depends_on": [
+      "QA-042"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/matrix-prune.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-044",
+    "prd": "PRD-18",
+    "system": "thresholds",
+    "file": "certification/thresholds.json",
+    "action": "MODIFY",
+    "description": "Add 5.0 keys from REQ-QA-14/-12/-13/-15/-22: notBlank.minDeviation 40; separation.minShare 0.25, separation.minDelta 10; frameFill.component 0.03, frameFill.matrix 0.25; density.max 0.3; layers.fine 6, layers.coarse 3; blur.maxPx 32, scrim.maxPx 12; refraction.max 2, refraction.maxAreaRatio 0.25; neon {s:0.85,v:0.85,maxShare:0.01,familyBinDeg:30,familyMinShare:0.02,maxFamilies:3}; intentDeltaE 10; materialPresence {minSigma:4, sceneMinSigma:20, regularMinDelta:30, slack:5}; ocr {psm:11, upscale:2, minConfidence:60, body:4.5, large:3, contrastMore:7}; preference {contrastMoreMinShare:0.005, tintedSigmaDrop:0.25}; focusIndicator 3; touchTarget {min:44, compact:24}; regression {threshold:0.1, maxDiffPixelRatio:0.002, smallAreaPx2:10000, smallMaxDiffPixels:20}. Changes need CODEOWNERS approval (18e).",
+    "depends_on": [
+      "QA-005"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/thresholds.test.ts: every key above present with exactly these values; schema validation",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01, AC-QA-06, AC-QA-07",
+    "status": "todo"
+  },
+  {
+    "id": "QA-045",
+    "prd": "PRD-18",
+    "system": "pixel gates",
+    "file": "NEW:packages/qa/src/pixel/{notBlank,separation,frameFill,density,neon,intentDeltaE,containment}.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-14 pure functions over decoded PNG buffers + DOM metadata, thresholds from thresholds.json: notBlank (max deviation from scene >=40), separation (>=25% of surface pixels differ >10 levels vs surface-hidden capture), frameFill by story kind, density (sum visible area of computed backdrop-filter!=none / viewport), layer count by pointer class, neon (HSV S>=0.85 and V>=0.85 share <=1%, <=3 hue families of 30deg bins with >=2%), intentDeltaE (CIEDE2000 primary vs secondary fill >=10), containment (390 px, ancestors overflow-x visible, no subject pixel at right edge, scrollWidth<=clientWidth). Each returns {gate, pass, observed}.",
+    "depends_on": [
+      "QA-044",
+      "QA-002"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/pixel-gates.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01, AC-QA-07",
+    "status": "todo"
+  },
+  {
+    "id": "QA-046",
+    "prd": "PRD-18",
+    "system": "pixel gates",
+    "file": "NEW:packages/qa/test/pixel-gates.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-14] Synthetic PNGs generated in-test with pngjs: 39-level deviation fails / 40 passes; 24.9% separation fails / 25% passes; 1.01% neon fails; 4 hue families fail; deltaE 9.9 fails / 10.0 passes; right-edge contact at 390 fails; density 0.31 fails; 7 layers at fine pointer fails, 4 at coarse fails. One positive + one negative fixture per gate.",
+    "depends_on": [
+      "QA-045"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/pixel-gates.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-047",
+    "prd": "PRD-18",
+    "system": "material presence",
+    "file": "NEW:packages/qa/src/pixel/materialPresence.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-12: (1) for [data-ag-surface] with data-ag-variant in {regular, clear}: sigma(L) of the scene region under the border box in the surface-hidden capture <4 while the scene manifest sigma>=20 -> glass-over-nothing; (2) standard-tier glass: mean interior L(flat-white) - L(flat-black) >=30 for regular, and <= (1 - floorAlpha)*255 + 5 where floorAlpha is read from tokens/generated/opacity-floors.json (PRD-03 REQ-DS-15) by transparency/thickness/backdrop key. Missing opacity-floors.json -> fail \"provider missing: tokens/generated/opacity-floors.json\".",
+    "depends_on": [
+      "QA-045",
+      "DS-058"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/material-presence.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-03:REQ-DS-15",
+    "status": "todo"
+  },
+  {
+    "id": "QA-048",
+    "prd": "PRD-18",
+    "system": "material presence",
+    "file": "NEW:packages/qa/test/material-presence.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-12] Opaque ancestor over photo -> glass-over-nothing; white 255 / black 22 interiors with fixture opacity-floors.json floorAlpha 0.30 -> fail (delta 233 > 183.5); tinted surface exactly at the floor -> pass; missing floors file -> provider missing.",
+    "depends_on": [
+      "QA-047"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/material-presence.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-05",
+    "status": "todo"
+  },
+  {
+    "id": "QA-049",
+    "prd": "PRD-18",
+    "system": "ocr",
+    "file": "NEW:packages/qa/src/ocr/{tesseract,textHiddenTwin,wordContrast}.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-13: execFile tesseract 5 (--psm 11, TSV output) on a 2x Lanczos upscale (pngjs + own Lanczos-3 resampler, no sharp); words with conf>=60; contrast = WCAG ratio of median glyph pixel colour (capture) vs median colour of the same box in the text-hidden twin (color: transparent injected on text nodes); large-text rule from DOM font size (>=24px, or >=18.66px and weight>=700); worst case across the scene set per subject-state; contrast-more floor 7; APCA Lc reported, never gated; \"legible text exists\" (DOM visible text>=1 => OCR words>0); §13 item 7 banned copy regex /lorem|ipsum|placeholder|glass ?morphism .* component/i for scene and showcase kinds. tesseract missing -> fail \"provider missing: tesseract\".",
+    "depends_on": [
+      "QA-044",
+      "QA-017"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/ocr-contrast.test.ts (runs inside the cert image in L12)",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06",
+    "status": "todo"
+  },
+  {
+    "id": "QA-050",
+    "prd": "PRD-18",
+    "system": "ocr",
+    "file": "NEW:packages/qa/test/ocr-contrast.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-13] Rendered PNG fixtures (generated remotely once in Chromium from packages/qa/fixtures/ocr/*.html and committed <=40 KB each): rgba(0,0,0,.9) text on rgb(13,31,43) reports a ratio in [1.1,1.3] and fails; 18.66px bold at 3.1:1 passes; 16px at 4.4:1 fails; visible text + 0 OCR words fails legible-text-exists; lorem ipsum in a scene-kind fixture fails copy lint.",
+    "depends_on": [
+      "QA-049"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/ocr-contrast.test.ts in the cert container",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06",
+    "status": "todo"
+  },
+  {
+    "id": "QA-051",
+    "prd": "PRD-18",
+    "system": "preference deltas",
+    "file": "NEW:packages/qa/src/pixel/preferenceDelta.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-15 vs the default cell (same scene/scheme/engine): contrast-more changes >=0.5% of surface pixels AND (worst OCR ratio rises OR >=7:1); tinted lowers sigma(interior)/sigma(scene under it) by >=25%; solid and forced-colors: 0 elements with computed backdrop-filter!=none in the subject; 0.000 delta -> preference-noop.",
+    "depends_on": [
+      "QA-045",
+      "QA-049"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/preference-delta.test.ts: identical capture pair -> preference-noop; 0.6% changed + higher ratio -> pass; tinted sigma drop 20% -> fail",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-07",
+    "status": "todo"
+  },
+  {
+    "id": "QA-052",
+    "prd": "PRD-18",
+    "system": "labels",
+    "file": "NEW:packages/qa/src/matrix/readback.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-17: in-page collector returning documentElement.dataset (agTier, agEngine, agTransparency, agContrast, agMotion, agScheme), matchMedia results for prefers-color-scheme, prefers-contrast, forced-colors, prefers-reduced-motion, and engine from navigator.userAgent; judge compares to requested cell -> label-mismatch. Result rows store observed values only.",
+    "depends_on": [
+      "QA-042"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/readback.test.ts: requested forced-colors with observed matchMedia false -> label-mismatch",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-07, AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-053",
+    "prd": "PRD-18",
+    "system": "console",
+    "file": "NEW:packages/qa/src/gates/console.ts + NEW:certification/console-allowlist.json",
+    "action": "CREATE",
+    "description": "REQ-QA-16: collector for pageerror, console.error, console.warn; any pageerror/error fails; warn fails unless matched by an allowlist entry {regex, owner, expires} with expires <= created+90 days and not past. Allowlist starts as []. The 4.x regex at storybook-visual-certification.mjs:327-330 is not reused.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/console-gate.test.ts: pageerror \"Invalid easing type 'ease-in-out'\" fails; allowlisted warn passes; expired entry fails",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-054",
+    "prd": "PRD-18",
+    "system": "exemptions",
+    "file": "NEW:packages/qa/src/gates/exemptions.ts + NEW:certification/exemptions.json",
+    "action": "CREATE",
+    "description": "REQ-QA-73: entries {subject, gate, cells, rationale, approvedBy, expires<=180 days}; gates ocr-contrast and console are never exemptable (loader throws); expired entry fails the lane. File starts as [].",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/exemptions.test.ts: ocr-contrast exemption rejected; console exemption rejected; expired -> fail; valid separation exemption honoured for listed cells only",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-07",
+    "status": "todo"
+  },
+  {
+    "id": "QA-055",
+    "prd": "PRD-18",
+    "system": "focus visibility",
+    "file": "NEW:packages/qa/src/pixel/focusContrast.ts",
+    "action": "CREATE",
+    "description": "§15 item 7: in focus-visible state cells, indicator region = pixels changed between focused and unfocused captures; contrast of indicator vs adjacent pixels >=3:1 on every scene.",
+    "depends_on": [
+      "QA-045"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/focus-contrast.test.ts: 2:1 ring fails, 3.2:1 passes",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-056",
+    "prd": "PRD-18",
+    "system": "L6 environment visual",
+    "file": "NEW:certification/lanes/environment-visual.spec.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-11..14, REQ-QA-17] One Playwright test per (subject-state x cell) generated from packages/qa/src/matrix for the requested subject set (env AG_CERT_SET=pr|main|full|t0|flagship); per cell: goto iframe.html?id=<id>&globals=environment:<scene>;certify:1;scheme:..;transparency:..;contrast:..;tier:..;motion:.., apply force.ts attributes + emulateMedia, wait for body[data-ag-cert-ready=\"true\"] (no fixed sleeps), drive state via parameters.ag.states[].drive, capture cell + text-hidden twin + surface-hidden capture, run notBlank, separation, frameFill, density, layers, neon, intentDeltaE, containment, layout overlap (ported collectLayoutIssues), materialPresence, ocr, readback, console; write cell JSON + capture (JPEG q85 except regression cells) and lane manifest. Includes test \"certify-mode isolation\": every ancestor between body and subject root has background-color alpha 0, background-image none, backdrop-filter none, filter none, opacity 1; pixels outside [data-ag-story-content] differ from the scene by <=0.5% of the frame.",
+    "depends_on": [
+      "QA-041",
+      "QA-042",
+      "QA-045",
+      "QA-047",
+      "QA-049",
+      "QA-052",
+      "QA-053",
+      "QA-018",
+      "QA-020",
+      "QA-007"
+    ],
+    "priority": "P0",
+    "test": "remote: certify-pr / visual-reduced on the sentinel set and certify-main full L6; 0 failing cells on 5.0 subjects",
+    "storybook": "Consumes cert-manifest.json ids, Scenes/* (cert-scene) stories and parameters.ag on flagship stories",
+    "acceptance": "AC-QA-05, AC-QA-06, AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-057",
+    "prd": "PRD-18",
+    "system": "L6 a11y artifact",
+    "file": "NEW:packages/qa/src/evidence/a11yPixelContrast.ts",
+    "action": "CREATE",
+    "description": "Emit a11y-pixel-contrast.json for PRD-05 REQ-A11Y-19 from the same captures: one row per visible DOM text run (no cap) {text, color, alpha, bg, ratio, worstRatio, need, fail, storyId, viewport, background, mode, engine, scheme, transparency, tier} (the contrastRows schema of docs/auraglass-5/autopsy/remote-evidence/analysis.json) with runId and sha; uploaded by the CI job named a11y-pixel-contrast. The REQ-QA-13 OCR word gate stays separate; both must pass.",
+    "depends_on": [
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/a11y-pixel-contrast.test.ts validates rows against the schema; PRD-05 tests/a11y/... pixel-contrast-artifact.test.ts accepts the CI artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06",
+    "status": "todo"
+  },
+  {
+    "id": "QA-058",
+    "prd": "PRD-18",
+    "system": "L6 preference modes",
+    "file": "NEW:certification/lanes/preference-modes.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-15: for every subject-state and each of tinted, solid, contrast-more, forced-colors (engines per matrix.config) compare with the default cell of the same scene/scheme/engine via preferenceDelta.ts; reduced-motion delegated to motion.spec.ts. Fails preference-noop on 0.000 delta.",
+    "depends_on": [
+      "QA-056",
+      "QA-051"
+    ],
+    "priority": "P0",
+    "test": "remote certify-main: 0 preference-noop on 5.0 subjects; known-failures.spec.ts shows 12/12 noop on 4.1",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-07",
+    "status": "todo"
+  },
+  {
+    "id": "QA-059",
+    "prd": "PRD-18",
+    "system": "L6 console",
+    "file": "NEW:certification/lanes/console.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-16 across all cells of the set (including cells with no visual gate), using packages/qa/src/gates/console.ts and console-allowlist.json; aggregate per subject.",
+    "depends_on": [
+      "QA-056",
+      "QA-053"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr: 0 console failures on sentinel set; known-failures shows PageTransitionDemo pageerror",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-060",
+    "prd": "PRD-18",
+    "system": "L6 cost gate",
+    "file": "NEW:certification/lanes/cost.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-22 and §16: per cell record visible backdrop-filter count, nesting depth, max blur px, full-viewport blur elements (must be data-ag-surface=\"scrim\" and <=12px), refracting surfaces (enhanced: <=2, each <=1/4 viewport); flagship overlays and app-shell scenes must satisfy <=6 fine / <=3 coarse layers and blur <=32px.",
+    "depends_on": [
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "remote: 0 cost failures on 5.0 subjects; known-failures shows glass-modal 12 > 6",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-061",
+    "prd": "PRD-18",
+    "system": "cert fixtures",
+    "file": "NEW:src/stories/certification/CertFixtures.stories.tsx",
+    "action": "CREATE",
+    "description": "[REQ-QA-12] Cert-only stories tagged cert-fixture and !autodocs (excluded from docs nav per the Storybook PRD tag contract), parameters.ag.subject \"cert-fixture-opaque-wrapper\": a Surface (variant regular) inside a div with background #808080 opacity 1 between scene and surface (AC-QA-05), and \"cert-fixture-clean\" (same Surface without the wrapper) as the negative case. Registered in .storybook/cert-manifest.json by the SB generator.",
+    "depends_on": [
+      "QA-041",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "environment-visual.spec.ts tests for cert-fixture-opaque-wrapper fail glass-over-nothing in chromium, webkit, firefox; cert-fixture-clean passes",
+    "storybook": "Two stories, tag cert-fixture",
+    "acceptance": "AC-QA-05 | Upstream contracts (SC-40, formerly in depends_on): PRD-04",
+    "status": "todo"
+  },
+  {
+    "id": "QA-062",
+    "prd": "PRD-18",
+    "system": "detector proofs",
+    "file": "NEW:certification/lanes/known-failures.spec.ts",
+    "action": "TEST",
+    "description": "§12.3: against the 15b6de6f7 storybook-static (built in CI from that SHA and put in the offline bundle), assert each expected failure with its gate id: 3-2-app-shell--saa-s-app-shell -> ocr-contrast (worst <=2.2:1); surfaces-modals-glass-modal--default -> cost (12 visible backdrop filters > 6); the 12 desktop entries of docs/auraglass-5/autopsy/remote-evidence/pixel-diff.json carrying a contrast-more field -> preference-noop; showcases-liquid-glass-showcase--app-experience under forced-colors -> preference (12 backdrop filters); the PageTransitionDemo story (src/components/interactive/PageTransitionDemo.stories.tsx, id resolved from 15b6de6f7 index.json) -> console (pageerror Invalid easing type). Expected list in NEW packages/qa/fixtures/known-failures-4.1.json. The spec passes only if every expected failure is reported; a missing one fails the spec.",
+    "depends_on": [
+      "QA-056",
+      "QA-058",
+      "QA-059",
+      "QA-060",
+      "QA-021"
+    ],
+    "priority": "P0",
+    "test": "remote run on 15b6de6f7: all expected failures reported, 0 pass",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-063",
+    "prd": "PRD-18",
+    "system": "responsive",
+    "file": "certification/lanes/environment-visual.spec.ts",
+    "action": "MODIFY",
+    "description": "§14: 390x844 cells use DSF 3, hasTouch, isMobile; containment gate disables ancestor overflow-x clipping; product scenes additionally run at 768x1024 for layout gates only (no baselines, no OCR gate).",
+    "depends_on": [
+      "QA-056"
+    ],
+    "priority": "P1",
+    "test": "remote: 768x1024 cells exist only for kind=scene subjects (lane manifest query)",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-064",
+    "prd": "PRD-18",
+    "system": "detector proofs",
+    "file": "certification/runner/README.md",
+    "action": "TEST",
+    "description": "[§12.3] Run known-failures.spec.ts remotely (GitHub-hosted shards from the offline bundle; EC2 optional) and link the run + lane manifest artifact in the PR; capture review composites of each failing case for human review (agents do not judge screenshots).",
+    "depends_on": [
+      "QA-062"
+    ],
+    "priority": "P0",
+    "test": "CI run URL with lane manifest showing every expected gate id",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-065",
+    "prd": "PRD-18",
+    "system": "capture",
+    "file": "NEW:packages/qa/src/capture/elementCrop.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-24, REQ-QA-26] Element-cropped capture helper: locator.screenshot({animations:\"disabled\", caret:\"hide\"}) of the subject root; returns PNG + box; used by L7 and visual-class inputs.",
+    "depends_on": [
+      "QA-018",
+      "QA-020"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/element-crop.test.ts (pure option builder): animations disabled, caret hide, no fullPage",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08, AC-QA-09",
+    "status": "todo"
+  },
+  {
+    "id": "QA-066",
+    "prd": "PRD-18",
+    "system": "L7 regression",
+    "file": "NEW:certification/lanes/regression.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-24: per subject-state 10 baseline cells: chromium and webkit x {photo, flat-white} x {light, dark} at 1440, chromium x photo x light at 390, firefox x photo x light at 1440. expect(locator).toHaveScreenshot(<state>__<scene>__<scheme>__<viewport>.png, {threshold:0.1, maxDiffPixelRatio:0.002}) with maxDiffPixels 20 when box area <10,000 px2. snapshotPathTemplate = certification/baselines/linux/{projectName}/<subject>/{arg}{ext}. Missing baseline = fail (never auto-written: config updateSnapshots \"none\" in CI).",
+    "depends_on": [
+      "QA-065",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / regression green on sentinel set with committed baselines",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-067",
+    "prd": "PRD-18",
+    "system": "L7 baselines",
+    "file": "NEW:packages/qa/test/baselines-budget.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-24] Each file under certification/baselines/ <=80 KB; tree <=30 MB; no \"darwin\" in any path; path matches linux/<engine>/<subject>/<state>__<scene>__<scheme>__<viewport>.png; PNG tEXt chunk ag-image-digest equals certification/image.lock.json digest (written by the update job).",
+    "depends_on": [
+      "QA-066",
+      "QA-017"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/baselines-budget.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-068",
+    "prd": "PRD-18",
+    "system": "L7 baseline update",
+    "file": ".github/workflows/certify-pr.yml (job baseline-update)",
+    "action": "INFRA",
+    "description": "REQ-QA-25: workflow_dispatch input pr_number; job baseline-update (only on workflow_dispatch) checks out the PR head, runs regression.spec.ts with --update-snapshots in the pinned image, writes the ag-image-digest PNG chunk, generates baseline-diff-report.html (packages/qa/src/evidence/diffReport.ts: base | head | diff per changed baseline), uploads it (retention-days 14) and commits only certification/baselines/** to the PR branch. No pull_request-triggered job ever passes --update-snapshots or -u.",
+    "depends_on": [
+      "QA-066",
+      "QA-069",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/workflows.test.ts asserts --update-snapshots appears only in the workflow_dispatch job",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-069",
+    "prd": "PRD-18",
+    "system": "L7 baseline update",
+    "file": "NEW:packages/qa/src/evidence/diffReport.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-25] Generate baseline-diff-report.html from old/new baseline pairs: per file base, head, pixelmatch diff heat map (threshold 0.1), changed ratio; self-contained (inline data URIs <=30 MB total).",
+    "depends_on": [
+      "QA-002"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/diff-report.test.ts: 2 fixture pairs -> 2 rows with changed ratio",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-070",
+    "prd": "PRD-18",
+    "system": "L7 baseline guard",
+    "file": ".github/workflows/certify-pr.yml (job baseline-guard)",
+    "action": "INFRA",
+    "description": "REQ-QA-25: on pull_request, if the diff touches certification/baselines/** require label baseline-update and a PR body link matching /actions\\/runs\\/\\d+\\/artifacts\\/\\d+/ to baseline-diff-report.html; else fail. Design approval is enforced by CODEOWNERS + branch protection \"require code owner review\" (operator setting, recorded).",
+    "depends_on": [
+      "QA-068",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts asserts the job exists and reads labels via github.event.pull_request.labels; throwaway PR without label fails",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-071",
+    "prd": "PRD-18",
+    "system": "ownership",
+    "file": ".github/CODEOWNERS",
+    "action": "MODIFY",
+    "description": "[REQ-QA-25] Add `/certification/baselines/ @auraoneai/auraglass-design @auraoneai/auraglass-qa` and `/certification/thresholds.json @auraoneai/auraglass-design @auraoneai/auraglass-qa` (file created by PRD-01 REQ-REL-13; if absent, BLOCKED on PRD-01). Creating the GitHub teams is an org setting: record as operator action if `gh api orgs/auraoneai/teams/auraglass-design` returns 404.",
+    "depends_on": [
+      "REL-053"
+    ],
+    "priority": "P0",
+    "test": "`rg -n \"certification/baselines\" .github/CODEOWNERS` = 1 line",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08 | Upstream contracts (SC-40, formerly in depends_on): PRD-01:REQ-REL-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-072",
+    "prd": "PRD-18",
+    "system": "L3 inputs",
+    "file": ".github/workflows/certify-pr.yml (job regression, visual-class step)",
+    "action": "INFRA",
+    "description": "REQ-QA-26: on PRs to release/4.x (and main for >=5.0.0), capture element-cropped default-preference cells at 1440x900 and 390x844 for merge-base and head into $CERT_OUT/<sha>/visual-class/{base,head}/ using elementCrop.ts; upload as artifacts visual-base and visual-head (the names PRD-01 REL-042 uses); then run PRD-01 scripts/release/visual-class.mjs --base --head --out visual-class.json --composites unmodified as a PRD-01-owned step moved from visual-regression.yml. This PRD writes no classifier logic.",
+    "depends_on": [
+      "QA-065",
+      "REL-040",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "throwaway release/4.x PR: artifacts visual-base, visual-head, composites present",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-09 | Upstream contracts (SC-40, formerly in depends_on): PRD-01:REQ-REL-12",
+    "status": "todo"
+  },
+  {
+    "id": "QA-073",
+    "prd": "PRD-18",
+    "system": "L3 proof",
+    "file": "certification/runner/README.md",
+    "action": "TEST",
+    "description": "[REQ-QA-26] AC-QA-09 proof on a throwaway PR to release/4.x (closed unmerged): change one pixel row colour of GlassButton default; visual-class.json shows changed:true (ratio >0.001 of the crop); L3 change-class fails without visual-bug-fix label. Link run URLs in the 18e report.",
+    "depends_on": [
+      "QA-072"
+    ],
+    "priority": "P1",
+    "test": "CI run URLs: change-class red without label",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-09",
+    "status": "todo"
+  },
+  {
+    "id": "QA-074",
+    "prd": "PRD-18",
+    "system": "L7 proof",
+    "file": "certification/runner/README.md",
+    "action": "TEST",
+    "description": "[REQ-QA-24, REQ-QA-25] AC-QA-08 proof on a throwaway PR to main (closed unmerged): change a flagship (Button once PRD-07 lands; else sentinel GlassButton) border radius by 2px; certify-pr / regression fails with diff images artifact; baseline-guard demands label + design approval.",
+    "depends_on": [
+      "QA-066",
+      "QA-070"
+    ],
+    "priority": "P1",
+    "test": "CI run URLs: regression red with diff artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-075",
+    "prd": "PRD-18",
+    "system": "L8 engine",
+    "file": "NEW:certification/lanes/engine.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-23: WebKit: per standard-tier surface a 32x32 CSS-px probe inside the interior (>=8px from edges and text client rects) over hf-pattern shows sigma(L) reduced >=60% vs the surface-hidden capture; Gecko: subjects with parameters.ag.refraction capture equals the standard-tier capture within maxDiffPixelRatio 0.001 and not blank; Chromium enhanced: [data-ag-part=\"bezel\"] rect intersects 0 text client rects. No-subject -> fail.",
+    "depends_on": [
+      "QA-056",
+      "QA-065"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / engine green on sentinel set; webkit probe failure fixture (surface without -webkit-backdrop-filter) fails",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-076",
+    "prd": "PRD-18",
+    "system": "L9 motion",
+    "file": "NEW:certification/lanes/motion.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-21: motion on (no forced reduce in certify mode): 12 frames at 16 ms during each declared entrance (parameters.ag.states[].entrance) must contain >=3 distinct frames (dHash distance >2); under reducedMotion reduce, after 500 ms: 0 requestAnimationFrame callbacks (instrumented via addInitScript) and 0 running document.getAnimations() over 1000 ms, final opacity 1 and transform scale 1 on the root; ::view-transition-* pseudo-elements have backdrop-filter none; video-frame.webm used only here.",
+    "depends_on": [
+      "QA-056",
+      "QA-013"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / motion green on sentinel set; fixture with infinite animation under reduce fails",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-077",
+    "prd": "PRD-18",
+    "system": "legacy config",
+    "file": "playwright.config.ts",
+    "action": "MODIFY",
+    "description": "[REQ-QA-24] Remove the toHaveScreenshot defaults (:123-128, threshold 0.3 / maxDiffPixels 1000); the file is deleted in 18g when legacy specs are retired.",
+    "depends_on": [],
+    "priority": "P2",
+    "test": "`rg -n \"maxDiffPixels: 1000\" playwright.config.ts` = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08",
+    "status": "todo"
+  },
+  {
+    "id": "QA-078",
+    "prd": "PRD-18",
+    "system": "L1 static",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "REQ-QA-27 L1 provider list (consumer only; QA authors none of these gates, SC-16/SC-17/SC-39): MAT auraglass/no-optics-outside-material + auraglass/no-inline-glass (MAT-004); DS raw-value gate scripts/tokens/gates/literals.mjs (rule auraglass/no-raw-design-values) against DS's single baseline scripts/tokens/gates/literals-baseline.json (DS-072/073; QA keeps no literal count); PERF auraglass/no-transition-all (PERF-025); !important = 0 in src/** and *.stories.* (stylelint declaration-no-important); PKG auraglass/use-client-required, use-client-needless, no-random-in-render (PKG-082/084/086); no Glass* alias exports from 5.0 entries (buildInventory alias check on build/exports.manifest.json 5.0 subpaths); undefined-class check; DS scripts/tokens/gates/{undefined-vars,dead-vars}.mjs (DS-063; check-undefined-custom-props.mjs is removed by DS-079); scripts/audit/runtime-cleanliness-audit.js (dev-only, report).",
+    "depends_on": [
+      "QA-029",
+      "DS-072",
+      "DS-073",
+      "DS-063",
+      "MAT-004",
+      "PKG-015",
+      "PKG-082",
+      "PKG-084",
+      "PKG-086",
+      "PERF-025"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / static: each provider either runs or fails \"provider missing: <path>\"; packages/qa/test/static-lane.test.ts asserts the provider list",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10 | Upstream contracts (SC-40, formerly in depends_on): PRD-03, PRD-04, PRD-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-079",
+    "prd": "PRD-18",
+    "system": "ratchets",
+    "file": "NEW:certification/ratchets.json",
+    "action": "CREATE",
+    "description": "[REQ-QA-43, REQ-QA-81] This PRD's coverage ratchets only (SC-17: the literal baseline is DS's scripts/tokens/gates/literals-baseline.json, not here): {coverage: {global:{lines,branches}, paths:{...}}}. Values may only increase.",
+    "depends_on": [
+      "QA-029"
+    ],
+    "priority": "P1",
+    "test": "NEW packages/qa/test/ratchets.test.ts compares the PR value with the merge-base value via git show and fails on a loosening",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-080",
+    "prd": "PRD-18",
+    "system": "L2 artifact",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "REQ-QA-28 L2 providers run against the tarball from scripts/ci/lib/npm-pack.js (TRUST-002, SC-06; never dist/ in place): publint --strict, attw --pack, scripts/ci/verify-side-effects.mjs (jsdom import), PKG scripts/ci/verify-size-budgets.mjs against docs/size-budgets.json (PKG-048/049, SC-15), dependency allowlist (PKG-056), transitive count, tarball <=2 MB, plus scripts/ci/verify-pack.js. verify-tree-shaking.js (removed by PKG-054) and verify-no-core-ui-deps.js (removed by PKG-075) are not invoked (SC-39). No size-limit, .size-limit.json or build/budgets.lock.json.",
+    "depends_on": [
+      "QA-029",
+      "TRUST-002",
+      "PKG-048",
+      "PKG-049",
+      "PKG-056",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / artifact green or failing only with provider missing",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10 | Upstream contracts (SC-40, formerly in depends_on): PRD-02:REQ-PKG-66",
+    "status": "todo"
+  },
+  {
+    "id": "QA-081",
+    "prd": "PRD-18",
+    "system": "L4 token",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "REQ-QA-29: run tests/tokens/contrast-matrix.test.ts (PRD-03 REQ-DS-37) and tests/a11y/contrast-matrix.test.ts (PRD-05 REQ-A11Y-18) on every PR and main push (no path filter); upload dist/contrast-matrix.json as lane evidence; floors 4.5/3/7 are the tests' own.",
+    "depends_on": [
+      "QA-029",
+      "DS-060",
+      "A11Y-007"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / token; artifact contrast-matrix.json present",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06 | Upstream contracts (SC-40, formerly in depends_on): PRD-03:REQ-DS-37, PRD-05:REQ-A11Y-18",
+    "status": "todo"
+  },
+  {
+    "id": "QA-082",
+    "prd": "PRD-18",
+    "system": "L5 behaviour",
+    "file": "NEW:certification/lanes/behaviour.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-18: in 3 engines, import every tests/a11y/apg/<component>.apg.spec.ts through tests/a11y/apg/harness.ts and run tests/a11y/browser/axe.spec.ts with color-contrast enabled for each subject-state in photo and flat-white, light and dark; serious/critical fail, moderate fails for flagships; emulate forcedColors active, contrast more, reducedMotion reduce and data-ag-transparency=solid; flagship without APG spec -> provider missing. Also §14 item 5: mobile cells hit box >=44x44 (>=24x24 + spacing when metadata compact). Port the keyboard and console checks of scripts/ci/verify-app-chrome-visuals.js as L5 cases.",
+    "depends_on": [
+      "QA-029",
+      "QA-018",
+      "A11Y-073",
+      "A11Y-078"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / behaviour; manifest lists browserVersions for chromium, webkit, firefox",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-05:REQ-A11Y-40, PRD-05:REQ-A11Y-42",
+    "status": "todo"
+  },
+  {
+    "id": "QA-083",
+    "prd": "PRD-18",
+    "system": "L5 SSR",
+    "file": "NEW:certification/lanes/ssr-hydration.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-19: for each flagship, renderToString in Node (from the packed tarball) then hydrateRoot in each engine: 0 console warnings/errors; MutationObserver on <html> attributes after AuraGlassScript records 0 mutations.",
+    "depends_on": [
+      "QA-082",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / behaviour includes ssr-hydration tests in 3 engines",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-05",
+    "status": "todo"
+  },
+  {
+    "id": "QA-084",
+    "prd": "PRD-18",
+    "system": "L5 overlays",
+    "file": "NEW:certification/lanes/overlay-stacking.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-19: open Dialog -> Menu -> Tooltip; Escape closes Tooltip, then Menu, then Dialog (LIFO); computed z-order (elementsFromPoint at each layer centre) matches the layer stack. Before PRD-10 overlays exist: provider missing.",
+    "depends_on": [
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "remote 3 engines",
+    "storybook": "Requires a stacked-overlay story from the overlays PRD",
+    "acceptance": "AC-QA-14",
+    "status": "todo"
+  },
+  {
+    "id": "QA-085",
+    "prd": "PRD-18",
+    "system": "L10 perf",
+    "file": "NEW:certification/lanes/perf.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-20: invoke tests/perf/harness/run-perf.mjs for profiles a-d and tests/perf/harness/grade.mjs; upload perf-results.json and perf-grades.json; fail if harness or profile host missing (gpu-host for (a)) or 0 frames; T1 below C or T2 below D fails (REQ-PERF-34); grade drop >=1 letter vs the previous release asset perf-grades.json on the same perfHost class fails (download via gh release download).",
+    "depends_on": [
+      "QA-033",
+      "PERF-039",
+      "PERF-042"
+    ],
+    "priority": "P1",
+    "test": "remote certify-nightly L10; fixture-based packages/qa/test/perf-regression.test.ts: B->C on same host fails, different host not compared",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14 | Upstream contracts (SC-40, formerly in depends_on): PRD-07:REQ-PERF-32, PRD-07:REQ-PERF-34",
+    "status": "todo"
+  },
+  {
+    "id": "QA-086",
+    "prd": "PRD-18",
+    "system": "L11 canaries",
+    "file": "NEW:certification/lanes/canaries.spec.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-38: run each PRD-02 fixture canaries/{next16,next15,vite,vite-tailwind4} (+ Base UI floor/latest, REQ-PKG-86) own assertions from the packed tarball; assert node_modules/aura-glass is not a symlink (fs.lstat); next16 `next start` every page HTTP 200 with 0 console errors in chromium, webkit, firefox; missing fixture -> provider missing: canaries/<name>. No second fixture tree.",
+    "depends_on": [
+      "QA-032",
+      "PKG-120",
+      "PKG-121"
+    ],
+    "priority": "P0",
+    "test": "remote certify-main L11",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-15 | Upstream contracts (SC-40, formerly in depends_on): PRD-02",
+    "status": "todo"
+  },
+  {
+    "id": "QA-087",
+    "prd": "PRD-18",
+    "system": "L11 frozen 4.x",
+    "file": ".github/workflows/certify-main.yml (job consumer-4x-frozen)",
+    "action": "INFRA",
+    "description": "REQ-QA-39: job consumer-4x-frozen installs tests/fixtures/consumer-4x/ (owner PRD-REL REL-115, contents contract REL §11.4; SC-08) from the packed tarball; on 4.x: build + render + default-mode cells unchanged per visual-class inputs; on 5.0: install the packed @auraglass/cli tarball into the fixture and run its locally installed bin `migrate 4to5` (no npx download; missing CLI -> provider missing: packages/cli) then build with 0 `TODO(aura-glass 5)` markers (SC-33) in the flagship subset. Missing fixture -> provider missing.",
+    "depends_on": [
+      "QA-032",
+      "REL-115",
+      "DX-041"
+    ],
+    "priority": "P1",
+    "test": "remote job green on release/4.x; on main red with provider missing until migrate exists",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-15 | Upstream contracts (SC-40, formerly in depends_on): PRD-01, PRD-16",
+    "status": "todo"
+  },
+  {
+    "id": "QA-088",
+    "prd": "PRD-18",
+    "system": "evidence verifier",
+    "file": "NEW:packages/qa/src/evidence/verify.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-30, REQ-QA-81] REQ-QA-30 (generalises scripts/audit/verify-visual-evidence.js provenance binding): evidence-manifest.json exists for the exact release SHA; lanes L1-L12 each have a manifest with results.length>0 and status pass (quarantined counts as not pass); inventory, thresholds, scenes, baselines sha256 recomputed from the checkout equal every manifest value; every visual subject has results in every required cell from matrix.ts; every PNG non-blank with declared dimensions; L13/L14 records exist for every flagship and product scene bound to the same SHA (or an earlier SHA with zero diffs in that subject's baselines and DOM snapshot); no expired exemptions/allowlist entries; prerelease rules REQ-QA-81 (L13/L14 required from -rc.1). Exit codes: 0 pass, 1 fail with a list of {code, lane, subject, cell}.",
+    "depends_on": [
+      "QA-007",
+      "QA-042",
+      "QA-054",
+      "QA-053",
+      "QA-027"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/evidence-verify.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-089",
+    "prd": "PRD-18",
+    "system": "evidence verifier",
+    "file": "NEW:packages/qa/test/evidence-verify.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-30] Synthetic evidence sets under packages/qa/fixtures/evidence/: missing lane manifest, empty results, SHA mismatch, stale inventory hash, missing review record, quarantined cell, expired exemption -> each FAIL with its code; complete synthetic set -> PASS; -beta.1 version without L13/L14 -> PASS, -rc.1 without -> FAIL.",
+    "depends_on": [
+      "QA-088"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/evidence-verify.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-090",
+    "prd": "PRD-18",
+    "system": "evidence",
+    "file": "NEW:packages/qa/src/evidence/aggregate.ts",
+    "action": "CREATE",
+    "description": "[REQ-QA-30] §4.8: collect all lane manifests + review records (review-record.json) + SR matrix (a11y-manual-<sha>.json) for one SHA into evidence-manifest.json {sha, version, lanes{}, reviews[], srMatrix, createdAt}; used by certify-release.yml job verify.",
+    "depends_on": [
+      "QA-007"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/aggregate.test.ts: 12 lane fixtures -> 12 entries; duplicate lane -> error",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-091",
+    "prd": "PRD-18",
+    "system": "claims",
+    "file": "NEW:packages/qa/src/claims/build.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-31: from a verified evidence manifest only, write claims.json {<id>: {value, unit, source: {artifact, sha, path}}} with ids: visual-components-distinct, flagships-certified, cells-executed.<lane>, failures (=0), ocr-worst-contrast, token-matrix-min.<class>, import-size.<entry>, recipes (=1), perf-grade-distribution, engines-covered, review-records. Port the incomplete-language guard (storybook-visual-certification.mjs:390-426): any lane not pass -> exit 1 and no claims.json written. Shape must match PRD-16 REQ-DX-77.",
+    "depends_on": [
+      "QA-088",
+      "QA-090"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/claims.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06, AC-QA-19",
+    "status": "todo"
+  },
+  {
+    "id": "QA-092",
+    "prd": "PRD-18",
+    "system": "claims",
+    "file": "NEW:packages/qa/test/claims.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-31] Non-pass lane -> exit non-zero and claims.json absent; every claim has source.artifact, source.sha == manifest sha, source.path present in the evidence set; output validates against the REQ-DX-77 JSON Schema (imported from the DX PRD path if present, else the inline schema with a TODO-free provider-missing failure).",
+    "depends_on": [
+      "QA-091"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/claims.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-19",
+    "status": "todo"
+  },
+  {
+    "id": "QA-093",
+    "prd": "PRD-18",
+    "system": "no committed evidence",
+    "file": "NEW:packages/qa/test/no-committed-evidence.test.ts",
+    "action": "TEST",
+    "description": "REQ-QA-32: `git ls-files` must contain 0 paths matching reports/**, certification/out/**, test-results/**, playwright-report/**, **/*-snapshots/**, coverage/**, and 0 *.png outside certification/baselines/, certification/scenes/, docs/**/assets/, packages/qa/fixtures/ (fixture PNGs <=40 KB each). Red until PRD-00 removes reports/; never allowlisted.",
+    "depends_on": [
+      "QA-001",
+      "TRUST-063"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/no-committed-evidence.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-12 | Upstream contracts (SC-40, formerly in depends_on): PRD-00",
+    "status": "todo"
+  },
+  {
+    "id": "QA-094",
+    "prd": "PRD-18",
+    "system": "no committed evidence",
+    "file": ".gitignore",
+    "action": "MODIFY",
+    "description": "[REQ-QA-32] Add /reports/, /certification/out/, /test-results/, /playwright-report/, **/*-snapshots/, /coverage/, /cert-out/, cert-bundle-*.tar.zst; keep :170 tests/visual/**/*.spec.ts-snapshots/.",
+    "depends_on": [
+      "QA-093"
+    ],
+    "priority": "P0",
+    "test": "`git check-ignore -q reports/x.json test-results/a coverage/a cert-bundle-1.tar.zst` exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-12",
+    "status": "todo"
+  },
+  {
+    "id": "QA-095",
+    "prd": "PRD-18",
+    "system": "retention",
+    "file": "NEW:packages/qa/src/evidence/releaseBundle.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-33: build certification-<version>.tar.zst (zstd -19) from $CERT_OUT/<sha>; captures JPEG q85 except baseline-compared cells (PNG); fail if >2 GB; certify-release attaches it to the GitHub release (gh release upload, contents: write only in that job on tags) and uploads a 90-day artifact; EC2 runs also copy to the S3 evidence prefix.",
+    "depends_on": [
+      "QA-090"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/release-bundle.test.ts: >2 GB synthetic size -> fail; PNG kept for regression cells",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-12",
+    "status": "todo"
+  },
+  {
+    "id": "QA-096",
+    "prd": "PRD-18",
+    "system": "publish gate",
+    "file": ".github/workflows/publish-npm.yml",
+    "action": "MODIFY",
+    "description": "REQ-QA-35 (MODIFY of a PRD-REL-owned file, reviewed by the REL owner; SC-05, SC-10): add job certify: uses ./.github/workflows/certify-release.yml with sha: ${{ github.sha }}; append certify to the publish job's needs: alongside the existing verify job (glass-pipeline.yml via workflow_call, REQ-TRUST-10). Do not rename publish-npm.yml (npm trusted-publisher binding) and do not delete or edit glass-pipeline.yml job names (PKG-038 owns the file).",
+    "depends_on": [
+      "QA-034",
+      "QA-088",
+      "QA-091",
+      "TRUST-077",
+      "TRUST-080",
+      "REL-025",
+      "REL-026"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts publish-npm.yml assertions green: publish needs [verify, certify]; test -e .github/workflows/release.yml fails; test -e .github/workflows/glass-pipeline.yml succeeds",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-10, AC-QA-11 | Upstream contracts (SC-40, formerly in depends_on): PRD-00:REQ-TRUST-06, PRD-01",
+    "status": "todo"
+  },
+  {
+    "id": "QA-097",
+    "prd": "PRD-18",
+    "system": "publish gate proof",
+    "file": "certification/runner/README.md",
+    "action": "TEST",
+    "description": "[REQ-QA-30, REQ-QA-35] AC-QA-11 proof: workflow_dispatch certify-release.yml dry run on a SHA with one lane manifest deleted from the evidence set (inject via dispatch input drop_lane=L7, honoured only in dry runs) -> verify exits non-zero and the claims job does not start. No tag is pushed and nothing is published. Link run URL.",
+    "depends_on": [
+      "QA-096"
+    ],
+    "priority": "P1",
+    "test": "dry run URL: verify job red, claims job not started",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-11",
+    "status": "todo"
+  },
+  {
+    "id": "QA-098",
+    "prd": "PRD-18",
+    "system": "review composites",
+    "file": "NEW:packages/qa/src/evidence/composite.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-71 / §4.6: one PNG per subject-state: 8 scenes x light/dark at 1440, the 390 photo cell, previous approved baseline and diff heat map; filename includes subject-state id; sha256 recorded for review records.",
+    "depends_on": [
+      "QA-069",
+      "QA-056"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/composite.test.ts: fixture cells -> 1 composite with 19 tiles, deterministic sha256",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-18",
+    "status": "todo"
+  },
+  {
+    "id": "QA-099",
+    "prd": "PRD-18",
+    "system": "human review",
+    "file": "NEW:certification/review/{visual-rubric.md,review-record.schema.json,sr-matrix.template.json}",
+    "action": "CREATE",
+    "description": "[REQ-QA-70, REQ-QA-71] REQ-QA-70/71: visual-rubric.md = R1-R7 rubric with 1 and 4 anchors (§4.6), pass rule (all >=3, none 1 on flagships); review-record.schema.json {reviewer (GitHub login), sha, subjectState, scores{R1..R7}, notes, compositeSha256}; sr-matrix.template.json generated by NEW packages/qa/src/evidence/srMatrix.ts from PRD-05 tests/a11y/manual/scripts/*.md and sr-record.schema.json: flagships x tasks x {VoiceOver+Safari macOS 26, VoiceOver+Safari iOS 26, NVDA 2025.x+Chrome Win11, TalkBack+Chrome Android 15} + physical touch pass.",
+    "depends_on": [
+      "A11Y-084"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/sr-matrix.test.ts: generated template lists all 44 flagships from PRD-A11Y scripts; GA rule = every SR-1..SR-4 + physical-touch cell pass for all 44 flagships (issue-#16 rule, SC-29); no waiver allowance",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-18 | Upstream contracts (SC-40, formerly in depends_on): PRD-05:REQ-A11Y-43, PRD-05:REQ-A11Y-44",
+    "status": "todo"
+  },
+  {
+    "id": "QA-100",
+    "prd": "PRD-18",
+    "system": "human review",
+    "file": ".github/workflows/certify-release.yml (job record-review)",
+    "action": "INFRA",
+    "description": "REQ-QA-72: workflow_dispatch input mode=record-review with reviewer inputs; validates against review-record.schema.json (or PRD-05 sr-record schema for SR), binds sha + composite sha256, uploads review-record-<sha>-<subject>.json / a11y-manual-<sha>.json (retention 90). Never committed. The agent never fills reviewer scores.",
+    "depends_on": [
+      "QA-099",
+      "QA-034"
+    ],
+    "priority": "P1",
+    "test": "workflows.test.ts asserts the job validates schema and has no git push",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-18",
+    "status": "todo"
+  },
+  {
+    "id": "QA-101",
+    "prd": "PRD-18",
+    "system": "release checklist",
+    "file": "NEW:certification/RELEASE_CHECKLIST.md",
+    "action": "CREATE",
+    "description": "REQ-QA-80 items 1-8 as a template with machine keys; NEW packages/qa/src/evidence/checklist.ts renders it into the release PR body (gh pr edit) from evidence-manifest.json + verify output, ticking mechanical items only from evidence; human items (L13/L14) ticked only from review records.",
+    "depends_on": [
+      "QA-088",
+      "QA-127"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/checklist.test.ts: failing lane -> item 2 unticked; no manual tick syntax accepted from input",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-22",
+    "status": "todo"
+  },
+  {
+    "id": "QA-102",
+    "prd": "PRD-18",
+    "system": "claims consumer",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "[REQ-QA-31] AC-QA-19: certify-release runs PRD-16 scripts/docs/lint-claims.mjs against claims.json as a consumer step; missing script -> provider missing: scripts/docs/lint-claims.mjs.",
+    "depends_on": [
+      "QA-091",
+      "QA-034",
+      "DX-134",
+      "DX-136"
+    ],
+    "priority": "P2",
+    "test": "dry-run certify-release shows the lint-claims step",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-19 | Upstream contracts (SC-40, formerly in depends_on): PRD-16:REQ-DX-77",
+    "status": "todo"
+  },
+  {
+    "id": "QA-103",
+    "prd": "PRD-18",
+    "system": "scripts",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "§10: add cert:static, cert:visual, cert:regression, cert:verify (inventory check + verify.ts; unclassified export -> exit 1 unclassified-export, AC-QA-03), cert:claims, cert:bundle (each goes through guard.ts where a browser is involved).",
+    "depends_on": [
+      "QA-088",
+      "QA-091",
+      "QA-021"
+    ],
+    "priority": "P0",
+    "test": "`node -p \"Object.keys(require('./package.json').scripts).filter(k=>k.startsWith('cert:')).length\"` = 6; fixture: removing @nonvisual makes `npm run cert:verify -- --fixture` exit 1 with unclassified-export",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-03",
+    "status": "todo"
+  },
+  {
+    "id": "QA-104",
+    "prd": "PRD-18",
+    "system": "docs",
+    "file": "CONTRIBUTING.md",
+    "action": "DOC",
+    "description": "[§18 item 8] DoD item 8: section \"Certification\" documenting cert:* scripts, remote iteration via cert:bundle + workflow_dispatch (no local browser runs), baseline-update process (label, diff report, design CODEOWNER), exemption and console-allowlist policy (expiry 180/90 days, contrast and console never exemptable).",
+    "depends_on": [
+      "QA-103",
+      "QA-070"
+    ],
+    "priority": "P2",
+    "test": "`rg -n \"cert:bundle|baseline-update\" CONTRIBUTING.md` >= 2",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08, AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-105",
+    "prd": "PRD-18",
+    "system": "human lanes",
+    "file": "certification/review/",
+    "action": "TEST",
+    "description": "[REQ-QA-70, REQ-QA-71] At RC-1: run L13 SR matrix and L14 rubric for all flagship subject-states and the 6 product scenes via record-review; this is human work (status stays todo until records exist); the agent only generates composites and checks record completeness with cert:verify.",
+    "depends_on": [
+      "QA-100",
+      "QA-098"
+    ],
+    "priority": "P1",
+    "test": "cert:verify on the RC SHA passes the review-record checks",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-18",
+    "status": "todo"
+  },
+  {
+    "id": "QA-106",
+    "prd": "PRD-18",
+    "system": "vacuous lint",
+    "file": "NEW:packages/qa/eslint/no-vacuous-assertions.js",
+    "action": "CREATE",
+    "description": "REQ-QA-41 ESLint rule auraglass/no-vacuous-assertions (SC-16 namespace; rule module here, registered in eslint-plugin-auraglass.js by QA-108) reporting: expect(container).toBeInTheDocument(); expect inside if(...) without an else branch that fails; for/forEach over querySelectorAll results without a preceding length assertion; getComputedStyle(...).animationDuration in jsdom tests; toMatchSnapshot() on DOM in src/** (toMatchInlineSnapshot of serialised props allowed); axe color-contrast assertions in jsdom.",
+    "depends_on": [
+      "QA-001"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/no-vacuous-assertions.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-107",
+    "prd": "PRD-18",
+    "system": "vacuous lint",
+    "file": "NEW:packages/qa/test/no-vacuous-assertions.test.ts",
+    "action": "TEST",
+    "description": "[REQ-QA-41] ESLint RuleTester: one invalid case per banned pattern (6), valid cases: getByRole assertion, if/else with expect in both, length-asserted loop, inline snapshot of props object.",
+    "depends_on": [
+      "QA-106"
+    ],
+    "priority": "P0",
+    "test": "node_modules/.bin/jest packages/qa/test/no-vacuous-assertions.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-108",
+    "prd": "PRD-18",
+    "system": "vacuous lint",
+    "file": "eslint-plugin-auraglass.js; eslint.config.js",
+    "action": "MODIFY",
+    "description": "[REQ-QA-41] MODIFY the existing eslint-plugin-auraglass.js (PKG-owned plugin, SC-16) to register no-vacuous-assertions from packages/qa/eslint/no-vacuous-assertions.js, and set auraglass/no-vacuous-assertions: error in eslint.config.js for src/**/*.test.{ts,tsx}, src/**/__tests__/**, tests/**/*.test.{ts,tsx}; L1 static runs it (no warn level, no per-file disables). No separate ag-test plugin.",
+    "depends_on": [
+      "QA-106",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "`node_modules/.bin/eslint \"src/**/*.test.tsx\" -f json` in remote CI reports 0 auraglass/no-vacuous-assertions violations after the rewrite tasks",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-109",
+    "prd": "PRD-18",
+    "system": "template tests",
+    "file": "src/**/*.test.tsx (265 templated files of REMOVE/CONSOLIDATE/DEPRECATE/REPLACE components) + matching src/**/__snapshots__/*.snap",
+    "action": "REMOVE",
+    "description": "REQ-QA-40: list = files from `rg -l \"Test Suite Coverage:\" src` whose component (same basename without .test) has disposition REMOVE (105), CONSOLIDATE (112), DEPRECATE (30) or REPLACE (18) in docs/auraglass-5/component-inventory.json; delete each with its __snapshots__/*.snap; one PR per top-level family directory (src/components/<family>), coordinated with PRD-08 removal PRs (if the component is already deleted, nothing to do).",
+    "depends_on": [
+      "QA-108"
+    ],
+    "priority": "P1",
+    "test": "`rg -l \"Test Suite Coverage:\" src` count drops by the PR's list size; L12 unit green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-110",
+    "prd": "PRD-18",
+    "system": "template tests",
+    "file": "src/**/*.test.tsx (85 templated files of KEEP/POLISH/REDESIGN components + 5 unmatched)",
+    "action": "MODIFY",
+    "description": "REQ-QA-40: rewrite each remaining templated file (KEEP 1, POLISH 24, REDESIGN 60) as behavioural tests with >=1 userEvent interaction or getByRole/findByRole assertion and no banned pattern; classify the 5 files not matched to an inventory record by reading their component and either delete (component not exported) or rewrite. REDESIGN components rewritten by their flagship PRD replace the file under REQ-QA-42 instead. Delete their .snap files.",
+    "depends_on": [
+      "QA-108"
+    ],
+    "priority": "P1",
+    "test": "AC-QA-13 command `rg -l \"Test Suite Coverage:\" src` returns 0 files; auraglass/no-vacuous-assertions lint 0 violations",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-111",
+    "prd": "PRD-18",
+    "system": "flagship contract",
+    "file": "NEW:packages/qa/src/unit/flagshipContract.ts",
+    "action": "CREATE",
+    "description": "REQ-QA-42 checker run in L12: for each of the 44 §11.2 flagships, src/<entry>/<Component>/<Component>.test.tsx exists and contains describe blocks named exactly \"controlled\", \"uncontrolled\", \"callbacks\", \"disabled\", \"data-ag-part contract\", \"ref forwarding\", \"aria associations\", \"ssr\"; missing flagship source -> not yet required (counted in report), flagship source present without the test -> fail. Keyboard stays in APG specs.",
+    "depends_on": [
+      "QA-010"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/flagship-contract.test.ts with fixture tree: missing \"ssr\" describe -> fail",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-112",
+    "prd": "PRD-18",
+    "system": "coverage floors",
+    "file": "jest.config.js",
+    "action": "MODIFY",
+    "description": "REQ-QA-43: replace coverageThreshold (:79-90) with path keys: \"./src/material/\" 90 lines/85 branches; each flagship directory 85/75; \"./src/theme/\" and \"./src/utils/\" 80/70; global = the value measured on the first certify-pr / unit run (rounded down), ratcheting to 70/60 (PRD §11 item 4); values recorded in certification/ratchets.json and may only increase. Path keys for directories that do not exist yet are added when the directory lands.",
+    "depends_on": [
+      "QA-079",
+      "QA-113"
+    ],
+    "priority": "P1",
+    "test": "certify-pr / unit runs `jest --coverage --ci` and fails below any floor; ratchets.test.ts rejects a decrease",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-113",
+    "prd": "PRD-18",
+    "system": "jest hygiene",
+    "file": "jest.config.js + NEW:__mocks__/fileMock.js",
+    "action": "MODIFY",
+    "description": "REQ-QA-44: create __mocks__/fileMock.js (`module.exports = \"test-file-stub\";`) for the :38 mapping; testEnvironment, testEnvironmentOptions and setupFilesAfterEnv appear exactly once; delete jest.visual.config.js and tests/visual/visual-regression.test.js.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "NEW packages/qa/test/jest-config.test.ts: require(\"./jest.config.js\") mapping target exists; keys appear once (source text count); `test -e jest.visual.config.js` false",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-114",
+    "prd": "PRD-18",
+    "system": "L12 unit",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "[REQ-QA-43] L12 unit lane: `jest --ci --coverage` (in the cert image so OCR tests have tesseract), auraglass/no-vacuous-assertions lint, flagshipContract; junit via jest-junit only if already a dependency, otherwise Jest --json converted by runLane.ts; 0 tests -> fail.",
+    "depends_on": [
+      "QA-029",
+      "QA-112"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr / unit green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-13",
+    "status": "todo"
+  },
+  {
+    "id": "QA-115",
+    "prd": "PRD-18",
+    "system": "retire 356 cert",
+    "file": "scripts/audit/storybook-visual-certification.mjs + tests/visual/design-system/storybook-visual-certification.spec.ts",
+    "action": "REMOVE",
+    "description": "REQ-QA-50: delete both files (main only; kept unused on release/4.x) and every caller (`rg -n \"storybook-visual-certification\" package.json .github scripts tests .storybook` = 0); remove the test:visual:ci dependency on reports/component_inventory.json. The Storybook PRD removes its own callers (REQ-SB-41).",
+    "depends_on": [
+      "QA-056",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "`rg -n \"storybook-visual-certification\" package.json .github scripts tests` = 0; certify-pr green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-116",
+    "prd": "PRD-18",
+    "system": "retire configs",
+    "file": "playwright.visual-ci.config.ts + playwright.visual-matrix.config.ts",
+    "action": "REMOVE",
+    "description": "REQ-QA-50: first run tests/visual/design-system/glass-audit-coverage.spec.ts, accessibility-story-quality.spec.ts, token-purity-layout-audit.spec.ts and tests/visual/liquid-glass/liquid-glass-showcase.spec.ts under certification/playwright.cert.config.ts (project legacy4x, testMatch listing exactly these 4) remotely green or with the same verdicts as before; then delete both configs.",
+    "depends_on": [
+      "QA-018",
+      "QA-025"
+    ],
+    "priority": "P1",
+    "test": "remote run of project legacy4x shows the 4 specs executed (junit tests>0); `test -e playwright.visual-ci.config.ts` false",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-117",
+    "prd": "PRD-18",
+    "system": "retire string checks",
+    "file": "scripts/verify-glass-pipeline.js",
+    "action": "REMOVE",
+    "description": "REQ-QA-51: delete the script and npm run glass:validate; MODIFY glass-pipeline.yml (PKG-owned, PKG-038) to remove only the duplicate glass:validate steps at :70-74, keeping job names (SC-10); the README \"31-check glass pipeline\" sentences (README.md:26,618) are removed by PRD-TRUST/PRD-DX, not here: report if still present.",
+    "depends_on": [
+      "QA-031",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "`rg -n \"verify-glass-pipeline|glass:validate\\b\" package.json .github scripts` = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-118",
+    "prd": "PRD-18",
+    "system": "retire score job",
+    "file": ".github/workflows/design-system-compliance.yml",
+    "action": "REMOVE",
+    "description": "REQ-QA-51: before deleting, confirm every non-score job PRD-DS put in this file (DS-047/061/062/076 token gates, SC-39: QA-118 is the single remover) has an equivalent in certify-pr / static (g-static); move missing ones there; then delete the file. Delete only when certify-pr is a required check (§20 step 4 operator action recorded).",
+    "depends_on": [
+      "QA-078",
+      "QA-037",
+      "DS-061",
+      "DS-076"
+    ],
+    "priority": "P0",
+    "test": "`test -e .github/workflows/design-system-compliance.yml` false; workflows.test.ts finds 0 score jobs",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-119",
+    "prd": "PRD-18",
+    "system": "retire visual-regression",
+    "file": ".github/workflows/visual-regression.yml",
+    "action": "REMOVE",
+    "description": "REQ-QA-51: delete after certify-pr / regression produces the visual-base / visual-head artifacts and runs PRD-01 visual-class.mjs (e-visual-class); confirm with PRD-01 that change-class.yml reads the new artifacts (REL-052). Deleted on main only; TRUST-062 edits it on release/4.x (SC-09).",
+    "depends_on": [
+      "QA-072"
+    ],
+    "priority": "P0",
+    "test": "`test -e .github/workflows/visual-regression.yml` false; a release/4.x PR still produces visual-class.json",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-120",
+    "prd": "PRD-18",
+    "system": "retire orphans",
+    "file": "scripts/{visual-regression-system.js,visual-test-runner.js,storybook-exhaustive-qa.js} + visual-baselines/ + scripts/audit/{3.0.7-source-audit.js,3.1-frame-loop-audit.js} + scripts/ci/{stale-3-3-scan.js,style-audit.js} + tests/e2e/navigation.spec.ts",
+    "action": "REMOVE",
+    "description": "REQ-QA-52 / §9: delete these files (scripts/ci/style-audit-v2.js is kept) and their package.json scripts (test:visual, test:visual:headed, test:visual:update, test:visual:components, test:visual:responsive, test:visual:a11y, test:visual:tokens, test:visual:ci, test:visual:matrix, audit:ux, audit:visual:evidence -> replaced by cert:*); scripts/ci/verify-app-chrome-visuals.js loses its screenshot capture (:898-903) after g-behaviour ports its keyboard/console checks. scripts/ci/verify-recipes-render.js is NOT deleted here: DX-100 is its single remover (SC-39).",
+    "depends_on": [
+      "QA-103",
+      "QA-082",
+      "QA-015"
+    ],
+    "priority": "P1",
+    "test": "`rg -n \"visual-test-runner|visual-regression-system|storybook-exhaustive-qa|stale-3-3-scan|style-audit\\.js|verify-recipes-render\" package.json .github scripts` = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-121",
+    "prd": "PRD-18",
+    "system": "probe port",
+    "file": "NEW:certification/probe-disposition.json",
+    "action": "CREATE",
+    "description": "REQ-QA-52: for each of the 45 root .mjs probes deleted by PRD-00 REQ-TRUST-36 (list via `git show 15b6de6f7 --name-only` / `git ls-tree 15b6de6f7 --name-only | rg \"\\.mjs$\"`), read `git show 15b6de6f7:<file>` and record {file, disposition: \"detector\"|\"dropped\", detector?: packages/qa path, fixture?: path, reason}. Each detector disposition must have a detector module + positive and negative fixture. Deviation: the PRD allows the list in the PR body; a committed JSON (no evidence) makes AC-QA-20 checkable.",
+    "depends_on": [
+      "TRUST-064",
+      "QA-045"
+    ],
+    "priority": "P2",
+    "test": "NEW packages/qa/test/probe-disposition.test.ts: 45 entries, unique files, every detector path and fixture exists",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20 | Upstream contracts (SC-40, formerly in depends_on): PRD-00:REQ-TRUST-36",
+    "status": "todo"
+  },
+  {
+    "id": "QA-122",
+    "prd": "PRD-18",
+    "system": "legacy driver",
+    "file": "tests/visual/design-system/token-purity-layout-audit.spec.ts",
+    "action": "DEPRECATE",
+    "description": "§9: on main mark deprecated at 5.0.0-alpha.1 (excluded from certify-main) and delete at GA; legacy-4x lane keeps running on release/4.x only.",
+    "depends_on": [
+      "QA-025"
+    ],
+    "priority": "P2",
+    "test": "at GA `test -e tests/visual/design-system/token-purity-layout-audit.spec.ts` false on main",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-20",
+    "status": "todo"
+  },
+  {
+    "id": "QA-123",
+    "prd": "PRD-18",
+    "system": "alpha.1 calibration",
+    "file": "certification/ratchets.json",
+    "action": "TEST",
+    "description": "REQ-QA-81 / §20 step 8: at 5.0.0-alpha.1 run L2 + L10 on the alpha SHA and hand the artifacts to PRD-02 (docs/size-budgets.json via its calibration PR) and PRD-07 (tests/perf/harness/budgets.json); bootstrap baselines via baseline-update, one PR per flagship family with human L14 approval; freeze this PRD's ratchets.",
+    "depends_on": [
+      "QA-068",
+      "QA-085",
+      "QA-080"
+    ],
+    "priority": "P1",
+    "test": "alpha.1 run URLs; baseline PRs approved by design CODEOWNER",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-08, AC-QA-21",
+    "status": "todo"
+  },
+  {
+    "id": "QA-124",
+    "prd": "PRD-18",
+    "system": "GA certification",
+    "file": "certification/RELEASE_CHECKLIST.md",
+    "action": "TEST",
+    "description": "[REQ-QA-80] GA run: certify-release on the GA SHA (clean worktree), every lane pass, verify pass, claims.json built (worst OCR >=4.5/3/7 AC-QA-06; solid/forced-colors 0 backdrop filters and contrast-more >=0.5% delta AC-QA-07), canaries green (AC-QA-15), checklist auto-rendered (AC-QA-22), bundle attached, certify-pr p90 <=20 min over 20 runs and certify-release <=90 min (AC-QA-21). Agent reports evidence links; humans approve.",
+    "depends_on": [
+      "QA-096",
+      "QA-101",
+      "QA-105",
+      "QA-056",
+      "QA-058",
+      "QA-086",
+      "QA-036"
+    ],
+    "priority": "P1",
+    "test": "certify-release run URL on the GA SHA all green",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-06, AC-QA-07, AC-QA-14, AC-QA-15, AC-QA-21, AC-QA-22",
+    "status": "todo"
+  },
+  {
+    "id": "QA-125",
+    "prd": "PRD-18",
+    "system": "L5 behaviour (nightly/RC axe)",
+    "file": ".github/workflows/certify-nightly.yml (job behaviour-axe-full); .github/workflows/certify-release.yml (job behaviour-axe-full)",
+    "action": "INFRA",
+    "description": "REQ-QA-18 / REQ-A11Y-42 (b) / SC-29: job behaviour-axe-full runs tests/a11y/browser/axe.spec.ts (A11Y-078) with color-contrast enabled on every T0/T1/T2 story in all 8 scenes (photo, saturated-abstract, dense-text, dark-media, flat-white, flat-black, hf-pattern, video-frame), light and dark, chromium and webkit; 0 serious/critical, moderate fails for T1 flagships; writes an L5 lane manifest; retention-days 30 nightly, 90 release.",
+    "depends_on": [
+      "QA-033",
+      "QA-034",
+      "QA-082",
+      "QA-039",
+      "A11Y-078"
+    ],
+    "priority": "P0",
+    "test": "workflows.test.ts asserts the job exists in both workflows with 8 scenes x 2 engines; first nightly run URL shows > 0 cells per scene",
+    "storybook": "n/a",
+    "acceptance": "AC-QA-14; REQ-A11Y-42 (b); evidence verifier (REQ-QA-30) requires the manifest on RC/GA SHAs",
+    "status": "todo"
+  },
+  {
+    "id": "QA-126",
+    "prd": "PRD-18",
+    "system": "L10 GPU pool (PERF ratchet)",
+    "file": "packages/qa/src/matrix/shard.ts; certification/runner/README.md",
+    "action": "MODIFY",
+    "description": "REQ-QA-20 / REQ-PERF-36 / SC-29: size and provision the GPU runner pool for PRD-PERF's per-PR frame-time ratchet tests/perf/browser/pr-ratchet.spec.ts (44 flagships, standard tier, profile (a)): pool = ceil(44 x perFlagshipSeconds / 600) hosts from the alpha.1 calibration; gated EC2 g5/g4dn (tagged attempt-id/sha/lane/ttl, REQ-QA-64) or a GitHub GPU larger runner; trusted refs only, no cloud credentials on fork PR code. Record pool size, monthly cost and quota in certification/runner/README.md; on an IAM deny record action/resource/role and the minimal grant (PRD §21 OI-QA-04/05).",
+    "depends_on": [
+      "QA-085",
+      "QA-123",
+      "PERF-039"
+    ],
+    "priority": "P1",
+    "test": "packages/qa/test/shard.test.ts asserts gpuPoolSize(44, s) = ceil(44*s/600); first PR ratchet run completes <= 10 min",
+    "storybook": "n/a",
+    "acceptance": "REQ-PERF-36 runs on the pool; OI-QA-05 closed",
+    "status": "todo"
+  },
+  {
+    "id": "QA-127",
+    "prd": "PRD-18",
+    "system": "flagship deliverables gate",
+    "file": "NEW:scripts/ci/verify-flagship-deliverables.mjs; NEW:certification/flagship-deliverables.json",
+    "action": "CREATE",
+    "description": "REQ-QA-80 item 4 / architecture §11.3: create the per-flagship deliverables gate. certification/flagship-deliverables.json lists the 44 §11.2 flagships (owner PRDs append their own entries: AI-092, MED-156, and the CTL/OVL/NAV/DATA/FND flagship tasks) with paths to <Component>.meta.ts (variant metadata + migration table), data-ag-part/data-state table, APG script tests/a11y/apg/<kebab>.apg.spec.ts, budget line in docs/size-budgets.json, perf grade source, L7 baseline ids, and codemod fixture dir. The script fails closed: a listed flagship with any missing item, an item marked optional, perf grade < C, or a §11.2 flagship absent from the config exits 1 with '<flagship>: missing <item>'. Registered in certification/lanes.config.ts L1 Static; its JSON output feeds checklist item 4 (QA-101).",
+    "depends_on": [
+      "QA-029"
+    ],
+    "priority": "P0",
+    "test": "packages/qa/test/flagship-deliverables.test.ts: fixture flagship missing APG script -> exit 1 naming the item; perf grade D -> exit 1; complete fixture -> exit 0; flagship in §11.2 but not in config -> exit 1",
+    "storybook": "n/a",
+    "acceptance": "REQ-QA-80 item 4 auto-ticked only from this gate's output; AI PRD §21 item 7 and OI-MED-07 closed",
+    "status": "todo"
+  }
+]

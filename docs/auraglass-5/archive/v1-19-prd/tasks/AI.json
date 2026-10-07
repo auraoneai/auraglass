@@ -1,0 +1,2165 @@
+[
+  {
+    "id": "AI-001",
+    "prd": "PRD-13",
+    "system": "ai/data-model",
+    "file": "NEW:src/ai/types.ts",
+    "action": "CREATE",
+    "description": "Create the §4.2 data model exactly: AgRole, AgMessage<M>, AgMessageMetadata (createdAt, model, status pending|streaming|complete|error|aborted, usage), AgPart union (text, reasoning, tool-${string}, dynamic-tool, source-url, source-document, file, step-start, data-${string}), AgToolPart (toolCallId, state, input, output, errorText, approval{id,approved?,reason?}), AgToolSdkState (7 values), AgToolDisplayState (6 values), AgUsage, AgChatStatus, plus AgStep (REQ-AI-36), AgRenderers, ThreadLabels/MessageLabels/ComposerLabels/ToolCallLabels types. Type-only module: no runtime code, no import of `ai`.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/types/ai-sdk-compat.test-d.ts compiles (AI-009); `tsc --noEmit` on src/ai/types.ts passes",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-03 / AC-AI-03: types compile and match §4.2 field-for-field",
+    "status": "todo"
+  },
+  {
+    "id": "AI-002",
+    "prd": "PRD-13",
+    "system": "ai/data-model",
+    "file": "NEW:src/ai/tool-state.ts",
+    "action": "CREATE",
+    "description": "Export pure `toolDisplayState(part: AgToolPart | dynamic-tool part): AgToolDisplayState` implementing the §4.2 mapping table (input-streaming→queued; input-available and approval-responded+approved→running; approval-requested→needs-approval; output-available→succeeded; output-error→failed; output-denied and approval-responded+approved===false→denied) and `DEFAULT_TOOL_STATE_LABELS` (Preparing, Running, Needs approval, Done, Failed, Denied). Unknown future state → dev warning once and `running`.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/__tests__/tool-state.test.ts table test over all 7 SDK states + approval-responded both branches",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02 (toolDisplayState export); AC-AI-08 mapping half",
+    "status": "todo"
+  },
+  {
+    "id": "AI-003",
+    "prd": "PRD-13",
+    "system": "ai/data-model",
+    "file": "NEW:src/ai/__tests__/tool-state.test.ts",
+    "action": "TEST",
+    "description": "Jest table test: 8 rows (7 SDK states, approval-responded split into approved/denied) → expected display state and default label; unknown state warns exactly once via console.warn spy.",
+    "depends_on": [
+      "AI-002"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/jest src/ai/__tests__/tool-state.test.ts` green",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-08 (mapping)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-004",
+    "prd": "PRD-13",
+    "system": "ai/data-model",
+    "file": "NEW:src/ai/text.ts",
+    "action": "CREATE",
+    "description": "Export `getMessageText(message: AgMessage): string`: joins `text` parts in order with \"\\n\\n\", excludes reasoning, tool, source, file and data parts; returns \"\" when none.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/__tests__/text.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02 (getMessageText); REQ-AI-22 copy source",
+    "status": "todo"
+  },
+  {
+    "id": "AI-005",
+    "prd": "PRD-13",
+    "system": "ai/data-model",
+    "file": "NEW:src/ai/__tests__/text.test.ts",
+    "action": "TEST",
+    "description": "Cases: single text; two text parts joined by blank line; reasoning excluded; tool/source/file ignored; empty parts → \"\".",
+    "depends_on": [
+      "AI-004"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-22 (copy text)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-006",
+    "prd": "PRD-13",
+    "system": "ai/tooling",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "Add `ai` (and `@ai-sdk/react` only if the 13f adapter test needs it at that time) to devDependencies with an exact version (no ^/~); never to dependencies or peerDependencies. Record the pinned version in the PR description and in the header comment of src/ai/__fixtures__/ui-messages.ai-sdk.json generator output.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "`node -e \"const p=require('./package.json');if((p.dependencies||{}).ai||(p.peerDependencies||{}).ai)process.exit(1)\"` exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-03 (version recorded); AC-AI-02 (no runtime ai dep)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-007",
+    "prd": "PRD-13",
+    "system": "ai/fixtures",
+    "file": "NEW:src/ai/__fixtures__/ui-messages.source.ts",
+    "action": "CREATE",
+    "description": "Author ≥20 UIMessage fixtures typed `satisfies UIMessage[]` against the pinned `ai` devDependency: ≥1 per part type (text streaming+done, reasoning streaming+done, tool-* in each of the 7 states incl. approval-requested/responded, dynamic-tool, source-url, source-document, file image + pdf, step-start, data-weather) plus one deliberate unknown-type fixture marked `__expectWarning: true` (cast documented). Product-realistic copy (support-engineering agent), no lorem.",
+    "depends_on": [
+      "AI-006",
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/tsc --noEmit src/ai/__fixtures__/ui-messages.source.ts` passes against the pinned ai",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-04 (≥20 fixtures, every part type and tool state)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-008",
+    "prd": "PRD-13",
+    "system": "ai/fixtures",
+    "file": "NEW:scripts/build/gen-ai-fixtures.mjs",
+    "action": "CREATE",
+    "description": "Generator that compiles src/ai/__fixtures__/ui-messages.source.ts (via the repo TypeScript compiler API, no network) and writes src/ai/__fixtures__/ui-messages.ai-sdk.json with `{ aiVersion, generatedFrom, fixtures: [...] }`; `--check` mode exits non-zero if the committed JSON differs from regenerated output.",
+    "depends_on": [
+      "AI-007"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/build/gen-ai-fixtures.mjs --check` exits 0 after generation; a hand-edited JSON makes it exit 1",
+    "storybook": "n/a",
+    "acceptance": "§4.2 \"generated, not hand-written\"; AC-AI-04",
+    "status": "todo"
+  },
+  {
+    "id": "AI-009",
+    "prd": "PRD-13",
+    "system": "ai/types",
+    "file": "NEW:tests/types/ai-sdk-compat.test-d.ts",
+    "action": "TEST",
+    "description": "Type test: `const m: AgMessage[] = uiMessages` (UIMessage[] from pinned ai) with no cast; every SDK tool state literal assignable to AgToolSdkState via a mapped-type exhaustiveness check; `ReturnType<typeof useChat>[\"status\"]` (type-only import from @ai-sdk/react if pinned, else ChatStatus from ai) assignable to AgChatStatus. Use plain `tsc` assignability (repo has no tsd); do not add `// @ts-expect-error` to pass. If a §4.2 state is absent in the pinned version, add a comment naming it (union kept, forward compatible).",
+    "depends_on": [
+      "AI-007",
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/tsc --noEmit -p tests/types/tsconfig.json` passes (remote CI if `npm run test:types` triggers full build)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-03 / AC-AI-03",
+    "status": "todo"
+  },
+  {
+    "id": "AI-010",
+    "prd": "PRD-13",
+    "system": "ai/types",
+    "file": "tests/types/tsconfig.json",
+    "action": "MODIFY",
+    "description": "Ensure `include` covers tests/types/ai-sdk-compat.test-d.ts (current glob ./**/*.ts already matches; verify), add `\"aura-glass/ai\": [\"../../dist/ai/index\"]` path only if the generic `aura-glass/*` mapping does not resolve it, and keep `types` list unchanged except adding nothing else.",
+    "depends_on": [
+      "AI-009"
+    ],
+    "priority": "P1",
+    "test": "`tsc -p tests/types/tsconfig.json --listFilesOnly | rg ai-sdk-compat` prints the file",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-03",
+    "status": "todo"
+  },
+  {
+    "id": "AI-011",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": "NEW:scripts/ci/verify-ai-purity.mjs",
+    "action": "CREATE",
+    "description": "AST gate (TypeScript compiler API) over src/ai/**/*.{ts,tsx} excluding __tests__, __fixtures__ and *.stories.tsx for runtime rules: bans identifiers/members fetch, XMLHttpRequest, WebSocket, EventSource, navigator.sendBeacon, process.env.* except exact `process.env.NODE_ENV`, import.meta.env, module specifiers matching ^(ai|openai|@ai-sdk/|@anthropic-ai/|@google/|@google-cloud/), Math.random, dangerouslySetInnerHTML, scrollIntoView, `behavior: \"smooth\"` object literals outside `JumpToLatest` handler in Thread.tsx (REQ-AI-15), module-scope `document.head`/`document.` access, `!important` in src/ai/**/*.css. setTimeout/setInterval allowed only in src/ai/error/ProviderErrorState.tsx and src/ai/message/StreamingText.tsx. Prints file:line:rule, exits 1 on any violation, `--json` for CI artifact.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "NEW:tests/ci/verify-ai-purity.test.mjs (AI-012)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-04, REQ-AI-15 (static), REQ-AI-19 (static) / AC-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-012",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": "NEW:tests/ci/verify-ai-purity.test.mjs",
+    "action": "TEST",
+    "description": "`node --test` suite with fixture trees under NEW:tests/ci/fixtures/ai-purity/{clean,violations,allowlist}/: one failing fixture per banned rule (≥16), `process.env.NODE_ENV` passes, `process.env.PRISM_API_KEY` fails, setTimeout in allowlisted path passes and in Thread.tsx fails, stories/tests excluded from runtime rules.",
+    "depends_on": [
+      "AI-011"
+    ],
+    "priority": "P0",
+    "test": "`node --test tests/ci/verify-ai-purity.test.mjs` green; every rule has a failing fixture",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-013",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule `no-network-in-ai` (same banned identifiers/specifiers as the purity script, scoped by the caller config to src/ai/**) with messages pointing to \"route model calls through the app (Kiro Prism), not aura-glass/ai\". Do not modify existing rules.",
+    "depends_on": [
+      "AI-011",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "NEW:tests/lint/no-network-in-ai.test.js RuleTester",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-04",
+    "status": "todo"
+  },
+  {
+    "id": "AI-014",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": "NEW:tests/lint/no-network-in-ai.test.js",
+    "action": "TEST",
+    "description": "ESLint RuleTester: ≥10 invalid cases (fetch call, new WebSocket, EventSource, import \"ai\", import \"@ai-sdk/react\", require(\"openai\"), process.env.X, import.meta.env.X, navigator.sendBeacon, XMLHttpRequest) and valid cases (process.env.NODE_ENV, a local identifier named fetchState). Add `<rootDir>/tests/lint/**/*.test.js` to jest.config.js testMatch only if not already present (PROMPT_04a may have added it).",
+    "depends_on": [
+      "AI-013"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/jest tests/lint/no-network-in-ai.test.js` green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-04",
+    "status": "todo"
+  },
+  {
+    "id": "AI-015",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register `auraglass/no-network-in-ai: \"error\"` for files `src/ai/**` (stories and tests excluded via `ignores` for __fixtures__ only; stories are included).",
+    "depends_on": [
+      "AI-013",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/eslint src/ai` exits 0 on clean tree and 1 when a fetch is introduced in a scratch file (revert after)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-04",
+    "status": "todo"
+  },
+  {
+    "id": "AI-016",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "NEW:src/ai/index.ts",
+    "action": "CREATE",
+    "description": "Plain re-export module, no \"use client\" directive: export all Ag* types from ./types, `toolDisplayState` from ./tool-state, `getMessageText` from ./text. Later prompts append component exports; the final value-export set is exactly the 15 of REQ-AI-02.",
+    "depends_on": [
+      "AI-002",
+      "AI-004"
+    ],
+    "priority": "P0",
+    "test": "tests/exports/ai-subpath.spec.mjs export list check",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02 (partial: 2 of 15 at this stage)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-017",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "build/exports.manifest.json",
+    "action": "MODIFY",
+    "description": "Add the `./ai` entry (source src/ai/index.ts → dist/ai/index.js + dist/ai/index.d.ts, `types` then `default` only) to the PRD-02 manifest, then run `node scripts/build/generate-exports.mjs` so package.json#exports is regenerated (never hand-edit package.json#exports). `./ai.css` is added in AI-037 once the CSS exists.",
+    "depends_on": [
+      "AI-016",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/build/generate-exports.mjs --check` exits 0; tests/exports/manifest-shape.test.ts (PRD-02) green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-01 / AC-AI-01",
+    "status": "todo"
+  },
+  {
+    "id": "AI-018",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "NEW:etc/api/ai.api.md; NEW:etc/api/ai.exports.json",
+    "action": "DOC",
+    "description": "Generate the API Extractor report for entry src/ai/index.ts (PRD-01 format; config NEW:api-extractor.ai.json or the PRD-01 per-entry config if it exists) and the runtime snapshot NEW:etc/api/ai.exports.json via scripts/api/export-snapshot.mjs (PRD-00). If API Extractor is not yet a devDependency, write the report by hand, header `DRAFT (unverified by API Extractor; blocked on PRD-01)`, and report the blocker.",
+    "depends_on": [
+      "AI-016",
+      "TRUST-071",
+      "TRUST-072",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "PRD-01 API report diff job green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02 (API-report diff required for any addition)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-019",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "NEW:tests/exports/ai-subpath.spec.mjs",
+    "action": "TEST",
+    "description": "Against the packed tarball installed into a temp consumer (remote CI): `import(\"aura-glass/ai\")` resolves; `Object.keys(mod).sort()` equals etc/api/ai.exports.json; asserts every key ⊆ the REQ-AI-02 list of 15; `import.meta.resolve(\"aura-glass/ai.css\")` resolves once AI-037 lands (assertion gated on the manifest containing ./ai.css, not skipped); attw + publint run for the subpath.",
+    "depends_on": [
+      "AI-017",
+      "AI-018"
+    ],
+    "priority": "P0",
+    "test": "`node tests/exports/ai-subpath.spec.mjs` in the remote packaging lane",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-01, REQ-AI-02 / AC-AI-01",
+    "status": "todo"
+  },
+  {
+    "id": "AI-020",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "NEW:src/ai/__tests__/side-effects.test.ts",
+    "action": "TEST",
+    "description": "Using PRD-02 harness logic (scripts/ci/verify-side-effects.mjs traps), import src/ai/index.ts in a fresh jsdom module registry and assert 0 addEventListener, 0 setTimeout/setInterval/rAF, 0 document.head.appendChild, 0 <style>/<script> nodes, 0 fetch.",
+    "depends_on": [
+      "AI-016",
+      "PKG-042"
+    ],
+    "priority": "P0",
+    "test": "`./node_modules/.bin/jest src/ai/__tests__/side-effects.test.ts` green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-06",
+    "status": "todo"
+  },
+  {
+    "id": "AI-021",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "docs/dependency-allowlist.json",
+    "action": "MODIFY",
+    "description": "Ensure the PRD-02 allowlist gate (scripts/ci/verify-deps.mjs) scans dist/ai/** and that no `allowedImporters` glob grants any package to src/ai/** (only @base-ui/react, clsx, @tanstack/react-virtual reachable via dependencies).",
+    "depends_on": [
+      "AI-017",
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/ci/verify-deps.mjs` green with ./ai in scope; a scratch `import \"openai\"` in src/ai fails it (revert)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-05 / AC-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-022",
+    "prd": "PRD-13",
+    "system": "ai/perf",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add four provisional budget lines (PRD-02 format, marked provisional until PRD-19 alpha calibration): `{Thread,Message,Composer} from aura-glass/ai` ≤25 KB min+gz; `{ToolCall,Reasoning,AgentSteps}` ≤8 KB incremental; `{SourceList,Citation}` ≤6 KB incremental; `aura-glass/ai.css` ≤6 KB gz. Lines fail (not skip) when the named exports are missing after 13d.",
+    "depends_on": [
+      "AI-017",
+      "PKG-048"
+    ],
+    "priority": "P1",
+    "test": "`node scripts/ci/verify-size-budgets.mjs` lists the 4 AI lines",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-13 (budget lines exist)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-023",
+    "prd": "PRD-13",
+    "system": "ai/gates",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "Add AI steps by MODIFY to PKG's glass-pipeline.yml (no new workflow file; SC-10 job names unchanged; SC-29): npm ci; node scripts/ci/verify-ai-purity.mjs --json (artifact); eslint src/ai --max-warnings 0; node --test tests/ci/verify-ai-purity.test.mjs; jest src/ai tests/lint/no-network-in-ai.test.js; node scripts/build/gen-ai-fixtures.mjs --check; tsc -p tests/types/tsconfig.json. No secrets; public/private runner handling per ci-selection.md.",
+    "depends_on": [
+      "AI-012",
+      "AI-014",
+      "AI-009",
+      "AI-020",
+      "AI-008",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "workflow run green on the PR; artifact ai-purity.json uploaded",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-02, AC-AI-03 (CI artifacts, D-32)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-024",
+    "prd": "PRD-13",
+    "system": "ai/icons",
+    "file": "src/icons/ai/index.ts",
+    "action": "INFRA",
+    "description": "Audit glyphs needed by ./ai (send, stop, attach, sparkle, tool, source, copy, regenerate, thumbs-up, thumbs-down, check, x-circle, clock, shield/approval, chevron, external-link, alert) against src/icons/ai.ts and the PRD-02 per-glyph `./icons/<name>` modules; consume existing glyphs by per-glyph import only; file each missing glyph as a request to the PRD-02 icon pipeline (one module per glyph). Do not create a new icon set in src/ai.",
+    "depends_on": [
+      "AI-016",
+      "FND-048",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "`rg -n \"from \\\"(\\.\\./)+icons/\" src/ai` shows only per-glyph imports; verify-ai-purity green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-60 (icons paired with every state)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-025",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/renderers.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" module: `AiRenderersProvider({ renderers, renderText, children })` context and `useAiRenderers()` (internal, used only by Thread.Items) returning the merged map; `resolveRenderer(map, type)` pure helper (exact type → `tool-*`/`data-*` prefix → default) exported internally for MessageParts.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "MessageParts.test.tsx \"override precedence exact > prefix > default\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-18",
+    "status": "todo"
+  },
+  {
+    "id": "AI-026",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/StreamingText.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" leaf. Props `text`, `streaming`, `announce` (complete|sentences|off, default complete), `renderText?`, `messageId?`. Displayed string coalesced to ≤1 commit per animation frame via an internal external store + `useSyncExternalStore`, rAF scheduled once and cancelled on unmount. Caret `<span data-ag-part=\"caret\" aria-hidden=\"true\">` only while streaming. Announcements through the PRD-05 announcer: complete → one polite message of final text truncated to 600 chars + \"…response continues in the conversation\"; sentences → sentence-boundary batches at most every 1,000 ms (setTimeout allowlisted, cleared on unmount); off → none. Text default `white-space: pre-wrap` plain text.",
+    "depends_on": [
+      "AI-001",
+      "A11Y-054",
+      "A11Y-027",
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/message/__tests__/StreamingText.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-20, REQ-AI-21, REQ-AI-63 (caret stops when motion≠full)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-027",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/__tests__/StreamingText.test.tsx",
+    "action": "TEST",
+    "description": "React Profiler: 1,000 prop updates inside one frame → exactly 1 commit; caret present only while streaming; aria-busy true→false lifecycle on parent content; announcer mock call counts for complete (1, ≤600 chars + suffix for a 2,000-char text), sentences (fake timers: no two calls <1,000 ms apart), off (0); 0 pending timers/rAF after unmount.",
+    "depends_on": [
+      "AI-026"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-20, REQ-AI-21 / AC-AI-13 (commits per frame ≤1)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-028",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/MessageParts.tsx",
+    "action": "CREATE",
+    "description": "Server-safe (no directive, no hooks, no context). Props `message`, `renderers?`, `renderText?`, `citations?` (off|markers), `showSteps?`, `thumbnailSize?` (96). Iterates parts in order through `resolveRenderer`; defaults: text → StreamingText when part.state or message status is streaming, else `<span data-ag-part=\"text\">` pre-wrap; file → image thumbnail `<img loading=\"lazy\" decoding=\"async\" width height alt=filename||\"Attached image\">` or chip with filename, type and link (`download` for blob:/data:); step-start → `<hr role=\"separator\">` when showSteps; data-* → null unless renderer provided; unknown → null + one dev warning naming the type. Reasoning/tool/source defaults are wired in AI-067; until then they render null with the same dev warning (documented in the PR). No dangerouslySetInnerHTML.",
+    "depends_on": [
+      "AI-025",
+      "AI-026"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/message/__tests__/MessageParts.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-18, REQ-AI-19, REQ-AI-23, REQ-AI-64",
+    "status": "todo"
+  },
+  {
+    "id": "AI-029",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/__tests__/MessageParts.test.tsx",
+    "action": "TEST",
+    "description": "Over ui-messages.ai-sdk.json text/file/step-start/data/unknown fixtures: `data-ag-part` tree snapshot (no class names); override precedence exact > prefix > default; unknown → null + exactly one warning; `<img src=x onerror=alert(1)>` text renders literally (no img element); image alt/width/height/loading/decoding; non-image chip with download for blob: URL. Extended to every fixture in AI-067.",
+    "depends_on": [
+      "AI-028",
+      "AI-008"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-18, REQ-AI-19, REQ-AI-23 / AC-AI-04 (partial)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-030",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/Message.tsx",
+    "action": "CREATE",
+    "description": "Server-safe compound: `Message.Root` (`<article aria-labelledby>`, props message, author?, labels?, locale?, timeZone?; data-role, data-state from metadata.status default complete; visually hidden heading \"{author}, {time}\" via Intl.DateTimeFormat(locale,{timeZone,timeStyle:\"short\"}); default authors You/Assistant/System/Tool), `Message.Avatar` (data-ag-part=avatar), `Message.Content` (renders MessageParts, aria-busy while streaming), `Message.Footer`; re-exports client `Message.Actions`/`Message.Action` from MessageActions.tsx. aborted → \"Stopped\" text. Surface roles per §4.1 via PRD-04 Surface (assistant content-raised, user content-raised + --ag-ai-user-bubble-ink, system/tool none). No hooks.",
+    "depends_on": [
+      "AI-028",
+      "MAT-047",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/message/__tests__/Message.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-16, REQ-AI-17, REQ-AI-24 (aborted), REQ-AI-07",
+    "status": "todo"
+  },
+  {
+    "id": "AI-031",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/MessageActions.tsx",
+    "action": "CREATE",
+    "description": "\"use client\": `Message.Actions` (data-ag-part=actions, always in a11y tree and tab order) and `Message.Action` (`kind: copy|regenerate|feedback|custom`). copy → navigator.clipboard.writeText(getMessageText(message)) + announcer \"Copied\"; regenerate → onRegenerate(messageId); feedback → onFeedback(messageId, up|down) with aria-pressed; every icon-only action has aria-label from labels. Built on PRD-08 IconButton.",
+    "depends_on": [
+      "AI-030",
+      "AI-004",
+      "CTL-055",
+      "CTL-061"
+    ],
+    "priority": "P0",
+    "test": "Message.test.tsx \"actions reachable\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-22, REQ-AI-60 (feedback pressed has icon+name)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-032",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "NEW:src/ai/message/__tests__/Message.test.tsx",
+    "action": "TEST",
+    "description": "data-role/data-state for each role and status; hidden heading text + aria-labelledby (\"accessible name\"); \"explicit locale/timeZone\" deterministic output; \"actions reachable\": actions tabbable without hover, labelled, copy calls clipboard with getMessageText, feedback aria-pressed toggles; aborted shows \"Stopped\"; \"rtl\" logical-property order under dir=rtl; jest-axe 0 violations.",
+    "depends_on": [
+      "AI-030",
+      "AI-031"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-16, REQ-AI-17, REQ-AI-22, REQ-AI-24, REQ-AI-65 / AC-AI-09 (unit)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-033",
+    "prd": "PRD-13",
+    "system": "ai/thread",
+    "file": "NEW:src/ai/thread/useThreadScroll.ts",
+    "action": "CREATE",
+    "description": "Client hook implementing §4.4: pinned when scrollHeight−scrollTop−clientHeight ≤ pinThreshold (64); while pinned, one rAF per frame assigns scrollTop (no scrollIntoView, no smooth); wheel/touch/keyboard/scrollend unpin; counts messages added since unpin; user-role message re-pins; top sentinel IntersectionObserver created once → onReachTop once per intersection; prepend restores scrollTop + Δheight in a layout effect; ResizeObserver on content for growth; all observers/rAF cleaned on unmount.",
+    "depends_on": [
+      "AI-001",
+      "A11Y-027"
+    ],
+    "priority": "P0",
+    "test": "Thread.test.tsx + tests/ai/thread-scroll.spec.ts (13e)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-09, REQ-AI-11, REQ-AI-13, REQ-AI-15; REQ-AI-14 (scroll primitives behind the handle)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-034",
+    "prd": "PRD-13",
+    "system": "ai/thread",
+    "file": "NEW:src/ai/thread/Thread.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" compound: Thread.Root (messages, label=\"Conversation\", pinThreshold=64, virtualizeAfter=100, onReachTop, labels, ref-as-prop handle {scrollToBottom, scrollToMessage, isPinned}; container-type inline-size; Surface content), Thread.Viewport (role=log, aria-label, aria-relevant=additions, tabIndex=0, data-ag-part=viewport, overflow-anchor rules), Thread.Items (render prop; reads AiRenderersProvider + PRD-05 locale/timeZone and passes them down; above virtualizeAfter uses PRD-11 VirtualList with anchor end, overscan 6, measureElement, no role; falls back to anchor start + own scrollTop if divergence, filed against PRD-11), Thread.Empty, Thread.JumpToLatest (`<button>`, chrome thin, labels.newMessages(n), smooth unless usePreference(\"motion\")!==\"full\", re-pins, focuses viewport). Writes --ag-scroll-padding-block-end.",
+    "depends_on": [
+      "AI-033",
+      "AI-030",
+      "DATA-033",
+      "MAT-047",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/thread/__tests__/Thread.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-08, REQ-AI-10, REQ-AI-12, REQ-AI-14, REQ-AI-15, REQ-AI-52, REQ-AI-62; REQ-AI-11, REQ-AI-13",
+    "status": "todo"
+  },
+  {
+    "id": "AI-035",
+    "prd": "PRD-13",
+    "system": "ai/thread",
+    "file": "NEW:src/ai/thread/__tests__/Thread.test.tsx",
+    "action": "TEST",
+    "description": "\"renders log semantics\" (role, name, aria-relevant, tabIndex); \"jump to latest\" (visible after unpin + 3 messages with \"3 new messages\", button, focus moves to viewport); \"user send re-pins\"; \"imperative handle\"; spy Element.prototype.scrollIntoView = 0 calls during a streamed fixture; Thread.Empty renders when messages=[]; virtualization switches at 101 messages (VirtualList mounted); 0 timers/listeners/observers after unmount.",
+    "depends_on": [
+      "AI-034"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-08, REQ-AI-10, REQ-AI-11, REQ-AI-14, REQ-AI-15 / AC-AI-05 (unit half); REQ-AI-11, REQ-AI-13 (unit), REQ-AI-14 (scrollTop/scrollToKey, 0 scrollIntoView)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-036",
+    "prd": "PRD-13",
+    "system": "ai/styles",
+    "file": "NEW:src/ai/styles/ai.css",
+    "action": "CREATE",
+    "description": "`@layer ag.components` rules for Thread and Message parts keyed only on `[data-ag-part]`/`[data-state]`/`[data-role]`: message max-inline min(var(--ag-ai-message-max-inline),100%); gap var(--ag-ai-thread-gap); bubble radius var(--ag-ai-bubble-radius); user fill/ink tokens; caret blink via --ag-duration-* only under prefers-reduced-motion:no-preference and [data-ag-motion=\"full\"]; @starting-style entrance opacity+translateY(4px) disabled under motion none; container query <480px: avatar hidden, user bubble full width minus 24px inline-start, actions row below; JumpToLatest bottom calc(var(--ag-ai-composer-block,0px) + 12px) + env(safe-area-inset-bottom); actions visible on :hover, :focus-within, (pointer:coarse), (hover:none); overflow-wrap:anywhere; logical properties only; forced-colors: CanvasText/Highlight, outline 2px solid Highlight. No literals, no !important, no element selectors, no Tailwind classes.",
+    "depends_on": [
+      "AI-030",
+      "AI-034",
+      "DS-016",
+      "MAT-015"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/__tests__/css-contract.test.ts (AI-038)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-45, REQ-AI-49, REQ-AI-52, REQ-AI-60, REQ-AI-63, REQ-AI-65",
+    "status": "todo"
+  },
+  {
+    "id": "AI-037",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "build/exports.manifest.json",
+    "action": "MODIFY",
+    "description": "Add CSS entry `./ai.css` → `./dist/css/ai.css` built from src/ai/styles/ai.css by the PRD-02 CSS build; regenerate package.json#exports via scripts/build/generate-exports.mjs.",
+    "depends_on": [
+      "AI-036",
+      "AI-017",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/build/generate-exports.mjs --check`; ai-subpath.spec.mjs css assertion",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-01 / AC-AI-01",
+    "status": "todo"
+  },
+  {
+    "id": "AI-038",
+    "prd": "PRD-13",
+    "system": "ai/styles",
+    "file": "NEW:src/ai/__tests__/css-contract.test.ts",
+    "action": "TEST",
+    "description": "Parse src/ai/styles/ai.css with postcss (existing devDep or PRD-02 choice): all rules inside @layer ag.components; 0 !important; 0 colour/blur/radius/duration literals (hex, rgb(, hsl(, oklch(, blur(, Npx radius, Nms/Ns); 0 bare element selectors; every var(--ag-ai-*) is defined in the PRD-03 generated token CSS; every selector uses data-ag-part/data-state/data-role.",
+    "depends_on": [
+      "AI-036",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-45 / AC-AI-13 (CSS hygiene)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-039",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "src/ai/index.ts",
+    "action": "MODIFY",
+    "description": "Append value exports Thread, Message, MessageParts, StreamingText, AiRenderersProvider (7 of 15 total); regenerate etc/api/ai.api.md and etc/api/ai.exports.json in the same PR.",
+    "depends_on": [
+      "AI-034",
+      "AI-030",
+      "AI-025",
+      "AI-018"
+    ],
+    "priority": "P0",
+    "test": "ai-subpath.spec.mjs; API report diff job",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-040",
+    "prd": "PRD-13",
+    "system": "ai/rsc",
+    "file": "NEW:src/ai/__tests__/server-safe.test.tsx",
+    "action": "TEST",
+    "description": "Assert first statement of Message.tsx, MessageParts.tsx (and later AgentSteps.tsx, UsageMeter.tsx) is not \"use client\" and every other src/ai module (renderers, StreamingText, MessageActions, Thread, useThreadScroll, Composer, ToolCall, ToolApproval, Reasoning, SourceList, Citation, ProviderErrorState) starts with \"use client\"; `react-dom/server` renderToString of Message.Root + MessageParts with text/source/file/step-start parts succeeds with no hook errors. Mirrors PRD-02 tests/build/directives-preserved.test.ts.",
+    "depends_on": [
+      "AI-030",
+      "AI-028"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-07 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-041",
+    "prd": "PRD-13",
+    "system": "ai/a11y",
+    "file": "NEW:src/ai/__tests__/a11y.axe.test.tsx",
+    "action": "TEST",
+    "description": "jest-axe over Thread (Empty, Short, streaming last message) and Message (each role, WithAttachments, WithImage, Error, Aborted) built from fixtures: 0 violations. Extended by AI-051 and AI-070.",
+    "depends_on": [
+      "AI-034",
+      "AI-030"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-09 (unit, thread/message)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-042",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "NEW:src/ai/composer/useAttachments.ts",
+    "action": "CREATE",
+    "description": "Client hook: holds File[]; `add(files, source: picker|paste|drop)` validates accept (MIME list incl. wildcards like image/*), maxFiles (10), maxFileSize (20,971,520 B); rejects call onAttachmentReject({file, reason: type|size|count}) and announce the reason via PRD-05 announcer; `remove(index)`; never reads, uploads or encodes file contents (no FileReader, no URL.createObjectURL except for image chip previews revoked on remove/unmount).",
+    "depends_on": [
+      "AI-001",
+      "A11Y-054"
+    ],
+    "priority": "P0",
+    "test": "Composer.test.tsx \"attachments\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-29",
+    "status": "todo"
+  },
+  {
+    "id": "AI-043",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "NEW:src/ai/composer/Composer.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" compound on Base UI Field (PRD-07 wrapper): Composer.Root `<form>` with value/defaultValue/onValueChange (shared selection-style contract), status: AgChatStatus (data-state), onSubmit({text, files}), onStop, disabled, maxLength, maxRows=8, submitOnEnter=true, stopOnEscape=true, accept, maxFiles, maxFileSize, onAttachmentReject, labels; ids via useId; Composer.Submit: aria-disabled=\"true\" (focusable) when text.trim()===\"\" && files.length===0; swaps to Stop (aria-label \"Stop generating\", calls onStop) when status submitted|streaming and blocks a second submit; status error keeps draft; after submit focus stays in textarea. Surface chrome thick via PRD-04.",
+    "depends_on": [
+      "AI-042",
+      "FND-001",
+      "CTL-055",
+      "CTL-047",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/composer/__tests__/Composer.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-25, REQ-AI-27, REQ-AI-28, REQ-AI-62",
+    "status": "todo"
+  },
+  {
+    "id": "AI-044",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "src/ai/composer/Composer.tsx",
+    "action": "MODIFY",
+    "description": "Composer.Textarea: labelled (visible label or aria-label from labels.input, never placeholder-only); onKeyDown only (no onKeyPress): Enter submits iff !nativeEvent.isComposing && keyCode!==229 && !shiftKey && submitOnEnter; Shift+Enter newline; Cmd/Ctrl+Enter submits even when submitOnEnter=false; Escape with status streaming calls onStop when stopOnEscape; arrow keys untouched; auto-grow 1→maxRows using `field-sizing: content` when CSS.supports, else measured scrollHeight fallback; after height change notify Thread (custom event or shared context) so the pinned thread re-pins in the same frame.",
+    "depends_on": [
+      "AI-043",
+      "AI-034"
+    ],
+    "priority": "P0",
+    "test": "Composer.test.tsx \"IME composition does not submit\"; tests/ai/composer-ime.spec.ts; tests/ai/composer-grow.spec.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-26, REQ-AI-30, REQ-AI-57",
+    "status": "todo"
+  },
+  {
+    "id": "AI-045",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "src/ai/composer/Composer.tsx",
+    "action": "MODIFY",
+    "description": "Composer.Action kind=\"attach\" opens a hidden `<input type=\"file\" multiple accept>`; paste of clipboard files on the textarea; drag-drop onto Composer.Root sets data-dragging while over (dragenter/leave counter) and data-ag-part=dropzone overlay; Composer.Attachments lists chips (data-ag-part=attachment) each with remove IconButton aria-label \"Remove {filename}\"; chips scroll horizontally with scroll-snap below 480px container.",
+    "depends_on": [
+      "AI-043",
+      "AI-042"
+    ],
+    "priority": "P0",
+    "test": "Composer.test.tsx \"attachments\"; tests/ai/composer-dropzone.spec.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-29, REQ-AI-50",
+    "status": "todo"
+  },
+  {
+    "id": "AI-046",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "src/ai/composer/Composer.tsx",
+    "action": "MODIFY",
+    "description": "Composer.Counter shows \"{length}/{maxLength}\" and owns the only component-level aria-live region (polite) which speaks only when crossing 90% and 100% of maxLength (once per crossing, re-armed when dropping below).",
+    "depends_on": [
+      "AI-043"
+    ],
+    "priority": "P1",
+    "test": "Composer.test.tsx \"counter\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-31, REQ-AI-58",
+    "status": "todo"
+  },
+  {
+    "id": "AI-047",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "src/ai/composer/Composer.tsx",
+    "action": "MODIFY",
+    "description": "Below 480px container: slot actions collapse into one leading Composer.Action menu (PRD-09 Menu; attach + slot actions) plus trailing Submit/Stop; maxRows drops to 5. Keyboard inset: padding-block-end env(keyboard-inset-height,0px) where supported, else one visualViewport resize listener in Composer.Root (removed on unmount) writing --ag-ai-keyboard-inset; Root writes --ag-ai-composer-block (its block size) for the jump pill and --ag-scroll-padding-block-end.",
+    "depends_on": [
+      "AI-043",
+      "OVL-081"
+    ],
+    "priority": "P1",
+    "test": "tests/ai/composer-grow.spec.ts at 390 + WebKit iOS emulation",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-50, REQ-AI-51, REQ-AI-52, REQ-AI-62",
+    "status": "todo"
+  },
+  {
+    "id": "AI-048",
+    "prd": "PRD-13",
+    "system": "ai/styles",
+    "file": "src/ai/styles/ai.css",
+    "action": "MODIFY",
+    "description": "Add Composer rules in @layer ag.components: container-type inline-size on [data-ag-part=root] of composer; textarea field-sizing content + max-block var(--ag-ai-composer-max-block); data-dragging dropzone state; attachments scroll-snap-type x mandatory; targets ≥24px with 44px coarse hit area via PRD-05 pseudo-element; reduced transparency → tinted/solid per D-11 (PRD-04 attributes, no new optics).",
+    "depends_on": [
+      "AI-043",
+      "AI-036"
+    ],
+    "priority": "P0",
+    "test": "src/ai/__tests__/css-contract.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-45, REQ-AI-50, REQ-AI-61, REQ-AI-63",
+    "status": "todo"
+  },
+  {
+    "id": "AI-049",
+    "prd": "PRD-13",
+    "system": "ai/composer",
+    "file": "NEW:src/ai/composer/__tests__/Composer.test.tsx",
+    "action": "TEST",
+    "description": "controlled/uncontrolled value; \"IME composition does not submit\" (compositionstart, Enter with isComposing true → onSubmit not called; keyCode 229 not called); Shift+Enter newline; Cmd/Ctrl+Enter with submitOnEnter=false submits; empty/whitespace blocked with aria-disabled and still focusable; \"stop swap\" + no double submit; error keeps draft; attachments type/size/count rejections with reasons and announcements; remove labels; two instances have unique ids (no \"chat-message-input\"); counter announces at 90% and 100% only; Escape stops while streaming; focus stays in textarea after submit; 0 listeners after unmount.",
+    "depends_on": [
+      "AI-044",
+      "AI-045",
+      "AI-046",
+      "AI-047"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-25..REQ-AI-31, REQ-AI-57 / AC-AI-07 (unit half); REQ-AI-27, REQ-AI-28, REQ-AI-30",
+    "status": "todo"
+  },
+  {
+    "id": "AI-050",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "src/ai/index.ts",
+    "action": "MODIFY",
+    "description": "Append value export Composer (8 of 15 total); regenerate etc/api/ai.api.md and etc/api/ai.exports.json.",
+    "depends_on": [
+      "AI-043",
+      "AI-039"
+    ],
+    "priority": "P0",
+    "test": "ai-subpath.spec.mjs; API report diff",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-051",
+    "prd": "PRD-13",
+    "system": "ai/a11y",
+    "file": "src/ai/__tests__/a11y.axe.test.tsx",
+    "action": "MODIFY",
+    "description": "Add Composer states Ready, WithDraft, WithAttachments, Dragging, Submitted, Streaming(Stop), Error, NearLimit, Disabled: 0 violations.",
+    "depends_on": [
+      "AI-049",
+      "AI-041"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-09 (composer)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-052",
+    "prd": "PRD-13",
+    "system": "ai/tool",
+    "file": "NEW:src/ai/tool/ToolCall.tsx",
+    "action": "CREATE",
+    "description": "\"use client\", Base UI Collapsible (PRD-07 wrapper). Props part (AgToolPart | dynamic-tool), title?, labels?, renderInput?, renderOutput?, onApprovalResponse?, defaultOpen?, maxPreviewChars=4000. data-state = toolDisplayState(part); header trigger `<button>` with aria-expanded/aria-controls showing tool name (part.type minus \"tool-\" or toolName), state icon + text label for every state, duration when available; default open for needs-approval|failed; panel shows input/output as JSON.stringify(v,null,2) in `<pre tabIndex=0 role=region aria-label>` capped at maxPreviewChars with \"Show all\" toggle; errorText in data-ag-part=error; running indicator = CSS three-dot atom (GlassTypingIndicator lineage, re-authored, no style injection) → static \"Running\" under reduced motion; Surface content-sunken; status announcements: needs-approval assertive \"Approval needed: {tool}\" once per transition.",
+    "depends_on": [
+      "AI-002",
+      "FND-001",
+      "FND-005",
+      "MAT-047",
+      "A11Y-054"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/tool/__tests__/ToolCall.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-32, REQ-AI-33, REQ-AI-53, REQ-AI-60",
+    "status": "todo"
+  },
+  {
+    "id": "AI-053",
+    "prd": "PRD-13",
+    "system": "ai/tool",
+    "file": "NEW:src/ai/tool/ToolApproval.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" ToolCall.Approval: Approve and Deny PRD-08 Buttons; Deny optionally reveals a reason TextField (labels.denyReason); activation calls onApprovalResponse({approvalId: part.approval.id, toolCallId, approved, reason?}) exactly once and sets both buttons aria-disabled until part.state changes; focus moves to the ToolCall trigger after response. Without onApprovalResponse renders read-only \"Waiting for approval\" and one dev warning.",
+    "depends_on": [
+      "AI-052",
+      "CTL-055",
+      "CTL-047"
+    ],
+    "priority": "P0",
+    "test": "ToolCall.test.tsx \"approval\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-34, REQ-AI-62",
+    "status": "todo"
+  },
+  {
+    "id": "AI-054",
+    "prd": "PRD-13",
+    "system": "ai/tool",
+    "file": "NEW:src/ai/tool/__tests__/ToolCall.test.tsx",
+    "action": "TEST",
+    "description": "Iterate all 7 SDK states (+approval-responded denied): data-state, icon element with accessible name and text label present; default open rules; aria-expanded/aria-controls; JSON cap at 4,000 chars and \"Show all\"; approval calls handler once (double click → 1 call), buttons disabled until state change, focus returns to trigger; no handler → read-only text + 1 warning; running dots replaced by static text under mocked usePreference motion none.",
+    "depends_on": [
+      "AI-052",
+      "AI-053"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-32..REQ-AI-34 / AC-AI-08; REQ-AI-33",
+    "status": "todo"
+  },
+  {
+    "id": "AI-055",
+    "prd": "PRD-13",
+    "system": "ai/reasoning",
+    "file": "NEW:src/ai/reasoning/Reasoning.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" Collapsible: props text, state streaming|done, durationMs?, defaultOpen?, labels?; opens when streaming starts, closes once on done unless user toggled during streaming; label \"Thinking…\" while streaming, \"Thought for {s} s\" when done (Intl.NumberFormat, 1 decimal <10 s, 0 decimals ≥10 s); duration = durationMs ?? performance.now() delta from first streaming render; data-state streaming|done; body uses StreamingText with announce off.",
+    "depends_on": [
+      "AI-026",
+      "FND-001"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/reasoning/__tests__/Reasoning.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-35",
+    "status": "todo"
+  },
+  {
+    "id": "AI-056",
+    "prd": "PRD-13",
+    "system": "ai/reasoning",
+    "file": "NEW:src/ai/reasoning/__tests__/Reasoning.test.tsx",
+    "action": "TEST",
+    "description": "auto-open on streaming, auto-close once on done, user toggle during streaming respected; labels 4.2 s → \"Thought for 4.2 s\", 12.6 s → \"Thought for 13 s\"; durationMs precedence over measured (performance.now mocked); trigger aria-expanded.",
+    "depends_on": [
+      "AI-055"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-35",
+    "status": "todo"
+  },
+  {
+    "id": "AI-057",
+    "prd": "PRD-13",
+    "system": "ai/agent",
+    "file": "NEW:src/ai/agent/AgentSteps.tsx",
+    "action": "CREATE",
+    "description": "Server-safe (no directive, no hooks): `<ol data-ag-part=root>` of steps: AgStep[]; nested children → nested `<ol data-ag-part=substeps>`; running step aria-current=\"step\"; each step shows icon + state text (labels incl. skipped) + duration when startedAt and endedAt exist (Intl.NumberFormat); running atom CSS-only.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/agent/__tests__/AgentSteps.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-36, REQ-AI-07",
+    "status": "todo"
+  },
+  {
+    "id": "AI-058",
+    "prd": "PRD-13",
+    "system": "ai/agent",
+    "file": "NEW:src/ai/agent/__tests__/AgentSteps.test.tsx",
+    "action": "TEST",
+    "description": "ol nesting depth 2; aria-current on running only; duration text; skipped state label; renderToString succeeds with no client hooks; jest-axe 0 violations.",
+    "depends_on": [
+      "AI-057"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-36",
+    "status": "todo"
+  },
+  {
+    "id": "AI-059",
+    "prd": "PRD-13",
+    "system": "ai/sources",
+    "file": "NEW:src/ai/sources/SourceList.tsx",
+    "action": "CREATE",
+    "description": "\"use client\" Collapsible: props messageId, sources (source-url|source-document parts), defaultOpen? (default closed when n>3); trigger \"{n} sources\"; `<ol>` items id=\"ag-src-{messageId}-{sourceId}\", title, hostname via new URL(url).hostname as text, external link only for http(s) with rel=\"noopener noreferrer\" target=\"_blank\" + visually hidden \"(opens in new tab)\"; javascript:/data:/other schemes render as plain text; exposes `openAndFocus(sourceId)` for Citation via a module-level per-message registry keyed by messageId (client only, cleared on unmount).",
+    "depends_on": [
+      "AI-001",
+      "FND-001"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/sources/__tests__/SourceList.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-37, REQ-AI-64",
+    "status": "todo"
+  },
+  {
+    "id": "AI-060",
+    "prd": "PRD-13",
+    "system": "ai/sources",
+    "file": "NEW:src/ai/sources/__tests__/SourceList.test.tsx",
+    "action": "TEST",
+    "description": "count label; default open for 3, closed for 4; item ids; rel/target and hidden text; \"rejects javascript: URLs\" and data: URLs render without href; source-document renders title + filename without link.",
+    "depends_on": [
+      "AI-059"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-37",
+    "status": "todo"
+  },
+  {
+    "id": "AI-061",
+    "prd": "PRD-13",
+    "system": "ai/sources",
+    "file": "NEW:src/ai/sources/Citation.tsx",
+    "action": "CREATE",
+    "description": "\"use client\": props messageId, source, index; `<a href=\"#ag-src-{messageId}-{sourceId}\">` labelled \"Source {index}: {title}\" showing \"[{index}]\"; Base UI PreviewCard popup (title, snippet if provided, hostname; Surface overlay regular) opening on hover after 300 ms and on keyboard focus, closing on Escape (focus returns to citation) and blur; no role=\"tooltip\"; Enter/touch/coarse pointer/<480px container activation opens the SourceList and focuses the item; collision padding 8px; 44px coarse hit area.",
+    "depends_on": [
+      "AI-059",
+      "FND-001",
+      "FND-007",
+      "A11Y-049"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/sources/__tests__/Citation.test.tsx; tests/ai/citation-preview.spec.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-38, REQ-AI-53, REQ-AI-61",
+    "status": "todo"
+  },
+  {
+    "id": "AI-062",
+    "prd": "PRD-13",
+    "system": "ai/sources",
+    "file": "NEW:src/ai/sources/__tests__/Citation.test.tsx",
+    "action": "TEST",
+    "description": "accessible name \"Source 2: Billing API limits\"; preview opens on focus and after 300 ms hover (fake timers; not at 299 ms); Escape closes and returns focus; activation opens collapsed SourceList and focuses item; no element with role tooltip.",
+    "depends_on": [
+      "AI-061"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-38; REQ-AI-38, REQ-AI-61 (hit area)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-063",
+    "prd": "PRD-13",
+    "system": "ai/usage",
+    "file": "NEW:src/ai/usage/UsageMeter.tsx",
+    "action": "CREATE",
+    "description": "Server-safe module (no directive, no hooks, no context): props usage, format compact|full, locale?, labels?; tokens via Intl.NumberFormat compact; when contextWindow set renders PRD-14 root Meter (client island, role=meter, aria-valuenow/max) of (input+output)/contextWindow with state warning ≥80%, critical ≥95% each with a text label; costUsd via Intl.NumberFormat(locale,{style:\"currency\",currency:\"USD\",maximumFractionDigits:4}).",
+    "depends_on": [
+      "AI-001",
+      "FND-074"
+    ],
+    "priority": "P1",
+    "test": "NEW:src/ai/usage/__tests__/UsageMeter.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-39, REQ-AI-60",
+    "status": "todo"
+  },
+  {
+    "id": "AI-064",
+    "prd": "PRD-13",
+    "system": "ai/usage",
+    "file": "NEW:src/ai/usage/__tests__/UsageMeter.test.tsx",
+    "action": "TEST",
+    "description": "role=meter values; 79%→normal, 80%→warning, 95%→critical with text; currency $0.0184 formatting with locale en-US; renderToString server render without hooks.",
+    "depends_on": [
+      "AI-063"
+    ],
+    "priority": "P1",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-39",
+    "status": "todo"
+  },
+  {
+    "id": "AI-065",
+    "prd": "PRD-13",
+    "system": "ai/error",
+    "file": "NEW:src/ai/error/ProviderErrorState.tsx",
+    "action": "CREATE",
+    "description": "\"use client\": props kind (rate-limit|auth|network|content-filter|context-length|aborted|unknown), title?, detail?, retryAfterMs?, onRetry?, variant compact|panel (panel default), labels?; panel role=\"alert\"; per-kind default title + guidance strings; Retry PRD-08 Button disabled with live countdown when retryAfterMs (setInterval allowlisted, cleared on unmount); assertive announcement once; never renders success/placeholder content; Surface content-sunken; PRD-14 Alert for panel.",
+    "depends_on": [
+      "AI-001",
+      "CTL-055",
+      "FND-058"
+    ],
+    "priority": "P1",
+    "test": "NEW:src/ai/error/__tests__/ProviderErrorState.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-40",
+    "status": "todo"
+  },
+  {
+    "id": "AI-066",
+    "prd": "PRD-13",
+    "system": "ai/error",
+    "file": "NEW:src/ai/error/__tests__/ProviderErrorState.test.tsx",
+    "action": "TEST",
+    "description": "default copy for all 7 kinds; role=alert in panel only; countdown 3→0 with fake timers then enabled; onRetry called once; 0 timers after unmount.",
+    "depends_on": [
+      "AI-065"
+    ],
+    "priority": "P1",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-40",
+    "status": "todo"
+  },
+  {
+    "id": "AI-067",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "src/ai/message/MessageParts.tsx",
+    "action": "MODIFY",
+    "description": "Wire defaults: reasoning → Reasoning; tool-*/dynamic-tool → ToolCall (onApprovalResponse passed via renderers context from Thread.Items or MessageParts prop); source-* collected into one SourceList after last text part; with citations=\"markers\" resolve [n] and [^sourceId] tokens in plain-text rendering into Citation; Message.Root metadata.status error → ProviderErrorState variant compact below content. Remove the interim warnings for these types. Extend MessageParts.test.tsx to iterate every fixture in ui-messages.ai-sdk.json: 0 warnings except the unknown-type fixture (exactly 1).",
+    "depends_on": [
+      "AI-052",
+      "AI-055",
+      "AI-059",
+      "AI-061",
+      "AI-065",
+      "AI-029"
+    ],
+    "priority": "P0",
+    "test": "MessageParts.test.tsx over all fixtures",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-18, REQ-AI-24 / AC-AI-04",
+    "status": "todo"
+  },
+  {
+    "id": "AI-068",
+    "prd": "PRD-13",
+    "system": "ai/styles",
+    "file": "src/ai/styles/ai.css",
+    "action": "MODIFY",
+    "description": "Rules for ToolCall/Reasoning/AgentSteps/SourceList/Citation/UsageMeter/ProviderErrorState parts: state colours only via --ag-ai-tool-state-{queued|running|needs-approval|succeeded|failed|denied}; pre overflow-x auto; running-dots keyframes using --ag-duration-* only, removed under reduced motion; forced-colors CanvasText/Highlight icons; citation chip hit area.",
+    "depends_on": [
+      "AI-052",
+      "AI-057",
+      "AI-061",
+      "AI-036"
+    ],
+    "priority": "P0",
+    "test": "css-contract.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-45, REQ-AI-53, REQ-AI-60, REQ-AI-61, REQ-AI-63",
+    "status": "todo"
+  },
+  {
+    "id": "AI-069",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "src/ai/index.ts",
+    "action": "MODIFY",
+    "description": "Append value exports ToolCall, Reasoning, AgentSteps, SourceList, Citation, UsageMeter, ProviderErrorState → exactly 15 value exports; regenerate etc/api/ai.api.md and etc/api/ai.exports.json; ai-subpath.spec.mjs now asserts set equality with the REQ-AI-02 list.",
+    "depends_on": [
+      "AI-052",
+      "AI-055",
+      "AI-057",
+      "AI-059",
+      "AI-061",
+      "AI-063",
+      "AI-065",
+      "AI-050"
+    ],
+    "priority": "P0",
+    "test": "ai-subpath.spec.mjs exact list",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-02 / AC-AI-01",
+    "status": "todo"
+  },
+  {
+    "id": "AI-070",
+    "prd": "PRD-13",
+    "system": "ai/a11y",
+    "file": "src/ai/__tests__/a11y.axe.test.tsx",
+    "action": "MODIFY",
+    "description": "Add ToolCall (6 display states, ApprovalWithReason, LargeOutput), Reasoning (Streaming, DoneCollapsed, DoneExpanded), AgentSteps (Linear, NestedOrchestration, Failed), Sources (Three, Twelve, CitationFocused), UsageMeter (Normal, Warning, Critical), ProviderErrorState (7 kinds, RetryCountdown): 0 violations.",
+    "depends_on": [
+      "AI-067",
+      "AI-041"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-09 (unit, all states)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-071",
+    "prd": "PRD-13",
+    "system": "ai/fixtures",
+    "file": "NEW:src/ai/__fixtures__/thread-2000.json",
+    "action": "CREATE",
+    "description": "Generate (script NEW:scripts/build/gen-ai-thread-fixture.mjs, seeded deterministic PRNG in the script only, never in src) a 2,000-message thread of AgMessage with mixed lengths (1–40 lines), 5% tool parts, 3% source parts, 2% images, product-realistic support-engineering copy from a fixed phrase bank; `--check` mode.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/build/gen-ai-thread-fixture.mjs --check` exits 0",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-12 / AC-AI-06 input",
+    "status": "todo"
+  },
+  {
+    "id": "AI-072",
+    "prd": "PRD-13",
+    "system": "ai/fixtures",
+    "file": "NEW:src/ai/__fixtures__/stream-assistant-answer.json",
+    "action": "CREATE",
+    "description": "Recorded token streams (one file each, same schema `{ messageId, frames: [{ t, partIndex, append | state }] }`): stream-assistant-answer.json, stream-reasoning.json, stream-tool-calls.json (3 calls incl. one approval-approved and one denied), stream-citations.json, stream-error.json (rate-limit, retryAfterMs 3000). Authored to the schema with product-realistic content (token boundaries split on whitespace/punctuation); if a live Kiro Prism session is used to capture them, the capture runs in a scratch app outside src/ and only the resulting JSON is committed (no keys). No network at replay time.",
+    "depends_on": [
+      "AI-001"
+    ],
+    "priority": "P0",
+    "test": "schema validated in replay.test.ts",
+    "storybook": "n/a",
+    "acceptance": "§4.7 recorded fixtures",
+    "status": "todo"
+  },
+  {
+    "id": "AI-073",
+    "prd": "PRD-13",
+    "system": "ai/fixtures",
+    "file": "NEW:src/ai/__fixtures__/replay.ts",
+    "action": "CREATE",
+    "description": "Deterministic replay: `createReplay(stream, clock)` returns `{ messages(), pause(), step(nTokens), finish(), subscribe() }` driven only by an injected clock (Storybook clock decorator or Jest fake timers); no Math.random, no wall-clock timers, no network. Excluded from the build by PRD-02 (__fixtures__ ignored) and never exported.",
+    "depends_on": [
+      "AI-072"
+    ],
+    "priority": "P0",
+    "test": "NEW:src/ai/__fixtures__/__tests__/replay.test.ts (step/finish determinism, two runs identical)",
+    "storybook": "n/a",
+    "acceptance": "§4.7, §13 data rule",
+    "status": "todo"
+  },
+  {
+    "id": "AI-074",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "Add only the AI fixture clock decorator (`withAiClock`, args `aiClock: { autoplay, tokensPerTick }`, exposing pause/step/finish to play functions via context) and register it; do not change PRD-19 environment global or other decorators.",
+    "depends_on": [
+      "AI-073",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote `npm run build-storybook` succeeds; play functions can call step()",
+    "storybook": "required",
+    "acceptance": "§13 clock decorator",
+    "status": "todo"
+  },
+  {
+    "id": "AI-075",
+    "prd": "PRD-13",
+    "system": "ai/meta",
+    "file": "NEW:src/ai/thread/Thread.meta.ts",
+    "action": "CREATE",
+    "description": "Typed variant metadata for the 5 T1 flagships: NEW src/ai/thread/Thread.meta.ts, src/ai/message/Message.meta.ts, src/ai/composer/Composer.meta.ts, src/ai/tool/ToolCall.meta.ts, src/ai/sources/SourceList.meta.ts. Each holds: tier \"certified\", states list (names from §13), data-ag-part/data-state table (§4.6 verbatim), selector-change table vs 4.x (e.g. GlassMessageList root role=log → [data-ag-part=\"viewport\"][role=\"log\"]), registry block usage (ai-workspace), APG keyboard script (PRD-05 tests/a11y/apg/harness.ts format; REQ-AI-57 sequence), budget line id from docs/size-budgets.json, codemod fixture ids (ai-chat cases). Schema from PRD-19 verify-flagship-deliverables.",
+    "depends_on": [
+      "AI-069",
+      "FND-005",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "scripts/ci/verify-flagship-deliverables.mjs (PRD-19) with 5 AI entries",
+    "storybook": "required (drives matrix)",
+    "acceptance": "REQ-AI-46, REQ-AI-57",
+    "status": "todo"
+  },
+  {
+    "id": "AI-076",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": "NEW:src/ai/thread/Thread.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories (group AI/) for AI/Thread (Empty, Short, Long2000Virtualized, StreamingPinned, StreamingUnpinnedJump, LoadingEarlier), AI/Message (NEW src/ai/message/Message.stories.tsx: User, Assistant, System, Tool, WithAttachments, WithImage, Streaming, Error, Aborted, ActionsFocused) and AI/Composer (NEW src/ai/composer/Composer.stories.tsx: Ready, WithDraft, WithAttachments, Dragging, Submitted, Streaming(Stop), Error, NearLimit, Disabled). Data only from __fixtures__ + replay; PRD-19 environment global as background; primitives shot large first; no meta copy.",
+    "depends_on": [
+      "AI-075",
+      "AI-074"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build + test-storybook lane",
+    "storybook": "required",
+    "acceptance": "§13 required states (thread/message/composer)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-077",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": "NEW:src/ai/tool/ToolCall.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories AI/ToolCall (one per display state + ApprovalWithReason, LargeOutput), AI/Reasoning (NEW src/ai/reasoning/Reasoning.stories.tsx: Streaming, DoneCollapsed, DoneExpanded), AI/AgentSteps (NEW src/ai/agent/AgentSteps.stories.tsx: Linear, NestedOrchestration, Failed), AI/Sources (NEW src/ai/sources/Sources.stories.tsx: Three, Twelve, CitationFocused), AI/UsageMeter (NEW src/ai/usage/UsageMeter.stories.tsx: Normal, Warning, Critical), AI/ProviderErrorState (NEW src/ai/error/ProviderErrorState.stories.tsx: one per kind + RetryCountdown).",
+    "depends_on": [
+      "AI-075",
+      "AI-074"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build + test-storybook lane",
+    "storybook": "required",
+    "acceptance": "§13 required states (agentic/sources/T2)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-078",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": "NEW:src/ai/composer/Composer.stories.tsx",
+    "action": "TEST",
+    "description": "Play-function interaction tests (storybook/test): submit via Enter (Composer.Ready), IME composition (dispatch compositionstart/end, Enter during composition does not submit), Stop (Streaming), approve/deny (ToolCall NeedsApproval, ApprovalWithReason), jump-to-latest (Thread.StreamingUnpinnedJump with clock step), citation focus preview (Sources.CitationFocused). Run in the remote `npm run test-storybook` lane.",
+    "depends_on": [
+      "AI-076",
+      "AI-077"
+    ],
+    "priority": "P0",
+    "test": "remote test-storybook lane green, run URL in report",
+    "storybook": "required",
+    "acceptance": "AC-AI-07, AC-AI-08, AC-AI-09 (interaction)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-079",
+    "prd": "PRD-13",
+    "system": "ai/scene",
+    "file": "showcase/ai-command-center/AiCommandCenter.showcase.tsx",
+    "action": "MODIFY",
+    "description": "Supply the AI Workspace composition to SB's showcase (SC-31; SB-109 creates the files and owns the import/determinism contract): NAV AppShell + Thread + Composer + inspector (AgentSteps, UsageMeter, ai-artifact-panel item source from registry/items/ai-artifact-panel once 13f lands, else the inspector shows AgentSteps+UsageMeter only and the report lists the gap) built from unmodified public components; replayed support-engineering session with citations and an approval-gated tool call; product-realistic copy. No provider calls (D-30).",
+    "depends_on": [
+      "AI-076",
+      "AI-077",
+      "SB-109",
+      "NAV-016"
+    ],
+    "priority": "P0",
+    "test": "tests/visual/ai/ai-workspace.visual.spec.ts",
+    "storybook": "Showcases/AI Command Center (showcase/ai-command-center/, files owned by SB-109)",
+    "acceptance": "AC-AI-10, AC-AI-19 subject",
+    "status": "todo"
+  },
+  {
+    "id": "AI-080",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": "showcase/ai-command-center/data.ts",
+    "action": "MODIFY",
+    "description": "Supply the recorded AI session data for showcase/ai-command-center/data.ts from src/ai/__fixtures__/ (replayed through replay.ts, no Math.random, no wall clock). src/stories/AppShell.stories.tsx is NOT edited here: it is deleted by SB/NAV (SC-31, OV-18), and its \"AI Command Center Shell\" story is superseded by this showcase.",
+    "depends_on": [
+      "AI-079",
+      "AI-073",
+      "SB-109"
+    ],
+    "priority": "P2",
+    "test": "SB showcase determinism and imports tests (showcase/__tests__/showcase-determinism.test.ts, showcase-imports.test.mjs) pass with the AI data",
+    "storybook": "Showcases/AI Command Center",
+    "acceptance": "SC-31 (composition at showcase/<id>/); §6 AppShell.stories row; REQ-AI-51 (mobile keyboard scene data)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-081",
+    "prd": "PRD-13",
+    "system": "ai/e2e",
+    "file": "NEW:tests/ai/thread-scroll.spec.ts",
+    "action": "TEST",
+    "description": "Playwright (Chromium, WebKit, Gecko; remote only): pinned thread receiving 50 tokens/frame × 300 frames keeps distanceFromBottom ≤1px each frame; after scrolling up 400px scrollTop drift ≤1px; JumpToLatest appears with count, activation reaches bottom and re-pins; \"prepend keeps position\" first visible message offset ≤1px after onReachTop prepend of 20.",
+    "depends_on": [
+      "AI-076",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote lane green on 3 engines",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-09, REQ-AI-10, REQ-AI-13 / AC-AI-05",
+    "status": "todo"
+  },
+  {
+    "id": "AI-082",
+    "prd": "PRD-13",
+    "system": "ai/e2e",
+    "file": "NEW:tests/ai/thread-virtual.spec.ts",
+    "action": "TEST",
+    "description": "2,000-message fixture: mounted article count ≤ visible + 12; streaming last message causes ≤2px jump of first visible message; scrollToMessage on an off-screen id brings it into view; single role=log element.",
+    "depends_on": [
+      "AI-076",
+      "AI-071"
+    ],
+    "priority": "P0",
+    "test": "remote lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-12, REQ-AI-14 / AC-AI-06",
+    "status": "todo"
+  },
+  {
+    "id": "AI-083",
+    "prd": "PRD-13",
+    "system": "ai/e2e",
+    "file": "NEW:tests/ai/composer-ime.spec.ts",
+    "action": "TEST",
+    "description": "WebKit + Chromium: Japanese IME sequence via CDP Input.imeSetComposition (Chromium) and composition events + keyCode 229 (WebKit); 0 submits during composition, 1 submit on the next Enter.",
+    "depends_on": [
+      "AI-076"
+    ],
+    "priority": "P0",
+    "test": "remote lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-26 / AC-AI-07",
+    "status": "todo"
+  },
+  {
+    "id": "AI-084",
+    "prd": "PRD-13",
+    "system": "ai/e2e",
+    "file": "NEW:tests/ai/composer-grow.spec.ts",
+    "action": "TEST",
+    "description": "composer-grow.spec.ts: growth 1→8 rows then internal scroll on Chromium/WebKit/Gecko; maxRows 5 at 390; pinned thread stays pinned while growing; WebKit iOS emulation with visualViewport resize keeps composer above keyboard. NEW tests/ai/composer-dropzone.spec.ts: drag-drop sets data-dragging and adds chips; rejected file shows reason.",
+    "depends_on": [
+      "AI-076"
+    ],
+    "priority": "P0",
+    "test": "remote lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-29, REQ-AI-30, REQ-AI-50, REQ-AI-51; REQ-AI-51 (visualViewport keyboard simulation)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-085",
+    "prd": "PRD-13",
+    "system": "ai/e2e",
+    "file": "NEW:tests/ai/citation-preview.spec.ts",
+    "action": "TEST",
+    "description": "hover opens after 300 ms; focus opens; Escape closes and returns focus; tap on WebKit iOS emulation navigates to source item and focuses it; popup has no role tooltip; no horizontal overflow from ToolCall pre at 390.",
+    "depends_on": [
+      "AI-077"
+    ],
+    "priority": "P0",
+    "test": "remote lane green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-38, REQ-AI-53; REQ-AI-53",
+    "status": "todo"
+  },
+  {
+    "id": "AI-086",
+    "prd": "PRD-13",
+    "system": "ai/certification",
+    "file": "NEW:tests/visual/ai/ai-workspace.visual.spec.ts",
+    "action": "TEST",
+    "description": "AI Workspace scene + every AI story across §15.1 (3 engines × 8 environments × light/dark × glass/tinted/solid × 4 preferences × tier lightweight/standard/enhanced(Chromium) × 1440/390) plus AI-only variants 320 (no horizontal page scroll), zoom200 (root 32px, no overlap), rtl (Chromium). Uses PRD-19 pixel gates + OCR (REQ-QA-13): every word ≥4.5:1 (≥3:1 large), ≥7:1 under contrast-more, icons ≥3:1; forced-colors 0 non-none backdrop-filter in AI subtree and visible focus ring; backdrop surface count ≤6 fine / ≤3 coarse.",
+    "depends_on": [
+      "AI-079",
+      "QA-018",
+      "QA-038",
+      "QA-039",
+      "QA-049",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "remote L6 lane green; artifacts linked",
+    "storybook": "required",
+    "acceptance": "REQ-AI-49, REQ-AI-54, REQ-AI-55, REQ-AI-59, REQ-AI-60 / AC-AI-10, AC-AI-11; REQ-AI-52, REQ-AI-53, REQ-AI-61, REQ-AI-65 (rtl variant)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-087",
+    "prd": "PRD-13",
+    "system": "ai/certification",
+    "file": "tests/visual/ai/ai-workspace.visual.spec.ts",
+    "action": "TEST",
+    "description": "Add reduced-motion assertions (PRD-19 motion lane hooks) to the AI spec: in every AI story 500 ms after settle 0 running CSS animations (document.getAnimations()) and 0 rAF callbacks; caret not blinking; running dots static text; JumpToLatest scroll instant.",
+    "depends_on": [
+      "AI-086"
+    ],
+    "priority": "P0",
+    "test": "remote motion lane green",
+    "storybook": "required",
+    "acceptance": "REQ-AI-63 / AC-AI-12",
+    "status": "todo"
+  },
+  {
+    "id": "AI-088",
+    "prd": "PRD-13",
+    "system": "ai/a11y",
+    "file": "tests/a11y/browser/axe.spec.ts",
+    "action": "TEST",
+    "description": "Ensure PRD-05 browser axe spec (colour contrast on) and APG harness run every AI story and the 5 meta APG scripts (Tab order per REQ-AI-57, Escape behaviours) on Chromium/WebKit/Gecko; add AI story ids via .storybook/cert-manifest.json rather than editing the spec if the spec is manifest-driven.",
+    "depends_on": [
+      "AI-075",
+      "AI-076",
+      "AI-077",
+      "A11Y-078"
+    ],
+    "priority": "P0",
+    "test": "remote L5 lane green",
+    "storybook": "required",
+    "acceptance": "REQ-AI-56, REQ-AI-57, REQ-AI-61, REQ-AI-62 / AC-AI-09; REQ-AI-59 (non-text contrast cross-check), REQ-AI-61, REQ-AI-62",
+    "status": "todo"
+  },
+  {
+    "id": "AI-089",
+    "prd": "PRD-13",
+    "system": "ai/perf",
+    "file": "NEW:tests/perf/browser/ai-streaming.spec.ts",
+    "action": "TEST",
+    "description": "On PRD-19 tests/perf/harness/run-perf.mjs (mid-tier mobile + 120 Hz desktop, remote): 200-message thread streaming 60 updates/s for 30 s → 0 long tasks >50 ms, p95 frame ≤16.7 ms desktop / ≤33 ms mobile; 2,000-message fling ≥55 fps desktop / ≥30 fps mobile; 100-message mount ≤120 ms scripting mobile; composer keystroke-to-paint p95 ≤50 ms desktop / ≤100 ms mobile; CLS 0.00 for messages above the streaming one; perf grade ≥C per flagship (≥B target Thread).",
+    "depends_on": [
+      "AI-076",
+      "AI-071",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane; grades artifact",
+    "storybook": "n/a",
+    "acceptance": "§16 / AC-AI-06, AC-AI-13",
+    "status": "todo"
+  },
+  {
+    "id": "AI-090",
+    "prd": "PRD-13",
+    "system": "ai/perf",
+    "file": "docs/size-budgets.json",
+    "action": "TEST",
+    "description": "After 13d, run the PRD-02 size gate remotely on the packed tarball; calibrate (only downward) the 4 provisional AI lines with PRD-19 at alpha; record measured bytes in the report.",
+    "depends_on": [
+      "AI-022",
+      "AI-069",
+      "PKG-049"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/ci/verify-size-budgets.mjs` green remotely",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-13",
+    "status": "todo"
+  },
+  {
+    "id": "AI-091",
+    "prd": "PRD-13",
+    "system": "ai/rsc",
+    "file": "NEW:canaries/next16/app/ai-rsc/page.tsx",
+    "action": "CREATE",
+    "description": "Server Component page rendering Message.Root/Avatar/Content/Footer, MessageParts (text/source/file/step-start), AgentSteps and UsageMeter with explicit locale and timeZone; NEW canaries/next16/app/ai-client/page.tsx client page importing all 15 ./ai exports; NEW canaries/next15/app/ai/page.tsx importing every ./ai export (React 19.0 floor). Packed tarball only.",
+    "depends_on": [
+      "AI-069",
+      "PKG-122",
+      "QA-086"
+    ],
+    "priority": "P0",
+    "test": "remote `next build` + `next start`, 0 hydration warnings",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-07, REQ-AI-17 / AC-AI-15",
+    "status": "todo"
+  },
+  {
+    "id": "AI-092",
+    "prd": "PRD-13",
+    "system": "ai/certification",
+    "file": "scripts/ci/verify-flagship-deliverables.mjs",
+    "action": "MODIFY",
+    "description": "Add the five AI entries (thread, message, composer, tool-call, source-list) to the PRD-19 deliverables config (file or its config JSON) pointing at the meta files, budget lines, APG scripts, baselines and codemod fixtures; no item marked optional.",
+    "depends_on": [
+      "AI-075",
+      "AI-086",
+      "AI-089",
+      "AI-119",
+      "AI-120",
+      "AI-121",
+      "AI-122",
+      "AI-123",
+      "QA-127"
+    ],
+    "priority": "P0",
+    "test": "`node scripts/ci/verify-flagship-deliverables.mjs` green for AI entries",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-46 / DoD 3",
+    "status": "todo",
+    "gate": "QA-127 creates scripts/ci/verify-flagship-deliverables.mjs and certification/flagship-deliverables.json (added by the completeness review, 2026-10-06; PRD §21 item 7)"
+  },
+  {
+    "id": "AI-093",
+    "prd": "PRD-13",
+    "system": "ai/a11y",
+    "file": "tests/a11y/manual/sr-record.schema.json",
+    "action": "TEST",
+    "description": "Run the manual matrix for the 5 flagships (VoiceOver macOS + iOS, NVDA/Chrome, TalkBack/Chrome, physical touch) using the scene; record per-reader results as schema-valid records in the CI evidence artifact, including \"streamed answer announced once\" and \"approval request is announced\". Human testers only; agent prepares the build URL and checklist.",
+    "depends_on": [
+      "AI-079",
+      "AI-088",
+      "A11Y-084"
+    ],
+    "priority": "P0",
+    "test": "records validate against the schema",
+    "storybook": "required (scene URL)",
+    "acceptance": "REQ-AI-58 / AC-AI-14",
+    "status": "todo"
+  },
+  {
+    "id": "AI-094",
+    "prd": "PRD-13",
+    "system": "ai/message",
+    "file": "src/ai/message/StreamingText.tsx",
+    "action": "MODIFY",
+    "description": "Resolve §4.5: if any reader double-announces, ship the fallback (aria-live=\"off\" on the streaming article content, announcer-only speech) and re-run the manual matrix; else record \"no change\" with record ids. Decision recorded in the PR and release review before RC-1.",
+    "depends_on": [
+      "AI-093"
+    ],
+    "priority": "P0",
+    "test": "StreamingText.test.tsx updated if fallback shipped; manual re-verify",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-14; DoD 6",
+    "status": "todo"
+  },
+  {
+    "id": "AI-095",
+    "prd": "PRD-13",
+    "system": "ai/certification",
+    "file": "showcase/ai-command-center/",
+    "action": "TEST",
+    "description": "Human visual review of the AI Workspace scene (specular quality, hierarchy, radius rhythm, \"reads as one hand\") from remote captures, recorded as approved in the release review (§15.2 manual lane).",
+    "depends_on": [
+      "AI-086",
+      "SB-109"
+    ],
+    "priority": "P1",
+    "test": "approval record in release review",
+    "storybook": "required",
+    "acceptance": "AC-AI-19",
+    "status": "todo"
+  },
+  {
+    "id": "AI-096",
+    "prd": "PRD-13",
+    "system": "storybook",
+    "file": "NEW:src/ai/thread/Thread.mdx",
+    "action": "DOC",
+    "description": "Storybook docs pages for every ./ai export (NEW Thread.mdx, message/Message.mdx, composer/Composer.mdx, tool/ToolCall.mdx, reasoning/Reasoning.mdx, agent/AgentSteps.mdx, sources/Sources.mdx, usage/UsageMeter.mdx, error/ProviderErrorState.mdx) rendering, from *.meta.ts (never hand-copied), the data-ag-part/data-state table, APG keyboard table, tier badge (@tier certified|verified), per-import budget line, a \"Using with the Vercel AI SDK\" snippet (useChat → <Thread messages>) and a \"Routing models through Kiro Prism\" note linking the ai-workspace block. Hand the same content to PRD-20 for the docs app and llms.txt ./ai section.",
+    "depends_on": [
+      "AI-075",
+      "AI-076",
+      "AI-077"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build; PRD-20 snippet compile (scripts/docs/compile-snippets.mjs) green",
+    "storybook": "required",
+    "acceptance": "§13 docs pages; DoD 5",
+    "status": "todo"
+  },
+  {
+    "id": "AI-097",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "etc/api/ai.api.md; etc/api/ai.exports.json",
+    "action": "DOC",
+    "description": "At RC-1: regenerate the final API Extractor report and etc/api/ai.exports.json (exactly 15), remove any DRAFT header, commit; later changes C-E only.",
+    "depends_on": [
+      "AI-069",
+      "AI-090",
+      "AI-091",
+      "AI-092"
+    ],
+    "priority": "P0",
+    "test": "PRD-01 API diff job green; ai-subpath.spec.mjs exact",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-01; DoD 4, 7",
+    "status": "todo"
+  },
+  {
+    "id": "AI-098",
+    "prd": "PRD-13",
+    "system": "ai/migration",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "On release/4.x (ships in 4.2 via PRD-17): add PRD-01 schema entries for GlassChat, GlassPredictiveChat and every preset wrapper exported from GlassChat.tsx, GlassChatInput, GlassMessageList, GlassTypingIndicator (successor aura-glass/ai + compat), GlassVoiceInput (registry ai-voice-input, no compat), GlassGANGenerator, GlassDeepDreamGlass, GlassStyleTransfer, GlassGenerativeArt, AIGlassThemeProvider, NeuromorphicLearningNetwork, GlassLiveFilter, NeuralWeightVisualization, GlassMusicVisualizer, GlassIntelligentFormBuilder, GlassPredictiveEngine, useAutoComposer, ./services/ai/* and ./services/websocket/* subpaths, openai and @google-cloud/vision peers, prop onVoiceRecording. Successor/class text from PRD §9; no \"fake\" label for the 4 non-simulated items (E-01 nuance).",
+    "depends_on": [
+      "AI-001",
+      "TRUST-075",
+      "REL-010",
+      "REL-082"
+    ],
+    "priority": "P0",
+    "test": "PRD-01 deprecations schema test + gen-deprecations dry run green",
+    "storybook": "n/a",
+    "acceptance": "API-03; DoD 4",
+    "status": "todo"
+  },
+  {
+    "id": "AI-099",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-sdk-adapter/useAuraChat.ts",
+    "action": "CREATE",
+    "description": "registry:item. `useAuraChat(options)` wraps @ai-sdk/react useChat and returns { threadProps: {messages}, composerProps: {status, onSubmit:({text,files})=>sendMessage({text,files}), onStop: stop}, messageProps(message): {onRegenerate:()=>regenerate({messageId}), ...}, toolCallProps(part): {onApprovalResponse: → SDK tool-approval response fn} }. Item JSON declares dependencies @ai-sdk/react and ai (exact versions matching the pinned devDependency), never in aura-glass package.json.",
+    "depends_on": [
+      "AI-069",
+      "AI-006",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P1",
+    "test": "NEW:registry/items/ai-sdk-adapter/__tests__/useAuraChat.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41, REQ-AI-42 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-100",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-sdk-adapter/__tests__/useAuraChat.test.tsx",
+    "action": "TEST",
+    "description": "Render with @ai-sdk/react and a mocked ChatTransport (in-memory stream, no network): sendMessage receives text+files; stop called on onStop; regenerate receives messageId; approval response forwarded with approvalId/approved; status mirrored.",
+    "depends_on": [
+      "AI-099"
+    ],
+    "priority": "P1",
+    "test": "jest green (registry/** added to jest roots/testMatch if needed)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-42 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-101",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-markdown/StreamingMarkdown.tsx",
+    "action": "CREATE",
+    "description": "registry:item. renderText-compatible `StreamingMarkdown(text, {streaming})` using a consumer-declared markdown dependency (item JSON lists it); closes unterminated code fences and emphasis while streaming; links only http(s)/mailto with rel noopener; code blocks delegate to the code-surface item (registryDependencies).",
+    "depends_on": [
+      "AI-067",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/ai-items.test.ts + DX registry render harness (tests/dx/registry-render.spec.ts)",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-102",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-model-picker/ModelPicker.tsx",
+    "action": "CREATE",
+    "description": "registry:item. Root Combobox (flagship 12) with options {id,label,provider,capabilities?,contextWindow?}[] grouped by provider, capability Badges with text, value/onValueChange. Example data file loads options from the app route that proxies Kiro Prism GET /v1/models, grouped by provider prefix; no hard-coded model ids.",
+    "depends_on": [
+      "AI-069",
+      "CTL-109",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/ai-items.test.ts + block render lane",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-44 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-103",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-artifact-panel/ArtifactPanel.tsx",
+    "action": "CREATE",
+    "description": "registry:item. PRD-10 ResizablePanels + Tabs (Preview / Code) + code-surface item (lazy) for an artifact { id, title, kind, content }; content-raised Surface.",
+    "depends_on": [
+      "AI-069",
+      "NAV-016",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "block render lane",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-104",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-trace-tree/TraceTree.tsx",
+    "action": "CREATE",
+    "description": "registry:item. Maps AgStep trees onto PRD-11 TreeView with a duration bar per span (width = span/total, min 2px) plus text duration; state icon + text per step.",
+    "depends_on": [
+      "AI-057",
+      "DATA-085",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "block render lane",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-44 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-105",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-eval-dashboard/EvalDashboard.tsx",
+    "action": "CREATE",
+    "description": "registry:item (SC-32; the PRD now agrees). Table of runs (run, model, dataset, pass rate, Δ vs baseline, cost, started) + three StatCards from props; sample data only in NEW registry/items/ai-eval-dashboard/fixtures/runs.json; 0 numeric metric literals in TSX.",
+    "depends_on": [
+      "AI-069",
+      "DATA-038",
+      "DATA-059",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "tests/registry/ai-items.test.ts \"no numeric literals in eval dashboard sample data outside fixtures\"",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-44 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-106",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/items/ai-voice-input/VoiceInputAction.tsx",
+    "action": "CREATE",
+    "description": "registry:item. Composer.Action using real MediaRecorder (getUserMedia permission prompt, recording state announced, stop → Blob of recorded chunks with the recorder mimeType appended as a File to the composer); explicit unsupported-browser state; no mock data.",
+    "depends_on": [
+      "AI-050",
+      "DX-067",
+      "DX-091"
+    ],
+    "priority": "P2",
+    "test": "block render lane + unit test with a MediaRecorder test double asserting the produced File comes from dataavailable chunks",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41 / API-08",
+    "status": "todo"
+  },
+  {
+    "id": "AI-107",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "registry/blocks/ai-workspace/page.tsx",
+    "action": "MODIFY",
+    "description": "registry:block content inside the DX-072 scaffold (SC-32, OV-19). AppShell + Thread + Composer + inspector (AgentSteps, UsageMeter, ai-artifact-panel) wired with useAuraChat; registryDependencies on the other 7 AI items; product-realistic copy.",
+    "depends_on": [
+      "AI-099",
+      "AI-103",
+      "AI-102",
+      "AI-104",
+      "NAV-016",
+      "DX-072"
+    ],
+    "priority": "P1",
+    "test": "DX registry render harness (tests/dx/registry-render.spec.ts)",
+    "storybook": "required (mirrors Showcases/AI Command Center)",
+    "acceptance": "REQ-AI-41 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-108",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/blocks/ai-workspace/app/api/chat/route.ts",
+    "action": "CREATE",
+    "description": "Server-only route: streamText with createOpenAICompatible({ name: \"kiro-prism\", baseURL: \"https://prism.auraone.ai/v1\", apiKey: process.env.PRISM_API_KEY }); model = process.env.PRISM_MODEL ?? first id from GET https://prism.auraone.ai/v1/models at request time; returns toUIMessageStreamResponse(); body cap 32 KB → 413; per-IP in-memory token bucket 20 req/min → 429 with Retry-After and { kind: \"rate-limit\", retryAfterMs }; key unset → 503 { kind: \"auth\" }; no literal key, no NEXT_PUBLIC_*. NEW registry/blocks/ai-workspace/README.md states the Prism route, server-only key, and that the bucket is per-instance and must move to a shared store before multi-instance deploys.",
+    "depends_on": [
+      "AI-107"
+    ],
+    "priority": "P1",
+    "test": "NEW:registry/blocks/ai-workspace/__tests__/route.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-43 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-109",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:registry/blocks/ai-workspace/__tests__/route.test.ts",
+    "action": "TEST",
+    "description": "Mocked Prism (global fetch stub inside the test only, no network): baseURL is prism.auraone.ai/v1; Authorization uses PRISM_API_KEY; PRISM_MODEL honoured else first /v1/models id; 503 {kind:\"auth\"} when key unset; 413 above 32,768 bytes; 21st request in a minute → 429 with Retry-After; source text contains no \"sk-\" literal and no NEXT_PUBLIC_.",
+    "depends_on": [
+      "AI-108"
+    ],
+    "priority": "P1",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-43 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-110",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "registry/registry.json",
+    "action": "MODIFY",
+    "description": "List the 8 AI entries (types per REQ-DX-47: 7 registry:item incl. ai-eval-dashboard, 1 registry:block ai-workspace) with files, dependencies, registryDependencies, cssVars none; build via scripts/registry/build.mjs to apps/docs/public/r/<name>.json.",
+    "depends_on": [
+      "AI-099",
+      "AI-101",
+      "AI-102",
+      "AI-103",
+      "AI-104",
+      "AI-105",
+      "AI-106",
+      "AI-107",
+      "AI-108",
+      "DX-067"
+    ],
+    "priority": "P1",
+    "test": "scripts/registry/build.mjs + scripts/registry/lint.mjs green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-111",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "NEW:tests/registry/ai-items.test.ts",
+    "action": "TEST",
+    "description": "Every registry/items/ai-* and registry/blocks/ai-workspace item validates against packages/cli/schema/registry-item.json; aura-glass package.json gains no item dependency; ai-workspace route has no literal key or NEXT_PUBLIC_ key; eval dashboard TSX has no numeric metric literals outside fixtures; no file imports aura-glass internals (only public subpaths).",
+    "depends_on": [
+      "AI-110",
+      "DX-070",
+      "DX-094"
+    ],
+    "priority": "P1",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-41, REQ-AI-44 / AC-AI-16",
+    "status": "todo"
+  },
+  {
+    "id": "AI-112",
+    "prd": "PRD-13",
+    "system": "ai/registry",
+    "file": "src/registry/recipes.ts",
+    "action": "TEST",
+    "description": "Verification only (SC-38, OV-30): src/registry/recipes.ts is removed by NAV-136 with the whole app-shell recipes family; this task confirms the \"AI product console\" recipe (:930-945, hard-coded metrics, E-16) is gone and that its replacement is the ai-eval-dashboard item. No edit to recipes.ts here.",
+    "depends_on": [
+      "AI-105",
+      "NAV-136"
+    ],
+    "priority": "P2",
+    "test": "`rg -n \"AI product console\" src` = 0; verify-recipes-render green",
+    "storybook": "n/a",
+    "acceptance": "E-16 fix; REQ-AI-44",
+    "status": "todo"
+  },
+  {
+    "id": "AI-113",
+    "prd": "PRD-13",
+    "system": "ai/compat",
+    "file": "NEW:src/compat/ai/GlassChat.tsx",
+    "action": "CREATE",
+    "description": "Per SC-34 (src/compat/ai/*.tsx re-exported from DX's src/compat/index.ts; warnings via REL's warnDeprecated): adapters GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator (NEW src/compat/ai/{GlassChatInput,GlassMessageList,GlassTypingIndicator}.tsx + NEW src/compat/ai/mapChatMessage.ts). Mapping: content→one text part; attachments→file parts (image→image/*, file→application/octet-stream unless name ext known); type system→role system; sender.id===currentUserId ?? currentUser.id→user else assistant; timestamp→metadata.createdAt (ISO); reactions/replyTo/edited dropped and named in the warning. Ignored props predictive, eyeTracking, adaptive, spatialAudio, consciousness, trackAchievements, virtualScroll, onVoiceRecording named in the one-time dev warning that cites the deprecations.json entry. GlassTypingIndicator → AgentSteps with one running step.",
+    "depends_on": [
+      "AI-069",
+      "AI-098",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "NEW:src/compat/__tests__/ai-compat.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-47 / AC-AI-17",
+    "status": "todo"
+  },
+  {
+    "id": "AI-114",
+    "prd": "PRD-13",
+    "system": "ai/compat",
+    "file": "NEW:src/compat/__tests__/ai-compat.test.tsx",
+    "action": "TEST",
+    "description": "Mapping table (one case per rule above) ChatMessage→AgMessage; exactly one warning per adapter name naming dropped/ignored props; adapters render Thread/Message/Composer DOM (role=log present).",
+    "depends_on": [
+      "AI-113"
+    ],
+    "priority": "P1",
+    "test": "jest green; PRD-19 frozen 4.x fixture app renders via compat with one warning per name",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-17",
+    "status": "todo"
+  },
+  {
+    "id": "AI-115",
+    "prd": "PRD-13",
+    "system": "ai/cli",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/ai-chat.ts",
+    "action": "CREATE",
+    "description": "Per SC-33 (packages/cli/src/migrate/4to5/ layout; area id ai-chat registered in REL §11.2): rewrite imports of GlassChat, GlassChatInput, GlassMessageList, GlassTypingIndicator from aura-glass to aura-glass/compat; insert `// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer — data model changed` before each JSX usage; never rewrite JSX; names from mappings JSON (no hard-coded Glass* literals, REQ-DX-33). Registered after prop-grammar, before css-vars. Fixtures NEW packages/cli/src/migrate/4to5/__fixtures__/ai-chat/{basic-import,aliased-import,mixed-root-import,already-compat}/{input,output}.tsx.",
+    "depends_on": [
+      "AI-113",
+      "DX-041",
+      "DX-042",
+      "REL-070"
+    ],
+    "priority": "P1",
+    "test": "PRD-18 codemod fixture runner green for 4 cases",
+    "storybook": "n/a",
+    "acceptance": "REQ-AI-48 / AC-AI-17",
+    "status": "todo"
+  },
+  {
+    "id": "AI-116",
+    "prd": "PRD-13",
+    "system": "ai/migration",
+    "file": "NEW:docs/auraglass-5/requests/PRD-00-voice-blob-retraction.md",
+    "action": "DOC",
+    "description": "File the §11.6 request to PRD-00: JSDoc/README retraction \"onVoiceRecording receives placeholder data in 4.x\" for GlassChatInput (src/components/interactive/GlassChatInput.tsx:301-304). Request only; this prompt does not edit 4.x source.",
+    "depends_on": [],
+    "priority": "P3",
+    "test": "n/a (request document reviewed by PRD-00 owner)",
+    "storybook": "n/a",
+    "acceptance": "§11.6; API-08 context",
+    "status": "todo",
+    "gate": "TRUST (PRD-00) accepts the claim retraction for the 4.x onVoiceRecording placeholder Blob within its claim-retraction boundary"
+  },
+  {
+    "id": "AI-117",
+    "prd": "PRD-13",
+    "system": "ai/entry",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "On release/4.x only, API-02 optional: only if PRD-17 accepts, publish aura-glass/ai as experimental in 4.3 containing only types, toolDisplayState, getMessageText; otherwise record \"dropped, no effect on 5.0\" in the report.",
+    "depends_on": [
+      "AI-016",
+      "REL-125"
+    ],
+    "priority": "P3",
+    "test": "4.3 exports test for the experimental subpath if shipped",
+    "storybook": "n/a",
+    "acceptance": "API-02",
+    "status": "todo",
+    "gate": "REL 4.3 gate accepts API-02 (PRD §21 item 15); otherwise the task is dropped"
+  },
+  {
+    "id": "AI-118",
+    "prd": "PRD-13",
+    "system": "ai/removal",
+    "file": "src/components/ai",
+    "action": "TEST",
+    "description": "After PRD-16 deletion PRs land on 5.0 main: run `rg -n \"GlassGANGenerator|GlassDeepDreamGlass|GlassStyleTransfer|AIGlassThemeProvider|ProductionAIIntegration|GlassPredictiveEngine|mock audio data\" src` (expect 0) and `test ! -d src/components/ai`; fresh consumer `npm ls openai @google-cloud/vision ai @ai-sdk/react` empty. This prompt verifies only; it does not perform PRD-16 deletions.",
+    "depends_on": [
+      "FND-118",
+      "FND-119"
+    ],
+    "priority": "P0",
+    "test": "commands above in remote CI, output attached",
+    "storybook": "n/a",
+    "acceptance": "AC-AI-18, AC-AI-02",
+    "status": "todo"
+  },
+  {
+    "id": "AI-119",
+    "prd": "PRD-13",
+    "system": "ai/a11y-apg/thread",
+    "file": "NEW:tests/a11y/apg/thread.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG keyboard spec for Thread, one file per widget (SC-30), owned by this PRD. Runs the ApgScript declared in the component *.meta.ts through A11Y's runApgScript harness (tests/a11y/apg/harness.ts) against the Thread stories in Chromium, WebKit and Firefox; imported by QA L5 Behaviour (certification/lanes/behaviour.spec.ts). Remote only.",
+    "depends_on": [
+      "AI-075",
+      "AI-076",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "QA L5 Behaviour runs tests/a11y/apg/thread.apg.spec.ts green in 3 engines",
+    "storybook": "AI/Thread stories are the spec targets",
+    "acceptance": "REQ-AI-57, REQ-AI-10, REQ-AI-62 / AC-AI-09 (APG keyboard scripts pass)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-120",
+    "prd": "PRD-13",
+    "system": "ai/a11y-apg/message",
+    "file": "NEW:tests/a11y/apg/message.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG keyboard spec for Message, one file per widget (SC-30), owned by this PRD. Runs the ApgScript declared in the component *.meta.ts through A11Y's runApgScript harness (tests/a11y/apg/harness.ts) against the Message stories in Chromium, WebKit and Firefox; imported by QA L5 Behaviour (certification/lanes/behaviour.spec.ts). Remote only.",
+    "depends_on": [
+      "AI-075",
+      "AI-076",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "QA L5 Behaviour runs tests/a11y/apg/message.apg.spec.ts green in 3 engines",
+    "storybook": "AI/Message stories are the spec targets",
+    "acceptance": "REQ-AI-57, REQ-AI-22 / AC-AI-09 (APG keyboard scripts pass)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-121",
+    "prd": "PRD-13",
+    "system": "ai/a11y-apg/composer",
+    "file": "NEW:tests/a11y/apg/composer.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG keyboard spec for Composer, one file per widget (SC-30), owned by this PRD. Runs the ApgScript declared in the component *.meta.ts through A11Y's runApgScript harness (tests/a11y/apg/harness.ts) against the Composer stories in Chromium, WebKit and Firefox; imported by QA L5 Behaviour (certification/lanes/behaviour.spec.ts). Remote only.",
+    "depends_on": [
+      "AI-075",
+      "AI-076",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "QA L5 Behaviour runs tests/a11y/apg/composer.apg.spec.ts green in 3 engines",
+    "storybook": "AI/Composer stories are the spec targets",
+    "acceptance": "REQ-AI-57, REQ-AI-26, REQ-AI-27, REQ-AI-28 / AC-AI-09 (APG keyboard scripts pass)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-122",
+    "prd": "PRD-13",
+    "system": "ai/a11y-apg/tool-call",
+    "file": "NEW:tests/a11y/apg/tool-call.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG keyboard spec for ToolCall, one file per widget (SC-30), owned by this PRD. Runs the ApgScript declared in the component *.meta.ts through A11Y's runApgScript harness (tests/a11y/apg/harness.ts) against the ToolCall stories in Chromium, WebKit and Firefox; imported by QA L5 Behaviour (certification/lanes/behaviour.spec.ts). Remote only.",
+    "depends_on": [
+      "AI-075",
+      "AI-077",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "QA L5 Behaviour runs tests/a11y/apg/tool-call.apg.spec.ts green in 3 engines",
+    "storybook": "AI/ToolCall stories are the spec targets",
+    "acceptance": "REQ-AI-57, REQ-AI-33, REQ-AI-34, REQ-AI-62 / AC-AI-09 (APG keyboard scripts pass)",
+    "status": "todo"
+  },
+  {
+    "id": "AI-123",
+    "prd": "PRD-13",
+    "system": "ai/a11y-apg/citation",
+    "file": "NEW:tests/a11y/apg/citation.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG keyboard spec for Citation, one file per widget (SC-30), owned by this PRD. Runs the ApgScript declared in the component *.meta.ts through A11Y's runApgScript harness (tests/a11y/apg/harness.ts) against the Citation stories in Chromium, WebKit and Firefox; imported by QA L5 Behaviour (certification/lanes/behaviour.spec.ts). Remote only.",
+    "depends_on": [
+      "AI-075",
+      "AI-077",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "QA L5 Behaviour runs tests/a11y/apg/citation.apg.spec.ts green in 3 engines",
+    "storybook": "AI/Citation stories are the spec targets",
+    "acceptance": "REQ-AI-57, REQ-AI-38, REQ-AI-53 / AC-AI-09 (APG keyboard scripts pass)",
+    "status": "todo"
+  }
+]

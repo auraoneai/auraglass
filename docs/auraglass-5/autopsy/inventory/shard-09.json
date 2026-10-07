@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Typography",
+    "file": "src/components/data-display/Typography.tsx",
+    "lines": 56,
+    "category": "typography / foundation (miscategorized under data-display; Storybook title 'Data + Visualization/Typography')",
+    "exported_from_root": false,
+    "stories": {"file": "src/components/data-display/Typography.stories.tsx", "count": 2, "notes": "Default story has no children (renders an empty <p>); 'Variants' renders one 'Default' string and never sets variant. No variant/argTypes control for variant. Description is boilerplate 'A glass morphism typography component.'"},
+    "tests": {"file": "src/components/data-display/Typography.test.tsx", "notes": "Generated template: smoke, axe on empty <p>, className passthrough, snapshot. Does not test variant->tag mapping, size classes, or ref forwarding. Imports userEvent unused."},
+    "screenshots": ["components-data-display-typography"],
+    "material_impl": "No material. Pure text: applies utility classes glass-text-primary + glass-text-{5xl,4xl,3xl,xl,lg,base}. glass-text-primary is defined three times (src/styles/glass.css:1628, src/styles/glass.css:1894, src/styles/typography.css:75) with !important and differing fallbacks (--glass-text-primary vs --typography-text-primary), so final color depends on CSS load order. Font sizes are tokenized via --glass-font-size-*. No line-height, weight, letter-spacing, or font-family per heading level - h1 is just bigger body text, no display/heading type ramp.",
+    "motion": "None. useReducedMotion and ANIMATION are imported but never used (dead imports, lines 8-9).",
+    "a11y": "Semantic tags via variant (h1-h6/p/span/div) - correct. But visual size is hard-coupled to semantic level (no way to render an h2 styled as h4), which pushes consumers to pick wrong heading levels for looks. ContrastGuard/TextWithContrast imported (lines 5-7) but unused; comment line 30 claims contrast coverage is 'tracked in the manual accessibility QA report' - i.e. no runtime contrast handling. Color via !important utility can override contrast-safe consumer styles.",
+    "api": "forwardRef<HTMLElement> + className + ...rest passthrough (style works). 'variant' conflates element and visual scale; no 'as'/asChild, no size/weight/tone/align/truncate props, no muted/secondary tone. sizeClass record is re-created every render inside the component. Weakly typed ref (HTMLElement for all tags).",
+    "ssr": "'use client' directive is unnecessary (no hooks/state used); it forces a client boundary on a pure presentational text primitive, blocking RSC usage. Imports ContrastGuard module (client component) for nothing - extra bundle weight. No window/document access.",
+    "fake_complexity": "Mild: imports of ContrastGuard, TextWithContrast, ANIMATION, useReducedMotion suggest contrast-aware and motion-aware text but none are used. Otherwise it is an honest 10-line tag mapper.",
+    "duplicates": [
+      "src/components/marketing/DisplayText.tsx (DisplayText - overlapping display/heading text)",
+      "src/components/accessibility/ContrastGuard.tsx:293 HighContrastText and TextWithContrast",
+      "src/styles/typography.css and src/styles/premium-typography.css (CSS-level type ramp that this component does not use)",
+      "CardTitle x3 (src/components/card/index.ts:12, src/components/card/GlassCard.tsx:387, src/components/card/div.tsx:28), DialogTitle, DrawerTitle, ChartTitle - each rolls own heading styles instead of a shared Text/Heading primitive"
+    ],
+    "internal_consumers": [
+      "src/components/cookie-consent/CookieConsent.tsx:9",
+      "src/components/cookie-consent/CompactCookieNotice.tsx:7",
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:19",
+      "src/components/interactive/GlassThemeDemo.tsx:33"
+    ],
+    "screenshot_review": "desktop.png (1440x900) and mobile.png (390x844): pixel sampling finds only pure black and white - effectively a blank page. Certification JSON inspection records textLength 52 = only 'Skip to main content/Skip to navigation/Skip to footer' skip-link text, i.e. the component rendered nothing visible (empty Default story), yet issuesFound is []. The certification passed a blank screenshot.",
+    "scores": {"visual": 2, "material": 1, "usability": 3, "api": 3, "responsive": 2, "a11y": 4, "motion": 1, "consistency": 3, "performance": 6, "docs": 1, "storybook": 1, "production": 3},
+    "overall": 2.5,
+    "disposition": "REPLACE",
+    "target": "New foundation Text + Heading primitives (src/components/typography/) with as/asChild, separate level vs size, tone (primary/secondary/muted/inverse), weight, tracking, truncate/balance, a real tokenized type ramp (display/title/body/caption with line-height and letter-spacing), server-safe (no 'use client'); fold DisplayText and the CardTitle/DialogTitle/DrawerTitle/ChartTitle styles onto it; keep Typography as a deprecated alias.",
+    "flagship_candidate": false,
+    "justification": "Typography is not exported from src/index.ts, so it is an internal helper used only by the cookie-consent components and GlassThemeDemo. It maps a variant name to a tag and adds a font-size class. It has no type ramp (line-height, weight, tracking, family), it ties visual scale to heading level, it has no tone or as-prop, and it marks itself 'use client' for no reason while importing ContrastGuard and motion modules it never uses. The story renders an empty element and the certification screenshot is a blank black/white page that still passed. A premium design system needs a strong first-party Text/Heading foundation that every title, card, and dialog shares. This component is not that, and its name blocks the right primitive from being built in its place. Replace it with a proper server-safe Text/Heading pair and keep this as a deprecated alias.",
+    "evidence": [
+      "src/components/data-display/Typography.tsx:1 'use client' on a hook-free component",
+      "src/components/data-display/Typography.tsx:4-9 unused imports ContrastGuard, TextWithContrast, ANIMATION, useReducedMotion",
+      "src/components/data-display/Typography.tsx:12 variant conflates element and size",
+      "src/components/data-display/Typography.tsx:30 contrast coverage deferred to a manual report",
+      "src/components/data-display/Typography.tsx:33-43 size record recreated per render; size only, no weight/leading",
+      "src/components/data-display/Typography.tsx:47 glass-text-primary utility",
+      "src/styles/glass.css:1628, src/styles/glass.css:1894, src/styles/typography.css:75 triple !important definition of .glass-text-primary",
+      "src/components/data-display/Typography.stories.tsx:31-35 Default story with no children",
+      "src/components/data-display/Typography.stories.tsx:37-48 'Variants' story never sets variant",
+      "src/components/data-display/Typography.test.tsx:28-62 template tests with no variant coverage",
+      "src/index.ts: no Typography export (rg found nothing)",
+      "reports/glassmorphism-storybook-visual-certification.json: typography target textLength 52 (skip links only), issuesFound []",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-data-display-typography/desktop.png: only #000/#fff pixels"
+    ]
+  }
+]

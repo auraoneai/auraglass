@@ -1,0 +1,1821 @@
+[
+  {
+    "name": "BrandColorIntegration",
+    "file": "src/components/advanced/BrandColorIntegration.tsx",
+    "lines": 459,
+    "category": "theming/brand",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/BrandColorIntegration.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/advanced/BrandColorIntegration.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-brandcolorintegration/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-brandcolorintegration/mobile.png"
+    ],
+    "material_impl": "Wrapper is a plain motion.div; material comes from story-supplied classes (glass-foundation-complete). Loading overlay/badge use createGlassStyle({intent:'neutral',elevation:'level2'}). CSS file forces box-shadow with !important. Injects an unscoped global <style> rewriting .brand-color-integration vars for ALL instances (lines 300-315). Alpha suffixing `${color}1A` is applied to values like 'var(--brand-apple-primary, #007AFF)' producing invalid CSS (lines 194-199, 305-310); hexToRgb returns '0, 0, 0' for var() inputs (204-209). Brand vars are never consumed by BrandGlassButton (primary and secondary styles identical, 338-351).",
+    "motion": "framer-motion; useReducedMotion hook. Loading overlay/badge: Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. Lines 225-234.",
+    "a11y": "No role/label on wrapper; loading state has no aria-live/aria-busy; 'Brand' badge is decorative text. BrandGlassButton is a native button (good) but no focus-visible styling beyond default; hover-only shadow.",
+    "api": "No forwardRef, no style passthrough, className via string concat (not cn). children required. fallbackColors default object literal is recreated every render and is in effect deps (176). animationDuration accepted and ignored. BrandGlassButton/useBrandColors not root-exported; useBrandColors duplicates the mock table.",
+    "ssr": "'use client'; no module-scope window access. Depends on IntelligentColorProvider via useIntelligentColor (story wraps it).",
+    "fake_complexity": "Explicit @demo header (lines 2-9). 'Brand color API' is a hard-coded 3-entry mock (apple/google/microsoft) behind a setTimeout (63-138). Shipping trademark brand colors as data is a liability.",
+    "duplicates": [
+      "src/components/advanced/IntelligentColorSystem.tsx (adaptToBrand)",
+      "theme providers (AuraGlass theme/tokens) for brand accent",
+      "GlassEngine GlassColorTinting"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 3,
+      "api": 2,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REMOVE",
+    "target": "theme tokens / ThemeProvider brand accent API",
+    "justification": "It does not integrate brand colors: the 'API' is a mock lookup table of three trademarks, the generated CSS is invalid for its own default values, a global unscoped <style> tag leaks across instances, and the button ignores the variables it is supposed to consume. The certification screenshot is just a story-styled neutral card with two buttons. Brand accent belongs in the token/theme layer, not a runtime component.",
+    "evidence": [
+      "src/components/advanced/BrandColorIntegration.tsx:2-9",
+      "src/components/advanced/BrandColorIntegration.tsx:63-138",
+      "src/components/advanced/BrandColorIntegration.tsx:194-199",
+      "src/components/advanced/BrandColorIntegration.tsx:300-315",
+      "src/components/advanced/BrandColorIntegration.tsx:338-351",
+      "src/components/advanced/BrandColorIntegration.css:12-15"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassAchievementSystem",
+    "file": "src/components/advanced/GlassAchievementSystem.tsx",
+    "lines": 1432,
+    "category": "gamification",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassAchievementSystem.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassAchievementSystem.test.tsx",
+      "count": 7,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/mobile.png"
+    ],
+    "material_impl": "Summary card uses utility classes (glass-surface-primary glass-border-white/10). Dashboard/notifications use OptimizedGlass but pass intensity/depth/tint/border/performanceMode which are ignored. OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277). Mixed raw Tailwind (fixed, bg-gradient-to-br from-purple-600, bg-blue-500/25 text-blue-200) with glass-* utilities; several nonexistent classes (glass-max-glass-h-64, glass-text-primary-glass-opacity-90, glass-gradient-primary x3).",
+    "motion": "framer-motion. Notification card: Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. (865-866) -> notification stays at x:300/opacity:0 for reduced-motion users. Celebration particle burst per card.",
+    "a11y": "Notification card has role='alert' AND aria-live='polite' (contradictory) and is tabIndex=0; auto-dismisses after ANIMATION.DURATION.slower + delay = ~700ms (831-837) \u2014 unreadable, violates WCAG 2.2.1. Tabs are buttons with no tablist/tab/aria-selected semantics. Emoji icons without labels. Dashboard is fixed bottom-left w-96 regardless of viewport.",
+    "api": "Wrapper React.FC with HTML attrs passthrough, no forwardRef. Context default is non-null so useAchievements' 'must be used within provider' guard never fires (666-676, 741-749). achievementPresets are never consumed by anything.",
+    "ssr": "'use client'. localStorage guarded. Engine constructed in effect; setInterval(10s) + provider interval(5s).",
+    "fake_complexity": "Real (if naive) client-side XP engine. Bug: GLASS_ACHIEVEMENTS is shallow-copied ([...GLASS_ACHIEVEMENTS]) and achievement objects are mutated in place (447, 557-559), so unlock state leaks across engines/users within the module lifetime. Hover achievement requires 500 hover events. 'rewards' never defined on any achievement.",
+    "duplicates": [
+      "src/components/advanced/GlassTrophyCase.tsx",
+      "src/components/gamification (if any) / GlassReactions"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 4,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REMOVE",
+    "target": "",
+    "justification": "Gamification XP engine is product logic, not design-system surface. Visual output in the certification shot is a generic stat card with zero/one placeholder values; the dashboard is a fixed-position Tailwind-styled panel; notifications are inaccessible (700ms auto-dismiss, invisible under reduced motion). Module-level state mutation is a correctness bug. If a toast/achievement pattern is needed, build it from GlassToast + a Badge.",
+    "evidence": [
+      "src/components/advanced/GlassAchievementSystem.tsx:309",
+      "src/components/advanced/GlassAchievementSystem.tsx:556-559",
+      "src/components/advanced/GlassAchievementSystem.tsx:831-837",
+      "src/components/advanced/GlassAchievementSystem.tsx:856-873",
+      "src/components/advanced/GlassAchievementSystem.tsx:874-891",
+      "src/components/advanced/GlassAchievementSystem.tsx:1080",
+      "src/components/advanced/GlassAchievementSystem.tsx:1144"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassAchievementDashboard",
+    "file": "src/components/advanced/GlassAchievementSystem.tsx",
+    "lines": 1432,
+    "category": "gamification",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassAchievementSystem.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassAchievementSystem.test.tsx",
+      "count": 7,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass level3 + raw 'fixed bottom-4 left-4 w-96 max-h-96' Tailwind; inner cards glass-surface-subtle/5 glass-backdrop-blur-sm (stacked blur-in-blur). OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277).",
+    "motion": "XP bar width animation; reduced motion respected for transition duration only.",
+    "a11y": "role=complementary on a fixed panel; tabs lack ARIA tab pattern; 'In Progress' list rendered with glass-gap-2 on a block div (gap has no effect).",
+    "api": "className, show only. No ref, no controlled tab state.",
+    "ssr": "Client only via context.",
+    "fake_complexity": "Displays engine state; no fakery but stats mostly zeros.",
+    "duplicates": [
+      "src/components/advanced/GlassTrophyCase.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 2,
+      "responsive": 2,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "justification": "Fixed-position Tailwind panel hard-wired to the achievement engine; not a reusable design-system component.",
+    "evidence": [
+      "src/components/advanced/GlassAchievementSystem.tsx:1070-1085",
+      "src/components/advanced/GlassAchievementSystem.tsx:1122-1141"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassAchievementNotifications",
+    "file": "src/components/advanced/GlassAchievementSystem.tsx",
+    "lines": 1432,
+    "category": "gamification",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassAchievementSystem.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassAchievementSystem.test.tsx",
+      "count": 7,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassachievementsystem/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass + Tailwind gradient rarity overlay (bg-gradient-to-br from-amber-500...). OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277).",
+    "motion": "Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. Auto-dismiss 700ms.",
+    "a11y": "role=alert + aria-live=polite conflict; double announcement (announceToScreenReader + live region); 700ms timeout.",
+    "api": "position prop uses raw Tailwind 'top-4 right-4' strings; no portal.",
+    "ssr": "Client.",
+    "fake_complexity": "None beyond engine.",
+    "duplicates": [
+      "Toast/Notification components in src/components (GlassToast)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "GlassToast",
+    "justification": "A bespoke toast that disappears before it can be read and is invisible under reduced motion; the library already has a toast system.",
+    "evidence": [
+      "src/components/advanced/GlassAchievementSystem.tsx:781-786",
+      "src/components/advanced/GlassAchievementSystem.tsx:831-837",
+      "src/components/advanced/GlassAchievementSystem.tsx:859-866"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassAutoComposer (only useAutoComposer root-exported)",
+    "file": "src/components/advanced/GlassAutoComposer.tsx",
+    "lines": 1101,
+    "category": "ai/generative",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/advanced/GlassAutoComposer.stories.tsx",
+      "count": 4
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassAutoComposer.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassautocomposer/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassautocomposer/mobile.png"
+    ],
+    "material_impl": "Utility classes (glass-surface-primary glass-elev-2). Generated 'CSS' string hard-codes blur(24px) saturate(160%) and rgba whites (456-495), bypassing tokens. Includes a no-op glowPulse keyframe (identical 0%/100%).",
+    "motion": "framer whileHover/whileTap on generate button; transition duration is ANIMATION.DURATION.fast (150) passed as seconds -> 150s transitions (929).",
+    "a11y": "Interface root is role='main' (a library component must not claim the main landmark, 886). Label + aria-label duplicated on textarea. Generated JSX is shown as text in <pre>.",
+    "api": "Only the hook useAutoComposer is root-exported, but its Provider is not; context default returns `{}` as GeneratedLayout so the exported hook is a silent no-op outside an un-exported provider (745-760, 841-849). config prop default object literal is in effect deps -> generator re-created on every render (765-795).",
+    "ssr": "'use client'; no heavy imports.",
+    "fake_complexity": "@demo header admits it (8-10). 'LLM' is keyword matching on 'dashboard/form/card/list' returning canned JSX strings; model/temperature/maxTokens are ignored; 'genetic algorithm' mutates the shared designTokens object in place (601-614) and fitness is the caller-supplied array. GlassGeneratedLayoutRenderer never renders the generated JSX, only a placeholder.",
+    "duplicates": [
+      "src/components/ai/* generative components",
+      "GlassPredictiveEngine"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 1,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 4,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Pure theater: keyword->template strings dressed up as LLM generation and a genetic optimizer, with a root export (useAutoComposer) that cannot function because its provider is not exported. Nothing here belongs in a premium design system.",
+    "evidence": [
+      "src/components/advanced/GlassAutoComposer.tsx:8-10",
+      "src/components/advanced/GlassAutoComposer.tsx:184-186",
+      "src/components/advanced/GlassAutoComposer.tsx:601-614",
+      "src/components/advanced/GlassAutoComposer.tsx:745-760",
+      "src/components/advanced/GlassAutoComposer.tsx:886",
+      "src/components/advanced/GlassAutoComposer.tsx:929",
+      "src/index.ts:580"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassBiometricAdaptation",
+    "file": "src/components/advanced/GlassBiometricAdaptation.tsx",
+    "lines": 1331,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.stories.tsx",
+      "count": 6
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.test.tsx",
+      "count": 6,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/mobile.png"
+    ],
+    "material_impl": "Summary card utility classes; dashboard OptimizedGlass with intensity/glassBlur props that are ignored. OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277). Hard-coded hex calm/stress colors (#06b6d4, #8b5cf6, #ec4899) and invalid `${'hsl(var(--glass-color-primary))'}20` alpha concatenation (925-927).",
+    "motion": "framer; GlassStressResponsive animates scale/padding from a 'stress level'. Uses MotionPreferenceContext (different reduced-motion source than other files).",
+    "a11y": "Stress wrapper is role=region + aria-live=polite around arbitrary children -> re-announces content; aria-label exposes a numeric 'stress level' to AT users. cn() is passed an object {transitionDuration: ...} producing a bogus 'transitionDuration' class (967).",
+    "api": "Wrapper FC; GlassStressResponsive/Dashboard forwardRef (good). settings object in provider effect deps re-creates engine on each parent render.",
+    "ssr": "'use client'; guarded. But BiometricSensorManager attaches document click/mousemove and window error listeners plus a setInterval(700ms) that are NEVER removed (263-326, cleanup 484-496) \u2014 leaks per mount.",
+    "fake_complexity": "Header claims heart-rate/stress ML. Reality: Generic Sensor objects are constructed but never .start()ed (so never emit); 'heart rate' is fabricated as 70 + stress*30 from mouse jitter (402-406) and displayed as bpm; BLE parse ignores the flags byte. Presenting fabricated physiological data is a trust/privacy problem.",
+    "duplicates": [
+      "src/components/advanced/GlassContextualEngine.tsx",
+      "src/components/advanced/GlassContextAware.tsx",
+      "src/components/advanced/GlassNeuroSync.tsx",
+      "src/components/experiential/GlassMoodRing.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 2,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 3,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Fake biometrics (invented bpm), leaking global listeners and intervals, invalid color math, and a privacy-hostile premise. Certification screenshot shows a static 'Initializing / Stress level 0%' card. No path to a premium component.",
+    "evidence": [
+      "src/components/advanced/GlassBiometricAdaptation.tsx:206-233",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:263-326",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:402-406",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:484-496",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:925-927",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:958-967"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassStressResponsive",
+    "file": "src/components/advanced/GlassBiometricAdaptation.tsx",
+    "lines": 1331,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.stories.tsx",
+      "count": 6
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.test.tsx",
+      "count": 6,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/mobile.png"
+    ],
+    "material_impl": "motion.div wrapper with utility classes + nested OptimizedGlass (double surface). Invalid alpha color concat.",
+    "motion": "Scale/padding animation driven by stress; respects MotionPreferenceContext.",
+    "a11y": "aria-live region around children; numeric stress in aria-label.",
+    "api": "forwardRef; limited props; no className merge for OptimizedGlass.",
+    "ssr": "Requires provider.",
+    "fake_complexity": "Driven by fabricated stress metric.",
+    "duplicates": [
+      "src/components/advanced/GlassContextAware.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 4,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Adapts UI to a fabricated stress signal; nested surfaces; noisy live region.",
+    "evidence": [
+      "src/components/advanced/GlassBiometricAdaptation.tsx:844-1004"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassBiometricDashboard",
+    "file": "src/components/advanced/GlassBiometricAdaptation.tsx",
+    "lines": 1331,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.stories.tsx",
+      "count": 6
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassBiometricAdaptation.test.tsx",
+      "count": 6,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassbiometricadaptation/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass fixed top-4 left-4 (raw Tailwind 'fixed').",
+    "motion": "Height/opacity disclosure; stress bar.",
+    "a11y": "Disclosure button has aria-expanded/controls (good) but '+'/'\u2212' glyph only; history bars are unlabeled divs styled via ref callbacks.",
+    "api": "forwardRef; show prop.",
+    "ssr": "Client.",
+    "fake_complexity": "Shows fabricated bpm; 'Connect Heart Rate Monitor' triggers Web Bluetooth prompt.",
+    "duplicates": [
+      "src/components/advanced/GlassContextualEngine.tsx GlassContextualDashboard",
+      "src/components/advanced/GlassNeuroSync.tsx GlassNeuroMetricsDashboard",
+      "src/components/advanced/GlassMetaEngine.tsx GlassMetaDashboard"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 3,
+      "responsive": 2,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "One of four near-identical fixed 'engine dashboards' surfacing fake data.",
+    "evidence": [
+      "src/components/advanced/GlassBiometricAdaptation.tsx:1042-1050",
+      "src/components/advanced/GlassBiometricAdaptation.tsx:1126-1142"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassContextAware",
+    "file": "src/components/advanced/GlassContextAware.tsx",
+    "lines": 543,
+    "category": "adaptive/environment",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassContextAware.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassContextAware.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextaware/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextaware/mobile.png"
+    ],
+    "material_impl": "Sets --glass-adaptive-* custom properties to MotionValue objects (React does not stringify MotionValues into CSS vars on a style object reliably) and nothing in the library consumes them; computed blur is never applied to backdrop-filter. Only backgroundColor color-mix from smoothOpacity.get() at memo time (452-469). Visible material comes from the story's glass-foundation-complete class.",
+    "motion": "framer useSpring on 5 values; reduced motion only toggles a glass-transform-gpu class (476).",
+    "a11y": "No semantics on wrapper; optional debug HUD role=status.",
+    "api": "No forwardRef, no style passthrough. override/onContextChange in deps; onContextChange fires on every context change incl. every mousemove.",
+    "ssr": "useState initializer reads window/Date (98-120) -> hydration mismatch risk on device/hour. document listeners for click/keydown/scroll/mousemove/touchstart call setState on EVERY event (285-317) -> re-render storm.",
+    "fake_complexity": "cpuUsage/memoryUsage are constants (107-108); 'light level' is a sine of the clock hour; 'stressLevel' is always 1 because timeSinceLastInteraction is computed after lastInteraction=now (287-297). Adaptation effectively does nothing visible.",
+    "duplicates": [
+      "src/components/interactive/ContextAwareGlass.tsx",
+      "src/components/advanced/GlassContextualEngine.tsx",
+      "src/components/advanced/GlassEngine.tsx EnvironmentalGlass",
+      "src/components/advanced/GlassBiometricAdaptation.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 2,
+      "usability": 3,
+      "api": 2,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 2,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "interactive/ContextAwareGlass (or nothing)",
+    "justification": "Claims environment-driven intensity but computes from constants and clock hour, writes CSS vars nobody reads, and re-renders on every mouse move. Third of at least four context/environment adaptive wrappers.",
+    "evidence": [
+      "src/components/advanced/GlassContextAware.tsx:98-120",
+      "src/components/advanced/GlassContextAware.tsx:285-317",
+      "src/components/advanced/GlassContextAware.tsx:372-375",
+      "src/components/advanced/GlassContextAware.tsx:452-469"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassContextualEngine",
+    "file": "src/components/advanced/GlassContextualEngine.tsx",
+    "lines": 1582,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassContextualEngine.stories.tsx",
+      "count": 3
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassContextualEngine.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/mobile.png"
+    ],
+    "material_impl": "Utility classes only (glass-surface-primary, glass-shadow-soft-lg); adaptive styles are a CSS filter brightness/contrast/saturate on the summary card (1396-1405) \u2014 filtering text, not material.",
+    "motion": "framer for dashboard; none meaningful.",
+    "a11y": "Launcher is an emoji '\ud83c\udf10' button; dashboard role=dialog without focus management or Escape; live numbers update every 150ms without live region (fine) but cause constant re-render.",
+    "api": "Wrapper FC; callbacks in effect deps restart polling.",
+    "ssr": "Engine constructed in effect, but its two setIntervals (150ms/300ms) are never cleared (600-613) \u2014 each mount (and StrictMode double mount) leaks a perpetual engine. Calls navigator.geolocation.getCurrentPosition every 150ms (1114-1145) -> location permission prompt on mount; DeviceMotionEvent.requestPermission called without user gesture.",
+    "fake_complexity": "'Kalman filter' and 'neural network' with random weights; contextToVector has precedence bugs (`heartRate || 0 / 200`, 464,473-474); biometrics always undefined; humidity/temperature/pressure constants; adaptations array grows unbounded because appliedAt is never set so the prune filter keeps everything (684-689).",
+    "duplicates": [
+      "src/components/advanced/GlassContextAware.tsx",
+      "src/components/advanced/GlassBiometricAdaptation.tsx",
+      "src/components/interactive/ContextAwareGlass.tsx",
+      "src/components/advanced/GlassPredictiveEngine.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Requests geolocation on a timer, leaks intervals and memory, and dresses random-weight math as sensor fusion. A production hazard (privacy prompts, unbounded growth) with no visual value.",
+    "evidence": [
+      "src/components/advanced/GlassContextualEngine.tsx:464",
+      "src/components/advanced/GlassContextualEngine.tsx:600-613",
+      "src/components/advanced/GlassContextualEngine.tsx:684-689",
+      "src/components/advanced/GlassContextualEngine.tsx:943-955",
+      "src/components/advanced/GlassContextualEngine.tsx:1114-1145",
+      "src/components/advanced/GlassContextualEngine.tsx:1196-1216"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassContextualDashboard",
+    "file": "src/components/advanced/GlassContextualEngine.tsx",
+    "lines": 1582,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassContextualEngine.stories.tsx",
+      "count": 3
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassContextualEngine.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasscontextualengine/mobile.png"
+    ],
+    "material_impl": "glass-surface-primary glass-elev-4 portal panel; emoji launcher.",
+    "motion": "Fade/scale with reduced-motion duration 0.",
+    "a11y": "role=dialog without focus trap/return/Escape; emoji-only button with aria-label (ok).",
+    "api": "className, showSensors (unused).",
+    "ssr": "Portal; client.",
+    "fake_complexity": "Displays fabricated context.",
+    "duplicates": [
+      "src/components/advanced/GlassMetaEngine.tsx GlassMetaDashboard",
+      "src/components/advanced/GlassNeuroSync.tsx GlassNeuroMetricsDashboard",
+      "src/components/advanced/GlassBiometricAdaptation.tsx GlassBiometricDashboard"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 4,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Duplicate floating engine dashboard over fabricated data.",
+    "evidence": [
+      "src/components/advanced/GlassContextualEngine.tsx:1252-1390"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassEngine",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "Best material discipline in the shard: everything routes through createGlassStyle({intent:'neutral', elevation}) with blur snapped to canonical levels (21-38) and a clamped neutral white-channel gradient (44-50); consumer style cannot override background/backdropFilter (83-102). But 'blur' config only selects an elevation; texture types are minor white gradients; still hard-coded rgba(255,255,255,\u2026) strings rather than tokens.",
+    "motion": "Minimal; transitions only.",
+    "a11y": "GlassEngine wrapper is role='main' (932) \u2014 wrong for a library component. Demo sliders have label+aria-label duplicates; checkbox fine.",
+    "api": "Provider + hook with safe default context (good). Wrapper renders a demo by default (renderDemo=true) \u2014 demo in a production export.",
+    "ssr": "'use client'; no window at module scope.",
+    "fake_complexity": "'Weather/temperature reactive' uses hard-coded or Math.random mock conditions (427-440, 674-688). adaptToEnvironment is non-idempotent: each AdaptiveGlass mount re-applies it (+0.02 opacity, +0.15 brightness...) so 4 demo tiles compound drift on shared config.",
+    "duplicates": [
+      "src/primitives/OptimizedGlassCore.tsx",
+      "src/primitives/LiquidGlassMaterial",
+      "src/core/mixins/glassMixins createGlassStyle",
+      "src/components/advanced/GlassContextAware.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 6,
+      "usability": 4,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 5,
+      "consistency": 5,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 6,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "CONSOLIDATE",
+    "target": "primitives/OptimizedGlass + createGlassStyle (single material primitive)",
+    "justification": "The only file here with a principled material model (canonical blur ladder, clamped neutral alpha, protected material keys). That logic should be folded into the core material primitive; the provider/environment/weather layer and the demo export should be dropped.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:21-50",
+      "src/components/advanced/GlassEngine.tsx:83-102",
+      "src/components/advanced/GlassEngine.tsx:285-361",
+      "src/components/advanced/GlassEngine.tsx:427-440",
+      "src/components/advanced/GlassEngine.tsx:932"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "AdaptiveGlass",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle via engine; protected material keys.",
+    "motion": "Hover/active variant swap via state (re-render on mousedown/up).",
+    "a11y": "Plain div; no focus/keyboard parity for 'active' state.",
+    "api": "Declares `as` prop but always renders motion.div (407, 443) \u2014 polymorphism is a lie. No forwardRef.",
+    "ssr": "Fine.",
+    "fake_complexity": "environmentalAware feeds mock sunny/20C conditions on every mount, mutating shared provider config.",
+    "duplicates": [
+      "OptimizedGlass",
+      "LiquidGlassMaterial"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 6,
+      "usability": 4,
+      "api": 3,
+      "responsive": 6,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 5,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "CONSOLIDATE",
+    "target": "OptimizedGlass",
+    "justification": "A thin material surface that duplicates OptimizedGlass with a broken `as` prop and side-effecting environment mutation.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:401-460"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassOpacityEngine",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle + neutral gradient via withNeutralMaterial.",
+    "motion": "Minimal.",
+    "a11y": "Plain div wrappers; no semantics.",
+    "api": "React.FC, no forwardRef/style passthrough.",
+    "ssr": "Fine.",
+    "fake_complexity": "Hover/scroll/time-driven alpha on a neutral surface; opacityRange default array literal in effect deps re-binds listeners every render; aria-label passed in demo is not accepted/forwarded.",
+    "duplicates": [
+      "OptimizedGlass",
+      "GlassEngine siblings"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "CONSOLIDATE",
+    "target": "OptimizedGlass (interactive density prop)",
+    "justification": "Hover/scroll/time-driven alpha on a neutral surface; opacityRange default array literal in effect deps re-binds listeners every render; aria-label passed in demo is not accepted/forwarded.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:462-535"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassColorTinting",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle + neutral gradient via withNeutralMaterial.",
+    "motion": "Minimal.",
+    "a11y": "Plain div wrappers; no semantics.",
+    "api": "React.FC, no forwardRef/style passthrough.",
+    "ssr": "Fine.",
+    "fake_complexity": "Named 'color tinting' but by design discards chroma; 'content-aware' just counts <img> tags. Misleading name; folds into material density.",
+    "duplicates": [
+      "OptimizedGlass",
+      "GlassEngine siblings"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "justification": "Named 'color tinting' but by design discards chroma; 'content-aware' just counts <img> tags. Misleading name; folds into material density.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:537-591"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassTextureVariations",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle + neutral gradient via withNeutralMaterial.",
+    "motion": "Minimal.",
+    "a11y": "Plain div wrappers; no semantics.",
+    "api": "React.FC, no forwardRef/style passthrough.",
+    "ssr": "Fine.",
+    "fake_complexity": "Calls updateConfig on the shared provider, so one instance changes the texture of every sibling surface.",
+    "duplicates": [
+      "OptimizedGlass",
+      "GlassEngine siblings"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "justification": "Calls updateConfig on the shared provider, so one instance changes the texture of every sibling surface.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:593-641"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "EnvironmentalGlass",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle + neutral gradient via withNeutralMaterial.",
+    "motion": "Minimal.",
+    "a11y": "Plain div wrappers; no semantics.",
+    "api": "React.FC, no forwardRef/style passthrough.",
+    "ssr": "Fine.",
+    "fake_complexity": "weatherAPI=true picks random weather (Math.random) \u2014 fake; animates CSS filter brightness over content including text.",
+    "duplicates": [
+      "OptimizedGlass",
+      "GlassEngine siblings"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "justification": "weatherAPI=true picks random weather (Math.random) \u2014 fake; animates CSS filter brightness over content including text.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:643-712"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassEngineDemo",
+    "file": "src/components/advanced/GlassEngine.tsx",
+    "lines": 942,
+    "category": "material/runtime",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEngine.stories.tsx",
+      "count": 8
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEngine.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassengine/mobile.png"
+    ],
+    "material_impl": "createGlassStyle + neutral gradient via withNeutralMaterial.",
+    "motion": "Minimal.",
+    "a11y": "Plain div wrappers; no semantics.",
+    "api": "React.FC, no forwardRef/style passthrough.",
+    "ssr": "Fine.",
+    "fake_complexity": "A demo screen exported from the package root.",
+    "duplicates": [
+      "OptimizedGlass",
+      "GlassEngine siblings"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "justification": "A demo screen exported from the package root.",
+    "evidence": [
+      "src/components/advanced/GlassEngine.tsx:714-913"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassEyeTracking",
+    "file": "src/components/advanced/GlassEyeTracking.tsx",
+    "lines": 992,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEyeTracking.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEyeTracking.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/mobile.png"
+    ],
+    "material_impl": "Utility classes; calibration overlay glass-surface-primary fixed inset-0. Gaze glow uses invalid `var(--glass-color-primary, 0.3)` as a color (811, 866-867).",
+    "motion": "framer; calibration dots pulse infinitely; reduced motion handled for durations but gaze indicator uses Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state.",
+    "a11y": "Calibration points are motion.div with onClick only \u2014 no role, tabIndex or key handler (614-648); calibration is mouse-only. Summary shows 'Initializing' forever when autoInitialize=false (the default) \u2014 confirmed in certification text.",
+    "api": "Wrapper FC; multiple non-forwardRef subcomponents.",
+    "ssr": "'use client'. At runtime injects <script src='https://webgazer.cs.brown.edu/webgazer.js'> (110-118) \u2014 third-party remote code + camera access with no integrity, consent UI or CSP story. Provider polls every 15ms (150/10) with setState (415-423).",
+    "fake_complexity": "Real WebGazer integration attempt, but GlassEyeTrackingCalibration calls the hook useEyeTracking() inside an async click handler (512) \u2014 a rules-of-hooks violation that throws, so calibration cannot complete. glassBlur branch is an empty object with a stale 'Use createGlassStyle() instead' comment (778-781).",
+    "duplicates": [
+      "src/components/advanced/GlassPredictiveEngine.tsx",
+      "src/components/advanced/GlassMagneticCursor.tsx (attention-follow)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 3,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Loads remote code to access the camera, has a hook call inside an event handler that breaks calibration, is mouse-only, and its default state is a permanent 'Initializing' card. Not appropriate for a design system.",
+    "evidence": [
+      "src/components/advanced/GlassEyeTracking.tsx:110-118",
+      "src/components/advanced/GlassEyeTracking.tsx:415-423",
+      "src/components/advanced/GlassEyeTracking.tsx:512",
+      "src/components/advanced/GlassEyeTracking.tsx:614-648",
+      "src/components/advanced/GlassEyeTracking.tsx:811"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassEyeTrackingCalibration",
+    "file": "src/components/advanced/GlassEyeTracking.tsx",
+    "lines": 992,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEyeTracking.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEyeTracking.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/mobile.png"
+    ],
+    "material_impl": "Utility classes; invalid var() color fallbacks.",
+    "motion": "framer opacity/scale.",
+    "a11y": "Calibration targets not keyboard operable; hook-in-handler crash.",
+    "api": "Function components, className only.",
+    "ssr": "Requires provider; remote script.",
+    "fake_complexity": "Depends on broken calibration/WebGazer.",
+    "duplicates": [
+      "GlassEyeTracking siblings"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Part of the eye-tracking subsystem recommended for removal.",
+    "evidence": [
+      "src/components/advanced/GlassEyeTracking.tsx:470-669"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassGazeResponsive",
+    "file": "src/components/advanced/GlassEyeTracking.tsx",
+    "lines": 992,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEyeTracking.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEyeTracking.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/mobile.png"
+    ],
+    "material_impl": "Utility classes; invalid var() color fallbacks.",
+    "motion": "Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state.",
+    "a11y": "No semantics; visual-only.",
+    "api": "Function components, className only.",
+    "ssr": "Requires provider; remote script.",
+    "fake_complexity": "Depends on broken calibration/WebGazer.",
+    "duplicates": [
+      "GlassEyeTracking siblings"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Part of the eye-tracking subsystem recommended for removal.",
+    "evidence": [
+      "src/components/advanced/GlassEyeTracking.tsx:672-819"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassGazeVisualization",
+    "file": "src/components/advanced/GlassEyeTracking.tsx",
+    "lines": 992,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassEyeTracking.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassEyeTracking.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasseyetracking/mobile.png"
+    ],
+    "material_impl": "Utility classes; invalid var() color fallbacks.",
+    "motion": "framer opacity/scale.",
+    "a11y": "No semantics; visual-only.",
+    "api": "Function components, className only.",
+    "ssr": "Requires provider; remote script.",
+    "fake_complexity": "Depends on broken calibration/WebGazer.",
+    "duplicates": [
+      "GlassEyeTracking siblings"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Part of the eye-tracking subsystem recommended for removal.",
+    "evidence": [
+      "src/components/advanced/GlassEyeTracking.tsx:822-882"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassFoldableSupport",
+    "file": "src/components/advanced/GlassFoldableSupport.tsx",
+    "lines": 546,
+    "category": "layout/responsive",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassFoldableSupport.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassFoldableSupport.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassfoldablesupport/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassfoldablesupport/mobile.png"
+    ],
+    "material_impl": "glass-foundation-complete class; hinge bridge uses glass-backdrop-blur-md + hsl gradient; fold indicator uses raw Tailwind bg-red-400/bg-green-400.",
+    "motion": "framer. Layout wrapper inside AnimatePresence: Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. (357-358) -> ALL children invisible for reduced-motion users. Desktop certification screenshot darkest pixel is luminance 183 (no legible text), consistent with content stuck at low opacity.",
+    "a11y": "Fold indicator role=status. Content hidden under reduced motion (critical).",
+    "api": "No forwardRef/style. independentSegments distributes React children by index \u2014 surprising API.",
+    "ssr": "Guarded. Calls window.getScreenDetails() on mount and on every resize (92-94, 216-218) -> Window Management permission prompt in Chromium. Uses obsolete '(spanning: \u2026)' media/CSS.supports syntax (157-192) instead of viewport-segments; hinge offset math returns total span, not hinge position (115-123).",
+    "fake_complexity": "Detection is largely non-functional on real foldables (deprecated APIs); on all other devices it is a passthrough div.",
+    "duplicates": [
+      "CSS env(viewport-segment-*) / layout primitives",
+      "src/components/layout responsive containers"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "layout primitives + CSS viewport-segment media queries in docs",
+    "justification": "Wrong/deprecated APIs, a permission prompt on mount, and a reduced-motion bug that hides all content. Foldable support should be a documented CSS pattern, not a runtime component.",
+    "evidence": [
+      "src/components/advanced/GlassFoldableSupport.tsx:92-123",
+      "src/components/advanced/GlassFoldableSupport.tsx:157-192",
+      "src/components/advanced/GlassFoldableSupport.tsx:354-368",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassfoldablesupport/desktop.png"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassLiquidTransition",
+    "file": "src/components/advanced/GlassLiquidTransition.tsx",
+    "lines": 607,
+    "category": "motion",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassLiquidTransition.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassLiquidTransition.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassliquidtransition/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassliquidtransition/mobile.png"
+    ],
+    "material_impl": "No material of its own; radial white highlight overlay (rgba 0.18/0.10). Ripples use OptimizedGlass with ignored intensity/blur props. OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277).",
+    "motion": "framer springs + useTransform. Reduced motion only zeroes durations for flow/dissolve/splash; morph/ripple mouse-follow springs and 'ripple' infinite pulse ignore it. Uses react-spring vocabulary (tension/friction) on a framer transition (190-193) \u2014 ignored. 'splash' variant sets the container itself to scale:0/opacity:0 when inactive, hiding children (252-262).",
+    "a11y": "Every instance is role=region with a generic 'Liquid morphing container' label (landmark spam). Click trigger on a div with no keyboard equivalent.",
+    "api": "forwardRef declared but the forwarded ref is never attached \u2014 containerRef is used instead (43-47, 280). Random id generated every render (74). setMousePos on every mousemove re-renders. GlassLiquidContainer (not root-exported) never assigns containerRef so morphOnScroll is dead (491-522).",
+    "ssr": "'use client'; fine.",
+    "fake_complexity": "'Liquid morphing' = borderRadius 12px->50% + scale and a clip-path polygon; no actual liquid/refraction.",
+    "duplicates": [
+      "src/components/animations/GlassTransitions.tsx",
+      "src/components/effects/GlassMorphingEngine.tsx",
+      "src/components/animations/OrganicAnimationEngine.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "CONSOLIDATE",
+    "target": "animations/GlassTransitions (single transition/morph API on motion tokens)",
+    "justification": "Broken forwardRef, a variant that hides its own content, inconsistent reduced-motion handling and landmark spam. A morph-on-hover primitive is reasonable but should live in one motion module with tokenized springs.",
+    "evidence": [
+      "src/components/advanced/GlassLiquidTransition.tsx:43-47",
+      "src/components/advanced/GlassLiquidTransition.tsx:74",
+      "src/components/advanced/GlassLiquidTransition.tsx:189-193",
+      "src/components/advanced/GlassLiquidTransition.tsx:252-262",
+      "src/components/advanced/GlassLiquidTransition.tsx:278-298",
+      "src/components/advanced/GlassLiquidTransition.tsx:491-522"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassLiveCursorPresence",
+    "file": "src/components/advanced/GlassLiveCursorPresence.tsx",
+    "lines": 616,
+    "category": "collaboration",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassLiveCursorPresence.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassLiveCursorPresence.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasslivecursorpresence/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glasslivecursorpresence/mobile.png"
+    ],
+    "material_impl": "glassEffect applies the literal class string 'OptimizedGlass intensity={0.2} glassBlur={6} glass-blur-sm' (450, 490) \u2014 JSX pasted into className by a codemod; cursor dots are solid user color. Status dot raw Tailwind bg-green-400/bg-red-400.",
+    "motion": "framer. Main cursor and labels: Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. -> remote cursors are invisible for reduced-motion users (464-477, 533-534).",
+    "a11y": "Status role=status aria-live announces user count changes; cursors decorative. Avatar alt = name (ok).",
+    "api": "No forwardRef. smoothing prop ignored. Without connectionUrl renders nothing but '0 users online' although docs say 'deterministic local presence' (42). useLiveCursorPresence returns no-op functions (556-577).",
+    "ssr": "'use client'. Reconnect: onclose schedules setTimeout(connect) that is never cleared and also fires on intentional unmount close (121-130); stale reconnectAttempts closure. Messages are parsed and trusted without validation; no auth on the WebSocket URL.",
+    "fake_complexity": "Real WebSocket client, but protocol is ad hoc and the hook API is stubbed.",
+    "duplicates": [
+      "src/components/collaboration/GlassCollaborativeCursor.tsx",
+      "src/components/social/GlassCollaborativeCursor.tsx",
+      "src/services/websocket/collaboration-service"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 3,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "CONSOLIDATE",
+    "target": "collaboration/GlassCollaborativeCursor",
+    "justification": "Third collaborative-cursor implementation; codemod-garbage classNames, invisible cursors under reduced motion, leaking reconnect timers. Keep one presence component wired to the shared collaboration service.",
+    "evidence": [
+      "src/components/advanced/GlassLiveCursorPresence.tsx:42",
+      "src/components/advanced/GlassLiveCursorPresence.tsx:121-130",
+      "src/components/advanced/GlassLiveCursorPresence.tsx:448-451",
+      "src/components/advanced/GlassLiveCursorPresence.tsx:462-477",
+      "src/components/advanced/GlassLiveCursorPresence.tsx:556-577"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassMagneticCursor",
+    "file": "src/components/advanced/GlassMagneticCursor.tsx",
+    "lines": 606,
+    "category": "interaction/cursor",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassMagneticCursor.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassMagneticCursor.test.tsx",
+      "count": 7,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmagneticcursor/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmagneticcursor/mobile.png"
+    ],
+    "material_impl": "Nested OptimizedGlass inside OptimizedGlass with ignored intensity/blur props; default color rgba(255,255,255,0.24); mix-blend-difference. Contained preview is a static decorative dot next to a box (the certification shot shows only this static preview). OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277).",
+    "motion": "framer springs. Under reduced motion the style object is emptied (389-397), so the fixed cursor renders unpositioned at the top-left instead of being disabled. Trail/ripple ignore reduced motion.",
+    "a11y": "Hides the system cursor (document.body.style.cursor='none') \u2014 hostile to low-vision users and breaks OS cursor settings; window 'mouseenter/mouseleave' never fire so restore relies on unmount. role/aria-label on an aria-hidden element. Haptic vibrate on every mousemove near a target.",
+    "api": "forwardRef; many overlapping preview props (compact/contained/preview/density). GlassMagneticWrapper/useMagneticCursor not root-exported.",
+    "ssr": "'use client'. [data-magnetic] elements queried once on mount \u2014 dynamically added targets are ignored (134-151). setState (hover/target) on every mousemove; getBoundingClientRect in render (497-502).",
+    "fake_complexity": "Magnetic pull is real but simple; the contained preview is a static mock.",
+    "duplicates": [
+      "src/components/button/GlassMagneticButton.tsx",
+      "src/components/interactive/CursorGlow.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "DEPRECATE",
+    "target": "GlassMagneticButton (element-level magnetism)",
+    "justification": "Global cursor replacement is an a11y anti-pattern for a design system; element-level magnetism already exists in GlassMagneticButton. The certification image is a static placeholder, not the effect.",
+    "evidence": [
+      "src/components/advanced/GlassMagneticCursor.tsx:134-151",
+      "src/components/advanced/GlassMagneticCursor.tsx:262-272",
+      "src/components/advanced/GlassMagneticCursor.tsx:307-363",
+      "src/components/advanced/GlassMagneticCursor.tsx:377-400",
+      "src/components/advanced/GlassMagneticCursor.tsx:491-502"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassMeshGradient",
+    "file": "src/components/advanced/GlassMeshGradient.tsx",
+    "lines": 452,
+    "category": "background/effects",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassMeshGradient.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassMeshGradient.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmeshgradient/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmeshgradient/mobile.png"
+    ],
+    "material_impl": "2D canvas radial gradients + CSS filter blur(100px) on the canvas, plus an injected per-instance <style> animated soft-light layer. Default palette is four whites (72-77) -> white-on-white; certification image is essentially colorless (colorfulness ~1.3, mean luminance 244). The glass in the story is provided by the story's inline backdropFilter, not the component.",
+    "motion": "useAnimationFrame canvas loop + CSS keyframes. Reduced motion: loop returns before drawing anything, leaving a blank canvas (no static frame) (167-169). globalCompositeOperation/globalAlpha set after drawing and leak into next frame (233-239).",
+    "a11y": "aria-label on a div without role (ignored by AT); canvas not aria-hidden.",
+    "api": "Not forwardRef, no ref; colors default array literal in effect deps reseeds points on every parent render. useMeshGradientColors/adjustHue produce invalid colors (448-452). Presets use identical semantic colors (ocean = 4x primary).",
+    "ssr": "'use client'; canvas sized only on mount/window resize \u2014 no ResizeObserver, so a 0-size parent at mount yields a 0x0 canvas.",
+    "fake_complexity": "Not a mesh gradient (no mesh/bilinear patches) \u2014 overlapping radial blobs.",
+    "duplicates": [
+      "src/components/atmospheric/GlassAuroraDisplay.tsx",
+      "src/components/atmospheric/GlassNebulaClouds.tsx",
+      "src/components/backgrounds/*",
+      "src/components/advanced/GlassWebGLShader.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 4,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REDESIGN",
+    "target": "single AmbientBackground primitive (CSS/WebGL) under backgrounds/",
+    "justification": "An ambient backdrop is genuinely useful behind glass (glass needs something to refract), but this one is colorless by default, blank under reduced motion, CPU-heavy (blur(100px) filter on a per-frame canvas) and duplicated by several atmospheric components. Rebuild as one tokenized, static-first ambient background with optional motion.",
+    "evidence": [
+      "src/components/advanced/GlassMeshGradient.tsx:72-77",
+      "src/components/advanced/GlassMeshGradient.tsx:149-164",
+      "src/components/advanced/GlassMeshGradient.tsx:167-169",
+      "src/components/advanced/GlassMeshGradient.tsx:233-239",
+      "src/components/advanced/GlassMeshGradient.tsx:271",
+      "src/components/advanced/GlassMeshGradient.tsx:448-452",
+      "src/components/advanced/GlassMeshGradient.stories.tsx:40-44"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassMetaDashboard (GlassMetaEngine alias not root-exported)",
+    "file": "src/components/advanced/GlassMetaEngine.tsx",
+    "lines": 1323,
+    "category": "devtools/telemetry",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassMetaEngine.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassMetaEngine.test.tsx",
+      "count": 5,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmetaengine/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassmetaengine/mobile.png"
+    ],
+    "material_impl": "glass-surface-primary glass-elev-5 utility classes; mixed raw Tailwind (fixed bottom-4 right-4 z-50). Status dots hard-coded colors.",
+    "motion": "framer; launcher with orbiting dots repeat:Infinity; panel uses initial={false} so no RM visibility bug here.",
+    "a11y": "Floating launcher '\u25c8' glyph with aria-label; panel role=dialog without focus management.",
+    "api": "Provider/hook/dashboard; context default non-null so guard never fires.",
+    "ssr": "GlassMetaEngineCore is constructed DURING RENDER (useRef init, 800-801) and its constructor starts three setIntervals that are never cleared (366-382) \u2014 on the server this leaks timers per request; on the client per mount.",
+    "fake_complexity": "'QuantumOptimizer' (random amplitudes, 'Schr\u00f6dinger evolution'), 'self-healing neural network' with Math.random degradation; health issues are pushed on every metric without dedupe (unbounded); trend is computed after overwriting the score so is always 'stable' (424-430). When there is no data the dashboard shows HARD-CODED health 98%/100%/96% (905-911) \u2014 fabricated status presented as live.",
+    "duplicates": [
+      "src/components/advanced/GlassSelfHealingSystem.tsx",
+      "src/components/advanced/GlassPredictiveEngine.tsx",
+      "src/components/advanced/GlassContextualEngine.tsx GlassContextualDashboard",
+      "src/components/advanced/GlassNeuroSync.tsx dashboard"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Fabricated 'system intelligence' (hard-coded health percentages, quantum/neural theater) with server-side interval leaks from render-time construction. Remove; real perf telemetry belongs in devtools, not the component package.",
+    "evidence": [
+      "src/components/advanced/GlassMetaEngine.tsx:107-193",
+      "src/components/advanced/GlassMetaEngine.tsx:366-382",
+      "src/components/advanced/GlassMetaEngine.tsx:424-430",
+      "src/components/advanced/GlassMetaEngine.tsx:800-801",
+      "src/components/advanced/GlassMetaEngine.tsx:905-911"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassNeuroMetricsDashboard",
+    "file": "src/components/advanced/GlassNeuroSync.tsx",
+    "lines": 1355,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassNeuroSync.stories.tsx",
+      "count": 3
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassNeuroSync.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/mobile.png"
+    ],
+    "material_impl": "glass-surface-primary glass-elev-5 utilities; bar colors set via ref callbacks; emoji '\ud83e\udde0' launcher with animate-pulse.",
+    "motion": "framer. Panel: Uses framer pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}: under prefers-reduced-motion the element never leaves its initial (invisible/offset) state. (1017-1018). The certification screenshots (desktop and mobile) are BLANK: darkest pixel luminance 233 on both, i.e. no rendered text despite the DOM containing it \u2014 yet the certification entry lists zero issues.",
+    "a11y": "role=dialog without focus mgmt; contained mode is still role=dialog; content invisible under reduced motion.",
+    "api": "contained/defaultOpen props; showBrainwaves accepted and unused. Root does not export GlassNeuroSync wrapper.",
+    "ssr": "Provider polls every 15ms (150/10) (865-876).",
+    "fake_complexity": "@demo header admits simulated EEG (8-10). connectDevice('muse'|'emotiv'|...) just sets isConnected=true without connecting to anything and reports '<type> Headset' as connected (656-669) \u2014 a false status. The simulator is also broken: EEGProcessor initializes buffers with Object.keys(Map) which is [] (129-131), so filteredBuffer.get(band) is undefined and buffer.push throws on the first sample; the ~2ms simulator setInterval (711) is never cleared.",
+    "duplicates": [
+      "src/components/advanced/GlassBiometricAdaptation.tsx",
+      "src/components/advanced/GlassContextualEngine.tsx",
+      "src/components/ai/NeuromorphicLearningNetwork.tsx"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 3,
+      "usability": 1,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "justification": "Pseudo-BCI with a crashing simulator, fake 'connected' state for real devices, and a certification screenshot that is literally blank. Remove.",
+    "evidence": [
+      "src/components/advanced/GlassNeuroSync.tsx:8-10",
+      "src/components/advanced/GlassNeuroSync.tsx:129-131",
+      "src/components/advanced/GlassNeuroSync.tsx:656-669",
+      "src/components/advanced/GlassNeuroSync.tsx:711",
+      "src/components/advanced/GlassNeuroSync.tsx:1017-1018",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/desktop.png"
+    ],
+    "target": "",
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassNeuroFeedback",
+    "file": "src/components/advanced/GlassNeuroSync.tsx",
+    "lines": 1355,
+    "category": "adaptive/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassNeuroSync.stories.tsx",
+      "count": 3
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassNeuroSync.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassneurosync/mobile.png"
+    ],
+    "material_impl": "Inline rgba(15,23,42,\u2026) track/fill hard-coded; no glass material.",
+    "motion": "Width animation; RM duration 0.",
+    "a11y": "Meter has no role=meter/progressbar, aria-valuenow, or label association.",
+    "api": "type/target/className.",
+    "ssr": "Requires provider.",
+    "fake_complexity": "Displays simulated or seeded metrics; story hard-codes 'Current 74%' text next to it.",
+    "duplicates": [
+      "Progress/Meter components"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "GlassProgress/GlassMeter",
+    "justification": "An unlabeled progress bar bound to fake neuro data; a real Meter component should cover this.",
+    "evidence": [
+      "src/components/advanced/GlassNeuroSync.tsx:1155-1215",
+      "src/components/advanced/GlassNeuroSync.stories.tsx:98"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassOrientationEffects",
+    "file": "src/components/advanced/GlassOrientationEffects.tsx",
+    "lines": 505,
+    "category": "interaction/sensors",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassOrientationEffects.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassOrientationEffects.test.tsx",
+      "count": 4,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassorientationeffects/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassorientationeffects/mobile.png"
+    ],
+    "material_impl": "'Refraction' is a flat rgba(255,255,255,.08) overlay and 'shimmer' a static gradient (390-395) \u2014 neither responds to orientation. Permission card className contains literal 'OptimizedGlass intensity={0.2} glassBlur={6}' (308).",
+    "motion": "framer springs; prefersReducedMotion is read and NEVER used \u2014 tilt/parallax run for reduced-motion users.",
+    "a11y": "On desktop Chromium 'DeviceOrientationEvent' in window is true, so isSupported=true and permissionGranted=false -> the component replaces its children with an 'Enable Device Orientation' card (304-335). Confirmed: the certification screenshot/text shows only that card, not the story's content. When tilt is enabled, children live in an absolute inset-0 layer so the container has no intrinsic height.",
+    "api": "No forwardRef/style. effectTypes array default in callback deps. useDeviceOrientation hook never subscribes to events (448-476).",
+    "ssr": "'use client'; window accessed only in effects.",
+    "fake_complexity": "Effect names (refraction, shimmer) do not do what they claim.",
+    "duplicates": [
+      "src/components/advanced/GlassParallaxLayers.tsx",
+      "tilt effects in OptimizedGlass/LiquidGlass (parallax flag)",
+      "src/components/effects/Glass3DEngine.tsx"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "optional tilt option on a single interactive surface primitive",
+    "justification": "Hides consumer content behind a permission prompt on ordinary desktops (visible in its own certification screenshot), ignores reduced motion, and its named effects are static overlays.",
+    "evidence": [
+      "src/components/advanced/GlassOrientationEffects.tsx:117-150",
+      "src/components/advanced/GlassOrientationEffects.tsx:304-335",
+      "src/components/advanced/GlassOrientationEffects.tsx:308",
+      "src/components/advanced/GlassOrientationEffects.tsx:367-403",
+      "src/components/advanced/GlassOrientationEffects.tsx:448-476",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassorientationeffects/desktop.png"
+    ],
+    "flagship_candidate": false
+  },
+  {
+    "name": "GlassParallaxLayers",
+    "file": "src/components/advanced/GlassParallaxLayers.tsx",
+    "lines": 406,
+    "category": "motion/depth",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassParallaxLayers.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassParallaxLayers.test.tsx",
+      "count": 6,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparallaxlayers/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparallaxlayers/mobile.png"
+    ],
+    "material_impl": "Each layer is OptimizedGlass(intent neutral, elevation level1/level3) \u2014 shared primitive. But the depth-based blur ('glassBlur={finalBlur}') and depth/intensity props are stripped by OptimizedGlassCore, so the advertised depth-of-field blur never renders. OptimizedGlass (OptimizedGlassCore) only honors intent/elevation; intensity/blur/depth/tint/border and any glass* prop are stripped and ignored (src/primitives/OptimizedGlassCore.tsx:154-158,245-277).",
+    "motion": "framer springs/useTransform; reduced motion honored (transforms zeroed, perspective none, listeners off) \u2014 the best RM handling in the shard. autoRotate uses setState every 16ms instead of a motion value.",
+    "a11y": "Container role=presentation and aria-hidden when no aria-label is supplied (198-200) \u2014 real layer content is hidden from assistive tech by default. 'Hover to interact' hint is a live region that changes on hover.",
+    "api": "forwardRef with merged ref (good). Calls useTransform x5 INSIDE layers.map (202-250) \u2014 rules-of-hooks violation; changing the number of layers between renders crashes. layers.content API is awkward; presets have content:null.",
+    "ssr": "'use client'; window access only in effects; rAF-throttled scroll.",
+    "fake_complexity": "Parallax is real; depth blur is not (props ignored).",
+    "duplicates": [
+      "src/components/advanced/GlassOrientationEffects.tsx",
+      "src/components/effects/Glass3DEngine.tsx",
+      "OptimizedGlass parallax flag"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 6,
+      "consistency": 5,
+      "performance": 5,
+      "docs": 4,
+      "storybook": 6,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "REDESIGN",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "The concept (stacked glass planes at depth) is on-brand and the motion/reduced-motion work is decent, but hooks-in-loop, aria-hidden-by-default, and the silently ignored depth blur mean it does not deliver its premise. Rebuild with a per-layer child component (hooks legal), real per-depth blur tokens, and content-visible semantics.",
+    "evidence": [
+      "src/components/advanced/GlassParallaxLayers.tsx:192-200",
+      "src/components/advanced/GlassParallaxLayers.tsx:202-250",
+      "src/components/advanced/GlassParallaxLayers.tsx:289",
+      "src/components/advanced/GlassParallaxLayers.tsx:322-333",
+      "src/components/advanced/GlassParallaxLayers.tsx:140-148"
+    ]
+  },
+  {
+    "name": "GlassParticles",
+    "file": "src/components/advanced/GlassParticles.tsx",
+    "lines": 700,
+    "category": "background/effects",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/advanced/GlassParticles.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/advanced/GlassParticles.test.tsx",
+      "count": 6,
+      "nature": "Templated boilerplate test (smoke render, jest-axe on initial render, className passthrough, snapshot); no behavioral/reduced-motion/keyboard assertions."
+    },
+    "screenshots": [
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparticles/desktop.png",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-advanced-glassparticles/mobile.png"
+    ],
+    "material_impl": "Canvas hard-paints an opaque near-black field rgb(6,8,14) with cyan/ice radial gradients every frame (434-464) and the wrapper background is a dark gradient (565-566) \u2014 theme-agnostic, ignores tokens. Default particle colors are dark slate rgba(15,23,42,.62) on that near-black field (82-86) -> near-invisible by default. OptimizedGlass sheen at opacity 0.08 and zIndex -1 (583-590) is effectively decorative. Certification screenshot is near-white (mean luminance 244) with no dark field visible, i.e. the canvas did not paint at its laid-out size.",
+    "motion": "useAnimationFrame; reduced motion draws a static frame (548-557) \u2014 correct intent.",
+    "a11y": "role=presentation + aria-label (ignored); aria-hidden unless labeled (fine for decoration).",
+    "api": "forwardRef; overlapping compact/contained/preview props; colorScheme 'rainbow' returns slate gray (271-272) \u2014 name lies; colors default array literal in deps.",
+    "ssr": "'use client'. O(n^2) connection pass per frame; mouse repulsion divides by distance without zero guard (391-394); canvas sized from parent only on mount/window resize (no ResizeObserver).",
+    "fake_complexity": "Particles are real; 'glass' aspect is nominal.",
+    "duplicates": [
+      "src/components/backgrounds/ParticleBackground.tsx",
+      "src/components/immersive/GlassParticleField.tsx",
+      "src/components/effects/SeasonalParticles.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 4,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 4,
+      "motion": 5,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "CONSOLIDATE",
+    "target": "backgrounds/ParticleBackground (one particle field)",
+    "justification": "One of four particle systems; hard-coded dark canvas defeats theming, defaults are invisible, and the certification capture shows no particle field. Merge the reduced-motion static-frame logic into a single tokenized particle background.",
+    "evidence": [
+      "src/components/advanced/GlassParticles.tsx:82-86",
+      "src/components/advanced/GlassParticles.tsx:141-160",
+      "src/components/advanced/GlassParticles.tsx:271-272",
+      "src/components/advanced/GlassParticles.tsx:434-464",
+      "src/components/advanced/GlassParticles.tsx:548-557",
+      "src/components/advanced/GlassParticles.tsx:565-566",
+      "src/components/advanced/GlassParticles.tsx:583-590"
+    ],
+    "flagship_candidate": false
+  }
+]

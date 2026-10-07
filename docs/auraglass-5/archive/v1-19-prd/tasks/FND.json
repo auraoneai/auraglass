@@ -1,0 +1,2590 @@
+[
+  {
+    "id": "FND-001",
+    "prd": "PRD-08",
+    "system": "foundation/deps",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "Add @base-ui/react to dependencies at the exact version from `npm view @base-ui/react version` (no ^/~), not in peerDependencies; update the lockfile with `npm install --ignore-scripts`. Merge only after the product sign-off on adopting Base UI is linked (PRD §18).",
+    "depends_on": [
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "tests/foundation/base-ui-pin.test.ts (FND-003)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-01 exact pin present (AC-FND-05 prerequisite)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-002",
+    "prd": "PRD-08",
+    "system": "foundation/deps",
+    "file": "docs/dependency-allowlist.json",
+    "action": "MODIFY",
+    "description": "SC-14: docs/dependency-allowlist.json is created and owned by PKG (PKG-056). MODIFY only: confirm the @base-ui/react entry carries the exact version pinned by FND-001 and that verify-deps.mjs (PKG-057) fails on a ^/~ range. Do not create or restructure the file.",
+    "depends_on": [
+      "FND-001",
+      "PKG-056",
+      "PKG-057"
+    ],
+    "priority": "P0",
+    "test": "scripts/ci/verify-deps (PRD-02) green; base-ui-pin.test.ts asserts allowlist entry",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-01",
+    "status": "todo"
+  },
+  {
+    "id": "FND-003",
+    "prd": "PRD-08",
+    "system": "foundation/deps",
+    "file": "NEW:tests/foundation/base-ui-pin.test.ts",
+    "action": "TEST",
+    "description": "Assert package.json dependencies['@base-ui/react'] matches /^\\d+\\.\\d+\\.\\d+$/, the allowlist holds the same name and version, and the package is absent from peerDependencies. Also import each Base UI part used by §4.5 (Accordion, Avatar, Meter, Progress, Separator, Form) from the pinned version; a missing part fails with its name (open item O-06).",
+    "depends_on": [
+      "FND-001",
+      "FND-002"
+    ],
+    "priority": "P0",
+    "test": "jest tests/foundation/base-ui-pin.test.ts green; fails when the specifier is changed to ^x.y.z (demonstrated once)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-01",
+    "status": "todo"
+  },
+  {
+    "id": "FND-004",
+    "prd": "PRD-08",
+    "system": "foundation/types",
+    "file": "NEW:src/foundation/types.ts",
+    "action": "CREATE",
+    "description": "Export ChangeDetails {event: Event|undefined; reason: string}, toChangeDetails(baseDetails, fallbackReason), RenderProp<P,S>, ValueChangeHandler<V>, ComponentMeta {parts, states, variants, tier 'T0'|'T1'|'T2', rsc 'server'|'client'|'mixed', apg, budgetKb, selectorMigration?, partDocs?} and defineMeta<const M>(m). No Base UI type is re-exported. Add `export type { ChangeDetails }` to src/index.ts. Meta type includes variants and migration fields (SC-27, REQ-FND-12).",
+    "depends_on": [
+      "FND-001"
+    ],
+    "priority": "P0",
+    "test": "tests/types/change-details.test-d.ts and meta-shape.test-d.ts compile (FND-010, FND-011)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-05, REQ-FND-12",
+    "status": "todo"
+  },
+  {
+    "id": "FND-005",
+    "prd": "PRD-08",
+    "system": "foundation/parts",
+    "file": "NEW:src/foundation/parts.ts",
+    "action": "CREATE",
+    "description": "Export AG_PARTS as a readonly const tuple of the 38 PRD §4.3 part names in order (root … actions) and type AgPart; header comment: new names need a PR that also regenerates docs.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "meta-shape.test-d.ts rejects an unknown part; parts-contract self-test (FND-016)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-11",
+    "status": "todo"
+  },
+  {
+    "id": "FND-006",
+    "prd": "PRD-08",
+    "system": "foundation/state",
+    "file": "NEW:src/foundation/state.ts",
+    "action": "CREATE",
+    "description": "Export AG_STATES (13 values: open, closed, checked, unchecked, indeterminate, active, inactive, on, off, expanded, collapsed, loading, idle), type AgState, and toDataState({open, checked, active, pressed, expanded, loading}) with precedence loading>open>expanded>checked>pressed>active, returning undefined when nothing is set.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "src/foundation/__tests__/parts-contract.test.tsx legal-value check plus a unit block for each precedence case",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-007",
+    "prd": "PRD-08",
+    "system": "foundation/portal",
+    "file": "NEW:src/foundation/portal.ts",
+    "action": "CREATE",
+    "description": "usePortalContainer(): HTMLElement|null reads PRD-05 AuraGlassProvider portal-root context; null on server; document.body only when no provider is mounted; never creates a root. Blocked (not stubbed) if PRD-05 context is absent. SC-25: usePortalContainer() is the single accessor over A11Y's [data-ag-portal-root] context (A11Y-029); Base UI per-root dismissal is routed through LayerStack (A11Y-049), so no wrapper handles Escape itself.",
+    "depends_on": [
+      "A11Y-029",
+      "A11Y-049"
+    ],
+    "priority": "P0",
+    "test": "src/foundation/__tests__/portal-root.test.tsx (FND-015)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-008",
+    "prd": "PRD-08",
+    "system": "lib/cn",
+    "file": "NEW:src/lib/cn.ts",
+    "action": "CREATE",
+    "description": "`export { clsx as cn } from 'clsx'` plus `export type { ClassValue }` (architecture §10: clsx only, no tailwind-merge).",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "jest suite unchanged before/after; any snapshot change is handed to the owning prompt, never -u",
+    "storybook": "n/a",
+    "acceptance": "PRD §8 src/lib/cn.ts; REQ-FND-08 support",
+    "status": "todo"
+  },
+  {
+    "id": "FND-009",
+    "prd": "PRD-08",
+    "system": "lib/cn",
+    "file": "src/lib/utilsComprehensive.ts",
+    "action": "MODIFY",
+    "description": "Replace the twMerge(clsx()) cn body at src/lib/utilsComprehensive.ts:11-13 and src/design-system/utilsCore.ts:4-6 with a re-export of cn from src/lib/cn.ts; report remaining twMerge importers (`rg -l twMerge src`). Do not remove tailwind-merge from package.json (PRD-02).",
+    "depends_on": [
+      "FND-008"
+    ],
+    "priority": "P2",
+    "test": "full jest run in CI shows identical results; class-conflict differences are listed in the 08a report",
+    "storybook": "n/a",
+    "acceptance": "PRD §8 (cn replaces the two copies)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-010",
+    "prd": "PRD-08",
+    "system": "foundation/types",
+    "file": "NEW:tests/types/meta-shape.test-d.ts",
+    "action": "TEST",
+    "description": "defineMeta with parts ['root','bogus'] under // @ts-expect-error, plus a valid meta; add the file to tests/types/tsconfig.json include.",
+    "depends_on": [
+      "FND-004",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "tsc -p tests/types/tsconfig.json --noEmit passes; removing the @ts-expect-error makes it fail",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-12",
+    "status": "todo"
+  },
+  {
+    "id": "FND-011",
+    "prd": "PRD-08",
+    "system": "foundation/types",
+    "file": "NEW:tests/types/change-details.test-d.ts",
+    "action": "TEST",
+    "description": "ValueChangeHandler<string> accepts (v, d) => d.reason; a handler typed with a Base UI event-details type fails under @ts-expect-error; ChangeDetails is importable from 'aura-glass'.",
+    "depends_on": [
+      "FND-004"
+    ],
+    "priority": "P0",
+    "test": "tsc -p tests/types/tsconfig.json --noEmit",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-05",
+    "status": "todo"
+  },
+  {
+    "id": "FND-012",
+    "prd": "PRD-08",
+    "system": "foundation/types",
+    "file": "NEW:tests/types/no-legacy-onchange.test-d.ts",
+    "action": "TEST",
+    "description": "Helper AssertNoLegacyOnChange<P> resolves to never when P['onChange'] exists and is not React.ChangeEventHandler<HTMLInputElement|HTMLTextAreaElement>; exported OWNED_PROP_TYPES tuple that 08b/08c/08d append to; a fixture prop type with a legacy onChange fails under @ts-expect-error.",
+    "depends_on": [
+      "FND-004"
+    ],
+    "priority": "P0",
+    "test": "tsc -p tests/types/tsconfig.json --noEmit",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-013",
+    "prd": "PRD-08",
+    "system": "foundation/exports",
+    "file": "NEW:tests/exports/no-foundation-types.test.ts",
+    "action": "TEST",
+    "description": "Walk dist/**/*.d.ts and fail on /@base-ui|react-aria|@internationalized|BaseUI/; fail with 'dist missing' if dist/ is absent. Runs after the remote npm run build (build-dts job).",
+    "depends_on": [
+      "FND-004",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "remote job build-dts in .github/workflows/foundation-pattern.yml",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-03 (REQ-FND-02)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-014",
+    "prd": "PRD-08",
+    "system": "foundation/contract",
+    "file": "NEW:src/foundation/__tests__/ref-forwarding.test.tsx",
+    "action": "TEST",
+    "description": "Discover src/components/*/*.meta.ts and src/primitives/*.meta.ts, composeStories the sibling stories, render Default with a ref and assert ref.current instanceof HTMLElement with data-ag-part='root'. Coverage driven by tests/foundation/contract-coverage.json (exact list; missing or unregistered meta fails). Self-test against the Probe/BadProbe fixtures.",
+    "depends_on": [
+      "FND-004",
+      "FND-005",
+      "FND-016"
+    ],
+    "priority": "P0",
+    "test": "jest src/foundation/__tests__/ref-forwarding.test.tsx; BadProbe fixture fails as designed",
+    "storybook": "consumes every owned *.stories.tsx Default story",
+    "acceptance": "REQ-FND-03; AC-FND-04 harness",
+    "status": "todo"
+  },
+  {
+    "id": "FND-015",
+    "prd": "PRD-08",
+    "system": "foundation/contract",
+    "file": "NEW:src/foundation/__tests__/portal-root.test.tsx",
+    "action": "TEST",
+    "description": "Inside PRD-05 AuraGlassProvider, open each story whose meta lists popup or positioner; assert el.closest('[data-ag-portal-root]') is the provider root and exactly one [data-ag-portal-root] exists.",
+    "depends_on": [
+      "FND-007",
+      "FND-014"
+    ],
+    "priority": "P0",
+    "test": "jest src/foundation/__tests__/portal-root.test.tsx",
+    "storybook": "consumes overlay-bearing stories (Tour, ColorPicker, Dialog)",
+    "acceptance": "REQ-FND-04; AC-FND-04 harness",
+    "status": "todo"
+  },
+  {
+    "id": "FND-016",
+    "prd": "PRD-08",
+    "system": "foundation/contract",
+    "file": "NEW:src/foundation/__tests__/parts-contract.test.tsx",
+    "action": "TEST",
+    "description": "For each registered meta render every story; collected data-ag-part values must be a subset of meta.parts and their union must equal meta.parts; every data-state value must be in AG_STATES. Create tests/foundation/contract-coverage.json {\"expected\":[]} and fixtures tests/foundation/__fixtures__/{probe,bad-probe}/ (BadProbe renders 'bogus' and omits a listed 'footer').",
+    "depends_on": [
+      "FND-005",
+      "FND-006"
+    ],
+    "priority": "P0",
+    "test": "jest src/foundation/__tests__/parts-contract.test.tsx; self-test Probe passes, BadProbe reports both errors",
+    "storybook": "consumes all stories of registered components",
+    "acceptance": "REQ-FND-13, REQ-FND-14; AC-FND-04 harness",
+    "status": "todo"
+  },
+  {
+    "id": "FND-017",
+    "prd": "PRD-08",
+    "system": "lint/no-raw-design-values",
+    "file": "scripts/tokens/gates/literals-baseline.json",
+    "action": "TEST",
+    "description": "SC-17: FND drops its own auraglass/no-raw-design-values (DS) rule. Consume DS's single raw-value rule auraglass/no-raw-design-values (ESLint + stylelint, gate scripts/tokens/gates/literals.mjs, baseline DS-073). Verify that every FND-owned component and primitive directory (src/components/<fnd-dirs>/**, src/primitives/**, src/foundation/**) has count 0 in literals-baseline.json for categories color|blur|radius|shadow|duration|easing|spring, and that the DS rule is at error level for those globs (request the glob through DS if it is missing). Edit nothing in the DS gate or baseline.",
+    "depends_on": [
+      "DS-073"
+    ],
+    "priority": "P0",
+    "test": "node scripts/tokens/gates/literals.mjs --check exits 0; FND dirs at 0 in literals-baseline.json",
+    "storybook": "n/a (stories are linted, not exempt)",
+    "acceptance": "REQ-FND-08 (literal half, SC-17)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-018",
+    "prd": "PRD-08",
+    "system": "lint/require-data-ag-part",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/require-data-ag-part: in files with a sibling *.meta.ts, the return-root JSX of each exported component and every JSX member element from an @base-ui/react/* import must carry a literal data-ag-part. Register as error for src/components/**, src/primitives/**, src/foundation/**. RuleTester NEW tests/lint/require-data-ag-part.test.js. SC-16: MODIFY of the PKG-owned plugin (namespace auraglass/, wiring by PKG-015); FND owns this rule.",
+    "depends_on": [
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "jest tests/lint/require-data-ag-part.test.js",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-13 (static half)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-019",
+    "prd": "PRD-08",
+    "system": "lint/css",
+    "file": "scripts/ci/verify-foundation-pattern.mjs",
+    "action": "MODIFY",
+    "description": "MODIFY the script created by FND-020 (one CREATE per file, SC-40 rule 5). CSS half of REQ-FND-08: stylelint declaration-no-important for FND .css files; literal colour/duration/easing detection is DS's auraglass/no-raw-design-values (SC-17) and is not re-implemented here. This check only fails on !important in .css files in directories containing a *.meta.ts.",
+    "depends_on": [
+      "FND-020"
+    ],
+    "priority": "P1",
+    "test": "tests/ci/verify-foundation-pattern.test.mjs fixture with one violation per pattern",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-08 (CSS half)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-020",
+    "prd": "PRD-08",
+    "system": "ci/foundation-pattern",
+    "file": "NEW:scripts/ci/verify-foundation-pattern.mjs",
+    "action": "CREATE",
+    "description": "Checks printing file:line rule: (a) asChild outside src/compat/** (ratchet via NEW scripts/ci/foundation-pattern-baseline.json, strict from beta); (b) imports of primitives/focus/{FocusTrap,ScreenReader,SkipLinks} and the 7 E-06 shim paths (ratchet, strict after FND-042); (c) /\\.(skip|todo|fixme)\\(|\\bxit\\(|expect\\(true\\)/ in every PRD §12 test file (strict now); (d) CSS checks of FND-019; (e) @base-ui/react imports outside *.client.tsx and src/foundation/**. Tests NEW tests/ci/verify-foundation-pattern.test.mjs with fixtures under NEW tests/ci/fixtures/foundation-pattern/**. REQ-FND-07 asChild check uses the TypeScript compiler API (exported props types and JSX attributes outside src/compat/**), not rg, so comments and docs do not match (open item O-05 closed).",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "node --test tests/ci/verify-foundation-pattern.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-07, REQ-FND-24 (check), PRD §18 no-skip rule",
+    "status": "todo"
+  },
+  {
+    "id": "FND-021",
+    "prd": "PRD-08",
+    "system": "docs/component-docs",
+    "file": "NEW:scripts/docs/gen-component-docs.mjs",
+    "action": "CREATE",
+    "description": "Generate apps/docs/content/components/<kebab>.parts.md from each *.meta.ts: tier, rsc, APG link, parts table, states, variants, and the 4.x→5.0 selector table from meta.selectorMigration; --check exits 1 listing stale pages. Temp transpile output goes to os.tmpdir() and is deleted. Test NEW tests/ci/gen-component-docs.test.mjs on the Probe fixture. Output path is apps/docs/content/components/<name>.parts.md (not docs/components/**, which RM-13 deletes; SC-38, open item O-12).",
+    "depends_on": [
+      "FND-004"
+    ],
+    "priority": "P1",
+    "test": "node --test tests/ci/gen-component-docs.test.mjs; --check fails on a stale fixture page",
+    "storybook": "Docs page per component renders the same tables (PRD §13)",
+    "acceptance": "REQ-FND-16",
+    "status": "todo"
+  },
+  {
+    "id": "FND-022",
+    "prd": "PRD-08",
+    "system": "ci/foundation-pattern",
+    "file": "NEW:.github/workflows/foundation-pattern.yml",
+    "action": "INFRA",
+    "description": "On pull_request/push to main: npm ci; eslint with FND rules auraglass/require-data-ag-part and auraglass/no-forward-ref plus consumed rules auraglass/no-random-in-render (PKG-086), auraglass/no-raw-design-values (DS, SC-17) and auraglass/no-optics-outside-material (MAT-004) for src/components/** and src/primitives/**; verify-foundation-pattern.mjs; node --test tests/ci/; jest tests/lint tests/foundation src/foundation; tsc -p tests/types/tsconfig.json; gen-component-docs --check. Job build-dts: remote npm run build then no-foundation-types.test.ts. Lane mapping: L1 Static (SC-29). Public/private handling per ci-selection.md; no cloud secrets.",
+    "depends_on": [
+      "FND-003",
+      "FND-013",
+      "FND-017",
+      "FND-018",
+      "FND-020",
+      "FND-021",
+      "PKG-086",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "workflow run URL green on the 08a PR",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-03; REQ-FND-02; REQ-FND-09 (no-random-in-render enforced)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-023",
+    "prd": "PRD-08",
+    "system": "codemod/internal-refs",
+    "file": "NEW:scripts/codemods/internal/forwardref-to-ref-prop.mjs",
+    "action": "CREATE",
+    "description": "jscodeshift (tsx parser) transform: forwardRef/React.forwardRef((props, ref) => …) → function Name({ ref, ...props }: P & { ref?: React.Ref<E> }); keeps displayName, unwraps memo(forwardRef()), preserves generics, removes unused forwardRef import; prints 'SKIP file:line reason' for ref-name collisions or non-function inner args. Add jscodeshift as an exact-pinned devDependency only if PRD-02 allowlists it.",
+    "depends_on": [
+      "FND-022",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "scripts/codemods/internal/forwardref-to-ref-prop.test.mjs (FND-025)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-18",
+    "status": "todo"
+  },
+  {
+    "id": "FND-024",
+    "prd": "PRD-08",
+    "system": "codemod/internal-refs",
+    "file": "NEW:scripts/codemods/internal/__fixtures__/",
+    "action": "TEST",
+    "description": "Input/output fixture pairs: named-import, react-namespace, memo-wrapped, generic, display-name, already-converted (no-op), ref-name-collision (SKIP), default-export, multiple-in-file.",
+    "depends_on": [
+      "FND-023"
+    ],
+    "priority": "P0",
+    "test": "consumed by FND-025",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-18",
+    "status": "todo"
+  },
+  {
+    "id": "FND-025",
+    "prd": "PRD-08",
+    "system": "codemod/internal-refs",
+    "file": "NEW:scripts/codemods/internal/forwardref-to-ref-prop.test.mjs",
+    "action": "TEST",
+    "description": "node --test: each fixture input transforms byte-for-byte to its output; a second pass over every output produces an empty diff (idempotence); SKIP fixtures print SKIP and stay unchanged.",
+    "depends_on": [
+      "FND-024"
+    ],
+    "priority": "P0",
+    "test": "node --test scripts/codemods/internal/",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-18",
+    "status": "todo"
+  },
+  {
+    "id": "FND-026",
+    "prd": "PRD-08",
+    "system": "codemod/internal-refs",
+    "file": "src/",
+    "action": "MODIFY",
+    "description": "One PR 'refactor(5.0): forwardRef → ref-as-prop (internal codemod)': record baselines (rg -o -w forwardRef src | wc -l = 708; 705 in 282 non-test non-story files), run the codemod over src/ excluding src/compat/**, convert every SKIP by hand, no other edits; afterwards `rg -o -w forwardRef src --glob '!src/compat/**' | wc -l` prints 0. Jest results identical before and after.",
+    "depends_on": [
+      "FND-025"
+    ],
+    "priority": "P0",
+    "test": "CI typecheck + full jest under React 19 identical to pre-codemod run",
+    "storybook": "n/a (remote Storybook build must stay green)",
+    "acceptance": "AC-FND-01 (REQ-FND-17)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-027",
+    "prd": "PRD-08",
+    "system": "lint/no-forward-ref",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/no-forward-ref reporting forwardRef import specifiers from 'react' (incl. aliased) and forwardRef(/React.forwardRef( calls in src/** except src/compat/**. RuleTester NEW tests/lint/no-forward-ref.test.js: named, namespace, aliased, compat-valid cases. SC-16: rule auraglass/no-forward-ref is FND-owned; the plugin file is PKG's (MODIFY only).",
+    "depends_on": [
+      "FND-022",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "jest tests/lint/no-forward-ref.test.js",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-01",
+    "status": "todo"
+  },
+  {
+    "id": "FND-028",
+    "prd": "PRD-08",
+    "system": "lint/no-forward-ref",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register 'auraglass/no-forward-ref': 'error' for src/** in the same PR as FND-026; no eslint-disable for it outside src/compat/**.",
+    "depends_on": [
+      "FND-026",
+      "FND-027",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "foundation-pattern.yml eslint step green with 0 violations",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-01",
+    "status": "todo"
+  },
+  {
+    "id": "FND-029",
+    "prd": "PRD-08",
+    "system": "primitives/Slot",
+    "file": "src/primitives/Slot.tsx",
+    "action": "MODIFY",
+    "description": "5.0 form: read child.props.ref only (never element.ref; React ^19 per D-02), compose refs with cleanup-returning callbacks, merge className via cn (child last), style shallow (child wins), handlers child-first then slot unless child called preventDefault; hook-free; remove the GlassSlot export. The 4.x version-gated fallback is PRD-00 TRUST-039.",
+    "depends_on": [
+      "FND-026",
+      "FND-008",
+      "TRUST-039"
+    ],
+    "priority": "P0",
+    "test": "src/primitives/Slot.react19.test.tsx (FND-030)",
+    "storybook": "Foundation/Slot: Default, RTL",
+    "acceptance": "REQ-FND-19; AC-FND-02",
+    "status": "todo"
+  },
+  {
+    "id": "FND-030",
+    "prd": "PRD-08",
+    "system": "primitives/Slot",
+    "file": "NEW:src/primitives/Slot.react19.test.tsx",
+    "action": "TEST",
+    "description": "Under React 19 with console.error spied: <Slot ref={a}><button ref={b}/></Slot> and <Slot ref={a}><button/></Slot> both pass the HTMLButtonElement to every ref with 0 calls matching /element\\.ref/; class merge order; child preventDefault suppresses the slot handler.",
+    "depends_on": [
+      "FND-029"
+    ],
+    "priority": "P0",
+    "test": "jest src/primitives/Slot.react19.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-19; AC-FND-02",
+    "status": "todo"
+  },
+  {
+    "id": "FND-031",
+    "prd": "PRD-08",
+    "system": "primitives/Portal",
+    "file": "src/primitives/Portal.tsx",
+    "action": "MODIFY",
+    "description": "Default container = usePortalContainer() with optional container override; render null until mounted using a useSyncExternalStore mounted flag; ref-as-prop; remove the GlassPortal export.",
+    "depends_on": [
+      "FND-007",
+      "FND-026"
+    ],
+    "priority": "P0",
+    "test": "tests/ssr/portal-hydration.test.tsx (FND-032)",
+    "storybook": "Foundation/Portal: Default, ForcedColors",
+    "acceptance": "REQ-FND-22",
+    "status": "todo"
+  },
+  {
+    "id": "FND-032",
+    "prd": "PRD-08",
+    "system": "primitives/Portal",
+    "file": "NEW:tests/ssr/portal-hydration.test.tsx",
+    "action": "TEST",
+    "description": "renderToString output has no portal content; hydrateRoot in jsdom with console.error spied yields 0 hydration warnings; after act flush the content sits under [data-ag-portal-root].",
+    "depends_on": [
+      "FND-031"
+    ],
+    "priority": "P0",
+    "test": "jest tests/ssr/portal-hydration.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-22",
+    "status": "todo"
+  },
+  {
+    "id": "FND-033",
+    "prd": "PRD-08",
+    "system": "primitives/FocusScope",
+    "file": "src/primitives/FocusScope.tsx",
+    "action": "POLISH",
+    "description": "Ref-as-prop, data-ag-part='root' on the container, trapped/loop props unchanged, no GlassFocusScope alias; stays the focus manager for owned components (Sheet detents, ResizablePanels, Tour) only.",
+    "depends_on": [
+      "FND-026"
+    ],
+    "priority": "P1",
+    "test": "parts-contract + ref-forwarding harness entries for FocusScope; existing FocusScope behaviour tests still green",
+    "storybook": "Foundation/FocusScope: Default, Keyboard (play: Tab loops)",
+    "acceptance": "AC-FND-04 (primitives)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-034",
+    "prd": "PRD-08",
+    "system": "primitives/Label",
+    "file": "src/primitives/Label.tsx",
+    "action": "CONSOLIDATE",
+    "description": "Render <label data-ag-part='label'>; absorb src/components/input/GlassLabel.tsx props: required → aria-hidden asterisk + VisuallyHidden ' (required)', disabled → data-disabled; remove 'Root as LabelRoot' alias (src/primitives/index.ts:51). GlassLabel.tsx is deleted in FND-042.",
+    "depends_on": [
+      "FND-038",
+      "FND-026"
+    ],
+    "priority": "P1",
+    "test": "NEW src/primitives/Label.test.tsx: required text exposed to AT, asterisk aria-hidden, data-disabled",
+    "storybook": "Foundation/Label: Default, States (required, disabled), RTL",
+    "acceptance": "AC-FND-04 (primitives); REQ-FND-20",
+    "status": "todo"
+  },
+  {
+    "id": "FND-035",
+    "prd": "PRD-08",
+    "system": "primitives/DismissableLayer",
+    "file": "src/primitives/DismissableLayer.tsx",
+    "action": "MODIFY",
+    "description": "Remove its own document keydown Escape listener; register via PRD-05 useLayer({kind, modal:false, onEscape}) in LayerStack (src/theme/layers/LayerStack.ts); keep local outside-pointer dismissal; restore focus to the element recorded at open; remove GlassDismissableLayer alias. Blocked (no local stack) if PRD-05 LayerStack is absent. SC-26: FND is the only creator/editor of DismissableLayer; it registers with LayerStack (A11Y-049) and keeps no document Escape listener (SC-25).",
+    "depends_on": [
+      "A11Y-049",
+      "FND-026"
+    ],
+    "priority": "P0",
+    "test": "src/primitives/DismissableLayer.stack.test.tsx (FND-036)",
+    "storybook": "Foundation/DismissableLayer: Default, Stacked",
+    "acceptance": "REQ-FND-21",
+    "status": "todo"
+  },
+  {
+    "id": "FND-036",
+    "prd": "PRD-08",
+    "system": "primitives/DismissableLayer",
+    "file": "NEW:src/primitives/DismissableLayer.stack.test.tsx",
+    "action": "TEST",
+    "description": "Two nested open layers inside AuraGlassProvider: first Escape closes only the inner layer and focus lands on the inner trigger; second Escape closes the outer layer and focus lands on the outer trigger.",
+    "depends_on": [
+      "FND-035"
+    ],
+    "priority": "P0",
+    "test": "jest src/primitives/DismissableLayer.stack.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-21",
+    "status": "todo"
+  },
+  {
+    "id": "FND-037",
+    "prd": "PRD-08",
+    "system": "primitives/DismissableLayer",
+    "file": "NEW:tests/a11y/apg/stacked-escape.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote Playwright spec using runApgScript (tests/a11y/apg/harness.ts, PRD-05) on the Foundation/DismissableLayer Stacked story: Escape order and focus return in Chromium, WebKit and Gecko; @axe-core/playwright colour contrast on, 0 serious/critical. SC-30: path tests/a11y/apg/stacked-escape.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-035",
+      "A11Y-049",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "L5 Behaviour lane run URL, 3 engines",
+    "storybook": "Foundation/DismissableLayer Stacked (Keyboard play mirrors the spec)",
+    "acceptance": "AC-FND-07 (1 of 11); REQ-FND-21",
+    "status": "todo"
+  },
+  {
+    "id": "FND-038",
+    "prd": "PRD-08",
+    "system": "primitives/VisuallyHidden",
+    "file": "NEW:src/primitives/VisuallyHidden.tsx",
+    "action": "CREATE",
+    "description": "<span data-ag-part='root' class='ag-visually-hidden'> with render prop; NEW src/primitives/VisuallyHidden.css in @layer ag.components: position:absolute; 1px inline/block size; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; `focusable` variant un-hides on :focus-visible. Server-safe. Absorbs src/primitives/focus/ScreenReader.tsx. SC-26: FND-038 is the only CREATE of src/primitives/VisuallyHidden.tsx (A11Y-056 becomes a test task); no asChild prop (REQ-FND-07).",
+    "depends_on": [
+      "FND-026"
+    ],
+    "priority": "P0",
+    "test": "NEW src/primitives/VisuallyHidden.test.tsx (class + stylesheet text); computed styles in the FND-133 remote matrix",
+    "storybook": "Foundation/VisuallyHidden: Default, Focusable (focused/unfocused), ForcedColors",
+    "acceptance": "REQ-FND-23",
+    "status": "todo"
+  },
+  {
+    "id": "FND-039",
+    "prd": "PRD-08",
+    "system": "primitives/index",
+    "file": "src/primitives/index.ts",
+    "action": "MODIFY",
+    "description": "Export exactly Slot, Portal, FocusScope, Label, DismissableLayer, VisuallyHidden and their *Props types; drop RovingFocusGroup/Positioner exports (files stay internal), the Glass* aliases (:50-82) and the GlassCore/OptimizedGlassCore/Motion aliases (:86-92); mirror the primitive lines in src/index.ts. Public alias names are provided by PRD-18 compat.",
+    "depends_on": [
+      "FND-029",
+      "FND-031",
+      "FND-033",
+      "FND-034",
+      "FND-035",
+      "FND-038",
+      "DX-065"
+    ],
+    "priority": "P0",
+    "test": "tests/exports/primitives-surface.test.ts (FND-041)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-20",
+    "status": "todo"
+  },
+  {
+    "id": "FND-040",
+    "prd": "PRD-08",
+    "system": "primitives/meta",
+    "file": "NEW:src/primitives/Slot.meta.ts",
+    "action": "CREATE",
+    "description": "Write *.meta.ts for the six primitives (Slot, Portal, FocusScope, Label, DismissableLayer, VisuallyHidden; tier T0; rsc per PRD §4.4 table) and Foundation/<Name> stories (Default, States, ForcedColors, RTL); append the six names to tests/foundation/contract-coverage.json; regenerate apps/docs/content/components/*.parts.md.",
+    "depends_on": [
+      "FND-039",
+      "FND-016",
+      "FND-021"
+    ],
+    "priority": "P0",
+    "test": "parts-contract, ref-forwarding, portal-root harnesses green for the 6 primitives",
+    "storybook": "Foundation/Slot, Foundation/Portal, Foundation/FocusScope, Foundation/Label, Foundation/DismissableLayer, Foundation/VisuallyHidden",
+    "acceptance": "AC-FND-04 (6/6 primitives)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-041",
+    "prd": "PRD-08",
+    "system": "primitives/exports",
+    "file": "NEW:tests/exports/primitives-surface.test.ts",
+    "action": "TEST",
+    "description": "Against the built package: aura-glass/primitives runtime keys equal exactly the six names; root has no key matching /^Glass(Slot|Portal|FocusScope|DismissableLayer|LabelPrimitive|RovingFocusGroup|Positioner)$|^LabelRoot$/.",
+    "depends_on": [
+      "FND-039"
+    ],
+    "priority": "P0",
+    "test": "runs after remote npm run build",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-20",
+    "status": "todo"
+  },
+  {
+    "id": "FND-042",
+    "prd": "PRD-08",
+    "system": "removal/RM-12",
+    "file": "src/primitives/focus/FocusTrap.tsx",
+    "action": "REMOVE",
+    "description": "RM-12 single squash PR 'refactor(5.0)!: remove primitive shims and aliases': delete src/primitives/focus/{FocusTrap,ScreenReader,SkipLinks,GlassFocusScope}.tsx, src/primitives/focus/index.ts, src/primitives/{slot,portal,positioning,roving-focus,label,dismissable-layer}/, src/icons/createIcon.tsx and src/components/input/GlassLabel.tsx; re-point drop-in importers to FocusScope/VisuallyHidden; any importer needing behaviour change blocks and is listed. Flip verify-foundation-pattern check (b) to strict. Requires consumer-grep artifact, compat aliases (PRD-18) and deprecations.json entries.",
+    "depends_on": [
+      "FND-039",
+      "FND-107",
+      "FND-108",
+      "FND-112",
+      "REL-103",
+      "DX-065"
+    ],
+    "priority": "P1",
+    "test": "verify-foundation-pattern.mjs --strict check (b) green; tsc --noEmit; removal-gate.yml all jobs green",
+    "storybook": "remote Storybook build has no reference to deleted modules",
+    "acceptance": "REQ-FND-24; AC-FND-14 (RM-12)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-043",
+    "prd": "PRD-08",
+    "system": "core/Text",
+    "file": "NEW:src/components/text/Text.tsx",
+    "action": "CREATE",
+    "description": "T0 Text seeded from src/components/data-display/Typography.tsx: render prop, size xs|sm|md|lg, muted (boolean) + status intent neutral|success|warning|danger (SC-24), weight, truncate (true|number lines via CSS var), align; <p> default, inline → <span>; parts [root]; server-safe; Text.css/meta/index/test/stories per PRD §4.1.",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/text/Text.test.tsx (props→attrs, ref, jest-axe); t2-server-safe.test.tsx",
+    "storybook": "Foundation/Text: Default, variant matrix, States, ReducedTransparency, ForcedColors, ContrastMore, RTL, Mobile390",
+    "acceptance": "AC-FND-06 (T0); AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-044",
+    "prd": "PRD-08",
+    "system": "core/Heading",
+    "file": "NEW:src/components/heading/Heading.tsx",
+    "action": "CREATE",
+    "description": "T0 Heading: required level 1–6 renders h1..h6; size sm|md|lg|xl|display independent of level (display absorbs src/components/marketing/DisplayText.tsx); parts [root]; server-safe.",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/heading/Heading.test.tsx (level→element, size independent)",
+    "storybook": "Foundation/Heading: full §13 story set",
+    "acceptance": "AC-FND-06 (T0); AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-045",
+    "prd": "PRD-08",
+    "system": "core/Stack",
+    "file": "NEW:src/components/stack/Stack.tsx",
+    "action": "CREATE",
+    "description": "T0 Stack seeded from src/components/layout/GlassStack.tsx: direction row|column (logical, RTL-aware), gap (space tokens), align, justify, wrap, separator node (aria-hidden when decorative); absorbs GlassFlex/Box; HStack/VStack not exported; parts [root, separator].",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/stack/Stack.test.tsx",
+    "storybook": "Foundation/Stack: full §13 story set",
+    "acceptance": "AC-FND-06 (T0); AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-046",
+    "prd": "PRD-08",
+    "system": "core/Grid",
+    "file": "NEW:src/components/grid/Grid.tsx",
+    "action": "CREATE",
+    "description": "T0 Grid seeded from src/components/layout/GlassGrid.tsx + GlassMasonry.tsx: columns number | {base,sm,md,lg} on container breakpoints 480/768/1024px, minItemWidth, gap, masonry → @supports (grid-template-rows: masonry) else CSS columns fallback with break-inside:avoid; DOM order = source order, no JS reorder; parts [root].",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/grid/Grid.test.tsx; tests/e2e/layout/grid-masonry.spec.ts (FND-065)",
+    "storybook": "Foundation/Grid: full §13 set + Masonry",
+    "acceptance": "REQ-FND-39; AC-FND-06 (T0)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-047",
+    "prd": "PRD-08",
+    "system": "core/Container",
+    "file": "NEW:src/components/container/Container.tsx",
+    "action": "CREATE",
+    "description": "T0 Container seeded from src/components/layout/GlassContainer.tsx: size sm|md|lg|xl|full → max-inline-size tokens, padding, container-type:inline-size named ag-container; parts [root].",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/container/Container.test.tsx",
+    "storybook": "Foundation/Container: full §13 story set",
+    "acceptance": "AC-FND-06 (T0); AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-048",
+    "prd": "PRD-08",
+    "system": "core/Icon",
+    "file": "src/icons/components.tsx",
+    "action": "REDESIGN",
+    "description": "Icon renders <svg aria-hidden='true' focusable='false'> by default, role='img' + <title> when aria-label/title given; createIcon(name, node) returns a /*#__PURE__*/ server-safe component; one module per glyph at src/icons/<category>/<name>.tsx exported from ./icons and ./icons/<name>; ClearIcon becomes a glyph; createGlassIcon alias leaves root (compat via PRD-18).",
+    "depends_on": [
+      "FND-040",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "src/icons/__tests__/icon-a11y.test.tsx (FND-049); per-glyph ≤1 KB gz in budget lane",
+    "storybook": "Foundation/Icon: Default (glyph grid), Labelled, ForcedColors, RTL",
+    "acceptance": "REQ-FND-40; AC-FND-06 (T0)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-049",
+    "prd": "PRD-08",
+    "system": "core/Icon",
+    "file": "NEW:src/icons/__tests__/icon-a11y.test.tsx",
+    "action": "TEST",
+    "description": "Decorative default has aria-hidden='true' and no role; aria-label → role='img' with accessible name; title → <title> linked by aria-labelledby; fs scan asserts each glyph module export is annotated /*#__PURE__*/.",
+    "depends_on": [
+      "FND-048"
+    ],
+    "priority": "P1",
+    "test": "jest src/icons/__tests__/icon-a11y.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-40",
+    "status": "todo"
+  },
+  {
+    "id": "FND-050",
+    "prd": "PRD-08",
+    "system": "core/Card",
+    "file": "src/components/card/GlassCard.tsx",
+    "action": "REDESIGN",
+    "description": "Rebuild as Card compound in src/components/card/Card.tsx (Header, Title, Description, Content, Footer, Actions; parts root, header, title, description, body, footer, actions); default materialProps({layer:'content', content:'content-raised'}) → data-ag-layer='content', no data-ag-variant; variant='regular' gets backdrop only under [data-ag-backdrop='media'] via CSS; interactive via render; absorbs GlowingCard/WidgetGlass/ContentSection visuals without glow animation. Delete 4.x card/ files only when no root export remains.",
+    "depends_on": [
+      "FND-040",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "NEW src/components/card/Card.test.tsx; tests/e2e/material/content-layer.spec.ts (FND-064)",
+    "storybook": "Core/Card: full §13 set + RegularOverMedia (photo, video frame scenes), RegularNoMedia",
+    "acceptance": "REQ-FND-27; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-051",
+    "prd": "PRD-08",
+    "system": "core/Badge",
+    "file": "NEW:src/components/badge/Badge.tsx",
+    "action": "CREATE",
+    "description": "Badge seeded from src/components/data-display/GlassBadge.tsx: status intent neutral|info|success|warning|danger (SC-24, data-ag-intent), dot, count + max (99+), label prop for visually hidden text, opaque tint with contrast-color() + token fallback; absorbs GlassStatusDot, LiquidGlassBadgeCluster, GlassConnectionStatus; parts [root, indicator, value]; server.",
+    "depends_on": [
+      "FND-040",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/badge/Badge.test.tsx (count max, hidden label)",
+    "storybook": "Core/Badge: full §13 story set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-052",
+    "prd": "PRD-08",
+    "system": "core/Separator",
+    "file": "NEW:src/components/separator/Separator.tsx",
+    "action": "CREATE",
+    "description": "Separator seeded from src/components/layout/GlassSeparator.tsx: orientation, decorative → role='none', else role='separator' + aria-orientation + data-orientation; absorbs GlassDivider; if node_modules/@base-ui/react/separator ships 'use client', use owned markup to stay rsc:'server' and record it; parts [root].",
+    "depends_on": [
+      "FND-040",
+      "FND-001"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/separator/Separator.test.tsx",
+    "storybook": "Core/Separator: full §13 story set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-053",
+    "prd": "PRD-08",
+    "system": "core/Kbd",
+    "file": "NEW:src/components/kbd/Kbd.tsx",
+    "action": "CREATE",
+    "description": "Kbd renders <kbd>; keys?: string[] renders nested <kbd> per key with '+' separators; content-sunken material; parts [root, item, separator]; server.",
+    "depends_on": [
+      "FND-040",
+      "MAT-015"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/kbd/Kbd.test.tsx",
+    "storybook": "Core/Kbd: full §13 story set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-054",
+    "prd": "PRD-08",
+    "system": "core/DescriptionList",
+    "file": "NEW:src/components/description-list/DescriptionList.tsx",
+    "action": "CREATE",
+    "description": "<dl> with DescriptionList.Item (<div>), .Term (<dt>), .Details (<dd>); layout stacked|inline; term stacks above details below a 400px container; parts [root, item, label, value]; server.",
+    "depends_on": [
+      "FND-040"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/description-list/DescriptionList.test.tsx (dl/dt/dd structure, jest-axe)",
+    "storybook": "Core/DescriptionList: full §13 story set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-055",
+    "prd": "PRD-08",
+    "system": "core/StateViews",
+    "file": "NEW:src/components/state-views/StateView.tsx",
+    "action": "CREATE",
+    "description": "Internal shared layout StateView.tsx plus three server exports EmptyState, ErrorState, LoadingState (title, description, icon, actions; parts root, icon, title, description, actions) seeded from data-display/Glass{Empty,Error,Loading}State.tsx; ErrorState role='alert' only with urgent; LoadingState aria-busy='true' + visually hidden role='status' label (default 'Loading').",
+    "depends_on": [
+      "FND-040",
+      "FND-038"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/state-views/StateViews.test.tsx (roles, aria-busy)",
+    "storybook": "Core/EmptyState, Core/ErrorState, Core/LoadingState: full §13 sets",
+    "acceptance": "AC-FND-06; REQ-FND-30 (aria-busy container)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-056",
+    "prd": "PRD-08",
+    "system": "core/Steps",
+    "file": "NEW:src/components/steps/Steps.tsx",
+    "action": "CREATE",
+    "description": "Steps seeded from src/components/interactive/GlassStepper.tsx (R-08, flow meaning): <ol data-ag-part='list'> of Steps.Item <li data-ag-part='item'>, current index, per-item status complete|current|upcoming|error; current has aria-current='step'; complete/error carry visually hidden text; horizontal ≥480px container, vertical below; parts [root, list, item, indicator, label, description]; server.",
+    "depends_on": [
+      "FND-040",
+      "FND-038"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/steps/Steps.test.tsx; tests/a11y/apg/steps.apg.spec.ts (FND-066)",
+    "storybook": "Core/Steps: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-37; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-057",
+    "prd": "PRD-08",
+    "system": "core/Link",
+    "file": "NEW:src/components/link/Link.tsx",
+    "action": "CREATE",
+    "description": "<a> with render for router links; target='_blank' adds rel='noopener noreferrer' and VisuallyHidden ' (opens in new tab)'; status intent neutral|danger (SC-24); underline always|hover|none (dev warning for none inside Text); replaces src/components/card/glass-card-link.tsx; parts [root, icon]; server.",
+    "depends_on": [
+      "FND-040",
+      "FND-038"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/link/Link.test.tsx (rel, hidden text, render prop)",
+    "storybook": "Core/Link: full §13 story set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-058",
+    "prd": "PRD-08",
+    "system": "core/Alert",
+    "file": "NEW:src/components/alert/Alert.tsx",
+    "action": "CREATE",
+    "description": "Alert seeded from src/components/data-display/GlassAlert.tsx: Alert.Title/Description/Actions, status intent info|success|warning|danger (SC-24, data-ag-intent), urgent → role='alert' else role='status', layout='banner' (100% inline size, same role rule; no Banner export), onDismiss renders Alert.Close from Alert.client.tsx (meta.rsc 'mixed', entry directive-free); content-raised material + tone rim; parts [root, icon, title, description, actions, close].",
+    "depends_on": [
+      "FND-040",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/alert/Alert.test.tsx incl. 'banner layout roles'; content-layer.spec.ts",
+    "storybook": "Core/Alert: full §13 set + Banner",
+    "acceptance": "REQ-FND-27; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-059",
+    "prd": "PRD-08",
+    "system": "core/Skeleton",
+    "file": "NEW:src/components/skeleton/Skeleton.tsx",
+    "action": "CREATE",
+    "description": "Skeleton seeded from src/components/data-display/GlassSkeleton.tsx (absorbs GlassLoadingSkeleton): aria-hidden='true', shape text|rect|circle, lines; shimmer keyframes only under the provider's allow-continuous + motion=full ancestor attributes (names confirmed from PRD-05/06); content-sunken material; parts [root, item].",
+    "depends_on": [
+      "FND-040",
+      "MAT-047",
+      "DS-026",
+      "MOT-040"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/skeleton/Skeleton.test.tsx (aria-hidden, no shimmer without attributes, aria-busy from LoadingState); motion lane in FND-136",
+    "storybook": "Core/Skeleton: full §13 set",
+    "acceptance": "REQ-FND-30; REQ-FND-27",
+    "status": "todo"
+  },
+  {
+    "id": "FND-060",
+    "prd": "PRD-08",
+    "system": "core/AvatarGroup",
+    "file": "NEW:src/components/avatar-group/AvatarGroup.tsx",
+    "action": "CREATE",
+    "description": "AvatarGroup seeded from src/components/interactive/GlassAvatarGroup.tsx: max with '+N' overflow item labelled 'N more', size, overlap via negative logical margin token; children typed ReactNode (Avatar from FND-072); parts [root, item, value]; server. Own directory avatar-group/ (deviation from PRD §8 list, reported).",
+    "depends_on": [
+      "FND-040"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/avatar-group/AvatarGroup.test.tsx (overflow count + label)",
+    "storybook": "Core/AvatarGroup: full §13 set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-061",
+    "prd": "PRD-08",
+    "system": "core/ImageList",
+    "file": "src/components/image-list/ImageList.tsx",
+    "action": "POLISH",
+    "description": "Rebuild ImageList with ImageList.Item and ImageList.ItemBar: cols is a maximum reduced by container width (minItemWidth default 160px), variant standard|quilted|masonry (reuses Grid masonry CSS), root sets data-ag-backdrop='media', ItemBar uses chrome thin material; replaces *.module.css with ImageList.css; absorbs GlassGallery; parts [root, item, media, header, title, description, actions].",
+    "depends_on": [
+      "FND-040",
+      "FND-046",
+      "MAT-047"
+    ],
+    "priority": "P2",
+    "test": "src/components/image-list/ImageList.test.tsx rewritten (cols reduction, ItemBar backdrop attr)",
+    "storybook": "Core/ImageList: full §13 set on photo and video frame scenes",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-062",
+    "prd": "PRD-08",
+    "system": "core/ssr",
+    "file": "NEW:tests/ssr/t2-server-safe.test.tsx",
+    "action": "TEST",
+    "description": "For every meta with rsc 'server' (and the server entry of 'mixed'), renderToString with minimal props and console.error/warn spied yields 0 calls, without AuraGlassProvider; assert the entry file's first statement is not \"use client\".",
+    "depends_on": [
+      "FND-043",
+      "FND-044",
+      "FND-045",
+      "FND-046",
+      "FND-047",
+      "FND-048",
+      "FND-050",
+      "FND-051",
+      "FND-052",
+      "FND-053",
+      "FND-054",
+      "FND-055",
+      "FND-056",
+      "FND-057",
+      "FND-058",
+      "FND-059",
+      "FND-060",
+      "FND-061"
+    ],
+    "priority": "P0",
+    "test": "jest tests/ssr/t2-server-safe.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-54; AC-FND-06 (T0 SSR)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-063",
+    "prd": "PRD-08",
+    "system": "core/rsc-canary",
+    "file": "canaries/next16/app/server/page.tsx",
+    "action": "MODIFY",
+    "description": "Append every meta.rsc='server' export from this PRD (T0, server T2, server entries of mixed components) to PRD-02's server-safe export list; edit nothing else in the canary. The page is created by PKG-122 (SC-12/§16 PRD-02); FND only adds its meta.rsc=server exports to the server-safe list.",
+    "depends_on": [
+      "FND-062",
+      "PKG-122",
+      "PKG-123"
+    ],
+    "priority": "P0",
+    "test": "canaries/next16/tests/rsc.spec.ts (run in FND-140)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-26; AC-FND-16",
+    "status": "todo"
+  },
+  {
+    "id": "FND-064",
+    "prd": "PRD-08",
+    "system": "core/material-layer",
+    "file": "NEW:tests/e2e/material/content-layer.spec.ts",
+    "action": "TEST",
+    "description": "Remote Chromium + WebKit: Default stories of Card, Alert, Skeleton have data-ag-layer='content' and getComputedStyle(el,'::before').backdropFilter === 'none'; Card RegularOverMedia has a non-none backdrop filter; RegularNoMedia has none.",
+    "depends_on": [
+      "FND-050",
+      "FND-058",
+      "FND-059",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote material lane run URL",
+    "storybook": "Core/Card RegularOverMedia, RegularNoMedia; Core/Alert Default; Core/Skeleton Default",
+    "acceptance": "REQ-FND-27",
+    "status": "todo"
+  },
+  {
+    "id": "FND-065",
+    "prd": "PRD-08",
+    "system": "core/Grid",
+    "file": "NEW:tests/e2e/layout/grid-masonry.spec.ts",
+    "action": "TEST",
+    "description": "Remote: on Foundation/Grid Masonry, Tab through focusable items and assert focus order equals DOM order in the column-fallback path (Chromium) and the native grid-template-rows: masonry path where an engine supports it; if none does, record 'native path unverified' and assert CSS.supports is false.",
+    "depends_on": [
+      "FND-046",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "remote behaviour lane run URL",
+    "storybook": "Foundation/Grid Masonry",
+    "acceptance": "REQ-FND-39",
+    "status": "todo"
+  },
+  {
+    "id": "FND-066",
+    "prd": "PRD-08",
+    "system": "core/Steps",
+    "file": "NEW:tests/a11y/apg/steps.apg.spec.ts",
+    "action": "TEST",
+    "description": "runApgScript on Core/Steps Keyboard: reading order of list items, aria-current='step' on current, visually hidden 'Completed'/'Error' text present; Chromium, WebKit, Gecko; axe colour contrast on, 0 serious/critical. SC-30: path tests/a11y/apg/steps.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-056",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Steps Keyboard",
+    "acceptance": "AC-FND-07 (1 of 11); REQ-FND-37",
+    "status": "todo"
+  },
+  {
+    "id": "FND-067",
+    "prd": "PRD-08",
+    "system": "core/budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Append provisional rows (min+gz, peers external): ≤1.5 KB Card, Badge, Separator, Kbd, Text, Heading, Stack, Grid, Container, DescriptionList, EmptyState, ErrorState, LoadingState, Steps; ≤3 KB AvatarGroup, Alert, Skeleton, Link; ≤1 KB per icon glyph; ≤1.2 KB CSS each. If PERF has not created the file, put the rows in the 08c report instead. SC-15: the file, schema and gate are PKG's (PKG-048/049); FND adds its rows by MODIFY at or below the PERF default ceilings and records changes in docs/size-budgets.changelog.md. No size-limit.",
+    "depends_on": [
+      "PKG-048",
+      "PERF-002"
+    ],
+    "priority": "P1",
+    "test": "scripts/ci/verify-size-budgets.mjs (PRD-02) in the remote budget job",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-53; AC-FND-10",
+    "status": "todo"
+  },
+  {
+    "id": "FND-068",
+    "prd": "PRD-08",
+    "system": "core/exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root exports for Text, Heading, Stack, Grid, Container, Card, Badge, Separator, Kbd, DescriptionList, EmptyState, ErrorState, LoadingState, Steps, Link, Alert, Skeleton, AvatarGroup, ImageList; icon modules exported from ./icons and ./icons/<name> only. Record the root value-export delta. 4.x lines are removed by 08f.",
+    "depends_on": [
+      "FND-062"
+    ],
+    "priority": "P0",
+    "test": "tests/exports/t2-surface.test.ts (FND-095)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-25 (server set)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-069",
+    "prd": "PRD-08",
+    "system": "core/stories",
+    "file": "NEW:src/components/card/Card.stories.tsx",
+    "action": "CREATE",
+    "description": "For every component in FND-043..061 write <Name>.stories.tsx (Core/ or Foundation/ titles) importing only public entries: Default, generated variant matrix from meta.variants, States (parameters.pseudo), ReducedTransparency, ForcedColors, ContrastMore, RTL, Mobile390; no Storybook-only props, stage wrappers or inline hex. Register each in contract-coverage.json.",
+    "depends_on": [
+      "FND-043",
+      "FND-044",
+      "FND-045",
+      "FND-046",
+      "FND-047",
+      "FND-048",
+      "FND-050",
+      "FND-051",
+      "FND-052",
+      "FND-053",
+      "FND-054",
+      "FND-055",
+      "FND-056",
+      "FND-057",
+      "FND-058",
+      "FND-059",
+      "FND-060",
+      "FND-061"
+    ],
+    "priority": "P0",
+    "test": "parts-contract.test.tsx union check; remote Storybook build",
+    "storybook": "the §13 story set per component",
+    "acceptance": "AC-FND-04 (server set); PRD §13",
+    "status": "todo"
+  },
+  {
+    "id": "FND-070",
+    "prd": "PRD-08",
+    "system": "core/docs",
+    "file": "NEW:apps/docs/content/components/card.parts.md",
+    "action": "DOC",
+    "description": "Run scripts/docs/gen-component-docs.mjs for every 08c component and commit apps/docs/content/components/<name>.parts.md with parts, states and the 4.x→5.0 selector table from meta.selectorMigration (every public .glass-* class and role of the seed file).",
+    "depends_on": [
+      "FND-069",
+      "FND-021"
+    ],
+    "priority": "P1",
+    "test": "gen-component-docs.mjs --check green in foundation-pattern.yml",
+    "storybook": "Docs page per component",
+    "acceptance": "REQ-FND-16",
+    "status": "todo"
+  },
+  {
+    "id": "FND-071",
+    "prd": "PRD-08",
+    "system": "core/Chip",
+    "file": "NEW:src/components/chip/Chip.client.tsx",
+    "action": "CREATE",
+    "description": "Chip seeded from src/components/data-display/GlassChip.tsx: selectable → BU Toggle (pressed/defaultPressed/onPressedChange, aria-pressed); removable → separate <button data-ag-part='close' aria-label='Remove {label}'> with onRemove; ≥24px target, ≥44px under pointer:coarse via ::after; parts [root, label, icon, close]; rsc mixed.",
+    "depends_on": [
+      "FND-040",
+      "FND-001"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/chip/Chip.test.tsx; tests/a11y/apg/chip.apg.spec.ts (FND-089)",
+    "storybook": "Core/Chip: full §13 set + Keyboard",
+    "acceptance": "AC-FND-06; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-072",
+    "prd": "PRD-08",
+    "system": "core/Avatar",
+    "file": "NEW:src/components/avatar/Avatar.client.tsx",
+    "action": "CREATE",
+    "description": "Avatar seeded from src/components/data-display/GlassAvatar.tsx on BU Avatar Root/Image/Fallback: src + required alt, name → initials with aria-label, fallback after BU delay; parts [root, media, value]; rsc mixed.",
+    "depends_on": [
+      "FND-040",
+      "FND-001"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/avatar/Avatar.test.tsx (alt required dev warning, initials label)",
+    "storybook": "Core/Avatar: full §13 set",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-073",
+    "prd": "PRD-08",
+    "system": "core/Progress",
+    "file": "NEW:src/components/progress/Progress.client.tsx",
+    "action": "CREATE",
+    "description": "Progress and ProgressRing (first public export, from CircularProgress in data-display/GlassProgress.tsx) on BU Progress: role='progressbar' with aria-valuemin/max/now; value={null} → indeterminate, omits aria-valuenow, data-state='loading'; label or aria-labelledby required (dev warning); content-sunken track; indeterminate animation only with allowContinuous; parts [root, track, indicator, label, value].",
+    "depends_on": [
+      "FND-040",
+      "FND-001",
+      "DS-026"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/progress/Progress.test.tsx",
+    "storybook": "Core/Progress, Core/ProgressRing: full §13 sets",
+    "acceptance": "REQ-FND-29; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-074",
+    "prd": "PRD-08",
+    "system": "core/Meter",
+    "file": "NEW:src/components/meter/Meter.client.tsx",
+    "action": "CREATE",
+    "description": "Meter (NEW) on BU Meter: role='meter', low/high/optimum → data-ag-intent, label required; content-sunken track; parts [root, track, indicator, label, value]. Own markup with role='meter' if BU Meter is missing at the pin.",
+    "depends_on": [
+      "FND-040",
+      "FND-001"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/meter/Meter.test.tsx",
+    "storybook": "Core/Meter: full §13 set",
+    "acceptance": "REQ-FND-29; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-075",
+    "prd": "PRD-08",
+    "system": "core/Accordion",
+    "file": "NEW:src/components/accordion/Accordion.client.tsx",
+    "action": "REDESIGN",
+    "description": "Accordion seeded from src/components/data-display/GlassAccordion.tsx (tab roles at :338/:401 removed) on BU Accordion: Item, Header (<h3> default, headingLevel 2–6), Trigger (<button aria-expanded aria-controls>), Panel; multiple, value/defaultValue/onValueChange(value, details); motion-token height transition, instant under reduced motion; no role='tab'/'tablist'; parts [root, item, header, trigger, panel, icon].",
+    "depends_on": [
+      "FND-040",
+      "FND-001",
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "NEW src/components/accordion/Accordion.test.tsx; tests/a11y/apg/accordion.apg.spec.ts (FND-086)",
+    "storybook": "Core/Accordion: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-28; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-076",
+    "prd": "PRD-08",
+    "system": "core/Collapsible",
+    "file": "NEW:src/components/collapsible/Collapsible.client.tsx",
+    "action": "CREATE",
+    "description": "Collapsible (NEW) on BU Collapsible, APG Disclosure: Root/Trigger/Panel, open/defaultOpen/onOpenChange(open, details), data-state expanded|collapsed; parts [root, trigger, panel].",
+    "depends_on": [
+      "FND-040",
+      "FND-001",
+      "DS-026"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/collapsible/Collapsible.test.tsx; tests/a11y/apg/collapsible.apg.spec.ts (FND-087)",
+    "storybook": "Core/Collapsible: full §13 set + Keyboard",
+    "acceptance": "AC-FND-07; AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-077",
+    "prd": "PRD-08",
+    "system": "core/ScrollArea",
+    "file": "NEW:src/components/scroll-area/ScrollArea.client.tsx",
+    "action": "CREATE",
+    "description": "ScrollArea seeded from src/components/layout/GlassScrollArea.tsx on BU ScrollArea: viewport tabIndex=0 only while overflowing (ResizeObserver ref callback returning cleanup), then requires aria-label/aria-labelledby (one dev console.warn otherwise); thumb uses control-thin material; parts [root, viewport, content, track, thumb].",
+    "depends_on": [
+      "FND-040",
+      "FND-001",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/scroll-area/ScrollArea.test.tsx (test-driven ResizeObserver class); tests/a11y/apg/scroll-area.apg.spec.ts (FND-088)",
+    "storybook": "Core/ScrollArea: full §13 set + Keyboard (Overflowing, NotOverflowing)",
+    "acceptance": "REQ-FND-38; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-078",
+    "prd": "PRD-08",
+    "system": "core/Rating",
+    "file": "src/components/rating/GlassRating.tsx",
+    "action": "REDESIGN",
+    "description": "Rebuild as src/components/rating/Rating.client.tsx: own role='radiogroup' over BU Radio items, roving tabindex, Arrow keys (RTL-aware), Home/End, readOnly → aria-readonly, precision 0.5 with labels like '3.5 of 5', max default 5, value/onValueChange; targets ≥24px / ≥44px coarse; parts [root, item, icon, label]. Delete GlassRating.tsx when compat adapter exists.",
+    "depends_on": [
+      "FND-040",
+      "FND-001"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/rating/Rating.test.tsx; tests/a11y/apg/rating.apg.spec.ts (FND-090)",
+    "storybook": "Core/Rating: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-31; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-079",
+    "prd": "PRD-08",
+    "system": "core/InlineEdit",
+    "file": "NEW:src/components/inline-edit/InlineEdit.client.tsx",
+    "action": "CREATE",
+    "description": "InlineEdit seeded from src/components/interactive/GlassInlineEdit.tsx: <button data-ag-part='trigger'> showing the value; Enter/click switches to BU Input textbox with focus; Enter or blur commits via onValueChange, Escape cancels; focus returns to the button; label/error via PRD-08 Field; parts [root, trigger, input, error].",
+    "depends_on": [
+      "FND-040",
+      "CTL-007"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/inline-edit/InlineEdit.test.tsx; tests/a11y/apg/inline-edit.apg.spec.ts (FND-091)",
+    "storybook": "Core/InlineEdit: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-34; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-080",
+    "prd": "PRD-08",
+    "system": "core/KeyValueEditor",
+    "file": "NEW:src/components/key-value-editor/KeyValueEditor.client.tsx",
+    "action": "CREATE",
+    "description": "KeyValueEditor seeded from src/components/interactive/GlassKeyValueEditor.tsx, exported from ./data only: rows of PRD-08 Field key/value inputs, add/remove buttons named 'Remove row {key}', duplicate keys → invalid + Field.Error, value Array<{key,value}> with onValueChange; parts [root, list, item, input, actions, error].",
+    "depends_on": [
+      "FND-040",
+      "CTL-007"
+    ],
+    "priority": "P2",
+    "test": "NEW src/components/key-value-editor/KeyValueEditor.test.tsx (duplicate key error, add/remove)",
+    "storybook": "Core/KeyValueEditor: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-25 (./data); AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-081",
+    "prd": "PRD-08",
+    "system": "core/FileUpload",
+    "file": "NEW:src/components/file-upload/FileUpload.client.tsx",
+    "action": "REDESIGN",
+    "description": "FileUpload seeded from src/components/interactive/GlassFileUpload.tsx (R-07; its setInterval progress at :341 is not ported): button opens hidden <input type=file>, dropzone and chooser both call onValueChange(files); onUpload?(file, {signal, onProgress}) drives real progress; without onUpload items stay status 'selected'; accept/maxSize/maxFiles reject with 'type'|'size'|'count' as Field.Error linked by aria-describedby and announced via PRD-05 announcer; remove aborts; parts [root, trigger, content, list, item, error, input].",
+    "depends_on": [
+      "FND-040",
+      "CTL-007",
+      "A11Y-054"
+    ],
+    "priority": "P0",
+    "test": "NEW src/components/file-upload/FileUpload.test.tsx incl. 'no onUpload → never complete', 'abort on remove', 'rejects by type/size/count'; tests/a11y/apg/file-upload.apg.spec.ts (FND-092)",
+    "storybook": "Core/FileUpload: full §13 set + Keyboard + Rejected",
+    "acceptance": "REQ-FND-32; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-082",
+    "prd": "PRD-08",
+    "system": "core/ColorPicker",
+    "file": "NEW:src/components/color-picker/ColorPicker.client.tsx",
+    "action": "REDESIGN",
+    "description": "ColorPicker seeded from src/components/input/GlassColorPicker.tsx: Trigger + PRD-09 Popover content; ColorPicker.Area single focusable role='slider' with aria-roledescription='2D slider' and aria-valuetext 'saturation S%, brightness B%' (Arrow ±1%, Shift+Arrow ±10%); BU Slider ×3 (hue, channel, alpha); hex/OKLCH input that round-trips; value {space:'oklch'|'srgb', value:string}; conversion via allowlisted culori or owned code with reference tests; thumbs ≥24px/≥44px coarse; parts [root, trigger, popup, control, thumb, track, input, value].",
+    "depends_on": [
+      "FND-040",
+      "OVL-063",
+      "FND-001"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/color-picker/ColorPicker.test.tsx incl. 'area keyboard steps', 'hex↔oklch round-trip within 1 ΔE'; tests/a11y/apg/color-picker.apg.spec.ts (FND-093)",
+    "storybook": "Core/ColorPicker: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-33; AC-FND-07; AC-FND-10 (drag INP/frame time)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-083",
+    "prd": "PRD-08",
+    "system": "core/Form",
+    "file": "NEW:src/components/form/Form.client.tsx",
+    "action": "CREATE",
+    "description": "Form seeded from src/components/input/GlassForm.tsx on BU Form: onSubmit(values, details), errors map → PRD-08 Field invalid + Field.Error; on invalid submit focus moves to the first invalid control in DOM order; parts [root]. Field-shaped 4.x losers belong to PRD-08.",
+    "depends_on": [
+      "FND-040",
+      "CTL-007",
+      "CTL-008"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/form/Form.test.tsx (focus-first-invalid, errors mapping)",
+    "storybook": "Core/Form: full §13 set + Keyboard (submit invalid)",
+    "acceptance": "AC-FND-06; AC-FND-04",
+    "status": "todo"
+  },
+  {
+    "id": "FND-084",
+    "prd": "PRD-08",
+    "system": "core/Tour",
+    "file": "NEW:src/components/tour/Tour.client.tsx",
+    "action": "REDESIGN",
+    "description": "Tour seeded from src/components/interactive/GlassCoachmarks.tsx (absorbs GlassSpotlight): steps [{target: selector|RefObject, title, description}], each a non-modal PRD-09 Popover role='dialog' aria-labelledby title with Next/Back/Skip; 8px collision padding, max-inline-size calc(100vw - 16px); Escape ends and restores focus to the pre-tour element; parts [root, popup, title, description, actions, close].",
+    "depends_on": [
+      "FND-040",
+      "OVL-063"
+    ],
+    "priority": "P1",
+    "test": "NEW src/components/tour/Tour.test.tsx; tests/a11y/apg/tour.apg.spec.ts (FND-094)",
+    "storybook": "Core/Tour: full §13 set + Keyboard + Mobile390 flip",
+    "acceptance": "REQ-FND-35; AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-085",
+    "prd": "PRD-08",
+    "system": "core/GlassPreferencesPanel",
+    "file": "NEW:src/theme/GlassPreferencesPanel.meta.ts",
+    "action": "CREATE",
+    "description": "T2 certification row only: add GlassPreferencesPanel.meta.ts beside PRD-05's implementation (directory per PRD-05; resolve with rg), Core/GlassPreferencesPanel stories and contract-coverage registration; do not edit PRD-05's component; report missing data-ag-part to PRD-05.",
+    "depends_on": [
+      "A11Y-088",
+      "FND-016"
+    ],
+    "priority": "P2",
+    "test": "parts-contract, ref-forwarding harness entries",
+    "storybook": "Core/GlassPreferencesPanel: full §13 set + Keyboard",
+    "acceptance": "REQ-FND-25 (./theme); AC-FND-06",
+    "status": "todo"
+  },
+  {
+    "id": "FND-086",
+    "prd": "PRD-08",
+    "system": "core/Accordion",
+    "file": "NEW:tests/a11y/apg/accordion.apg.spec.ts",
+    "action": "TEST",
+    "description": "runApgScript on Core/Accordion Keyboard: Tab to triggers, Enter/Space toggle, aria-expanded changes, trigger inside h3, no role=tab; Chromium/WebKit/Gecko; axe colour contrast on, 0 serious/critical. SC-30: path tests/a11y/apg/accordion.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-075",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Accordion Keyboard",
+    "acceptance": "AC-FND-07; REQ-FND-28",
+    "status": "todo"
+  },
+  {
+    "id": "FND-087",
+    "prd": "PRD-08",
+    "system": "core/Collapsible",
+    "file": "NEW:tests/a11y/apg/collapsible.apg.spec.ts",
+    "action": "TEST",
+    "description": "runApgScript on Core/Collapsible Keyboard: Enter/Space toggle, aria-expanded, panel visibility; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/collapsible.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-076",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Collapsible Keyboard",
+    "acceptance": "AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-088",
+    "prd": "PRD-08",
+    "system": "core/ScrollArea",
+    "file": "NEW:tests/a11y/apg/scroll-area.apg.spec.ts",
+    "action": "TEST",
+    "description": "Tab reaches the viewport only in the Overflowing story; Arrow/PageDown scroll it; accessible name present; NotOverflowing story has no tab stop; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/scroll-area.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-077",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/ScrollArea Overflowing, NotOverflowing",
+    "acceptance": "AC-FND-07; REQ-FND-38",
+    "status": "todo"
+  },
+  {
+    "id": "FND-089",
+    "prd": "PRD-08",
+    "system": "core/Chip",
+    "file": "NEW:tests/a11y/apg/chip.apg.spec.ts",
+    "action": "TEST",
+    "description": "Space/Enter toggles aria-pressed on selectable chips; remove button reachable by Tab and named 'Remove {label}'; activating it fires removal and moves focus to the next chip; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/chip.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-071",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Chip Keyboard",
+    "acceptance": "AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-090",
+    "prd": "PRD-08",
+    "system": "core/Rating",
+    "file": "NEW:tests/a11y/apg/rating.apg.spec.ts",
+    "action": "TEST",
+    "description": "Arrow keys change value (RTL reversed), Home/End, readOnly story ignores keys and exposes aria-readonly, half value announced '3.5 of 5'; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/rating.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-078",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Rating Keyboard, ReadOnly, RTL",
+    "acceptance": "AC-FND-07; REQ-FND-31",
+    "status": "todo"
+  },
+  {
+    "id": "FND-091",
+    "prd": "PRD-08",
+    "system": "core/InlineEdit",
+    "file": "NEW:tests/a11y/apg/inline-edit.apg.spec.ts",
+    "action": "TEST",
+    "description": "Enter on the button opens the textbox with focus; typing + Enter commits; Escape cancels and restores the old value; focus returns to the button in both cases; blur commits; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/inline-edit.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-079",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/InlineEdit Keyboard",
+    "acceptance": "AC-FND-07; REQ-FND-34",
+    "status": "todo"
+  },
+  {
+    "id": "FND-092",
+    "prd": "PRD-08",
+    "system": "core/FileUpload",
+    "file": "NEW:tests/a11y/apg/file-upload.apg.spec.ts",
+    "action": "TEST",
+    "description": "Keyboard activates the trigger; setInputFiles on the hidden input adds files without drag (WCAG 2.5.7); a rejected file renders an error linked by aria-describedby and the announcer region receives the message; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/file-upload.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-081",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/FileUpload Keyboard, Rejected",
+    "acceptance": "AC-FND-07; REQ-FND-32",
+    "status": "todo"
+  },
+  {
+    "id": "FND-093",
+    "prd": "PRD-08",
+    "system": "core/ColorPicker",
+    "file": "NEW:tests/a11y/apg/color-picker.apg.spec.ts",
+    "action": "TEST",
+    "description": "Open via trigger; Area Arrow ±1% and Shift+Arrow ±10% update aria-valuetext; the three sliders respond to arrows; typing a hex in the input updates the area and back (round-trip); Escape closes and returns focus; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/color-picker.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-082",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/ColorPicker Keyboard",
+    "acceptance": "AC-FND-07; REQ-FND-33",
+    "status": "todo"
+  },
+  {
+    "id": "FND-094",
+    "prd": "PRD-08",
+    "system": "core/Tour",
+    "file": "NEW:tests/a11y/apg/tour.apg.spec.ts",
+    "action": "TEST",
+    "description": "Start tour; Next/Back/Skip by keyboard; each step is a dialog labelled by its title; Escape ends the tour and focus returns to the element focused before start; popup stays within viewport at 390px; 3 engines; axe 0 serious/critical. SC-30: path tests/a11y/apg/tour.apg.spec.ts on the A11Y harness (A11Y-073); runs in L5 Behaviour (QA-082).",
+    "depends_on": [
+      "FND-084",
+      "A11Y-073",
+      "QA-082"
+    ],
+    "priority": "P1",
+    "test": "L5 Behaviour lane run URL",
+    "storybook": "Core/Tour Keyboard, Mobile390",
+    "acceptance": "AC-FND-07; REQ-FND-35",
+    "status": "todo"
+  },
+  {
+    "id": "FND-095",
+    "prd": "PRD-08",
+    "system": "core/exports",
+    "file": "NEW:tests/exports/t2-surface.test.ts",
+    "action": "TEST",
+    "description": "Against the built package: the 36 owned names resolve from exactly their §4.5 subpath (KeyValueEditor only aura-glass/data, GlassPreferencesPanel only aura-glass/theme, icons only aura-glass/icons, the rest root); no subpath has a HoverCard value export.",
+    "depends_on": [
+      "FND-068",
+      "FND-096"
+    ],
+    "priority": "P0",
+    "test": "runs after remote npm run build",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-25; REQ-FND-36",
+    "status": "todo"
+  },
+  {
+    "id": "FND-096",
+    "prd": "PRD-08",
+    "system": "core/exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root exports for Chip, Avatar, Progress, ProgressRing, Meter, Accordion, Collapsible, ScrollArea, Rating, InlineEdit, FileUpload, ColorPicker, Form, Tour; add KeyValueEditor to the ./data entry module and confirm GlassPreferencesPanel in the ./theme entry (paths from package.json exports). Missing subpath entry → report to PRD-02, do not edit exports.",
+    "depends_on": [
+      "FND-071",
+      "FND-072",
+      "FND-073",
+      "FND-074",
+      "FND-075",
+      "FND-076",
+      "FND-077",
+      "FND-078",
+      "FND-079",
+      "FND-080",
+      "FND-081",
+      "FND-082",
+      "FND-083",
+      "FND-084",
+      "FND-085",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "tests/exports/t2-surface.test.ts (FND-095)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-25 (interactive set)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-097",
+    "prd": "PRD-08",
+    "system": "core/compiler",
+    "file": "NEW:tests/compiler/react-compiler.fixture.test.ts",
+    "action": "TEST",
+    "description": "Add every 08c and 08d component to the canaries/vite-compiler fixture list; run babel-plugin-react-compiler (PRD-02 canary version, panicThreshold 'all_errors') over each source and collect diagnostics; expect 0 bail-outs. Runs in CI.",
+    "depends_on": [
+      "FND-096",
+      "PKG-132"
+    ],
+    "priority": "P1",
+    "test": "CI run of tests/compiler/react-compiler.fixture.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-55",
+    "status": "todo"
+  },
+  {
+    "id": "FND-098",
+    "prd": "PRD-08",
+    "system": "core/budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Append provisional rows: ≤3 KB Avatar, Chip; ≤5 KB Progress, ProgressRing, Meter, Collapsible; ≤10 KB Accordion, ScrollArea, Rating, InlineEdit, Form; ≤15 KB Tour, FileUpload, KeyValueEditor; ≤20 KB ColorPicker; ≤1.2 KB CSS each; T2 CSS total ≤12 KB; aura-glass/primitives ≤4 KB. SC-15: the file, schema and gate are PKG's (PKG-048/049); FND adds its rows by MODIFY at or below the PERF default ceilings and records changes in docs/size-budgets.changelog.md. No size-limit.",
+    "depends_on": [
+      "FND-067",
+      "PKG-048",
+      "PERF-002"
+    ],
+    "priority": "P1",
+    "test": "scripts/ci/verify-size-budgets.mjs remote budget job",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-53; AC-FND-10",
+    "status": "todo"
+  },
+  {
+    "id": "FND-099",
+    "prd": "PRD-08",
+    "system": "core/stories",
+    "file": "NEW:src/components/accordion/Accordion.stories.tsx",
+    "action": "CREATE",
+    "description": "For every FND-071..085 component write Core/<Name> stories from public entries only: Default, variant matrix, States, ReducedTransparency, ForcedColors, ContrastMore, RTL, Mobile390, Keyboard (play mirrors the APG spec); register in contract-coverage.json (total 36 owned + 6 primitives); generate apps/docs/content/components/<name>.parts.md (Accordion table includes [role=\"tab\"] → [data-ag-part=\"trigger\"]).",
+    "depends_on": [
+      "FND-071",
+      "FND-072",
+      "FND-073",
+      "FND-074",
+      "FND-075",
+      "FND-076",
+      "FND-077",
+      "FND-078",
+      "FND-079",
+      "FND-080",
+      "FND-081",
+      "FND-082",
+      "FND-083",
+      "FND-084",
+      "FND-085"
+    ],
+    "priority": "P0",
+    "test": "parts-contract/ref-forwarding/portal-root harnesses; gen-component-docs --check; remote Storybook build",
+    "storybook": "the §13 story set per component",
+    "acceptance": "AC-FND-04 (36/36 + 6/6); REQ-FND-16",
+    "status": "todo"
+  },
+  {
+    "id": "FND-100",
+    "prd": "PRD-08",
+    "system": "core/codemod-fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/canonical-names/fnd-*/",
+    "action": "TEST",
+    "description": "SC-33: for every 4.x name absorbed by an owned component (appendix rows targeting it), fill the migration table in that component's meta.ts and add {input,output}.tsx fixture cases under packages/cli/src/migrate/4to5/__fixtures__/<id>/fnd-<name>/ for ids canonical-names, prop-grammar or removed as applicable, including the R-08 'TODO(aura-glass 5): ambiguous GlassStepper' case and the Accordion role change. The engine and catalogue are DX's (DX-041/042); FND writes fixture data only.",
+    "depends_on": [
+      "FND-099",
+      "FND-101",
+      "DX-041"
+    ],
+    "priority": "P2",
+    "test": "DX fixture suite (packages/cli/src/migrate/4to5/__tests__/) passes for every fnd-* case",
+    "storybook": "n/a",
+    "acceptance": "PRD §18 DoD (codemod fixture per absorbed name); REQ-FND-12 migration field",
+    "status": "todo"
+  },
+  {
+    "id": "FND-101",
+    "prd": "PRD-08",
+    "system": "dispositions/appendix",
+    "file": "docs/auraglass-5/prd/appendix/gen-component-dispositions.mjs",
+    "action": "MODIFY",
+    "description": "Deviation-6 + SC-34 edit: GlassHoverCard (:184) from C('HoverCard','PRD-14') to an absorbed compat mapping → Popover openOnHover owned by PRD-09 (OVL); GlassFieldGroup/GlassFormField (:138-139) and GlassValidationMessage (:140) owner PRD-14 → PRD-08 (CTL); GlassTimelineRail (:48) and GlassAdvancedDataViz (:256) from compat A(...) to removed (DATA §9: no TimelineRail compat, no chart compat names); add --inventory <path> flag whose default is docs/inventory/component_inventory.json when present (SC-35, relocated by TRUST REQ-TRUST-35), otherwise the current path; CI passes it explicitly; regenerate component-dispositions.md. Expected totals core 40, compat 151, removed 236, others unchanged.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "node gen-component-dispositions.mjs --check exit 0; NEW scripts/removal/appendix.test.mjs asserts totals and the UNMAPPED records failure on a temp inventory with one fake record",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-11 (REQ-FND-42); AC-FND-12 count 151; closes open item O-01",
+    "status": "todo"
+  },
+  {
+    "id": "FND-102",
+    "prd": "PRD-08",
+    "system": "dispositions/ci",
+    "file": "NEW:.github/workflows/removal-gate.yml",
+    "action": "INFRA",
+    "description": "Job 'appendix': run gen-component-dispositions.mjs --check and assert from its JSON summary 500 records with exactly one destination each; runs on every PR touching docs/auraglass-5/** or src/**.",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P0",
+    "test": "workflow run URL green; red on a PR with a stale appendix",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-11 (REQ-FND-42)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-103",
+    "prd": "PRD-08",
+    "system": "removal/consumer-grep",
+    "file": "NEW:scripts/removal/consumer-grep.mjs",
+    "action": "CREATE",
+    "description": "CLI --family <RM-id> | --names, --out, --local-root (default /Users/gurbakshchahal/AuraOne and /Users/gurbakshchahal/platforms/* except this repo), --no-github, --ack. Local rg -l over aura-glass import specifiers excluding node_modules/.git/.next/dist/reports/storybook-static, then word-boundary name match (named, aliased, namespace member, require, subpaths); GitHub read-only gh search code --owner auraoneai --owner gchahal1982 + gh api contents. JSON output {family, names, sha, hits[], errors[]}; exit 1 on unacknowledged hits. Add NEW scripts/removal/families.json (RM-01..RM-12 + RM-dry).",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P0",
+    "test": "scripts/removal/consumer-grep.test.mjs (FND-104)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-41; AC-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-104",
+    "prd": "PRD-08",
+    "system": "removal/consumer-grep",
+    "file": "NEW:scripts/removal/consumer-grep.test.mjs",
+    "action": "TEST",
+    "description": "node --test over NEW scripts/removal/__fixtures__/consumer-repo/: detects named, aliased, namespace, subpath and require imports; ignores node_modules/, dist/, .next/; ignores same-named identifiers without an aura-glass import; --ack yields exit 0 only when every hit is acknowledged with owner + migration.",
+    "depends_on": [
+      "FND-103"
+    ],
+    "priority": "P0",
+    "test": "node --test scripts/removal/",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-41",
+    "status": "todo"
+  },
+  {
+    "id": "FND-105",
+    "prd": "PRD-08",
+    "system": "removal/consumer-grep",
+    "file": "n/a (CI artifact)",
+    "action": "INFRA",
+    "description": "Baseline run for all public dest=removed|registry|labs names via a workflow_dispatch run of removal-gate.yml (or bounded local run within the policy search guard); upload JSON artifact (not committed, D-32); report hit counts per repo and any gh errors verbatim. Week-0 baseline run attached to the tracking issue closes open item O-08.",
+    "depends_on": [
+      "FND-104",
+      "FND-107"
+    ],
+    "priority": "P1",
+    "test": "artifact URL exists; report lists hits per repo",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-41 (PRD §20 step 1 baseline)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-106",
+    "prd": "PRD-08",
+    "system": "removal/archive",
+    "file": "NEW:scripts/removal/verify-archive.mjs",
+    "action": "CREATE",
+    "description": "Args --archive <owner/repo> --branch-point <sha>; read-only gh api asserts private:true and compares archive default-branch tree/blob SHAs for server/, src/services/, src/lib/ai-client.ts, Dockerfile, docker-compose.yml, tsconfig.server.json with git rev-parse <bp>:<path>; exit 1 listing mismatches. NEW scripts/removal/verify-archive.test.mjs injects a gh-runner function to cover private=false, mismatch and match.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "node --test scripts/removal/verify-archive.test.mjs",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-45; AC-FND-15",
+    "status": "todo"
+  },
+  {
+    "id": "FND-107",
+    "prd": "PRD-08",
+    "system": "removal/gate",
+    "file": ".github/workflows/removal-gate.yml",
+    "action": "MODIFY",
+    "description": "Job 'consumer-grep': for PRs labelled removal:<RM-id> or titled 'refactor(5.0)!: remove …', run consumer-grep.mjs --family <id>, upload grep.json, fail on hits not acknowledged in removal-acks/<RM-id>.json; uses only existing read tokens (no token creation or copying). MODIFY of the workflow created by FND-102 (one CREATE per file, SC-40 rule 5).",
+    "depends_on": [
+      "FND-103",
+      "FND-102"
+    ],
+    "priority": "P0",
+    "test": "blocks a fixture PR with an unacknowledged hit; green on RM-dry",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-41; AC-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-108",
+    "prd": "PRD-08",
+    "system": "removal/gate",
+    "file": ".github/workflows/removal-gate.yml",
+    "action": "MODIFY",
+    "description": "Job 'revert-dry-run': git revert --no-commit HEAD of the squash commit, npm ci, typecheck, build, npm test --ci must pass; also assert single commit and title ^refactor\\(5\\.0\\)!: remove .+ via gh pr view --json commits,title. MODIFY of the workflow created by FND-102 (one CREATE per file, SC-40 rule 5).",
+    "depends_on": [
+      "FND-107"
+    ],
+    "priority": "P0",
+    "test": "green on the RM-dry PR",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-47; AC-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-109",
+    "prd": "PRD-08",
+    "system": "removal/gate",
+    "file": ".github/workflows/removal-gate.yml",
+    "action": "MODIFY",
+    "description": "Job 'ghsa' for removal:RM-01: extract GHSA id from PR body, read-only gh api repos/{repo}/security-advisories/<id> --jq .state must equal 'published'; then run verify-archive.mjs with the archive and branch point from families.json. Agents never publish or edit advisories. MODIFY of the workflow created by FND-102 (one CREATE per file, SC-40 rule 5).",
+    "depends_on": [
+      "FND-106",
+      "FND-107",
+      "TRUST-011"
+    ],
+    "priority": "P0",
+    "test": "fails on an unknown/non-published id (demonstrated); passes once the owner publishes",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-44; AC-FND-15",
+    "status": "todo"
+  },
+  {
+    "id": "FND-110",
+    "prd": "PRD-08",
+    "system": "removal/accounting",
+    "file": "NEW:tests/removal/inventory-remove-progress.test.ts",
+    "action": "TEST",
+    "description": "Set S of dest=removed rows whose file exists must be ⊆ NEW tests/removal/inventory-remove-baseline.json; with FND_RM_ID set, baseline − S equals that family's generated record list exactly and no other row changes destination (name→dest diff). Add tests/removal/** to jest testMatch.",
+    "depends_on": [
+      "FND-101",
+      "FND-103"
+    ],
+    "priority": "P0",
+    "test": "jest tests/removal/inventory-remove-progress.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-48",
+    "status": "todo"
+  },
+  {
+    "id": "FND-111",
+    "prd": "PRD-08",
+    "system": "removal/accounting",
+    "file": "NEW:tests/removal/inventory-remove-zero.test.ts",
+    "action": "TEST",
+    "description": "0 rows with dest removed|registry|labs have an existing file; lives in jest project 'removal-beta' run only by the beta job (npm run test:removal -- --selectProjects removal-beta); never skipped.",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P0",
+    "test": "runs red today in removal-beta (failing count reported); green at beta",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-13 (REQ-FND-49)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-112",
+    "prd": "PRD-08",
+    "system": "removal/deprecations",
+    "file": "NEW:tests/removal/deprecations-coverage.test.ts",
+    "action": "TEST",
+    "description": "Every public dest removed|registry|labs|compat name plus renamed primitive aliases (GlassSlot, GlassPortal, GlassFocusScope, GlassDismissableLayer, GlassLabelPrimitive, LabelRoot, Root) has a deprecations.json entry with since ≤ newest published 4.x minor (AG_PUBLISHED_VERSIONS env from npm view; fail if unset), non-empty reason, successor = 5.0 export | registry:<item> | labs:<name> | null (prefix mandatory for registry/labs rows). deprecations.json is the repo-root file (SC-02) validated against docs/schemas/deprecations.schema.json (REL-010); exception enum security|privacy|crash|legal|honesty (SC-03). Run against the regenerated appendix (open item O-07).",
+    "depends_on": [
+      "FND-101",
+      "REL-010",
+      "REL-050"
+    ],
+    "priority": "P0",
+    "test": "jest tests/removal/deprecations-coverage.test.ts; prints uncovered names",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-17 (REQ-FND-50)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-113",
+    "prd": "PRD-08",
+    "system": "removal/compat",
+    "file": "NEW:tests/exports/compat-map.test.ts",
+    "action": "TEST",
+    "description": "Every dest=compat appendix name (151 after FND-101) is a named export of built aura-glass/compat rendering its 5.0 target (root data-ag-part inside the target's meta), warns once per symbol per page load in dev (render twice → 1 warn); no dest removed|registry|labs name exported; GlassHoverCard maps to Popover openOnHover. Uses PRD-18's compat-fixtures map; a missing fixture fails. Adapters are src/compat/<area>/<OldName>.tsx re-exported from src/compat/index.ts (DX-065) and call warnDeprecated(id) from src/internal/warnDeprecated.ts (REL-072) (SC-34).",
+    "depends_on": [
+      "FND-101",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P0",
+    "test": "runs after remote build; red until PRD-18 compat exists (never skipped)",
+    "storybook": "Migration/<family> stories render adapter beside target",
+    "acceptance": "AC-FND-12 (REQ-FND-43, REQ-FND-36)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-114",
+    "prd": "PRD-08",
+    "system": "removal/exports",
+    "file": "NEW:tests/exports/root-export-count.test.ts",
+    "action": "TEST",
+    "description": "Count runtime value keys of built root aura-glass; ratchet against NEW tests/exports/root-export-baseline.json (today's measured count; PRD cites 1,073); --strict mode (beta) fails above 160 or on any ^Glass key.",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P0",
+    "test": "runs after remote build",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-13 (REQ-FND-49 ≤160)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-115",
+    "prd": "PRD-08",
+    "system": "removal/backend",
+    "file": "NEW:tests/exports/no-backend.test.ts",
+    "action": "TEST",
+    "description": "dependencies, peerDependencies and optionalDependencies contain none of the 16 REQ-FND-46 packages (scope widened from dependencies because openai, @google-cloud/vision, redis are peers today); no build:server, build:hosted, server:*, hosted, docker:* scripts; npm pack --dry-run --json lists no server/, src/services/, Dockerfile, docker-compose.yml, tsconfig.server.json. In removal-beta project and the RM-01 PR.",
+    "depends_on": [
+      "FND-101"
+    ],
+    "priority": "P0",
+    "test": "red until RM-01 (failing items reported); green after FND-118",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-46; AC-FND-13",
+    "status": "todo"
+  },
+  {
+    "id": "FND-116",
+    "prd": "PRD-08",
+    "system": "removal/archive",
+    "file": "n/a (private repo auraoneai/auraglass-server-archive)",
+    "action": "INFRA",
+    "description": "Per github-npm.md, gh repo create auraoneai/auraglass-server-archive --private; in a $TMPDIR clone build git subtree split --prefix=server <BP> plus a byte-identical copy of src/services/, src/lib/ai-client.ts, Dockerfile, docker-compose.yml, tsconfig.server.json from <BP> (BP = merge-base of main and release/4.x); README states the GHSA, JWT_SECRET rotation, never published to npm, future generation routes through Kiro Prism in the consuming app. No main history rewrite. Org denial → report exact denial + minimal grant. BP is the release/4.x branch point; no REL task is required (former PRD-01 entry removed per SC-40).",
+    "depends_on": [
+      "FND-106"
+    ],
+    "priority": "P0",
+    "test": "verify-archive.mjs (FND-117)",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-45; AC-FND-15",
+    "status": "todo"
+  },
+  {
+    "id": "FND-117",
+    "prd": "PRD-08",
+    "system": "removal/archive",
+    "file": "NEW:scripts/removal/verify-archive.mjs",
+    "action": "TEST",
+    "description": "Run node scripts/removal/verify-archive.mjs --archive auraoneai/auraglass-server-archive --branch-point <BP> against the real archive; exit 0 (private, byte-identical) recorded for AC-FND-15.",
+    "depends_on": [
+      "FND-116"
+    ],
+    "priority": "P0",
+    "test": "command output attached to RM-01 PR",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-15 (REQ-FND-45)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-118",
+    "prd": "PRD-08",
+    "system": "removal/RM-01",
+    "file": "server/",
+    "action": "REMOVE",
+    "description": "RM-01 single squash PR 'refactor(5.0)!: remove hosted server and services': delete server/, src/services/{ai,auth,websocket}, src/lib/ai-client.ts, Dockerfile, docker-compose.yml, tsconfig.server.json, the src/hooks/useGlassProbes.ts export, backend deps in dependencies/peerDependencies and build:server/build:hosted/server:*/hosted/docker:*/deploy scripts; PR body links the published GHSA id, archive URL, grep artifact and dropped deps. Waits for the owner-published advisory.",
+    "depends_on": [
+      "FND-109",
+      "FND-115",
+      "FND-117",
+      "FND-112",
+      "TRUST-011",
+      "REL-082"
+    ],
+    "priority": "P0",
+    "test": "removal-gate (consumer-grep, revert-dry-run, appendix, ghsa) green; tests/exports/no-backend.test.ts green; tsc + jest + Storybook build green",
+    "storybook": "remote Storybook build; no story references removed modules",
+    "acceptance": "REQ-FND-44, REQ-FND-46; AC-FND-14, AC-FND-15",
+    "status": "todo"
+  },
+  {
+    "id": "FND-119",
+    "prd": "PRD-08",
+    "system": "removal/RM-02",
+    "file": "src/components/ai/",
+    "action": "REMOVE",
+    "description": "RM-02 squash PR: delete src/components/ai/** and src/components/voice/** with stories, tests, snapshots, export lines and family-only CSS/deps; record list generated from the appendix; gate: PRD-12 aura-glass/ai entry imports nothing under components/ai/.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "AI-016",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress with FND_RM_ID=RM-02; tsc; Storybook build",
+    "storybook": "remote surviving-story capture: 0 console errors, 0 overflow",
+    "acceptance": "AC-FND-14; REQ-FND-48, REQ-FND-51",
+    "status": "todo"
+  },
+  {
+    "id": "FND-120",
+    "prd": "PRD-08",
+    "system": "removal/RM-03",
+    "file": "src/components/quantum/",
+    "action": "REMOVE",
+    "description": "RM-03 squash PR: delete the src/components/advanced/ consciousness/biometric/eye-tracking/predictive/quantum files named in PRD §4.8 (GlassBiometricAdaptation, GlassEyeTracking, GlassNeuroSync, GlassPredictiveEngine, GlassContextualEngine, GlassContextAware, GlassMetaEngine, GlassSelfHealingSystem, GlassQuantumStates, … per appendix) and src/components/quantum/**; afterwards rg useConsciousness|usePredictiveEngine|useEyeTracking|useBiometricAdaptation|useSpatialAudio in src is empty (outside-family importers block).",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48, REQ-FND-51",
+    "status": "todo"
+  },
+  {
+    "id": "FND-121",
+    "prd": "PRD-08",
+    "system": "removal/RM-04",
+    "file": "src/components/social/",
+    "action": "REMOVE",
+    "description": "RM-04 squash PR: delete src/components/advanced/GlassAchievementSystem.tsx, src/components/social/**, src/components/collaboration/** with stories/tests/exports/CSS/deps per appendix list.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48",
+    "status": "todo"
+  },
+  {
+    "id": "FND-122",
+    "prd": "PRD-08",
+    "system": "removal/RM-05",
+    "file": "src/components/cms/",
+    "action": "REMOVE",
+    "description": "RM-05 squash PR: delete src/components/cms/** (incl. the new Function sink at cms/GlassCanvas.tsx:315; report the drop in `rg -n \"new Function\" src` count) and src/components/ecommerce/** per appendix list.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48",
+    "status": "todo"
+  },
+  {
+    "id": "FND-123",
+    "prd": "PRD-08",
+    "system": "removal/RM-06",
+    "file": "src/components/effects/",
+    "action": "REMOVE",
+    "description": "RM-06 squash PR: delete src/components/{effects,immersive,ar,atmospheric,houdini,spatial,experiential}/** and LiquidGlassGPU, including the dest=labs rows whose files sit there (source preserved on release/4.x; deprecations.json successor labs:<name> verified by the coverage test).",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; deprecations-coverage; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48, REQ-FND-50",
+    "status": "todo"
+  },
+  {
+    "id": "FND-124",
+    "prd": "PRD-08",
+    "system": "removal/RM-08",
+    "file": "src/components/layouts/GlassFractalLayout.tsx",
+    "action": "REMOVE",
+    "description": "RM-08 squash PR: delete src/components/layouts/{GlassFractalLayout,GlassGoldenRatioGrid,GlassTessellation,GlassIslandLayout,GlassOrbitalMenu}.* and src/components/{demo,website-components,showcase}/** plus StorybookVisualShowcase per appendix list.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "REL-082"
+    ],
+    "priority": "P2",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48",
+    "status": "todo"
+  },
+  {
+    "id": "FND-125",
+    "prd": "PRD-08",
+    "system": "removal/RM-09",
+    "file": "src/components/accessibility/ContrastGuard.tsx",
+    "action": "REMOVE",
+    "description": "RM-09 squash PR: delete src/components/accessibility/{GlassA11y,GlassFocusIndicators}.*, src/utils/contrastGuard.ts, src/hooks/useAutoTextContrast.ts (+ test). src/components/accessibility/ContrastGuard.tsx is removed by TRUST-026 (SC-39 single remover); this task asserts it is absent and does not delete it (open item O-11). Gate: DS build-time contrast matrix (DS-060) green on main (link).",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "DS-060",
+      "REL-082",
+      "TRUST-026"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48; ContrastGuard.tsx absent (SC-39)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-126",
+    "prd": "PRD-08",
+    "system": "removal/RM-10",
+    "file": "src/client/",
+    "action": "REMOVE",
+    "description": "RM-10 squash PR: delete src/client/**, src/data/index.ts, src/constants/runtimeFlags.ts, src/types/glass-api-stable.ts, src/ssr/**, src/components/ssr/AuraGlassClientBoundary.tsx, src/theme/tokens.ts and the other architecture §13.3 token duplicates per appendix. SC-39: src/tokens/designConstants.ts and siblings are removed by DS-109, scripts/build-tokens.js by DS-112 and src/hooks/useReducedMotion.ts by MOT-077; none of them is deleted here.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "DS-109",
+      "REL-082",
+      "MOT-077"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; inventory-remove-progress; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "AC-FND-14; REQ-FND-48, REQ-FND-51",
+    "status": "todo"
+  },
+  {
+    "id": "FND-127",
+    "prd": "PRD-08",
+    "system": "removal/RM-07",
+    "file": "src/components/charts/components/",
+    "action": "REMOVE",
+    "description": "RM-07 (wave B) squash PR after PRD-11 ChartFrame exists: delete src/components/charts/components/**, charts/styles/**, ModularGlassDataChart.tsx, GlassDataChart.tsx; remove chart.js and react-chartjs-2 from dependencies and peerDependencies; rg ChartJS.register|Chart.register in src is 0; PRD-02 side-effect gate shows 0 global Chart mutations.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "DATA-064",
+      "REL-082"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs; PRD-02 side-effect gate run URL; tsc; Storybook build",
+    "storybook": "remote surviving-story capture",
+    "acceptance": "REQ-FND-52; AC-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-128",
+    "prd": "PRD-08",
+    "system": "removal/RM-11",
+    "file": "src/primitives/GlassCore.tsx",
+    "action": "CONSOLIDATE",
+    "description": "RM-11: one squash PR per sub-family deleting dest=removed 'internal; merged into target' rows and 4.x loser files once their survivor's lane is green: material losers (src/primitives/{GlassCore,OptimizedGlassCore,LiquidGlass*}.tsx, src/primitives/glass/) after PRD-04; app-shell/workspace losers (src/app-shell/components.tsx, src/workspace/index.tsx) after PRD-10; input/GlassFormField.tsx, input/GlassToggle.tsx, modal/GlassHoverCard.tsx after PRD-08/PRD-09; R-17 names only after PRD-18 adapters; plus remaining registry/labs rows without a family prefix.",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "FND-110",
+      "FND-112",
+      "MAT-047",
+      "CTL-055",
+      "OVL-040",
+      "NAV-016",
+      "DX-065"
+    ],
+    "priority": "P1",
+    "test": "removal-gate jobs per sub-family PR; survivor lane URL linked; tsc; Storybook build",
+    "storybook": "Migration/<family> stories still render via compat",
+    "acceptance": "AC-FND-14; REQ-FND-48, REQ-FND-51",
+    "status": "todo"
+  },
+  {
+    "id": "FND-129",
+    "prd": "PRD-08",
+    "system": "removal/root-surface",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "After all families: delete remaining Glass* alias and removed-name export lines; confirm PRD-02 removed the \"use client\" at src/index.ts:1 (report if not); root-export-count --strict ≤160 values and 0 ^Glass keys; update tests/exports/package-exports.test.ts and package-exports.spec.mjs to the 5.0 subpath list (removed subpaths fail with ERR_PACKAGE_PATH_NOT_EXPORTED).",
+    "depends_on": [
+      "FND-118",
+      "FND-119",
+      "FND-120",
+      "FND-121",
+      "FND-122",
+      "FND-123",
+      "FND-124",
+      "FND-125",
+      "FND-126",
+      "FND-127",
+      "FND-128",
+      "FND-042",
+      "FND-114"
+    ],
+    "priority": "P0",
+    "test": "root-export-count.test.ts --strict; package-exports.test.ts + .spec.mjs after remote build",
+    "storybook": "remote Storybook build",
+    "acceptance": "AC-FND-13 (REQ-FND-49)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-130",
+    "prd": "PRD-08",
+    "system": "removal/beta-gate",
+    "file": "n/a (CI run on beta candidate SHA)",
+    "action": "TEST",
+    "description": "On the beta candidate SHA in CI: removal-beta project (inventory-remove-zero, no-backend), compat-map, deprecations-coverage, root-export-count --strict, npm pack --json size ≤2 MB (baseline 9.65 MB), backend paths absent from tree and tarball file list; flip verify-foundation-pattern check (a) to --strict only if its count is 0.",
+    "depends_on": [
+      "FND-129",
+      "FND-111",
+      "FND-112",
+      "FND-113",
+      "FND-115"
+    ],
+    "priority": "P0",
+    "test": "CI run URL with each test result",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-13, AC-FND-12, AC-FND-17, AC-FND-18",
+    "status": "todo"
+  },
+  {
+    "id": "FND-131",
+    "prd": "PRD-08",
+    "system": "cert/disabled-opacity",
+    "file": "NEW:tests/e2e/material/disabled-no-opacity.spec.ts",
+    "action": "TEST",
+    "description": "Remote Chromium + WebKit: for every Core/ and Foundation/ States story (from Storybook index.json) plus Button and Dialog, every [data-ag-surface][data-disabled] has computed opacity '1' and disabled interactive parts carry data-disabled; fails if a component whose meta lists 'disabled' renders zero disabled elements.",
+    "depends_on": [
+      "FND-069",
+      "FND-099",
+      "QA-018",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote material lane run URL",
+    "storybook": "States story per component",
+    "acceptance": "REQ-FND-10",
+    "status": "todo"
+  },
+  {
+    "id": "FND-132",
+    "prd": "PRD-08",
+    "system": "cert/selector-coverage",
+    "file": "NEW:scripts/ci/verify-selector-coverage.mjs",
+    "action": "CREATE",
+    "description": "Parse each owned <Name>.css (postcss-selector-parser if allowlisted, else owned parser with fixtures); in a remote Playwright job over storybook-static evaluate each selector (pseudo-classes/elements stripped, @media/@container/@supports ignored) across that component's stories; fail on selectors matching nothing (file:line selector) and on classes not rendered by the component (selectors extracted inside verify-selector-coverage.mjs; scripts/ci/check-undefined-custom-props.mjs is deleted by DS-079 and replaced by DS-077 undefined-vars.mjs, SC-39, and is not edited). NEW tests/ci/verify-selector-coverage.test.mjs fixtures: matched, orphan, pseudo-stripped.",
+    "depends_on": [
+      "FND-069",
+      "FND-099",
+      "SB-048",
+      "QA-031",
+      "DS-077"
+    ],
+    "priority": "P1",
+    "test": "node --test tests/ci/verify-selector-coverage.test.mjs; remote Storybook lane run URL",
+    "storybook": "all owned stories",
+    "acceptance": "REQ-FND-15",
+    "status": "todo"
+  },
+  {
+    "id": "FND-133",
+    "prd": "PRD-08",
+    "system": "cert/reduced-matrix",
+    "file": "n/a (L6 Environment visual (reduced matrix))",
+    "action": "TEST",
+    "description": "Run PRD-19's reduced matrix for the 30 owned T2 components: standard+lightweight × light/dark × default/reduced-transparency/forced-colors × Chromium+WebKit × 390/1440, plus 320px container 0 overflow/0 clipped text and 0 console/page errors; fix owned defects in separate commits linked to the failing run; matrix unchanged.",
+    "depends_on": [
+      "FND-099",
+      "FND-069",
+      "QA-042",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "lane run URL, cells pass/total",
+    "storybook": "all Core/ stories",
+    "acceptance": "AC-FND-06 (T2)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-134",
+    "prd": "PRD-08",
+    "system": "cert/t0-matrix",
+    "file": "n/a (L6 Environment visual (full matrix))",
+    "action": "TEST",
+    "description": "Run unit + SSR (tests/ssr/t2-server-safe.test.tsx) + the full architecture §15.1 environment matrix for Text, Heading, Stack, Grid, Container, Icon.",
+    "depends_on": [
+      "FND-062",
+      "FND-069",
+      "QA-042",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "lane run URL, cells pass/total",
+    "storybook": "Foundation/ stories of the six T0 components",
+    "acceptance": "AC-FND-06 (T0)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-135",
+    "prd": "PRD-08",
+    "system": "cert/apg",
+    "file": "n/a (L5 Behaviour lane)",
+    "action": "TEST",
+    "description": "Run the 11 specs tests/a11y/apg/{accordion,rating,file-upload,color-picker,inline-edit,tour,collapsible,scroll-area,chip,steps,stacked-escape}.apg.spec.ts (SC-30) through certification/lanes/behaviour.spec.ts (QA-082) in Chromium, WebKit and Gecko with @axe-core/playwright colour contrast on; required 11/11 per engine, 0 serious/critical.",
+    "depends_on": [
+      "FND-037",
+      "FND-066",
+      "FND-086",
+      "FND-087",
+      "FND-088",
+      "FND-089",
+      "FND-090",
+      "FND-091",
+      "FND-092",
+      "FND-093",
+      "FND-094"
+    ],
+    "priority": "P0",
+    "test": "APG lane run URL per engine",
+    "storybook": "Keyboard stories",
+    "acceptance": "AC-FND-07",
+    "status": "todo"
+  },
+  {
+    "id": "FND-136",
+    "prd": "PRD-08",
+    "system": "cert/preferences",
+    "file": "n/a (L6 preference-mode cells)",
+    "action": "TEST",
+    "description": "forcedColors → 0 visible backdrop-filters on every T2 story, text uses CanvasText (4.x baseline glass-modal 12→10, showcase 12→12, material 1→1); contrast more → text pairs ≥7:1; reducedTransparency → tinted floor; reducedMotion → 0 rAF/WAAPI after settle with final state visible; at rest 0 rAF and 0 running animations 1 s after settle with allowContinuous=false; ≤1 visible backdrop-filter on a 20-component T2 page.",
+    "depends_on": [
+      "FND-133",
+      "QA-058"
+    ],
+    "priority": "P0",
+    "test": "lane run URLs with counts",
+    "storybook": "ForcedColors, ContrastMore, ReducedTransparency stories; composite T2 page story",
+    "acceptance": "AC-FND-08; PRD §15 preference lanes, §16 blurred surfaces",
+    "status": "todo"
+  },
+  {
+    "id": "FND-137",
+    "prd": "PRD-08",
+    "system": "cert/ocr",
+    "file": "n/a (L6 OCR gate)",
+    "action": "TEST",
+    "description": "OCR contrast over every T2 story × 8 scenes, worst case per story: ≥4.5:1 body, ≥3:1 large text and non-text (4.x baseline 266/342 runs failed on black); no scene exclusions.",
+    "depends_on": [
+      "FND-133",
+      "QA-049",
+      "QA-056"
+    ],
+    "priority": "P0",
+    "test": "OCR lane run URL; min ratio per story",
+    "storybook": "all Core/ stories on the 8 scenes",
+    "acceptance": "AC-FND-09",
+    "status": "todo"
+  },
+  {
+    "id": "FND-138",
+    "prd": "PRD-08",
+    "system": "cert/perf",
+    "file": "n/a (L10 Performance + verify-size-budgets)",
+    "action": "TEST",
+    "description": "On the candidate SHA: verify-size-budgets.mjs for every FND row (peers external), T2 CSS ≤12 KB gz within 32 KB styles.css, primitives ≤4 KB, perf grade ≥C per T2 component, INP ≤100 ms p75 for Accordion toggle/Rating change/Chip toggle/ColorPicker drag (4× CPU mid-tier mobile), ColorPicker drag frame ≤16.7 ms p95 (120 Hz desktop); fixes in code only.",
+    "depends_on": [
+      "FND-067",
+      "FND-098",
+      "QA-085",
+      "PERF-039",
+      "PKG-049"
+    ],
+    "priority": "P0",
+    "test": "perf lane + budget job run URLs",
+    "storybook": "interaction stories for the four INP targets",
+    "acceptance": "AC-FND-10",
+    "status": "todo"
+  },
+  {
+    "id": "FND-139",
+    "prd": "PRD-08",
+    "system": "cert/pattern-proof",
+    "file": "NEW:tests/foundation/contract-coverage.json",
+    "action": "TEST",
+    "description": "Run every architecture §15.2 lane on PRD-08 Button and PRD-09 Dialog and the three contract harnesses with Button/Dialog registered; collect written sign-off (PR/issue links) from flagship PRD owners PRD-08..PRD-13 that §4.2–§4.4 is usable without local variation; requested variations recorded as amendment proposals.",
+    "depends_on": [
+      "FND-014",
+      "FND-015",
+      "FND-016",
+      "CTL-055",
+      "OVL-040",
+      "QA-082"
+    ],
+    "priority": "P0",
+    "test": "lane run URLs for Button and Dialog; harness run",
+    "storybook": "Button and Dialog stories (owned by PRD-08/09)",
+    "acceptance": "AC-FND-05; AC-FND-04 (Button, Dialog)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-140",
+    "prd": "PRD-08",
+    "system": "cert/rc-evidence",
+    "file": "n/a (RC SHA CI runs + certification issue)",
+    "action": "TEST",
+    "description": "(a) canaries/next16/tests/rsc.spec.ts builds and serves every meta.rsc='server' export with 0 hydration warnings; (b) re-verify AC-FND-01/02/03/11/13/18 on the RC SHA; (c) human VoiceOver/Safari and NVDA/Chrome passes for Accordion, Tour, FileUpload, ColorPicker recorded as PR comments (tester, date, per-step result; agent prepares scripts only); (d) assemble the AC-FND-01..18 evidence table with CI artifact links (D-32).",
+    "depends_on": [
+      "FND-063",
+      "FND-130",
+      "FND-131",
+      "FND-132",
+      "FND-133",
+      "FND-134",
+      "FND-135",
+      "FND-136",
+      "FND-137",
+      "FND-138",
+      "FND-139",
+      "PKG-123",
+      "FND-141",
+      "FND-143"
+    ],
+    "priority": "P0",
+    "test": "canary run URL; AC table complete with links",
+    "storybook": "n/a",
+    "acceptance": "AC-FND-16; AC-FND-01..18 table (PRD §18 DoD)",
+    "status": "todo"
+  },
+  {
+    "id": "FND-141",
+    "prd": "PRD-08",
+    "system": "foundation/prop-grammar",
+    "file": "NEW:tests/types/prop-grammar.test-d.ts",
+    "action": "TEST",
+    "description": "SC-24 (FND-owned prop grammar): type test over every meta.ts component that material axes are only variant: 'regular'|'clear'|'identity', thickness, prominent, refraction; status is intent (subset of neutral|info|success|warning|danger); no material, elevation, as or tone prop. Plus NEW src/foundation/__tests__/prop-grammar.test.tsx: setting intent changes data-ag-intent and leaves data-ag-variant unchanged; size renders data-ag-size; no element renders data-ag-material or data-ag-button-variant.",
+    "depends_on": [
+      "FND-004",
+      "FND-016",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "tsc -p tests/types/tsconfig.json; jest src/foundation/__tests__/prop-grammar.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-56",
+    "status": "todo"
+  },
+  {
+    "id": "FND-142",
+    "prd": "PRD-08",
+    "system": "removal/RM-13",
+    "file": "docs/components/",
+    "action": "REMOVE",
+    "description": "RM-13 squash PR at 5.0.0-beta.1 (SC-38: 4.x docs deletion owned by FND): delete docs/components/**, docs/guides/{consciousness-interface,consciousness-migration,migration,ssr-setup}.md, docs/liquid-glass/migration.md, docs/recipes/readme.md, docs/design-tokens.md, docs/cli/migration.md. Keep docs/release-rollback-deprecation.md and docs/auraglass-5/**. Merge only after DX has published the apps/docs/content/migrate/* rewrites (REQ-DX-72 becomes consume-only, open item O-13).",
+    "depends_on": [
+      "FND-107",
+      "FND-108",
+      "DX-101"
+    ],
+    "priority": "P1",
+    "test": "tests/removal/docs-removed.test.ts (FND-143); removal-gate revert-dry-run",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-57; AC-FND-14",
+    "status": "todo"
+  },
+  {
+    "id": "FND-143",
+    "prd": "PRD-08",
+    "system": "removal/docs",
+    "file": "NEW:tests/removal/docs-removed.test.ts",
+    "action": "TEST",
+    "description": "Asserts every REQ-FND-57 path is absent on main and that docs/release-rollback-deprecation.md and docs/auraglass-5/ still exist.",
+    "depends_on": [
+      "FND-142"
+    ],
+    "priority": "P1",
+    "test": "jest tests/removal/docs-removed.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-FND-57",
+    "status": "todo"
+  }
+]

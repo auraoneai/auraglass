@@ -1,0 +1,1039 @@
+[
+  {
+    "name": "DimensionalDashboardContainer",
+    "file": "src/components/dashboard/DimensionalDashboardContainer.tsx",
+    "lines": 279,
+    "category": "dashboard/layout-effect",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/DimensionalDashboardContainer.stories.tsx",
+      "count": 1,
+      "title": "Reference/Legacy Components/Dimensional Dashboard Container"
+    },
+    "tests": {
+      "file": "src/components/dashboard/DimensionalDashboardContainer.test.tsx",
+      "count": 7
+    },
+    "screenshots": [
+      "components-dashboard-dimensionaldashboardcontainer"
+    ],
+    "material_impl": "Delegates surface to shared GlassContainer (layout/GlassContainer) per layer; no bespoke blur. Layer opacity computed inline (1 - |z|/(2*depth)). Injects a runtime <style> tag with fixed class names.",
+    "motion": "Custom rAF auto-rotate via setState every frame (re-renders the whole tree at 60fps); mouse-tilt via state; window scroll listener for parallax. useReducedMotion gates rAF, tilt, parallax and a CSS @media fallback; this is properly wired.",
+    "a11y": "Layers become role=button + tabIndex + Enter/Space only when onLayerClick is set; focus-visible outline provided. Layers are position:absolute stacked 100% boxes so all but the top layer are unreachable by pointer; screen readers read every layer in DOM order with no grouping/labels.",
+    "api": "forwardRef to outer div, but does NOT spread rest props (no aria-*, data-*, id passthrough). className concatenated with string template (no cn). layers: ReactNode[] keyed by index. No controlled rotation.",
+    "ssr": "'use client'; window only inside effects. Inline <style> duplicated per instance.",
+    "fake_complexity": "Moderate: 'Z-space positioning' is CSS translateZ on absolute layers; parallax translateZ(scrollY*-0.2) grows unbounded with page scroll and pushes content behind the perspective plane on long pages.",
+    "duplicates": [
+      "src/components/surfaces/DimensionalGlass.tsx",
+      "src/components/surfaces/GlassDepthLayer.tsx",
+      "src/components/advanced/GlassParallaxLayers.tsx",
+      "src/components/effects/Glass3DEngine.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 5,
+      "motion": 5,
+      "consistency": 4,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "surfaces/GlassDepthLayer (single depth/parallax primitive)",
+    "flagship_candidate": false,
+    "justification": "A thin translateZ/tilt wrapper that re-renders on every animation frame and every mouse move, with unbounded scroll-driven translateZ and stacked absolute layers that are not usable as a dashboard container. Reduced-motion handling is one of the better ones in this shard, but the concept is duplicated by DimensionalGlass, GlassDepthLayer, GlassParallaxLayers and Glass3DEngine. Fold the tilt/depth behaviour into one depth primitive driven by CSS variables/motion values instead of React state.",
+    "evidence": [
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:75-80 setRotation inside rAF loop (60fps React renders)",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:127,156 translateZ(scrollY * -0.2) unbounded",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:42-53 props destructured without ...rest; nothing forwarded",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:174 template-string className instead of cn",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:195-200 every layer absolute inset 100%",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx:246-273 per-instance inline <style>",
+      "reports/glassmorphism-storybook-visual-certification.json entry DimensionalDashboardContainer: hasCanvas=false, 13 glass elements"
+    ]
+  },
+  {
+    "name": "GlassActivityFeed",
+    "file": "src/components/dashboard/GlassActivityFeed.tsx",
+    "lines": 756,
+    "category": "dashboard/data-display",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/GlassActivityFeed.stories.tsx",
+      "count": 2,
+      "title": "Reference/Legacy Components/Glass Activity Feed"
+    },
+    "tests": {
+      "file": "src/components/dashboard/GlassActivityFeed.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-dashboard-glassactivityfeed"
+    ],
+    "material_impl": "Outer GlassCard (shared). Rows use bespoke .glass-activity-neutral-row with hard-coded rgba gradient, rgba border, box-shadow and backdrop-filter: blur(16px) saturate(1.4) brightness(1.08) contrast(1.04) all !important, so every row is its own backdrop-filter layer (72 glass elements in certification DOM). dashboardNeutral.css forces color with !important on p/span/h* and every svg, overriding tokens and status semantics.",
+    "motion": "Grouped path uses CSS animate-slide-in-up with inline animationDelay regardless of reduced motion; ungrouped path uses shared Motion primitive (MotionFramer honours reduced motion). useReducedMotion is imported but never used. Tailwind arbitrary class built at runtime (duration-[${ANIMATION.DURATION.fast}ms]) cannot be generated by JIT.",
+    "a11y": "Rows are clickable <div> with onClick, cursor-pointer, no role/tabIndex/key handler, so not keyboard operable. Filter <select> has aria-label. Feed is not a list (no ul/li or role=feed). All 7 activity types return the identical icon colour/bg/border, so error vs success is conveyed by icon shape only.",
+    "api": "React.FC (no forwardRef). className/style passed. Rest-spread of unknown props onto GlassCard. maxItems/visibleCount state initialised once and not resynced. compact and contained are two booleans for the same mode.",
+    "ssr": "'use client'. formatTimestamp uses new Date() during render ('Just now'/'5m ago') and toLocaleDateString without locale, a hydration-mismatch risk.",
+    "fake_complexity": "None claimed; real but buggy. filterBy prop is ignored in the default grouped path (only applied in filteredActivities, which grouped view does not use); visibleCount is applied per date group instead of globally, so the 'Load more' count is wrong.",
+    "duplicates": [
+      "src/components/data-display/GlassTimeline.tsx",
+      "src/components/social/GlassSocialFeed (stories/tests)",
+      "src/components/templates/dashboard/widgets/*"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 3,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "REDESIGN",
+    "target": "merge with data-display/GlassTimeline as a single list primitive",
+    "flagship_candidate": false,
+    "justification": "Dashboards need an activity feed, but this one flattens status semantics (all types styled the same), stacks a backdrop-filter on every row, overrides tokens with !important, has non-keyboard row actions, and has filter/pagination bugs in its default grouped mode. Rebuild it on a semantic list with rows that are a tokenised inner surface (no per-row blur), real status tones, and roving focus. Then share the row anatomy with GlassTimeline.",
+    "evidence": [
+      "src/components/dashboard/GlassActivityFeed.tsx:180-232 identical config for all types",
+      "src/components/dashboard/GlassActivityFeed.tsx:419-444 clickable div rows, no role/tabIndex",
+      "src/components/dashboard/GlassActivityFeed.tsx:399-426 grouped path ignores filterBy and slices visibleCount per group",
+      "src/components/dashboard/GlassActivityFeed.tsx:25 useReducedMotion imported, unused; :434-443 CSS animation always on",
+      "src/components/dashboard/GlassActivityFeed.tsx:434 runtime-interpolated Tailwind class",
+      "src/components/dashboard/GlassActivityFeed.tsx:235-248 Date.now-relative text in render",
+      "src/components/dashboard/dashboardNeutral.css:10-36 !important colour overrides on all text and svg",
+      "src/components/dashboard/dashboardNeutral.css:41-54 per-row backdrop-filter !important"
+    ]
+  },
+  {
+    "name": "GlassChartWidget",
+    "file": "src/components/dashboard/GlassChartWidget.tsx",
+    "lines": 577,
+    "category": "dashboard/container",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/GlassChartWidget.stories.tsx",
+      "count": 2,
+      "title": "Reference/Legacy Components/Glass Chart Widget"
+    },
+    "tests": {
+      "file": "src/components/dashboard/GlassChartWidget.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-dashboard-glasschartwidget"
+    ],
+    "material_impl": "GlassCard variant=elevated (shared). elevation='level3' is silently overridden to level2 by GlassCard.getElevation for variant=elevated. The action menu is a bespoke glass-surface-dark/80 + backdrop-blur-md popover. .glass-chart-widget-neutral-content * { color: ... !important } forces every chart child (including SVG text/series colours via currentColor) to the theme text colour.",
+    "motion": "Shared Motion preset fadeIn (reduced-motion aware). Spinner and RefreshCw animate-spin are not gated.",
+    "a11y": "Icon buttons have aria-labels. The actions menu is a hand-rolled dropdown: no aria-expanded/aria-haspopup, no role=menu, no Escape/outside-click close, no focus management. Fullscreen is just 'fixed inset-4 z-50' with no focus trap, no Escape, no scroll lock, and no backdrop.",
+    "api": "React.FC, no forwardRef. Fullscreen is half-controlled: the fullscreen prop only seeds useState and is never synced. Refresh/Export appear both as quick actions and as hard-coded menu defaults. GlassChartWidgetGrid uses widget.title as key.",
+    "ssr": "'use client'; relative time in render via new Date() (hydration risk).",
+    "fake_complexity": "Low. 'Download/Export' only calls callbacks; fine.",
+    "duplicates": [
+      "src/components/templates/dashboard/widgets/ChartWidget.tsx",
+      "src/components/charts/components/ChartContainer",
+      "src/components/surfaces/WidgetGlass.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 6,
+      "consistency": 4,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 4,
+      "production": 4
+    },
+    "overall": 4.5,
+    "disposition": "CONSOLIDATE",
+    "target": "templates/dashboard/widgets/ChartWidget + charts ChartContainer -> one GlassWidget/Panel with header actions slot",
+    "flagship_candidate": false,
+    "justification": "A reasonable chart-frame idea, but it overlaps with the template ChartWidget, ChartContainer and WidgetGlass. Its menu and fullscreen are not accessible overlays, and the !important colour override breaks the series colours of any chart placed inside. Keep one dashboard panel primitive that uses the library's real Menu/Dialog primitives for actions and fullscreen.",
+    "evidence": [
+      "src/components/dashboard/GlassChartWidget.tsx:282-285 variant=elevated + elevation=level3 (overridden: src/components/card/GlassCard.tsx:127)",
+      "src/components/dashboard/GlassChartWidget.tsx:398-465 hand-rolled menu without aria-expanded/Escape/focus",
+      "src/components/dashboard/GlassChartWidget.tsx:187,288 fullscreen prop seeds state only; fixed inset-4 without trap",
+      "src/components/dashboard/GlassChartWidget.tsx:440-462 duplicated default Refresh/Export",
+      "src/components/dashboard/dashboardNeutral.css:56-59 forces colour !important on all chart descendants",
+      "src/components/dashboard/GlassChartWidget.tsx:571 key=widget.title"
+    ]
+  },
+  {
+    "name": "GlassKPICard",
+    "file": "src/components/dashboard/GlassKPICard.tsx",
+    "lines": 471,
+    "category": "dashboard/stat",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/GlassKPICard.stories.tsx",
+      "count": 2,
+      "title": "Reference/Legacy Components/Glass KPICard"
+    },
+    "tests": {
+      "file": "src/components/dashboard/GlassKPICard.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-dashboard-glasskpicard"
+    ],
+    "material_impl": "GlassCard (shared), with props depth/intensity/border/performanceMode/animation that GlassCard does not declare in its own interface; they are presumably forwarded to OptimizedGlass. Icon chip is bespoke bg-gradient-to-br from-white/10 border-white/20. The hover glow repeats 'glass-gradient-primary' three times plus via-purple, and adds hover:shadow-purple-500/20, giving off-brand purple glows. Variant colours use raw Tailwind palette (text-green-400, red-400, yellow-400, blue-200), not tokens.",
+    "motion": "Motion fadeIn (reduced-motion aware). Hover scale/rotate-2 on icon and drop-shadow transitions are CSS and not reduced-motion gated. Duration classes are runtime-interpolated arbitrary Tailwind values that will not compile.",
+    "a11y": "Clickable via GlassCard (role=button + Enter/Space handled in GlassCard). Trend is colour+arrow; trend text has no sr-only direction ('up 12%'). ContrastGuard wraps text. The error variant colours trendUp red, so 'up' is shown red with no explanation.",
+    "api": "React.FC, no forwardRef, no style prop. Default title 'KPI' on a required prop. `previousValue && ...` hides a legitimate 0. size/variant naming matches the siblings, but this is the third copy of the same card.",
+    "ssr": "Clean.",
+    "fake_complexity": "'premium glow effect' is a hover gradient blur that only works if the arbitrary classes exist.",
+    "duplicates": [
+      "src/components/dashboard/GlassMetricCard.tsx",
+      "src/components/dashboard/GlassStatCard.tsx",
+      "src/components/charts/components/KpiChart.tsx",
+      "src/components/data-display/GlassMetricChip.tsx",
+      "src/components/data-display/GlassMetricsGrid.tsx",
+      "src/components/templates/dashboard/widgets/MetricWidget.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 5,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 5,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 4,
+      "production": 4
+    },
+    "overall": 4,
+    "disposition": "CONSOLIDATE",
+    "target": "single GlassStatCard (KPI/Metric/Stat merged) built on data-display/GlassMetricChip tokens",
+    "flagship_candidate": false,
+    "justification": "This is roughly 80% the same code as GlassMetricCard and GlassStatCard (same size/variant tables, same skeleton, same trend block, same Grid helper), using raw Tailwind palette colours and purple hover glows that do not belong to a neutral glass system. Merge the three into one stat card with slots (trend, sparkline, progress, comparison) and token-driven status tones, then keep GlassKPICard as a deprecated alias.",
+    "evidence": [
+      "src/components/dashboard/GlassKPICard.tsx:111-192 size/variant tables duplicated verbatim in GlassMetricCard.tsx:151-258 and GlassStatCard.tsx:146-251",
+      "src/components/dashboard/GlassKPICard.tsx:274-280 depth/intensity/border/performanceMode props not in GlassCardProps (src/components/card/GlassCard.tsx:16-68)",
+      "src/components/dashboard/GlassKPICard.tsx:289 hover:shadow-purple-500/20; :317,:370 triple glass-gradient-primary + via-purple",
+      "src/components/dashboard/GlassKPICard.tsx:290,312,322 runtime arbitrary duration classes",
+      "src/components/dashboard/GlassKPICard.tsx:400 previousValue && hides 0",
+      "src/components/dashboard/GlassKPICard.tsx:171-176 error variant trendUp red"
+    ]
+  },
+  {
+    "name": "GlassMetricCard",
+    "file": "src/components/dashboard/GlassMetricCard.tsx",
+    "lines": 542,
+    "category": "dashboard/stat",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/GlassMetricCard.stories.tsx",
+      "count": 2,
+      "title": "Reference/Legacy Components/Glass Metric Card"
+    },
+    "tests": {
+      "file": "src/components/dashboard/GlassMetricCard.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-dashboard-glassmetriccard"
+    ],
+    "material_impl": "Same as GlassKPICard: GlassCard plus a bespoke gradient icon chip, a triple-gradient purple hover glow, hover:shadow-blue-500/20, and raw Tailwind progress colours (bg-green-500 etc.).",
+    "motion": "Motion fadeIn/slideRight (reduced-motion aware via MotionFramer); CSS hover transforms not gated; arbitrary runtime duration classes.",
+    "a11y": "The progress bar is a div with no role=progressbar/aria-valuenow. The trend has no text direction. ContrastGuard is missing on the main value (unlike the KPI card). Loading skeleton has no aria-busy.",
+    "api": "The best of the three: forwardRef, extends HTMLAttributes, adds valueClassName/valueStyle. However the ref is NOT applied in the loading branch, and onClick is typed () => void, overriding the DOM signature.",
+    "ssr": "Clean.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "src/components/dashboard/GlassKPICard.tsx",
+      "src/components/dashboard/GlassStatCard.tsx",
+      "src/components/data-display/GlassMetricChip.tsx",
+      "src/components/data-display/GlassMetricsGrid.tsx",
+      "src/components/templates/dashboard/widgets/MetricWidget.tsx"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 5,
+      "api": 6,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 5,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 4,
+      "production": 5
+    },
+    "overall": 4.5,
+    "disposition": "CONSOLIDATE",
+    "target": "single GlassStatCard (use GlassMetricCard's forwardRef/HTMLAttributes API as the base)",
+    "flagship_candidate": false,
+    "justification": "Its API is the strongest of the three stat cards, so it should be the base of the merged component. The progress bar still needs ARIA, the status palette needs tokens, the purple/blue hover glows should go, and the ref must forward in every branch.",
+    "evidence": [
+      "src/components/dashboard/GlassMetricCard.tsx:121 forwardRef; :265-285 loading branch omits ref",
+      "src/components/dashboard/GlassMetricCard.tsx:446-460 progress bar without role/aria-value*",
+      "src/components/dashboard/GlassMetricCard.tsx:307,413 blue/purple hover glow",
+      "src/components/dashboard/GlassMetricCard.tsx:203-258 raw Tailwind palette variants",
+      "src/components/dashboard/GlassMetricCard.tsx:427 value rendered without ContrastGuard"
+    ]
+  },
+  {
+    "name": "GlassStatCard",
+    "file": "src/components/dashboard/GlassStatCard.tsx",
+    "lines": 559,
+    "category": "dashboard/stat",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/dashboard/GlassStatCard.stories.tsx",
+      "count": 6,
+      "title": "Reference/Legacy Components/Glass Stat Card"
+    },
+    "tests": {
+      "file": "src/components/dashboard/GlassStatCard.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-dashboard-glassstatcard"
+    ],
+    "material_impl": "GlassCard variant default/elevated (shared). Hover:shadow-emerald-500/20, raw Tailwind palette, and a triple glass-gradient-primary progress fill.",
+    "motion": "Motion fadeIn/slideRight (reduced-motion aware). No hover transforms on this one.",
+    "a11y": "Sparkline SVG has no role=img/title/aria-label. Progress bar has no ARIA. additionalStats render without ContrastGuard.",
+    "api": "React.FC, no forwardRef, no style. Sparkline height is derived by parseInt of a Tailwind class string ('h-8' -> 8*4=32px), while the svg height attribute is set to the raw number (8), so the path is drawn in a 32px coordinate space and clipped/overflowing in an 8px-high svg. Sparkline x uses percent numbers in a viewBox-less svg, so x is 0-100 px, not percent.",
+    "ssr": "Clean.",
+    "fake_complexity": "The 'sparkline' is a broken mini-chart (see api).",
+    "duplicates": [
+      "src/components/dashboard/GlassKPICard.tsx",
+      "src/components/dashboard/GlassMetricCard.tsx",
+      "src/components/charts/components/KpiChart.tsx",
+      "src/components/data-display/GlassMetricsGrid.tsx"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 6,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 5,
+      "production": 3
+    },
+    "overall": 4,
+    "disposition": "CONSOLIDATE",
+    "target": "single GlassStatCard (absorb KPI/Metric; replace sparkline with charts primitive)",
+    "flagship_candidate": false,
+    "justification": "This is the third copy of the stat-card pattern. Its one differentiator, the sparkline, is geometrically broken: a 32px path coordinate space inside an 8px svg with pixel-not-percent x values. Keep the name for the merged component, but rebuild the sparkline on the charts package with a viewBox and accessible labelling.",
+    "evidence": [
+      "src/components/dashboard/GlassStatCard.tsx:264 height = parseInt('h-8'.replace('h-',''))*4",
+      "src/components/dashboard/GlassStatCard.tsx:420-423 svg height={'8'} without viewBox; x 0-100 used as px",
+      "src/components/dashboard/GlassStatCard.tsx:323 hover:shadow-emerald-500/20",
+      "src/components/dashboard/GlassStatCard.tsx:437-445 progress bar no ARIA"
+    ]
+  },
+  {
+    "name": "EnhancementShowcase",
+    "file": "src/components/demo/EnhancementShowcase.tsx",
+    "lines": 741,
+    "category": "demo",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/demo/EnhancementShowcase.stories.tsx",
+      "count": 1,
+      "title": "Reference/Legacy Components/Enhancement Showcase"
+    },
+    "tests": {
+      "file": "src/components/demo/EnhancementShowcase.test.tsx",
+      "count": 3
+    },
+    "screenshots": [
+      "components-demo-enhancementshowcase"
+    ],
+    "material_impl": "Ad-hoc utility soup: repeated 'glass-gradient-primary glass-gradient-primary glass-gradient-primary' strings, glass-surface-subtle/5 + backdrop-blur-lg panels, and bg-${color}-400 dynamic Tailwind classes that cannot compile. Uses an EnhancementShowcase.module.css for the header and nav.",
+    "motion": "AnimatePresence section transitions. Under reduced motion animate={} while initial={opacity:0}, so the active section stays invisible at opacity 0. Composes Physics/Morphing/3D/Organic engines, which add their own ungated motion.",
+    "a11y": "Nav buttons have aria-current. However the content collapses to invisible under reduced motion. The nav is a tab pattern without tablist semantics.",
+    "api": "No props.",
+    "ssr": "Reads `window.COMMON_SEQUENCES` directly during render (lines 304 and 542), which throws ReferenceError on the server. Imports framer-motion plus every 'engine' and both intelligence hooks.",
+    "fake_complexity": "Severe: marketing copy for 'consciousness interface technology', 'Emotional Intelligence', 'Biometric Adaptation', 'WebXR Integration' and 'AI/ML systems'. The status tiles ('Physics Engine: Active', 'AI Intelligence: Learning') are hard-coded literals. useEmotionalIntelligence and useAIPersonalization feed displayed percentages.",
+    "duplicates": [
+      "src/components/showcase/LiquidGlassShowcase.tsx",
+      "src/components/advanced/StorybookVisualShowcase.tsx",
+      "src/components/templates/showcase/ComprehensiveShowcase.stories.tsx",
+      "src/components/advanced/GlassEngine.tsx (GlassEngineDemo)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a non-exported demo page that crashes under SSR (window in render), shows nothing to reduced-motion users, uses uncompilable dynamic classes, and makes unverifiable AI, emotion and biometric claims through hard-coded status labels. It is directly harmful to the premium positioning. Delete it, and let the LiquidGlassShowcase/docs site present only the components that actually ship.",
+    "evidence": [
+      "src/components/demo/EnhancementShowcase.tsx:304,542 (window as any).COMMON_SEQUENCES in render",
+      "src/components/demo/EnhancementShowcase.tsx:683-684 initial opacity 0 + animate {} when reduced motion",
+      "src/components/demo/EnhancementShowcase.tsx:581-596 hard-coded engine statuses + bg-${color}-400",
+      "src/components/demo/EnhancementShowcase.tsx:88,728-732 'consciousness interface technology', 'advanced AI/ML systems'",
+      "src/index.ts: no EnhancementShowcase export",
+      "reports/glassmorphism-storybook-visual-certification.json EnhancementShowcase: 880 visible elements, hasCanvas=true (from nested engines)"
+    ]
+  },
+  {
+    "name": "GlassEcommerceProvider",
+    "file": "src/components/ecommerce/GlassEcommerceProvider.tsx",
+    "lines": 1093,
+    "category": "ecommerce/state",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ecommerce/GlassEcommerceProvider.stories.tsx",
+      "count": 1,
+      "title": "Workflows/Glass Ecommerce Provider"
+    },
+    "tests": {
+      "file": "src/components/ecommerce/GlassEcommerceProvider.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-ecommerce-glassecommerceprovider"
+    ],
+    "material_impl": "None. It is a context provider plus a wrapper div. data-glass-component is put on Context.Provider, where it is meaningless.",
+    "motion": "n/a",
+    "a11y": "n/a (wrapper div only).",
+    "api": "The value object is rebuilt on every render without useMemo, so every consumer re-renders on any state change. useEcommerce silently returns a no-op default context instead of throwing, which hides missing-provider bugs. useEcommerce and every type (Product, CartItem...) are NOT exported from the root index, so consumers cannot read the context they provide. Initial products/cart cannot be injected (no props). Tax is hard-coded at 8% and currency at '$'.",
+    "ssr": "'use client'; shareWishlist reads window.location (call-time only).",
+    "fake_complexity": "Severe: 'Mock AI recommendation engine' with a 1s setTimeout and Math.random scores and confidence; getAnalytics returns hard-coded totals (1250 views, 7.1% conversion) and random per-product numbers; trackEvent and getPriceAlerts are empty mocks; the mock shipping/payment options use emoji icons.",
+    "duplicates": [
+      "src/components/ecommerce/index.ts re-exports as EcommerceProvider (two names)",
+      "any app-level commerce state"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 5,
+      "motion": 5,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "move to examples/ or a separate demo package",
+    "flagship_candidate": false,
+    "justification": "A design-system package should not ship a mock commerce backend: hard-coded tax, USD, random 'AI' recommendations, fake analytics, and state-mutating sort bugs, while not even exporting the hook needed to use it. Remove it from the library surface. If a commerce kit is needed, ship presentational, fully-controlled components and leave state to the app.",
+    "evidence": [
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:377-453 mockRecommendationEngine with setTimeout(1000) and Math.random",
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:537 8% tax hard-coded",
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:573,629-650 filtered===products then Array.sort mutates React state in place",
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:980-1009 fabricated analytics",
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:1019-1077 unmemoised context value",
+      "src/components/ecommerce/GlassEcommerceProvider.tsx:1090-1093 silent default context",
+      "src/index.ts:709 only GlassEcommerceProvider exported; useEcommerce/types not exported"
+    ]
+  },
+  {
+    "name": "GlassProductRecommendations",
+    "file": "src/components/ecommerce/GlassProductRecommendations.tsx",
+    "lines": 778,
+    "category": "ecommerce/display",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ecommerce/GlassProductRecommendations.stories.tsx",
+      "count": 1,
+      "title": "Workflows/Glass Product Recommendations"
+    },
+    "tests": {
+      "file": "src/components/ecommerce/GlassProductRecommendations.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-ecommerce-glassproductrecommendations"
+    ],
+    "material_impl": "Outer Glass primitive (shared). Cards use glass-surface-subtle/border utilities. Reason chips use raw Tailwind palette (bg-blue-500/20 text-blue-200 etc.). The overlay is bg-black bg-opacity-50 (Tailwind v2 syntax). The 'AI' badge uses inline colour #334155 on a dark glass surface, and the fallback artwork uses hard-coded light-slate hex.",
+    "motion": "CSS hover scale on images and a carousel translateX transition; no reduced-motion gating; no framer.",
+    "a11y": "The card wrapper is a clickable div with no role or keyboard support. Quick actions sit in an opacity-0 hover overlay that stays focusable and clickable while invisible, and is unreachable visually on touch. Emoji-only buttons (heart, cart) rely on title only. Carousel arrows (arrows as text) have no aria-label and no live region. The star rating has no text alternative.",
+    "api": "React.FC, no forwardRef, no style. getItemsPerView is a hard-coded 4/8 regardless of viewport, and the carousel grid is glass-grid-cols-4 on mobile. Currency is hard-coded '$'. getReasonColor/getReasonIcon are duplicated in the card and the parent.",
+    "ssr": "'use client'; fine.",
+    "fake_complexity": "Severe: when products are passed explicitly it fabricates reason ('personalized' for index 0, 'similar' for 1, then 'trending'), score and confidence, and labels them 'Match confidence'. The 'AI Insights' copy claims 'personalized based on your browsing history... Our AI analyzes N factors', where N is just the list length.",
+    "duplicates": [
+      "src/components/marketing/ShowcaseCard.tsx",
+      "src/components/data-display/LiquidGlassCarouselRail.tsx",
+      "src/components/card/* product-like cards"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 2,
+      "a11y": 2,
+      "motion": 4,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "if commerce is in scope: rebuild as presentational GlassProductCard + LiquidGlassCarouselRail",
+    "flagship_candidate": false,
+    "justification": "It invents recommendation reasons and confidence percentages for caller-supplied data and presents them as AI output, which is a trust and legal liability for any adopter. It is also emoji-iconed, not keyboard accessible, and a fixed 4-column carousel on mobile. Remove it. A future commerce kit should be a controlled product card composed with the existing carousel rail.",
+    "evidence": [
+      "src/components/ecommerce/GlassProductRecommendations.tsx:459-487 fabricated reason/score/confidence",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:715-722 'Our AI analyzes {length} factors'",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:314-342 opacity-0 overlay buttons remain focusable",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:414-419 clickable div wrapper",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:611-626 arrow buttons no aria-label",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:559-568,658 fixed 4 per view / grid-cols-4",
+      "src/components/ecommerce/GlassProductRecommendations.tsx:705-706 color #334155 on dark glass"
+    ]
+  },
+  {
+    "name": "GlassSmartShoppingCart",
+    "file": "src/components/ecommerce/GlassSmartShoppingCart.tsx",
+    "lines": 716,
+    "category": "ecommerce/workflow",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ecommerce/GlassSmartShoppingCart.stories.tsx",
+      "count": 2,
+      "title": "Workflows/Glass Smart Shopping Cart"
+    },
+    "tests": {
+      "file": "src/components/ecommerce/GlassSmartShoppingCart.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-ecommerce-glasssmartshoppingcart"
+    ],
+    "material_impl": "Glass primitive outer (shared). Interior uses border utilities, raw border-blue-400/60 bg-blue-500/15 for the selected shipping option, and an inline #334155 empty-state icon (low contrast on dark glass).",
+    "motion": "None beyond colour transitions.",
+    "a11y": "The close (multiplication sign) and remove buttons rely on title only, with no aria-label. The quantity +/- buttons have no labels and no live region; the quantity shows '...' during a fake delay. The promo input has no label (placeholder only). The 'Remove' promo button has no handler. The radio group has no fieldset/legend.",
+    "api": "React.FC, no forwardRef, no style. The items prop makes it display-only: quantity/remove/save call the context's no-op updaters, so the controlled mode is broken (UI quantity changes locally, totals do not). showRecommendations is declared and never used. Hard-coded USD, 8% tax, and a $50 free-shipping rule.",
+    "ssr": "'use client'; fine.",
+    "fake_complexity": "Severe: nothing 'smart'. Fake 300ms 'API delay' on quantity change and a 1s fake promo validation. Valid promo codes SAVE10/WELCOME20/FREESHIP are hard-coded in the shipped library (anyone can apply discounts client-side). It renders the claim 'Secure checkout with 256-bit SSL encryption' regardless of the host app.",
+    "duplicates": [
+      "src/components/ecommerce/GlassEcommerceProvider.tsx (state)",
+      "workflow templates in src/workflows"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 5,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "if commerce is in scope: rebuild as controlled GlassCartSummary + GlassQuantityStepper",
+    "flagship_candidate": false,
+    "justification": "It hard-codes discount codes, tax, currency and a security claim into a UI library. Its controlled mode silently does nothing, its icon buttons are unlabeled, and it simulates network latency with setTimeout. None of this is salvageable as a design-system component. Remove it, and if needed provide a controlled cart summary and quantity stepper that hold no business logic.",
+    "evidence": [
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:478-495 hard-coded promo codes SAVE10/WELCOME20/FREESHIP",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:55-56,345 fake setTimeout delays",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:708-711 '256-bit SSL encryption' claim",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:428-440 items prop totals vs context updaters (no-op)",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:396 showRecommendations unused",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:203-209,579-585 icon-only buttons without aria-label",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:365 promo Remove has no onClick",
+      "src/components/ecommerce/GlassSmartShoppingCart.tsx:371-378 input without label"
+    ]
+  },
+  {
+    "name": "GlassRichTextEditor",
+    "file": "src/components/editor/GlassRichTextEditor.tsx",
+    "lines": 465,
+    "category": "forms/editor",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/editor/GlassRichTextEditor.stories.tsx",
+      "count": 1,
+      "title": "Reference/Legacy Components/Glass Rich Text Editor"
+    },
+    "tests": {
+      "file": "src/components/editor/GlassRichTextEditor.test.tsx",
+      "count": 7
+    },
+    "screenshots": [
+      "components-editor-glassrichtexteditor"
+    ],
+    "material_impl": "OptimizedGlass shell (shared primitive, elevation prop). The toolbar and every tool button carry bespoke inline rgba gradients, borders and box-shadows plus an injected <style> with !important hover rules. These are not tokens and assume a light surface (hover rgba(255,255,255,0.36)).",
+    "motion": "CSS translateY hover with a prefers-reduced-motion override (wired).",
+    "a11y": "role=toolbar with aria-label; tool buttons have aria-label; the editable has role=textbox, aria-multiline, and a hard-coded aria-label 'Rich text editor' that cannot be overridden (rest props go to the outer shell, not the textbox). No aria-pressed/active state for B/I/U. No roving tabindex in the toolbar. The link tool uses window.prompt().",
+    "api": "forwardRef to outer shell. Controlled-only in practice: in uncontrolled use, `!value` stays true, so the placeholder overlays typed content whenever the editor blurs. No sanitisation hook. No name/form integration.",
+    "ssr": "'use client'; document.execCommand / prompt only in handlers.",
+    "fake_complexity": "None, but it is built on deprecated document.execCommand.",
+    "duplicates": [
+      "src/components/collaboration/MultiUserGlassEditor.tsx",
+      "src/components/interactive/GlassCodeEditor.tsx",
+      "forms textarea"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 3,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 7,
+      "consistency": 4,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "REPLACE",
+    "target": "headless editor (Tiptap/Lexical) adapter wrapped in OptimizedGlass + shared LiquidGlassToolbar",
+    "flagship_candidate": false,
+    "justification": "Writing the value prop straight into innerHTML with no sanitisation is a stored-XSS vector, and createLink accepts javascript: URLs from prompt(). It relies on deprecated execCommand, has no active-state feedback, and its placeholder overlaps typed text in uncontrolled mode. The glass shell is fine. Keep the visual wrapper and replace the engine with a maintained headless editor, using the library's LiquidGlassToolbar for the controls.",
+    "evidence": [
+      "src/components/editor/GlassRichTextEditor.tsx:304-308 innerHTML = value (no sanitisation)",
+      "src/components/editor/GlassRichTextEditor.tsx:320-324 prompt() URL passed to createLink unvalidated",
+      "src/components/editor/GlassRichTextEditor.tsx:323-329 document.execCommand",
+      "src/components/editor/GlassRichTextEditor.tsx:449 placeholder shown when !value && !isFocused (uncontrolled overlap)",
+      "src/components/editor/GlassRichTextEditor.tsx:443-447 hard-coded aria-label",
+      "src/components/editor/GlassRichTextEditor.tsx:88-100,376-410 inline rgba/!important toolbar styling"
+    ]
+  },
+  {
+    "name": "AuroraPro",
+    "file": "src/components/effects/AuroraPro.tsx (+ AuroraPro.r3f.tsx)",
+    "lines": 819,
+    "category": "effects/3d-background",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/effects/AuroraPro.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Aurora Pro"
+    },
+    "tests": {
+      "file": "src/components/effects/AuroraPro.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-aurorapro"
+    ],
+    "material_impl": "The r3f implementation uses three.js ShaderMaterial waves and points plus bespoke overlay chips (glass-surface-dark). The wrapper fallback is a plain div. Palettes are hard-coded Material-colour hex values; the 'custom' default passes CSS var strings into THREE.Color, which three cannot parse.",
+    "motion": "useFrame loop, never gated by reduced motion. The overlay chips use initial opacity 0 + animate {} under reduced motion, so they stay invisible. particleDrift adds sin() to the already-mutated x every frame (random walk drift; particles wander off).",
+    "a11y": "Control buttons are title-only (no aria-label/aria-pressed). The palette buttons do nothing ('Would update colorPalette prop'). The canvas has no aria-hidden.",
+    "api": "Exported only via the 'aura-glass/three' subpath. No forwardRef/style. The fallback spreads all effect props (intensity, speed, colorPalette...) onto a DOM div, causing React unknown-prop warnings.",
+    "ssr": "The wrapper lazy-imports the r3f chunk in an effect (good pattern). But the gate assertReact19ForThree checks React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED for key 'S'. In React 18 (installed 18.2.0) that object has no 'S', and React 19 removed that export altogether. The check can never pass, so the R3F path is dead code: certification shows hasCanvas=false.",
+    "fake_complexity": "Total: the shipped component always renders an empty div. If the R3F path ever ran, the fragment shader contains the JS line `const prefersReducedMotion = useReducedMotion();` inside the GLSL noise() function and would fail to compile. getPaletteColors calls a hook inside a nested function invoked a variable number of times (Rules of Hooks violation). Geometries and materials are never disposed.",
+    "duplicates": [
+      "src/components/atmospheric/GlassAuroraDisplay.tsx",
+      "src/components/marketing/AuroraBackground.tsx",
+      "src/components/marketing/AuroraOrb.tsx",
+      "src/components/backgrounds/ParticleBackground.tsx"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "marketing/AuroraBackground (CSS/GPU-cheap) as the single aurora",
+    "flagship_candidate": false,
+    "justification": "This is a broken R3F demo hidden behind a version gate that can never succeed, so users get an empty div. Even unlocked, the shader would not compile because a React hook call is pasted into GLSL, the hooks usage violates React rules, and it leaks GPU resources. The story text even admits the fallback. Three other aurora components already exist; delete this one and the 'three' subpath entry.",
+    "evidence": [
+      "src/components/effects/AuroraPro.r3f.tsx:138-141 `const prefersReducedMotion = useReducedMotion();` inside GLSL fragment shader",
+      "src/components/effects/AuroraPro.r3f.tsx:433-439 hook inside getPaletteColors called in loops",
+      "src/components/effects/AuroraPro.r3f.tsx:589-591 palette buttons no-op",
+      "src/components/effects/AuroraPro.r3f.tsx:227-236 cumulative particle drift",
+      "src/components/effects/AuroraPro.r3f.tsx:473-476 overlays invisible under reduced motion",
+      "src/components/effects/AuroraPro.tsx:20,44-56 gate + fallback div spreading non-DOM props",
+      "src/utils/reactVersion.ts: checks __SECRET_INTERNALS... for 'S' (never true; node: React 18.2.0 keys lack 'S')",
+      "src/three/index.ts:14 only export path",
+      "reports/glassmorphism-storybook-visual-certification.json AuroraPro: hasCanvas=false",
+      "src/components/effects/AuroraPro.stories.tsx: 'The React 18 compatibility fallback remains visible'",
+      "src/utils/reactVersion.ts:7-15 checks React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED for 'S'; React 19 renamed that object to __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, so the gate returns false on React 18 AND 19: the three R3F effects can never render (re-verified 2026-10-06)."
+    ]
+  },
+  {
+    "name": "Glass3DEngine",
+    "file": "src/components/effects/Glass3DEngine.tsx",
+    "lines": 642,
+    "category": "effects/3d-tilt",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/effects/Glass3DEngine.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Glass 3D Engine"
+    },
+    "tests": {
+      "file": "src/components/effects/Glass3DEngine.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-glass3dengine"
+    ],
+    "material_impl": "Bespoke: inline hsla holographic gradients per layer, mixBlendMode multiply/overlay, conic-gradient overlay, CSS blur filters per layer and per SVG circle, and an feTurbulence/feDisplacementMap filter per layer. A comment says 'Use createGlassStyle() instead', but the code does not. No tokens except var(--glass-bg-default).",
+    "motion": "framer springs for tilt, useScroll parallax, autoDemo infinite loops. shouldAnimate gates autoDemo/holographic, but mouse tilt springs, whileHover, whileTap and scroll translateZ are NOT gated, and the .interaction-pulse CSS animation is infinite and ungated.",
+    "a11y": "Purely pointer-driven. Click does nothing for keyboard users. Decorative layers are not aria-hidden. Children are the only content.",
+    "api": "React.FC; Glass3DEngineProps not exported; no forwardRef; no style/rest passthrough; template className. 'gaze'/'proximity' interactions are declared but unimplemented; refractionIndex is unused. Sub-variants (ParallaxGlass, DepthGlass, HolographicGlass, InteractiveGlass3D) are not exported from root.",
+    "ssr": "'use client'; useScroll at module-level hook is fine.",
+    "fake_complexity": "High: 'Immersive 3D Glass Effects Engine' is CSS translateZ plus gradients. 'refraction' is unused. DistortionMesh and DepthOfFieldLayer are components declared inside render, so they get a new identity every render: every mouse move remounts all of them and their SVG filters. Each also has a conditional early return before useMemo (Rules of Hooks). Default config produces 8 meshes x 81 blurred circles plus 8 turbulence filters. SVG filter ids collide across instances.",
+    "duplicates": [
+      "src/components/effects/GlassPhysicsEngine.tsx (tilt)",
+      "src/components/dashboard/DimensionalDashboardContainer.tsx",
+      "src/components/surfaces/DimensionalGlass.tsx",
+      "src/components/advanced/GlassParallaxLayers.tsx",
+      "src/components/surfaces/GlassDepthLayer.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "surfaces/GlassDepthLayer + a single useTilt hook",
+    "flagship_candidate": false,
+    "justification": "Component-in-render remounting on every mousemove, around 650 blurred SVG nodes, conditional hooks, colliding filter ids and ungated tilt make this a performance and a11y liability. Its 'engine' claims (refraction, gaze, proximity) are not implemented. Pointer tilt and depth layering already exist elsewhere. Remove it and offer a single cheap useTilt hook and depth primitive.",
+    "evidence": [
+      "src/components/effects/Glass3DEngine.tsx:288-375 DistortionMesh defined in render; :289-291 early return before useMemo",
+      "src/components/effects/Glass3DEngine.tsx:378-405 DepthOfFieldLayer defined in render",
+      "src/components/effects/Glass3DEngine.tsx:293-316 81 points per mesh; :366-368 per-circle CSS blur",
+      "src/components/effects/Glass3DEngine.tsx:338 id=distortion-${layer.id} collides across instances",
+      "src/components/effects/Glass3DEngine.tsx:160-184 tilt not gated by shouldAnimate; :454 whileTap ungated; :600-601 infinite pulse",
+      "src/components/effects/Glass3DEngine.tsx:44,32 gaze/proximity + refractionIndex unused",
+      "src/components/effects/Glass3DEngine.tsx:46 props interface not exported"
+    ]
+  },
+  {
+    "name": "GlassMorphingEngine",
+    "file": "src/components/effects/GlassMorphingEngine.tsx",
+    "lines": 827,
+    "category": "effects/adaptive-surface",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/effects/GlassMorphingEngine.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Glass Morphing Engine"
+    },
+    "tests": {
+      "file": "src/components/effects/GlassMorphingEngine.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-glassmorphingengine"
+    ],
+    "material_impl": "Bespoke: seven stacked .glass-layer divs in glass-morphing.css driven by --gm-* CSS variables (rgba white gradients, conic crystalline, caustic shimmer). Ten framer springs write CSS variables imperatively (a good technique, poor payload). Not built on OptimizedGlass or LiquidGlassMaterial.",
+    "motion": "Springs plus a CSS caustic-shimmer infinite animation. useReducedMotion is called but its result is never used, and glass-morphing.css has no prefers-reduced-motion block, so the infinite shimmer is always on.",
+    "a11y": "Decorative layers are not aria-hidden; otherwise transparent wrapper.",
+    "api": "React.FC; props interface not exported; no forwardRef; className/style supported. enableRealTimeAdaptation defaults to true, and the mocked 'real-time' data is spread AFTER the caller's environmentalContext. Any timeOfDay/weather/season the caller passes is therefore overwritten by the clock and the hard-coded 'sunny'. The default environmentalContext={} is a new object every render, so the effect runs every render. A test-env branch checks process.env.JEST_WORKER_ID in production code.",
+    "ssr": "'use client'; setInterval/setTimeout in effects only.",
+    "fake_complexity": "Self-declared '@demo ... uses in-component mock data'. fetchEnvironmentalData returns weather 'sunny', 22C, 45% humidity, 75% light, all constants. 'refraction', 'viscosity' and 'temperature' map only to white-gradient alpha.",
+    "duplicates": [
+      "src/components/advanced/GlassEngine.tsx (EnvironmentalGlass/AdaptiveGlass; name collision with this file's EnvironmentalGlass)",
+      "src/components/advanced/GlassBiometricAdaptation.tsx",
+      "primitives/LiquidGlassMaterial.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "primitives/LiquidGlassMaterial (expose tunable CSS vars instead)",
+    "flagship_candidate": false,
+    "justification": "It is a self-declared demo that, by default, ignores the context props it advertises, runs an ungated infinite shimmer, and ships Jest-detection branches in production code. The CSS-variable-driven spring pipeline is the only reusable idea, and that belongs in LiquidGlassMaterial as documented tunables, not in an 'environmental engine' with fake weather.",
+    "evidence": [
+      "src/components/effects/GlassMorphingEngine.tsx:7-10 '@demo ... mock data'",
+      "src/components/effects/GlassMorphingEngine.tsx:276,364,576-582 realtime default true; mocked data overrides caller context",
+      "src/components/effects/GlassMorphingEngine.tsx:509-516 constant weather/temperature",
+      "src/components/effects/GlassMorphingEngine.tsx:280 prefersReducedMotion unused; src/components/effects/glass-morphing.css:43-55 infinite animation, no reduced-motion block",
+      "src/components/effects/GlassMorphingEngine.tsx:284-285 JEST_WORKER_ID in runtime code",
+      "src/components/effects/GlassMorphingEngine.tsx:272 default {} recreated each render",
+      "src/index.ts:553 EnvironmentalGlass exported from advanced/GlassEngine (name collision with GlassMorphingEngine.tsx:799)"
+    ]
+  },
+  {
+    "name": "GlassPhysicsEngine",
+    "file": "src/components/effects/GlassPhysicsEngine.tsx",
+    "lines": 569,
+    "category": "effects/interaction-particles",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/effects/GlassPhysicsEngine.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Glass Physics Engine"
+    },
+    "tests": {
+      "file": "src/components/effects/GlassPhysicsEngine.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-glassphysicsengine"
+    ],
+    "material_impl": "No material; canvas 2D particles with random hsl(180-240) colours, shadowBlur 10 and mixBlendMode screen, plus a radial-gradient pulse overlay.",
+    "motion": "framer keyframes for bend/melt/vibrate, plus a canvas particle loop. triggerInteraction is gated by shouldAnimate, but mouse tilt (rotateX/rotateY springs) is NOT gated. The animate-pulse overlay is ungated.",
+    "a11y": "Effects are click-only; there is no keyboard trigger. The tabIndex passthrough exists only so it can be removed. The canvas is not aria-hidden.",
+    "api": "React.FC; props interface not exported; no forwardRef/style. Six alias components (ShatterGlass, RippleGlass...) are not root-exported.",
+    "ssr": "'use client'; window resize in effect only.",
+    "fake_complexity": "High: the 'Physics simulation' is Euler particles stepped through React setState every frame. The updater mutates particle objects in place (impure, so StrictMode double-invocation doubles the physics). getBoundingClientRect is called per particle per frame (layout thrash). renderParticles draws the stale `particles` closure, one frame behind. physicsConfig is a new object every render, which recreates animate and restarts the rAF effect on every render. The canvas is not DPR-scaled (blurry on retina). viscosity/refractionIndex/density are unused.",
+    "duplicates": [
+      "src/components/effects/GlassShatterEffects.tsx",
+      "src/components/visual-feedback/RippleButton.tsx",
+      "src/components/advanced/GlassParticles.tsx",
+      "src/components/immersive/GlassParticleField.tsx",
+      "src/components/effects/Glass3DEngine.tsx (tilt)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 1,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "visual-feedback/RippleButton (press feedback) as the supported interaction effect",
+    "flagship_candidate": false,
+    "justification": "A 60fps React-state particle loop with impure updaters, per-particle layout reads and an rAF restart on each render is not shippable, and cyan sparks with screen blending do not read as premium glass. Press-ripple feedback already exists in RippleButton. Remove it, or at most reimplement a single GPU-cheap press highlight inside the material primitive.",
+    "evidence": [
+      "src/components/effects/GlassPhysicsEngine.tsx:113 physicsConfig new object each render -> :155-192 -> :250-286 rAF restart",
+      "src/components/effects/GlassPhysicsEngine.tsx:157-187 mutates particles in place inside setState updater",
+      "src/components/effects/GlassPhysicsEngine.tsx:173-174 getBoundingClientRect per particle per frame",
+      "src/components/effects/GlassPhysicsEngine.tsx:195-247 renderParticles uses stale particles closure",
+      "src/components/effects/GlassPhysicsEngine.tsx:466-470 canvas not DPR-scaled",
+      "src/components/effects/GlassPhysicsEngine.tsx:403-419 tilt ungated by shouldAnimate"
+    ]
+  },
+  {
+    "name": "GlassShatterEffects",
+    "file": "src/components/effects/GlassShatterEffects.tsx (+ GlassShatterEffects.r3f.tsx)",
+    "lines": 643,
+    "category": "effects/3d-transition",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/effects/GlassShatterEffects.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Glass Shatter Effects"
+    },
+    "tests": {
+      "file": "src/components/effects/GlassShatterEffects.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-glassshattereffects"
+    ],
+    "material_impl": "r3f ShaderMaterial shards (fresnel tint). Fallback is a plain div. Controls use glass-surface-subtle utilities.",
+    "motion": "Custom Date.now() lerp animations in useFrame; no reduced-motion gating of shatter/explosion; overlays invisible under reduced motion (animate {}).",
+    "a11y": "Trigger is a native addEventListener click on a div, so it is not keyboard operable. The control button is title-only. On shatter, children fade to opacity 0 but stay in the a11y tree.",
+    "api": "Exported only via the 'aura-glass/three' subpath. No forwardRef. The fallback spreads non-DOM props (duration, intensity, onShatter...) onto a div.",
+    "ssr": "Lazy import behind assertReact19ForThree, which never returns true (see AuroraPro), so the R3F path never loads: certification hasCanvas=false.",
+    "fake_complexity": "Total and doubly broken: (1) Shards are generated in a mount effect guarded by `if (!canvasRef.current) return`, but the Canvas only mounts after isShattered, so the shard list is always empty. (2) createExplosionAnimation calls useReducedMotion() inside a plain function invoked from a click handler, which throws 'Invalid hook call' on the first shatter. (3) Reform never resets isShattered (`if (!isShattered) setIsShattered(false)`), and the autoReform setTimeout captures a stale triggerReform, so content stays at opacity 0 permanently.",
+    "duplicates": [
+      "src/components/effects/GlassPhysicsEngine.tsx ('shatter' interaction + ShatterGlass alias)",
+      "src/components/advanced/GlassLiquidTransition.tsx"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "Even if the dead version gate were fixed, the effect would crash on the first click (hook call outside render), render zero shards, and leave the wrapped content permanently invisible. Tests only assert that the fallback div renders. Shattering glass is also off-brand for a calm premium material system. Remove it along with the three subpath export.",
+    "evidence": [
+      "src/components/effects/GlassShatterEffects.r3f.tsx:177 useReducedMotion() inside createExplosionAnimation (called from click)",
+      "src/components/effects/GlassShatterEffects.r3f.tsx:272-273 shard creation bails when canvasRef null; :431-455 Canvas only rendered when isShattered",
+      "src/components/effects/GlassShatterEffects.r3f.tsx:545 `if (!isShattered) setIsShattered(false)` no-op",
+      "src/components/effects/GlassShatterEffects.r3f.tsx:337-341 setTimeout with stale triggerReform",
+      "src/components/effects/GlassShatterEffects.r3f.tsx:422-427 children opacity-0 on shatter",
+      "src/components/effects/GlassShatterEffects.tsx:20,44-66 dead gate + fallback spreading non-DOM props",
+      "reports/glassmorphism-storybook-visual-certification.json GlassShatterEffects: hasCanvas=false",
+      "src/utils/reactVersion.ts:7-15 checks React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED for 'S'; React 19 renamed that object to __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, so the gate returns false on React 18 AND 19: the three R3F effects can never render (re-verified 2026-10-06)."
+    ]
+  },
+  {
+    "name": "SeasonalParticles",
+    "file": "src/components/effects/SeasonalParticles.tsx (+ SeasonalParticles.r3f.tsx)",
+    "lines": 652,
+    "category": "effects/3d-background",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/effects/SeasonalParticles.stories.tsx",
+      "count": 1,
+      "title": "Effects + Advanced/Seasonal Particles"
+    },
+    "tests": {
+      "file": "src/components/effects/SeasonalParticles.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-effects-seasonalparticles"
+    ],
+    "material_impl": "r3f MeshPhong/MeshBasic meshes (cones for snow, planes for leaves/petals, yellow cylinders for 'summer'). Season chips use raw Tailwind palette (text-blue-400, pink-400...). Fallback is a plain div.",
+    "motion": "useFrame loop, never gated by reduced motion; overlay chips stuck at opacity 0 under reduced motion; infinite wind-icon wiggle.",
+    "a11y": "Season/play buttons are title-only. The canvas is not aria-hidden.",
+    "api": "Exported only via the 'aura-glass/three' subpath. The `seasons` array is recreated each render and used as an effect dependency, so the interval is re-created every render. An inline onSeasonChange in deps rebuilds all particles on every parent render. setCurrentSeason is called inside the setSeasonIndex updater (side effect in updater). Math.random in the reset breaks the seed contract. createRainMaterial/rainFall are unused.",
+    "ssr": "Same dead assertReact19ForThree gate, so the R3F path never loads (certification hasCanvas=false). The fallback spreads non-DOM props onto a div.",
+    "fake_complexity": "Total in production (always the fallback). Even unlocked, it is clip-art geometry with no disposal, so each season change leaks geometries and materials.",
+    "duplicates": [
+      "src/components/advanced/GlassParticles.tsx",
+      "src/components/immersive/GlassParticleField.tsx",
+      "src/components/backgrounds/ParticleBackground.tsx",
+      "src/components/effects/GlassMorphingEngine.tsx (SeasonalGlass)"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is novelty seasonal confetti that never renders, because the React version gate is unreachable. Its R3F implementation has unstable effect dependencies, side-effects in state updaters, broken seeding and GPU leaks. Three other particle components already exist. Remove it with the rest of the three subpath.",
+    "evidence": [
+      "src/components/effects/SeasonalParticles.r3f.tsx:286,304-318 seasons array in deps",
+      "src/components/effects/SeasonalParticles.r3f.tsx:289-301 onSeasonChange dep rebuilds particles",
+      "src/components/effects/SeasonalParticles.r3f.tsx:308-314 setState inside updater",
+      "src/components/effects/SeasonalParticles.r3f.tsx:190-191 Math.random breaks seed",
+      "src/components/effects/SeasonalParticles.r3f.tsx:393-396 overlays invisible under reduced motion",
+      "src/components/effects/SeasonalParticles.tsx:20,44-58 dead gate + prop spread",
+      "reports/glassmorphism-storybook-visual-certification.json SeasonalParticles: hasCanvas=false",
+      "src/utils/reactVersion.ts:7-15 checks React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED for 'S'; React 19 renamed that object to __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, so the gate returns false on React 18 AND 19: the three R3F effects can never render (re-verified 2026-10-06)."
+    ]
+  },
+  {
+    "name": "_internals_note",
+    "file": "shard-10 non-exported internals",
+    "lines": 0,
+    "category": "internal",
+    "exported_from_root": false,
+    "stories": null,
+    "tests": null,
+    "screenshots": [],
+    "material_impl": "Non-exported internals: ProductCard (GlassProductRecommendations.tsx:56), CartItemCard/ShippingCalculator/PromoCodeInput (GlassSmartShoppingCart.tsx:37,271,334), AuroraScene/ShatterScene/SeasonalScene (r3f files), DistortionMesh/DepthOfFieldLayer (Glass3DEngine.tsx:288,378, declared inside render). Exported from file but NOT from root: GlassChartWidgetGrid, GlassKPIGrid, GlassMetricGrid, GlassStatGrid, ParallaxGlass/DepthGlass/HolographicGlass/InteractiveGlass3D, EnvironmentalGlass/ContextualGlass/SeasonalGlass (morphing), ShatterGlass/RippleGlass/BendGlass/MeltGlass/FreezeGlass/VibrateGlass, useEcommerce and all ecommerce types, GlassShatterEffectsR3F/SeasonalParticlesR3F.",
+    "motion": "",
+    "a11y": "",
+    "api": "",
+    "ssr": "",
+    "fake_complexity": "",
+    "duplicates": [],
+    "scores": {
+      "visual": 0,
+      "material": 0,
+      "usability": 0,
+      "api": 0,
+      "responsive": 0,
+      "a11y": 0,
+      "motion": 0,
+      "consistency": 0,
+      "performance": 0,
+      "docs": 0,
+      "storybook": 0,
+      "production": 0
+    },
+    "overall": 0,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "Informational record only. Visual-quality note for the whole shard: the Read tool returned empty content for every certification PNG (and for JPEG conversions), so the PNGs could not be viewed. Visual scores are based on code plus certification DOM metrics (glassElementCount, hasCanvas) from reports/glassmorphism-storybook-visual-certification.json. All 17 entries are marked 'passed' with zero issues, even though three render only an empty fallback and EnhancementShowcase is invisible under reduced motion; this shows the certification does not test behaviour.",
+    "evidence": [
+      "reports/glassmorphism-storybook-visual-certification.json: all 17 shard entries status=passed, issuesFound=[]",
+      "src/utils/reactVersion.ts isReact19OrNewer",
+      "package.json: react 18.2.0, @react-three/fiber ^8.18.0, three ^0.170.0",
+      "src/utils/reactVersion.ts:7-15 checks React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED for 'S'; React 19 renamed that object to __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, so the gate returns false on React 18 AND 19: the three R3F effects can never render (re-verified 2026-10-06)."
+    ]
+  }
+]

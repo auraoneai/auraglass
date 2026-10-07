@@ -1,0 +1,1503 @@
+[
+  {
+    "id": "TRUST-001",
+    "prd": "PRD-00",
+    "system": "packaging/ci",
+    "file": "scripts/ci/verify-pack.js",
+    "action": "MODIFY",
+    "description": "On branch release/4.1.1-trust: git restore reports/3.2-release/vite-integration.json; commit the existing uncommitted diffs of scripts/ci/run-next-integration.js, scripts/ci/run-vite-integration.js and scripts/ci/verify-pack.js unchanged as 'fix(ci): parse npm>=11 pack --json output' (REQ-TRUST-01).",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "git show --stat <commit> lists exactly the 3 scripts; git diff 15b6de6f7 -- reports/3.2-release/vite-integration.json is empty",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-05: git log --follow -p scripts/ci/verify-pack.js shows the REQ-TRUST-01 commit",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-002",
+    "prd": "PRD-00",
+    "system": "packaging/ci",
+    "file": "NEW:scripts/ci/lib/npm-pack.js",
+    "action": "CREATE",
+    "description": "CommonJS helper per PRD §4.2: parsePackJson(stdout) (strip prefix via search(/[[{]/); array->[0]; object with files[]->itself; else Object.values length must be 1 or throw 'Expected 1 packed package, got N') and packToDir(rootDir,destDir,{ignoreScripts=true}) via execFileSync('npm',[...]) argument array (REQ-TRUST-02).",
+    "depends_on": [
+      "TRUST-001"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/npm-pack.test.ts (TRUST-005)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-003",
+    "prd": "PRD-00",
+    "system": "packaging/ci",
+    "file": "NEW:tests/ci/fixtures/npm-pack/",
+    "action": "TEST",
+    "description": "Capture real npm pack --dry-run --json --ignore-scripts output in the CI pack-matrix job on Node 20 (npm 10.9.x) and Node 24 (npm 11.x); commit as npm10-array.json and npm11-object.json, plus npm11-noisy.txt (real lifecycle lines prefixed). Record npm versions in the PR; remove the temporary capture step (REQ-TRUST-03).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "Fixtures consumed by tests/ci/npm-pack.test.ts; npm versions recorded in PR",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-004",
+    "prd": "PRD-00",
+    "system": "packaging/ci",
+    "file": "scripts/ci/verify-app-chrome-visuals.js",
+    "action": "MODIFY",
+    "description": "Replace inline pack parsing with require('./lib/npm-pack') in all 5 callers: run-next-integration.js:47-50, run-vite-integration.js:42-48, verify-pack.js:134-147, verify-recipes-render.js:96-102, verify-app-chrome-visuals.js:772-776 (unfixed npm<=10-only parse); replace string-interpolated pack commands with packToDir (REQ-TRUST-02).",
+    "depends_on": [
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "rg -n \"JSON.parse\\(packOutput\\)\" scripts returns 0 lines; asserted in tests/ci/npm-pack.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-005",
+    "prd": "PRD-00",
+    "system": "packaging/ci",
+    "file": "NEW:tests/ci/npm-pack.test.ts",
+    "action": "TEST",
+    "description": "Jest test: parsePackJson returns {filename, files} for npm10 array, npm11 object and noisy-prefix fixtures; throws on {} and on a 2-package object; static scan of scripts/**/*.{js,mjs} finds no JSON.parse(packOutput) (REQ-TRUST-02, -03).",
+    "depends_on": [
+      "TRUST-003",
+      "TRUST-004"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/ci/npm-pack.test.ts passes locally and in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-006",
+    "prd": "PRD-00",
+    "system": "evidence",
+    "file": "NEW:scripts/ci/lib/evidence-dir.js",
+    "action": "CREATE",
+    "description": "Create scripts/ci/lib/evidence-dir.js (SC-07/SC-11 path; scripts/lib/ is not an allowed directory) exporting evidenceDir(subdir?) = path.join(process.env.AURAGLASS_EVIDENCE_DIR ?? <repoRoot>/.artifacts, subdir ?? ''), mkdirSync recursive, return path; add /.artifacts/ to .gitignore (REQ-TRUST-32, §4.5). SC-40 foundation anchor for evidence-dir; artifact naming/retention owner is QA (SC-07).",
+    "depends_on": [
+      "TRUST-001"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/evidence-dir.test.ts (TRUST-009)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15 (prerequisite: evidence never written into tracked paths)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-007",
+    "prd": "PRD-00",
+    "system": "evidence",
+    "file": "scripts/ci/run-next-integration.js",
+    "action": "MODIFY",
+    "description": "run-next-integration.js and run-vite-integration.js write next-integration.log, next-integration-react19.log, vite-integration.json to evidenceDir('integration') instead of reports/ (REQ-TRUST-05). 4.x-line file: PKG-142 removes run-{next,vite}-integration.js on main for 5.0, so this edit is not ported forward (SC-39).",
+    "depends_on": [
+      "TRUST-006",
+      "TRUST-004"
+    ],
+    "priority": "P1",
+    "test": "tests/ci/evidence-dir.test.ts static scan; CI integration jobs leave git status clean",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04 (pack-matrix integration steps green without writing reports/)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-008",
+    "prd": "PRD-00",
+    "system": "evidence",
+    "file": "scripts/",
+    "action": "MODIFY",
+    "description": "Route every writer among the 28 files of rg -l \"['\\\"]reports['\\\"]|['\\\"/]reports/\" scripts through evidenceDir(<former subdir>); readers-only verify-no-core-ui-deps.js and forbidden-check.js unchanged; delete scripts/ci/stale-3-3-scan.js, scripts/audit/3.0.7-source-audit.js, scripts/audit/3.1-frame-loop-audit.js if unreferenced in package.json/.github, else port. ensure-component-inventory.js is left to TRUST-059. PR lists every file and disposition (REQ-TRUST-32).",
+    "depends_on": [
+      "TRUST-006"
+    ],
+    "priority": "P1",
+    "test": "tests/ci/evidence-dir.test.ts: no write call with literal reports/ path under scripts/",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15 (no new tracked evidence)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-009",
+    "prd": "PRD-00",
+    "system": "evidence",
+    "file": "NEW:tests/ci/evidence-dir.test.ts",
+    "action": "TEST",
+    "description": "Jest: evidenceDir honours AURAGLASS_EVIDENCE_DIR, defaults to <root>/.artifacts, creates directory; static scan of scripts/** finds no writeFileSync/appendFileSync/createWriteStream/mkdirSync with a literal reports/ path (REQ-TRUST-05, -32).",
+    "depends_on": [
+      "TRUST-007",
+      "TRUST-008"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/ci/evidence-dir.test.ts passes in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-010",
+    "prd": "PRD-00",
+    "system": "ci",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "INFRA",
+    "description": "Add job pack-matrix (matrix node [20,24], timeout-minutes 45): npm ci, build, verify:pack, verify:css-vars, test:integration:next -- --skip-build, test:integration:vite -- --skip-build, npm publish --dry-run --ignore-scripts; upload .artifacts/** as evidence-pack-matrix-node<N>-${{ github.sha }} with retention-days per SC-07 (14 PR / 30 main / 90 release); new job, existing glass-pipeline.yml job names unchanged (SC-10); no continue-on-error. Runs in GitHub Actions only (REQ-TRUST-04).",
+    "depends_on": [
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "pack-matrix green on Node 20 and Node 24 (CI run URLs in PR)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-04",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-011",
+    "prd": "PRD-00",
+    "system": "security/advisory",
+    "file": "NEW:docs/security/advisories/2026-10-hosted-runtime.md",
+    "action": "DOC",
+    "description": "Draft GHSA 'Hosted example runtime: default JWT secret, missing authorization and open WebSocket rooms': first affected version from git log --diff-filter=A -- Dockerfile server/index.ts + npm view aura-glass time; scope (Dockerfile/server deployments, not browser use); issues with refs Dockerfile:50, .env.example:22, server/index.ts:26,272-284,347-348,497-506, src/services/auth/auth-service.ts:38-41,109-110,136; mitigations; proposed CVSS 3.1 vector for owner confirmation. Owner publishes (REQ-TRUST-43).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "File exists with all sections; tests/docs/claims-lint.test.ts does not scan it as a claim source",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-17 (draft handed to owner; publication before tag is an operator action)",
+    "status": "todo",
+    "gate": "Repository owner publishes the advisory (agents draft only)"
+  },
+  {
+    "id": "TRUST-012",
+    "prd": "PRD-00",
+    "system": "security/advisory",
+    "file": "NEW:docs/security/advisories/2026-10-hosted-runtime.md",
+    "action": "DOC",
+    "description": "Run bounded rg -n \"aura-glass/(services|server)|from ['\\\"]aura-glass['\\\"].*(openai|vision|collaboration)\" /Users/gurbakshchahal/AuraOne --glob '!**/node_modules/**'; record hit count and file list (no secrets) in the advisory draft; post operator action in the release issue (REQ-TRUST-45).",
+    "depends_on": [
+      "TRUST-011"
+    ],
+    "priority": "P0",
+    "test": "Advisory draft contains a 'Consumer exposure' section with count and file list",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-17",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-013",
+    "prd": "PRD-00",
+    "system": "server",
+    "file": "server/index.ts",
+    "action": "MODIFY",
+    "description": "After dotenv.config(): exported assertJwtSecret(env) exits process(1) with an error log when JWT_SECRET is unset, equals 'your-super-secret-jwt-key-change-in-production', or is shorter than 32 chars (REQ-TRUST-44).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "tests/deployment/jwt-secret-guard.test.ts (TRUST-015)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-18",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-014",
+    "prd": "PRD-00",
+    "system": "server",
+    "file": "Dockerfile",
+    "action": "MODIFY",
+    "description": "Delete 'COPY .env.example .env' at Dockerfile:50; set .env.example:22 to 'JWT_SECRET=' (empty). No Docker build is run locally (REQ-TRUST-44).",
+    "depends_on": [
+      "TRUST-013"
+    ],
+    "priority": "P0",
+    "test": "tests/deployment/jwt-secret-guard.test.ts asserts 0 occurrences of .env.example in Dockerfile",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-18",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-015",
+    "prd": "PRD-00",
+    "system": "server",
+    "file": "NEW:tests/deployment/jwt-secret-guard.test.ts",
+    "action": "TEST",
+    "description": "Jest: assertJwtSecret with default value -> exit 1; 16-char -> exit 1; 32+ chars -> proceeds; Dockerfile text has no .env.example copy (REQ-TRUST-44).",
+    "depends_on": [
+      "TRUST-013",
+      "TRUST-014"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/deployment/jwt-secret-guard.test.ts passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-18",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-016",
+    "prd": "PRD-00",
+    "system": "security/docs",
+    "file": "SECURITY.md",
+    "action": "DOC",
+    "description": "Supported Versions: 4.1.x Active; 4.0.x Security fixes until 2026-12-31; <4.0 Not supported. Add 'Hosted runtime' section: server/, src/services/**, Dockerfile, docker-compose.yml are unsupported example code scheduled for extraction in 4.2/5.0 and must not be deployed (REQ-TRUST-20).",
+    "depends_on": [
+      "TRUST-011"
+    ],
+    "priority": "P0",
+    "test": "tests/docs/claims-lint.test.ts asserts SECURITY.md lists 4.1.x",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-17 (SECURITY.md lists 4.1.x)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-017",
+    "prd": "PRD-00",
+    "system": "adaptiveAI",
+    "file": "src/utils/adaptiveAI.ts",
+    "action": "MODIFY",
+    "description": "Constructor no longer calls initializeTracking(); add enable()/disable() storing bound click/scroll listeners and the setInterval handle; disable() removes both listeners and clears the interval; cap interaction arrays at 20 (drop oldest); useAdaptiveAI() keeps 4.1.0 return shape and never enables tracking (REQ-TRUST-13).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "src/utils/__tests__/adaptiveAI.optin.test.ts (TRUST-019)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-06",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-018",
+    "prd": "PRD-00",
+    "system": "adaptiveAI",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add exported enableAdaptiveAI(): () => void in src/utils/adaptiveAI.ts (idempotent, returns disposer calling disable(), one non-production console.warn per page load with the exact PRD message) and add it to the existing re-export at src/index.ts:915 (C-E, deprecated on arrival) (REQ-TRUST-14).",
+    "depends_on": [
+      "TRUST-017"
+    ],
+    "priority": "P0",
+    "test": "adaptiveAI.optin.test.ts; tests/release/export-snapshot.test.ts later asserts root includes enableAdaptiveAI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-06",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-019",
+    "prd": "PRD-00",
+    "system": "adaptiveAI",
+    "file": "NEW:src/utils/__tests__/adaptiveAI.optin.test.ts",
+    "action": "TEST",
+    "description": "Jest with fake timers and spies: import -> 0 document listeners, 0 intervals, 0 data-ai-* on <html>; enableAdaptiveAI() -> exactly 2 document listeners + 1 interval; disposer removes all 3; second call idempotent; exactly 1 warning; arrays <= 20 after 50 clicks (REQ-TRUST-13, -14; PRD §16 rows).",
+    "depends_on": [
+      "TRUST-018"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/utils/__tests__/adaptiveAI.optin.test.ts passes; fails if constructor tracking is reverted",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-06",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-020",
+    "prd": "PRD-00",
+    "system": "packaging/side-effects",
+    "file": "NEW:scripts/ci/verify-import-side-effects.js",
+    "action": "CREATE",
+    "description": "Import dist/index.mjs in fresh jsdom with recorders on document/window addEventListener, setInterval, setTimeout(delay>0), documentElement.setAttribute and style.setProperty (with stacks); fail on any effect attributed to adaptiveAI or absent from NEW scripts/ci/import-side-effects-baseline.json (seeded from first CI run, by symbol, shrink-only); add step after build in glass-pipeline.yml (REQ-TRUST-15).",
+    "depends_on": [
+      "TRUST-017"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/import-side-effects.test.ts (TRUST-021); CI step green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-06",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-021",
+    "prd": "PRD-00",
+    "system": "packaging/side-effects",
+    "file": "NEW:tests/ci/import-side-effects.test.ts",
+    "action": "TEST",
+    "description": "Runs verify-import-side-effects against built dist in CI: 0 listeners/intervals attributable to adaptiveAI; total effects subset of baseline; after 2 s and 15 simulated clicks 0 click/scroll listeners and 0 data-ai-* attributes (REQ-TRUST-15).",
+    "depends_on": [
+      "TRUST-020"
+    ],
+    "priority": "P0",
+    "test": "Passes in CI after npm run build",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-06",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-022",
+    "prd": "PRD-00",
+    "system": "GlassCanvas",
+    "file": "src/components/cms/GlassCanvas.tsx",
+    "action": "MODIFY",
+    "description": "Remove new Function(onClickScript)() and its eslint-disable at :302-320; string component.props.onClick renders no handler and warns once per component id (exact PRD text, non-production); add prop onComponentAction?: (componentId: string, action: 'click') => void called on click; replace string samples in GlassCanvas.stories.tsx with onComponentAction (REQ-TRUST-16, §13).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "src/components/cms/GlassCanvas.security.test.tsx (TRUST-024); existing GlassCanvas.test.tsx green",
+    "storybook": "GlassCanvas.stories.tsx uses onComponentAction; no string onClick sample remains",
+    "acceptance": "AC-TRUST-07",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-023",
+    "prd": "PRD-00",
+    "system": "lint",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Add no-new-func: 'error' and no-eval: 'error' for src/**; inline eslint-disable-next-line only at src/utils/browserCompatibility.ts:197,421,424 (constant-string feature probes) (REQ-TRUST-16).",
+    "depends_on": [
+      "TRUST-022"
+    ],
+    "priority": "P0",
+    "test": "CI lint:check passes; rg -n \"new Function|eval\\(\" src --glob '!*.test.*' returns only browserCompatibility.ts:197,421,424",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-07",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-024",
+    "prd": "PRD-00",
+    "system": "GlassCanvas",
+    "file": "NEW:src/components/cms/GlassCanvas.security.test.tsx",
+    "action": "TEST",
+    "description": "Button with props.onClick='window.__pwned=1' clicked -> window.__pwned undefined, Function constructor spy not called, exactly one warning; onComponentAction called with the component id and 'click' (REQ-TRUST-16).",
+    "depends_on": [
+      "TRUST-022"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/components/cms/GlassCanvas.security.test.tsx passes; fails if sink restored",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-07",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-025",
+    "prd": "PRD-00",
+    "system": "GlassAdvancedVideoPlayer",
+    "file": "src/components/media/GlassAdvancedVideoPlayer.tsx",
+    "action": "MODIFY",
+    "description": "Delete isStorybookDataMedia (:82-83); usePosterSurface = !mediaFile.src (:985-986). Stories forcing posters pass src: undefined + poster; add one story with a real data:video/ source. Add NEW src/components/media/GlassAdvancedVideoPlayer.datasrc.test.tsx: data:video/mp4 src renders <video> with that src and unchanged control aria-labels (REQ-TRUST-17, §13, §15).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P1",
+    "test": "GlassAdvancedVideoPlayer.datasrc.test.tsx passes; remote screenshot of data: story shows <video>",
+    "storybook": "GlassAdvancedVideoPlayer.stories.tsx: poster stories use src undefined + poster; new data:video story plays",
+    "acceptance": "AC-TRUST-24 (suite green); release-note line via TRUST-070",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-026",
+    "prd": "PRD-00",
+    "system": "ContrastGuard",
+    "file": "src/components/accessibility/ContrastGuard.tsx",
+    "action": "MODIFY",
+    "description": "At :245-247 emit data-contrast-status='unverified'; stop emitting data-meets-wcag and data-contrast-ratio; callback payload meetsRequirement undefined + status 'unverified'; update src/utils/contrastGuard.ts consumers; JSDoc 'Does not measure rendered contrast. Do not use as a WCAG signal.'; reviewed snapshot update of ContrastGuard.test.tsx citing REQ-TRUST-18. Add NEW ContrastGuard.honesty.test.tsx (REQ-TRUST-18).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "src/components/accessibility/ContrastGuard.honesty.test.tsx: data-contrast-status='unverified', no data-meets-wcag/data-contrast-ratio, payload status 'unverified'; remote DOM scan of all ContrastGuard stories",
+    "storybook": "ContrastGuard.stories.tsx: every story shows Callout 'Unverified: does not measure rendered contrast'; no story asserts WCAG pass",
+    "acceptance": "AC-TRUST-13",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-027",
+    "prd": "PRD-00",
+    "system": "tokens",
+    "file": "src/tokens/glass.ts",
+    "action": "MODIFY",
+    "description": "validateTextContrast (:931-935) return type boolean | 'unverified', returns 'unverified'; JSDoc warns the value is truthy and callers must compare === true; internal callers (rg -n validateTextContrast src) treat it as not-passed. Add NEW src/tokens/__tests__/validateTextContrast.test.ts (#000/#fff and #777/#888 -> 'unverified') (REQ-TRUST-19).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/tokens/__tests__/validateTextContrast.test.ts passes; CI typecheck green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-13 (glassTokenUtils.validateTextContrast('#000','#fff') === 'unverified')",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-028",
+    "prd": "PRD-00",
+    "system": "lint/hooks",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register eslint-plugin-react-hooks (devDependency package.json:461) for src/**/*.{ts,tsx} excluding *.test.* and *.stories.* with react-hooks/rules-of-hooks: 'error'; record the CI violation count before hoisting in the PR (REQ-TRUST-21).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "CI npm run lint:check reports 0 react-hooks/rules-of-hooks errors after TRUST-030..032",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-029",
+    "prd": "PRD-00",
+    "system": "advanced/provider-readers",
+    "file": "src/components/advanced/GlassPredictiveEngine.tsx",
+    "action": "CREATE",
+    "description": "Add internal non-exported readers next to each provider hook: useOptionalPredictiveEngine, useOptionalInteractionRecorder(elementId, enabled) (GlassPredictiveEngine.tsx), useOptionalEyeTracking (GlassEyeTracking.tsx), useOptionalBiometricAdaptation (GlassBiometricAdaptation.tsx), useOptionalSpatialAudio (GlassSpatialAudio.tsx), useOptionalAchievements (GlassAchievementSystem.tsx); each returns useContext(Ctx) ?? null / no-op handlers and never throws or registers effects when disabled. Public hooks unchanged (REQ-TRUST-22, deviation 7).",
+    "depends_on": [
+      "TRUST-028"
+    ],
+    "priority": "P0",
+    "test": "hooks-order.test.tsx: usePredictiveEngine() outside provider still throws; rg -n useOptional src/index.ts = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-030",
+    "prd": "PRD-00",
+    "system": "button/input hooks",
+    "file": "src/components/button/GlassButton.tsx",
+    "action": "MODIFY",
+    "description": "Hoist conditional hooks (const x = useX(args); value = cond ? x : undefined; provider hooks via useOptional*) in src/components/button/GlassButton.tsx, src/components/button/GlassFab.tsx, src/components/toggle-button/ToggleButton.tsx, src/components/input/{GlassInput,GlassSwitch,GlassStepper,GlassSlider,GlassRadioGroup,GlassCheckboxGroup,GlassCheckbox}.tsx; no rendered-output/ARIA change (REQ-TRUST-22).",
+    "depends_on": [
+      "TRUST-029"
+    ],
+    "priority": "P0",
+    "test": "GlassInput.hooks.test.tsx, hooks-order.test.tsx; existing GlassButton/GlassInput tests unchanged snapshots",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-031",
+    "prd": "PRD-00",
+    "system": "layout/modal hooks",
+    "file": "src/components/layout/GlassContainer.tsx",
+    "action": "MODIFY",
+    "description": "Hoist conditional hooks in src/components/layout/GlassContainer.tsx, src/components/navigation/GlassHeader.tsx, src/components/modal/{GlassDrawer,GlassModal,GlassHoverCard,GlassBottomSheet}.tsx per §4.4 (REQ-TRUST-22).",
+    "depends_on": [
+      "TRUST-029"
+    ],
+    "priority": "P0",
+    "test": "hooks-order.test.tsx (GlassContainer with predictive etc. and no provider: no throw, 0 listeners/timers)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-032",
+    "prd": "PRD-00",
+    "system": "data/interactive hooks",
+    "file": "src/utils/a11yHooks.ts",
+    "action": "MODIFY",
+    "description": "Hoist conditional hooks in src/components/interactive/{GlassKanban,GlassChat,GlassCarousel}.tsx, src/components/data-display/GlassDataTable.tsx, src/components/charts/{ModularGlassDataChart,GlassChart}.tsx, src/utils/a11yEnhancers.tsx, src/utils/a11yHooks.ts (e.g. :375 useA11yId unconditional), plus every other rules-of-hooks violation reported by TRUST-028 (listed in PR). Final rg --pcre2 \"(\\?|&&)\\s*use[A-Z]\\w*\\(\" src (no stories/tests) = 0 (REQ-TRUST-22).",
+    "depends_on": [
+      "TRUST-029"
+    ],
+    "priority": "P0",
+    "test": "CI lint:check 0 rules-of-hooks errors; rg count 109 -> 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-033",
+    "prd": "PRD-00",
+    "system": "GlassInput",
+    "file": "NEW:src/components/input/GlassInput.hooks.test.tsx",
+    "action": "TEST",
+    "description": "Rerender errorText undefined->'x'->undefined and toggle label/helperText: no throw, no console.error matching hook-order messages; aria-describedby, aria-invalid and label htmlFor ids equal pre-change values and stay stable (REQ-TRUST-22, §15).",
+    "depends_on": [
+      "TRUST-030"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/components/input/GlassInput.hooks.test.tsx passes; fails on reverting GlassInput.tsx:147-150",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-034",
+    "prd": "PRD-00",
+    "system": "hooks",
+    "file": "NEW:src/__tests__/hooks-order.test.tsx",
+    "action": "TEST",
+    "description": "For each exported component of the 24 files toggle every hook-gating prop over 3 rerenders: no 'Rendered more/fewer hooks'; GlassButton and GlassContainer with predictive, eyeTracking, adaptive, spatialAudio, trackAchievements true and no provider render without throwing and with 0 listeners/timers/Worker/AudioContext (spies); usePredictiveEngine() outside provider still throws (REQ-TRUST-22, §16 overhead row).",
+    "depends_on": [
+      "TRUST-030",
+      "TRUST-031",
+      "TRUST-032"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/__tests__/hooks-order.test.tsx passes in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-035",
+    "prd": "PRD-00",
+    "system": "rsc/entries",
+    "file": "src/primitives/index.ts",
+    "action": "MODIFY",
+    "description": "Add \"use client\"; as first statement of src/primitives/index.ts and src/theme/index.ts; create NEW scripts/ci/client-entries.json listing every exports key whose source calls createContext or a React hook (at least ./primitives, ./theme); extend scripts/ci/verify-pack.js to assert built dist/<entry>/index.{mjs,js} begins with \"use client\"; for each (REQ-TRUST-23).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/use-client-entries.test.ts (TRUST-036); verify:pack green in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-09",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-036",
+    "prd": "PRD-00",
+    "system": "rsc/entries",
+    "file": "NEW:tests/ci/use-client-entries.test.ts",
+    "action": "TEST",
+    "description": "For each entry in scripts/ci/client-entries.json the built dist .mjs and .js files begin with \"use client\"; (byte-for-byte first statement). Runs after build in CI (REQ-TRUST-23).",
+    "depends_on": [
+      "TRUST-035"
+    ],
+    "priority": "P0",
+    "test": "Passes in CI after npm run build",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-09",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-037",
+    "prd": "PRD-00",
+    "system": "rsc/integration",
+    "file": "scripts/ci/run-next-integration.js",
+    "action": "MODIFY",
+    "description": "In the React 19 Next app add app/rsc/page.tsx (no directive) importing aura-glass/primitives and aura-glass/theme and rendering a client child; run next build (not only next dev) and fail non-zero on error; logs to evidenceDir('integration'). Runs in GitHub Actions only (REQ-TRUST-24). 4.x-line edit only; PKG-142 removes this script on main for 5.0 (SC-39).",
+    "depends_on": [
+      "TRUST-035",
+      "TRUST-007"
+    ],
+    "priority": "P0",
+    "test": "CI test:integration:next with next build exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-09",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-038",
+    "prd": "PRD-00",
+    "system": "ssr/hydration",
+    "file": "src/components/ssr/AuraGlassClientBoundary.tsx",
+    "action": "MODIFY",
+    "description": "AuraGlassClientBoundary: useState(false) + useEffect sets true; useEnhancedReducedMotion (src/hooks/useEnhancedReducedMotion.ts): initial true on server and client, matchMedia read in useEffect, fix 'SSR-safe' JSDoc at :9; useDeviceCapabilities (src/hooks/useDeviceCapabilities.ts): initial {...DEFAULT_DEVICE_INFO}, detectDevice() in useEffect. Add NEW src/__tests__/ssr/hydration.test.tsx (renderToString -> hydrateRoot, onRecoverableError spy, reduce=false, desktop UA) (REQ-TRUST-25, deviation 6).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "src/__tests__/ssr/hydration.test.tsx: 0 recoverable errors, 0 'did not match'/'Hydration' console.error on React 18.2 and in react19-smoke",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-10",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-039",
+    "prd": "PRD-00",
+    "system": "Slot",
+    "file": "src/primitives/Slot.tsx",
+    "action": "MODIFY",
+    "description": "At :76 select ref source by React major: isReact19 = Number.parseInt(React.version,10) >= 19 ? child.props.ref : element.ref. Add NEW src/primitives/__tests__/Slot.ref.test.tsx: outer and child refs receive HTMLButtonElement, also for child without ref; on React 19 0 console.error mentioning element.ref; React 18 path composes (REQ-TRUST-26, deviation 4).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "Slot.ref.test.tsx passes on React 18 locally and in react19-smoke",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-11",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-040",
+    "prd": "PRD-00",
+    "system": "ci",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "INFRA",
+    "description": "Add job react19-smoke to glass-pipeline.yml (new job; existing job names Glass Quality Gates / Next.js npm Integration / Vite npm Integration unchanged, SC-10): npm ci; npm i --no-save react@19 react-dom@19 @types/react@19 @types/react-dom@19; npx jest --ci src/__tests__/ssr/hydration.test.tsx src/primitives/__tests__/Slot.ref.test.tsx src/primitives/native-primitives.test.tsx; upload .artifacts/** as evidence-react19-smoke-${{ github.sha }} with retention-days per SC-07 (14 on pull_request, 30 on main, 90 on tag/release; e.g. ${{ github.event_name == 'pull_request' && 14 || startsWith(github.ref, 'refs/tags/') && 90 || 30 }}) (REQ-TRUST-27).",
+    "depends_on": [
+      "TRUST-038",
+      "TRUST-039"
+    ],
+    "priority": "P0",
+    "test": "react19-smoke job green (run URL in PR)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-10, AC-TRUST-11",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-041",
+    "prd": "PRD-00",
+    "system": "motion/test-utils",
+    "file": "NEW:src/test-utils/motion.ts",
+    "action": "CREATE",
+    "description": "Export mockReducedMotion(reduce) (window.matchMedia mock for (prefers-reduced-motion: reduce)) and expectSettledVisible(element): every descendant with text has inline/computed opacity '' or 1 and transform '', none or identity; failure names the node path (REQ-TRUST-30).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "Used by reduced-motion-visible.test.tsx; self-check case with opacity 0 node fails",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-12",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-042",
+    "prd": "PRD-00",
+    "system": "motion",
+    "file": "src/components/advanced/",
+    "action": "MODIFY",
+    "description": "Batch 1 of the 84 sites: files under src/components/advanced/ (GlassSelfHealingSystem, GlassPredictiveEngine, GlassMetaEngine, BrandColorIntegration, GlassReactions, GlassLiveCursorPresence, GlassFoldableSupport, GlassAchievementSystem, GlassQuantumStates, GlassNeuroSync, GlassEyeTracking, GlassContextualEngine), ar/ARGlassEffects.r3f.tsx, effects/{SeasonalParticles,GlassShatterEffects,AuroraPro}.r3f.tsx, houdini/HoudiniGlassCard.tsx, quantum/{GlassQuantumTunnel,GlassProbabilityCloud,GlassCoherenceIndicator}.tsx: initial={reduced?false:I}, animate={reduced?FINAL:X}, transition={reduced?{duration:0}:T}; non-reduced branch unchanged (REQ-TRUST-28).",
+    "depends_on": [
+      "TRUST-041"
+    ],
+    "priority": "P0",
+    "test": "reduced-motion-visible.test.tsx rows for these files",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-12",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-043",
+    "prd": "PRD-00",
+    "system": "motion",
+    "file": "src/components/interactive/GlassFacetSearch.tsx",
+    "action": "MODIFY",
+    "description": "Batch 2: remaining files interactive/GlassFacetSearch, social/{GlassPresenceIndicator,GlassReactionBubbles,GlassVoiceWaveform,GlassSocialFeed,GlassCollaborativeCursor}, mobile/TouchGlassOptimization, voice/VoiceGlassControl, animations/{GlassTransitions,AdvancedAnimations}, website-components/GlassWipeSliderExamples, layouts/GlassIslandLayout, demo/EnhancementShowcase, ai/GlassGenerativeArt, accessibility/GlassFocusIndicators (+ GlassA11y.tsx:398-401 if matched). After: both rg patterns of REQ-TRUST-28 return 0 (REQ-TRUST-28).",
+    "depends_on": [
+      "TRUST-041"
+    ],
+    "priority": "P0",
+    "test": "rg --pcre2 \"animate=\\{[^}]*[Rr]educed[^?]*\\?\\s*\\{\\}\" src = 0 and rg --pcre2 \"\\?\\s*\\{\\}\\s*:\\s*\\{\\s*(opacity|scale)\" src = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-12",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-044",
+    "prd": "PRD-00",
+    "system": "motion",
+    "file": "NEW:src/__tests__/motion/reduced-motion-visible.test.tsx",
+    "action": "TEST",
+    "description": "35-row table {file, component, props}; per row mockReducedMotion(true), mount representative component (real framer-motion, no mock), act + runAllTimers, expectSettledVisible(container); asserts rows.length === 35 and each file exists; WebGL-only files may be remoteOnly rows only if listed in NEW docs/release/decisions/4.1.1-reduced-motion-remote-only.md with jsdom error and story id (REQ-TRUST-28, -30).",
+    "depends_on": [
+      "TRUST-042",
+      "TRUST-043"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/__tests__/motion/reduced-motion-visible.test.tsx passes 35/35 (mounted or documented remoteOnly)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-12",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-045",
+    "prd": "PRD-00",
+    "system": "lint/motion",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "MODIFY the existing eslint-plugin-auraglass.js (file and namespace owner PKG, SC-16): add rule auraglass/motion-no-empty-animate (name owned by MOT REQ-MOT-64; absorbs the former no-empty-reduced-animate, one name on both branches): report a JSX animate attribute whose expression is a ConditionalExpression with a 0-property ObjectExpression in either branch; enable at 'error' for src/** in eslint.config.js. MOT later extends it (undefined/false branches, conditional initial). Add NEW tests/eslint/motion-no-empty-animate.test.ts with RuleTester (invalid r?{}:{opacity:1} and r?{opacity:1}:{}; valid r?{opacity:1}:v and v) (REQ-TRUST-29).",
+    "depends_on": [
+      "TRUST-043"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/eslint/motion-no-empty-animate.test.ts passes; CI lint:check green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-12, AC-TRUST-28",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-046",
+    "prd": "PRD-00",
+    "system": "motion/remote-lane",
+    "file": "n/a (remote run; artifacts only)",
+    "action": "TEST",
+    "description": "auraone-remote-run on CI-built storybook-static at the PR SHA, Chromium reducedMotion 'reduce': for every existing story of the 35 components, 500 ms after load no visible-text node has computed opacity < 1 and 1 s after mount document.getAnimations().length === 0 in the component root; screenshot each; list components without stories; upload evidence-reduced-motion-<sha> (PRD §15, §16).",
+    "depends_on": [
+      "TRUST-044"
+    ],
+    "priority": "P1",
+    "test": "Remote lane report: 0 opacity failures, 0 running animations",
+    "storybook": "Uses existing stories of the 35 components; no story changes",
+    "acceptance": "AC-TRUST-12",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-047",
+    "prd": "PRD-00",
+    "system": "lint",
+    "file": "n/a (CI measurement)",
+    "action": "TEST",
+    "description": "After 00b/00c/00d merge, read CI lint:check output on main; record total errors and per-rule counts (auraglass/no-inline-glass baseline ~165) with run URL in the PR (REQ-TRUST-09).",
+    "depends_on": [
+      "TRUST-023",
+      "TRUST-034",
+      "TRUST-045"
+    ],
+    "priority": "P0",
+    "test": "Counts recorded with CI run URL",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-048",
+    "prd": "PRD-00",
+    "system": "lint",
+    "file": "NEW:eslint/no-inline-glass-baseline.json",
+    "action": "MODIFY",
+    "description": "Option (a) fix all no-inline-glass errors, or (b) baseline: sorted file list from CI ESLint JSON, eslint.config.js override sets the rule to 'warn' only for those files, and NEW scripts/ci/verify-no-inline-glass-baseline.js (wired after lint:check in glass-pipeline.yml) fails on a new violating file or a listed file that no longer violates (REQ-TRUST-09).",
+    "depends_on": [
+      "TRUST-047"
+    ],
+    "priority": "P0",
+    "test": "CI lint:check 0 errors; verify-no-inline-glass-baseline.js green; adding a violation in a fixture branch fails",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-08, AC-TRUST-02",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-049",
+    "prd": "PRD-00",
+    "system": "release/decisions",
+    "file": "NEW:docs/release/decisions/4.1.1-lint-scope.md",
+    "action": "DOC",
+    "description": "Record option chosen, measured counts + CI URL, baseline length, shrink-only ratchet and burn-down owner; link from docs/release-rollback-deprecation.md (REQ-TRUST-09).",
+    "depends_on": [
+      "TRUST-048"
+    ],
+    "priority": "P1",
+    "test": "File exists and is linked; verify-docs-claims.js passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-02",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-050",
+    "prd": "PRD-00",
+    "system": "package scripts",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "\"lint\": \"eslint src\" (non-mutating) and add \"lint:fix\": \"eslint src --fix\"; add exact-pinned devDependency yaml for workflow-parsing tests (REQ-TRUST-12).",
+    "depends_on": [
+      "TRUST-047"
+    ],
+    "priority": "P1",
+    "test": "tests/ci/no-gate-bypass.test.ts asserts lint lacks --fix; package-json-patch-scope.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-02",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-051",
+    "prd": "PRD-00",
+    "system": "ci",
+    "file": "NEW:tests/ci/no-gate-bypass.test.ts",
+    "action": "TEST",
+    "description": "Parse .github/workflows/*.yml: 0 continue-on-error: true; no run step containing '|| true' or '--no-verify'; glass-pipeline.yml runs npm run lint:check; package.json lint has no --fix (REQ-TRUST-09, -12).",
+    "depends_on": [
+      "TRUST-050"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/ci/no-gate-bypass.test.ts passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-02",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-052",
+    "prd": "PRD-00",
+    "system": "tests/snapshots",
+    "file": "src/components/card/GlassCard.test.tsx",
+    "action": "TEST",
+    "description": "Run GlassButton.test.tsx and GlassCard.test.tsx in CI; if the only diff is the c07fd7111 fill change rgba(255,255,255,0.12)->0.018 and direct consequences, update those two .snap files remotely and post the PR review comment quoting the diff as accepted 4.1.0 behaviour (D-27); any other diff -> stop and report (REQ-TRUST-11).",
+    "depends_on": [
+      "TRUST-047"
+    ],
+    "priority": "P0",
+    "test": "npx jest --ci reports 0 failed suites; review comment URL recorded",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-24",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-053",
+    "prd": "PRD-00",
+    "system": "ci",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "TEST",
+    "description": "After TRUST-048..052 merge, confirm gh run list --workflow glass-pipeline.yml --branch main --limit 1 is success and npx jest --ci shows 0 failed suites and 0 written snapshots; record URL in the release issue (REQ-TRUST-09).",
+    "depends_on": [
+      "TRUST-048",
+      "TRUST-049",
+      "TRUST-051",
+      "TRUST-052"
+    ],
+    "priority": "P0",
+    "test": "Pipeline Validation run success on main",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-02, AC-TRUST-24",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-054",
+    "prd": "PRD-00",
+    "system": "styles/fonts",
+    "file": "src/styles/variables.css",
+    "action": "REMOVE",
+    "description": "Default path (owner decision or no licence by 2026-10-12): delete 12 src/styles/fonts/Aeonik-*.woff2 and src/styles/aeonik.css; remove @import at src/styles/index.css:4; set --glass-font-sans at variables.css:31 to the PRD system stack; same stack in src/tokens/generated.ts (via generator if generated), src/tokens/designConstants.ts, src/theme/tokens.ts, GlassAdvancedAudioPlayer.tsx, GlassAdvancedVideoPlayer.tsx, ModularGlassDataChart.tsx, GlassDataChart.tsx; rg -n Aeonik src scripts = 0 (REQ-TRUST-46). Skipped only if TRUST-055 records REQ-TRUST-47.",
+    "depends_on": [
+      "TRUST-055"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/tarball-fonts.test.ts; verify:pack",
+    "storybook": "Existing stories render with system stack; composites in TRUST-057",
+    "acceptance": "AC-TRUST-19",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-055",
+    "prd": "PRD-00",
+    "system": "release/decisions",
+    "file": "NEW:docs/release/decisions/4.1.1-font-licence.md",
+    "action": "DOC",
+    "description": "Record owner font decision (date, release-issue comment URL): 'licence unconfirmed -> removed' (REQ-TRUST-46) or licensor + licence + date (REQ-TRUST-47: commit owner-supplied NEW LICENSE-FONTS, copy to dist/styles/fonts/LICENSE in scripts/build-all.js, add to package.json files, README notice via TRUST-066). Exactly one path ships (REQ-TRUST-46, -47).",
+    "depends_on": [
+      "TRUST-053"
+    ],
+    "priority": "P0",
+    "test": "Record exists with outcome; tarball-fonts.test.ts reads it",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-19",
+    "status": "todo",
+    "gate": "Owner/legal font licence decision by 2026-10-12 (D-31); default REQ-TRUST-46 if none"
+  },
+  {
+    "id": "TRUST-056",
+    "prd": "PRD-00",
+    "system": "packaging/fonts",
+    "file": "scripts/ci/verify-pack.js",
+    "action": "MODIFY",
+    "description": "Font assertion: REQ-46 path no packed path matches /Aeonik/i; REQ-47 path dist/styles/fonts/LICENSE packed; packed size <= 9.25 MB (REQ-46) or <= 9.70 MB (REQ-47). Add NEW tests/ci/tarball-fonts.test.ts using parsePackJson on npm pack --dry-run --json in CI (REQ-TRUST-48, §16).",
+    "depends_on": [
+      "TRUST-054",
+      "TRUST-055"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/tarball-fonts.test.ts and verify:pack pass in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-19, AC-TRUST-23",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-057",
+    "prd": "PRD-00",
+    "system": "visual/font-change",
+    "file": "n/a (remote run; artifacts only)",
+    "action": "TEST",
+    "description": "Remote lane: test:visual:app-chrome captures at 1440x900 and 390x844 for 15b6de6f7 and the PR SHA; before/after composites; scrollWidth <= innerWidth for every story; per-text-node line-count diff list (for release notes); runtime-remote.md contrast sampling on default stage <= 17/342 failures; GlassInput errorText at 390x844 no overflow; upload evidence-font-change-<sha>; human review sign-off (REQ-TRUST-46, §14, §15).",
+    "depends_on": [
+      "TRUST-054"
+    ],
+    "priority": "P1",
+    "test": "Remote report: 0 overflow, contrast failures <= 17/342, wrap-diff list attached",
+    "storybook": "Existing app-chrome stories captured; no story changes",
+    "acceptance": "AC-TRUST-19 (labelled visual change documented)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-058",
+    "prd": "PRD-00",
+    "system": "repo/inputs",
+    "file": "NEW:docs/inventory/component_inventory.json",
+    "action": "MODIFY",
+    "description": "git mv reports/component_inventory.json docs/inventory/component_inventory.json; update imports at src/stories/CuratedComponentGuide.stories.tsx:3, tests/visual/design-system/storybook-visual-certification.spec.ts:14, src/reports/glassmorphismAuditCoverage.ts:5,47; src/reports/componentInventory.ts string values unchanged (REQ-TRUST-34).",
+    "depends_on": [
+      "TRUST-008"
+    ],
+    "priority": "P0",
+    "test": "CI typecheck green; rg -n \"reports/\" src --glob '*.stories.*' = 0",
+    "storybook": "CuratedComponentGuide.stories.tsx imports docs/inventory/component_inventory.json; build-storybook passes in CI",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-059",
+    "prd": "PRD-00",
+    "system": "repo/inputs",
+    "file": "scripts/ensure-component-inventory.js",
+    "action": "MODIFY",
+    "description": "Read docs/inventory/component_inventory.json; when missing print 'component inventory missing: docs/inventory/component_inventory.json' and exit 1; delete the empty { components: [] } fallback write (REQ-TRUST-34).",
+    "depends_on": [
+      "TRUST-058"
+    ],
+    "priority": "P0",
+    "test": "Running with the file renamed exits 1 (CI step or jest child_process test in tests/ci/evidence-dir.test.ts)",
+    "storybook": "prebuild-storybook fails instead of rendering an empty guide",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-060",
+    "prd": "PRD-00",
+    "system": "repo/inputs",
+    "file": "NEW:docs/certification/certification-audit-spec.md",
+    "action": "MODIFY",
+    "description": "git mv reports/audit/certification-audit-spec.md docs/certification/certification-audit-spec.md; update README.md:527; storybook-visual-certification.spec.ts:8-13 and glass-audit-coverage.spec.ts read evidence via evidenceDir() and throw 'evidence not generated in this run' when absent (not 4.1.1 gates) (REQ-TRUST-34).",
+    "depends_on": [
+      "TRUST-058"
+    ],
+    "priority": "P1",
+    "test": "CI typecheck green; specs compile",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-061",
+    "prd": "PRD-00",
+    "system": "storybook",
+    "file": "n/a (CI verification)",
+    "action": "TEST",
+    "description": "On the PR: npm run build-storybook and npm run typecheck pass in GitHub Actions; remote screenshot of CuratedComponentGuide shows a non-empty inventory (REQ-TRUST-34, §13).",
+    "depends_on": [
+      "TRUST-059",
+      "TRUST-060"
+    ],
+    "priority": "P0",
+    "test": "CI build-storybook + typecheck green (run URLs)",
+    "storybook": "build-storybook passes; CuratedComponentGuide non-empty (remote screenshot artifact)",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-062",
+    "prd": "PRD-00",
+    "system": "ci/evidence",
+    "file": ".github/workflows/visual-regression.yml",
+    "action": "INFRA",
+    "description": "Every evidence-producing job in glass-pipeline.yml, design-system-compliance.yml, visual-regression.yml, deploy-storybook.yml ends with actions/upload-artifact (if: always()) name evidence-<job>-${{ github.sha }}, path .artifacts/**, retention-days per SC-07 (14 on pull_request, 30 on main, 90 on tag/release; e.g. ${{ github.event_name == 'pull_request' && 14 || startsWith(github.ref, 'refs/tags/') && 90 || 30 }}); no gate semantics changed (REQ-TRUST-33). The visual-regression.yml edit is 4.x-line only: QA-119 deletes that workflow on main for 5.0 (SC-09, OV-06).",
+    "depends_on": [
+      "TRUST-008"
+    ],
+    "priority": "P1",
+    "test": "tests/ci/publish-workflow.test.ts workflow parse asserts every upload-artifact step sets retention-days explicitly; CI run shows artifacts",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-16",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-063",
+    "prd": "PRD-00",
+    "system": "repo/hygiene",
+    "file": ".gitignore",
+    "action": "REMOVE",
+    "description": "Replace .gitignore:157-161 with /reports/ and /.artifacts/; git rm -r --cached --quiet reports (local files stay on disk); commit 'chore(repo): stop tracking reports/ (evidence moves to CI artifacts)'; do not add reports/audit/visual-all/visual-summary.{json,md}; no history rewrite (REQ-TRUST-31, D-32).",
+    "depends_on": [
+      "TRUST-058",
+      "TRUST-060",
+      "TRUST-061"
+    ],
+    "priority": "P0",
+    "test": "git ls-files reports | wc -l = 0; verify-tree-hygiene.js green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15, AC-TRUST-05",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-064",
+    "prd": "PRD-00",
+    "system": "repo/hygiene",
+    "file": ".gitignore",
+    "action": "REMOVE",
+    "description": "Confirm the 45 tracked root scripts (37 probe-*.mjs, webkit-probe.mjs, audit-probe.mjs, audit-dom-probe.mjs, audit-story-probe.mjs, audit-story-probe2.mjs, inspect-toggle.mjs, list-stories.mjs, .audit-inspect.mjs); rg references in package.json/.github/scripts must be 0 (list-stories.mjs -> scripts/storybook/list-stories.mjs if referenced); git rm the rest; add /probe-*.mjs and /*-probe*.mjs to .gitignore (REQ-TRUST-36).",
+    "depends_on": [
+      "TRUST-063"
+    ],
+    "priority": "P1",
+    "test": "git ls-files | grep -cE '^[^/]*probe[^/]*\\.mjs$' = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-065",
+    "prd": "PRD-00",
+    "system": "repo/hygiene",
+    "file": "NEW:scripts/ci/verify-tree-hygiene.js",
+    "action": "CREATE",
+    "description": "Fail when any tracked path starts with reports/, any depth-0 path matches /^[^/]*probe[^/]*\\.mjs$/, or a tracked file > 5 MB outside src/styles/fonts/ and visual-baselines/; print file count and bytes; supports a fixture index arg; wire into glass-pipeline.yml. Add NEW tests/ci/tree-hygiene.test.ts (fails on reports/x.json and probe-a.mjs fixtures, passes clean) (REQ-TRUST-37).",
+    "depends_on": [
+      "TRUST-063",
+      "TRUST-064"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/ci/tree-hygiene.test.ts passes; CI step green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-15 (tracked files <= 3,000)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-066",
+    "prd": "PRD-00",
+    "system": "docs/claims",
+    "file": "README.md",
+    "action": "DOC",
+    "description": "Apply REQ-TRUST-38 edits at 15b6de6f7 lines :3, :16, :21, :27 (font outcome from TRUST-055), :74, :153, :156, :187, :219, :221, :223, :443-459, :493-497, :509, :525-576, :610: remove SSR-safe/contrast/498/optional-backend/reports links, list the 15 backend packages as hard dependencies moving out in 4.2, link advisory; add '## Known limitations (4.1.x)' with the 5 items (REQ-TRUST-38).",
+    "depends_on": [
+      "TRUST-055",
+      "TRUST-060"
+    ],
+    "priority": "P0",
+    "test": "node scripts/ci/verify-docs-claims.js exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-14",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-067",
+    "prd": "PRD-00",
+    "system": "docs/claims",
+    "file": "llms.txt",
+    "action": "DOC",
+    "description": "Replace line 5 with 'glassmorphism React components (client components; tokens are server-safe)'; add a line pointing agents to README Known limitations (REQ-TRUST-39).",
+    "depends_on": [
+      "TRUST-066"
+    ],
+    "priority": "P1",
+    "test": "verify-docs-claims.js exits 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-14",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-068",
+    "prd": "PRD-00",
+    "system": "docs/claims",
+    "file": "RELEASE_NOTES_4.1.0.md",
+    "action": "DOC",
+    "description": "Prepend the exact PRD retraction blockquote to RELEASE_NOTES_4.1.0.md (lines 1-3, body untouched); add it under ## [4.1.0] in CHANGELOG.md; append it to GitHub Release v4.1.0 body via gh release view/edit with existing auth (REQ-TRUST-40).",
+    "depends_on": [
+      "TRUST-066"
+    ],
+    "priority": "P0",
+    "test": "verify-docs-claims.js ignores the retraction block and exits 0; gh release view v4.1.0 --json body contains it",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-14",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-069",
+    "prd": "PRD-00",
+    "system": "docs/claims",
+    "file": "NEW:scripts/ci/verify-docs-claims.js",
+    "action": "CREATE",
+    "description": "Scan README.md, llms.txt, RELEASE_NOTES_4.1.1.md, docs/**/*.md (excluding docs/auraglass-5/** and '> **Retraction' blockquotes) for the 7 REQ-TRUST-41 regexes and links to ./reports/; exit 1 listing file:line; wire into glass-pipeline.yml. Add NEW tests/docs/claims-lint.test.ts (repo exit 0; one failing fixture per pattern; retraction ignored; SECURITY.md lists 4.1.x) (REQ-TRUST-41).",
+    "depends_on": [
+      "TRUST-066",
+      "TRUST-067",
+      "TRUST-068",
+      "TRUST-016"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/docs/claims-lint.test.ts passes; CI step green",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-14",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-070",
+    "prd": "PRD-00",
+    "system": "docs/release-notes",
+    "file": "NEW:RELEASE_NOTES_4.1.1.md",
+    "action": "DOC",
+    "description": "RELEASE_NOTES_4.1.1.md and CHANGELOG.md ## [4.1.1] entry: '### Security and privacy' line per §4.1 row-3 change with DEP-0001..DEP-0019 ids (order fixed in TRUST-075), enableAdaptiveAI migration snippet, onComponentAction replacement, isStorybookDataMedia fix, hydration first-paint note, font wrap-change list from TRUST-057, advisory link (URL added before tag), 'Evidence: CI artifacts on the v4.1.1 release' (REQ-TRUST-42).",
+    "depends_on": [
+      "TRUST-057",
+      "TRUST-069",
+      "TRUST-087",
+      "TRUST-089",
+      "TRUST-091"
+    ],
+    "priority": "P0",
+    "test": "verify-docs-claims.js exits 0 including RELEASE_NOTES_4.1.1.md",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-14, AC-TRUST-21",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-071",
+    "prd": "PRD-00",
+    "system": "change-control/api",
+    "file": "NEW:scripts/release/api-report.mjs",
+    "action": "CREATE",
+    "description": "Add exact-pinned devDependency @microsoft/api-extractor, NEW shared root api-extractor.base.json (apiReport on, docModel/dtsRollup off), and scripts/release/api-report.mjs (SC-04 contract, owner REL, which extends it in REL-003): per typed exports key (40 of 47) generate temp config, Extractor.invoke, write etc/api/<slug>.api.md (slug rule '.' -> index, './a/b' -> a-b, e.g. './primitives/slot' -> primitives-slot); --check exits 1 on diff; scripts api:report, api:check (REQ-TRUST-49). SC-40 foundation anchor.",
+    "depends_on": [
+      "TRUST-053"
+    ],
+    "priority": "P0",
+    "test": "CI npm run api:check exits 0 on committed reports and 1 after an injected export change",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-20",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-072",
+    "prd": "PRD-00",
+    "system": "change-control/api",
+    "file": "NEW:scripts/release/export-snapshot.mjs",
+    "action": "CREATE",
+    "description": "Record unanalysable entries with error text as {\"apiReport\": \"unanalysable\"} in NEW etc/api/manifest.json; scripts/release/export-snapshot.mjs (SC-04 contract, --tarball mode) packs via packToDir (scripts/ci/lib/npm-pack.js), installs the tarball in a temp project, writes etc/api/<slug>.exports.json for all 47 keys (sorted runtimeImport, runtimeRequire, declaredTypes via TS compiler API, typesRuntimeMismatch); 7 untyped keys get kind 'asset' + resolved path; script api:snapshot with --check (REQ-TRUST-50). SC-40 foundation anchor.",
+    "depends_on": [
+      "TRUST-071",
+      "TRUST-002"
+    ],
+    "priority": "P0",
+    "test": "tests/release/export-snapshot.test.ts (TRUST-074)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-20",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-073",
+    "prd": "PRD-00",
+    "system": "change-control/api",
+    "file": "NEW:etc/api/",
+    "action": "CREATE",
+    "description": "Generate etc/api/*.api.md, etc/api/*.exports.json and etc/api/manifest.json (root slug index) in CI on the SHA containing 00a-00f; download artifact and commit unedited; no top-level api/ directory; add npm run api:check and npm run api:snapshot -- --check to glass-pipeline.yml as steps (no job rename, SC-10) (REQ-TRUST-49, -50).",
+    "depends_on": [
+      "TRUST-072",
+      "TRUST-070",
+      "TRUST-065"
+    ],
+    "priority": "P0",
+    "test": "CI api:check and api:snapshot --check pass on the commit",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-20",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-074",
+    "prd": "PRD-00",
+    "system": "change-control/api",
+    "file": "NEW:tests/release/export-snapshot.test.ts",
+    "action": "TEST",
+    "description": "All 47 exports keys have etc/api/<slug>.exports.json (7 kind 'asset'); root file etc/api/index.exports.json runtime names include enableAdaptiveAI; typesRuntimeMismatch values equal committed baseline; each of 40 typed keys has .api.md or an unanalysable reason in etc/api/manifest.json; no api/ directory exists (REQ-TRUST-50; SC-04, SC-30 tests/release/).",
+    "depends_on": [
+      "TRUST-073"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/release/export-snapshot.test.ts passes in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-20",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-075",
+    "prd": "PRD-00",
+    "system": "change-control/deprecations",
+    "file": "NEW:deprecations.json",
+    "action": "CREATE",
+    "description": "Seed the repo-root deprecations.json (SC-02; no docs/deprecations.json, no schemaVersion 0) as {\"$schema\":\"./docs/schemas/deprecations.schema.json\",\"version\":1,\"entries\":[...]} with SC-03 fields (id, kind, status, entry, symbol, since, removeIn, replacement, codemod, automation, breaking, message, doc; optional compat, exception, evidence), all status active, since 4.1.1, removeIn 5.0.0: DEP-0001 adaptiveAI, DEP-0002 useAdaptiveAI, DEP-0003 enableAdaptiveAI (export, privacy on adaptiveAI); DEP-0004 ContrastGuard data-meets-wcag, DEP-0005 data-contrast-ratio (data-attr, honesty); DEP-0006 validateTextContrast (behavior, honesty); DEP-0007 GlassCanvas string onClick (behavior, security); DEP-0008 cookie-consent hidden-but-clickable banners (behavior, privacy; REQ-TRUST-54); DEP-0009..0019 the 11 REQ-TRUST-35 report-path constants (export, exception null, values unchanged vs 15b6de6f7); DEP-0020 Aeonik font files (asset, legal) only if REQ-46 shipped; no since 4.2.0 entry; add deprecations.json to package.json files (no exports key in 4.1.1; REQ-TRUST-52) (REQ-TRUST-51, -35). SC-40 foundation anchor; schema owner REL (REL-010).",
+    "depends_on": [
+      "TRUST-073",
+      "TRUST-055",
+      "TRUST-088"
+    ],
+    "priority": "P0",
+    "test": "tests/release/deprecations-seed.test.ts (TRUST-076); git diff 15b6de6f7 -- src/reports/legacyDocuments.ts src/reports/componentInventory.ts empty",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-21",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-076",
+    "prd": "PRD-00",
+    "system": "change-control/deprecations",
+    "file": "NEW:tests/release/deprecations-seed.test.ts",
+    "action": "TEST",
+    "description": "Root deprecations.json parses with $schema and version 1; docs/deprecations.json absent; SC-03 required keys incl. status; kind enum export|subpath|prop|prop-value|css-var|css-global|peer|dependency|engine|behavior|cli|data-attr|asset; exception enum security|privacy|crash|legal|honesty|null; ContrastGuard/validateTextContrast entries use honesty; ids ^DEP-\\d{4}$ unique; no active entry with since > package.json version; export symbols exist in etc/api/index.exports.json; package.json files contains deprecations.json; >= 19 entries. Switch to docs/schemas/deprecations.schema.json validation once REL-010 lands (REQ-TRUST-51).",
+    "depends_on": [
+      "TRUST-075"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/release/deprecations-seed.test.ts passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-21",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-077",
+    "prd": "PRD-00",
+    "system": "ci/publish",
+    "file": ".github/workflows/publish-npm.yml",
+    "action": "MODIFY",
+    "description": "Keep .github/workflows/publish-npm.yml under that filename (SC-05: the npm trusted-publisher binding is auraoneai/auraglass + publish-npm.yml; renaming needs an npm access change outside the agent perimeter); do not create release.yml; on: push: tags: ['v4.*.*'] only (workflow_dispatch removed); first step asserts tag version == package.json version == first ## [X.Y.Z] heading of CHANGELOG.md (REQ-TRUST-06). SC-40 foundation anchor for the publish workflow (contract owner REL).",
+    "depends_on": [
+      "TRUST-053"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/publish-workflow.test.ts (TRUST-081)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-01",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-078",
+    "prd": "PRD-00",
+    "system": "ci/publish",
+    "file": ".github/workflows/publish-npm.yml",
+    "action": "MODIFY",
+    "description": "Delete HAS_NPM_TOKEN env and the token-provenance step; single npm publish --provenance --access public step; permissions contents: read, id-token: write; no workflow references secrets.NPM_TOKEN or NODE_AUTH_TOKEN (REQ-TRUST-07).",
+    "depends_on": [
+      "TRUST-077"
+    ],
+    "priority": "P0",
+    "test": "rg -n \"NPM_TOKEN|NODE_AUTH_TOKEN\" .github = 0; publish-workflow.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-03, AC-TRUST-01",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-079",
+    "prd": "PRD-00",
+    "system": "ci/publish",
+    "file": "NEW:scripts/ci/require-ci-publish.js",
+    "action": "CREATE",
+    "description": "Remove package.json release and release:dry-run scripts; delete scripts/publish-307-after-npm-login.sh and scripts/configure-npm-trusted-publishing-307.sh; NEW scripts/ci/require-ci-publish.js exits 1 unless GITHUB_ACTIONS==='true' and GITHUB_WORKFLOW_REF contains '/.github/workflows/publish-npm.yml@refs/tags/v' (SC-05 guard); prefix prepublishOnly with it; pack-matrix dry-run keeps --ignore-scripts. Add NEW tests/ci/require-ci-publish.test.ts (REQ-TRUST-08). SC-40 foundation anchor.",
+    "depends_on": [
+      "TRUST-078"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/require-ci-publish.test.ts: unset -> 1; Actions + GITHUB_WORKFLOW_REF=.../glass-pipeline.yml@refs/heads/main -> 1; .../publish-npm.yml@refs/heads/main -> 1; .../publish-npm.yml@refs/tags/v4.1.1 -> 0",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-03",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-080",
+    "prd": "PRD-00",
+    "system": "ci/publish",
+    "file": ".github/workflows/publish-npm.yml",
+    "action": "INFRA",
+    "description": "glass-pipeline.yml gains on: workflow_call; publish-npm.yml job verify uses it; publish needs verify and runs npm ci, npx jest --ci, build, verify:pack, verify:css-vars, integration next/vite --skip-build, verify-import-side-effects.js, api:check, verify-docs-claims.js, verify-tree-hygiene.js, test:tree-shaking -- --strict, react19 smoke tests, then npm publish --provenance --access public; uploads .artifacts/** as evidence-release-${{ github.sha }} (retention-days 90, SC-07) and links run/artifact URL in GitHub Release v4.1.1 body (REQ-TRUST-10, -33). QA later adds certify-release.yml via needs (SC-05).",
+    "depends_on": [
+      "TRUST-079",
+      "TRUST-021",
+      "TRUST-040",
+      "TRUST-065",
+      "TRUST-069",
+      "TRUST-056",
+      "TRUST-073",
+      "TRUST-090"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/publish-workflow.test.ts asserts needs + gates",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-02, AC-TRUST-16",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-081",
+    "prd": "PRD-00",
+    "system": "ci/publish",
+    "file": "NEW:tests/ci/publish-workflow.test.ts",
+    "action": "TEST",
+    "description": "Parse publish-npm.yml (yaml devDependency): file exists and .github/workflows/release.yml does not (SC-05); only trigger tag v4.*.*; permissions.id-token write; exactly one npm publish step with --provenance; no NPM_TOKEN/NODE_AUTH_TOKEN in any workflow; publish needs verify; version/tag/CHANGELOG assertion present; every upload-artifact step sets retention-days explicitly and the release upload uses 90 (REQ-TRUST-06, -07, -10, -33).",
+    "depends_on": [
+      "TRUST-080"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/ci/publish-workflow.test.ts passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-01, AC-TRUST-03",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-082",
+    "prd": "PRD-00",
+    "system": "package",
+    "file": "NEW:tests/ci/package-json-patch-scope.test.ts",
+    "action": "TEST",
+    "description": "Commit NEW tests/ci/fixtures/package-json-15b6de6f7.json from git show 15b6de6f7:package.json; test deep-equals dependencies, peerDependencies, exports; bump package.json version to 4.1.1 and finalize CHANGELOG ## [4.1.1] date and advisory URL (REQ-TRUST-52).",
+    "depends_on": [
+      "TRUST-075",
+      "TRUST-079"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/ci/package-json-patch-scope.test.ts passes",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-22",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-083",
+    "prd": "PRD-00",
+    "system": "release/verification",
+    "file": "n/a (CI verification)",
+    "action": "TEST",
+    "description": "On the release-candidate SHA in CI: Button root import <= 1,674,828 B / 453,301 B gzip; aura-glass/primitives/slot <= 700 B / 460 B; tarball within TRUST-056 budget; npx jest --ci 0 failed suites and 0 written snapshots; git clone --depth 1 <= 200 MB; record numbers in release issue (PRD §16).",
+    "depends_on": [
+      "TRUST-081",
+      "TRUST-082"
+    ],
+    "priority": "P0",
+    "test": "All measurements within budget (CI run URL)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-23, AC-TRUST-24",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-084",
+    "prd": "PRD-00",
+    "system": "release",
+    "file": "n/a (tag v4.1.1)",
+    "action": "INFRA",
+    "description": "Tag v4.1.1 once the gate is met: git tag -a v4.1.1 <sha> && git push origin v4.1.1; verify npm view aura-glass@4.1.1 dist.attestations (GitHub Actions, .github/workflows/publish-npm.yml, refs/tags/v4.1.1, tag commit), dist-tags.latest == 4.1.1, advisory published_at < tag time. On fail-closed publish report the exact log; never add a token path.",
+    "depends_on": [
+      "TRUST-083",
+      "TRUST-012",
+      "TRUST-070"
+    ],
+    "priority": "P0",
+    "test": "npm view attestation output matches; gh run for publish-npm.yml success",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-01, AC-TRUST-17",
+    "status": "todo",
+    "gate": "Operator: GitHub Security Advisory state published (TRUST-011/012 draft); owner-confirmed npm trusted publisher binding auraoneai/auraglass + publish-npm.yml; owner written go in the release issue"
+  },
+  {
+    "id": "TRUST-085",
+    "prd": "PRD-00",
+    "system": "release/handoff",
+    "file": "n/a (GitHub issues)",
+    "action": "DOC",
+    "description": "Compile AC-TRUST-01..28 table with evidence URLs in the release issue and GitHub Release v4.1.1; open PRD-01 (REL) kickoff issue (etc/api/, root deprecations.json, docs/release/decisions/, SC-02..SC-05 Must-change rows) and §16 PRD-16 (FND) issue (published advisory, REQ-TRUST-45 grep result); file each PRD §21 open item on its owner (PRD §18, §20 step 15).",
+    "depends_on": [
+      "TRUST-084"
+    ],
+    "priority": "P1",
+    "test": "All 28 AC rows met or listed as open operator actions; issue URLs recorded",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-01..AC-TRUST-28 (definition of done §18)",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-086",
+    "prd": "PRD-00",
+    "system": "components/navigation",
+    "file": "src/components/interactive/GlassCommandPalette.tsx",
+    "action": "MODIFY",
+    "description": "At :298-303 escape each query character with c.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&') before join('.*') so new RegExp never sees unescaped user input; results for metacharacter-free queries unchanged; no API change. Accepted 4.1.1 intake of NAV E-22 (SC-36); the 5.0 commandScore stays with NAV REQ-NAV-59 (REQ-TRUST-53).",
+    "depends_on": [
+      "TRUST-010"
+    ],
+    "priority": "P0",
+    "test": "src/components/interactive/__tests__/GlassCommandPalette.regex.test.tsx (TRUST-087)",
+    "storybook": "Existing GlassCommandPalette stories render unchanged; no new story",
+    "acceptance": "AC-TRUST-25",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-087",
+    "prd": "PRD-00",
+    "system": "components/navigation",
+    "file": "NEW:src/components/interactive/__tests__/GlassCommandPalette.regex.test.tsx",
+    "action": "TEST",
+    "description": "Type each of ( [ * + ? \\ ^ $ | { } into the palette input: no throw, no error boundary; an item whose label contains '(' still matches '('; results for 'abc' equal the 4.1.0 fixture (REQ-TRUST-53).",
+    "depends_on": [
+      "TRUST-086"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/components/interactive/__tests__/GlassCommandPalette.regex.test.tsx passes in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-25",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-088",
+    "prd": "PRD-00",
+    "system": "components/privacy",
+    "file": "src/components/cookie-consent/CookieConsent.tsx",
+    "action": "MODIFY",
+    "description": "CookieConsent, GlobalCookieConsent and CompactCookieNotice (src/components/cookie-consent/) stop using useGalileoStateSpring and drive opacity/transform from visible via a CSS transition on data-state=open|closed; hidden or dismissed => visibility: hidden + pointer-events: none; reduced motion => transition duration 0; useGalileoStateSpring itself unchanged. Implements the MOT REQ-MOT-28 contract as accepted 4.1.1 intake (SC-36, privacy exception); release-note line + DEP entry via TRUST-075 (REQ-TRUST-54).",
+    "depends_on": [
+      "TRUST-041"
+    ],
+    "priority": "P0",
+    "test": "src/components/cookie-consent/__tests__/visibility.test.tsx (TRUST-089)",
+    "storybook": "Cookie-consent stories still pass forceVisible; add one story without forceVisible that shows after the timeout",
+    "acceptance": "AC-TRUST-26",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-089",
+    "prd": "PRD-00",
+    "system": "components/privacy",
+    "file": "NEW:src/components/cookie-consent/__tests__/visibility.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MOT-T07 file created here and inherited by MOT: for each of the 3 components without forceVisible, after the show timeout computed opacity is 1; after dismiss visibility: hidden and pointer-events: none; a click at the banner position while hidden calls no consent callback; rg useGalileoStateSpring src/components/cookie-consent = 0 (REQ-TRUST-54).",
+    "depends_on": [
+      "TRUST-088"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/components/cookie-consent/__tests__/visibility.test.tsx passes in CI",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-26",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-090",
+    "prd": "PRD-00",
+    "system": "ci",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "INFRA",
+    "description": "Add job unit-react19 (new job; existing job names unchanged, SC-10): npm ci; npm i --no-save react@19 react-dom@19 @types/react@19 @types/react-dom@19; npx jest --ci (full unit suite) with a setup spy, enabled only in this leg via AURAGLASS_FAIL_ON_ELEMENT_REF=1, that fails on any console.error matching /element\\.ref/; upload evidence-unit-react19-${{ github.sha }} with retention-days per SC-07 (14 on pull_request, 30 on main, 90 on tag/release; e.g. ${{ github.event_name == 'pull_request' && 14 || startsWith(github.ref, 'refs/tags/') && 90 || 30 }}). Satisfies FND AC-FND-02 on 4.1.1 (SC-36 accepted, CI-only C-I); the dev install stays on React 18.2 (REQ-TRUST-55).",
+    "depends_on": [
+      "TRUST-039",
+      "TRUST-040"
+    ],
+    "priority": "P0",
+    "test": "unit-react19 job: 0 element.ref console.error calls (run URL in PR)",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-27",
+    "status": "todo"
+  },
+  {
+    "id": "TRUST-091",
+    "prd": "PRD-00",
+    "system": "release",
+    "file": "NEW:docs/release/decisions/4.1.1-react19-matrix.md",
+    "action": "DOC",
+    "description": "Record the first unit-react19 run (URL, totals) and list any React-19-only failures unrelated to element.ref as non-gating for 4.1.1, each with an owner PRD key for 4.2/5.0 follow-up (REQ-TRUST-55).",
+    "depends_on": [
+      "TRUST-090"
+    ],
+    "priority": "P0",
+    "test": "File exists; every failing suite in the run is listed or the list is empty",
+    "storybook": "n/a",
+    "acceptance": "AC-TRUST-27",
+    "status": "todo"
+  }
+]

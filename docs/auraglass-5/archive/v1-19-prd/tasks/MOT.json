@@ -1,0 +1,1816 @@
+[
+  {
+    "id": "MOT-001",
+    "prd": "PRD-06",
+    "system": "codemod reduced-motion-initial",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/reduced-motion-initial.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-27: TypeScript-compiler-API codemod rewriting JSX animate={c ? {} : X} (also undefined/false, either branch, negated test) to initial={c ? false : <original initial>} + unconditional animate={X}; leaves initial absent if none existed; text-span edits preserve formatting. Area id registered by REL in the §11.2 catalogue and schema enum (SC-33); engine DX-041, catalogue DX-042; TODO marker `// TODO(aura-glass 5): <reason>, see docs/motion.md`.",
+    "depends_on": [
+      "DX-041",
+      "DX-042"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T21 fixtures (MOT-002)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15, AC-MOT-18: codemod fixtures pass and are idempotent",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-002",
+    "prd": "PRD-06",
+    "system": "codemod tests",
+    "file": "NEW:packages/cli/src/migrate/4to5/__tests__/reduced-motion-initial.test.ts; NEW:packages/cli/src/migrate/4to5/__fixtures__/reduced-motion-initial/",
+    "action": "TEST",
+    "description": "REQ-MOT-T21: fixtures for prefersReducedMotion, reducedMotion, !shouldAnimate, nested ternary, multiline attribute, already-fixed input; second run byte-identical.",
+    "depends_on": [
+      "MOT-001",
+      "DX-059"
+    ],
+    "priority": "P0",
+    "test": "jest: npm test -- packages/cli/src/migrate/4to5/__tests__/reduced-motion-initial.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-18: passing codemod fixture for reduced-motion-initial",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-003",
+    "prd": "PRD-06",
+    "system": "M-01 site fix (4.x)",
+    "file": "src/components/** (35 files frozen from git grep at v4.1.0)",
+    "action": "MODIFY",
+    "description": "REQ-MOT-27 on release/4.x: TRUST-041..046 (4.1.1) fix the 84 M-01 sites in the 35 files. Run the reduced-motion-initial codemod in --dry mode over src and require 0 changes (verify-only); fix only sites TRUST did not cover. Never re-edit files already fixed by TRUST.",
+    "depends_on": [
+      "MOT-001",
+      "TRUST-042",
+      "TRUST-043",
+      "TRUST-044"
+    ],
+    "priority": "P0",
+    "test": "rg 'animate=\\{\\s*\\w+\\s*\\?\\s*\\{\\}' src (non-story) = 0; codemod dry-run 0 changes",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15: REQ-MOT-T06 green for 35 files",
+    "status": "todo",
+    "gate": "TRUST-042/043/044 merged on release/4.x"
+  },
+  {
+    "id": "MOT-004",
+    "prd": "PRD-06",
+    "system": "ESLint motion-no-empty-animate (4.x)",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-64 (SC-16): TRUST-045 lands the rule on release/4.x under the single name auraglass/motion-no-empty-animate (absorbing no-empty-reduced-animate). MOT owns the rule from 4.2: add the initial={{ opacity: 0 }}-with-conditional-animate case and set severity error on src/** in eslint.config.js and .eslintrc.js. MODIFY only; no duplicate rule.",
+    "depends_on": [
+      "TRUST-045",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "RuleTester valid/invalid cases for both patterns; eslint src = 0 errors for the rule",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15 (4.x lint gate); DoD §18 rule is error on release/4.x",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-005",
+    "prd": "PRD-06",
+    "system": "cookie consent visibility",
+    "file": "src/components/cookie-consent/CookieConsent.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MOT-28: remove useGalileoStateSpring (lines 96,114,160,185,205); drive data-state=open|closed from visible; CSS opacity/transform transition; closed state visibility:hidden + pointer-events:none after exit. Same change in GlobalCookieConsent.tsx (109,285,302,366) and CompactCookieNotice.tsx (103,154,171,200). Ships in 4.1.1 (TRUST scope, SC-36).",
+    "depends_on": [
+      "TRUST-041"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T07 (MOT-006)",
+    "storybook": "existing cookie-consent stories gain an 'initially hidden' story without forceVisible",
+    "acceptance": "AC-MOT-15: REQ-MOT-T07 green for 3 components",
+    "status": "todo",
+    "gate": "4.1.1 scope accepted by TRUST (SC-36: cookie-consent fix, privacy)"
+  },
+  {
+    "id": "MOT-006",
+    "prd": "PRD-06",
+    "system": "cookie consent test",
+    "file": "NEW:src/components/cookie-consent/__tests__/visibility.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MOT-T07: for each of CookieConsent, GlobalCookieConsent, CompactCookieNotice without forceVisible: after show timeout opacity is 1; after dismiss visibility hidden and pointer-events none.",
+    "depends_on": [
+      "MOT-005"
+    ],
+    "priority": "P0",
+    "test": "jest targeted run green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-007",
+    "prd": "PRD-06",
+    "system": "MotionFramer first-render",
+    "file": "src/primitives/motion/MotionFramer.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MOT-29: replace useState(true) at :235 with useSyncExternalStore(subscribe, () => matchMedia('(prefers-reduced-motion: reduce)').matches, () => false) so mount presets play on first client render and reduced resolves to final state.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "jest: mount with matchMedia mocked false renders initial preset; true renders final state with no initial",
+    "storybook": "existing Motion stories unchanged",
+    "acceptance": "AC-MOT-15 (4.2 C-I set)",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (REL bridge scope, SC-37)"
+  },
+  {
+    "id": "MOT-008",
+    "prd": "PRD-06",
+    "system": "always-safe policy",
+    "file": "src/contexts/MotionPreferenceContext.tsx",
+    "action": "MODIFY",
+    "description": "§10 / MOTION-07 summary: treat motionPolicy 'always-safe' exactly as 'auto' and emit one dev-only console.warn per session; correct the comment at :38-41. Type remains until 5.0.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "jest: provider with motionPolicy='always-safe' and OS reduce resolves prefersReducedMotion=true; warn called once",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15 (4.2 C-I set); D-11",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (REL bridge scope, SC-37)"
+  },
+  {
+    "id": "MOT-009",
+    "prd": "PRD-06",
+    "system": "Switch shimmer removal",
+    "file": "src/components/input/GlassSwitch.tsx (release/4.x, verify only)",
+    "action": "TEST",
+    "description": "REQ-MOT-85: the 4.x shimmer removal at :247 is CTL-154's edit (SC-36, D-28 visual-fix list recorded by REL). MOT verifies: no infinite animation on any GlassSwitch story under L9 and the before/after composite is attached; 5.0 Switch (CTL-041) has no shimmer.",
+    "depends_on": [
+      "CTL-154"
+    ],
+    "priority": "P1",
+    "test": "rg '\"shimmer\"' src/components/input/GlassSwitch.tsx = 0 on release/4.x; L9 continuous check 0 infinite animations on Switch stories",
+    "storybook": "GlassSwitch stories: remote before/after composite artifact for human review",
+    "acceptance": "AC-MOT-15 (4.2 C-I set)",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (deferred from 4.1.1, SC-36)"
+  },
+  {
+    "id": "MOT-010",
+    "prd": "PRD-06",
+    "system": "FPS loop removal",
+    "file": "src/components/layout/OptimizedGlassContainer.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MOT-86: delete permanent rAF FPS monitor at :66-84 and setCurrentFps/setPerformanceScore state; props that exposed values become deprecated no-ops with dev warning. Deferred from 4.1.1 to 4.2 (SC-36).",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "rg requestAnimationFrame in file = 0; existing tests green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15 (4.1.1/4.2 C-I set)",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (deferred from 4.1.1, SC-36)"
+  },
+  {
+    "id": "MOT-011",
+    "prd": "PRD-06",
+    "system": "FPS loop removal",
+    "file": "src/components/advanced/GlassPerformanceOptimization.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MOT-86: delete permanent FPS loop at :92-95 and per-frame setState. Deferred from 4.1.1 to 4.2 (SC-36).",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "rg requestAnimationFrame for FPS in file = 0; existing tests green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15 (4.1.1/4.2 C-I set)",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (deferred from 4.1.1, SC-36)"
+  },
+  {
+    "id": "MOT-012",
+    "prd": "PRD-06",
+    "system": "scope global reduced-motion nukes (4.2)",
+    "file": "src/styles/animations.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-22 (4.2 part): change '*' selectors at animations.css:6-12, :530-536, design-tokens.css:134-140 and keep-essential block :234-254 to [data-glass-component], [data-glass-component] *; keep !important on 4.2; add release-note line.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "D-27 visual-class gate on frozen 4.x fixture (remote npm run test:visual:matrix) passes with before/after composite",
+    "storybook": "frozen 4.x fixture before/after composite artifact",
+    "acceptance": "AC-MOT-15 (4.2 gate); D-27",
+    "status": "todo",
+    "gate": "4.2 train on release/4.x (REL bridge scope, SC-37)"
+  },
+  {
+    "id": "MOT-013",
+    "prd": "PRD-06",
+    "system": "reduced-motion visible spec (4.x)",
+    "file": "NEW:tests/motion/reduced-motion-visible-4x.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T06: one Playwright test per frozen M-01 file's story under reducedMotion 'reduce': after 1 s animated element opacity 1 and scale 1; add minimal stories (no forceVisible) for files without one; named tests include GlassA11y, GlassPresenceIndicator, GlassQuantumTunnel.",
+    "depends_on": [
+      "MOT-003",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/motion/reduced-motion-visible-4x.spec.ts on chromium/webkit/firefox against static Storybook",
+    "storybook": "minimal <Name>.stories.tsx for each M-01 file lacking a story",
+    "acceptance": "AC-MOT-15",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-014",
+    "prd": "PRD-06",
+    "system": "4.x gate run",
+    "file": ".github/workflows/certify-pr.yml (release/4.x branch filter)",
+    "action": "MODIFY",
+    "description": "Add the MOT 4.x checks (MOT-002 codemod fixtures, MOT-006 cookie-consent unit test, MOT-013 T06 spec against the frozen 4.x fixture tests/fixtures/consumer-4x/) to QA's certify-pr.yml for release/4.x (L9 Motion + L12 Unit, SC-29); no separate motion-4x-gate.yml; artifacts keyed to SHA. Required before the 4.2.0 tag.",
+    "depends_on": [
+      "MOT-002",
+      "MOT-006",
+      "MOT-012",
+      "MOT-013",
+      "QA-031",
+      "REL-115"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml run on release/4.x green; fails closed on an injected failing fixture",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-15: T06 + T07 green on release/4.x before 4.2.0 is tagged",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-020",
+    "prd": "PRD-06",
+    "system": "motion tokens",
+    "file": "tokens/sys/motion.tokens.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-01/-03 values-only MODIFY of the DS-owned file (SC-18): durations instant 90/micro 120/small 200/medium 320/large 450 (ms), -exit 60/80/140/220/320, ambient 40000 (no exit; SC-19 accepted addition for MED ag-backdrop-drift), easings standard [0.2,0,0,1], emphasized [0.2,0,0,1], emphasized-decelerate [0.05,0.7,0.1,1], accelerate [0.3,0,1,1], springs snappy {1.0,200ms}, smooth {0.9,350ms}, fluid {0.82,450ms} as $type motion-spring. Creates no file under tokens/.",
+    "depends_on": [
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T01 (MOT-025)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-021",
+    "prd": "PRD-06",
+    "system": "easing validation",
+    "file": "tokens/$schema.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-02: constrain cubicBezier y1/y2 to [0,1] via prefixItems; compiler must reject [0.68,-0.55,0.265,1.55]. MODIFY of DS-014's schema (SC-18); compiler is DS-016 scripts/tokens/build.mjs.",
+    "depends_on": [
+      "MOT-020",
+      "DS-014",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "T01 fixture: compile of overshoot bezier fails",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03; AC-MOT-05 (0 overshoot beziers)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-022",
+    "prd": "PRD-06",
+    "system": "spring validation",
+    "file": "tokens/$schema.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-03: constrain motion-spring dampingRatio to [0.8,1.0] and response to 120-800 ms; compiler rejects zeta 0.5. MODIFY of DS-014's schema (SC-18).",
+    "depends_on": [
+      "MOT-020",
+      "DS-014",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "T01 fixture: compile of zeta=0.5 fails",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-023",
+    "prd": "PRD-06",
+    "system": "spring linear() verification",
+    "file": "NEW:src/motion/__tests__/spring-linear.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-04 [owner: PRD-03] acceptance + REQ-MOT-131: recompute analytic step response (omega0=2pi/r, 1 ms steps); per spring max error <= 0.005 over 1,000 samples, <= 40 stops, monotonic positions, first 0, last 1, settle within +/-10 ms, overshoot <= 1.5%, string <= 600 bytes.",
+    "depends_on": [
+      "MOT-020",
+      "DS-016",
+      "DS-053"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T02 green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03 (spring error <= 0.005)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-024",
+    "prd": "PRD-06",
+    "system": "TS motion tokens",
+    "file": "NEW:src/motion/__tests__/tokens-generated.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-06 (SC-18: src/motion/tokens.generated.ts is generated by DS-053, MOT never creates it): assert the generated motionTokens shape duration, durationExit, ease 4-tuples, spring.{snappy,smooth,fluid}.{zeta,response,duration,linear,stiffness,damping} with stiffness=(2pi/(r/1000))^2, damping=2*zeta*sqrt(stiffness); MotionTokenName type; re-exported from ./tokens and ./theme.",
+    "depends_on": [
+      "MOT-020",
+      "DS-053"
+    ],
+    "priority": "P0",
+    "test": "unit: smooth stiffness 322.3+/-0.1, damping 32.31+/-0.01; snappy 987.0/62.83; fluid 195.0/22.90; type test stiffness is number",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-025",
+    "prd": "PRD-06",
+    "system": "token tests",
+    "file": "NEW:src/motion/__tests__/tokens.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T01: compiled tokens.css has exactly 5 durations, 5 -exit (round10(0.7x)), 4 easings with y in [0,1], 3 springs + 3 -duration; bad fixtures rejected.",
+    "depends_on": [
+      "MOT-020",
+      "MOT-021",
+      "MOT-022",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "npm run build:tokens && npm test -- src/motion/__tests__/tokens.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-026",
+    "prd": "PRD-06",
+    "system": "theme motion policy mapping",
+    "file": "src/theme/createGlassTheme.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-07 (mapping): motion policy expressive -> {motion:'full', allowContinuous:true}, system -> OS-following, reduced -> calm, none -> none, passed to PRD-05 store input. Legacy removals happen in MOT-076. MODIFY of DS-083's file (SC-18/OV-26).",
+    "depends_on": [
+      "DS-083",
+      "A11Y-027"
+    ],
+    "priority": "P1",
+    "test": "jest: four policy inputs map to the four preference outputs",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-07 mapping verified (AC-MOT-18 deprecation path)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-027",
+    "prd": "PRD-06",
+    "system": "motion scalars",
+    "file": "NEW:src/motion/css/motion.css",
+    "action": "CREATE",
+    "description": "REQ-MOT-10: @layer ag.components with @property --_ag-hover <number> 0, --_ag-press <number> 0, --_ag-optics <number> 1, --_ag-pointer <percentage>+ '50% 30%', all inherits:false; no CSS.registerProperty at runtime.",
+    "depends_on": [
+      "MAT-015",
+      "PKG-099"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T03 asserts four @property rules in dist/styles.css and no registerProperty in dist JS",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05 inputs; REQ-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-028",
+    "prd": "PRD-06",
+    "system": "hover/press rules",
+    "file": "src/motion/css/motion.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-11/-100: @media (hover:hover) [data-ag-interactive]:hover sets --_ag-hover:1; [data-ag-interactive]:active, [data-pressed] set --_ag-press:1. No scale, transform, translate or rotate in any hover/press rule (SC-38 rejected press scale 0.985 and Card hover -1px).",
+    "depends_on": [
+      "MOT-027",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "T03 parse: exactly two scale/translate rules under hover/press selectors; lint MOT-067 passes",
+    "storybook": "Motion/Interactions hover lift + press compression stories (MOT-104)",
+    "acceptance": "AC-MOT-05; AC-MOT-20 human review (no bounce)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-029",
+    "prd": "PRD-06",
+    "system": "popup enter/exit",
+    "file": "src/motion/css/motion.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-14/-105/-102: [data-starting-style]/[data-ending-style] rules on Popup parts of Dialog, AlertDialog, Popover, Menu, Select, Combobox, Tooltip, PreviewCard, Toast, Sheet per §4.6; transform-origin: var(--transform-origin); menu/select/popover translate 0 calc(var(--_ag-side-sign)*4px); Sheet translate 100% along edge; exit display/overlay allow-discrete; no JS unmount delay.",
+    "depends_on": [
+      "MOT-027",
+      "FND-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "T03 parse: each popup part selector present; settle spec MOT-096",
+    "storybook": "Motion/Interactions enter/exit, menu expansion, modal emergence, sheet, toast stories",
+    "acceptance": "AC-MOT-06, AC-MOT-08",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-030",
+    "prd": "PRD-06",
+    "system": "non-Base-UI entrances",
+    "file": "src/motion/css/motion.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-15 (CSS): @starting-style opacity+translate only for [data-ag-part=toast-item] and [data-ag-part=thread-message]; no rule targets Stack, Grid, Container, Separator, Text, Heading or Card at rest.",
+    "depends_on": [
+      "MOT-027"
+    ],
+    "priority": "P1",
+    "test": "T03 parse: no @starting-style for layout part names; REQ-MOT-T19 (MOT-100)",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-15 via T19",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-031",
+    "prd": "PRD-06",
+    "system": "materialize + will-change",
+    "file": "src/motion/css/motion.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-16/-17: [data-starting-style] sets --_ag-optics:0; transition --_ag-optics calc(var(--ag-duration-small)*0.6) standard for small popups, calc(var(--ag-duration-medium)*0.6) for Dialog/Sheet; will-change: transform, opacity only inside [data-starting-style],[data-ending-style],[data-ag-animating]; no backdrop-filter in any motion rule.",
+    "depends_on": [
+      "MOT-027",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "T03: no backdrop-filter in motion.css; will-change only under the three selectors; lane will-change check (MOT-096)",
+    "storybook": "Motion/Interactions modal emergence",
+    "acceptance": "AC-MOT-05; REQ-MOT-129 via AC-MOT-06 run",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-032",
+    "prd": "PRD-06",
+    "system": "transition allow-list + layout-free transitions",
+    "file": "src/motion/css/motion.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-12/-13/-18: every transition lists properties from the allow-list (opacity, transform, scale, translate, rotate, color, background-color, border-color, outline-color, --_ag-hover, --_ag-press, --_ag-optics, --ag-specular; display/overlay allow-discrete); Toast stack reflow, Menu submenu, Select item highlight on transform/opacity/background-color only; depth transition on data-ag-layer change cross-fades shadow layers + --_ag-optics over small.",
+    "depends_on": [
+      "MOT-027"
+    ],
+    "priority": "P0",
+    "test": "verify-motion-css.mjs on src/motion = 0; perf trace 0 Layout events (MOT-101)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05, AC-MOT-13 (0 layout events)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-033",
+    "prd": "PRD-06",
+    "system": "calm mode",
+    "file": "NEW:src/motion/css/motion-modes.css",
+    "action": "CREATE",
+    "description": "REQ-MOT-20/-110: @layer ag.a11y rules for [data-ag-motion=calm] and identical mirror under @media (prefers-reduced-motion: reduce) :root:not([data-ag-motion]): starting/ending styles scale/translate/rotate none, springs -> --ag-ease-standard, durations kept, pointer light and parallax off, infinite animations animation:none, morphs -> micro opacity cross-fade; zero !important.",
+    "depends_on": [
+      "MOT-027",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T04 (MOT-039)",
+    "storybook": "Motion/Interactions full/calm/none side-by-side",
+    "acceptance": "AC-MOT-06, AC-MOT-07",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-034",
+    "prd": "PRD-06",
+    "system": "none mode",
+    "file": "src/motion/css/motion-modes.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-21: [data-ag-motion=none] :is([data-ag-part],[data-ag-surface]) {transition-duration:0s; animation:none}; never '*'.",
+    "depends_on": [
+      "MOT-033"
+    ],
+    "priority": "P0",
+    "test": "T04: no bare * selector; none rules scoped",
+    "storybook": "Motion/Interactions none column",
+    "acceptance": "AC-MOT-06",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-035",
+    "prd": "PRD-06",
+    "system": "loading sweep",
+    "file": "NEW:src/motion/css/loading.css",
+    "action": "CREATE",
+    "description": "REQ-MOT-30/-31/-32/-112: single @keyframes ag-sweep translate -100%->100% on a specular pseudo-element, 1,400 ms, --ag-ease-standard, every use nested under [data-ag-continuous=on]; default static ring segment (Spinner), static fill (Skeleton), static 30% segment (indeterminate Progress), static ToolCall indicator; gradient alpha keeps luminance change < 10%/frame. MED's ag-backdrop-drift (MED-066, --ag-duration-ambient) is the only other admitted infinite keyframe and is likewise nested under [data-ag-continuous=\"on\"]; [data-ag-offscreen] pauses both.",
+    "depends_on": [
+      "MOT-027",
+      "A11Y-029",
+      "FND-059",
+      "FND-073"
+    ],
+    "priority": "P0",
+    "test": "T03 ag-sweep only loading keyframes; MOT-097 luminance check; MOT-098 gating",
+    "storybook": "Motion/Interactions loading story with allowContinuous toggle",
+    "acceptance": "AC-MOT-09 (only ag-sweep when on)",
+    "status": "todo",
+    "gate": "Spinner component task to be added by FND (PRD §21 O-10)"
+  },
+  {
+    "id": "MOT-036",
+    "prd": "PRD-06",
+    "system": "forced-colors + highlights hooks",
+    "file": "src/motion/css/motion-modes.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-113/-117: @media (forced-colors: active) disables pointer light, ag-sweep and optics fades, focus ring never transitioned; [data-ag-highlights=reduced] disables pointer light, press glow and ag-sweep independent of motion.",
+    "depends_on": [
+      "MOT-033"
+    ],
+    "priority": "P1",
+    "test": "T04 parse assertions for both blocks",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-113/-117 (D-11 floor)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-037",
+    "prd": "PRD-06",
+    "system": "styles.css wiring",
+    "file": "build/css-ownership.json",
+    "action": "MODIFY",
+    "description": "SC-20: styles.css assembly is PKG's (scripts/build/build-css.mjs, PKG-097). Add rows to build/css-ownership.json mapping src/motion/css/motion.css, loading.css and view-transition.css to ag.components and motion-modes.css to ag.a11y (PRD §21 O-09); edit nothing else.",
+    "depends_on": [
+      "MOT-027",
+      "MOT-033",
+      "MOT-035",
+      "PKG-097",
+      "PKG-099"
+    ],
+    "priority": "P0",
+    "test": "T03 runs against built dist/styles.css (remote full build)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-12 input (CSS size measured in MOT-102)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-038",
+    "prd": "PRD-06",
+    "system": "CSS output test",
+    "file": "NEW:src/motion/__tests__/css-output.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T03: PostCSS parse of dist/styles.css: four @property rules; @supports not (transition-timing-function: linear(0, 1)) fallback maps snappy->standard, smooth/fluid->emphasized-decelerate (REQ-MOT-05); 0 !important; 0 transition: all; all @keyframes prefixed ag-.",
+    "depends_on": [
+      "MOT-037",
+      "DS-016",
+      "PKG-097"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/__tests__/css-output.test.ts (after remote build artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-03, AC-MOT-05",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-039",
+    "prd": "PRD-06",
+    "system": "modes test",
+    "file": "NEW:src/motion/__tests__/modes.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T04: calm and media mirror strip scale/translate/rotate and infinite animations but keep opacity transitions; none scoped to [data-ag-part],[data-ag-surface] with no '*'.",
+    "depends_on": [
+      "MOT-033",
+      "MOT-034",
+      "MOT-036"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/__tests__/modes.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-06 input",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-040",
+    "prd": "PRD-06",
+    "system": "shared ticker",
+    "file": "NEW:src/motion/ticker.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-33/-128: internal subscribe(cb,{element}) => unsubscribe; one rAF loop, dt capped 50 ms, stops at 0 subscribers, pauses on visibilityState hidden, skips non-intersecting elements via one shared IntersectionObserver; no React state; not exported from any package entry. Anchor task for PRD-06 (SC-40). The shared IntersectionObserver also owns data-ag-offscreen (SC-21): set while non-intersecting, removed when intersecting; internal observeOffscreen(el) for non-ticker consumers (MED backdrops/media).",
+    "depends_on": [
+      "DS-053"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T09 (MOT-041)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-07 input; REQ-MOT-128",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-041",
+    "prd": "PRD-06",
+    "system": "ticker test",
+    "file": "NEW:src/motion/__tests__/ticker.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T09: one rAF per frame for 5 subscribers; dt capped at 50; cancel at 0 subscribers; 0 callbacks while hidden; non-intersecting subscriber gets 0 callbacks; tween under calm writes final value immediately; live region updated once. Also: data-ag-offscreen set/removed by the shared observer (mocked IO).",
+    "depends_on": [
+      "MOT-040",
+      "MOT-052"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/__tests__/ticker.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-128; AC-MOT-07 input",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-042",
+    "prd": "PRD-06",
+    "system": "pointer light core",
+    "file": "NEW:src/motion/pointerLight.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-40/-42: installPointerLight(doc) ref-counted per Document, exactly one passive pointermove + pointerleave listener; per ticker frame closest('[data-ag-pointer-light]'), rect cached on pointerenter and invalidated on scroll/resize, single style.setProperty('--_ag-pointer','x% y%') (1 decimal); removeProperty on leave.",
+    "depends_on": [
+      "MOT-040",
+      "MOT-027"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T10 (MOT-044)",
+    "storybook": "Motion/Interactions pointer light story",
+    "acceptance": "AC-MOT-11",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-043",
+    "prd": "PRD-06",
+    "system": "pointer light activation",
+    "file": "src/motion/pointerLight.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-41/-100: export pointerLightActive(prefs, tier, win) true only when resolved motion full, transparency glass, matchMedia('(hover: hover) and (pointer: fine)') matches and data-ag-tier standard|enhanced; otherwise no listener installed. Contract: components forward pointerLight?: boolean (default false) as data-ag-pointer-light on Button, IconButton, TabBar, Card, Surface.",
+    "depends_on": [
+      "MOT-042",
+      "A11Y-027",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "T10 cases for calm, none, tinted, solid, coarse pointer, lightweight tier",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-11",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-044",
+    "prd": "PRD-06",
+    "system": "pointer light test",
+    "file": "NEW:src/motion/__tests__/pointerLight.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T10: 10 installs -> 1 pointermove listener; 20 moves in one frame -> <= 1 setProperty('--_ag-pointer'); getBoundingClientRect once per entered element; removeProperty on leave; pointerLightActive false for each disabling condition; no React import.",
+    "depends_on": [
+      "MOT-042",
+      "MOT-043"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/__tests__/pointerLight.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-11 (unit part)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-045",
+    "prd": "PRD-06",
+    "system": "startMorph",
+    "file": "NEW:src/motion/viewTransition.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-36: internal startMorph(update,{surfaces,name}) -> none: sync update; else set data-ag-vt, document.startViewTransition({update, types:['ag-morph'|'ag-morph-calm']}) with callback-form fallback on TypeError, await finished swallowing AbortError/InvalidStateError, remove data-ag-vt, set data-ag-vt-settled for duration.micro; update runs exactly once on every path.",
+    "depends_on": [
+      "MOT-040",
+      "DS-053",
+      "A11Y-027"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T11 (MOT-050)",
+    "storybook": "Motion/View Transitions stories (MOT-104)",
+    "acceptance": "AC-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-046",
+    "prd": "PRD-06",
+    "system": "FLIP fallback",
+    "file": "src/motion/viewTransition.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-39: without startViewTransition measure rects before/after update, WAAPI transform-only translate+scale animation with --ag-spring-fluid easing and --ag-spring-fluid-duration from getComputedStyle; --_ag-optics 0 during, restored after; finish() on interruption or preference change.",
+    "depends_on": [
+      "MOT-045"
+    ],
+    "priority": "P0",
+    "test": "T11: FLIP keyframes contain only transform; finish on preference change",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-10 (FLIP path)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-047",
+    "prd": "PRD-06",
+    "system": "optics drop CSS",
+    "file": "NEW:src/motion/css/view-transition.css",
+    "action": "CREATE",
+    "description": "REQ-MOT-37: §4.7 block verbatim in @layer ag.components (:root:active-view-transition participants --_ag-optics:0; ::view-transition-group(*.ag-morph) medium + spring-fluid; data-ag-vt-settled optics transition micro) plus ag-morph-calm opacity-only old/new over micro and group animation none; imported into styles.css.",
+    "depends_on": [
+      "MOT-027",
+      "MOT-037"
+    ],
+    "priority": "P0",
+    "test": "T03 extended: view-transition.css rules present in dist/styles.css; MOT-099 per engine",
+    "storybook": "Motion/View Transitions optics debug toggle",
+    "acceptance": "AC-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-048",
+    "prd": "PRD-06",
+    "system": "morph names + participants",
+    "file": "src/motion/viewTransition.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-38: useMorphName(prefix) from useId sanitised to [a-z0-9-] and prefixed ag-; dev-only duplicate-name warning; documented contract that morph surfaces render data-ag-vt-participant (Tabs indicator ag-tabs-indicator-<id>, SegmentedControl thumb, TabBar capsule, Menu->Sheet, SourceTransition).",
+    "depends_on": [
+      "MOT-045"
+    ],
+    "priority": "P1",
+    "test": "T11: sanitised names; duplicate warning fires in dev only",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-049",
+    "prd": "PRD-06",
+    "system": "React ViewTransition detection",
+    "file": "src/motion/viewTransition.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-36: module-scope reactViewTransition = React.ViewTransition ?? React.unstable_ViewTransition ?? null for morph components, which render <ViewTransition name share='ag-morph'> + startTransition instead of startMorph when non-null.",
+    "depends_on": [
+      "MOT-045"
+    ],
+    "priority": "P1",
+    "test": "T11 with mocked React module exposing ViewTransition",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-050",
+    "prd": "PRD-06",
+    "system": "View Transition unit test",
+    "file": "NEW:src/motion/__tests__/viewTransition.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T11: startViewTransition used when present, FLIP otherwise; update once when finished rejects with AbortError and InvalidStateError; data-ag-vt removed after finished; none runs synchronously; reactViewTransition detection.",
+    "depends_on": [
+      "MOT-045",
+      "MOT-046",
+      "MOT-048",
+      "MOT-049"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/__tests__/viewTransition.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-10 (unit part)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-051",
+    "prd": "PRD-06",
+    "system": "MotionCapability context",
+    "file": "NEW:src/motion/capability.ts",
+    "action": "CREATE",
+    "description": "§4.8: MotionCapability interface (dragDetents, momentum typed against DragBindings/MomentumBindings) and MotionCapabilityContext = createContext<MotionCapability|null>(null); no implementation, no motion import.",
+    "depends_on": [],
+    "priority": "P1",
+    "test": "typecheck; rg motion import in file = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-17 (core works without peer)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-052",
+    "prd": "PRD-06",
+    "system": "tween + preference change + announce",
+    "file": "src/motion/ticker.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-26/-34/-116: tween(el, from, to, {duration, format}) writes textContent via ticker, final value immediately under calm/none, cancel jumps to final; onMotionChange(cb) from PRD-05 store (MutationObserver on data-ag-motion fallback) makes all JS clients jump to final within one frame; announceFinal(region,text) updates an aria-live=polite aria-atomic=true region once. Component AnimatedNumber structure [owner: PRD-11]. AnimatedNumber is registry/compat only (not used by StatCard, SC-38).",
+    "depends_on": [
+      "MOT-040",
+      "A11Y-027"
+    ],
+    "priority": "P1",
+    "test": "T09 cases for tween, preference change mid-tween, single announcement",
+    "storybook": "AnimatedNumber story owned by PRD-11 uses tween",
+    "acceptance": "REQ-MOT-34/-116; AC-MOT-06 for StatCard when PRD-11 lands",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-053",
+    "prd": "PRD-06",
+    "system": "motion optional peer",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "REQ-MOT-51 (add): peerDependencies.motion '^12', peerDependenciesMeta.motion.optional true, devDependencies.motion exact latest 12.x (record version). framer-motion untouched here (MOT-088).",
+    "depends_on": [
+      "PKG-056",
+      "PKG-057"
+    ],
+    "priority": "P0",
+    "test": "npm install lockfile diff only adds motion; T15 (MOT-064)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-02 (motion optional peer ^12)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-054",
+    "prd": "PRD-06",
+    "system": "dependency allowlist entry",
+    "file": "docs/dependency-allowlist.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-50: add {package:'motion', kind:'optional-peer', scope:['src/motion/adapter/**']} and {package:'framer-motion', scope:[]} to the PRD-02-created allowlist (BLOCKED on PRD-02 if file absent). MODIFY of PKG-056's file (SC-14).",
+    "depends_on": [
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "T16 (MOT-056)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-055",
+    "prd": "PRD-06",
+    "system": "dependency checker",
+    "file": "docs/dependency-allowlist.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-50 (SC-14): express the rule as allowlist data checked by PKG's scripts/ci/verify-deps.mjs (PKG-057): motion allowed importers [\"src/motion/adapter/**\"] (import, export-from, require, dynamic import()), framer-motion banned everywhere. Does not edit scripts/ci/verify-no-core-ui-deps.js (deleted by PKG-075).",
+    "depends_on": [
+      "MOT-054",
+      "PKG-056",
+      "PKG-057",
+      "PKG-075"
+    ],
+    "priority": "P0",
+    "test": "T16 (MOT-056); node scripts/ci/verify-deps.mjs exits 0 on the tree",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-056",
+    "prd": "PRD-06",
+    "system": "dependency checker test",
+    "file": "NEW:tests/motion/deps-allowlist.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T16: run PKG's verify-deps.mjs with MOT's allowlist rows; passes on the tree, fails on an injected fixture file importing framer-motion and one dynamic import('motion') outside src/motion/adapter/**, reporting file:line package.",
+    "depends_on": [
+      "MOT-055",
+      "PKG-057"
+    ],
+    "priority": "P0",
+    "test": "npm test -- scripts/ci/__tests__/verify-motion-deps.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01 (T16 green)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-057",
+    "prd": "PRD-06",
+    "system": "toMotionTransition + adapter index",
+    "file": "NEW:src/motion/adapter/toMotionTransition.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-52/-53: 'use client'; springs -> {type:'spring', stiffness, damping, mass:1, velocity?} read from motionTokens (never bounce/visualDuration); durations -> {duration: ms/1000, ease} (exit uses durationExit + ease.accelerate); only ms->s conversion. index.ts exports exactly MotionProvider, toMotionTransition, useDragDetents, useMomentum, SharedLayout, Shared, magnetic + types MotionTokenName, DragBindings, MomentumBindings, MagneticBindings; API Extractor report for ./motion. ./motion is a row in build/exports.manifest.json (PKG-005, SC-12); API report etc/api/motion.api.md + etc/api/motion.exports.json via REL-003 (SC-04).",
+    "depends_on": [
+      "DS-053",
+      "MOT-053",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T14 (MOT-063)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-12 (/motion <= 4 KB); API report locks surface",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-058",
+    "prd": "PRD-06",
+    "system": "MotionProvider",
+    "file": "NEW:src/motion/adapter/MotionProvider.tsx",
+    "action": "CREATE",
+    "description": "REQ-MOT-54: <MotionConfig reducedMotion={resolved==='full' ? 'never' : 'always'}> from usePreference('motion'); provides MotionCapabilityContext with real dragDetents/momentum implementations.",
+    "depends_on": [
+      "MOT-051",
+      "MOT-057",
+      "A11Y-027"
+    ],
+    "priority": "P0",
+    "test": "T14: full->never, calm/none->always",
+    "storybook": "Motion/Physics stories (MOT-104)",
+    "acceptance": "AC-MOT-17 (with/without provider)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-059",
+    "prd": "PRD-06",
+    "system": "useDragDetents",
+    "file": "NEW:src/motion/adapter/useDragDetents.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-55/-103: target detent nearest to position + velocity*0.2; spring from toMotionTransition('spring-smooth',{velocity}); rubber-band 0.55 beyond ends; dismiss at >25% height or >800 px/s; calm snaps with opacity-only small transition; none jumps.",
+    "depends_on": [
+      "MOT-057",
+      "MOT-058"
+    ],
+    "priority": "P0",
+    "test": "T14: detents [0,300,600] from 300 -> +1500 px/s => 600, -1500 => 0, 0 => 300",
+    "storybook": "Motion/Physics Sheet detents with velocity read-out",
+    "acceptance": "AC-MOT-17",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-060",
+    "prd": "PRD-06",
+    "system": "useMomentum",
+    "file": "NEW:src/motion/adapter/useMomentum.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-56: inertia power 0.8, timeConstant 325, clamp to bounds, settle <= 1,000 ms, stopped by new pointerdown.",
+    "depends_on": [
+      "MOT-057"
+    ],
+    "priority": "P1",
+    "test": "T14: settle time <= 1000 ms; pointerdown stops animation",
+    "storybook": "Motion/Physics TabBar momentum",
+    "acceptance": "REQ-MOT-56 via T14",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-061",
+    "prd": "PRD-06",
+    "system": "magnetic",
+    "file": "NEW:src/motion/adapter/magnetic.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-57: magnetic({strength=0.15}) clamped [0,0.3]; offset min(strength*0.5*min(w,h), 8px) toward pointer via useMotionValue/useSpring (spring-snappy params); only motion full and (pointer: fine); no React state. Replaces GlassMagneticButton/GlassMagneticCursor.",
+    "depends_on": [
+      "MOT-057"
+    ],
+    "priority": "P2",
+    "test": "T14: offset <= 8 px for 200x200 at strength 0.3; inactive under calm",
+    "storybook": "Motion/Physics magnetic story",
+    "acceptance": "REQ-MOT-57 via T14",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-062",
+    "prd": "PRD-06",
+    "system": "SharedLayout/Shared",
+    "file": "NEW:src/motion/adapter/SharedLayout.tsx",
+    "action": "CREATE",
+    "description": "REQ-MOT-58: wrap LayoutGroup and layoutId; onLayoutAnimationStart sets data-ag-animating and --_ag-optics:0 on participant, onLayoutAnimationComplete removes both.",
+    "depends_on": [
+      "MOT-057"
+    ],
+    "priority": "P2",
+    "test": "T14: attributes set during layout animation and removed after",
+    "storybook": "Motion/Physics Shared/layoutId story",
+    "acceptance": "REQ-MOT-58 via T14",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-063",
+    "prd": "PRD-06",
+    "system": "adapter tests",
+    "file": "NEW:src/motion/adapter/__tests__/adapter.test.tsx",
+    "action": "TEST",
+    "description": "REQ-MOT-T14: toMotionTransition values equal motionTokens; duration /1000; MotionProvider mapping; drag detent projection; magnetic bound; REQ-MOT-53 equivalence: motion spring generator vs compiled linear() differ <= 0.01 at every 10 ms sample per spring.",
+    "depends_on": [
+      "MOT-057",
+      "MOT-058",
+      "MOT-059",
+      "MOT-060",
+      "MOT-061",
+      "MOT-062"
+    ],
+    "priority": "P0",
+    "test": "npm test -- src/motion/adapter/__tests__/adapter.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-12 (/motion), REQ-MOT-53",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-064",
+    "prd": "PRD-06",
+    "system": "no-peer canary",
+    "file": "NEW:tests/motion/no-peer.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T15/-59: remote packed-tarball Vite + React 19 consumer without motion: Sheet and TabBar render, open, change detent by keyboard and handle buttons with CSS snap; second fixture importing aura-glass/motion fails with 'aura-glass/motion requires the optional peer \"motion@^12\". Install it with: npm i motion@^12'. Tarball via scripts/ci/lib/npm-pack.js (TRUST-002); runs in lane L11 Consumer canaries.",
+    "depends_on": [
+      "MOT-053",
+      "MOT-057",
+      "OVL-097",
+      "NAV-070",
+      "TRUST-002",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "remote: npm pack + fixture build + playwright test tests/motion/no-peer.spec.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-17",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-065",
+    "prd": "PRD-06",
+    "system": "lint: no runtime import",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-60: auraglass/motion-no-runtime-import errors on import/export-from/require/import() of framer-motion, motion, motion/*, popmotion, react-spring, @react-spring/*, gsap outside src/motion/adapter/**.",
+    "depends_on": [
+      "MOT-057",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17 valid (adapter path) + invalid cases",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-066",
+    "prd": "PRD-06",
+    "system": "lint: no motion literals + ratchet",
+    "file": "eslint-plugin-auraglass.js; stylelint-plugin-auraglass/rules/no-raw-design-values.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-61 (SC-17): no auraglass/motion-no-literals rule and no scripts/ci/motion-literal-baseline.json. MODIFY DS's auraglass/no-raw-design-values (ESLint + stylelint, DS-071) to supply the duration|easing|spring category matchers: numeric duration/delay/stiffness/damping/mass/bounce/visualDuration keys, cubic-bezier(/linear( strings, Tailwind duration-/ease-/delay- classes outside src/motion/** and generated token files; CSS ms/s literals and cubic-bezier() in transition*/animation* outside tokens.css. Counts go to DS's scripts/tokens/gates/literals-baseline.json (DS-073) via literals.mjs (DS-072).",
+    "depends_on": [
+      "DS-071",
+      "DS-072",
+      "DS-073",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17 cases for the motion categories; DS ratchet test: injected extra duration literal fails literals.mjs",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-04",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-067",
+    "prd": "PRD-06",
+    "system": "lint: no hover transform",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-62: auraglass/motion-no-hover-transform. JS: errors on whileHover/whileTap in src/**. CSS (in verify-motion-css.mjs): errors on scale/transform/translate/rotate in :hover, [data-highlighted], :active, [data-pressed] rules with no allow-list (SC-38).",
+    "depends_on": [
+      "MOT-028",
+      "MOT-073",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17: hover scale invalid, press scale invalid, Card hover translate invalid, whileHover invalid, scalar-only hover valid",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05; REQ-MOT-11",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-068",
+    "prd": "PRD-06",
+    "system": "lint: single preference source",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-63: auraglass/motion-single-preference-source errors on matchMedia with a prefers-reduced-motion string and on imports of useReducedMotion, useEnhancedReducedMotion, useMotionPreference, useMotionPreferenceContext, MotionPreferenceContext, prefersReducedMotion, ReducedMotionProvider outside the PRD-05 preferences directory and src/compat/**. Allowed source path: src/theme/preferences/** (SC-23).",
+    "depends_on": [
+      "A11Y-027",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17 valid (preferences + compat paths) and invalid cases",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-25; AC-MOT-16 support",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-069",
+    "prd": "PRD-06",
+    "system": "lint: no empty animate (5.x)",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-64: port the 4.x rule from MOT-004 to main unchanged; error on src/**.",
+    "depends_on": [
+      "MOT-004",
+      "PKG-015"
+    ],
+    "priority": "P1",
+    "test": "T17 cases",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-64 + DoD §18: rule is error on main; AC-MOT-15 rule parity with 4.x",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-070",
+    "prd": "PRD-06",
+    "system": "lint: rAF via ticker",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-65: auraglass/motion-raf-via-ticker errors on requestAnimationFrame( and setInterval( in src/components/**, src/primitives/** and every 5.0 component directory; also on useState setter or dispatch calls inside subscribe( or requestAnimationFrame( callbacks. Complements PERF's raf-requires-cancel/raf-requires-visibility-gate (SC-16); no duplicate checks.",
+    "depends_on": [
+      "MOT-040",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17 cases including setState-in-callback",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-07 (static support)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-071",
+    "prd": "PRD-06",
+    "system": "lint: gated continuous",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-66: JS errors on repeat/iterations/iterationCount: Infinity unless guarded by a usePreference('allowContinuous') binding; CSS (checker) errors on infinite iteration unless an ancestor selector contains [data-ag-continuous=\"on\"]; no file-level exception for loading.css.",
+    "depends_on": [
+      "MOT-035",
+      "MOT-073",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "T17: ungated infinite invalid, gated ag-sweep valid, guarded JS loop valid",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-09",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-072",
+    "prd": "PRD-06",
+    "system": "lint: no random motion",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "REQ-MOT-35 enforcement (documented deviation: PRD names no rule): auraglass/motion-no-random errors when Math.random() (directly or via a same-scope binding) reaches JSX style/animate/initial/transition/variants, object keys delay/duration/x/y/scale/rotate/opacity/translate, el.animate( keyframes or style.setProperty(; ID-only uses allowed; labs excluded. Rule name auraglass/motion-no-random (motion- prefix, SC-16); render-time Math.random() is PKG's no-random-in-render and is not duplicated.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P2",
+    "test": "T17 valid (id usage) and invalid (animate delay) cases",
+    "storybook": "n/a",
+    "acceptance": "REQ-MOT-35",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-073",
+    "prd": "PRD-06",
+    "system": "CSS motion checker",
+    "file": "NEW:scripts/ci/verify-motion-css.mjs",
+    "action": "CREATE",
+    "description": "REQ-MOT-67: PostCSS AST over src/**/*.css, *.module.css, dist/styles.css and CSS-in-JS templates: fail on transition: all / transition-property: all / transition-all / glass-transition-all, animated props outside the REQ-MOT-12 allow-list, backdrop-filter/filter/box-shadow/geometry/border-radius/clip-path in keyframes or transitions, cubic-bezier y outside [0,1], !important in motion rules, duplicate @keyframes, keyframes not prefixed ag-, unregistered custom properties in transitions, time literals/cubic-bezier in transition*/animation* outside tokens.css; --count-literals and --write-baseline modes; exported checkCss(source, filename).",
+    "depends_on": [
+      "MOT-027"
+    ],
+    "priority": "P0",
+    "test": "T17 CSS fixtures; node scripts/ci/verify-motion-css.mjs src/motion = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-074",
+    "prd": "PRD-06",
+    "system": "lint wiring",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "DoD §18: wire MOT-065..072 in eslint.config.js and .eslintrc.js (REQ-MOT-64 error, others warn until MOT-090 flips them); package.json scripts lint:motion = node scripts/ci/verify-motion-css.mjs appended to lint:ci; scripts/ci/token-lint.js delegates motion literals to the new rule. MODIFY of PKG-015's wiring; lane L1 Static.",
+    "depends_on": [
+      "MOT-065",
+      "MOT-066",
+      "MOT-067",
+      "MOT-068",
+      "MOT-069",
+      "MOT-070",
+      "MOT-071",
+      "MOT-072",
+      "MOT-073",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "npm run lint:ci runs the motion checks; warn counts recorded",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-04, AC-MOT-05 (gates live)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-075",
+    "prd": "PRD-06",
+    "system": "lint rule tests",
+    "file": "NEW:tests/lint/motion-rules.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T17/-68: ESLint RuleTester + @typescript-eslint/parser, >= 1 valid and >= 1 invalid case per rule (60,61,62,63,64,65,66,35) and per allow-list exception; CSS fixtures in NEW tests/lint/fixtures/motion/ through checkCss.",
+    "depends_on": [
+      "MOT-074"
+    ],
+    "priority": "P0",
+    "test": "npm test -- tests/lint/motion-rules.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-04, AC-MOT-05 (T17 green)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-076",
+    "prd": "PRD-06",
+    "system": "retire legacy motion token sources",
+    "file": "src/tokens/glass.ts; src/theme/designMatrix.ts; src/animations/physics/springPhysics.ts; src/primitives/motion/presets.ts",
+    "action": "REMOVE",
+    "description": "REQ-MOT-07: remove AURA_GLASS.motion and LIQUID_GLASS.motionFluency (glass.ts:849-853, :1370-1376), persona motion: (designMatrix.ts:189, :280), springPhysics.ts, both animationPresets; rewrite consumers to motionTokens/--ag-*. src/tokens/designConstants.ts (ANIMATION) is deleted by DS-109 and src/tokens/generated.ts motion keys are regenerated by DS (SC-39); MOT only verifies 0 readers. --glass-motion-default alias row submitted to DS for compat/tokens.css.",
+    "depends_on": [
+      "DS-053",
+      "MOT-026",
+      "MOT-089",
+      "DS-109"
+    ],
+    "priority": "P0",
+    "test": "typecheck; rg 'ANIMATION\\.|motionFluency|--glass-theme-duration' src = 0; DS literal baseline (DS-073) duration count decreases",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-04; AC-MOT-18",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-077",
+    "prd": "PRD-06",
+    "system": "remove reduced-motion hooks/contexts",
+    "file": "src/hooks/useReducedMotion.ts",
+    "action": "REMOVE",
+    "description": "REQ-MOT-25: delete useReducedMotion.ts/.tsx, useEnhancedReducedMotion.ts, useMotionPreference.ts, motion part of useAccessibilitySettings.ts, animations/accessibleAnimation.ts, contexts/MotionPreferenceContext.tsx, primitives/motion/ReducedMotionProvider.tsx; NEW src/compat/useReducedMotion.ts = usePreference('motion') !== 'full'; rewrite surviving readers to usePreference('motion'). Sole remover of src/hooks/useReducedMotion.ts (SC-39). Compat adapter NEW src/compat/motion/useReducedMotion.ts calls warnDeprecated(id) (REL-072) and is listed in src/compat/index.ts (DX-065, SC-34).",
+    "depends_on": [
+      "MOT-068",
+      "MOT-089",
+      "A11Y-027",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P0",
+    "test": "eslint motion-single-preference-source = 0 errors; rg prefers-reduced-motion in ts/tsx only in PRD-05 store",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-16 support; REQ-MOT-25",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-078",
+    "prd": "PRD-06",
+    "system": "remove motion props/policies",
+    "file": "src/components/** (surviving 5.0 component types), AuraGlassProvider props",
+    "action": "REMOVE",
+    "description": "REQ-MOT-24: delete respectMotionPreference, motionPolicy, 'always-safe', 'never-safe', forceMotion, disableReducedMotion, initialMotionPolicy, motion preset/animationPreset, animate, disableAnimation, whileHover/whileTap pass-through from every 5.0 type.",
+    "depends_on": [
+      "MOT-089",
+      "MOT-090",
+      "A11Y-029",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "T20 (MOT-079)",
+    "storybook": "stories no longer pass removed props",
+    "acceptance": "AC-MOT-16",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-079",
+    "prd": "PRD-06",
+    "system": "removed-props type test",
+    "file": "NEW:src/motion/__tests__/types.test-d.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T20: @ts-expect-error on <Button respectMotionPreference={false} />, <Button motionPolicy='always-safe' />, <AuraGlassProvider motion='always-safe' />, <Dialog animationPreset='fadeIn' />; MotionTokenName accepts 'spring-smooth' and rejects 'spring-bouncy'.",
+    "depends_on": [
+      "MOT-078",
+      "DS-053"
+    ],
+    "priority": "P0",
+    "test": "tsc -p tests/types/tsconfig.json (remote with full build)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-16",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-080",
+    "prd": "PRD-06",
+    "system": "remove core Motion primitives",
+    "file": "src/primitives/motion/MotionFramer.tsx",
+    "action": "REMOVE",
+    "description": "§9: delete src/primitives/motion/** (MotionFramer, presets, index), src/primitives/MotionNative.tsx, the Motion exports at src/primitives/index.ts:91 and src/index.ts:16/:364/:627/:908 (Motion, animationPresets, GlassTransitions, MotionPreferenceProvider); NEW src/compat/Motion.tsx pass-through div with one dev warning. Compat Motion pass-through at src/compat/motion/Motion.tsx (SC-34).",
+    "depends_on": [
+      "MOT-089",
+      "MOT-090",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P0",
+    "test": "typecheck; rg \"from '.*primitives/motion\" src = 0; T16 green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01; AC-MOT-18",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-081",
+    "prd": "PRD-06",
+    "system": "remove fake engines",
+    "file": "src/animations/",
+    "action": "REMOVE",
+    "description": "§9 / M-07: delete src/animations/** (archive physics/galileoPhysicsSystem.ts to NEW docs/auraglass-5/archive/), src/physics/AuraPhysicsEngine.ts, src/hooks/useGalileoStateSpring.ts, src/hooks/extended/useGalileoSprings.ts, src/hooks/physics/usePhysicsEngine.ts, src/hooks/physics/usePhysicsLayout.ts, src/theme/useGlassMotionPolicy.ts; 0 component consumers confirmed with rg before deletion.",
+    "depends_on": [
+      "MOT-005",
+      "MOT-089",
+      "FND-103"
+    ],
+    "priority": "P1",
+    "test": "typecheck; rg imports of each deleted module = 0",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-18 (deprecation entries exist)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-082",
+    "prd": "PRD-06",
+    "system": "remove animation components",
+    "file": "src/components/animations/",
+    "action": "REMOVE",
+    "description": "§9 + REQ-MOT-84: delete AdvancedAnimations, GlassMotionController, GlassTransitions (incl. shatter/ripple/morph variants :20-190 and shadow GlassModal/GlassTabs/GlassAccordion), OrganicAnimationEngine with their stories, tests and __snapshots__ (coordinate PRD-16 family PR).",
+    "depends_on": [
+      "MOT-089",
+      "MOT-090",
+      "FND-103"
+    ],
+    "priority": "P1",
+    "test": "typecheck; jest suite has no orphaned tests",
+    "storybook": "stories deleted with components",
+    "acceptance": "AC-MOT-05 (filter keyframes gone), AC-MOT-18",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-083",
+    "prd": "PRD-06",
+    "system": "remove JS infinite loops",
+    "file": "src/components/website-components/GlassPrismComparison.tsx (+20 files listed in REQ-MOT-80)",
+    "action": "REMOVE",
+    "description": "REQ-MOT-80/-86/-35: remove all 43 repeat: Infinity in the 21 files listed in REQ-MOT-80 (delete with REMOVE/DEPRECATE components per inventory, otherwise re-author without loop); no permanent FPS rAF loop in the 5.0 tree; remove Math.random-driven motion values in surviving files. Files with REMOVE disposition are deleted by FND's removal families (consumer-grep gate FND-103); MOT re-authors survivors.",
+    "depends_on": [
+      "MOT-070",
+      "MOT-071",
+      "MOT-072",
+      "FND-103"
+    ],
+    "priority": "P0",
+    "test": "rg 'repeat: Infinity' src (outside src/motion/adapter) = 0; eslint motion-gated-continuous/motion-no-random = 0",
+    "storybook": "affected surviving stories re-captured remotely",
+    "acceptance": "AC-MOT-09 (static)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-084",
+    "prd": "PRD-06",
+    "system": "remove CSS infinite animations + global nukes",
+    "file": "src/styles/glass.css",
+    "action": "REMOVE",
+    "description": "REQ-MOT-81/-22: delete infinite animations in src/styles/glass.css, design-tokens.css, storybook-utility-shim.css, backgrounds/GlassDynamicAtmosphere.module.css, backgrounds/AtmosphericBackground.module.css, input/GlassMultiSelect.module.css, marketing/marketing.css, effects/glass-morphing.css, visual-feedback/StateIndicator.module.css, visual-feedback/VisualFeedback.module.css (client/HeroSection deleted with src/client); delete global * reduced-motion blocks animations.css:6-12, :530-536, design-tokens.css:134-140 and keep-essential :234-254. MOT is the sole remover of src/styles/glass.css on main (SC-20).",
+    "depends_on": [
+      "MOT-033",
+      "MOT-073"
+    ],
+    "priority": "P0",
+    "test": "verify-motion-css.mjs: only ag-sweep infinite, gated; 0 !important in motion rules",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05, AC-MOT-09",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-085",
+    "prd": "PRD-06",
+    "system": "remove bounce/overshoot",
+    "file": "NEW:src/motion/__tests__/no-overshoot.test.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-82: bounceIn/bounceOut/elasticIn/elasticOut go with src/tokens/designConstants.ts (DS-109, SC-39; MOT does not edit that file). MOT removes the remaining overshoot artefacts outside it via MOT-084/086 (springBounce glass.css:4350, spring-bounce animations.css:397, Tailwind animate-bounce, underdamped 100/10 springPhysics.ts:2-6) and this test asserts 0 overshoot beziers across src and dist.",
+    "depends_on": [
+      "MOT-073",
+      "DS-109"
+    ],
+    "priority": "P0",
+    "test": "rg 'cubic-bezier\\(0\\.68' src = 0; checker 0 overshoot beziers",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-05 (0 overshoot beziers)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-086",
+    "prd": "PRD-06",
+    "system": "remove decorative + filter keyframes",
+    "file": "src/styles/animations.css",
+    "action": "REMOVE",
+    "description": "REQ-MOT-83/-84: delete keyframes float, glow-pulse, rainbow-glow, glowPulse, 4x shimmer (glass.css:4304, glass-morphing.css:142, GlassPerformanceOptimization.css:3, GlassLoadingSkeleton.tsx:444), rainbowShift, gradientShift, dual-glow, glow-animate, nebulaMove, meshDrift, morphBlob, particleFloat, particle-orbit, quantumFluctuate, interference, hologram-scan-lines, hologram-layer-scan, magneticPulse, magnetic-attract, magnetic-click, pulse-3d, noise, glowEffects.ts:231/:236; the 20 filter/blur keyframe arrays; every hue-rotate animation; replace all transition: all/transition-all/glass-transition-all (335+90, glass.generated.css:504) with explicit allow-list properties. Includes @keyframes spring-bounce (animations.css:397) for REQ-MOT-82.",
+    "depends_on": [
+      "MOT-073",
+      "MOT-035"
+    ],
+    "priority": "P0",
+    "test": "verify-motion-css.mjs = 0 violations across shipped CSS",
+    "storybook": "remote before/after of affected surviving stories for human review",
+    "acceptance": "AC-MOT-05",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-087",
+    "prd": "PRD-06",
+    "system": "remove mount presets + Tailwind loaders",
+    "file": "src/components/layout/** (GlassStack, HStack, VStack, GlassGrid, GlassFlex, GlassSeparator) and Card components",
+    "action": "REPLACE",
+    "description": "REQ-MOT-87/-88: remove preset=fadeIn/slideDown/scaleIn on layout primitives and Cards at rest; replace animate-pulse (78), glass-animate-pulse (44), animate-spin (63), glass-animate-spin (54) in surviving files with Spinner/Skeleton; glass-animate-* and glass-transition-all move to compat/globals.css only.",
+    "depends_on": [
+      "MOT-035",
+      "FND-045",
+      "FND-046"
+    ],
+    "priority": "P1",
+    "test": "rg 'animate-(pulse|spin)|glass-animate-' src (non-compat) = 0; T19 (MOT-100)",
+    "storybook": "layout stories show no entrance; Spinner/Skeleton static by default",
+    "acceptance": "AC-MOT-09; REQ-MOT-15 via T19",
+    "status": "todo",
+    "gate": "C-D deprecation in the 4.2 bridge (REL scope, SC-37)"
+  },
+  {
+    "id": "MOT-088",
+    "prd": "PRD-06",
+    "system": "framer-motion exit + lint to error",
+    "file": "package.json",
+    "action": "REMOVE",
+    "description": "REQ-MOT-51: after 0 non-adapter imports, delete framer-motion from peerDependencies, peerDependenciesMeta, devDependencies; delete scripts/scan-motion-performance.js and scripts/fix-use-reduced-motion-imports.sh and their scripts; flip all auraglass/motion-* rules to error in eslint.config.js/.eslintrc.js.",
+    "depends_on": [
+      "MOT-080",
+      "MOT-081",
+      "MOT-082",
+      "MOT-083",
+      "MOT-053",
+      "MOT-074",
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "node -e check: no 'framer-motion' in package.json; eslint src 0 motion errors; T16 green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-01, AC-MOT-02",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-089",
+    "prd": "PRD-06",
+    "system": "motion deprecations",
+    "file": "deprecations.json (repo root)",
+    "action": "DOC",
+    "description": "AC-MOT-18: one entry per §9/§10 export, prop and token (Motion x2, animationPresets, GlassMotionController/GlassTransitions/OrganicAnimationEngine families, AdvancedAnimations, MotionPreferenceProvider, ReducedMotionProvider, reduced-motion hooks, physics hooks/engines, ANIMATION, AURA_GLASS.motion, LIQUID_GLASS.motionFluency, --glass-motion-default, --glass-theme-duration-*, tokens/keyframes, removed props) with since 4.2.0, removedIn 5.0.0, replacement, codemod id; 4.2 one-time dev warnings (BLOCKED if PRD-00/01 file+schema absent). MODIFY of the TRUST-075 seed at the repo root (SC-02); codemod field is one of reduced-motion-initial, motion-imports, motion-props, removed, css-vars, providers or null (SC-33).",
+    "depends_on": [
+      "TRUST-075",
+      "REL-010",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "PRD-01 deprecations gate validates schema; jest: dev warning fires once per symbol",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-18",
+    "status": "todo",
+    "gate": "4.2 bridge (REL scope, SC-37)"
+  },
+  {
+    "id": "MOT-090",
+    "prd": "PRD-06",
+    "system": "motion codemods",
+    "file": "NEW:packages/cli/src/migrate/4to5/transforms/motion-imports.ts; NEW:packages/cli/src/migrate/4to5/transforms/motion-props.ts",
+    "action": "CREATE",
+    "description": "§11 item 2 / REQ-MOT-T21 (SC-33): motion-imports (hooks -> usePreference('motion') !== 'full', unwrap ReducedMotionProvider, skip MotionPreferenceProvider (core providers transform DX-046), <Motion preset> -> plain element + TODO(aura-glass 5) marker, and the JS token rewrites ANIMATION.DURATION.normal -> motionTokens.duration.small, bounce/elastic -> ease.standard + TODO; there is no tokens transform id); motion-props (delete removed props, magnetic -> /motion magnetic() + TODO, RippleButton -> Button). Mapping data only from generated mappings/*.json and <Component>.meta.ts migration fields. Fixtures in __fixtures__/<id>/<case>/, idempotence tests in __tests__/.",
+    "depends_on": [
+      "MOT-001",
+      "DX-041",
+      "DX-042",
+      "DX-059"
+    ],
+    "priority": "P0",
+    "test": "npm test -- packages/cli/src/migrate/4to5/__tests__ (motion-imports, motion-props) green and idempotent; DX-059 area contract green",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-18",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-091",
+    "prd": "PRD-06",
+    "system": "Storybook motion globals",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "REQ-MOT-90: toolbar globals motion (system default = no attribute, full, calm, none -> data-ag-motion on story root) and allowContinuous (off default -> data-ag-continuous='on' only when on and motion resolves full); forced reduce only in CI static snapshot run. Registered through SB's globals contract on SB-048's preview.tsx (SC-31); MOT does not rewrite the file.",
+    "depends_on": [
+      "MOT-033",
+      "A11Y-027",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook test-runner smoke: attribute toggles per global",
+    "storybook": "toolbar visible on every story; default follows OS",
+    "acceptance": "AC-MOT-06/-07 inputs",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-092",
+    "prd": "PRD-06",
+    "system": "motion lane config",
+    "file": "certification/playwright.cert.config.ts",
+    "action": "MODIFY",
+    "description": "REQ-MOT-70 (SC-29): add a `motion` project to QA's cert config running tests/motion/**/*.spec.ts on chromium, webkit, firefox x 1440x900 and 390x844 x reducedMotion no-preference/reduce against the static Storybook build in certify:1 mode; runs in lane L9 Motion via certify-pr.yml (QA-031). No playwright.motion.config.ts, no motion-lane.yml, no edits to scripts/audit/** (QA-115 deletes storybook-visual-certification.mjs).",
+    "depends_on": [
+      "MOT-091",
+      "QA-018",
+      "QA-031",
+      "QA-076"
+    ],
+    "priority": "P0",
+    "test": "certify-pr.yml L9 green on an empty MOT spec set and fails closed on a failing fixture spec",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-20 (lane exists)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-093",
+    "prd": "PRD-06",
+    "system": "lane helpers",
+    "file": "NEW:tests/motion/helpers/frames.ts",
+    "action": "CREATE",
+    "description": "REQ-MOT-71..74: frames.ts (getAnimations subtree, pause, 12 currentTime samples x max endTime, locator.screenshot + animation snapshot, distinct-frame count >0.5% pixel diff, Chromium CDP screencast wall-clock +/-20%); NEW settle.ts (large+100 ms: no running animations on [data-ag-part], opacity >= 0.99, scale none/1, translate none/0px, bbox > 0, no will-change); NEW idle.ts (addInitScript rAF/setInterval wrapper reusing QA-076's addInitScript counter, stack filtered to AuraGlass chunk URLs). rAF counter reuses QA-076's addInitScript instrument (not scripts/audit/3.1-frame-loop-audit.js).",
+    "depends_on": [
+      "MOT-092"
+    ],
+    "priority": "P0",
+    "test": "helpers exercised by MOT-096..098 specs; self-test spec on a fixture story with a known transition",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-06, -07, -08",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-094",
+    "prd": "PRD-06",
+    "system": "Button motion",
+    "file": "src/components/button/Button.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-11/-41/-94 on Button: data-ag-interactive, data-ag-size-class='control', data-ag-pointer-light when pointerLight, installPointerLight only when pointerLightActive; no scale/translate outside motion.css; metadata motion.interactions (hover, press, focus) per NEW src/motion/metadata.ts MotionMetadata type. MODIFY of CTL-056's Button.css; no press scale (SC-38).",
+    "depends_on": [
+      "MOT-028",
+      "MOT-043",
+      "CTL-055",
+      "CTL-056"
+    ],
+    "priority": "P0",
+    "test": "MOT-096/097/101 on Button subjects; typecheck metadata",
+    "storybook": "Button stories: rest, hover, press, focus, pressed-toggle, pointerLight with play functions",
+    "acceptance": "AC-MOT-20 (Button)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-095",
+    "prd": "PRD-06",
+    "system": "Dialog motion",
+    "file": "src/components/dialog/Dialog.css",
+    "action": "MODIFY",
+    "description": "REQ-MOT-14/-16/-114/-115 on Dialog/AlertDialog: modal emergence (opacity, scale 0.96->1, --_ag-optics 0->1 over 60% of medium, spring-smooth; scrim opacity only, static blur); inert on Popup during data-ending-style [owner: PRD-07 pattern, verify]; focus moves in at open; metadata motion.interactions. MODIFY of OVL-046's Dialog.css; Escape via A11Y LayerStack only (SC-25).",
+    "depends_on": [
+      "MOT-029",
+      "MOT-031",
+      "OVL-040",
+      "OVL-046"
+    ],
+    "priority": "P0",
+    "test": "MOT-096/097/101/106 on Dialog subjects",
+    "storybook": "Dialog stories: open, close, nested AlertDialog over Dialog, Escape, with play functions",
+    "acceptance": "AC-MOT-20 (Dialog)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-096",
+    "prd": "PRD-06",
+    "system": "settle spec",
+    "file": "NEW:tests/motion/settle.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T05/-23/-72/-17/-129: settled-state invariant for each subject story x 3 engines x 2 viewports x {no-preference, reduce} x data-ag-motion {full, calm, none}; will-change on 0 elements at steady state and <= 3 during animation.",
+    "depends_on": [
+      "MOT-093",
+      "MOT-094",
+      "MOT-095"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/settle.spec.ts",
+    "storybook": "subject stories must not use forceVisible",
+    "acceptance": "AC-MOT-06",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-097",
+    "prd": "PRD-06",
+    "system": "frame-strip spec",
+    "file": "NEW:tests/motion/frame-strip.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T13/-71/-74/-112: >= 3 distinct frames of 12 for Button press and Dialog open (then Menu open, Popover open, Tabs morph as delivered) under no-preference with >= 1 CSSTransition/CSSAnimation at trigger+1 frame; under reduce Popup scale/translate never differ from settled; ag-sweep Spinner/Skeleton luminance change < 10% between frames and <= 3 peaks/s.",
+    "depends_on": [
+      "MOT-093",
+      "MOT-094",
+      "MOT-095",
+      "MOT-035"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/frame-strip.spec.ts",
+    "storybook": "frame strips uploaded as artifacts for human review",
+    "acceptance": "AC-MOT-08",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-098",
+    "prd": "PRD-06",
+    "system": "continuous + idle spec",
+    "file": "NEW:tests/motion/continuous.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T08/-30/-73/-111/-127: allowContinuous off -> 0 infinite running animations and 0 library rAF/interval callbacks 1 s after settle on every story; under reduce 0 for 2 s after settle; on -> only ag-sweep runs and stops when content resolves; no auto-starting motion > 5 s.",
+    "depends_on": [
+      "MOT-093",
+      "MOT-035",
+      "MOT-040"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/continuous.spec.ts",
+    "storybook": "all stories in the 5.0 Storybook",
+    "acceptance": "AC-MOT-07, AC-MOT-09",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-099",
+    "prd": "PRD-06",
+    "system": "View Transition optics spec",
+    "file": "NEW:tests/motion/view-transition-optics.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T12/-75: Tabs, SegmentedControl, TabBar, SourceTransition per engine: computed --_ag-optics 0 on participants during :active-view-transition, 1 one frame after finished + micro; FLIP path on engines without startViewTransition behaves the same.",
+    "depends_on": [
+      "MOT-047",
+      "MOT-050",
+      "MOT-093",
+      "CTL-081",
+      "NAV-065",
+      "NAV-070",
+      "NAV-092"
+    ],
+    "priority": "P1",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/view-transition-optics.spec.ts",
+    "storybook": "Motion/View Transitions stories with optics debug outline",
+    "acceptance": "AC-MOT-10",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-100",
+    "prd": "PRD-06",
+    "system": "no mount motion spec",
+    "file": "NEW:tests/motion/no-mount-motion.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T19/-15: Stack, Grid, Container, Separator, Text, Heading and Card at rest produce 0 document.getAnimations() entries 50 ms after mount in a real browser against static Storybook.",
+    "depends_on": [
+      "MOT-030",
+      "MOT-087",
+      "MOT-093",
+      "FND-045",
+      "FND-046"
+    ],
+    "priority": "P1",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/no-mount-motion.spec.ts",
+    "storybook": "layout primitive stories",
+    "acceptance": "REQ-MOT-15 (AC-MOT-09 support)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-101",
+    "prd": "PRD-06",
+    "system": "motion perf spec",
+    "file": "NEW:tests/perf/browser/motion-frame-time.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-T18/-76/-124..-127/-130: 4x CPU throttle 390x844 and 120 Hz desktop: Dialog open/close p95 <= 16.7 / <= 8.3 ms, 0 long tasks > 50 ms, 0 transition Layout events; 20-button pointerLight sweep p95 <= 8.3 ms, <= 0.5 ms/frame pointer-light scripting, 0 React commits; Tabs/SegmentedControl morph setup <= 4 ms desktop / <= 12 ms mobile; idle 0 rAF/s; Dialog vs 4.x glass-modal scripted hover/scroll >= 55 fps median in software-raster harness. Driven by tests/perf/harness/run-perf.mjs (PERF-039, SC-30); budget rows added to tests/perf/harness/budgets.json (PERF-owned, SC-15); lane L10 Performance.",
+    "depends_on": [
+      "MOT-093",
+      "MOT-094",
+      "MOT-095",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "REQ-MOT-T18 on remote runners: REQ-MOT-124 Dialog p95, REQ-MOT-125 Button hover/press sweep with pointerLight (p95 <= 8.3 ms, <= 0.5 ms/frame scripting, 0 commits), REQ-MOT-126 Tabs/SegmentedControl morph setup <= 4 ms desktop / <= 12 ms mobile, REQ-MOT-127 idle, REQ-MOT-130 glass-modal comparison; fails closed against tests/perf/harness/budgets.json",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-11 (runtime), AC-MOT-13, AC-MOT-14",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-102",
+    "prd": "PRD-06",
+    "system": "motion size budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "REQ-MOT-120..123: core motion CSS <= 3.5 KB min+gz; core motion JS (viewTransition+pointerLight+ticker+capability) <= 2.0 KB; { Button } <= 10 KB with <= 0.5 KB motion share; { Dialog } <= 20 KB with <= 1.0 KB; /motion own code <= 4 KB with motion external; 0 bytes framer-motion/motion in Button/Dialog graphs. Rows in PKG-048's file (SC-15); a row may be stricter than PERF's default ceilings, never looser.",
+    "depends_on": [
+      "MOT-037",
+      "MOT-057",
+      "MOT-094",
+      "MOT-095",
+      "PKG-048"
+    ],
+    "priority": "P0",
+    "test": "scripts/ci/verify-size-budgets.mjs (lane L2 Artifact, remote build) fails closed on any overage",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-103",
+    "prd": "PRD-06",
+    "system": "motion-report artifact",
+    "file": "NEW:tests/motion/helpers/report.ts",
+    "action": "INFRA",
+    "description": "REQ-MOT-78: write motion-report.json {sha, subjects:[{id, engine, viewport, preference, mode, framesChanged, settlePass, idleRafCount, vtOpticsPass, p95FrameMs, longTasks}]} as CI artifact keyed to SHA (never under reports/); scripts/audit/verify-visual-evidence.js requires it for flagship release; motion lane is a required check for PRs touching src/motion/**, flagship CSS or tokens/sys/motion.tokens.json.",
+    "depends_on": [
+      "MOT-092",
+      "MOT-096",
+      "MOT-097",
+      "MOT-098",
+      "MOT-101"
+    ],
+    "priority": "P0",
+    "test": "verify-visual-evidence.js fails when motion-report.json missing (fixture test)",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-20 (report attached for SHA)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-104",
+    "prd": "PRD-06",
+    "system": "Motion Lab stories",
+    "file": "NEW:src/stories/motion/Interactions.stories.tsx",
+    "action": "CREATE",
+    "description": "REQ-MOT-91/-93: Motion/Tokens (NEW Tokens.stories.tsx: SVG curves, dot animates only while Play held, spring linear() vs analytic with error read-out), Motion/Interactions (one story per §4.6 row on the 8 static scenes, full/calm/none side by side), Motion/View Transitions (NEW ViewTransitions.stories.tsx with optics debug toggle), Motion/Physics (NEW Physics.stories.tsx: Sheet detents velocity read-out, TabBar momentum, magnetic, Shared); no animated backgrounds (src/stories/motion/, SB Lab harness). Written against SB's Lab harness .storybook/lab/** (SB-060, SC-31); scenes are QA's 8 ids (SC-28).",
+    "depends_on": [
+      "MOT-091",
+      "MOT-058",
+      "SB-048",
+      "SB-060",
+      "QA-038"
+    ],
+    "priority": "P2",
+    "test": "remote Storybook build + test-runner play functions pass; continuous.spec covers them",
+    "storybook": "Motion Lab section with 4 pages",
+    "acceptance": "AC-MOT-20 (human motion review material)",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-105",
+    "prd": "PRD-06",
+    "system": "flagship play functions + roll-out",
+    "file": "flagship *.stories.tsx (Button, Dialog first; others per owning PRD)",
+    "action": "MODIFY",
+    "description": "REQ-MOT-92/-77: every flagship story gets a play function triggering its primary change; an 'initially hidden' story for every component with a visibility timer; no forceVisible-style props; after the exit gate each flagship (§11.2) and the six product scenes are added as lane subjects by their owning PRD. Story files src/**/<Name>.stories.tsx belong to the component PRDs (SC-31); MOT adds play functions by MODIFY.",
+    "depends_on": [
+      "MOT-094",
+      "MOT-095",
+      "CTL-055",
+      "OVL-040"
+    ],
+    "priority": "P1",
+    "test": "Storybook test-runner (remote) executes play functions; lane subjects list grows per flagship",
+    "storybook": "play functions on all flagship stories",
+    "acceptance": "AC-MOT-06/-07/-08 for every flagship",
+    "status": "todo",
+    "gate": "each further flagship's own story task in CTL/OVL/NAV/DATA/AI/MED as delivered"
+  },
+  {
+    "id": "MOT-106",
+    "prd": "PRD-06",
+    "system": "a11y focus + responsive specs",
+    "file": "NEW:tests/motion/a11y-focus.spec.ts",
+    "action": "TEST",
+    "description": "REQ-MOT-114/-115/-101/-102/-104: a11y-focus.spec.ts (Tab during Dialog/Menu exit never lands in the exiting Popup; focus ring visible within 1 frame; focus inside Dialog at open); NEW tests/motion/responsive.spec.ts (Menu/Select/Combobox -> Sheet morph when crossing 640 px while open; 390x844 bottom sheet enters within medium, full-height within large; parallax/scroll text displacement <= 24 px).",
+    "depends_on": [
+      "MOT-093",
+      "MOT-095",
+      "OVL-040",
+      "A11Y-049"
+    ],
+    "priority": "P1",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project motion tests/motion/a11y-focus.spec.ts tests/motion/responsive.spec.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-MOT-06 support; REQ-MOT-114/-115",
+    "status": "todo"
+  },
+  {
+    "id": "MOT-107",
+    "prd": "PRD-06",
+    "system": "manual matrix, human review, motion docs",
+    "file": "NEW:docs/motion.md",
+    "action": "DOC",
+    "description": "REQ-MOT-118 + AC-MOT-19/-20: checklist for VoiceOver/Safari macOS+iOS (Reduce Motion), NVDA/Chrome (Show animations off), TalkBack/Chrome (Remove animations) x Button, Dialog, Menu, Sheet, Tabs (lane L13 Manual SR); human motion review (specular response, materialization, no bounce, no press scale per SC-38) in L14; docs/motion.md with tables generated from <Component>.meta.ts motion fields and motion-report.json (no hand-written numbers, D-32), published through the DX docs site.",
+    "depends_on": [
+      "MOT-096",
+      "MOT-097",
+      "MOT-101",
+      "MOT-103",
+      "DX-117"
+    ],
+    "priority": "P1",
+    "test": "docs lint (DX) passes; sign-off recorded in the PR",
+    "storybook": "Motion docs tables generated per flagship",
+    "acceptance": "AC-MOT-19, AC-MOT-20",
+    "status": "todo"
+  }
+]

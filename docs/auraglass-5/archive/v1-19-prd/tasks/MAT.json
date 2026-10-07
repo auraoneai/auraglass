@@ -1,0 +1,2104 @@
+[
+  {
+    "id": "MAT-001",
+    "prd": "PRD-04",
+    "system": "material/types",
+    "file": "NEW:src/material/types.ts",
+    "action": "CREATE",
+    "description": "Export exactly the architecture §4.2 types: MaterialVariant ('regular'|'clear'|'identity'), Thickness, Layer, ContentMaterial, Backdrop, Tier (incl. 'cinematic', TSDoc: never returned by core), Transparency, Shape, MaterialRole (refraction: boolean), SurfaceProps (no 'as', none of the 17 REQ-MAT-12 deleted props), MaterialSpec (blur, saturation, brightness, tint, opacityFloor, fallbackFill, grain, rim, specular, refraction, shadow, innerFill, content, scrim, state), RadiusToken/SpaceToken re-exported from aura-glass/tokens. Types only.",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tsc --noEmit passes; Surface.test.tsx @ts-expect-error cases (MAT-057) compile as errors",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-01, REQ-MAT-03 unions, REQ-MAT-12 typed out)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-002",
+    "prd": "PRD-04",
+    "system": "material/api-report",
+    "file": "NEW:etc/api/material.api.md",
+    "action": "CREATE",
+    "description": "Register the ./material entry (slug 'material') with REL's scripts/release/api-report.mjs and scripts/release/export-snapshot.mjs (SC-04; no api-extractor.material.json, no scripts/api/), and generate the etc/api/material.api.md and etc/api/material.exports.json drafts (entry src/material/index.ts; types.ts until MAT-053). Diff by hand against architecture §4.2 and list every difference in the report.",
+    "depends_on": [
+      "MAT-001",
+      "TRUST-071",
+      "TRUST-072",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "tests/release/api-report.test.ts covers the material slug; the report run in the Glass Quality Gates job produces no unreviewed diff",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-01 frozen contract draft; DoD 3)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-003",
+    "prd": "PRD-04",
+    "system": "material/css-api",
+    "file": "NEW:scripts/release/material-css-api.mjs",
+    "action": "CREATE",
+    "description": "Generate etc/api/material.css-api.json {public, private, attributes, privateAttributes} from the REQ-MAT-13 registry, the REQ-MAT-14 read-outs, --ag-glass-opacity/--ag-light-angle/--ag-specular, shape/layout vars and the SC-21 attribute registry (owned by MAT). privateAttributes = data-ag-sizeclass|radius|spacing|inset|edge|edge-style|lens-ready|full-height|lens-defs; data-ag-material is rejected (D-20). --check fails when a committed public name disappears without a root deprecations.json entry of kind css-var (REL schema docs/schemas/deprecations.schema.json, SC-02/03).",
+    "depends_on": [
+      "MAT-001",
+      "REL-010",
+      "TRUST-075"
+    ],
+    "priority": "P1",
+    "test": "tests/release/material-css-api.test.ts (NEW): fixture with a removed public var exits non-zero; with a deprecations.json css-var entry exits 0; data-ag-material in input exits non-zero",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-16, REQ-MAT-17 vocabulary)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-004",
+    "prd": "PRD-04",
+    "system": "lint/optics",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule no-optics-outside-material: report keys backdropFilter/WebkitBackdropFilter and string/template literals matching /backdrop-filter|-webkit-backdrop-filter/i, /rgba\\(\\s*255\\s*,\\s*255\\s*,\\s*255\\s*,/, /\\bblur\\(\\s*\\d/, /\\bsaturate\\(\\s*\\d/, /linear-gradient\\([^)]*rgba\\(255,\\s*255,\\s*255/ outside src/material/**, tokens/**, src/material/css/generated/**, the generated Tailwind bridge, and the rule's own test file. Stories/tests not exempt.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/lint/no-optics-outside-material.test.ts (MAT-005)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 (REQ-MAT-63)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-005",
+    "prd": "PRD-04",
+    "system": "lint/optics",
+    "file": "NEW:tests/lint/no-optics-outside-material.test.ts",
+    "action": "TEST",
+    "description": "ESLint RuleTester with ≥1 invalid fixture per REQ-MAT-63 pattern (7+), template literal, style={{}} object, and a src/components/** story; valid fixtures in src/material/Surface.tsx and generated paths. Add '<rootDir>/tests/lint/**/*.test.ts' to jest.config.js testMatch.",
+    "depends_on": [
+      "MAT-004"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/lint/no-optics-outside-material.test.ts green; every pattern has a failing case",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 (REQ-MAT-63)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-006",
+    "prd": "PRD-04",
+    "system": "lint/optics",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register 'auraglass/no-optics-outside-material': 'warn' for src/** (ratchet, §20 step 2); keep auraglass/no-inline-glass (:29) until MAT-118. Record the baseline warning count for --max-warnings.",
+    "depends_on": [
+      "MAT-004",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "eslint src --rule set reports W warnings = recorded baseline; CI fails at W+1",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 ratchet (REQ-MAT-63)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-007",
+    "prd": "PRD-04",
+    "system": "lint/optics-css",
+    "file": "NEW:scripts/ci/verify-optics-css.mjs",
+    "action": "CREATE",
+    "description": "PostCSS scanner applying the REQ-MAT-63 optics patterns to src/**/*.css and *.module.css outside src/material/css/** and generated token CSS (no stylelint dependency; literals are DS no-raw-design-values, blur scale is PERF verify-css-perf.mjs); prints file:line pattern; --ratchet <baseline> fails on new files or higher per-file counts.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/verify-optics-css.test.ts (MAT-008)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 (REQ-MAT-64)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-008",
+    "prd": "PRD-04",
+    "system": "lint/optics-css",
+    "file": "NEW:tests/ci/verify-optics-css.test.ts",
+    "action": "TEST",
+    "description": "node --test fixtures under tests/ci/fixtures/optics-css/: clean file → 0, violating *.module.css → reported with line, exempt src/material/css file → 0, ratchet increase → exit 1.",
+    "depends_on": [
+      "MAT-007"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/ci/verify-optics-css.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 (REQ-MAT-64)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-009",
+    "prd": "PRD-04",
+    "system": "ci/recipe-metric",
+    "file": "NEW:scripts/ci/count-glass-recipes.mjs",
+    "action": "CREATE",
+    "description": "Compute independent-glass-recipes N = distinct src files outside src/material/** and compiler output emitting a backdrop-filter/-webkit-backdrop-filter declaration or backdropFilter/WebkitBackdropFilter key, +1 if src/material/** emits any. Write 'independent-glass-recipes: N' to stdout and $GITHUB_STEP_SUMMARY. Modes --ratchet scripts/ci/glass-recipes-baseline.json (NEW; N and noRegression list) and --strict (N>1 fails). Record the baseline at current SHA (expected ≈121).",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/ci/count-glass-recipes.test.ts (MAT-010)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-01 ratchet (REQ-MAT-65)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-010",
+    "prd": "PRD-04",
+    "system": "ci/recipe-metric",
+    "file": "NEW:tests/ci/count-glass-recipes.test.ts",
+    "action": "TEST",
+    "description": "Fixture trees tests/ci/fixtures/glass-recipes/{zero,one,three}: 0/1/3 outside emitters + 1 inside src/material → N=1/2/4; ratchet with higher N exits 1; noRegression file re-emitting exits 1; --strict with N=2 exits 1.",
+    "depends_on": [
+      "MAT-009"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest tests/ci/count-glass-recipes.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-01 (REQ-MAT-65)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-011",
+    "prd": "PRD-04",
+    "system": "ci/workflow",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "Add package.json scripts lint:optics, lint:optics-css, metric:glass-recipes (appended to lint:ci) and add steps to the existing 'Glass Quality Gates' job of PKG's glass-pipeline.yml (job name unchanged, SC-10; no new workflow): lint:optics with --max-warnings baseline, CSS scanner ratchet, recipe metric ratchet, material-css-api --check, tests/lint and tests/ci suites. QA L1 Static reads these results. No secrets.",
+    "depends_on": [
+      "MAT-003",
+      "MAT-006",
+      "MAT-008",
+      "MAT-010",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "Workflow run on the PR is green and the summary shows independent-glass-recipes: N",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-01/AC-MAT-02 ratchet mode",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-012",
+    "prd": "PRD-04",
+    "system": "audit/static-glass",
+    "file": "scripts/audit/static-glass-material-audit.js",
+    "action": "REMOVE",
+    "description": "Delete the dynamic-*-unproven rule (:1385-1404) with its registration/messages; leave the rest of the script until it is retired after REQ-MAT-65 lands.",
+    "depends_on": [
+      "MAT-009"
+    ],
+    "priority": "P2",
+    "test": "node scripts/audit/static-glass-material-audit.js runs; no 'dynamic-' findings in output",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-66)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-013",
+    "prd": "PRD-04",
+    "system": "material/defineMaterial",
+    "file": "NEW:src/material/defineMaterial.ts",
+    "action": "CREATE",
+    "description": "Build-time defineMaterial(spec) returning a frozen MaterialSpec with defaults; throws on blur >32, scrim blur >12, grain.opacity outside 0.02–0.04, opacityFloor cell outside [0,1], fallbackFill alpha <0.85. Exported from aura-glass/material (architecture §3.2; no /define subpath, SC-12); pure and side-effect free so it tree-shakes out of runtime bundles that do not import it.",
+    "depends_on": [
+      "MAT-001",
+      "DS-048"
+    ],
+    "priority": "P0",
+    "test": "src/material/__tests__/defineMaterial.test.ts (NEW): each invalid spec throws with field name; valid spec frozen",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-01 defineMaterial export, REQ-MAT-29 cap)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-014",
+    "prd": "PRD-04",
+    "system": "material/properties",
+    "file": "NEW:src/material/__tests__/properties.test.ts",
+    "action": "TEST",
+    "description": "PostCSS-parse src/material/css/generated/properties.css (DS output): exactly 12 @property names with REQ-MAT-13 syntax/inherits/initial values; all --_ag-* inherits:false; no initial value contains var(. Mismatches are filed against DS, never hand-edited. Add exact-pinned postcss devDependency if not direct.",
+    "depends_on": [
+      "DS-036",
+      "MAT-001"
+    ],
+    "priority": "P0",
+    "test": "properties.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-13)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-015",
+    "prd": "PRD-04",
+    "system": "material/css-host",
+    "file": "NEW:src/material/css/material.css",
+    "action": "CREATE",
+    "description": "Create material.css: first line exactly '@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;' (SC-20, statement owned by PKG); imports generated properties/ladders/floors (DS output) then lens.css; host baseline .ag-surface{position:relative;isolation:isolate;border-radius:var(--ag-surface-radius);color:var(--ag-on-surface);background:var(--_ag-fill);box-shadow:var(--_ag-shadow)}; .ag-surface[data-ag-animating]{will-change:opacity,transform}; no transform/will-change/contain/filter/opacity/transition-all on default host. Zero !important.",
+    "depends_on": [
+      "MAT-014"
+    ],
+    "priority": "P0",
+    "test": "css-contract.test.ts (MAT-042); layer-stack.spec.ts host computed transform none/will-change auto/contain none/opacity 1/filter none (MAT-071)",
+    "storybook": "Material Lab default story renders surface",
+    "acceptance": "AC-MAT-03 (REQ-MAT-19, REQ-MAT-22)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-016",
+    "prd": "PRD-04",
+    "system": "material/layer-stack",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "::before (content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;backdrop-filter:blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness))) and ::after (inset:0;border-radius:inherit;pointer-events:none); REQ-MAT-13a inherit list on '.ag-surface::before, .ag-surface::after' for --_ag-blur, --_ag-saturation, --_ag-brightness, --_ag-dim, --_ag-surface-alpha, --_ag-refraction-scale, --_ag-rim-width, --_ag-grain-opacity, --ag-specular.",
+    "depends_on": [
+      "MAT-015"
+    ],
+    "priority": "P0",
+    "test": "layer-stack.spec.ts: host backdrop-filter none; ::before --_ag-blur equals ladder px; ::after --ag-specular changes on [data-ag-interactive]:hover (MAT-071)",
+    "storybook": "Material/Optics 'layer stack' story",
+    "acceptance": "AC-MAT-03 (REQ-MAT-13a, REQ-MAT-21)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-017",
+    "prd": "PRD-04",
+    "system": "material/read-outs",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Set public read-outs on .ag-surface: --ag-surface-fill:var(--_ag-fill), --ag-surface-rim, --ag-surface-shadow:var(--_ag-shadow), --ag-surface-radius, --ag-on-surface, --ag-on-surface-muted resolved per variant × thickness × scheme × transparency.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P1",
+    "test": "layer-stack.spec.ts: all six read-outs non-empty on every Material.Matrix surface (MAT-071)",
+    "storybook": "Material Lab read-out panel shows computed --ag-surface-fill",
+    "acceptance": "AC-MAT-03 (REQ-MAT-14)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-018",
+    "prd": "PRD-04",
+    "system": "material/tint-floor",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Implement the exact REQ-MAT-15 tint formula (--_ag-alpha min/max/calc on --_ag-tint-floor and --ag-glass-opacity; --_ag-fill: oklch(from var(--ag-color-canvas) l c h / var(--_ag-alpha))); --_ag-tint-floor read only from generated floors.css by [data-ag-thickness] × inherited [data-ag-backdrop] × resolved transparency; tinted row disables refraction.",
+    "depends_on": [
+      "MAT-016",
+      "DS-059"
+    ],
+    "priority": "P0",
+    "test": "src/material/__tests__/tint-formula.test.ts (NEW): --ag-glass-opacity ∈ {−1,0,0.3,0.7,1,2} × every floor → floor ≤ alpha ≤ 1; declaration text equals formula",
+    "storybook": "Material Lab --ag-glass-opacity slider with resolved floor alpha read-out",
+    "acceptance": "AC-MAT-04 (REQ-MAT-15, REQ-MAT-33, REQ-MAT-79; DS contrast lane is input)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-019",
+    "prd": "PRD-04",
+    "system": "material/environment-css",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-ag-backdrop=light|dark|media|auto] blocks set inherited --_ag-env-* and backdrop-specific --ag-on-surface (glyph flip for small chrome; large surfaces raise floors instead); auto follows data-ag-scheme.",
+    "depends_on": [
+      "MAT-018"
+    ],
+    "priority": "P1",
+    "test": "optics.spec.ts: --ag-on-surface differs between light and dark backdrop on TabBar-sized chrome surface (MAT-075)",
+    "storybook": "Material Lab 'Clear' light/dark/media/auto stories",
+    "acceptance": "AC-MAT-04 (REQ-MAT-17 backdrop, REQ-MAT-83)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-020",
+    "prd": "PRD-04",
+    "system": "material/nesting",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Nested rule verbatim: '.ag-surface .ag-surface:not([data-ag-allow-nested])::before{backdrop-filter:none;-webkit-backdrop-filter:none}' and '--_ag-fill:var(--_ag-inner-fill)' on the nested host; --_ag-inner-fill from MaterialSpec.innerFill per scheme.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P0",
+    "test": "nesting.spec.ts: nested ::before none, fill = inner fill; allowNested keeps optics; portaled overlay keeps optics (MAT-072)",
+    "storybook": "Material Lab 'Nesting & Groups' stories",
+    "acceptance": "AC-MAT-08 (REQ-MAT-23, REQ-MAT-41)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-021",
+    "prd": "PRD-04",
+    "system": "material/group",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-ag-group]::before carries the group's compiled optics; '[data-ag-group] > .ag-surface::before{backdrop-filter:none;-webkit-backdrop-filter:none}'; children keep tint/rim/specular/shadow; gap:var(--ag-group-spacing) set from generated [data-ag-spacing] block.",
+    "depends_on": [
+      "MAT-016",
+      "DS-049"
+    ],
+    "priority": "P0",
+    "test": "group.spec.ts: 5-control SurfaceGroup → exactly 1 visible backdrop filter; children rim/shadow present (MAT-073)",
+    "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar' story",
+    "acceptance": "AC-MAT-08 (REQ-MAT-25, REQ-MAT-08 CSS)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-022",
+    "prd": "PRD-04",
+    "system": "material/content",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "'.ag-surface[data-ag-layer=content]:not([data-ag-variant])' renders content-raised|content-sunken: opaque OKLCH fill from MaterialSpec.content, rim, grain on ::before with backdrop-filter:none, shadow; sunken adds 1px inset top shade. Explicit variant re-enables glass.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P0",
+    "test": "content-materials.spec.ts: no backdrop-filter for layer=content in every tier; explicit variant blurs (MAT-074)",
+    "storybook": "Material.Matrix content-raised/content-sunken columns",
+    "acceptance": "AC-MAT-04 (REQ-MAT-26, REQ-MAT-42)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-023",
+    "prd": "PRD-04",
+    "system": "material/state",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-disabled],[aria-disabled=true] set --_ag-surface-alpha: var(--ag-state-disabled-alpha) multiplied into fill alpha and pseudo-layer opacity (host opacity stays 1); [data-ag-layer=overlay][data-open] overlay floor row; [data-expanded] next-thickness floor row; [data-ag-layer=overlay][data-modal] scrim with MaterialSpec.scrim.modal alpha and blur ≤12px; [data-ag-full-height] resolves tinted.",
+    "depends_on": [
+      "MAT-018"
+    ],
+    "priority": "P1",
+    "test": "nesting.spec.ts disabled host opacity 1 (MAT-072); responsive.spec.ts modal scrim blur ≤12px (MAT-083)",
+    "storybook": "Material Lab 'Nesting & Groups' 'disabled' and Material Lab 'Tiers' 'modal scrim' stories",
+    "acceptance": "AC-MAT-04 (REQ-MAT-27, REQ-MAT-28)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-024",
+    "prd": "PRD-04",
+    "system": "material/optics-filter",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Consume ladder cells for blur (thin 12, regular 20, thick 32px; cap 32), one saturation value, scheme-resolved brightness in the fixed order blur() saturate() brightness(); blur never transitioned.",
+    "depends_on": [
+      "MAT-016",
+      "DS-049"
+    ],
+    "priority": "P0",
+    "test": "optics.spec.ts filter order and 12/20/32px by thickness, no blur >32 (MAT-075); css-contract.test.ts no blur >32px (MAT-042)",
+    "storybook": "Material/Optics 'blur ladder' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-29, REQ-MAT-30, REQ-MAT-31)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-025",
+    "prd": "PRD-04",
+    "system": "material/tint-intent",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Intent never tints the fill; [data-ag-prominent] mixes --ag-color-accent into --_ag-fill at ≤0.18 alpha (one per view, documented); rim/specular may take intent colour.",
+    "depends_on": [
+      "MAT-018"
+    ],
+    "priority": "P2",
+    "test": "optics.spec.ts: prominent surface fill accent share ≤0.18 (computed color-mix parse) (MAT-075)",
+    "storybook": "Material/Optics 'prominent' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-32)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-026",
+    "prd": "PRD-04",
+    "system": "material/grain",
+    "file": "NEW:src/material/assets/ag-grain-128.avif",
+    "action": "CREATE",
+    "description": "Generate 128×128 grain AVIF ≤4 KB deterministically via NEW scripts/build/make-grain.mjs (seeded noise); ::before background-image:url(../assets/ag-grain-128.avif), background-size:128px, opacity via --_ag-grain-opacity 0.02–0.04; never mix-blend-mode on host; removed under contrast=more, forced colors, solid; ≤0.02 in lightweight.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P1",
+    "test": "optics.spec.ts grain URL on ::before and host mix-blend-mode normal (MAT-075); verify-size-budgets.mjs (PKG) AVIF ≤4096 B (MAT-044)",
+    "storybook": "Material/Optics 'grain on/off' story",
+    "acceptance": "AC-MAT-11 (REQ-MAT-34, REQ-MAT-70 asset)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-027",
+    "prd": "PRD-04",
+    "system": "material/rim",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "::after rim band: mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude (+ -webkit-mask-composite: xor); padding: var(--_ag-rim-width) (thin 1, regular 1, thick 1.5px); background: conic-gradient(from var(--ag-light-angle), rim.light, rim.shade, rim.light).",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P0",
+    "test": "optics.spec.ts: non-zero luminance delta in the 2px edge band in chromium, webkit, firefox (MAT-075)",
+    "storybook": "Material/Optics 'rim only' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-35)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-028",
+    "prd": "PRD-04",
+    "system": "material/fresnel",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Fresnel approximation: second unmasked ::after radial-gradient layer anchored on the edge facing --ag-light-angle, fading to transparent within 8px of the edge.",
+    "depends_on": [
+      "MAT-027"
+    ],
+    "priority": "P2",
+    "test": "optics.spec.ts: over flat-black scene, lit-side 4px inner band mean 8-bit luminance ≥ opposite side +12 levels (MAT-075)",
+    "storybook": "Material/Optics 'light angle sweep' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-36)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-029",
+    "prd": "PRD-04",
+    "system": "material/specular",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "::after sheen linear-gradient(var(--ag-light-angle), rgb(from var(--ag-color-specular) r g b / calc(var(--ag-specular) * 0.35)), transparent 40%) clipped to top-lit third; static in standard; contrast=more value --ag-specular:0 listed for A11Y rung.",
+    "depends_on": [
+      "MAT-027"
+    ],
+    "priority": "P1",
+    "test": "optics.spec.ts specular 0 under contrast 'more' emulation (MAT-075)",
+    "storybook": "Material/Optics 'specular' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-37)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-030",
+    "prd": "PRD-04",
+    "system": "material/shadow",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Host box-shadow: var(--_ag-shadow) (ambient + key from shadow.{thin,regular,thick} × scheme, derived from layer × thickness; overlays use thick key) plus ::after inset depth; no elevation prop; dropped under forced colors.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P1",
+    "test": "optics.spec.ts computed box-shadow per thickness and none under forcedColors (MAT-075, MAT-084)",
+    "storybook": "Material.Matrix thickness rows",
+    "acceptance": "AC-MAT-04 (REQ-MAT-40)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-031",
+    "prd": "PRD-04",
+    "system": "material/interaction",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-ag-interactive]:hover raises --ag-specular to state.hover-specular; :active,[data-pressed] raise press glow in ::after; transition only on pseudo-layer opacity and registered --ag-* scalars over --ag-duration-micro; 0ms under prefers-reduced-motion: reduce and [data-ag-motion=calm|none]; no scale formula; backdrop-filter/filter never transitioned.",
+    "depends_on": [
+      "MAT-029",
+      "MOT-042"
+    ],
+    "priority": "P1",
+    "test": "optics.spec.ts hover specular rise and instant under reducedMotion emulation (MAT-075); css-contract.test.ts no transition on backdrop-filter/filter (MAT-042)",
+    "storybook": "Material/Optics 'interaction' story",
+    "acceptance": "AC-MAT-04 (REQ-MAT-44, REQ-MAT-84)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-032",
+    "prd": "PRD-04",
+    "system": "material/clear",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "clear over [data-ag-backdrop=light|media] sets --_ag-dim:0.35 composited as a dark layer in ::before; '.ag-surface[data-ag-variant=clear]:not(:is([data-ag-backdrop=light],[data-ag-backdrop=dark],[data-ag-backdrop=media]) *)' takes the regular ladder cell (auto does not satisfy clear).",
+    "depends_on": [
+      "MAT-019",
+      "MAT-024"
+    ],
+    "priority": "P0",
+    "test": "clear-fallback.spec.ts computed filter/fill equal to regular without backdrop and under auto (MAT-076); optics.spec.ts --_ag-dim 0.35 (MAT-075)",
+    "storybook": "Material Lab 'Clear' 'clear over light/media' and 'clear without backdrop'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-43, REQ-MAT-45)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-033",
+    "prd": "PRD-04",
+    "system": "material/identity",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-ag-variant=identity]: ::before none, transparent fill, no rim, no shadow; data-ag-surface kept so ag.a11y rungs still apply.",
+    "depends_on": [
+      "MAT-016"
+    ],
+    "priority": "P2",
+    "test": "optics.spec.ts identity computed backdrop none/transparent/no shadow; a11y-coverage.spec.ts identity still matched by [data-ag-surface] (MAT-075, MAT-084)",
+    "storybook": "Material.Matrix identity column",
+    "acceptance": "AC-MAT-04 (REQ-MAT-46)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-034",
+    "prd": "PRD-04",
+    "system": "material/tiers",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "Standard needs no attribute. Lightweight rung under @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))), [data-ag-tier=lightweight] (html/ancestor/self), resolved transparency solid, forced-colors: active: fallbackFill alpha ≥0.85 following scheme (never a black slab), rim, shadow, grain ≤0.02, ::before backdrop none. Subtree [data-ag-tier=standard] and [data-ag-transparency=tinted|solid] override <html>.",
+    "depends_on": [
+      "MAT-018",
+      "MAT-026"
+    ],
+    "priority": "P0",
+    "test": "tiers.spec.ts (MAT-077); kill-switches.spec.ts (MAT-079); css-contract.test.ts static @supports-not block (MAT-042)",
+    "storybook": "Material Lab 'Tiers' side-by-side",
+    "acceptance": "AC-MAT-04/AC-MAT-05 (REQ-MAT-48, REQ-MAT-49, REQ-MAT-17 subtree override)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-035",
+    "prd": "PRD-04",
+    "system": "material/lens-css",
+    "file": "NEW:src/material/css/lens.css",
+    "action": "CREATE",
+    "description": "Single eligibility selector :root[data-ag-engine=chromium]:has(svg[data-ag-lens-ready]) .ag-surface[data-ag-refraction][data-ag-layer=chrome] (lens-ready lives on LensDefs, REQ-MAT-87; no JS attribute write), excluded under [data-ag-tier=standard|lightweight], [data-ag-transparency=tinted|solid], [data-ag-motion=none], prefers-reduced-transparency: reduce, prefers-contrast: more, forced-colors: active; 9 [data-ag-shape][data-ag-sizeclass] rules → backdrop-filter:url(#ag-lens-<shape>-<sizeclass>) blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); no sheet rule; no dispersion. File starts with the SC-20 order statement.",
+    "depends_on": [
+      "MAT-024",
+      "MAT-120"
+    ],
+    "priority": "P1",
+    "test": "enhanced-gating.spec.ts (MAT-078); css-contract.test.ts counts 9 lens rules, none for sheet (MAT-042)",
+    "storybook": "Material Lab 'Tiers' enhanced column with 'inert on this engine' label",
+    "acceptance": "AC-MAT-10 (REQ-MAT-38, REQ-MAT-39, REQ-MAT-50, REQ-MAT-57, REQ-MAT-81)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-036",
+    "prd": "PRD-04",
+    "system": "material/lens-contract",
+    "file": "src/material/types.ts",
+    "action": "DOC",
+    "description": "Add type LensId = `ag-lens-${Shape}-${'control'|'bar'|'panel'}` and a lens.css header documenting the REQ-MAT-58 filter structure (feImage convex-squircle map n≈1.5 → feDisplacementMap in=SourceGraphic, static scale per id from refraction.scale.*, R/G channels; blur+saturate in same list; maps built once per id). Static scale is decided (SC-37, architecture erratum E-10): no runtime scale writes; --_ag-refraction-scale registered but unconsumed.",
+    "depends_on": [
+      "MAT-035"
+    ],
+    "priority": "P2",
+    "test": "tsc: LensId accepts 'ag-lens-capsule-bar', rejects 'ag-lens-capsule-sheet' (@ts-expect-error in materialProps.test.ts)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-10 (REQ-MAT-58; interim §16 PRD-15 contract owned here)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-037",
+    "prd": "PRD-04",
+    "system": "material/shape",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "--ag-radius-inner: max(0px, calc(var(--ag-radius-outer) - var(--ag-inset))); [data-ag-shape=concentric]{border-radius:var(--ag-radius-inner, <fallbackRadius token var, default sys.radius.md>)}; capsule 9999px; ConcentricFrame pads by --ag-inset; --ag-radius-outer/--ag-inset from generated [data-ag-radius]/[data-ag-inset] blocks with density multipliers (compact 0.875, spacious 1.125). Port geometry from src/styles/glass.css:4425-4486 without 4.x selectors.",
+    "depends_on": [
+      "MAT-016",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "responsive.spec.ts inner radius ≥0 at compact/regular/spacious (MAT-083); components.test.tsx attributes (MAT-060)",
+    "storybook": "Material Lab 'Shape & Concentricity' 'ConcentricFrame radius rhythm' and 'capsule'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-11 CSS, REQ-MAT-75)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-038",
+    "prd": "PRD-04",
+    "system": "material/scroll-edge-css",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "[data-ag-part=scroll-edge] sticky mask-image gradient (soft|hard by data-ag-edge-style, emitted from the ScrollEdge edgeStyle prop; top|bottom by data-ag-edge), height clamp(16px, 4vh, 32px), no backdrop-filter, pointer-events:none. Migrates glass.css:4425-4486 scroll-edge/concentric rules here before MOT-084 removes glass.css.",
+    "depends_on": [
+      "MAT-015"
+    ],
+    "priority": "P1",
+    "test": "responsive.spec.ts ScrollEdge height 16–32px and no overlap with focusable boxes (MAT-083)",
+    "storybook": "Material Lab 'Shape & Concentricity' 'ScrollEdge soft/hard'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-10 CSS, REQ-MAT-77)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-039",
+    "prd": "PRD-04",
+    "system": "material/responsive-ladder",
+    "file": "NEW:src/material/__tests__/css-contract.test.ts",
+    "action": "TEST",
+    "description": "Assert the DS @media (pointer: coarse) block in generated/ladders.css lowers only thick blur 32→20px and grain to ≤0.02; thin/regular unchanged; implemented in CSS not JS.",
+    "depends_on": [
+      "DS-049",
+      "MAT-014"
+    ],
+    "priority": "P1",
+    "test": "css-contract.test.ts 'REQ-MAT-73 coarse pointer ladder'; responsive.spec.ts coarse emulation (MAT-083)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-73)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-040",
+    "prd": "PRD-04",
+    "system": "material/private-attributes",
+    "file": "src/material/__tests__/css-contract.test.ts",
+    "action": "TEST",
+    "description": "Assert generated [data-ag-radius|spacing|inset|sizeclass] selectors use token names only (no px in attribute values) and set only --ag-radius-outer, --ag-inset, --ag-group-spacing; all private SC-21 MAT attributes are absent from the public section of etc/api/material.css-api.json.",
+    "depends_on": [
+      "MAT-003",
+      "DS-049"
+    ],
+    "priority": "P2",
+    "test": "css-contract.test.ts 'private token-keyed attributes'",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-03/08/11/57 private attributes)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-041",
+    "prd": "PRD-04",
+    "system": "material/a11y-exposure",
+    "file": "etc/api/material.css-api.json",
+    "action": "MODIFY",
+    "description": "Add a11yOverridable list (--_ag-blur, --_ag-saturation, --ag-specular, --_ag-tint-floor, --_ag-grain-opacity, --_ag-shadow, --_ag-fill) and required rung values (contrast=more: saturation 1, specular 0, grain removed, ≥tinted; forced colors: Canvas/CanvasText, border CanvasText, no shadow; reduced transparency ≥tinted) as the contract A11Y rung bodies implement.",
+    "depends_on": [
+      "MAT-003",
+      "MAT-034"
+    ],
+    "priority": "P1",
+    "test": "material-css-api --check validates list names exist in properties.css/material.css; a11y-coverage.spec.ts (MAT-084) verifies rung outcomes",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-05 (REQ-MAT-80 exposure, REQ-MAT-30, REQ-MAT-37)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-042",
+    "prd": "PRD-04",
+    "system": "material/css-contract",
+    "file": "src/material/__tests__/css-contract.test.ts",
+    "action": "TEST",
+    "description": "PostCSS over material.css, lens.css, generated/*.css: first statement equals the SC-20 six-name order statement; 0 !important; every non-@property rule inside @layer ag.material; no REQ-MAT-18 deny-list selector (data-theme, data-aura-theme, data-persona, .glass-on-light, .dark, [class*=\"glass-\"], .liquid-glass-, .optimized-glass-); no --glass-* read/write; no transition: all or transition on backdrop-filter/filter; will-change only under [data-ag-animating]; ≥18 literal -webkit-backdrop-filter values without var(; @supports-not lightweight block present; no blur >32px; no data-ag-tier=cinematic selector; no data-ag-material selector.",
+    "depends_on": [
+      "MAT-034",
+      "MAT-035"
+    ],
+    "priority": "P0",
+    "test": "css-contract.test.ts green; each assertion fails when its rule is reverted (MAT-094)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-18, 19, 22, 47, 49, 60; REQ-MAT-69 core side, compat/tokens.css owned by DS)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-043",
+    "prd": "PRD-04",
+    "system": "material/tailwind-parity",
+    "file": "NEW:src/material/__tests__/tailwind-bridge-parity.test.ts",
+    "action": "TEST",
+    "description": "Normalised declaration blocks of @utility glass-regular, glass-clear, glass-thin, glass-thick, content-raised in the DS Tailwind bridge equal their [data-ag-*] counterparts byte for byte.",
+    "depends_on": [
+      "DS-090",
+      "MAT-022",
+      "MAT-024"
+    ],
+    "priority": "P1",
+    "test": "tailwind-bridge-parity.test.ts 5/5 equal",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-14 (REQ-MAT-68)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-044",
+    "prd": "PRD-04",
+    "system": "material/size-css",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Submit MAT rows to PKG's docs/size-budgets.json (integer limitBytesGz, min+gz, peers external; SC-15, no size-limit, no MAT-specific size script): aura-glass/material JS (all value exports) ≤3072 B; material.css ≤8192 B gz (within PERF's per-subpath CSS default); ag-grain-128.avif ≤4096 B; each lens map ≤3072 B and LensDefs markup + maps ≤30720 B (REQ-MAT-86). Calibrated at alpha by QA L10, ratchet down only.",
+    "depends_on": [
+      "MAT-042",
+      "MAT-026",
+      "PKG-048"
+    ],
+    "priority": "P1",
+    "test": "node scripts/ci/verify-size-budgets.mjs (PKG) green with the MAT rows; production bundle contains no surfaceCounter or \"allowNested at depth\" strings",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-11 (REQ-MAT-70, REQ-MAT-86 sizes, REQ-MAT-52 prod strip)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-045",
+    "prd": "PRD-04",
+    "system": "material/resolveRole",
+    "file": "NEW:src/material/internal/resolveRole.ts",
+    "action": "CREATE",
+    "description": "Pure resolveRole(role, sizeClass?): layer default chrome; variant default regular (omitted for layer=content without explicit variant); content default content-raised for content; shape default fixed; thickness explicit > sizeClass map (control→thin, bar→regular, panel→regular, sheet→thick) > regular; with refraction emit data-ag-sizeclass (passed or thin→control, regular→bar, thick→panel); never refraction/sizeclass for sheet; fallbackRadius → data-ag-radius token. Not exported from index.ts.",
+    "depends_on": [
+      "MAT-001"
+    ],
+    "priority": "P0",
+    "test": "materialProps.test.ts defaults table and size-class mapping (MAT-056)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-03, REQ-MAT-57, REQ-MAT-74)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-046",
+    "prd": "PRD-04",
+    "system": "material/materialProps",
+    "file": "NEW:src/material/materialProps.ts",
+    "action": "CREATE",
+    "description": "materialProps(role) → {className:'ag-surface','data-ag-surface':'','data-ag-layer',…optional data-ag-variant|thickness|content|shape and boolean ''-valued interactive|prominent|refraction|allow-nested}; delegates to resolveRole; no style key; no window/document/React/context access.",
+    "depends_on": [
+      "MAT-045"
+    ],
+    "priority": "P0",
+    "test": "materialProps.test.ts full matrix determinism, no style key (MAT-056); verify-material-runtime.mjs (MAT-064)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-07 (REQ-MAT-02)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-047",
+    "prd": "PRD-04",
+    "system": "material/Surface",
+    "file": "NEW:src/material/Surface.tsx",
+    "action": "CREATE",
+    "description": "Surface: div default; render prop cloned (single node), className merged with clsx, consumer wins for non-data-ag-* attrs, role wins for data-ag-*; ref as prop forwarded (React 19); consumer style passed by reference, never merged; no as prop; no hooks/context/effects/'use client'.",
+    "depends_on": [
+      "MAT-046",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "Surface.test.tsx (MAT-057); server-safe.test.tsx (MAT-058)",
+    "storybook": "Material Lab primary story",
+    "acceptance": "AC-MAT-07 (REQ-MAT-04, REQ-MAT-05, REQ-MAT-06, REQ-MAT-12)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-048",
+    "prd": "PRD-04",
+    "system": "material/SurfaceGroup",
+    "file": "NEW:src/material/SurfaceGroup.tsx",
+    "action": "CREATE",
+    "description": "SurfaceGroup({spacing='2', children}): one element with materialProps({layer:'chrome'}) + data-ag-group='' + data-ag-spacing=<SpaceToken>; no variant/thickness props; no inline style.",
+    "depends_on": [
+      "MAT-046"
+    ],
+    "priority": "P0",
+    "test": "components.test.tsx (MAT-060); group.spec.ts (MAT-073)",
+    "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar'",
+    "acceptance": "AC-MAT-08 (REQ-MAT-08)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-049",
+    "prd": "PRD-04",
+    "system": "material/Environment",
+    "file": "NEW:src/material/Environment.tsx",
+    "action": "CREATE",
+    "description": "Environment({backdrop, image?, video?, children}): data-ag-backdrop=backdrop, auto + image|video → media; media layer <img decoding='async' alt='' aria-hidden='true'> or <video muted playsInline aria-hidden='true'> behind children; no pixel sampling; autoplay policy left to MED.",
+    "depends_on": [
+      "MAT-001"
+    ],
+    "priority": "P1",
+    "test": "components.test.tsx media aria-hidden and data-ag-backdrop=media (MAT-060)",
+    "storybook": "Material Lab 'Clear' image/video stories",
+    "acceptance": "AC-MAT-03 (REQ-MAT-09, REQ-MAT-82)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-050",
+    "prd": "PRD-04",
+    "system": "material/ScrollEdge",
+    "file": "NEW:src/material/ScrollEdge.tsx",
+    "action": "CREATE",
+    "description": "ScrollEdge({edge='top', edgeStyle='soft'}) renders <div aria-hidden='true' data-ag-part='scroll-edge' data-ag-edge data-ag-edge-style>; the prop is edgeStyle, not style (SC-22, erratum E-01); no JS behaviour.",
+    "depends_on": [
+      "MAT-001"
+    ],
+    "priority": "P1",
+    "test": "components.test.tsx attrs (MAT-060); responsive.spec.ts (MAT-083)",
+    "storybook": "Material Lab 'Shape & Concentricity' 'ScrollEdge soft/hard'",
+    "acceptance": "AC-MAT-03 (REQ-MAT-10)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-051",
+    "prd": "PRD-04",
+    "system": "material/ConcentricFrame",
+    "file": "NEW:src/material/ConcentricFrame.tsx",
+    "action": "CREATE",
+    "description": "ConcentricFrame({radius, inset, children}) emits data-ag-radius=<RadiusToken> and data-ag-inset=<SpaceToken>; no inline style.",
+    "depends_on": [
+      "MAT-001"
+    ],
+    "priority": "P1",
+    "test": "components.test.tsx attrs, no style (MAT-060)",
+    "storybook": "Material Lab 'Shape & Concentricity' 'ConcentricFrame radius rhythm'",
+    "acceptance": "AC-MAT-03 (REQ-MAT-11)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-052",
+    "prd": "PRD-04",
+    "system": "material/useMaterialTier",
+    "file": "NEW:src/material/useMaterialTier.ts",
+    "action": "CREATE",
+    "description": "'use client' hook on useSyncExternalStore: server snapshot 'standard'; reads <html data-ag-tier> (lightweight|standard|enhanced, else standard); one module-level MutationObserver attributeFilter ['data-ag-tier'] created on first subscribe, disconnected at last unsubscribe.",
+    "depends_on": [
+      "MAT-001"
+    ],
+    "priority": "P1",
+    "test": "useMaterialTier.test.tsx (MAT-059)",
+    "storybook": "Material Lab 'Tiers' shows hook value",
+    "acceptance": "AC-MAT-03 (REQ-MAT-07)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-053",
+    "prd": "PRD-04",
+    "system": "material/entries",
+    "file": "NEW:src/material/index.ts",
+    "action": "CREATE",
+    "description": "Barrel (no directive) exporting exactly the 8 values Surface, SurfaceGroup, Environment, ScrollEdge, ConcentricFrame, materialProps, defineMaterial, useMaterialTier and the 11 types (architecture §3.2; no aura-glass/material/define subpath, SC-12); resolveRole and LensDefs are not exported; no WebGL/three/canvas anywhere in src/material.",
+    "depends_on": [
+      "MAT-047",
+      "MAT-048",
+      "MAT-049",
+      "MAT-050",
+      "MAT-051",
+      "MAT-052",
+      "MAT-013"
+    ],
+    "priority": "P0",
+    "test": "tests/exports/material-exports.test.ts (MAT-063)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-01, REQ-MAT-60)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-054",
+    "prd": "PRD-04",
+    "system": "material/dev-warnings",
+    "file": "NEW:src/material/dev/warnings.ts",
+    "action": "CREATE",
+    "description": "warnOnce(el,key,msg) with WeakSet, all call sites under process.env.NODE_ENV !== 'production'. Exact messages: '[aura-glass] allowNested at depth N at <selector>'; '[aura-glass] variant=\"clear\" requires a declared backdrop; rendering as \"regular\"' (walks to nearest [data-ag-backdrop], warns when auto/missing); '[aura-glass] refraction is ignored on layer=\"<layer>\"'.",
+    "depends_on": [
+      "MAT-046"
+    ],
+    "priority": "P1",
+    "test": "dev-warnings.test.tsx (MAT-061)",
+    "storybook": "Material Lab 'Clear' 'clear with no backdrop' shows console warning",
+    "acceptance": "AC-MAT-03 (REQ-MAT-24, REQ-MAT-45, REQ-MAT-51)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-055",
+    "prd": "PRD-04",
+    "system": "material/dev-counter",
+    "file": "NEW:src/material/dev/surfaceCounter.ts",
+    "action": "CREATE",
+    "description": "Dev-only startSurfaceCounter(root), called by the A11Y provider (A11Y-029): after mount and on requestIdleCallback after 500ms-debounced MutationObserver, count visible viewport-intersecting elements with ::before backdropFilter ≠ none; warn once per crossing: >6 (pointer:fine), >3 (pointer:coarse), >2 refracting, refracting area >25% viewport, blur >32px, full-viewport blur >12px, effective live-backdrop nesting depth >1, and any allowNested surface at depth ≥2 with text matching /allowNested at depth \\d/ (PERF tightening request, accepted); no BCI; never writes attributes/styles.",
+    "depends_on": [
+      "MAT-054",
+      "A11Y-029"
+    ],
+    "priority": "P1",
+    "test": "dev-warnings.test.tsx counter thresholds (MAT-061); responsive.spec.ts full-width refracting bar warning (MAT-083)",
+    "storybook": "Material Lab 'Tiers' 'budget exceeded' story logs warning",
+    "acceptance": "AC-MAT-03 (REQ-MAT-52, REQ-MAT-72, REQ-MAT-74)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-056",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/materialProps.test.ts",
+    "action": "TEST",
+    "description": "Matrix 4 layers × 3 variants × 3 thicknesses × 2 content × 3 shapes × 4 booleans: deep-equal determinism, no style key, defaults table, size-class↔thickness mapping, sizeclass only with refraction, sheet never refracts, resolveRole absent from index exports, LensId type checks.",
+    "depends_on": [
+      "MAT-046"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/material/__tests__/materialProps.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-02, 03, 05, 57, 74)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-057",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/Surface.test.tsx",
+    "action": "TEST",
+    "description": "36 roles (3 variants × 3 thicknesses × 4 layers) → getAttribute('style') === null; render keeps one DOM node; consumer style identical by reference; ref reaches element; @ts-expect-error for as and each of the 17 deleted optical props, compiled via tsc --noEmit.",
+    "depends_on": [
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "jest + tsc --noEmit over test file green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-07 36/36 (REQ-MAT-04, 05, 12)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-058",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/server-safe.test.tsx",
+    "action": "TEST",
+    "description": "@jest-environment node: renderToString of Surface, SurfaceGroup, Environment, ScrollEdge, ConcentricFrame and materialProps output with no window/document/provider; HTML identical regardless of tier; file scan: 'use client' only in useMaterialTier.ts.",
+    "depends_on": [
+      "MAT-053"
+    ],
+    "priority": "P0",
+    "test": "server-safe.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-06 unit half (REQ-MAT-06, REQ-MAT-48)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-059",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/useMaterialTier.test.tsx",
+    "action": "TEST",
+    "description": "Server snapshot standard; <html data-ag-tier> change re-renders within one act; unknown value → standard; observer disconnects after last unmount (spy on MutationObserver.prototype.disconnect).",
+    "depends_on": [
+      "MAT-052"
+    ],
+    "priority": "P1",
+    "test": "useMaterialTier.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-07)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-060",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/components.test.tsx",
+    "action": "TEST",
+    "description": "SurfaceGroup data-ag-group/data-ag-spacing default '2'; Environment backdrop and auto+image→media, media aria-hidden; ScrollEdge attrs/defaults; ConcentricFrame data-ag-radius/data-ag-inset with no style; no material element focusable (tabIndex) or with role.",
+    "depends_on": [
+      "MAT-048",
+      "MAT-049",
+      "MAT-050",
+      "MAT-051"
+    ],
+    "priority": "P1",
+    "test": "components.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-08..11, REQ-MAT-82)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-061",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/dev-warnings.test.tsx",
+    "action": "TEST",
+    "description": "clear without backdrop warns once per element; clear under auto warns; allowNested depth ≥2 warns once; refraction on content/overlay warns; counter crossing thresholds warns once each; zero warnings with NODE_ENV=production.",
+    "depends_on": [
+      "MAT-054",
+      "MAT-055"
+    ],
+    "priority": "P1",
+    "test": "dev-warnings.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-24, 45, 51, 52)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-062",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/import-side-effects.test.ts",
+    "action": "TEST",
+    "description": "jsdom: spy addEventListener, setTimeout/setInterval, MutationObserver constructor, document.head.appendChild; require src/material → 0 calls; <html>/<head> attributes unchanged; 0 <style> elements injected.",
+    "depends_on": [
+      "MAT-053"
+    ],
+    "priority": "P0",
+    "test": "import-side-effects.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-71)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-063",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:tests/exports/material-exports.test.ts",
+    "action": "TEST",
+    "description": "Exact value-export list of aura-glass/material (8 values incl. defineMaterial) from built dist and source; resolveRole and LensDefs absent; a bundle of { Surface } alone contains no defineMaterial code; no ./material/define entry exists.",
+    "depends_on": [
+      "MAT-053",
+      "MAT-065"
+    ],
+    "priority": "P0",
+    "test": "jest tests/exports/material-exports.test.ts green in CI after build",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-01)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-064",
+    "prd": "PRD-04",
+    "system": "ci/material-runtime-gate",
+    "file": "NEW:scripts/ci/verify-material-runtime.mjs",
+    "action": "CREATE",
+    "description": "Grep gate over src/material/** excluding dev/ and __tests__/: fail on IntersectionObserver, requestAnimationFrame, setAttribute('data-ag-tier', dataset.agTier =, setAttribute('scale' on lens filters, WebGL, getContext(, from 'three', <canvas, MutationObserver outside useMaterialTier.ts, \"use client\" outside useMaterialTier.ts, window/document inside materialProps.ts and internal/resolveRole.ts. Added as a step of the Glass Quality Gates job (glass-pipeline.yml, PKG-038).",
+    "depends_on": [
+      "MAT-053",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/verify-material-runtime.test.ts (NEW): fixture with requestAnimationFrame in src/material/x.ts fails; in dev/ passes",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 (REQ-MAT-53, REQ-MAT-60, REQ-MAT-17 read-only)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-065",
+    "prd": "PRD-04",
+    "system": "packaging/material",
+    "file": "build/exports.manifest.json",
+    "action": "MODIFY",
+    "description": "Move PKG's ./material (src/material/index.ts) and ./material.css (src/material/css/material.css) rows from status planned to active (SC-12; exports generated by scripts/build/generate-exports.mjs); no ./material/define row; per-file 'use client' preserved for useMaterialTier only.",
+    "depends_on": [
+      "MAT-053",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "npm run test:exports in CI; tests/exports/material-exports.test.ts (MAT-063) against the built package",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-11 prerequisite (REQ-MAT-01, REQ-MAT-70)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-066",
+    "prd": "PRD-04",
+    "system": "material/cinematic-contract",
+    "file": "src/material/types.ts",
+    "action": "DOC",
+    "description": "TSDoc on Tier and a section in etc/api/material.api.md: cinematic residents refract only library-owned pixels (no html-to-image/foreignObject/html2canvas), import only public entries, ≤1 WebGL context, pause offscreen/document.hidden, fall back to standard Surface under motion none/calm, transparency ≠ glass, forced colors, context loss; no import side effects. Input to EXP (labs).",
+    "depends_on": [
+      "MAT-053"
+    ],
+    "priority": "P3",
+    "test": "API Extractor report contains the TSDoc (reviewed in MAT-002 diff)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 contract for EXP (interim §16 PRD-21) (REQ-MAT-60, REQ-MAT-61, REQ-MAT-62)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-067",
+    "prd": "PRD-04",
+    "system": "material/tests",
+    "file": "NEW:src/material/__tests__/hydration.test.tsx",
+    "action": "TEST",
+    "description": "renderToString then hydrateRoot of every server-safe export (with and without <html data-ag-tier>) with console.error/console.warn spied: 0 calls.",
+    "depends_on": [
+      "MAT-058"
+    ],
+    "priority": "P0",
+    "test": "hydration.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-06 unit half",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-068",
+    "prd": "PRD-04",
+    "system": "cert/material-config",
+    "file": "certification/playwright.cert.config.ts",
+    "action": "MODIFY",
+    "description": "Add a 'material' project (testDir tests/material; chromium, webkit, firefox; retries 0; forbidOnly) to QA's cert config by MODIFY (SC-29; no playwright.material.config.ts). baseURL is QA's static Storybook. Request '<rootDir>/tests/material/' in jest.config.js testPathIgnorePatterns through the QA-003 config so Jest does not collect Playwright specs.",
+    "depends_on": [
+      "MAT-053",
+      "QA-018",
+      "QA-003"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test -c certification/playwright.cert.config.ts --project material --list lists every tests/material spec; jest no longer collects tests/material",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 infra",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-069",
+    "prd": "PRD-04",
+    "system": "cert/material-helpers",
+    "file": "NEW:tests/material/helpers/computed.ts",
+    "action": "CREATE",
+    "description": "Helpers: computed.ts (pseudo-element backdropFilter and custom-property reads), pixels.ts (band luminance mean, variance, ΔE2000 from screenshots), density.ts (visible ::before backdrop filters intersecting viewport, nesting depth).",
+    "depends_on": [
+      "MAT-068"
+    ],
+    "priority": "P0",
+    "test": "helpers exercised by every spec; a self-check spec asserts ΔE2000 of identical images = 0 and of black/white = 100",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-03 infra",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-070",
+    "prd": "PRD-04",
+    "system": "cert/material-workflow",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "MODIFY",
+    "description": "Run the 'material' project in QA's certify-pr.yml as L5 Behaviour cells, with WebKit/Gecko-only specs reported under L8 Engine-specific (SC-29; no material-lanes workflow). Uploads evidence-<job>-<sha> with retention-days 14 (PR) per SC-07. Remote runners only; never local Docker or a local browser.",
+    "depends_on": [
+      "MAT-068",
+      "MAT-086",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "certify-pr run green on the PR with the material project listed and artifacts attached",
+    "storybook": "build-storybook succeeds remotely",
+    "acceptance": "AC-MAT-03 (3-engine remote lane)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-071",
+    "prd": "PRD-04",
+    "system": "cert/layer-stack",
+    "file": "NEW:tests/material/layer-stack.spec.ts",
+    "action": "TEST",
+    "description": "Host backdrop-filter none; ::before carries blur; ::before --_ag-blur = ladder px (not 0px); ::after --ag-specular changes on [data-ag-interactive]:hover; host transform none, will-change auto, contain none, opacity 1, filter none; six --ag-surface-*/--ag-on-surface* read-outs non-empty.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-016",
+      "MAT-017"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material.Matrix, Material/Optics",
+    "acceptance": "AC-MAT-03 (REQ-MAT-13a, 14, 21, 22)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-072",
+    "prd": "PRD-04",
+    "system": "cert/nesting",
+    "file": "NEW:tests/material/nesting.spec.ts",
+    "action": "TEST",
+    "description": "Nested surface ::before none and fill = inner fill; allowNested keeps optics and logs depth warning (dev story); portaled overlay inside nested tree keeps optics; disabled surface host opacity 1; input inside Dialog has 0 live filters.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-020",
+      "MAT-023",
+      "MAT-088"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Nesting & Groups'",
+    "acceptance": "AC-MAT-08 (REQ-MAT-23, 24, 27)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-073",
+    "prd": "PRD-04",
+    "system": "cert/group",
+    "file": "NEW:tests/material/group.spec.ts",
+    "action": "TEST",
+    "description": "5-child SurfaceGroup toolbar → exactly 1 visible backdrop filter (density helper); children keep rim (::after background non-none) and shadow.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-021",
+      "MAT-048"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Nesting & Groups' 'SurfaceGroup toolbar'",
+    "acceptance": "AC-MAT-08 (REQ-MAT-25)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-074",
+    "prd": "PRD-04",
+    "system": "cert/content",
+    "file": "NEW:tests/material/content-materials.spec.ts",
+    "action": "TEST",
+    "description": "layer=content without variant: ::before backdrop none in standard, enhanced and lightweight; opaque fill alpha 1; sunken inset top shade; explicit variant=regular blurs.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-022"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material.Matrix content columns",
+    "acceptance": "AC-MAT-04 (REQ-MAT-26, 42)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-075",
+    "prd": "PRD-04",
+    "system": "cert/optics",
+    "file": "NEW:tests/material/optics.spec.ts",
+    "action": "TEST",
+    "description": "Per §5.4 row: filter order blur() saturate() brightness(); 12/20/32px by thickness, none >32; saturation single value; brightness by scheme; prominent accent ≤0.18; grain URL on ::before, host mix-blend-mode normal; rim edge-band delta in all engines; Fresnel lit band ≥ +12 levels over flat black; specular 0 under contrast more; shadow per thickness; inner fill; --_ag-dim 0.35 for clear over light/media; hover specular rise, instant under reduced motion; on-surface glyph flip by backdrop.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-024",
+      "MAT-025",
+      "MAT-026",
+      "MAT-027",
+      "MAT-028",
+      "MAT-029",
+      "MAT-030",
+      "MAT-031",
+      "MAT-032",
+      "MAT-089"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely; titles carry REQ ids",
+    "storybook": "Material/Optics (one story per optic)",
+    "acceptance": "AC-MAT-04 (REQ-MAT-29..37, 40..44, 83, 84)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-076",
+    "prd": "PRD-04",
+    "system": "cert/clear",
+    "file": "NEW:tests/material/clear-fallback.spec.ts",
+    "action": "TEST",
+    "description": "clear without declared backdrop and under nearest auto computes identical ::before filter and host fill to regular; clear under light/dark/media keeps clear cell.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-032"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Clear' 'clear with no backdrop'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-45)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-077",
+    "prd": "PRD-04",
+    "system": "cert/tiers",
+    "file": "NEW:tests/material/tiers.spec.ts",
+    "action": "TEST",
+    "description": "No attribute → standard; data-ag-tier=lightweight and forcedColors 'active' → fill alpha ≥0.85, ::before none, light-scheme fill OKLCH L >0.5 (no black slab); with A11Y AuraGlassScript, <html data-ag-engine> = chromium/webkit/gecko before DOMContentLoaded per engine; without script standard renders and enhanced never applies (REQ-56).",
+    "depends_on": [
+      "MAT-070",
+      "MAT-034",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Tiers'",
+    "acceptance": "AC-MAT-04/05 (REQ-MAT-48, REQ-MAT-49; A11Y inputs REQ-MAT-54, REQ-MAT-55, REQ-MAT-56)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-078",
+    "prd": "PRD-04",
+    "system": "cert/enhanced",
+    "file": "NEW:tests/material/enhanced-gating.spec.ts",
+    "action": "TEST",
+    "description": "Chromium + chrome + data-ag-refraction + svg[data-ag-lens-ready] (LensDefs) → ::before filter contains url(#ag-lens-<shape>-<sizeclass>); WebKit/Gecko and documents without LensDefs within ΔE2000 ≤1 of standard on ≥99% pixels; CLS = 0 (PerformanceObserver layout-shift); 0 Range.getClientRects() text boxes intersect non-zero displacement; refraction on non-chrome inert + dev warning; ≤2 refracting per scene; inert under tinted/solid/motion none/contrast more/forced colors. Enhanced certification cell owned here as interim §16 PRD-15 owner (SC-37).",
+    "depends_on": [
+      "MAT-070",
+      "MAT-035",
+      "MAT-120"
+    ],
+    "priority": "P1",
+    "test": "3 engines green remotely, or documented D-05 deferral (inert = standard)",
+    "storybook": "Material Lab 'Tiers' enhanced column",
+    "acceptance": "AC-MAT-10 (REQ-MAT-50, REQ-MAT-51, REQ-MAT-56, REQ-MAT-57, REQ-MAT-59, REQ-MAT-81, REQ-MAT-87)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-079",
+    "prd": "PRD-04",
+    "system": "cert/kill-switches",
+    "file": "NEW:tests/material/kill-switches.spec.ts",
+    "action": "TEST",
+    "description": "With <html data-ag-tier=enhanced>, subtree data-ag-tier=standard removes lens filter; subtree data-ag-transparency=tinted raises floor to tinted row; solid gives lightweight rung — descendants only, siblings unchanged; provider tier=\"standard\" renders no LensDefs. Kill switches owned here as interim §16 PRD-15 owner (SC-37).",
+    "depends_on": [
+      "MAT-070",
+      "MAT-034"
+    ],
+    "priority": "P1",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Tiers' 'kill switches'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-17, §4.6 kill switches)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-080",
+    "prd": "PRD-04",
+    "system": "cert/webkit-literal",
+    "file": "NEW:tests/material/webkit-literal.spec.ts",
+    "action": "TEST",
+    "description": "WebKit only: over a hf-pattern scene, pixel variance under a regular surface drops ≥40% vs the same region without surface (blur actually applied via literal -webkit-backdrop-filter).",
+    "depends_on": [
+      "MAT-070",
+      "MAT-024",
+      "QA-075"
+    ],
+    "priority": "P1",
+    "test": "webkit project green remotely",
+    "storybook": "Material/Optics 'blur ladder' over busy scene",
+    "acceptance": "AC-MAT-03 (REQ-MAT-47)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-081",
+    "prd": "PRD-04",
+    "system": "cert/no-auto-downgrade",
+    "file": "NEW:tests/material/no-auto-downgrade.spec.ts",
+    "action": "TEST",
+    "description": "Production Storybook build: mount 20 surfaces, scripted scroll 5s; MutationObserver log shows 0 attribute mutations on <html> and surfaces; computed ::before filters identical before/after.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-064"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Tiers' 'density 20'",
+    "acceptance": "AC-MAT-03 (REQ-MAT-53, D-09)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-082",
+    "prd": "PRD-04",
+    "system": "cert/rsc-canary",
+    "file": "NEW:tests/material/rsc-canary.spec.ts",
+    "action": "TEST",
+    "description": "Run in QA L11 Consumer canaries against PKG's canaries/next16 (QA-086): a Server Component imports every server-safe material export; remote next build succeeds; page hydrates with 0 console warnings/errors.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-067",
+      "QA-086"
+    ],
+    "priority": "P0",
+    "test": "remote canary job green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-06 (REQ-MAT-06)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-083",
+    "prd": "PRD-04",
+    "system": "cert/responsive",
+    "file": "NEW:tests/material/responsive.spec.ts",
+    "action": "TEST",
+    "description": "Coarse-pointer emulation: thick blur 20px, grain ≤0.02; 390×844 modal story ≤3 visible filters incl. scrim, scrim blur ≤12px; ScrollEdge height 16–32px and no overlap with focusable boxes; concentric inner radius ≥0 at compact/regular/spacious; full-width refracting bar at 390px logs dev warning.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-037",
+      "MAT-038",
+      "MAT-039",
+      "MAT-055"
+    ],
+    "priority": "P1",
+    "test": "3 engines green remotely",
+    "storybook": "Material Lab 'Shape & Concentricity', Material Lab 'Tiers' 'modal scrim'",
+    "acceptance": "AC-MAT-04 (REQ-MAT-72, REQ-MAT-73, REQ-MAT-74, REQ-MAT-75, REQ-MAT-76, REQ-MAT-77)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-084",
+    "prd": "PRD-04",
+    "system": "cert/a11y-coverage",
+    "file": "NEW:tests/material/a11y-coverage.spec.ts",
+    "action": "TEST",
+    "description": "Each of the 8 certification/scenes ids (SC-28) under forced-colors, contrast-more and reduced-transparency emulation: 100% of live ::before filters belong to [data-ag-surface]; 0 live filters under forced colors (4.x baseline 1→1); Canvas/CanvasText/border CanvasText/no box-shadow; data-ag-transparency=glass + --ag-glass-opacity:0 cannot drop below OS floor (≥tinted); Environment media and ScrollEdge aria-hidden; no material element focusable or with role.",
+    "depends_on": [
+      "MAT-070",
+      "MAT-041",
+      "A11Y-036",
+      "QA-038"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "all Material Lab stories",
+    "acceptance": "AC-MAT-05 (REQ-MAT-78, 80, 82)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-085",
+    "prd": "PRD-04",
+    "system": "cert/axe",
+    "file": "tests/a11y/browser/axe.spec.ts",
+    "action": "MODIFY",
+    "description": "Add every Material Lab story id to A11Y's browser axe spec (SC-30; no tests/material/axe.spec.ts): @axe-core/playwright with color-contrast enabled, 3 engines, 0 violations; no rule disabled, no element excluded.",
+    "depends_on": [
+      "A11Y-078",
+      "MAT-086",
+      "MAT-087",
+      "MAT-088",
+      "MAT-089"
+    ],
+    "priority": "P0",
+    "test": "3 engines green remotely",
+    "storybook": "all Material Lab stories",
+    "acceptance": "AC-MAT-03 (REQ-MAT-85)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-086",
+    "prd": "PRD-04",
+    "system": "storybook/material-lab",
+    "file": "NEW:src/material/stories/Material.Lab.stories.tsx",
+    "action": "CREATE",
+    "description": "Material.Lab.stories.tsx, title 'Material Lab', first six REQ-SB-18 stories in order: Overview, Regular, Clear, Identity, Content Raised, Content Sunken, each rendered through SB's MaterialLabFrame (.storybook/lab/**, SC-31). Controls and contrast read-out come from SB's harness (REQ-SB-19/20); no local decorators or globals; renders under SB's single AuraGlassProvider decorator (REQ-SB-06). Clear covers clear over light/media with scrim and clear without a backdrop (fallback + dev warning).",
+    "depends_on": [
+      "MAT-053",
+      "SB-048",
+      "SB-060"
+    ],
+    "priority": "P0",
+    "test": "axe.spec.ts and layer-stack.spec.ts target its stories (MAT-085, MAT-071)",
+    "storybook": "Material Lab: Overview..Content Sunken in REQ-SB-18 order",
+    "acceptance": "AC-MAT-03 (§13; DoD 5)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-087",
+    "prd": "PRD-04",
+    "system": "storybook/material-matrix",
+    "file": "NEW:src/material/stories/Material.Matrix.stories.tsx",
+    "action": "CREATE",
+    "description": "Grid 4 variants (regular, clear, identity, content-raised) × 3 thicknesses per scene generated from NEW src/material/stories/matrix.meta.ts typed metadata (not hand-written).",
+    "depends_on": [
+      "MAT-053",
+      "SB-048",
+      "SB-060"
+    ],
+    "priority": "P0",
+    "test": "environment matrix (MAT-091) and optics.spec.ts consume it",
+    "storybook": "Material/Matrix",
+    "acceptance": "AC-MAT-04",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-088",
+    "prd": "PRD-04",
+    "system": "storybook/material-nesting-tiers",
+    "file": "src/material/stories/Material.Lab.stories.tsx",
+    "action": "MODIFY",
+    "description": "Append the remaining six REQ-SB-18 stories in order: Tiers (lightweight/standard/enhanced; 'inert on this engine' when data-ag-engine ≠ chromium), Nesting & Groups (nested collapse, allowNested warning, SurfaceGroup, portaled overlay, disabled), Shape & Concentricity, Scroll Edge (edgeStyle soft/hard over dense-text), Preferences (glass/tinted/solid × contrast more × forced colors), Motion (MOT optics).",
+    "depends_on": [
+      "MAT-086"
+    ],
+    "priority": "P0",
+    "test": "SB's storybook-index.test.mjs asserts the 12 Material Lab stories in order",
+    "storybook": "Material Lab: Tiers..Motion in REQ-SB-18 order",
+    "acceptance": "AC-MAT-08",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-089",
+    "prd": "PRD-04",
+    "system": "storybook/material-env-shape-optics",
+    "file": "NEW:src/material/stories/Material/Optics.stories.tsx",
+    "action": "CREATE",
+    "description": "Material/Optics (one story per §5.4 optic: blur ladder, grain on/off, rim only, light-angle sweep, specular, prominent, interaction, layer stack), NEW Material Lab 'Clear'.stories.tsx (image/video, clear over light/media with scrim, clear without backdrop + dev warning), NEW Material Lab 'Shape & Concentricity'.stories.tsx (ConcentricFrame radius rhythm, capsule, ScrollEdge soft/hard).",
+    "depends_on": [
+      "MAT-053",
+      "SB-048",
+      "SB-060"
+    ],
+    "priority": "P1",
+    "test": "optics/clear-fallback/responsive specs target these stories",
+    "storybook": "Material/Optics, Material/Environment, Material/Shape",
+    "acceptance": "AC-MAT-04",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-090",
+    "prd": "PRD-04",
+    "system": "storybook/preview",
+    "file": ".storybook/preview.tsx",
+    "action": "TEST",
+    "description": "Contract check only (SB owns .storybook/preview.tsx, SB-048; SC-31): assert the environment global (8 scene ids, default photo), the single StoryEnvironment + StoryRoot decorator under AuraGlassProvider, and that storybook-utility-shim.css is imported only from .storybook/ (PKG-101). No edit by this PRD; any missing global is requested through an SB task.",
+    "depends_on": [
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "storybook-config.test.ts (SB) green; remote build-storybook green",
+    "storybook": "environment global visible on all Material stories",
+    "acceptance": "AC-MAT-04 (§13 rules)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-091",
+    "prd": "PRD-04",
+    "system": "cert/environment-matrix",
+    "file": "certification/lanes/environment-visual.spec.ts",
+    "action": "TEST",
+    "description": "Run QA's L6 Environment visual lane (no MAT-specific matrix spec) on the Material/Matrix subjects: {regular, clear, identity, content-raised} × {thin, regular, thick} × 8 scenes (SC-28) × {light, dark} × {glass, tinted, solid} × {default, contrast more, forced colors, reduced motion} × tier × {1440, 390} × 3 engines; gates not-blank, surface separation, OCR contrast, material presence, density ≤0.3. Subjects are declared through story parameters.ag metadata.",
+    "depends_on": [
+      "MAT-087",
+      "MAT-070",
+      "QA-056",
+      "QA-038",
+      "DS-059"
+    ],
+    "priority": "P0",
+    "test": "0 failing cells; OCR worst case ≥4.5:1, ≥7:1 under contrast more",
+    "storybook": "Material/Matrix",
+    "acceptance": "AC-MAT-04 (REQ-MAT-79)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-092",
+    "prd": "PRD-04",
+    "system": "cert/perf",
+    "file": "NEW:tests/perf/browser/material-surfaces.spec.ts",
+    "action": "TEST",
+    "description": "Perf browser spec driven by PERF's tests/perf/harness/run-perf.mjs (SC-30; no tests/material/perf.spec.ts), run in QA L10: standard 6 surfaces hover+scroll ≥55 fps p50 (120 Hz desktop); 3 surfaces mid-tier mobile ≥50 fps p50; Dialog over app shell mobile ≥50 fps p50; enhanced 2 lenses ≥50 fps p50 and ≤2 ms added GPU frame time p75; 0 attributable long tasks; GPU and software-raster reported separately. Thresholds read from tests/perf/harness/budgets.json rows (MAT-122).",
+    "depends_on": [
+      "MAT-070",
+      "PERF-039",
+      "MAT-122"
+    ],
+    "priority": "P1",
+    "test": "perf JSON artifact meets budgets",
+    "storybook": "Material/Tiers 'density' stories",
+    "acceptance": "AC-MAT-09 (§16)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-093",
+    "prd": "PRD-04",
+    "system": "cert/human-review",
+    "file": "certification/review/",
+    "action": "TEST",
+    "description": "Submit the Material subjects to QA's L14 Human visual review (rubric certification/review/visual-rubric.md, QA-099): specular quality, optical hierarchy, radius rhythm and 'reads as one hand' on the six product scenes, linking remote screenshot artifacts; sign-off by a named human reviewer only (agents must not self-certify).",
+    "depends_on": [
+      "MAT-091",
+      "QA-099"
+    ],
+    "priority": "P1",
+    "test": "checklist exists with artifact links; sign-off field filled by human",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-15",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-094",
+    "prd": "PRD-04",
+    "system": "cert/revert-check",
+    "file": "src/material/css/material.css",
+    "action": "TEST",
+    "description": "On a throwaway branch in the remote lane, revert one CSS rule per §5.2, §5.3, §5.4, §5.5, §5.7 and show the named spec fails each time; delete the branch afterwards; no change merged.",
+    "depends_on": [
+      "MAT-071",
+      "MAT-072",
+      "MAT-075",
+      "MAT-077",
+      "MAT-078"
+    ],
+    "priority": "P1",
+    "test": "5/5 reverts produce a failing named spec (run URLs)",
+    "storybook": "n/a",
+    "acceptance": "DoD item 9 (AC-MAT-03 integrity)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-095",
+    "prd": "PRD-04",
+    "system": "bridge/4.2-material-subpath",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "[release/4.x] Ship ./material as experimental (C-E, API-1/API-2) per REL (4.2/4.3 bridge); @experimental tag in API report; no 4.x pixel change.",
+    "depends_on": [
+      "MAT-053",
+      "REL-090"
+    ],
+    "priority": "P1",
+    "test": "test:exports on release/4.x includes aura-glass/material; visual-class gate shows no pixel diff",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-13 prerequisite (API-1, API-2)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-096",
+    "prd": "PRD-04",
+    "system": "bridge/deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "[release/4.x] One C-D entry per PRD §9 item (API-7, API-8) in the root deprecations.json (version 1, SC-02/03): id DEP-NNNN, kind, status, symbol, since 4.2.0, removeIn 5.0.0, replacement, codemod = an SC-33 id (imports-subpaths, canonical-names, dead-optical-props, providers, css-vars, removed) or null, automation, compat availability.",
+    "depends_on": [
+      "TRUST-075",
+      "REL-010",
+      "DX-042"
+    ],
+    "priority": "P0",
+    "test": "REL deprecations schema gate green; verify-recipe-removal.mjs row check (MAT-115)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-097",
+    "prd": "PRD-04",
+    "system": "bridge/deprecation-warnings",
+    "file": "src/primitives/OptimizedGlassCore.tsx",
+    "action": "DEPRECATE",
+    "description": "[release/4.x] Dev warn-once '[aura-glass] <Name> is deprecated; use <Successor> (codemod: <id>)' in OptimizedGlassCore, GlassCore, glass/GlassAdvanced, glass/OptimizedGlassAdvanced, LiquidGlassMaterial, LiquidGlassEffectGroup, LiquidGlassLayerProvider, LiquidGlassScrollEdge, LiquidGlassConcentricFrame, LiquidGlassBackdropSampler, hooks/useLiquidGlassBackdrop, utils/createGlassStyle, core/mixins/glassMixins.",
+    "depends_on": [
+      "MAT-096",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "NEW src/primitives/__tests__/deprecations.test.tsx: each export warns exactly once in dev, 0 in production, render output unchanged",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (API-7, API-8)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-098",
+    "prd": "PRD-04",
+    "system": "bridge/generated-fallback",
+    "file": "src/styles/glass.generated.css",
+    "action": "MODIFY",
+    "description": "[release/4.x, conditional] Scope the [class*=\"glass-\"] rgba(0,0,0,.85)!important fallback (:1006-1012) to the explicit 4.x glass class list (API-17), only with recorded reviewer approval as a D-28 extension and before/after composites; otherwise mark blocked and let MAT-110 delete it in 5.0.",
+    "depends_on": [
+      "REL-090"
+    ],
+    "priority": "P2",
+    "test": "remote before/after on unsupported-engine emulation: text/icons inside glass no longer get the black slab; visual-class gate labelled C-I bug fix",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (API-17; conditional on the D-28 extension approval recorded by REL, §21 O-1)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-099",
+    "prd": "PRD-04",
+    "system": "bridge/utility-shim-notice",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "[release/4.x] C-D entry (kind css-global, codemod null) for the storybook-utility-shim.css import (src/styles/index.css:25) plus the doctor --v5 report line (DX-037). The import stays in 4.x; PKG-101 moves the file to .storybook/ in 5.0 (API-18). No edit to src/styles/index.css (PKG-owned, SC-20).",
+    "depends_on": [
+      "MAT-096",
+      "DX-037"
+    ],
+    "priority": "P2",
+    "test": "deprecations schema gate green; doctor --v5 fixture reports the shim",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (API-18 4.2 step)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-100",
+    "prd": "PRD-04",
+    "system": "bridge/4.3-role-attributes",
+    "file": "src/primitives/LiquidGlassMaterial.tsx",
+    "action": "MODIFY",
+    "description": "[release/4.x 4.3] OptimizedGlassCore, LiquidGlassMaterial, GlassCore, GlassAdvanced, OptimizedGlassAdvanced, LiquidGlassEffectGroup additionally spread materialProps(mappedRole) (elevation 0|1→thin, 2→regular, 3+→thick; variant solid→transparency solid wrapper); existing classes/styles unchanged so 4.x pixels are unchanged.",
+    "depends_on": [
+      "MAT-095",
+      "MAT-046"
+    ],
+    "priority": "P1",
+    "test": "NEW src/primitives/__tests__/preview-attributes.test.tsx: each primitive emits data-ag-surface + mapped role; DOM otherwise identical",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-13 (REQ-MAT-20)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-101",
+    "prd": "PRD-04",
+    "system": "bridge/preview-v5-css",
+    "file": "NEW:src/material/css/preview-v5.css",
+    "action": "CREATE",
+    "description": "[release/4.x 4.3] Apply the same compiled ladders.css/material.css under [data-ag-preview=\"v5\"] (generated scoped copy from DS or scoped @import); neutralise 4.x inline optics inside the preview subtree only via data-attribute selectors in @layer ag.compat; no second recipe authored.",
+    "depends_on": [
+      "MAT-100",
+      "DS-049",
+      "REL-125"
+    ],
+    "priority": "P1",
+    "test": "css-contract.test.ts extension: preview-v5.css declarations byte-identical to ladders cells; count-glass-recipes N unchanged",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-13 (REQ-MAT-20, API-6)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-102",
+    "prd": "PRD-04",
+    "system": "bridge/frozen-fixture",
+    "file": "NEW:tests/material/preview-v5.spec.ts",
+    "action": "TEST",
+    "description": "[release/4.x 4.3] Frozen 4.x consumer fixture (NEW tests/material/fixtures/frozen-4x/, built from 4.1.0 stories): without the attribute ΔE2000 ≤1 on 100% of pixels vs baselines captured once from the 4.1.0 tag (never updated); with data-ag-preview=\"v5\" ::before blur equals ladder value. 3 engines remote.",
+    "depends_on": [
+      "MAT-101",
+      "MAT-070",
+      "REL-115"
+    ],
+    "priority": "P0",
+    "test": "preview-v5.spec.ts green on 3 engines remotely",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-13",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-103",
+    "prd": "PRD-04",
+    "system": "compat/surface-adapters",
+    "file": "NEW:src/compat/material/OptimizedGlass.tsx",
+    "action": "CREATE",
+    "description": "[main 5.0] Adapters src/compat/material/{OptimizedGlass, GlassCore, OptimizedGlassAdvanced}.tsx → Surface (SC-34; re-exported by DX src/compat/index.ts): elevation→thickness, intent dropped unless primary+prominent, variant solid→wrapper data-ag-transparency=solid, interactive, className/style/children passthrough; 16 no-op props dropped with one warnDeprecated(id) dev warning listing them (REL-072); adaptive→data-ag-backdrop=auto (renders regular for clear). Mapping per PRD §11.",
+    "depends_on": [
+      "MAT-053",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "adapters.test.tsx (MAT-105)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (REQ-MAT-12 compat, API-10/11/12)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-104",
+    "prd": "PRD-04",
+    "system": "compat/liquid-adapters",
+    "file": "NEW:src/compat/material/LiquidGlassMaterial.tsx",
+    "action": "CREATE",
+    "description": "[main 5.0] Adapters LiquidGlassMaterial (variant kept, thickness/size mapped, adaptToContent/ior/material/enableTilt dropped+warned), LiquidGlassEffectGroup→SurfaceGroup (spacing), LiquidGlassLayerProvider→fragment, LiquidGlassScrollEdge→ScrollEdge, LiquidGlassConcentricFrame→ConcentricFrame.",
+    "depends_on": [
+      "MAT-053",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "adapters.test.tsx (MAT-105)",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (REQ-MAT-12 compat)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-105",
+    "prd": "PRD-04",
+    "system": "compat/tests",
+    "file": "NEW:src/compat/material/__tests__/adapters.test.tsx",
+    "action": "TEST",
+    "description": "For each of the 8 adapters: rendered attributes equal materialProps(expectedRole); dropped-prop warning fires once with the prop list; no style attribute unless consumer passed style.",
+    "depends_on": [
+      "MAT-103",
+      "MAT-104"
+    ],
+    "priority": "P1",
+    "test": "./node_modules/.bin/jest src/compat green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (REQ-MAT-12)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-106",
+    "prd": "PRD-04",
+    "system": "recipes/R1-R3",
+    "file": "src/tokens/glass.ts",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete buildSurfaceStyles (R1), buildBackdropFilter (R2), liquidGlassUtils.buildLiquidGlassStyles (R3), glassUtils alias (:1128), PERFORMANCE_TIERS (:874-904), LIQUID_GLASS IOR tables and ternary ladders (:1002-1021); gated on rg showing 0 non-compat consumers.",
+    "depends_on": [
+      "MAT-111",
+      "FND-007",
+      "DX-047"
+    ],
+    "priority": "P1",
+    "test": "verify-recipe-removal.mjs (MAT-115) and Glass Quality Gates + certify-pr material project runs green",
+    "storybook": "Material/Matrix unchanged",
+    "acceptance": "AC-MAT-12, AC-MAT-01",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-107",
+    "prd": "PRD-04",
+    "system": "recipes/R4-sampler",
+    "file": "src/primitives/LiquidGlassMaterial.tsx",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete LiquidGlassMaterial.tsx (+ .test.tsx), LiquidGlassBackdropSampler.tsx, hooks/useLiquidGlassBackdrop.ts (+ test); successors Surface, Environment/data-ag-backdrop; sampler has no compat.",
+    "depends_on": [
+      "MAT-104",
+      "CTL-055",
+      "OVL-040",
+      "NAV-016",
+      "MED-060",
+      "FND-007"
+    ],
+    "priority": "P1",
+    "test": "rg gate 0 non-compat consumers; build + test:exports remote green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-108",
+    "prd": "PRD-04",
+    "system": "recipes/R5-R7",
+    "file": "src/utils/createGlassStyle.ts",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete utils/createGlassStyle.ts (R5), core/mixins/glassMixins.ts (R6) and its subpath export, core/foundation/glassFoundation.ts (R7), core/mixins/glassSurface.ts, and src/index.ts:960-964 export.",
+    "depends_on": [
+      "FND-007",
+      "DX-047",
+      "DX-052"
+    ],
+    "priority": "P1",
+    "test": "rg gate; verify-recipe-removal.mjs; build remote green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-109",
+    "prd": "PRD-04",
+    "system": "recipes/R8-tiers-probes",
+    "file": "src/theme/materials.ts",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete theme/materials.ts (R8), core/productionCore.ts:196-200 --aura-blur-amount and glass-tier-* classes, hooks/useGlassProbes.ts and its subpath.",
+    "depends_on": [
+      "A11Y-029",
+      "QA-075"
+    ],
+    "priority": "P2",
+    "test": "rg gate; build remote green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-110",
+    "prd": "PRD-04",
+    "system": "recipes/R9-R10",
+    "file": "src/styles/glass.generated.css",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete src/styles/glass.generated.css (R9, incl. 85% black fallback); no compat CSS for optics classes. src/styles/glass.css (R10) is removed by MOT-084 (SC-20) after A11Y migrated :4022-4123 to ag.a11y and MAT-037/038 absorbed :4425-4486; this task does not edit glass.css. DS-111 must drop glass.generated.css from its delete list (§21 O-7).",
+    "depends_on": [
+      "MAT-037",
+      "MAT-038",
+      "A11Y-036",
+      "PKG-101"
+    ],
+    "priority": "P1",
+    "test": "verify-optics-css.mjs counts drop; certify-pr material project remote green",
+    "storybook": "Material Lab unchanged",
+    "acceptance": "AC-MAT-12, AC-MAT-02",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-111",
+    "prd": "PRD-04",
+    "system": "recipes/primitives",
+    "file": "src/primitives/OptimizedGlassCore.tsx",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete OptimizedGlassCore, GlassCore, glass/GlassAdvanced, glass/OptimizedGlassAdvanced (+ stories/tests); remove src/index.ts:17 and src/primitives/index.ts:89 exports; root re-exports aura-glass/material values.",
+    "depends_on": [
+      "MAT-103",
+      "FND-007",
+      "CTL-055"
+    ],
+    "priority": "P1",
+    "test": "rg gate; tests/exports green; certify-pr material project remote green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (API-9)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-112",
+    "prd": "PRD-04",
+    "system": "recipes/liquid-primitives",
+    "file": "src/primitives/LiquidGlassEffectGroup.tsx",
+    "action": "REMOVE",
+    "description": "[main 5.0, one PR] Delete LiquidGlassEffectGroup, LiquidGlassLayerProvider, LiquidGlassScrollEdge, LiquidGlassConcentricFrame, LiquidGlassSourceTransition (successor MOT) and the 8 src/components/primitives/LiquidGlass*.stories.tsx.",
+    "depends_on": [
+      "MAT-104",
+      "MOT-045",
+      "NAV-016"
+    ],
+    "priority": "P1",
+    "test": "rg gate; build-storybook remote green",
+    "storybook": "8 legacy stories removed; Material Lab replaces them",
+    "acceptance": "AC-MAT-12",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-113",
+    "prd": "PRD-04",
+    "system": "recipes/fake-optics",
+    "file": "src/components/houdini/HoudiniGlassProvider.tsx",
+    "action": "TEST",
+    "description": "[main 5.0] Verify (read-only) that FND-123 (RM-06) deleted src/components/houdini/** (R11), advanced/LiquidGlassGPU.tsx (+ src/index.ts:500-502), advanced/GlassWebGLShader.tsx, surfaces/HeatGlass.tsx, effects/Glass3DEngine.tsx with stories/tests/snapshots; FND is the remover.",
+    "depends_on": [
+      "FND-123"
+    ],
+    "priority": "P1",
+    "test": "rg for the 5 symbols in src returns 0; build remote green",
+    "storybook": "related stories removed",
+    "acceptance": "AC-MAT-12 (API-15)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-114",
+    "prd": "PRD-04",
+    "system": "styles/utility-shim",
+    "file": "src/styles/index.css",
+    "action": "TEST",
+    "description": "[main 5.0] Verify that PKG-101 removed the storybook-utility-shim.css import (:25) from shipped styles (C-B, API-18) and that .storybook/ imports it; compat/globals.css is provided by PKG (SC-34). No edit by this PRD.",
+    "depends_on": [
+      "MAT-090",
+      "PKG-101"
+    ],
+    "priority": "P2",
+    "test": "npm pack tarball styles contain no .flex/.absolute global rules (PKG tarball check)",
+    "storybook": "Storybook still renders (shim imported in preview only)",
+    "acceptance": "AC-MAT-12 (API-18)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-115",
+    "prd": "PRD-04",
+    "system": "ci/recipe-removal",
+    "file": "NEW:scripts/ci/verify-recipe-removal.mjs",
+    "action": "CREATE",
+    "description": "rg -l \"buildSurfaceStyles|buildLiquidGlassStyles|buildBackdropFilter|createGlassStyle|glassFoundation|glassUtils|liquidGlassUtils\" src must return only src/compat/**; every §5.10 row has a deprecations.json entry. Added as a step of the Glass Quality Gates job from beta.1.",
+    "depends_on": [
+      "MAT-096"
+    ],
+    "priority": "P0",
+    "test": "tests/ci/verify-recipe-removal.test.ts (NEW): fixture with createGlassStyle outside compat fails",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-12 (REQ-MAT-67)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-116",
+    "prd": "PRD-04",
+    "system": "lint/ratchet-per-family",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "After each family deletion/migration PR, set auraglass/no-optics-outside-material to error for that family glob and add its files to noRegression in scripts/ci/glass-recipes-baseline.json (§20 step 9).",
+    "depends_on": [
+      "MAT-011"
+    ],
+    "priority": "P1",
+    "test": "Glass Quality Gates fails when a migrated family file reintroduces optics",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-01/AC-MAT-02 ratchet",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-117",
+    "prd": "PRD-04",
+    "system": "ci/beta-gate",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "At the 5.0.0-beta.1 SHA: count-glass-recipes --strict (fail N>1), no-optics-outside-material error for all src/**, verify-optics-css without baseline, verify-recipe-removal on every main push.",
+    "depends_on": [
+      "MAT-106",
+      "MAT-107",
+      "MAT-108",
+      "MAT-109",
+      "MAT-110",
+      "MAT-111",
+      "MAT-112",
+      "MAT-113",
+      "MAT-115",
+      "MAT-116",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "CI summary 'independent-glass-recipes: 1'; 0 lint and CSS violations on beta.1 SHA",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-01, AC-MAT-02",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-118",
+    "prd": "PRD-04",
+    "system": "lint/legacy-rule",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "[main 5.0] Remove the auraglass/no-inline-glass rule (owned here, SC-16) from PKG's eslint-plugin-auraglass.js and its eslint.config.js:29 registration (MODIFY; the plugin file stays); hand docs/liquid-glass/primitives/liquid-glass-material.md (incl. IOR 1.43 claim) to DX-127 docs/guides/choosing-a-material.md.",
+    "depends_on": [
+      "MAT-117",
+      "DX-127"
+    ],
+    "priority": "P3",
+    "test": "eslint config loads; rg 'no-inline-glass' returns 0",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-02 (REQ-MAT-63 replacement; DoD 6 handoff)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-119",
+    "prd": "PRD-04",
+    "system": "lens/maps",
+    "file": "NEW:scripts/build/lens-maps.mjs",
+    "action": "CREATE",
+    "description": "Interim §16 PRD-15 (SC-37): deterministic build-time generator for the 9 convex-squircle displacement maps src/material/assets/lens/ag-lens-<shape>-<sizeclass>.png (n≈1.5, R/G channels, bezel 12/16/24px per size class), committed; no feTurbulence/noise; static scale per id (E-10). Directory per §21 O-6.",
+    "depends_on": [
+      "MAT-036"
+    ],
+    "priority": "P2",
+    "test": "src/material/__tests__/lens-maps.test.ts (MAT-121): two runs byte-identical; 9 files; each ≤3072 B",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-10 (REQ-MAT-86, REQ-MAT-58)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-120",
+    "prd": "PRD-04",
+    "system": "lens/defs",
+    "file": "NEW:src/material/lens/LensDefs.tsx",
+    "action": "CREATE",
+    "description": "Internal server-safe LensDefs (no hooks/effects/\"use client\"; not exported from aura-glass/material): one <svg data-ag-lens-defs data-ag-lens-ready aria-hidden=\"true\" focusable=\"false\" width=\"0\" height=\"0\"> with 9 <filter id=\"ag-lens-…\"> (feImage → feDisplacementMap static scale → blur/saturate). Mounted once per document by AuraGlassProvider unless tier is standard|lightweight; the mount point is A11Y-029 (request recorded there).",
+    "depends_on": [
+      "MAT-119",
+      "MAT-035",
+      "A11Y-029"
+    ],
+    "priority": "P2",
+    "test": "lens-maps.test.ts renderToString case; enhanced-gating.spec.ts (MAT-078); kill-switches.spec.ts (MAT-079)",
+    "storybook": "Material Lab 'Tiers' enhanced column",
+    "acceptance": "AC-MAT-10 (REQ-MAT-87, REQ-MAT-50)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-121",
+    "prd": "PRD-04",
+    "system": "lens/tests",
+    "file": "NEW:src/material/__tests__/lens-maps.test.ts",
+    "action": "TEST",
+    "description": "9 ids exactly matching ^ag-lens-(fixed|capsule|concentric)-(control|bar|panel)$; generator determinism; no feTurbulence; each map ≤3 KB; LensDefs renderToString contains data-ag-lens-defs and data-ag-lens-ready and no \"use client\" module in its graph.",
+    "depends_on": [
+      "MAT-119",
+      "MAT-120"
+    ],
+    "priority": "P2",
+    "test": "./node_modules/.bin/jest src/material/__tests__/lens-maps.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-MAT-10 (REQ-MAT-86, REQ-MAT-87)",
+    "status": "todo"
+  },
+  {
+    "id": "MAT-122",
+    "prd": "PRD-04",
+    "system": "perf/budgets",
+    "file": "tests/perf/harness/budgets.json",
+    "action": "MODIFY",
+    "description": "Submit MAT runtime rows to PERF's budgets file (SC-15; no parallel budget file): material subjects (Material/Matrix stories), surface {fine 6, coarse 3}, refracting ≤2 each ≤25% viewport, nesting 1 (2 with allowNested), frame targets 55/50 fps p50 (provisional, §21 O-2), 0 attributable long tasks. Calibrated at alpha, ratchet down only.",
+    "depends_on": [
+      "PERF-044",
+      "MAT-087"
+    ],
+    "priority": "P1",
+    "test": "tests/perf/harness/budgets-frozen.test.ts (PERF-045) green with MAT rows",
+    "storybook": "Material/Matrix",
+    "acceptance": "AC-MAT-09 (§16, REQ-MAT-72, REQ-MAT-74, REQ-MAT-76)",
+    "status": "todo"
+  }
+]

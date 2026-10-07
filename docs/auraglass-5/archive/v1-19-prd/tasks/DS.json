@@ -1,0 +1,2029 @@
+[
+  {
+    "id": "DS-001",
+    "prd": "PRD-03",
+    "system": "tokens/types-runtime honesty (4.2 C-D, SC-36)",
+    "file": "scripts/build-tokens.js",
+    "action": "MODIFY",
+    "description": "4.2 C-D on release/4.x (SC-36 defers this from 4.1.1): make build-tokens.js (:440-455) emit `/** @deprecated Never implemented at runtime; removed in 5.0.0. */` on getPersona and getPersonaModeTokens in the generated .d.ts (TOKENS-THEME-08). Add no runtime implementation. The deprecations.json entry is DS-105; the 5.0 removal is enforced by the types-runtime gate (DS-067).",
+    "depends_on": [
+      "REL-010"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/types-runtime-parity.test.ts (DS-003): getPersona and getPersonaModeTokens are the only .d.ts-only names, and both carry @deprecated",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07 (4.2 half): mismatches for aura-glass/tokens are exactly the 2 deprecated type-only names; REQ-DS-30",
+    "status": "todo"
+  },
+  {
+    "id": "DS-002",
+    "prd": "PRD-03",
+    "system": "tokens/types-runtime honesty",
+    "file": "src/tokens/generated.ts",
+    "action": "MODIFY",
+    "description": "Regenerate src/tokens/generated.ts with npm run build:tokens after DS-001 (no hand edit). The getPersona/getPersonaModeTokens declarations at :1259-1275 gain @deprecated JSDoc; nothing else changes.",
+    "depends_on": [
+      "DS-001"
+    ],
+    "priority": "P0",
+    "test": "rg -n '@deprecated' src/tokens/generated.ts shows the 2 names; npx jest tests/tokens/export.test.ts still passes",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07 (4.2 half); REQ-DS-30",
+    "status": "todo"
+  },
+  {
+    "id": "DS-003",
+    "prd": "PRD-03",
+    "system": "tokens/types-runtime honesty",
+    "file": "NEW:tests/tokens/types-runtime-parity.test.ts",
+    "action": "TEST",
+    "description": "4.2 form: collect value exports from dist/tokens/index.d.ts with the TS compiler API (checker.getExportsOfModule) and compare them as sets with Object.keys(require('dist/tokens/index.cjs')) and the ESM import of dist/tokens/index.mjs. Assert that the only difference is {getPersona, getPersonaModeTokens} and that both are @deprecated. beforeAll runs npm run build:tokens. DS-068 tightens this to 0 differences at 5.0.",
+    "depends_on": [
+      "DS-002"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/types-runtime-parity.test.ts green, 0 skipped",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07 (4.2 half); REQ-DS-30",
+    "status": "todo"
+  },
+  {
+    "id": "DS-004",
+    "prd": "PRD-03",
+    "system": "undefined CSS vars",
+    "file": "src/components/animations/GlassTransitions.tsx",
+    "action": "MODIFY",
+    "description": "4.2 D-28 labelled visual fix on release/4.x (SC-36 defers it from 4.1.1): replace the undefined --glass-opacity-52 (:410), --glass-opacity-24 (:867) and --glass-opacity-72 (:869) with the nearest defined ladder steps --glass-opacity-50, -25 and -70 (TOKENS-THEME-10). Add a CHANGELOG 4.2.0 Fixed entry with the D-28 label. REL records the D-28 list entry and classifies the change with scripts/release/visual-class.mjs (REL-040, SC-09).",
+    "depends_on": [
+      "REL-040"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/no-undefined-opacity.test.ts (DS-006); rg -n 'glass-opacity-(24|32|52|72)' src returns 0",
+    "storybook": "Remote before/after capture of the GlassTransitions stories, Chromium 1440x900 light/dark, as CI artifact with human sign-off",
+    "acceptance": "PRD §9 row '--glass-opacity-24/32/52/72 usages fixed in 4.2'; verified by DS-006; visual-class reports only the labelled cells",
+    "status": "todo"
+  },
+  {
+    "id": "DS-005",
+    "prd": "PRD-03",
+    "system": "undefined CSS vars",
+    "file": "src/components/animations/AdvancedAnimations.tsx",
+    "action": "MODIFY",
+    "description": "4.2 D-28 labelled visual fix (with DS-004): replace the undefined --glass-opacity-32 at :255 with --glass-opacity-30.",
+    "depends_on": [
+      "REL-040"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/no-undefined-opacity.test.ts (DS-006)",
+    "storybook": "Remote before/after capture of the AdvancedAnimations stories as CI artifact",
+    "acceptance": "PRD §9 '--glass-opacity-*' row; verified by DS-006",
+    "status": "todo"
+  },
+  {
+    "id": "DS-006",
+    "prd": "PRD-03",
+    "system": "undefined CSS vars",
+    "file": "NEW:tests/tokens/no-undefined-opacity.test.ts",
+    "action": "TEST",
+    "description": "Assert every --glass-opacity-<n> referenced in src/**/*.{ts,tsx,css} is defined in src/styles/**/*.css; a fixture string containing --glass-opacity-24 must be reported. Regenerate src/components/animations/__snapshots__/GlassTransitions.test.tsx.snap; its diff may change only the replaced opacity tokens (paste the filtered diff in the report).",
+    "depends_on": [
+      "DS-004",
+      "DS-005"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/no-undefined-opacity.test.ts src/components/animations green; snapshot diff limited to the 4 token names",
+    "storybook": "n/a",
+    "acceptance": "PRD §20 step 1 (4.2); precondition for AC-DS-05 (0 undefined vars)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-007",
+    "prd": "PRD-03",
+    "system": "--ag-* namespace",
+    "file": "src/components/marketing/marketing.css",
+    "action": "MODIFY",
+    "description": "4.2 C-I: rename every private --ag-* (aurora-a..d, tilt-x/y, marketing-*, card-radius, orb-size, logo-size, particle-*, display-*-size, feature-visual-min-height) to --_ag-* in marketing.css, AuroraBackground.tsx, AuroraOrb.tsx and LogoMark.tsx, renaming definitions and reads together, including template strings and style objects.",
+    "depends_on": [
+      "REL-052"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/private-ag-namespace.test.ts (DS-009); npx jest src/components/marketing",
+    "storybook": "Remote pixel diff = 0 for AuroraOrb, AuroraBackground and LogoMark stories (CI artifact)",
+    "acceptance": "AC-DS-17 (src half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-008",
+    "prd": "PRD-03",
+    "system": "--ag-* namespace",
+    "file": "src/components/navigation/GlassTabBar.module.css",
+    "action": "MODIFY",
+    "description": "4.2 C-I: rename --ag-tabbar-blur and --ag-selector-blur to --_ag-tabbar-blur/--_ag-selector-blur in GlassTabBar.module.css and src/components/navigation/styled.tsx.",
+    "depends_on": [
+      "REL-052"
+    ],
+    "priority": "P1",
+    "test": "npx jest src/components/navigation; tests/tokens/private-ag-namespace.test.ts",
+    "storybook": "Remote pixel diff = 0 for GlassTabBar stories (CI artifact)",
+    "acceptance": "AC-DS-17 (src half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-009",
+    "prd": "PRD-03",
+    "system": "--ag-* namespace",
+    "file": "NEW:tests/tokens/private-ag-namespace.test.ts",
+    "action": "TEST",
+    "description": "Update the AuroraOrb.test.tsx assertions and regenerate src/components/navigation/__snapshots__/GlassTabBar.test.tsx.snap; its diff may contain only --ag- -> --_ag- (git diff -U0 filter prints nothing else). The new test scans src/** and asserts 0 '--ag-' names not prefixed by '_' (03d replaces this with the manifest check).",
+    "depends_on": [
+      "DS-007",
+      "DS-008"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/private-ag-namespace.test.ts src/components/marketing/AuroraOrb.test.tsx src/components/navigation green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-17 (src half): rg -o -- '--ag-[a-z0-9-]+' src returns 0 names",
+    "status": "todo"
+  },
+  {
+    "id": "DS-010",
+    "prd": "PRD-03",
+    "system": "release notes",
+    "file": "CHANGELOG.md",
+    "action": "DOC",
+    "description": "Add a 4.2.0 'Changed (C-I)' entry: marketing/navigation private custom properties renamed --ag-* -> --_ag-*; the --ag-* namespace is reserved for the 5.0 public manifest (PRD §11.8).",
+    "depends_on": [
+      "DS-009"
+    ],
+    "priority": "P2",
+    "test": "PRD-01 changelog/ledger check passes on release/4.x",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-07 changelog requirement (PRD §11 item 8)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-011",
+    "prd": "PRD-03",
+    "system": "legacy freeze",
+    "file": "NEW:tokens/legacy/4x-rendered.tokens.json",
+    "action": "CREATE",
+    "description": "Write NEW scripts/tokens/freeze-4x.mjs (uses the existing ts-node and transitive postcss) to extract the glass.ts:997 gradient, :1001 fill, :1030 border, the blur ternary per {intent, elevation, tier}, and every --glass-* primitive in src/styles/tokens.css :root, unrounded, into DTCG JSON with ag.tier 'legacy'. Commit the JSON.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "tests/tokens/legacy-freeze.test.ts (DS-012)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-42; precondition for AC-DS-14",
+    "status": "todo"
+  },
+  {
+    "id": "DS-012",
+    "prd": "PRD-03",
+    "system": "legacy freeze",
+    "file": "NEW:tests/tokens/legacy-freeze.test.ts",
+    "action": "TEST",
+    "description": "Re-run the extraction in memory and deep-equal it against the committed tokens/legacy/4x-rendered.tokens.json; assert >= 1 entry per --glass-* primitive in tokens.css (count logged). 03f (DS-102) extends it with the legacy platform output.",
+    "depends_on": [
+      "DS-011"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/legacy-freeze.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-42; precondition for AC-DS-14",
+    "status": "todo"
+  },
+  {
+    "id": "DS-013",
+    "prd": "PRD-03",
+    "system": "token compiler deps",
+    "file": "package.json",
+    "action": "INFRA",
+    "description": "Add exact-pinned devDependencies style-dictionary (4.x.y), ajv (8.x.y) and postcss (8.x.y); none goes in dependencies. They are devDependencies, so they are not runtime allowlist rows in PKG's docs/dependency-allowlist.json (PKG-056, SC-14), but scripts/ci/verify-deps.mjs must pass. Add the emitted-css case 'no compiler dependency imported from dist' (0 style-dictionary/ajv imports under dist/**).",
+    "depends_on": [
+      "DS-012",
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "node -e check that dependencies has none of the three; tests/tokens/emitted-css.test.ts dist-import case; PKG scripts/ci/verify-deps.mjs green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-04; AC-DS-16 (dependency side via the PRD-02 gate)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-014",
+    "prd": "PRD-03",
+    "system": "DTCG schema",
+    "file": "NEW:tokens/$schema.json",
+    "action": "CREATE",
+    "description": "JSON Schema 2020-12 for DTCG 2025.10 ($value/$type/$description/$extensions) covering the standard types plus the glass-material composite (architecture §4.3 MaterialSpec fields) and the motion-spring composite (dampingRatio, response); $extensions ag.public, ag.tier (ref|sys|material|comp|legacy, required), ag.since, ag.deprecated {since, replacement}, ag.usage ('large-only'), ag.forcedColor.",
+    "depends_on": [
+      "DS-013"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/schema.test.ts (DS-015)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-01",
+    "status": "todo"
+  },
+  {
+    "id": "DS-015",
+    "prd": "PRD-03",
+    "system": "DTCG schema",
+    "file": "NEW:tests/tokens/schema.test.ts",
+    "action": "TEST",
+    "description": "Validate every tokens/**/*.tokens.json against tokens/$schema.json with ajv; NEW fixture tests/tokens/fixtures/unknown-type.tokens.json must fail; a token without $extensions.ag.tier must fail.",
+    "depends_on": [
+      "DS-014"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/schema.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-01",
+    "status": "todo"
+  },
+  {
+    "id": "DS-016",
+    "prd": "PRD-03",
+    "system": "token compiler",
+    "file": "NEW:scripts/tokens/build.mjs",
+    "action": "CREATE",
+    "description": "Style Dictionary 4 entry: ajv validate -> resolve aliases -> expand modes (scheme x contrast x transparency x density; presets on the colour axis only) -> formats -> prettier (port build-tokens.js:25-35). Flags --fixtures/--out. Exit 1 naming the path for: schema violation, unresolved alias, cycle, material.* alias to non-sys, preset defining material.*, preset/theme output containing --_ag-*. Repoint npm build:tokens; keep build:tokens:legacy -> node scripts/build-tokens.js until DS-112.",
+    "depends_on": [
+      "DS-014"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/compiler-guards.test.ts (DS-017), tests/tokens/determinism.test.ts (DS-018)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-02, REQ-DS-03; AC-DS-03",
+    "status": "todo"
+  },
+  {
+    "id": "DS-017",
+    "prd": "PRD-03",
+    "system": "token compiler",
+    "file": "NEW:tests/tokens/compiler-guards.test.ts",
+    "action": "TEST",
+    "description": "One fixture dir per failure under tests/tokens/fixtures/guards/{unresolved-alias,cycle,material-to-ref,preset-material,preset-private-var,schema}; each asserts exit code 1 and that the offending token path appears in stderr.",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/compiler-guards.test.ts green (6 cases)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-02",
+    "status": "todo"
+  },
+  {
+    "id": "DS-018",
+    "prd": "PRD-03",
+    "system": "token compiler",
+    "file": "NEW:tests/tokens/determinism.test.ts",
+    "action": "TEST",
+    "description": "Build twice into two temp dirs; assert identical SHA-256 for every file in dist/tokens/**, tokens/generated/**, src/tokens/generated/**, src/material/css/generated/** and src/motion/tokens.generated.ts.",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/determinism.test.ts green; CI git diff --exit-code after build (DS-047)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-03",
+    "status": "todo"
+  },
+  {
+    "id": "DS-019",
+    "prd": "PRD-03",
+    "system": "ref color",
+    "file": "NEW:tokens/ref/color.tokens.json",
+    "action": "CREATE",
+    "description": "OKLCH {colorSpace, components [L,C,H], alpha} ramps: slate.1..12 (light L 0.99 -> 0.18, adjacent dL >= 0.03), plus 12-step accent, danger, warning and success ramps; ag.tier 'ref'.",
+    "depends_on": [
+      "DS-015"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/oklch.test.ts (DS-040)",
+    "storybook": "Tokens.mdx swatches (DS-096)",
+    "acceptance": "REQ-DS-08",
+    "status": "todo"
+  },
+  {
+    "id": "DS-020",
+    "prd": "PRD-03",
+    "system": "ref dimension",
+    "file": "NEW:tokens/ref/dimension.tokens.json",
+    "action": "CREATE",
+    "description": "4 pt space base (0,2,4,6,8,12,16,20,24,32,40,48,64 px), radius ladder (6,10,14,20,28,9999 px), blur ladder (12,20,32 px; none > 32) and type sizes.",
+    "depends_on": [
+      "DS-015"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/scales.test.ts (DS-041)",
+    "storybook": "Tokens.mdx (DS-096)",
+    "acceptance": "REQ-DS-12, REQ-DS-13, REQ-DS-14",
+    "status": "todo"
+  },
+  {
+    "id": "DS-021",
+    "prd": "PRD-03",
+    "system": "ref time",
+    "file": "NEW:tokens/ref/time.tokens.json",
+    "action": "CREATE",
+    "description": "Duration ladder 90/120/200/320/450 ms; cubic-bezier set (0.2,0,0,1), (0.05,0.7,0.1,1), (0.3,0,1,1); springs snappy {1.0, 200}, smooth {0.9, 350}, fluid {0.82, 450} as motion-spring. Values are MOT §4.2's. MOT changes them only by values-only MODIFY (MOT-020) after DS-026, never by creating another motion source (SC-18).",
+    "depends_on": [
+      "DS-015"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/motion-spring.test.ts (DS-054)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-17",
+    "status": "todo"
+  },
+  {
+    "id": "DS-022",
+    "prd": "PRD-03",
+    "system": "sys color",
+    "file": "NEW:tokens/sys/color.tokens.json",
+    "action": "CREATE",
+    "description": "{light, dark} pairs aliasing ref for canvas, on-surface, on-surface-muted, accent, on-accent, border, focus-inner, focus-outer, specular, danger, warning, success; dark on-surface L >= 0.92 and C <= 0.02 (D-28 navy-text fix); $extensions.ag.forcedColor maps each role to Canvas/CanvasText/LinkText/Highlight/HighlightText/GrayText/ButtonFace/ButtonText.",
+    "depends_on": [
+      "DS-019"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/oklch.test.ts (light-dark emission, dark on-surface L/C)",
+    "storybook": "Tokens.mdx; Presets.stories.tsx",
+    "acceptance": "REQ-DS-09; AC-DS-04 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-023",
+    "prd": "PRD-03",
+    "system": "sys typography",
+    "file": "NEW:tokens/sys/type.tokens.json",
+    "action": "CREATE",
+    "description": "Roles display, title-1..3, body, callout, caption, label, mono, each with size, line-height (unitless), weight and tracking; body clamp(15px, 0.9rem + 0.2vw, 17px); display/title clamp from 320 to 1440 px viewport; caption >= 12 px; on-glass-weight-delta 50; system font stack, no Aeonik (D-31).",
+    "depends_on": [
+      "DS-020"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/scales.test.ts (DS-041)",
+    "storybook": "Tokens.mdx (DS-096)",
+    "acceptance": "REQ-DS-11",
+    "status": "todo"
+  },
+  {
+    "id": "DS-024",
+    "prd": "PRD-03",
+    "system": "sys spacing",
+    "file": "NEW:tokens/sys/space.tokens.json",
+    "action": "CREATE",
+    "description": "space.0..12 emitted as calc(<px> * var(--_ag-density)); target.min 24px and target.coarse 44px, not density-scaled; --_ag-target = max(min, coarse) under @media (pointer: coarse) (PRD §14).",
+    "depends_on": [
+      "DS-020"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/scales.test.ts (DS-041)",
+    "storybook": "Tokens.mdx (DS-096)",
+    "acceptance": "REQ-DS-12",
+    "status": "todo"
+  },
+  {
+    "id": "DS-025",
+    "prd": "PRD-03",
+    "system": "sys shape",
+    "file": "NEW:tokens/sys/shape.tokens.json",
+    "action": "CREATE",
+    "description": "radius xs 6, sm 10, md 14, lg 20, xl 28, full 9999 px replace the four 4.x scales; --ag-radius-outer, --ag-inset, --ag-radius-inner = max(0px, calc(var(--ag-radius-outer) - var(--ag-inset))); preset radiusScale multiplies xs..xl only.",
+    "depends_on": [
+      "DS-020"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/scales.test.ts (DS-041)",
+    "storybook": "Tokens.mdx (DS-096)",
+    "acceptance": "REQ-DS-13",
+    "status": "todo"
+  },
+  {
+    "id": "DS-026",
+    "prd": "PRD-03",
+    "system": "sys motion",
+    "file": "NEW:tokens/sys/motion.tokens.json",
+    "action": "CREATE",
+    "description": "Create tokens/sys/motion.tokens.json, the only motion token source (SC-18; anchor for MOT-020): sys.duration.{instant,micro,small,medium,large} with -exit variants (60/80/140/220/320 ms), sys.ease.{standard,emphasized,emphasized-decelerate,accelerate}, sys.spring.{snappy,smooth,fluid} aliasing ref/time. Reserve sys.duration.ambient (--ag-duration-ambient, SC-19 accepted addition); MOT supplies its value (40 s requested by MED) and it has no -exit variant. tokens/motion.tokens.json is not created.",
+    "depends_on": [
+      "DS-021"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/motion-spring.test.ts (DS-054)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-17; SC-18/SC-19; rg --files tokens | rg '^tokens/motion\\.tokens\\.json$' returns 0",
+    "status": "todo"
+  },
+  {
+    "id": "DS-027",
+    "prd": "PRD-03",
+    "system": "sys interaction",
+    "file": "NEW:tokens/sys/interaction.tokens.json",
+    "action": "CREATE",
+    "description": "8 states per the REQ-DS-19 table: hover-specular +0.15 / hover-floor +0.02; press-glow 0.25 / press-floor +0.04; selected-tint accent at 0.16; focus-width 2px with two-tone focus-inner/outer; disabled-alpha 0.45 (via --_ag-surface-alpha); loading-alpha 0.7; dragging-lift/-specular; drop-target-rim 2px / -fill +0.06. Each also has contrast=more (rim/outline, specular 0) and transparency=solid (Highlight/HighlightText/GrayText) values. Selector contracts are documented in $description.",
+    "depends_on": [
+      "DS-022"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/interaction-states.test.ts (DS-042)",
+    "storybook": "InteractionStates.stories.tsx (DS-098)",
+    "acceptance": "REQ-DS-19, REQ-DS-20",
+    "status": "todo"
+  },
+  {
+    "id": "DS-028",
+    "prd": "PRD-03",
+    "system": "sys environment",
+    "file": "NEW:tokens/sys/environment.tokens.json",
+    "action": "CREATE",
+    "description": "light.angle 300deg -> --ag-light-angle, light.specular 0.5 -> --ag-specular, glass-opacity 0 -> --ag-glass-opacity; backdrop.{light,dark,media} tint mapping selected by data-ag-backdrop; scrim.clear 0.35; scrim.media oklch(0% 0 0 / 0.72) -> --ag-scrim-media (SC-19 accepted addition requested by MED).",
+    "depends_on": [
+      "DS-022"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/environment-elevation.test.ts (DS-043)",
+    "storybook": "ModesMatrix.stories.tsx backdrop control (DS-097)",
+    "acceptance": "REQ-DS-18; SC-19 (--ag-scrim-media present in the manifest)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-029",
+    "prd": "PRD-03",
+    "system": "sys elevation",
+    "file": "NEW:tokens/sys/elevation.tokens.json",
+    "action": "CREATE",
+    "description": "shadow.{chrome,overlay,transient,content}.{thin,regular,thick} x scheme (ambient + key) -> --_ag-shadow-*; layer.z content 0, chrome 100, overlay 1000, transient 1100, toast 1200 -> --ag-z-*; no elevation key or prop (D-07).",
+    "depends_on": [
+      "DS-022"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/environment-elevation.test.ts (DS-043)",
+    "storybook": "Tokens.mdx (DS-096)",
+    "acceptance": "REQ-DS-16",
+    "status": "todo"
+  },
+  {
+    "id": "DS-030",
+    "prd": "PRD-03",
+    "system": "material source",
+    "file": "NEW:tokens/material/material.tokens.json",
+    "action": "CREATE",
+    "description": "The single glass-material token (sole MaterialSpec instance): variants regular|clear|identity (D-06) x thickness thin|regular|thick (D-07); blur 12/20/32 px (cap 32); saturation 1.6; grain 0.02-0.04; scrim.clearOverBright 0.35; fallbackFill alpha >= 0.85; tint.{light,dark,media} aliases sys.color.canvas (REQ-DS-10); no intent/elevation key; aliases only sys.*.",
+    "depends_on": [
+      "DS-022",
+      "DS-028",
+      "DS-029"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/compiler-guards.test.ts material-to-ref case; tests/tokens/material-transform.test.ts (DS-051)",
+    "storybook": "ModesMatrix.stories.tsx (DS-097)",
+    "acceptance": "REQ-DS-10, REQ-DS-14",
+    "status": "todo"
+  },
+  {
+    "id": "DS-031",
+    "prd": "PRD-03",
+    "system": "mode matrix",
+    "file": "NEW:tokens/modes/scheme.tokens.json",
+    "action": "CREATE",
+    "description": "Per-axis overrides in tokens/modes/{scheme,contrast,transparency,density}.tokens.json: scheme light/dark; contrast standard/more (more raises effective transparency to >= tinted, architecture §7.1); transparency glass/tinted/solid; density compact 0.875 / regular 1 / spacious 1.125 on --_ag-density. Motion has no token overrides (PRD-06 owns the CSS).",
+    "depends_on": [
+      "DS-022",
+      "DS-024"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/modes-matrix.test.ts (DS-044)",
+    "storybook": "Preview toolbar globals (DS-095)",
+    "acceptance": "REQ-DS-21",
+    "status": "todo"
+  },
+  {
+    "id": "DS-032",
+    "prd": "PRD-03",
+    "system": "presets source",
+    "file": "NEW:tokens/presets/aura.tokens.json",
+    "action": "CREATE",
+    "description": "tokens/presets/{aura,graphite,daylight,midnight}.tokens.json, each with canvas {light, dark}, neutralHue, accent and optional radiusScale (0.75|1|1.25) only; no material.* or --_ag-* key (guard).",
+    "depends_on": [
+      "DS-022"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/compiler-guards.test.ts preset cases; src/theme/__tests__/presets.test.ts (DS-082)",
+    "storybook": "Presets.stories.tsx (DS-099)",
+    "acceptance": "REQ-DS-25",
+    "status": "todo"
+  },
+  {
+    "id": "DS-033",
+    "prd": "PRD-03",
+    "system": "contrast reference",
+    "file": "NEW:tokens/contrast/busy-reference.json",
+    "action": "CREATE",
+    "description": "Exactly the 9 sRGB busy samples #777777 #ff3b30 #34c759 #0a84ff #ffcc00 #af52de #ff9500 #5ac8fa #8e8e93 (contract: REQ-A11Y-15). DS is the only creator of this file (SC-18, OV-13); A11Y-001 is dropped.",
+    "depends_on": [
+      "DS-015"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/contrast-matrix.test.ts asserts the file content (DS-060)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-04 input; SC-18 single CREATE",
+    "status": "todo"
+  },
+  {
+    "id": "DS-034",
+    "prd": "PRD-03",
+    "system": "comp tier",
+    "file": "NEW:tokens/comp/README.md",
+    "action": "DOC",
+    "description": "State that comp.* tokens are narrow component tokens added only by flagship PRDs (PRD-07..14) through this compiler, may alias only sys.* and material.*, and are enforced by tier-skip.",
+    "depends_on": [
+      "DS-015"
+    ],
+    "priority": "P3",
+    "test": "tests/tokens/vars-gates.test.ts tier-skip comp case (DS-066)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-05",
+    "status": "todo"
+  },
+  {
+    "id": "DS-035",
+    "prd": "PRD-03",
+    "system": "tokens.css emitter",
+    "file": "NEW:scripts/tokens/formats/css-layered.mjs",
+    "action": "CREATE",
+    "description": "Emit dist/css/tokens.css: the order statement '@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;'; everything else in @layer ag.tokens: :root, per-axis [data-ag-<axis>=<v>] blocks plus media mirrors on :root:not([data-ag-<axis>]), color-scheme per scheme, sys.color as light-dark(), hex fallback only in @supports not (color: oklch(0 0 0)), scheme fallback in @supports not (color: light-dark(#000, #fff)), [data-ag-theme=<preset>] blocks; OS floors re-emitted in @layer ag.a11y; contrast=more -> >= tinted row; 0 !important; 0 prefers-contrast: high; no legacy-hook selectors.",
+    "depends_on": [
+      "DS-016",
+      "DS-031",
+      "DS-032"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/modes-matrix.test.ts, tests/tokens/emitted-css.test.ts, tests/tokens/oklch.test.ts",
+    "storybook": "Preview decorator consumes the attributes (DS-095)",
+    "acceptance": "AC-DS-06; REQ-DS-09, -21, -22, -24 (core), -34, -35",
+    "status": "todo"
+  },
+  {
+    "id": "DS-036",
+    "prd": "PRD-03",
+    "system": "@property registry",
+    "file": "NEW:scripts/tokens/formats/property-registry.mjs",
+    "action": "CREATE",
+    "description": "Emit src/material/css/generated/properties.css: @property --ag-light-angle (<angle>, inherits true, 300deg), --ag-specular (<number>, false, 0.5), --ag-glass-opacity (<number>, true, 0) and the private registrations from architecture §4.4; <= 16 total; @property is the only unlayered rule.",
+    "depends_on": [
+      "DS-016",
+      "DS-028"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/environment-elevation.test.ts; tests/tokens/emitted-css.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-18; §16 '@property <= 16'",
+    "status": "todo"
+  },
+  {
+    "id": "DS-037",
+    "prd": "PRD-03",
+    "system": "TS emitter",
+    "file": "NEW:scripts/tokens/formats/ts-constants.mjs",
+    "action": "CREATE",
+    "description": "Emit src/tokens/generated/tokens.ts (typed tokens map of var(--ag-*) strings, token(path: TokenPath), TokenPath union, no raw values, no class strings), tokens.d.ts and src/motion/tokens.generated.ts (motionTokens, shape per MOT §4.3; written only by DS-053, SC-18). No flat tokens.json is emitted (SC-12: no ./tokens.json export row).",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/emitted-css.test.ts no-class-strings case; tests/tokens/determinism.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-06; REQ-DS-39 (generated TS half); §16 tokens JS <= 2 KB gz; SC-12",
+    "status": "todo"
+  },
+  {
+    "id": "DS-038",
+    "prd": "PRD-03",
+    "system": "manifest",
+    "file": "NEW:scripts/tokens/formats/manifest.mjs",
+    "action": "CREATE",
+    "description": "Emit dist/tokens/manifest.json listing every public --ag-* with {tier, group, $type, modes[], since, public}; consumers is filled by dead-vars (DS-064). Hand it to PRD-01 for API report inclusion.",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/vars-gates.test.ts; manifest counts logged (public <= 260, private <= 200)",
+    "storybook": "Tokens.mdx reads it (DS-096)",
+    "acceptance": "REQ-DS-06; AC-DS-05 (count part)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-039",
+    "prd": "PRD-03",
+    "system": "aura-glass/tokens entry",
+    "file": "src/tokens/index.ts",
+    "action": "MODIFY",
+    "description": "Additively export tokens and token from './generated/tokens' plus type TokenPath; leave the 4.x exports until DS-109.",
+    "depends_on": [
+      "DS-037"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/types-runtime-parity.test.ts; npm run typecheck",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07",
+    "status": "todo"
+  },
+  {
+    "id": "DS-040",
+    "prd": "PRD-03",
+    "system": "colour tests",
+    "file": "NEW:tests/tokens/oklch.test.ts",
+    "action": "TEST",
+    "description": "Ramps monotone in L with dL >= 0.03; every sys.color leaf in tokens.css emitted as light-dark(; hex only inside @supports not; dark on-surface L >= 0.92 and C <= 0.02.",
+    "depends_on": [
+      "DS-035"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/oklch.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-08, REQ-DS-09",
+    "status": "todo"
+  },
+  {
+    "id": "DS-041",
+    "prd": "PRD-03",
+    "system": "scale tests",
+    "file": "NEW:tests/tokens/scales.test.ts",
+    "action": "TEST",
+    "description": "Added beyond PRD §12 to cover REQ-DS-11..13 and §14: 9 roles x 4 props; caption >= 12px; exact body clamp; unitless line-heights; space = calc(px * var(--_ag-density)); target tokens unscaled; exact radius ladder and radius-inner formula; no 'Aeonik' in tokens.css.",
+    "depends_on": [
+      "DS-035",
+      "DS-046"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/scales.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-11, REQ-DS-12, REQ-DS-13",
+    "status": "todo"
+  },
+  {
+    "id": "DS-042",
+    "prd": "PRD-03",
+    "system": "interaction tests",
+    "file": "NEW:tests/tokens/interaction-states.test.ts",
+    "action": "TEST",
+    "description": "All 8 states have standard, contrast=more and transparency=solid values; disabled uses --_ag-surface-alpha and emitted CSS has no host 'opacity:'; selected and drop-target include a rim/weight token as well as tint (not colour-only).",
+    "depends_on": [
+      "DS-035",
+      "DS-027"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/interaction-states.test.ts green",
+    "storybook": "InteractionStates.stories.tsx (DS-098)",
+    "acceptance": "REQ-DS-19, REQ-DS-20",
+    "status": "todo"
+  },
+  {
+    "id": "DS-043",
+    "prd": "PRD-03",
+    "system": "environment/elevation tests",
+    "file": "NEW:tests/tokens/environment-elevation.test.ts",
+    "action": "TEST",
+    "description": "Exact @property rules; z-scale 0/100/1000/1100/1200; no elevation token; shadows for 4 layers x 3 thicknesses x 2 schemes; scrim.clear 0.35.",
+    "depends_on": [
+      "DS-036",
+      "DS-029"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/environment-elevation.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-16, REQ-DS-18",
+    "status": "todo"
+  },
+  {
+    "id": "DS-044",
+    "prd": "PRD-03",
+    "system": "mode matrix tests",
+    "file": "NEW:tests/tokens/modes-matrix.test.ts",
+    "action": "TEST",
+    "description": "postcss-parse tokens.css: for each scheme/contrast/transparency/density value, an attribute block and media mirror exist; OS floors re-emitted in ag.a11y; contrast=more selects >= tinted floor row; 0 'prefers-contrast: high'; 0 postcss warnings.",
+    "depends_on": [
+      "DS-035"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/modes-matrix.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-21, REQ-DS-22; AC-DS-06",
+    "status": "todo"
+  },
+  {
+    "id": "DS-045",
+    "prd": "PRD-03",
+    "system": "emitted CSS tests",
+    "file": "NEW:tests/tokens/emitted-css.test.ts",
+    "action": "TEST",
+    "description": "On dist/css/tokens.css and src/material/css/generated/*.css (extended later with tailwind.css and compat/tokens.css): 0 !important; each rule in its expected ag.* layer; :root only in ag.tokens/ag.compat; only @property unlayered; no legacy-hook selectors (data-theme, data-aura-*, data-persona, data-bg, .glass-on-*, .dark, .light); no class strings in src/tokens/generated/**; no style-dictionary/ajv import in dist.",
+    "depends_on": [
+      "DS-035",
+      "DS-036",
+      "DS-037"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/emitted-css.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-06; REQ-DS-24 (core), REQ-DS-34, REQ-DS-35, REQ-DS-39",
+    "status": "todo"
+  },
+  {
+    "id": "DS-046",
+    "prd": "PRD-03",
+    "system": "sys breakpoints",
+    "file": "NEW:tokens/sys/breakpoint.tokens.json",
+    "action": "CREATE",
+    "description": "sys.breakpoint sm 640, md 768, lg 1024, xl 1280 px, used only by the Tailwind bridge @theme (PRD §14); no other breakpoint or per-breakpoint blur tokens.",
+    "depends_on": [
+      "DS-020"
+    ],
+    "priority": "P2",
+    "test": "tests/tokens/scales.test.ts breakpoint case; tests/tokens/tailwind-bridge.test.ts (DS-091)",
+    "storybook": "n/a",
+    "acceptance": "PRD §14 responsive requirements; REQ-DS-38 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-047",
+    "prd": "PRD-03",
+    "system": "CI gates (interim, until QA L1/L4)",
+    "file": ".github/workflows/glass-pipeline.yml",
+    "action": "MODIFY",
+    "description": "Interim, until QA L1/L4 exist: add a 'tokens' step to PKG's 'Glass Quality Gates' job (job name unchanged, SC-10): npm ci; npm run build:tokens; git diff --exit-code tokens/generated src/tokens/generated src/material/css/generated src/motion/tokens.generated.ts; npx jest tests/tokens; fail if build:tokens > 20 s. Do not edit .github/workflows/design-system-compliance.yml; QA-118 deletes it (SC-39). DS-076 removes this step once the L1/L4 providers are live.",
+    "depends_on": [
+      "DS-018",
+      "DS-045",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "A deliberate one-byte edit to a generated file fails Glass Quality Gates (canary PR link in the report)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-03",
+    "status": "todo"
+  },
+  {
+    "id": "DS-048",
+    "prd": "PRD-03",
+    "system": "glass-material transform",
+    "file": "NEW:scripts/tokens/transforms/glass-material.mjs",
+    "action": "CREATE",
+    "description": "Flatten MaterialSpec into --_ag-* per [data-ag-variant][data-ag-thickness] in @layer ag.material; emit literal -webkit-backdrop-filter: blur(<n>px) saturate(1.6) per [variant][thickness][tier] (about 18 rules; identity has no filter); fill = oklch(from var(--ag-color-canvas) l c h / var(--_ag-alpha)); exit 1 'blur > 32px at <path>' for any blur over 32 px.",
+    "depends_on": [
+      "DS-030",
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/material-transform.test.ts (DS-051)",
+    "storybook": "ModesMatrix.stories.tsx (DS-097)",
+    "acceptance": "REQ-DS-14, REQ-DS-10",
+    "status": "todo"
+  },
+  {
+    "id": "DS-049",
+    "prd": "PRD-03",
+    "system": "generated material CSS",
+    "file": "NEW:src/material/css/generated/ladders.css",
+    "action": "CREATE",
+    "description": "Committed generated output of glass-material. It lives in MAT's tree but only this compiler emits it (OV-31). MAT imports it from src/material/css/material.css (MAT-015) and never hand-edits it.",
+    "depends_on": [
+      "DS-048"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/determinism.test.ts; CI git diff --exit-code",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-14; §16 material.css <= 8 KB gz (with PRD-04)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-050",
+    "prd": "PRD-03",
+    "system": "MaterialSpec TS",
+    "file": "NEW:src/tokens/generated/material-spec.ts",
+    "action": "CREATE",
+    "description": "Generated, side-effect-free 'export const materialSpec' (the only generated TS with raw values; for docs/tests), tree-shakable and excluded from aura-glass/tokens unless imported.",
+    "depends_on": [
+      "DS-048"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/material-transform.test.ts no intent/elevation keys; PRD-02 size gate (materialSpec excluded when not imported)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-14; §16 tokens JS <= 2 KB gz",
+    "status": "todo"
+  },
+  {
+    "id": "DS-051",
+    "prd": "PRD-03",
+    "system": "glass-material tests",
+    "file": "NEW:tests/tokens/material-transform.test.ts",
+    "action": "TEST",
+    "description": "Exactly 3 variants x 3 thicknesses; every blur <= 32px; -webkit-backdrop-filter literal count = variants_with_blur x thicknesses x tiers (expect 18, logged); materialSpec has no intent/elevation keys; a 40px blur fixture exits 1.",
+    "depends_on": [
+      "DS-049",
+      "DS-050"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/material-transform.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-14",
+    "status": "todo"
+  },
+  {
+    "id": "DS-052",
+    "prd": "PRD-03",
+    "system": "motion-spring transform",
+    "file": "NEW:scripts/tokens/transforms/motion-spring.mjs",
+    "action": "CREATE",
+    "description": "REQ-MOT-04 contract: omega0 = 2*pi/r; sample the step response at 1 ms until |1-x| < 0.001 and |x'| < 0.001*omega0 hold for 50 ms; RDP tolerance 0.002; <= 40 stops; 4 decimals; last stop 1; emit --ag-spring-<n> (linear()), --ag-spring-<n>-duration (settle rounded up to 10 ms) and an @supports not (transition-timing-function: linear(0, 1)) fallback to --ag-ease-emphasized-decelerate; reject zeta < 0.8, zeta > 1.0, r outside 120-800 ms, and any cubic-bezier with a y control point outside [0,1].",
+    "depends_on": [
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/motion-spring.test.ts (DS-054)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-17; PRD §15 motion (zeta >= 0.8, no overshoot eases)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-053",
+    "prd": "PRD-03",
+    "system": "motion tokens TS",
+    "file": "NEW:src/motion/tokens.generated.ts",
+    "action": "CREATE",
+    "description": "Generated motionTokens (PRD-06 §4.3 shape) including compiled spring linear() strings and durations; path owned by PRD-06, content by this compiler.",
+    "depends_on": [
+      "DS-052",
+      "DS-037"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/determinism.test.ts; PRD-06 REQ-MOT-01 acceptance test",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-17",
+    "status": "todo"
+  },
+  {
+    "id": "DS-054",
+    "prd": "PRD-03",
+    "system": "motion-spring tests",
+    "file": "NEW:tests/tokens/motion-spring.test.ts",
+    "action": "TEST",
+    "description": "snappy/smooth/fluid: <= 40 stops, last stop exactly 1, max |x(t) - linear(t)| <= 0.005 over 1,000 samples vs the analytic solution; fixtures zeta 0.7, zeta 1.1 and response 100 ms rejected; exits exactly 60/80/140/220/320 ms; token values byte-identical under data-ag-motion full/calm/none; cubic-bezier(0.3,1.4,0.6,1) fixture rejected.",
+    "depends_on": [
+      "DS-052",
+      "DS-053"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/motion-spring.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-17",
+    "status": "todo"
+  },
+  {
+    "id": "DS-055",
+    "prd": "PRD-03",
+    "system": "colour maths",
+    "file": "src/theme/color.ts",
+    "action": "MODIFY",
+    "description": "DS owns the edits to src/theme/color.ts; A11Y-003 is a consumer test of this task. Keep normalizeHexColor, hexToRgb, rgbToHex, mixHex, relativeLuminance, contrastRatio and bestTextColor unchanged. Add parseColor (hex/rgb/hsl/oklch -> Oklch), oklchToSrgb with CSS Color 4 gamut mapping (chroma reduction, dEOK < 0.02), srgbToOklch, compositeOver, wcagContrast (WCAG 2.2), apcaLc (advisory) and deltaE2000, under the names A11Y-003 verifies. No new dependency. Point src/theme/contrast.ts's re-export at the same names (DS-109 deletes it; A11Y-004 verifies 0 importers).",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "src/theme/__tests__/color.test.ts (DS-056)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-27 (conversion); AC-DS-04 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-056",
+    "prd": "PRD-03",
+    "system": "colour maths tests",
+    "file": "NEW:src/theme/__tests__/color.test.ts",
+    "action": "TEST",
+    "description": "Create the file (A11Y-006 adds the a11y reference vectors by MODIFY): CSS Color 4 vectors (oklch(0.628 0.2577 29.23) ~ #ff0000, oklch(1 0 0) = #fff, oklch(0 0 0) = #000) within 1/255; gamut-mapped out-of-gamut input dEOK < 0.02; parseColor equality across hex/rgb/hsl/oklch; deltaE2000 reference pairs.",
+    "depends_on": [
+      "DS-055"
+    ],
+    "priority": "P0",
+    "test": "npx jest src/theme/__tests__/color.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-27; AC-DS-04 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-057",
+    "prd": "PRD-03",
+    "system": "contrast-solve transform",
+    "file": "NEW:scripts/tokens/transforms/contrast-solve.mjs",
+    "action": "CREATE",
+    "description": "Implement A11Y's matrix contract (REQ-A11Y-15..17; data in tests/a11y/contrast/matrix-contract.json, A11Y-002). For each of 2,160 cells (4 presets x 2 schemes x 2 contrast x 3 transparency x 5 variant forms x 3 thicknesses x 3 declared backdrops), find the minimum alpha (integer loop i/200, 0..1) at which every REQ-A11Y-16 pair passes over the three composites #ffffff, #000000 and the busy minimum (SC-28 terminology): on-surface >= 4.5; muted >= 4.5 (3 if large-only); border/focus bands/boundary >= 3; disabled >= 3; text >= 7 under contrast=more. clear+scrim adds scrim.clear 0.35 over light/media. Blur contributes nothing. An unsolvable cell exits 1 naming the cell, the pair and the best ratio. Uses src/theme/color.ts.",
+    "depends_on": [
+      "DS-055",
+      "DS-033",
+      "DS-032",
+      "DS-030",
+      "A11Y-002"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/contrast-matrix.test.ts (DS-060)",
+    "storybook": "ContrastFloors.stories.tsx (DS-100)",
+    "acceptance": "AC-DS-04; REQ-DS-15",
+    "status": "todo"
+  },
+  {
+    "id": "DS-058",
+    "prd": "PRD-03",
+    "system": "solved floors",
+    "file": "NEW:tokens/generated/opacity-floors.json",
+    "action": "CREATE",
+    "description": "Committed solver output keyed [preset][scheme][contrast][transparency][variant][thickness][backdrop] -> {floorAlpha, minRatio, pair, apcaLc}, keys sorted, prettier-formatted; never hand-edited.",
+    "depends_on": [
+      "DS-057"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/contrast-matrix.test.ts re-solve equality",
+    "storybook": "ContrastFloors.stories.tsx (DS-100)",
+    "acceptance": "AC-DS-04 (re-solve diff = 0)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-059",
+    "prd": "PRD-03",
+    "system": "floors CSS + matrix artifact",
+    "file": "NEW:src/material/css/generated/floors.css",
+    "action": "CREATE",
+    "description": "Emit --_ag-tint-floor per [data-ag-transparency][data-ag-thickness][data-ag-backdrop] plus the contrast=more row, in @layer ag.material, each value = max solved floor across presets, schemes and variants (REQ-MAT-33 key); also emit dist/contrast-matrix.json (cells, cellCount, generatedFrom input sha256) for PRD-05/PRD-19.",
+    "depends_on": [
+      "DS-058"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/contrast-matrix.test.ts max-over-key case; tests/tokens/emitted-css.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-15; AC-DS-04",
+    "status": "todo"
+  },
+  {
+    "id": "DS-060",
+    "prd": "PRD-03",
+    "system": "contrast matrix test",
+    "file": "NEW:tests/tokens/contrast-matrix.test.ts",
+    "action": "TEST",
+    "description": "Re-solve every cell and deep-equal opacity-floors.json; cellCount === 2160 (logged); every cell meets 4.5/3/7:1 over 3 composites; emitted floors = max per key; busy-reference has exactly 9 samples; fixture hand-edited (one floor lowered 0.005) fails; fixture unsolvable exits 1 naming cell and pair; solve <= 10 s.",
+    "depends_on": [
+      "DS-059"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/contrast-matrix.test.ts green, 0 skipped",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-04; REQ-DS-37",
+    "status": "todo"
+  },
+  {
+    "id": "DS-061",
+    "prd": "PRD-03",
+    "system": "CI gates (QA L4 Token contrast)",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "Register DS providers in QA's L4 Token contrast lane (SC-29, after QA-081): npm run build:tokens, git diff --exit-code on generated files, then tests/tokens/contrast-matrix.test.ts, material-transform, motion-spring and src/theme/__tests__/color.test.ts. Upload dist/contrast-matrix.json as an artifact. Runs on every PR and main push with no path filter (REQ-QA-29), alongside A11Y's tests/a11y/contrast-matrix.test.ts.",
+    "depends_on": [
+      "DS-060",
+      "DS-047",
+      "QA-081"
+    ],
+    "priority": "P0",
+    "test": "A canary PR lowering one floor fails L4 (link in the report)",
+    "storybook": "n/a",
+    "acceptance": "Architecture §16 PRD-03 exit criterion (contrast matrix runs in CI); REQ-DS-37",
+    "status": "todo"
+  },
+  {
+    "id": "DS-062",
+    "prd": "PRD-03",
+    "system": "CI gates (QA L4 Token contrast)",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "L4 provider timing: fail if the full build:tokens takes > 20 s or the contrast solve > 10 s on the CI runner; print both numbers in the lane log.",
+    "depends_on": [
+      "DS-061"
+    ],
+    "priority": "P1",
+    "test": "L4 log shows both timings under budget",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-03 (<= 20 s); §16 contrast solve <= 10 s",
+    "status": "todo"
+  },
+  {
+    "id": "DS-063",
+    "prd": "PRD-03",
+    "system": "gate undefined-vars",
+    "file": "NEW:scripts/tokens/gates/undefined-vars.mjs",
+    "action": "CREATE",
+    "description": "For each importable dist/css entry (styles, tokens, material, tailwind, per-subpath, compat/*), resolve its @import closure with postcss; every var(--ag-*|--_ag-*) without a fallback must be defined in the closure. Also AST-scan src/**/*.{ts,tsx} string/template literals and style objects for --ag-* names absent from dist/tokens/manifest.json. Report {entry, var, file:line}; exit 1 if any. Supersedes check-undefined-custom-props.mjs and audit-css-var-coverage.js.",
+    "depends_on": [
+      "DS-038",
+      "DS-059"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/vars-gates.test.ts (DS-066)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05 (undefined = 0); AC-DS-17; REQ-DS-31, REQ-DS-07 gate",
+    "status": "todo"
+  },
+  {
+    "id": "DS-064",
+    "prd": "PRD-03",
+    "system": "gate dead-vars",
+    "file": "NEW:scripts/tokens/gates/dead-vars.mjs",
+    "action": "CREATE",
+    "description": "Every public manifest var needs >= 1 reader in dist/css/** or library src TS (excluding generated, tests, stories), or carries $extensions['ag.public'] = true; every private --_ag-* emitted needs >= 1 reader. Write consumers counts into the manifest; exit 1 on any dead var.",
+    "depends_on": [
+      "DS-038"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/vars-gates.test.ts dead-var fixture (DS-066)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05 (dead = 0); REQ-DS-32",
+    "status": "todo"
+  },
+  {
+    "id": "DS-065",
+    "prd": "PRD-03",
+    "system": "gate tier-skip",
+    "file": "NEW:scripts/tokens/gates/tier-skip.mjs",
+    "action": "CREATE",
+    "description": "Fail when any src/** file (except src/tokens/generated/**) references --_ag-ref-*, when a material.* token aliases anything but sys.*, or when a comp.* token aliases anything but sys.*/material.*; print the alias chain.",
+    "depends_on": [
+      "DS-016"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/vars-gates.test.ts ref-in-src fixture",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-05",
+    "status": "todo"
+  },
+  {
+    "id": "DS-066",
+    "prd": "PRD-03",
+    "system": "gate tests",
+    "file": "NEW:tests/tokens/vars-gates.test.ts",
+    "action": "TEST",
+    "description": "Run undefined-vars, dead-vars and tier-skip on the real build and expect 0 violations; fixtures under tests/tokens/fixtures/gates/{dead-var,undefined-var,unmanifested-tsx,ref-in-src} each exit 1 with the expected message; total gate runtime <= 30 s. Add REQ-DS-36/-39 cases to emitted-css.test.ts: no Tailwind class strings in src/tokens/generated/**, and the six @utility names do not appear in src/**.",
+    "depends_on": [
+      "DS-063",
+      "DS-064",
+      "DS-065"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/vars-gates.test.ts tests/tokens/emitted-css.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05 (compiler entries); REQ-DS-36, REQ-DS-39; §16 gates <= 30 s",
+    "status": "todo"
+  },
+  {
+    "id": "DS-067",
+    "prd": "PRD-03",
+    "system": "gate types-runtime",
+    "file": "NEW:scripts/tokens/gates/types-runtime.mjs",
+    "action": "CREATE",
+    "description": "Compare Object.keys(await import('aura-glass/tokens')) and aura-glass/theme (through package exports, built dist) with etc/api/tokens.exports.json and etc/api/theme.exports.json (SC-04; produced by TRUST-072 scripts/release/export-snapshot.mjs and extended by REL-003). Exit 1 on any mismatch in either direction. The only exception is the 4.2/4.3 allowlist {getPersona, getPersonaModeTokens}, which is empty at 5.0. If a report is missing, exit 2 'blocked'; there is no silent fallback.",
+    "depends_on": [
+      "DS-039",
+      "TRUST-072",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/types-runtime-parity.test.ts (DS-068)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07; REQ-DS-30",
+    "status": "todo"
+  },
+  {
+    "id": "DS-068",
+    "prd": "PRD-03",
+    "system": "parity test",
+    "file": "tests/tokens/types-runtime-parity.test.ts",
+    "action": "TEST",
+    "description": "Rewrite the DS-003 test to call gates/types-runtime.mjs for aura-glass/tokens and aura-glass/theme; assert 0 mismatches and no getPersona.",
+    "depends_on": [
+      "DS-067"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/types-runtime-parity.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07",
+    "status": "todo"
+  },
+  {
+    "id": "DS-069",
+    "prd": "PRD-03",
+    "system": "ESLint rule",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "MODIFY the existing plugin (namespace and wiring PKG, PKG-015, SC-16): add rule auraglass/no-raw-design-values, the program's only raw-value rule (SC-17; it absorbs FND no-literal-style and MOT motion-no-literals). Flags by category color|blur|radius|shadow|duration|easing|spring: hex colours, rgb/rgba/hsl/hsla with literal components, oklch( with literal components (oklch(from var(...)) allowed), blur(<n>px), border-radius/borderRadius px literals, literal box-shadow/boxShadow values, ms/s durations in transition/animation contexts, cubic-bezier( and literal linear( curves in string/template literals and JSX style. Exempt only tokens/**, src/tokens/generated/**, src/material/css/generated/**, src/motion/tokens.generated.ts, sys.palette.*, and src/theme/color.ts lines carrying '// @ag-literal-allowed: color-math'.",
+    "depends_on": [
+      "DS-016",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/literals-lint.test.ts (DS-074)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01; REQ-DS-33",
+    "status": "todo"
+  },
+  {
+    "id": "DS-070",
+    "prd": "PRD-03",
+    "system": "ESLint config",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Register 'auraglass/no-raw-design-values': 'error' and remove 'auraglass/require-glass-tokens': 'warn' (:30).",
+    "depends_on": [
+      "DS-069",
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "npx eslint --print-config src/index.ts shows the rule at error; tests/tokens/literals-lint.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01",
+    "status": "todo"
+  },
+  {
+    "id": "DS-071",
+    "prd": "PRD-03",
+    "system": "stylelint rule",
+    "file": "NEW:stylelint-plugin-auraglass/rules/no-raw-design-values.js",
+    "action": "CREATE",
+    "description": "Stylelint plugin auraglass/no-raw-design-values (NEW stylelint-plugin-auraglass/index.js) with the same pattern set as DS-069 on declaration values in src/**/*.css, with the same exempt paths; NEW stylelint.config.mjs enables it at error; pin stylelint exactly in devDependencies.",
+    "depends_on": [
+      "DS-069"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/literals-lint.test.ts css fixtures",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01; REQ-DS-33",
+    "status": "todo"
+  },
+  {
+    "id": "DS-072",
+    "prd": "PRD-03",
+    "system": "gate literals",
+    "file": "NEW:scripts/tokens/gates/literals.mjs",
+    "action": "CREATE",
+    "description": "Run both rules programmatically over all src/**/*.{ts,tsx,css} with no directory exclusions. Compare per-file counts by category (color|blur|radius|shadow|duration|easing|spring, SC-17) with scripts/tokens/gates/literals-baseline.json. Fail if any file/category count rises or a new file has > 0. --update rewrites the baseline only downward and refuses any increase. This is the only literal ratchet; QA L1 reads it (QA-078) instead of keeping a count in certification/ratchets.json.",
+    "depends_on": [
+      "DS-070",
+      "DS-071"
+    ],
+    "priority": "P0",
+    "test": "tests/tokens/literals-lint.test.ts ratchet cases (DS-074)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01 (ratchet mode)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-073",
+    "prd": "PRD-03",
+    "system": "literals baseline",
+    "file": "NEW:scripts/tokens/gates/literals-baseline.json",
+    "action": "CREATE",
+    "description": "Generate once at the current main HEAD and commit, keyed {file: {category: count}} with the SC-17 categories. Log the measured total (architecture §15.2 expects about 1,890) and the top 20 files. No scripts/ci/motion-literal-baseline.json is created.",
+    "depends_on": [
+      "DS-072"
+    ],
+    "priority": "P0",
+    "test": "node scripts/tokens/gates/literals.mjs exits 0 on the commit that adds it",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01 (before beta: no per-file increase)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-074",
+    "prd": "PRD-03",
+    "system": "literal lint tests",
+    "file": "NEW:tests/tokens/literals-lint.test.ts",
+    "action": "TEST",
+    "description": "Fixtures tests/tokens/fixtures/literals/{hex.tsx,rgba.tsx,blur.css,duration.tsx,bezier.css} containing #fff, rgba(0,0,0,.2), blur(8px), 200ms and cubic-bezier(.2,0,0,1) are each flagged by the relevant rule; the same content under exempt paths is allowed; ratchet: +1 on a baselined file fails, -1 passes and lowers the baseline with --update, and --update with an increase exits 1.",
+    "depends_on": [
+      "DS-072",
+      "DS-073"
+    ],
+    "priority": "P0",
+    "test": "npx jest tests/tokens/literals-lint.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01",
+    "status": "todo"
+  },
+  {
+    "id": "DS-075",
+    "prd": "PRD-03",
+    "system": "npm scripts",
+    "file": "package.json",
+    "action": "MODIFY",
+    "description": "lint:tokens -> node scripts/tokens/gates/literals.mjs; verify:css-vars -> node scripts/tokens/gates/undefined-vars.mjs; NEW gates:tokens runs undefined-vars, dead-vars, tier-skip, types-runtime and literals in sequence, failing on the first non-zero exit.",
+    "depends_on": [
+      "DS-066",
+      "DS-068",
+      "DS-074"
+    ],
+    "priority": "P0",
+    "test": "npm run gates:tokens exits 0 on main after a full remote build",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05; AC-DS-07; AC-DS-01 (ratchet)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-076",
+    "prd": "PRD-03",
+    "system": "CI gates (QA L1 Static)",
+    "file": "certification/lanes.config.ts",
+    "action": "MODIFY",
+    "description": "Register DS providers in QA's L1 Static lane (SC-29, after QA-078): npm run gates:tokens (undefined-vars, dead-vars, tier-skip, types-runtime, literals vs literals-baseline.json) and stylelint on src/**/*.css after a full remote npm run build; gate time <= 30 s. Then remove the interim 'tokens' step from glass-pipeline.yml (DS-047; MODIFY after PKG-038). DS does not edit design-system-compliance.yml or its score job; QA-118 deletes the file after confirming these providers (SC-39).",
+    "depends_on": [
+      "DS-075",
+      "DS-061",
+      "QA-078",
+      "PKG-038"
+    ],
+    "priority": "P0",
+    "test": "Canary PRs that each add one undefined var, one dead var and one literal fail L1 (links in the report)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01, AC-DS-05, AC-DS-07 (fail-closed in CI)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-077",
+    "prd": "PRD-03",
+    "system": "gate superset proof",
+    "file": "scripts/tokens/gates/undefined-vars.mjs",
+    "action": "TEST",
+    "description": "On one commit, run scripts/ci/token-lint.js, check-undefined-custom-props.mjs and audit-css-var-coverage.js, normalise findings to {file, var|literal}, diff against the new gates' findings, and require that every legacy finding is present in the new set; attach the diff as a CI artifact; fix the new gates (never delete legacy) on any gap.",
+    "depends_on": [
+      "DS-076"
+    ],
+    "priority": "P0",
+    "test": "Superset diff artifact shows 0 legacy findings missing",
+    "storybook": "n/a",
+    "acceptance": "PRD §20 step 6 retirement precondition",
+    "status": "todo"
+  },
+  {
+    "id": "DS-078",
+    "prd": "PRD-03",
+    "system": "legacy lint retirement",
+    "file": "scripts/ci/token-lint.js",
+    "action": "REMOVE",
+    "description": "Delete after DS-077 is green (its :305-331 ignore list was the scope gap, TOKENS-THEME-07); repoint every reference.",
+    "depends_on": [
+      "DS-077"
+    ],
+    "priority": "P1",
+    "test": "rg -n 'token-lint' package.json .github scripts returns 0; CI green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01 (single literals gate)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-079",
+    "prd": "PRD-03",
+    "system": "legacy lint retirement",
+    "file": "scripts/ci/check-undefined-custom-props.mjs",
+    "action": "REMOVE",
+    "description": "Delete after DS-077; verify:css-vars already points to undefined-vars.mjs.",
+    "depends_on": [
+      "DS-077"
+    ],
+    "priority": "P1",
+    "test": "rg -n 'check-undefined-custom-props' package.json .github scripts returns 0",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05 (single undefined gate)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-080",
+    "prd": "PRD-03",
+    "system": "legacy lint retirement",
+    "file": "scripts/ci/audit-css-var-coverage.js",
+    "action": "REMOVE",
+    "description": "Delete after DS-077.",
+    "depends_on": [
+      "DS-077"
+    ],
+    "priority": "P1",
+    "test": "rg -n 'audit-css-var-coverage' package.json .github scripts returns 0",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-05",
+    "status": "todo"
+  },
+  {
+    "id": "DS-081",
+    "prd": "PRD-03",
+    "system": "presets API",
+    "file": "NEW:src/theme/presets.ts",
+    "action": "CREATE",
+    "description": "ts-constants emits src/tokens/generated/presets.ts (presets: Record<PresetId, ThemePreset>; PresetId 'aura'|'graphite'|'daylight'|'midnight'; ThemePreset {id, name, canvas {light, dark}, neutralHue, accent, radiusScale?}); src/theme/presets.ts re-exports it. No persona narrative metadata in any runtime export.",
+    "depends_on": [
+      "DS-032",
+      "DS-037",
+      "DS-060"
+    ],
+    "priority": "P1",
+    "test": "src/theme/__tests__/presets.test.ts (DS-082)",
+    "storybook": "Presets.stories.tsx (DS-099)",
+    "acceptance": "REQ-DS-25",
+    "status": "todo"
+  },
+  {
+    "id": "DS-082",
+    "prd": "PRD-03",
+    "system": "presets tests",
+    "file": "NEW:src/theme/__tests__/presets.test.ts",
+    "action": "TEST",
+    "description": "Exactly 4 presets; each has light and dark canvases; no material.* in any preset source; every cell for each preset in opacity-floors.json passes; each [data-ag-theme=<id>] block overrides only ref.color.* and sys.color.{canvas,accent,on-accent,border} vars (allowlist compare).",
+    "depends_on": [
+      "DS-081"
+    ],
+    "priority": "P1",
+    "test": "npx jest src/theme/__tests__/presets.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-25; AC-DS-04 (per preset)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-083",
+    "prd": "PRD-03",
+    "system": "createGlassTheme",
+    "file": "src/theme/createGlassTheme.ts",
+    "action": "REDESIGN",
+    "description": "DS owns this file (SC-18; anchor for MOT-026). Keep options id, name, brandColor, accentColor, mode, density, motionPolicy (:62-70) and add preset, neutralHue, radiusScale, contrast. Map: system -> media-driven (no pin, fixes :128); high-contrast -> contrast more; comfortable -> regular (pending §21 OI-03); motionPolicy reduced->calm, expressive->full + allowContinuous, system->OS, none->none (REQ-MOT-07 values; MOT-026 verifies them as a MODIFY after this task). Return {id, name, cssText (one [data-ag-theme=\"<id>\"] rule, no :root), vars (manifest --ag-* only), contrast: ContrastReport {pairs, adjusted, brandOnBackground, textOnSurface, textOnBrand}, tokens}. Custom canvases are checked against emitted floors; L/C move minimally if needed. Pure: no 'use client', no DOM. Inputs hex/rgb/hsl/oklch via parseColor. Remove density.{controlHeight,gap,pagePadding}.",
+    "depends_on": [
+      "DS-055",
+      "DS-059",
+      "DS-064",
+      "DS-081"
+    ],
+    "priority": "P1",
+    "test": "src/theme/__tests__/createGlassTheme.test.ts (DS-084)",
+    "storybook": "Presets.stories.tsx playground (DS-099)",
+    "acceptance": "AC-DS-12; REQ-DS-26, REQ-DS-27",
+    "status": "todo"
+  },
+  {
+    "id": "DS-084",
+    "prd": "PRD-03",
+    "system": "createGlassTheme tests",
+    "file": "NEW:src/theme/__tests__/createGlassTheme.test.ts",
+    "action": "TEST",
+    "description": "All 4.x option names accepted; mode 'system' output has no scheme pin or 'color-scheme: dark'; high-contrast -> contrast 'more'; cssText matches /^\\[data-ag-theme=\"[^\"]+\"\\]\\{[^}]*\\}$/ with no :root; every vars key is in the manifest with consumers >= 1 and none starts with --_ag-; runs in worker_threads without jsdom (pure); 4 colour syntaxes agree within dE2000 <= 0.5.",
+    "depends_on": [
+      "DS-083"
+    ],
+    "priority": "P1",
+    "test": "npx jest src/theme/__tests__/createGlassTheme.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-12 (unit half); REQ-DS-02 theme-output guard",
+    "status": "todo"
+  },
+  {
+    "id": "DS-085",
+    "prd": "PRD-03",
+    "system": "createBrandTheme",
+    "file": "NEW:src/theme/createBrandTheme.ts",
+    "action": "CREATE",
+    "description": "createBrandTheme(brand: string | Oklch, opts?: {accentShift?: number; preset?: PresetId}): GlassTheme. 12-step accent ramp emitted with oklch(from <brand> calc(l + d) c h) plus precomputed literals inside @supports not (color: oklch(from red l c h)); same ramp computed in TS; text steps failing on-accent 4.5:1 moved by the minimum L, listed in contrast.adjusted[], with a dev console.warn naming the step. Theme functions + OKLCH helpers <= 3 KB gz.",
+    "depends_on": [
+      "DS-083"
+    ],
+    "priority": "P1",
+    "test": "src/theme/__tests__/createBrandTheme.test.ts (DS-086)",
+    "storybook": "Presets.stories.tsx playground (DS-099)",
+    "acceptance": "AC-DS-13; REQ-DS-28",
+    "status": "todo"
+  },
+  {
+    "id": "DS-086",
+    "prd": "PRD-03",
+    "system": "createBrandTheme tests",
+    "file": "NEW:src/theme/__tests__/createBrandTheme.test.ts",
+    "action": "TEST",
+    "description": "Ramp monotone in L; oklch(0.85 0.1 95) yields adjusted.length > 0, all pairs passing, and one console.warn; NEW fixture src/theme/__tests__/fixtures/brand-colors.json (20 colours, hue 0-360 in 18 deg steps, L 0.3-0.9) gives 100% passing text pairs; median of 200 calls <= 2 ms (logged; CI runner authoritative).",
+    "depends_on": [
+      "DS-085"
+    ],
+    "priority": "P1",
+    "test": "npx jest src/theme/__tests__/createBrandTheme.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-13; §16 createBrandTheme <= 2 ms median",
+    "status": "todo"
+  },
+  {
+    "id": "DS-087",
+    "prd": "PRD-03",
+    "system": "createBrandGlassTheme alias",
+    "file": "src/theme/createBrandGlassTheme.ts",
+    "action": "DEPRECATE",
+    "description": "Re-export createBrandTheme as createBrandGlassTheme with a one-time dev warning ('createBrandGlassTheme is deprecated; use createBrandTheme'); C-D cherry-picked to release/4.x for 4.3; moved to aura-glass/compat at 5.0 (DS-109).",
+    "depends_on": [
+      "DS-085"
+    ],
+    "priority": "P2",
+    "test": "src/theme/__tests__/deprecations-4-3.test.ts (DS-107) warning case",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-29",
+    "status": "todo"
+  },
+  {
+    "id": "DS-088",
+    "prd": "PRD-03",
+    "system": "createGlassThemeCssVars",
+    "file": "src/theme/createGlassTheme.ts",
+    "action": "DEPRECATE",
+    "description": "createGlassThemeCssVars (:206) becomes a C-D wrapper returning the 4.x --glass-theme-* output with a one-time dev warning pointing to createGlassTheme(...).vars; deleted at 5.0 (DS-109).",
+    "depends_on": [
+      "DS-083"
+    ],
+    "priority": "P2",
+    "test": "src/theme/__tests__/deprecations-4-3.test.ts (DS-107)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-29",
+    "status": "todo"
+  },
+  {
+    "id": "DS-089",
+    "prd": "PRD-03",
+    "system": "aura-glass/theme entry",
+    "file": "src/theme/index.ts",
+    "action": "MODIFY",
+    "description": "Export createGlassTheme, createBrandTheme, presets and the types ThemePreset, PresetId, GlassTheme, ContrastReport; update the etc/api/theme.api.md report through PRD-01's api-report script and review the diff as C-E plus the listed C-D/C-B items.",
+    "depends_on": [
+      "DS-085",
+      "DS-087",
+      "DS-088"
+    ],
+    "priority": "P1",
+    "test": "npm run gates:tokens (types-runtime) green; API report --check passes",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07",
+    "status": "todo"
+  },
+  {
+    "id": "DS-090",
+    "prd": "PRD-03",
+    "system": "Tailwind v4 bridge",
+    "file": "NEW:scripts/tokens/formats/tailwind-bridge.mjs",
+    "action": "CREATE",
+    "description": "Emit dist/css/tailwind.css: order statement; @import \"./tokens.css\" (relative); @theme inline mapping every public sys colour, radius, ease, duration, shadow read-out, type size and the breakpoints; @utility glass-regular|glass-clear|glass-thin|glass-thick|content-raised|content-sunken with declarations byte-equal to the compiled [data-ag-variant]/[data-ag-thickness] rules (same AST nodes); @custom-variant ag-dark|ag-tinted|ag-solid|ag-contrast-more; no JS preset; <= 3 KB gz excluding tokens.css.",
+    "depends_on": [
+      "DS-049",
+      "DS-035",
+      "DS-046",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/tailwind-bridge.test.ts (DS-091)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-10 (unit half); REQ-DS-38",
+    "status": "todo"
+  },
+  {
+    "id": "DS-091",
+    "prd": "PRD-03",
+    "system": "Tailwind bridge tests",
+    "file": "NEW:tests/tokens/tailwind-bridge.test.ts",
+    "action": "TEST",
+    "description": "Compile NEW tests/tokens/fixtures/tailwind/input.css with @tailwindcss/node (pinned exact with tailwindcss 4.x as devDependencies) over classes glass-regular glass-thin content-sunken bg-accent/50 ag-dark:bg-canvas; each @utility output byte-equals its attribute rule; bg-accent/50 -> color-mix(in oklab, ...); ag-dark output scoped by [data-ag-scheme=dark]. Add tailwind.css to emitted-css.test.ts.",
+    "depends_on": [
+      "DS-090"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/tailwind-bridge.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-10 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-092",
+    "prd": "PRD-03",
+    "system": "shadcn interchange",
+    "file": "scripts/tokens/formats/css-layered.mjs",
+    "action": "MODIFY",
+    "description": "Inside @layer ag.tokens: under :root[data-ag-shadcn-source], read --background, --foreground, --primary, --primary-foreground, --muted, --border, --ring and --radius into --ag-* with defaults; under :where(:root:not([data-ag-shadcn-source])), emit the same eight from --ag-*. build.mjs checks the resolved var graph for cycles in both modes and exits 1 on one (deviation D-B).",
+    "depends_on": [
+      "DS-035"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/shadcn-interop.test.ts (DS-093)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-11 (unit half); REQ-DS-40",
+    "status": "todo"
+  },
+  {
+    "id": "DS-093",
+    "prd": "PRD-03",
+    "system": "shadcn tests",
+    "file": "NEW:tests/tokens/shadcn-interop.test.ts",
+    "action": "TEST",
+    "description": "jsdom plus a var() resolver over parsed tokens.css: without the attribute, --primary resolves to the --ag-accent value; with data-ag-shadcn-source and --primary oklch(0.6 0.2 30), --ag-accent resolves to it; no cycle in either mode; a cycle fixture fails the build.",
+    "depends_on": [
+      "DS-092"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/shadcn-interop.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-11 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-094",
+    "prd": "PRD-03",
+    "system": "registry cssVars",
+    "file": "NEW:scripts/tokens/formats/registry-cssvars.mjs",
+    "action": "CREATE",
+    "description": "Emit dist/tokens/registry-cssvars.json {cssVars: {theme, light, dark}} (shadcn CLI v4 schema) from the same source; validate against a committed schema copy tests/tokens/fixtures/shadcn-registry-item.schema.json (source URL and date recorded); hand to PRD-18 (no registry/** edits).",
+    "depends_on": [
+      "DS-092"
+    ],
+    "priority": "P2",
+    "test": "tests/tokens/shadcn-interop.test.ts registry schema case",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-40",
+    "status": "todo"
+  },
+  {
+    "id": "DS-095",
+    "prd": "PRD-03",
+    "system": "Storybook toolbar",
+    "file": ".storybook/preview.tsx",
+    "action": "MODIFY",
+    "description": "MODIFY SB's preview (SB-048 owns the file, the single StoryEnvironment + StoryRoot decorator and the axis globals with the SC-23 values; SC-31). Through SB's contract add only the global preset (aura|graphite|daylight|midnight; 'system' = no attribute), which StoryRoot writes as data-ag-theme, and make sure tokens.css is loaded. Do not add a second decorator or duplicate the scheme/contrast/transparency/motion/density/environment globals. Storybook CSS loads only from .storybook/ (PKG-101, REQ-DS-44).",
+    "depends_on": [
+      "DS-035",
+      "SB-048",
+      "PKG-101"
+    ],
+    "priority": "P2",
+    "test": "SB-050 storybook-config test still green (decorators.length === 1); Presets play asserts data-ag-theme switches",
+    "storybook": "Toolbar controls on every story; remote capture of the toolbar states",
+    "acceptance": "PRD §13; REQ-DS-44",
+    "status": "todo"
+  },
+  {
+    "id": "DS-096",
+    "prd": "PRD-03",
+    "system": "Storybook tokens docs",
+    "file": "NEW:src/design-system/stories/Tokens.mdx",
+    "action": "CREATE",
+    "description": "Tables generated at build time from dist/tokens/manifest.json: name, tier, group, value per mode, swatch plus a text value, consumers count; no hand-typed values (TOKENS-THEME-15).",
+    "depends_on": [
+      "DS-095",
+      "DS-064"
+    ],
+    "priority": "P2",
+    "test": "Remote build-storybook; a docs test asserts row count == manifest public count",
+    "storybook": "Tokens.mdx page, captured remotely (Chromium 1440x900)",
+    "acceptance": "PRD §13; PRD §18 DoD (stories exist)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-097",
+    "prd": "PRD-03",
+    "system": "Storybook modes",
+    "file": "NEW:src/design-system/stories/ModesMatrix.stories.tsx",
+    "action": "CREATE",
+    "description": "One MAT Surface (MAT-047) per variant x thickness over the 8 SC-28 certification scenes (certification/scenes/, QA-038/039, story ids scenes--<id>). Stock-image substitutes are not allowed (the task is blocked if scenes are missing). play toggles scheme and asserts that computed --ag-on-surface differs between light and dark.",
+    "depends_on": [
+      "DS-095",
+      "DS-049",
+      "MAT-047",
+      "QA-038",
+      "QA-039"
+    ],
+    "priority": "P2",
+    "test": "play assertion passes in the remote Storybook test-runner job",
+    "storybook": "Remote captures per scheme x transparency x contrast on photo, flat-white, flat-black and dense-text scenes",
+    "acceptance": "PRD §13; supports AC-DS-08",
+    "status": "todo"
+  },
+  {
+    "id": "DS-098",
+    "prd": "PRD-03",
+    "system": "Storybook interaction states",
+    "file": "NEW:src/design-system/stories/InteractionStates.stories.tsx",
+    "action": "CREATE",
+    "description": "Grid of MAT Surface interactive (MAT-047) forced into hover/active/selected/focus-visible/disabled/loading/dragging/drop-target via data-pressed, data-selected, data-disabled, data-loading, data-dragging, data-drop-target and real focus. Button/IconButton/Tabs item/Table row rows appear only when those 5.0 components exist (CTL-055 Button first; no placeholders). play asserts that each state changes >= 1 computed property driven by its --ag-state-* token and that disabled sets no host opacity. Light response only, no press scale (SC-38).",
+    "depends_on": [
+      "DS-095",
+      "DS-027",
+      "MAT-047"
+    ],
+    "priority": "P2",
+    "test": "play assertions pass in the remote Storybook test-runner job",
+    "storybook": "Remote captures per state (Chromium + WebKit)",
+    "acceptance": "REQ-DS-19 (selector contract proven in browser); PRD §13",
+    "status": "todo"
+  },
+  {
+    "id": "DS-099",
+    "prd": "PRD-03",
+    "system": "Storybook presets",
+    "file": "NEW:src/design-system/stories/Presets.stories.tsx",
+    "action": "CREATE",
+    "description": "Each preset in light and dark, plus a createBrandTheme playground with labelled, keyboard-operable OKLCH L/C/H number inputs rendering contrast.pairs and contrast.adjusted; adjusted steps marked with text and an icon, not colour alone.",
+    "depends_on": [
+      "DS-095",
+      "DS-085"
+    ],
+    "priority": "P2",
+    "test": "play: changing L to 0.85 shows >= 1 adjusted step; remote test-runner",
+    "storybook": "Remote captures of 4 presets x light/dark (Chromium + WebKit); human sign-off",
+    "acceptance": "PRD §13; supports AC-DS-13",
+    "status": "todo"
+  },
+  {
+    "id": "DS-100",
+    "prd": "PRD-03",
+    "system": "Storybook floors",
+    "file": "NEW:src/design-system/stories/ContrastFloors.stories.tsx",
+    "action": "CREATE",
+    "description": "Render tokens/generated/opacity-floors.json as a table (rows transparency x thickness x backdrop; columns preset x scheme x contrast) showing floorAlpha and minRatio as text in every cell; a heat tint is allowed only alongside the text. Run all §13 play functions remotely via the PRD-19 interaction lane, or a GitHub Actions job using exact-pinned @storybook/test-runner against storybook-static.",
+    "depends_on": [
+      "DS-095",
+      "DS-058"
+    ],
+    "priority": "P2",
+    "test": "Remote test-runner: all §13 stories pass play, 0 skipped",
+    "storybook": "Remote capture of the table; human review by the design-system owner",
+    "acceptance": "PRD §13; PRD §18 DoD (stories pass play, human sign-off)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-101",
+    "prd": "PRD-03",
+    "system": "legacy platform",
+    "file": "scripts/tokens/build.mjs",
+    "action": "MODIFY",
+    "description": "Add a Style Dictionary 'legacy' platform whose only input is tokens/legacy/4x-rendered.tokens.json; it outputs dist/css/compat/legacy-primitives.css (part of compat/tokens.css) and the legacy values for the 4.2 experimental aura-glass/material (PRD-17), regenerating every 4.1.0 --glass-* primitive byte-identically.",
+    "depends_on": [
+      "DS-012",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/legacy-freeze.test.ts (DS-102)",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-42; AC-DS-14 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-102",
+    "prd": "PRD-03",
+    "system": "legacy platform tests",
+    "file": "tests/tokens/legacy-freeze.test.ts",
+    "action": "TEST",
+    "description": "Extend: legacy platform output equals the 4.1.0 primitives parsed from 'git show 15b6de6f7:src/styles/tokens.css' (fixed reference); 0 differences.",
+    "depends_on": [
+      "DS-101"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/legacy-freeze.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "REQ-DS-42; AC-DS-14 input",
+    "status": "todo"
+  },
+  {
+    "id": "DS-103",
+    "prd": "PRD-03",
+    "system": "compat aliases",
+    "file": "NEW:scripts/tokens/formats/compat-aliases.mjs",
+    "action": "CREATE",
+    "description": "Build the 4.x reader set: --glass-*, --aura-*, --persona-* and --glass-theme-* read via var() in git show 15b6de6f7 src/** plus the frozen 4.x consumer fixture tests/fixtures/consumer-4x/** (REL-115, SC-08). Map each name via NEW scripts/tokens/compat-successors.json to its --ag-* successor or a frozen legacy value. Emit tokens/generated/compat-alias-map.json (input to DX's css-vars codemod, DX-050) and dist/css/compat/tokens.css in @layer ag.compat (:root aliases; [data-theme=dark] and .dark map to dark-scheme --ag-* values only). DS owns these contents (SC-18/SC-20/SC-34). REL holds the 4.3 release scope (SC-37). <= 8 KB gz, reported separately (D-18).",
+    "depends_on": [
+      "DS-101",
+      "REL-115"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/compat-aliases.test.ts (DS-104)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-15 (aliases); REQ-DS-43, REQ-DS-24 (compat half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-104",
+    "prd": "PRD-03",
+    "system": "compat alias tests",
+    "file": "NEW:tests/tokens/compat-aliases.test.ts",
+    "action": "TEST",
+    "description": "Every name in the 4.x reader set has an alias (count logged, ~620 expected); the whole file is inside @layer ag.compat; only [data-theme=dark] and .dark are mapped among legacy hooks; alias-map keys equal the PRD-18 codemod input once its fixture exists; template-string computed names are listed in 'reported', not aliased. Add compat/tokens.css to emitted-css.test.ts.",
+    "depends_on": [
+      "DS-103"
+    ],
+    "priority": "P1",
+    "test": "npx jest tests/tokens/compat-aliases.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-15 (first half)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-105",
+    "prd": "PRD-03",
+    "system": "4.2 deprecations",
+    "file": "deprecations.json",
+    "action": "DEPRECATE",
+    "description": "On release/4.x for 4.2: add entries to the repo-root deprecations.json (SC-02: version 1, schema docs/schemas/deprecations.schema.json REL-010, instance seeded by TRUST-075; MODIFY only), since 4.2.0, removeIn 5.0.0. Entries: the aura-glass/tokens/json, /tokens/tailwind, /tokens/manifest, /tokens/css and /tokens/keyframes subpaths (successors aura-glass/tokens, tokens.css, tailwind.css); dist/tokens/tailwind.theme.mjs and dist/tokens/unocss.preset.ts; and the type-only getPersona/getPersonaModeTokens (SC-36, codemod null). Add a one-time console.warn banner to the generated v3/Uno preset modules through scripts/build-tokens.js. Add a CHANGELOG 4.2.0 Deprecated entry. codemod values use SC-33 ids or null.",
+    "depends_on": [
+      "DS-090",
+      "DS-001",
+      "REL-010",
+      "REL-013",
+      "TRUST-075"
+    ],
+    "priority": "P2",
+    "test": "node scripts/release/verify-deprecations.mjs (REL-013) green; REL change-class reports <= C-D",
+    "storybook": "n/a",
+    "acceptance": "PRD §9 rows for token subpaths and Tailwind v3/UnoCSS presets",
+    "status": "todo"
+  },
+  {
+    "id": "DS-106",
+    "prd": "PRD-03",
+    "system": "4.3 deprecations",
+    "file": "deprecations.json",
+    "action": "DEPRECATE",
+    "description": "On release/4.x for 4.3, add entries (since 4.3.0) to the repo-root deprecations.json (SC-02, MODIFY) for: --glass-*/--aura-*/--persona-*/--glass-theme-* vars (codemod css-vars); the mode hooks data-theme/data-aura-*/data-persona/data-bg/.dark/.light (codemod null); personas, PersonaPicker, usePersonaTheme, PERSONA_IDS, THEME_NAMES; createBrandGlassTheme and createGlassThemeCssVars; glassMaterialPresets; GlassThemeMode 'high-contrast' and GlassDensity 'comfortable' (codemod providers; the density row depends on §21 OI-03); designConstants ANIMATION/COLORS/BORDER_RADIUS/BOX_SHADOW; and the glass-* slash utilities.",
+    "depends_on": [
+      "DS-103",
+      "DS-089",
+      "REL-010",
+      "REL-013"
+    ],
+    "priority": "P1",
+    "test": "PRD-01 deprecations gate: every C-B item in PRD §9/§10 has an entry",
+    "storybook": "n/a",
+    "acceptance": "PRD §18 DoD (deprecations.json entries for every C-D)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-107",
+    "prd": "PRD-03",
+    "system": "4.3 dev warnings",
+    "file": "src/theme/ThemeProvider.tsx",
+    "action": "DEPRECATE",
+    "description": "Dev-only, once-per-name console.warn (stripped when NODE_ENV === 'production') on usePersonaTheme (:1530), PERSONA_IDS/THEME_NAMES, PersonaPicker (src/components/theme/PersonaPicker.tsx), mode 'high-contrast', density 'comfortable', createBrandGlassTheme and createGlassThemeCssVars; release/4.x for 4.3. NEW src/theme/__tests__/deprecations-4-3.test.ts.",
+    "depends_on": [
+      "DS-106",
+      "DS-087",
+      "DS-088"
+    ],
+    "priority": "P2",
+    "test": "npx jest src/theme/__tests__/deprecations-4-3.test.ts: one warning per API in dev, none in production",
+    "storybook": "n/a",
+    "acceptance": "PRD §9 '10 personas ... C-D (dev warning on use)'; PRD §10 C-D rows",
+    "status": "todo"
+  },
+  {
+    "id": "DS-108",
+    "prd": "PRD-03",
+    "system": "persona migration data",
+    "file": "NEW:tokens/generated/persona-preset-map.json",
+    "action": "CREATE",
+    "description": "Generate from src/theme/designMatrix.ts before deletion: for each of the 10 persona ids, the nearest preset (minimum dE2000 between dark canvases) and the createBrandTheme(<accent oklch>) call; consumed by PRD-20's migration guide.",
+    "depends_on": [
+      "DS-085",
+      "DS-081"
+    ],
+    "priority": "P1",
+    "test": "Unit case in tests/tokens/compat-aliases.test.ts: 10 entries, each preset id valid, each accent parses",
+    "storybook": "n/a",
+    "acceptance": "PRD §11 item 5; PRD §18 DoD (generated migration guide section)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-109",
+    "prd": "PRD-03",
+    "system": "retire S2-S5",
+    "file": "src/tokens/designConstants.ts",
+    "action": "REMOVE",
+    "description": "5.0 alpha on main, after the prerequisite rg checks show 0 readers. This task is the single remover of src/tokens/designConstants.ts (SC-39; MOT-076/085 drop their removal). FND-126 (RM-10) runs after this task. Delete src/tokens/designConstants.ts, src/tokens/themeTokens.ts, src/tokens/generated.ts and the src/tokens/glass.ts surface data (the whole file if nothing remains). Delete src/theme/contrast.ts (A11Y-004 verifies 0 importers). src/tokens/index.ts re-exports only the generated tokens, token, materialSpec, manifest and the types TokenPath, MaterialSpec (auraTokens, personas and the default export removed, C-B). Delete createGlassThemeCssVars and move createBrandGlassTheme to aura-glass/compat (adapter registered through DX-065).",
+    "depends_on": [
+      "DS-108",
+      "DS-106",
+      "DX-065"
+    ],
+    "priority": "P1",
+    "test": "rg --files returns 0 for each deleted path; npm run typecheck and npx jest green (remote full build)",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-02; REQ-DS-41",
+    "status": "todo"
+  },
+  {
+    "id": "DS-110",
+    "prd": "PRD-03",
+    "system": "retire S7-S8",
+    "file": "src/theme/designMatrix.ts",
+    "action": "REMOVE",
+    "description": "Delete src/theme/designMatrix.ts, src/theme/materials.ts, src/theme/tokens.ts and src/theme/themeConstants.ts, plus the tests src/theme/theme-engine.test.tsx, src/theme/usePersonaTheme.test.tsx and src/theme/__tests__/ThemePersona.integration.test.tsx; list the src/theme/__tests__/* replacements in the PR.",
+    "depends_on": [
+      "DS-108",
+      "DS-109",
+      "A11Y-029",
+      "FND-129"
+    ],
+    "priority": "P1",
+    "test": "rg --files returns 0 for each path; remote npm run build and jest green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-02; REQ-DS-41",
+    "status": "todo"
+  },
+  {
+    "id": "DS-111",
+    "prd": "PRD-03",
+    "system": "retire S6/S9 + styles.css switch",
+    "file": "src/styles/index.css",
+    "action": "MODIFY",
+    "description": "MODIFY PKG's src/styles/index.css (owner PKG-101, SC-20): remove the legacy token imports and delete src/styles/glass.generated.css, generated/persona-variables.css, variables.css, design-tokens.css, themes/light.css, themes/dark.css, tokens.css and typography.css. premium-typography.css and keyframes.css are deleted only after their non-token content has an owner and has migrated (§21 OI-11). After this, index.css (-> dist/css/styles.css) imports only tokens.css, material.css and component CSS, and styles.css has 0 legacy-namespace vars and 0 legacy-hook selectors. src/styles/glass.css is removed by MOT-084, not here.",
+    "depends_on": [
+      "DS-109",
+      "DS-103",
+      "PKG-101",
+      "MAT-015"
+    ],
+    "priority": "P1",
+    "test": "rg -c -- '--(glass|aura|persona|glass-theme|liquid|gm|grad)-' dist/css/styles.css = 0; undefined-vars/dead-vars = 0 on styles.css",
+    "storybook": "Remote full-Storybook capture diff reviewed by a human (5.0 alpha, breaking allowed on main)",
+    "acceptance": "AC-DS-02, AC-DS-05 (styles.css); REQ-DS-24, REQ-DS-41",
+    "status": "todo"
+  },
+  {
+    "id": "DS-112",
+    "prd": "PRD-03",
+    "system": "retire generators",
+    "file": "scripts/build-tokens.js",
+    "action": "REMOVE",
+    "description": "The single remover of scripts/build-tokens.js (SC-39; PKG-109 drops its removal). Delete scripts/build-tokens.js, generate-glass-css-simple.js, generate-glass-css-from-tokens.ts, generate-persona-css.ts, generate-persona-css-runner.js and tokens/index.json, tokens/personas/default.json, tokens/schema.json. Remove the npm scripts glass:generate-css, glass:generate-persona-css, glass:validate-persona-css and build:tokens:legacy and the persona prefix of 'build'; fix glass:full-check.",
+    "depends_on": [
+      "DS-111"
+    ],
+    "priority": "P1",
+    "test": "rg --files returns 0 for every REQ-DS-41 path (output pasted); remote npm run build green",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-02",
+    "status": "todo"
+  },
+  {
+    "id": "DS-113",
+    "prd": "PRD-03",
+    "system": "export tests",
+    "file": "tests/tokens/export.test.ts",
+    "action": "TEST",
+    "description": "Rewrite tests/tokens/export.test.ts and tests/tokens/export.spec.mjs for the 5.0 map: ESM aura-glass/tokens exposes exactly tokens, token, materialSpec and manifest; tokens.css, material.css, tailwind.css and compat/tokens.css resolve; the removed subpaths throw ERR_PACKAGE_PATH_NOT_EXPORTED; no CJS entry.",
+    "depends_on": [
+      "DS-112",
+      "PKG-005"
+    ],
+    "priority": "P1",
+    "test": "npm run test:tokens:exports green on the remote runner",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-07; PRD §10 aura-glass/tokens row",
+    "status": "todo"
+  },
+  {
+    "id": "DS-114",
+    "prd": "PRD-03",
+    "system": "remote modes lane",
+    "file": "NEW:tests/visual/tokens/modes.spec.ts",
+    "action": "TEST",
+    "description": "Remote, QA L6 Environment visual (SC-29/SC-30; config certification/playwright.cert.config.ts, QA-018), Chromium/WebKit/Gecko. Pages NEW tests/visual/tokens/fixtures/{zero-js,attr}.html built from packed CSS. Tests: 'zero-js matches attribute baseline under <pref>' for colorScheme light/dark, contrast more, reduced transparency (N/A per unsupported engine, reported), forcedColors active and reducedMotion reduce, at <= 0.1% changed pixels (SC-09 rule); 'computed --ag-on-surface differs light vs dark'; 'forced-colors beats data-ag-transparency=glass' (backdropFilter 'none' on every [data-ag-surface]); 'createGlassTheme system follows media' with AuraGlassScript present (A11Y-032).",
+    "depends_on": [
+      "DS-111",
+      "DS-083",
+      "QA-018",
+      "A11Y-032"
+    ],
+    "priority": "P0",
+    "test": "Remote run green in all 3 engines; 0 skipped except declared N/A cells",
+    "storybook": "Per-engine diff images and forced-colours captures as CI artifacts; human sign-off",
+    "acceptance": "AC-DS-08, AC-DS-09, AC-DS-12 (browser half); REQ-DS-21, REQ-DS-23",
+    "status": "todo"
+  },
+  {
+    "id": "DS-115",
+    "prd": "PRD-03",
+    "system": "remote canaries",
+    "file": "NEW:tests/visual/tokens/canaries.spec.ts",
+    "action": "TEST",
+    "description": "Remote, QA L11 Consumer canaries, packed tarball (scripts/ci/lib/npm-pack.js, TRUST-002). PKG's canaries/vite-tailwind4 (PKG-128) builds, and getComputedStyle for each of the 6 utilities equals that of a data-ag-variant/thickness sibling (0 property diffs). canaries/vite (PKG-126) renders with no tailwindcss installed (npm ls tailwindcss exits 1). shadcn page: a stock shadcn Button picks up --ag-accent/--ag-focus-outer; with data-ag-shadcn-source and an app --primary, the AuraGlass Button (or MAT Surface interactive) uses it; no cycle warning in the console.",
+    "depends_on": [
+      "DS-091",
+      "DS-093",
+      "PKG-126",
+      "PKG-128",
+      "TRUST-002",
+      "QA-018"
+    ],
+    "priority": "P1",
+    "test": "Remote canary jobs green",
+    "storybook": "Side-by-side utility vs attribute captures and shadcn captures in both authority modes as CI artifacts",
+    "acceptance": "AC-DS-10, AC-DS-11",
+    "status": "todo"
+  },
+  {
+    "id": "DS-116",
+    "prd": "PRD-03",
+    "system": "frozen fixture + codemod",
+    "file": "tests/fixtures/consumer-4x/",
+    "action": "TEST",
+    "description": "Run only. The fixture is REL's (REL-115, SC-08), the CI job is QA's consumer-4x-frozen in certify-main.yml (QA-087), and the pixel classifier is REL's scripts/release/visual-class.mjs (REL-040, SC-09). On release/4.x at 4.2 and 4.3, run the fixture pages (REL-116: 1440x900 and 390x844, light/dark). Expect 0 changed pixels except this PRD's two D-28 labelled fixes (navy dark text; --glass-opacity-*), with before/after composites. Also run DX's css-vars codemod fixture suite (packages/cli/src/migrate/4to5/__fixtures__/css-vars/, DX-050) with compat-alias-map.json: 100% of literal references rewritten. Evidence lives in CI artifacts only (D-32).",
+    "depends_on": [
+      "DS-102",
+      "DS-104",
+      "REL-115",
+      "REL-116",
+      "QA-087",
+      "DX-050"
+    ],
+    "priority": "P0",
+    "test": "Remote frozen-fixture job green; codemod suite rewrite count = total",
+    "storybook": "Before/after composites for the two D-28 fixes as CI artifacts; human sign-off",
+    "acceptance": "AC-DS-14, AC-DS-15",
+    "status": "todo"
+  },
+  {
+    "id": "DS-117",
+    "prd": "PRD-03",
+    "system": "budgets + perf",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add DS rows (integer bytes min+gz, peers external) to PKG's docs/size-budgets.json (PKG-048; gate scripts/ci/verify-size-budgets.mjs PKG-049; no size-limit/.size-limit.json/build/budgets.lock.json, SC-15). Rows may be stricter, never looser, than PERF REQ-PERF-01 defaults: styles.css <= 32 KB; tokens.css <= 8 KB excluding presets, with preset blocks <= 2 KB; tailwind.css <= 3 KB target / 6 KB ceiling; compat/tokens.css <= 8 KB (reported); aura-glass/tokens JS <= 2 KB; theme functions <= 3 KB. Count limits (public <= 260, private <= 200, total custom properties in styles.css <= 460, @property <= 16) are asserted by DS gates, not size rows. Request the runtime row 'scheme toggle style recalc <= 8 ms, 0 layouts' (mid-tier Android, 6 surfaces) in PERF's tests/perf/harness/budgets.json (PERF-039). QA L10 calibrates at 5.0.0-alpha.1; after that, values only ratchet down (D-26).",
+    "depends_on": [
+      "DS-111",
+      "PKG-048",
+      "PKG-049",
+      "PERF-039"
+    ],
+    "priority": "P1",
+    "test": "node scripts/ci/verify-size-budgets.mjs green for DS rows; L10 perf trace shows <= 8 ms and 0 layouts",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-16; AC-DS-05 (counts)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-118",
+    "prd": "PRD-03",
+    "system": "docs hand-off",
+    "file": "docs/design-tokens.md",
+    "action": "DOC",
+    "description": "Replace the hand tables in docs/design-tokens.md and docs/theme/theme-engine.md with a pointer to DX's generated pages (docs app DX-101, theming guide DX-124; built from dist/tokens/manifest.json and persona-preset-map.json). Closes TOKENS-THEME-15. DX has no token-page generator task yet (§21 OI-13).",
+    "depends_on": [
+      "DS-108",
+      "DS-038",
+      "DX-101",
+      "DX-124"
+    ],
+    "priority": "P3",
+    "test": "rg -n '#[0-9a-fA-F]{3,8}|[0-9]+px|[0-9]+ms' docs/design-tokens.md docs/theme/theme-engine.md returns 0",
+    "storybook": "n/a",
+    "acceptance": "PRD §18 DoD (docs replaced by generated pages)",
+    "status": "todo"
+  },
+  {
+    "id": "DS-119",
+    "prd": "PRD-03",
+    "system": "beta flip + final sweep",
+    "file": "scripts/tokens/gates/literals-baseline.json",
+    "action": "MODIFY",
+    "description": "At 5.0.0-beta.1: literals-baseline.json is {} and lint:tokens reports 0 across src/**/*.{ts,tsx,css} with only the REQ-DS-33 exemptions; undefined-vars/dead-vars = 0/0 on every importable CSS entry, including styles.css and compat/*; run the full AC-DS-01..17 table on main across the engine matrix with artifact links. Do not flip while family PRDs still own violations; list the remaining files per owning PRD.",
+    "depends_on": [
+      "DS-076",
+      "DS-112",
+      "DS-114",
+      "DS-115",
+      "DS-116",
+      "DS-117",
+      "FND-130"
+    ],
+    "priority": "P0",
+    "test": "npm run gates:tokens green with an empty baseline on the remote runner",
+    "storybook": "n/a",
+    "acceptance": "AC-DS-01, AC-DS-02, AC-DS-05; PRD §18 DoD",
+    "status": "todo"
+  },
+  {
+    "id": "DS-120",
+    "prd": "PRD-03",
+    "system": "tokens/app-shell",
+    "file": "NEW:tokens/sys/app-shell.tokens.json",
+    "action": "CREATE",
+    "description": "SC-18 row request from NAV (NAV-009 is now the row request; DS is the creator): author the app-shell tokens with NAV's values as DTCG sys tokens ($extensions ag.tier sys, ag.public true): --ag-app-shell-sidebar-width 16rem, -rail-width 4rem, -inspector-width 20rem, -topbar-height 3.25rem (compact 2.75rem through the density mode), -tabbar-height 3.5rem, -gap per density aliasing --ag-space-* (DS-024). The read-only -bp-compact 600px, -bp-expanded 1024px and -bp-wide 1440px are documented as non-functional. NAV changes values only by row request or MODIFY after this task.",
+    "depends_on": [
+      "DS-020",
+      "DS-024",
+      "DS-016"
+    ],
+    "priority": "P1",
+    "test": "tests/tokens/schema.test.ts validates the file; the manifest lists each --ag-app-shell-* var; dead-vars passes (ag.public or NAV readers)",
+    "storybook": "n/a",
+    "acceptance": "SC-18 single creator under tokens/; REQ-DS-01, REQ-DS-06",
+    "status": "todo"
+  }
+]

@@ -1,0 +1,972 @@
+[
+  {
+    "name": "GlassIntelligentSearch",
+    "file": "src/components/search/GlassIntelligentSearch.tsx",
+    "lines": 1409,
+    "category": "search",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/search/GlassIntelligentSearch.stories.tsx",
+      "count": 7
+    },
+    "tests": {
+      "file": "src/components/search/GlassIntelligentSearch.test.tsx",
+      "count": 8
+    },
+    "screenshots": [
+      "components-search-glassintelligentsearch/desktop.png",
+      "components-search-glassintelligentsearch/mobile.png"
+    ],
+    "material_impl": "Uses the Glass primitive as a wrapper, then overrides it with a 230-line inline <style> block (lines 779-1011) that hard-codes rgba(255,255,255,.2-.35) fills, rgba(255,255,255,.18) borders, a literal blur(24px) saturate(1.5) chain and !important on almost every rule. The slider thumb is hard-coded #94a3b8 and the checkbox uses a hand-drawn SVG data URI. No intent, elevation or tier tokens are used, so the primitive does nothing here.",
+    "motion": "CSS spin and pulse classes are gated by useReducedMotion (lines 1040, 1061). There is no enter/exit motion for the dropdown or results.",
+    "a11y": "The suggestion dropdown has role=listbox/option but the input is not a combobox: there is no aria-controls, no aria-activedescendant and no arrow-key navigation, so suggestionRefs is collected but never used (line 489). The 'Search input' aria-label overrides the placeholder. The voice button is labelled only by an emoji plus title. The results count is a polite live region. Inputs are 44px. Emoji icons are used throughout (lines 756-765, 1046, 1067, 1395).",
+    "api": "Plain React.FC with no forwardRef, no style passthrough and no ...rest. Uncontrolled only: there is no value/onQueryChange, and filters cannot be controlled. maxResults, showFilters and showSuggestions are fine. The prop interface is called IntelligentSearchProps instead of GlassIntelligentSearchProps.",
+    "ssr": "Has 'use client'. window.webkitSpeechRecognition is only touched in a click handler. No heavy imports.",
+    "fake_complexity": "The 'NLP' is a substring keyword match for intent ('find', 'vs', 'best'), a stop-word list and a positive/negative word list for 'sentiment' (lines 116-259). Calling this 'natural language' search is overclaiming. It also shows debug-style 'Intent / Entities / Keywords' chips and a raw 'Score: 3.5' to end users (line 1385).",
+    "duplicates": [
+      "interactive/GlassAdvancedSearch",
+      "interactive/GlassFacetSearch",
+      "interactive/GlassSearchInterface",
+      "input/GlassSearchField",
+      "search/LiquidGlassSearchField"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 5,
+      "api": 3,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 6,
+      "production": 3
+    },
+    "overall": 3.8,
+    "disposition": "CONSOLIDATE",
+    "target": "Single GlassSearch / GlassCombobox family (with a separate faceted-results recipe)",
+    "flagship_candidate": false,
+    "justification": "This is a 1.4k-line monolith that mixes a toy keyword 'NLP' engine, filters, voice and result rendering into one uncontrolled FC, with no ref, no controlled query and an inline stylesheet full of hard-coded white rgba plus !important that bypasses the material system it wraps. The suggestion list has no real combobox keyboard model. The filter and highlight logic is worth keeping as a headless hook. The visual layer should become a recipe on a proper GlassCombobox shared with the five other search components.",
+    "evidence": [
+      "src/components/search/GlassIntelligentSearch.tsx:116-259",
+      "src/components/search/GlassIntelligentSearch.tsx:455",
+      "src/components/search/GlassIntelligentSearch.tsx:779-1011",
+      "src/components/search/GlassIntelligentSearch.tsx:1016-1033",
+      "src/components/search/GlassIntelligentSearch.tsx:1090-1099",
+      "src/components/search/GlassIntelligentSearch.tsx:1385",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassintelligentsearch/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 245 with std 19; mobile mean is 247 with std 21 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassSpotlightSearch",
+    "file": "src/components/search/GlassSpotlightSearch.tsx",
+    "lines": 464,
+    "category": "search/overlay",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/search/GlassSpotlightSearch.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/search/GlassSpotlightSearch.test.tsx",
+      "count": 7
+    },
+    "screenshots": [
+      "components-search-glassspotlightsearch/desktop.png",
+      "components-search-glassspotlightsearch/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass with elevation, but the style prop is overwritten by createGlassStyle({intent:'neutral', elevation:'level2'}) (line 307), so the elevation prop is effectively ignored for fill. Row selection is hard-coded inline rgba(255,255,255,.62/.22) plus a blue rgba(37,99,235,.34) border (lines 404-414).",
+    "motion": "Uses Tailwind 'transform transition-all scale-100 opacity-100' classes (line 303-304). These are not glass- prefixed and are only present via the storybook shim, and since the component returns null when closed the scale transition never plays. scrollIntoView uses behavior:'smooth' with no reduced-motion check.",
+    "a11y": "Has role=dialog aria-modal but no focus trap and no focus restore. There is no listbox/option or aria-activedescendant, so screen readers get no announcement of the selected row. Focus is set with a 100ms setTimeout. The keydown handler's effect deps omit filteredActions/handleActionSelect (line 166), so Enter can run a stale result list after typing when selectedIndex stays 0.",
+    "api": "forwardRef with HTML attribute passthrough. Controlled open/onClose. maxResults, fuzzySearch and groupByCategory are reasonable. localStorage key 'spotlight-recent' is a hard-coded global, which makes instances collide.",
+    "ssr": "Has 'use client'. createPortal(document.body) runs in render when open, so it would crash if open=true during SSR. localStorage is read in an effect.",
+    "fake_complexity": "None. The 'fuzzy' match is a subsequence match, which is honest.",
+    "duplicates": [
+      "interactive/GlassCommandPalette (root-exported)",
+      "interactive/GlassSpotlight"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 5,
+      "api": 6,
+      "responsive": 6,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 4,
+      "performance": 6,
+      "docs": 5,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 4.2,
+    "disposition": "CONSOLIDATE",
+    "target": "interactive/GlassCommandPalette (single command-palette primitive)",
+    "flagship_candidate": false,
+    "justification": "This is a second command palette that is not exported from root, alongside the exported GlassCommandPalette and GlassSpotlight. It has a real stale-closure bug in its keyboard handler, no focus trap, no ARIA listbox semantics, Tailwind classes that do not ship, and an elevation prop that gets clobbered. Merge its recent-actions and grouping features into the canonical command palette and delete this file.",
+    "evidence": [
+      "src/components/search/GlassSpotlightSearch.tsx:136-166",
+      "src/components/search/GlassSpotlightSearch.tsx:264",
+      "src/components/search/GlassSpotlightSearch.tsx:298-311",
+      "src/components/search/GlassSpotlightSearch.tsx:404-414",
+      "src/components/search/GlassSpotlightSearch.tsx:421",
+      "src/components/search/GlassSpotlightSearch.tsx:458",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-search-glassspotlightsearch/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 244 with std 22; mobile mean is 239 with std 31 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "LiquidGlassSearchField",
+    "file": "src/components/search/LiquidGlassSearchField.tsx",
+    "lines": 247,
+    "category": "search/input",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/search/LiquidGlassSearchField.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/search/LiquidGlassSearchField.test.tsx",
+      "count": 1
+    },
+    "screenshots": [],
+    "material_impl": "Uses the shared LiquidGlassMaterial primitive, but disables every distinctive feature (refraction, reflection, microInteractions, adaptToMotion, sheen=0) and then overrides its blur with a hard-coded 'blur(16px) saturate(1.4) brightness(1.08) contrast(1.04) !important' in an inline <style> (lines 52-53, 70-71). Options use tokenised rgba(var(--glass-color-white)/var(--glass-opacity-10)), which is better.",
+    "motion": "No motion apart from a transition-property override. There is nothing that needs reduced-motion handling.",
+    "a11y": "The input has role=combobox and aria-expanded but no aria-controls, aria-activedescendant or arrow-key support, and no Escape handling. A label wraps both the sr-only text and, when minimized, a button, which is an invalid label association. Suggestion buttons have no role=option and sit inside the listbox. 44px min-height is good. There is no visible focus style on the input (outline:none, line 40) beyond the option focus-visible.",
+    "api": "forwardRef with div passthrough. Semi-controlled value/onValueChange, although internal state still updates when controlled. The placement prop only sets a data attribute (line 133) and has no behaviour. minimized/onMinimizedChange only expands and never collapses. There is no inputRef or input props passthrough.",
+    "ssr": "Has 'use client'. Clean.",
+    "fake_complexity": "placement ('top-trailing', 'center', 'auto') is advertised but not implemented.",
+    "duplicates": [
+      "input/GlassSearchField",
+      "search/GlassIntelligentSearch",
+      "interactive/GlassSearchInterface"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 5,
+      "api": 5,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 3,
+      "consistency": 6,
+      "performance": 8,
+      "docs": 3,
+      "storybook": 3,
+      "production": 4
+    },
+    "overall": 4.8,
+    "disposition": "REDESIGN",
+    "target": "Become the canonical GlassSearchField/Combobox on LiquidGlassMaterial",
+    "flagship_candidate": true,
+    "justification": "This is the right foundation, a small forwardRef on the shared LiquidGlassMaterial, which makes it the best candidate to become the single search field of the 5.0 Liquid Glass line. Today it is incomplete. It has a non-functional placement prop, no keyboard combobox model, label/button nesting, and an !important blur override that fights its own material. It also has only one story, one smoke test and no certification screenshot. Redesign it into a full ARIA combobox (with a headless filter hook shared with GlassIntelligentSearch) and absorb the duplicates.",
+    "evidence": [
+      "src/components/search/LiquidGlassSearchField.tsx:43-89",
+      "src/components/search/LiquidGlassSearchField.tsx:133",
+      "src/components/search/LiquidGlassSearchField.tsx:138-152",
+      "src/components/search/LiquidGlassSearchField.tsx:153-180",
+      "src/components/search/LiquidGlassSearchField.tsx:205-238"
+    ],
+    "screenshot_review": "No certification screenshot exists for this target. It is uncertified visually."
+  },
+  {
+    "name": "LiquidGlassSearchTab",
+    "file": "src/components/search/LiquidGlassSearchTab.tsx",
+    "lines": 25,
+    "category": "search/navigation",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/search/LiquidGlassSearchTab.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/search/LiquidGlassSearchTab.test.tsx",
+      "count": 1
+    },
+    "screenshots": [],
+    "material_impl": "Pure pass-through to LiquidGlassSearchField with placement='bottom', which has no effect.",
+    "motion": "None.",
+    "a11y": "Inherits the field's issues. There is no tabpanel/tab relationship despite the name.",
+    "api": "forwardRef. 'active' returns null. tabId only becomes a data attribute.",
+    "ssr": "Clean.",
+    "fake_complexity": "The name implies tab-bar integration (an iOS 26-style search tab), but the wrapper adds no behaviour.",
+    "duplicates": [
+      "search/LiquidGlassSearchField",
+      "navigation/LiquidGlassTabBar searchTabId"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 3,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 6,
+      "performance": 9,
+      "docs": 2,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3.2,
+    "disposition": "REMOVE",
+    "target": "LiquidGlassSearchField (or a LiquidGlassTabBar 'search' slot)",
+    "flagship_candidate": false,
+    "justification": "Twenty-five lines that rename props on LiquidGlassSearchField and add only a null-render flag. It inflates the component count without adding capability. If search-in-tab-bar is a real pattern, implement it as a slot on LiquidGlassTabBar.",
+    "evidence": [
+      "src/components/search/LiquidGlassSearchTab.tsx:11-23"
+    ],
+    "screenshot_review": "No certification screenshot exists for this target. It is uncertified visually."
+  },
+  {
+    "name": "LiquidGlassShowcase",
+    "file": "src/components/showcase/LiquidGlassShowcase.tsx",
+    "lines": 406,
+    "category": "showcase/demo",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/showcase/LiquidGlassShowcase.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/showcase/LiquidGlassShowcase.test.tsx",
+      "count": 1
+    },
+    "screenshots": [],
+    "material_impl": "Composes LiquidGlass* components, then globally overrides '.liquid-glass-material' background, border and box-shadow with !important (lines 45-56) and the badge cluster's backdrop-filter. The showcase therefore does not show the real material, it shows a CSS patch. It hard-codes #0f172a/#475569/#737373, a gray gradient background, and inline rgba styles on its own 'Open' button and cards.",
+    "motion": "Delegated to the children. None of its own.",
+    "a11y": "A fake listbox of <span role=option> with no keyboard support (lines 340-359). The 'Open' button is about 30px tall. It uses the main landmark, which is wrong for an exported component.",
+    "api": "No props, no ref, no className. Fixed demo content ('Liquid Study', 'Aura System').",
+    "ssr": "Has 'use client'. Heavy: it imports eight components into whatever bundle includes it.",
+    "fake_complexity": "The tagline says 'Production app chrome' and 'Surface intelligence', but it is a static demo page.",
+    "duplicates": [
+      "demo/EnhancementShowcase",
+      "advanced/StorybookVisualShowcase",
+      "marketing/ShowcaseCard"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 3,
+      "usability": 3,
+      "api": 1,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 3,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "Move to Storybook/docs-only example (not a package export)",
+    "flagship_candidate": false,
+    "justification": "A propless demo page should not ship in the public API, and this one undermines the system by !important-overriding the Liquid Glass material it is meant to show off. That means the showcase misrepresents what consumers get. Keep it as a docs/story composition after the underlying components look right without overrides.",
+    "evidence": [
+      "src/components/showcase/LiquidGlassShowcase.tsx:13",
+      "src/components/showcase/LiquidGlassShowcase.tsx:45-71",
+      "src/components/showcase/LiquidGlassShowcase.tsx:247",
+      "src/components/showcase/LiquidGlassShowcase.tsx:340-359",
+      "src/index.ts:736"
+    ],
+    "screenshot_review": "No certification screenshot exists for this target. It is uncertified visually."
+  },
+  {
+    "name": "GlassCollaborativeCursor (social)",
+    "file": "src/components/social/GlassCollaborativeCursor.tsx",
+    "lines": 519,
+    "category": "collaboration",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/social/GlassCollaborativeCursor.stories.tsx",
+      "count": 18
+    },
+    "tests": {
+      "file": "src/components/social/GlassCollaborativeCursor.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-social-glasscollaborativecursor/desktop.png",
+      "components-social-glasscollaborativecursor/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass shell. Labels use createGlassStyle({opacity:0.8}), which sets CSS opacity on the whole label and text and drops text contrast (line 282). There is a hard-coded 15-color neon cursor palette (#FF6B6B etc).",
+    "motion": "framer-motion. The reduced-motion branch uses animate={} while initial={opacity:0,scale:0.8} (lines 267-275), so with reduced motion the user labels stay invisible. Cursor icons are defined inline inside render (lines 222-360), so they remount on every 100ms tick and AnimatePresence cannot track them.",
+    "a11y": "Purely decorative with no live region for presence changes. Status dots only have a title.",
+    "api": "forwardRef, but props are not passed to the DOM correctly (no HTML attribute type). The users prop is copied into state once and never re-synced (line 101). Avatars have no fallback.",
+    "ssr": "Has 'use client'. Uses @/ path aliases (works only if the bundler resolves the tsconfig paths).",
+    "fake_complexity": "'realTimeMode' is a Math.random walk every 100ms with random isActive and action (lines 106-143). It ships with hard-coded 'Collaborative Workspace / Section A / Section B' demo copy in the component body (lines 429-463). soundEnabled defaults to true and plays type/select sounds on every simulated tick.",
+    "duplicates": [
+      "collaboration/GlassCollaborativeCursor (the root-exported one, provider-backed)",
+      "advanced/GlassLiveCursorPresence",
+      "advanced/GlassMagneticCursor"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 3,
+      "storybook": 5,
+      "production": 1
+    },
+    "overall": 2.0,
+    "disposition": "REMOVE",
+    "target": "collaboration/GlassCollaborativeCursor",
+    "flagship_candidate": false,
+    "justification": "This is the shadowed duplicate. src/index.ts:699 exports the collaboration/ version under the same name, so this file is unreachable for consumers but still certified and storied (18 stories). It is a random-walk demo with baked-in placeholder copy, sounds that play on by default, inline component definitions that remount every tick, and a reduced-motion bug that hides labels. Delete it.",
+    "evidence": [
+      "src/index.ts:699",
+      "src/components/social/GlassCollaborativeCursor.tsx:101",
+      "src/components/social/GlassCollaborativeCursor.tsx:106-143",
+      "src/components/social/GlassCollaborativeCursor.tsx:187-197",
+      "src/components/social/GlassCollaborativeCursor.tsx:222-303",
+      "src/components/social/GlassCollaborativeCursor.tsx:429-463",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasscollaborativecursor/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 243 with std 19; mobile mean is 240 with std 31 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassPresenceIndicator",
+    "file": "src/components/social/GlassPresenceIndicator.tsx",
+    "lines": 425,
+    "category": "collaboration/presence",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/social/GlassPresenceIndicator.stories.tsx",
+      "count": 18
+    },
+    "tests": {
+      "file": "src/components/social/GlassPresenceIndicator.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-social-glasspresenceindicator/desktop.png",
+      "components-social-glasspresenceindicator/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass shell with createGlassStyle() inline on every user chip and avatar, which nests blurred glass inside blurred glass (each with its own backdrop-filter). Status colours use semantic tokens (hsl(var(--glass-color-success))), which is good. Several class names do not exist ('glass-text-primary-glass-opacity-60', 'glass-surface-subtle/20').",
+    "motion": "framer-motion. The reduced-motion branch sets animate={} with initial={opacity:0,scale:0.8} (lines 207-208, 368-373, 413-417), so reduced-motion users see an invisible list and footer. The status dot pulses forever.",
+    "a11y": "User chips are clickable motion.divs with no role, tabIndex or keyboard handler (lines 204-220). Status is conveyed by colour only, with no text or sr label. The typing notice is not a live region.",
+    "api": "forwardRef. The users prop is copied once into state and never re-synced (line 90). theme, onStatusChange and id are unused. The prop list is large (16) but half of it is demo knobs.",
+    "ssr": "Has 'use client'. Clean.",
+    "fake_complexity": "realTimeSync randomly flips isTyping. soundEnabled=true by default plays a 'notification' for every online user whenever presenceData or play changes, and play is a new function every render (src/utils/soundDesign.ts:549-565), so it chimes on every render after a user gesture unlocks audio.",
+    "duplicates": [
+      "interactive/GlassUserPresence",
+      "advanced/GlassLiveCursorPresence",
+      "collaboration presence pieces",
+      "data-display Avatar/AvatarGroup"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 2.8,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassAvatarGroup + GlassPresenceBadge (single presence primitive)",
+    "flagship_candidate": false,
+    "justification": "Presence (avatar plus status dot plus overflow count) is a legitimate pattern, but this version has a reduced-motion invisibility bug, mouse-only interactive chips, colour-only status, sound that fires on every render by default, and a frozen users prop. Fold it into one avatar-group/presence-badge primitive shared with GlassUserPresence and GlassLiveCursorPresence.",
+    "evidence": [
+      "src/components/social/GlassPresenceIndicator.tsx:90",
+      "src/components/social/GlassPresenceIndicator.tsx:101-115",
+      "src/components/social/GlassPresenceIndicator.tsx:126-134",
+      "src/components/social/GlassPresenceIndicator.tsx:204-220",
+      "src/components/social/GlassPresenceIndicator.tsx:403",
+      "src/utils/soundDesign.ts:549-565",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasspresenceindicator/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 245 with std 8; mobile mean is 247 with std 9 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassReactionBubbles",
+    "file": "src/components/social/GlassReactionBubbles.tsx",
+    "lines": 740,
+    "category": "social/effects",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/social/GlassReactionBubbles.stories.tsx",
+      "count": 18
+    },
+    "tests": {
+      "file": "src/components/social/GlassReactionBubbles.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      "components-social-glassreactionbubbles/desktop.png",
+      "components-social-glassreactionbubbles/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass shell. It passes createGlassStyle({...}).background, a CSS gradient string, into className (lines 441, 459, 499, 655, 701), which produces garbage class names. The bubbles, emoji selector, stats and instructions therefore have no glass material at all. There is a hard-coded neon palette.",
+    "motion": "A custom 'physics' loop: one requestAnimationFrame per render, with the effect depending on bubbles (line 289), so the loop runs as setState-per-frame while any bubble exists. The demo state seeds bubbles, so it re-renders at 60fps by default. With reduced motion, the stats panel stays at opacity 0 (lines 657-658). The ambient particles loop forever.",
+    "a11y": "Reaction bubbles are clickable divs with no role or keyboard support. The canvas click is mouse-only. Emoji selector buttons have no aria-label or aria-pressed. 'Click bubbles to multiply them' adds three bubbles per click, which is uncontrolled growth limited only by maxBubbles.",
+    "api": "forwardRef, but HTML props are not typed. Both demoState='active' (default) and autoplay exist. The reactions prop is used only as the initial state. Both compact and contained exist.",
+    "ssr": "Has 'use client'. Process env checks (JEST_WORKER_ID) are in component code.",
+    "fake_complexity": "realTimeMode spawns 'Anonymous' random reactions. It ships demo users 'Aurora/Lumen/Orbit' by default. Test-environment branching lives inside the production component (lines 201-210, 216, 235, 545).",
+    "duplicates": [
+      "advanced/GlassReactions",
+      "interactive/GlassReactionBar"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 3,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 3,
+      "storybook": 5,
+      "production": 1
+    },
+    "overall": 2.2,
+    "disposition": "REMOVE",
+    "target": "interactive/GlassReactionBar (keep one reaction primitive); optional effect as a recipe",
+    "flagship_candidate": false,
+    "justification": "This is a novelty effect with a demo-on-by-default state, a setState-per-frame physics loop, invalid className usage that silently drops the glass material, test-env branches inside product code, and a reduced-motion invisibility bug. It is the third reaction component. Keep GlassReactionBar as the product primitive and drop this one, or rewrite it later as an opt-in canvas/WAAPI effect.",
+    "evidence": [
+      "src/components/social/GlassReactionBubbles.tsx:186-194",
+      "src/components/social/GlassReactionBubbles.tsx:201-210",
+      "src/components/social/GlassReactionBubbles.tsx:234-289",
+      "src/components/social/GlassReactionBubbles.tsx:441",
+      "src/components/social/GlassReactionBubbles.tsx:499",
+      "src/components/social/GlassReactionBubbles.tsx:652-660",
+      "src/utils/createGlassStyle.ts:64-84",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassreactionbubbles/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 246 with std 8; mobile mean is 248 with std 9 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassSharedWhiteboard",
+    "file": "src/components/social/GlassSharedWhiteboard.tsx",
+    "lines": 697,
+    "category": "collaboration/canvas",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/social/GlassSharedWhiteboard.stories.tsx",
+      "count": 16
+    },
+    "tests": {
+      "file": "src/components/social/GlassSharedWhiteboard.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-social-glasssharedwhiteboard/desktop.png",
+      "components-social-glasssharedwhiteboard/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass with createGlassStyle inline on the toolbar and user list. The colour palette is six near-white translucent rgba values (lines 91-98), which are invisible on the default white canvas. The default pen colour is 'var(--glass-black)' (line 141), which canvas strokeStyle cannot resolve: assignment is ignored and the previous stroke style is reused. The grid is #E5E5E5.",
+    "motion": "framer-motion spring cursors. With reduced motion, animate={} still renders. There is no reduced-motion concern for drawing.",
+    "a11y": "Tool buttons are labelled by emoji and title only. Size buttons render a transparent dot (glass-bg-transparent, line 555), so the size is visually invisible. The canvas has no accessible name or alternative. It is mouse events only, with no pointer/touch handlers (lines 613-616), so drawing does not work on phones or tablets.",
+    "api": "forwardRef, but HTML props are not typed. strokes and users are copied into state once. Both readOnly and canDraw exist. The 'shape' tool draws a freehand line like the pen.",
+    "ssr": "Has 'use client'. getComputedStyle runs in an effect only.",
+    "fake_complexity": "realTimeSync generates random cursor movement and random two-point 'strokes' from other users. There is no transport or CRDT, and no DPR scaling, so lines blur on retina displays.",
+    "duplicates": [
+      "interactive/GlassWhiteboard"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 5,
+      "production": 1
+    },
+    "overall": 2.2,
+    "disposition": "CONSOLIDATE",
+    "target": "interactive/GlassWhiteboard (single whiteboard, pointer events + DPR + controlled strokes)",
+    "flagship_candidate": false,
+    "justification": "As shipped, the whiteboard cannot draw in a visible colour from its own palette, cannot be used on touch devices, ignores devicePixelRatio, and fakes collaboration with random strokes. It duplicates interactive/GlassWhiteboard. Merge into one pointer-events whiteboard with a controlled strokes API and real colour tokens, or drop the category entirely.",
+    "evidence": [
+      "src/components/social/GlassSharedWhiteboard.tsx:91-98",
+      "src/components/social/GlassSharedWhiteboard.tsx:141",
+      "src/components/social/GlassSharedWhiteboard.tsx:159-219",
+      "src/components/social/GlassSharedWhiteboard.tsx:280",
+      "src/components/social/GlassSharedWhiteboard.tsx:554-560",
+      "src/components/social/GlassSharedWhiteboard.tsx:599-617",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssharedwhiteboard/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 249 with std 15; mobile mean is 248 with std 23 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassSocialFeed",
+    "file": "src/components/social/GlassSocialFeed.tsx",
+    "lines": 575,
+    "category": "social/data-display",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/social/GlassSocialFeed.stories.tsx",
+      "count": 17
+    },
+    "tests": {
+      "file": "src/components/social/GlassSocialFeed.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-social-glasssocialfeed/desktop.png",
+      "components-social-glasssocialfeed/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass variant='frosted' with createGlassStyle inline per post card and avatar, so every post card is its own backdrop-filter layer (expensive in long feeds). Engagement colours are tokens. Several class names are non-existent ('glass-text-primary-glass-opacity-90', 'glass-surface-subtle/10').",
+    "motion": "framer-motion layout on every card. Cards have initial={opacity:0,y:20} and animate={} under reduced motion (lines 229-230), so posts are invisible to reduced-motion users. PostCard is defined inside render, so every render remounts every card.",
+    "a11y": "The whole card is a clickable div with no role or keyboard support, and it contains nested buttons. The sort <select> is dead: its onChange is an empty stub (lines 514-516). Like/share use emoji as labels. Media 'alt' defaults to 'Post media'.",
+    "api": "forwardRef. The posts prop is frozen into state (line 99). The like count double-counts when post.isLiked is already true (line 440). The 'following' filter means 'verified' (line 137). infiniteScroll is only a button.",
+    "ssr": "Has 'use client'. Relative time is computed during render, which causes a hydration mismatch risk.",
+    "fake_complexity": "realTimeUpdates randomly increments like, comment and share counts.",
+    "duplicates": [
+      "dashboard/GlassActivityFeed"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 5,
+      "production": 2
+    },
+    "overall": 2.6,
+    "disposition": "DEPRECATE",
+    "target": "dashboard/GlassActivityFeed + a GlassCard 'post' recipe",
+    "flagship_candidate": false,
+    "justification": "This is an app-level widget (a Twitter-clone feed) rather than a design-system component, and it has functional bugs: a dead sort control, double-counted likes, a frozen posts prop, invisible content under reduced motion, a full remount every render, and per-card backdrop-filter. Deprecate it in favour of a feed-list/card recipe built on the core list and card primitives.",
+    "evidence": [
+      "src/components/social/GlassSocialFeed.tsx:99",
+      "src/components/social/GlassSocialFeed.tsx:111-128",
+      "src/components/social/GlassSocialFeed.tsx:137",
+      "src/components/social/GlassSocialFeed.tsx:219-242",
+      "src/components/social/GlassSocialFeed.tsx:440",
+      "src/components/social/GlassSocialFeed.tsx:511-523",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glasssocialfeed/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 250 with std 10; mobile mean is 249 with std 13 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "GlassVoiceWaveform",
+    "file": "src/components/social/GlassVoiceWaveform.tsx",
+    "lines": 676,
+    "category": "media/collaboration",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/social/GlassVoiceWaveform.stories.tsx",
+      "count": 22
+    },
+    "tests": {
+      "file": "src/components/social/GlassVoiceWaveform.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-social-glassvoicewaveform/desktop.png",
+      "components-social-glassvoicewaveform/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass, but the style prop overrides it with a hard-coded near-transparent gradient (rgba 255 at .105 to .018), a border and a shadow (lines 611-619). Participant cards use createGlassStyle().background plus a hard-coded slate rgba border and shadow. Activity bars are hard-coded rgba(71,85,105) slate. It uses the @/icons Mic/MicOff, which is good.",
+    "motion": "framer-motion per bar. With maxBars=32 per participant this produces hundreds of motion.divs (the certification counted 325 'glass' elements). The RAF loop calls setAudioData every frame while realTimeMode is on. Transitions are gated by shouldAnimate.",
+    "a11y": "Better than its siblings: the participant select is a real <button> with aria-label, the mute toggle is labelled and has an aria-label, and icons are aria-hidden. There is still no live region for who is speaking. The waveform is inside the button, so it is announced as part of the name.",
+    "api": "forwardRef. The participants prop is frozen into state (line 101). It sorts state in place during render (line 650, mutating). smoothing, sensitivity and animationSpeed are fine.",
+    "ssr": "Has 'use client'. Clean.",
+    "fake_complexity": "No Web Audio/AnalyserNode. Waveforms are sin plus Math.random ('Generate realistic audio waveform data', lines 111-132), and realTimeMode randomly toggles who is speaking. Without realTimeMode it shows a static synthetic shape.",
+    "duplicates": [
+      "interactive/GlassVoiceInput",
+      "voice/VoiceGlassControl",
+      "advanced/GlassSpatialAudio",
+      "media audio visualizers"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 3,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 5,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 6,
+      "production": 2
+    },
+    "overall": 3.4,
+    "disposition": "REDESIGN",
+    "target": "GlassAudioLevel/GlassWaveform primitive fed by a real level/AnalyserNode prop + a participant-row recipe",
+    "flagship_candidate": false,
+    "justification": "A level meter or waveform is a legitimate media primitive, and this file's button semantics are the best in the social folder. However, the data is entirely synthetic, it renders hundreds of framer-motion nodes, it mutates state during render, and it overrides its own material with hard-coded rgba. Redesign it as a small controlled waveform/level component that takes real audio levels (or an AnalyserNode), drawn on canvas or SVG, and drop the simulation.",
+    "evidence": [
+      "src/components/social/GlassVoiceWaveform.tsx:101",
+      "src/components/social/GlassVoiceWaveform.tsx:111-132",
+      "src/components/social/GlassVoiceWaveform.tsx:135-167",
+      "src/components/social/GlassVoiceWaveform.tsx:298-333",
+      "src/components/social/GlassVoiceWaveform.tsx:488-493",
+      "src/components/social/GlassVoiceWaveform.tsx:611-619",
+      "src/components/social/GlassVoiceWaveform.tsx:650",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-social-glassvoicewaveform/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 243 with std 18; mobile mean is 240 with std 33 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "SpatialComputingEngine",
+    "file": "src/components/spatial/SpatialComputingEngine.tsx",
+    "lines": 765,
+    "category": "experimental/spatial",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/spatial/SpatialComputingEngine.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/spatial/SpatialComputingEngine.test.tsx",
+      "count": 4
+    },
+    "screenshots": [
+      "components-spatial-spatialcomputingengine/desktop.png",
+      "components-spatial-spatialcomputingengine/mobile.png"
+    ],
+    "material_impl": "Not a glass surface. It is a motion.div wrapper with CSS-var dot overlays. The debug HUD uses white text on a light primary surface.",
+    "motion": "Six framer useSprings. enablePhysics defaults to true and starts a RAF loop that calls updateSpatialPosition -> setCurrentPosition (a new object) every frame, and the effect re-subscribes each frame because applyPhysics depends on currentPosition (lines 487-559). The result is 60fps re-renders forever, by default. useReducedMotion is called but never used (line 200). The global '@keyframes pulse' name collides with other libraries.",
+    "a11y": "N/A wrapper. Pointer and touch listeners give no keyboard parity.",
+    "api": "React.FC with no ref, className only. VRGlassComponent, ARGlassComponent, HoloGlassComponent and useSpatialTracking are defined but not root-exported. useSpatialTracking is a stub.",
+    "ssr": "Has 'use client'. However, useState(detectSpatialContext()) is non-lazy and reads window.innerWidth during render (lines 176, 203-205), so it throws ReferenceError on server render. On mount it calls navigator.xr.requestSession without a user gesture (lines 246-285). That fails silently, or on a headset tries to enter an immersive session. getViewerPose is passed a framebuffer instead of a reference space (line 269).",
+    "fake_complexity": "Self-declared '@demo DEMO / EXPERIMENTAL ... NOT backed by a real WebXR runtime' (lines 8-11). Gesture 'recognition' is pointerdown=tap and touches.length==2=pinch. Anchors are setTimeout(5000). 'Physics' clamps y to 0.",
+    "duplicates": [
+      "advanced/GlassSpatialAudio",
+      "three/ subpath 3D components",
+      "LiquidGlassGPU / parallax wrappers"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 1,
+      "usability": 1,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 1,
+      "performance": 1,
+      "docs": 3,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.2,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a self-admitted mock exported from the package root. It crashes SSR via window access in render, re-renders at 60fps by default through a no-op gravity loop (the only story sets enablePhysics={false}, which hides this), requests an XR session on mount without user activation, and misuses the WebXR API. It contributes nothing to a glass design system. Remove it from the public API and from the certification set.",
+    "evidence": [
+      "src/components/spatial/SpatialComputingEngine.tsx:8-11",
+      "src/components/spatial/SpatialComputingEngine.tsx:143-182",
+      "src/components/spatial/SpatialComputingEngine.tsx:200",
+      "src/components/spatial/SpatialComputingEngine.tsx:203-205",
+      "src/components/spatial/SpatialComputingEngine.tsx:246-285",
+      "src/components/spatial/SpatialComputingEngine.tsx:487-559",
+      "src/components/spatial/SpatialComputingEngine.stories.tsx:44",
+      "src/index.ts:605",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-spatial-spatialcomputingengine/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 245 with std 13; mobile mean is 243 with std 21 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "SpeedDial (+ GlassSpeedDial)",
+    "file": "src/components/speed-dial/SpeedDial.tsx",
+    "lines": 337,
+    "category": "button/fab",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/speed-dial/SpeedDial.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/speed-dial/SpeedDial.test.tsx",
+      "count": 7
+    },
+    "screenshots": [
+      "components-speed-dial-speeddial/desktop.png",
+      "components-speed-dial-speeddial/mobile.png"
+    ],
+    "material_impl": "CSS module (SpeedDial.module.css) with tokens throughout: --aura-color-glass-surface, --aura-glass-neutral-level2-backdrop-blur, --glass-filter-base and semantic colour vars. This is the cleanest material in the shard. Solid variants map to semantic tokens. GlassSpeedDial (glass=true) is not exported from root (src/index.ts:805 exports only SpeedDial), so the glass variant is unreachable unless glass is passed manually.",
+    "motion": "CSS transitions on motion tokens with @media (prefers-reduced-motion) overrides in all three CSS modules. Staggered 30ms delays. useReducedMotion is imported but unused, which is fine because CSS handles it.",
+    "a11y": "The FAB is a real button with aria-expanded, but aria-haspopup='true' implies a menu and there is no role=menu/menuitem or roving focus. The actions wrapper is aria-hidden={!open} while the actions keep tabIndex=0 (SpeedDialAction.tsx:132), so hidden but focusable elements exist when closed (an axe aria-hidden-focus violation). The global Escape listener is always attached. Focus does not move into the actions on open or return on close. ariaLabel is optional, so an icon-only FAB can ship without a name.",
+    "api": "forwardRef, controlled/uncontrolled open, direction, size, positionStrategy and showBackdrop, which is MUI-like and sensible. Bug: each child's own onClick is overwritten by handleActionClick (line 277), so per-action onClick props (the natural API, as used in stories via {...action}) never fire, and only onActionClick(index) works. The position type includes intent/elevation/tier (types.ts:87-93), which resolvePositionStyle would dump into inline style. color 'info' is in the class map but not the type. ContrastGuard and ANIMATION imports are dead.",
+    "ssr": "Has 'use client'. window and document are only touched in effects.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "button/GlassFab"
+    ],
+    "scores": {
+      "visual": 6,
+      "material": 7,
+      "usability": 5,
+      "api": 5,
+      "responsive": 6,
+      "a11y": 4,
+      "motion": 7,
+      "consistency": 7,
+      "performance": 8,
+      "docs": 5,
+      "storybook": 4,
+      "production": 5
+    },
+    "overall": 5.6,
+    "disposition": "POLISH",
+    "target": "Merge GlassFab as the trigger; export GlassSpeedDial",
+    "flagship_candidate": false,
+    "justification": "This is structurally the healthiest component in the shard: token-driven CSS modules, real reduced-motion support, a controlled/uncontrolled API and a forwardRef. It needs targeted fixes, not a rewrite. Fix it by chaining child onClick, applying the menu/menuitem pattern with focus management, making closed actions inert or tabIndex -1, requiring an accessible name, removing junk position keys, and exporting the glass variant. It should share its trigger with GlassFab.",
+    "evidence": [
+      "src/components/speed-dial/SpeedDial.tsx:16-18",
+      "src/components/speed-dial/SpeedDial.tsx:208-228",
+      "src/components/speed-dial/SpeedDial.tsx:262",
+      "src/components/speed-dial/SpeedDial.tsx:270-287",
+      "src/components/speed-dial/SpeedDial.tsx:297",
+      "src/components/speed-dial/types.ts:79-94",
+      "src/components/speed-dial/SpeedDial.module.css:44-54",
+      "src/components/speed-dial/SpeedDial.module.css:178-184",
+      "src/index.ts:805",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddial/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 243 with std 12; mobile mean is 242 with std 19 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "SpeedDialAction",
+    "file": "src/components/speed-dial/SpeedDialAction.tsx",
+    "lines": 157,
+    "category": "button/fab",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/speed-dial/SpeedDialAction.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/speed-dial/SpeedDialAction.test.tsx",
+      "count": 9
+    },
+    "screenshots": [
+      "components-speed-dial-speeddialaction/desktop.png",
+      "components-speed-dial-speeddialaction/mobile.png"
+    ],
+    "material_impl": "Tokenised CSS module (actionGlass uses --aura-color-glass-surface and the level2 blur). The tooltip is a glass chip with tokens. The transition curve is hard-coded at 220ms rather than tokenised.",
+    "motion": "CSS transform/opacity with stagger. There is a reduced-motion media query.",
+    "a11y": "Uses a div with role=button and a manual Enter/Space handler instead of <button>. tabIndex=0 even when the dial is closed. Touch targets are 32/40/48px (small and medium are under 44). The tooltip is not linked via aria-describedby but does serve as the accessible name.",
+    "api": "forwardRef. tooltip and tooltipTitle are aliases. The animationConfig, disableAnimation and motionSensitivity props are declared in types and unused. totalActions is unused in getPosition.",
+    "ssr": "Clean.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "Tooltip primitives",
+      "GlassFab"
+    ],
+    "scores": {
+      "visual": 6,
+      "material": 7,
+      "usability": 5,
+      "api": 5,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 7,
+      "consistency": 7,
+      "performance": 9,
+      "docs": 5,
+      "storybook": 4,
+      "production": 5
+    },
+    "overall": 5.4,
+    "disposition": "POLISH",
+    "target": "SpeedDial (compound subcomponent SpeedDial.Action)",
+    "flagship_candidate": false,
+    "justification": "Solid token usage, but it should be a real <button role=menuitem> that is inert when closed, at least 44px on touch, with its tooltip wired via the shared Tooltip primitive and dead props removed. Keep it as a compound subcomponent of SpeedDial rather than an independent root export.",
+    "evidence": [
+      "src/components/speed-dial/SpeedDialAction.tsx:128-149",
+      "src/components/speed-dial/SpeedDialAction.tsx:132",
+      "src/components/speed-dial/SpeedDialAction.module.css:44-60",
+      "src/components/speed-dial/types.ts:240-255",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialaction/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 245 with std 7; mobile mean is 245 with std 7 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "SpeedDialIcon",
+    "file": "src/components/speed-dial/SpeedDialIcon.tsx",
+    "lines": 90,
+    "category": "button/fab",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/speed-dial/SpeedDialIcon.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/speed-dial/SpeedDialIcon.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-speed-dial-speeddialicon/desktop.png",
+      "components-speed-dial-speeddialicon/mobile.png"
+    ],
+    "material_impl": "No material. A plus or minus SVG with currentColor.",
+    "motion": "A CSS 45-degree rotate or crossfade on motion tokens, with reduced motion handled.",
+    "a11y": "The SVGs lack aria-hidden. They are fine because they sit in a labelled button, but they should be marked decorative.",
+    "api": "forwardRef, icon and openIcon. Uses hasOwnProperty to detect openIcon, which is odd but works. The default 'open' icon is a minus sign, while the rotate behaviour yields an x, so the two modes are inconsistent.",
+    "ssr": "Clean.",
+    "fake_complexity": "None.",
+    "duplicates": [
+      "icons subpath Plus/Close"
+    ],
+    "scores": {
+      "visual": 6,
+      "material": 5,
+      "usability": 6,
+      "api": 6,
+      "responsive": 7,
+      "a11y": 5,
+      "motion": 7,
+      "consistency": 7,
+      "performance": 9,
+      "docs": 5,
+      "storybook": 4,
+      "production": 6
+    },
+    "overall": 5.8,
+    "disposition": "CONSOLIDATE",
+    "target": "SpeedDial (internal subcomponent, not a root export)",
+    "flagship_candidate": false,
+    "justification": "A fine tiny internal piece, but it does not deserve a root export, its own certification target and separate stories. Make it SpeedDial.Icon or an internal detail, and use the package icon set instead of inline SVGs.",
+    "evidence": [
+      "src/components/speed-dial/SpeedDialIcon.tsx:8-30",
+      "src/components/speed-dial/SpeedDialIcon.tsx:43-60",
+      "src/index.ts:807",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-speed-dial-speeddialicon/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 245 with std 7; mobile mean is 245 with std 9 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  },
+  {
+    "name": "AuraGlassClientBoundary",
+    "file": "src/components/ssr/AuraGlassClientBoundary.tsx",
+    "lines": 27,
+    "category": "ssr/utility",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ssr/AuraGlassClientBoundary.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "",
+      "count": 0
+    },
+    "screenshots": [],
+    "material_impl": "N/A (non-visual).",
+    "motion": "N/A.",
+    "a11y": "N/A.",
+    "api": "Takes children and fallback. Not exported from the ./ssr or ./client subpaths where consumers would look for it.",
+    "ssr": "Defeats its own purpose. useState(() => isBrowser()) (line 14) is true on the first client render, so the client renders children while the server rendered the fallback, which causes a hydration mismatch error in React 18/19. The fix is useState(false) plus a set-in-effect, or useSyncExternalStore.",
+    "fake_complexity": "None, but the story text claims it 'proves that the client child replaces the server fallback after hydration'. Storybook does no SSR, so it proves nothing.",
+    "duplicates": [
+      "utils/env isBrowser helpers",
+      "any ClientOnly/NoSSR patterns in consumers"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 4,
+      "api": 5,
+      "responsive": 5,
+      "a11y": 5,
+      "motion": 5,
+      "consistency": 5,
+      "performance": 8,
+      "docs": 3,
+      "storybook": 2,
+      "production": 2
+    },
+    "overall": 3.0,
+    "disposition": "POLISH",
+    "target": "Move to ./ssr subpath; fix hydration logic; add SSR test",
+    "flagship_candidate": false,
+    "justification": "A ClientOnly boundary is useful for a library with many browser-only components. However, this implementation triggers exactly the hydration mismatch it exists to prevent, because it initialises from isBrowser() instead of false, and nothing tests it under renderToString plus hydrateRoot. It is a small fix with high value. Fix it, add an SSR test, and export it from ./ssr.",
+    "evidence": [
+      "src/components/ssr/AuraGlassClientBoundary.tsx:14-23",
+      "src/components/ssr/AuraGlassClientBoundary.stories.tsx:12-14",
+      "src/index.ts:916"
+    ],
+    "screenshot_review": "No certification screenshot exists for this target. It is uncertified visually."
+  },
+  {
+    "name": "GlassConnectionStatus",
+    "file": "src/components/status/GlassConnectionStatus.tsx",
+    "lines": 340,
+    "category": "feedback/status",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/status/GlassConnectionStatus.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/status/GlassConnectionStatus.test.tsx",
+      "count": 5
+    },
+    "screenshots": [
+      "components-status-glassconnectionstatus/desktop.png",
+      "components-status-glassconnectionstatus/mobile.png"
+    ],
+    "material_impl": "OptimizedGlass pill with an elevation prop (shared primitive, which is good). Status colours and layout use raw Tailwind classes (bg-green-500, text-green-500, w-5 h-5, 'fixed top-4 right-4', z-50, animate-ping). The shipped storybook-utility-shim does not define .fixed/.top-4/.w-5/.text-green-500, so in consumer apps the position prop does nothing and icons are unsized and uncoloured. bg-green-500 is remapped by glass.css to a 24% success mix, but only inside [data-glass-component].",
+    "motion": "Tailwind animate-pulse/animate-ping with no reduced-motion gating in the component (it relies on the global CSS, if present).",
+    "a11y": "role=status, aria-live=polite and aria-atomic, which is good. Status is conveyed by text plus icon.",
+    "api": "forwardRef with HTML passthrough. status 'auto' or forced, labels, size and elevation are sensible. The autoHideDelay setTimeout is never cleared (line 138). onStatusChange in the effect deps re-subscribes the listeners whenever the parent passes an inline callback.",
+    "ssr": "Has 'use client'. Navigator is accessed in an effect and checkConnection has a window guard. The initial 'online' state avoids a hydration mismatch.",
+    "fake_complexity": "None. It really uses navigator.onLine and the NetworkInformation effectiveType.",
+    "duplicates": [
+      "feedback/GlassToast offline patterns",
+      "visual-feedback/StateIndicator",
+      "GlassBadge/StatusDot"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 5,
+      "api": 6,
+      "responsive": 4,
+      "a11y": 6,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 2,
+      "production": 4
+    },
+    "overall": 4.4,
+    "disposition": "POLISH",
+    "target": "Export from root (or ./app-shell) after replacing Tailwind classes with glass- tokens",
+    "flagship_candidate": false,
+    "justification": "The behaviour is real and useful (online, offline and slow detection with a live region), but the styling depends on unprefixed Tailwind utilities the package does not ship, so positioning and icon sizing silently break outside Storybook. It is also not exported from root, so consumers cannot reach it, and it has only one story. Swap to glass- utilities and tokens, clear the timer, export it, and add offline/slow stories.",
+    "evidence": [
+      "src/components/status/GlassConnectionStatus.tsx:132-140",
+      "src/components/status/GlassConnectionStatus.tsx:173-192",
+      "src/components/status/GlassConnectionStatus.tsx:195",
+      "src/components/status/GlassConnectionStatus.tsx:262-268",
+      "src/styles/storybook-utility-shim.css",
+      "src/styles/glass.css:2006-2015",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-status-glassconnectionstatus/desktop.png"
+    ],
+    "screenshot_review": "Image rendering through the Read tool returned empty in this session, so the review used grayscale pixel statistics. Desktop luminance mean is 244 with std 9; mobile mean is 244 with std 12 (0-255). A std under about 20 on a mean around 245 means a near-white glass surface on a near-white canvas with very little tonal separation. That is the washed-out white-on-white look, not a premium layered material. The visual score is capped accordingly."
+  }
+]

@@ -1,0 +1,958 @@
+[
+  {
+    "name": "GlassPageBuilder",
+    "file": "src/components/cms/GlassPageBuilder.tsx",
+    "lines": 449,
+    "category": "cms / workflow app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassPageBuilder.stories.tsx",
+      "count": 5,
+      "notes": "Story decorator force-overrides every button with !important background/color/border (stories.tsx:9-25), so screenshots show story CSS, not component styling. Docs blurb claims 'revolutionary', 'Full history management with keyboard shortcuts', 'Auto-save every 30s' - shortcuts are no-ops."
+    },
+    "tests": {
+      "file": "src/components/cms/GlassPageBuilder.test.tsx",
+      "notes": "Templated smoke/axe/className/snapshot tests only; className test passes via container.firstChild fallback; nothing exercises drag/drop, undo, save, publish."
+    },
+    "screenshots": [
+      "components-cms-glasspagebuilder"
+    ],
+    "material_impl": "Glass primitive only inside child panels; toolbar/status bar use glass-surface-subtle/primary utility classes; GlassPageBuilder.css adds bespoke .glass-cms-control-frost with hard-coded rgba(255,255,255,.24), blur(16px) saturate(1.5) and !important (GlassPageBuilder.css:3-15). Mixed Tailwind (bg-white/15, rounded-md, px-3) and glass-* utilities in same className strings (GlassPageBuilder.tsx:155-191). Emoji used as icons throughout.",
+    "motion": "transition-colors only; useReducedMotion imported but unused (line 17). No motion system.",
+    "a11y": "Icon-only undo/redo buttons rely on title only (163,175) - no aria-label; breakpoint buttons not a radiogroup/aria-pressed; Grid/Snap toggles lack aria-pressed; tablet and mobile share the same 📱 icon (54-55). h-screen root traps layout. Keyboard shortcuts preventDefault Ctrl+Z/Y/S/P globally on document but do nothing (312-342) - breaks browser save/print and undo in any input on the page.",
+    "api": "Plain React.FC, no forwardRef, no style passthrough. onSave/onPreview/onPublish props are accepted but NEVER called (326-334, 247-250 uses alert('Page published! (Demo)')). initialData typed loosely and passed through as Partial<PageExportData> cast. Hard-coded localStorage key 'glass-page-builder-autosave' with auto-load on mount when no initialData (299) - multiple builders on a page collide.",
+    "ssr": "'use client'; window/localStorage accessed only in effects/handlers (OK). Imports a global CSS file from a component (line 18) - breaks Next.js pages-router consumers that disallow global CSS imports from node_modules components.",
+    "fake_complexity": "High. Publish = alert. Keyboard shortcuts = commented-out no-ops. Status bar hard-codes 'Zoom: 100%' and `Grid: ${false ? 'ON':'OFF'}` (436) regardless of state. 'Auto-save: ON' static text. Snap-to-grid toggles a flag nothing reads. Version badge 'v1.0' hard-coded. Auto-save interval derived from ANIMATION.DURATION.slower*42 (=29.4s) - animation token abused as timer.",
+    "duplicates": [
+      "GlassFormBuilder (interactive)",
+      "GlassIntelligentFormBuilder (ai)",
+      "GlassPatternBuilder",
+      "GlassQueryBuilder",
+      "CollaborativeGlassWorkspace (canvas+properties+sidebar shell)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "A design-system library should not ship a half-built page-builder application. Its public callbacks are never invoked, Publish is an alert(), keyboard shortcuts hijack Ctrl+S/Z/P and do nothing, the status bar is static text, and the underlying provider's moveComponent is a no-op so reordering silently fails. Its rendered button styling in certification comes from a story decorator with !important overrides, so the screenshot is not evidence of component quality. Combined with the new Function() script execution in GlassCanvas, this is a liability. If a builder is strategically wanted, it belongs in a separate example app built on real primitives (Toolbar, SegmentedControl, TreeView, Inspector), not in the 5.0 core package.",
+    "evidence": [
+      "src/components/cms/GlassPageBuilder.tsx:247-250",
+      "src/components/cms/GlassPageBuilder.tsx:312-342",
+      "src/components/cms/GlassPageBuilder.tsx:436",
+      "src/components/cms/GlassPageBuilder.tsx:93-101",
+      "src/components/cms/GlassPageBuilder.tsx:299",
+      "src/components/cms/GlassPageBuilder.css:3-15",
+      "src/components/cms/GlassPageBuilder.stories.tsx:9-25",
+      "src/components/cms/GlassDragDropProvider.tsx:659-665"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassCanvas",
+    "file": "src/components/cms/GlassCanvas.tsx",
+    "lines": 611,
+    "category": "cms / workflow app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassCanvas.stories.tsx",
+      "count": 1,
+      "notes": "Single empty-state story; never shows rendered components, selection, or drop zones."
+    },
+    "tests": {
+      "file": "src/components/cms/GlassCanvas.test.tsx",
+      "notes": "Templated; focus tests guarded by `if (element)` so they pass vacuously; no render-of-components test."
+    },
+    "screenshots": [
+      "components-cms-glasscanvas (byte-identical to components-cms-glassdragdropprovider - md5 7c291021...)"
+    ],
+    "material_impl": "Wraps Glass primitive, then overrides inner surface with inline backgroundColor 'rgba(255, 255, 255, 0.18)' (517); selection/drop states use raw Tailwind blue (bg-blue-500, ring-blue-500, border-blue-500) not tokens (69-70, 406, 535).",
+    "motion": "Dynamic Tailwind arbitrary classes built with template literals `duration-[${ANIMATION.DURATION.fast}ms]` (64, 405, 525, 534) - JIT cannot see these, so the classes do not exist. useReducedMotion called but result unused (442).",
+    "a11y": "role='main' on an embeddable canvas (488) - conflicts with page landmarks. Canvas items are draggable divs with onClick/onDoubleClick and no tabIndex/role/keyboard handlers - unusable by keyboard. Empty state uses emoji and tells users 'Use Ctrl+Z to undo' which the builder does not implement. Inline edit input has no label.",
+    "api": "React.FC, className + data-testid only; no forwardRef/style. Depends on useDragDrop context; silently falls back to a no-op default context when used outside a provider (GlassDragDropProvider.tsx:923-926).",
+    "ssr": "'use client'; no module-scope DOM access.",
+    "fake_complexity": "SECURITY: button component executes arbitrary user-entered strings via `new Function(onClickScript)()` (315) with default prop 'alert(\"Button clicked!\")' (GlassDragDropProvider.tsx:374) - stored XSS if page JSON is imported/shared (importPage accepts any JSON). Every component's full props object is spread into inline style (107-109), leaking 'content', 'text', 'onClick' into CSS. ComponentRenderer passes the parent's isSelected down to all children (140,177,213,378) so selecting a container highlights every descendant. Drop zones never set dragOverTarget, so 'before/after' active states never light up (setDragOverTarget only resets).",
+    "duplicates": [
+      "GlassDrawingCanvas",
+      "CollaborativeGlassWorkspace internal CollaborativeGlassCanvas",
+      "GlassDraggable"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This canvas runs code with new Function(), puts all component data into inline styles, highlights every child when one is selected, has drop zones that never activate, and builds Tailwind classes at runtime that never get generated. It cannot be used from the keyboard, and it claims role=main. Polishing would not fix it. Remove it along with the CMS suite.",
+    "evidence": [
+      "src/components/cms/GlassCanvas.tsx:299-321",
+      "src/components/cms/GlassCanvas.tsx:107-109",
+      "src/components/cms/GlassCanvas.tsx:136-143",
+      "src/components/cms/GlassCanvas.tsx:64",
+      "src/components/cms/GlassCanvas.tsx:488",
+      "src/components/cms/GlassCanvas.tsx:517",
+      "src/components/cms/GlassDragDropProvider.tsx:374",
+      "reports/glassmorphism-storybook-visual-certification/screenshots/components-cms-glasscanvas/desktop.png md5 7c291021742af453be66796a6f9a08a9 == glassdragdropprovider/desktop.png"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassComponentPalette",
+    "file": "src/components/cms/GlassComponentPalette.tsx",
+    "lines": 300,
+    "category": "cms / workflow app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassComponentPalette.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/cms/GlassComponentPalette.test.tsx",
+      "notes": "Templated smoke/axe/snapshot."
+    },
+    "screenshots": [
+      "components-cms-glasscomponentpalette"
+    ],
+    "material_impl": "Glass primitive wrapper plus repeated bespoke inline rgba: background 'rgba(255,255,255,.14)', border '1px solid rgba(148,163,184,.28)', inset shadow rgba(255,255,255,.24) (57-60, 96-104, 213-218). Emoji icons for categories and items.",
+    "motion": "transition-colors/transform; rotate-90 chevron; no reduced-motion (hook imported, unused).",
+    "a11y": "Palette items are draggable divs, not focusable, no keyboard add path. Category toggle buttons lack aria-expanded. Collapse button glyph '◀' with title only. Search input has placeholder but no label; clear button '✕' has no aria-label. Duplicate class tokens 'glass-focus glass-touch-target' repeated twice (95, 187, 212).",
+    "api": "React.FC; className/data-testid/collapsed/onToggleCollapse. Library list is not injectable - comes from provider's hard-coded defaultComponentLibrary.",
+    "ssr": "Safe.",
+    "fake_complexity": "onMouseDown starts a 'drag' state on plain click (42-44) leaving isDragging=true until a drop; harmless-looking but leaves the canvas in drag-highlight state.",
+    "duplicates": [
+      "GlassCommandPalette (search list)",
+      "GlassTreeView / Accordion (collapsible categories)"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This panel only works inside the GlassPageBuilder app. Its glass is hand-written inline rgba, it uses emoji as icons, and it can't be used from the keyboard. Nothing here can be reused that the library doesn't already offer better (search field, accordion, list). Remove it together with the CMS suite.",
+    "evidence": [
+      "src/components/cms/GlassComponentPalette.tsx:42-60",
+      "src/components/cms/GlassComponentPalette.tsx:93-104",
+      "src/components/cms/GlassComponentPalette.tsx:228-245"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassDragDropProvider (DragDropProvider)",
+    "file": "src/components/cms/GlassDragDropProvider.tsx",
+    "lines": 926,
+    "category": "cms / state provider",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassDragDropProvider.stories.tsx",
+      "count": 1,
+      "notes": "Story just renders GlassCanvas inside; screenshot byte-identical to GlassCanvas story."
+    },
+    "tests": {
+      "file": "src/components/cms/GlassDragDropProvider.test.tsx",
+      "notes": "Templated; zero tests of add/move/delete/undo logic."
+    },
+    "screenshots": [
+      "components-cms-glassdragdropprovider (duplicate of glasscanvas)"
+    ],
+    "material_impl": "Non-visual; renders wrapper div with class 'glass-dragdrop-provider'. Default library uses hard-coded via.placeholder.com image URL (339) - a third-party domain that has been unreliable.",
+    "motion": "n/a",
+    "a11y": "n/a (no keyboard DnD model at all; HTML5 DnD only, no touch support).",
+    "api": "forwardRef + HTMLAttributes passthrough (good). Context value object recreated every render (826-856) - every consumer re-renders on any state change. componentLibrary not configurable via props. useDragDrop returns a silent no-op default when no provider (923-926) - misuse is invisible.",
+    "ssr": "Safe.",
+    "fake_complexity": "moveComponent is a stub: '// Implementation for moving components within the tree' then saveToHistory() (659-665) - all element reordering silently does nothing. addComponent 'inside' mutates existing state object (target.children.push, 548) - violates immutability, breaks history snapshots (history stores shallow copies sharing mutated children). deleteComponent also mutates component.children (606). Nested children are never rendered as roots but also never flagged; duplicateComponent always appends to root. updateComponent does not record history, so property edits are not undoable. onDrop closes over dragDropState but addComponent/moveComponent are declared after it and omitted from deps (494-514).",
+    "duplicates": [
+      "GlassDraggable",
+      "any dnd-kit style sortable in library"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 2,
+      "api": 4,
+      "responsive": 1,
+      "a11y": 1,
+      "motion": 1,
+      "consistency": 3,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "The page-builder state engine has a stub move operation, mutates state in place, leaves property edits out of undo, can't be configured, and has no keyboard or touch drag-and-drop. It is application code, not a design-system primitive. If 5.0 wants drag-and-drop, it should provide a headless sortable primitive (or wrap dnd-kit) with proper keyboard semantics. This file is not a starting point for that.",
+    "evidence": [
+      "src/components/cms/GlassDragDropProvider.tsx:659-665",
+      "src/components/cms/GlassDragDropProvider.tsx:544-549",
+      "src/components/cms/GlassDragDropProvider.tsx:604-608",
+      "src/components/cms/GlassDragDropProvider.tsx:569-596",
+      "src/components/cms/GlassDragDropProvider.tsx:826-856",
+      "src/components/cms/GlassDragDropProvider.tsx:923-926",
+      "src/components/cms/GlassDragDropProvider.tsx:339"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassPageStructure",
+    "file": "src/components/cms/GlassPageStructure.tsx",
+    "lines": 472,
+    "category": "cms / workflow app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassPageStructure.stories.tsx",
+      "count": 1,
+      "notes": "Empty-state only."
+    },
+    "tests": {
+      "file": "src/components/cms/GlassPageStructure.test.tsx",
+      "notes": "Templated."
+    },
+    "screenshots": [
+      "components-cms-glasspagestructure"
+    ],
+    "material_impl": "Glass primitive wrapper; raw Tailwind bg-blue-500/20 text-blue-100 selection (91); emoji icons.",
+    "motion": "rotate chevron transition; no reduced-motion (hook imported unused).",
+    "a11y": "Tree is not a tree: no role='tree'/'treeitem', aria-expanded, aria-level, roving tabindex, or arrow-key nav. Expand button is 16x16 (w-4 h-4) with no label. Duplicate/Delete actions appear only on mouseenter (87-88, 150) - unreachable by keyboard/touch. 'Hidden' indicator shows for every component because `!component.props.visible` is true when prop absent (142).",
+    "api": "React.FC; className/collapsed/onToggleCollapse/data-testid (testid dropped in collapsed branch, 308).",
+    "ssr": "document.createElement in handlers only - OK.",
+    "fake_complexity": "Children inherit parent isSelected (184). Export/import uses alert() for errors (276); import accepts unvalidated JSON (feeds the new Function() sink in GlassCanvas). Tree filter only matches roots.",
+    "duplicates": [
+      "GlassTreeView (data-display)",
+      "TreeView (tree-view)",
+      "GlassFileTree (interactive)",
+      "GlassTreeSelect"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is the fifth tree implementation in the library and the weakest one. It has no tree semantics, its row actions only appear on hover, every component shows a 'Hidden' badge because of a logic bug, and its import path is unvalidated. Remove it with the CMS suite, and point any tree need to the single consolidated TreeView.",
+    "evidence": [
+      "src/components/cms/GlassPageStructure.tsx:83-108",
+      "src/components/cms/GlassPageStructure.tsx:142-146",
+      "src/components/cms/GlassPageStructure.tsx:150",
+      "src/components/cms/GlassPageStructure.tsx:263-283"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassPropertyPanel",
+    "file": "src/components/cms/GlassPropertyPanel.tsx",
+    "lines": 520,
+    "category": "cms / workflow app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cms/GlassPropertyPanel.stories.tsx",
+      "count": 1,
+      "notes": "No-selection empty state only; the actual inspector UI is never shown in Storybook or certification."
+    },
+    "tests": {
+      "file": "src/components/cms/GlassPropertyPanel.test.tsx",
+      "notes": "Templated."
+    },
+    "screenshots": [
+      "components-cms-glasspropertypanel (empty state only)"
+    ],
+    "material_impl": "Glass primitive wrapper; native unstyled inputs/selects/checkbox/range (no GlassInput/GlassSelect/GlassSwitch reuse); raw Tailwind bg-white/10, bg-red-500/20 text-red-200, text-blue-200 border-blue-400 (215-216, 367).",
+    "motion": "transition-colors only; reduced-motion hook imported unused.",
+    "a11y": "Labels are not associated with inputs (no htmlFor/id, 196-198) - every field is unlabeled to AT. Tabs are buttons with no role=tablist/tab/aria-selected. Boolean field label is literally 'Enabled' for every boolean.",
+    "api": "React.FC; `any` used for value/onChange. Filter list duplicated verbatim twice (382-420 and 435-472).",
+    "ssr": "Handlers only.",
+    "fake_complexity": "Exposes an 'On Click (JavaScript)' text field in Advanced tab that feeds new Function() execution in GlassCanvas. Image upload stores entire file as data URL in state/localStorage. Fallback image points at via.placeholder.com.",
+    "duplicates": [
+      "GlassKeyValueEditor",
+      "GlassFormBuilder",
+      "CollaborativeGlassWorkspace internal 'Properties Editor'"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 3,
+      "api": 2,
+      "responsive": 3,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 1,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "It doesn't use the library's own form controls. None of its labels are attached to their inputs. It ships a field for entering JavaScript that gets executed, and it was only certified on its empty state. A premium design system should show an 'Inspector' pattern as a composed recipe of real GlassField components, not ship this.",
+    "evidence": [
+      "src/components/cms/GlassPropertyPanel.tsx:194-201",
+      "src/components/cms/GlassPropertyPanel.tsx:356-375",
+      "src/components/cms/GlassPropertyPanel.tsx:382-472",
+      "src/components/cms/GlassDragDropProvider.tsx:390"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "CollaborativeGlassWorkspace",
+    "file": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+    "lines": 1547,
+    "category": "collaboration / demo app",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/CollaborativeGlassWorkspace.stories.tsx",
+      "count": 7
+    },
+    "tests": {
+      "file": "src/components/collaboration/CollaborativeGlassWorkspace.test.tsx"
+    },
+    "screenshots": [
+      "components-collaboration-collaborativeglassworkspace"
+    ],
+    "material_impl": "Mixed: createGlassStyle({intent:'neutral',elevation:'level2'}) on panels (759, 997, 1032, 1133) BUT a 110-line inline <style> block re-declares .workspace-glass-panel with hard-coded rgba(255,255,255,0.18) and blur(24px) saturate(1.45) brightness(1.04) contrast(1.03) (435-545), overriding the shared primitive. Avatars use raw user.color fills; GlassTeamCursors hard-codes hex #38bdf8/#c084fc/#facc15.",
+    "motion": "FAB opacity transition 160ms hard-coded (1450); spinner glass-animate-spin; no reduced-motion handling (hook imported, unused, line 31).",
+    "a11y": "role='main' + aria-live='polite' on the whole workspace (431-432) - every re-render text change would be announced; also nests a main landmark. Undo/Redo always rendered at 50% opacity regardless of disabled (783, 793). Layout menu has no menu semantics/escape/outside-click. Quick Actions buttons have no handlers. Emoji-only layout button.",
+    "api": "Function component, no forwardRef. Required props userId/userName/userEmail/userRole/userAvatar are destructured away and never used (244-247). theme, enableScreenSharing, onUserJoined, onUserLeft, onError, enableSnapping, showRulers accepted and ignored. Internal function named MultiUserGlassEditor (1020) shadows the real exported MultiUserGlassEditor - confusing.",
+    "ssr": "'use client'. Wraps in CollaborationProvider which WILL open a real WebSocket if NEXT_PUBLIC_WEBSOCKET_SERVER_URL is set, while the UI ignores provider state entirely and uses a hard-coded mock context (248-326).",
+    "fake_complexity": "Self-declared '@demo DEMO / SHOWCASE COMPONENT' (2-9). Entire collaboration context is a literal mock object (isConnected:true, 3 fake users, all actions () => {}). Canvas is a placeholder emoji with 'Click to start designing together' (1009-1015) and no click handler. Mini Map = text 'Canvas overview'. Voice chat, snapshots, undo/redo, copy/paste/delete all no-ops. Connection error Retry is () => {}.",
+    "duplicates": [
+      "GlassPageBuilder",
+      "GlassCollaborationDashboard",
+      "MultiUserGlassEditor",
+      "GlassCollaborativeCursor",
+      "GlassLiveCursorPresence",
+      "GlassUserPresence"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 3,
+      "usability": 1,
+      "api": 1,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 4,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a 1,547-line mock that ships in the root bundle. Its own header comment says it is a demo. Every action is a no-op, its user props are ignored, and its fake 'connected' state disagrees with the real provider it wraps (which may open a live socket). Exporting it from the package root signals capabilities that don't exist. At most it should move to a Storybook-only showcase or a docs example. Also: the inline <style> block is injected again for every instance, and WorkspaceFloatingActions/VoiceChatPanel/VersionControlPanel use glass-fixed (1332, 1381, 1441), so they escape any contained or compact host.",
+    "evidence": [
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:2-9",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:244-326",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:431-432",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:435-545",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:783",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:1009-1015",
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:1020",
+      "reports/audit/blocked-61.md:273-297 (gradient lightest stop alpha 0.76-0.78 and opaque dark fill >=0.50 on workspace shell and canvas)"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassTeamCursors",
+    "file": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+    "lines": 67,
+    "category": "collaboration / presence",
+    "exported_from_root": true,
+    "stories": {
+      "file": "none dedicated (rendered inside CollaborativeGlassWorkspace stories)",
+      "count": 0
+    },
+    "tests": {
+      "file": "none"
+    },
+    "screenshots": [],
+    "material_impl": "createGlassStyle for name pill + glass-backdrop-blur-md; hard-coded hex cursor colors; drop-shadow filters.",
+    "motion": "none (static).",
+    "a11y": "SVG aria-hidden; names not exposed to AT; ' mic' text suffix as voice indicator.",
+    "api": "Function, no ref/className. Users are hard-coded (Aurora/Lumen/Orbit at fixed % positions, 1216-1220) - there is no users prop.",
+    "ssr": "Safe.",
+    "fake_complexity": "Total: it renders three hard-coded fake cursors at fixed percentages. It cannot display real data.",
+    "duplicates": [
+      "GlassCollaborativeCursor (collaboration)",
+      "GlassCollaborativeCursor (social, not root-exported)",
+      "GlassLiveCursorPresence (advanced)"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 4,
+      "usability": 1,
+      "api": 1,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 3,
+      "performance": 7,
+      "docs": 1,
+      "storybook": 1,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "A publicly exported component that can only draw three fake cursors. It has no data input. Remove it. Its cursor SVG (path at 1251) looks better than GlassCollaborativeCursor's, so it could be harvested into the consolidated cursor component.",
+    "evidence": [
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:1208-1274",
+      "src/index.ts:685-689"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassTeamCursorsWithEffects",
+    "file": "src/components/collaboration/CollaborativeGlassWorkspace.tsx",
+    "lines": 47,
+    "category": "collaboration / presence",
+    "exported_from_root": true,
+    "stories": {
+      "file": "none dedicated",
+      "count": 0
+    },
+    "tests": {
+      "file": "none"
+    },
+    "screenshots": [],
+    "material_impl": "Two static rings with hard-coded rgba(56,189,248,.42)/rgba(192,132,252,.5) at fixed 48%/52% (1286-1311).",
+    "motion": "'Ripple effect' is two static circles - no animation at all.",
+    "a11y": "Decorative; not aria-hidden on the ring spans.",
+    "api": "Wrapper around GlassTeamCursors.",
+    "ssr": "Safe.",
+    "fake_complexity": "Name promises ripple/glow effects; it delivers static circles at a fixed position.",
+    "duplicates": [
+      "GlassTeamCursors",
+      "CursorGlow",
+      "GlassMagneticCursor"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 1,
+      "api": 1,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 7,
+      "docs": 1,
+      "storybook": 1,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is fake complexity. The 'ripple' and 'glow' it promises are two static circles at fixed coordinates, layered over three hard-coded fake cursors. Remove it.",
+    "evidence": [
+      "src/components/collaboration/CollaborativeGlassWorkspace.tsx:1276-1322"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassCollaborationProvider (CollaborationProvider, useCollaboration)",
+    "file": "src/components/collaboration/GlassCollaborationProvider.tsx",
+    "lines": 571,
+    "category": "collaboration / state provider",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/GlassCollaborationProvider.stories.tsx",
+      "count": 2,
+      "notes": "Stories render GlassCollaborationDashboard's demo fallback with enableRealTime off; screenshot text identical to Dashboard story ('ALO3 online ○Disconnected')."
+    },
+    "tests": {
+      "file": "src/components/collaboration/GlassCollaborationProvider.test.tsx"
+    },
+    "screenshots": [
+      "components-collaboration-glasscollaborationprovider (visually the dashboard)"
+    ],
+    "material_impl": "Non-visual. generateUserColor picks random token colors with Math.random (158-172) - non-deterministic, SSR/hydration-unstable if used during render.",
+    "motion": "n/a. Timers derived from animation tokens: heartbeat ANIMATION.DURATION.slower*25 (=17.5s, 329), reconnect cap slower*50 (=35s), cursor debounce fast/4 (=37.5ms, 394).",
+    "a11y": "n/a",
+    "api": "Two names for same thing (CollaborationProvider + GlassCollaborationProvider alias). maxUsers prop ignored. No way to inject a transport/adapter (Yjs, Liveblocks, custom) - URL comes only from env vars. Context value not memoized (538-559). data-glass-component passed to Context.Provider (562) is meaningless. useCollaboration silently returns a no-op default when no provider (143-146).",
+    "ssr": "'use client'. Reads process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_URL / WEBSOCKET_SERVER_URL inside a published library effect (284-287): in a Vite/browser bundle with no process shim this throws ReferenceError; in Next it only works if the consumer's bundler inlines env for node_modules code. Exposing a server-only env name (WEBSOCKET_SERVER_URL) in client code is a smell.",
+    "fake_complexity": "Partially real: an actual WebSocket client with backoff and heartbeat. But: no auth/token on the socket; inbound selection_update/comment_resolved/reply messages are never handled; replyToComment never sends to server (452-475); remote cursor positions are absolute viewport px with no element anchoring; current user's cursor is only broadcast if consumer calls updateCursor. Ad-hoc JSON protocol undocumented.",
+    "duplicates": [
+      "lib/ai-client.ts WS client (NEXT_PUBLIC_WS_URL)",
+      "services CollaborationService referenced in src/index.ts:919-921"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 4,
+      "api": 3,
+      "responsive": 1,
+      "a11y": 1,
+      "motion": 1,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 2,
+      "production": 3
+    },
+    "overall": 3,
+    "disposition": "REDESIGN",
+    "target": "headless presence adapter interface (subscribe/publish) consumed by a single GlassPresence/GlassCursors visual layer; transport supplied by consumer",
+    "flagship_candidate": false,
+    "justification": "This is the only file in the collaboration folder that does real work. A design system should still not own a bespoke WebSocket protocol configured through env vars. For 5.0 it should become a thin, documented adapter contract (users, cursors, comments) with a reference in-memory adapter for docs. Real transports (Liveblocks/Yjs/PartyKit or the app's own) should plug in from outside. If the team does not want to maintain an adapter, it should be removed.",
+    "evidence": [
+      "src/components/collaboration/GlassCollaborationProvider.tsx:281-371",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:284-287",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:452-475",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:538-566",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:158-172",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:143-146"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassCollaborationDashboard",
+    "file": "src/components/collaboration/GlassCollaborationDashboard.tsx",
+    "lines": 535,
+    "category": "collaboration / presence widget",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/GlassCollaborationDashboard.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/collaboration/GlassCollaborationDashboard.test.tsx"
+    },
+    "screenshots": [
+      "components-collaboration-glasscollaborationdashboard"
+    ],
+    "material_impl": "Glass primitive for collapsed/expanded shells; avatars filled with raw user.color with glass-text-primary letters (no contrast check); hard-coded demo hex colors #38bdf8/#a3e635/#f59e0b.",
+    "motion": "transition-colors only; no reduced-motion need, none wired.",
+    "a11y": "Close button '✕' without aria-label (351-356). Tabs lack tablist/tab/aria-selected. Toggle buttons (Cursors/Comments/Activity) lack aria-pressed. Status conveyed by emoji colored dots + color classes. Collapsed trigger has no aria-expanded.",
+    "api": "React.FC; className/position/fixed/showX flags. No forwardRef/style.",
+    "ssr": "Date.now() during render for active/away status (80, 291, 450) - hydration mismatch risk and no re-render over time, so 'Away' never updates.",
+    "fake_complexity": "When provider has no data it silently fabricates demo users/activities (273-280) - in production an empty room shows fake people 'Aurora/Lumen/Orbit' with example.com emails. That is a correctness bug, not a demo affordance.",
+    "duplicates": [
+      "GlassUserPresence (interactive)",
+      "GlassPresenceIndicator (social)",
+      "CollaborativeGlassWorkspace header presence",
+      "Avatar/AvatarGroup components"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 4,
+      "api": 4,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 4,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassPresence (single presence/avatar-stack + activity popover built on GlassAvatarGroup + GlassPopover/Tabs)",
+    "flagship_candidate": false,
+    "justification": "A presence pill with an activity popover is a legitimate pattern, and this widget is the most coherent visual in the collaboration folder. But it overlaps with at least three other presence components, it injects fake users in production when data is empty, it computes status with Date.now() during render, and its tabs and toggles have no ARIA. Fold its layout into one consolidated GlassPresence that uses the library's Avatar, Popover and Tabs primitives, with demo data kept in stories only.",
+    "evidence": [
+      "src/components/collaboration/GlassCollaborationDashboard.tsx:21-67",
+      "src/components/collaboration/GlassCollaborationDashboard.tsx:273-280",
+      "src/components/collaboration/GlassCollaborationDashboard.tsx:80",
+      "src/components/collaboration/GlassCollaborationDashboard.tsx:351-356",
+      "src/components/collaboration/GlassCollaborationDashboard.tsx:419-442"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassCollaborativeComments",
+    "file": "src/components/collaboration/GlassCollaborativeComments.tsx",
+    "lines": 688,
+    "category": "collaboration / annotation",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/GlassCollaborativeComments.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/collaboration/GlassCollaborativeComments.test.tsx"
+    },
+    "screenshots": [
+      "components-collaboration-glasscollaborativecomments"
+    ],
+    "material_impl": "Glass primitive for bubbles; pointer triangle hard-coded rgba(255,255,255,0.9) (296, 659) which will be wrong in dark themes; resolved border rgba(148,163,184,.8). Styles applied imperatively via refs in useEffect 'without JSX style attribute' (64-94, 312-319) while the same elements also use JSX style - inconsistent and causes a first-paint jump (unpositioned until effect).",
+    "motion": "glass-transition on dots; no reduced-motion.",
+    "a11y": "Comments can only be created by double-click on the container (413-449) - no keyboard path. Resolve button '✓' title-only. Textareas without labels. Click-outside overlay is a fixed inset div with onClick, no Escape handling. Dots labelled just 'Comment'/'Resolved comment' without author/content.",
+    "api": "React.FC; className/compact/contained/maxHeight/aria-label. Positions are absolute px relative to container - no element anchoring.",
+    "ssr": "DEMO_COMMENTS timestamps computed at module load with Date.now() (26, 35, 43) - stale and hydration-unstable.",
+    "fake_complexity": "Falls back to demo comment when provider empty (372-376). In that demo mode currentUser is null, so provider.addComment returns early (GlassCollaborationProvider.tsx:418) - new comments silently vanish. Replies are always attributed to the parent comment's author (254 'In real app, would look up by reply.userId').",
+    "duplicates": [
+      "GlassCommentThread (interactive)",
+      "GlassCollaborativeComments-like pins in GlassDrawingCanvas?"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 2,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 2,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassCommentThread (interactive) + a positioned GlassAnnotationPin primitive",
+    "flagship_candidate": false,
+    "justification": "Spatial comment pins are a valid pattern, but this version only works with a mouse. It drops comments silently in its default demo mode, credits every reply to the wrong author, and positions bubbles imperatively in a way that makes them jump. Merge the thread UI into GlassCommentThread. Pin positioning should become a small anchored-popover primitive that keyboard users can reach.",
+    "evidence": [
+      "src/components/collaboration/GlassCollaborativeComments.tsx:21-47",
+      "src/components/collaboration/GlassCollaborativeComments.tsx:64-94",
+      "src/components/collaboration/GlassCollaborativeComments.tsx:254",
+      "src/components/collaboration/GlassCollaborativeComments.tsx:372-376",
+      "src/components/collaboration/GlassCollaborativeComments.tsx:410-449",
+      "src/components/collaboration/GlassCollaborationProvider.tsx:416-419"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlassCollaborativeCursor",
+    "file": "src/components/collaboration/GlassCollaborativeCursor.tsx",
+    "lines": 112,
+    "category": "collaboration / presence",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/GlassCollaborativeCursor.stories.tsx",
+      "count": 1,
+      "notes": "Certification entry also lists src/components/social/GlassCollaborativeCursor.stories.tsx - two components share this name."
+    },
+    "tests": {
+      "file": "src/components/collaboration/GlassCollaborativeCursor.test.tsx"
+    },
+    "screenshots": [
+      "components-collaboration-glasscollaborativecursor",
+      "components-social-glasscollaborativecursor (different implementation, same name)"
+    ],
+    "material_impl": "Not glass at all: solid user.color label background with glass-text-primary text (42-44) - contrast depends on random color; SVG cursor with white stroke.",
+    "motion": "Inline `transition: all 150ms ease-out` on position (103) - no reduced-motion handling despite hook import (10).",
+    "a11y": "Overlay is pointer-events-none; names not announced; fine to be decorative but should be aria-hidden.",
+    "api": "React.FC; className/previewUsers/positionStrategy/data-testid. Copies props into state via useEffect (57-75) - extra render, and staleness check uses Date.now() only when users change so cursors never time out on their own. Comment says 30s, actual ANIMATION.DURATION.slower*50 = 35s (71).",
+    "ssr": "Safe.",
+    "fake_complexity": "Low - real rendering of provided cursor data, but viewport-absolute coordinates make it wrong whenever scroll/layout differ between clients.",
+    "duplicates": [
+      "src/components/social/GlassCollaborativeCursor.tsx (same name!)",
+      "GlassLiveCursorPresence (advanced)",
+      "GlassTeamCursors",
+      "GlassMagneticCursor/CursorGlow (unrelated effects with similar names)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 4,
+      "api": 4,
+      "responsive": 3,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "single GlassCursors/GlassLiveCursorPresence (merge with advanced/GlassLiveCursorPresence and social/GlassCollaborativeCursor)",
+    "flagship_candidate": false,
+    "justification": "At least four cursor-presence implementations exist, and two of them share this exact name. This one is small and data-driven, which makes it a reasonable base, but its labels have no glass treatment, motion ignores reduced-motion, and label contrast is not controlled. Keep one cursor component that takes container-relative coordinates, uses a glass label with contrast-safe text, and respects reduced motion. Delete the rest.",
+    "evidence": [
+      "src/components/collaboration/GlassCollaborativeCursor.tsx:41-46",
+      "src/components/collaboration/GlassCollaborativeCursor.tsx:59-75",
+      "src/components/collaboration/GlassCollaborativeCursor.tsx:99-104",
+      "src/components/social/GlassCollaborativeCursor.tsx"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "MultiUserGlassEditor",
+    "file": "src/components/collaboration/MultiUserGlassEditor.tsx",
+    "lines": 276,
+    "category": "collaboration / editor",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/collaboration/MultiUserGlassEditor.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/collaboration/MultiUserGlassEditor.test.tsx",
+      "notes": "32 lines - minimal."
+    },
+    "screenshots": [],
+    "material_impl": "OptimizedGlass primitive (good) but background overridden inline with var(--glass-primary-level2-surface) (164); bespoke boxShadow rgba(15,23,42,.32) on chips (218).",
+    "motion": "None.",
+    "a11y": "region with aria-label; textarea has no label (header h2 not associated); presence conveyed by a dot that is the same color for every state.",
+    "api": "Function, no forwardRef (ref goes nowhere). Spreads TextareaHTMLAttributes onto textarea but className goes to the wrapper - split with textareaClassName. Three overlapping density props: compact, preview ('alias for compact'), density='compact', plus contained (23-34). Controlled check `typeof value !== 'string'` (130) is wrong for number values.",
+    "ssr": "toLocaleTimeString in render (144) - locale/timezone hydration mismatch.",
+    "fake_complexity": "High. It is a plain textarea plus participant chips. statusAccent gives active/idle/offline the identical background (37-50) and user.color is computed (116-122) but never rendered - so presence is visually meaningless. Ships DEFAULT_USERS Nova/Orion/Lyra when no users passed (52-71). No cursor, selection, or sync of any kind. Hard-coded marketing subtitle 'Synced presence across team members with glass awareness.' (192).",
+    "duplicates": [
+      "GlassRichTextEditor (editor)",
+      "GlassTextarea",
+      "CollaborativeGlassWorkspace internal MultiUserGlassEditor (different component, same name)",
+      "GlassCollaborationDashboard presence chips"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 5,
+      "usability": 3,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 1,
+      "consistency": 4,
+      "performance": 7,
+      "docs": 2,
+      "storybook": 2,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "GlassTextarea + GlassPresence composition example",
+    "flagship_candidate": false,
+    "justification": "Despite the name, this is a styled textarea with decorative chips. The presence dots are the same color for every state, the user colors are computed but never shown, and it falls back to fake users. No collaborative behavior exists. It was never certified with a screenshot. Remove it and document the composition (GlassTextarea + GlassPresence) as a recipe instead.",
+    "evidence": [
+      "src/components/collaboration/MultiUserGlassEditor.tsx:37-50",
+      "src/components/collaboration/MultiUserGlassEditor.tsx:52-71",
+      "src/components/collaboration/MultiUserGlassEditor.tsx:111-124",
+      "src/components/collaboration/MultiUserGlassEditor.tsx:220-240",
+      "src/components/collaboration/MultiUserGlassEditor.tsx:23-34"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "CookieConsent",
+    "file": "src/components/cookie-consent/CookieConsent.tsx",
+    "lines": 281,
+    "category": "feedback / consent banner",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cookie-consent/CookieConsent.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/cookie-consent/CookieConsent.test.tsx"
+    },
+    "screenshots": [
+      "components-cookie-consent-cookieconsent"
+    ],
+    "material_impl": "CSS module with tokenized aura vars: background var(--aura-color-glass-surface), border var(--aura-color-glass-border), backdrop-filter var(--glass-cookie-backdrop-filter, blur(var(--glass-blur-md,24px)) var(--glass-filter-base)) (CookieConsent.module.css:11-19). Best-tokenized surface in this shard. However --cookie-blur-scale is set from glassIntensity but never consumed by CSS, so glassIntensity only changes shadow length (176-181).",
+    "motion": "useGalileoStateSpring springs for opacity/translateY with immediate when reduced-motion or disableAnimation (97-171) - reduced motion genuinely wired. But hidden state returns display:none immediately (189-199), so exit animation never plays; CSS transition on transform/opacity also competes with spring-driven inline values.",
+    "a11y": "No role (dialog/region), no aria-labelledby/aria-describedby, no focus management, no aria-live announcement - a consent banner invisible to screen-reader users until they stumble on it. Uses GlassButton (good). Privacy link opens new tab without warning.",
+    "api": "forwardRef + rest spread. Spreads unknown props (theme, intent, elevation, tier, motionSensitivity from shared GlobalCookieConsentProps type) onto the DOM div via ...rest -> React unknown-prop warnings. Props type is aliased from GlobalCookieConsentProps, so it advertises onSave/cookieCategories/customContent that it ignores. GlassCookieConsent variant (274-279) is not root-exported and differs only by glassIntensity.",
+    "ssr": "'use client'; document.cookie only in effects. Returns a hidden node on SSR then shows after delay - fine.",
+    "fake_complexity": "CRITICAL BUG: Accept/Decline buttons only call onAccept/onDecline (237, 258); they never set the consent cookie or hide the banner. setCookie and cookieExpiration are defined/accepted but unused (26-31, 86). There is no open/onOpenChange prop, so a consumer cannot dismiss it either - the banner is undismissable except via timeout. Mobile CSS sets transform:none for centered positions but the inline spring transform re-adds translateX(-50%) (184-187 vs module.css:61-74), shifting top/bottom-centered banners half off-screen on <540px; the certification story uses position bottom-right default so this path is not exercised.",
+    "duplicates": [
+      "GlobalCookieConsent",
+      "CompactCookieNotice",
+      "GlassToast/GlassBanner/GlassAlert (banner surface)"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 6,
+      "usability": 2,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 5,
+      "consistency": 5,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 2.5,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassCookieConsent (single component: variant='compact'|'banner'|'preferences', controlled open/onOpenChange, shared consent store hook)",
+    "flagship_candidate": false,
+    "justification": "Its token-based material and wired reduced-motion springs are the most systematic code in this shard. Functionally, though, it is broken: clicking Accept or Decline neither stores consent nor closes the banner, and there's no controlled prop to fix that from outside. It also has no dialog or region semantics and leaks unknown props onto the DOM. All three cookie components copy the same cookie helpers, position map and spring setup. Merge them into one GlassCookieConsent with variants, a useCookieConsent store, proper role and label attributes, and a working dismiss.",
+    "evidence": [
+      "src/components/cookie-consent/CookieConsent.tsx:26-31",
+      "src/components/cookie-consent/CookieConsent.tsx:86",
+      "src/components/cookie-consent/CookieConsent.tsx:234-263",
+      "src/components/cookie-consent/CookieConsent.tsx:184-199",
+      "src/components/cookie-consent/CookieConsent.tsx:92",
+      "src/components/cookie-consent/CookieConsent.module.css:11-19",
+      "src/components/cookie-consent/CookieConsent.module.css:61-74",
+      "src/components/cookie-consent/types.ts:51-63",
+      "reports/audit/blocked-61.md:420-423 (background alpha 0.6 on container, outside the [0.08,0.35] glass band)"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "CompactCookieNotice",
+    "file": "src/components/cookie-consent/CompactCookieNotice.tsx",
+    "lines": 235,
+    "category": "feedback / consent banner",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cookie-consent/CompactCookieNotice.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": "src/components/cookie-consent/CompactCookieNotice.test.tsx"
+    },
+    "screenshots": [
+      "components-cookie-consent-compactcookienotice"
+    ],
+    "material_impl": "CSS module, same tokenized glass surface as CookieConsent; one hard-coded override `color: rgba(var(--glass-color-black) / var(--glass-opacity-95)) !important` (CompactCookieNotice.module.css:93) forces near-black text - breaks dark themes.",
+    "motion": "Galileo spring with reduced-motion respected (107); exit animation never plays because hidden branch returns display:none.",
+    "a11y": "No role/label/live region. Only Accept + More Info - no reject option, which is non-compliant with GDPR/ePrivacy expectations (reject must be as easy as accept). Uses GlassButton.",
+    "api": "forwardRef. declineText is destructured and discarded (98); onDecline and theme remain in ...rest and are spread onto the div (onDecline becomes an unknown DOM event prop warning). GlassCompactCookieNotice variant not root-exported.",
+    "ssr": "Safe (cookie in effect).",
+    "fake_complexity": "Accept actually sets cookie and hides (123-129) - works, unlike CookieConsent. Cookie written without SameSite/Secure and unencoded.",
+    "duplicates": [
+      "CookieConsent",
+      "GlobalCookieConsent"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 5,
+      "usability": 4,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 5,
+      "consistency": 5,
+      "performance": 7,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassCookieConsent variant='compact'",
+    "flagship_candidate": false,
+    "justification": "This is the only cookie component that actually dismisses itself. It still has no decline path, which a consent UI needs for compliance, no ARIA semantics, a forced-black text override, and DOM prop leaks. Keep its compact layout as a variant of the consolidated consent component.",
+    "evidence": [
+      "src/components/cookie-consent/CompactCookieNotice.tsx:86-101",
+      "src/components/cookie-consent/CompactCookieNotice.tsx:123-129",
+      "src/components/cookie-consent/CompactCookieNotice.tsx:206-219",
+      "src/components/cookie-consent/CompactCookieNotice.module.css:93",
+      "src/components/cookie-consent/CompactCookieNotice.tsx:43-48",
+      "reports/audit/blocked-61.md:415-418 (background alpha 0.6 on container)"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  },
+  {
+    "name": "GlobalCookieConsent",
+    "file": "src/components/cookie-consent/GlobalCookieConsent.tsx",
+    "lines": 498,
+    "category": "feedback / consent preferences",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/cookie-consent/GlobalCookieConsent.stories.tsx",
+      "count": 2,
+      "notes": "Default story forces style position:'static', transform:'none' (103-110), so fixed/centered positioning and the mobile translate bug are never certified."
+    },
+    "tests": {
+      "file": "src/components/cookie-consent/GlobalCookieConsent.test.tsx"
+    },
+    "screenshots": [
+      "components-cookie-consent-globalcookieconsent"
+    ],
+    "material_impl": "CSS module tokenized surface (GlobalCookieConsent.module.css:12-19); reuses GlassModal, GlassCheckbox, GlassButton, Typography, Box - good primitive reuse.",
+    "motion": "Galileo springs, reduced-motion respected (116); exit animation never plays (display:none branch 305-315).",
+    "a11y": "No role/aria-labelledby on banner. Checkbox has no label association - category name is a sibling Typography span (323-332), so each checkbox is unlabeled. 'Show cookie details' button is a no-op with aria-expanded bound to global expanded and aria-controls='cookie-details' (341-351); id 'cookie-details' is static so multiple instances or the modal duplicate it. Modal header close '×' button has no aria-label (452-458).",
+    "api": "forwardRef + rest spread; theme/intent/elevation/tier/animationConfig/disableAnimation/motionSensitivity leak to DOM. `(expanded || initiallyExpanded)` (405) means initiallyExpanded can never be collapsed. CookieCategory.defaultEnabled is never read. createThemeContext imported unused. No hook to read consent state back (consumers must parse 'cookie-categories' cookie themselves).",
+    "ssr": "Safe (cookie in effects).",
+    "fake_complexity": "Mostly real (accept/decline/save write cookies), but cookie details expansion is unimplemented (346-353 comments 'could be expanded here'). Cookie values written raw JSON without encodeURIComponent, no SameSite/Secure. Mobile centered-position translate bug shared with CookieConsent (default position is 'bottom').",
+    "duplicates": [
+      "CookieConsent",
+      "CompactCookieNotice"
+    ],
+    "scores": {
+      "visual": 5,
+      "material": 6,
+      "usability": 4,
+      "api": 3,
+      "responsive": 3,
+      "a11y": 2,
+      "motion": 5,
+      "consistency": 6,
+      "performance": 6,
+      "docs": 4,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "CONSOLIDATE",
+    "target": "GlassCookieConsent variant='preferences' (base of the consolidated component)",
+    "flagship_candidate": false,
+    "justification": "This is the most complete of the three and reuses real primitives (GlassModal, GlassCheckbox, GlassButton), so it should be the base for the consolidated GlassCookieConsent. Before 5.0 it needs labelled checkboxes, a working details disclosure, dialog/region semantics, the mobile centering fix, cookies encoded with SameSite/Secure, an exit animation, and a consent-state hook. It's a utility pattern, not a showcase piece.",
+    "evidence": [
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:323-332",
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:341-353",
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:405",
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:28-33",
+      "src/components/cookie-consent/GlobalCookieConsent.tsx:300-304",
+      "src/components/cookie-consent/GlobalCookieConsent.stories.tsx:103-110",
+      "reports/audit/blocked-61.md:425-428 (background alpha 0.6 on container)"
+    ],
+    "visual_review": "Screenshot PNGs exist (1440x900 desktop, 390x844 mobile) but the image reader returned no content in the verification pass, so visual scores rely on code review plus the automated audit (reports/audit/blocked-61.md) rather than direct visual inspection."
+  }
+]

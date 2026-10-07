@@ -1,0 +1,1176 @@
+[
+  {
+    "name": "AIGlassThemeProvider",
+    "file": "src/components/ai/AIGlassThemeProvider.tsx",
+    "lines": 574,
+    "category": "ai/theming-provider",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/AIGlassThemeProvider.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/ai/AIGlassThemeProvider.test.tsx",
+      "count": 5,
+      "kind": "smoke/snapshot/axe template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-aiglassthemeprovider",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-aiglassthemeprovider/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-aiglassthemeprovider/mobile.png",
+        "visual_note": "Desktop mean luminance 242/255, std 18, ~20% non-bg: a pale white card stack on white; the visible content is story-authored inline-styled markup, not anything the provider generates."
+      }
+    ],
+    "material_impl": "Provider renders a wrapper div with class glass-neutral-level1 plus hard-coded inline boxShadow 'rgba(15,23,42,0.10)...inset rgba(255,255,255,0.14)' (L511-517). Generated themes are HSL strings that are never applied to any CSS variable or ThemeProvider, so the 'theme' has no visual effect.",
+    "motion": "None. useReducedMotion imported (L6) and never called; ANIMATION used only for a fake setTimeout delay.",
+    "a11y": "No semantics needed for a provider, but it injects a visual wrapper div around app children (layout side-effect). 'accessibilityFirst'/'accessibilityMode' flags exist but are never read.",
+    "api": "Function component, no forwardRef; className/data-testid only, no style passthrough. Context API is broad (16 members), with many no-op config flags (adaptToSeason, adaptToTime, enableABTesting, performanceMode duplicated as both config and state).",
+    "ssr": "'use client'. localStorage only inside effects (safe). Persists on every state change, including on mount, overwriting storage before the load effect's setState lands.",
+    "fake_complexity": "Fake. generateTheme = setTimeout(ANIMATION.DURATION.slow) then Math.random() hue unless content contains 'urgent|important|breaking' (L289-301). 'sentiment', 'season', 'behavior' adaptation are not implemented. generateThemeFromSentiment builds a mock sentence and feeds it back in (L361-363).",
+    "duplicates": [
+      "src/theme/ThemeProvider.tsx (real theming)",
+      "src/utils/adaptiveAI.ts (useAdaptiveAI)",
+      "src/components/advanced/IntelligentColorSystem.tsx",
+      "src/components/advanced/GlassContextAware.tsx"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 2,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 1,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 2,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "src/theme/ThemeProvider (if any adaptive behavior is wanted, add a real token-mapping API there)",
+    "flagship_candidate": false,
+    "justification": "The provider is labeled 'AI', but it picks a random hue after a fake delay, and the theme it produces is never connected to the token system, so nothing on screen changes. It also wraps consumer children in a decorated div, which a provider should never do. It is exported from the root, so removing it is a breaking change. Deprecate it in 4.x and remove it in 5.0. Adaptive theming belongs in the real ThemeProvider and token pipeline.",
+    "evidence": [
+      "src/components/ai/AIGlassThemeProvider.tsx:289-301",
+      "src/components/ai/AIGlassThemeProvider.tsx:361-363",
+      "src/components/ai/AIGlassThemeProvider.tsx:509-521",
+      "src/components/ai/AIGlassThemeProvider.tsx:6",
+      "src/components/ai/AIGlassThemeProvider.tsx:254-268",
+      "src/index.ts:608"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "AIDemo",
+    "file": "src/components/ai/examples/AIDemo.tsx",
+    "lines": 527,
+    "category": "ai/example-page",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/ai/examples/AIDemo.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/ai/examples/AIDemo.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-examples-aidemo",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-examples-aidemo/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-examples-aidemo/mobile.png",
+        "visual_note": "Only ~2% non-background on desktop (content bbox 260..1180 x 200..735). A sparse pale form page; tab chrome uses unprefixed Tailwind classes (px-4 py-2 text-primary/60 hover:bg-white/5) that the library does not ship, so the tabs render unstyled."
+      }
+    ],
+    "material_impl": "One OptimizedGlass shell (L462); everything else is utility classes, some unprefixed Tailwind (L492-495) and non-existent ones (glass-min-h-400px, glass-file-*).",
+    "motion": "None.",
+    "a11y": "Labels are not associated with inputs (no htmlFor/id, L181-203). Tabs are plain buttons with no tablist/tab/aria-selected. Emoji in labels are read aloud. Login form has no autocomplete attributes.",
+    "api": "No props at all. Hard-wires a singleton aiClient (lib/ai-client) pointing at http://localhost:3002 and ws://localhost:3001.",
+    "ssr": "'use client'; network calls on user action only.",
+    "fake_complexity": "Real network client, but it is a demo app page that includes login/register/logout. It claims 'Production-ready AI features with real OpenAI, Pinecone, and Google Vision APIs'. Only works if 'npm run server:all' is running locally.",
+    "duplicates": [
+      "src/components/ai/ProductionAIIntegration.tsx (same four features: forms/search/vision/auth)",
+      "src/components/search/GlassIntelligentSearch.tsx",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 3,
+      "api": 1,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "docs/examples (outside the published package)",
+    "flagship_candidate": false,
+    "justification": "This is an example application, not a component. It ships an auth form, emoji tabs and localhost endpoints, and it calls OpenAI/Pinecone/Vision through a bespoke client, which conflicts with the Kiro Prism default-LLM policy. It is not exported, but it lives in src/ and Storybook certifies it as a visual target. Move it to an examples app, or delete it.",
+    "evidence": [
+      "src/components/ai/examples/AIDemo.tsx:10",
+      "src/components/ai/examples/AIDemo.tsx:181-203",
+      "src/components/ai/examples/AIDemo.tsx:488-500",
+      "src/components/ai/examples/AIDemo.tsx:514-518",
+      "src/lib/ai-client.ts:116-118"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassDeepDreamGlass",
+    "file": "src/components/ai/GlassDeepDreamGlass.tsx",
+    "lines": 1057,
+    "category": "ai/creative-demo",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassDeepDreamGlass.stories.tsx",
+      "count": 27
+    },
+    "tests": {
+      "file": "src/components/ai/GlassDeepDreamGlass.test.tsx",
+      "count": 4,
+      "kind": "template smoke/axe/snapshot"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassdeepdreamglass",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassdeepdreamglass/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassdeepdreamglass/mobile.png",
+        "visual_note": "~3% non-background, mean 245, std 12. The two canvases show the deterministic 'Source preview/Dream preview' placeholder (pale gradient plus bezier lines) on a near-white card. It reads as an empty state, not a premium surface."
+      }
+    ],
+    "material_impl": "OptimizedGlass root, but variant='frosted' is silently ignored: OptimizedGlassCore destructures variant (L159) and never uses it. Layer cards, switches and sliders are bespoke inline rgba (L546-553, L785-813) plus an injected <style> with hard-coded slider gradients (L836-845). createGlassStyle(...).background (a CSS gradient string) is interpolated into className (L946-949), which produces garbage class tokens, alongside raw Tailwind 'p-3 rounded-lg border border-blue-400/30' that the library does not ship.",
+    "motion": "framer-motion whileHover/whileTap gated by shouldAnimate. A rAF loop redraws the dream image at globalAlpha 0.1 with rotation every frame and decodes a new Image() per frame (L424-448), with no visibility pause. Reduced-motion stops the progress tween but not the rAF loop; the loop is gated only by enableAnimation.",
+    "a11y": "Layer cards: role=checkbox with tabIndex and Enter/Space handling (good). Range inputs have aria-labels. Upload uses a hidden input with a hard-coded id='dream-image-upload' (L1015), so two instances collide. Canvases have no accessible name. LayerSelector/SettingsPanel are components defined inside render (L531, L633), so they remount on every state change and focus is lost while dragging a slider.",
+    "api": "forwardRef plus a rest spread, but the typed props interface has no style/HTML attributes. Uncontrolled only (selectedLayers/dreamSettings are seeded into state once). Boolean-flag soup (show*/enable* x9). The enableTiling and maxLoss/tileSize settings do nothing.",
+    "ssr": "'use client'; DOM access in effects and handlers only. Creates object URLs that are never revoked (L996).",
+    "fake_complexity": "Fake. 'Neural layer activations' are Math.random (L193-235). The 'DeepDream' is per-pixel sin/cos additive patterns (L238-313). No model, no gradient ascent. The marketing copy says 'Neural network-powered surreal image generation' (L854).",
+    "duplicates": [
+      "GlassGANGenerator",
+      "GlassStyleTransfer",
+      "GlassGenerativeArt",
+      "GlassLiveFilter (same canvas pixel-loop + upload + before/after shell)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 4,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a 1,057-line demo that pretends to be a neural network: random activations and sine-wave pixel tints. The material uses ignored variants and className bugs, the panels remount and lose focus, and nothing here belongs in a premium design-system screenshot. It shares a before/after canvas shell with four sibling 'AI' components. Remove it. If a creative-tool showcase is wanted, build one honest ImageCompare/BeforeAfter primitive instead.",
+    "evidence": [
+      "src/components/ai/GlassDeepDreamGlass.tsx:193-235",
+      "src/components/ai/GlassDeepDreamGlass.tsx:238-313",
+      "src/components/ai/GlassDeepDreamGlass.tsx:424-448",
+      "src/components/ai/GlassDeepDreamGlass.tsx:531",
+      "src/components/ai/GlassDeepDreamGlass.tsx:946-949",
+      "src/components/ai/GlassDeepDreamGlass.tsx:1015",
+      "src/primitives/OptimizedGlassCore.tsx:75",
+      "src/primitives/OptimizedGlassCore.tsx:159",
+      "src/utils/createGlassStyle.ts:64-84"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassGANGenerator",
+    "file": "src/components/ai/GlassGANGenerator.tsx",
+    "lines": 1032,
+    "category": "ai/creative-demo",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassGANGenerator.stories.tsx",
+      "count": 25
+    },
+    "tests": {
+      "file": "src/components/ai/GlassGANGenerator.test.tsx",
+      "count": 4,
+      "kind": "template smoke/axe/snapshot"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassgangenerator",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgangenerator/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgangenerator/mobile.png",
+        "visual_note": "Content sits in a narrow 480px center column on white (4% non-bg): a stack of model list rows with no imagery. It looks like a plain list card."
+      }
+    ],
+    "material_impl": "OptimizedGlass with variant='frosted' (ignored). Model cards use glass-surface-*/20 utility guesses. The same createGlassStyle().background-as-className bug appears at L880-883 and L956-960. A dynamic Tailwind class `duration-[${ANIMATION.DURATION.fast}ms]` (L614) can never be compiled.",
+    "motion": "framer-motion hover/tap gated. Image grid uses initial={{opacity:0,scale:0.8}} with animate={prefersReducedMotion ? {} : {...}} (L839-842), so under reduced motion the generated images stay at opacity 0 and are invisible.",
+    "a11y": "Model cards are clickable motion.divs with no role, tabIndex or keyboard handling (L611-624), so they are mouse-only. The per-image download button has no label and no onClick (L855-869), and it sits in a hover overlay whose reveal class glass-group-glass-hover-opacity-100 does not exist in the CSS, so it is never visible.",
+    "api": "forwardRef. trainModel MUTATES the availableModels prop (L509-514). selectedModel is uncontrolled. showTrainingControls/showLatentSpace/enableInterpolation flags.",
+    "ssr": "'use client'; document.createElement in callbacks only. Generates a 1024x1024 ImageData in JS per image (StyleGAN faces) on the main thread.",
+    "fake_complexity": "Fake. 'StyleGAN faces' is a Gaussian blob times sin/cos; 'BigGAN' is a solid palette color plus noise (L246-383). 'Training' is Math.random losses on a timer (L481-525).",
+    "duplicates": [
+      "GlassDeepDreamGlass",
+      "GlassGenerativeArt",
+      "GlassStyleTransfer"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 2,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 4,
+      "storybook": 4,
+      "production": 1
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a fake GAN: blobs and random losses, a prop-mutation bug, mouse-only cards, a download button that is dead and invisible, and images that disappear under reduced motion. It has no product value and actively damages the library's credibility. Remove it.",
+    "evidence": [
+      "src/components/ai/GlassGANGenerator.tsx:246-383",
+      "src/components/ai/GlassGANGenerator.tsx:481-525",
+      "src/components/ai/GlassGANGenerator.tsx:509-514",
+      "src/components/ai/GlassGANGenerator.tsx:611-624",
+      "src/components/ai/GlassGANGenerator.tsx:614",
+      "src/components/ai/GlassGANGenerator.tsx:839-842",
+      "src/components/ai/GlassGANGenerator.tsx:854-869",
+      "src/components/ai/GlassGANGenerator.tsx:880-883"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassGenerativeArt",
+    "file": "src/components/ai/GlassGenerativeArt.tsx",
+    "lines": 862,
+    "category": "ai/creative-demo",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassGenerativeArt.stories.tsx",
+      "count": 19
+    },
+    "tests": {
+      "file": "src/components/ai/GlassGenerativeArt.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassgenerativeart",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgenerativeart/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassgenerativeart/mobile.png",
+        "visual_note": "Top ~320px blank; a single low-contrast textarea/button band (std 13, 339 colors). Visually inert."
+      }
+    ],
+    "material_impl": "OptimizedGlass (variant ignored), with utility surfaces and the createGlassStyle().background className bug at L733-737. Canvas gradients pass 'var(--glass-gray-900)' and 'hsl(var(--glass-color-info))' to CanvasGradient.addColorStop (L272-288). Canvas cannot resolve CSS variables, so this throws a SyntaxError at generation time; mixed hex literals appear elsewhere (#98fb98, #667eea).",
+    "motion": "Image grid has the same opacity-0 trap under reduced motion (L771-772). Progress tween gated.",
+    "a11y": "Prompt textarea label is not associated (L688-699). Prompt-library cards and history rows are mouse-only divs (L430-439, L821-828). Hard-coded ids model-select/style-select collide across instances (L498, L524). The download button is dead.",
+    "api": "forwardRef. The checkbox toggles enablePromptEnhancementState, but generateArt reads the enablePromptEnhancement prop (L211), so the toggle does nothing. The enableStyleMixing/enableIterativeGeneration props are unused.",
+    "ssr": "'use client'. Fine.",
+    "fake_complexity": "Fake. It offers model choices 'Stable Diffusion/Midjourney/DALL-E', then waits ~6s of setTimeout steps and draws random ellipses (L203-411). No model call.",
+    "duplicates": [
+      "GlassGANGenerator",
+      "GlassDeepDreamGlass",
+      "GlassStyleTransfer"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 2,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 4,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a mock text-to-image tool that names real vendors (Midjourney, DALL-E). Its prompt-enhancement toggle is broken, and canvas color stops are CSS variables, which are invalid for canvas and break generation. It is misleading and buggy. Remove it.",
+    "evidence": [
+      "src/components/ai/GlassGenerativeArt.tsx:203-243",
+      "src/components/ai/GlassGenerativeArt.tsx:211",
+      "src/components/ai/GlassGenerativeArt.tsx:272-288",
+      "src/components/ai/GlassGenerativeArt.tsx:509-512",
+      "src/components/ai/GlassGenerativeArt.tsx:733-737",
+      "src/components/ai/GlassGenerativeArt.tsx:771-772"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassIntelligentFormBuilder",
+    "file": "src/components/ai/GlassIntelligentFormBuilder.tsx",
+    "lines": 1194,
+    "category": "ai/form-builder",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassIntelligentFormBuilder.stories.tsx",
+      "count": 6
+    },
+    "tests": {
+      "file": "src/components/ai/GlassIntelligentFormBuilder.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassintelligentformbuilder",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassintelligentformbuilder/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassintelligentformbuilder/mobile.png",
+        "visual_note": "Content only spans the top 412px (compact mode auto-triggered because the container height is <520px, L263); ~3% non-bg. The full builder is never what gets certified."
+      }
+    ],
+    "material_impl": "Uses the Glass primitive for panels (shared, good), but inner rows mix glass-bg-white/8 and glass-bg-cyan-950/20 with glass-text-cyan-200 (L533, L551-556), and those classes do not exist. Error borders use raw Tailwind 'border-red-500' (L630, L834).",
+    "motion": "None (spinner only). useReducedMotion imported, unused.",
+    "a11y": "Labels are not programmatically associated with inputs (L619-633, L820-838). It renders <h1> inside a component (L503, L593). Field rows are clickable divs with no keyboard support (L746-755). The remove buttons are '\u2715' with no aria-label (L765-773). Validation errors are not linked via aria-describedby.",
+    "api": "React.FC, no forwardRef, no style passthrough. Mode switches on measured size (ResizeObserver: width<720 or height<520), so the rendered UI depends on container height, which is surprising. initialSchema is uncontrolled. onSchemaChange fires only from the 'AI analysis' effect, not on edits.",
+    "ssr": "'use client'. Builds schema id with Date.now() during render, which can cause hydration mismatch. Export uses document APIs in a handler (fine).",
+    "fake_complexity": "Partially honest. The 'AI' is keyword heuristics (label.includes('email'), L78-166) behind a fake 1s delay (L281-308). It works as a basic schema editor.",
+    "duplicates": [
+      "src/components/forms/* (form primitives)",
+      "ProductionAIIntegration 'Smart Form Builder' panel",
+      "AIDemo forms tab"
+    ],
+    "scores": {
+      "visual": 4,
+      "material": 4,
+      "usability": 4,
+      "api": 3,
+      "responsive": 4,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 3,
+      "performance": 5,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3.5,
+    "disposition": "REDESIGN",
+    "target": "aura-glass/workflows or a recipes package: 'FormSchemaBuilder' built on the library's form primitives",
+    "flagship_candidate": false,
+    "justification": "This is the only component in the AI shard with a real use case: a schema editor with live preview. But it is a page-sized widget with broken label semantics, an h1 inside a component, mouse-only row selection, non-existent cyan utility classes, and an 'AI' label that is regex heuristics behind a timeout. Drop the AI branding and rebuild it on the official Field/Label/Select primitives as a recipe. Do not keep it in the core component set.",
+    "evidence": [
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:78-166",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:257-271",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:274-312",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:503",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:551-556",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:619-633",
+      "src/components/ai/GlassIntelligentFormBuilder.tsx:746-773"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassLiveFilter",
+    "file": "src/components/ai/GlassLiveFilter.tsx",
+    "lines": 1286,
+    "category": "ai/media-processing",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassLiveFilter.stories.tsx",
+      "count": 25
+    },
+    "tests": {
+      "file": "src/components/ai/GlassLiveFilter.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glasslivefilter",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glasslivefilter/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glasslivefilter/mobile.png",
+        "visual_note": "Gray-on-gray (mean 237, std 14): two calibration-plate canvases and a filter grid. No color and no imagery; the most legible screenshot in the shard, but generic."
+      }
+    ],
+    "material_impl": "OptimizedGlass (variant ignored). It overrides the library tokens --glass-color-primary/secondary with hard-coded slate rgba on its root (L172-176). It injects a GLOBAL <style> '[data-glass-component] input[type=range]{accent-color...}' (L1057-1065), which restyles every range input in every AuraGlass component on the page while this one is mounted.",
+    "motion": "Hover/tap gated by shouldAnimate. Video processing runs a rAF loop with full-frame CPU convolution per frame (box blur O(w*h*r^2), L367-403), with no fps throttle even though an 'FPS' setting exists (unused).",
+    "a11y": "Filter tiles are mouse-only motion.divs (L861-880). The remove button is '\u00d7' with no label (L963-968). Hard-coded id='image-upload' (L1247). The quality select's label is not associated.",
+    "api": "forwardRef. processFrame useCallback omits filterParameters and applyFilters from its deps (L714), so slider changes apply stale parameters (bug). The enableGPU, fps, quality and enableCustomFilters props/settings are UI-only placebos.",
+    "ssr": "'use client'. Fine.",
+    "fake_complexity": "Real but naive. Grayscale, sepia, Sobel and emboss are genuine CPU pixel filters. 'AI' in the category is unearned. The 'GPU Acceleration' toggle is fake.",
+    "duplicates": [
+      "GlassDeepDreamGlass (same shell)",
+      "GlassStyleTransfer",
+      "CSS filter utilities (a CSS filter: property would do most of this on the GPU)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 4,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 2.5,
+    "disposition": "REMOVE",
+    "target": "(optional) a small ImageFilterPreview recipe using CSS filter() instead of CPU loops",
+    "flagship_candidate": false,
+    "justification": "The filters work, but they belong to an image-editing app, not a glass design system. The component leaks global CSS into sibling components, overrides core tokens, has a stale-closure bug in parameter updates, mouse-only tiles, and placebo GPU/FPS settings. It is off-mission for AuraGlass 5. Remove it from the core package.",
+    "evidence": [
+      "src/components/ai/GlassLiveFilter.tsx:172-176",
+      "src/components/ai/GlassLiveFilter.tsx:367-403",
+      "src/components/ai/GlassLiveFilter.tsx:674-714",
+      "src/components/ai/GlassLiveFilter.tsx:861-880",
+      "src/components/ai/GlassLiveFilter.tsx:1057-1065",
+      "src/components/ai/GlassLiveFilter.tsx:1247"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassMusicVisualizer",
+    "file": "src/components/ai/GlassMusicVisualizer.tsx",
+    "lines": 1246,
+    "category": "media/audio-visualization",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassMusicVisualizer.stories.tsx",
+      "count": 24
+    },
+    "tests": {
+      "file": "src/components/ai/GlassMusicVisualizer.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassmusicvisualizer",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassmusicvisualizer/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassmusicvisualizer/mobile.png",
+        "visual_note": "Shows the idle state: a static fake bar spectrum (decorative spans plus a canvas placeholder) in slate monochrome on white. It reads like a skeleton loader; there is no luminous or refractive quality."
+      }
+    ],
+    "material_impl": "OptimizedGlass (variant ignored), overridden by inline background rgba(255,255,255,.28), border and boxShadow (L892-897). The Controls subcomponent injects a <style> with !important overrides for all h3/p/label/span/button inside .glass-music-visualizer (L746-778), which fights the token system. Hex palettes are hard-coded (neon/fire/galaxy, L98-138).",
+    "motion": "WebAudio rAF loop, correctly gated on shouldAnimate and !prefersReducedMotion (L359-366). But it calls setFrequencyData/setWaveformData/setBeatIntensity every frame (L322-323, L294), which re-renders React at 60fps and re-mounts the inline Controls component plus its <style> each frame.",
+    "a11y": "Play/Pause/Stop buttons have aria-labels (good). The volume slider is a real input overlaid at opacity 0.001 (OK). The FFT select and Smoothing/Sensitivity labels are not associated. The canvas is click-to-play with no keyboard equivalent and no aria. Beat indicator has no text alternative.",
+    "api": "forwardRef. renderBars appends hex alpha to colors (L393-397); with the default monochrome 'rgba(...)' and token 'hsl(var(...))' strings this yields invalid fillStyle, so bars do not render in the default scheme. Clear fill uses 'rgba(var(--glass-color-black)/...)' (L330-331), which is invalid in canvas. Changing FFT size after init does nothing. enableRecording/isRecording are never wired.",
+    "ssr": "'use client'. AudioContext is created lazily (good). createMediaElementSource is called on each initializeAudio, so re-init throws InvalidStateError.",
+    "fake_complexity": "Genuinely real (WebAudio AnalyserNode, beat heuristic), not AI. Located in /ai, which is a mis-categorization.",
+    "duplicates": [
+      "src/components/media/GlassAdvancedAudioPlayer.tsx (also AudioContext/analyser)",
+      "src/components/advanced/GlassSpatialAudio.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 4,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 5,
+      "consistency": 2,
+      "performance": 2,
+      "docs": 4,
+      "storybook": 4,
+      "production": 2
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "src/components/media/GlassAdvancedAudioPlayer (extract a single AudioSpectrum/visualizer sub-component under media/)",
+    "flagship_candidate": false,
+    "justification": "This is the one 'AI' component with real functionality, and it is not AI. The default colour scheme renders no bars because of hex-alpha concatenation on rgba/hsl(var()) strings. It re-renders 60 times per second, and it injects !important global-ish styles. Fold a corrected canvas spectrum (palette from tokens, no per-frame setState, a keyboard play control) into the media audio player family and delete this standalone copy.",
+    "evidence": [
+      "src/components/ai/GlassMusicVisualizer.tsx:88-97",
+      "src/components/ai/GlassMusicVisualizer.tsx:322-331",
+      "src/components/ai/GlassMusicVisualizer.tsx:359-366",
+      "src/components/ai/GlassMusicVisualizer.tsx:393-397",
+      "src/components/ai/GlassMusicVisualizer.tsx:739-778",
+      "src/components/ai/GlassMusicVisualizer.tsx:892-897",
+      "src/components/ai/GlassMusicVisualizer.tsx:986-993"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassStyleTransfer",
+    "file": "src/components/ai/GlassStyleTransfer.tsx",
+    "lines": 736,
+    "category": "ai/creative-demo",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/GlassStyleTransfer.stories.tsx",
+      "count": 20
+    },
+    "tests": {
+      "file": "src/components/ai/GlassStyleTransfer.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-glassstyletransfer",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassstyletransfer/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-glassstyletransfer/mobile.png",
+        "visual_note": "The flattest image in the shard: std 9, 143 colors, top ~390px blank. Two empty dashed boxes with camera/palette emoji."
+      }
+    ],
+    "material_impl": "OptimizedGlass (variant ignored). Style swatches use 'glass-gradient-primary' repeated three times plus raw Tailwind 'from-red-400 to-blue-400' (L346-361), and those Tailwind gradient stops are not shipped. The text class glass-text-red does not exist. createGlassStyle().background className bug at L706-710. Default style previews point at '/styles/van-gogh.jpg' etc., which do not exist in the consumer app.",
+    "motion": "Progress tween gated; hover gated.",
+    "a11y": "The upload zone is a clickable div with no role or keyboard (L563-566). Style cards are mouse-only. Emoji are used as icons without aria-hidden.",
+    "api": "forwardRef. The realTimePreview effect re-runs processStyleTransfer on every transferParams change, which re-triggers the ~6s fake pipeline. preserveColors/enhanceDetails/blendMode/resolution are never used in processing.",
+    "ssr": "'use client'. Fine.",
+    "fake_complexity": "Fake, and the worst case. It IGNORES the uploaded image entirely and paints a category gradient plus random white lines (L199-262), then returns that as the 'styled' result.",
+    "duplicates": [
+      "GlassDeepDreamGlass",
+      "GlassGANGenerator",
+      "GlassGenerativeArt",
+      "GlassLiveFilter"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 1,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 2,
+      "motion": 3,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "The output does not depend on the input, so this is a placeholder posing as a feature. It also has broken gradient classes and asset URLs that 404. Remove it.",
+    "evidence": [
+      "src/components/ai/GlassStyleTransfer.tsx:159-268",
+      "src/components/ai/GlassStyleTransfer.tsx:199-262",
+      "src/components/ai/GlassStyleTransfer.tsx:346-361",
+      "src/components/ai/GlassStyleTransfer.tsx:563-566",
+      "src/components/ai/GlassStyleTransfer.tsx:706-710",
+      "src/components/ai/GlassStyleTransfer.tsx:57"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "NeuralWeightVisualization",
+    "file": "src/components/ai/NeuralWeightVisualization.tsx",
+    "lines": 209,
+    "category": "data-display/matrix",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/NeuralWeightVisualization.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": null,
+      "count": 0
+    },
+    "screenshots": [],
+    "material_impl": "OptimizedGlass root plus raw Tailwind 'space-y-6 bg-gradient-to-br from-white/10 via-white/5 to-white/8' (L86-87) and cell classes 'px-2 py-3 text-center text-xs font-semibold text-slate-800 shadow-[inset...]' (L155-157), which are not shipped by the library. glass-radius-3xl does not exist in src/styles. Cell backgrounds are two near-identical white gradients (L160-163).",
+    "motion": "None.",
+    "a11y": "role=figure with aria-label (good). The data table has no header row/scope or caption. Weights are not colour-encoded at all, so sign and magnitude are conveyed only by numbers. An h2 inside a component.",
+    "api": "Function component, no forwardRef, no style passthrough (although the style prop is used internally). Reasonable data props (layers, highlightThreshold, precision).",
+    "ssr": "SSR-safe ('use client' only by convention).",
+    "fake_complexity": "Honest static table, but the name overpromises: 'visualization' is a numeric grid where 'strong' cells are visually indistinguishable from the rest.",
+    "duplicates": [
+      "src/components/charts/* (heatmap-style charts)",
+      "src/components/data-display table/heatmap components"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 8,
+      "docs": 2,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 2.5,
+    "disposition": "REPLACE",
+    "target": "a generic GlassHeatmap/MatrixTable data-display component (diverging colour scale from tokens)",
+    "flagship_candidate": false,
+    "justification": "This is a weight-matrix table whose visual encoding is absent: positive, negative and strong values all get the same white wash. Its styling relies on Tailwind classes the package does not ship. The legitimate need is a token-driven diverging heatmap/matrix in data-display. Replace it with that and drop the neural branding.",
+    "evidence": [
+      "src/components/ai/NeuralWeightVisualization.tsx:84-90",
+      "src/components/ai/NeuralWeightVisualization.tsx:152-167",
+      "src/components/ai/NeuralWeightVisualization.tsx:104"
+    ],
+    "visual_evidence_method": "no certification screenshot exists for this target"
+  },
+  {
+    "name": "NeuromorphicLearningNetwork",
+    "file": "src/components/ai/NeuromorphicLearningNetwork.tsx",
+    "lines": 204,
+    "category": "data-display/stat-cards",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/ai/NeuromorphicLearningNetwork.stories.tsx",
+      "count": 2
+    },
+    "tests": {
+      "file": null,
+      "count": 0
+    },
+    "screenshots": [],
+    "material_impl": "OptimizedGlass plus raw Tailwind 'space-y-6 bg-gradient-to-br from-indigo-500/20 ...' (L121-122), not shipped. 'glass-gradient-primary' repeated three times on the progress fill (L155). The radius class does not exist.",
+    "motion": "None.",
+    "a11y": "role=article with aria-label. The progress bars are plain divs with no role=progressbar/aria-valuenow. h2 inside a component.",
+    "api": "Function component, no ref/style. onSnapshot fires twice per change: once from the snapshot effect and once from the interval (L98-114). autoSampleInterval recomputes identical values from static props every tick (pointless timer).",
+    "ssr": "Date.now() inside the initial state, which can cause hydration mismatch of the timestamp (not rendered, so minor).",
+    "fake_complexity": "Fake framing. The copy mentions 'quantum-inspired spikes and adaptive plasticity' (L131-132); the code computes mean/variance of static arrays.",
+    "duplicates": [
+      "src/components/data-display stat/KPI cards",
+      "GlassAnimatedStat (root export)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 2,
+      "api": 3,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 7,
+      "docs": 2,
+      "storybook": 2,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is four stat cards with pseudo-scientific copy and a duplicate-callback bug. The library already has stat/KPI components. Remove it.",
+    "evidence": [
+      "src/components/ai/NeuromorphicLearningNetwork.tsx:98-114",
+      "src/components/ai/NeuromorphicLearningNetwork.tsx:121-122",
+      "src/components/ai/NeuromorphicLearningNetwork.tsx:131-132",
+      "src/components/ai/NeuromorphicLearningNetwork.tsx:155"
+    ],
+    "visual_evidence_method": "no certification screenshot exists for this target"
+  },
+  {
+    "name": "ProductionAIIntegration",
+    "file": "src/components/ai/ProductionAIIntegration.tsx",
+    "lines": 485,
+    "category": "ai/service-integration",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/ai/ProductionAIIntegration.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/ai/ProductionAIIntegration.test.tsx",
+      "count": 6
+    },
+    "screenshots": [
+      {
+        "slug": "components-ai-productionaiintegration",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-productionaiintegration/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ai-productionaiintegration/mobile.png",
+        "visual_note": "~1% non-bg: four pale cards with bare inputs on a gray gradient stage. It looks like an unstyled admin form."
+      }
+    ],
+    "material_impl": "No glass primitive. Utility classes only (glass-surface-subtle glass-shadow), with 'glass-contrast-guard' sprinkled on nearly every element including spinners.",
+    "motion": "Spinners only. useReducedMotion imported, unused.",
+    "a11y": "Inputs have no labels (placeholder only, L339-347, L373-381, L438-443). It uses the deprecated onKeyPress. A full-viewport fixed loading overlay with no aria-live or focus handling (L473-480). The room input is read with document.getElementById('roomId') (L446), so ids collide.",
+    "api": "React.FC. Default export is Sentry.withProfiler(...) (L485), which forces @sentry/react on consumers. Dynamic import(/* @vite-ignore */ modulePath) of relative string paths (L10-11, L66-81) cannot resolve from a published dist.",
+    "ssr": "'use client', yet it uses Node Buffer.from in the browser (L196, L242), process.env.REACT_APP_WEBSOCKET_URL, and defaultAIConfig, which reads process.env.OPENAI_API_KEY (services/ai/config.ts:85). That invites a secret into a client bundle if a bundler inlines env.",
+    "fake_complexity": "Real service calls (OpenAI, Pinecone, Google Vision, websocket, JWT auth) but architecturally misplaced in a UI library. src/index.ts:919-924 itself says it is server-side and not exported. It bypasses the Kiro Prism LLM layer that policy requires.",
+    "duplicates": [
+      "AIDemo (same four features)",
+      "GlassIntelligentFormBuilder",
+      "GlassIntelligentSearch"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 2,
+      "api": 1,
+      "responsive": 4,
+      "a11y": 2,
+      "motion": 1,
+      "consistency": 1,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 2,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "separate server/example package (and route LLM calls through Kiro Prism if kept anywhere)",
+    "flagship_candidate": false,
+    "justification": "This is a backend-integration demo shipped in a UI component tree. It pulls in Sentry and Node Buffer, and it has a path that could put an API key into a client bundle. Its dynamic imports cannot resolve once published, it has unlabeled inputs, and it calls providers directly in conflict with the Prism-first policy. It is not exported, but Storybook certifies it. Delete it from src/components.",
+    "evidence": [
+      "src/components/ai/ProductionAIIntegration.tsx:4-11",
+      "src/components/ai/ProductionAIIntegration.tsx:66-95",
+      "src/components/ai/ProductionAIIntegration.tsx:196",
+      "src/components/ai/ProductionAIIntegration.tsx:339-347",
+      "src/components/ai/ProductionAIIntegration.tsx:446",
+      "src/components/ai/ProductionAIIntegration.tsx:485",
+      "src/services/ai/config.ts:85",
+      "src/index.ts:919-924"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "AdvancedAnimations",
+    "file": "src/components/animations/AdvancedAnimations.tsx",
+    "lines": 282,
+    "category": "motion/easing-demo",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/animations/AdvancedAnimations.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/animations/AdvancedAnimations.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-animations-advancedanimations",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-advancedanimations/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-advancedanimations/mobile.png",
+        "visual_note": "Static frame of four bordered cards with a gray progress bar each (214 colors, std 14). It shows nothing about easing in a still capture."
+      }
+    ],
+    "material_impl": "Cards use class glass-surface-primary but inline background var(--glass-gradient-neutral) and a hard-coded boxShadow (L216-223). The root forces a light-text contract by overriding --glass-text-* vars to black (L166-173), which breaks dark themes.",
+    "motion": "framer-motion keyframe loops with JS easing functions passed as ease (valid in framer-motion). Reduced motion is honoured (animate={} with transition duration 0), and here initial is not opacity 0, so no invisibility. Infinite y-bobbing loops on every card is distracting.",
+    "a11y": "Decorative; h3 per card; no reduced-motion issue.",
+    "api": "React.FC with HTML attribute passthrough (good). The module's real value is the exported `easings` and `glassTransitionPresets` objects; the component is a demo.",
+    "ssr": "SSR-safe.",
+    "fake_complexity": "Mild: 'glassEase' and 'shatterEase' are ad-hoc piecewise curves. glassEase is discontinuous in slope and slightly non-monotone at t=0.3 (0.2999 vs 0.3), and shatterEase ends at 0, not 1, so it is unusable as a transition ease.",
+    "duplicates": [
+      "src/tokens/designConstants ANIMATION.EASING",
+      "src/animations/physics/* (SpringPresets)",
+      "GlassMotionController internal easings (second copy, L101-117)"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 3,
+      "usability": 3,
+      "api": 4,
+      "responsive": 6,
+      "a11y": 6,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 6,
+      "docs": 3,
+      "storybook": 3,
+      "production": 3
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "src/tokens motion tokens (easing curves as cubic-bezier tokens) + docs page; drop the demo component",
+    "flagship_candidate": false,
+    "justification": "This is a demo component with no product use. The easing table is duplicated in GlassMotionController and in the design tokens. Move the curves that are actually needed (as cubic-bezier motion tokens) into the token package, fix or delete shatterEase/glassEase, and remove the component.",
+    "evidence": [
+      "src/components/animations/AdvancedAnimations.tsx:114-133",
+      "src/components/animations/AdvancedAnimations.tsx:166-173",
+      "src/components/animations/AdvancedAnimations.tsx:214-233",
+      "src/components/animations/GlassMotionController.tsx:101-117"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassMotionController (+ GlassAnimated, GlassAnimationSequence, GlassAnimationTimeline, useMotionController, animationPresets)",
+    "file": "src/components/animations/GlassMotionController.tsx",
+    "lines": 925,
+    "category": "motion/orchestration",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/animations/GlassMotionController.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/animations/GlassMotionController.test.tsx",
+      "count": 10,
+      "kind": "template + bounded-style checks; no animation behaviour asserted"
+    },
+    "screenshots": [
+      {
+        "slug": "components-animations-glassmotioncontroller",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glassmotioncontroller/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glassmotioncontroller/mobile.png",
+        "visual_note": "Bottom-half band of plain cards (324 colors); top 300px blank. Motion components cannot be judged from a still image, and the story adds no material."
+      }
+    ],
+    "material_impl": "None. These are behaviour wrappers. OptimizedGlass and ContrastGuard are imported and unused (L12, L19). The 'Glass' prefix is misleading.",
+    "motion": "Custom rAF tweening that writes element.style directly (L182-235, L358-359), with its own easing table. Reduced motion is respected (applies the end state). Defects: (1) yoyo uses createReverseAnimationFrame, which is an empty function (L268-281), so the promise never resolves and aria-busy stays true; (2) a repeat:Infinity preset (animationPresets.pulse) on click/hover never resolves; (3) animate/batchAnimate are recreated on every controller render, and GlassAnimationSequence's effect depends on batchAnimate (L686-705) while animate() calls setIsAnimating on the controller, so each run re-renders the controller, creates a new batchAnimate, and re-fires the sequence: a likely re-animation loop; (4) multiple transform-based types overwrite each other's transform.",
+    "a11y": "announceToScreenReader on every animation start and complete, including 'applied instantly due to reduced motion' (L153-156, L162, L225-228). That is screen-reader spam for decorative motion, which is an anti-pattern. role=region with aria-label on a pure wrapper adds landmark noise. Click-trigger GlassAnimated gets role=button with a generic label.",
+    "api": "forwardRef on all four. GlassAnimated/Sequence/Timeline take compact/contained/preview/maxHeight/maxWidth props: layout concerns leaking into motion wrappers, plus a 320px default maxWidth clamp when compact. Timeline uses querySelector strings.",
+    "ssr": "'use client'; DOM writes in effects only.",
+    "fake_complexity": "Real but reinvents framer-motion, which the same library already depends on and uses everywhere else.",
+    "duplicates": [
+      "framer-motion (dependency)",
+      "src/animations/orchestration/useOrchestration.ts",
+      "src/animations/orchestration/useAnimationSequenceOrchestrator.ts",
+      "src/animations/hooks/useAnimationSequenceBasic.ts",
+      "src/contexts/AnimationContext (AnimationProvider)",
+      "src/contexts/MotionPreferenceContext"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 1,
+      "usability": 4,
+      "api": 5,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 4,
+      "consistency": 3,
+      "performance": 4,
+      "docs": 4,
+      "storybook": 4,
+      "production": 3
+    },
+    "overall": 3,
+    "disposition": "CONSOLIDATE",
+    "target": "src/animations/orchestration + MotionPreferenceProvider (single motion API on framer-motion; keep presets as motion tokens)",
+    "flagship_candidate": false,
+    "justification": "This is a third, parallel animation system next to framer-motion and the library's own orchestration hooks. It has real bugs (never-resolving yoyo/infinite promises, a likely sequence re-fire loop) and spams screen readers on every animation. It is a root export, so deprecate it with re-export shims in 4.x and point users to the orchestration hooks and MotionPreferenceProvider. Move animationPresets into motion tokens.",
+    "evidence": [
+      "src/components/animations/GlassMotionController.tsx:12",
+      "src/components/animations/GlassMotionController.tsx:145-236",
+      "src/components/animations/GlassMotionController.tsx:153-163",
+      "src/components/animations/GlassMotionController.tsx:268-281",
+      "src/components/animations/GlassMotionController.tsx:686-705",
+      "src/components/animations/GlassMotionController.tsx:783-789",
+      "src/index.ts:359-366"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassTransitions",
+    "file": "src/components/animations/GlassTransitions.tsx",
+    "lines": 895,
+    "category": "motion/transitions",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/animations/GlassTransitions.stories.tsx",
+      "count": 1
+    },
+    "tests": {
+      "file": "src/components/animations/GlassTransitions.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-animations-glasstransitions",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glasstransitions/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-glasstransitions/mobile.png",
+        "visual_note": "Gray card on a #f5f5f5-to-#ddd gradient (151 colors, std 17): one panel with a 'Cycle transition' pill plus a swipe card. Looks like a neutral wireframe, not liquid glass."
+      }
+    ],
+    "material_impl": "Cards use var(--glass-gradient-neutral) with a hard-coded boxShadow (L363-370, L845-851). No backdrop or refraction primitive. It overrides --glass-text-* to black at the root (L727-734) and injects an !important <style> (L834-838).",
+    "motion": "framer-motion variants for shatter/liquid/ripple/morph/frost. Core defect: GlassTransition sets animate='initial' (L241-243), so the 'enter' variants are never used. GlassPageTransition wraps an unkeyed child in AnimatePresence (L265-273), so exit/enter never fire on content change. The demo 'Cycle transition' button changes the key of an inner div, not the presence child, so the advertised transition does not happen. Animating filter: blur(15px) on page-sized layers is expensive. No reduced-motion handling in GlassTransition/GlassPageTransition themselves (useReducedMotion called at L212, result unused).",
+    "a11y": "SwipeableGlassCards: drag-only navigation plus 44px dot buttons with labels (good), but no arrow-key support or aria-roledescription/live region.",
+    "api": "Object.assign static namespace that bundles GlassTransition, GlassPageTransition, SwipeableGlassCards, GlassAccordion, GlassModal, GlassTabs and glassTransitionVariants (L885-893). This shadows the library's real GlassModal/GlassTabs/GlassAccordion names.",
+    "ssr": "SSR-safe at module scope.",
+    "fake_complexity": "The headline feature (page/content transitions) is non-functional as wired: enter variants are unused and presence children are unkeyed.",
+    "duplicates": [
+      "src/components/advanced/GlassLiquidTransition.tsx",
+      "src/components/interactive/PageTransitionDemo.tsx",
+      "src/components/primitives/LiquidGlassSourceTransition (stories)",
+      "src/components/modal/GlassModal.tsx",
+      "src/components/navigation/GlassTabs.tsx",
+      "src/components/data-display/GlassAccordion.tsx"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 3,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 3,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 4,
+      "docs": 3,
+      "storybook": 2,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "CONSOLIDATE",
+    "target": "src/components/advanced/GlassLiquidTransition (single transition primitive); move variants to motion tokens; delete the shadow Modal/Tabs/Accordion",
+    "flagship_candidate": false,
+    "justification": "The transition primitive does not run its enter animation, and the page-transition wrapper never triggers. The module also smuggles in second implementations of Modal, Tabs and Accordion that are weaker than the real ones. Merge the variant definitions (fixed: keyed presence, initial/animate/exit wired, reduced-motion fallback to opacity-only) into GlassLiquidTransition and delete the rest.",
+    "evidence": [
+      "src/components/animations/GlassTransitions.tsx:205-248",
+      "src/components/animations/GlassTransitions.tsx:212",
+      "src/components/animations/GlassTransitions.tsx:258-275",
+      "src/components/animations/GlassTransitions.tsx:727-734",
+      "src/components/animations/GlassTransitions.tsx:834-838",
+      "src/components/animations/GlassTransitions.tsx:841-878",
+      "src/components/animations/GlassTransitions.tsx:885-893",
+      "src/index.ts:627"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "GlassTransitions.GlassModal / GlassTabs / GlassAccordion / SwipeableGlassCards (static members)",
+    "file": "src/components/animations/GlassTransitions.tsx",
+    "lines": 440,
+    "category": "overlay/navigation/disclosure (shadow duplicates)",
+    "exported_from_root": true,
+    "stories": {
+      "file": "src/components/animations/GlassTransitions.stories.tsx",
+      "count": 0,
+      "note": "only SwipeableGlassCards appears inside the Default story"
+    },
+    "tests": {
+      "file": null,
+      "count": 0
+    },
+    "screenshots": [],
+    "material_impl": "Utility classes glass-foundation-complete glass-surface-* with inline hard-coded shadows.",
+    "motion": "All use the pattern initial={{opacity:0,...}} + animate={prefersReducedMotion ? {} : {...}}. Under prefers-reduced-motion: GlassModal content and backdrop stay at opacity 0, so the modal is INVISIBLE but blocks the page and scroll (body overflow hidden) (L579-582, L592-595). GlassAccordion panels stay at height 0 / opacity 0, so content is never revealed (L509-513). GlassTabs panel stays at opacity 0 (L700-703).",
+    "a11y": "GlassModal: role=dialog with a generic 'Modal dialog' label, no focus trap, no initial focus or return focus, and a click on the dialog root closes it (L586). GlassTabs: no tablist/tab roles, aria-selected or arrow keys; aria-labelledby points at a non-existent id 'tab-<id>' (L695-696); value/onValueChange/children props are declared but ignored (L625-628). GlassAccordion: title uses glass-text-white on a light surface (L479), with no aria-controls/region.",
+    "api": "Prop surfaces diverge from the real GlassModal/GlassTabs/GlassAccordion. Same names accessed as GlassTransitions.GlassModal etc. create confusion.",
+    "ssr": "document listeners in effects (fine).",
+    "fake_complexity": "n/a",
+    "duplicates": [
+      "src/components/modal/GlassModal.tsx",
+      "src/components/navigation/GlassTabs.tsx",
+      "src/components/data-display/GlassAccordion.tsx",
+      "src/components/animations/GlassTransitions.tsx SwipeableGlassCards vs carousel components"
+    ],
+    "scores": {
+      "visual": 3,
+      "material": 2,
+      "usability": 2,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 1,
+      "performance": 5,
+      "docs": 1,
+      "storybook": 1,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "real GlassModal / GlassTabs / GlassAccordion",
+    "flagship_candidate": false,
+    "justification": "These are weaker, inaccessible clones of first-class components. Under reduced motion they become invisible: the modal blocks the page with nothing visible, and accordion and tab content never appears. Delete them from the GlassTransitions namespace.",
+    "evidence": [
+      "src/components/animations/GlassTransitions.tsx:435-541",
+      "src/components/animations/GlassTransitions.tsx:552-615",
+      "src/components/animations/GlassTransitions.tsx:579-595",
+      "src/components/animations/GlassTransitions.tsx:634-720",
+      "src/components/animations/GlassTransitions.tsx:695-696",
+      "src/components/animations/GlassTransitions.tsx:885-893"
+    ],
+    "visual_evidence_method": "no certification screenshot exists for this target"
+  },
+  {
+    "name": "OrganicAnimationEngine (+ GentleAnimation, EnergeticAnimation, InteractiveAnimation, ContemplativeAnimation, COMMON_SEQUENCES)",
+    "file": "src/components/animations/OrganicAnimationEngine.tsx",
+    "lines": 860,
+    "category": "motion/ambient",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/animations/OrganicAnimationEngine.stories.tsx",
+      "count": 5
+    },
+    "tests": {
+      "file": "src/components/animations/OrganicAnimationEngine.test.tsx",
+      "count": 8,
+      "kind": "test env short-circuits all animation (isTestEnv) so behaviour is untested"
+    },
+    "screenshots": [
+      {
+        "slug": "components-animations-organicanimationengine",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-organicanimationengine/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-animations-organicanimationengine/mobile.png",
+        "visual_note": "~1% non-bg: a single small card in a gray-blue field. It reads as nearly empty."
+      }
+    ],
+    "material_impl": "None (wrapper). The shimmer pattern animates the background shorthand between gradients, which overrides any glass surface background on the wrapped element.",
+    "motion": "framer-motion useAnimation plus springs. Reduced motion is NOT wired: prefersReducedMotion is assigned (L366) and never read, so the breathe/drift/pulse infinite loops run for users who asked for reduced motion. The auto-trigger effect depends on executeSequence, which depends on activeSequences.size (L596-619); every start and finish changes size, which re-fires the effect and schedules duplicate sequences on top of the loop rescheduling (L567-581), compounding timers. Also attaches a window scroll listener that fires sequences on every scroll event (L709-723) without throttling.",
+    "a11y": "The root has onClick/whileTap with no role or keyboard. 'Emotional context' drives motion intensity with no user control. The debug HUD has glass-focus/glass-touch-target classes on a pointer-events:none div (L748).",
+    "api": "React.FC, no ref, no style; className via a string template. Props like performanceLevel, enableAdaptiveSpeed (UA sniffing, L464-479) and emotionalContext are pseudo-features. Not a root export, but reachable through the root export EnhancedGlassButton (src/components/button/EnhancedGlassButton.tsx:30, :424; src/index.ts:637).",
+    "ssr": "'use client'; navigator guarded. The import block comment is malformed: an import statement sits inside the doc comment at L2-3.",
+    "fake_complexity": "Fake framing. 'Physics simulation' (viscosity, elasticity, gravity unused), 'emotional context' (a table of springs) and 'adaptive speed' (UA regex). Under the branding it is a looped framer keyframe player.",
+    "duplicates": [
+      "src/animations/physics/* (springPhysics, SpringPresets)",
+      "src/hooks/extended/useAmbientTilt / useMagneticElement",
+      "GlassMotionController",
+      "src/components/website-components/MotionAwareGlass"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 1,
+      "usability": 2,
+      "api": 2,
+      "responsive": 5,
+      "a11y": 1,
+      "motion": 2,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 1.5,
+    "disposition": "REMOVE",
+    "target": "framer-motion variants + motion tokens; EnhancedGlassButton should use a reduced-motion-aware hover/press primitive",
+    "flagship_candidate": false,
+    "justification": "It ignores prefers-reduced-motion while running infinite loops, has a timer-compounding auto-trigger bug, fires on every scroll, and its 'physics/emotion/adaptive' features are cosmetic. It leaks into the root via EnhancedGlassButton. Remove it and migrate EnhancedGlassButton to the shared press/hover motion.",
+    "evidence": [
+      "src/components/animations/OrganicAnimationEngine.tsx:2-3",
+      "src/components/animations/OrganicAnimationEngine.tsx:366",
+      "src/components/animations/OrganicAnimationEngine.tsx:464-479",
+      "src/components/animations/OrganicAnimationEngine.tsx:511-619",
+      "src/components/animations/OrganicAnimationEngine.tsx:709-723",
+      "src/components/animations/OrganicAnimationEngine.tsx:725-742",
+      "src/components/button/EnhancedGlassButton.tsx:30",
+      "src/index.ts:637"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "ARGlassEffects (lazy wrapper + fallback)",
+    "file": "src/components/ar/ARGlassEffects.tsx",
+    "lines": 109,
+    "category": "effects/3d-ar",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/ar/ARGlassEffects.stories.tsx",
+      "count": 7
+    },
+    "tests": {
+      "file": "src/components/ar/ARGlassEffects.test.tsx",
+      "count": 4,
+      "kind": "template"
+    },
+    "screenshots": [
+      {
+        "slug": "components-ar-arglasseffects",
+        "desktop": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ar-arglasseffects/desktop.png",
+        "mobile": "reports/glassmorphism-storybook-visual-certification/screenshots/components-ar-arglasseffects/mobile.png",
+        "visual_note": "Only 83 distinct colors, mean 243, std 11: the fallback renders essentially white. Its gradient and colour classes (glass-bg-[radial-gradient...], glass-text-cyan-100, glass-min-h-[480px], glass-rounded-2xl) do not exist in src/styles, while glass-text-white does, so the 'AR' card is likely white text on white (PLAUSIBLE, inferred from pixel stats plus missing CSS)."
+      }
+    ],
+    "material_impl": "The fallback uses Tailwind-arbitrary-value classes with a glass- prefix (L53-89) that the CSS does not define, so the dark radial backdrop never paints. The data bars use glass-bg-cyan-300 (also missing).",
+    "motion": "None in the fallback.",
+    "a11y": "The fallback has section/h2/p structure. No live status when the 3D view replaces the fallback.",
+    "api": "Function, no ref. Props are typed from the r3f module (type-only import, good for bundle split). Module-level LoadedImpl cache.",
+    "ssr": "Good pattern: dynamic import in an effect, assertReact19ForThree guard, exposed only via the aura-glass/three subpath (src/three/index.ts:21).",
+    "fake_complexity": "The wrapper is honest about being a fallback.",
+    "duplicates": [
+      "src/components/spatial/SpatialComputingEngine",
+      "src/components/effects/*.r3f.tsx lazy-wrapper pattern (AuroraPro, SeasonalParticles, GlassShatterEffects)"
+    ],
+    "scores": {
+      "visual": 1,
+      "material": 1,
+      "usability": 2,
+      "api": 4,
+      "responsive": 5,
+      "a11y": 4,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 7,
+      "docs": 3,
+      "storybook": 3,
+      "production": 2
+    },
+    "overall": 2,
+    "disposition": "DEPRECATE",
+    "target": "aura-glass/three lab subpath (experimental) or remove with ARGlassEffects.r3f",
+    "flagship_candidate": false,
+    "justification": "The lazy-load pattern is the one good idea here and should become the shared template for 3D modules. But the visible fallback paints nothing, because its styling classes do not exist, and the real implementation behind it is a mock (see the r3f record). Deprecate it along with its implementation.",
+    "evidence": [
+      "src/components/ar/ARGlassEffects.tsx:17-41",
+      "src/components/ar/ARGlassEffects.tsx:50-95",
+      "src/three/index.ts:21-29"
+    ],
+    "visual_evidence_method": "Read tool returned no image data in this environment; screenshot judged via PIL pixel statistics (mean/std luminance, content bbox, non-background fraction, color count) plus ASCII luminance map."
+  },
+  {
+    "name": "ARGlassEffects (R3F implementation)",
+    "file": "src/components/ar/ARGlassEffects.r3f.tsx",
+    "lines": 888,
+    "category": "effects/3d-ar",
+    "exported_from_root": false,
+    "stories": {
+      "file": "src/components/ar/ARGlassEffects.stories.tsx",
+      "count": 7
+    },
+    "tests": {
+      "file": "src/components/ar/ARGlassEffects.test.tsx",
+      "count": 4
+    },
+    "screenshots": [],
+    "material_impl": "Shader materials from ARGlassEffects.helpers (createSpatialUI, createHolographicGlass, createDataVisualization). A material is rebuilt via useMemo on every hover toggle (L647-657, L792-800) and never disposed, so GPU objects leak.",
+    "motion": "useFrame loops. materialRef is never attached to the mesh in FloatingPanel/HolographicPortal (refs declared L639/L786, not passed), so `if (!materialRef.current) return` (L660, L803) exits every frame: no floating, rotation or uniform updates ever run. FloatingPanel calls setDistance in useFrame (L668), which would cause React re-renders per frame per panel if reached. Reduced motion is not applied inside the canvas.",
+    "a11y": "Canvas-only interactive content (panels and portal are clickable meshes) with no DOM equivalent or labels. The capability list relies on emoji \u2705/\u274c with Tailwind text-green-400 classes that are not shipped.",
+    "api": "Function, untyped internals (`: any` props on every sub-component). handlePortalActivation calls useReducedMotion() INSIDE a useCallback (L325-331): a Rules-of-Hooks violation that throws 'Invalid hook call' when the portal is clicked.",
+    "ssr": "Imports three, @react-three/fiber and drei at module top. Correctly isolated behind the lazy wrapper and the aura-glass/three subpath.",
+    "fake_complexity": "Fake. The code self-describes as 'Mock WebXR hook for demonstration' (L26). startARSession is a 1s timeout (L76-87); hit test and hand tracking return hard-coded vectors and fire 'surface_detected'/'hand_interaction' on mount (L105-149, L303-314); voice recognition is a no-op (L151-157); physics is empty (L557-572).",
+    "duplicates": [
+      "src/components/spatial/SpatialComputingEngine",
+      "src/components/effects/AuroraPro.r3f.tsx (R3F scene scaffolding)"
+    ],
+    "scores": {
+      "visual": 2,
+      "material": 2,
+      "usability": 1,
+      "api": 2,
+      "responsive": 4,
+      "a11y": 1,
+      "motion": 1,
+      "consistency": 2,
+      "performance": 3,
+      "docs": 2,
+      "storybook": 3,
+      "production": 1
+    },
+    "overall": 1,
+    "disposition": "REMOVE",
+    "target": "",
+    "flagship_candidate": false,
+    "justification": "This is a mock WebXR experience. It fires fake interaction events, never animates (unattached material refs), leaks materials, and crashes on portal click through a hook called inside a callback. It is the opposite of production 'Liquid Glass'. Remove it. If spatial work continues, start from a real WebXR session hook in a lab package.",
+    "evidence": [
+      "src/components/ar/ARGlassEffects.r3f.tsx:26",
+      "src/components/ar/ARGlassEffects.r3f.tsx:76-87",
+      "src/components/ar/ARGlassEffects.r3f.tsx:105-157",
+      "src/components/ar/ARGlassEffects.r3f.tsx:303-314",
+      "src/components/ar/ARGlassEffects.r3f.tsx:325-331",
+      "src/components/ar/ARGlassEffects.r3f.tsx:639-668",
+      "src/components/ar/ARGlassEffects.r3f.tsx:786-803"
+    ],
+    "visual_evidence_method": "no certification screenshot exists for this target"
+  }
+]

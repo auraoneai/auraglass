@@ -1,0 +1,7 @@
+# Remote browser screenshots (~130 MB) stay out of git; metrics/analysis JSON and logs are committed.
+# Per the plan, visual evidence is a CI artifact, not committed history.
+autopsy/remote-evidence/**/*.png
+autopsy/remote-evidence/**/*.jpg
+autopsy/remote-evidence/**/*.jpeg
+autopsy/remote-evidence/**/*.webp
+autopsy/remote-evidence/**/*.zip

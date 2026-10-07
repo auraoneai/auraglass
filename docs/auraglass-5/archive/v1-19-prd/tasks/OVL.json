@@ -1,0 +1,2816 @@
+[
+  {
+    "id": "OVL-001",
+    "prd": "PRD-10",
+    "system": "4.x/GlassModal",
+    "file": "src/components/modal/GlassModal.tsx",
+    "action": "MODIFY",
+    "description": "4.1.1 C-I privacy cut: delete data-user-stress, data-interaction-count (:796-797), data-time-spent={Date.now()-…} (:835-838), any data-consciousness-*/data-modal-complexity, and the state that only feeds them. Public prop types unchanged.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "GlassModal.test.tsx asserts the 6 analytics attributes are absent (OVL-005)",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70)",
+    "status": "todo",
+    "gate": "TRUST intake of REQ-OVL-70 into 4.1.1 (SC-36); otherwise ships on the 4.2 train (REL)"
+  },
+  {
+    "id": "OVL-002",
+    "prd": "PRD-10",
+    "system": "4.x/GlassModal",
+    "file": "src/components/modal/GlassModal.tsx",
+    "action": "MODIFY",
+    "description": "No-op the open/interaction recording (:418-430), gaze (:515-530), biometric (:550-560), predictive (:599-612) effects and the setInterval at :581. When consciousness|predictive|adaptive|eyeTracking|trackAchievements is truthy, emit one dev-only warning per page load ('has no effect since 4.1.1 and is removed in 5.0'). Props stay in types.",
+    "depends_on": [
+      "OVL-001"
+    ],
+    "priority": "P0",
+    "test": "GlassModal.test.tsx: jest.getTimerCount()===0 after 10s fake time with all 5 props set; one console.warn across 2 renders",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-003",
+    "prd": "PRD-10",
+    "system": "4.x/GlassDialog",
+    "file": "src/components/modal/GlassDialog.tsx",
+    "action": "MODIFY",
+    "description": "Remove data-dialog-urgency, data-user-stress, data-interaction-count (:589-592); no-op the setIntervals at :339 and :451 (3000ms adaptive loop) with the same one-time dev warning as OVL-002.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "GlassDialog.test.tsx: attributes absent; jest.getTimerCount()===0 with adaptive props",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70)",
+    "status": "todo",
+    "gate": "TRUST intake of REQ-OVL-70 into 4.1.1 (SC-36); otherwise ships on the 4.2 train (REL)"
+  },
+  {
+    "id": "OVL-004",
+    "prd": "PRD-10",
+    "system": "4.x/GlassDrawer",
+    "file": "src/components/modal/GlassDrawer.tsx",
+    "action": "MODIFY",
+    "description": "Remove data-user-stress/data-interaction-count (:795-796) and data-time-spent (:839); no-op the setInterval at :487 with the one-time dev warning.",
+    "depends_on": [],
+    "priority": "P0",
+    "test": "GlassDrawer.test.tsx: attributes absent; 0 timers",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70)",
+    "status": "todo",
+    "gate": "TRUST intake of REQ-OVL-70 into 4.1.1 (SC-36); otherwise ships on the 4.2 train (REL)"
+  },
+  {
+    "id": "OVL-005",
+    "prd": "PRD-10",
+    "system": "4.x/tests",
+    "file": "src/components/modal/GlassModal.test.tsx",
+    "action": "TEST",
+    "description": "Update existing GlassModal.test.tsx, GlassDialog.test.tsx, GlassDrawer.test.tsx: assert absence of data-user-stress, data-interaction-count, data-time-spent, data-dialog-urgency, data-modal-complexity, data-consciousness-*; assert jest.getTimerCount()===0 after advancing fake timers 10s with consciousness/adaptive/predictive/eyeTracking set.",
+    "depends_on": [
+      "OVL-002",
+      "OVL-003",
+      "OVL-004"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/modal/GlassModal.test.tsx src/components/modal/GlassDialog.test.tsx src/components/modal/GlassDrawer.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-006",
+    "prd": "PRD-10",
+    "system": "4.x/visual-parity",
+    "file": "NEW:tests/perf/browser/overlays-glass-modal-4x.spec.ts",
+    "action": "TEST",
+    "description": "Remote pixel parity: capture glass-modal, glass-dialog, glass-drawer default stories at 1440x900 and 390x844 at the pre-change SHA and the branch SHA in one remote job; toHaveScreenshot maxDiffPixels 0 (or PRD-01 visual-class gate if present). Case name 'pixel parity 4.1.1'.",
+    "depends_on": [
+      "OVL-005",
+      "REL-040"
+    ],
+    "priority": "P0",
+    "test": "remote Playwright run: 6 captures, 0 px diff each",
+    "storybook": "existing 4.x stories glass-modal/glass-dialog/glass-drawer, unchanged",
+    "acceptance": "AC-OVL-18 (REQ-OVL-70 pixel-identical, D-27)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-007",
+    "prd": "PRD-10",
+    "system": "4.x/perf-attribution",
+    "file": "NEW:tests/perf/browser/overlays-attribute-infinite-animations.spec.ts",
+    "action": "TEST",
+    "description": "Remote: open glass-modal under the runtime-remote.md §5 hover+scroll script; dump document.getAnimations() filtered to iterations===Infinity with animationName and CSS path of effect.target; attach JSON artifact and paste list in PR. No assumption that the sources are glass.css:622/643/648.",
+    "depends_on": [
+      "PERF-039",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote run produces the 4-entry attribution artifact",
+    "storybook": "existing glass-modal story",
+    "acceptance": "AC-OVL-05 prerequisite (REQ-OVL-05 attribution)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-008",
+    "prd": "PRD-10",
+    "system": "4.x/frame-rate",
+    "file": "src/components/modal/GlassModal.tsx",
+    "action": "MODIFY",
+    "description": "On release/4.x: for each attributed infinite animation on an overlay layer (OVL-007), pause it while the overlay is open and idle (animation-play-state: paused under the open-state selector, or omit the animated class while open), in GlassModal.tsx and/or src/styles/glass.css. Keep only changes whose settled-frame pixel diff is 0. Do not touch backdropBlurClasses (:738-743).",
+    "depends_on": [
+      "OVL-007",
+      "REL-040"
+    ],
+    "priority": "P1",
+    "test": "overlays-glass-modal-4x.spec.ts 'settled frame pixel diff 0'",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-05 4.x half (REQ-OVL-71)",
+    "status": "todo",
+    "gate": "4.2 train only (SC-36: perf fixes are not 4.1.1 scope)"
+  },
+  {
+    "id": "OVL-009",
+    "prd": "PRD-10",
+    "system": "4.x/frame-rate",
+    "file": "tests/perf/browser/overlays-glass-modal-4x.spec.ts",
+    "action": "TEST",
+    "description": "Add case 'fps >= 30': glass-modal under the runtime-remote.md §5 script on desktop and mobile profiles of tests/perf/harness; assert fps>=30 and settled-frame diff 0. If unreachable, the spec records measured fps as an artifact and the PR states 'deferred to 5.0'; the threshold is not lowered.",
+    "depends_on": [
+      "OVL-008"
+    ],
+    "priority": "P1",
+    "test": "remote overlays-perf run on release/4.x Storybook",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-05 (REQ-OVL-71)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-010",
+    "prd": "PRD-10",
+    "system": "4.x/forced-colors",
+    "file": "src/styles/glass.css",
+    "action": "MODIFY",
+    "description": "4.2 D-28 visual bug fix: add the GlassModal scrim classes (backdropBlurClasses outputs used at GlassModal.tsx:800-815), panel classes and .liquid-glass-modal-surface to both the forced-colors and reduced-transparency fallback blocks at glass.css:4022-4123 (backdrop-filter:none, solid fill).",
+    "depends_on": [
+      "REL-040"
+    ],
+    "priority": "P1",
+    "test": "glass-modal-forced-colors.spec.ts (OVL-011)",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-08 4.2 half (REQ-OVL-72)",
+    "status": "todo",
+    "gate": "lands on release/4.x only (SC-20); glass.css removal on 5.0 is MOT-084"
+  },
+  {
+    "id": "OVL-011",
+    "prd": "PRD-10",
+    "system": "4.x/forced-colors",
+    "file": "NEW:tests/visual/components/glass-modal-forced-colors.spec.ts",
+    "action": "TEST",
+    "description": "Remote Chromium with forcedColors 'active': count visible elements in glass-modal with computed backdrop-filter != none; expect 0 (before: 10 under forced colors, 12 without). Produce before/after composites as CI artifacts; PR labelled D-28 visual bug fix.",
+    "depends_on": [
+      "OVL-010"
+    ],
+    "priority": "P1",
+    "test": "remote run: count 0",
+    "storybook": "existing glass-modal story",
+    "acceptance": "AC-OVL-08 (REQ-OVL-72)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-012",
+    "prd": "PRD-10",
+    "system": "4.x/notification-center",
+    "file": "src/components/data-display/GlassNotificationCenter.tsx",
+    "action": "MODIFY",
+    "description": "4.2 C-I: delete the <style id=\"glass-notification-styles\"> injection at :471-474 and move its rules verbatim into an appended block '/* glass-notification-center (moved from runtime injection) */' in src/styles/glass.css so the PRD-02 side-effect gate no longer flags dist/index.mjs.",
+    "depends_on": [
+      "PKG-042"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 side-effect gate green for root entry; remote pixel diff 0 on GlassNotificationCenter default story",
+    "storybook": "existing story, pixel-identical",
+    "acceptance": "AC-OVL-19 (no <style> injection; PERFORMANCE-11/14)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-013",
+    "prd": "PRD-10",
+    "system": "4.x/feedback-toast",
+    "file": "src/components/feedback/GlassToast.tsx",
+    "action": "REMOVE",
+    "description": "4.2 C-I: delete the unexported duplicate feedback/GlassToast.tsx after `rg -n \"feedback/GlassToast\" src` shows no importer and src/index.ts does not export it; delete its story/test if any.",
+    "depends_on": [
+      "REL-043"
+    ],
+    "priority": "P2",
+    "test": "jest full run remote green; tsc --noEmit green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-19 (one toast store, E-28/E-31)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-014",
+    "prd": "PRD-10",
+    "system": "4.x/deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "4.2 C-D entries (since 4.2.0, removeIn 5.0.0) per REQ-OVL-73: GlassModal props consciousness, predictive, adaptive, eyeTracking, trackAchievements, isContained, material, materialProps, backdropBlur; GlassDialog/GlassDrawer equivalents; GlassNotificationCenter, GlassNotificationProvider, useNotifications; Positioner, GlassPositioner; subpath aura-glass/overlays; also props animation, compact on overlays (§9). Regenerate src/internal/deprecations.generated.ts via scripts/release/gen-deprecations.mjs.",
+    "depends_on": [
+      "TRUST-075",
+      "REL-010",
+      "REL-070"
+    ],
+    "priority": "P1",
+    "test": "gen-deprecations.mjs --check green; PRD-01 deprecations schema gate green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 deprecations half (REQ-OVL-73)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-015",
+    "prd": "PRD-10",
+    "system": "4.x/deprecations",
+    "file": "src/components/modal/GlassModal.tsx",
+    "action": "MODIFY",
+    "description": "Wire warnDeprecated(id) (src/internal/warnDeprecated.ts) for every OVL-014 entry at first render/use in GlassModal.tsx, GlassDialog.tsx, GlassDrawer.tsx, GlassNotificationCenter.tsx, src/primitives/Positioner.tsx, src/primitives/positioning/GlassPositioner.tsx and src/overlays/index.ts (module-level first-use guard, not import-time side effect).",
+    "depends_on": [
+      "OVL-014",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "overlay-deprecations-4x.test.tsx (OVL-017)",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-73)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-016",
+    "prd": "PRD-10",
+    "system": "4.x/deprecations",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "4.3 rename C-D entries (kind export) for every §2.4 name with a 5.0 successor (GlassModal→Dialog/AlertDialog, GlassDialog→Dialog, GlassDrawer/GlassBottomSheet/GlassActionSheet/LiquidGlassAdaptiveSheet→Sheet, MobileGlassBottomSheet→Sheet side=bottom, GlassPopover/GlassHoverCard→Popover, GlassTooltip→Tooltip, GlassDropdownMenu*→Menu.*, GlassContextMenu→ContextMenu, GlassMenubar→Menubar, LiquidGlassPopoverMenu→Menu, GlassToast/GlassToastProvider/GlassToastViewport/useToast→Toast/useToast), codemod canonical-names|prop-grammar; wire warnDeprecated once per symbol in each file.",
+    "depends_on": [
+      "OVL-014",
+      "TRUST-075",
+      "REL-010",
+      "REL-070"
+    ],
+    "priority": "P1",
+    "test": "gen-deprecations.mjs --check; overlay-deprecations-4x.test.tsx rename cases",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-74)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-017",
+    "prd": "PRD-10",
+    "system": "4.x/deprecations",
+    "file": "NEW:src/components/modal/__tests__/overlay-deprecations-4x.test.tsx",
+    "action": "TEST",
+    "description": "For each wired deprecation id (4.2 + 4.3): rendering twice warns exactly once per page load with the PRD-01 format '[aura-glass] DEP-…'; NODE_ENV=production emits nothing.",
+    "depends_on": [
+      "OVL-015",
+      "OVL-016"
+    ],
+    "priority": "P1",
+    "test": "./node_modules/.bin/jest src/components/modal/__tests__/overlay-deprecations-4x.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-73/-74)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-020",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/overlayPortal.tsx",
+    "action": "CREATE",
+    "description": "OverlayPortal({component, children, keepMounted}): renders the given Base UI *.Portal with container=usePortalContainer() (src/foundation/portal.ts → provider [data-ag-portal-root]); without a provider falls back to document.body and emits one dev warning per page load '[aura-glass] Overlay rendered without <AuraGlassProvider>; portalling to document.body.'",
+    "depends_on": [
+      "A11Y-029",
+      "A11Y-051",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "overlay-layer.test.tsx 'portals into provider root', 'fallback warns once'",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-01 (AC-OVL-07 precondition)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-021",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/overlaySurface.ts",
+    "action": "CREATE",
+    "description": "overlayMaterial(kind: 'dialog'|'alert'|'sheet'|'popover'|'menu'|'tooltip'|'toast') → {...materialProps({layer:'overlay', thickness, variant:'regular'}), 'data-ag-overlay': kind}; thickness thick for dialog/alert/sheet, regular for popover/menu, thin for tooltip/toast. No other options.",
+    "depends_on": [
+      "MAT-046"
+    ],
+    "priority": "P0",
+    "test": "popup-contract.test.tsx material attribute rows; unit table test in overlay-dom-contract.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-14, §11.2 thickness (AC-OVL-01)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-022",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/positioning.ts",
+    "action": "CREATE",
+    "description": "export const defaultPositionerProps = {sideOffset: 8, collisionPadding: 8, collisionAvoidance: {side:'flip', align:'shift'}} used by every anchored popup Positioner.",
+    "depends_on": [
+      "FND-001"
+    ],
+    "priority": "P0",
+    "test": "popup-contract.test.tsx asserts props reach Base UI Positioner (data-side present, offset)",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-14, REQ-OVL-41",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-023",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/overlays.css",
+    "action": "CREATE",
+    "description": "@layer ag.components: .ag-scrim {position:fixed;inset:0;backdrop-filter:blur(var(--_ag-scrim-blur))} with --_ag-scrim-blur from PRD-04 scrim token (<=12px), solved tint, no pseudo optics/grain; .ag-scrim[data-ag-overlay-depth]:not(:last-of-type){backdrop-filter:none}; forced-colors + [data-ag-transparency=solid]: popup/scrim backdrop-filter none, popup Canvas/CanvasText/1px CanvasText border, scrim color-mix(in srgb, Canvas 60%, transparent) (solid: rgb(0 0 0/.5)); anchored popups transform-origin:var(--transform-origin), max-height:var(--available-height), overflow:auto; [data-ag-animating]{will-change:transform,opacity}. No transition:all, !important, infinite animations, transitioned filters. Resolve scrim ownership vs PRD-04 REQ-MAT-28 first (one scrim only).",
+    "depends_on": [
+      "MAT-020",
+      "MAT-015",
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "overlay-a11y-modes.spec.ts forced colors count 0; overlays-dialog-perf.spec.ts 'scrim count and radius'",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-04, -09, -12 (AC-OVL-01, AC-OVL-08)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-024",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/useOverlayAnimating.ts",
+    "action": "CREATE",
+    "description": "Ref-callback hook (with cleanup) that sets data-ag-animating on popup and scrim from the first data-starting-style/data-ending-style frame until transitionend/transitioncancel of the last transitioned property; no setState per frame, no global listeners.",
+    "depends_on": [
+      "OVL-023"
+    ],
+    "priority": "P1",
+    "test": "overlay-motion.spec.ts 'will-change auto at rest'",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-09",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-025",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "NEW:src/components/overlays/_shared/useOverlayLayer.ts",
+    "action": "CREATE",
+    "description": "useOverlayLayer({kind, modal, open, onOpenChange}) registers {id, kind, modal, onEscape} with PRD-05 useLayer() (src/theme/layers/useLayer.ts) while open; onEscape → onOpenChange(false,{reason:'escape-key'}); disables exactly one of Base UI's / LayerStack's Escape paths as the foundation wrapper prescribes (documented in file header). Adds no document/window listeners.",
+    "depends_on": [
+      "A11Y-049",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "overlay-stack.spec.ts T-OVL-STACK-01 one layer per Escape (OVL-095); overlay-layer.test.tsx 'registers with LayerStack'",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-03 (AC-OVL-07)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-026",
+    "prd": "PRD-10",
+    "system": "lint",
+    "file": "eslint-plugin-auraglass.js",
+    "action": "MODIFY",
+    "description": "Add rule auraglass/no-overlay-global-listeners: reports document|window.addEventListener('keydown'|'mousedown'|'pointerdown'|'scroll'|'resize', …) and any assignment to document.body.style.*. MODIFY of the PKG-owned plugin (SC-16); this is the only OVL-owned rule.",
+    "depends_on": [
+      "PKG-015"
+    ],
+    "priority": "P0",
+    "test": "lint-overlays.test.ts invalid fixtures per event type + body.style.overflow",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-12 (REQ-OVL-02)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-027",
+    "prd": "PRD-10",
+    "system": "lint",
+    "file": "eslint.config.js",
+    "action": "TEST",
+    "description": "No OVL render-purity rule (SC-16 drops no-date-now-in-render). Verify that PKG's auraglass/no-random-in-render (PKG-086, registered at error by PKG-089) applies to the overlay globs and reports Date.now()/new Date() in render. If performance.now() in render is not covered, file the gap with PKG rather than adding an OVL rule.",
+    "depends_on": [
+      "PKG-086",
+      "PKG-089"
+    ],
+    "priority": "P0",
+    "test": "eslint --print-config src/components/dialog/Dialog.client.tsx shows auraglass/no-random-in-render at error; lint-overlays.test.ts fixture with Date.now() in render fails lint",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-12 (REQ-OVL-10)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-028",
+    "prd": "PRD-10",
+    "system": "lint",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "Scope to src/components/{dialog,alert-dialog,sheet,popover,tooltip,menu,toast,overlays}/**: auraglass/no-overlay-global-listeners, auraglass/no-date-now-in-render and the existing Math.random ban as error; no-restricted-imports for **/primitives/Positioner, **/primitives/positioning/GlassPositioner, **/primitives/focus/FocusTrap, **/utils/a11yEnhancers, framer-motion, motion, the **/primitives barrel, **/primitives/LiquidGlassMaterial.",
+    "depends_on": [
+      "OVL-026",
+      "OVL-027",
+      "PKG-015",
+      "PKG-089"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/eslint over the overlay file set exits 0; lint-overlays.test.ts restricted-import fixture fails",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-12 (REQ-OVL-02, -10, -19, -45)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-029",
+    "prd": "PRD-10",
+    "system": "lint/tests",
+    "file": "NEW:src/components/overlays/_shared/lint-overlays.test.ts",
+    "action": "TEST",
+    "description": "RuleTester for both rules with fixtures in _shared/__fixtures__/lint/*.tsx (keydown, mousedown, pointerdown, scroll, resize listeners; document.body.style.overflow='hidden'; Date.now() in render; data-time-spent) and valid cases; plus an ESLint API run over the real overlay file set expecting 0 errors.",
+    "depends_on": [
+      "OVL-028"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/overlays/_shared/lint-overlays.test.ts green; every invalid fixture reports",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-12 (REQ-OVL-02, -10)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-030",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/overlay-layer.test.tsx",
+    "action": "TEST",
+    "description": "describe.each(OVERLAY_SUBJECTS from NEW _shared/__tests__/subjects.ts): portal target is [data-ag-portal-root]; document.body has 0 direct overlay children with provider; fallback to document.body + exactly one dev warning without provider. Bootstraps with NEW _shared/__tests__/FixturePopover.tsx (real Base UI Popover + shared modules, no mocks) until OVL-079 replaces it.",
+    "depends_on": [
+      "OVL-020"
+    ],
+    "priority": "P0",
+    "test": "jest green on fixture subject; fails if OVERLAY_SUBJECTS is empty",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-01",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-031",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/overlay-dom-contract.test.tsx",
+    "action": "TEST",
+    "description": "Per subject and part: snapshot of attribute-NAME set (not markup) incl. data-ag-part and data-state open|closed alongside data-open/data-closed; absence of data-user-stress, data-interaction-count, data-time-spent, data-consciousness-*, data-modal-complexity, data-dialog-urgency; Date.now and Math.random spied with 0 calls during render; only .ag-<component>/.ag-<component>__<part> class names.",
+    "depends_on": [
+      "OVL-030"
+    ],
+    "priority": "P0",
+    "test": "jest green per subject",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-10, REQ-OVL-15 (AC-OVL-18 5.0 analogue)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-032",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/overlay-idle.test.tsx",
+    "action": "TEST",
+    "description": "Per subject open: wrap in React Profiler; after enter transition ends, advance fake timers 2000ms with no input → onRender count 0; jest.getTimerCount() 0 (1 per toast for Toast subjects).",
+    "depends_on": [
+      "OVL-030"
+    ],
+    "priority": "P0",
+    "test": "jest green per subject",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-02 (REQ-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-033",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/overlay-dev-counter.test.tsx",
+    "action": "TEST",
+    "description": "Using PRD-04 surfaceCounter (no second counter): fixture with 5 page Surfaces (fine pointer) / 2 (coarse, matchMedia stub) + one open subject → exactly one warning naming the overlay; scrim counted 1, popup 1, Toast stack 1; NODE_ENV=production → 0 warnings.",
+    "depends_on": [
+      "OVL-030",
+      "MAT-055"
+    ],
+    "priority": "P1",
+    "test": "jest green per subject",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-11",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-034",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/popup-contract.test.tsx",
+    "action": "TEST",
+    "description": "Parametrised over anchored kinds (popover, tooltip, menu; toast for material only): Positioner→Popup structure, data-ag-part positioner|popup|arrow, Base UI data-side/data-align, data-ag-overlay=<kind>, overlayMaterial attributes, collisionPadding 8.",
+    "depends_on": [
+      "OVL-021",
+      "OVL-022",
+      "OVL-030"
+    ],
+    "priority": "P0",
+    "test": "jest green on fixture, then real flagships",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-14",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-035",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/overlay-ssr.test.tsx",
+    "action": "TEST",
+    "description": "Per subject: renderToString closed and defaultOpen, then hydrateRoot in jsdom; console.error spy 0 calls; no hydration warnings.",
+    "depends_on": [
+      "OVL-030"
+    ],
+    "priority": "P1",
+    "test": "jest green per subject",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-15 (unit half)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-036",
+    "prd": "PRD-10",
+    "system": "infra/playwright",
+    "file": "playwright.config.ts",
+    "action": "INFRA",
+    "description": "Add projects overlays-chromium, overlays-webkit, overlays-firefox (testMatch tests/a11y/apg/{dialog,alert-dialog,sheet,popover,tooltip,menu,context-menu,menubar,toast}.apg.spec.ts + tests/e2e/overlays/) and overlays-perf (testMatch tests/perf/browser/overlays-*.spec.ts, chromium, tests/perf/harness profiles). Config guard throws for overlays-* when !process.env.CI && !process.env.AURAGLASS_REMOTE_RUNNER (no local browser runs). MODIFY of QA-owned playwright.config.ts (SC-29), after QA-003/QA-018.",
+    "depends_on": [
+      "QA-003",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote dry run lists overlays-* projects; local invocation throws the guard error",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-06 lane precondition",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-037",
+    "prd": "PRD-10",
+    "system": "infra/ci",
+    "file": "certification/playwright.cert.config.ts",
+    "action": "INFRA",
+    "description": "No overlay-specific workflow (SC-29; workflows are certify-pr/main/release.yml owned by QA). Register the overlay specs in the QA lanes: tests/a11y/apg/*.apg.spec.ts are picked up by L5 Behaviour (QA-082); tests/e2e/overlays/*.spec.ts run in L5 Behaviour and L8 Engine-specific; tests/perf/browser/overlays-*.spec.ts run in L10 Performance (QA-085). certify-pr.yml (QA-031) runs them remotely with D-32 artifacts.",
+    "depends_on": [
+      "OVL-036",
+      "QA-018",
+      "QA-031",
+      "QA-082",
+      "QA-085"
+    ],
+    "priority": "P0",
+    "test": "remote certify-pr dry run lists the overlay specs under L5, L8 and L10; no .github/workflows/overlays-remote.yml exists",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-06..10 lane precondition (D-32 artifacts)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-038",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:tests/e2e/overlays/overlay-motion.spec.ts",
+    "action": "TEST",
+    "description": "Harness over OVERLAY story subjects: computed transition-duration per kind (small 200/140ms Tooltip/Popover/Menu; medium 320/220ms Dialog/AlertDialog/Sheet/Toast; large 450/320ms full Sheet); entrance frame strip; calm = opacity only, duration kept; motion none = final state (opacity 1, scale 1); will-change auto at rest; document.getAnimations().length===0 after settle; backdrop-filter/filter never in transition-property.",
+    "depends_on": [
+      "OVL-024",
+      "OVL-036",
+      "DS-026",
+      "MOT-040"
+    ],
+    "priority": "P1",
+    "test": "remote overlays-chromium|webkit|firefox green per subject",
+    "storybook": "subjects' default stories",
+    "acceptance": "REQ-OVL-09, §16.2 durations",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-039",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:tests/e2e/overlays/overlay-a11y-modes.spec.ts",
+    "action": "TEST",
+    "description": "Harness per subject open state: forcedColors active → 0 visible elements with backdrop-filter != none, popup border CanvasText; prefers-contrast more → 1px contrasting border, specular off; reduced transparency → solid; @axe-core/playwright (add as exact-pinned devDependency only if absent) with color-contrast enabled → 0 serious/critical.",
+    "depends_on": [
+      "OVL-023",
+      "OVL-036",
+      "A11Y-029"
+    ],
+    "priority": "P0",
+    "test": "remote 3-engine run green on fixture subject",
+    "storybook": "subjects' default stories + preference globals",
+    "acceptance": "AC-OVL-08, AC-OVL-10 (REQ-OVL-12)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-040",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "NEW:src/components/dialog/Dialog.client.tsx",
+    "action": "CREATE",
+    "description": "Dialog.Root over Base UI Dialog: open, defaultOpen, onOpenChange(open, details: OverlayOpenChangeDetails reason 'trigger-press'|'outside-press'|'escape-key'|'close-press'|'imperative'), modal=true, dismissible=true, labels?:{close?}. Registers useOverlayLayer({kind:'dialog'}). No onClose prop. 'use client'.",
+    "depends_on": [
+      "OVL-020",
+      "OVL-025",
+      "FND-001",
+      "FND-005",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'reason values'",
+    "storybook": "Dialog Default",
+    "acceptance": "REQ-OVL-17 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-041",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "src/components/dialog/Dialog.client.tsx",
+    "action": "MODIFY",
+    "description": "Dialog.Trigger, Dialog.Close (aria-label from labels.close default 'Close'; >=24px target, 44px hit area under (pointer:coarse) via pseudo-element), Dialog.Portal via OverlayPortal. data-ag-part trigger|close.",
+    "depends_on": [
+      "OVL-040"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'close label localisable'; overlay-dom-contract",
+    "storybook": "Dialog Default",
+    "acceptance": "REQ-OVL-16, -01",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-042",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "src/components/dialog/Dialog.client.tsx",
+    "action": "MODIFY",
+    "description": "Dialog.Backdrop: the single [data-ag-part=backdrop].ag-scrim with data-ag-overlay-depth; not rendered when modal={false}; only opacity animates.",
+    "depends_on": [
+      "OVL-023",
+      "OVL-040"
+    ],
+    "priority": "P0",
+    "test": "overlays-dialog-perf.spec.ts 'scrim count and radius'; Dialog.test.tsx 'non-modal has no backdrop'",
+    "storybook": "Dialog Default, NonModal",
+    "acceptance": "REQ-OVL-04 (AC-OVL-01)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-043",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "src/components/dialog/Dialog.client.tsx",
+    "action": "MODIFY",
+    "description": "Dialog.Popup: role=dialog + aria-modal=true on popup only; initialFocus (ref|fn; default first tabbable in Body else popup), finalFocus; size sm|md|lg|xl|full → max-inline 400/560/720/960px/100dvw; placement center|top (top = block-start min(20dvh,160px)); render prop accepts <form/> (submit does not close); overlayMaterial('dialog'), radius --ag-radius-xl; variant regular|identity + prominent only (no material/backdropBlur/blur).",
+    "depends_on": [
+      "OVL-021",
+      "OVL-040"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'role on popup', 'sizes', 'material attributes', 'form render', 'palette shell'",
+    "storybook": "Dialog Default, Sizes, Form, PaletteShell",
+    "acceptance": "REQ-OVL-18, -19, -21, -22, -25, -60 (AC-OVL-06, AC-OVL-20)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-044",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "src/components/dialog/Dialog.client.tsx",
+    "action": "MODIFY",
+    "description": "Dialog.Title and Dialog.Description (data-ag-part title|description, wired to aria-labelledby/-describedby by Base UI); dev-only console.error when a Dialog opens with no Title and no aria-label.",
+    "depends_on": [
+      "OVL-043"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'dev error without name', 'labelled and described'",
+    "storybook": "Dialog Default",
+    "acceptance": "REQ-OVL-18 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-045",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "NEW:src/components/dialog/DialogLayout.tsx",
+    "action": "CREATE",
+    "description": "Dialog.Header/Body/Footer: plain divs, no directive, no hooks, no data-ag-surface; data-ag-part header|body|footer; Body padding 'default'|'none', scrolls internally, header/footer stay visible; Body scroll-padding-block from measured header/footer block sizes (CSS vars set by Popup ResizeObserver ref callback with cleanup) for WCAG 2.4.11.",
+    "depends_on": [
+      "OVL-043"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'layout parts are not surfaces', 'body padding none'; dialog.apg.spec.ts 'focus not obscured'",
+    "storybook": "Dialog LongContent, PaletteShell",
+    "acceptance": "REQ-OVL-07, -21, -60 (AC-OVL-01)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-046",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "NEW:src/components/dialog/Dialog.css",
+    "action": "CREATE",
+    "description": "@layer ag.components: sizes, --ag-space-4 inset, block size <= calc(100dvh - 2*var(--ag-space-4)), var(--ag-visual-viewport-height) when set; container query <640px: sm/md full width minus 16px, lg/xl bottom-anchored with top-only radius, full removes inset+radius; nested parent [data-ag-nested-open] scale .98 + --_ag-surface-alpha dim; motion from PRD-06 medium tokens (opacity + scale .96 from --transform-origin; calm opacity only); §6 two-tone focus ring, no outline:none without replacement.",
+    "depends_on": [
+      "OVL-043",
+      "DS-026"
+    ],
+    "priority": "P0",
+    "test": "Dialog.test.tsx 'sizes'; overlay-motion.spec.ts Dialog row; visual baselines 1440/390",
+    "storybook": "Dialog Sizes, Nested",
+    "acceptance": "REQ-OVL-21, -23 (AC-OVL-14)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-047",
+    "prd": "PRD-10",
+    "system": "Dialog",
+    "file": "src/components/dialog/Dialog.client.tsx",
+    "action": "MODIFY",
+    "description": "Nested dialogs: parent Popup gets data-ag-nested-open while a child Dialog is open (Base UI nested state); only the topmost scrim blurs via data-ag-overlay-depth.",
+    "depends_on": [
+      "OVL-042",
+      "OVL-046"
+    ],
+    "priority": "P1",
+    "test": "overlay-stack.spec.ts T-OVL-STACK-04 (OVL-059)",
+    "storybook": "Dialog Nested",
+    "acceptance": "REQ-OVL-23, REQ-OVL-04 stacked (AC-OVL-07)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-048",
+    "prd": "PRD-10",
+    "system": "AlertDialog",
+    "file": "NEW:src/components/alert-dialog/AlertDialog.client.tsx",
+    "action": "CREATE",
+    "description": "AlertDialog with the identical part list over Base UI AlertDialog (+ AlertDialogLayout.tsx, AlertDialog.css, index.ts): role=alertdialog; outside press never closes; Escape closes with reason 'escape-key'; default initial focus AlertDialog.Close (least destructive); intent='danger' sets only the action Button intent; max 400px centred, <640px full width minus 16px with stacked buttons, primary last.",
+    "depends_on": [
+      "OVL-040",
+      "OVL-043",
+      "CTL-055"
+    ],
+    "priority": "P0",
+    "test": "AlertDialog.test.tsx; alert-dialog.apg.spec.ts",
+    "storybook": "AlertDialog DestructiveConfirm, NeutralConfirm",
+    "acceptance": "REQ-OVL-16, -26, -27 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-049",
+    "prd": "PRD-10",
+    "system": "Dialog/meta",
+    "file": "NEW:src/components/dialog/Dialog.meta.ts",
+    "action": "CREATE",
+    "description": "Dialog.meta.ts and NEW:src/components/alert-dialog/AlertDialog.meta.ts per PRD-16 meta schema: parts, data-ag-part values, states, variants, thickness thick, budgetKb 20, blurredLayers 2, apg URLs (dialog-modal, alertdialog), lineage GlassModal/GlassDialog, migration = §10.2 Modal/Dialog rows with automation class, selectorChanges = §10.3 rows, client: true.",
+    "depends_on": [
+      "OVL-048"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test green; gen-selector-table --check (OVL-140)",
+    "storybook": "docs page generated from meta",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-050",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root value exports Dialog, AlertDialog and types DialogRootProps, OverlayOpenChangeDetails (C-E) through the PRD-02 exports manifest if present; no Base UI types re-exported.",
+    "depends_on": [
+      "OVL-048",
+      "PKG-005"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; API Extractor report shows no @base-ui specifier",
+    "storybook": "n/a",
+    "acceptance": "§10.1 (AC-OVL-13 precondition)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-051",
+    "prd": "PRD-10",
+    "system": "Dialog/tests",
+    "file": "NEW:src/components/dialog/Dialog.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'role on popup', 'dev error without name', 'labelled and described', 'sizes' (computed max-inline-size per size), 'material attributes' (data-ag-layer overlay, thick, data-ag-overlay dialog), 'form render' (submit does not close), 'reason values', 'non-modal has no backdrop', 'close label localisable', 'layout parts are not surfaces', 'body padding none', 'palette shell' (placement top, initialFocus reaches input). Real Base UI, no mocks.",
+    "depends_on": [
+      "OVL-044",
+      "OVL-045",
+      "OVL-046"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/dialog green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-16..-22, -25, -60",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-052",
+    "prd": "PRD-10",
+    "system": "AlertDialog/tests",
+    "file": "NEW:src/components/alert-dialog/AlertDialog.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'initial focus on cancel', 'outside press ignored', 'escape reason', 'danger intent only on action button'.",
+    "depends_on": [
+      "OVL-048"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/alert-dialog green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-26, -27",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-053",
+    "prd": "PRD-10",
+    "system": "Dialog/behaviour",
+    "file": "NEW:tests/a11y/apg/dialog.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote, 3 engines: 'focus moves in', 'Tab cycles', 'Shift+Tab cycles', 'Escape closes and restores focus', 'inert background' (inert attr; 30 Tabs stay inside), 'no layout shift on lock' (documentElement.clientWidth unchanged ±0), 'visual viewport resize' (focused field visible under emulated keyboard), 'focus not obscured' (focused field not under sticky header/footer).",
+    "depends_on": [
+      "OVL-051",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-chromium|webkit|firefox green",
+    "storybook": "Dialog Default, LongContent, Form",
+    "acceptance": "AC-OVL-06 (REQ-OVL-19, -20)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-054",
+    "prd": "PRD-10",
+    "system": "AlertDialog/behaviour",
+    "file": "NEW:tests/a11y/apg/alert-dialog.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote, 3 engines: role alertdialog, initial focus on cancel, outside press ignored, Escape closes with focus return, description announced (aria-describedby resolves).",
+    "depends_on": [
+      "OVL-052",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "AlertDialog stories",
+    "acceptance": "AC-OVL-06 (REQ-OVL-26, -27)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-055",
+    "prd": "PRD-10",
+    "system": "Dialog/stories",
+    "file": "NEW:src/components/dialog/Dialog.stories.tsx",
+    "action": "CREATE",
+    "description": "Dialog: Default, LongContent, Sizes (args), Form (TextFields → content-sunken), Nested, NonModal, PaletteShell; NEW src/components/alert-dialog/AlertDialog.stories.tsx: DestructiveConfirm, NeutralConfirm. defaultOpen per story + one closed story with play() opening it; stable ids overlays-dialog--default…; Material Lab environment global; no opaque stage, Storybook-only props or !important.",
+    "depends_on": [
+      "OVL-051",
+      "OVL-048",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build green; story ids stable (PRD-18 id check)",
+    "storybook": "listed stories",
+    "acceptance": "§13 items 1,2,7,8 (AC-OVL-09/-14 inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-056",
+    "prd": "PRD-10",
+    "system": "Dialog/perf",
+    "file": "NEW:src/components/dialog/DialogPerf.stories.tsx",
+    "action": "CREATE",
+    "description": "Story 'Overlays/Perf/Dialog over dashboard': defaultOpen Dialog over a page with 6 standard surfaces (TopBar, Sidebar, 4 Cards content-raised); successor of the 4.x glass-modal story for the same hover+scroll script.",
+    "depends_on": [
+      "OVL-055",
+      "MAT-047",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build; used by overlays-dialog-perf.spec.ts",
+    "storybook": "Overlays/Perf/Dialog over dashboard",
+    "acceptance": "§13 item 4 (AC-OVL-01..05 subject)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-057",
+    "prd": "PRD-10",
+    "system": "Dialog/perf",
+    "file": "NEW:tests/perf/browser/overlays-dialog-perf.spec.ts",
+    "action": "TEST",
+    "description": "Remote perf lane via tests/perf/harness profiles (GPU 1440x900 120Hz, mobile 390x844 4x CPU, software raster) and runtime-remote.md §5 script. Cases: 'scrim count and radius' (<=2 overlay bf elements, scrim <=12px, popup <=32px); 'no infinite animations' (0); 'nested surfaces flat'; 'obscured page' (ΔE2000 p95 with/without, 8 scenes); 'open latency' (<=100ms at 4x, no long task >50ms on enter); 'fps' (software >=0.85x same-run Surface baseline and >=45; GPU >=110 p50, frame p95 <=10ms; mobile >=55 p50); 'long tasks' (<=2, <=150ms total, none >80ms in 5s after open). Subject list includes overlays-dialog--*, overlays-alert-dialog--* and PRD-11 CommandPalette ids; empty list fails.",
+    "depends_on": [
+      "OVL-056",
+      "OVL-036",
+      "PERF-039",
+      "QA-085"
+    ],
+    "priority": "P0",
+    "test": "overlays-perf remote run green; artifact with before/after table",
+    "storybook": "Overlays/Perf/Dialog over dashboard",
+    "acceptance": "AC-OVL-01, -02, -03, -04, -05 (REQ-OVL-04, -05, -07, -08, -29)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-058",
+    "prd": "PRD-10",
+    "system": "overlays/_shared",
+    "file": "src/material/css/material.css",
+    "action": "MODIFY",
+    "description": "REQ-OVL-08 decision: add [data-ag-obscured] .ag-surface::before{backdrop-filter:none;-webkit-backdrop-filter:none} ONLY if dialog-perf 'obscured page' ΔE2000 p95 <=2.0 over 8 scenes; otherwise do not ship the rule. Record measured value and decision in the PR either way. Blocked until PRD-05 sets data-ag-obscured on the inert app root. The rule lives in @layer ag.material in MAT's material.css (layer owner MAT, SC-20) and needs MAT review. data-ag-obscured itself is set by the A11Y provider (SC-21).",
+    "depends_on": [
+      "OVL-057",
+      "A11Y-029",
+      "MAT-015"
+    ],
+    "priority": "P1",
+    "test": "overlays-dialog-perf.spec.ts 'obscured page'",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-04 (REQ-OVL-08)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-059",
+    "prd": "PRD-10",
+    "system": "overlays/behaviour",
+    "file": "NEW:tests/e2e/overlays/overlay-stack.spec.ts",
+    "action": "TEST",
+    "description": "T-OVL-STACK-04: nested Dialog → parent popup has data-ag-nested-open; only top scrim has backdrop-filter != none; one Escape closes only the child and returns focus to its trigger.",
+    "depends_on": [
+      "OVL-047",
+      "OVL-036"
+    ],
+    "priority": "P0",
+    "test": "overlays-* 3-engine green",
+    "storybook": "Dialog Nested",
+    "acceptance": "AC-OVL-07 (REQ-OVL-23, -03)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-060",
+    "prd": "PRD-10",
+    "system": "budgets",
+    "file": "NEW:tests/perf/browser/overlays-overlay-budget.spec.ts",
+    "action": "TEST",
+    "description": "Create spec: blurred-layer count per open flagship (Dialog 2, AlertDialog 2); add per-import budget lines Dialog <=20 KB and AlertDialog <=20 KB min+gz (peers external) to the PRD-02 budget file; calibrate at alpha in the remote perf lane, ratchet down only.",
+    "depends_on": [
+      "OVL-050",
+      "OVL-036",
+      "PKG-049",
+      "QA-085"
+    ],
+    "priority": "P0",
+    "test": "overlays-perf green; PRD-02 size lane green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-13 (REQ-OVL-77), §16.2",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-061",
+    "prd": "PRD-10",
+    "system": "Dialog/palette-shell",
+    "file": "tests/perf/browser/overlays-dialog-perf.spec.ts",
+    "action": "MODIFY",
+    "description": "Add the PaletteShell story and, once PRD-11 lands them, CommandPalette story ids to the subject list so REQ-OVL-04/-06 assertions run on them; write hand-off note to PRD-11 listing the public parts (Popup initialFocus, size lg, placement top, Body padding none). Report AC-OVL-20 CommandPalette half as pending until PRD-11 stories exist.",
+    "depends_on": [
+      "OVL-057",
+      "NAV-087"
+    ],
+    "priority": "P1",
+    "test": "overlays-dialog-perf.spec.ts subjects include palette stories",
+    "storybook": "Dialog PaletteShell",
+    "acceptance": "AC-OVL-20 (REQ-OVL-60)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-062",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "NEW:src/components/overlays/_shared/__tests__/subjects.ts",
+    "action": "CREATE",
+    "description": "Append Dialog and AlertDialog to OVERLAY_SUBJECTS so overlay-layer, dom-contract, idle, dev-counter, ssr, motion and a11y-modes harnesses cover them; all green.",
+    "depends_on": [
+      "OVL-051",
+      "OVL-052"
+    ],
+    "priority": "P0",
+    "test": "jest _shared green; remote overlay-motion + a11y-modes green for both",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-02, -08, -10, -15 (Dialog/AlertDialog)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-063",
+    "prd": "PRD-10",
+    "system": "Popover",
+    "file": "NEW:src/components/popover/Popover.client.tsx",
+    "action": "CREATE",
+    "description": "Popover.Root/Trigger/Portal/Positioner/Popup/Arrow/Title/Description/Close over Base UI Popover. Trigger openOnHover=false, delay=300, closeDelay=150 (hover mode also opens on focus, persists over popup). Positioner side top|right|bottom|left|inline-start|inline-end (bottom), align start|center|end (center), defaultPositionerProps. Root modal false|'trap-focus' (no scroll lock). Click-open focuses first tabbable else popup tabIndex -1; restore on close; trigger aria-haspopup=dialog, aria-expanded, aria-controls; popup role=dialog labelled by Title; hover non-interactive → aria-describedby on trigger. useOverlayLayer({kind:'popover', modal:false}).",
+    "depends_on": [
+      "OVL-020",
+      "OVL-022",
+      "OVL-025",
+      "OVL-062"
+    ],
+    "priority": "P0",
+    "test": "Popover.test.tsx; popover.apg.spec.ts",
+    "storybook": "Popover Click, Hover",
+    "acceptance": "REQ-OVL-40..-43 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-064",
+    "prd": "PRD-10",
+    "system": "Popover",
+    "file": "NEW:src/components/popover/Popover.css",
+    "action": "CREATE",
+    "description": "overlayMaterial('popover') regular; Arrow = clipped child of popup backdrop layer or solid triangle in --ag-surface-fill + rim (no second backdrop-filter); max-inline-size calc(100vw - 16px) when available inline space <280px; small duration tokens; calm opacity only.",
+    "depends_on": [
+      "OVL-063"
+    ],
+    "priority": "P0",
+    "test": "overlays-overlay-budget.spec.ts Popover adds exactly 1 blurred layer (OVL-079)",
+    "storybook": "Popover Arrow, Collision",
+    "acceptance": "REQ-OVL-44 (AC-OVL-14)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-065",
+    "prd": "PRD-10",
+    "system": "Popover/meta",
+    "file": "NEW:src/components/popover/Popover.meta.ts",
+    "action": "CREATE",
+    "description": "Parts, states, thickness regular, budgetKb 14, blurredLayers 1, apg dialog (non-modal) + disclosure URLs, lineage GlassPopover/GlassHoverCard/Positioner/GlassPositioner, migration rows (placement split, trigger='hover'→openOnHover, Positioner TODO), selectorChanges.",
+    "depends_on": [
+      "OVL-063"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test",
+    "storybook": "generated docs page",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-066",
+    "prd": "PRD-10",
+    "system": "Tooltip",
+    "file": "NEW:src/components/tooltip/Tooltip.client.tsx",
+    "action": "CREATE",
+    "description": "Tooltip.Provider (delay 600, closeDelay 0, skip-delay window 400ms), Root, Trigger, Portal, Positioner, Popup, Arrow over Base UI Tooltip. Opens on pointer hover and keyboard :focus-visible only (not mouse-click focus); closes on blur, pointer leave after closeDelay, Escape (focus unmoved), trigger press; aria-describedby on the render'ed focusable trigger element itself (no wrapper); hoverable=true.",
+    "depends_on": [
+      "OVL-020",
+      "OVL-022",
+      "OVL-025"
+    ],
+    "priority": "P0",
+    "test": "Tooltip.test.tsx; tooltip.apg.spec.ts",
+    "storybook": "Tooltip Default, Grouped",
+    "acceptance": "REQ-OVL-46, -47, -48 (AC-OVL-06; fixes ACCESSIBILITY-10)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-067",
+    "prd": "PRD-10",
+    "system": "Tooltip",
+    "file": "src/components/tooltip/Tooltip.client.tsx",
+    "action": "MODIFY",
+    "description": "Dev-only console.error when Tooltip.Popup contains a, button, input, select, textarea or [tabindex] descendants, message pointing to Popover openOnHover; popup max inline size 280px with wrapping.",
+    "depends_on": [
+      "OVL-066"
+    ],
+    "priority": "P1",
+    "test": "Tooltip.test.tsx 'dev error on interactive content'",
+    "storybook": "Tooltip LongTextWrap",
+    "acceptance": "REQ-OVL-49",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-068",
+    "prd": "PRD-10",
+    "system": "Tooltip",
+    "file": "src/components/tooltip/Tooltip.client.tsx",
+    "action": "MODIFY",
+    "description": "Touch: under (pointer: coarse) tap does not open; long-press >=500ms on trigger (pointer events on the trigger, no global listener) opens; next outside tap closes via Base UI dismissal.",
+    "depends_on": [
+      "OVL-066"
+    ],
+    "priority": "P1",
+    "test": "tooltip.touch.spec.ts 'tap does not open', 'long-press opens', 'outside tap closes'",
+    "storybook": "Tooltip OnIconButton (mobile viewport)",
+    "acceptance": "REQ-OVL-50 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-069",
+    "prd": "PRD-10",
+    "system": "Tooltip",
+    "file": "NEW:src/components/tooltip/Tooltip.css",
+    "action": "CREATE",
+    "description": "overlayMaterial('tooltip') thin (12px); no contain:layout paint on popup; enter --ag-duration-small 200ms opacity + 2px translate from data-side, exit --ag-duration-small-exit 140ms; calm opacity only; <640px max calc(100vw - 16px).",
+    "depends_on": [
+      "OVL-066",
+      "DS-026"
+    ],
+    "priority": "P1",
+    "test": "overlay-motion.spec.ts Tooltip row; overlay-budget 1 layer",
+    "storybook": "Tooltip EachSide",
+    "acceptance": "REQ-OVL-51",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-070",
+    "prd": "PRD-10",
+    "system": "Tooltip/meta",
+    "file": "NEW:src/components/tooltip/Tooltip.meta.ts",
+    "action": "CREATE",
+    "description": "Parts, thickness thin, budgetKb 10, blurredLayers 1, apg tooltip URL, lineage GlassTooltip (GlassTooltip.tsx and duplicate at GlassPopover.tsx:678), ChartTooltip (positioning only), migration content→Popup children, position→Positioner side; selectorChanges.",
+    "depends_on": [
+      "OVL-066"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test",
+    "storybook": "generated docs page",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-071",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root value exports Popover, Tooltip and types PopoverSide, PopoverAlign via the PRD-02 manifest.",
+    "depends_on": [
+      "OVL-063",
+      "OVL-066"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; API report no @base-ui specifier",
+    "storybook": "n/a",
+    "acceptance": "§10.1",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-072",
+    "prd": "PRD-10",
+    "system": "Popover/tests",
+    "file": "NEW:src/components/popover/Popover.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'openOnHover delays' (fake timers 300/150), 'focus opens hover popover', 'aria wiring' (haspopup dialog, expanded, controls, role dialog labelled), 'hover-mode describedby', 'trap-focus mode no scroll lock'.",
+    "depends_on": [
+      "OVL-063"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/popover green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-40, -42, -43",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-073",
+    "prd": "PRD-10",
+    "system": "Tooltip/tests",
+    "file": "NEW:src/components/tooltip/Tooltip.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'describedby on trigger' (the focused element carries aria-describedby), 'dev error on interactive content', 'provider skip-delay' (second trigger opens without delay within 400ms), 'no open on mouse-click focus'.",
+    "depends_on": [
+      "OVL-067"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/tooltip green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-46, -47, -49",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-074",
+    "prd": "PRD-10",
+    "system": "Popover/behaviour",
+    "file": "NEW:tests/a11y/apg/popover.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: focus in/out, Escape closes and restores, outside press closes. Plus NEW tests/e2e/overlays/popover.spec.ts 'collision at 390': anchored at each viewport edge at 390x844, documentElement.scrollWidth===390 and popup rect inside viewport.",
+    "depends_on": [
+      "OVL-072",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Popover Click, Collision",
+    "acceptance": "AC-OVL-06, AC-OVL-14 (REQ-OVL-41, -42)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-075",
+    "prd": "PRD-10",
+    "system": "Tooltip/behaviour",
+    "file": "NEW:tests/a11y/apg/tooltip.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: 'focus opens', 'Escape closes', 'describedby on trigger', 'hoverable' (pointer path trigger→popup keeps open). Plus NEW tests/e2e/overlays/tooltip.touch.spec.ts (hasTouch, coarse): 'tap does not open', 'long-press opens', 'outside tap closes'.",
+    "depends_on": [
+      "OVL-073",
+      "OVL-068",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Tooltip Default, OnIconButton",
+    "acceptance": "AC-OVL-06 (REQ-OVL-47, -48, -50)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-076",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "src/components/overlays/_shared/popup-contract.test.tsx",
+    "action": "MODIFY",
+    "description": "Parametrise rows for real Popover and Tooltip (replacing the fixture): data-ag-part positioner|popup|arrow, data-side/data-align, data-ag-overlay, material attributes.",
+    "depends_on": [
+      "OVL-072",
+      "OVL-073"
+    ],
+    "priority": "P0",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-14",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-077",
+    "prd": "PRD-10",
+    "system": "Popover+Tooltip/stories",
+    "file": "NEW:src/components/popover/Popover.stories.tsx",
+    "action": "CREATE",
+    "description": "Popover: Click, Hover (openOnHover, replaces HoverCard), WithForm, Collision (each edge), Arrow; NEW src/components/tooltip/Tooltip.stories.tsx: Default, OnIconButton, Grouped (Toolbar skip-delay), LongTextWrap, EachSide. Open by default, stable ids, Material Lab environment, no opaque stage.",
+    "depends_on": [
+      "OVL-072",
+      "OVL-073",
+      "SB-048",
+      "CTL-055"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build; id stability check",
+    "storybook": "listed stories",
+    "acceptance": "§13 item 2 (AC-OVL-09/-14 inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-078",
+    "prd": "PRD-10",
+    "system": "overlays/behaviour",
+    "file": "tests/e2e/overlays/overlay-stack.spec.ts",
+    "action": "MODIFY",
+    "description": "T-OVL-STACK-02: Dialog → Popover open; press inside the Dialog popup outside the Popover closes only the Popover; press on the scrim closes layers above the pressed point only (record observed Base UI semantics in report).",
+    "depends_on": [
+      "OVL-059",
+      "OVL-074"
+    ],
+    "priority": "P0",
+    "test": "overlays-* 3-engine green",
+    "storybook": "Dialog Default + Popover in body",
+    "acceptance": "AC-OVL-07 (REQ-OVL-03)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-079",
+    "prd": "PRD-10",
+    "system": "overlays/tests",
+    "file": "tests/perf/browser/overlays-overlay-budget.spec.ts",
+    "action": "MODIFY",
+    "description": "Add rows: open Popover adds exactly 1 blurred layer; open Tooltip adds 1. Replace FixturePopover with Popover in subjects.ts, add Tooltip, delete _shared/__tests__/FixturePopover.tsx; all _shared harnesses green.",
+    "depends_on": [
+      "OVL-060",
+      "OVL-076"
+    ],
+    "priority": "P0",
+    "test": "overlays-perf green; jest _shared green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-02, §16.2 (REQ-OVL-44, -51)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-080",
+    "prd": "PRD-10",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add per-import budget lines Popover <=14 KB and Tooltip <=10 KB min+gz to the PRD-02 budget file docs/size-budgets.json (checked by scripts/ci/verify-size-budgets.mjs; C-I additions); calibrate at alpha remotely, ratchet down only; verify rg -n 'primitives/(Positioner|positioning)' src/components/{popover,tooltip} returns 0.",
+    "depends_on": [
+      "OVL-071",
+      "PKG-048",
+      "PKG-049"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 size lane green; rg check 0 hits",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-13 (REQ-OVL-77, -45)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-081",
+    "prd": "PRD-10",
+    "system": "Menu",
+    "file": "NEW:src/components/menu/Menu.client.tsx",
+    "action": "CREATE",
+    "description": "Menu.Root, Trigger, Portal, Positioner, Popup, Item, LinkItem, CheckboxItem, CheckboxItemIndicator, RadioGroup, RadioItem, RadioItemIndicator, Group, GroupLabel, Separator, Shortcut, SubmenuRoot, SubmenuTrigger, Arrow over Base UI Menu; data-ag-part from AG_PARTS (root, trigger, positioner, popup, item, item-indicator, group, group-label, separator, arrow, shortcut; SubmenuTrigger=trigger); useOverlayLayer({kind:'menu', modal:false}) once per root.",
+    "depends_on": [
+      "OVL-020",
+      "OVL-022",
+      "OVL-025",
+      "OVL-079",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "Menu.test.tsx 'roles'; overlay-dom-contract Menu rows",
+    "storybook": "Menu Default",
+    "acceptance": "REQ-OVL-52 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-082",
+    "prd": "PRD-10",
+    "system": "Menu",
+    "file": "src/components/menu/Menu.client.tsx",
+    "action": "MODIFY",
+    "description": "Keyboard per APG menu button (configure pinned Base UI): Enter/Space/ArrowDown open + focus first; ArrowUp opens + focus last; arrows wrap (loop=true); Home/End; typeahead 500ms buffer; ArrowRight/Left submenu open/close; Escape closes current level and restores focus to its trigger; Tab closes the whole menu and focus moves to next tabbable after the trigger (no FocusScope loop trap); exactly one item tabIndex=0.",
+    "depends_on": [
+      "OVL-081"
+    ],
+    "priority": "P0",
+    "test": "menu.apg.spec.ts full script",
+    "storybook": "Menu Default, Submenus",
+    "acceptance": "REQ-OVL-53 (AC-OVL-06; fixes ACCESSIBILITY-12)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-083",
+    "prd": "PRD-10",
+    "system": "Menu",
+    "file": "src/components/menu/Menu.client.tsx",
+    "action": "MODIFY",
+    "description": "Item semantics: role menuitem|menuitemcheckbox|menuitemradio; CheckboxItem checked='indeterminate' → aria-checked='mixed'; disabled items focusable with aria-disabled='true' and visible focus ring; closeOnClick default true (Item) / false (CheckboxItem, RadioItem); Shortcut renders aria-hidden text and sets aria-keyshortcuts on its item. Blocked on AG_PARTS 'shortcut'.",
+    "depends_on": [
+      "OVL-081",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "Menu.test.tsx 'aria-checked mixed', 'aria-disabled focusable', 'aria-keyshortcuts', 'closeOnClick defaults'",
+    "storybook": "Menu CheckboxRadio, Shortcuts, DisabledItems",
+    "acceptance": "REQ-OVL-54 (fixes ACCESSIBILITY-14 for menus)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-084",
+    "prd": "PRD-10",
+    "system": "Menu",
+    "file": "src/components/menu/Menu.client.tsx",
+    "action": "MODIFY",
+    "description": "Submenus open on hover after 100ms with Base UI safe triangle and on ArrowRight; Menu.Trigger openOnHover allowed only inside Menubar (dev warning elsewhere).",
+    "depends_on": [
+      "OVL-081"
+    ],
+    "priority": "P1",
+    "test": "Menu.test.tsx 'openOnHover outside menubar warns'; menu.apg.spec.ts submenu cases",
+    "storybook": "Menu Submenus",
+    "acceptance": "REQ-OVL-55",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-085",
+    "prd": "PRD-10",
+    "system": "ContextMenu",
+    "file": "NEW:src/components/menu/ContextMenu.client.tsx",
+    "action": "CREATE",
+    "description": "ContextMenu.Root, ContextMenu.Trigger (region) + Menu popup parts re-exposed; opens on contextmenu event, Shift+F10 and ContextMenu key at pointer/focused element; focuses first item; restores focus to previously focused element; outside press closes after popup hit-test; touch long-press 500ms opens; handlers on the Trigger element only.",
+    "depends_on": [
+      "OVL-081"
+    ],
+    "priority": "P0",
+    "test": "context-menu.apg.spec.ts",
+    "storybook": "Menu ContextMenuRegion",
+    "acceptance": "REQ-OVL-56 (AC-OVL-06; fixes E-20)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-086",
+    "prd": "PRD-10",
+    "system": "Menubar",
+    "file": "NEW:src/components/menu/Menubar.client.tsx",
+    "action": "CREATE",
+    "description": "Menubar root role=menubar aria-orientation=horizontal; children Menu.Root with triggers role=menuitem; one roving tab stop; ArrowLeft/Right move between triggers and move the open menu; ArrowDown opens; Escape closes and focuses the top-level trigger (never blur()); loop=true.",
+    "depends_on": [
+      "OVL-081",
+      "OVL-084"
+    ],
+    "priority": "P0",
+    "test": "menubar.apg.spec.ts",
+    "storybook": "Menu Menubar (File/Edit/View)",
+    "acceptance": "REQ-OVL-57 (AC-OVL-06; fixes E-21)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-087",
+    "prd": "PRD-10",
+    "system": "Menu",
+    "file": "NEW:src/components/menu/Menu.css",
+    "action": "CREATE",
+    "description": "overlayMaterial('menu') regular; items block-size 32px (pointer:fine) / 44px (pointer:coarse), inline padding --ag-space-3; [data-highlighted] raises --ag-surface-fill one step + rim, no per-item backdrop-filter; popup max-height var(--available-height) with internal scroll, min inline size = trigger width, max 320px; focus ring tokens.",
+    "depends_on": [
+      "OVL-081"
+    ],
+    "priority": "P0",
+    "test": "Menu.test.tsx 'coarse target size'; overlay-budget Menu 1 layer",
+    "storybook": "Menu LongList",
+    "acceptance": "REQ-OVL-58",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-088",
+    "prd": "PRD-10",
+    "system": "Menu/meta",
+    "file": "NEW:src/components/menu/Menu.meta.ts",
+    "action": "CREATE",
+    "description": "Meta for Menu, ContextMenu, Menubar: parts, states, thickness regular, budgetKb 22, blurredLayers 1 (+1 per open submenu, max 3), apg menu-button + menubar URLs, lineage (GlassDropdownMenu + 12 parts, GlassContextMenu, GlassMenubar, GlassMenuPrimitive, HeaderUserMenu, LiquidGlassPopoverMenu, CollapsedMenu), migration = §10.2 DropdownMenu part table + Content side/align/sideOffset→Positioner + useContextMenu TODO + createFileMenu/createEditMenu TODO; selectorChanges incl data-state superset.",
+    "depends_on": [
+      "OVL-086"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test",
+    "storybook": "generated docs page",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-089",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root value exports Menu, ContextMenu, Menubar via the PRD-02 manifest.",
+    "depends_on": [
+      "OVL-085",
+      "OVL-086"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; API report",
+    "storybook": "n/a",
+    "acceptance": "§10.1",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-090",
+    "prd": "PRD-10",
+    "system": "Menu/tests",
+    "file": "NEW:src/components/menu/Menu.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'roles', 'aria-checked mixed', 'aria-disabled focusable', 'aria-keyshortcuts', 'closeOnClick defaults', 'coarse target size' (computed block-size 44px with coarse matchMedia stub; component not mocked), 'openOnHover outside menubar warns'.",
+    "depends_on": [
+      "OVL-083",
+      "OVL-084",
+      "OVL-087"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/menu green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-54, -58",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-091",
+    "prd": "PRD-10",
+    "system": "Menu/behaviour",
+    "file": "NEW:tests/a11y/apg/menu.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines, full APG menu-button script: open keys, wrap, Home/End, typeahead ('b' then 'ba' within 500ms), submenu ArrowRight/Left, Escape per level with focus restore, 'Tab closes' (focus on next tabbable after trigger), 'one tabIndex=0'.",
+    "depends_on": [
+      "OVL-082",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Menu Default, Submenus",
+    "acceptance": "AC-OVL-06 (REQ-OVL-53)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-092",
+    "prd": "PRD-10",
+    "system": "ContextMenu/behaviour",
+    "file": "NEW:tests/a11y/apg/context-menu.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: right-click, Shift+F10, ContextMenu key, focus first item, focus restore, outside press after hit-test, long-press 500ms (hasTouch).",
+    "depends_on": [
+      "OVL-085",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Menu ContextMenuRegion",
+    "acceptance": "AC-OVL-06 (REQ-OVL-56)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-093",
+    "prd": "PRD-10",
+    "system": "Menubar/behaviour",
+    "file": "NEW:tests/a11y/apg/menubar.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: one tab stop, ArrowLeft/Right between triggers and moving open menu, ArrowDown opens, Escape returns focus to the top-level trigger (document.activeElement !== body), loop.",
+    "depends_on": [
+      "OVL-086",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Menu Menubar",
+    "acceptance": "AC-OVL-06 (REQ-OVL-57)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-094",
+    "prd": "PRD-10",
+    "system": "Menu/stories",
+    "file": "NEW:src/components/menu/Menu.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories: Default, CheckboxRadio (incl indeterminate), Submenus, Shortcuts, DisabledItems, LongList, ContextMenuRegion, Menubar (File/Edit/View); open by default where applicable; stable ids overlays-menu--*; Material Lab environment.",
+    "depends_on": [
+      "OVL-090",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build; id stability",
+    "storybook": "listed stories",
+    "acceptance": "§13 item 2 (AC-OVL-09/-14 inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-095",
+    "prd": "PRD-10",
+    "system": "overlays/behaviour",
+    "file": "tests/e2e/overlays/overlay-stack.spec.ts",
+    "action": "MODIFY",
+    "description": "T-OVL-STACK-01: Dialog → Popover → Menu open; 3 Escapes close Menu, Popover, Dialog in that order, each returning focus to its own trigger; assert exactly one layer closes per press.",
+    "depends_on": [
+      "OVL-078",
+      "OVL-091"
+    ],
+    "priority": "P0",
+    "test": "overlays-* 3-engine green",
+    "storybook": "composed stack story in overlay-stack fixture page",
+    "acceptance": "AC-OVL-07 (REQ-OVL-03)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-096",
+    "prd": "PRD-10",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add Menu <=22 KB line (incl ContextMenu, Menubar parts); overlays-overlay-budget.spec.ts rows Menu 1 layer, +1 per open submenu, max 3; append Menu, ContextMenu, Menubar to OVERLAY_SUBJECTS with all harnesses green.",
+    "depends_on": [
+      "OVL-089",
+      "OVL-079",
+      "PKG-048"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 size lane; overlays-perf; jest _shared",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-13, AC-OVL-02 (REQ-OVL-77, §16.2)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-097",
+    "prd": "PRD-10",
+    "system": "Sheet",
+    "file": "NEW:src/components/sheet/Sheet.client.tsx",
+    "action": "CREATE",
+    "description": "Sheet.Root/Trigger/Portal/Backdrop/Popup/Title/Description/Close over Base UI Dialog; side start|end|top|bottom|left|right (default end; start/end flip under dir=rtl, left/right never flip); modal=true; open/defaultOpen/onOpenChange(OverlayOpenChangeDetails); useOverlayLayer({kind:'sheet', modal}); NEW SheetLayout.tsx Header/Body/Footer (no directive).",
+    "depends_on": [
+      "OVL-040",
+      "OVL-062"
+    ],
+    "priority": "P0",
+    "test": "Sheet.test.tsx 'sides incl RTL flip'",
+    "storybook": "Sheet RightPanel, LeftPanelRTL",
+    "acceptance": "REQ-OVL-30 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-098",
+    "prd": "PRD-10",
+    "system": "Sheet",
+    "file": "src/components/sheet/Sheet.client.tsx",
+    "action": "MODIFY",
+    "description": "preset 'panel'|'action': action forces side=bottom and renders Sheet.Action <button> items plus a separated cancel Sheet.Close (replaces GlassActionSheet); Sheet.Action part blocked on AG_PARTS 'action'.",
+    "depends_on": [
+      "OVL-097",
+      "FND-007"
+    ],
+    "priority": "P1",
+    "test": "Sheet.test.tsx 'preset action'",
+    "storybook": "Sheet ActionPreset",
+    "acceptance": "REQ-OVL-31",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-099",
+    "prd": "PRD-10",
+    "system": "Sheet/detents",
+    "file": "NEW:src/components/sheet/useSheetDetents.ts",
+    "action": "CREATE",
+    "description": "Pure resolveDetent({positionPx, velocityPxMs, detentsPx, viewportPx}) → {index}|{close:true} (velocity threshold 0.5px/ms; downward fling past lowest detent closes) + hook for detents?: Array<number|'content'|'full'> (default ['content'], fractions of 100dvh), detent/defaultDetent/onDetentChange(index).",
+    "depends_on": [
+      "OVL-097"
+    ],
+    "priority": "P1",
+    "test": "Sheet.test.tsx 'detent state machine' table cases",
+    "storybook": "Sheet BottomDetents",
+    "acceptance": "REQ-OVL-32",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-100",
+    "prd": "PRD-10",
+    "system": "Sheet/handle",
+    "file": "NEW:src/components/sheet/SheetHandle.client.tsx",
+    "action": "CREATE",
+    "description": "Drag on handle only: pointer events + pointer capture, touch-action:none on handle; transform translateY written to popup ref inside rAF, 0 React commits per pointermove; release snaps via CSS linear() spring transition, or aura-glass/motion spring adapter when installed (no core import of motion); no layout properties animated; side=left drag mirrors under rtl.",
+    "depends_on": [
+      "OVL-099",
+      "MOT-040",
+      "DS-053"
+    ],
+    "priority": "P1",
+    "test": "overlays-sheet-perf.spec.ts 0 commits/pointermove",
+    "storybook": "Sheet BottomDetents",
+    "acceptance": "REQ-OVL-32, -39",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-101",
+    "prd": "PRD-10",
+    "system": "Sheet/handle",
+    "file": "src/components/sheet/SheetHandle.client.tsx",
+    "action": "MODIFY",
+    "description": "Handle is <button aria-label={labels.handle ?? 'Resize sheet'}>; Enter/Space cycles detents upward; Escape closes; detent change announced via PRD-05 announcer (labels.detents[i], defaults 'Half height'/'Full height'); hit area >=44x44 under coarse; Body scrollable and focusable at every detent.",
+    "depends_on": [
+      "OVL-100",
+      "A11Y-029"
+    ],
+    "priority": "P1",
+    "test": "sheet.apg.spec.ts; Sheet.test.tsx 'handle label localisable'",
+    "storybook": "Sheet BottomDetents",
+    "acceptance": "REQ-OVL-33 (WCAG 2.1.1, 2.5.7)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-102",
+    "prd": "PRD-10",
+    "system": "Sheet",
+    "file": "src/components/sheet/Sheet.client.tsx",
+    "action": "MODIFY",
+    "description": "Set data-ag-full-height on popup when active detent is 'full' or a side sheet's block size >= 90% of viewport (ResizeObserver ref callback with cleanup); fill resolves to tinted via PRD-04 CSS (REQ-MAT-28).",
+    "depends_on": [
+      "OVL-097",
+      "MAT-047"
+    ],
+    "priority": "P1",
+    "test": "Sheet.test.tsx 'full height raises floor' (attribute + computed tinted fill)",
+    "storybook": "Sheet FullHeight",
+    "acceptance": "REQ-OVL-34",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-103",
+    "prd": "PRD-10",
+    "system": "Sheet",
+    "file": "NEW:src/components/sheet/Sheet.css",
+    "action": "CREATE",
+    "description": "Safe areas (bottom env(safe-area-inset-bottom), side outer-edge inset-left/right, top inset-top); side size sm|md|lg 320/400/560px capped calc(100vw - 48px), <640px container full width + Handle hidden; bottom/top max 640px centred >=640px, block max calc(100dvh - env(safe-area-inset-top) - 8px); overlayMaterial('sheet') thick, no sheet-specific blur/radius; translate along side, --ag-duration-medium (full detent --ag-duration-large), calm opacity only.",
+    "depends_on": [
+      "OVL-097",
+      "DS-026"
+    ],
+    "priority": "P1",
+    "test": "visual baselines 390x844 with emulated insets; overlay-motion Sheet rows",
+    "storybook": "all Sheet stories",
+    "acceptance": "REQ-OVL-35, -36, -38 (AC-OVL-14)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-104",
+    "prd": "PRD-10",
+    "system": "Sheet",
+    "file": "src/components/sheet/Sheet.client.tsx",
+    "action": "MODIFY",
+    "description": "modal={false}: no Backdrop, no inert, no scroll lock; focus moves in on open, returns on close; Tab can leave the sheet (used by PRD-11 inspector drawer).",
+    "depends_on": [
+      "OVL-097"
+    ],
+    "priority": "P1",
+    "test": "Sheet.test.tsx 'non-modal'",
+    "storybook": "Sheet NonModalInspector",
+    "acceptance": "REQ-OVL-37",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-105",
+    "prd": "PRD-10",
+    "system": "Sheet/meta",
+    "file": "NEW:src/components/sheet/Sheet.meta.ts",
+    "action": "CREATE",
+    "description": "Parts, thickness thick, budgetKb 24, blurredLayers 2 modal / 1 non-modal, apg dialog-modal, lineage GlassDrawer, GlassBottomSheet, GlassActionSheet, LiquidGlassAdaptiveSheet, MobileGlassBottomSheet (pointer), GlassMobileNav drawer; migration position/placement→side, snap→detents, actions[]→preset action; selectorChanges.",
+    "depends_on": [
+      "OVL-098"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test",
+    "storybook": "generated docs page",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-106",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root value export Sheet and types SheetSide, SheetDetent via the PRD-02 manifest.",
+    "depends_on": [
+      "OVL-097"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; API report",
+    "storybook": "n/a",
+    "acceptance": "§10.1",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-107",
+    "prd": "PRD-10",
+    "system": "Sheet/tests",
+    "file": "NEW:src/components/sheet/Sheet.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'sides incl RTL flip', 'preset action', 'detent state machine' (table: slow drag near each detent, fast fling up/down, fling below lowest → close), 'full height raises floor' (attribute + computed tinted fill with PRD-04 CSS loaded), 'non-modal', 'handle label localisable'.",
+    "depends_on": [
+      "OVL-099",
+      "OVL-101",
+      "OVL-102",
+      "OVL-104"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/sheet green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-30..-37",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-108",
+    "prd": "PRD-10",
+    "system": "Sheet/behaviour",
+    "file": "NEW:tests/a11y/apg/sheet.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: handle Enter/Space detent cycle, announcement text in live region, Body reachable by Tab at every detent, Escape closes, focus return, single-pointer alternative for every drag result (WCAG 2.5.7).",
+    "depends_on": [
+      "OVL-101",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Sheet BottomDetents, RightPanel",
+    "acceptance": "AC-OVL-06 (REQ-OVL-33)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-109",
+    "prd": "PRD-10",
+    "system": "Sheet/perf",
+    "file": "NEW:tests/perf/browser/overlays-sheet-perf.spec.ts",
+    "action": "TEST",
+    "description": "Remote perf lane: scripted 60-move handle drag; React commits during drag = 0 (Profiler via harness hook); frame time p95 <=16.7ms on 120Hz desktop GPU profile and <=33ms on mid-tier mobile emulation (4x CPU).",
+    "depends_on": [
+      "OVL-100",
+      "OVL-036",
+      "PERF-039",
+      "QA-085"
+    ],
+    "priority": "P1",
+    "test": "overlays-perf green",
+    "storybook": "Sheet BottomDetents",
+    "acceptance": "REQ-OVL-39, §16.2 Sheet drag",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-110",
+    "prd": "PRD-10",
+    "system": "Sheet/stories",
+    "file": "NEW:src/components/sheet/Sheet.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories: RightPanel, LeftPanelRTL, BottomDetents ([0.5,'full']), ActionPreset, NonModalInspector, FullHeight; open by default; stable ids overlays-sheet--*; captures at 1440x900, 768x1024, 390x844 with emulated safe-area insets.",
+    "depends_on": [
+      "OVL-107",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build; id stability",
+    "storybook": "listed stories",
+    "acceptance": "§13 item 2, REQ-OVL-35 (AC-OVL-14)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-111",
+    "prd": "PRD-10",
+    "system": "Sheet/perf",
+    "file": "tests/perf/browser/overlays-overlay-budget.spec.ts",
+    "action": "MODIFY",
+    "description": "Rows: modal Sheet = 2 blurred layers (scrim <=12px + popup thick); full-height sheet adds no extra blur; non-modal = 1. Append Sheet to OVERLAY_SUBJECTS; all harnesses green.",
+    "depends_on": [
+      "OVL-079",
+      "OVL-107"
+    ],
+    "priority": "P0",
+    "test": "overlays-perf; jest _shared",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-01, AC-OVL-02 (Sheet), REQ-OVL-38",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-112",
+    "prd": "PRD-10",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add Sheet <=24 KB min+gz per-import line; calibrate remotely at alpha; ratchet down only.",
+    "depends_on": [
+      "OVL-106",
+      "PKG-048",
+      "PKG-049"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 size lane green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-13 (REQ-OVL-77)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-113",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "NEW:src/components/toast/Toast.client.tsx",
+    "action": "CREATE",
+    "description": "Toast.Provider over Base UI Toast.Provider + useToastManager: limit=3, timeout=5000, position top-start|top-center|top-end|bottom-start|bottom-center|bottom-end (bottom-end), history {limit}|false (false); nested second provider → dev console.error; Toast.Viewport, Root, Title, Description, Action, Close. NEW useToast.ts: useToast() without provider throws 'useToast() must be used inside <AuraGlassProvider> (or <Toast.Provider>)'.",
+    "depends_on": [
+      "OVL-020",
+      "OVL-021",
+      "A11Y-029",
+      "A11Y-049"
+    ],
+    "priority": "P0",
+    "test": "Toast.test.tsx 'single provider'",
+    "storybook": "Toast EachIntent",
+    "acceptance": "REQ-OVL-61 (AC-OVL-19)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-114",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "NEW:src/components/toast/useToast.ts",
+    "action": "CREATE",
+    "description": "useToast() → {toast, update, dismiss, promise, toasts, history}; toast({title, description?, intent?: neutral|info|success|warning|danger, action?: {label,onClick,altText}, duration?: number|Infinity, priority?: polite|assertive, id?}) → id; promise(p,{loading,success,error}) updates one toast in place; 'type' rejected (TS + dev error).",
+    "depends_on": [
+      "OVL-113"
+    ],
+    "priority": "P0",
+    "test": "Toast.test.tsx 'intent', 'type rejected', 'promise updates in place'",
+    "storybook": "Toast Promise",
+    "acceptance": "REQ-OVL-62",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-115",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "src/components/toast/Toast.client.tsx",
+    "action": "MODIFY",
+    "description": "Viewport aria-label={labels.region ?? 'Notifications'}, F6-reachable (Base UI); polite → role=status, assertive → role=alert only for intent=danger (else dev warning + polite); never calls the provider announcer (Base UI live semantics only).",
+    "depends_on": [
+      "OVL-113"
+    ],
+    "priority": "P0",
+    "test": "toast.apg.spec.ts a11y tree: exactly one live-region entry per toast",
+    "storybook": "Toast EachIntent",
+    "acceptance": "REQ-OVL-63 (AC-OVL-06)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-116",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "src/components/toast/Toast.client.tsx",
+    "action": "MODIFY",
+    "description": "One Base UI timeout per toast; paused on viewport hover, focus-within, and document.visibilityState==='hidden'; resumed with remaining time; toasts with action and no explicit duration default to Infinity (WCAG 2.2.1).",
+    "depends_on": [
+      "OVL-113"
+    ],
+    "priority": "P0",
+    "test": "toast-timers.test.tsx",
+    "storybook": "Toast WithAction",
+    "acceptance": "REQ-OVL-64",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-117",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "NEW:src/components/toast/Toast.css",
+    "action": "CREATE",
+    "description": "Toast.Progress part: CSS @keyframes scale on --_ag-toast-progress, animation-duration = toast duration, animation-play-state bound to paused state attribute; 0 React commits while counting; no setInterval (replaces data-display/GlassToast.tsx:153-169). Blocked on AG_PARTS 'progress'.",
+    "depends_on": [
+      "OVL-116",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "overlay-idle.test.tsx Toast row 0 commits; toast-timers 'one timeout per toast'",
+    "storybook": "Toast WithAction (progress)",
+    "acceptance": "REQ-OVL-64, AC-OVL-02",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-118",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "src/components/toast/Toast.css",
+    "action": "MODIFY",
+    "description": "Stacking: up to limit visible, older collapsed via Base UI --toast-index → translate + scale(1 - 0.04*index), expand on hover/focus; swipe-to-dismiss toward position edge (threshold 40% width or 0.5px/ms), transform only.",
+    "depends_on": [
+      "OVL-113"
+    ],
+    "priority": "P1",
+    "test": "toast.touch.spec.ts 'swipe dismiss'",
+    "storybook": "Toast StackOf5, Swipe",
+    "acceptance": "REQ-OVL-65",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-119",
+    "prd": "PRD-10",
+    "system": "Toast",
+    "file": "src/components/toast/Toast.css",
+    "action": "MODIFY",
+    "description": "Material: each toast overlayMaterial('toast') thin, radius --ag-radius-lg; visible stack wrapped in one SurfaceGroup (MAT-048) so 3 toasts share 1 backdrop-filter; intent tints only leading icon + 3px inline-start rim (--ag-color-<intent>); <640px full width minus 16px at position edge. Record deviation vs PRD-07 '<=3 blurred toasts' (PRD-10 stricter rule applies).",
+    "depends_on": [
+      "OVL-118",
+      "MAT-048"
+    ],
+    "priority": "P0",
+    "test": "Toast.test.tsx 'stack shares one backdrop'; overlay-budget Toast stack 1",
+    "storybook": "Toast StackOf5",
+    "acceptance": "REQ-OVL-66 (AC-OVL-02)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-120",
+    "prd": "PRD-10",
+    "system": "Toast/history",
+    "file": "NEW:src/components/toast/ToastHistory.client.tsx",
+    "action": "CREATE",
+    "description": "With history {limit:50}: dismissed/expired toasts move to useToast().history {entries: ToastHistoryEntry[] (id,title,description,intent,createdAt,read), unread, markRead(id), markAllRead(), clear()} (NEW historyStore.ts); Toast.History role=list + Toast.HistoryItem role=listitem; no overlay of its own; createdAt stamped in toast() call path not render; no storage writes, no <style> injection. Blocked on AG_PARTS 'history','history-item'.",
+    "depends_on": [
+      "OVL-114",
+      "FND-005"
+    ],
+    "priority": "P1",
+    "test": "Toast.test.tsx 'history entries','markRead','markAllRead','clear','unread count','no style injection'",
+    "storybook": "Toast NotificationCenterInSheet",
+    "acceptance": "REQ-OVL-67 (AC-OVL-19)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-121",
+    "prd": "PRD-10",
+    "system": "Toast/meta",
+    "file": "NEW:src/components/toast/Toast.meta.ts",
+    "action": "CREATE",
+    "description": "Parts, thickness thin, budgetKb 14, blurredLayers 1 (stack), live-region notes, lineage GlassToast/GlassToastProvider/GlassToastViewport/useToast(4.x)/feedback GlassToast/GlassNotificationCenter/GlassNotificationItem/GlassNotificationProvider/useNotifications; migration type→intent (error→danger), onClose→onOpenChange/dismiss(id), position value table, addToast→toast; selectorChanges.",
+    "depends_on": [
+      "OVL-120"
+    ],
+    "priority": "P1",
+    "test": "PRD-16 meta schema test",
+    "storybook": "generated docs page",
+    "acceptance": "REQ-OVL-75 (AC-OVL-16)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-122",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add root value exports Toast, useToast (C-B vs 4.x useToast; same name, new return shape) and types ToastOptions, ToastIntent, ToastHistoryEntry via the PRD-02 manifest.",
+    "depends_on": [
+      "OVL-114",
+      "OVL-120"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; API report",
+    "storybook": "n/a",
+    "acceptance": "§10.1",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-123",
+    "prd": "PRD-10",
+    "system": "Toast/tests",
+    "file": "NEW:src/components/toast/Toast.test.tsx",
+    "action": "TEST",
+    "description": "Cases: 'single provider' (nested → dev error), 'intent', 'type rejected', 'promise updates in place', 'stack shares one backdrop' (one data-ag-group wrapper around visible toasts), 'history entries', 'markRead', 'markAllRead', 'clear', 'unread count', 'no style injection' (document.head style count unchanged).",
+    "depends_on": [
+      "OVL-119",
+      "OVL-120"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/toast green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-19 (REQ-OVL-61, -62, -66, -67)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-124",
+    "prd": "PRD-10",
+    "system": "Toast/tests",
+    "file": "NEW:src/components/toast/toast-timers.test.tsx",
+    "action": "TEST",
+    "description": "Fake timers: 'pause on hover', 'pause on focus', 'pause when hidden' (visibilityState stub + visibilitychange), 'resume remaining time ±50 ms', 'action toasts infinite', 'one timeout per toast' (jest.getTimerCount()).",
+    "depends_on": [
+      "OVL-116"
+    ],
+    "priority": "P0",
+    "test": "./node_modules/.bin/jest src/components/toast/toast-timers.test.tsx green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-64",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-125",
+    "prd": "PRD-10",
+    "system": "Toast/behaviour",
+    "file": "NEW:tests/a11y/apg/toast.apg.spec.ts",
+    "action": "TEST",
+    "description": "Remote 3 engines: F6 reaches region; accessibility-tree snapshot has exactly one live-region entry per toast; focus never moves to a new toast. Plus NEW tests/e2e/overlays/toast.touch.spec.ts 'swipe dismiss' at 390x844 hasTouch.",
+    "depends_on": [
+      "OVL-115",
+      "OVL-118",
+      "OVL-036",
+      "A11Y-073"
+    ],
+    "priority": "P0",
+    "test": "overlays-* green",
+    "storybook": "Toast EachIntent, Swipe",
+    "acceptance": "AC-OVL-06 (REQ-OVL-63, -65)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-126",
+    "prd": "PRD-10",
+    "system": "overlays/behaviour",
+    "file": "tests/e2e/overlays/overlay-stack.spec.ts",
+    "action": "MODIFY",
+    "description": "T-OVL-STACK-03: with a modal Dialog open, the toast viewport has no inert ancestor and its action button is reachable via F6.",
+    "depends_on": [
+      "OVL-059",
+      "OVL-125"
+    ],
+    "priority": "P0",
+    "test": "overlays-* 3-engine green",
+    "storybook": "Dialog Default + toast() fired",
+    "acceptance": "AC-OVL-07",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-127",
+    "prd": "PRD-10",
+    "system": "packaging/side-effects",
+    "file": "scripts/ci/verify-side-effects.mjs",
+    "action": "MODIFY",
+    "description": "Add the overlay flagship entries (Dialog, AlertDialog, Sheet, Popover, Tooltip, Menu, ContextMenu, Menubar, Toast) to the PRD-02 side-effect gate list (and tests/side-effects/import-gate.test.ts cases): import performs 0 DOM mutations, 0 listener registrations, 0 <style> injections.",
+    "depends_on": [
+      "OVL-122",
+      "PKG-042"
+    ],
+    "priority": "P0",
+    "test": "PRD-02 artifact lane side-effect gate green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-68 (AC-OVL-19)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-128",
+    "prd": "PRD-10",
+    "system": "Toast/stories",
+    "file": "NEW:src/components/toast/Toast.stories.tsx",
+    "action": "CREATE",
+    "description": "Stories: EachIntent, WithAction, Promise, StackOf5 (limit 3), NotificationCenterInSheet (Toast.History inside Sheet), Swipe (mobile viewport); stable ids overlays-toast--*.",
+    "depends_on": [
+      "OVL-123",
+      "OVL-110",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook build; id stability",
+    "storybook": "listed stories",
+    "acceptance": "§13 item 2 (AC-OVL-09/-14 inputs)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-129",
+    "prd": "PRD-10",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add Toast <=14 KB line; overlays-overlay-budget.spec.ts row: 3-toast stack adds 1 blurred layer; append Toast to OVERLAY_SUBJECTS (idle harness allows 1 timer per toast); all harnesses green.",
+    "depends_on": [
+      "OVL-122",
+      "OVL-079",
+      "PKG-048"
+    ],
+    "priority": "P1",
+    "test": "PRD-02 size lane; overlays-perf; jest _shared",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-13, AC-OVL-02 (REQ-OVL-66, -77)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-130",
+    "prd": "PRD-10",
+    "system": "provider-integration",
+    "file": "NEW:src/components/overlays/_shared/provider-mount.test.tsx",
+    "action": "TEST",
+    "description": "With real AuraGlassProvider: useToast() works without extra wrapper; Tooltip opens without explicit Tooltip.Provider; toasts={false}/tooltips={false} remove the respective provider; Toast.Viewport lives inside [data-ag-portal-root]. Blocked until PRD-05 adds the mounts/opt-outs (PRD-10 §10.4 request).",
+    "depends_on": [
+      "OVL-113",
+      "OVL-066",
+      "A11Y-029"
+    ],
+    "priority": "P1",
+    "test": "jest green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-46, -61 provider mounting (§10.4)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-131",
+    "prd": "PRD-10",
+    "system": "codemods/mappings",
+    "file": "src/components/{dialog,alert-dialog,sheet,popover,tooltip,menu,toast}/*.meta.ts",
+    "action": "MODIFY",
+    "description": "Fill the `migration` table in every overlay .meta.ts (SC-27): each §2.4 name maps to its successor (LiquidGlassPopoverMenu/GlassMenuPrimitive/CollapsedMenu → Menu; HeaderUserMenu → registry account-menu), and every §10.2 prop row is listed. packages/cli/src/migrate/4to5/mappings/{names,props}.json are generated from these fields and deprecations.json by REL-070 `gen-deprecations.mjs --codemods`. They are never hand-edited (SC-33).",
+    "depends_on": [
+      "OVL-049",
+      "OVL-065",
+      "OVL-070",
+      "OVL-088",
+      "OVL-105",
+      "OVL-121",
+      "DX-041",
+      "REL-070",
+      "DX-043"
+    ],
+    "priority": "P1",
+    "test": "overlay-mappings.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-59, §10.2)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-132",
+    "prd": "PRD-10",
+    "system": "codemods/removed",
+    "file": "deprecations.json",
+    "action": "MODIFY",
+    "description": "Removed-name entries with codemod id `removed` (SC-33): GlassAchievementNotifications (TODO(aura-glass 5) → toast()), GlassTransitions.GlassModal (TODO → Dialog), MobileGlassBottomSheet (TODO → Sheet side='bottom'). These get no compat adapters. mappings/removed.json is regenerated by REL-070 and never hand-edited.",
+    "depends_on": [
+      "OVL-016",
+      "TRUST-075",
+      "REL-010",
+      "REL-070",
+      "DX-041"
+    ],
+    "priority": "P2",
+    "test": "removed transform fixtures emit the TODO text",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-69)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-133",
+    "prd": "PRD-10",
+    "system": "compat/dialog",
+    "file": "NEW:src/compat/overlays/GlassModal.tsx",
+    "action": "CREATE",
+    "description": "Adapters GlassModal and NEW src/compat/overlays/GlassDialog.tsx: open+onClose → onOpenChange (if !o onClose()); title/description/footer → parts; role=alertdialog → AlertDialog; size → Popup size; variant drawer → Sheet side bottom, fullscreen → size full; closeOnBackdropClick/closeOnOverlayClick → dismissible; closeOnEscape={false} → reason filter; removed props (backdropBlur, material, materialProps, consciousness, predictive, adaptive, eyeTracking, trackAchievements, animation) warn once then drop; isContained → Surface + dev warning.",
+    "depends_on": [
+      "OVL-050",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "GlassModal.compat.test.tsx, GlassDialog.compat.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-78, -24)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-134",
+    "prd": "PRD-10",
+    "system": "compat/sheet",
+    "file": "NEW:src/compat/overlays/GlassDrawer.tsx",
+    "action": "CREATE",
+    "description": "Adapters GlassDrawer, GlassBottomSheet, GlassActionSheet, LiquidGlassAdaptiveSheet (one file each under src/compat/overlays/): position/placement → side; snap props → detents; actions[] → preset action + Sheet.Action children.",
+    "depends_on": [
+      "OVL-106",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "*.compat.test.tsx per adapter",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-78)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-135",
+    "prd": "PRD-10",
+    "system": "compat/popover",
+    "file": "NEW:src/compat/overlays/GlassPopover.tsx",
+    "action": "CREATE",
+    "description": "Adapters GlassPopover (placement 'bottom-start' → side bottom align start; trigger hover → openOnHover), GlassHoverCard (→ Popover openOnHover), GlassTooltip (content → Popup children, position → Positioner side), Positioner/GlassPositioner (NEW src/compat/overlays/Positioner.tsx → Popover.Positioner semantics + dev warning).",
+    "depends_on": [
+      "OVL-071",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "*.compat.test.tsx per adapter",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-78, -45)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-136",
+    "prd": "PRD-10",
+    "system": "compat/menu",
+    "file": "NEW:src/compat/overlays/GlassDropdownMenu.tsx",
+    "action": "CREATE",
+    "description": "Adapters: all GlassDropdownMenu* parts 1:1 per §10.2 (Content side/align/sideOffset → Positioner; asChild → render); GlassContextMenu → ContextMenu; GlassMenubar → Menubar (createFileMenu/createEditMenu not adapted: dev error naming the codemod TODO); LiquidGlassPopoverMenu → Menu.",
+    "depends_on": [
+      "OVL-089",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "*.compat.test.tsx per adapter",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-78)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-137",
+    "prd": "PRD-10",
+    "system": "compat/toast",
+    "file": "NEW:src/compat/overlays/GlassToast.tsx",
+    "action": "CREATE",
+    "description": "Adapters GlassToast, GlassToastProvider, GlassToastViewport, useToast (type→intent, error→danger; onClose/onDismiss(id) → onOpenChange/dismiss(id); position value table; addToast → toast) and NEW src/compat/overlays/GlassNotificationCenter.tsx (renders Toast.History inside Popover; useNotifications().addNotification → toast() with history enabled).",
+    "depends_on": [
+      "OVL-122",
+      "DX-065",
+      "REL-072"
+    ],
+    "priority": "P1",
+    "test": "GlassToast.compat.test.tsx, GlassNotificationCenter.compat.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16, AC-OVL-19 (REQ-OVL-78)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-138",
+    "prd": "PRD-10",
+    "system": "compat/tests",
+    "file": "NEW:src/compat/overlays/__tests__/GlassModal.compat.test.tsx",
+    "action": "TEST",
+    "description": "One *.compat.test.tsx per adapter file in src/compat/overlays/__tests__/: renders the real 5.0 component (data-ag-part root + data-ag-overlay kind present), one assertion per mapped §10.2 row, warnDeprecated fires exactly once per symbol across 2 mounts, silent in production; no mocks. Also re-export from src/compat/index.ts and pass src/compat/__tests__/manifest.test.ts.",
+    "depends_on": [
+      "OVL-133",
+      "OVL-134",
+      "OVL-135",
+      "OVL-136",
+      "OVL-137"
+    ],
+    "priority": "P1",
+    "test": "./node_modules/.bin/jest src/compat green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (REQ-OVL-78)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-139",
+    "prd": "PRD-10",
+    "system": "codemods/fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/{canonical-names,prop-grammar,providers,removed,imports-subpaths}/overlays-*/",
+    "action": "TEST",
+    "description": "Hand-written input.tsx/output.tsx per §2.4 name plus cases backdrop-click (TODO on tests clicking role=dialog), on-close-semantics (wrapped callback + programmatic-close comment), escape-all (N-presses comment), overlays-subpath (aura-glass/overlays → root via imports-subpaths). TODO(aura-glass 5) only where §10.2 says TODO/partial. Run under runner.test.ts.",
+    "depends_on": [
+      "OVL-131",
+      "OVL-132",
+      "DX-041"
+    ],
+    "priority": "P1",
+    "test": "packages/cli/src/migrate/4to5/__tests__/runner.test.ts green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 (codemod fixture half)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-140",
+    "prd": "PRD-10",
+    "system": "docs/selectors",
+    "file": "NEW:scripts/docs/gen-overlay-selector-table.mjs",
+    "action": "CREATE",
+    "description": "Generator reading every overlay .meta.ts selectorChanges → NEW docs/auraglass-5/migration/overlays-selectors.md (per component: 4.x selector/role/attribute → 5.0 data-ag-part/data-state); --check fails when stale; package.json scripts gen:overlay-selectors, check:overlay-selectors only.",
+    "depends_on": [
+      "OVL-049",
+      "OVL-065",
+      "OVL-070",
+      "OVL-088",
+      "OVL-105",
+      "OVL-121",
+      "DX-019"
+    ],
+    "priority": "P1",
+    "test": "node scripts/docs/gen-overlay-selector-table.mjs --check exits 0; fails on stale fixture",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-16 selector row (REQ-OVL-76)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-141",
+    "prd": "PRD-10",
+    "system": "registry",
+    "file": "NEW:registry/items/confirm-dialog/",
+    "action": "CREATE",
+    "description": "Registry item confirm-dialog built on AlertDialog (variants destructive, neutral) replacing 4.x modal confirm variants; no root export (D-15, D-17).",
+    "depends_on": [
+      "OVL-048",
+      "DX-067"
+    ],
+    "priority": "P2",
+    "test": "PRD-16 recipe render harness renders the item",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-28",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-142",
+    "prd": "PRD-10",
+    "system": "registry",
+    "file": "NEW:registry/items/account-menu/",
+    "action": "CREATE",
+    "description": "Registry item account-menu built on Menu, replacing HeaderUserMenu.",
+    "depends_on": [
+      "OVL-089",
+      "DX-067"
+    ],
+    "priority": "P2",
+    "test": "PRD-16 recipe render harness renders the item",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-59",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-143",
+    "prd": "PRD-10",
+    "system": "registry/blocks",
+    "file": "registry/blocks/settings/",
+    "action": "MODIFY",
+    "description": "Overlay usage in PRD-16 blocks: settings (Dialog, AlertDialog, Toast), support-inbox (Sheet, Menu, ContextMenu, Popover), mobile-settings (bottom Sheet detents [0.5,'full'] + action Sheet), auth (Tooltip on IconButtons); each block's layout.assert.json names the overlay parts rendered. Contribution to DX-owned blocks (SC-32); DX scaffolds and registers them (DX-071..078).",
+    "depends_on": [
+      "OVL-141",
+      "OVL-142",
+      "OVL-122",
+      "DX-078"
+    ],
+    "priority": "P2",
+    "test": "recipe harness layout assertions green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-79 (DoD registry)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-144",
+    "prd": "PRD-10",
+    "system": "registry/verify",
+    "file": "NEW:registry/blocks/",
+    "action": "TEST",
+    "description": "Remote: blocks and items render in the PRD-16 packed-tarball recipe harness at 1440x900 and 390x844; capture artifacts for human review.",
+    "depends_on": [
+      "OVL-143",
+      "DX-067"
+    ],
+    "priority": "P2",
+    "test": "remote recipe harness run URL green",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-79 (DoD)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-145",
+    "prd": "PRD-10",
+    "system": "migration/canary",
+    "file": "tests/fixtures/consumer-4x/",
+    "action": "TEST",
+    "description": "Run migrate 4to5 on the PRD-01 frozen 4.x consumer fixture overlay subset (GlassModal, GlassDrawer, GlassPopover, GlassTooltip, GlassDropdownMenu, GlassToast): 0 TODOs, typecheck and render green in the canary lane (remote). Shortfalls reported, never hidden.",
+    "depends_on": [
+      "OVL-139",
+      "OVL-138",
+      "REL-115",
+      "QA-086"
+    ],
+    "priority": "P1",
+    "test": "canary lane run URL green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-17",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-146",
+    "prd": "PRD-10",
+    "system": "migration/doctor",
+    "file": "NEW:docs/auraglass-5/migration/overlays-requests.md",
+    "action": "DOC",
+    "description": "Request list to PRD-01 (bridge doctor --v5) and PRD-16: rule flagging `body >` selectors mentioning 4.x overlay classes; providers codemod inserting AuraGlassProvider; behaviour-change notes (Escape per layer, Tab closes menus, onOpenChange fires on programmatic close, action toasts don't expire) for the generated migration guide.",
+    "depends_on": [
+      "OVL-140"
+    ],
+    "priority": "P3",
+    "test": "PRD-16 docs lint passes on referenced anchors",
+    "storybook": "n/a",
+    "acceptance": "§11 items 1,4,5,6,7 (AC-OVL-16 guide input)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-147",
+    "prd": "PRD-10",
+    "system": "certification/a11y-modes",
+    "file": "tests/e2e/overlays/overlay-a11y-modes.spec.ts",
+    "action": "TEST",
+    "description": "Run over all 9 widgets open (Dialog, AlertDialog, Sheet, Popover, Tooltip, Menu, ContextMenu, Menubar, Toast) in Chromium, WebKit, Firefox: forced colors 0 visible backdrop-filters + CanvasText border; contrast more 1px border + specular off; reduced transparency solid; axe color-contrast on → 0 serious/critical.",
+    "depends_on": [
+      "OVL-062",
+      "OVL-079",
+      "OVL-096",
+      "OVL-111",
+      "OVL-129"
+    ],
+    "priority": "P0",
+    "test": "overlays-* 3-engine green on RC SHA",
+    "storybook": "all flagship default stories + preference globals",
+    "acceptance": "AC-OVL-08, AC-OVL-10 (REQ-OVL-12)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-148",
+    "prd": "PRD-10",
+    "system": "certification/contrast",
+    "file": "src/components/overlays/_shared/__tests__/subjects.ts",
+    "action": "MODIFY",
+    "description": "Register subjects overlays/* (kind x thickness) in the PRD-03 three-composite token gate (>=4.5 on-surface, >=3 muted large, >=7 contrast-more) and the PRD-18 OCR pixel gate over 8 scenes light+dark (worst-case text >=4.5:1), via the PRD-18 subject list export from subjects.ts.",
+    "depends_on": [
+      "OVL-147",
+      "DS-016",
+      "QA-049"
+    ],
+    "priority": "P0",
+    "test": "token + pixel lanes green on RC SHA",
+    "storybook": "all flagship stories",
+    "acceptance": "AC-OVL-09 (REQ-OVL-13)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-149",
+    "prd": "PRD-10",
+    "system": "storybook/matrix",
+    "file": "NEW:src/components/overlays/_shared/OverlayMatrix.stories.tsx",
+    "action": "CREATE",
+    "description": "Matrix stories generated from the 7 .meta.ts files: state x thickness x transparency (glass/tinted/solid) x scheme over the 8 scenes; no hand-written cells; stable ids.",
+    "depends_on": [
+      "OVL-147",
+      "SB-060"
+    ],
+    "priority": "P1",
+    "test": "remote Storybook build; PRD-18 environment-matrix lane captures all cells",
+    "storybook": "Overlays/Matrix/*",
+    "acceptance": "§13 item 3, DoD environment matrix (AC-OVL-09)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-150",
+    "prd": "PRD-10",
+    "system": "certification/mobile",
+    "file": "src/components/overlays/_shared/__tests__/subjects.ts",
+    "action": "TEST",
+    "description": "Pixel lane 'mobile containment': every overlay story at 390x844 has scrollWidth===390; RTL baseline per flagship at 390 approved through PRD-18 human review flow.",
+    "depends_on": [
+      "OVL-149",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "pixel lane green; RTL baselines present",
+    "storybook": "all overlay stories",
+    "acceptance": "AC-OVL-14",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-151",
+    "prd": "PRD-10",
+    "system": "certification/ssr",
+    "file": "src/components/overlays/_shared/overlay-ssr.test.tsx",
+    "action": "TEST",
+    "description": "Canary lane: each flagship closed and defaultOpen renderToString → hydrateRoot with 0 warnings in Next 16 + React 19.3 and Next 15 + React 19.0 canaries (remote).",
+    "depends_on": [
+      "OVL-035",
+      "QA-086"
+    ],
+    "priority": "P0",
+    "test": "canary lane run URLs green",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-15",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-152",
+    "prd": "PRD-10",
+    "system": "certification/manual",
+    "file": "NEW:docs/auraglass-5/migration/overlays-manual-scripts.md",
+    "action": "DOC",
+    "description": "Per-cell manual test scripts generated from .meta.ts keyboard tables for 7 flagships x (VoiceOver macOS+Safari, VoiceOver iOS, NVDA+Chrome, TalkBack+Chrome, physical touch) = 35 cells; open tracking issue; results recorded by human testers in the PRD-18 living matrix with build SHA. Agent never marks a cell green.",
+    "depends_on": [
+      "OVL-147",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "living matrix 35/35 cells with tester records, 0 open P0/P1",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-11",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-153",
+    "prd": "PRD-10",
+    "system": "certification/perf",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Remote perf lane grades for all 7 flagships (>=C each, Dialog target >=B); calibrate REQ-OVL-77 lines to measured + PRD-07 headroom, never above ceilings (Dialog/AlertDialog 20, Sheet 24, Popover 14, Tooltip 10, Menu 22, Toast 14 KB); overlay CSS total <=6 KB gz.",
+    "depends_on": [
+      "OVL-060",
+      "OVL-080",
+      "OVL-096",
+      "OVL-112",
+      "OVL-129",
+      "PKG-048",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "perf lane + size lane green; grades published",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-05, AC-OVL-13 (REQ-OVL-77)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-154",
+    "prd": "PRD-10",
+    "system": "certification/static",
+    "file": "eslint.config.js",
+    "action": "TEST",
+    "description": "Static lane over src/components/{dialog,alert-dialog,sheet,popover,tooltip,menu,toast,overlays}/**: 0 hits for document.addEventListener, window.addEventListener, document.body.style, Date.now() in render, transition: all, !important, focus:outline-none, outline:none without replacement (rg + ESLint artifact).",
+    "depends_on": [
+      "OVL-029",
+      "OVL-147"
+    ],
+    "priority": "P0",
+    "test": "lint artifact 0 hits on RC SHA",
+    "storybook": "n/a",
+    "acceptance": "AC-OVL-12",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-155",
+    "prd": "PRD-10",
+    "system": "deletion/positioning",
+    "file": "src/primitives/Positioner.tsx",
+    "action": "REMOVE",
+    "description": "Family PR 1: delete src/primitives/Positioner.tsx, src/primitives/positioning/GlassPositioner.tsx, src/overlays/index.ts and the './overlays' key in package.json exports; remove root exports; rg proof in PR; compat Positioner adapter green.",
+    "depends_on": [
+      "OVL-135",
+      "OVL-138",
+      "FND-103"
+    ],
+    "priority": "P1",
+    "test": "remote full jest + artifact lane green",
+    "storybook": "n/a",
+    "acceptance": "§9, DoD deletions (REQ-OVL-45)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-156",
+    "prd": "PRD-10",
+    "system": "deletion/modal",
+    "file": "src/components/modal/GlassModal.tsx",
+    "action": "REMOVE",
+    "description": "Family PR 2: delete src/components/modal/** (GlassModal, GlassDialog, GlassDrawer, GlassBottomSheet, LiquidGlassAdaptiveSheet, GlassPopover incl duplicate GlassTooltip at :678, GlassHoverCard, GlassTooltip, LiquidGlassPopoverMenu, index.ts, types.ts, stories, tests, __snapshots__); remove root exports; rg proof that only compat references remain.",
+    "depends_on": [
+      "OVL-155",
+      "OVL-133",
+      "OVL-134",
+      "OVL-135",
+      "FND-103",
+      "NAV-087"
+    ],
+    "priority": "P1",
+    "test": "remote full jest + artifact lane green",
+    "storybook": "4.x modal stories removed",
+    "acceptance": "§9, DoD deletions",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-157",
+    "prd": "PRD-10",
+    "system": "deletion/mobile",
+    "file": "src/components/mobile/GlassActionSheet.tsx",
+    "action": "REMOVE",
+    "description": "Family PR 3: delete src/components/mobile/GlassActionSheet.tsx and MobileGlassBottomSheet from src/components/mobile/TouchGlassOptimization.tsx (+ stories/tests); remove root exports; rg proof.",
+    "depends_on": [
+      "OVL-156",
+      "OVL-134"
+    ],
+    "priority": "P2",
+    "test": "remote full jest + artifact lane green",
+    "storybook": "n/a",
+    "acceptance": "§9, DoD deletions",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-158",
+    "prd": "PRD-10",
+    "system": "deletion/navigation-menus",
+    "file": "src/components/navigation/GlassDropdownMenu.tsx",
+    "action": "REMOVE",
+    "description": "Family PR 4: delete navigation/{GlassDropdownMenu,GlassContextMenu,GlassMenubar,GlassMenuPrimitive,HeaderUserMenu}.tsx and navigation/components/CollapsedMenu.tsx (+ stories/tests) once PRD-11 TabBar overflow uses Menu; remove root exports; rg proof.",
+    "depends_on": [
+      "OVL-157",
+      "OVL-136",
+      "OVL-142",
+      "NAV-087"
+    ],
+    "priority": "P2",
+    "test": "remote full jest + artifact lane green",
+    "storybook": "n/a",
+    "acceptance": "§9, DoD deletions (REQ-OVL-59)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-159",
+    "prd": "PRD-10",
+    "system": "deletion/toast",
+    "file": "src/components/data-display/GlassToast.tsx",
+    "action": "REMOVE",
+    "description": "Family PR 5: delete data-display/{GlassToast,GlassToastProvider,GlassNotificationCenter}.tsx (+ stories/tests) and the moved notification CSS block in src/styles/glass.css; remove root exports; rg proof.",
+    "depends_on": [
+      "OVL-158",
+      "OVL-137"
+    ],
+    "priority": "P2",
+    "test": "remote full jest + artifact lane green",
+    "storybook": "n/a",
+    "acceptance": "§9, DoD deletions (AC-OVL-19)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-160",
+    "prd": "PRD-10",
+    "system": "exports",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Final root: exactly Dialog, AlertDialog, Sheet, Popover, Tooltip, Menu, ContextMenu, Menubar, Toast + useToast and the §10.1 types; no 4.x overlay names (former :93-110, :178-192, :317-340); report root value count vs D-15 cap 160.",
+    "depends_on": [
+      "OVL-159"
+    ],
+    "priority": "P0",
+    "test": "tests/exports suite; export count check",
+    "storybook": "n/a",
+    "acceptance": "§10.1, D-15",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-161",
+    "prd": "PRD-10",
+    "system": "api-freeze",
+    "file": "src/index.ts",
+    "action": "DOC",
+    "description": "rc.1: review API Extractor root report overlay section (no @base-ui specifier in .d.ts; types match §10.1); freeze; later changes C-E only (PRD-01 change-class gate).",
+    "depends_on": [
+      "OVL-160",
+      "REL-003"
+    ],
+    "priority": "P0",
+    "test": "API Extractor run shows no unreviewed overlay diff",
+    "storybook": "n/a",
+    "acceptance": "DoD API freeze (AC-OVL-01..20 at RC)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-162",
+    "prd": "PRD-10",
+    "system": "consumers",
+    "file": "NEW:docs/auraglass-5/migration/overlays-consumers.md",
+    "action": "DOC",
+    "description": "Ledger with green CI run links on the final contract SHA for PRD-09 Select/Combobox, PRD-12 DatePicker/DateRangePicker/FilterBar, PRD-13 Citation/SourceList, PRD-11 CommandPalette/AppShell drawer/Sidebar overlay/TabBar overflow, PRD-14 ImageViewer, PRD-08 Tour on Popover.",
+    "depends_on": [
+      "OVL-161"
+    ],
+    "priority": "P1",
+    "test": "each linked run green",
+    "storybook": "n/a",
+    "acceptance": "DoD consumer re-verification; AC-OVL-20",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-163",
+    "prd": "PRD-10",
+    "system": "docs",
+    "file": "src/components/dialog/Dialog.meta.ts",
+    "action": "DOC",
+    "description": "Verify the PRD-16 docs generator renders per flagship (from .meta.ts): parts table, data-ag-part/data-state table, keyboard table, 4.x lineage, budget line, perf grade; no hand-written prop tables (PRD-16 docs lint).",
+    "depends_on": [
+      "OVL-153",
+      "DX-104"
+    ],
+    "priority": "P2",
+    "test": "PRD-16 docs lint green",
+    "storybook": "generated docs pages",
+    "acceptance": "§13 item 6 (REQ-OVL-75)",
+    "status": "todo"
+  },
+  {
+    "id": "OVL-164",
+    "prd": "PRD-10",
+    "system": "registry/overlay-flows",
+    "file": "registry/blocks/overlay-flows/",
+    "action": "MODIFY",
+    "description": "Author the content of the GA block overlay-flows (SC-32: content owner OVL; DX-076 scaffolds and registers it). It covers confirm-delete AlertDialog, edit Dialog with form, bottom Sheet with detents, Popover filter, Menu/ContextMenu actions, Tooltip on IconButtons and Toast with undo, all on the 5.0 flagships only.",
+    "depends_on": [
+      "DX-076",
+      "DX-067",
+      "OVL-048",
+      "OVL-071",
+      "OVL-089",
+      "OVL-106",
+      "OVL-122"
+    ],
+    "priority": "P1",
+    "test": "DX registry render harness renders overlay-flows; DX-081 asserts the 10 GA block names",
+    "storybook": "n/a",
+    "acceptance": "REQ-OVL-79 (DoD registry)",
+    "status": "todo"
+  }
+]

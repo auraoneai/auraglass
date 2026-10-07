@@ -1,0 +1,86 @@
+# PROMPT-08e (FND): Dispositions, consumer grep and removal gates
+
+You are implementing part of `PRD-FND` (Component Remediation, key FND, self-id PRD-08; REQ-FND-*) for `aura-glass` at `/Users/gurbakshchahal/platforms/AuraGlass` (baseline 4.1.0, HEAD `15b6de6f7`). This prompt is self-contained. It builds the governance tooling that every removal PR (08b RM-12, 08f RM-01..RM-11) must pass. It deletes nothing. `PRD-xx` in a dependency means architecture §16 numbering (`PRD-00` trust, `PRD-01` release governance, `PRD-18` compat/codemods).
+
+## 1. Sources (read in full before editing)
+- PRD: `docs/auraglass-5/prd/AURAGLASS_COMPONENT_REMEDIATION_PRD.md` deviations 5–6, §2.4–§2.5, §4.6–§4.8 (consumer grep, gate interplay), §5.5, §5.6 (REQ-FND-44 gate, -47, -48, -49, -50), §9, §12, §20 steps 1–3.
+- Appendix: `docs/auraglass-5/prd/appendix/gen-component-dispositions.mjs` and `component-dispositions.md` (generated). Today `--check` exits 0 with `core 41, compat 152, removed 234, registry 13, labs 9, flagship 47, note 4`.
+- Architecture: §13, §14.1 (beta entry gate), §14.4, D-17, D-18, D-27, D-30, D-32.
+- PRD-01: `docs/auraglass-5/prd/AURAGLASS_RELEASE_MIGRATION_PRD.md` (the `deprecations.json` schema and the no-removal-without-deprecation gate); PRD-00 `AURAGLASS_TRUST_PATCH_4_1_1_PRD.md` REQ-TRUST-43.
+- Policy: `/Users/gurbakshchahal/.config/agent-policy/reference/github-npm.md` (read-only `gh`), `ci-selection.md`, and the "Local search resource guard" in `/Users/gurbakshchahal/AGENTS.md` (never scan from `/Users/gurbakshchahal` unbounded).
+- Contract registry (binding): `docs/auraglass-5/prd/_shared-contracts.md` SC-02/SC-03 (repo-root `deprecations.json`, schema `docs/schemas/deprecations.schema.json`, REL-010), SC-11 (`scripts/removal/` is FND's), SC-33 (codemod ids), SC-34 (compat entry and the generator edit), SC-35 (inventory path), SC-38 (Field family → CTL, HoverCard → OVL compat), SC-40 (`depends_on` anchors). Prose `PRD-xx` is §16 numbering (`PRD-01` = `PRD-REL`, `PRD-18` = `PRD-DX`).
+- Tasks: `docs/auraglass-5/tasks/FND.json` FND-101..FND-115.
+- Prerequisite owner prompts: PROMPT_01 REL (REL-010 schema, REL-050 removal gate, REL-072 `warnDeprecated`), PROMPT_00 TRUST (TRUST-075 seed), PROMPT_16 DX (DX-065 compat index).
+
+Requirements: REQ-FND-41, 42, 43 (test), 47 (gate), 48, 49 (tests), 50, and the gate half of 44 and 45. Acceptance: AC-FND-11, the test half of AC-FND-12 and AC-FND-17; the jobs that AC-FND-14 and -15 rely on.
+
+## 2. Scope
+May create or modify:
+- `docs/auraglass-5/prd/appendix/gen-component-dispositions.mjs` (deviation-6 edits only) and the regenerated `component-dispositions.md`
+- NEW `scripts/removal/consumer-grep.mjs`, NEW `scripts/removal/consumer-grep.test.mjs`, NEW fixture tree `scripts/removal/__fixtures__/consumer-repo/**`
+- NEW `scripts/removal/verify-archive.mjs`, NEW `scripts/removal/verify-archive.test.mjs`
+- NEW `scripts/removal/families.json` (RM-01..RM-12: id, title, path prefixes, extra non-component paths, gate notes; transcribed from PRD §4.8)
+- NEW `.github/workflows/removal-gate.yml`
+- NEW `tests/removal/{inventory-remove-progress,inventory-remove-zero,deprecations-coverage}.test.ts`, NEW `tests/removal/inventory-remove-baseline.json`
+- NEW `tests/exports/{compat-map,root-export-count,no-backend}.test.ts`, NEW `tests/exports/root-export-baseline.json`, NEW `scripts/removal/appendix.test.mjs`
+- `jest.config.js` (`testMatch` for `tests/removal/**` only)
+- `package.json` (`scripts`: `removal:grep`, `removal:verify-archive`, `test:removal`)
+
+Must NOT touch: any `src/**` file (08b/08f delete, DX writes `src/compat/**`); `deprecations.json` content (TRUST-075 seeds it, REL owns schema and 4.2/4.3 entries REL-082/REL-103; you only read it); `docs/auraglass-5/component-inventory.json`; GitHub security advisories or repository settings; any other repository (the grep is read-only).
+
+## 3. Prerequisites
+- Baseline on `main`: `git merge-base --is-ancestor 15b6de6f7 HEAD`.
+- REL-010 + TRUST-075 (hard for REQ-FND-50 / step 10): `test -f deprecations.json && test -f docs/schemas/deprecations.schema.json` (repo root, SC-02). Missing → write the test against the schema fields the PRD-01 doc defines, keep it red, and report it. Do not create `deprecations.json`.
+- `gh` is authenticated for read (`gh auth status` exit 0). Do not log in on failure. Report the exact error, and the GitHub half of the grep is then blocked.
+- DX-065 `src/compat/index.ts` (soft; adapters are `src/compat/<area>/<OldName>.tsx` calling `warnDeprecated(id)` from `src/internal/warnDeprecated.ts`, REL-072): `compat-map.test.ts` must run red (not skipped) until it exists.
+
+## 4. Steps
+1. **FND-101 Appendix deviation-6 edit (REQ-FND-42).** In `gen-component-dispositions.mjs` change `GlassHoverCard: C('HoverCard', 'PRD-14', 'Base UI PreviewCard')` (`:184`) to an `A('Popover', 'PRD-09', 'compat adapter over Popover.Trigger openOnHover (REQ-OVL-40); openDelay/closeDelay → delay/closeDelay')` that resolves to `dest=compat`. Change the owners of `GlassFieldGroup`, `GlassFormField` (`:138-139`, target `Field`) and `GlassValidationMessage` (`:140`, target `Field.Error`) from `PRD-14` to `PRD-08`. Per SC-34 also change `GlassTimelineRail` (`:48`, `A('Timeline','PRD-11')`) and `GlassAdvancedDataViz` (`:256`, `A('ChartFrame','PRD-11')`) to `R(...)` (removed, owner PRD-11; DATA §9: no TimelineRail compat, no chart compat names). Regenerate. Expected totals: core 40, compat 151, removed 236, others unchanged. If they differ, stop and report the diff. Add an `UNMAPPED records:` error path test: the generator already exits 1 on unmapped records; prove it with a temp copy of the inventory plus one fake record, written under `os.tmpdir()` and deleted afterwards, and invoked through a `--inventory <path>` flag that you add. The default is `docs/inventory/component_inventory.json` when it exists (SC-35, relocated by TRUST REQ-TRUST-35), otherwise the current path; CI passes the flag explicitly.
+2. **FND-102 CI step** in `removal-gate.yml` (job `appendix`): `node docs/auraglass-5/prd/appendix/gen-component-dispositions.mjs --check`, and assert 500 records with exactly one destination each (parse the JSON summary line; AC-FND-11).
+3. **FND-103 `scripts/removal/consumer-grep.mjs` (REQ-FND-41).** CLI: `--family <RM-id>` (reads `families.json` and the appendix rows whose `file` starts with the family's prefixes and whose `dest` is `removed|registry|labs|compat`), or `--names a,b,c`, `--out <file.json>`, `--local-root` (repeatable; default `/Users/gurbakshchahal/AuraOne` and each directory in `/Users/gurbakshchahal/platforms/*` except this repo), `--no-github`.
+   - Local: `rg -l --hidden -g '!node_modules' -g '!.git' -g '!.next' -g '!dist' -g '!reports' -g '!storybook-static' -e "from ['\"]aura-glass[^'\"]*['\"]" <root>`, then per file a word-boundary match on each export name inside the import clause (named, aliased `X as Y`, namespace `* as AG` followed by `AG.X`, `require('aura-glass')` destructuring, and subpaths `aura-glass/<sub>`).
+   - GitHub (read-only): `gh search code "aura-glass" --owner auraoneai --owner gchahal1982 --json path,repository,url --limit 1000`, then `gh api repos/{repo}/contents/{path}` per hit, and the same matcher. Respect rate limits with backoff. Never write.
+   - Output JSON `{ family, names, generatedAt, sha, hits: [{ source: 'local'|'github', repo, path, line, name, specifier }], errors: [] }` and exit 1 if `hits.length > 0` unless `--ack <ack.json>` lists each hit with `owner` and `migration` (`'codemod' | 'pinned-4.x-lts'`). The artifact is uploaded by CI and never committed (D-32).
+4. **FND-104 `consumer-grep.test.mjs`** (`node --test`) over `scripts/removal/__fixtures__/consumer-repo/`: detects named, aliased, namespace and subpath imports and `require`; ignores files under `node_modules/`, `dist/` and `.next/`; ignores a same-named local identifier with no `aura-glass` import; `--ack` turns a hit list into exit 0 only when every hit is acknowledged.
+5. **FND-105 Baseline run (PRD §20 step 1).** Run `node scripts/removal/consumer-grep.mjs --names <all dest=removed|registry|labs public names> --out "$TMPDIR/fnd-baseline-grep.json"`. Upload it as an artifact of a `workflow_dispatch` run of `removal-gate.yml` (or attach it to the tracking issue with `gh issue comment` if the operator's tracking issue exists; read its number from the PRD-16 kickoff issue, do not create one). The local half is bounded to the roots above; never scan `/Users/gurbakshchahal` itself. Report hit counts per repo.
+6. **FND-106 `scripts/removal/verify-archive.mjs` (REQ-FND-45 check).** Args `--archive <owner/repo>`, `--branch-point <sha>`. Read-only: `gh api repos/<archive>` asserts `private: true`; for each path (`server/`, `src/services/`, `src/lib/ai-client.ts`, `Dockerfile`, `docker-compose.yml`, `tsconfig.server.json`) compare the git blob/tree SHA in the archive's default branch with `git rev-parse <bp>:<path>` locally. Exit 1 with the mismatching paths. Test `verify-archive.test.mjs` injects a fake `gh` runner (a function parameter, not a network mock of the product) to cover private=false, a mismatched blob and a match. This is a test of the script's logic; the real check runs in 08f against the real archive.
+7. **FND-107 `removal-gate.yml` job `consumer-grep`.** Triggered on `pull_request` to `main` when the PR has label `removal:<RM-id>` or a title matching `^refactor\(5\.0\)!: remove `. It reads the RM id from the label, runs `consumer-grep.mjs --family <id> --out grep.json` (GitHub half uses the workflow's read-only `GITHUB_TOKEN` with `contents: read`; cross-org search needs a token only if the repo owner has configured one: use what exists, never create or copy a token), uploads `grep.json`, and fails on unacknowledged hits. The ack file is `removal-acks/<RM-id>.json` in the PR. It is **not** committed to `main` after merge: the job deletes nothing, and the PR body links the artifact (D-32).
+8. **FND-108 job `revert-dry-run` (REQ-FND-47).** On the PR merge commit: `git revert --no-commit HEAD` (the squash commit), `npm ci`, `npm run typecheck`, `npm run build`, `npm test -- --ci`; must pass. Also assert that the PR has a single commit and that the title matches `^refactor\(5\.0\)!: remove .+` (`gh pr view --json commits,title`). This job is heavy and runs only in CI.
+9. **FND-109 job `ghsa` (REQ-FND-44 gate).** Only for `removal:RM-01`: extract `GHSA-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}` from the PR body; `gh api repos/${{ github.repository }}/security-advisories/<id> --jq .state` must equal `published`. Read-only. The agent never publishes or edits the advisory. Also run `verify-archive.mjs` (step 6) with `--archive` and `--branch-point` taken from `families.json` RM-01.
+10. **FND-110 `tests/removal/inventory-remove-progress.test.ts` (REQ-FND-48).** Load the appendix rows. Compute the set S of `dest=removed` rows whose `file` exists in `src/` at HEAD and the set at `tests/removal/inventory-remove-baseline.json`. Assert S ⊆ baseline (no row reappears). In PR context (env `FND_RM_ID` set by the workflow) assert baseline − S equals that family's generated record list exactly, and that the destinations in the regenerated appendix are unchanged for every other row (diff of `name→dest`). The PR updates the baseline JSON in the same commit. Record the initial baseline count (expected 234 minus any already-absent files, listed).
+11. **FND-111 `tests/removal/inventory-remove-zero.test.ts` (REQ-FND-49).** Asserts 0 rows with `dest ∈ {removed, registry, labs}` have an existing `file`. Before beta it is not skipped: it runs in a **separate** jest project `removal-beta` invoked only by the beta job (`npm run test:removal -- --selectProjects removal-beta`), and the regular suite does not include it. Document that in the test header.
+12. **FND-112 `tests/removal/deprecations-coverage.test.ts` (REQ-FND-50, AC-FND-17).** For every appendix row with `pub=yes` and `dest ∈ {removed, registry, labs, compat}`, plus every renamed primitive alias (`GlassSlot`, `GlassPortal`, `GlassFocusScope`, `GlassDismissableLayer`, `GlassLabelPrimitive`, `LabelRoot`, `Root`), assert a `deprecations.json` entry exists with `since` ≤ the newest published 4.x minor (read from `npm view aura-glass versions --json` in CI, cached to an env var; in unit runs read `process.env.AG_PUBLISHED_VERSIONS`, and fail if it is unset), a non-empty `reason`, and `successor` matching `^(registry:|labs:)?[A-Za-z.]+$` or `null`. The `successor` for registry/labs rows must use the prefix. Print the uncovered names.
+13. **FND-113 `tests/exports/compat-map.test.ts` (REQ-FND-43, -36, AC-FND-12).** From the appendix: every `dest=compat` name (151 after step 1) is a named export of the built `aura-glass/compat`, rendering it (minimal props from a `compat-fixtures` map supplied by PRD-18; a missing fixture entry fails) produces the 5.0 target's root (`[data-ag-part="root"]` inside an element whose nearest meta name equals the target), and `console.warn` fires once per symbol per page load in dev (render twice, expect 1). No `dest=removed|registry|labs` name is exported. `GlassHoverCard` maps to `Popover` with `openOnHover`.
+14. **FND-114 `tests/exports/root-export-count.test.ts` (REQ-FND-49).** Count runtime value keys of the built root `aura-glass` (ESM `import * as m`, excluding type-only). Ratchet: fail if the count exceeds `tests/exports/root-export-baseline.json` (NEW, set to today's measured count; the PRD cites 1,073) and `--strict` (beta) fails above 160 or on any key matching `^Glass`.
+15. **FND-115 `tests/exports/no-backend.test.ts` (REQ-FND-46).** `package.json` `dependencies`, `peerDependencies` and `optionalDependencies` contain none of: express, express-rate-limit, helmet, cors, compression, socket.io, socket.io-client, ioredis, redis, jsonwebtoken, bcryptjs, dotenv, openai, @pinecone-database/pinecone, @google-cloud/vision, @sentry/node. `scripts` has no `build:server`, `build:hosted`, `server:*`, `hosted`, `docker:*`. `npm pack --dry-run --json` file list has no `server/`, `src/services/`, `Dockerfile`, `docker-compose.yml`, `tsconfig.server.json`. Note that today `openai`, `@google-cloud/vision` and `redis` sit in `peerDependencies` too, so the PRD's "`dependencies`" scope is widened to all three dependency fields (recorded deviation, evidence: `package.json` `peerDependencies`). It is red until 08f RM-01. It runs in the `removal-beta` project plus the RM-01 PR.
+
+## 5. Tests to write and run
+Written: `consumer-grep.test.mjs`, `verify-archive.test.mjs`, the three `tests/removal/*.test.ts`, the three `tests/exports/*.test.ts`, and the generator's unmapped-record test (in `consumer-grep.test.mjs`'s sibling `scripts/removal/appendix.test.mjs`, NEW).
+Local (light): `node --test scripts/removal/`, `node docs/auraglass-5/prd/appendix/gen-component-dispositions.mjs --check`, `./node_modules/.bin/jest tests/removal/inventory-remove-progress.test.ts tests/removal/deprecations-coverage.test.ts`. Remote: `removal-gate.yml` on a draft PR labelled `removal:RM-dry` with an empty family (`families.json` has a `RM-dry` entry with no prefixes, used only to exercise the jobs; the revert dry-run job runs on it). `compat-map`, `root-export-count` and `no-backend` run after the remote build.
+
+## 6. Visual evidence
+None. This prompt produces no UI. State that in the report.
+
+## 7. Integrity rules (binding)
+The grep must search real roots; do not narrow roots or names to get 0 hits. Do not auto-acknowledge hits. Do not commit grep artifacts. Tests that are expected red before upstream work (compat-map, no-backend, inventory-remove-zero) stay red or live in the `removal-beta` project. They are never `.skip`ped, `.todo`'d or asserted with `expect(true)`. Do not hand-edit `component-dispositions.md`. Never publish or modify a security advisory. Never write to another repository. Never run local Docker. Keep the local scan inside the policy's search guard.
+
+## 8. Exit criteria
+- AC-FND-11 / REQ-FND-42: `--check` exits 0 after the deviation-6 edit; totals core 40 / compat 151 / removed 236; 500/500 rows have one destination; the unmapped test fails as designed.
+- REQ-FND-41: `consumer-grep.test.mjs` green; the baseline artifact URL plus hit counts are reported; the `consumer-grep` job blocks a fixture PR with an unacknowledged hit.
+- REQ-FND-47: `revert-dry-run` is green on the `RM-dry` PR.
+- REQ-FND-44/45 gate: the `ghsa` job fails on a non-published state (demonstrate with an unknown id) and calls `verify-archive.mjs`.
+- REQ-FND-48/49/50, AC-FND-12/17 (tests): the tests exist, run, and fail for the right reason today (list the failing names and counts).
+
+## 9. Final report format
+```
+PROMPT-08e REPORT
+Branch/SHA:
+Appendix: before {core 41, compat 152, ...} -> after {...}; --check exit
+Tasks: FND-101..115 -> done|blocked (reason) each
+Consumer grep baseline: artifact URL; hits per repo (local | github); gh errors
+Gate jobs: consumer-grep / revert-dry-run / ghsa / appendix -> run URL + result
+Expected-red tests: name -> failing count + first 10 names
+Initial baselines: inventory-remove=N; root value exports=N
+Prereq blockers / Deviations (incl. no-backend scope widened to peer/optional deps): ...
+Files changed: (list)
+```

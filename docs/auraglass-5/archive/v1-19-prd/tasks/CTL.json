@@ -1,0 +1,2917 @@
+[
+  {
+    "id": "CTL-001",
+    "prd": "PRD-09",
+    "system": "entry-gate",
+    "file": "NEW:tests/controls/base-ui-parts.test.ts",
+    "action": "TEST",
+    "description": "Entry gate (PRD §20 step 1). Assert @base-ui/react is pinned to an exact version in package.json dependencies, and that every Base UI part named in REQ-CTL-20/30/40/50/60/70/80/90/100/110/120/130 resolves as a defined export from its subpath at that pin (Button, Toggle, Toolbar.*, ToggleGroup, RadioGroup, Radio.*, Switch.*, Slider.*, Checkbox.*, CheckboxGroup, Field.*, Fieldset.*, Input, Select.*, Combobox.* incl. Chips/Chip/ChipRemove/Empty, NumberField.* incl. ScrubArea/ScrubAreaCursor, Autocomplete if present). Missing parts are listed by name in the test failure and recorded in the PRD-FND (foundation) alpha report with the fallback owner (this PRD).",
+    "depends_on": [
+      "FND-001",
+      "FND-003",
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/base-ui-parts.test.ts passes against the real installed package (no jest.mock)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01 prerequisite; REQ-CTL-01, REQ-CTL-120 gap rule",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-002",
+    "prd": "PRD-09",
+    "system": "control-shared",
+    "file": "NEW:src/components/control-shared/size.ts",
+    "action": "CREATE",
+    "description": "Export `type ControlSize = 'sm' | 'md' | 'lg'`, `DEFAULT_CONTROL_SIZE = 'md'`, and `sizeAttrs(size?: ControlSize): { 'data-ag-size': ControlSize }`. No hooks, no 'use client'. Maps nothing else (xs/xl mapping is compat-only).",
+    "depends_on": [
+      "CTL-001"
+    ],
+    "priority": "P0",
+    "test": "covered by controls-contract.test.tsx (data-ag-size on every root)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-05",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-003",
+    "prd": "PRD-09",
+    "system": "control-shared",
+    "file": "NEW:src/components/control-shared/value.ts",
+    "action": "CREATE",
+    "description": "Export `warnControlledSwitch(component: string, prop: \"value\"|\"checked\"|\"pressed\", wasControlled: boolean, isControlled: boolean): void` that logs one console.error per component instance in dev only (NODE_ENV !== production) when controlled<->uncontrolled flips. Re-export `ChangeDetails` type from src/foundation/types.ts (PRD-FND REQ-FND-05); do not redeclare it. Hook-free helper plus `useControlledSwitchWarning(component, prop, value)` which always calls the same hooks (useRef) unconditionally.",
+    "depends_on": [
+      "CTL-001",
+      "FND-004"
+    ],
+    "priority": "P0",
+    "test": "controls-contract.test.tsx: controlled->uncontrolled warns exactly once; production build path warns 0 times",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-03",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-004",
+    "prd": "PRD-09",
+    "system": "control-shared",
+    "file": "NEW:src/components/control-shared/messages.ts",
+    "action": "CREATE",
+    "description": "Export `CONTROL_MESSAGES` defaults: clearSearch \"Clear search\", increase \"Increase\", decrease \"Decrease\", removeChip \"Remove {label}\", noResults \"No results\", openCalendar \"Open calendar\", loadError \"Couldn't load results\", create \"Create \\\"{query}\\\"\", loading \"Loading results\". Export `useControlMessages(overrides?)` that merges, in order, defaults < AuraGlassProvider `messages` map (PRD-A11Y) < per-component props. Unconditional hook calls only.",
+    "depends_on": [
+      "CTL-001",
+      "A11Y-029"
+    ],
+    "priority": "P1",
+    "test": "NEW tests/controls/control-messages.test.tsx: provider override and prop override each win in that order; missing provider falls back to defaults",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-07 (accessible names); REQ-CTL-174",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-005",
+    "prd": "PRD-09",
+    "system": "control-shared",
+    "file": "NEW:src/components/control-shared/meta.ts",
+    "action": "CREATE",
+    "description": "Export `ControlMeta` = the PRD-FND (foundation) meta shape `{ parts, states, variants, tier, rsc, apg, budgetKb }` plus `props`, `sizes`, `defaults`, optional `keys` (recorded Base UI key behaviour, e.g. `{ enter: \"toggles\" | \"inert\" }`) and optional `migration` (DX REQ-DX-41 / PRD-DX line 183 format: `{ from: [{ name, entry, compat: boolean, props: Record<string,string|\"TODO(aura-glass 5)\">, selectors: string[], roles: { before, after } }] }`). Type-only module.",
+    "depends_on": [
+      "CTL-001",
+      "FND-005"
+    ],
+    "priority": "P0",
+    "test": "controls-meta.test.ts type-checks every *.meta.ts against ControlMeta (tsc --noEmit)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-006",
+    "prd": "PRD-09",
+    "system": "control-shared",
+    "file": "NEW:src/components/control-shared/controls.css",
+    "action": "CREATE",
+    "description": "In `@layer ag.components`: (1) `[data-ag-size]` block sizes from `--ag-comp-control-height-{sm,md,lg}-{compact,regular,spacious}` (PRD-DS tokens 24/32/44, 28/36/44, 32/40/48) selected by nearest `[data-ag-density]`; (2) hit-area wiring for A11Y's span (`[data-ag-part=hit-area]` styled by src/a11y/css/targets.css, A11Y-065; architecture erratum E-08: a span, not a pseudo-element) using `--ag-target-min`/`--ag-target-coarse`: >=24x24 fine, >=44x44 under `@media (pointer: coarse)`, layout box unchanged; (3) focus ring `:focus-visible { outline: var(--ag-focus-width) solid var(--ag-focus-inner); outline-offset; box-shadow 0 0 0 calc(...) var(--ag-focus-outer) }`, never removed under `[aria-disabled=\"true\"]`/`[data-disabled]`, `@media (forced-colors: active) { outline: 2px solid Highlight }`; (4) disabled dims via `--_ag-surface-alpha`, never `opacity`; (5) hover raises `--ag-specular` by `--ag-state-hover-specular`, `:active,[data-pressed]` applies `--ag-state-press-glow`; transitions list only opacity, transform and registered --ag-* scalars with `--ag-duration-micro`/`--ag-duration-small` + `--ag-ease-standard`; (6) `[data-ag-motion=calm|none]` and `prefers-reduced-motion: reduce` zero transform transitions. No literals, no !important, no :root, no element selectors.",
+    "depends_on": [
+      "CTL-001",
+      "DS-016",
+      "DS-024",
+      "A11Y-065"
+    ],
+    "priority": "P0",
+    "test": "controls-css.test.ts (layer, 0 !important, 0 transition: all); controls-sizing.spec.ts, controls-focus.spec.ts, controls-motion.spec.ts (remote)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-05, AC-CTL-09, AC-CTL-10; REQ-CTL-05, -06, -09, -10, -11, -12",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-007",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.client.tsx",
+    "action": "CREATE",
+    "description": "'use client'. `Field.Root`, `Field.Label`, `Field.Description`, `Field.Error` wrapping Base UI `Field.Root/Label/Description/Error` (+ `Field.Validity` internally). Root renders `data-ag-part=\"root\"`; parts `label`, `description`, `error`, and exports an internal `FieldControlShell` (part `control-shell`, `materialProps({ layer:'content', content:'content-sunken' })`). Description and error ids always allocated by Base UI; the elements render only when content exists. `Field.Error` content change triggers no live region. Refs as props, no forwardRef.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-005",
+      "MAT-046",
+      "MAT-047"
+    ],
+    "priority": "P0",
+    "test": "src/components/field/Field.test.tsx; tests/controls/field-shell.test.tsx",
+    "storybook": "Flagships/Controls/Field (Overview, Matrix, Density, InContext)",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-90, -93, -94, -175",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-008",
+    "prd": "PRD-09",
+    "system": "Fieldset",
+    "file": "NEW:src/components/field/Fieldset.client.tsx",
+    "action": "CREATE",
+    "description": "'use client'. `Fieldset.Root` (part `root`, renders `<fieldset>` via Base UI `Fieldset.Root`, `disabled` propagates `data-disabled` to child controls) and `Fieldset.Legend` (part `legend`). Successor of GlassFieldGroup; no material of its own (layer content, no surface).",
+    "depends_on": [
+      "CTL-007"
+    ],
+    "priority": "P0",
+    "test": "src/components/field/Fieldset.test.tsx (legend names the group: getByRole('group', { name }))",
+    "storybook": "Flagships/Controls/Fieldset (Overview, InContext settings form)",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-90",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-009",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.types.ts",
+    "action": "CREATE",
+    "description": "AuraGlass-declared `FieldRootProps`, `FieldLabelProps`, `FieldDescriptionProps`, `FieldErrorProps`, `FieldsetRootProps`, `FieldsetLegendProps` (no Base UI type names; `ref?: React.Ref<HTMLElement>`; `invalid?`, `disabled?`, `name?`, `validationMode?: \"onBlur\"|\"onChange\"`). JSDoc `@tier Certified` on each exported component type.",
+    "depends_on": [
+      "CTL-007"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts (no @base-ui symbol, @tier Certified present)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-02; REQ-CTL-01, -04",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-010",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.meta.ts",
+    "action": "CREATE",
+    "description": "Field.meta.ts and NEW Fieldset.meta.ts typed as ControlMeta: parts [root,label,control-shell,description,error] / [root,legend]; states [invalid,valid,dirty,touched,filled,focused,disabled,readonly,required]; tier T1; rsc \"client-leaf\"; apg null; budgetKb from §16 (TextField line includes Field: 12).",
+    "depends_on": [
+      "CTL-009",
+      "CTL-005"
+    ],
+    "priority": "P0",
+    "test": "controls-meta.test.ts",
+    "storybook": "drives Field Matrix story",
+    "acceptance": "AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-011",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.css",
+    "action": "CREATE",
+    "description": "`@layer ag.components`, `.ag-field` scope only. `[data-ag-part=control-shell]` content-sunken fill + rim at rest from PRD-MAT vars; `[data-focused]` rim -> `--ag-sys-color-focus-outer`; `[data-invalid]` rim and `[data-ag-part=error]` text -> `--ag-sys-color-danger`; shell height 28/36/44 via controls.css; padding `--ag-space-2/3/4` x density multiplier; `inline-size:100%; min-inline-size:0`; `@media (prefers-contrast: more)` 1px solid border; `@media (forced-colors: active)` Field/FieldText, GrayText disabled, no shadow/blur. No backdrop-filter (D-08).",
+    "depends_on": [
+      "CTL-007",
+      "CTL-006"
+    ],
+    "priority": "P0",
+    "test": "controls-css.test.ts; controls-matrix.visual.spec.ts (error text >=4.5:1 in 8 scenes, remote)",
+    "storybook": "Field Matrix (invalid column)",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-95, -96, -160, -172",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-012",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/index.ts",
+    "action": "CREATE",
+    "description": "Named re-exports only (no directive, no export *): Field, Fieldset and their prop types.",
+    "depends_on": [
+      "CTL-007",
+      "CTL-008",
+      "CTL-009"
+    ],
+    "priority": "P0",
+    "test": "controls-ssr.test.tsx imports the family index from a server-module context without error",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01, AC-CTL-12; REQ-CTL-14",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-013",
+    "prd": "PRD-09",
+    "system": "root entry",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add named root exports `Field`, `Fieldset` and their prop types from ./components/field (C-E). Do not touch any existing 4.x export line; removals happen in PROMPT_09f.",
+    "depends_on": [
+      "CTL-012"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts lists Field and Fieldset with @tier Certified; root export count stays <=160 (D-15, PRD-FND root-export-count.test.ts)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-014",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.test.tsx",
+    "action": "TEST",
+    "description": "Field.Label for/id; aria-describedby order description then error; aria-invalid when error set; toggling error undefined->string->undefined across 6 rerenders throws nothing (GlassInput.tsx:147-150 regression); Field.Error has no aria-live; Fieldset legend names the group and disabled propagates.",
+    "depends_on": [
+      "CTL-007",
+      "CTL-008"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/field",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-93, -94, -175",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-015",
+    "prd": "PRD-09",
+    "system": "Field",
+    "file": "NEW:src/components/field/Field.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Field, tags [\"certified\"], parameters.ag.tier \"Certified\"; stories Overview, Matrix (generated from Field.meta.ts), Density, InContext (settings form), Preferences, all with product copy (\"Email address\", \"We will only use this for receipts\"). argTypes generated from meta; no story-local CSS, no inline optics. NEW Fieldset.stories.tsx with Overview and InContext.",
+    "depends_on": [
+      "CTL-010",
+      "CTL-011",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) renders every story without console error",
+    "storybook": "Flagships/Controls/Field and Flagships/Controls/Fieldset per PRD §13 items 1-4, 6, 7, 9",
+    "acceptance": "AC-CTL-19 input; PRD §13",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-016",
+    "prd": "PRD-09",
+    "system": "test harness",
+    "file": "NEW:tests/controls/families.ts",
+    "action": "CREATE",
+    "description": "Family registry for the parametrised suites: an array of `{ name, meta, fixture }` where `fixture` comes from NEW `tests/controls/fixtures/<kebab-name>.tsx` exporting `Default`, `Controlled(props)`, `Uncontrolled(props)`, `toggleProps` (error/description/label/disabled/loading/multiple where applicable), `openPopup?(container)`. This task ships the registry plus `fixtures/field.tsx`; every family task in 09b-09d appends its fixture. A test fails if a directory in $CONTROLS has a *.meta.ts without a registry entry.",
+    "depends_on": [
+      "CTL-010"
+    ],
+    "priority": "P0",
+    "test": "NEW tests/controls/families.test.ts: registry entries == *.meta.ts files under $CONTROLS",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03 (coverage of 100% of families)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-017",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-contract.test.tsx",
+    "action": "TEST",
+    "description": "Parametrised over tests/controls/families.ts: every part in meta.parts renders data-ag-part; Base UI state attributes appear per meta.states (data-checked, data-pressed, data-disabled, data-invalid, data-popup-open); value/defaultValue/onValueChange (or checked/pressed equivalents) work controlled and uncontrolled; controlled->uncontrolled warns exactly once; details.reason is a non-empty string; disabled sets data-disabled and computed host opacity is 1 (jsdom inline/computed check).",
+    "depends_on": [
+      "CTL-016",
+      "CTL-003"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-contract.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-02, -03, -10",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-018",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-hooks.test.tsx",
+    "action": "TEST",
+    "description": "For each family rerender 6 times toggling each key in fixture.toggleProps (error, description, label, disabled, loading, multiple). Fail on any \"Rendered more hooks\"/\"Rendered fewer hooks\" error or any React console warning.",
+    "depends_on": [
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-hooks.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-04; REQ-CTL-08, -94",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-019",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-side-effects.test.tsx",
+    "action": "TEST",
+    "description": "Spies on MutationObserver, ResizeObserver, IntersectionObserver constructors and disconnect, window/document addEventListener/removeEventListener(\"scroll\"|\"resize\"), setInterval/clearInterval, requestAnimationFrame/cancelAnimationFrame. Mount at rest: 0 calls except one ResizeObserver for Slider and SegmentedControl. Open then close each popup family (fixture.openPopup): 0 live observers/listeners after close. Unmount: 0 live observers, listeners, intervals, pending rAF (advance fake timers 500ms).",
+    "depends_on": [
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-side-effects.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-14 input; REQ-CTL-13",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-020",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-ssr.test.tsx",
+    "action": "TEST",
+    "description": "For each family: renderToString(fixture.Default) then hydrateRoot in jsdom; and the defaultOpen variant for popup families. Zero console.error/warn; outerHTML identical before and after hydration; generated ids contain no Math.random output (spy on Math.random: 0 calls during render).",
+    "depends_on": [
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-ssr.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-12; REQ-CTL-14",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-021",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-api-report.test.ts",
+    "action": "TEST",
+    "description": "Read the API Extractor report for \".\" (etc/api path from PRD-REL; fail closed if missing). Assert: no \"@base-ui\" substring; no prop named intent, elevation, tier, intensity, depth, tint, blur, glow*, caustics, chromatic, ior, lighting, animation, respectMotionPreference, consciousness, predictive, eyeTracking, adaptive, spatialAudio, trackAchievements on any control prop type; every family export in the §3 list that exists has @tier Certified; \"onChange\" appears only on TextField (native passthrough).",
+    "depends_on": [
+      "CTL-013",
+      "REL-003",
+      "TRUST-071"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-api-report.test.ts (runs after the API report job, remote build artifact)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01, AC-CTL-02; REQ-CTL-01, -04",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-022",
+    "prd": "PRD-09",
+    "system": "migration docs",
+    "file": "n/a (runs DX-105 scripts/docs/gen-selectors.mjs over the $CONTROLS *.meta.ts)",
+    "action": "TEST",
+    "description": "Selector/role change tables (REQ-CTL-17) are generated by DX's scripts/docs/gen-selectors.mjs (DX-105) from each meta's `selectorChanges: Array<{before, after}>`; CTL writes no generator and no scripts/controls/ directory (not in the SC-11 layout). Run DX-105 over the Field meta first (later families extend it) and fail if any control meta lacks `selectorChanges` or a part has no row.",
+    "depends_on": [
+      "CTL-005",
+      "DX-105"
+    ],
+    "priority": "P1",
+    "test": "node scripts/docs/gen-selectors.mjs (DX-105) exits 0 over $CONTROLS; controls-meta.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-20; REQ-CTL-17",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-023",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-meta.test.ts",
+    "action": "TEST",
+    "description": "TS-AST (typescript compiler API) comparison: each *.meta.ts props == the exported props interface keys; parts == the data-ag-part literals in the family .client.tsx files; every meta satisfies ControlMeta; every meta part has a `selectorChanges` row consumed by DX-105 (scripts/docs/gen-selectors.mjs).",
+    "depends_on": [
+      "CTL-016",
+      "CTL-022"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-meta.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-20; REQ-CTL-15, -17",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-024",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/controls-css.test.ts",
+    "action": "TEST",
+    "description": "PostCSS walk of the built dist styles.css (build artifact from the remote build job): every rule whose selector contains .ag-<control> or a control data-ag-part sits inside @layer ag.components; 0 !important; 0 `transition: all` / `transition-property: all`; 0 backdrop-filter outside PRD-MAT material rules; no :root and no bare element selector in control files; no rule matching a control selector with [aria-disabled=\"true\"]:focus-visible that sets outline:none (ACCESSIBILITY-14); every className string used in $CONTROLS .tsx has a selector; no control selector references .glass-textarea or other src/styles/glass.css recipe classes.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-011"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/controls-css.test.ts against the remote build artifact",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-05; REQ-CTL-07, -09, -16",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-025",
+    "prd": "PRD-09",
+    "system": "test suite",
+    "file": "NEW:tests/controls/field-shell.test.tsx",
+    "action": "TEST",
+    "description": "Field wiring for TextField, NumberField, Select trigger, Combobox input, Switch, Checkbox: Field.Label for/id (or aria-labelledby for non-input roots); aria-describedby = description id then error id; aria-invalid=\"true\" when error set. Each control case is added by the wave that ships the control; the aura-glass/date DateField case is added in PROMPT_09e (CTL lane task) once PRD-DATA ships ./date. No case is skipped.",
+    "depends_on": [
+      "CTL-007",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/field-shell.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01 (date half later), AC-CTL-03; REQ-CTL-90..95",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-026",
+    "prd": "PRD-09",
+    "system": "lint",
+    "file": "eslint.config.js",
+    "action": "MODIFY",
+    "description": "MODIFY the PKG-wired eslint.config.js (PKG-015) with a config block scoped to the $CONTROLS glob (PRD §5): 'react-hooks/rules-of-hooks': 'error'; the registered SC-16/SC-17 rules at 'error': auraglass/no-optics-outside-material and auraglass/no-inline-glass (MAT, MAT-004), auraglass/no-raw-design-values (DS, DS-069), auraglass/no-transition-all (PERF, PERF-025), auraglass/no-random-in-render (PKG, PKG-086), auraglass/no-forward-ref (FND, FND-027), auraglass/no-document-escape (A11Y); 'no-restricted-imports' banning src/components/** 4.x files (GlassButton, GlassInput, OptimizedGlass, LiquidGlassMaterial). CTL adds no rule to eslint-plugin-auraglass.js. If a rule is not registered yet, stop and report the owning task id (do not write a stub rule).",
+    "depends_on": [
+      "CTL-001",
+      "MAT-004",
+      "FND-027",
+      "PKG-086",
+      "PKG-015",
+      "DS-069",
+      "PERF-025"
+    ],
+    "priority": "P0",
+    "test": "npm run lint:check reports 0 errors in $CONTROLS; NEW tests/lint/controls-guard.test.js asserts the $CONTROLS block enables each listed rule (rules are tested by their owners)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-04, AC-CTL-05; REQ-CTL-07, -08",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-027",
+    "prd": "PRD-09",
+    "system": "test infra",
+    "file": "jest.config.js",
+    "action": "MODIFY",
+    "description": "MODIFY QA's jest.config.js (QA-003, SC-29/OV-22): add the co-located <Name>.test.tsx files under $CONTROLS and tests/controls/** to testMatch, and keep tests/perf/, tests/e2e/, tests/a11y/apg/ and tests/visual/ out of jsdom. Add package.json script `test:controls` = `jest tests/controls src/components/control-shared src/components/field` (later waves extend the path list). No other config edits.",
+    "depends_on": [
+      "CTL-016",
+      "QA-003"
+    ],
+    "priority": "P1",
+    "test": "jest --listTests shows no file under tests/perf, tests/e2e, tests/a11y/apg or tests/visual",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03 (suites run in CI)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-028",
+    "prd": "PRD-09",
+    "system": "CI",
+    "file": ".github/workflows/certify-pr.yml",
+    "action": "MODIFY",
+    "description": "No controls-specific workflow (SC-29 workflows are certify-pr/main/release only). If QA's certify-pr.yml (QA-031) L1 Static and L12 Unit jobs already run `npm run lint:check` and jest over tests/controls and $CONTROLS, add nothing and record that in the PR. Otherwise MODIFY certify-pr.yml to add `npm run test:controls` to L12 and DX-105 `scripts/docs/gen-selectors.mjs` to L1, uploading results as `evidence-<job>-${{ github.sha }}` with retention-days 14 (SC-07). No secrets; follow ci-selection.md.",
+    "depends_on": [
+      "CTL-027",
+      "CTL-026",
+      "QA-031"
+    ],
+    "priority": "P1",
+    "test": "workflow run URL with all steps green",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03/04/05/12 evidence (D-32 CI artifacts)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-029",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:src/components/checkbox/Checkbox.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Checkbox.Root + Checkbox.Indicator and CheckboxGroup via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/checkbox/Checkbox.types.ts declares the AuraGlass prop types with @tier Certified). Exports Checkbox (checked, defaultChecked, onCheckedChange(checked, details), indeterminate, disabled, readOnly, required, name, value, parent, size, ref) and, in NEW checkbox/CheckboxGroup.client.tsx, CheckboxGroup (value: string[], defaultValue, onValueChange, allValues). Parts root (box), indicator, icon (check or dash SVG path). indeterminate sets aria-checked=\"mixed\"; a parent checkbox cycles mixed -> checked -> unchecked. Box uses materialProps({ layer:\"content\", content:\"content-sunken\" }); no backdrop-filter anywhere (fixes GlassCheckboxGroup.tsx:263,296). No OptimizedGlass import.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/checkbox/Checkbox.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Checkbox",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-70..75",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-030",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:src/components/checkbox/Checkbox.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-checkbox, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Box 14/16/20px by data-ag-size; 1px rim from --ag-surface-rim; [data-checked],[data-indeterminate] fill --ag-sys-color-accent and icon color contrast-color(var(--ag-sys-color-accent)) with @supports not fallback --ag-sys-color-on-accent; icon stroke-dashoffset draw over --ag-duration-micro, none under reduced motion/calm/none; hit area >=24 fine / >=44 coarse through its own A11Y hit-area span ([data-ag-part=hit-area], A11Y-065) even with only aria-label (REQ-CTL-06); forced-colors Highlight for checked, GrayText disabled.",
+    "depends_on": [
+      "CTL-029"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Checkbox Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-70..75",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-031",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:src/components/checkbox/Checkbox.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Checkbox (tier T1, rsc client-leaf). Checkbox.meta.ts parts [root,indicator,icon], states [checked,unchecked,indeterminate,disabled,invalid,readonly,required], apg \"checkbox\", budgetKb 10; NEW CheckboxGroup.meta.ts parts [root], apg \"checkbox\". Also create src/components/checkbox/index.ts (named re-exports, no directive) and tests/controls/fixtures/checkbox.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-029",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-032",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:src/components/checkbox/Checkbox.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): Space toggles; indeterminate -> aria-checked=\"mixed\"; parent cycles mixed->checked->unchecked and updates allValues children; hidden input submits name=value when checked; onCheckedChange(checked, details) with details.reason non-empty; no element in a CheckboxGroup render has a backdrop-filter style or data-ag-layer other than content.",
+    "depends_on": [
+      "CTL-029",
+      "CTL-031"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/checkbox",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-70..75",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-033",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:src/components/checkbox/Checkbox.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Checkbox, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Checkbox.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: settings form (\"Email me about new comments\", \"Weekly summary\") with a parent \"Select all\" checkbox.",
+    "depends_on": [
+      "CTL-030",
+      "CTL-031",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Checkbox: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-034",
+    "prd": "PRD-09",
+    "system": "Checkbox",
+    "file": "NEW:tests/a11y/apg/checkbox.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: each checkbox is its own tab stop; Space toggles and aria-checked flips; mixed state announced as aria-checked=\"mixed\"; parent cycle order. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-033",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/checkbox.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Checkbox Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-74, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-035",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:src/components/radio-group/RadioGroup.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI RadioGroup + Radio.Root + Radio.Indicator via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/radio-group/RadioGroup.types.ts declares the AuraGlass prop types with @tier Certified). Exports RadioGroup (value, defaultValue, onValueChange, name, disabled, readOnly, required, orientation, size) and, in NEW radio-group/Radio.client.tsx, Radio (value, disabled, render for card radios). Parts root, item, indicator, label. No AuraGlass key handler (replaces GlassRadioGroup.tsx:409,461,556). Radio render={<Card/>} composition yields one focusable role=\"radio\" element; the card is content-raised, never nested glass.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/radio-group/RadioGroup.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/RadioGroup",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-80..84",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-036",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:src/components/radio-group/RadioGroup.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-radio-group, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Ring 14/16/20px content-sunken with --ag-surface-rim; indicator dot 6/8/10px concentric (radius from --ag-radius-inner), accent fill on [data-checked]; hit area per REQ-CTL-06 via the item's A11Y hit-area span ([data-ag-part=hit-area], A11Y-065); forced-colors Highlight dot.",
+    "depends_on": [
+      "CTL-035"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "RadioGroup Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-80..84",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-037",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:src/components/radio-group/RadioGroup.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for RadioGroup (tier T1, rsc client-leaf). RadioGroup.meta.ts parts [root,item,indicator,label], states [checked,unchecked,disabled,readonly,required], apg \"radio-group\", budgetKb 10; NEW Radio.meta.ts. Also create src/components/radio-group/index.ts (named re-exports, no directive) and tests/controls/fixtures/radio-group.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-035",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-038",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:src/components/radio-group/RadioGroup.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): one tab stop on the checked item (first enabled when none); arrows move and select with wrap; Space selects; a card radio via render renders exactly one element with role=\"radio\" and no nested data-ag-surface with layer chrome.",
+    "depends_on": [
+      "CTL-035",
+      "CTL-037"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/radio-group",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-80..84",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-039",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:src/components/radio-group/RadioGroup.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/RadioGroup, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from RadioGroup.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: plan picker with three choice cards (Radio render={<Card/>}) and a plain list (\"Billing interval\").",
+    "depends_on": [
+      "CTL-036",
+      "CTL-037",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/RadioGroup: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-040",
+    "prd": "PRD-09",
+    "system": "RadioGroup",
+    "file": "NEW:tests/a11y/apg/radio-group.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: one tab stop; ArrowDown/ArrowRight move and select with wrap; ArrowUp/ArrowLeft reverse; Space selects focused unchecked item; disabled items skipped. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-039",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/radio-group.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "RadioGroup Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-82, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-041",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:src/components/switch/Switch.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Switch.Root + Switch.Thumb via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/switch/Switch.types.ts declares the AuraGlass prop types with @tier Certified). Props checked, defaultChecked, onCheckedChange, disabled, readOnly, required, name, value, size, ref; parts root (track), thumb; role=\"switch\" with hidden checkbox input from Base UI. Thumb materialProps({ layer:\"transient\", thickness:\"thin\" }); track materialProps({ layer:\"content\", content:\"content-sunken\" }). No animation prop, no shimmer, no useReducedMotion import (MOTION-12, GlassSwitch.tsx:247).",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/switch/Switch.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Switch",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-50..55",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-042",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:src/components/switch/Switch.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-switch, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Track 32x18 / 40x22 / 52x30px; thumb inset 2px, concentric; [data-checked] track fill --ag-sys-color-accent (opaque); thumb inner fill at rest, glass only under [data-ag-animating] or [data-dragging]; thumb transform translateX with spring.snappy linear() <= --ag-duration-small; no transform transition under reduced motion/calm/none; no @keyframes and no animation-iteration-count anywhere.",
+    "depends_on": [
+      "CTL-041"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Switch Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-50..55",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-043",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:src/components/switch/Switch.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Switch (tier T1, rsc client-leaf). parts [root,thumb], states [checked,unchecked,disabled,readonly], apg \"switch\", budgetKb 8, keys.enter recorded as observed from the pinned Base UI Switch (\"toggles\" or \"inert\", measured by the unit test, not guessed). Also create src/components/switch/index.ts (named re-exports, no directive) and tests/controls/fixtures/switch.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-041",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-044",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:src/components/switch/Switch.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): Space toggles; Enter behaviour equals Switch.meta.ts keys.enter; role=\"switch\" with aria-checked; no CSS animation is declared (jsdom computed animation-name none on track and thumb); hidden input carries name/value when checked.",
+    "depends_on": [
+      "CTL-041",
+      "CTL-043"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/switch",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-50..55",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-045",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:src/components/switch/Switch.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Switch, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Switch.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: notification settings (\"Push notifications\", \"Do not disturb\").",
+    "depends_on": [
+      "CTL-042",
+      "CTL-043",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Switch: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-046",
+    "prd": "PRD-09",
+    "system": "Switch",
+    "file": "NEW:tests/a11y/apg/switch.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: role=\"switch\"; Space toggles aria-checked; Enter behaves as recorded in Switch.meta.ts keys.enter. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-045",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/switch.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Switch Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-55, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-047",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:src/components/text-field/TextField.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Field + Input (and a textarea Field.Control when multiline) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/text-field/TextField.types.ts declares the AuraGlass prop types with @tier Certified). Props label, description, error (sets data-invalid), multiline, rows=3, autoResize (field-sizing: content when CSS.supports, else rows growth capped at maxRows=8 without a ResizeObserver: recompute on input only), startAdornment, endAdornment, size, required, disabled, readOnly, value, defaultValue, onValueChange(value, details), native onChange passthrough, type text|email|password|url|tel|search, validate, validationMode onBlur (default) | onChange, maxLength + showCount (counter part), ref to the input/textarea. Parts root, label, control-shell, control, adornment-start, adornment-end, description, error, counter. IME: track composition; onValueChange is not called between compositionstart and compositionend; Enter keydown with isComposing does not submit.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/text-field/TextField.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/TextField",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-91..98, -160, -165",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-048",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:src/components/text-field/TextField.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-text-field, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Shell from Field.css; control transparent inside the shell; :autofill keeps shell fill via box-shadow: inset 0 0 0 100vmax var(--ag-field-fill) and -webkit-text-fill-color var(--ag-on-surface); font-size >= 16px under (pointer: coarse); inline-size:100%, min-inline-size:0; chips/labels/errors never clip at 320px and 200% zoom.",
+    "depends_on": [
+      "CTL-047"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "TextField Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-91..98, -160, -165",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-049",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:src/components/text-field/TextField.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for TextField (tier T1, rsc client-leaf). parts [root,label,control-shell,control,adornment-start,adornment-end,description,error,counter], states [invalid,valid,dirty,touched,filled,focused,disabled,readonly,required], apg null, budgetKb 12. Also create src/components/text-field/index.ts (named re-exports, no directive) and tests/controls/fixtures/text-field.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-047",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-050",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:src/components/text-field/TextField.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): error toggling never throws and keeps hook count; aria-describedby order; validate + validationMode onBlur vs onChange; multiline renders textarea with rows; autoResize caps at maxRows; showCount counter text; native onChange still receives the event; ref.current is the input.",
+    "depends_on": [
+      "CTL-047",
+      "CTL-049"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/text-field",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-91..98, -160, -165",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-051",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:src/components/text-field/TextField.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/TextField, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from TextField.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: dense form scene of 20 fields (controls-dense-form) and a sign-in form (\"Email address\", \"Password\").",
+    "depends_on": [
+      "CTL-048",
+      "CTL-049",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/TextField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-052",
+    "prd": "PRD-09",
+    "system": "TextField",
+    "file": "NEW:tests/controls/text-field-ime.test.tsx",
+    "action": "TEST",
+    "description": "compositionstart, input x3, compositionend sequence: onValueChange called once, after compositionend, with the composed string; keydown Enter with isComposing=true inside a <form> does not fire submit.",
+    "depends_on": [
+      "CTL-047"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/text-field-ime.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-97",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-053",
+    "prd": "PRD-09",
+    "system": "root entry",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add named root exports Checkbox, CheckboxGroup, RadioGroup, Radio, Switch, TextField and their prop types (C-E). Existing 4.x lines (GlassSwitch :247, GlassInput :220, GlassRadioGroup :224 etc.) stay until PROMPT_09f.",
+    "depends_on": [
+      "CTL-031",
+      "CTL-037",
+      "CTL-043",
+      "CTL-049"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts; PRD-FND root-export-count.test.ts (<=160)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-054",
+    "prd": "PRD-09",
+    "system": "wave gate",
+    "file": "tests/a11y/apg/{checkbox,radio-group,switch}.apg.spec.ts",
+    "action": "TEST",
+    "description": "Wave A remote gate: one remote run (GitHub Actions or auraone-remote-run) of jest test:controls, the Storybook test runner over Flagships/Controls/{Checkbox,CheckboxGroup,RadioGroup,Switch,TextField,Field}, and checkbox/radio-group/switch APG specs on 3 engines. Record run URLs.",
+    "depends_on": [
+      "CTL-034",
+      "CTL-040",
+      "CTL-046",
+      "CTL-051",
+      "CTL-052",
+      "CTL-053"
+    ],
+    "priority": "P0",
+    "test": "9/9 APG runs green; Storybook test runner green; jest green",
+    "storybook": "all Wave A stories",
+    "acceptance": "AC-CTL-06 (3 of 11 scripts), AC-CTL-03",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-055",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:src/components/button/Button.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Button, switching to Toggle when pressed/defaultPressed/onPressedChange is present, via the PRD-FND wrapping pattern (FND-004 types, FND-005 parts, FND-006 state; materialProps from MAT-046 on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/button/Button.types.ts declares the AuraGlass prop types with @tier Certified). This task is the SC-40 Button pattern-proof anchor (with OVL-040); FND-139 runs the lanes on it. Props per SC-24: variant regular|clear|identity (material axis, default regular), prominent, intent neutral|danger (status tint, default neutral), size, refraction, loading, startIcon, endIcon, pressed, defaultPressed, onPressedChange(pressed, details), disabled, focusableWhenDisabled, render, type=\"button\", ref; no material prop. Root switch decided by pressed-prop presence; adding/removing pressed props logs one dev warning. materialProps({ layer:\"chrome\", interactive:true, variant, prominent, refraction }); data-ag-intent set when intent !== \"neutral\" (replaces data-ag-button-variant, SC-21). Parts root, icon (aria-hidden, start/end), label, spinner (only while loading), hit-area (A11Y-065). loading: aria-busy=\"true\", click handler not invoked, label kept laid out with visibility:hidden, spinner static under motion calm|none. Dev warning when more than one data-ag-prominent button exists inside one view root (nearest chrome bar surface, else document; checked on mount via closest(), no observer). No magnetic logic in core (REQ-CTL-26).",
+    "depends_on": [
+      "CTL-006",
+      "CTL-016",
+      "CTL-026",
+      "FND-004",
+      "FND-005",
+      "FND-006",
+      "MAT-046"
+    ],
+    "priority": "P0",
+    "test": "src/components/button/Button.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Button",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-20..26, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-056",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:src/components/button/Button.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-button, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). intent=\"danger\" ([data-ag-intent=danger]) tints rim and specular only, text --ag-sys-color-danger on the solved floor; variant=\"identity\" renders data-ag-variant=\"identity\" (no optics until :hover); hover raises --ag-specular, press applies press-glow rim opacity; transform stays none at rest/hover/press; width stable while loading; forced-colors ButtonText/ButtonFace.",
+    "depends_on": [
+      "CTL-055"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Button Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-20..26, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-057",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:src/components/button/Button.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Button (tier T1, rsc client-leaf). parts [root,icon,label,spinner], states [hover,active,focus-visible,pressed,disabled,loading], variants [regular,clear,identity] (SC-24 material axis; no material prop), prominent boolean, intents [neutral,danger], apg \"button\", budgetKb 10. Also create src/components/button/index.ts (named re-exports, no directive) and tests/controls/fixtures/button.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-055",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-058",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:src/components/button/Button.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): loading blocks onClick; the label element stays in the DOM with visibility:hidden (pixel width stability is asserted remotely in controls-sizing.spec.ts, not by mocking layout in jsdom); aria-busy while loading and accessible name unchanged; pressed toggle flips aria-pressed and data-pressed and calls onPressedChange(true, details); render={<a href=\"/x\"/>} renders an anchor with the ag-button class; type defaults to \"button\"; second prominent button in one view root logs one dev warning; intent=\"danger\" sets data-ag-intent and leaves data-ag-variant unchanged.",
+    "depends_on": [
+      "CTL-055",
+      "CTL-057"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/button",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-20..26, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-059",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:src/components/button/Button.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Button, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Button.meta.ts, one Matrix per variant value (regular, clear, identity)), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: TopBar with \"Save changes\" (prominent), \"Discard\" (variant=\"identity\"), \"Delete project\" (intent=\"danger\"). Matrix per variant value.",
+    "depends_on": [
+      "CTL-056",
+      "CTL-057",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Button: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-060",
+    "prd": "PRD-09",
+    "system": "Button",
+    "file": "NEW:tests/a11y/apg/button.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (A11Y-073; A11Y-076 becomes a harness self-test fixture, OV-15) (PRD-A11Y REQ-A11Y-40) against the Storybook static build: Enter and Space activate; toggle aria-pressed flips on Space and Enter; no other key acts; focusableWhenDisabled keeps focus and the 2px ring. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-059",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/button.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Button Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-25, -09, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-061",
+    "prd": "PRD-09",
+    "system": "IconButton",
+    "file": "NEW:src/components/icon-button/IconButton.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Button (Toggle when pressed props present) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/icon-button/IconButton.types.ts declares the AuraGlass prop types with @tier Certified). Button props minus startIcon/endIcon/loading, plus children (one icon), required aria-label (TS-required; dev console.error when empty string), shape capsule|fixed (default capsule). Parts root, icon. Shares Button internals so the import shares the Button chunk (delta <=1 KB).",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/icon-button/IconButton.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/IconButton",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-27, -28",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-062",
+    "prd": "PRD-09",
+    "system": "IconButton",
+    "file": "NEW:src/components/icon-button/IconButton.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-icon-button, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Square 28/36/44px, >=24px at compact; icon colour var(--ag-on-surface) which follows the declared data-ag-backdrop (light -> dark glyph, dark/media -> light glyph) with no JS.",
+    "depends_on": [
+      "CTL-061"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "IconButton Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-27, -28",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-063",
+    "prd": "PRD-09",
+    "system": "IconButton",
+    "file": "NEW:src/components/icon-button/IconButton.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for IconButton (tier T1, rsc client-leaf). parts [root,icon], variant [regular,clear,identity] (SC-24 material axis; no material prop), apg \"button\", budgetKb 10. Also create src/components/icon-button/index.ts (named re-exports, no directive) and tests/controls/fixtures/icon-button.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-061",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-064",
+    "prd": "PRD-09",
+    "system": "IconButton",
+    "file": "NEW:src/components/icon-button/IconButton.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): missing/empty aria-label logs a dev error; TS: omitting aria-label is a type error (tests/types/icon-button.test-d.ts NEW); pressed variant sets aria-pressed.",
+    "depends_on": [
+      "CTL-061",
+      "CTL-063"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/icon-button",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-27, -28",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-065",
+    "prd": "PRD-09",
+    "system": "IconButton",
+    "file": "NEW:src/components/icon-button/IconButton.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/IconButton, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from IconButton.meta.ts, one Matrix per variant value (regular, clear, identity)), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: TopBar actions (\"Search\", \"Notifications\", \"Settings\") over the photo scene. Matrix per variant.",
+    "depends_on": [
+      "CTL-062",
+      "CTL-063",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/IconButton: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-066",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:src/components/toolbar/Toolbar.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Toolbar (Root, Button, Group, Separator, Link, Input) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/toolbar/Toolbar.types.ts declares the AuraGlass prop types with @tier Certified). Exports Toolbar.Root (orientation, loop default true, aria-label), Toolbar.Button, Toolbar.IconButton (IconButton rendered through Toolbar.Button render), Toolbar.Group, Toolbar.Separator, Toolbar.Link. Root is a SurfaceGroup (data-ag-group, layer chrome, thickness regular, shape capsule when horizontal) owning the only backdrop; items render data-ag-surface with no ::before blur and shape=\"concentric\". focusableWhenDisabled on items. Toolbar.Input (REQ-CTL-30) keeps ArrowLeft/Right for the caret.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/toolbar/Toolbar.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Toolbar",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-30..36, -163",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-067",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:src/components/toolbar/Toolbar.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-toolbar, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Item radius = max(0, root radius - inset) via --ag-radius-inner (+-0.5px); separator part; items ::before backdrop-filter none; data-orientation layout.",
+    "depends_on": [
+      "CTL-066"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Toolbar Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-30..36, -163",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-068",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:src/components/toolbar/Toolbar.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Toolbar (tier T1, rsc client-leaf). parts [root,item,group,separator], states [pressed,disabled,orientation], apg \"toolbar\", budgetKb 13. NEW ButtonGroup.meta.ts (budgetKb 10) and ToggleGroup.meta.ts (budgetKb 11, apg \"toolbar\"). Also create src/components/toolbar/index.ts (named re-exports, no directive) and tests/controls/fixtures/toolbar.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-066",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-069",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:src/components/toolbar/Toolbar.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): one tab stop; arrows move focus with loop; Home/End; disabled skipped unless focusableWhenDisabled; Toolbar.Input caret keys not intercepted; only the root carries data-ag-group; every item has data-ag-surface and no blur class.",
+    "depends_on": [
+      "CTL-066",
+      "CTL-068"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/toolbar",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-30..36, -163",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-070",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:src/components/toolbar/Toolbar.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Toolbar, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Toolbar.meta.ts, one Matrix per variant value (regular, clear, identity)), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences, RTL. argTypes generated from meta; 0 !important; no inline optics. InContext: editor toolbar (\"Bold\", \"Italic\", \"Link\", separator, alignment ToggleGroup) inside a TopBar over photo; RTL; nested SegmentedControl-in-Toolbar case for the nesting lane.",
+    "depends_on": [
+      "CTL-067",
+      "CTL-068",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Toolbar: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-071",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "NEW:tests/a11y/apg/toolbar.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: Toolbar: one tab stop, Arrow keys with loop, Home/End, disabled skip, Toolbar.Input keeps ArrowLeft/Right. ToggleGroup: roving focus, Space/Enter toggle, multiple=false deselects others and allows deselecting the last. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-070",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/toolbar.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Toolbar Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-34, -35, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-072",
+    "prd": "PRD-09",
+    "system": "ButtonGroup",
+    "file": "NEW:src/components/toolbar/ButtonGroup.tsx",
+    "action": "CREATE",
+    "description": "Server-safe (no hooks, no \"use client\"): role=\"group\", required aria-label or aria-labelledby (TS union), orientation, attached (default true). SurfaceGroup root for the visual join only; no roving focus. Parts root, item (children receive concentric shape via CSS only).",
+    "depends_on": [
+      "CTL-066"
+    ],
+    "priority": "P0",
+    "test": "src/components/toolbar/ButtonGroup.test.tsx (role group with name; no tabindex management; renderToString without provider)",
+    "storybook": "Flagships/Controls/ButtonGroup (Overview, Matrix, InContext)",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-30, -31",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-073",
+    "prd": "PRD-09",
+    "system": "ToggleGroup",
+    "file": "NEW:src/components/toolbar/ToggleGroup.client.tsx",
+    "action": "CREATE",
+    "description": "'use client'. ToggleGroup.Root (value: string[], defaultValue, onValueChange(value, details), multiple default false, orientation, disabled) and ToggleGroup.Item (value) on Base UI ToggleGroup + Toggle. Items set data-pressed. With multiple=false selecting an item deselects others and deselecting the last is allowed.",
+    "depends_on": [
+      "CTL-066"
+    ],
+    "priority": "P0",
+    "test": "src/components/toolbar/ToggleGroup.test.tsx",
+    "storybook": "Flagships/Controls/ToggleGroup (Overview, Matrix, Keyboard)",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-31, -32, -35",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-074",
+    "prd": "PRD-09",
+    "system": "Toolbar",
+    "file": "src/components/toolbar/Toolbar.client.tsx",
+    "action": "MODIFY",
+    "description": "Toolbar overflow: container query on Toolbar.Root; items with priority prop (emitted data-ag-priority pending MAT ratification in SC-21, PRD §21 O-06)=\"low\" move into a trailing overflow Menu (PRD-OVL overlays Menu contract) while roving order stays consistent. If PRD-OVL Menu is not merged, leave this task todo (it may ship in 5.1 as C-E per PRD §19); do not build an ad-hoc menu.",
+    "depends_on": [
+      "CTL-066",
+      "OVL-081"
+    ],
+    "priority": "P2",
+    "test": "src/components/toolbar/Toolbar.overflow.test.tsx (NEW) + remote controls-sizing.spec.ts 390px case",
+    "storybook": "Toolbar InContext 390px",
+    "acceptance": "REQ-CTL-163 (no AC; 5.1-eligible)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-075",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:src/components/search-field/SearchField.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Field + Input type=\"search\" plus an AuraGlass IconButton clear via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/search-field/SearchField.types.ts declares the AuraGlass prop types with @tier Certified). TextField single-line props plus onClear, clearLabel (default from control messages \"Clear search\"), shortcut (renders a Kbd hint; registers no global listener), loading (spinner in adornment-end, aria-busy), variant (material axis), refraction. Parts root, control-shell, icon, control, clear, shortcut, spinner. control-shell materialProps({ layer:\"chrome\", thickness:\"thin\", shape:\"capsule\" }). Escape on non-empty clears and calls onClear and stops propagation; on empty it propagates. Clear button rendered (and tabbable) only when value non-empty.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/search-field/SearchField.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/SearchField",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-100..104, -165, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-076",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:src/components/search-field/SearchField.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-search-field, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). ::-webkit-search-cancel-button { appearance: none }; inside a SurfaceGroup the shell has no ::before blur; font-size >=16px at coarse pointer; no !important (replaces LiquidGlassSearchField.tsx:52-53,70-71).",
+    "depends_on": [
+      "CTL-075"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "SearchField Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-100..104, -165, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-077",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:src/components/search-field/SearchField.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for SearchField (tier T1, rsc client-leaf). parts [root,control-shell,icon,control,clear,shortcut,spinner], variant [regular,clear,identity] (SC-24 material axis; no material prop), apg \"search-field\", budgetKb 13. Also create src/components/search-field/index.ts (named re-exports, no directive) and tests/controls/fixtures/search-field.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-075",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-078",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:src/components/search-field/SearchField.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): Escape clears then propagates when empty (spy on a parent keydown handler); onClear called once; clear button absent when empty; loading sets aria-busy and keeps focus; Enter submits the enclosing form.",
+    "depends_on": [
+      "CTL-075",
+      "CTL-077"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/search-field",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-100..104, -165, -176",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-079",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:src/components/search-field/SearchField.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/SearchField, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from SearchField.meta.ts, one Matrix per variant value (regular, clear, identity)), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: TopBar search over photo (\"Search projects\", shortcut \"/\"); inside a Toolbar for the nesting lane.",
+    "depends_on": [
+      "CTL-076",
+      "CTL-077",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/SearchField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-080",
+    "prd": "PRD-09",
+    "system": "SearchField",
+    "file": "NEW:tests/a11y/apg/search-field.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: Escape clears a non-empty field, then propagates when empty; clear button tabbable only when non-empty; exactly one cancel affordance in WebKit. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-079",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/search-field.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "SearchField Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-103, -104",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-081",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:src/components/segmented-control/SegmentedControl.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI RadioGroup + Radio (PRD deviation REQ-CTL-40; ToggleGroup allowed only if the alpha check shows radio semantics) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/segmented-control/SegmentedControl.types.ts declares the AuraGlass prop types with @tier Certified). SegmentedControl.Root (value, defaultValue, onValueChange, size, variant (material axis), refraction, orientation horizontal, required aria-label, name), .Item (value, disabled, children), .Indicator (auto-rendered). Parts root (track), item, item-label, indicator. Track is a SurfaceGroup (chrome, regular, capsule); indicator materialProps({ layer:\"transient\", thickness:\"thin\", shape:\"concentric\" }) with inner fill at rest, glass + data-ag-animating during a move, removed on transitionend. One ResizeObserver on the root measures items; position via transform translateX/Y and width. View Transition with view-transition-name ag-seg-<useId> when document.startViewTransition exists and motion is full; jump under calm|none. Dev warning above 5 items when the root inline size <=390px.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-016",
+      "CTL-026",
+      "MOT-047"
+    ],
+    "priority": "P0",
+    "test": "src/components/segmented-control/SegmentedControl.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/SegmentedControl",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-40..46, -164",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-082",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:src/components/segmented-control/SegmentedControl.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-segmented-control, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Indicator transition transform/width with spring.snappy linear() <= --ag-duration-small; will-change: transform only under [data-ag-animating]; @container (inline-size < <sum>) switches labels to text-overflow: ellipsis with item min-inline-size 44px and no wrapping.",
+    "depends_on": [
+      "CTL-081"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "SegmentedControl Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-40..46, -164",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-083",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:src/components/segmented-control/SegmentedControl.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for SegmentedControl (tier T1, rsc client-leaf). parts [root,item,item-label,indicator], states [checked,unchecked,disabled,animating], variant [regular,clear,identity] (SC-24 material axis; no material prop), apg \"radio-group\", budgetKb 13, keys.homeEnd recorded from the pinned Base UI RadioGroup (\"selects-first-last\" | \"unbound\"). Also create src/components/segmented-control/index.ts (named re-exports, no directive) and tests/controls/fixtures/segmented-control.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-081",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-084",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:src/components/segmented-control/SegmentedControl.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): refuses to deselect (exactly one value always); arrows move and select with wrap; title set to the full label when truncated; indicator receives data-ag-animating during a value change and loses it after transitionend; exactly one ResizeObserver; >5 items at 390px logs one dev warning.",
+    "depends_on": [
+      "CTL-081",
+      "CTL-083"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/segmented-control",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-40..46, -164",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-085",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:src/components/segmented-control/SegmentedControl.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/SegmentedControl, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from SegmentedControl.meta.ts, one Matrix per variant value (regular, clear, identity)), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences, RTL. argTypes generated from meta; 0 !important; no inline optics. InContext: Sidebar header (\"Day\", \"Week\", \"Month\"); inside a Toolbar for the nesting lane; RTL.",
+    "depends_on": [
+      "CTL-082",
+      "CTL-083",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/SegmentedControl: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-086",
+    "prd": "PRD-09",
+    "system": "SegmentedControl",
+    "file": "NEW:tests/a11y/apg/segmented-control.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: APG radio script: one tab stop on checked item; arrows move and select with wrap; Space selects; Home/End asserted as recorded in SegmentedControl.meta.ts keys.homeEnd. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-085",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/segmented-control.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "SegmentedControl Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-45, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-087",
+    "prd": "PRD-09",
+    "system": "root entry",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add named root exports IconButton, ButtonGroup, Toolbar, ToggleGroup, SegmentedControl, SearchField and their prop types (C-E). Do NOT change `:266 GlassButton as Button` here; the Button root swap is C-B and happens in PROMPT_09f after the 4.3 deprecation ships.",
+    "depends_on": [
+      "CTL-063",
+      "CTL-068",
+      "CTL-072",
+      "CTL-073",
+      "CTL-077",
+      "CTL-083"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts; root-export-count.test.ts (<=160)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-088",
+    "prd": "PRD-09",
+    "system": "wave gate",
+    "file": "tests/a11y/apg/{button,toolbar,segmented-control,search-field}.apg.spec.ts",
+    "action": "TEST",
+    "description": "Wave B remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Button,IconButton,ButtonGroup,Toolbar,ToggleGroup,SearchField,SegmentedControl}, and the four APG specs on 3 engines. Record run URLs.",
+    "depends_on": [
+      "CTL-060",
+      "CTL-071",
+      "CTL-080",
+      "CTL-086",
+      "CTL-065",
+      "CTL-087"
+    ],
+    "priority": "P0",
+    "test": "12/12 APG runs green; Storybook test runner green",
+    "storybook": "all Wave B stories",
+    "acceptance": "AC-CTL-06 (4 of 11 scripts), AC-CTL-03",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-089",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:src/components/slider/Slider.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Slider.Root, Control, Track, Indicator, Thumb, Value via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/slider/Slider.types.ts declares the AuraGlass prop types with @tier Certified). Props value, defaultValue (number | number[]), onValueChange, onValueCommitted, min 0, max 100, step 1, largeStep 10, minStepsBetweenValues 0, orientation, disabled, name, format (Intl.NumberFormatOptions), getAriaValueText, size, marks Array<{value,label?}>, ref. Parts root, control, track, range, thumb, value, mark, mark-label; data-index on thumbs. No AuraGlass key handler: Base UI supplies Arrow/Shift+Arrow/PageUp/PageDown/Home/End, aria-orientation, RTL mirroring (fixes ACCESSIBILITY-06 [detail -08], GlassSlider.tsx:471,490). onValueChange at most once per animation frame during drag (Base UI behaviour verified, not re-implemented with extra React state). Track click jumps. Thumb materialProps({ layer:\"transient\", thickness:\"thin\" }), glass only under [data-dragging].",
+    "depends_on": [
+      "CTL-006",
+      "CTL-016",
+      "CTL-026",
+      "MOT-040"
+    ],
+    "priority": "P0",
+    "test": "src/components/slider/Slider.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Slider",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-60..66, -166",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-090",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:src/components/slider/Slider.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-slider, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Track content-sunken 4/6/8px, range accent fill, thumb 16/20/24px; thumb never scales, dragging raises --ag-specular; control touch-action: none on the thumb, root allows pan-y for horizontal sliders so a vertical scroll starting on the track scrolls the page; forced-colors Highlight range.",
+    "depends_on": [
+      "CTL-089"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Slider Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-60..66, -166",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-091",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:src/components/slider/Slider.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Slider (tier T1, rsc client-leaf). parts [root,control,track,range,thumb,value,mark,mark-label], states [dragging,disabled,orientation], apg \"slider\", budgetKb 14. Also create src/components/slider/index.ts (named re-exports, no directive) and tests/controls/fixtures/slider.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-089",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-092",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:src/components/slider/Slider.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): onValueCommitted fires once per pointerup and once per keyup; aria-valuetext from format and from getAriaValueText; vertical sets aria-orientation=\"vertical\"; range [20,80] with minStepsBetweenValues=5 cannot cross; exactly one ResizeObserver.",
+    "depends_on": [
+      "CTL-089",
+      "CTL-091"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/slider",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-60..66, -166",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-093",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:src/components/slider/Slider.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Slider, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Slider.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences, RTL. argTypes generated from meta; 0 !important; no inline optics. InContext: audio settings (\"Volume\", range \"Price range\" with marks); RTL.",
+    "depends_on": [
+      "CTL-090",
+      "CTL-091",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Slider: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-094",
+    "prd": "PRD-09",
+    "system": "Slider",
+    "file": "NEW:tests/a11y/apg/slider.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: Arrow +-step, Shift+Arrow and PageUp/PageDown +-largeStep, Home->min, End->max; vertical aria-orientation; RTL mirrors left/right; range thumbs respect minStepsBetweenValues; each thumb has aria-valuetext. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-093",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/slider.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Slider Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-63, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-095",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:src/components/number-field/NumberField.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI NumberField.Root, Group, Input, Increment, Decrement, ScrubArea, ScrubAreaCursor via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/number-field/NumberField.types.ts declares the AuraGlass prop types with @tier Certified). Props value: number | null, defaultValue, onValueChange(value, details), min, max, step 1, smallStep 0.1, largeStep 10, format, locale, allowWheelScrub false, scrub (renders ScrubArea on the label), label, description, error, size, disabled, readOnly, required, name, ref (to the input). Parts root, group (shell), input, increment, decrement, scrub-area; data-scrubbing. Steppers are real <button> elements, tabIndex=-1, aria-label from control messages \"Increase\"/\"Decrease\" (fixes GlassStepper.tsx:411). Steppers are identity buttons inside the content-sunken group (no surface of their own). Press-and-hold repeats after 400ms at 60ms, cancelled on pointerup and blur. Parse/format with Intl.NumberFormat(locale); no date-fns or other dependency.",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026"
+    ],
+    "priority": "P0",
+    "test": "src/components/number-field/NumberField.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/NumberField",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-130..134",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-096",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:src/components/number-field/NumberField.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-number-field, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Group uses the Field control-shell styling; steppers identity (no rim until hover); font-size >=16px at coarse pointer.",
+    "depends_on": [
+      "CTL-095"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "NumberField Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-130..134",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-097",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:src/components/number-field/NumberField.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for NumberField (tier T1, rsc client-leaf). parts [root,group,input,increment,decrement,scrub-area], states [invalid,disabled,readonly,required,scrubbing,focused], apg \"number-field\", budgetKb 14. Also create src/components/number-field/index.ts (named re-exports, no directive) and tests/controls/fixtures/number-field.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-095",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-098",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:src/components/number-field/NumberField.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): steppers are BUTTON elements with tabIndex -1 and accessible names; Alt+Arrow +-smallStep; wheel does nothing unless allowWheelScrub; Field wiring (label/description/error).",
+    "depends_on": [
+      "CTL-095",
+      "CTL-097"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/number-field",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-130..134",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-099",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:src/components/number-field/NumberField.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/NumberField, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from NumberField.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: dense form (\"Quantity\", \"Discount %\") and a booking form (\"Guests\").",
+    "depends_on": [
+      "CTL-096",
+      "CTL-097",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/NumberField: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-100",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:tests/a11y/apg/number-field.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: ArrowUp/Down +-step, Shift+Arrow +-largeStep, Alt+Arrow +-smallStep, PageUp/PageDown +-largeStep, Home/End to min/max when set; steppers not in the tab order. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-099",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/number-field.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "NumberField Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-132, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-101",
+    "prd": "PRD-09",
+    "system": "NumberField",
+    "file": "NEW:tests/controls/number-field-format.test.tsx",
+    "action": "TEST",
+    "description": "locale de-DE: typing \"1.234,5\" then blur yields onValueChange(1234.5) and displays \"1.234,5\"; blur clamps to [min,max]; invalid text (\"abc\") restores the last valid value; jest fake timers: press-and-hold on Increment repeats first at 400ms then every 60ms, stops on pointerup and on blur.",
+    "depends_on": [
+      "CTL-095"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/number-field-format.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-131..134",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-102",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:src/components/select/Select.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Select (Root, Trigger, Value, Icon, Portal, Positioner, Popup, List, Item, ItemText, ItemIndicator, Group, GroupLabel, Separator, ScrollUpArrow, ScrollDownArrow) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/select/Select.types.ts declares the AuraGlass prop types with @tier Certified). AuraGlass compound Select.Root (value, defaultValue, onValueChange, multiple, open, defaultOpen, onOpenChange, name, required, disabled, readOnly, size, items Record<string, ReactNode>), Select.Trigger (placeholder), Select.Value, Select.Content (Portal with container = AuraGlassProvider portal root -> Positioner -> Popup -> List; side bottom, align start, sideOffset 6, alignItemWithTrigger true on fine pointer and false on coarse via matchMedia read once at open; scroll arrows internal), Select.Item (value, disabled, label), Select.Group, Select.Label, Select.Separator. Parts trigger, value, icon, positioner, popup, list, item, item-indicator, group, group-label, separator, scroll-up, scroll-down. Trigger is a content-sunken Field shell; popup materialProps({ layer:\"overlay\", thickness:\"regular\" }); items are not surfaces (highlight is a content-raised fill).",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026",
+      "A11Y-049",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "src/components/select/Select.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Select",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-110..116, -161, -162",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-103",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:src/components/select/Select.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-select, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). Popup materializes from [data-starting-style]: opacity 0->1 and scale(0.96)->1 from transform-origin var(--transform-origin), <= --ag-duration-small in, <=140ms out; backdrop-filter never transitions; reduced motion opacity only; coarse pointer popup max-block-size min(60dvh, 400px); at <=390px popup inline size between trigger width and calc(100vw - 16px), collision padding 8px.",
+    "depends_on": [
+      "CTL-102"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Select Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-110..116, -161, -162",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-104",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:src/components/select/Select.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Select (tier T1, rsc client-leaf). parts [trigger,value,icon,positioner,popup,list,item,item-indicator,group,group-label,separator,scroll-up,scroll-down], states [popup-open,open,closed,highlighted,selected,disabled,invalid], apg \"select\", budgetKb 25. Also create src/components/select/index.ts (named re-exports, no directive) and tests/controls/fixtures/select.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-102",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-105",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:src/components/select/Select.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): Enter/Space/ArrowDown/ArrowUp on the trigger open; typeahead focuses by label; Escape closes and focus returns to the trigger; Tab closes; popup DOM parent chain contains the provider [data-ag-portal-root]; items has labels before mount; trigger role combobox, popup role listbox.",
+    "depends_on": [
+      "CTL-102",
+      "CTL-104"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/select",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-110..116, -161, -162",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-106",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:src/components/select/Select.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Select, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Select.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences. argTypes generated from meta; 0 !important; no inline optics. InContext: dense form (\"Country\", \"Time zone\") and a Select inside a Dialog for the overlay-stack lane.",
+    "depends_on": [
+      "CTL-103",
+      "CTL-104",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Select: Overview, Matrix, Density, Keyboard, InContext, Preferences",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-107",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:tests/a11y/apg/select.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: APG select-only combobox: Enter/Space/ArrowDown/ArrowUp open; typeahead; Arrow keys move highlight; Home/End; Enter/Space select and close; Escape closes and returns focus to the trigger; Tab closes and moves on. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-106",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/select.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Select Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-113, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-108",
+    "prd": "PRD-09",
+    "system": "Select",
+    "file": "NEW:tests/controls/select-form.test.tsx",
+    "action": "TEST",
+    "description": "Inside a <form>: hidden input value equals the selection; form.reset() restores defaultValue; required with no value blocks submit (submit handler not called) and shows Field.Error; multiple submits one FormData entry per value (N entries).",
+    "depends_on": [
+      "CTL-102"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/select-form.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-116",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-109",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/Combobox.client.tsx",
+    "action": "CREATE",
+    "description": "'use client' leaf on Base UI Combobox (Root, Input, Trigger, Clear, Portal, Positioner, Popup, List, Item, ItemIndicator, Empty, Group, GroupLabel, Chips, Chip, ChipRemove) via the PRD-FND wrapping pattern (materialProps on the Base UI element, one DOM node per surface, ref as prop, no forwardRef, no Base UI types in public props; NEW src/components/combobox/Combobox.types.ts declares the AuraGlass prop types with @tier Certified). Combobox.Root (items: T[], value, defaultValue, onValueChange, multiple, inputValue, onInputValueChange, filter (null disables built-in filtering), itemToString, itemToValue, open, onOpenChange, autoHighlight true, name, required, disabled, size, loading), Combobox.Input, Combobox.Content, Combobox.Item, Combobox.Empty (default \"No results\", role=\"status\"), Combobox.Group, Combobox.Chips, Combobox.Chip, Combobox.Loading. Parts input-shell, input, trigger, clear, chips, chip, chip-remove, popup, list, item, item-indicator, empty, loading, group, group-label; data-empty. Focus stays on the input with aria-activedescendant (4.x GlassCombobox.tsx:102,105,187 model). loading sets aria-busy on the list and one polite announcement via the provider announcer, throttled to 1 per 500ms. Chips content-raised capsules 24/28/32px; ChipRemove is an IconButton labelled \"Remove <label>\". If a Base UI part is missing at the pin, implement the fallback here and record it (REQ-CTL-120).",
+    "depends_on": [
+      "CTL-006",
+      "CTL-007",
+      "CTL-016",
+      "CTL-026",
+      "A11Y-049",
+      "A11Y-054",
+      "FND-007"
+    ],
+    "priority": "P0",
+    "test": "src/components/combobox/Combobox.test.tsx; tests/controls/controls-contract.test.tsx",
+    "storybook": "Flagships/Controls/Combobox",
+    "acceptance": "AC-CTL-01, AC-CTL-03; REQ-CTL-120..127, -161, -162, -167",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-110",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/Combobox.css",
+    "action": "CREATE",
+    "description": "@layer ag.components, selectors only .ag-combobox, [data-ag-part] and Base UI data-* state; tokens only (no literals, no !important, no transition: all, no :root). input-shell content-sunken; popup overlay regular with the Select entrance motion; chips wrap inside Combobox.Chips at 320px/200% zoom with no clipping; coarse/390px popup sizing as Select.",
+    "depends_on": [
+      "CTL-109"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-css.test.ts; remote controls-sizing/motion/matrix specs",
+    "storybook": "Combobox Matrix + Preferences stories",
+    "acceptance": "AC-CTL-05, AC-CTL-08; REQ-CTL-120..127, -161, -162, -167",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-111",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/Combobox.meta.ts",
+    "action": "CREATE",
+    "description": "ControlMeta for Combobox (tier T1, rsc client-leaf). parts [input-shell,input,trigger,clear,chips,chip,chip-remove,popup,list,item,item-indicator,empty,loading,group,group-label], states [popup-open,highlighted,selected,empty,disabled,invalid], apg \"combobox\", budgetKb 28. Also create src/components/combobox/index.ts (named re-exports, no directive) and tests/controls/fixtures/combobox.tsx registered in tests/controls/families.ts; add the family case to tests/controls/field-shell.test.tsx where the PRD lists it. The migration field is filled in PROMPT_09f.",
+    "depends_on": [
+      "CTL-109",
+      "CTL-005",
+      "CTL-016"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/controls-meta.test.ts; families.test.ts",
+    "storybook": "drives Matrix and argTypes",
+    "acceptance": "AC-CTL-03, AC-CTL-20; REQ-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-112",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/Combobox.test.tsx",
+    "action": "TEST",
+    "description": "Family unit suite (jsdom, real Base UI, no jest.mock of @base-ui): ArrowDown opens and moves; Alt+ArrowDown opens without moving; Escape closes, second Escape clears; Home/End move the caret; multi: Backspace on empty input focuses last chip, ArrowLeft/Right between chips, Backspace/Delete removes; Combobox.Empty role status.",
+    "depends_on": [
+      "CTL-109",
+      "CTL-111"
+    ],
+    "priority": "P0",
+    "test": "jest src/components/combobox",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03, AC-CTL-04; REQ-CTL-120..127, -161, -162, -167",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-113",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/Combobox.stories.tsx",
+    "action": "CREATE",
+    "description": "Title Flagships/Controls/Combobox, tags [\"certified\"], parameters.ag.tier \"Certified\". Stories: Overview (default environment global, product copy), Matrix (sizes x states generated from Combobox.meta.ts), Density (computed heights printed), Keyboard (play function using userEvent.keyboard from \"storybook/test\", never @storybook/test@9.0.0-alpha.2), InContext, Preferences, RTL. argTypes generated from meta; 0 !important; no inline optics. InContext: dense form (\"Assignee\" single, \"Labels\" multiple with chips); async user search; RTL chips.",
+    "depends_on": [
+      "CTL-110",
+      "CTL-111",
+      "SB-073"
+    ],
+    "priority": "P1",
+    "test": "Storybook test runner (remote) passes the Keyboard play function and renders every story without console error",
+    "storybook": "Flagships/Controls/Combobox: Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL",
+    "acceptance": "PRD §13; AC-CTL-19 input",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-114",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:tests/a11y/apg/combobox.apg.spec.ts",
+    "action": "TEST",
+    "description": "APG script using runApgScript from tests/a11y/apg/harness.ts (PRD-A11Y REQ-A11Y-40) against the Storybook static build: focus stays on the input; aria-activedescendant follows the highlight; ArrowDown opens/moves; Alt+ArrowDown; Enter selects; Escape twice (close then clear); chip keys in multiple mode. Runs in the controls Playwright project on Chromium, WebKit and Gecko, remote only.",
+    "depends_on": [
+      "CTL-113",
+      "A11Y-073",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test tests/a11y/apg/combobox.apg.spec.ts --project=controls-chromium,controls-webkit,controls-firefox (3/3 green)",
+    "storybook": "Combobox Keyboard story is the target",
+    "acceptance": "AC-CTL-06; REQ-CTL-123, -170",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-115",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:src/components/combobox/ComboboxVirtualList.client.tsx",
+    "action": "CREATE",
+    "description": "'use client'. Above 200 items, Combobox.Content renders this list, loaded with dynamic import() so @tanstack/react-virtual (exact pin, D-29 allowlist via PRD-PKG) stays out of the base chunk. Each option keeps aria-setsize = total and aria-posinset = 1-based index; DOM option count <= visible + 2 x overscan (overscan 5). Replaces GlassMultiSelect (858 lines).",
+    "depends_on": [
+      "CTL-109",
+      "PKG-056"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/combobox-async.test.tsx (virtualization cases); remote controls-perf.spec.ts 10,000-item case <=60 option nodes",
+    "storybook": "Combobox story \"LargeList\" (10,000 items)",
+    "acceptance": "AC-CTL-03, AC-CTL-13, AC-CTL-14; REQ-CTL-125",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-116",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "src/components/combobox/Combobox.client.tsx",
+    "action": "MODIFY",
+    "description": "Add mode \"select\"|\"autocomplete\" (default select; autocomplete uses Base UI Autocomplete when the pin ships it, else Combobox with aria-autocomplete=\"list\"; free text is the value and onValueChange receives the string) and loadOptions(query, { signal }) with loadDebounceMs 250: call 250ms after the last keystroke, abort the previous AbortController on a new query, never render results of an aborted request, on rejection render Combobox.Empty with messages.loadError and keep the input value, set loading automatically while in flight. Budget: <= Combobox line + 2 KB.",
+    "depends_on": [
+      "CTL-109",
+      "CTL-004"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/combobox-async.test.tsx (loadOptions and autocomplete cases)",
+    "storybook": "Combobox stories \"AsyncSearch\" and \"Autocomplete\"",
+    "acceptance": "AC-CTL-03, AC-CTL-13; REQ-CTL-124, -128",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-117",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "src/components/combobox/Combobox.client.tsx",
+    "action": "MODIFY",
+    "description": "Add creatable (boolean | { label?: (query) => ReactNode }) and onCreate(query). When no item matches exactly after itemToString (case-insensitive), the list ends with exactly one option with data-ag-part=\"create-item\" labelled Create \"<query>\" (messages.create overridable). Enter on it calls onCreate(query), or without onCreate adds the query to the value (single replaces, multiple appends a chip). Empty/whitespace queries never offer it. No TagInput export.",
+    "depends_on": [
+      "CTL-116"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/combobox-async.test.tsx (creatable cases)",
+    "storybook": "Combobox story \"CreatableTags\" (multiple creatable)",
+    "acceptance": "AC-CTL-03; REQ-CTL-129",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-118",
+    "prd": "PRD-09",
+    "system": "Combobox",
+    "file": "NEW:tests/controls/combobox-async.test.tsx",
+    "action": "TEST",
+    "description": "filter={null} + loading: aria-busy on the list, announcer called at most once per 500ms (fake timers), Empty has role=\"status\"; 1,000 items render <= visible + 2x overscan option nodes with correct aria-setsize/aria-posinset; loadOptions: 5 keystrokes within 250ms -> 1 call 250ms after the last; superseded request signal.aborted === true and its late result is not rendered; rejection shows \"Couldn't load results\" and input value unchanged; creatable: non-matching query appends exactly one [data-ag-part=\"create-item\"] option, Enter calls onCreate(query), whitespace offers none; mode=\"autocomplete\" passes free text to onValueChange.",
+    "depends_on": [
+      "CTL-115",
+      "CTL-116",
+      "CTL-117"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/combobox-async.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-03; REQ-CTL-124, -125, -127, -128, -129",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-119",
+    "prd": "PRD-09",
+    "system": "root entry",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "Add named root exports Slider, NumberField, Select, Combobox and their prop types (C-E). Existing 4.x lines (GlassSlider :243, GlassSelectCompound :231-242, etc.) stay until PROMPT_09f.",
+    "depends_on": [
+      "CTL-091",
+      "CTL-097",
+      "CTL-104",
+      "CTL-111"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts; root-export-count.test.ts (<=160)",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-120",
+    "prd": "PRD-09",
+    "system": "wave gate",
+    "file": "tests/a11y/apg/{slider,number-field,select,combobox}.apg.spec.ts",
+    "action": "TEST",
+    "description": "Wave C remote gate: jest test:controls, Storybook test runner over Flagships/Controls/{Slider,NumberField,Select,Combobox}, the four APG specs on 3 engines. Record run URLs.",
+    "depends_on": [
+      "CTL-094",
+      "CTL-100",
+      "CTL-107",
+      "CTL-114",
+      "CTL-101",
+      "CTL-108",
+      "CTL-118",
+      "CTL-119"
+    ],
+    "priority": "P0",
+    "test": "12/12 APG runs green; Storybook test runner green",
+    "storybook": "all Wave C stories",
+    "acceptance": "AC-CTL-06 (4 of 11 scripts), AC-CTL-03",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-121",
+    "prd": "PRD-09",
+    "system": "test infra",
+    "file": "playwright.config.ts; certification/playwright.cert.config.ts",
+    "action": "MODIFY",
+    "description": "MODIFY QA's configs (QA-018, SC-29/OV-22). In playwright.config.ts add projects controls-chromium, controls-webkit, controls-firefox with testMatch [\"tests/a11y/apg/{button,toolbar,segmented-control,switch,slider,checkbox,radio-group,select,combobox,number-field,search-field}.apg.spec.ts\", \"tests/e2e/controls/**/*.spec.ts\"], baseURL = the Storybook static server started by webServer, and a globalSetup guard that throws \"remote-only\" unless process.env.AG_REMOTE_RUNNER === \"1\" or process.env.CI === \"true\". In certification/playwright.cert.config.ts add a controls-visual project with testMatch \"tests/visual/controls/**/*.spec.ts\" and the same guard. Do not alter existing projects.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "QA-018"
+    ],
+    "priority": "P0",
+    "test": "remote: playwright test --list --project=controls-chromium lists the 11 APG specs + 5 controls specs; local run without AG_REMOTE_RUNNER exits with \"remote-only\"",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-06 lane wiring",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-122",
+    "prd": "PRD-09",
+    "system": "in-context story",
+    "file": "NEW:src/components/control-shared/ControlsDenseForm.stories.tsx",
+    "action": "CREATE",
+    "description": "Story Flagships/Controls/DenseForm (id used as the \"controls-dense-form\" subject): 20 fields (TextField x8, NumberField x3, Select x3, Combobox x2, Switch x2, Checkbox x1, RadioGroup x1) with one Select defaultOpen variant, product copy (an invoice form), rendered on the PRD-QA environment scenes via the Material Lab globals; no story-local CSS.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "QA-038"
+    ],
+    "priority": "P0",
+    "test": "Storybook test runner renders it; used by controls-nesting, controls-perf, controls-matrix specs",
+    "storybook": "Flagships/Controls/DenseForm (Overview, Open)",
+    "acceptance": "AC-CTL-11, AC-CTL-14 subject",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-123",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/e2e/controls/controls-axe.spec.ts",
+    "action": "TEST",
+    "description": "A11Y's browser axe runner tests/a11y/browser/axe.spec.ts (A11Y-078; import its config, no second axe setup) with @axe-core/playwright (exact-pinned devDependency; add via PRD-PKG allowlist if absent) with color-contrast on, for every family Overview story x {light, dark} x {default, contrast more (emulateMedia contrast), forcedColors active, data-ag-transparency reduced/solid}: 0 violations with impact serious or critical. Fails closed when a story id is missing.",
+    "depends_on": [
+      "CTL-121",
+      "A11Y-078"
+    ],
+    "priority": "P0",
+    "test": "remote: 13 families x 2 x 4 x 3 engines all green",
+    "storybook": "Overview stories",
+    "acceptance": "AC-CTL-07; REQ-CTL-171, -172",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-124",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/e2e/controls/controls-focus.spec.ts",
+    "action": "TEST",
+    "description": "Keyboard-focus every interactive part: computed outline-width 2px with two-tone ring (outline + box-shadow) only on :focus-visible (pointer click shows none); ring present on aria-disabled focusable Button/IconButton/Toolbar item/Select trigger (regression for GlassFocusIndicators.css:113-116); outline Highlight under forced-colors; ring vs adjacent surface contrast >=3:1 measured from screenshots in all 8 scenes; focused element not obscured (2.4.11) inside the DenseForm scroll container.",
+    "depends_on": [
+      "CTL-121",
+      "CTL-122"
+    ],
+    "priority": "P0",
+    "test": "remote: 3 engines green",
+    "storybook": "Matrix focus-visible column",
+    "acceptance": "AC-CTL-08 (ring), AC-CTL-19 input; REQ-CTL-09, -10, -171",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-125",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/e2e/controls/controls-sizing.spec.ts",
+    "action": "TEST",
+    "description": "Block sizes for every family x size x density equal 28/36/44, 24/32/44, 32/40/48 (+-0.5px) (Switch/Checkbox/Radio/Slider use their own tables); hit areas via document.elementFromPoint at the 4 edges of a 24x24 (fine) and 44x44 (hasTouch + isMobile context) box centred on each part, with and without a visible label; Button width unchanged when loading toggles; 320px viewport and 200% zoom: no label/error/chip clipping (scrollWidth <= clientWidth) and no horizontal page scroll; WCAG 1.4.12 text-spacing override does not clip; coarse-pointer font-size >=16px on TextField/SearchField/NumberField/Combobox input; Select/Combobox popup width within [trigger width, 100vw-16px] at 390px; vertical page scroll gesture starting on a horizontal Slider track scrolls the page.",
+    "depends_on": [
+      "CTL-121"
+    ],
+    "priority": "P0",
+    "test": "remote: 3 engines green",
+    "storybook": "Density stories",
+    "acceptance": "AC-CTL-09; REQ-CTL-05, -06, -23, -52, -72, -160..162, -165..167",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-126",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/e2e/controls/controls-overlay-stack.spec.ts",
+    "action": "TEST",
+    "description": "Select and Combobox inside the PRD-OVL overlays Dialog story: first Escape closes only the popup, second closes the Dialog; popups portal into the provider [data-ag-portal-root]; popup z-order above the dialog (elementFromPoint hits the popup); focus returns to the trigger then to the Dialog opener.",
+    "depends_on": [
+      "CTL-121",
+      "OVL-040"
+    ],
+    "priority": "P1",
+    "test": "remote: 3 engines green",
+    "storybook": "Select InContext-in-Dialog story",
+    "acceptance": "AC-CTL-06 support; PRD §12.2; PRD-FND REQ-FND-21",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-127",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/e2e/controls/controls-motion.spec.ts",
+    "action": "TEST",
+    "description": "Motion on: frame strip (>=3 captured frames via rAF-timestamped screenshots) shows the SegmentedControl indicator, Switch thumb and Select popup entrance change position/opacity; computed transform at rest, hover and press is none or matrix(1,0,0,1,x,y) for every family root; transition-property never lists backdrop-filter, filter or all. Reduced motion and data-ag-motion=none: after settle + 500ms, PRD-PERF instrument.js counters report 0 pending rAF and document.getAnimations().length === 0; final opacity 1, scale 1. Switch: 0 CSS animations at any time.",
+    "depends_on": [
+      "CTL-121",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "remote: 3 engines green",
+    "storybook": "Preferences stories (motion none)",
+    "acceptance": "AC-CTL-10; REQ-CTL-11, -12, -44, -54, -115",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-128",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/visual/controls/controls-matrix.visual.spec.ts",
+    "action": "TEST",
+    "description": "PRD-QA pixel gates per family state over the 8 scenes (photo, saturated-abstract, dense-text, dark-media, flat-white, flat-black, hf-pattern, video-frame) x light/dark x glass/tinted/solid x standard/lightweight x 1440/390, tier and preferences forced explicitly. OCR contrast >=4.5:1 body, >=3:1 large/non-text/ring, worst case; >=7:1 under contrast more; IconButton glyph >=3:1 in all scenes; error text >=4.5:1; glass density <=0.3; material presence on SearchField, Toolbar, SegmentedControl; tracked element-cropped baselines under certification/baselines/ (new baselines only via the labelled human-approved PR flow).",
+    "depends_on": [
+      "CTL-121",
+      "CTL-122",
+      "QA-038",
+      "QA-039",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "remote: certify lane artifact (lane-manifest.json) green",
+    "storybook": "Matrix + Preferences stories",
+    "acceptance": "AC-CTL-08; REQ-CTL-28, -95, -171..173",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-129",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/visual/controls/controls-engine.spec.ts",
+    "action": "TEST",
+    "description": "WebKit: computed -webkit-backdrop-filter on SearchField shell and Toolbar root contains a blur and the measured backdrop variance under them drops (blur applied). Gecko: a refraction Button vs a standard Button differ in <=0.1% of pixels by >2 levels in any channel. Chromium enhanced: refraction bezel bounding boxes never intersect text boxes (0 overlap).",
+    "depends_on": [
+      "CTL-121"
+    ],
+    "priority": "P1",
+    "test": "remote: engine lane artifact",
+    "storybook": "Button/SearchField Matrix (refraction)",
+    "acceptance": "AC-CTL-17; REQ-CTL-102, §10.1 A14",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-130",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/visual/controls/controls-nesting.spec.ts",
+    "action": "TEST",
+    "description": "Toolbar in a TopBar, SegmentedControl in a Toolbar, SearchField in a Toolbar: getComputedStyle(item, \"::before\").backdropFilter === \"none\" for every nested surface and a blur on the group root; count of elements with non-none backdrop-filter in the DenseForm scene <=3 at 390px and <=6 at 1440px (expected 1 with a popup open); max blur radius in any control <=20px.",
+    "depends_on": [
+      "CTL-121",
+      "CTL-122"
+    ],
+    "priority": "P0",
+    "test": "remote: 3 engines green",
+    "storybook": "Toolbar/SegmentedControl/SearchField InContext stories",
+    "acceptance": "AC-CTL-11; REQ-CTL-33, -102, §4.2, §16",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-131",
+    "prd": "PRD-09",
+    "system": "remote lane",
+    "file": "NEW:tests/perf/browser/controls-perf.spec.ts",
+    "action": "TEST",
+    "description": "Through tests/perf/harness/run-perf.mjs and grade.mjs (PRD-PERF, remote only, AG_REMOTE_RUNNER=1): INP p75 <=100ms mobile (4x CPU, 390x844) / <=50ms desktop (1440x900, 120Hz) for Button press, Switch toggle, Checkbox toggle, SegmentedControl select, Select open; Slider drag and SegmentedControl move p95 frame <=16.7ms mobile / <=8.3ms desktop with 0 long tasks >50ms in a 2s drag; DenseForm typing <=1 commit per keystroke and 0 sibling re-renders (React Profiler); mount 100 TextFields <=40ms desktop / <=160ms mobile scripting; Combobox 10,000 items open + first keystroke <=100ms desktop / <=250ms mobile with <=60 option nodes; grade >=C every family. Missing metric = fail.",
+    "depends_on": [
+      "CTL-122",
+      "PERF-039"
+    ],
+    "priority": "P0",
+    "test": "remote perf lane: perf-results.json + perf-grades.json artifacts",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-14; §16 runtime table",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-132",
+    "prd": "PRD-09",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Add the §16 rows (min+gz, gzip 9, peers external, limitBytesGz integer bytes, KB=1024): Button 10, IconButton 10, Toolbar 13, ToggleGroup 11, ButtonGroup 10, SegmentedControl 13, Switch 8, Slider 14, Checkbox+CheckboxGroup 10, RadioGroup+Radio 10, TextField 12, SearchField 13, Select 25, Combobox 28 (+ @tanstack/react-virtual <=5 via dynamic import), Combobox autocomplete/loadOptions/creatable <= Combobox + 2, NumberField 14, all 14 families together 60, control CSS 7 (gz). Button and Select rows are hard gates now; others marked \"calibrating\" per the PKG schema; rows may be stricter than PERF's default ceilings (PERF-002), never looser. Rows only: PKG owns the file and gate (SC-15); no tests/size/ file and no size-limit.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "PKG-048",
+      "PKG-049",
+      "PERF-002"
+    ],
+    "priority": "P0",
+    "test": "remote: node scripts/ci/verify-size-budgets.mjs against the packed tarball; tests/perf/size-budgets.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-13",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-133",
+    "prd": "PRD-09",
+    "system": "budgets",
+    "file": "docs/size-budgets.json",
+    "action": "MODIFY",
+    "description": "Calibration commit (PRD §20 step 6), consuming QA-123's alpha.1 L2/L10 artifacts: run verify-size-budgets.mjs and the perf lane on the alpha build remotely; set each \"calibrating\" row to its measured value rounded up to the next 0.5 KB but never above the §16 ceiling; flip them to hard gates; record the run URLs in docs/size-budgets.changelog.md. Ratchet down only. A measured value above its §16 ceiling is a failure to fix in code, not a reason to raise the row.",
+    "depends_on": [
+      "CTL-132",
+      "CTL-131",
+      "QA-123"
+    ],
+    "priority": "P0",
+    "test": "remote: verify-size-budgets.mjs green with all control rows hard",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-13, AC-CTL-14",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-134",
+    "prd": "PRD-09",
+    "system": "packaging",
+    "file": "scripts/ci/verify-pack.js (run only; edit owned by PKG-063)",
+    "action": "TEST",
+    "description": "The @base-ui/react duplicate guard (npm ls ... --all --json, no nested node_modules under aura-glass) is PKG-063 (REQ-PKG-55). CTL makes no edit: run verify-pack.js on the packed tarball after the three waves and confirm the controls subset bundles Base UI once. A failure is filed against PKG-063, not patched here.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "PKG-063"
+    ],
+    "priority": "P1",
+    "test": "remote: npm pack + node scripts/ci/verify-pack.js green; fixture with a duplicated copy fails",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-13 support; PRD §6",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-135",
+    "prd": "PRD-09",
+    "system": "Storybook",
+    "file": ".storybook/",
+    "action": "TEST",
+    "description": "Remote Storybook build + test runner over every Flagships/Controls/* story (Keyboard play functions must pass); assert every family has the §13 stories (Overview, Matrix, Density, Keyboard, InContext, Preferences, RTL where listed) by reading the built index.json; tags [\"certified\"] and parameters.ag.tier present; static lane check for !important and inline optics in *.stories.tsx.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "SB-048"
+    ],
+    "priority": "P0",
+    "test": "remote Storybook test-runner job green; index.json story-coverage check script NEW tests/controls/controls-stories.test.ts (reads the built Storybook index.json; no scripts/controls/ directory, SC-11) passes",
+    "storybook": "all Flagships/Controls/* stories",
+    "acceptance": "PRD §13; AC-CTL-06 mirror",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-136",
+    "prd": "PRD-09",
+    "system": "flagship 14 contract",
+    "file": "tests/controls/field-shell.test.tsx",
+    "action": "TEST",
+    "description": "Add the aura-glass/date cases: DateField, TimeField, DatePicker, DateRangePicker use Field.Root/Label/Description/Error wiring and render data-ag-part control-shell, segment (role spinbutton), trigger (\"Open calendar\"), popup, calendar, grid, cell; value/defaultValue/onValueChange contract with CalendarDate/Time/{start,end}; also add them to controls-sizing.spec.ts and controls-focus.spec.ts subjects. Requires PRD-DATA ./date; if absent the cases fail (no skip) and the report marks AC-CTL-01 date half blocked on PRD-DATA.",
+    "depends_on": [
+      "CTL-025",
+      "CTL-125",
+      "CTL-124",
+      "DATA-094",
+      "DATA-096"
+    ],
+    "priority": "P1",
+    "test": "jest tests/controls/field-shell.test.tsx (date describe) + remote sizing/focus specs",
+    "storybook": "n/a (PRD-DATA owns date stories)",
+    "acceptance": "AC-CTL-01 (date half); REQ-CTL-150..152",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-137",
+    "prd": "PRD-09",
+    "system": "canaries",
+    "file": "canaries/ (PRD-PKG Next 16 client page and Vite no-Tailwind fixture)",
+    "action": "TEST",
+    "description": "Ensure the PRD-PKG canary pages import all 14 families (13 root + aura-glass/date) and the Vite canary asserts { Button } gzip <=10 KB; edit only the import list of the existing canary page if a family is missing. Run the canaries remotely (Next 16, Next 15 + React 19.0 floor, Vite no-Tailwind).",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "QA-086",
+      "REL-115"
+    ],
+    "priority": "P1",
+    "test": "remote canary job green",
+    "storybook": "n/a",
+    "acceptance": "PRD §12.4; AC-CTL-13 (Button gzip)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-138",
+    "prd": "PRD-09",
+    "system": "human review",
+    "file": "NEW:docs/auraglass-5/migration/controls-review-request.md",
+    "action": "DOC",
+    "description": "Request (not a result) listing the remote capture artifacts a named human reviewer must score: chrome families (Button, IconButton, Toolbar, SegmentedControl, SearchField) on photo and dark-media at 1440 + 390 photo (specular, rim continuity, concentric radius +-0.5px) per the QA L14 Human visual review record (review-record.json) flow; TimeField md baseline vs the 4.x GlassTimeField capture for PRD-DATA (REQ-CTL-154). The agent never fills scores.",
+    "depends_on": [
+      "CTL-128",
+      "CTL-129",
+      "CTL-130"
+    ],
+    "priority": "P1",
+    "test": "review-record.json exists in the RC artifacts with a human GitHub login",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-19; REQ-CTL-154",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-139",
+    "prd": "PRD-09",
+    "system": "manual matrix",
+    "file": "NEW:tests/a11y/manual/scripts/{icon-button,toolbar,segmented-control,switch,slider,checkbox,radio-group,text-field,search-field,select,combobox,number-field}.md",
+    "action": "DOC",
+    "description": "L13 Manual SR scripts per family from A11Y's template (A11Y-085; button.md is A11Y-086's pilot and is not duplicated): VoiceOver macOS Safari, VoiceOver iOS, NVDA + Chrome, TalkBack + Chrome, physical iPhone and Android; name/role/value/state announced, no keyboard trap, error read on focus via aria-describedby, loading announced via aria-busy. Results are a11y-manual-<sha>.json records valid against tests/a11y/manual/sr-record.schema.json (A11Y-084), authored by human testers; the agent prepares the scripts and the request only.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "A11Y-084",
+      "A11Y-085"
+    ],
+    "priority": "P1",
+    "test": "records for the RC SHA validate against A11Y-084 schema with 0 blocking issues",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-18; REQ-CTL-177",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-140",
+    "prd": "PRD-09",
+    "system": "migration data",
+    "file": "src/components/{button,icon-button,toolbar,segmented-control,switch,slider,checkbox,radio-group,field,text-field,search-field,select,combobox,number-field}/*.meta.ts",
+    "action": "MODIFY",
+    "description": "Fill the `migration.from[]` field of every meta with the §10.2 rows: 4.x name, entry (root, aura-glass/app-shell, or internal), compat yes/no per §7, prop map (SC-24 Button mapping: primary->prominent, secondary/default->variant regular, ghost->variant identity, danger/destructive/error->intent danger; outline->variant regular, tertiary->variant identity, link->render <a> variant identity, each flagged \"review\"; gradient/aurora/success/warning -> \"TODO(aura-glass 5)\"; xs->sm, xl->lg; asChild->render; leftIcon/rightIcon->startIcon/endIcon; material liquid + glassVariant clear -> variant clear; errorText/helperText -> error/description; onChange -> onValueChange/onCheckedChange with the A3/A4 convertibility rule), 4.x selectors/roles (.glass-button, .glass-input, data-button-variant -> data-ag-intent/data-ag-variant, role changes from §11.4). Internal names (4.x IconButton, ButtonGroup, GlassToggleGroup, GlassRadioGroupItem, input GlassStepper) are compat:false. Fill `selectorChanges` so DX-105 renders the selector tables.",
+    "depends_on": [
+      "CTL-054",
+      "CTL-088",
+      "CTL-120",
+      "REL-070",
+      "DX-105"
+    ],
+    "priority": "P0",
+    "test": "controls-meta.test.ts; scripts/docs/gen-selectors.mjs (DX-105) exit 0; REL scripts/release/gen-deprecations.mjs --codemods (REL-070, SC-33) regenerates packages/cli/src/migrate/4to5/mappings/*.json without error",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-16, AC-CTL-20; REQ-CTL-17, -19",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-141",
+    "prd": "PRD-09",
+    "system": "migration data",
+    "file": "src/components/field/Field.meta.ts",
+    "action": "MODIFY",
+    "description": "Mapping data for PRD-DATA (REQ-CTL-153) recorded in the `migration` field of Field.meta.ts (SC-33: mapping data only from meta `migration` fields and generated mappings): GlassDateField/GlassTimeField/GlassDatePicker value: string (ISO 8601) <-> CalendarDate/Time/ZonedDateTime (parseDate/parseTime/parseZonedDateTime), onChange(event) -> onValueChange(value, details) with synthetic { target: { value: iso } }, and the required behaviour \"missing react-aria-components throws Error naming the peer in dev and production; never renders <input type=date>\". PRD-DATA writes and tests the adapters.",
+    "depends_on": [
+      "CTL-140",
+      "CTL-010"
+    ],
+    "priority": "P1",
+    "test": "PRD-DATA suite consumes it (AURAGLASS_DATA_PRD.md §6); JSON schema check in controls-meta.test.ts",
+    "storybook": "n/a",
+    "acceptance": "REQ-CTL-153",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-142",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassButton,Button,EnhancedGlassButton,RippleButton,GlassLinkButton,ToggleButton,MagneticButton,GlassFab,LiquidGlassButtonStyle}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (9): GlassButton, Button (4.x alias of GlassButton), EnhancedGlassButton, RippleButton, GlassLinkButton, ToggleButton, MagneticButton, GlassFab, LiquidGlassButtonStyle. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. speculative props predictive/eyeTracking/adaptive/spatialAudio/trackAchievements/usageContext dropped with a single warning; ToggleButton selected/onChange(event,value) -> pressed/onPressedChange; GlassLinkButton -> Button render={<a/>}; GlassFab -> prominent, position/offset props dropped with warning; LiquidGlassButtonStyle -> variant regular; GlassButton/Button tone variants per the SC-24 mapping; MagneticButton applies magnetic() from aura-glass/motion only when the optional peer motion resolves, else warns (REQ-CTL-26); EnhancedGlassButton carries no simulated metrics. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070",
+      "MOT-061"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-143",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/GlassIconButton.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (1): GlassIconButton. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. Maps to IconButton; a missing aria-label warns and falls back to the 4.x title prop if present. PRD-NAV (app shell) removes the aura-glass/app-shell export once this lands. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070",
+      "NAV-025"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-144",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{LiquidGlassControlGroup,LiquidGlassToolbar,GlassToolbar,ToggleButtonGroup,GlassToggle,GlassCommandBar,LiquidGlassMapControls,GlassActionBar}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (8): LiquidGlassControlGroup, LiquidGlassToolbar, GlassToolbar, ToggleButtonGroup, GlassToggle, GlassCommandBar, LiquidGlassMapControls, GlassActionBar. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. Action-array props map to Toolbar.Root + Toolbar.Button/Toolbar.IconButton per item; ToggleButtonGroup/GlassToggle -> ToggleGroup; placement/layout props dropped with warning; GlassActionBar comes from aura-glass/app-shell in 4.x (coordinate with PRD-NAV). One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070",
+      "NAV-025"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-145",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassSegmentedControl,LiquidGlassSegmentedControl}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (2): GlassSegmentedControl, LiquidGlassSegmentedControl. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. items=[{id,label}] / segments -> SegmentedControl.Item value={id}; onChange(id) receives the plain value. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-146",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassSwitch,GlassSlider,GlassCheckbox,GlassCheckboxGroup,GlassRadioGroup}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (5): GlassSwitch, GlassSlider, GlassCheckbox, GlassCheckboxGroup, GlassRadioGroup. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. GlassSwitch onChange(checked) receives the boolean and label maps to Field.Label; GlassCheckbox onChange receives synthetic { target: { checked } }; GlassSlider range -> value [a,b]; animation=\"shimmer\" dropped. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-147",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassInput,GlassTextarea,GlassFieldGroup,GlassValidationMessage,GlassFormField}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (5): GlassInput, GlassTextarea, GlassFieldGroup, GlassValidationMessage, GlassFormField. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. GlassInput helperText/errorText/leftIcon/rightIcon -> description/error/startAdornment/endAdornment, onChange(e) native passthrough; GlassTextarea -> TextField multiline; GlassFieldGroup -> Fieldset.Root + Fieldset.Legend; GlassValidationMessage -> Field.Error; GlassFormField -> Field.Root. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-148",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{LiquidGlassSearchField,GlassSearchField,GlassSearchInterface,GlassIntelligentSearch}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (4): LiquidGlassSearchField, GlassSearchField, GlassSearchInterface, GlassIntelligentSearch. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. All render SearchField for the input; results lists, facets and AI suggestion props are dropped with a warning pointing to Combobox / the registry faceted-search block. One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-149",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassSelectCompound,GlassSelect}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (2): GlassSelectCompound (GlassSelectRoot/Trigger/Content/Item/Value/Label/Group/Separator/ScrollUp/ScrollDown parts), GlassSelect. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. GlassSelect options=[{value,label}] -> items + mapped Select.Item, onChange(v) receives the value; searchable=true warns that the component changes to Combobox and still renders Select; ScrollUp/ScrollDown parts render nothing with a warning (internal to Select.Content). One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-150",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:src/compat/controls/{GlassCombobox,GlassMultiSelect,GlassTagInput,GlassMentionList}.tsx",
+    "action": "CREATE",
+    "description": "Compat adapters (4): GlassCombobox, GlassMultiSelect, GlassTagInput, GlassMentionList. Each maps props from packages/cli/src/migrate/4to5/mappings/props.json (one table, two consumers, REQ-DX-41), calls warnDeprecated(<DEP id>) from src/internal/warnDeprecated.ts (REL-072) at call time (PRD-REL REQ-REL-08; never at module scope), drops unmappable props with one warning, never throws, renders the 5.0 component. GlassMultiSelect -> Combobox multiple + Chips; GlassTagInput -> Combobox multiple creatable + Chips; GlassMentionList -> Combobox list parts (trigger-character detection is consumer code: warns). One file per adapter (SC-34); export each from DX's src/compat/index.ts (DX-065) by MODIFY.",
+    "depends_on": [
+      "CTL-140",
+      "DX-065",
+      "REL-072",
+      "REL-070"
+    ],
+    "priority": "P0",
+    "test": "tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-151",
+    "prd": "PRD-09",
+    "system": "compat",
+    "file": "NEW:tests/controls/compat-controls.test.tsx",
+    "action": "TEST",
+    "description": "For each of the 40 names: import from aura-glass/compat (source alias), render with representative 4.x props, assert the 5.0 component renders (data-ag-part root of the right family) and each §10.2 mapping holds; warning fires once per symbol at render time and 0 times at import; NODE_ENV=production gives 0 warnings; assert compat exports no GlassStepper from this PRD and no adapter for 4.x IconButton/ButtonGroup/GlassToggleGroup/GlassRadioGroupItem; total adapter count from this PRD is exactly 40.",
+    "depends_on": [
+      "CTL-142",
+      "CTL-143",
+      "CTL-144",
+      "CTL-145",
+      "CTL-146",
+      "CTL-147",
+      "CTL-148",
+      "CTL-149",
+      "CTL-150"
+    ],
+    "priority": "P0",
+    "test": "jest tests/controls/compat-controls.test.tsx",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15; REQ-CTL-18",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-152",
+    "prd": "PRD-09",
+    "system": "codemod fixtures",
+    "file": "NEW:packages/cli/src/migrate/4to5/__fixtures__/{canonical-names,prop-grammar}/controls/",
+    "action": "TEST",
+    "description": "Input/output fixture pairs for each of the 40 names for canonical-names and prop-grammar (path per DX §507 convention; PRD §5.1 path \"__fixtures__/controls/\" mapped to the per-transform area folder), including: import { Button } from \"aura-glass\" rewritten through prop-grammar (not skipped as canonical); onChange handlers e => set(e.target.checked) converted, e.preventDefault() handlers emit TODO; unmapped variants emit TODO; a negative fixture asserting import { GlassStepper } from \"aura-glass\" is NOT rewritten to NumberField; deep import components/input/GlassStepper -> NumberField. If packages/cli does not exist, stop and report PRD-DX as the blocker.",
+    "depends_on": [
+      "CTL-140",
+      "DX-041",
+      "DX-053"
+    ],
+    "priority": "P0",
+    "test": "DX fixture runner packages/cli/src/migrate/4to5/__tests__/fixtures.test.ts (DX-053, remote CI) green for every pair",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-16; REQ-CTL-19",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-153",
+    "prd": "PRD-09",
+    "system": "deprecations",
+    "file": "deprecations.json (repo root, SC-02; release/4.x, REL 4.3 train)",
+    "action": "MODIFY",
+    "description": "PR to release/4.x adding, through REL's scripts/release/gen-deprecations.mjs (REL-070), entries valid against docs/schemas/deprecations.schema.json (REL-010; envelope version 1, required status/automation/breaking/message/doc fields): kind \"export\" entries (since 4.3.0, removeIn 5.0.0, codemod canonical-names, replacement named) for every compat:yes name, kind \"prop\" entries in 4.2.0 for GlassButton predictive/eyeTracking/adaptive/spatialAudio/trackAchievements/usageContext and the A6 optical props, \"prop-value\" entry for material=\"liquid\" (4.3), GlassSelect options API (4.2), GlassMagneticButton (4.3). Forward-port to main in the same train stop (REQ-REL-09). Reviewed by the PRD-REL owner.",
+    "depends_on": [
+      "CTL-140",
+      "REL-010",
+      "REL-070",
+      "TRUST-075"
+    ],
+    "priority": "P0",
+    "test": "node scripts/release/verify-deprecations.mjs --compare-branch release/4.x green on main; tests/release/warn-deprecated.test.ts",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-15 prerequisite; PRD §9, DoD 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-154",
+    "prd": "PRD-09",
+    "system": "GlassSwitch 4.x (verify)",
+    "file": "src/components/input/GlassSwitch.tsx (release/4.x; edit owned by MOT-009)",
+    "action": "TEST",
+    "description": "SC-36: the shimmer removal is deferred from 4.1.1 to 4.2 and REL adds it to the D-28 visual-fix list; the edit is MOT-009 (REQ-MOT-85). CTL makes no edit: verify on release/4.x that GlassSwitch.tsx:247 resolves animation to \"none\", that the remote before/after composite is attached, and that the 4.2.0 gate record (REL-090) lists the D-28 entry. If REL-090 rejects it, record \"shimmer removed in 5.0 only\" (REQ-CTL-54 covers 5.0).",
+    "depends_on": [
+      "MOT-009",
+      "REL-090"
+    ],
+    "priority": "P2",
+    "test": "release/4.x: REL visual-class.mjs classification + MOT-009 composites present; REL-090 gate record cites the D-28 entry",
+    "storybook": "n/a",
+    "acceptance": "PRD §9 row GlassSwitch; REQ-CTL-54 (4.x half)",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-155",
+    "prd": "PRD-09",
+    "system": "root entry",
+    "file": "src/index.ts",
+    "action": "MODIFY",
+    "description": "After the 4.3 deprecations are published (REQ-REL-09 gate green): replace :266 `GlassButton as Button` and :265 GlassButton with the new Button export; remove the control Glass* names in §7 from the root (e.g. :220 GlassInput, :231-242 GlassSelectCompound, :243 GlassSlider, :247 GlassSwitch, :152 GlassToolbar, :174-176 LiquidGlassToolbar, :475 GlassFab, :476 MagneticButton, :811 ToggleButtonGroup); keep :446 GlassStepper (PRD-FND core/Steps). Rewrite src/components/button/index.ts to export only the 5.0 Button; edit src/components/input/index.ts to drop the deleted files only.",
+    "depends_on": [
+      "CTL-151",
+      "CTL-153"
+    ],
+    "priority": "P0",
+    "test": "controls-api-report.test.ts; PRD-FND root-export-count.test.ts; classify-change.mjs (PRD-REL) green",
+    "storybook": "n/a",
+    "acceptance": "AC-CTL-01, AC-CTL-15",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-156",
+    "prd": "PRD-09",
+    "system": "removal: buttons",
+    "file": "src/components/button/{GlassButton,EnhancedGlassButton,GlassMagneticButton,GlassFab,LiquidGlassButtonStyle}.tsx, src/components/button/types.ts, src/components/visual-feedback/RippleButton.tsx, src/components/website-components/GlassLinkButton.tsx",
+    "action": "REMOVE",
+    "description": "One revertable PR deleting the buttons 4.x files with their *.stories.tsx, *.test.tsx and __snapshots__ (PRD §6, §20 step 8). Precondition: compat-controls.test.tsx green for the group and rg finds no import of the files outside src/compat.",
+    "depends_on": [
+      "CTL-155",
+      "CTL-151"
+    ],
+    "priority": "P1",
+    "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
+    "storybook": "removed 4.x stories gone from storybook index",
+    "acceptance": "AC-CTL-15; PRD §20 step 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-157",
+    "prd": "PRD-09",
+    "system": "removal: toggles/toolbars",
+    "file": "src/components/toggle-button/**, src/components/input/{GlassToggle,LiquidGlassControlGroup}.tsx, src/components/navigation/{GlassToolbar,LiquidGlassToolbar,GlassSegmentedControl,LiquidGlassSegmentedControl,GlassCommandBar}.tsx, src/components/interactive/LiquidGlassMapControls.tsx",
+    "action": "REMOVE",
+    "description": "One revertable PR deleting the toggles/toolbars 4.x files with their *.stories.tsx, *.test.tsx and __snapshots__ (PRD §6, §20 step 8). Precondition: compat-controls.test.tsx green for the group and rg finds no import of the files outside src/compat.",
+    "depends_on": [
+      "CTL-155",
+      "CTL-151"
+    ],
+    "priority": "P1",
+    "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
+    "storybook": "removed 4.x stories gone from storybook index",
+    "acceptance": "AC-CTL-15; PRD §20 step 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-158",
+    "prd": "PRD-09",
+    "system": "removal: fields/search",
+    "file": "src/components/input/{GlassInput,GlassTextarea,GlassFieldGroup,GlassValidationMessage,GlassFormField,GlassSearchField}.tsx, src/components/search/{LiquidGlassSearchField,GlassIntelligentSearch}.tsx, src/components/interactive/GlassSearchInterface.tsx",
+    "action": "REMOVE",
+    "description": "One revertable PR deleting the fields/search 4.x files with their *.stories.tsx, *.test.tsx and __snapshots__ (PRD §6, §20 step 8). Precondition: compat-controls.test.tsx green for the group and rg finds no import of the files outside src/compat.",
+    "depends_on": [
+      "CTL-155",
+      "CTL-151"
+    ],
+    "priority": "P1",
+    "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
+    "storybook": "removed 4.x stories gone from storybook index",
+    "acceptance": "AC-CTL-15; PRD §20 step 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-159",
+    "prd": "PRD-09",
+    "system": "removal: selection",
+    "file": "src/components/input/{GlassSwitch,GlassSlider,GlassCheckbox,GlassCheckboxGroup,GlassRadioGroup,GlassSelect,GlassSelectCompound,GlassCombobox,GlassMultiSelect}.tsx, src/components/input/GlassMultiSelect.module.css, src/components/interactive/{GlassTagInput,GlassMentionList}.tsx",
+    "action": "REMOVE",
+    "description": "One revertable PR deleting the selection 4.x files with their *.stories.tsx, *.test.tsx and __snapshots__ (PRD §6, §20 step 8). Precondition: compat-controls.test.tsx green for the group and rg finds no import of the files outside src/compat.",
+    "depends_on": [
+      "CTL-155",
+      "CTL-151"
+    ],
+    "priority": "P1",
+    "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
+    "storybook": "removed 4.x stories gone from storybook index",
+    "acceptance": "AC-CTL-15; PRD §20 step 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-160",
+    "prd": "PRD-09",
+    "system": "removal: steppers",
+    "file": "src/components/input/GlassStepper.tsx (input only; src/components/interactive/GlassStepper.tsx is PRD-FND Steps and is not touched)",
+    "action": "REMOVE",
+    "description": "One revertable PR deleting the steppers 4.x files with their *.stories.tsx, *.test.tsx and __snapshots__ (PRD §6, §20 step 8). Precondition: compat-controls.test.tsx green for the group and rg finds no import of the files outside src/compat.",
+    "depends_on": [
+      "CTL-155",
+      "CTL-151"
+    ],
+    "priority": "P1",
+    "test": "rg -l for each deleted basename under src returns only src/compat; full jest + remote build green",
+    "storybook": "removed 4.x stories gone from storybook index",
+    "acceptance": "AC-CTL-15; PRD §20 step 8",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-161",
+    "prd": "PRD-09",
+    "system": "registry",
+    "file": "registry/blocks/{auth,settings,mobile-settings}/ (DX-077/078/079; read-only here)",
+    "action": "TEST",
+    "description": "Confirm each of the 13 families is used by at least one SC-32 GA registry block (auth, settings, mobile-settings; NAV app-frame for chrome controls) and that the registry render check passes remotely; if a family is unused, file the gap to PRD-DX (do not author registry blocks here).",
+    "depends_on": [
+      "CTL-155",
+      "DX-077",
+      "DX-078",
+      "DX-079"
+    ],
+    "priority": "P2",
+    "test": "remote registry render check green",
+    "storybook": "n/a",
+    "acceptance": "PRD §18 DoD 9",
+    "status": "todo"
+  },
+  {
+    "id": "CTL-162",
+    "prd": "PRD-09",
+    "system": "certification",
+    "file": "n/a (RC SHA, CI artifacts)",
+    "action": "TEST",
+    "description": "RC certification sweep (PRD §20 step 9): on one RC SHA run the full jest set, all 11 APG specs x 3 engines (33 runs), controls-axe/focus/sizing/motion/overlay-stack, visual matrix/engine/nesting, perf + grades, verify-size-budgets, canaries, Storybook test runner, DX fixture runner (DX-053), using SC-29 lane names L1..L14; collect the L14 human review record (review-record.json) and the L13 a11y-manual-<sha>.json records (A11Y-084); produce the AC-CTL-01..20 table with artifact links. Any lane that did not run = failed.",
+    "depends_on": [
+      "CTL-156",
+      "CTL-157",
+      "CTL-158",
+      "CTL-159",
+      "CTL-160",
+      "CTL-152",
+      "CTL-133",
+      "CTL-135",
+      "CTL-136",
+      "CTL-138",
+      "CTL-139",
+      "CTL-123",
+      "CTL-127",
+      "CTL-128",
+      "CTL-129",
+      "CTL-130",
+      "CTL-126",
+      "CTL-125",
+      "CTL-124",
+      "CTL-137",
+      "CTL-161",
+      "QA-031"
+    ],
+    "priority": "P0",
+    "test": "every AC-CTL row green on the same SHA",
+    "storybook": "all Flagships/Controls/* stories",
+    "acceptance": "AC-CTL-01..20",
+    "status": "todo"
+  }
+]

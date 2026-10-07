@@ -1,0 +1,83 @@
+cross-group edges 1487 {
+  'MAT<-PLAT': 124,
+  'MAT<-QUAL': 54,
+  'MAT<-CMP': 45,
+  'MAT<-SURF': 15,
+  'SURF<-PLAT': 166,
+  'SURF<-CMP': 123,
+  'SURF<-MAT': 121,
+  'SURF<-QUAL': 126,
+  'CMP<-PLAT': 146,
+  'CMP<-MAT': 106,
+  'CMP<-QUAL': 95,
+  'CMP<-SURF': 10,
+  'PLAT<-SURF': 34,
+  'PLAT<-MAT': 44,
+  'PLAT<-CMP': 35,
+  'PLAT<-QUAL': 23,
+  'QUAL<-PLAT': 71,
+  'QUAL<-MAT': 72,
+  'QUAL<-CMP': 45,
+  'QUAL<-SURF': 32
+}
+files touched by >1 group 75
+eslint-plugin-auraglass.js MAT,SURF,CMP,QUAL,PLAT
+eslint.config.js MAT,SURF,CMP,QUAL,PLAT
+package.json MAT,SURF,PLAT,CMP,QUAL
+playwright.config.ts MAT,SURF,CMP,QUAL
+certification/lanes.config.ts MAT,QUAL
+src/theme/AuraGlassProvider.tsx MAT,PLAT
+src/primitives/Portal.tsx MAT,CMP
+src/primitives/DismissableLayer.tsx MAT,CMP
+src/primitives/VisuallyHidden.tsx MAT,CMP
+src/icons/__tests__/icon-a11y.test.tsx MAT,CMP
+tests/a11y/browser/axe.spec.ts MAT,SURF
+tests/a11y/manual/sr-record.schema.json MAT,SURF
+deprecations.json MAT,SURF,CMP,PLAT
+src/components/accessibility/ContrastGuard.tsx MAT,CMP,PLAT
+n/a MAT,CMP,SURF,PLAT
+build/exports.manifest.json SURF,MAT,PLAT
+docs/dependency-allowlist.json SURF,CMP,MAT,QUAL,PLAT
+docs/size-budgets.json SURF,CMP,MAT,QUAL,PLAT
+.github/workflows/glass-pipeline.yml SURF,MAT,QUAL,PLAT
+.storybook/preview.tsx SURF,MAT,QUAL,PLAT
+showcase/ai-command-center/AiCommandCenter.showcase.tsx SURF,QUAL
+registry/registry.json SURF,PLAT
+src/index.ts CMP,SURF,PLAT
+jest.config.js CMP,QUAL
+.github/workflows/certify-pr.yml CMP,SURF,MAT,QUAL,PLAT
+src/components/button/Button.css CMP,MAT
+src/components/button/Button.stories.tsx CMP,QUAL
+scripts/ci/verify-pack.js CMP,PLAT
+src/components/input/GlassSwitch.tsx CMP,MAT
+CHANGELOG.md SURF,MAT,PLAT
+scripts/ci/verify-side-effects.mjs SURF,CMP,QUAL,PLAT
+tests/fixtures/consumer-4x/ SURF,MAT,CMP,PLAT
+showcase/financial-dashboard/FinancialDashboard.showcase.tsx SURF,QUAL
+registry/blocks/analytics-dashboard/ SURF,PLAT
+scripts/tokens/gates/literals-baseline.json MAT,CMP
+tests/dx/codemod-canary.spec.ts PLAT,SURF
+registry/blocks/app-frame/ PLAT,SURF
+registry/blocks/media-viewer/ PLAT,SURF
+registry/blocks/overlay-flows/ PLAT,CMP
+registry/blocks/settings/ PLAT,CMP
+tests/dx/registry-render.spec.ts PLAT,SURF
+.github/workflows/publish-npm.yml PLAT,QUAL
+.github/workflows/artifact.yml SURF,QUAL,PLAT
+src/primitives/Slot.tsx CMP,PLAT
+src/primitives/index.ts CMP,PLAT
+tests/exports/root-export-count.test.ts CMP,PLAT
+src/primitives/GlassCore.tsx CMP,PLAT
+src/material/css/material.css MAT,CMP
+certification/playwright.cert.config.ts MAT,CMP,QUAL
+certification/lanes/environment-visual.spec.ts MAT,SURF,QUAL
+certification/review/ MAT,QUAL
+src/tokens/glass.ts MAT,PLAT
+tests/perf/harness/budgets.json MAT,SURF,QUAL
+tests/side-effects/import-gate.test.ts SURF,PLAT
+showcase/music-player/MusicPlayer.showcase.tsx SURF,QUAL
+showcase/media-workspace/MediaWorkspace.showcase.tsx SURF,QUAL
+src/components/cookie-consent/CookieConsent.tsx MAT,PLAT
+src/components/cookie-consent/__tests__/visibility.test.tsx MAT,PLAT
+build/css-ownership.json MAT,PLAT
+eslint-plugin-auraglass.js; MAT,QUAL
