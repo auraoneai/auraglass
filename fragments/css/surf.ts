@@ -2,7 +2,9 @@
 import type { CssFragment } from '../../src/contracts/fragments';
 
 // --- lane W1 begin ---
-const w1 = [] as const;
+const w1 = [
+  { file: 'src/app-shell/app-shell.css', layer: 'ag.components', bundle: 'app-shell.css' },
+] as const;
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
