@@ -32,9 +32,12 @@
       opacity var(--ag-duration-small) var(--ag-ease-standard);
   }
 
-  /* the only animation in core, and only while continuous motion is on */
+  /* the only animation in core, and only while continuous motion is on.
+     Sweep period is a lane-internal custom prop (no public token exists for a
+     1,400 ms indicator cycle) — declared once, referenced by the animation. */
   [data-ag-continuous=on] :is([data-loading], [aria-busy=true])::before {
-    animation: ag-sweep 1400ms var(--ag-ease-standard) infinite;
+    --_ag-sweep-duration: 1400ms;
+    animation: ag-sweep var(--_ag-sweep-duration) var(--ag-ease-standard) infinite;
   }
 
   /* everything under an offscreen subtree stops running (ag-sweep and any
