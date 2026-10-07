@@ -1,0 +1,18 @@
+@layer ag.components {
+  .ag-tree { display: grid; gap: var(--ag-space-1, 0.25rem); }
+  .ag-tree__item {
+    outline: none;
+    border-radius: var(--ag-radius-1, 0.25rem);
+    padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
+  }
+  .ag-tree__item[data-focused] { outline: var(--ag-focus-width, 2px) solid var(--ag-focus, currentColor); }
+  .ag-tree__item[data-selected] { background: var(--ag-accent-soft, transparent); }
+  .ag-tree__item[data-disabled] { opacity: 0.5; }
+  .ag-tree__label { display: inline-flex; align-items: center; gap: var(--ag-space-2, 0.5rem); }
+  .ag-tree__load {
+    all: unset;
+    cursor: pointer;
+    min-inline-size: var(--ag-touch-target, 44px);
+    text-align: center;
+  }
+}
