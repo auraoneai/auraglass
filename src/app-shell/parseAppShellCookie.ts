@@ -37,9 +37,15 @@ export function parseAppShellCookie(value: string | undefined | null): AppShellC
   return out;
 }
 
-export function serializeAppShellCookie(state: AppShellCookie): string {
+/** Cookie value body (`sidebar:x;inspector:y`) without name or attributes. */
+export function serializeAppShellCookieValue(state: AppShellCookie): string {
   const parts: string[] = [];
   if (state.sidebar) parts.push(`sidebar:${state.sidebar}`);
   if (state.inspector) parts.push(`inspector:${state.inspector}`);
   return parts.join(';');
+}
+
+/** Full `ag-shell-<key>=...` Set-Cookie pair (SURF-007). */
+export function serializeAppShellCookie(key: string, state: AppShellCookie): string {
+  return `ag-shell-${key}=${serializeAppShellCookieValue(state)}; Path=/; Max-Age=31536000; SameSite=Lax`;
 }

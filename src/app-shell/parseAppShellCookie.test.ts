@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import { parseAppShellCookie, serializeAppShellCookie } from './parseAppShellCookie';
+import { parseAppShellCookie, serializeAppShellCookie, serializeAppShellCookieValue } from './parseAppShellCookie';
 
 describe('parseAppShellCookie', () => {
   it('parses both keys in any order', () => {
@@ -36,7 +36,12 @@ describe('parseAppShellCookie', () => {
 
   it('serialize/parse round-trips', () => {
     const state = { sidebar: 'rail' as const, inspector: 'closed' as const };
-    expect(parseAppShellCookie(serializeAppShellCookie(state))).toEqual(state);
-    expect(parseAppShellCookie(serializeAppShellCookie({}))).toEqual({});
+    expect(parseAppShellCookie(serializeAppShellCookieValue(state))).toEqual(state);
+    expect(parseAppShellCookie(serializeAppShellCookieValue({}))).toEqual({});
+    const full = serializeAppShellCookie('demo', state);
+    expect(full).toContain('ag-shell-demo=sidebar:rail;inspector:closed');
+    expect(full).toContain('SameSite=Lax');
+    expect(full).toContain('Path=/');
+    expect(full).toContain('Max-Age=31536000');
   });
 });

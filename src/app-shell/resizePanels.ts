@@ -6,15 +6,15 @@
 
 export interface PanelConstraint {
   /** Minimum size in percent (default 0). */
-  min?: number;
+  min?: number | undefined;
   /** Maximum size in percent (default 100). */
-  max?: number;
+  max?: number | undefined;
   /** Panel may collapse to `collapsedSize` (default 0) instead of `min`. */
-  collapsible?: boolean;
+  collapsible?: boolean | undefined;
   /** Size used when collapsed (default 0). */
-  collapsedSize?: number;
+  collapsedSize?: number | undefined;
   /** Size restored by expandPanel (default `min`). */
-  expandedSize?: number;
+  expandedSize?: number | undefined;
 }
 
 interface Normalized {
@@ -27,7 +27,7 @@ interface Normalized {
 
 const EPSILON = 0.01;
 
-function normalize(c: PanelConstraint | undefined): Normalized {
+export function normalize(c: PanelConstraint | undefined): Normalized {
   const min = Math.max(0, c?.min ?? 0);
   const max = Math.min(100, Math.max(min, c?.max ?? 100));
   const collapsedSize = clamp(c?.collapsedSize ?? 0, 0, max);

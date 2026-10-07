@@ -83,6 +83,22 @@ const serverFiles = files.filter((f) => {
 });
 const clientFiles = files.filter((f) => !serverFiles.includes(f) && !isBarrel(readFileSync(join(ROOT, f), 'utf8')));
 
+/** Universal modules (SURF-001-style pure modules): no directive, no React
+    import, no hook/DOM usage — importable from both server and client files,
+    so they must carry NEITHER 'use client' NOR 'use server'. */
+function isSharedModule(f: string): boolean {
+  const text = readFileSync(join(ROOT, f), 'utf8');
+  if (firstDirective(text)) return false;
+  // React imports alone do not make a module client-only; hooks, DOM globals
+  // or JSX do. createElement/render helpers stay universal.
+  if (/<[A-Z][A-Za-z]*[\s/>]/.test(text)) return false;
+  if (/from\s+['"](react-dom|next\/)/.test(text)) return false;
+  if (/\buse[A-Z][A-Za-z]*\s*\(|\bwindow\b|\bdocument\b|\bnavigator\b/.test(text)) return false;
+  return true;
+}
+const sharedFiles = clientFiles.filter(isSharedModule);
+const componentClientFiles = clientFiles.filter((f) => !sharedFiles.includes(f));
+
 describe('REQ-SURF-07 module directives', () => {
   it('finds no SURF module in a server list file with a client directive or hooks', () => {
     const bad: string[] = [];
@@ -103,7 +119,7 @@ describe('REQ-SURF-07 module directives', () => {
 
   it('every non-server, non-barrel SURF component module starts with "use client"', () => {
     const bad: string[] = [];
-    for (const f of clientFiles) {
+    for (const f of componentClientFiles) {
       const text = readFileSync(join(ROOT, f), 'utf8');
       if (firstDirective(text) !== '"use client"' && firstDirective(text) !== "'use client'") {
         bad.push(f);
