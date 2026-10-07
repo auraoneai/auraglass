@@ -1,0 +1,53 @@
+{
+  "$schema": "x",
+  "version": "1",
+  "rows": [
+    {
+      "id": "X-91",
+      "capability": "promotion fixture",
+      "area": "labs",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "labs",
+        "export"
+      ],
+      "names": [
+        "promo"
+      ],
+      "release": "5.x",
+      "evidence": [
+        "exception:fixture"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "delivered",
+      "subpath": ".",
+      "demand": [
+        "https://github.com/auraoneai/auraglass/issues/200",
+        "https://github.com/auraoneai/auraglass/issues/201",
+        "https://github.com/auraoneai/auraglass/issues/202",
+        "https://github.com/auraoneai/auraglass/issues/203",
+        "https://github.com/auraoneai/auraglass/issues/204",
+        "https://github.com/auraoneai/auraglass/issues/205",
+        "https://github.com/auraoneai/auraglass/issues/206",
+        "https://github.com/auraoneai/auraglass/issues/207",
+        "https://github.com/auraoneai/auraglass/issues/208",
+        "https://github.com/auraoneai/auraglass/issues/209"
+      ]
+    }
+  ]
+}

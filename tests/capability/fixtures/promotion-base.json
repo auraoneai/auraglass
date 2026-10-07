@@ -1,0 +1,75 @@
+{
+  "$schema": "./capability-ledger.schema.json",
+  "version": "1",
+  "rows": [
+    {
+      "id": "X-R04",
+      "capability": "`GlassHologram` family (rejected)",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "GlassHologram",
+        "SpatialComputingEngine"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected spatial family"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-90",
+      "capability": "fixture registry item",
+      "area": "foundation",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "fixture-thing"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:1"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-08"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    }
+  ]
+}
