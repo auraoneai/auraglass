@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'CMP',
   entry: '.',
   tier: 'T1',
-  flagship: 5,
+  flagship: 3,
   rsc: 'client',
   parts: ['root', 'item'],
   states: ['hover', 'pressed', 'focus-visible', 'disabled'],

@@ -9,7 +9,7 @@ export interface ButtonProps
   /** Material axis: 'regular' (default) | 'clear' | 'identity'. Never a `material` prop. */
   variant?: 'regular' | 'clear' | 'identity' | undefined;
   /** Status tint. Only 'neutral' (default) and 'danger' are valid on controls. */
-  intent?: Extract<Intent, 'neutral' | 'danger'> | undefined;
+  intent?: Intent | undefined;
   /** Emitted as data-ag-size. */
   size?: 'sm' | 'md' | 'lg' | undefined;
   /** Decorative leading icon node. */
