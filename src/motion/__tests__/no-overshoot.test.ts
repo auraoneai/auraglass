@@ -45,7 +45,7 @@ describe('no overshoot artefacts (REQ-MOT-82)', () => {
       const root = postcss.parse(readFileSync(f, 'utf8'), { from: f });
       root.walkDecls((d) => {
         for (const m of String(d.value).matchAll(/cubic-bezier\(([^)]+)\)/g)) {
-          const p = m[1].split(',').map((x) => parseFloat(x));
+          const p = m[1]!.split(',').map((x) => parseFloat(x));
           if (p.length === 4 && (p[1]! < 0 || p[1]! > 1 || p[3]! < 0 || p[3]! > 1)) {
             hits.push(`${f}: ${m[0]}`);
           }
