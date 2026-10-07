@@ -53,6 +53,18 @@ describe('LensDefs', () => {
     for (const s of ['8', '12', '18']) expect(html).toContain(`scale="${s}"`);
   });
 
+  it('feImage hrefs are data: URIs byte-identical to the committed PNGs', () => {
+    // document-base-URL independent (package ships dist/ only)
+    const html = renderToString(React.createElement(LensDefs));
+    const hrefs = [...html.matchAll(/<feImage[^>]*href="data:image\/png;base64,([^"]+)"/g)];
+    expect(hrefs.length).toBe(9);
+    for (const [i, m] of hrefs.entries()) {
+      const id = LENS_IDS[i];
+      const committed = readFileSync(join(LENS_DIR, `${id}.png`));
+      expect(Buffer.from(m[1]!, 'base64').equals(committed)).toBe(true);
+    }
+  });
+
   it('has no use-client directive in its module', () => {
     const src = readFileSync(join(__dirname, '../lens/LensDefs.tsx'), 'utf8');
     expect(src).not.toMatch(/^['"]use client['"]/m);

@@ -10,7 +10,7 @@ import { warnSurface } from './dev/warnings';
 const composeRef = (
   a: React.Ref<HTMLElement> | undefined,
   b: (el: HTMLElement | null) => void,
-): React.Ref<HTMLElement> => (node) => {
+): ((node: HTMLElement | null) => void) => (node) => {
   b(node);
   if (typeof a === 'function') return a(node) as void;
   if (a && typeof a === 'object') (a as React.MutableRefObject<HTMLElement | null>).current = node;
@@ -33,10 +33,15 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
   ) as Parameters<typeof materialProps>[0];
   const attrs = materialProps(role);
 
-  const finalRef = composeRef(
+  const renderRef = render && React.isValidElement(render)
+    ? (render.props as { ref?: React.Ref<HTMLElement> }).ref
+    : undefined;
+  // consumer ref -> dev warnings, then the render element's own ref last
+  const warnAndConsumerRef = composeRef(
     ref as React.Ref<HTMLElement> | undefined,
     warnSurface,
-  );
+  ) as (el: HTMLElement | null) => void;
+  const finalRef = composeRef(renderRef, warnAndConsumerRef);
 
   const cls = clsx('ag-surface', className);
   const merged: Record<string, unknown> = {

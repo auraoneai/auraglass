@@ -7,6 +7,7 @@
 import * as React from 'react';
 import type { LensId, Shape, SizeClass } from '../types';
 import { DEFAULT_MATERIAL_SPEC } from '../defineMaterial';
+import { LENS_MAP_DATA } from './lens-map-data';
 
 const SHAPES: readonly Shape[] = ['fixed', 'capsule', 'concentric'];
 const SIZECLASSES: readonly Exclude<SizeClass, 'sheet'>[] = ['control', 'bar', 'panel'];
@@ -18,7 +19,10 @@ const SCALE: Record<Exclude<SizeClass, 'sheet'>, number> = {
   panel: DEFAULT_MATERIAL_SPEC.refraction.scale.thick,
 };
 
-const mapHref = (id: LensId) => `../assets/lens/${id}.png`;
+/* data: URIs generated from the committed assets/lens PNGs — a relative
+   href would resolve against the consuming document's base URL, not the
+   package (the package ships dist/ only). */
+const mapHref = (id: LensId) => LENS_MAP_DATA[id];
 
 export const LENS_IDS: readonly LensId[] = SHAPES.flatMap((shape) =>
   SIZECLASSES.map((sc) => `ag-lens-${shape}-${sc}` as LensId));

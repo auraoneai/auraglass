@@ -59,6 +59,17 @@ describe('Surface', () => {
     expect(ref.current!.classList.contains('ag-surface')).toBe(true);
   });
 
+  it('render prop: the element own ref is composed, not replaced', () => {
+    const innerRef = React.createRef<HTMLAnchorElement>();
+    const outerRef = React.createRef<HTMLElement>();
+    const { container } = render(
+      <Surface layer="chrome" ref={outerRef} render={<a href="/x" ref={innerRef} />}>x</Surface>,
+    );
+    const el = container.querySelector('a.ag-surface');
+    expect(innerRef.current).toBe(el);
+    expect(outerRef.current).toBe(el);
+  });
+
   it('type-level: as and the 17 deleted optical props are type errors', () => {
     const base: SurfaceProps = { layer: 'chrome', interactive: true };
     void base;

@@ -236,14 +236,28 @@ describe('css-contract: lens.css structure', () => {
     expect(found).toBe(false);
   });
 
-  it('never selects under standard/lightweight/tinted/solid/none rungs as eligible', () => {
-    // the exclusion blocks must exist and reset backdrop-filter to the standard value
-    let resets = 0;
-    ast.walkDecls('backdrop-filter', (d) => {
-      if (/blur\(var\(--_ag-blur\)\)/.test(d.value) && d.parent?.type === 'rule'
-        && /tier|transparency|motion/.test((d.parent as Rule).selector)) resets += 1;
-    });
-    expect(resets).toBeGreaterThanOrEqual(3);
+  it('every exclusion rung carries the lens context and resets the filter', () => {
+    // a bare descendant selector would lose on specificity to the eligibility
+    // rules; each rung rule must repeat the :root ... :has(svg[lens-ready]) prefix
+    const src = readFileSync(join(CSS_DIR, 'lens.css'), 'utf8');
+    const CTX = ':root[data-ag-engine="chromium"]:has(svg[data-ag-lens-ready])';
+    const rungs = [
+      /data-ag-tier="standard"/, /data-ag-tier="lightweight"/,
+      /data-ag-transparency="tinted"/, /data-ag-transparency="solid"/,
+      /data-ag-motion="none"/, /prefers-reduced-transparency/,
+      /prefers-contrast/, /forced-colors/,
+    ];
+    const misses: string[] = [];
+    for (const line of src.split('\n')) {
+      if (!line.includes('::before') || !line.includes('data-ag-refraction') && !/prefers-/.test(line)) continue;
+      for (const rung of rungs) {
+        if (rung.test(line) && !line.includes(CTX)) misses.push(line.trim());
+      }
+    }
+    expect(misses).toEqual([]);
+    // filter-free rungs (lightweight, solid, forced-colours) reset to none
+    const noneReset = /\[data-ag-tier="lightweight"\][\s\S]*backdrop-filter:\s*none/;
+    expect(noneReset.test(src) || /backdrop-filter:\s*none/.test(src)).toBe(true);
   });
 });
 

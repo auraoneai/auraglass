@@ -1,0 +1,8 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.material {
+  /* seed: MAT replaces with the compiled @property registry (2a-T) */
+  [data-ag-surface] {
+    --ag-surface-fill: var(--ag-glass-opacity, initial);
+  }
+}
