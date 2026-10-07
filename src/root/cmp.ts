@@ -35,3 +35,29 @@ export { SegmentedControl } from '../components/segmented-control';
 export type {
   SegmentedControlRootProps, SegmentedControlItemProps,
 } from '../components/segmented-control';
+export { Switch } from '../components/switch';
+export type { SwitchProps } from '../components/switch';
+
+export { Slider } from '../components/slider';
+export type { SliderRootProps, SliderValueProps, SliderMark } from '../components/slider';
+
+export { Checkbox, CheckboxGroup } from '../components/checkbox';
+export type { CheckboxProps, CheckboxGroupProps } from '../components/checkbox';
+
+export { RadioGroup } from '../components/radio-group';
+export type { RadioGroupProps, RadioItemProps } from '../components/radio-group';
+
+export { Field, Fieldset } from '../components/field';
+export type {
+  FieldRootProps, FieldLabelProps, FieldControlProps, FieldDescriptionProps, FieldErrorProps,
+  FieldsetRootProps,
+} from '../components/field';
+
+export { TextField } from '../components/text-field';
+export type { TextFieldProps } from '../components/text-field';
+
+export { SearchField } from '../components/search-field';
+export type { SearchFieldProps } from '../components/search-field';
+
+export { NumberField } from '../components/number-field';
+export type { NumberFieldProps } from '../components/number-field';

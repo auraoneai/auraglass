@@ -52,7 +52,8 @@ export function discoverCmpMetas(): MetaRecord[] {
 export function storyFilesFor(name: string): string[] {
   const roots = [join(REPO_ROOT, 'stories'), join(REPO_ROOT, 'src')];
   const files = roots.flatMap((r) => walk(r, STORY_RE));
-  return files.filter((f) => f.endsWith(`${name}.stories.tsx`));
+  // exact basename match: 'Field.stories.tsx' must not pick up 'TextField.stories.tsx'
+  return files.filter((f) => f.split(/[\\/]/).pop() === `${name}.stories.tsx`);
 }
 
 export interface LoadedStory { file: string; exports: Record<string, unknown> }

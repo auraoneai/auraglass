@@ -17,7 +17,7 @@ cmp:test:foundation-pattern:
       # through their own owners' agConfig when those lanes land.
       npx eslint src/components src/primitives src/foundation --max-warnings 0
     - node scripts/cmp/verify-foundation-pattern.mjs
-    - npm test -- tests/lint tests/foundation src/foundation
+    - npm test -- tests/lint tests/foundation src/foundation src/components/field src/components/text-field src/components/search-field src/components/number-field src/components/checkbox src/components/radio-group src/components/switch src/components/slider tests/controls
     - npx tsc -p tests/types/cmp/tsconfig.json --noEmit
     - |
       # gen-component-docs --check (CMP-046): scripts/docs/ is PLAT-owned and the

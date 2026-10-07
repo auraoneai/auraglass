@@ -1,5 +1,5 @@
 export { Field } from './Field.client';
-export { Fieldset } from './Fieldset';
+export { Fieldset } from './Fieldset.client';
 export type {
   FieldRootProps,
   FieldLabelProps,

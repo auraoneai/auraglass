@@ -70,17 +70,27 @@
     "src/compat/cmp seam + tests/compat/fixtures-map.json absent (PLAT/PRD-18) \u2014 CMP-054 todo-registered"
   ],
   "registered": [
+    "AvatarGroup",
+    "Button",
+    "ButtonGroup",
+    "Checkbox",
+    "CheckboxGroup",
+    "Chip",
     "EmptyState",
     "ErrorState",
-    "LoadingState",
-    "Steps",
-    "AvatarGroup",
-    "Chip",
-    "Button",
+    "Field",
+    "Fieldset",
     "IconButton",
-    "ButtonGroup",
-    "Toolbar",
+    "LoadingState",
+    "NumberField",
+    "RadioGroup",
+    "SearchField",
+    "SegmentedControl",
+    "Slider",
+    "Steps",
+    "Switch",
+    "TextField",
     "ToggleGroup",
-    "SegmentedControl"
+    "Toolbar"
   ]
 }

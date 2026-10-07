@@ -1,6 +1,15 @@
-import type { ComponentProps, ReactNode, Ref } from 'react';
-import type { Field as BaseField } from '@base-ui/react/field';
-import type { Fieldset as BaseFieldset } from '@base-ui/react/fieldset';
+import type { ComponentProps, ReactElement, ReactNode, Ref } from 'react';
+
+/** BU render-prop shape, declared locally — .types.ts may not import @base-ui (foundation pattern). */
+export type RenderProp = ReactElement | ((props: any) => ReactElement);
+
+/** BU Field validate signature, declared locally. */
+export type FieldValidate = (
+  value: unknown,
+  formValues: Record<string, unknown>,
+) => string | string[] | null | undefined | Promise<string | string[] | null | undefined>;
+
+export type FieldValidationMode = 'onBlur' | 'onChange';
 
 type FieldRootDomProps = Omit<ComponentProps<'div'>, 'ref' | 'className' | 'children'>;
 
@@ -9,39 +18,42 @@ export interface FieldRootProps extends FieldRootDomProps {
   invalid?: boolean;
   disabled?: boolean;
   name?: string;
-  validate?: ComponentProps<typeof BaseField.Root>['validate'];
-  validationMode?: ComponentProps<typeof BaseField.Root>['validationMode'];
+  validate?: FieldValidate;
+  validationMode?: FieldValidationMode;
   validationDebounceTime?: number;
   className?: string;
   children?: ReactNode;
   ref?: Ref<HTMLDivElement>;
 }
 
-export interface FieldLabelProps extends Omit<ComponentProps<typeof BaseField.Label>, 'ref' | 'render'> {
+export interface FieldLabelProps extends Omit<ComponentProps<'label'>, 'ref'> {
   className?: string;
   children?: ReactNode;
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLLabelElement>;
 }
 
-export interface FieldDescriptionProps extends Omit<ComponentProps<typeof BaseField.Description>, 'ref' | 'render'> {
+export interface FieldDescriptionProps extends Omit<ComponentProps<'p'>, 'ref'> {
   className?: string;
   children?: ReactNode;
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLParagraphElement>;
 }
 
-export interface FieldErrorProps extends Omit<ComponentProps<typeof BaseField.Error>, 'ref' | 'render'> {
+export interface FieldErrorProps extends Omit<ComponentProps<'div'>, 'ref'> {
+  /** BU match: true always renders; a ValidityState key renders when that flag fails. */
+  match?: boolean | keyof ValidityState | undefined;
+  forceShow?: boolean;
   className?: string;
   children?: ReactNode;
-  ref?: Ref<HTMLElement>;
+  ref?: Ref<HTMLDivElement>;
 }
 
-export interface FieldControlProps extends Omit<ComponentProps<typeof BaseField.Control>, 'ref' | 'render'> {
+export interface FieldControlProps extends Omit<ComponentProps<'input'>, 'ref' | 'render'> {
   /** Render prop, e.g. `render={<textarea />}` for multiline. */
-  render?: ComponentProps<typeof BaseField.Control>['render'];
+  render?: RenderProp;
   ref?: Ref<HTMLElement>;
 }
 
-export interface FieldsetRootProps extends Omit<ComponentProps<typeof BaseFieldset.Root>, 'ref' | 'render' | 'children'> {
+export interface FieldsetRootProps extends Omit<ComponentProps<'fieldset'>, 'ref' | 'children'> {
   /** Legend text or node; renders the `legend` part. */
   legend?: ReactNode;
   className?: string;

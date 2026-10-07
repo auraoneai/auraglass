@@ -21,9 +21,10 @@ const meta: ControlMeta = defineMeta({
       props: {
         legend: 'legend',
         title: 'legend',
-        description: { to: 'children', note: 'compose a description element' },
+        description: { to: 'children' },
       },
-      notes: 'GlassFieldGroup is absorbed by Fieldset (CMP-417); its group label maps to the legend part.',
+      automation: 'mostly',
+      compat: true,
     },
   ],
 });

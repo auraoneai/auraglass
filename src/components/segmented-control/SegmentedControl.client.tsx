@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { RadioGroup } from '@base-ui/react/radio-group';
+import { RadioGroup as BUGroup } from '@base-ui/react/radio-group';
 import { Radio } from '@base-ui/react/radio';
 import { materialProps, SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
@@ -61,7 +61,7 @@ function SegmentedControlRoot({
 
   return (
     <SurfaceGroup className="ag-segmented-surface">
-      <RadioGroup
+      <BUGroup
         {...rest}
         {...materialProps({
           layer: 'chrome',
@@ -82,7 +82,7 @@ function SegmentedControlRoot({
       >
         <span data-ag-part="indicator" aria-hidden="true" />
         {children}
-      </RadioGroup>
+      </BUGroup>
     </SurfaceGroup>
   );
 }

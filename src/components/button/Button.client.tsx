@@ -33,17 +33,17 @@ function Spinner() {
   return <span data-ag-part="spinner" aria-hidden="true" />;
 }
 
-function Inner({ startIcon, endIcon, loading, children }: Pick<ButtonProps, 'startIcon' | 'endIcon' | 'loading' | 'children'>) {
-
+function Inner({ startIcon, endIcon, loading, children, bare }: Pick<ButtonProps, 'startIcon' | 'endIcon' | 'loading' | 'children'> & { bare?: boolean | undefined }) {
+  const part = (name: string) => (bare ? undefined : name);
   return (
     <>
       {/* REQ-33: hit-area expands the pointer target to --ag-target-min without affecting layout */}
-      <span data-ag-part="hit-area" aria-hidden="true" />
-      {loading ? <Spinner /> : null}
-      {startIcon ? <span data-ag-part="icon">{startIcon}</span> : null}
+      <span {...(part('hit-area') ? { 'data-ag-part': 'hit-area' } : {})} aria-hidden="true" />
+      {loading ? (bare ? <span aria-hidden="true" /> : <Spinner />) : null}
+      {startIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})}>{startIcon}</span> : null}
       {/* label stays mounted while loading so width is stable (hidden via CSS visibility); omitted when icon-only */}
-      {children !== undefined && children !== null ? <span data-ag-part="label">{children}</span> : null}
-      {endIcon ? <span data-ag-part="icon">{endIcon}</span> : null}
+      {children !== undefined && children !== null ? <span {...(part('label') ? { 'data-ag-part': 'label' } : {})}>{children}</span> : null}
+      {endIcon ? <span {...(part('icon') ? { 'data-ag-part': 'icon' } : {})}>{endIcon}</span> : null}
     </>
   );
 }
@@ -72,6 +72,7 @@ export function Button(props: ButtonProps) {
     onClick,
     children,
     ref,
+    suppressInnerParts,
     'data-ag-part': partOverride,
     ...rest
   } = props as ButtonProps & { 'data-ag-part'?: string };
@@ -101,7 +102,7 @@ export function Button(props: ButtonProps) {
     ref,
   } as const;
 
-  const inner = <Inner startIcon={startIcon} endIcon={endIcon} loading={loading}>{children}</Inner>;
+  const inner = <Inner startIcon={startIcon} endIcon={endIcon} loading={loading} bare={suppressInnerParts}>{children}</Inner>;
 
   const guardClick = React.useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {

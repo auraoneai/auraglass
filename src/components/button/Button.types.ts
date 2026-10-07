@@ -28,4 +28,7 @@ export interface ButtonProps
   focusableWhenDisabled?: boolean | undefined;
   render?: RenderProp | undefined;
   ref?: React.Ref<HTMLButtonElement> | undefined;
+  /** Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can
+      sit inside another component's DOM without leaking undeclared data-ag-parts. */
+  suppressInnerParts?: boolean | undefined;
 }

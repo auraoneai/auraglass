@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   tier: 'T1',
   flagship: 9,
   rsc: 'client',
-  parts: ['root', 'label', 'control', 'description', 'error'],
+  parts: ['root', 'label', 'control-shell', 'description', 'error'],
   states: ['disabled', 'invalid', 'focus-visible'],
   variants: {
     invalid: ['true', 'false'],
@@ -20,13 +20,14 @@ const meta: ControlMeta = defineMeta({
     {
       from: 'GlassField',
       props: {
-        label: { to: 'children', note: 'compose <Field.Label>' },
-        description: { to: 'children', note: 'compose <Field.Description>' },
-        error: { to: 'invalid + <Field.Error>', note: 'error text moves to Field.Error children; boolean becomes invalid' },
-        hint: { to: 'children', note: 'compose <Field.Description>' },
+        label: { to: 'children' },
+        description: { to: 'children' },
+        error: { to: 'invalid + <Field.Error>' },
+        hint: { to: 'children' },
         required: 'aria-required on the inner control',
       },
-      notes: '4.x compound field collapses into the compose-parts Field; label/description/error become explicit parts.',
+      automation: 'mostly',
+      compat: true,
     },
   ],
 });

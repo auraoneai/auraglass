@@ -6,7 +6,7 @@ import { Field, Fieldset } from './index';
 
 function Wire(props: { error?: React.ReactNode; description?: React.ReactNode; invalid?: boolean }) {
   return (
-    <Field.Root invalid={props.invalid}>
+    <Field.Root invalid={props.invalid ?? false}>
       <Field.Label>Email</Field.Label>
       <Field.Control data-testid="ctl" />
       {props.description !== undefined && <Field.Description>{props.description}</Field.Description>}
@@ -48,7 +48,7 @@ describe('Field (CMP-107)', () => {
 
   it('emits data-ag-part on root/label/control/description/error', () => {
     const { container } = render(<Wire description="d" error="e" invalid />);
-    for (const p of ['root', 'label', 'control', 'description', 'error']) {
+    for (const p of ['root', 'label', 'control-shell', 'description', 'error']) {
       expect(container.querySelector(`[data-ag-part="${p}"]`)).toBeTruthy();
     }
   });

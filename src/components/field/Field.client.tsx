@@ -42,7 +42,7 @@ function FieldError({ className, ref, ...rest }: FieldErrorProps) {
 }
 
 function FieldControl({ className, ref, ...rest }: FieldControlProps) {
-  return <Base.Control data-ag-part="control" className={className} ref={ref} {...rest} />;
+  return <Base.Control data-ag-part="control-shell" className={className} ref={ref} {...rest} />;
 }
 
 export const Field = {
