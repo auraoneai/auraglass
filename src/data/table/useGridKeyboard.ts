@@ -1,3 +1,4 @@
+'use client';
 // useGridKeyboard (SURF-160): keyboard model for mode='grid'.
 // Arrow keys move the active cell; Home/End row edges, Ctrl+Home/End table
 // edges, PageUp/Down scrolls by viewport. Cells get tabIndex -1; the grid

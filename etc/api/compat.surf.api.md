@@ -1,23 +1,45 @@
-## API Report — aura-glass/compat (SURF adapters)
+## API Report — aura-glass ./compat
 
+- `GlassActivityFeed`
+- `GlassAnimatedNumber`
 - `GlassAppShell`
 - `GlassBottomNav`
 - `GlassBreadcrumb`
+- `GlassCalendar`
+- `GlassChip`
 - `GlassCommand`
 - `GlassCommandPalette`
+- `GlassDataGrid`
+- `GlassDataTable`
+- `GlassDateField`
+- `GlassDatePicker`
+- `GlassDateRangePicker`
+- `GlassFileExplorer`
+- `GlassFileTree`
+- `GlassFilterBar`
 - `GlassHeader`
 - `GlassInspector`
+- `GlassKPICard`
+- `GlassKeyValueEditor`
 - `GlassMain`
+- `GlassMetricCard`
 - `GlassMobileNav`
 - `GlassMobileShell`
 - `GlassPageHeader`
 - `GlassPageTabs`
 - `GlassPagination`
 - `GlassSidebar`
+- `GlassSparkline`
+- `GlassStatCard`
 - `GlassStatusBar`
 - `GlassTabBar`
 - `GlassTabs`
+- `GlassTimeField`
+- `GlassTimeline`
 - `GlassTopBar`
+- `GlassTreeView`
+- `GlassVirtualList`
+- `GlassVirtualTable`
 - `GlassWorkspaceTabs`
 - `LiquidGlassBottomAccessory`
 - `LiquidGlassCommandSurface`
@@ -26,4 +48,5 @@
 - `LiquidGlassTabBar`
 - `LiquidGlassTransitionProvider`
 - `SURF_COMPAT_ADAPTERS`
+- `TreeView2`
 - `ZSpaceAppLayout`

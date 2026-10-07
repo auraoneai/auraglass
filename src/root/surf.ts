@@ -19,6 +19,12 @@
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
+// REQ-SURF-96/97: Timeline + ActivityFeed are seed-free (Timeline imports only
+// its own css; ActivityFeed composes Timeline).
+export { Timeline, formatTimestamp } from '../components/timeline/Timeline';
+export type { TimelineItem, TimelineProps } from '../components/timeline/Timeline';
+export { ActivityFeed } from '../components/timeline/ActivityFeed';
+export type { ActivityItem, ActivityFeedProps } from '../components/timeline/ActivityFeed';
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

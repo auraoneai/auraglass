@@ -3,7 +3,6 @@
    otherwise; separate remove button (≥44px coarse hit). */
 import * as React from 'react';
 import { Toggle } from '@base-ui/react/toggle';
-import './Chip.css';
 
 export interface ChipProps {
   children: React.ReactNode;

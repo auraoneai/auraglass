@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "audit-log",
+  "type": "registry:block",
+  "title": "Audit log",
+  "description": "Server-paginated audit Table + FilterBar + DateRangePicker window (5.2).",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

@@ -1,3 +1,4 @@
+'use client';
 // src/data/table/useTableState.ts (SURF-154): every controlled/uncontrolled
 // state pair collapses into one { value, set } — TanStack options read the
 // resolved value; uncontrolled keeps an internal fallback.

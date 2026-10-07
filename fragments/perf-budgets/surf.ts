@@ -17,7 +17,14 @@ const w1 = [
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { subject: 'surf/table--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/table--default', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/tree-view--default', profile: 'desktop-120hz', metric: 'frame-p95-ms', max: 8.3, provisional: true },
+  { subject: 'surf/date-picker--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/chart-frame--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+  { subject: 'surf/activity-feed--default', profile: 'mid-mobile', metric: 'frame-p95-ms', max: 16.7, provisional: true },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

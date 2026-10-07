@@ -5,7 +5,6 @@
    flight), so inputs are plain <input> styled by the field — the compat
    contract is the prop surface, not the inner field lib. */
 import * as React from 'react';
-import './KeyValueEditor.css';
 
 export interface KeyValuePair {
   key: string;

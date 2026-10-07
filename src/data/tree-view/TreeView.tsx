@@ -12,7 +12,6 @@ import {
   TreeItemContent as RACTreeItemContent,
   Collection,
 } from 'react-aria-components';
-import './tree-view.css';
 
 export interface TreeItemData {
   [key: string]: unknown;
@@ -69,7 +68,7 @@ export function TreeView<T extends TreeItemData>({
     console.warn('[auraglass] TreeView: aria-label or aria-labelledby is required.');
   }
   const keyOf = React.useCallback(
-    (item: T, index: number) => (getKey !== undefined ? getKey(item) : ((item['id'] as React.Key | undefined) ?? index)),
+    (item: T, index: number) => (getKey !== undefined ? getKey(item) : ((item['id'] as React.Key | undefined) ?? (item['key'] as React.Key | undefined) ?? index)),
     [getKey],
   );
   const childrenOf = React.useCallback(

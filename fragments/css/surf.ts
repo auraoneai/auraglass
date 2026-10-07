@@ -14,7 +14,19 @@ const w1 = [
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { file: 'src/data/table/table.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/chip/Chip.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/key-value-editor/KeyValueEditor.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/filter-bar/filter-bar.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/stat-card/stat-card.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/chart-frame/chart-frame.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/sparkline/sparkline.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/tree-view/tree-view.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/date/date.css', layer: 'ag.components', bundle: 'date.css' },
+  { file: 'src/components/timeline/timeline.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/charts/charts.css', layer: 'ag.components', bundle: 'data.css' },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

@@ -18,7 +18,9 @@
 # --- lane W1 end ---
 
 # --- lane W2 begin ---
-
+# W2 rides the shared jobs: surf:test:doubles matrix cell DOUBLES_AREA=data
+# (tests/data/jest.doubles.cjs) plus the root lint/test lanes registered in
+# fragments/lanes/surf.ts. No W2-specific jobs.
 # --- lane W2 end ---
 
 # --- lane W3 begin ---

@@ -2,7 +2,6 @@
    <time dateTime>; relative/absolute time formats; horizontal falls back to
    vertical below 480px via container query. */
 import * as React from 'react';
-import './timeline.css';
 
 export interface TimelineItem {
   id: string;

@@ -11,8 +11,9 @@ export type { TreeViewProps } from './tree-view/TreeView';
 
 export { FilterBar } from './filter-bar/FilterBar';
 export type { FilterBarProps } from './filter-bar/FilterBar';
+
 export type { FilterField, FilterGroup, FilterNode, FilterRule, FilterModel } from './filter-bar/filter-model';
-export type {} from './filter-bar/filter-serialize';
+
 
 export { Chip } from './chip';
 export type { ChipProps } from './chip';

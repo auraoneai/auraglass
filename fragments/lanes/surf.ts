@@ -32,7 +32,21 @@ const w1 = [
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { lane: 'L1', kind: 'jest', path: 'src/data/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/data/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/date/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/date/**/*.test.{ts,tsx}', scope: 'main', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/charts/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'src/components/timeline/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L1', kind: 'jest', path: 'tests/{data,date,charts}/**/*.test.{ts,tsx}', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/a11y/apg/surf/{calendar,date-picker,date-range-picker,filter-bar,tree-view,table-grid,activity-feed}.apg.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L5', kind: 'playwright', path: 'tests/e2e/surf/{data,date,charts}/**/*.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L10', kind: 'playwright', path: 'tests/perf/browser/surf/{data-table-5000,data-tree-view,data-filter,date-picker-open,activity-feed-prepend}.spec.ts', scope: 'pr', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/next16/app/surf/data-server/page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L11', kind: 'node-script', path: 'canaries/vite/src/surf/DataTable.page.tsx', scope: 'main', remote: true, failClosed: true },
+  { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

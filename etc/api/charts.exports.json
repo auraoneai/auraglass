@@ -1,0 +1,6 @@
+{
+ "entry": "./charts",
+ "exports": [
+  "Chart"
+ ]
+}

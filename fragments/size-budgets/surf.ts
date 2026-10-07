@@ -16,7 +16,24 @@ const w1 = [
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { id: 'SB-SURF-W2-DATA-CSS', import: 'aura-glass/data.css', limitBytes: 8192, kind: 'css' },
+  { id: 'SB-SURF-W2-DATE-CSS', import: 'aura-glass/date.css', limitBytes: 4096, kind: 'css' },
+  { id: 'SB-SURF-W2-TABLE', import: "{ Table } from 'aura-glass/data'", limitBytes: 14336, kind: 'js' },
+  { id: 'SB-SURF-W2-TREEVIEW', import: "{ TreeView } from 'aura-glass/data'", limitBytes: 8192, kind: 'js' },
+  { id: 'SB-SURF-W2-FILTERBAR', import: "{ FilterBar } from 'aura-glass/data'", limitBytes: 8192, kind: 'js' },
+  { id: 'SB-SURF-W2-CHIP', import: "{ Chip } from 'aura-glass/data'", limitBytes: 3072, kind: 'js' },
+  { id: 'SB-SURF-W2-KVE', import: "{ KeyValueEditor } from 'aura-glass/data'", limitBytes: 15360, kind: 'js' },
+  { id: 'SB-SURF-W2-STATCARD', import: "{ StatCard } from 'aura-glass/data'", limitBytes: 3072, kind: 'js' },
+  { id: 'SB-SURF-W2-SPARKLINE', import: "{ Sparkline } from 'aura-glass/data'", limitBytes: 2560, kind: 'js' },
+  { id: 'SB-SURF-W2-CHARTFRAME', import: "{ ChartFrame } from 'aura-glass/data'", limitBytes: 5120, kind: 'js' },
+  { id: 'SB-SURF-W2-DATEPICKER', import: "{ DatePicker } from 'aura-glass/date'", limitBytes: 8192, kind: 'js' },
+  { id: 'SB-SURF-W2-DATEFIELD', import: "{ DateField } from 'aura-glass/date'", limitBytes: 4096, kind: 'js' },
+  { id: 'SB-SURF-W2-TIMEPICKER', import: "{ TimePicker } from 'aura-glass/date'", limitBytes: 6144, kind: 'js' },
+  { id: 'SB-SURF-W2-TIMELINE', import: "{ Timeline } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
+  { id: 'SB-SURF-W2-ACTIVITYFEED', import: "{ ActivityFeed } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
+  { id: 'SB-SURF-W2-CHART-51', import: "{ Chart } from 'aura-glass/charts'", limitBytes: 15360, kind: 'js' },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

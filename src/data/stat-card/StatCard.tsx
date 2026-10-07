@@ -3,7 +3,6 @@
    aria-hidden arrow plus hidden text. */
 import * as React from 'react';
 import { Sparkline } from '../sparkline/Sparkline';
-import './stat-card.css';
 
 export interface StatCardProps {
   label: string;

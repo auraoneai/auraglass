@@ -28,7 +28,6 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { useControllableState } from './useTableState';
 import { useGridKeyboard } from './useGridKeyboard';
 import type { TableDensity, TableMode, SelectionMode, TableColumnDef } from './types';
-import './table.css';
 
 export interface TableHandle<TData = unknown> {
   getInstance: () => TanStackTable<TData>;
@@ -309,7 +308,6 @@ export function Table<TData>(props: TableProps<TData>) {
     }
     cols.push(...(columns as ColumnDef<TData, unknown>[]));
     return cols;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, selectionMode, helper, msgs.selectAll]);
 
   const sticky = stickyHeader ?? !!virtualize;

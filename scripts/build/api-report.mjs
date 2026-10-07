@@ -19,7 +19,7 @@ let names = [];
 if (src && existsSync(src)) {
   const res = await build({
     entryPoints: [src], bundle: true, write: false, format: 'esm', platform: 'node',
-    external: ['react', 'react-dom', 'react-dom/*', 'react/*', 'clsx', '@base-ui/react', '@tanstack/*'],
+    external: ['react', 'react-dom', 'react-dom/*', 'react/*', 'clsx', '@base-ui/react', '@tanstack/*', 'react-aria-components', 'react-aria-components/*', '@internationalized/*', '@react-aria/*', '@react-stately/*', '@react-types/*'],
     logLevel: 'silent', metafile: true,
   });
   // value exports = top-level named exports, excluding type-only. Re-parse the barrel's

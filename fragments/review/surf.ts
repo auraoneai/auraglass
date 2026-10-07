@@ -17,7 +17,13 @@ const w1 = [
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { id: 'RV-SURF-W2-01', subject: 'surf/table--default', criterion: 'optical-hierarchy', note: 'header recedes; row data leads; resize/pin affordances appear on intent' },
+  { id: 'RV-SURF-W2-02', subject: 'surf/tree-view--default', criterion: 'optical-hierarchy', note: 'chevrons and indent guide depth without chrome' },
+  { id: 'RV-SURF-W2-03', subject: 'surf/date-picker--default', criterion: 'specular-quality', note: 'popover card floats once; field stays flat' },
+  { id: 'RV-SURF-W2-04', subject: 'surf/stat-card--default', criterion: 'radius-rhythm', note: 'card corners follow --ag-radius ladder at all sizes' },
+  { id: 'RV-SURF-W2-05', subject: 'surf/activity-feed--default', criterion: 'optical-hierarchy', note: 'day headings anchor; meta dims' },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---

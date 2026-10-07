@@ -48,7 +48,7 @@ const SERVER_MODULE = [
   /^classifyTone\.ts$/,
 ];
 
-const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i];
+const CLIENT_ONLY = [/^StatusBar\.Live\.tsx?$/, /^Breadcrumbs\.Overflow\.tsx?$/, /^Pagination\.button\.tsx?$/i, /^ChartFrame\.Interactive\.tsx?$/];
 
 const SKIP_FILE = /\.(test|spec|stories|meta|d)\.tsx?$|\.test-d\.ts$|\.css\.ts$/;
 
@@ -91,7 +91,9 @@ function isSharedModule(f: string): boolean {
   if (firstDirective(text)) return false;
   // React imports alone do not make a module client-only; hooks, DOM globals
   // or JSX do. createElement/render helpers stay universal.
-  if (/<[A-Z][A-Za-z]*[\s/>]/.test(text)) return false;
+  // JSX only lives in .tsx — a capitalised generic (`<TRow>`, `<V extends`)
+    // in a .ts file is not a component.
+    if (/\.tsx$/.test(f) && /<[A-Z][A-Za-z]*[\s/>]/.test(text)) return false;
   if (/from\s+['"](react-dom|next\/)/.test(text)) return false;
   if (/\buse[A-Z][A-Za-z]*\s*\(|\bwindow\b|\bdocument\b|\bnavigator\b/.test(text)) return false;
   return true;

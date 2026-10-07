@@ -21,7 +21,24 @@
       "testDir": "tests/rsc/surf"
     }
   ],
-  "W2": [],
+  "W2": [
+    {
+      "name": "surf:data",
+      "testDir": "tests/e2e/surf/data"
+    },
+    {
+      "name": "surf:date",
+      "testDir": "tests/e2e/surf/date"
+    },
+    {
+      "name": "surf:charts",
+      "testDir": "tests/e2e/surf/charts"
+    },
+    {
+      "name": "surf:visual",
+      "testDir": "tests/visual/surf"
+    }
+  ],
   "W3": [],
   "W4": [],
   "W5": []
