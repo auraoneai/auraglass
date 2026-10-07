@@ -22,11 +22,11 @@ const supportsBlocks = (css: string) => {
     let p = at.parent;
     while (p) {
       if ((p as postcss.AtRule).name === 'layer' && (p as postcss.AtRule).params === 'ag.a11y') inLayer = true;
-      p = p.parent;
+      p = p.parent as typeof p;
     }
     at.walkRules((rule) => {
       const decls: Array<[string, string]> = [];
-      rule.walkDecls((d) => decls.push([d.prop, d.value]));
+      rule.walkDecls((d) => { decls.push([d.prop, d.value]); });
       hits.push({ inLayer, selectors: rule.selector.split(',').map((s) => s.trim()), decls });
     });
   });

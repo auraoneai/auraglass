@@ -1,7 +1,7 @@
 /* MAT-305/306 (A11Y-028): sticky element height drives --ag-scroll-padding-*
    on the closest [data-ag-scroll-container] (else <html>); writes only on
    change; property removed + observer disconnected on unmount. */
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import React from 'react';
 import { act, render } from '@testing-library/react';
 import { useStickyScrollPadding } from '../../src/a11y/useStickyScrollPadding';
@@ -24,7 +24,7 @@ const setHeight = (el: HTMLElement, h: number) => {
   jest.spyOn(el, 'getBoundingClientRect').mockImplementation(() => ({ height: h }) as DOMRect);
 };
 
-function Sticky({ edge = 'top' as const, enabled = true }) {
+function Sticky({ edge = 'top' as 'top' | 'bottom', enabled = true }) {
   const ref = React.useRef<HTMLElement>(null);
   useStickyScrollPadding({ ref, edge, enabled });
   return <header ref={ref as React.RefObject<HTMLElement>} data-testid="sticky" />;
