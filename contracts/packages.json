@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "packages": {
+  "aura-glass": {
+   "dir": ".",
+   "owner": "PLAT",
+   "published": true,
+   "fallback": "aura-glass"
+  },
+  "@auraglass/cli": {
+   "dir": "packages/cli",
+   "owner": "PLAT",
+   "published": true,
+   "fallback": "aura-glass-cli"
+  },
+  "@auraglass/registry": {
+   "dir": "packages/registry",
+   "owner": "PLAT",
+   "published": true,
+   "fallback": "aura-glass-registry"
+  },
+  "@auraglass/mcp": {
+   "dir": "packages/mcp",
+   "owner": "PLAT",
+   "published": true,
+   "fallback": "aura-glass-mcp"
+  },
+  "@auraglass/labs": {
+   "dir": "packages/labs",
+   "owner": "SURF",
+   "published": true,
+   "fallback": "aura-glass-labs"
+  },
+  "@auraglass/qa": {
+   "dir": "packages/qa",
+   "owner": "QUAL",
+   "published": false,
+   "fallback": "aura-glass-qa"
+  },
+  "docs": {
+   "dir": "apps/docs",
+   "owner": "PLAT",
+   "published": false,
+   "deployed": true
+  }
+ }
+}
