@@ -4,6 +4,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execSync } = require("child_process");
+const { packToDir } = require("./lib/npm-pack");
+const { evidenceDir } = require("./lib/evidence-dir");
 
 const run = (command, options = {}) => {
   execSync(command, { stdio: "inherit", ...options });
@@ -39,17 +41,8 @@ if (!skipBuild) {
 }
 
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "auraglass-vite-"));
-const packOutput = runWithOutput(
-  `npm pack --dry-run=false --json --pack-destination ${tmpRoot}`,
-  { cwd: rootDir }
-);
-const packInfo = JSON.parse(packOutput)[0];
-
-if (!packInfo || !packInfo.filename) {
-  throw new Error("Failed to generate npm pack tarball for AuraGlass.");
-}
-
-const tarballPath = path.join(tmpRoot, packInfo.filename);
+const packInfo = packToDir(rootDir, tmpRoot);
+const tarballPath = packInfo.tarballPath;
 const appDir = path.join(tmpRoot, "vite-app");
 fs.mkdirSync(appDir);
 
@@ -215,8 +208,7 @@ if (files.length === 0) {
   throw new Error("Vite build did not emit dist assets.");
 }
 
-const reportDir = path.join(rootDir, "reports", "3.2-release");
-fs.mkdirSync(reportDir, { recursive: true });
+const reportDir = evidenceDir("integration");
 fs.writeFileSync(
   path.join(reportDir, "vite-integration.json"),
   `${JSON.stringify(

@@ -3,12 +3,13 @@
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
+const { evidenceDir } = require("./ci/lib/evidence-dir");
 const { chromium } = require("@playwright/test");
 
 const storybookUrl =
   process.env.STORYBOOK_URL || process.argv[2] || "http://localhost:6006";
 const repoRoot = process.cwd();
-const reportDir = path.join(repoRoot, "reports");
+const reportDir = evidenceDir("storybook");
 const jsonReportPath = path.join(reportDir, "storybook-showroom-triage.json");
 const markdownReportPath = path.join(reportDir, "storybook-showroom-triage.md");
 

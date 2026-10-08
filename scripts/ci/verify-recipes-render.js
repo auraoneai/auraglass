@@ -5,6 +5,8 @@ const http = require("http");
 const os = require("os");
 const path = require("path");
 const { execFileSync, execSync, spawn } = require("child_process");
+const { packToDir } = require("./lib/npm-pack");
+const { evidenceDir } = require("./lib/evidence-dir");
 const { chromium } = require("@playwright/test");
 
 const projectRoot = path.resolve(__dirname, "..", "..");
@@ -93,21 +95,11 @@ const main = async () => {
   }
 
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "auraglass-recipes-"));
-  const packOutput = runWithOutput(
-    `npm pack --dry-run=false --json --pack-destination ${tmpRoot}`,
-    { cwd: projectRoot }
-  );
-  const packParsed = JSON.parse(packOutput);
-  const packInfo = Array.isArray(packParsed)
-    ? packParsed[0]
-    : packParsed && packParsed[Object.keys(packParsed)[0]];
-  if (!packInfo || !packInfo.filename) {
-    throw new Error("Failed to generate npm pack tarball for AuraGlass.");
-  }
+  const packInfo = packToDir(projectRoot, tmpRoot);
+  const tarballPath = packInfo.tarballPath;
 
   const appDir = path.join(tmpRoot, "recipe-app");
   fs.mkdirSync(appDir);
-  const tarballPath = path.join(tmpRoot, packInfo.filename);
   const relativeTarball = path.relative(appDir, tarballPath);
 
   writeFile(
@@ -319,7 +311,7 @@ createRoot(root).render(<App />);
   try {
     await waitForUrl(`http://127.0.0.1:${port}/`);
 
-    const reportDir = path.join(projectRoot, "reports", "3.3-release");
+    const reportDir = evidenceDir("3.3-release");
     const screenshotDir = path.join(reportDir, "recipe-screenshots");
     fs.rmSync(screenshotDir, { recursive: true, force: true });
     fs.mkdirSync(screenshotDir, { recursive: true });
@@ -338,13 +330,7 @@ createRoot(root).render(<App />);
     await page.goto(`http://127.0.0.1:${port}/`, { waitUntil: "networkidle" });
 
     const screenshots = [];
-    const visualEvidenceRoot = path.join(
-      projectRoot,
-      "reports",
-      "audit",
-      "visual-all"
-    );
-    fs.mkdirSync(visualEvidenceRoot, { recursive: true });
+    const visualEvidenceRoot = evidenceDir("audit/visual-all");
     const visualViewports = [
       { name: "desktop", width: 1440, height: 900 },
       { name: "tablet", width: 768, height: 1024 },
@@ -1370,7 +1356,7 @@ ${screenshots.map((screenshot) => `| \`${screenshot.id}\` | [${path.basename(scr
     console.log(`Recipe render gate passed for ${screenshots.length} recipes.`);
   } finally {
     server.kill("SIGTERM");
-    const reportDir = path.join(projectRoot, "reports", "3.3-release");
+    const reportDir = evidenceDir("3.3-release");
     fs.mkdirSync(reportDir, { recursive: true });
     fs.writeFileSync(
       path.join(reportDir, "recipe-render-server.log"),

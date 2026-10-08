@@ -10,6 +10,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { evidenceDir } = require('./ci/lib/evidence-dir');
 
 class GlassPipelineValidator {
   constructor() {
@@ -424,10 +425,7 @@ class GlassPipelineValidator {
       }
     });
     
-    const reportDir = path.join(process.cwd(), 'reports', 'glass');
-    if (!fs.existsSync(reportDir)) {
-      fs.mkdirSync(reportDir, { recursive: true });
-    }
+    const reportDir = evidenceDir('glass');
     
     const reportPath = path.join(reportDir, 'pipeline-validation-report.json');
     fs.writeFileSync(reportPath, JSON.stringify(this.results, null, 2));

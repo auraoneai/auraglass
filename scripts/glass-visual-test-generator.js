@@ -8,10 +8,11 @@
 
 const fs = require('fs');
 const path = require('path');
+const { evidenceDir } = require('./ci/lib/evidence-dir');
 
 class GlassVisualTestGenerator {
   constructor() {
-    this.outputDir = path.join(process.cwd(), 'reports', 'glass', 'visual-tests');
+    this.outputDir = evidenceDir('glass/visual-tests');
     this.timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     
     this.glassSpecs = {

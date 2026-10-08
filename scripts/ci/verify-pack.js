@@ -13,6 +13,9 @@ const path = require('node:path');
 const run = (command, options = {}) =>
   execSync(command, { stdio: ['ignore', 'pipe', 'inherit'], encoding: 'utf8', ...options });
 
+const { packToDir } = require('./lib/npm-pack');
+const projectRoot = path.resolve(__dirname, '..', '..');
+
 const walkFiles = (root) => {
   const files = [];
   const stack = [root];
@@ -131,19 +134,8 @@ console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, a
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-pack-'));
 
 try {
-  const packOutput = run(
-    `npm pack --dry-run=false --ignore-scripts --json --pack-destination "${tmpRoot}"`
-  );
-  const jsonStart = packOutput.indexOf('[');
-  const [packResult] = JSON.parse(
-    jsonStart >= 0 ? packOutput.slice(jsonStart) : packOutput
-  );
-
-  if (!packResult || !Array.isArray(packResult.files) || !packResult.filename) {
-    throw new Error('Unexpected npm pack output.');
-  }
-
-  const tarballPath = path.join(tmpRoot, packResult.filename);
+  const packResult = packToDir(projectRoot, tmpRoot);
+  const tarballPath = packResult.tarballPath;
   const extractionRoot = path.join(tmpRoot, 'unpacked');
   fs.mkdirSync(extractionRoot, { recursive: true });
 

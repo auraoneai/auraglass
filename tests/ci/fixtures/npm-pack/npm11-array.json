@@ -1,0 +1,36 @@
+[
+  {
+    "id": "aura-glass@4.1.0",
+    "name": "aura-glass",
+    "version": "4.1.0",
+    "size": 23193,
+    "unpackedSize": 84321,
+    "shasum": "d4096694e749be4bbe7f437dfc175cacc67af097",
+    "integrity": "sha512-hwzycwr6P65+vmTbP+lxKsaQi4nFTPRhgpVrbSQobgVwgirngl0KoROlaSAfrhA9Z3qyf2r77FMdv6bXQ5kE7w==",
+    "filename": "aura-glass-4.1.0.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1070,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 31675,
+        "mode": 420
+      },
+      {
+        "path": "bin/aura-glass.cjs",
+        "size": 30032,
+        "mode": 493
+      },
+      {
+        "path": "package.json",
+        "size": 21544,
+        "mode": 420
+      }
+    ],
+    "entryCount": 4,
+    "bundled": []
+  }
+]

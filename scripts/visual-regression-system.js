@@ -12,12 +12,13 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const { promisify } = require('util');
+const { evidenceDir } = require('./ci/lib/evidence-dir');
 
 const execAsync = promisify(exec);
 
 class GlassVisualRegression {
   constructor() {
-    this.baseDir = path.join(process.cwd(), 'reports', 'glass', 'visual-regression');
+    this.baseDir = evidenceDir('glass/visual-regression');
     this.timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     this.screenshotDir = path.join(this.baseDir, this.timestamp);
     

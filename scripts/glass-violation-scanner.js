@@ -17,13 +17,14 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { evidenceDir } = require("./ci/lib/evidence-dir");
 const {
   auditSourceSet,
   isExcludedSourcePath,
 } = require("./audit/static-glass-material-audit.js");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
-const REPORT_DIRECTORY = path.join(REPO_ROOT, "reports/glass");
+const REPORT_DIRECTORY = evidenceDir('glass');
 const CSV_REPORT = path.join(REPORT_DIRECTORY, "_auto-findings.csv");
 const HTML_REPORT = path.join(REPORT_DIRECTORY, "_auto-findings.html");
 
