@@ -1,0 +1,102 @@
+/* Slider (CMP-150/414/415): sunken track, accent range, transient thumb.
+   Pointer capture + track-click jump + touch-action are BU Control behaviour;
+   drag forwarding is throttled by BU internally (S-13 subscribeFrame pending MAT). */
+@layer ag.components {
+  .ag-slider {
+    position: relative;
+    color: var(--ag-on-surface);
+    padding-block: var(--ag-space-2);
+  }
+  .ag-slider[data-orientation='vertical'] {
+    block-size: var(--ag-space-16);
+  }
+
+  .ag-slider [data-ag-part='control'] {
+    touch-action: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .ag-slider [data-ag-part='track'] {
+    position: relative;
+    flex: 1;
+    border-radius: var(--ag-radius-full);
+    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
+    box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+  }
+  .ag-slider[data-ag-size='sm'] [data-ag-part='track'] { block-size: var(--ag-space-1); }
+  .ag-slider[data-ag-size='md'] [data-ag-part='track'],
+  .ag-slider:not([data-ag-size]) [data-ag-part='track'] { block-size: var(--ag-space-2); }
+  .ag-slider[data-ag-size='lg'] [data-ag-part='track'] { block-size: var(--ag-space-2); }
+
+  .ag-slider[data-orientation='vertical'] [data-ag-part='track'] {
+    block-size: 100%;
+    inline-size: var(--ag-space-2);
+  }
+
+  .ag-slider [data-ag-part='range'] {
+    position: absolute;
+    background: var(--ag-color-accent);
+    border-radius: var(--ag-radius-full);
+  }
+
+  .ag-slider [data-ag-part='thumb'] {
+    position: absolute;
+    inline-size: var(--ag-space-4);
+    block-size: var(--ag-space-4);
+    border-radius: var(--ag-radius-full);
+    background: var(--ag-color-canvas);
+    box-shadow: var(--ag-shadow-thin), inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
+    /* REQ-49: never scales; dragging raises specular (MAT optics layer). */
+    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+  .ag-slider[data-ag-size='sm'] [data-ag-part='thumb'] {
+    inline-size: var(--ag-space-4); block-size: var(--ag-space-4);
+  }
+  .ag-slider[data-ag-size='lg'] [data-ag-part='thumb'] {
+    inline-size: var(--ag-space-6); block-size: var(--ag-space-6);
+  }
+  .ag-slider [data-ag-part='thumb']:focus-visible {
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
+  }
+  .ag-slider[data-dragging] [data-ag-part='thumb'] {
+    box-shadow: var(--ag-shadow-thin), var(--ag-state-hover-specular);
+  }
+
+  .ag-slider [data-ag-part='mark'] {
+    position: absolute;
+    inset-block-start: calc(100% - var(--ag-space-1));
+    inline-size: var(--ag-focus-width);
+    block-size: var(--ag-space-1);
+    background: var(--ag-on-surface-muted);
+  }
+  .ag-slider [data-ag-part='mark-label'] {
+    position: absolute;
+    inset-block-start: 100%;
+    transform: translateX(-50%);
+    font-size: var(--ag-type-caption-size);
+    color: var(--ag-on-surface-muted);
+  }
+
+  .ag-slider [data-ag-part='value'] {
+    font-size: var(--ag-type-label-size);
+    font-variant-numeric: tabular-nums;
+    color: var(--ag-on-surface);
+  }
+
+  .ag-slider[data-disabled] {
+    opacity: var(--ag-state-disabled-alpha);
+  }
+
+  @media (forced-colors: active) {
+    .ag-slider [data-ag-part='track'] {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: ButtonFace;
+      box-shadow: none;
+    }
+    .ag-slider [data-ag-part='thumb'] {
+      background: ButtonText;
+      box-shadow: none;
+    }
+  }
+}

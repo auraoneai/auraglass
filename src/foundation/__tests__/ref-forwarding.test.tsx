@@ -22,7 +22,13 @@ describe('ref resolves to the root part element', () => {
   });
 
   for (const { name, meta } of registered) {
-    const rootPart = meta.parts[0]!;
+    // REQ-60/63/65: input-family refs land on the native control, not the root.
+    const REF_TARGET: Record<string, string> = {
+      TextField: 'control',
+      SearchField: 'control',
+      NumberField: 'input',
+    };
+    const rootPart = REF_TARGET[name] ?? meta.parts[0]!;
     it(`${name}: ref.current is the [data-ag-part=${rootPart}] element`, () => {
       const stories = loadStories(name);
       if (stories.length === 0) throw new Error(`no story file found for ${name}`);

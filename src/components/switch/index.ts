@@ -1,4 +1,2 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const Switch = createSeedComponent('switch', 'button');
+export { Switch } from './Switch.client';
+export type { SwitchProps } from './Switch.types';

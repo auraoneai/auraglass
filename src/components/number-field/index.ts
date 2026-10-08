@@ -1,4 +1,3 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const NumberField = createSeedComponent('number-field', 'div');
+export { NumberField } from './NumberField.client';
+export type { NumberFieldProps } from './NumberField.types';
+export { parseNumber, clampValue, formatNumber, snapToStep } from './parse';
