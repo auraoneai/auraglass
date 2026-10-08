@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`CookieConsent matches snapshot 1`] = `
-<div
-  aria-hidden="true"
-  class="container positionBottomRight"
-  style="--cookie-blur-scale: 0.7; --cookie-box-shadow: 0 12px 19.60px color-mix(in srgb, var(--glass-gray-900) 18%, transparent); display: none;"
-/>
-`;
