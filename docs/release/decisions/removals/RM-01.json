@@ -13,5 +13,18 @@
     "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
   },
   "acknowledged": false,
-  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step.",
+  "gate": {
+    "ghsa": {
+      "status": "missing",
+      "requirement": "published GHSA id verified via read-only gh api repos/auraoneai/auraglass/security-advisories/<id>; gh not authenticated on this VM",
+      "operator": "owner records the advisory id here"
+    },
+    "archive": {
+      "status": "missing",
+      "requirement": "private repo auraoneai/auraglass-server-archive built from release/4.x branch point (git subtree split --prefix=server + src/services + src/lib/ai-client.ts + Dockerfile + docker-compose.yml + tsconfig.server.json), byte-identical; see RM-01-archive.json",
+      "operator": "owner creates the private repo; agents may subtree-split locally and push only with owner go-ahead"
+    },
+    "postmerge": "no-backend.test.ts enforces: no backend package, no build:server/hosted/docker:* script, no server/, Dockerfile, docker-compose*, nginx.conf, workers/, bin/"
+  }
 }
