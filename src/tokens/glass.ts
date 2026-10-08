@@ -1042,14 +1042,31 @@ export const glassTokenUtils = {
     // eslint-disable-next-line auraglass/no-inline-glass -- canonical token surface, not an app inline style
     return {
       background:
-        '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+        "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
       // Keep the material optically clear. Semantic intent belongs in local
       // highlights and borders; stacking the token overlay under the white
       // gradient produced an acrylic/frosted slab on colorful backdrops.
-      backgroundColor:
-        '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
-      // Use createGlassStyle() instead,
-      // Use createGlassStyle() instead,
+      backgroundColor: "rgba(255,255,255,0.018)",
+      backdropFilter:
+        surface.backdropBlur.px === 16
+          ? "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)"
+          : surface.backdropBlur.px === 24
+            ? "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)"
+            : surface.backdropBlur.px === 32
+              ? "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)"
+              : surface.backdropBlur.px === 40
+                ? "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)"
+                : "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+      WebkitBackdropFilter:
+        surface.backdropBlur.px === 16
+          ? "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)"
+          : surface.backdropBlur.px === 24
+            ? "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)"
+            : surface.backdropBlur.px === 32
+              ? "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)"
+              : surface.backdropBlur.px === 40
+                ? "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)"
+                : "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
       // Foreground roles belong to the active theme, not to an individual
       // material. Authoring them inline here made a neutral surface permanently
       // use the light-canvas (near-black) palette even when it was mounted in a
@@ -1623,8 +1640,10 @@ export const liquidGlassUtils = {
       // Re-state the three material invariants after composition. Their values
       // originate in buildSurfaceStyles, whose complete token domain is
       // statically audited above.
-      // Use createGlassStyle() instead,
-      // Use createGlassStyle() instead,
+      backdropFilter:
+        "blur(32px) saturate(1.5) brightness(1.08) contrast(1.04)",
+      WebkitBackdropFilter:
+        "blur(32px) saturate(1.5) brightness(1.08) contrast(1.04)",
       border: "1px solid rgba(255,255,255,0.28)",
 
       // Enhanced backdrop filter with IOR simulation
@@ -1634,7 +1653,7 @@ export const liquidGlassUtils = {
       // Cap the specular highlight at the canonical white-frost ceiling
       // (0.35) so even the lightest gradient stop stays within audit bounds.
       background:
-        '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+        "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
 
       // Enhanced transitions for micro-interactions
       transition: performance.enableMicroInteractions

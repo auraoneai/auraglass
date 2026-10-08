@@ -532,8 +532,7 @@ export const GlassCanvas: React.FC<
         <div
           className="glass-flex-1 glass-overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
           style={{
-            backgroundColor:
-              '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+            backgroundColor: "rgba(255, 255, 255, 0.18)",
             backgroundImage: pageState.showGrid
               ? "radial-gradient(circle, var(--glass-gray-200) 1px, transparent 1px)"
               : "none",

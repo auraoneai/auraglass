@@ -974,7 +974,7 @@ export const GlassMotionControls = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
               border: `1px solid rgba(15,23,42,${config.enableHoverEffects ? "0.28" : "0.14"})`,
               boxShadow: config.enableHoverEffects
                 ? "inset 0 1px 6px rgba(255,255,255,0.14), 0 0 0 2px rgba(15,23,42,0.08)"
@@ -987,8 +987,7 @@ export const GlassMotionControls = React.forwardRef<
                 left: config.enableHoverEffects
                   ? "calc(100% - 1.375rem)"
                   : "0.125rem",
-                background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                background: "rgba(255,255,255,0.96)",
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}
@@ -1073,7 +1072,7 @@ export const GlassKeyboardNav = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
               border: `1px solid rgba(15,23,42,${config.enhanceKeyboardNavigation ? "0.28" : "0.14"})`,
               boxShadow: "inset 0 1px 6px rgba(255,255,255,0.14)",
             }}
@@ -1084,8 +1083,7 @@ export const GlassKeyboardNav = React.forwardRef<
                 left: config.enhanceKeyboardNavigation
                   ? "calc(100% - 1.375rem)"
                   : "0.125rem",
-                background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                background: "rgba(255,255,255,0.96)",
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}
@@ -1105,7 +1103,7 @@ export const GlassKeyboardNav = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
               border: `1px solid rgba(15,23,42,${config.showSkipLinks ? "0.28" : "0.14"})`,
               boxShadow: "inset 0 1px 6px rgba(255,255,255,0.14)",
             }}
@@ -1116,8 +1114,7 @@ export const GlassKeyboardNav = React.forwardRef<
                 left: config.showSkipLinks
                   ? "calc(100% - 1.375rem)"
                   : "0.125rem",
-                background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                background: "rgba(255,255,255,0.96)",
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}

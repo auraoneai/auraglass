@@ -734,7 +734,7 @@ const GlassDataTableInnerBase = <
         style={{
           ...createGlassStyle({ intent: "neutral", elevation: "level2" }),
           background:
-            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+            "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.018))",
           boxShadow:
             "inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -1px 0 rgba(255,255,255,0.035), 0 20px 48px rgba(3,7,18,0.18)",
           borderColor: "rgba(255, 255, 255, 0.16)",
@@ -783,7 +783,7 @@ const GlassDataTableInnerBase = <
                   )}
                   style={{
                     background:
-                      '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                      "linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.018))",
                     borderColor: "rgba(255, 255, 255, 0.14)",
                     boxShadow:
                       "inset 0 1px 0 rgba(255,255,255,0.14), 0 8px 20px rgba(3,7,18,0.12)",
@@ -855,10 +855,7 @@ const GlassDataTableInnerBase = <
                 "glass-relative bg-muted/20 glass-border-b glass-border-glass-border/20",
                 stickyHeader && "sticky top-0 z-10"
               )}
-              style={{
-                background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
-              }}
+              style={{ background: "rgba(255, 255, 255, 0.065)" }}
             >
               <tr>
                 {selectable && (

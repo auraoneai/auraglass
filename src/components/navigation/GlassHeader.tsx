@@ -637,8 +637,7 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         role="navigation"
         aria-label={commonProps["aria-label"] || "Main navigation"}
         style={{
-          background:
-            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+          background: "rgba(255,255,255,0.12)",
           boxShadow:
             "0 8px 32px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 12px rgba(255,255,255,.12)",
         }}

@@ -590,8 +590,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                 <div
                   className="glass-w-4 glass-h-0-5 glass-surface-overlay"
                   style={{
-                    background:
-                      '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                    background: "rgba(255, 255, 255, 0.24)",
                   }}
                 />
                 Spiral

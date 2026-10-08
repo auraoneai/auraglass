@@ -820,7 +820,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             )}
             style={{
               background:
-                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
+                "linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.08)), linear-gradient(rgba(15,23,42,0.20), rgba(15,23,42,0.20))",
             }}
             onClick={handleBackdropClick}
             data-consciousness-backdrop="true"

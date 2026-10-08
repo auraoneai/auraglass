@@ -531,8 +531,7 @@ export const GlassQuantumTunnel = forwardRef<
                 maxWidth: "100%",
                 height: "auto",
                 display: "block",
-                background:
-                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                background: "rgba(255, 255, 255, 0.22)",
               }}
             />
 
@@ -782,8 +781,7 @@ export const GlassQuantumTunnel = forwardRef<
                       key={index}
                       className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius glass-border glass-border-subtle"
                       style={{
-                        background:
-                          '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                        background: "rgba(255, 255, 255, 0.42)",
                       }}
                     >
                       {transition.from} → {transition.to} (

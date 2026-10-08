@@ -1182,8 +1182,7 @@ export function GlassNeuroFeedback({
         <div
           className="glass-w-full glass-h-4 glass-radius-full glass-overflow-hidden"
           style={{
-            background:
-              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
+            background: "rgba(15, 23, 42, 0.1)",
             border: "1px solid rgba(15, 23, 42, 0.12)",
             boxSizing: "border-box",
           }}
