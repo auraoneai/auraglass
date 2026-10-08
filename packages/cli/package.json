@@ -3,18 +3,29 @@
   "version": "0.1.0",
   "description": "AuraGlass CLI: init, registry add/diff/update, doctor, audit and the migrate 4to5 codemod engine.",
   "type": "module",
-  "bin": { "auraglass": "./dist/bin.js" },
-  "engines": { "node": ">=20.19" },
-  "files": ["dist", "schema", "audit", "PUBLISHING.md"],
+  "bin": {
+    "auraglass": "./dist/bin.js"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "files": [
+    "dist",
+    "schema",
+    "audit",
+    "PUBLISHING.md"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
     "prebuild": "node scripts/gen-mappings.mjs",
     "pretest": "node scripts/gen-mappings.mjs",
     "test": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs",
-    "prepublishOnly": "node ../../scripts/ci/require-ci-publish.js"
+    "prepublishOnly": "node scripts/gen-mappings.mjs && npx tsdown && node ../../scripts/ci/require-ci-publish.js"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "jscodeshift": "17.4.0",
     "postcss": "8.5.29",

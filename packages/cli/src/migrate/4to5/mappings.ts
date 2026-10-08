@@ -5,6 +5,7 @@
  * output — no hard-coded tables in transforms/**.
  */
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 
 /** prop-grammar row (S-39 shape). */
@@ -43,23 +44,31 @@ export interface CompiledMappings {
   areaSpecs: Record<string, string>;
 }
 
-function findPkgRoot(): string {
-  let dir = process.cwd();
-  for (let i = 0; i < 12; i += 1) {
-    const pj = path.join(dir, 'package.json');
-    if (fs.existsSync(pj)) {
-      try {
-        const j = JSON.parse(fs.readFileSync(pj, 'utf8')) as { name?: string };
-        if (j.name === '@auraglass/cli') return dir;
-      } catch { /* keep walking */ }
-    }
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
+
+/** Directory holding the compiled mapping JSON, resolved relative to this
+ * module (works in src/, in the bundled dist/, and for an installed package).
+ * `import.meta.url` is eval'd so the CJS jest transform never parses it. */
+const HERE = typeof __dirname === 'undefined' ? moduleDir() : __dirname;
+/** ESM module dir without `import.meta` (which the CJS jest transform cannot
+ * parse): the bin entry is dist/bin.js for CLI runs; for programmatic imports
+ * resolve the installed package entry. */
+function moduleDir(): string {
+  try {
+    const req = createRequire(process.argv[1] ?? path.join(process.cwd(), 'x.js'));
+    return path.join(path.dirname(req.resolve('@auraglass/cli/package.json')), 'dist');
+  } catch {
+    return process.argv[1] ? path.dirname(process.argv[1]) : process.cwd();
   }
-  return process.cwd();
 }
-export const MAPPINGS_DIR = path.join(findPkgRoot(), 'src', 'migrate', '4to5', 'mappings');
+/** First existing candidate wins: src layout, bundled dist, or installed pkg. */
+function mappingsDir(): string {
+  const dist = path.join(HERE, 'mappings');
+  if (fs.existsSync(dist)) return dist;
+  const srcLayout = path.join(HERE, '..', 'mappings');
+  if (fs.existsSync(srcLayout)) return srcLayout;
+  return dist;
+}
+export const MAPPINGS_DIR = mappingsDir();
 
 interface RawFragment {
   renames?: Array<{ from: string; fromEntry: string; to: string; toEntry: string; compatOnly?: boolean }>;

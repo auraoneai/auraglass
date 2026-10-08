@@ -1,2 +1,2 @@
-import { GlassPreferencesPanel } from 'aura-glass';
-export const x = <GlassPreferencesPanel/>;
+import { useGlassProbes } from 'aura-glass';
+export const x = useGlassProbes;

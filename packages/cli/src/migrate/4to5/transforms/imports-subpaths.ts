@@ -8,7 +8,7 @@ import { todoLine } from '../todo.js';
 
 const DOC = 'docs/auraglass-5/migrate/5.md#b-4';
 
-function rewriteSpecifier(spec: string, ctx: TransformCtx): { spec: string; changed: boolean; unmappedRemoved?: string; deepComponent?: string } {
+function rewriteSpecifier(spec: string, ctx: TransformCtx): { spec: string; changed: boolean; unmappedRemoved?: string; deepComponent?: string; iconCategory?: string } {
   const map = ctx.mappings.subpaths;
   if (map[spec] !== undefined) return { spec: map[spec]!, changed: map[spec] !== spec };
   const removed = ctx.mappings.removed;
@@ -33,12 +33,21 @@ function rewriteSpecifier(spec: string, ctx: TransformCtx): { spec: string; chan
       const fsub = '/' + sym.slice(aura.length + 1);
       if (sub === fsub || sub.startsWith(fsub + '/')) return { spec, changed: false, unmappedRemoved: spec };
     }
-    // Deep component path not in the map: collapse to root and rename the
-    // imported specifier per the canonical component map (done by caller via
-    // deepComponent marker).
+    // Deep component path not in the map: collapse to the owning barrel
+    // (B18 ./primitives/<name> -> ./primitives, B19 ./icons/<category>/<name> ->
+    // ./icons, legacy aura-glass/components/<name> -> root) and rename the
+    // imported specifier per the canonical component map via deepComponent.
     const tail = sub.split('/').pop() ?? '';
     if (/^aura-glass\/(components|primitives|icons)\//.test(spec) && /^[A-Z]/.test(tail)) {
-      return { spec: aura, changed: true, deepComponent: tail };
+      const target = spec.startsWith('aura-glass/primitives/')
+        ? 'aura-glass/primitives'
+        : spec.startsWith('aura-glass/icons/')
+          ? 'aura-glass/icons'
+          : aura;
+      return { spec: target, changed: true, deepComponent: tail };
+    }
+    if (/^aura-glass\/icons\//.test(spec)) {
+      return { spec, changed: false, iconCategory: spec };
     }
   }
   return { spec, changed: false };
@@ -85,6 +94,8 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       }
     } else if (r.unmappedRemoved) {
       todos.push({ transform: 'imports-subpaths', reason: `removed subpath '${oldSpec}' has no 5.0 equivalent`, doc: DOC });
+    } else if (r.iconCategory) {
+      todos.push({ transform: 'imports-subpaths', reason: `icon category subpath '${oldSpec}' is gone in 5.0; import the glyph by name from 'aura-glass/icons'`, doc: DOC });
     }
   };
   root.find(j.ImportDeclaration).forEach(visit as never);
