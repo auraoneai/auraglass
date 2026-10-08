@@ -9,7 +9,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
 import { glassMaterialPresets } from '../../src/theme/materials';
-import { createBrandGlassTheme } from '../../src/theme/createGlassTheme';
+import { createBrandGlassTheme } from '../../src/theme/createBrandGlassTheme';
 import { CONTRAST_FLOOR, oklchToHex } from './_shared';
 import { StorySurface } from '../../.storybook/StorySurface';
 
@@ -56,12 +56,12 @@ function ContrastPairs({ theme }: { theme: ReturnType<typeof createBrandGlassThe
       <h4 style={{ margin: '8px 0 4px' }}>contrast.pairs</h4>
       <table style={{ borderCollapse: 'collapse', fontSize: 12 }}>
         <tbody>
-          {Object.entries(theme.contrast).map(([pair, ratio]) => {
-            const adjusted = ratio < CONTRAST_FLOOR;
+          {theme.contrast.pairs.map((pair) => {
+            const adjusted = pair.ratio < CONTRAST_FLOOR;
             return (
-              <tr key={pair} data-pair={pair} data-adjusted={adjusted || undefined}>
-                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{pair}</td>
-                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{ratio.toFixed(2)}:1</td>
+              <tr key={pair.name} data-pair={pair.name} data-adjusted={adjusted || undefined}>
+                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{pair.name}</td>
+                <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>{pair.ratio.toFixed(2)}:1</td>
                 <td style={{ padding: '2px 10px', borderBottom: '1px solid #e2e8f0' }}>
                   {adjusted ? <span role="img" aria-label="below contrast floor">⚠ below {CONTRAST_FLOOR} floor</span> : 'ok'}
                 </td>
@@ -79,8 +79,8 @@ function BrandPlayground() {
   const [c, setC] = React.useState(0.15);
   const [h, setH] = React.useState(250);
   const hex = oklchToHex(l, c, h);
-  const theme = createBrandGlassTheme({ brandColor: hex, mode: 'dark' });
-  const adjustedPairs = Object.entries(theme.contrast).filter(([, r]) => r < CONTRAST_FLOOR);
+  const theme = createBrandGlassTheme(hex);
+  const adjustedPairs = theme.contrast.adjusted;
   const input: React.CSSProperties = { width: 80, font: 'inherit' };
   return (
     <div data-ag-brand-playground style={{ display: 'grid', gap: 12 }}>
@@ -111,9 +111,9 @@ function BrandPlayground() {
           <p style={{ fontSize: 12 }}>all pairs above {CONTRAST_FLOOR}:1</p>
         ) : (
           <ul style={{ margin: 0, fontSize: 12 }}>
-            {adjustedPairs.map(([pair, ratio]) => (
-              <li key={pair}>
-                <span role="img" aria-label="adjusted">⚠</span> {pair} — {ratio.toFixed(2)}:1
+            {adjustedPairs.map((adj) => (
+              <li key={`${adj.name}-${adj.field}`}>
+                <span role="img" aria-label="adjusted">⚠</span> {adj.name} — {adj.field}: {adj.from.toFixed(3)} → {adj.to.toFixed(3)}
                 (icon + text, not colour alone)
               </li>
             ))}
