@@ -11,6 +11,8 @@ const CONTROLS = [
   'src/components/radio-group/**/*.{ts,tsx}',
   'src/components/switch/**/*.{ts,tsx}',
   'src/components/slider/**/*.{ts,tsx}',
+  'src/components/select/**/*.{ts,tsx}',
+  'src/components/combobox/**/*.{ts,tsx}',
 ];
 module.exports = {
   strict: {

@@ -61,3 +61,15 @@ export type { SearchFieldProps } from '../components/search-field';
 
 export { NumberField } from '../components/number-field';
 export type { NumberFieldProps } from '../components/number-field';
+
+export { Select } from '../components/select';
+export type {
+  SelectRootProps, SelectTriggerProps, SelectContentProps, SelectItemProps,
+} from '../components/select';
+
+export { Combobox } from '../components/combobox';
+export type {
+  ComboboxRootProps, ComboboxInputProps, ComboboxContentProps, ComboboxItemProps,
+  ComboboxEmptyProps, ComboboxChipsProps, ComboboxChipProps, ComboboxMode,
+  ComboboxCreatable, ComboboxLoadContext,
+} from '../components/combobox';
