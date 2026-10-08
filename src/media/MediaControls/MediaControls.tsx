@@ -106,14 +106,21 @@ function Root(props: MediaControlsRootProps): React.ReactElement {
 
   return (
     <MediaControlsContext.Provider value={model}>
+      {/* CMP Toolbar stamps its own data-ag-part ("root"/"button") and overrides render on
+          buttons, so the media-controls part markers live on the render element + plain
+          <button> parts inside this real CMP toolbar root. */}
       <ToolbarRoot
-        className={['ag-media-controls', className].filter(Boolean).join(' ')}
-        data-ag-part="media-controls"
-        role="toolbar"
-        data-ag-variant={variant}
-        data-state={dataState}
-        aria-label={label}
-        onKeyDown={onKeyDown}
+        render={
+          <div
+            className={['ag-media-controls', className].filter(Boolean).join(' ')}
+            data-ag-part="media-controls"
+            role="toolbar"
+            data-ag-variant={variant}
+            data-state={dataState}
+            aria-label={label}
+            onKeyDown={onKeyDown}
+          />
+        }
       >
         {children ?? (
           <>

@@ -1,10 +1,5 @@
 'use client';
 import * as React from 'react';
-import { Toolbar } from '../../../components/toolbar';
-
-type FC = React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const ToolbarRoot = Toolbar.Root as FC;
-const ToolbarButton = Toolbar.Button as FC;
 import { useMediaModel } from '../mediaContext';
 
 export const Captions = React.forwardRef<HTMLButtonElement, { className?: string }>(function Captions({ className }, ref) {
@@ -13,7 +8,8 @@ export const Captions = React.forwardRef<HTMLButtonElement, { className?: string
   if (tracks.length === 0) return null;
   const showing = tracks.some((t) => t.mode === 'showing');
   return (
-    <ToolbarButton
+    <button
+        type="button"
         role="button"
         tabIndex={0}
       ref={ref}
@@ -24,6 +20,6 @@ export const Captions = React.forwardRef<HTMLButtonElement, { className?: string
       onClick={() => m.toggleCaptions()}
     >
       <span aria-hidden="true">CC</span>
-    </ToolbarButton>
+    </button>
   );
 });

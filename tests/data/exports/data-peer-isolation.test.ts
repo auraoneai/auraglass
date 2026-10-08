@@ -25,11 +25,23 @@ describe('peer isolation (SURF-142)', () => {
     }
     expect(bad).toEqual([]);
   });
-  it('@tanstack/* only in src/data', () => {
+  it('@tanstack/* only in src/data (within the SURF graph)', () => {
+    // CMP owns src/components (its combobox legitimately virtualizes via
+    // @tanstack/react-virtual — CMP-185); this isolation rule is SURF's.
+    const SURF_DIRS = [
+      'src/data', 'src/date', 'src/charts', 'src/ai', 'src/media',
+      'src/backdrops', 'src/three', 'src/app-shell',
+      'src/components/timeline', 'src/components/breadcrumbs',
+      'src/components/command-palette', 'src/components/pagination',
+      'src/components/source-transition', 'src/components/tab-bar',
+      'src/components/tabs',
+    ];
     const bad: string[] = [];
-    for (const f of walk(join(ROOT, 'src'))) {
-      const rel = relative(ROOT, f).replace(/\\/g, '/');
-      if (/@tanstack\//.test(readFileSync(f, 'utf8')) && !rel.startsWith('src/data/')) bad.push(rel);
+    for (const dir of SURF_DIRS) {
+      for (const f of walk(join(ROOT, dir))) {
+        const rel = relative(ROOT, f).replace(/\\/g, '/');
+        if (/@tanstack\//.test(readFileSync(f, 'utf8')) && !rel.startsWith('src/data/')) bad.push(rel);
+      }
     }
     expect(bad).toEqual([]);
   });

@@ -22,5 +22,5 @@ export function partElement(
   if (typeof render === 'function') {
     return render(rest, state ?? {});
   }
-  return renderElement(fallbackTag, { ...(render ? { render } : {}), ...rest });
+  return renderElement(render, React.createElement(fallbackTag), rest, state);
 }

@@ -20,7 +20,16 @@ const SURF_DIRS = [
   'src/charts',
   'src/three',
   // --- lane W2 begin ---
-  'src/components', // Timeline/ActivityFeed live here (REQ-SURF-96/97)
+  // Timeline/ActivityFeed live here (REQ-SURF-96/97). src/components is the
+  // CMP lane's home now — scan only SURF-owned component dirs; other streams
+  // run their own RSC lanes.
+  'src/components/timeline',
+  'src/components/breadcrumbs',
+  'src/components/command-palette',
+  'src/components/pagination',
+  'src/components/source-transition',
+  'src/components/tab-bar',
+  'src/components/tabs',
   // --- lane W2 end ---
 ];
 

@@ -6,16 +6,9 @@
  * all the seam provides; pointer-drag behaviour comes from the CMP Slider. */
 import * as React from 'react';
 import { Slider } from '../../components/slider';
-
-type FC = React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const SliderRoot = Slider.Root as FC;
-const SliderTrack = Slider.Track as FC;
-const SliderRange = Slider.Range as FC;
-const SliderThumb = Slider.Thumb as FC;
 import { formatMediaTime } from '../formatMediaTime';
 import { BufferedLayer } from './BufferedLayer';
 import { ChapterMarkers } from './ChapterMarkers';
-
 export interface MediaScrubberProps {
   value: number;
   max: number;
@@ -50,41 +43,18 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
       className, disabled,
       'aria-label': ariaLabel = 'Seek',
     } = props;
-    const [dragging, setDragging] = React.useState(false);
     const [hoverTime, setHoverTime] = React.useState<number | null>(null);
     const rootRef = React.useRef<HTMLDivElement | null>(null);
-    const lastValue = React.useRef(value);
-    lastValue.current = value;
 
     const safeMax = Number.isFinite(max) && max > 0 ? max : 0;
     const pct = (s: number) => (safeMax > 0 ? Math.min(100, Math.max(0, (s / safeMax) * 100)) : 0);
-    const commit = React.useCallback(() => {
-      onValueCommit?.(lastValue.current);
-    }, [onValueCommit]);
 
     const onKeyDown = (e: React.KeyboardEvent) => {
+      // Base UI owns the standard slider keys; , and . frame-step are media-only.
       if (e.key === ',' || e.key === '.') {
         if (!frameRate) return;
         const dt = 1 / frameRate * (e.key === '.' ? 1 : -1);
         onValueChange?.(Math.min(safeMax, Math.max(0, value + dt)));
-        e.preventDefault();
-      } else if (e.key === 'PageDown') {
-        onValueChange?.(Math.max(0, value - largeStep));
-        e.preventDefault();
-      } else if (e.key === 'PageUp') {
-        onValueChange?.(Math.min(safeMax, value + largeStep));
-        e.preventDefault();
-      } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
-        onValueChange?.(Math.min(safeMax, value + step));
-        e.preventDefault();
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
-        onValueChange?.(Math.max(0, value - step));
-        e.preventDefault();
-      } else if (e.key === 'Home') {
-        onValueChange?.(0);
-        e.preventDefault();
-      } else if (e.key === 'End') {
-        onValueChange?.(safeMax);
         e.preventDefault();
       }
     };
@@ -98,7 +68,7 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
     };
 
     return (
-      <SliderRoot
+      <div
         ref={(node: HTMLDivElement | null) => {
           (rootRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
           if (typeof ref === 'function') ref(node);
@@ -106,45 +76,37 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
         }}
         className={['ag-media-scrubber', className].filter(Boolean).join(' ')}
         data-ag-part="media-scrubber"
-        value={value}
-        min={0}
-        max={safeMax}
-        step={step}
-        disabled={disabled}
-        onValueChange={(v: number | number[]) => onValueChange?.(Array.isArray(v) ? v[0]! : v)}
+        onKeyDown={onKeyDown}
+        onPointerMove={onPointerMove}
+        onPointerLeave={() => setHoverTime(null)}
       >
-        <SliderTrack
-          className="ag-media-scrubber-track"
-          data-ag-part="media-scrubber-track"
-          onKeyDown={onKeyDown}
-          onPointerMove={onPointerMove}
-          onPointerLeave={() => setHoverTime(null)}
-          onPointerDown={() => setDragging(true)}
-          onPointerUp={() => { if (dragging) { setDragging(false); commit(); } }}
-          onKeyUp={() => commit()}
-        >
-          {/* buffered + chapter layers — inline style carries only --_ag-start/--_ag-end */}
-          {buffered.map(([s, e], i) => <BufferedLayer key={i} start={s} end={e} max={safeMax} />)}
-          <ChapterMarkers chapters={chapters} max={safeMax} />
-          <SliderRange className="ag-media-scrubber-range" data-ag-part="media-scrubber-range" />
-          <SliderThumb
-            className="ag-media-scrubber-thumb"
-            data-ag-part="media-scrubber-thumb"
-            aria-label={ariaLabel}
-            aria-valuetext={scrubberValueText(value, safeMax)}
-            {...(dragging ? { 'data-dragging': '' } : {})}
-          />
-          {hoverTime !== null ? (
-            <span
-              data-ag-part="media-scrubber-tooltip"
-              aria-hidden="true"
-              style={{ '--_ag-start': `${pct(hoverTime)}%` } as React.CSSProperties}
-            >
-              {formatHoverTime(hoverTime)}
-            </span>
-          ) : null}
-        </SliderTrack>
-      </SliderRoot>
+        {/* buffered + chapter layers — inline style carries only --_ag-start/--_ag-end */}
+        {buffered.map(([s, e], i) => <BufferedLayer key={i} start={s} end={e} max={safeMax} />)}
+        <ChapterMarkers chapters={chapters} max={safeMax} />
+        <Slider.Root
+          value={value}
+          min={0}
+          max={safeMax}
+          step={step}
+          largeStep={largeStep}
+          disabled={disabled}
+          aria-label={ariaLabel}
+          getAriaValueText={(v: number) => scrubberValueText(v, safeMax)}
+          onValueChange={(v: number | number[]) => onValueChange?.(Array.isArray(v) ? v[0]! : v)}
+          {...(onValueCommit !== undefined ? {
+            onValueCommitted: (v: number | number[]) => onValueCommit(Array.isArray(v) ? v[0]! : v),
+          } : {})}
+        />
+        {hoverTime !== null ? (
+          <span
+            data-ag-part="media-scrubber-tooltip"
+            aria-hidden="true"
+            style={{ '--_ag-start': `${pct(hoverTime)}%` } as React.CSSProperties}
+          >
+            {formatHoverTime(hoverTime)}
+          </span>
+        ) : null}
+      </div>
     );
   },
 );

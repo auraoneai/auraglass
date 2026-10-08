@@ -18,12 +18,14 @@ const SCHEMA = JSON.parse(
 const SURF_BLOCKS = new Set([
   'app-frame', 'ai-workspace', 'data-workspace', 'analytics-dashboard',
   'media-viewer', 'support-inbox', 'mobile-settings',
-  'app-shell-workspace', 'commerce-cart', 'commerce-checkout', 'pricing',
+  'commerce-cart', 'commerce-checkout', 'pricing',
   'audit-log', 'permissions-matrix',
+  // (app-shell-workspace is a registry *item*, not a block)
 ]);
 const SURF_ITEMS = new Set([
-  'code-surface', 'diff-viewer', 'gantt', 'kanban', 'react-hook-form',
-  'rich-text', 'transfer-list', 'presence-stack', 'comment-thread',
+  // (code-surface, diff-viewer, gantt, kanban, react-hook-form, rich-text,
+  // transfer-list are PLAT items — PLAT-360..366 — linted by PLAT's lane)
+  'presence-stack', 'comment-thread',
   'faceted-search', 'query-builder', 'schema-viewer', 'tree-select',
   'app-shell-workspace',
   // lane W3 (SURF-356/370..374/390)
@@ -80,7 +82,10 @@ function* items() {
 }
 
 describe('SURF registry blocks/items lint', () => {
-  const list = [...items()];
+  // Other streams (CMP/PLAT/MAT) own their own registry namespaces and lint
+  // them in their lanes — only S-46 SURF ids are checked here.
+  const list = [...items()].filter(({ kind, id }) =>
+    kind === 'blocks' ? SURF_BLOCKS.has(id) : SURF_ITEMS.has(id));
 
   it('every descriptor validates the vendored registry-item schema', () => {
     const errs: string[] = [];
@@ -90,11 +95,10 @@ describe('SURF registry blocks/items lint', () => {
     expect(errs).toEqual([]);
   });
 
-  it('every id is an S-46 SURF id of the right kind', () => {
-    for (const { kind, id } of list) {
-      if (kind === 'blocks') expect(SURF_BLOCKS).toContain(id);
-      else expect(SURF_ITEMS).toContain(id);
-    }
+  it('every S-46 SURF id exists as a descriptor of the right kind', () => {
+    const have = new Set(list.map((e) => `${e.kind}/${e.id}`));
+    for (const id of SURF_BLOCKS) expect(have.has(`blocks/${id}`)).toBe(true);
+    for (const id of SURF_ITEMS) expect(have.has(`items/${id}`)).toBe(true);
   });
 
   it('every files[] entry exists on disk', () => {
