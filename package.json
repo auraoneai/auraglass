@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Liquid Glass React and Next.js component library for polished dashboards, AI apps, media tools, and SaaS interfaces.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -234,7 +234,8 @@
     "dist",
     "workers",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "deprecations.json"
   ],
   "scripts": {
     "dev": "rollup -c --watch",
@@ -322,12 +323,10 @@
     "codemod:all": "npm run codemod:tokens && npm run codemod:focus",
     "check:perf": "npm run build && npm run size-check",
     "ci": "npm run glass:full-check && npm run test:coverage",
-    "release": "npm run ci && npm publish --provenance --access public",
-    "release:dry-run": "npm run ci && npm publish --dry-run --provenance --access public",
     "storybook": "storybook dev -p 6006",
     "prebuild-storybook": "node scripts/ensure-component-inventory.js",
     "build-storybook": "storybook build",
-    "prepublishOnly": "npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
+    "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
     "verify:pack": "node scripts/ci/verify-pack.js",
     "verify:css-vars": "node scripts/ci/check-undefined-custom-props.mjs",
     "size-check": "bundlesize",
@@ -335,7 +334,8 @@
     "audit:visual:evidence": "node scripts/audit/verify-visual-evidence.js",
     "audit:glass:materials": "node scripts/audit/static-glass-material-audit.js",
     "audit:storybook:presentation": "node scripts/audit/story-presentation-audit.js",
-    "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test"
+    "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test",
+    "prepack": "node scripts/ci/gen-deprecations.mjs"
   },
   "keywords": [
     "react",
