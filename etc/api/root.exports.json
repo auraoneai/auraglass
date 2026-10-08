@@ -2,9 +2,15 @@
  "entry": ".",
  "exports": [
   "AvatarGroup",
+  "Button",
+  "ButtonGroup",
   "EmptyState",
   "ErrorState",
+  "IconButton",
   "LoadingState",
+  "SegmentedControl",
+  "ToggleGroup",
+  "Toolbar",
   "VisuallyHidden"
  ]
 }
