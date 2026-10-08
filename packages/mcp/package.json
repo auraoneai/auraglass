@@ -1,0 +1,17 @@
+{
+  "name": "@auraglass/mcp",
+  "version": "5.0.0-alpha.0",
+  "private": true,
+  "description": "AuraGlass MCP stdio server — read-only component/registry/docs answers (5 tools).",
+  "type": "module",
+  "bin": { "auraglass-mcp": "./dist/server.js" },
+  "files": ["dist", "data"],
+  "exports": { "./data/mcp-data.json": "./data/mcp-data.json" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node --permission --allow-fs-read=./data node dist/server.js"
+  },
+  "dependencies": { "zod": "^3.24" },
+  "devDependencies": { "@types/node": "^24", "typescript": "^5.9" },
+  "engines": { "node": ">=20.19" }
+}
