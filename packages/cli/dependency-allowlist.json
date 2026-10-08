@@ -1,0 +1,12 @@
+{
+  "$comment": "REQ-PLAT-84: runtime dependencies of @auraglass/cli must equal this list exactly, exact-pinned. Any change is a CP-PLAT-1 contract PR.",
+  "version": 1,
+  "allowlist": [
+    "jscodeshift",
+    "postcss",
+    "postcss-value-parser",
+    "zod",
+    "picocolors",
+    "prompts"
+  ]
+}

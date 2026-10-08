@@ -1,0 +1,16 @@
+{
+  "name": "@auraglass/mcp",
+  "version": "0.1.0",
+  "description": "AuraGlass MCP server: read-only bundled docs/registry data over stdio.",
+  "type": "module",
+  "bin": { "auraglass-mcp": "./dist/server.js" },
+  "engines": { "node": ">=20.19" },
+  "files": ["dist", "data"],
+  "sideEffects": false,
+  "publishConfig": { "access": "public" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1"
+  },
+  "license": "MIT",
+  "private": false
+}
