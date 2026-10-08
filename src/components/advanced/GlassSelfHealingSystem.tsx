@@ -14,7 +14,7 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";

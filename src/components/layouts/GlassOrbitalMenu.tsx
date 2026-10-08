@@ -4,7 +4,7 @@ import {
   motion,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import React, {
   forwardRef,
   useCallback,

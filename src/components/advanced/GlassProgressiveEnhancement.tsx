@@ -12,7 +12,7 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { detectDevice } from "../../utils/deviceCapabilities";
 import { useReducedMotion } from "../../hooks/useReducedMotion";

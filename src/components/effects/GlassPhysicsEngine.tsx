@@ -13,7 +13,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 
 // Physics simulation parameters
 interface PhysicsConfig {

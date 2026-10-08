@@ -14,7 +14,7 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import {

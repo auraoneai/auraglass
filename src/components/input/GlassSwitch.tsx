@@ -245,7 +245,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         depth={2}
         tint={isChecked ? "primary" : "neutral"}
         border="subtle"
-        animation={isMotionSafe && respectMotionPreference ? "shimmer" : "none"}
+        animation="none"
         performanceMode="medium"
         liftOnHover={!disabled}
         press

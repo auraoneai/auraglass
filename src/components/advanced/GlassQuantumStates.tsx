@@ -19,7 +19,7 @@ import {
   AnimatePresence,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";

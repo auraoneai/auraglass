@@ -2,7 +2,7 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import React, {
   forwardRef,
   useCallback,

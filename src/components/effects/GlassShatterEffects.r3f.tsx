@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import { RotateCcw, Triangle, Zap } from "@/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";

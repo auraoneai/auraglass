@@ -3,10 +3,9 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
   AnimatePresence,
   motion,
-  HTMLMotionProps,
-  PanInfo,
   useMotionValue,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
+import type { HTMLMotionProps, PanInfo } from "framer-motion";
 import React, {
   forwardRef,
   useCallback,
@@ -186,7 +185,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
 
     return (
       <motion.div
-        ref={(node) => {
+        ref={(node: any) => {
           containerRef.current = node;
           if (typeof ref === "function") {
             ref(node);
@@ -348,7 +347,7 @@ export function MobileGlassNavigation({
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.2}
-      onDragEnd={(event, info) => {
+      onDragEnd={(event: any, info: any) => {
         const { offset, velocity } = info;
 
         if (Math.abs(offset.x) > swipeThreshold || Math.abs(velocity.x) > 500) {

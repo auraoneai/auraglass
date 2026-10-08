@@ -14,7 +14,11 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlassCore as OptimizedGlass } from "@/primitives/OptimizedGlassCore";
 import { useA11yId } from "@/utils/a11y";
@@ -623,7 +627,7 @@ export function GlassEyeTrackingCalibration({
                 className={cn(
                   "glass-absolute glass-w-4 glass-h-4 glass-translate-x-1/2-neg glass-translate-y-1/2-neg glass-cursor-pointer glass-focus"
                 )}
-                ref={(el) => {
+                ref={(el: any) => {
                   if (el) {
                     el.style.left = `${point.x}%`;
                     el.style.top = `${point.y}%`;
@@ -848,7 +852,7 @@ export function GlassGazeVisualization({
           <motion.div
             key={interaction.region.id}
             className="glass-absolute"
-            ref={(el) => {
+            ref={(el: any) => {
               if (!el) return;
               const r = interaction.region as any;
               el.style.left = typeof r.x === "number" ? `${r.x}px` : r.x;

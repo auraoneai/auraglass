@@ -6,7 +6,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";

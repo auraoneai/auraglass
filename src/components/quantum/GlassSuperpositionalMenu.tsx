@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import type { Transition } from "framer-motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
@@ -57,17 +57,9 @@ const quantumColors = {
   interference: "rgba(71, 85, 105, 0.70)",
 };
 
-const menuGlassStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-  backgroundColor: "rgba(255,255,255,0.018)",
-  border: "1px solid rgba(255,255,255,0.18)",
-  color: "var(--glass-theme-text, var(--glass-text-primary))",
-  backdropFilter: "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  WebkitBackdropFilter:
-    "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  boxShadow: "0 12px 30px rgba(15, 23, 42, 0.1)",
-};
+const menuGlassStyle: React.CSSProperties = createGlassStyle({
+  elev: 2,
+});
 
 const wavePatterns = {
   sine: (t: number, frequency: number) => Math.sin(t * frequency),

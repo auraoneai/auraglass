@@ -13,7 +13,11 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";

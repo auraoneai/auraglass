@@ -1,6 +1,6 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import {
   Droplets,
   Eye,

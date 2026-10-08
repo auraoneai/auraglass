@@ -14,7 +14,7 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { Portal } from "../../primitives/Portal";
@@ -1262,7 +1262,10 @@ export function GlassContextualDashboard({
 
   return (
     <div
-      className={cn("glass-fixed glass-top-4 glass-right-4 glass-z-50", className)}
+      className={cn(
+        "glass-fixed glass-top-4 glass-right-4 glass-z-50",
+        className
+      )}
       style={{ maxWidth: "calc(100vw - 2rem)" }}
     >
       <motion.button

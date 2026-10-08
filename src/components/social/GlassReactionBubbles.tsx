@@ -8,7 +8,7 @@ import React, {
   useRef,
   useMemo,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useGlassSound } from "../../utils/soundDesign";
@@ -431,7 +431,7 @@ export const GlassReactionBubbles = forwardRef<
                 }
               : { duration: 0 }
           }
-          onClick={(e) => handleBubbleClick(bubble, e)}
+          onClick={(e: any) => handleBubbleClick(bubble, e)}
           whileHover={{ scale: getBubbleScale(bubble) * 1.1 }}
           whileTap={{ scale: getBubbleScale(bubble) * 0.9 }}
         >

@@ -5,7 +5,7 @@ import {
   createMotionAwareVariants,
 } from "../../lib/motionPrimitives";
 import { cn } from "../../lib/utilsComprehensive";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import React, { forwardRef } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -118,8 +118,7 @@ export const MotionAwareGlass = forwardRef<
       if (prefersReducedMotion) {
         return {
           hover: {
-            backgroundColor:
-              "var(--glass-neutral-level2-surface)",
+            backgroundColor: "var(--glass-neutral-level2-surface)",
             borderColor: "var(--glass-bg-default)",
             transition: { duration: ANIMATION.DURATION.instant / 1000 },
           },
@@ -128,8 +127,7 @@ export const MotionAwareGlass = forwardRef<
 
       return {
         hover: {
-          backgroundColor:
-            "var(--glass-neutral-level2-surface)",
+          backgroundColor: "var(--glass-neutral-level2-surface)",
           borderColor: "var(--glass-bg-default)",
           y: -2,
           transition: { duration: ANIMATION.DURATION.fast / 1000 },
@@ -271,28 +269,24 @@ export const useMotionAwareGlassStyles: () => {
         case "subtle":
           return {
             ...baseStyle,
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
           };
         case "strong":
           return {
             ...baseStyle,
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
           };
         case "card":
           return {
             ...baseStyle,
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
             padding: "24px",
             boxShadow: "var(--glass-elev-2)",
           };
         default:
           return {
             ...baseStyle,
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
           };
       }
     },

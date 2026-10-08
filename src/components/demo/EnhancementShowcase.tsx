@@ -13,7 +13,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import styles from "./EnhancementShowcase.module.css";
 

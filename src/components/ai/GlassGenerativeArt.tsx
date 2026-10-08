@@ -3,7 +3,7 @@ import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { OptimizedGlass } from "../../primitives";

@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useGlassSound } from "../../utils/soundDesign";

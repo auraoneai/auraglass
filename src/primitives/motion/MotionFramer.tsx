@@ -6,12 +6,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import {
-  motion,
-  type HTMLMotionProps,
-  type Transition,
-  type Variants,
-} from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
+import type { HTMLMotionProps, Transition, Variants } from "framer-motion";
 import { cn } from "@/design-system/utilsCore";
 
 export type AnimationPreset =

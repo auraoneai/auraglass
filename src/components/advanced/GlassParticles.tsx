@@ -11,7 +11,7 @@ import React, {
   useState,
   forwardRef,
 } from "react";
-import { motion, useAnimationFrame } from "framer-motion";
+import { motion, useAnimationFrame } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";

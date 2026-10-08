@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { cn } from "../../lib/utilsComprehensive";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import useAutoTextContrast from "../../hooks/useAutoTextContrast";

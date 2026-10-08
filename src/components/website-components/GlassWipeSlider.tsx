@@ -6,7 +6,12 @@ import {
   useMotionAwareAnimation,
 } from "../../hooks/useMotionPreference";
 import { cn } from "@/lib/utils";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "../../vendor/framer_motion";
 import { useCallback, useEffect, useRef, useState, memo } from "react";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";

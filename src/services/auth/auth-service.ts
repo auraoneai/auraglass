@@ -1,7 +1,12 @@
-import * as jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import jwt from "../../vendor/jsonwebtoken";
+import type {
+  SignOptions as jwtSignOptions_t,
+  Secret as jwtSecret_t,
+} from "jsonwebtoken";
+import bcrypt from "../../vendor/bcryptjs";
 import { randomBytes } from "crypto";
-import { z } from "zod";
+import type * as zt from "zod";
+import { z } from "../../vendor/zod";
 
 export const UserSchema = z.object({
   id: z.string(),
@@ -14,7 +19,7 @@ export const UserSchema = z.object({
   metadata: z.record(z.any()).optional(),
 });
 
-export type User = z.infer<typeof UserSchema>;
+export type User = zt.infer<typeof UserSchema>;
 
 export const TokenPayloadSchema = z.object({
   userId: z.string(),
@@ -25,7 +30,7 @@ export const TokenPayloadSchema = z.object({
   exp: z.number().optional(),
 });
 
-export type TokenPayload = z.infer<typeof TokenPayloadSchema>;
+export type TokenPayload = zt.infer<typeof TokenPayloadSchema>;
 
 export interface AuthConfig {
   jwtSecret: string;
@@ -100,23 +105,23 @@ export class AuthService {
       permissions: user.permissions,
     };
 
-    const signOptions: jwt.SignOptions = {
+    const signOptions: jwtSignOptions_t = {
       expiresIn: this.config.jwtExpiresIn as any,
     };
     return jwt.sign(
       payload as object,
-      this.config.jwtSecret as jwt.Secret,
+      this.config.jwtSecret as jwtSecret_t,
       signOptions
     );
   }
 
   generateRefreshToken(userId: string): string {
-    const opts: jwt.SignOptions = {
+    const opts: jwtSignOptions_t = {
       expiresIn: this.config.refreshTokenExpiresIn as any,
     };
     return jwt.sign(
       { userId, type: "refresh" } as object,
-      this.config.jwtSecret as jwt.Secret,
+      this.config.jwtSecret as jwtSecret_t,
       opts
     );
   }

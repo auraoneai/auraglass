@@ -765,7 +765,9 @@ function WorkspaceHeader({
         </h1>
         <div
           className="glass-text-sm glass-text-primary glass-whitespace-nowrap"
-          style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+          style={{
+            color: "var(--glass-theme-text, var(--glass-text-primary))",
+          }}
         >
           {canEdit ? "✏️ Editing" : "👁️ Viewing"}
         </div>
@@ -892,7 +894,9 @@ function WorkspaceHeader({
             </div>
             <span
               className="glass-text-sm glass-text-primary"
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               {onlineUsers.length} online
             </span>
@@ -931,8 +935,13 @@ function WorkspaceTabs({
   onElementSelect,
   enableComments,
   enableRealTimeSync,
+  value: _value,
+  onValueChange: _onValueChange,
   ...props
-}: WorkspaceTabsProps) {
+}: WorkspaceTabsProps & {
+  value?: string;
+  onValueChange?: (v: string) => void;
+}) {
   const [activeTab, setActiveTab] = useState<"canvas" | "editor">("canvas");
 
   return (

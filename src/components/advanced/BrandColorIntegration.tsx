@@ -9,7 +9,7 @@
  */
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "../../lib/utilsComprehensive";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import React, { useEffect, useState } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import "./BrandColorIntegration.css";

@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "@/lib/utils";
 import { createGlassStyle } from "../../utils/createGlassStyle";

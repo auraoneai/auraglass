@@ -21,7 +21,8 @@ import React, {
   useState,
   useMemo,
 } from "react";
-import { motion, AnimationControls, useAnimation } from "framer-motion";
+import { motion, useAnimation } from "../../vendor/framer_motion";
+import type { AnimationControls } from "framer-motion";
 
 // Import all our advanced engines
 import GlassPhysicsEngine from "../effects/GlassPhysicsEngine";
@@ -43,10 +44,8 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
 // Base button props (simplified for integration)
-interface BaseGlassButtonProps extends Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "size"
-> {
+interface BaseGlassButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
   variant?: "primary" | "secondary" | "destructive" | "ghost" | "outline";
   size?: "xs" | "sm" | "md" | "lg" | "xl";
 }

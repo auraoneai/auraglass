@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import {
   ChevronDown,
   ChevronRight,
@@ -477,7 +477,7 @@ const GlassFacetSearch = React.forwardRef<
                           : { duration: 0.3 }
                       }
                       className="glass-p-3 glass-surface-dark/20 hover:glass-surface-dark/30 glass-radius-lg glass-cursor-pointer glass-transition-all glass-duration-200 glass-border glass-border-white/10 hover:glass-border-white/20"
-                      onClick={(e) => onResultSelect?.(result)}
+                      onClick={(e: any) => onResultSelect?.(result)}
                     >
                       <div className="glass-flex glass-items-start glass-justify-between">
                         <div className="glass-flex-1">

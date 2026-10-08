@@ -1,7 +1,8 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "../../lib/utilsComprehensive";
-import { AnimatePresence, motion, PanInfo } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
+import type { PanInfo } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { easings } from "./AdvancedAnimations";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -356,7 +357,7 @@ export function SwipeableGlassCards({
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.3}
-          onDragEnd={(_, info) => handleDragEnd(info)}
+          onDragEnd={(_: any, info: any) => handleDragEnd(info)}
           className={cn(
             "glass-foundation-complete glass-on-light glass-surface-primary glass-border glass-border-subtle glass-radius-xl glass-p-6 glass-cursor-grab active:glass-cursor-grabbing"
           )}

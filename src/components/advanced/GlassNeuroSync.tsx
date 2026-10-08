@@ -18,7 +18,7 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -1095,7 +1095,7 @@ export function GlassNeuroMetricsDashboard({
                         <div className="glass-flex-1 glass-surface-subtle glass-radius-full glass-h-2">
                           <motion.div
                             className="glass-h-2 glass-radius-full"
-                            ref={(el) => {
+                            ref={(el: any) => {
                               if (el) el.style.backgroundColor = metric.color;
                             }}
                             initial={{ width: 0 }}
@@ -1189,7 +1189,7 @@ export function GlassNeuroFeedback({
         >
           <motion.div
             className="glass-h-full glass-radius-full"
-            ref={(el) => {
+            ref={(el: any) => {
               if (!el) return;
               el.style.backgroundColor = isOnTarget
                 ? "rgba(15, 23, 42, 0.82)"

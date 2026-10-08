@@ -2,7 +2,7 @@
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "../../lib/utilsComprehensive";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import { useEffect, useRef, useState } from "react";
 import { useAccessibility } from "./AccessibilityProvider";
 import { ANIMATION } from "../../tokens/designConstants";

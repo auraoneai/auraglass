@@ -10,7 +10,7 @@ import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { AlertCircle, Eye, EyeOff, Hand, Info, Loader2 } from "@/icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";

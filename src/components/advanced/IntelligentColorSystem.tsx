@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import React, {
@@ -778,10 +778,7 @@ export const ColorAdaptationDemo: React.FC = () => {
           )}
         >
           {Object.entries(currentPalette).map(([name, color]) => (
-            <div
-              key={name}
-              className={cn("glass-min-w-0 glass-text-center")}
-            >
+            <div key={name} className={cn("glass-min-w-0 glass-text-center")}>
               <div
                 className={cn(
                   "glass-w-full glass-h-12 glass-radius-lg glass-mb-2"

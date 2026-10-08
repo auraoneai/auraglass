@@ -11,7 +11,7 @@ import {
   AnimatePresence,
   useSpring,
   useMotionValue,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { glassSoundDesign } from "../../utils/soundDesign";
 import { ContrastGuard } from "../accessibility/ContrastGuard";

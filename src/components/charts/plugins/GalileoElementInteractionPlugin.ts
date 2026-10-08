@@ -1,5 +1,7 @@
 import React from "react";
-import { Chart, Plugin } from "chart.js";
+import { Chart } from "../../../vendor/chart_js";
+import type { Chart as ChartT } from "chart.js";
+import type { Plugin } from "chart.js";
 import { ChartDataPoint } from "../types";
 
 type GalileoChartType = "line" | "bar" | "scatter" | "bubble";
@@ -45,7 +47,7 @@ interface GalileoPluginState {
   mousePosition: GalileoVector;
 }
 
-type GalileoChartInstance = Chart<GalileoChartType> & {
+type GalileoChartInstance = ChartT<GalileoChartType> & {
   galileoConfig?: Required<AuraInteractionConfig>;
   galileoState?: GalileoPluginState;
   galileoCleanup?: () => void;
@@ -137,7 +139,9 @@ const DEFAULT_CONFIG: Required<AuraInteractionConfig> = {
   },
 };
 
-function asGalileoChart(chart: Chart): GalileoChartInstance {
+function asGalileoChart(
+  chart: InstanceType<typeof Chart>
+): GalileoChartInstance {
   return chart as GalileoChartInstance;
 }
 
@@ -288,7 +292,11 @@ export const GalileoElementInteractionPlugin: Plugin<GalileoChartType> = {
 };
 
 // Helper functions
-function updateMagneticEffects(chart: Chart, mouseX: number, mouseY: number) {
+function updateMagneticEffects(
+  chart: InstanceType<typeof Chart>,
+  mouseX: number,
+  mouseY: number
+) {
   const galileoChart = asGalileoChart(chart);
   const config = getGalileoConfig(galileoChart);
   const state = getGalileoState(galileoChart);
@@ -338,7 +346,11 @@ function updateMagneticEffects(chart: Chart, mouseX: number, mouseY: number) {
   });
 }
 
-function updateHoverGlow(chart: Chart, mouseX: number, mouseY: number) {
+function updateHoverGlow(
+  chart: InstanceType<typeof Chart>,
+  mouseX: number,
+  mouseY: number
+) {
   const state = getGalileoState(asGalileoChart(chart));
   if (!state) return;
 
@@ -367,7 +379,7 @@ function updateHoverGlow(chart: Chart, mouseX: number, mouseY: number) {
   state.hoveredElement = closestElement;
 }
 
-function createRipple(chart: Chart, x: number, y: number) {
+function createRipple(chart: InstanceType<typeof Chart>, x: number, y: number) {
   const galileoChart = asGalileoChart(chart);
   const state = getGalileoState(galileoChart);
   const config = getGalileoConfig(galileoChart);

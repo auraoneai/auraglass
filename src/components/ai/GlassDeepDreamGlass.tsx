@@ -3,7 +3,7 @@ import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
 import { OptimizedGlass } from "../../primitives";
@@ -555,7 +555,7 @@ export const GlassDeepDreamGlass = forwardRef<
               whileHover={shouldAnimate ? { scale: 1.01 } : {}}
               whileTap={shouldAnimate ? { scale: 0.99 } : {}}
               onClick={() => toggleLayer(layer.id)}
-              onKeyDown={(event) => {
+              onKeyDown={(event: any) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
                   toggleLayer(layer.id);
@@ -572,7 +572,8 @@ export const GlassDeepDreamGlass = forwardRef<
                       className="glass-px-2 glass-py-0.5 glass-radius-full glass-text-xs glass-font-medium"
                       style={{
                         background: "rgba(71,85,105,.1)",
-                        color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+                        color:
+                          "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
                       }}
                     >
                       {layer.type}

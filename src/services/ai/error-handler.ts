@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/node";
+import Sentry from "../../vendor/sentry_node";
 
 const SENSITIVE_METADATA_KEY =
   /(api[-_]?key|authorization|cookie|password|private[-_]?key|secret|token)/i;

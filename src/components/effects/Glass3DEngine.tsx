@@ -20,7 +20,7 @@ import {
   useSpring,
   useTransform,
   useScroll,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 
 // 3D layer configuration
 interface Glass3DLayer {

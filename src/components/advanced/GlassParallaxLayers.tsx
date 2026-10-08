@@ -5,7 +5,12 @@
  */
 
 import { cn } from "../../lib/utilsComprehensive";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "../../vendor/framer_motion";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import React, {
   forwardRef,

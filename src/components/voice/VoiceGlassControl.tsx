@@ -10,7 +10,7 @@
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import {
   AlertCircle,
   CheckCircle,

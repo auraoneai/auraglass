@@ -126,7 +126,7 @@ import {
   Legend as ChartJsLegend,
   Filler,
   RadialLinearScale,
-} from "chart.js";
+} from "../../vendor/chart_js";
 
 Chart.register(
   CategoryScale,

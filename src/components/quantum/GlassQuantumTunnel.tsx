@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
