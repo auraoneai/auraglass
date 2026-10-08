@@ -16,6 +16,11 @@ module.exports = {
   moduleNameMapper: {
     ...root.moduleNameMapper,
     '^aura-glass$': '<rootDir>/tests/capability/doubles/aura-glass.tsx',
+    // --- lane W2 begin --- real SURF entries (not doubles)
+    '^aura-glass/data$': '<rootDir>/src/data/index.ts',
+    '^aura-glass/date$': '<rootDir>/src/date/index.ts',
+    '^aura-glass/app-shell$': '<rootDir>/src/app-shell/index.ts',
+    // --- lane W2 end ---
   },
   testMatch: ['<rootDir>/tests/capability/**/*.test.{ts,tsx}'],
 };

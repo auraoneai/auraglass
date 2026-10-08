@@ -1,0 +1,9 @@
+/* SourceTransition (SURF-127): view-transition hooks only — all motion is
+   driven by the motion seam on data-ag-vt-participant; css declares the
+   named transition so reduced-motion collapse is automatic (SC-19). */
+@layer ag.components {
+  .ag-source-transition__source,
+  .ag-source-transition__destination {
+    view-transition-name: var(--ag-vt-name, none);
+  }
+}

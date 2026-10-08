@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-now-playing",
+  "type": "registry:item",
+  "title": "Now-playing mini player",
+  "description": "Consumer-owned <audio> + useMediaElement (with Media Session metadata) feeding NowPlayingBar.",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+}

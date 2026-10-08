@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "support-inbox",
+  "type": "registry:block",
+  "title": "Support inbox",
+  "description": "Ticket list (Table + FilterBar) with a conversation detail pane.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

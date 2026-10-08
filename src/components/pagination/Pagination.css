@@ -1,0 +1,30 @@
+/* Pagination (SURF-127): server-rendered link list + island buttons.
+   44px targets come from --ag-touch-target; active page via aria-current. */
+@layer ag.components {
+  .ag-pagination__list {
+    display: flex;
+    align-items: center;
+    gap: var(--ag-space-1, 0.25rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ag-pagination__link {
+    min-inline-size: var(--ag-touch-target, 2.75rem);
+    min-block-size: var(--ag-touch-target, 2.75rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--ag-radius-1, 0.25rem);
+    color: var(--ag-fg, currentColor);
+    text-decoration: none;
+  }
+  .ag-pagination__link[aria-disabled='true'] {
+    opacity: var(--ag-opacity-disabled, 0.4);
+    pointer-events: none;
+  }
+  .ag-pagination__link[aria-current='page'] {
+    background: var(--ag-accent-soft, transparent);
+    font-weight: var(--ag-weight-medium, 500);
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-artifact-panel",
+  "type": "registry:item",
+  "title": "AI artifact panel",
+  "description": "Kind-adapted side panel for agent-produced artifacts (code, document, preview, data).",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [
+    "code-surface"
+  ],
+  "files": [
+    {
+      "path": "ArtifactPanel.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    }
+  ]
+}

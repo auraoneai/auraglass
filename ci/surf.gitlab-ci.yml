@@ -18,7 +18,9 @@
 # --- lane W1 end ---
 
 # --- lane W2 begin ---
-
+# W2 rides the shared jobs: surf:test:doubles matrix cell DOUBLES_AREA=data
+# (tests/data/jest.doubles.cjs) plus the root lint/test lanes registered in
+# fragments/lanes/surf.ts. No W2-specific jobs.
 # --- lane W2 end ---
 
 # --- lane W3 begin ---
@@ -33,8 +35,8 @@ surf:build:ai-fixtures:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
-    - node scripts/surf/gen-ai-fixtures.mjs
     - node scripts/surf/gen-ai-fixtures.mjs --check
+    - node scripts/build/gen-ai-thread-fixture.mjs --check
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
@@ -52,12 +54,13 @@ surf:test:ai-sdk:
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
   script:
-    - |
-      if [ -d "tests/ai" ] && ls tests/ai/*.test.ts >/dev/null 2>&1; then
-        npx jest tests/ai --ci
-      else
-        echo "pending: tests/ai/*.test.ts not present"
-      fi
+    # AC-SURF-02: the pins install into .artifacts/, never the repo package.json.
+    - mkdir -p .artifacts/surf/ai-sdk
+    - cp ci/surf/ai-sdk/package.json .artifacts/surf/ai-sdk/package.json
+    - npm install --prefix .artifacts/surf/ai-sdk --no-save
+    - ln -sfn ../../../.artifacts/surf/ai-sdk/node_modules ci/surf/ai-sdk/node_modules
+    - npx tsc -p ci/surf/ai-sdk/tsconfig.json
+    - npx jest ci/surf/ai-sdk --ci
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "analytics-dashboard",
+  "type": "registry:block",
+  "title": "Analytics dashboard",
+  "description": "StatCard row + Sparkline + ChartFrame + Timeline.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

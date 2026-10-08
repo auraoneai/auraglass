@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tree-select",
+  "type": "registry:item",
+  "title": "Tree select",
+  "description": "Hierarchical single-select — trigger + TreeView popup.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

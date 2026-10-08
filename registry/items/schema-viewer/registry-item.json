@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "schema-viewer",
+  "type": "registry:item",
+  "title": "Schema viewer",
+  "description": "JSON-schema document rendered as a TreeView.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

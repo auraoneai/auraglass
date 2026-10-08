@@ -1,0 +1,14 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-viewer",
+  "type": "registry:block",
+  "title": "Media viewer",
+  "description": "Media detail page: Backdrop photo + consumer-owned <video> with captions, compound MediaControls, ImageViewer gallery — tone sampled from owned pixels.",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" },
+    { "path": "page.tsx", "type": "registry:item" }
+  ]
+}

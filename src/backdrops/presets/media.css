@@ -1,0 +1,12 @@
+/* --- lane W4 begin --- */
+/* presets/media.css (SURF-429): the media preset layer — photo/video fill the
+ * 120% drift box; tone hint vars come from useMediaElement sampleTone. */
+.ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > img,
+.ag-backdrop[data-ag-backdrop='media'] > .ag-backdrop-layer > video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+.ag-backdrop[data-ag-media-tone='light'] { --_ag-backdrop-tone: light; }
+.ag-backdrop[data-ag-media-tone='dark'] { --_ag-backdrop-tone: dark; }
+/* --- lane W4 end --- */

@@ -2,19 +2,50 @@
 import type { CssFragment } from '../../src/contracts/fragments';
 
 // --- lane W1 begin ---
-const w1 = [] as const;
+const w1 = [
+  { file: 'src/app-shell/app-shell.css', layer: 'ag.components', bundle: 'app-shell.css' },
+  { file: 'src/components/tabs/Tabs.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/tab-bar/TabBar.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/breadcrumbs/Breadcrumbs.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/pagination/Pagination.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/command-palette/Command.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/source-transition/SourceTransition.css', layer: 'ag.components', bundle: 'styles.css' },
+] as const;
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
-const w2 = [] as const;
+const w2 = [
+  { file: 'src/data/table/table.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/chip/Chip.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/key-value-editor/KeyValueEditor.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/filter-bar/filter-bar.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/stat-card/stat-card.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/chart-frame/chart-frame.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/sparkline/sparkline.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/tree-view/tree-view.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/date/date.css', layer: 'ag.components', bundle: 'date.css' },
+  { file: 'src/components/timeline/timeline.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/charts/charts.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/data.css', layer: 'ag.components', bundle: 'data.css', order: 90 },
+] as const;
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = [] as const;
+const w3 = [
+  { file: 'src/ai/ai.css', layer: 'ag.components', bundle: 'ai.css' },
+] as const;
 // --- lane W3 end ---
 
 // --- lane W4 begin ---
-const w4 = [] as const;
+const w4 = [
+  { file: 'src/media/media.css', layer: 'ag.components', bundle: 'media.css' },
+  { file: 'src/backdrops/backdrops.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/aurora.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/mesh.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/photo.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/video.css', layer: 'ag.components', bundle: 'backdrops.css' },
+  { file: 'src/backdrops/presets/grain.css', layer: 'ag.components', bundle: 'backdrops.css' },
+] as const;
 // --- lane W4 end ---
 
 // --- lane W5 begin ---

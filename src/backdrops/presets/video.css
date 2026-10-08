@@ -1,0 +1,5 @@
+/* video — pause control placement lives in backdrops.css; preset-scoped
+ * declarations only. */
+@layer backdrops {
+  .ag-backdrop[data-ag-backdrop-preset='video'] .ag-backdrop-layer > video { display: block; }
+}

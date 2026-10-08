@@ -1,0 +1,1 @@
+export { PermissionsMatrix } from './PermissionsMatrix';

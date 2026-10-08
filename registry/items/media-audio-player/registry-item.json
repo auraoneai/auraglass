@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "media-audio-player",
+  "type": "registry:item",
+  "title": "Audio player",
+  "description": "Consumer-owned <audio> + useMediaElement + MediaControls (play, scrubber, time, volume, rate).",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+}

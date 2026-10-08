@@ -1,0 +1,196 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.components {
+  /* Private shell geometry (contract §4.2): --_ag-app-shell-* vars are component
+     internals derived from the S-03 public scale only — never public API.
+     Grid columns never transition: layout changes are instant; motion presets
+     animate the panel contents, not the tracks. */
+  .ag-app-shell {
+    --_ag-app-shell-side: 16rem;
+    --_ag-app-shell-rail: 4rem;
+    --_ag-app-shell-insp: 20rem;
+    --_ag-app-shell-top: 3.25rem;
+    --_ag-app-shell-tabbar: 3.5rem;
+    --_ag-app-shell-gap: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
+
+    container: ag-app-shell / inline-size;
+    display: grid;
+    block-size: 100dvh;
+    grid-template-areas:
+      'skip skip skip'
+      'side top insp'
+      'side main insp'
+      'side status insp';
+    grid-template-columns:
+      var(--_ag-app-shell-side) minmax(0, 1fr) var(--_ag-app-shell-insp);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+
+  /* Parts self-place by data-ag-slot (server markup has no JS positioning). */
+  .ag-app-shell [data-ag-slot='skip'] {
+    grid-area: skip;
+    position: absolute;
+    inset-inline-start: 0;
+    overflow: hidden;
+    clip-path: inset(0 0 100% 0);
+  }
+  .ag-app-shell [data-ag-slot='skip']:focus-within {
+    position: static;
+    clip-path: none;
+  }
+  .ag-app-shell [data-ag-slot='sidebar'] {
+    grid-area: side;
+    min-inline-size: 0;
+    overflow: hidden;
+  }
+  .ag-app-shell[data-ag-sidebar='collapsed'] [data-ag-slot='sidebar'] {
+    visibility: hidden;
+  }
+  .ag-app-shell [data-ag-slot='top'] {
+    grid-area: top;
+    min-block-size: var(--_ag-app-shell-top);
+  }
+  .ag-app-shell [data-ag-slot='main'] {
+    grid-area: main;
+    min-inline-size: 0;
+    min-block-size: 0;
+    overflow: auto;
+    scroll-padding-block-start: var(--ag-scroll-padding-top, 0px);
+  }
+  .ag-app-shell [data-ag-slot='inspector'] {
+    grid-area: insp;
+    min-inline-size: 0;
+    overflow: hidden auto;
+  }
+  .ag-app-shell[data-ag-inspector='closed'] [data-ag-slot='inspector'] {
+    visibility: hidden;
+  }
+  .ag-app-shell [data-ag-slot='status'] {
+    grid-area: status;
+    min-inline-size: 0;
+  }
+  .ag-app-shell [data-ag-slot='tabbar'] {
+    display: none;
+    grid-area: tabbar;
+    min-block-size: var(--_ag-app-shell-tabbar);
+  }
+
+  /* Column state driven by data attributes so RSC/SSR emits identical markup. */
+  .ag-app-shell[data-ag-sidebar='rail'] {
+    --_ag-app-shell-side: var(--_ag-app-shell-rail);
+  }
+  .ag-app-shell[data-ag-sidebar='collapsed'] {
+    --_ag-app-shell-side: 0rem;
+  }
+  .ag-app-shell[data-ag-inspector='closed'] {
+    --_ag-app-shell-insp: 0rem;
+  }
+
+  /* Right-docked sidebar swaps the two fixed columns. */
+  .ag-app-shell[data-ag-sidebar-side='end'] {
+    grid-template-areas:
+      'skip skip skip'
+      'insp top side'
+      'insp main side'
+      'insp status side';
+    grid-template-columns:
+      var(--_ag-app-shell-insp) minmax(0, 1fr) var(--_ag-app-shell-side);
+  }
+
+  /* Overlay top bar floats over main; its height is handed back to the scroll
+     region so content is never covered at scroll edges. */
+  .ag-app-shell:has(> .ag-top-bar[data-ag-placement='overlay']) {
+    /* SURF-119: focused content must clear the overlay bar + breathing room,
+       resolved in css — no JS measurement. */
+    --ag-scroll-padding-top: calc(var(--_ag-app-shell-top) + var(--ag-space-2, 0.5rem));
+  }
+  .ag-top-bar[data-ag-placement='overlay'] {
+    grid-area: main;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--ag-z-overlay, 30);
+  }
+
+  /* Compact geometry — applied by the container query below in layout=auto,
+     and by data-ag-layout='compact' when the app pins a mode. */
+  .ag-app-shell[data-ag-layout='compact'] {
+    --_ag-app-shell-top: 2.75rem;
+    --_ag-app-shell-side: 0rem;
+    --_ag-app-shell-insp: 0rem;
+    grid-template-areas:
+      'skip'
+      'top'
+      'main'
+      'tabbar';
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    padding-block-start: env(safe-area-inset-top);
+  }
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='tabbar'] {
+    display: grid;
+    padding-block-end: env(safe-area-inset-bottom);
+  }
+  .ag-app-shell[data-ag-layout='compact'] [data-ag-slot='status'] {
+    display: none;
+  }
+  .ag-app-shell[data-ag-layout='medium'][data-ag-sidebar='expanded'] {
+    --_ag-app-shell-side: var(--_ag-app-shell-rail);
+  }
+  .ag-app-shell[data-ag-layout='wide'] [data-ag-slot='main'] {
+    max-inline-size: var(--ag-content-max, 96rem);
+    inline-size: 100%;
+    margin-inline: auto;
+  }
+
+  /* Compact: < 600px — sidebar becomes an off-canvas drawer, inspector is
+     hidden, the bottom tab bar appears (its slots render via data-ag-slot). */
+  @container ag-app-shell (width < 600px) {
+    .ag-app-shell[data-ag-layout='auto'] {
+      --_ag-app-shell-top: 2.75rem;
+      --_ag-app-shell-side: 0rem;
+      --_ag-app-shell-insp: 0rem;
+      grid-template-areas:
+        'skip'
+        'top'
+        'main'
+        'tabbar';
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      padding-block-start: env(safe-area-inset-top);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
+      display: grid;
+      padding-block-end: env(safe-area-inset-bottom);
+    }
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
+      display: none;
+    }
+  }
+
+  /* Medium: 600–1023px — an expanded sidebar collapses to the rail width. */
+  @container ag-app-shell (600px <= width < 1024px) {
+    .ag-app-shell[data-ag-layout='auto'][data-ag-sidebar='expanded'] {
+      --_ag-app-shell-side: var(--_ag-app-shell-rail);
+    }
+  }
+
+  /* Wide: >= 1440px — cap the content column so lines stay readable. */
+  @container ag-app-shell (width >= 1440px) {
+    .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='main'] {
+      max-inline-size: var(--ag-content-max, 96rem);
+      inline-size: 100%;
+      margin-inline: auto;
+    }
+  }
+  /* SURF-060: workspace auto-grid — content cards flow on a responsive track
+     inside Main; tokens only, no JS layout. */
+  .ag-app-shell__auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr));
+    gap: var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-4, 1rem);
+  }
+}
+

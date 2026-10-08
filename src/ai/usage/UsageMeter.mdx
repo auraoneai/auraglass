@@ -1,0 +1,39 @@
+{/* UsageMeter.mdx — SURF-364. Meta-driven docs page for UsageMeter.*/}
+import { Anatomy, KeyboardTable, MigrationTable, PropsTable } from '../../../.storybook/blocks';
+import Meta from './UsageMeter.meta';
+
+# UsageMeter
+
+Token/cost usage summary — input/output/cached/reasoning rows plus a context-window meter; server-renderable.
+
+## Anatomy
+
+<Anatomy of={Meta} />
+
+## Keyboard
+
+<KeyboardTable script={[]} />
+
+## Props
+
+<PropsTable of={Meta} />
+
+## Migration from 4.x
+
+<MigrationTable of={Meta} />
+
+## Using with the Vercel AI SDK
+
+`useChat()` from `@ai-sdk/react` returns messages already assignable to
+`AgMessage` — pass them straight through:
+
+```tsx
+const { messages, sendMessage, status } = useChat();
+<Thread messages={messages} streaming={status === 'streaming'} />
+```
+
+## Routing models through Kiro Prism
+
+The library makes no model call itself — see the `ai-workspace` registry block
+and `apps/docs/content/surf/ai-prism-routing.md` for the reference route
+(`createOpenAICompatible` against `https://prism.auraone.ai/v1`).

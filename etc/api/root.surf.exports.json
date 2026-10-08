@@ -1,4 +1,8 @@
 {
  "entry": "root.surf",
- "exports": []
+ "exports": [
+  "ActivityFeed",
+  "Timeline",
+  "formatTimestamp"
+ ]
 }

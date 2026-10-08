@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "backdrop-hero",
+  "type": "registry:item",
+  "title": "Backdrop hero",
+  "description": "Hero section composed on Backdrop presets (aurora/mesh/grain server-renderable; photo/video consumer-supplied media).",
+  "dependencies": ["react", "aura-glass"],
+  "registryDependencies": [],
+  "files": [{ "path": "index.tsx", "type": "registry:item" }]
+}

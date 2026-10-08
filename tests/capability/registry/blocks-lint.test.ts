@@ -17,7 +17,7 @@ const SCHEMA = JSON.parse(
 // below is the SURF-owned namespace (PLAT ids are checked by PLAT's lane).
 const SURF_BLOCKS = new Set([
   'app-frame', 'ai-workspace', 'data-workspace', 'analytics-dashboard',
-  'media-viewer', 'support-inbox', 'mobile-settings', 'backdrop-hero',
+  'media-viewer', 'support-inbox', 'mobile-settings',
   'app-shell-workspace', 'commerce-cart', 'commerce-checkout', 'pricing',
   'audit-log', 'permissions-matrix',
 ]);
@@ -25,6 +25,13 @@ const SURF_ITEMS = new Set([
   'code-surface', 'diff-viewer', 'gantt', 'kanban', 'react-hook-form',
   'rich-text', 'transfer-list', 'presence-stack', 'comment-thread',
   'faceted-search', 'query-builder', 'schema-viewer', 'tree-select',
+  'app-shell-workspace',
+  // lane W3 (SURF-356/370..374/390)
+  'ai-artifact-panel', 'ai-eval-dashboard', 'ai-markdown', 'ai-model-picker',
+  'ai-sdk-adapter', 'ai-trace-tree', 'ai-voice-input',
+  // lane W4 (SURF-502/512)
+  'backdrop-hero', 'media-video-player', 'media-audio-player', 'media-gallery',
+  'media-now-playing', 'media-transcript',
 ]);
 const PUBLIC_AURA = new Set([
   'aura-glass', 'aura-glass/app-shell', 'aura-glass/data', 'aura-glass/date',

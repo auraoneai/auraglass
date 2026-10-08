@@ -1,0 +1,74 @@
+<!doctype html>
+<!-- SURF-012: static app-shell fixture. Loads only dist tokens/core CSS and
+     dist/css/app-shell.css — no Tailwind, no JS. The 900px wrapper inside the
+     1920px Playwright viewport proves layout follows the CONTAINER, not the
+     viewport (REQ-SURF-16). data-ag-safe-area overrides emulate a notched
+     device via env() fallback variables set by the spec harness. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SURF app-shell static fixture</title>
+    <link rel="stylesheet" href="/dist/tokens.css" />
+    <link rel="stylesheet" href="/dist/styles.css" />
+    <link rel="stylesheet" href="/dist/css/app-shell.css" />
+    <style>
+      /* Harness-provided safe-area emulation: real env() values cannot be set
+         in headless browsers, so the spec injects --ag-test-safe-* and this
+         fixture re-declares the root padding with them when present. */
+      .ag-app-shell {
+        padding-inline: var(--ag-test-safe-left, env(safe-area-inset-left))
+          var(--ag-test-safe-right, env(safe-area-inset-right));
+      }
+      /* 900px wrapper inside a wide viewport — the container is the shell, so
+         narrowing the wrapper narrows the shell even though the viewport stays
+         1920px wide. */
+      .fixture-host {
+        inline-size: 900px;
+        block-size: 100dvh;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fixture-host">
+      <div
+        class="ag-app-shell"
+        data-ag-part="root"
+        data-ag-sidebar="expanded"
+        data-ag-inspector="open"
+        data-ag-layout="auto"
+        data-ag-sidebar-side="start"
+        data-ag-density="regular"
+        data-ag-backdrop="none"
+        data-ag-persist-key=""
+      >
+        <a data-ag-slot="skip" href="#main">Skip to content</a>
+        <aside data-ag-slot="sidebar" id="sidebar">
+          <nav aria-label="Primary">
+            <ul>
+              <li><a href="#" aria-current="page">Home</a></li>
+              <li><a href="#">Reports</a></li>
+              <li><a href="#">Settings</a></li>
+            </ul>
+          </nav>
+        </aside>
+        <header data-ag-slot="top" class="ag-top-bar">
+          <strong>Fixture</strong>
+        </header>
+        <main data-ag-slot="main" id="main" tabindex="-1">
+          <h1>Static shell</h1>
+          <p style="block-size: 200vh">Tall content to prove main owns scroll.</p>
+        </main>
+        <aside data-ag-slot="inspector" id="inspector">
+          <h2>Inspector</h2>
+        </aside>
+        <footer data-ag-slot="status">
+          <span>Ready</span>
+        </footer>
+        <nav data-ag-slot="tabbar" aria-label="Tab bar">
+          <a href="#">Home</a>
+        </nav>
+      </div>
+    </div>
+  </body>
+</html>

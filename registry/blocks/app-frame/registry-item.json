@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "app-frame",
+  "type": "registry:block",
+  "title": "App frame",
+  "description": "The GA application frame — AppShell with sidebar navigation, top bar, status bar and a docked inspector.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

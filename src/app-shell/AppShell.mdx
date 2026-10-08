@@ -1,0 +1,30 @@
+{/* AppShell.mdx — SURF-101. Imports only the S-51 docs blocks (QUAL-owned
+   module); renders the AppShell meta's anatomy, keyboard script, prop and
+   migration tables. */}
+import { Anatomy, KeyboardTable, MigrationTable, PropsTable, SelectorTable } from '../../../.storybook/blocks';
+import AppShellMeta from './AppShell.meta';
+import SidebarMeta from './Sidebar.meta';
+
+# AppShell
+
+The 5.0 application frame: server-rendered compound (`AppShell.Root`, `Main`,
+`PageHeader`, `SkipLink`) with client islands (`SidebarToggle`,
+`InspectorToggle`, `Controller`, `SidebarDrawer`). State persists through the
+`ag-shell-*` cookie so SSR and hydration agree.
+
+## Anatomy
+
+<Anatomy of={AppShellMeta} />
+
+## Sidebar
+
+<Anatomy of={SidebarMeta} />
+
+## Props
+
+<PropsTable of={AppShellMeta} />
+
+## Migration from 4.x
+
+<MigrationTable of={AppShellMeta} />
+<SelectorTable of={AppShellMeta} />

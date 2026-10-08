@@ -11,11 +11,23 @@ const w1 = {};
 // --- lane W1 end ---
 
 // --- lane W2 begin ---
+// W2 builtin-rule assertions (SURF-137/138): the strict map only emits
+// 'auraglass/<rule>' configs, so react-hooks/rules-of-hooks and
+// no-restricted-properties (toLocale* ban) cannot be expressed here.
+// Coverage: rules-of-hooks is 'error' over '**/*.{ts,tsx,js,jsx,mjs,cjs}' in
+// eslint.config.js — asserted for SURF paths by
+// tests/lint/surf/rules-of-hooks.test.ts against the conditional-hook
+// fixture; the toLocale* ban is enforced repo-wide by
+// tests/lint/surf/locale-guard.test.ts (config-level form is contract-owned).
 const w2 = {};
 // --- lane W2 end ---
 
 // --- lane W3 begin ---
-const w3 = {};
+// SURF-357 (REQ-SURF-05): auraglass/no-network-in-ai at error over the AI
+// surface — the rule module ships in this lane (lint/rules/surf/no-network-in-ai.cjs).
+const w3 = {
+  'no-network-in-ai': ['src/ai/*.{ts,tsx,js,jsx}', 'src/ai/*/!(__tests__|__fixtures__)/**'],
+};
 // --- lane W3 end ---
 
 // --- lane W4 begin ---

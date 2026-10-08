@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-workspace",
+  "type": "registry:block",
+  "title": "Data workspace",
+  "description": "Collection sidebar (TreeView) + FilterBar + Table + StatCards + Pagination.",
+  "dependencies": ["react"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

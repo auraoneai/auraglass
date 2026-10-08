@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ai-trace-tree",
+  "type": "registry:item",
+  "title": "AI trace tree",
+  "description": "Nested agent trace with timing and expandable per-step detail; wraps the shipped AgStep model.",
+  "dependencies": [
+    "react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "TraceTree.tsx",
+      "type": "registry:item"
+    },
+    {
+      "path": "index.tsx",
+      "type": "registry:item"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+ "entry": "./date",
+ "exports": [
+  "Calendar",
+  "DateField",
+  "DatePicker",
+  "DateRangePicker",
+  "RangeCalendar",
+  "TimeField",
+  "TimePicker"
+ ]
+}
