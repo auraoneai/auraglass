@@ -1,0 +1,213 @@
+/* aura-glass 5.0 — interaction motion (REQ-MAT-42..44, REQ-MOT-10..18).
+   Layer: ag.material (REQ-MAT-19). Only @property rules sit outside the layer block.
+   Contract values come from MOTION_CSS_VARS / SPRINGS (src/contracts/motion.ts);
+   spring timing resolves through --ag-spring-* emitted by the token compiler (linear() curves
+   with an @supports fallback to named eases, REQ-MAT-08). */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* ---- motion scalars (REQ-MOT-10): registered so the transitions below interpolate. ---- */
+@property --_ag-hover {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --_ag-press {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --_ag-optics {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+@property --_ag-pointer {
+  syntax: '<percentage>+';
+  inherits: false;
+  initial-value: 50% 30%;
+}
+
+@layer ag.material {
+
+  /* ---- interaction states (REQ-MOT-11/-100): light only, never geometry.
+     Entering :hover uses micro/standard; the base rule's transition governs
+     the release (micro-exit/accelerate). No scale/transform/translate/rotate
+     appears in any hover or press rule (SC-38). ---- */
+  [data-ag-interactive] {
+    transition:
+      --ag-specular var(--ag-duration-micro-exit) var(--ag-ease-accelerate),
+      --_ag-hover var(--ag-duration-micro-exit) var(--ag-ease-accelerate),
+      --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard));
+  }
+
+  @media (hover: hover) {
+    [data-ag-interactive]:hover {
+      --_ag-hover: 1;
+      --ag-specular: var(--ag-state-hover-specular);
+      transition:
+        --ag-specular var(--ag-duration-micro) var(--ag-ease-standard),
+        --_ag-hover var(--ag-duration-micro) var(--ag-ease-standard),
+        --_ag-press var(--ag-spring-snappy-duration, var(--ag-duration-instant)) var(--ag-spring-snappy, var(--ag-ease-standard));
+    }
+  }
+
+  [data-ag-interactive]:active,
+  [data-pressed] {
+    --_ag-press: 1;
+    transition: --_ag-press var(--ag-duration-instant) var(--ag-ease-standard);
+  }
+
+  /* ---- popup enter/exit (§4.6, REQ-MOT-14/-105/-102).
+     Every transition lists properties from ANIMATABLE (S-12) only;
+     display/overlay ride allow-discrete so Base UI exit keeps the element
+     mounted until the transition finishes (no JS unmount delay). ---- */
+  [data-ag-overlay],
+  [data-ag-surface][data-starting-style],
+  [data-ag-surface][data-ending-style] {
+    --_ag-side-sign: 0;
+    transition:
+      opacity var(--ag-duration-small) var(--ag-spring-snappy, var(--ag-ease-standard)),
+      scale var(--ag-spring-snappy-duration, var(--ag-duration-small)) var(--ag-spring-snappy, var(--ag-ease-standard)),
+      translate var(--ag-spring-snappy-duration, var(--ag-duration-small)) var(--ag-spring-snappy, var(--ag-ease-standard)),
+      --_ag-optics calc(var(--ag-duration-small) * 0.6) var(--ag-ease-standard),
+      display var(--ag-duration-small) var(--ag-ease-standard) allow-discrete,
+      overlay var(--ag-duration-small) var(--ag-ease-standard) allow-discrete;
+    transition-behavior: allow-discrete;
+  }
+
+  /* anchored menus translate 4 px from the anchor side */
+  :is([data-ag-overlay=popover], [data-ag-overlay=menu], [data-ag-overlay=select], [data-ag-overlay=combobox], [data-ag-overlay=tooltip], [data-ag-overlay=preview-card]) {
+    --_ag-side-sign: 1;
+  }
+  :is([data-ag-overlay=popover], [data-ag-overlay=menu], [data-ag-overlay=select], [data-ag-overlay=combobox], [data-ag-overlay=tooltip], [data-ag-overlay=preview-card])[data-side=top] {
+    --_ag-side-sign: -1;
+  }
+
+  /* sheet slides along its edge; side comes from Base UI's data-side */
+  [data-ag-overlay=sheet] { --_ag-edge-x: 0; --_ag-edge-y: 1; }
+  [data-ag-overlay=sheet][data-side=top] { --_ag-edge-y: -1; }
+  [data-ag-overlay=sheet][data-side=left] { --_ag-edge-x: -1; --_ag-edge-y: 0; }
+  [data-ag-overlay=sheet][data-side=right] { --_ag-edge-x: 1; --_ag-edge-y: 0; }
+
+  /* medium + spring-smooth for the modal/dialog family */
+  :is([data-ag-overlay=dialog], [data-ag-overlay=alert-dialog], [data-ag-overlay=sheet], [data-ag-overlay=toast]) {
+    transition:
+      opacity var(--ag-duration-medium) var(--ag-ease-standard),
+      scale var(--ag-spring-smooth-duration, var(--ag-duration-medium)) var(--ag-spring-smooth, var(--ag-ease-standard)),
+      translate var(--ag-spring-smooth-duration, var(--ag-duration-medium)) var(--ag-spring-smooth, var(--ag-ease-standard)),
+      --_ag-optics calc(var(--ag-duration-medium) * 0.6) var(--ag-ease-standard),
+      display var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete,
+      overlay var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete;
+  }
+
+  [data-starting-style] {
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 calc(var(--_ag-side-sign, 0) * 4px);
+    --_ag-optics: 0;
+    transform-origin: var(--transform-origin);
+    will-change: transform, opacity;
+  }
+
+  [data-ending-style] {
+    opacity: 0;
+    scale: 0.96;
+    translate: 0 calc(var(--_ag-side-sign, 0) * 4px);
+    --_ag-optics: 0;
+    will-change: transform, opacity;
+    /* exit: accelerate + the exit-duration variant */
+    transition:
+      opacity var(--ag-duration-small-exit) var(--ag-ease-accelerate),
+      scale var(--ag-duration-small-exit) var(--ag-ease-accelerate),
+      translate var(--ag-duration-small-exit) var(--ag-ease-accelerate),
+      --_ag-optics var(--ag-duration-small-exit) var(--ag-ease-accelerate),
+      display var(--ag-duration-small-exit) var(--ag-ease-accelerate) allow-discrete,
+      overlay var(--ag-duration-small-exit) var(--ag-ease-accelerate) allow-discrete;
+  }
+
+  :is([data-ag-overlay=dialog], [data-ag-overlay=alert-dialog], [data-ag-overlay=sheet], [data-ag-overlay=toast])[data-ending-style] {
+    transition:
+      opacity var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
+      scale var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
+      translate var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
+      --_ag-optics var(--ag-duration-medium-exit) var(--ag-ease-accelerate),
+      display var(--ag-duration-medium-exit) var(--ag-ease-accelerate) allow-discrete,
+      overlay var(--ag-duration-medium-exit) var(--ag-ease-accelerate) allow-discrete;
+  }
+
+  [data-ag-overlay=sheet][data-starting-style] {
+    scale: none;
+    translate: calc(var(--_ag-edge-x) * 100%) calc(var(--_ag-edge-y) * 100%);
+  }
+  [data-ag-overlay=sheet][data-ending-style] {
+    scale: none;
+    translate: calc(var(--_ag-edge-x) * 100%) calc(var(--_ag-edge-y) * 100%);
+  }
+
+  [data-ag-overlay=toast][data-starting-style] {
+    scale: none;
+    translate: 0 8px;
+  }
+  [data-ag-overlay=toast][data-ending-style] {
+    scale: none;
+    translate: 0 8px;
+  }
+
+  /* scrims fade only (scrim blur is static) */
+  [data-ag-layer=scrim] {
+    transition:
+      opacity var(--ag-duration-medium) var(--ag-ease-standard),
+      display var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete,
+      overlay var(--ag-duration-medium) var(--ag-ease-standard) allow-discrete;
+  }
+  [data-ag-layer=scrim][data-starting-style],
+  [data-ag-layer=scrim][data-ending-style] {
+    scale: none;
+    translate: none;
+    will-change: opacity;
+    transition: opacity var(--ag-duration-medium-exit) var(--ag-ease-accelerate);
+  }
+
+  /* mid-animation marker written by the runtime / Shared layout path */
+  [data-ag-animating] {
+    will-change: transform, opacity;
+  }
+
+  /* depth transition: data-ag-layer change cross-fades --_ag-optics
+     (shadow pseudo-layers are owned by material.css and read --_ag-optics) */
+  [data-ag-layer] {
+    transition: --_ag-optics var(--ag-duration-small) var(--ag-ease-standard);
+  }
+
+  /* toast stack reflow: transform/opacity only */
+  [data-ag-overlay=toast-viewport] > [data-ag-overlay=toast],
+  [data-ag-part=toast-viewport] [data-ag-part=toast-root] {
+    transition:
+      transform var(--ag-duration-small) var(--ag-spring-smooth, var(--ag-ease-standard)),
+      opacity var(--ag-duration-small) var(--ag-ease-standard);
+  }
+
+  /* menu submenu expansion: transform/opacity only */
+  [data-ag-part=menu-submenu],
+  [data-ag-part=menu-content] {
+    transition:
+      transform var(--ag-duration-small) var(--ag-ease-standard),
+      opacity var(--ag-duration-small) var(--ag-ease-standard);
+  }
+
+  /* select/combobox item highlight: paint only */
+  :is([data-ag-part=select-item], [data-ag-part=combobox-item], [data-ag-part=menu-item], [data-ag-part=item]) {
+    transition:
+      background-color var(--ag-duration-instant) var(--ag-ease-standard),
+      color var(--ag-duration-instant) var(--ag-ease-standard);
+  }
+
+  /* non-Base-UI entrances: @starting-style, opacity + translate only (REQ-MOT-15) */
+  [data-ag-part=toast-item],
+  [data-ag-part=thread-message] {
+    @starting-style {
+      opacity: 0;
+      translate: 0 8px;
+    }
+  }
+}
