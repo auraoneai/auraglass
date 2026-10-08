@@ -1,0 +1,16 @@
+{
+ "expect": {
+  "code": 0,
+  "contains": [
+   "success"
+  ]
+ },
+ "pipelines": [
+  {
+   "id": 1,
+   "status": "success",
+   "sha": "sha-under-test",
+   "web_url": "https://gitlab.com/x/-/pipelines/1"
+  }
+ ]
+}

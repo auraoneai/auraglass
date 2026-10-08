@@ -4,9 +4,9 @@
 stages: [contract, build, test, certify, package, deploy, publish]
 
 variables:
-  AG_NODE_IMAGE: "node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8"
-  AG_PLAYWRIGHT_IMAGE: "mcr.microsoft.com/playwright:v1.63.0-noble" # must equal the @playwright/test pin (§4.12)
-  AG_NPM_VERSION: "11.21.0"
+  AG_NODE_IMAGE: "node:22-bookworm@sha256:0e5f906573693feaa1e21057ebdcfdb5bd5021f050b2dc7c9deceb629c7da2a8"  # PLAT pins a digest at C0
+  AG_PLAYWRIGHT_IMAGE: "mcr.microsoft.com/playwright:v1.56.1-noble" # must equal the @playwright/test pin (§4.12)
+  AG_NPM_VERSION: "11.21.0"                                       # >= 11.5.1 for trusted publishing; PLAT pins exact at C0
   AG_PAGES_BRANCH: "release/4.x"                                    # becomes "main" at 5.0 GA
   AG_V4_DIST_TAG: "latest"                                          # becomes "v4-lts" at 5.0 GA
   AURAGLASS_EVIDENCE_DIR: ".artifacts"
