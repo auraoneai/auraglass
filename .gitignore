@@ -187,3 +187,4 @@ tests/visual/**/*.spec.ts-snapshots/
 /dist-maps.tgz
 /storybook-static/
 __generated__/
+dist-maps/

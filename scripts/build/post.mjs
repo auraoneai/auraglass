@@ -7,8 +7,8 @@
       + build/server-safe-exports.json
    5. verify-artifact.mjs  (hard gate — fails the build) */
 import { execFileSync } from 'node:child_process';
-import { existsSync, writeFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, writeFileSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { ROOT, DIST, buildableEntries } from './lib/graph.mjs';
 import { assembleAllCss, LAYER_CONTENT_OWNER } from './lib/css.mjs';
 import { rewriteAll } from './rewrite-dts-aliases.mjs';
@@ -35,6 +35,24 @@ execFileSync('node', ['scripts/build/gen-tailwind-bridge.mjs'], { cwd: ROOT, std
 
 step(3, 'package exports');
 execFileSync('node', ['scripts/build/generate-exports.mjs', '--write'], { cwd: ROOT, stdio: 'inherit' });
+
+step('3b', 'sourcemap staging');
+/* PLAT-296: **\/\*.map is tarball-denied; CI packages dist-maps.tgz separately.
+   Stage maps beside dist/ so the packed dist/ is map-free. */
+const MAP_STAGE = join(ROOT, 'dist-maps');
+const collectMaps = (dir, rel = '') => {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) collectMaps(p, join(rel, e.name));
+    else if (e.name.endsWith('.map')) {
+      const dest = join(MAP_STAGE, rel, e.name);
+      mkdirSync(dirname(dest), { recursive: true });
+      renameSync(p, dest);
+    }
+  }
+};
+collectMaps(DIST);
+console.log(`   staged sourcemaps -> dist-maps/`);
 
 step(4, 'records');
 if (existsSync(join(ROOT, 'scripts/release/gen-deprecations.mjs'))) {
