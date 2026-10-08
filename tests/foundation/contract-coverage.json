@@ -1,0 +1,53 @@
+{
+  "task": "CMP-063",
+  "generated": "2026-10-07",
+  "scope": "lane 3a foundation deliverables against the contract harnesses",
+  "harnesses": {
+    "foundation-seam": {
+      "path": "src/foundation/__tests__/foundation-seam.test.tsx",
+      "status": "green",
+      "covers": ["defineMeta dev-validation", "toChangeDetails 1-arg (REQ-CMP-02)", "renderElement", "no internal-helper exports"]
+    },
+    "ref-forwarding": {
+      "path": "src/foundation/__tests__/ref-forwarding.test.tsx",
+      "status": "green",
+      "covers": ["ref-as-prop reaches parts[0] element for every registered meta (REQ-CMP-03)"]
+    },
+    "portal-root": {
+      "path": "src/foundation/__tests__/portal-root.test.tsx",
+      "status": "green-trivial",
+      "note": "no registered meta declares popup/positioner parts yet; asserts one portal root when they do"
+    },
+    "parts-contract": {
+      "path": "src/foundation/__tests__/parts-contract.test.tsx",
+      "status": "green",
+      "covers": ["rendered data-ag-part union == meta.parts", "data-state values in AG_STATES"]
+    },
+    "base-ui-pin": {
+      "path": "tests/foundation/base-ui-pin.test.ts",
+      "status": "green",
+      "covers": ["@base-ui/react pinned version", "part imports resolve (O-06)"]
+    },
+    "foundation-pattern": {
+      "path": "scripts/cmp/verify-foundation-pattern.mjs + tests/foundation/verify-foundation-pattern.test.mjs",
+      "status": "green",
+      "covers": ["asChild ratchet", "focus-shim ratchet", "no test skips", "no !important", "Base UI import confinement"]
+    },
+    "selector-coverage": {
+      "path": "scripts/cmp/verify-selector-coverage.mjs + tests/foundation/verify-selector-coverage.test.mjs",
+      "status": "green-fixtures",
+      "note": "storybook-static lane evaluation is remote (machine policy)"
+    }
+  },
+  "flagship-harness-pending": {
+    "Button": "does not exist (lane 3g-T)",
+    "Dialog": "does not exist (lane 3e-O1)",
+    "note": "§15.2 flagship runs and PRD-08..13 sign-off collect once those lanes land; recorded here as amendment-target entries rather than skipped"
+  },
+  "pending-cross-lane": [
+    "tests/exports/package-exports.test.ts + package-exports.spec.mjs are PLAT-owned (D09) — 5.0 subpath update reported, not edited",
+    "apps/docs generator scripts/docs/gen-component-docs.mjs absent (PLAT) — CMP-046 CI job fails loudly until it lands",
+    "canaries/ absent (PKG-122/PRD-02) — CMP-043/052 pending",
+    "src/compat/cmp seam + tests/compat/fixtures-map.json absent (PLAT/PRD-18) — CMP-054 todo-registered"
+  ]
+}

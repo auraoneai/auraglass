@@ -1,24 +1,11 @@
-export {
-  CalendarIcon,
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronUpIcon,
-  DashboardIcon,
-  FolderIcon,
-  GridIcon,
-  HomeIcon,
-  ListIcon,
-  MenuIcon,
-  MoreHorizontalIcon,
-  MoreVerticalIcon,
-  SearchIcon,
-  SettingsIcon,
-  UserIcon,
-  UsersIcon,
-} from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { CalendarIcon } from './navigation/calendar';
+export { ChevronDownIcon } from './navigation/chevron-down';
+export { ChevronLeftIcon } from './navigation/chevron-left';
+export { ChevronRightIcon } from './navigation/chevron-right';
+export { ChevronUpIcon } from './navigation/chevron-up';
+export { FolderIcon, FolderKanban } from './navigation/folder';
+export { HomeIcon } from './navigation/home';
+export { MenuIcon } from './navigation/menu';
+export { MoreHorizontalIcon } from './navigation/more-horizontal';
+export { MoreVerticalIcon } from './navigation/more-vertical';
+export { SettingsIcon } from './navigation/settings';

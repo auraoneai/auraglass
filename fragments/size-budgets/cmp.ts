@@ -1,3 +1,48 @@
-/* fragments/size-budgets/cmp.ts — CMP owns this file on both branches (§3.4). */
+/* fragments/size-budgets/cmp.ts — CMP owns this file on both branches (§3.4).
+   CMP-044/053: provisional rows (min+gz, peers external) at/below PERF default
+   ceilings; recorded in docs/size-budgets.changelog.md. */
 import type { SizeBudgetRow } from '../../src/contracts/fragments';
-export default [] satisfies SizeBudgetRow[];
+export default [
+  { id: 'Card', import: "{ Card } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Badge', import: "{ Badge } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Separator', import: "{ Separator } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Kbd', import: "{ Kbd } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Text', import: "{ Text } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Heading', import: "{ Heading } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Stack', import: "{ Stack } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Grid', import: "{ Grid } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Container', import: "{ Container } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'DescriptionList', import: "{ DescriptionList } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'EmptyState', import: "{ EmptyState } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'ErrorState', import: "{ ErrorState } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'LoadingState', import: "{ LoadingState } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'Steps', import: "{ Steps } from 'aura-glass'", limitBytes: 1500, kind: 'js' },
+  { id: 'AvatarGroup', import: "{ AvatarGroup } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
+  { id: 'Alert', import: "{ Alert } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
+  { id: 'Skeleton', import: "{ Skeleton } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
+  { id: 'Link', import: "{ Link } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
+  { id: 'Avatar', import: "{ Avatar } from 'aura-glass'", limitBytes: 3000, kind: 'js' },
+  { id: 'Chip', import: "{ Chip } from 'aura-glass/data'", limitBytes: 3000, kind: 'js' },
+  { id: 'Progress', import: "{ Progress } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
+  { id: 'ProgressRing', import: "{ ProgressRing } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
+  { id: 'Meter', import: "{ Meter } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
+  { id: 'Collapsible', import: "{ Collapsible } from 'aura-glass'", limitBytes: 5000, kind: 'js' },
+  { id: 'Accordion', import: "{ Accordion } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'ScrollArea', import: "{ ScrollArea } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'Rating', import: "{ Rating } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'InlineEdit', import: "{ InlineEdit } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'Form', import: "{ Form } from 'aura-glass'", limitBytes: 10000, kind: 'js' },
+  { id: 'Tour', import: "{ Tour } from 'aura-glass'", limitBytes: 15000, kind: 'js' },
+  { id: 'FileUpload', import: "{ FileUpload } from 'aura-glass'", limitBytes: 15000, kind: 'js' },
+  { id: 'KeyValueEditor', import: "{ KeyValueEditor } from 'aura-glass/data'", limitBytes: 15000, kind: 'js' },
+  { id: 'ColorPicker', import: "{ ColorPicker } from 'aura-glass'", limitBytes: 20000, kind: 'js' },
+  { id: 'icon-glyph-each', import: "{ CheckIcon } from 'aura-glass/icons'", limitBytes: 1000, kind: 'js' },
+  { id: 'aura-glass/primitives', import: "'aura-glass/primitives'", limitBytes: 4000, kind: 'js' },
+  // ≤1.2 KB CSS each; T2 CSS total ≤12 KB
+  { id: 'VisuallyHidden.css', import: "src/primitives/VisuallyHidden.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'StateView.css', import: "src/components/state-view/StateView.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'Steps.css', import: "src/components/steps/Steps.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'AvatarGroup.css', import: "src/components/avatar/AvatarGroup.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'Chip.css', import: "src/components/chip/Chip.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 't2-css-total', import: "aura-glass/styles.css | cmp-t2", limitBytes: 12000, kind: 'css' },
+] satisfies SizeBudgetRow[];

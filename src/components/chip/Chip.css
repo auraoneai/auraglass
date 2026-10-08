@@ -1,0 +1,31 @@
+@layer ag.components {
+  .ag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-1);
+    border-radius: var(--ag-radius-full);
+    border: var(--ag-focus-width, 1px) solid var(--ag-color-border);
+    padding-inline: var(--ag-space-3);
+    padding-block: var(--ag-space-1);
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+    min-block-size: var(--ag-target-min);
+    color: var(--ag-color-on-surface);
+    background: var(--ag-scrim-clear);
+    cursor: pointer;
+  }
+  .ag-chip[data-pressed] {
+    background: var(--ag-color-accent);
+    color: var(--ag-color-on-accent);
+    border-color: var(--ag-color-accent);
+  }
+  .ag-chip[data-disabled] {
+    cursor: default;
+    color: var(--ag-color-on-surface-muted);
+  }
+  .ag-chip .ag-chip-leading,
+  .ag-chip .ag-chip-trailing {
+    display: inline-flex;
+  }
+}

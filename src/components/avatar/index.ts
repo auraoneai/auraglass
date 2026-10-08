@@ -1,5 +1,6 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
+/* Avatar remains a contract seed until its lane delivers; exports frozen (CMP_MODULES, §4.6). */
+import { createSeedCompound } from '../../contracts/seed';
 
 export const Avatar = createSeedCompound('avatar', ['Root','Image','Fallback']);
-export const AvatarGroup = createSeedComponent('avatar-group', 'div');
+export { AvatarGroup } from './AvatarGroup';
+export type { AvatarGroupProps } from './AvatarGroup';
