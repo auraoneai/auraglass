@@ -24,6 +24,7 @@ export const REGISTRY_INDEX = 'registry/registry.json';
 export const CLAIMS_PATH = 'apps/docs/generated/claims.json';
 
 /** Registry item JSONs served by the docs site and @auraglass/registry. */
+export const GENERATED_DIR = 'apps/docs/generated';
 export const REGISTRY_PUBLIC_DIR = 'apps/docs/public/r';
 export const REGISTRY_PACKAGE_DIR = 'packages/registry';
 

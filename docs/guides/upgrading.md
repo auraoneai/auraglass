@@ -1,6 +1,6 @@
-# accessibility
+# upgrading
 
-5.0 guide — accessibility. Content is generated-free: hand-maintained prose plus
+5.0 guide — upgrading. Content is generated-free: hand-maintained prose plus
 verified snippets (compile-snippets.mjs gates every block).
 
 - Import from the documented subpath only.
