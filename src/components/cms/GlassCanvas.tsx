@@ -13,6 +13,16 @@ import { ANIMATION } from "../../tokens/designConstants";
 
 interface CanvasProps {
   className?: string;
+  /**
+   * Host-provided handler for component interactions. Page-level CMS props
+   * (e.g. a button's `onClick` string) are exposed here as data — they are
+   * never executed as code inside the package.
+   */
+  onComponentAction?: (action: {
+    componentId: string;
+    event: "click";
+    payload?: unknown;
+  }) => void;
 }
 
 interface DropZoneProps {
@@ -77,7 +87,12 @@ const ComponentRenderer: React.FC<{
   component: PageComponent;
   isSelected?: boolean;
   onSelect?: (id: string) => void;
-}> = ({ component, isSelected, onSelect }) => {
+  onComponentAction?: (action: {
+    componentId: string;
+    event: "click";
+    payload?: unknown;
+  }) => void;
+}> = ({ component, isSelected, onSelect, onComponentAction }) => {
   const { updateComponent, dragDropState, onDragStart } = useDragDrop();
   const [isEditing, setIsEditing] = useState<string | null>(null);
 
@@ -139,6 +154,7 @@ const ComponentRenderer: React.FC<{
                   component={child}
                   isSelected={isSelected}
                   onSelect={onSelect}
+                  onComponentAction={onComponentAction}
                 />
               ))
             )}
@@ -175,6 +191,7 @@ const ComponentRenderer: React.FC<{
                   component={child}
                   isSelected={isSelected}
                   onSelect={onSelect}
+                  onComponentAction={onComponentAction}
                 />
               ))
             )}
@@ -211,6 +228,7 @@ const ComponentRenderer: React.FC<{
                   component={child}
                   isSelected={isSelected}
                   onSelect={onSelect}
+                  onComponentAction={onComponentAction}
                 />
               ))
             )}
@@ -309,13 +327,12 @@ const ComponentRenderer: React.FC<{
               href
                 ? undefined
                 : () => {
-                    if (onClickScript) {
-                      try {
-                        // eslint-disable-next-line no-new-func
-                        new Function(onClickScript)();
-                      } catch {
-                        // Ignore invalid custom button scripts.
-                      }
+                    if (onClickScript || onComponentAction) {
+                      onComponentAction?.({
+                        componentId: component.id,
+                        event: "click",
+                        payload: onClickScript || undefined,
+                      });
                     }
                   }
             }
@@ -377,6 +394,7 @@ const ComponentRenderer: React.FC<{
                   component={child}
                   isSelected={isSelected}
                   onSelect={onSelect}
+                  onComponentAction={onComponentAction}
                 />
               ))
             )}
@@ -438,7 +456,7 @@ const ComponentRenderer: React.FC<{
 
 export const GlassCanvas: React.FC<
   CanvasProps & { "data-testid"?: string }
-> = ({ className, ...props }) => {
+> = ({ className, onComponentAction, ...props }) => {
   const prefersReducedMotion = useReducedMotion();
   const {
     pageState,
@@ -514,7 +532,8 @@ export const GlassCanvas: React.FC<
         <div
           className="glass-flex-1 glass-overflow-auto glass-p-6 glass-surface-subtle glass-contrast-guard"
           style={{
-            backgroundColor: "rgba(255, 255, 255, 0.18)",
+            backgroundColor:
+              '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
             backgroundImage: pageState.showGrid
               ? "radial-gradient(circle, var(--glass-gray-200) 1px, transparent 1px)"
               : "none",
@@ -575,6 +594,7 @@ export const GlassCanvas: React.FC<
                             pageState.selectedComponent === component.id
                           }
                           onSelect={selectComponent}
+                          onComponentAction={onComponentAction}
                         />
                         <DropZone
                           position="after"

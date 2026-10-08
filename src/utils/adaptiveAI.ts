@@ -559,18 +559,40 @@ export class AdaptiveAIEngine {
   }
 }
 
-// Export singleton
-export const adaptiveAI = AdaptiveAIEngine.getInstance();
+const ADAPTIVE_AI_ENABLED =
+  typeof process !== "undefined" &&
+  process.env?.NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI === "true";
 
-// React hook for adaptive AI
+let adaptiveAIEngine: AdaptiveAIEngine | null = null;
+
+/**
+ * Opt in to the adaptive AI engine. Constructs the engine singleton (and its
+ * ML subscribers) on first call. Behavior tracking is disabled unless this is
+ * called or NEXT_PUBLIC_AURAGLASS_ADAPTIVE_AI=true is set in the environment.
+ */
+export function enableAdaptiveAI(): AdaptiveAIEngine {
+  if (!adaptiveAIEngine) adaptiveAIEngine = AdaptiveAIEngine.getInstance();
+  return adaptiveAIEngine;
+}
+
+// Exported instance is null until opted in (env flag or enableAdaptiveAI()).
+export const adaptiveAI: AdaptiveAIEngine | null = ADAPTIVE_AI_ENABLED
+  ? enableAdaptiveAI()
+  : null;
+
+// React hook for adaptive AI. Returns null state until opted in; calling
+// enableAdaptiveAI() activates the engine and begins reporting on the next
+// interval tick.
 export function useAdaptiveAI() {
-  const [config, setConfig] = useState(adaptiveAI.getConfiguration());
-  const [insights, setInsights] = useState(adaptiveAI.getInsights());
+  const engine = adaptiveAI;
+  const [config, setConfig] = useState(engine?.getConfiguration() ?? null);
+  const [insights, setInsights] = useState(engine?.getInsights() ?? null);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setConfig(adaptiveAI.getConfiguration());
-      setInsights(adaptiveAI.getInsights());
+      if (!adaptiveAIEngine) return;
+      setConfig(adaptiveAIEngine.getConfiguration());
+      setInsights(adaptiveAIEngine.getInsights());
     }, 5000); // Update every 5 seconds
 
     return () => clearInterval(interval);

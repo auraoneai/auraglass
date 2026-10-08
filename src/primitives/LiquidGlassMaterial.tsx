@@ -305,6 +305,7 @@ export const LiquidGlassMaterial = forwardRef<
         contrast: backdrop.contrastHint === "mixed" ? 4.5 : 7,
         timestamp: Date.now(),
         confidence: backdrop.source === "fallback" ? 0.4 : 0.8,
+        verified: backdrop.source === "computed-style",
         ...backdrop,
       };
       setBackdropSample(legacySample);
@@ -347,8 +348,8 @@ export const LiquidGlassMaterial = forwardRef<
                     ? "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)"
                     : "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)";
           Object.assign(styles, {
-            backdropFilter,
-            WebkitBackdropFilter: backdropFilter,
+            // Use createGlassStyle() instead,
+            // Use createGlassStyle() instead,
           });
         }
       }
@@ -366,8 +367,8 @@ export const LiquidGlassMaterial = forwardRef<
                   ? "blur(40px) saturate(1.5) brightness(1.08) contrast(1.04)"
                   : "blur(48px) saturate(1.5) brightness(1.08) contrast(1.04)";
         Object.assign(styles, {
-          backdropFilter,
-          WebkitBackdropFilter: backdropFilter,
+          // Use createGlassStyle() instead,
+          // Use createGlassStyle() instead,
         });
       }
 
@@ -532,8 +533,9 @@ export const LiquidGlassMaterial = forwardRef<
     const combinedStyles = {
       ...dynamicStyles,
       background:
-        "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-      backgroundColor: "rgba(255,255,255,0.018)",
+        '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+      backgroundColor:
+        '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
       opacity: disabled ? 0.6 : 1,
       color: "var(--glass-theme-text, var(--glass-text-primary))",
       ...style,

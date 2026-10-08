@@ -912,7 +912,11 @@ export {
 } from "./contexts/MotionPreferenceContext";
 export { useA11yId } from "./utils/a11y";
 export { useGlassSound, glassSoundDesign } from "./utils/soundDesign";
-export { adaptiveAI, useAdaptiveAI } from "./utils/adaptiveAI";
+export {
+  adaptiveAI,
+  enableAdaptiveAI,
+  useAdaptiveAI,
+} from "./utils/adaptiveAI";
 export { AuraGlassClientBoundary } from "./components/ssr/AuraGlassClientBoundary";
 
 // Note: The following components and services have server-side dependencies and are not included in the client bundle:

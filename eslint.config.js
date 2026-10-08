@@ -22,7 +22,8 @@ module.exports = [
       }
     },
     plugins: {
-      'auraglass': auraglassPlugin
+      'auraglass': auraglassPlugin,
+      'react-hooks': require('eslint-plugin-react-hooks')
     },
     rules: {
       // AuraGlass Design System Rules - CRITICAL FOR UNIFIED GLASS
@@ -58,6 +59,11 @@ module.exports = [
       }],
       'auraglass/no-inline-style-attr': 'warn',
       'auraglass/motion-no-empty-animate': 'error',
+      // Security honesty (PLAT-075): no string-code execution; hooks rules enforced
+      'no-eval': 'error',
+      'no-new-func': 'error',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     }
   },
 
