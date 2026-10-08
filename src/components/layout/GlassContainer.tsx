@@ -10,14 +10,14 @@ import React, {
 } from "react";
 import { OptimizedGlass } from "../../primitives";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
 import {
-  useInteractionRecorder,
-  usePredictiveEngine,
+  useOptionalInteractionRecorder,
+  useOptionalPredictiveEngine,
 } from "../advanced/GlassPredictiveEngine";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import {
   ContrastGuard,
   TextWithContrast,
@@ -179,15 +179,23 @@ export const GlassContainer = forwardRef<HTMLDivElement, GlassContainerProps>(
     const [adaptivePadding, setAdaptivePadding] = useState(padding);
 
     // Consciousness feature hooks - only initialize if features are enabled
-    const predictiveEngine = predictive ? usePredictiveEngine() : null;
-    const eyeTracker = eyeTracking ? useEyeTracking() : null;
-    const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-    const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-    const achievementTracker = trackAchievements ? useAchievements() : null;
+    const predictiveEngineOptional = useOptionalPredictiveEngine();
+    const predictiveEngine = predictive ? predictiveEngineOptional : null;
+    const eyeTrackerOptional = useOptionalEyeTracking();
+    const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+    const biometricAdapterOptional = useOptionalBiometricAdaptation();
+    const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+    const spatialAudioEngineOptional = useOptionalSpatialAudio();
+    const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+    const achievementTrackerOptional = useOptionalAchievements();
+    const achievementTracker = trackAchievements
+      ? achievementTrackerOptional
+      : null;
+    const interactionRecorderOptional = useOptionalInteractionRecorder(
+      `glass-container-${usageContext}`
+    );
     const interactionRecorder =
-      predictive || trackAchievements
-        ? useInteractionRecorder(`glass-container-${usageContext}`)
-        : null;
+      predictive || trackAchievements ? interactionRecorderOptional : null;
 
     // Visibility tracking for predictive preloading
     useEffect(() => {

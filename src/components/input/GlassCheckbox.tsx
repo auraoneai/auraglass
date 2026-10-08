@@ -92,11 +92,12 @@ export const GlassCheckbox = forwardRef<HTMLInputElement, GlassCheckboxProps>(
     // Generate unique IDs for accessibility
     const checkboxId = useA11yId("glass-checkbox");
     const finalId = id || checkboxId;
-    const labelId = label ? useA11yId("glass-checkbox-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-checkbox-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-checkbox-error") : undefined;
+    const labelIdHook = useA11yId("glass-checkbox-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-checkbox-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-checkbox-error");
+    const errorId = error ? errorIdHook : undefined;
 
     const isInvalid = !!error;
     const isRequired = required || false;

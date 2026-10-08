@@ -12,6 +12,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { evidenceDir } = require("../ci/lib/evidence-dir");
 
 const repoRoot = path.resolve(__dirname, "../..");
 
@@ -19,7 +20,9 @@ const readJson = (relativePath) =>
   JSON.parse(fs.readFileSync(path.join(repoRoot, relativePath), "utf8"));
 
 const readJsonIfExists = (relativePath) => {
-  const fullPath = path.join(repoRoot, relativePath);
+  const fullPath = path.isAbsolute(relativePath)
+    ? relativePath
+    : path.join(repoRoot, relativePath);
   if (!fs.existsSync(fullPath)) return null;
   return JSON.parse(fs.readFileSync(fullPath, "utf8"));
 };
@@ -100,7 +103,7 @@ const main = () => {
   const docsCoverage = summarizeCoverage(components, docNames);
   const testCoverage = summarizeCoverage(components, unitTestNames);
   const certificationReport = readJsonIfExists(
-    "reports/glassmorphism-storybook-visual-certification.json"
+    path.join(evidenceDir(), "glassmorphism-storybook-visual-certification.json")
   );
   const certifiedEntries = Array.isArray(certificationReport?.entries)
     ? certificationReport.entries
@@ -255,7 +258,7 @@ const main = () => {
 
   console.log("\nPublic audit evidence");
   console.log("- reports/component_inventory.json");
-  console.log("- reports/glassmorphism-storybook-visual-certification.json");
+  console.log(`- ${path.relative(repoRoot, path.join(evidenceDir(), "glassmorphism-storybook-visual-certification.json"))}`);
   console.log("- docs/components/readme.md");
   console.log("- docs/components/choosing.md");
 };

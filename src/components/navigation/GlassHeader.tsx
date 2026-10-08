@@ -23,13 +23,13 @@ import {
 import { IconButton } from "../button/GlassButton";
 import { GlassInput } from "../input/GlassInput";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -178,15 +178,23 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
     >({});
 
     // Consciousness feature hooks - only initialize if features are enabled
-    const predictiveEngine = predictive ? usePredictiveEngine() : null;
-    const eyeTracker = eyeTracking ? useEyeTracking() : null;
-    const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-    const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-    const achievementTracker = trackAchievements ? useAchievements() : null;
+    const predictiveEngineOptional = useOptionalPredictiveEngine();
+    const predictiveEngine = predictive ? predictiveEngineOptional : null;
+    const eyeTrackerOptional = useOptionalEyeTracking();
+    const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+    const biometricAdapterOptional = useOptionalBiometricAdaptation();
+    const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+    const spatialAudioEngineOptional = useOptionalSpatialAudio();
+    const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+    const achievementTrackerOptional = useOptionalAchievements();
+    const achievementTracker = trackAchievements
+      ? achievementTrackerOptional
+      : null;
+    const interactionRecorderOptional = useOptionalInteractionRecorder(
+      `glass-header-${variant}`
+    );
     const interactionRecorder =
-      predictive || trackAchievements
-        ? useInteractionRecorder(`glass-header-${variant}`)
-        : null;
+      predictive || trackAchievements ? interactionRecorderOptional : null;
     const [searchQuery, setSearchQuery] = useState("");
     const [isSearchFocused, setIsSearchFocused] = useState(false);
 
@@ -629,7 +637,8 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         role="navigation"
         aria-label={commonProps["aria-label"] || "Main navigation"}
         style={{
-          background: "rgba(255,255,255,0.12)",
+          background:
+            '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
           boxShadow:
             "0 8px 32px rgba(15,23,42,.12), inset 0 1px 0 rgba(255,255,255,.28), inset 0 0 12px rgba(255,255,255,.12)",
         }}
@@ -680,8 +689,8 @@ export const GlassHeader = forwardRef<HTMLDivElement, GlassHeaderProps>(
         </div>
 
         {/* Center section */}
-          <div className="glass-flex-1 glass-flex glass-justify-center glass-px-4">
-            {search && (
+        <div className="glass-flex-1 glass-flex glass-justify-center glass-px-4">
+          {search && (
             <div className="glass-relative glass-hidden sm:glass-block glass-w-full glass-max-w-md">
               <GlassInput
                 placeholder={search.placeholder || "Search..."}

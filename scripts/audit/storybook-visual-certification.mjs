@@ -2,7 +2,11 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { chromium } from "playwright";
+
+const require = createRequire(import.meta.url);
+const { evidenceDir } = require("../ci/lib/evidence-dir.js");
 
 const repoRoot = process.cwd();
 const storybookUrl = process.env.STORYBOOK_URL || "http://localhost:6007";
@@ -16,20 +20,14 @@ const componentFilter = new Set(
     .map((value) => value.trim())
     .filter(Boolean)
 );
-const outputDir = path.join(
-  repoRoot,
-  "reports",
-  "glassmorphism-storybook-visual-certification"
-);
+const outputDir = evidenceDir("glassmorphism-storybook-visual-certification");
 const screenshotDir = path.join(outputDir, "screenshots");
 const jsonReportPath = path.join(
-  repoRoot,
-  "reports",
+  evidenceDir(),
   "glassmorphism-storybook-visual-certification.json"
 );
 const markdownReportPath = path.join(
-  repoRoot,
-  "reports",
+  evidenceDir(),
   "glassmorphism-storybook-visual-certification.md"
 );
 

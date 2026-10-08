@@ -402,11 +402,12 @@ export const GlassCheckboxGroup = forwardRef<
     // Generate unique IDs for accessibility
     const checkboxGroupId = useA11yId("glass-checkbox-group");
     const finalId = id || checkboxGroupId;
-    const labelId = label ? useA11yId("glass-checkbox-group-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-checkbox-group-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-checkbox-group-error") : undefined;
+    const labelIdHook = useA11yId("glass-checkbox-group-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-checkbox-group-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-checkbox-group-error");
+    const errorId = error ? errorIdHook : undefined;
     const name = useA11yId("glass-checkbox-group-name");
 
     const [internalValue, setInternalValue] = useState(value ?? defaultValue);

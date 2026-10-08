@@ -23,13 +23,13 @@ import {
   announceToScreenReader,
 } from "../../utils/a11y";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -284,20 +284,27 @@ export const GlassButton = forwardRef(function GlassButton(
   const [predictedAction, setPredictedAction] = useState<string | null>(null);
 
   // Consciousness feature hooks - only initialize if features are enabled
-  const predictiveEngine = predictive ? usePredictiveEngine() : null;
-  const eyeTracker = eyeTracking ? useEyeTracking() : null;
-  const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-  const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-  const achievementTracker = trackAchievements ? useAchievements() : null;
+  const predictiveEngineOptional = useOptionalPredictiveEngine();
+  const predictiveEngine = predictive ? predictiveEngineOptional : null;
+  const eyeTrackerOptional = useOptionalEyeTracking();
+  const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+  const biometricAdapterOptional = useOptionalBiometricAdaptation();
+  const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+  const spatialAudioEngineOptional = useOptionalSpatialAudio();
+  const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+  const achievementTrackerOptional = useOptionalAchievements();
+  const achievementTracker = trackAchievements
+    ? achievementTrackerOptional
+    : null;
+  const interactionRecorderOptional = useOptionalInteractionRecorder(
+    `glass-button-${variant}-${usageContext}`
+  );
   const interactionRecorder =
-    predictive || trackAchievements
-      ? useInteractionRecorder(`glass-button-${variant}-${usageContext}`)
-      : null;
+    predictive || trackAchievements ? interactionRecorderOptional : null;
   // Generate unique ID for accessibility
   const componentId = useA11yId("glass-button");
-  const descriptionId = description
-    ? useA11yId("glass-button-desc")
-    : undefined;
+  const descriptionIdHook = useA11yId("glass-button-desc");
+  const descriptionId = description ? descriptionIdHook : undefined;
 
   // Handle ref forwarding
   useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement);

@@ -12,14 +12,14 @@ import React, {
 } from "react";
 import { Motion, OptimizedGlass } from "../../primitives";
 import { LiquidGlassMaterial } from "../../primitives/LiquidGlassMaterial";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
 import {
-  useInteractionRecorder,
-  usePredictiveEngine,
+  useOptionalInteractionRecorder,
+  useOptionalPredictiveEngine,
 } from "../advanced/GlassPredictiveEngine";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -224,12 +224,22 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
     const drawerFocusTimeRef = useRef(0);
 
     // Consciousness hooks
-    const predictiveEngine = predictive ? usePredictiveEngine() : null;
-    const eyeTracker = eyeTracking ? useEyeTracking() : null;
-    const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-    const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-    const interactionRecorder = consciousness ? useInteractionRecorder() : null;
-    const achievementTracker = trackAchievements ? useAchievements() : null;
+    const predictiveEngineOptional = useOptionalPredictiveEngine();
+    const predictiveEngine = predictive ? predictiveEngineOptional : null;
+    const eyeTrackerOptional = useOptionalEyeTracking();
+    const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+    const biometricAdapterOptional = useOptionalBiometricAdaptation();
+    const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+    const spatialAudioEngineOptional = useOptionalSpatialAudio();
+    const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+    const interactionRecorderOptional = useOptionalInteractionRecorder();
+    const interactionRecorder = consciousness
+      ? interactionRecorderOptional
+      : null;
+    const achievementTrackerOptional = useOptionalAchievements();
+    const achievementTracker = trackAchievements
+      ? achievementTrackerOptional
+      : null;
 
     // Handle escape key with consciousness tracking
     useEffect(() => {
@@ -810,7 +820,7 @@ export const GlassDrawer = forwardRef<HTMLDivElement, GlassDrawerProps>(
             )}
             style={{
               background:
-                "linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.08)), linear-gradient(rgba(15,23,42,0.20), rgba(15,23,42,0.20))",
+                '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
             }}
             onClick={handleBackdropClick}
             data-consciousness-backdrop="true"

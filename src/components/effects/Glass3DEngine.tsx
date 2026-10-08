@@ -286,8 +286,6 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
 
   // Distortion mesh for interactive distortions
   const DistortionMesh: React.FC<{ layer: Glass3DLayer }> = ({ layer }) => {
-    if (!enableDistortion) return null;
-
     const distortionPoints = useMemo(() => {
       const points = [];
       const gridSize = 8;
@@ -317,6 +315,8 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
 
       return points;
     }, [layer.distortionIntensity, mousePosition]);
+
+    if (!enableDistortion) return null;
 
     return (
       <div
@@ -573,7 +573,8 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
         <div className="glass-3d-interaction-indicator">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
-            animate={!shouldAnimate ? {} : { scale: 1, opacity: 1 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={shouldAnimate ? undefined : { duration: 0 }}
             exit={{ scale: 0, opacity: 0 }}
             className="interaction-pulse"
             style={{
@@ -582,8 +583,7 @@ export const Glass3DEngine: React.FC<Glass3DEngineProps> = ({
               left: "50%",
               width: "20px",
               height: "20px",
-              background:
-                "var(--glass-neutral-level2-surface)",
+              background: "var(--glass-neutral-level2-surface)",
               borderRadius: "50%",
               transform: "translate(-50%, -50%)",
               pointerEvents: "none",

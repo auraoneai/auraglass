@@ -306,10 +306,10 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
 
     // Generate unique IDs for accessibility
     const modalId = useA11yId("glass-modal");
-    const titleId = title ? useA11yId("glass-modal-title") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-modal-desc")
-      : undefined;
+    const titleIdHook = useA11yId("glass-modal-title");
+    const titleId = title ? titleIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-modal-desc");
+    const descriptionId = description ? descriptionIdHook : undefined;
 
     // Create accessibility attributes
     const isContained = contained;
@@ -770,10 +770,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
         className={cn(
           isContained
             ? "relative flex w-full"
-            : cn(
-                "fixed inset-0 flex",
-                variantClasses[variant]
-              ),
+            : cn("fixed inset-0 flex", variantClasses[variant]),
           consciousness && "consciousness-modal-container",
           adaptive &&
             modalInsights?.urgency === "high" &&
@@ -808,7 +805,7 @@ export const GlassModal = forwardRef<HTMLDivElement, GlassModalProps>(
               )}
               style={{
                 background:
-                  "linear-gradient(rgba(255,255,255,0.08), rgba(255,255,255,0.08)), linear-gradient(rgba(15,23,42,0.20), rgba(15,23,42,0.20))",
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level2" }) */',
               }}
               onClick={handleBackdropClick}
               aria-hidden="true"

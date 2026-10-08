@@ -4,13 +4,13 @@ import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass, Motion } from "../../primitives";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import { GlassButton } from "../button";
 import { useMotionPreferenceContext } from "../../contexts/MotionPreferenceContext";
 import { Plus, MoreHorizontal, Eye, Target, Brain } from "@/icons";
@@ -130,12 +130,22 @@ export function GlassKanban({
   } | null>(null);
 
   // Consciousness hooks
-  const predictiveEngine = predictive ? usePredictiveEngine() : null;
-  const eyeTracker = eyeTracking ? useEyeTracking() : null;
-  const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-  const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-  const interactionRecorder = consciousness ? useInteractionRecorder() : null;
-  const achievementTracker = trackAchievements ? useAchievements() : null;
+  const predictiveEngineOptional = useOptionalPredictiveEngine();
+  const predictiveEngine = predictive ? predictiveEngineOptional : null;
+  const eyeTrackerOptional = useOptionalEyeTracking();
+  const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+  const biometricAdapterOptional = useOptionalBiometricAdaptation();
+  const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+  const spatialAudioEngineOptional = useOptionalSpatialAudio();
+  const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+  const interactionRecorderOptional = useOptionalInteractionRecorder();
+  const interactionRecorder = consciousness
+    ? interactionRecorderOptional
+    : null;
+  const achievementTrackerOptional = useOptionalAchievements();
+  const achievementTracker = trackAchievements
+    ? achievementTrackerOptional
+    : null;
 
   // Consciousness effects
   // Eye tracking for card and column focus

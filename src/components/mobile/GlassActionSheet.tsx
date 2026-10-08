@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { cn } from "../../lib/utilsComprehensive";
 import React, { forwardRef, useEffect, useCallback, useRef } from "react";
 import { OptimizedGlass } from "../../primitives";
@@ -117,46 +117,6 @@ export const GlassActionSheet = forwardRef<
     const startYRef = useRef(0);
     const currentYRef = useRef(0);
 
-    if (material === "liquid") {
-      return (
-        <LiquidGlassAdaptiveSheet
-          ref={ref}
-          open={open}
-          onOpenChange={(next) => {
-            if (!next) onClose();
-          }}
-          title={title}
-          sourceId={sourceTransition ? sourceId : undefined}
-          presentationMode={presentationMode}
-          materialVariant={localDimming ? "clear" : "regular"}
-          className={className}
-          aria-label={ariaLabel}
-          {...props}
-        >
-          {message && <p className="glass-text-sm glass-text-secondary">{message}</p>}
-          <div className="glass-mt-4 glass-flex glass-flex-col glass-gap-2">
-            {actions.map((action) => (
-              <button
-                key={action.label}
-                type="button"
-                disabled={action.disabled}
-                className={cn("glass-radius-lg glass-px-3 glass-py-2 glass-text-left", action.variant === "destructive" && "glass-text-danger")}
-                onClick={() => {
-                  if (action.disabled) return;
-                  action.onAction();
-                  onClose();
-                }}
-              >
-                {action.icon}
-                {action.label}
-              </button>
-            ))}
-            {showCancel && <button type="button" onClick={onClose}>{cancelText}</button>}
-          </div>
-        </LiquidGlassAdaptiveSheet>
-      );
-    }
-
     useEffect(() => {
       if (open) {
         setIsVisible(true);
@@ -224,6 +184,55 @@ export const GlassActionSheet = forwardRef<
       currentYRef.current = 0;
     }, [onClose]);
 
+    if (material === "liquid") {
+      return (
+        <LiquidGlassAdaptiveSheet
+          ref={ref}
+          open={open}
+          onOpenChange={(next) => {
+            if (!next) onClose();
+          }}
+          title={title}
+          sourceId={sourceTransition ? sourceId : undefined}
+          presentationMode={presentationMode}
+          materialVariant={localDimming ? "clear" : "regular"}
+          className={className}
+          aria-label={ariaLabel}
+          {...props}
+        >
+          {message && (
+            <p className="glass-text-sm glass-text-secondary">{message}</p>
+          )}
+          <div className="glass-mt-4 glass-flex glass-flex-col glass-gap-2">
+            {actions.map((action) => (
+              <button
+                key={action.label}
+                type="button"
+                disabled={action.disabled}
+                className={cn(
+                  "glass-radius-lg glass-px-3 glass-py-2 glass-text-left",
+                  action.variant === "destructive" && "glass-text-danger"
+                )}
+                onClick={() => {
+                  if (action.disabled) return;
+                  action.onAction();
+                  onClose();
+                }}
+              >
+                {action.icon}
+                {action.label}
+              </button>
+            ))}
+            {showCancel && (
+              <button type="button" onClick={onClose}>
+                {cancelText}
+              </button>
+            )}
+          </div>
+        </LiquidGlassAdaptiveSheet>
+      );
+    }
+
     if (!isVisible) return null;
 
     const content = (
@@ -251,9 +260,11 @@ export const GlassActionSheet = forwardRef<
           role="dialog"
           aria-modal="true"
           aria-label={ariaLabel}
-          aria-labelledby={title && !ariaLabel ? "action-sheet-title" : undefined}
+          aria-labelledby={
+            title && !ariaLabel ? "action-sheet-title" : undefined
+          }
           aria-describedby={message ? "action-sheet-message" : undefined}
-          data-testid={props['data-testid']}
+          data-testid={props["data-testid"]}
           {...props}
         >
           <OptimizedGlass
@@ -262,11 +273,11 @@ export const GlassActionSheet = forwardRef<
             className={cn("overflow-hidden glass-radius-2xl")}
           >
             {(title || message) && (
-              <div className='glass-p-4 glass-text-center glass-border-b glass-border-subtle'>
+              <div className="glass-p-4 glass-text-center glass-border-b glass-border-subtle">
                 {title && (
                   <h3
                     id="action-sheet-title"
-                    className='glass-text-lg glass-font-semibold glass-text-primary glass-mb-1'
+                    className="glass-text-lg glass-font-semibold glass-text-primary glass-mb-1"
                   >
                     {title}
                   </h3>
@@ -282,7 +293,7 @@ export const GlassActionSheet = forwardRef<
               </div>
             )}
 
-            <div className='glass-max-h-96 glass-overflow-y-auto glass-flex glass-flex-col glass-gap-2 glass-p-2'>
+            <div className="glass-max-h-96 glass-overflow-y-auto glass-flex glass-flex-col glass-gap-2 glass-p-2">
               {actions.map((action, index) => (
                 <button
                   key={index}
@@ -316,7 +327,7 @@ export const GlassActionSheet = forwardRef<
           {showCancel && (
             <OptimizedGlass
               elevation={elevation}
-              className='glass-mt-2 glass-overflow-hidden glass-radius-2xl'
+              className="glass-mt-2 glass-overflow-hidden glass-radius-2xl"
             >
               <button
                 onClick={onClose}

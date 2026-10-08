@@ -249,7 +249,8 @@ export const GlassAdvancedSearch = forwardRef<
     >([]);
 
     const prefersReducedMotion = useReducedMotion();
-    const componentId = id || useA11yId("advanced-search");
+    const componentIdHook = useA11yId("advanced-search");
+    const componentId = id || componentIdHook;
     const inputRef = useRef<HTMLInputElement>(null);
     const suggestionsRef = useRef<HTMLDivElement>(null);
 

@@ -174,7 +174,6 @@ const ShatterAnimations = {
     force: number = 10,
     duration: number = 1
   ) => {
-    const prefersReducedMotion = useReducedMotion();
     const animations = shards.map((shard) => {
       const direction = new THREE.Vector3(
         (Math.random() - 0.5) * 2,
@@ -432,7 +431,8 @@ export function GlassShatterEffectsR3F(props: GlassShatterEffectsProps) {
         {isShattered && (
           <motion.div
             initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1 }}
+            animate={{ opacity: 1 }}
+            transition={prefersReducedMotion ? { duration: 0 } : undefined}
             exit={{ opacity: 0 }}
             className={cn(
               "glass-absolute glass-inset-0 glass-pointer-events-none"
@@ -460,7 +460,8 @@ export function GlassShatterEffectsR3F(props: GlassShatterEffectsProps) {
       {showControls && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           className={cn(
             "glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-gap-2"
           )}
@@ -487,7 +488,7 @@ export function GlassShatterEffectsR3F(props: GlassShatterEffectsProps) {
               )}
             >
               <motion.div
-                animate={prefersReducedMotion ? {} : { rotate: 360 }}
+                animate={{ rotate: 360 }}
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }

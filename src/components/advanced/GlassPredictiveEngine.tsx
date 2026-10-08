@@ -952,6 +952,13 @@ export function usePredictiveEngine() {
   return context;
 }
 
+/** PLAT-085: optional reader — returns the context when mounted under the
+    provider, null otherwise (never throws). Lets call sites hoist the hook
+    unconditionally and gate feature usage on the flag instead. */
+export function useOptionalPredictiveEngine() {
+  return useContext(PredictiveEngineContext);
+}
+
 // Component to display predictions
 export function GlassPredictionIndicator({
   className,
@@ -989,7 +996,7 @@ export function GlassPredictionIndicator({
             <motion.div
               className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-blue glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center"
               initial={{ scale: 0 }}
-              animate={prefersReducedMotion ? {} : { scale: 1 }}
+              animate={{ scale: 1 }}
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
@@ -1011,7 +1018,7 @@ export function GlassPredictionIndicator({
               "glass-surface-primary glass-elev-4 glass-radius-lg glass-p-4 glass-gap-3"
             )}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={
               prefersReducedMotion
@@ -1042,7 +1049,7 @@ export function GlassPredictionIndicator({
                     key={prediction.id}
                     className="glass-p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={
                       prefersReducedMotion
                         ? { duration: 0 }
@@ -1086,7 +1093,7 @@ export function GlassPredictionIndicator({
                     key={insight.id}
                     className="glass-p-2 glass-surface-secondary glass-radius-md"
                     initial={{ opacity: 0, x: -10 }}
-                    animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={
                       prefersReducedMotion
                         ? { duration: 0 }
@@ -1125,6 +1132,89 @@ export function GlassPredictionIndicator({
 }
 
 // Hook to automatically record common interactions
+/** PLAT-085: optional reader — returns the same {recordClick, recordHover,
+    recordFocus} shape as useInteractionRecorder, or null outside the provider
+    (never throws). Call sites hoist it unconditionally and gate on the flag. */
+export function useOptionalInteractionRecorder(elementId?: string) {
+  const engine = useContext(PredictiveEngineContext);
+  const recordInteraction = engine?.recordInteraction;
+
+  const recordClick = useCallback(
+    (event: React.MouseEvent) => {
+      if (!recordInteraction) return;
+      recordInteraction({
+        type: "click",
+        element: elementId || event.currentTarget.id || "unknown",
+        context: {
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+          timeOfDay: new Date().getHours(),
+          deviceType:
+            window.innerWidth < 768
+              ? "mobile"
+              : window.innerWidth < 1024
+                ? "tablet"
+                : "desktop",
+          location: { x: event.clientX, y: event.clientY },
+        },
+        metadata: {
+          button: event.button,
+          ctrlKey: event.ctrlKey,
+          altKey: event.altKey,
+          shiftKey: event.shiftKey,
+        },
+      });
+    },
+    [recordInteraction, elementId]
+  );
+
+  const recordHover = useCallback(
+    (event: React.MouseEvent) => {
+      if (!recordInteraction) return;
+      recordInteraction({
+        type: "hover",
+        element: elementId || event.currentTarget.id || "unknown",
+        context: {
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+          timeOfDay: new Date().getHours(),
+          deviceType:
+            window.innerWidth < 768
+              ? "mobile"
+              : window.innerWidth < 1024
+                ? "tablet"
+                : "desktop",
+          location: { x: event.clientX, y: event.clientY },
+        },
+        metadata: {},
+      });
+    },
+    [recordInteraction, elementId]
+  );
+
+  const recordFocus = useCallback(
+    (event: React.FocusEvent | React.MouseEvent) => {
+      if (!recordInteraction) return;
+      recordInteraction({
+        type: "focus",
+        element: elementId || event.currentTarget.id || "unknown",
+        context: {
+          viewport: { width: window.innerWidth, height: window.innerHeight },
+          timeOfDay: new Date().getHours(),
+          deviceType:
+            window.innerWidth < 768
+              ? "mobile"
+              : window.innerWidth < 1024
+                ? "tablet"
+                : "desktop",
+        },
+        metadata: {},
+      });
+    },
+    [recordInteraction, elementId]
+  );
+
+  return engine ? { recordClick, recordHover, recordFocus } : null;
+}
+
 export function useInteractionRecorder(elementId?: string) {
   const { recordInteraction } = usePredictiveEngine();
 

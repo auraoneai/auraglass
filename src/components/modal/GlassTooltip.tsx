@@ -73,7 +73,8 @@ export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
     const { prefersReducedMotion } = useMotionPreferenceContext();
 
     // Generate unique ID for accessibility
-    const tooltipId = id || useA11yId("glass-tooltip");
+    const tooltipIdHook = useA11yId("glass-tooltip");
+    const tooltipId = id || tooltipIdHook;
     const shouldAnimate = respectMotionPreference
       ? !prefersReducedMotion
       : true;

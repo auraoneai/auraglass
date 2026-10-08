@@ -2,14 +2,15 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { evidenceDir } = require("../ci/lib/evidence-dir");
 
 const root = process.cwd();
 const indexPath = path.join(root, "src/index.ts");
-const reportJsonPath = path.join(root, "reports/public-export-audit.json");
-const reportMdPath = path.join(root, "reports/public-export-audit.md");
+const reportJsonPath = path.join(evidenceDir(), "public-export-audit.json");
+const reportMdPath = path.join(evidenceDir(), "public-export-audit.md");
 const visualTargetManifestPath = path.join(
-  root,
-  "reports/public-visual-target-manifest.json"
+  evidenceDir(),
+  "public-visual-target-manifest.json"
 );
 
 const read = (filePath) => fs.readFileSync(filePath, "utf8");
@@ -545,7 +546,7 @@ const report = {
     rootIndex: "src/index.ts",
     historicalComponentInventory: "reports/component_inventory.json",
   },
-  visualTargetManifest: "reports/public-visual-target-manifest.json",
+  visualTargetManifest: path.relative(root, visualTargetManifestPath),
   exportStars: exportStars.map((entry) => ({
     specifier: entry.specifier,
     sourcePath: entry.sourceFile ? path.relative(root, entry.sourceFile) : null,
@@ -576,7 +577,7 @@ const visualTargetManifest = {
   objective:
     "Classify every current component-like public export as a canonical visual target, compatibility alias, or support value covered through another public visual target without reducing symbol-level screenshot coverage.",
   inputs: {
-    publicExportAudit: "reports/public-export-audit.json",
+    publicExportAudit: path.relative(root, reportJsonPath),
     rootIndex: "src/index.ts",
     historicalComponentInventory: "reports/component_inventory.json",
   },

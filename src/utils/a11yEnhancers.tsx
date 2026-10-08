@@ -137,7 +137,7 @@ export interface SkipLinksProps {
 export function SkipLinks({ links, className }: SkipLinksProps) {
   return (
     <nav className={cn("skip-links", className)} aria-label="Skip links">
-      <ul className='glass-sr-only'>
+      <ul className="glass-sr-only">
         {links.map((link, index) => (
           <li key={index}>
             <a
@@ -326,7 +326,7 @@ export function AccessibleTooltip({
   });
 
   return (
-    <div className='glass-relative glass-inline-glass-block'>
+    <div className="glass-relative glass-inline-glass-block">
       {clonedChild}
       {isVisible && (
         <div
@@ -395,8 +395,8 @@ export function AccessibleLoading({
           )}
           aria-hidden="true"
         />
-        <span className='glass-sr-only'>{loadingText}</span>
-        {children && <span className='glass-ml-2'>{children}</span>}
+        <span className="glass-sr-only">{loadingText}</span>
+        {children && <span className="glass-ml-2">{children}</span>}
       </div>
     );
   }
@@ -459,7 +459,7 @@ export function AccessibleFormField({
       {description && (
         <p
           {...descriptionProps}
-          className='glass-text-sm glass-text-secondary-foreground'
+          className="glass-text-sm glass-text-secondary-foreground"
         >
           {description}
         </p>
@@ -468,7 +468,7 @@ export function AccessibleFormField({
       {enhancedChild}
 
       {error && (
-        <p {...errorProps} className='glass-text-sm glass-text-danger'>
+        <p {...errorProps} className="glass-text-sm glass-text-danger">
           {error}
         </p>
       )}
@@ -501,8 +501,10 @@ export function AccessibleModalOverlay({
   backdropCloses = true,
 }: AccessibleModalOverlayProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  const titleId = title ? useA11yId("modal-title") : undefined;
-  const descId = description ? useA11yId("modal-desc") : undefined;
+  const titleIdHook = useA11yId("modal-title");
+  const titleId = title ? titleIdHook : undefined;
+  const descIdHook = useA11yId("modal-desc");
+  const descId = description ? descIdHook : undefined;
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
@@ -523,7 +525,7 @@ export function AccessibleModalOverlay({
 
   return (
     <div
-      className='glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-surface-dark/50'
+      className="glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-surface-dark/50"
       onClick={handleBackdropClick}
     >
       <FocusTrap
@@ -542,13 +544,19 @@ export function AccessibleModalOverlay({
           aria-describedby={descId}
         >
           {title && (
-            <h2 id={titleId} className='glass-text-lg glass-font-semibold glass-mb-2'>
+            <h2
+              id={titleId}
+              className="glass-text-lg glass-font-semibold glass-mb-2"
+            >
               {title}
             </h2>
           )}
 
           {description && (
-            <p id={descId} className='glass-text-secondary-foreground glass-mb-4'>
+            <p
+              id={descId}
+              className="glass-text-secondary-foreground glass-mb-4"
+            >
               {description}
             </p>
           )}
@@ -611,8 +619,10 @@ export function AccessibleProgress({
 }: AccessibleProgressProps) {
   const percentage = ((value - min) / (max - min)) * 100;
   const progressId = useA11yId("progress");
-  const labelId = label ? useA11yId("progress-label") : undefined;
-  const descId = description ? useA11yId("progress-desc") : undefined;
+  const labelIdHook = useA11yId("progress-label");
+  const labelId = label ? labelIdHook : undefined;
+  const descIdHook = useA11yId("progress-desc");
+  const descId = description ? descIdHook : undefined;
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -623,7 +633,7 @@ export function AccessibleProgress({
         >
           <span>{label}</span>
           {showValue && (
-            <span className='glass-text-secondary-foreground'>
+            <span className="glass-text-secondary-foreground">
               {value}/{max}
             </span>
           )}
@@ -631,12 +641,15 @@ export function AccessibleProgress({
       )}
 
       {description && (
-        <p id={descId} className='glass-text-sm glass-text-secondary-foreground'>
+        <p
+          id={descId}
+          className="glass-text-sm glass-text-secondary-foreground"
+        >
           {description}
         </p>
       )}
 
-      <div className='glass-w-full glass-bg-secondary glass-radius-full glass-h-2'>
+      <div className="glass-w-full glass-bg-secondary glass-radius-full glass-h-2">
         <div
           id={progressId}
           role="progressbar"
@@ -645,7 +658,7 @@ export function AccessibleProgress({
           aria-valuemax={max}
           aria-labelledby={labelId}
           aria-describedby={descId}
-          className='glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-ease-out'
+          className="glass-surface-primary glass-h-2 glass-radius-full glass-transition-all glass-duration-300 glass-ease-out"
           style={{ width: `${Math.max(0, Math.min(100, percentage))}%` }}
         />
       </div>

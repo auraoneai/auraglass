@@ -18,6 +18,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const zlib = require("node:zlib");
 const crypto = require("node:crypto");
+const { evidenceDir } = require("../ci/lib/evidence-dir");
 
 const repoRoot = process.cwd();
 const expectedViewports = {
@@ -40,12 +41,15 @@ function parseArgs(argv) {
   const rootAt = argv.indexOf("--root");
   const root = rootAt >= 0 && argv[rootAt + 1]
     ? path.resolve(repoRoot, argv[rootAt + 1])
-    : path.join(repoRoot, "reports", "audit", "visual-all");
+    : evidenceDir("audit/visual-all");
   return { root };
 }
 
 function readJson(relative) {
-  return JSON.parse(fs.readFileSync(path.join(repoRoot, relative), "utf8"));
+  const filePath = path.isAbsolute(relative)
+    ? relative
+    : path.join(repoRoot, relative);
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
 function sha256File(file) {
@@ -62,9 +66,9 @@ function toExportId(name, fallbackIndex) {
 }
 
 function buildExpectedInventory() {
-  const exportAudit = readJson("reports/public-export-audit.json");
-  const recipeEvidence = readJson("reports/3.3-release/recipe-render-evidence.json");
-  const visualTargets = readJson("reports/public-visual-target-manifest.json");
+  const exportAudit = readJson(path.join(evidenceDir(), "public-export-audit.json"));
+  const recipeEvidence = readJson(path.join(evidenceDir("3.3-release"), "recipe-render-evidence.json"));
+  const visualTargets = readJson(path.join(evidenceDir(), "public-visual-target-manifest.json"));
   const seen = new Map();
   const exports = (exportAudit.entries || [])
     .filter((entry) => entry.isComponentLike)
@@ -99,13 +103,13 @@ function buildExpectedInventory() {
     all: [...exports, ...recipes],
     authority: {
       publicExportAuditSha256: sha256File(
-        path.join(repoRoot, "reports/public-export-audit.json")
+        path.join(evidenceDir(), "public-export-audit.json")
       ),
       recipeEvidenceSha256: sha256File(
-        path.join(repoRoot, "reports/3.3-release/recipe-render-evidence.json")
+        path.join(evidenceDir("3.3-release"), "recipe-render-evidence.json")
       ),
       publicVisualTargetManifestSha256: sha256File(
-        path.join(repoRoot, "reports/public-visual-target-manifest.json")
+        path.join(evidenceDir(), "public-visual-target-manifest.json")
       ),
     },
     visualTargets,
@@ -689,7 +693,7 @@ function main() {
     },
     provenance: { file: provenance.file, valid: provenance.valid, runId: provenance.runId, sourceFingerprint: provenance.sourceFingerprint, reasons: provenance.reasons },
     publicVisualTargets: {
-      file: "reports/public-visual-target-manifest.json",
+      file: path.join(evidenceDir(), "public-visual-target-manifest.json"),
       valid: publicVisualTargets.valid,
       sha256: inventory.authority.publicVisualTargetManifestSha256,
       entryCount: inventory.visualTargets.entries?.length ?? null,

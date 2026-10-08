@@ -191,10 +191,10 @@ export const GlassHoverCard = forwardRef<HTMLDivElement, GlassHoverCardProps>(
 
     // Generate unique IDs for accessibility
     const hoverCardId = useA11yId("glass-hover-card");
-    const titleId = title ? useA11yId("glass-hover-card-title") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-hover-card-desc")
-      : undefined;
+    const titleIdHook = useA11yId("glass-hover-card-title");
+    const titleId = title ? titleIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-hover-card-desc");
+    const descriptionId = description ? descriptionIdHook : undefined;
 
     const shouldAnimate = respectMotionPreference
       ? !prefersReducedMotion

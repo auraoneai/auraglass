@@ -466,6 +466,13 @@ export function useEyeTracking() {
   return context;
 }
 
+/** PLAT-085: optional reader — returns the context when mounted under the
+    provider, null otherwise (never throws). Lets call sites hoist the hook
+    unconditionally and gate feature usage on the flag instead. */
+export function useOptionalEyeTracking() {
+  return useContext(EyeTrackingContext);
+}
+
 // Calibration component
 export function GlassEyeTrackingCalibration({
   onComplete,
@@ -475,7 +482,7 @@ export function GlassEyeTrackingCalibration({
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
-  const { startCalibration, finishCalibration, isCalibrating } =
+  const { startCalibration, finishCalibration, isCalibrating, engine } =
     useEyeTracking();
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isCalibrationActive, setIsCalibrationActive] = useState(false);
@@ -509,7 +516,6 @@ export function GlassEyeTrackingCalibration({
     const screenY = (point.y / 100) * window.innerHeight;
 
     // Simulate calibration point click
-    const engine = useEyeTracking().engine;
     if (engine) {
       await engine.calibratePoint(screenX, screenY);
     }
@@ -800,7 +806,7 @@ export function GlassGazeResponsive({
               "glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit"
             )}
             initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 0.8 }}
+            animate={{ opacity: 0.8 }}
             exit={{ opacity: 0 }}
           >
             <div

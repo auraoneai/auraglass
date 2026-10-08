@@ -12,10 +12,11 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassSliderProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "onChange" | "defaultValue"
-> {
+export interface GlassSliderProps
+  extends Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    "onChange" | "defaultValue"
+  > {
   /** Current value(s) of the slider */
   value?: number | number[];
   /** Default value(s) (uncontrolled) */
@@ -123,11 +124,12 @@ export const GlassSlider = forwardRef<HTMLDivElement, GlassSliderProps>(
     // Generate unique IDs for accessibility
     const sliderId = useA11yId("glass-slider");
     const finalId = id || sliderId;
-    const labelId = label ? useA11yId("glass-slider-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-slider-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-slider-error") : undefined;
+    const labelIdHook = useA11yId("glass-slider-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-slider-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-slider-error");
+    const errorId = error ? errorIdHook : undefined;
     const trackRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragIndex, setDragIndex] = useState(0);

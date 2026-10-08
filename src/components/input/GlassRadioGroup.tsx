@@ -195,11 +195,12 @@ export const GlassRadioGroup = forwardRef<HTMLDivElement, GlassRadioGroupProps>(
 
     // Generate unique IDs for accessibility
     const groupId = useA11yId("glass-radio-group");
-    const labelId = label ? useA11yId("glass-radio-group-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-radio-group-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-radio-group-error") : undefined;
+    const labelIdHook = useA11yId("glass-radio-group-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-radio-group-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-radio-group-error");
+    const errorId = error ? errorIdHook : undefined;
 
     const [internalValue, setInternalValue] = useState<string | number>(
       defaultValue || ""

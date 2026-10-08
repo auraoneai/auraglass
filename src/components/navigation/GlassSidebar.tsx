@@ -213,10 +213,6 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
       renderItem,
     };
 
-    if (variant === "overlay" && !open) {
-      return null;
-    }
-
     // Map width to px for fixed toggle placement
     const widthPxMap: Record<"sm" | "md" | "lg" | "xl", number> = {
       sm: 192,
@@ -256,6 +252,10 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
 
     useEffect(() => setMounted(true), []);
 
+    if (variant === "overlay" && !open) {
+      return null;
+    }
+
     const fallbackX = (isCollapsed ? collapsedWidthPxMap : widthPxMap)[width];
     const centerX = edgeX ?? fallbackX;
     const toggleButton = (
@@ -275,7 +275,6 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
           "bg-white/25 hover:bg-white/30 active:bg-white/32"
         )}
         aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.28)" }}
       >
         {isCollapsed ? (
           <ChevronRight
@@ -309,11 +308,11 @@ export const GlassSidebar = forwardRef<HTMLDivElement, GlassSidebarProps>(
               else if (ref && typeof (ref as any) === "object")
                 (ref as any).current = node;
             }}
-              intent="neutral"
+            intent="neutral"
             elevation={variant === "floating" ? "level2" : "level1"}
             intensity="medium"
             depth={variant === "floating" ? 3 : 2}
-              tint="neutral"
+            tint="neutral"
             border={variant === "floating" ? "gradient" : "subtle"}
             animation="none"
             performanceMode="medium"
@@ -437,7 +436,12 @@ interface SidebarNavigationProps {
 
 function SidebarNavigation({ items, level = 0 }: SidebarNavigationProps) {
   return (
-    <ul className={cn("glass-flex glass-flex-col glass-gap-2", level > 0 && "glass-ml-4 glass-mt-2")}>
+    <ul
+      className={cn(
+        "glass-flex glass-flex-col glass-gap-2",
+        level > 0 && "glass-ml-4 glass-mt-2"
+      )}
+    >
       {(items || []).map((item) => (
         <SidebarNavigationItem key={item?.id} item={item} level={level} />
       ))}
@@ -571,6 +575,7 @@ function SidebarNavigationItem({ item, level }: SidebarNavigationItemProps) {
 
       {/* Children */}
       {hasChildren && !collapsed && isExpanded && (
+        // eslint-disable-next-line auraglass/motion-no-empty-animate -- preset "slideDown" has a fixed animate (see primitives/motion/presets.ts)
         <Motion preset="slideDown" className="glass-mt-1">
           <div className="glass-ml-2 glass-pl-4 glass-border-l glass-border-glass-border/20">
             <SidebarNavigation items={item?.children!} level={level + 1} />

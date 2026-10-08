@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { forwardRef } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -91,10 +91,10 @@ export const GlassBottomSheet = forwardRef<
   ) => {
     // Generate unique IDs for accessibility
     const bottomSheetId = useA11yId("glass-bottom-sheet");
-    const titleId = title ? useA11yId("glass-bottom-sheet-title") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-bottom-sheet-desc")
-      : undefined;
+    const titleIdHook = useA11yId("glass-bottom-sheet-title");
+    const titleId = title ? titleIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-bottom-sheet-desc");
+    const descriptionId = description ? descriptionIdHook : undefined;
     const { prefersReducedMotion } = useMotionPreferenceContext();
 
     // Create accessibility attributes
@@ -147,7 +147,10 @@ export const GlassBottomSheet = forwardRef<
           data-testid={props["data-testid"]}
         >
           {description && (
-            <p id={descriptionId} className="glass-text-sm glass-text-secondary glass-mb-4">
+            <p
+              id={descriptionId}
+              className="glass-text-sm glass-text-secondary glass-mb-4"
+            >
               {description}
             </p>
           )}
@@ -162,10 +165,10 @@ export const GlassBottomSheet = forwardRef<
           <Motion
             preset="fadeIn"
             duration={shouldAnimate ? 200 : 0}
-            className='glass-fixed glass-inset-0 glass-z-1100'
+            className="glass-fixed glass-inset-0 glass-z-1100"
             onClick={(e) => onOpenChange(false)}
           >
-            <div className='glass-absolute glass-inset-0 glass-surface-dark/50' />
+            <div className="glass-absolute glass-inset-0 glass-surface-dark/50" />
           </Motion>
         )}
         <Motion
@@ -181,30 +184,32 @@ export const GlassBottomSheet = forwardRef<
             transform: !shouldAnimate && !open ? "translateY(100%)" : undefined,
           }}
           onKeyDown={handleEscape}
-          data-testid={props['data-testid']}
+          data-testid={props["data-testid"]}
           {...a11yProps}
           {...props}
         >
           <OptimizedGlass
             ref={ref}
             elevation="level3"
-            className={cn("h-full rounded-t-2xl glass-p-4 glass-overflow-y-auto glass-on-light")}
+            className={cn(
+              "h-full rounded-t-2xl glass-p-4 glass-overflow-y-auto glass-on-light"
+            )}
             style={{ boxSizing: "border-box" }}
             tabIndex={-1}
           >
             {/* Handle indicator */}
             <div
-              className='glass-mx-auto glass-w-10 glass-h-1.5 glass-radius-full glass-surface-subtle/30 glass-mb-3'
+              className="glass-mx-auto glass-w-10 glass-h-1.5 glass-radius-full glass-surface-subtle/30 glass-mb-3"
               aria-hidden="true"
             />
 
             {/* Header with title and description */}
             {(title || description) && (
-              <div className='glass-mb-4'>
+              <div className="glass-mb-4">
                 {title && (
                   <h2
                     id={titleId}
-                    className='glass-text-lg glass-font-semibold glass-text-primary'
+                    className="glass-text-lg glass-font-semibold glass-text-primary"
                   >
                     {title}
                   </h2>
