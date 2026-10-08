@@ -35,19 +35,38 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
   });
 
   test('T-OVL-STACK-02: press inside Dialog popup outside Popover closes only the Popover', async ({ page }) => {
-    // Composite Dialog→Popover scene does not exist yet; the case is authored
-    // test-first and records PENDING until a composite story lands.
-    await gotoStory(page, 'overlays-dialog--nested');
-    const count = await popups(page).count();
-    expect(count).toBeGreaterThanOrEqual(2);
-    // placeholder for the press-targeting assertion once the scene exists
-    test.skip(true, 'composite Dialog→Popover scene pending');
+    await gotoStory(page, 'overlays-dialog--with-popover');
+    const dialogPopup = page.locator('[data-ag-part="popup"][aria-label="composite dialog"]');
+    const popoverPopup = page.locator('[data-ag-part="popup"][aria-label="composite popover"]');
+    await expect(dialogPopup).toBeVisible();
+    await expect(popoverPopup).toBeVisible();
+
+    // Press inside the dialog popup but outside the popover → popover only.
+    await page.locator('[data-ag-testid="dialog-outside-target"]').click();
+    await expect(popoverPopup).toHaveCount(0);
+    await expect(dialogPopup).toBeVisible();
   });
 
   test('T-OVL-STACK-01: Dialog→Popover→Menu — exactly one layer per Escape', async ({ page }) => {
-    await gotoStory(page, 'overlays-dialog--nested');
-    expect(await popups(page).count()).toBeGreaterThanOrEqual(2);
-    test.skip(true, 'composite Dialog→Popover→Menu scene pending');
+    await gotoStory(page, 'overlays-dialog--with-popover-menu');
+    const dialogPopup = page.locator('[data-ag-part="popup"][aria-label="stack dialog"]');
+    const popoverPopup = page.locator('[data-ag-part="popup"][aria-label="stack popover"]');
+    const menuPopup = page.locator('[data-ag-part="popup"][aria-label="stack menu"]');
+    await expect(dialogPopup).toBeVisible();
+    await expect(popoverPopup).toBeVisible();
+    await expect(menuPopup).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(menuPopup).toHaveCount(0);
+    await expect(popoverPopup).toBeVisible();
+    await expect(dialogPopup).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(popoverPopup).toHaveCount(0);
+    await expect(dialogPopup).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(dialogPopup).toHaveCount(0);
   });
 
   test('T-OVL-STACK-03: toast viewport has no inert ancestor over a modal Dialog; F6 reaches it', async ({ page }) => {
@@ -64,5 +83,6 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     } else {
       test.skip(true, 'no toast viewport mounted alongside the dialog scene');
     }
+    // viewport is mounted by the --default scene (Toast.Provider + Viewport)
   });
 });
