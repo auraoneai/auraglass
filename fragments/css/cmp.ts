@@ -6,6 +6,8 @@ export default [
   { file: 'src/components/steps/Steps.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/avatar/AvatarGroup.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/chip/Chip.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/key-value-editor/KeyValueEditor.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/field/Form.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/button/Button.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/icon-button/IconButton.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/toolbar/Toolbar.css', layer: 'ag.components', bundle: 'styles.css' },

@@ -1,0 +1,20 @@
+@layer ag.components {
+  .ag-kv-editor {
+    display: grid;
+    gap: var(--ag-space-2);
+  }
+  .ag-kv-editor-list {
+    display: grid;
+    gap: var(--ag-space-2);
+  }
+  .ag-kv-editor-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--ag-space-2);
+    align-items: start;
+  }
+  .ag-kv-editor-actions {
+    display: flex;
+    justify-content: flex-start;
+  }
+}

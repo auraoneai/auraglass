@@ -1,9 +1,7 @@
 
-/* CMP-378 (lane 3i-Q). Select and Combobox inside the overlays Dialog story:
-   first Escape closes only the popup, second closes the Dialog; popups portal
-   into the provider [data-ag-portal-root]; popup z-order above the scrim.
-   PENDING: the Dialog story with a Select inside does not exist yet — this spec
-   skips per-case until a composite scene lands (records PENDING, not FAIL). */
+/* CMP-378 (lane 3i-Q). Select inside the overlays Dialog --form composite
+   scene: first Escape closes only the popup, second closes the Dialog; popups
+   portal into the provider [data-ag-portal-root]; popup z-order above scrim. */
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers/index';
 
@@ -14,8 +12,7 @@ test.describe('controls overlay stack (CMP-378)', () => {
     await expect(dialogPopup).toBeVisible();
 
     const selectTrigger = dialogPopup.locator('[data-ag-part="trigger"], [role="combobox"]').first();
-    test.skip((await selectTrigger.count()) === 0,
-      'composite scene pending: no Select/Combobox mounted inside a Dialog story yet');
+    await expect(selectTrigger).toBeVisible();
     await selectTrigger.click();
     const listbox = page.locator('[role="listbox"], [role="option"]').first();
     await expect(listbox).toBeVisible();
