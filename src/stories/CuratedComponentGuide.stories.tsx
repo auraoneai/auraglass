@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import type { CSSProperties } from "react";
-import inventory from "../../reports/component_inventory.json";
+import inventory from "../../docs/inventory/component_inventory.json";
 
 type InventoryComponent = {
   name: string;

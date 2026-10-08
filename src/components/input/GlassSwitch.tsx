@@ -96,11 +96,12 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
     // Generate unique IDs for accessibility
     const switchId = useA11yId("glass-switch");
     const finalId = id || switchId;
-    const labelId = label ? useA11yId("glass-switch-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-switch-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-switch-error") : undefined;
+    const labelIdHook = useA11yId("glass-switch-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-switch-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-switch-error");
+    const errorId = error ? errorIdHook : undefined;
 
     const [internalChecked, setInternalChecked] =
       React.useState(defaultChecked);
@@ -244,7 +245,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
         depth={2}
         tint={isChecked ? "primary" : "neutral"}
         border="subtle"
-        animation={isMotionSafe && respectMotionPreference ? "shimmer" : "none"}
+        animation="none"
         performanceMode="medium"
         liftOnHover={!disabled}
         press
@@ -273,9 +274,7 @@ export const GlassSwitch = forwardRef<HTMLButtonElement, GlassSwitchProps>(
           )}
           style={{
             ...config.thumb,
-            transform: `translateX(${
-              isChecked ? config.translateX - 2 : 2
-            }px)`,
+            transform: `translateX(${isChecked ? config.translateX - 2 : 2}px)`,
           }}
         >
           {thumbContent ?? (isChecked ? icons?.checked : icons?.unchecked)}

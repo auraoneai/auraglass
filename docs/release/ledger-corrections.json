@@ -2,13 +2,85 @@
   "version": 1,
   "note": "Each pre-4.1.1 ledger mismatch recorded once. History is not rewritten; the verifier skips any version listed here and reports the record instead. Cut line: versions >= 4.1.1 must agree across CHANGELOG, git tag, GitLab Release and npm.",
   "corrections": [
-    { "version": "3.4.8", "missingFrom": ["changelog"], "note": "Published to npm and tagged v3.4.8 but never received a CHANGELOG heading (squash-merged straight to a patch release)." },
-    { "version": "3.5.0", "missingFrom": ["tag"], "note": "Released from a release/* branch; the git tag was never pushed. GitLab Release exists." },
-    { "version": "3.0.7", "missingFrom": ["gitlab-release"], "note": "Predates the GitLab mirror; only npm + tag exist." },
-    { "version": "2.17.0", "missingFrom": ["gitlab-release", "changelog"], "note": "Pre-mirror release; CHANGELOG lumped it under 2.16.x." },
-    { "version": "2.16.4", "missingFrom": ["npm"], "note": "Tagged but the publish job was cancelled; version never reached npm." },
-    { "version": "2.0.7", "missingFrom": [], "note": "Order anomaly: 2.0.8's tag predates 2.0.7's (back-patched out of order). Both exist everywhere." },
-    { "version": "2.0.8", "missingFrom": [], "note": "See 2.0.7 — tag order is inverted relative to semver." },
-    { "version": "1.x", "missingFrom": ["tag"], "note": "v1 tags were never pushed (all v1.x releases); only npm dist history remains." }
+    {
+      "version": "3.4.8",
+      "missingFrom": [
+        "changelog"
+      ],
+      "note": "Published to npm and tagged v3.4.8 but never received a CHANGELOG heading (squash-merged straight to a patch release)."
+    },
+    {
+      "version": "3.5.0",
+      "missingFrom": [
+        "tag"
+      ],
+      "note": "Released from a release/* branch; the git tag was never pushed. GitLab Release exists."
+    },
+    {
+      "version": "3.0.7",
+      "missingFrom": [
+        "gitlab-release"
+      ],
+      "note": "Predates the GitLab mirror; only npm + tag exist."
+    },
+    {
+      "version": "2.17.0",
+      "missingFrom": [
+        "gitlab-release",
+        "changelog"
+      ],
+      "note": "Pre-mirror release; CHANGELOG lumped it under 2.16.x."
+    },
+    {
+      "version": "2.16.4",
+      "missingFrom": [
+        "npm"
+      ],
+      "note": "Tagged but the publish job was cancelled; version never reached npm."
+    },
+    {
+      "version": "2.0.7",
+      "missingFrom": [],
+      "note": "Order anomaly: 2.0.8's tag predates 2.0.7's (back-patched out of order). Both exist everywhere."
+    },
+    {
+      "version": "2.0.8",
+      "missingFrom": [],
+      "note": "See 2.0.7 \u2014 tag order is inverted relative to semver."
+    },
+    {
+      "version": "1.x",
+      "missingFrom": [
+        "tag"
+      ],
+      "note": "v1 tags were never pushed (all v1.x releases); only npm dist history remains."
+    }
+  ],
+  "claimCorrections": [
+    {
+      "doc": "README.md, llms.txt, RELEASE_NOTES_4.1.0.md, CHANGELOG.md",
+      "claim": "498 visual targets certified (standing claim)",
+      "correction": "Certification is a per-run pipeline result stored as CI artifacts; the repo carries no standing certification claim."
+    },
+    {
+      "doc": "README.md, llms.txt",
+      "claim": "SSR-safe package / SSR-safe components",
+      "correction": "Components are client components; token and style entrypoints are server-safe. SSR portal components remain unaffected."
+    },
+    {
+      "doc": "README.md",
+      "claim": "optional backend",
+      "correction": "server/, src/services/**, Dockerfile, docker-compose.yml are unsupported example code scheduled for extraction \u2014 not an optional supported backend."
+    },
+    {
+      "doc": "README.md",
+      "claim": "contrast guardrails",
+      "correction": "ContrastGuard and validateTextContrast report 'unverified' when a ratio cannot be computed; they are utilities, not guarantee mechanisms."
+    },
+    {
+      "doc": "README.md, docs/readme.md",
+      "claim": "checked-in reports/ evidence",
+      "correction": "reports/ is untracked; evidence lives in CI artifacts (.artifacts/)."
+    }
   ]
 }

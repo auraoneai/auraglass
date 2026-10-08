@@ -10,7 +10,7 @@
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import {
   AlertCircle,
   CheckCircle,
@@ -578,8 +578,12 @@ export default function VoiceGlassControl({
           {/* Wake Word Indicator */}
           {state.wakeWordDetected && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0 }
+              }
               exit={{ opacity: 0, y: -10 }}
               className="glass-mt-2 glass-p-2 glass-surface-green/20 glass-radius glass-text-xs glass-text-primary glass-text-center"
             >
@@ -590,8 +594,12 @@ export default function VoiceGlassControl({
           {/* Error Display */}
           {state.error && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0 }
+              }
               className="glass-mt-2 glass-p-2 glass-surface-red/20 glass-radius glass-text-xs glass-text-primary"
             >
               <div className="glass-flex glass-items-center glass-justify-between">
@@ -609,8 +617,12 @@ export default function VoiceGlassControl({
           {/* Transcript Display */}
           {showTranscript && (state.transcript || state.interimTranscript) && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0 }
+              }
               className="glass-mt-2 glass-p-2 glass-surface-subtle/10 glass-radius glass-text-xs"
             >
               <div className="glass-text-primary glass-font-medium">
@@ -625,8 +637,12 @@ export default function VoiceGlassControl({
           {/* Last Command Feedback */}
           {state.lastFeedback && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0 }
+              }
               className="glass-mt-2 glass-p-2 glass-surface-blue/20 glass-radius glass-text-xs glass-text-primary"
             >
               <div className="glass-flex glass-items-start glass-gap-2">
@@ -639,8 +655,12 @@ export default function VoiceGlassControl({
           {/* Media Controls (when music is playing) */}
           {isPlaying && (
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 1, y: 0 }
+              }
               className="glass-mt-2 glass-flex glass-items-center glass-gap-2 glass-p-2 glass-surface-subtle/10 glass-radius"
             >
               <button
@@ -684,9 +704,15 @@ export default function VoiceGlassControl({
         <AnimatePresence>
           {showSettings && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={
+                prefersReducedMotion
+                  ? false
+                  : { opacity: 0, scale: 0.95, y: 20 }
+              }
               animate={
-                prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1, y: 0 }
+                  : { opacity: 1, scale: 1, y: 0 }
               }
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >
@@ -821,9 +847,15 @@ export default function VoiceGlassControl({
         <AnimatePresence>
           {showHelpPanel && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              initial={
+                prefersReducedMotion
+                  ? false
+                  : { opacity: 0, scale: 0.95, y: 20 }
+              }
               animate={
-                prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1, y: 0 }
+                  : { opacity: 1, scale: 1, y: 0 }
               }
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
             >

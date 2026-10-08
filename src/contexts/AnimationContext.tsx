@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { AuraGlassProvider } from "../theme/AuraGlassProvider";
+import { warnDeprecated } from "../utils/warnDeprecated";
 
 export interface AnimationContextType {
   reducedMotion: boolean;
@@ -62,10 +64,13 @@ export const AnimationProvider: React.FC<AnimationProviderProps> = ({
     defaultSpring,
   };
 
+  warnDeprecated("DEP-P0050");
   return (
-    <AnimationContext.Provider value={contextValue}>
-      {children}
-    </AnimationContext.Provider>
+    <AuraGlassProvider>
+      <AnimationContext.Provider value={contextValue}>
+        {children}
+      </AnimationContext.Provider>
+    </AuraGlassProvider>
   );
 };
 

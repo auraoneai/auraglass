@@ -2,7 +2,7 @@ export const GLASSMORPHISM_AUDIT_COVERAGE_REPORT_PATH =
   "src/reports/glassmorphismAuditCoverage.ts";
 
 export const GLASSMORPHISM_AUDIT_EVIDENCE_PATHS = [
-  "reports/component_inventory.json",
+  "docs/inventory/component_inventory.json",
   "reports/glassmorphism-storybook-visual-certification.json",
   "docs/components/readme.md",
   "docs/components/choosing.md",
@@ -44,7 +44,7 @@ export type GlassAuditPriorityGap = {
 };
 
 export const glassmorphismAuditCoverage = {
-  source: "reports/component_inventory.json",
+  source: "docs/inventory/component_inventory.json",
   matchingStrategy:
     "Normalized component names are matched against component-owned story, unit test, and docs file basenames. Complete Storybook visual certification is tracked separately from direct owner-story coverage.",
   generatedBy: "Worker 6 glassmorphism audit",

@@ -1,6 +1,7 @@
 // @ts-nocheck - Optional Redis dependency
 import { createHash } from "crypto";
-import { createClient, RedisClientType } from "redis";
+import { createClient } from "../../vendor/redis";
+import type { RedisClientType } from "redis";
 
 const SAFE_CACHE_KEY_PATTERN = /^[A-Za-z0-9:._-]+$/;
 const MAX_SAFE_CACHE_KEY_LENGTH = 160;

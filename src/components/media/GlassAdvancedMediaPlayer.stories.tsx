@@ -46,8 +46,8 @@ const svgDataUri = (title: string, subtitle: string, accent: string) =>
       <rect x="84" y="92" width="560" height="112" rx="24" fill="rgba(255,255,255,0.16)"/>
       <rect x="84" y="246" width="840" height="20" rx="10" fill="rgba(255,255,255,0.30)"/>
       <rect x="84" y="292" width="620" height="20" rx="10" fill="rgba(255,255,255,0.20)"/>
-      <text x="112" y="162" font-family="Aeonik, Arial, sans-serif" font-size="48" font-weight="700" fill="#ffffff">${title}</text>
-      <text x="112" y="374" font-family="Aeonik, Arial, sans-serif" font-size="30" fill="#dbeafe">${subtitle}</text>
+      <text x="112" y="162" font-family="Arial, Arial, sans-serif" font-size="48" font-weight="700" fill="#ffffff">${title}</text>
+      <text x="112" y="374" font-family="Arial, Arial, sans-serif" font-size="30" fill="#dbeafe">${subtitle}</text>
       <rect x="84" y="516" width="1112" height="14" rx="7" fill="rgba(255,255,255,0.26)"/>
       <rect x="84" y="516" width="420" height="14" rx="7" fill="#ffffff"/>
     </svg>

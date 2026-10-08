@@ -1,6 +1,6 @@
 "use client";
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";

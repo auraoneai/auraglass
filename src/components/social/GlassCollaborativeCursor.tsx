@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { cn } from "@/lib/utils";
 import { createGlassStyle } from "../../utils/createGlassStyle";
@@ -229,7 +229,7 @@ export const GlassCollaborativeCursor = forwardRef<
         }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? { x: 0, y: 0, scale: 1, opacity: 1 }
             : {
                 x: 0,
                 y: 0,
@@ -264,10 +264,10 @@ export const GlassCollaborativeCursor = forwardRef<
           left: user.x + 15,
           top: user.y - 5,
         }}
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? { opacity: 1, scale: 1 }
             : {
                 opacity: user.isActive ? 1 : 0.7,
                 scale: user.isActive ? 1 : 0.9,
@@ -350,8 +350,12 @@ export const GlassCollaborativeCursor = forwardRef<
             borderColor: getUserColor(user.id),
             backgroundColor: `${getUserColor(user.id)}20`,
           }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={prefersReducedMotion ? {} : { opacity: 0.5, scale: 1 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1, scale: 1 }
+              : { opacity: 0.5, scale: 1 }
+          }
           transition={
             prefersReducedMotion ? { duration: 0 } : { duration: 0.2 }
           }

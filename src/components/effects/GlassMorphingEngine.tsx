@@ -10,7 +10,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  * before production use.
  */
 
-import { motion, useAnimation, useSpring } from "framer-motion";
+import { motion, useAnimation, useSpring } from "../../vendor/framer_motion";
 import React, {
   useCallback,
   useEffect,

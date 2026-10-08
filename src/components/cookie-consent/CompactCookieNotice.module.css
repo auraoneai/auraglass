@@ -24,6 +24,10 @@
   );
   border: 1px solid var(--aura-color-glass-border);
   box-shadow: var(--cookie-box-shadow);
+  opacity: 1;
+  transform: translateX(var(--cookie-tx, 0)) translateY(var(--cookie-y, 0));
+  visibility: visible;
+  pointer-events: auto;
   will-change: transform, opacity;
   transition:
     transform var(--aura-motion-duration-fast)
@@ -34,13 +38,11 @@
 .positionBottom {
   bottom: var(--aura-space-4);
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .positionTop {
   top: var(--aura-space-4);
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .positionBottomLeft {
@@ -102,4 +104,21 @@
   .buttonGroup > :global(button) {
     flex: 1;
   }
+}
+
+/* PLAT-104: state-driven visibility (was useGalileoStateSpring) */
+.container[data-state="closed"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(var(--cookie-tx, 0)) translateY(var(--cookie-y, 15px));
+}
+.container[data-state="closed"].positionTop,
+.container[data-state="closed"].positionTopLeft,
+.container[data-state="closed"].positionTopRight {
+  transform: translateX(var(--cookie-tx, 0)) translateY(-15px);
+}
+.positionBottom,
+.positionTop {
+  --cookie-tx: -50%;
 }

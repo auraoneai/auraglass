@@ -1,5 +1,5 @@
 "use client";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import React, {
   forwardRef,
   useCallback,
@@ -468,6 +468,11 @@ export const GlassGoldenRatioGrid = forwardRef<
               const hasItem = !!section.item;
               const isHovered = hasItem && hoveredItem === section.item!.id;
               const isSelected = hasItem && selectedItem === section.item!.id;
+              const nodeVariant = isSelected
+                ? "selected"
+                : isHovered
+                  ? "hover"
+                  : "visible";
 
               return (
                 <motion.div
@@ -486,9 +491,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                   custom={index}
                   variants={getItemVariants()}
                   initial="hidden"
-                  animate={
-                    isSelected ? "selected" : isHovered ? "hover" : "visible"
-                  }
+                  animate={nodeVariant}
                   exit="hidden"
                   onMouseEnter={() => hasItem && handleItemHover(section.item!)}
                   onMouseLeave={() => handleItemHover(null)}

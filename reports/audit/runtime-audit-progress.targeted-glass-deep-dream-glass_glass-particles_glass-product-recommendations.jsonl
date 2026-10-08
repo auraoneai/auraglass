@@ -1,3 +1,0 @@
-{"id":"glass-particles","name":"GlassParticles","kind":"export","status":"fail","render":"pass","tokens":"pass","layout":"fail","reasons":["mobile: dominant-canvas-chroma-darkness: canvas.glass-absolute.glass-inset-0.glass-w-full.glass-h-full bitmap=356x2 sampledPixels=52 chromaticRatio=0.000 darkChromaticRatio=0.654 meanChroma=27.9 meanLuminance=100.2"]}
-{"id":"glass-deep-dream-glass","name":"GlassDeepDreamGlass","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}
-{"id":"glass-product-recommendations","name":"GlassProductRecommendations","kind":"export","status":"pass","render":"pass","tokens":"pass","layout":"pass","reasons":[]}

@@ -12,9 +12,9 @@ This is the documentation home for AuraGlass by AuraOne. It separates product us
 - Hosted runtime production entrypoints must use the real TypeScript API server built from `server/index.ts` and `server/websocket-server.js`. The legacy `server/api-server.js` path is demo/mock-only and must not be documented as production infrastructure.
 - 3.3 release evidence: [reports/3.3-release/README.md](../reports/3.3-release/README.md)
 - 3.1 package surface audit: [reports/3.1-release/package-surface-audit.md](../reports/3.1-release/package-surface-audit.md)
-- Historical 3.0 certification inventory: 356 audited entries in [reports/component_inventory.json](../reports/component_inventory.json)
-- Historical visual certification: 356/356 passed entries in [reports/glassmorphism-storybook-visual-certification.json](../reports/glassmorphism-storybook-visual-certification.json)
-- Historical certification screenshots: 712 desktop/mobile captures in [reports/glassmorphism-storybook-visual-certification/screenshots](../reports/glassmorphism-storybook-visual-certification/screenshots)
+- Historical 3.0 certification inventory: 356 audited entries in [docs/inventory/component_inventory.json](../docs/inventory/component_inventory.json)
+- Historical visual certification: 356/356 passed entries — CI artifact `.artifacts/glassmorphism-storybook-visual-certification.json`
+- Historical certification screenshots: 712 desktop/mobile captures — CI artifact `.artifacts/glassmorphism-storybook-visual-certification/screenshots`
 - Static Storybook exhaustive QA: 1,595 stories, zero hard failures, zero audit-run errors in [reports/storybook-exhaustive-qa.md](../reports/storybook-exhaustive-qa.md)
 - Storybook taxonomy: Start Here, Foundations, Controls, Navigation, Surfaces, Data + Visualization, Media, Workflows, AI + Intelligence, Effects + Advanced, Showcases, Reference, and Certification.
 - Component selection guide: [docs/components/choosing.md](./components/choosing.md)

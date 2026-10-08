@@ -1,6 +1,6 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import { ANIMATION } from "../../tokens/designConstants";
 import {
   BookOpen,

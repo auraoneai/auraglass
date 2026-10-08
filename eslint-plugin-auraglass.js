@@ -98,13 +98,9 @@ module.exports = {
               
             // Check for glass properties
             if (glassProperties.includes(propertyName)) {
-              context.report({
-                node,
-                messageId: 'noBackdropFilter',
-                fix(fixer) {
-                  return fixer.replaceText(node, '// Use createGlassStyle() instead');
-                }
-              });
+              // No autofix: deleting the property silently changes rendered
+              // output. Report-only; fix manually with createGlassStyle().
+              context.report({ node, messageId: 'noBackdropFilter' });
             }
             
             // Check for glass background values
@@ -117,16 +113,10 @@ module.exports = {
                       const intent = value.includes('255') ? 'neutral' : 'primary';
                       const elevation = parseFloat(value.match(/0\.([0-9]+)/)?.[1] || '2') > 15 ? 'level3' : 'level2';
                       
-                      context.report({
-                        node,
-                        messageId: 'noGlassBackground',
-                        fix(fixer) {
-                          return fixer.replaceText(
-                            node.value, 
-                            `'/* Use createGlassStyle({ intent: "${intent}", elevation: "${elevation}" }) */'`
-                          );
-                        }
-                      });
+                      // No autofix: replacing the value with a placeholder
+                      // comment string produces invalid CSS. Report-only; fix
+                      // manually with createGlassStyle().
+                      context.report({ node, messageId: 'noGlassBackground' });
                       break;
                     }
                   }

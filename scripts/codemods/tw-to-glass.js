@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { evidenceDir } = require('../ci/lib/evidence-dir');
 
 // Process all source directories, excluding tests and stories
 const ROOT = path.join(process.cwd(), 'src');
@@ -627,7 +628,7 @@ function main() {
   console.log('🔧 Running tw-to-glass codemod on src directory (excluding tests and stories) ...');
   walk(ROOT);
   if (leftovers.size) {
-    const reportPath = path.join(process.cwd(), 'reports', 'tw-to-glass-leftovers.json');
+    const reportPath = path.join(evidenceDir(), 'tw-to-glass-leftovers.json');
     fs.mkdirSync(path.dirname(reportPath), { recursive: true });
     fs.writeFileSync(reportPath, JSON.stringify(Object.fromEntries(leftovers), null, 2));
     console.log(`⚠️  Leftover utility classes recorded: ${reportPath}`);

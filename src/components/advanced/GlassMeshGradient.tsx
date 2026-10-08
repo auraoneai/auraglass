@@ -8,7 +8,7 @@ import { ANIMATION, COLORS } from "../../tokens/designConstants";
  */
 
 import React, { useRef, useEffect, useMemo, forwardRef } from "react";
-import { motion, useAnimationFrame } from "framer-motion";
+import { motion, useAnimationFrame } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
@@ -69,12 +69,7 @@ const toCanvasRgba = (color: string, alpha: number) => {
 
 export function GlassMeshGradient({
   className,
-  colors = [
-    "#ffffff",
-    "#f8fafc",
-    "#e2e8f0",
-    "#ffffff",
-  ],
+  colors = ["#ffffff", "#f8fafc", "#e2e8f0", "#ffffff"],
   points = 4,
   speed = 0.5,
   blur = 100,

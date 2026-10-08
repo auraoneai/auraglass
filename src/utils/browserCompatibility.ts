@@ -1,3 +1,4 @@
+/* eslint-disable no-new-func -- legitimate feature-detection probes (PLAT-075 scoped exception) */
 import React from "react";
 import { createGlassStyle } from "../core/mixins/glassMixins";
 // Browser compatibility detection and fallbacks
@@ -259,8 +260,7 @@ export const compatibilityHelpers = {
       case "backdropFilter":
         if (!browser.supports.backdropFilter) {
           return {
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
             border: "1px solid rgba(0, 0, 0, 0.1)",
           };
         }

@@ -1,6 +1,6 @@
 // @ts-nocheck - Optional express-rate-limit dependency
 import { Request, Response, NextFunction } from "express";
-import rateLimit from "express-rate-limit";
+import rateLimit from "../../vendor/express_rate_limit";
 import { AuthService, TokenPayload, Permission } from "./auth-service";
 
 declare global {

@@ -1,0 +1,28 @@
+{
+  "sideEffectImports": [
+    "src/components/accessibility/GlassFocusIndicators.tsx:./GlassFocusIndicators.css",
+    "src/components/advanced/BrandColorIntegration.tsx:./BrandColorIntegration.css",
+    "src/components/advanced/GlassPerformanceOptimization.tsx:./GlassPerformanceOptimization.css",
+    "src/components/cms/GlassPageBuilder.tsx:./GlassPageBuilder.css",
+    "src/components/dashboard/GlassActivityFeed.tsx:./dashboardNeutral.css",
+    "src/components/dashboard/GlassChartWidget.tsx:./dashboardNeutral.css",
+    "src/components/dashboard/GlassKPICard.tsx:./dashboardNeutral.css",
+    "src/components/dashboard/GlassMetricCard.tsx:./dashboardNeutral.css",
+    "src/components/dashboard/GlassStatCard.tsx:./dashboardNeutral.css",
+    "src/components/effects/GlassMorphingEngine.tsx:./glass-morphing.css",
+    "src/components/marketing/AuroraBackground.tsx:./marketing.css",
+    "src/components/marketing/AuroraOrb.tsx:./marketing.css",
+    "src/components/marketing/DisplayText.tsx:./marketing.css",
+    "src/components/marketing/FeatureTile.tsx:./marketing.css",
+    "src/components/marketing/InstallCommand.tsx:./marketing.css",
+    "src/components/marketing/LogoMark.tsx:./marketing.css",
+    "src/components/marketing/ShowcaseCard.tsx:./marketing.css",
+    "src/components/templates/dashboard/GlassDashboard.tsx:../templateNeutral.css",
+    "src/components/templates/forms/GlassFormTemplate.tsx:../templateNeutral.css",
+    "src/components/templates/forms/GlassWizardTemplate.tsx:../templateNeutral.css",
+    "src/components/templates/list/GlassListView.tsx:../templateNeutral.css",
+    "src/components/theme/PersonaPicker.tsx:./persona-picker.css",
+    "src/types/react-custom.d.ts:react",
+    "src/utils/testSetup.ts:@testing-library/jest-dom"
+  ]
+}

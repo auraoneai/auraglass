@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -591,9 +591,7 @@ export const GlassCoherenceIndicator = forwardRef<
 
             <div>
               <span className={cn("glass-text-secondary")}>Status:</span>
-              <div
-                className={cn("glass-font-medium glass-text-primary")}
-              >
+              <div className={cn("glass-font-medium glass-text-primary")}>
                 {clamp(currentCoherence) >= safeCoherenceThreshold
                   ? "Stable"
                   : "Unstable"}

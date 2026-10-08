@@ -232,8 +232,8 @@ test.describe("glassmorphism audit coverage guardrails", () => {
     );
 
     for (const requiredPath of [
-      "reports/component_inventory.json",
-      "reports/glassmorphism-storybook-visual-certification.json",
+      "docs/inventory/component_inventory.json",
+      ".artifacts/glassmorphism-storybook-visual-certification.json",
       "docs/components/choosing.md",
     ]) {
       expect(`${docsIndex}\n${componentIndex}`).toContain(requiredPath);

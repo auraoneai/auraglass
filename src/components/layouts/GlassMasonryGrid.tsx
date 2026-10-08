@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { motion, PanInfo } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
+import type { PanInfo } from "framer-motion";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -650,7 +651,7 @@ export const GlassMasonryGrid = forwardRef<
             {visibleItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                ref={(el) => {
+                ref={(el: any) => {
                   if (el) itemRefs.current[item.id] = el;
                 }}
                 className={`

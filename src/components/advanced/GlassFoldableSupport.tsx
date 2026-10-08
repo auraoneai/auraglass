@@ -6,7 +6,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -284,8 +284,14 @@ export function GlassFoldableSupport({
                 width: `${(segment.width / totalWidth) * 100}%`,
                 height: `${(segment.height / totalHeight) * 100}%`,
               }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+              initial={
+                prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }
+              }
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1 }
+                  : { opacity: 1, scale: 1 }
+              }
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
@@ -354,8 +360,8 @@ export function GlassFoldableSupport({
       <AnimatePresence mode="wait">
         <motion.div
           key={`${layoutMode}-${foldableInfo.foldState}`}
-          initial={{ opacity: 0 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1 }}
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={
             prefersReducedMotion

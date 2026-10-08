@@ -13,7 +13,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import styles from "./EnhancementShowcase.module.css";
 
@@ -680,8 +680,12 @@ export const EnhancementShowcase: React.FC = () => {
               activeSection === section.id && (
                 <motion.div
                   key={section.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+                  animate={
+                    prefersReducedMotion
+                      ? { opacity: 1, y: 0 }
+                      : { opacity: 1, y: 0 }
+                  }
                   exit={{ opacity: 0, y: -20 }}
                   transition={
                     prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }

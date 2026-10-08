@@ -6,7 +6,12 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -387,12 +392,21 @@ export function GlassOrientationEffects({
 
           {/* Refraction overlay */}
           {effectTypes.includes("refraction") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={{ background: "rgba(255,255,255,.08)" }} />
+            <motion.div
+              className="glass-absolute glass-inset-0 glass-pointer-events-none"
+              style={{ background: "rgba(255,255,255,.08)" }}
+            />
           )}
 
           {/* Shimmer effect */}
           {effectTypes.includes("shimmer") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20" style={{ background: "linear-gradient(115deg, transparent 28%, rgba(255,255,255,.38) 50%, transparent 72%)" }} />
+            <motion.div
+              className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20"
+              style={{
+                background:
+                  "linear-gradient(115deg, transparent 28%, rgba(255,255,255,.38) 50%, transparent 72%)",
+              }}
+            />
           )}
 
           {/* Content */}
@@ -413,11 +427,20 @@ export function GlassOrientationEffects({
           )}
 
           {effectTypes.includes("refraction") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none" style={{ background: "rgba(255,255,255,.08)" }} />
+            <motion.div
+              className="glass-absolute glass-inset-0 glass-pointer-events-none"
+              style={{ background: "rgba(255,255,255,.08)" }}
+            />
           )}
 
           {effectTypes.includes("shimmer") && (
-            <motion.div className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20" style={{ background: "linear-gradient(115deg, transparent 28%, rgba(255,255,255,.38) 50%, transparent 72%)" }} />
+            <motion.div
+              className="glass-absolute glass-inset-0 glass-pointer-events-none glass-opacity-20"
+              style={{
+                background:
+                  "linear-gradient(115deg, transparent 28%, rgba(255,255,255,.38) 50%, transparent 72%)",
+              }}
+            />
           )}
 
           <div className="glass-relative glass-z-10">

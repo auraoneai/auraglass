@@ -24,7 +24,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 
 // Spatial coordinate system
 export interface SpatialPosition {
@@ -583,13 +583,15 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
     <motion.div
       ref={containerRef}
       className={`spatial-computing-container ${className}`}
-      style={{
-        color: "var(--glass-theme-text, var(--glass-text-primary))",
-        position: "relative",
-        transformStyle: "preserve-3d",
-        perspective: "1000px",
-        ...transform3D,
-      } as React.CSSProperties}
+      style={
+        {
+          color: "var(--glass-theme-text, var(--glass-text-primary))",
+          position: "relative",
+          transformStyle: "preserve-3d",
+          perspective: "1000px",
+          ...transform3D,
+        } as React.CSSProperties
+      }
       animate={controls}
     >
       {/* Spatial bounds visualization */}
@@ -618,8 +620,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             left: "10px",
             width: "8px",
             height: "8px",
-            backgroundColor:
-              "var(--glass-neutral-level2-surface)",
+            backgroundColor: "var(--glass-neutral-level2-surface)",
             borderRadius: "50%",
             pointerEvents: "none",
           }}
@@ -635,8 +636,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            background:
-              "var(--glass-neutral-level2-surface)",
+            background: "var(--glass-neutral-level2-surface)",
             borderRadius: "50%",
             width: "60px",
             height: "60px",
@@ -653,8 +653,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "var(--glass-primary-level2-surface)",
+            background: "var(--glass-primary-level2-surface)",
             pointerEvents: "none",
             mixBlendMode: "multiply",
           }}
@@ -671,8 +670,7 @@ export const SpatialComputingEngine: React.FC<SpatialComputingEngineProps> = ({
             position: "absolute",
             bottom: "10px",
             right: "10px",
-            background:
-              "var(--glass-primary-level2-surface)",
+            background: "var(--glass-primary-level2-surface)",
             color: "white",
             padding: "8px",
             fontSize: "12px",

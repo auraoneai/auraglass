@@ -6,7 +6,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
  */
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -425,10 +425,10 @@ function LiveCursorComponent({
           <motion.div
             key={`trail-${cursor.id}-${index}`}
             className="glass-absolute glass-pointer-events-none"
-            initial={{ opacity: 0, scale: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0 }}
             animate={
               prefersReducedMotion
-                ? {}
+                ? { opacity: 1, scale: 1, x: 0, y: 0 }
                 : {
                     opacity: (1 - index / cursor.trail.length) * 0.5,
                     scale: 1 - index * 0.1,
@@ -461,10 +461,12 @@ function LiveCursorComponent({
       {/* Main cursor */}
       <motion.div
         className="glass-absolute glass-pointer-events-none glass-z-50"
-        initial={{ opacity: 0, scale: 0, rotate: 0 }}
+        initial={
+          prefersReducedMotion ? false : { opacity: 0, scale: 0, rotate: 0 }
+        }
         animate={
           prefersReducedMotion
-            ? {}
+            ? { opacity: 1, scale: 1, x: 0, y: 0, rotate: 0 }
             : {
                 opacity: 1,
                 scale: 1,
@@ -508,7 +510,9 @@ function LiveCursorComponent({
           {cursor.isTyping && (
             <motion.div
               className="glass-absolute glass--glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
-              animate={prefersReducedMotion ? {} : { scale: [1, 1.2, 1] }}
+              animate={
+                prefersReducedMotion ? { scale: 1 } : { scale: [1, 1.2, 1] }
+              }
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
@@ -530,8 +534,10 @@ function LiveCursorComponent({
                 ? "glass-surface-primary glass-text-primary"
                 : "bg-white/15 glass-text-primary"
             )}
-            initial={{ opacity: 0, y: -10 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: -10 }}
+            animate={
+              prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+            }
             exit={{ opacity: 0, y: -10 }}
             style={{
               backgroundColor: glassEffect ? undefined : cursor.color,

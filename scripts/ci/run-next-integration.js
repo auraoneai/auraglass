@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { execSync } = require('child_process');
+const { packToDir } = require('./lib/npm-pack');
+const { evidenceDir } = require('./lib/evidence-dir');
 
 const run = (command, options = {}) => {
   execSync(command, { stdio: 'inherit', ...options });
@@ -44,14 +46,8 @@ if (!SKIP_BUILD) {
 }
 
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-next-'));
-const packOutput = runWithOutput('npm pack --dry-run=false --json --pack-destination ' + tmpRoot, { cwd: rootDir });
-const packInfo = JSON.parse(packOutput)[0];
-
-if (!packInfo || !packInfo.filename) {
-  throw new Error('Failed to generate npm pack tarball for AuraGlass.');
-}
-
-const tarballPath = path.join(tmpRoot, packInfo.filename);
+const packInfo = packToDir(rootDir, tmpRoot);
+const tarballPath = packInfo.tarballPath;
 const appDir = path.join(tmpRoot, 'next-app');
 fs.mkdirSync(appDir);
 
@@ -215,6 +211,26 @@ export default function Page() {
 `,
 );
 
+// PLAT-093: a real React Server Component page — no "use client" — importing
+// package modules. Proves client entries don't leak client-only code into RSC.
+writeFile(
+  appDir,
+  'app/rsc/page.tsx',
+  `import { Glass } from 'aura-glass/primitives';
+import { glassTokenUtils } from 'aura-glass/tokens';
+
+export default function RscPage() {
+  const surface = glassTokenUtils.buildSurfaceStyles('neutral', 'level2', 'high');
+  return (
+    <main>
+      <h1>AuraGlass RSC</h1>
+      <Glass style={surface}>server component renders primitives</Glass>
+    </main>
+  );
+}
+`,
+);
+
 writeFile(
   appDir,
   'app/globals.css',
@@ -245,19 +261,17 @@ run('npm test', { cwd: appDir });
 const integrationLogPath = path.join(appDir, 'integration.log');
 if (fs.existsSync(integrationLogPath)) {
   const logContent = fs.readFileSync(integrationLogPath, 'utf8');
-  const reportsDir = path.join(rootDir, 'reports');
-  fs.mkdirSync(reportsDir, { recursive: true });
-  const destLogPath = path.join(reportsDir, 'next-integration.log');
+  const destLogPath = path.join(evidenceDir('integration'), 'next-integration.log');
   fs.copyFileSync(integrationLogPath, destLogPath);
 
   if (failurePatterns.some((pattern) => pattern.test(logContent))) {
     throw new Error(
-      'Next.js integration log contains registry or hook warnings. See reports/next-integration.log for details.'
+      `Next.js integration log contains registry or hook warnings. See ${destLogPath} for details.`
     );
   }
 }
 
-console.log('✅ AuraGlass Next.js integration smoke test completed successfully. Logs available in reports/next-integration.log');
+console.log('✅ AuraGlass Next.js integration smoke test completed successfully. Logs available under .artifacts/integration/');
 
 // React 19 / Next 15 integration scenario (3D entrypoint)
 console.log('\n📦 Running AuraGlass Next.js React 19 + Next 15 integration smoke test...');
@@ -440,16 +454,14 @@ run('npm test', { cwd: appDirReact19 });
 const integrationLogPathReact19 = path.join(appDirReact19, 'integration-react19.log');
 if (fs.existsSync(integrationLogPathReact19)) {
   const logContent = fs.readFileSync(integrationLogPathReact19, 'utf8');
-  const reportsDir = path.join(rootDir, 'reports');
-  fs.mkdirSync(reportsDir, { recursive: true });
-  const destLogPath = path.join(reportsDir, 'next-integration-react19.log');
+  const destLogPath = path.join(evidenceDir('integration'), 'next-integration-react19.log');
   fs.copyFileSync(integrationLogPathReact19, destLogPath);
 
   if (failurePatterns.some((pattern) => pattern.test(logContent))) {
     throw new Error(
-      'React 19 Next.js integration log contains registry or hook warnings. See reports/next-integration-react19.log for details.',
+      `React 19 Next.js integration log contains registry or hook warnings. See ${destLogPath} for details.`,
     );
   }
 }
 
-console.log('✅ AuraGlass Next.js React 19 integration smoke test completed successfully. Logs available in reports/next-integration-react19.log');
+console.log('✅ AuraGlass Next.js React 19 integration smoke test completed successfully. Logs available under .artifacts/integration/');

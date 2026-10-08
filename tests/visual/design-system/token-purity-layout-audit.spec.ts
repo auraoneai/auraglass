@@ -2280,7 +2280,7 @@ const buildExportList = () => {
     "reports/public-visual-target-manifest.json"
   );
   const inventory = readJson<{ components: InventoryEntry[] }>(
-    "reports/component_inventory.json"
+    "docs/inventory/component_inventory.json"
   );
   const inventoryByPath = new Map(
     inventory.components.map((component) => [

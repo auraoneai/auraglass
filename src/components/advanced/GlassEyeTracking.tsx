@@ -14,7 +14,11 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlassCore as OptimizedGlass } from "@/primitives/OptimizedGlassCore";
 import { useA11yId } from "@/utils/a11y";
@@ -466,6 +470,13 @@ export function useEyeTracking() {
   return context;
 }
 
+/** PLAT-085: optional reader — returns the context when mounted under the
+    provider, null otherwise (never throws). Lets call sites hoist the hook
+    unconditionally and gate feature usage on the flag instead. */
+export function useOptionalEyeTracking() {
+  return useContext(EyeTrackingContext);
+}
+
 // Calibration component
 export function GlassEyeTrackingCalibration({
   onComplete,
@@ -475,7 +486,7 @@ export function GlassEyeTrackingCalibration({
   className?: string;
 }) {
   const prefersReducedMotion = useReducedMotion();
-  const { startCalibration, finishCalibration, isCalibrating } =
+  const { startCalibration, finishCalibration, isCalibrating, engine } =
     useEyeTracking();
   const [currentPoint, setCurrentPoint] = useState(0);
   const [isCalibrationActive, setIsCalibrationActive] = useState(false);
@@ -509,7 +520,6 @@ export function GlassEyeTrackingCalibration({
     const screenY = (point.y / 100) * window.innerHeight;
 
     // Simulate calibration point click
-    const engine = useEyeTracking().engine;
     if (engine) {
       await engine.calibratePoint(screenX, screenY);
     }
@@ -617,7 +627,7 @@ export function GlassEyeTrackingCalibration({
                 className={cn(
                   "glass-absolute glass-w-4 glass-h-4 glass-translate-x-1/2-neg glass-translate-y-1/2-neg glass-cursor-pointer glass-focus"
                 )}
-                ref={(el) => {
+                ref={(el: any) => {
                   if (el) {
                     el.style.left = `${point.x}%`;
                     el.style.top = `${point.y}%`;
@@ -800,7 +810,7 @@ export function GlassGazeResponsive({
               "glass-absolute glass-inset-0 glass-pointer-events-none glass-radius-inherit"
             )}
             initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 0.8 }}
+            animate={{ opacity: 0.8 }}
             exit={{ opacity: 0 }}
           >
             <div
@@ -842,7 +852,7 @@ export function GlassGazeVisualization({
           <motion.div
             key={interaction.region.id}
             className="glass-absolute"
-            ref={(el) => {
+            ref={(el: any) => {
               if (!el) return;
               const r = interaction.region as any;
               el.style.left = typeof r.x === "number" ? `${r.x}px` : r.x;

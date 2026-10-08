@@ -1,4 +1,5 @@
-import { z } from "zod";
+import type * as zt from "zod";
+import { z } from "../../vendor/zod";
 
 export const AIConfigSchema = z.object({
   openai: z.object({
@@ -36,7 +37,7 @@ export const AIConfigSchema = z.object({
   }),
 });
 
-export type AIConfig = z.infer<typeof AIConfigSchema>;
+export type AIConfig = zt.infer<typeof AIConfigSchema>;
 
 export type AIProvider =
   | "openai"

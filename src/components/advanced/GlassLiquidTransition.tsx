@@ -18,7 +18,7 @@ import {
   AnimatePresence,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -523,7 +523,7 @@ export const GlassLiquidContainer = React.forwardRef<
 
     return (
       <motion.div
-        ref={(node) => {
+        ref={(node: any) => {
           // Handle forwarded ref
           if (ref) {
             if (typeof ref === "function") {

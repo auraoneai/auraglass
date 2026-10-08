@@ -14,11 +14,12 @@ import React, {
   createContext,
   useContext,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { createPortal } from "react-dom";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 // Self-healing system types
 interface ComponentHealthCheck {
@@ -1154,7 +1155,7 @@ export function GlassSelfHealingWrapper({
           className="glass-absolute glass-top-1 glass-right-1 glass-w-3 glass-h-3 glass-radius-full glass-border-2 glass-border-white/20"
           style={{ backgroundColor: statusColor }}
           initial={{ scale: 0 }}
-          animate={prefersReducedMotion ? {} : { scale: 1 }}
+          animate={prefersReducedMotion ? { scale: 1 } : { scale: 1 }}
           title={`Health: ${(health.healthScore * 100).toFixed(1)}% | Status: ${health.status} | Issues: ${health.issues.length}`}
         />
       )}
@@ -1201,29 +1202,15 @@ export function GlassSelfHealingDashboard({
       {showDashboard && (
         <motion.div
           className="glass-surface-primary glass-elev-4 glass-radius-lg glass-p-4 glass-gap-3"
-          style={{
-            position: "fixed",
-            zIndex: 51,
-            top: "4.75rem",
-            left: "1rem",
-            width: "min(20rem, calc(100vw - 2rem))",
-            maxWidth: "calc(100vw - 2rem)",
-            maxHeight: "min(24rem, calc(100vh - 5.75rem))",
-            overflowY: "auto",
-            color: "var(--glass-theme-text, var(--glass-text-primary))",
-            background:
-              "linear-gradient(145deg, rgba(255,255,255,.30), rgba(255,255,255,.16))",
-            backgroundColor: "rgba(255,255,255,.18)",
-            border: "1px solid rgba(255,255,255,.28)",
-            boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,.28), 0 18px 48px rgba(20,20,20,.14)",
-            backdropFilter:
-              "blur(24px) saturate(1.4) brightness(1.04) contrast(1.02)",
-            WebkitBackdropFilter:
-              "blur(24px) saturate(1.4) brightness(1.04) contrast(1.02)",
-          }}
-          initial={{ opacity: 0, y: -10, scale: 0.95 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+          style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
+          initial={
+            prefersReducedMotion ? false : { opacity: 0, y: -10, scale: 0.95 }
+          }
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 1, y: 0, scale: 1 }
+          }
           exit={{ opacity: 0, y: -10, scale: 0.95 }}
         >
           <div className="glass-flex glass-items-center glass-justify-between">
@@ -1242,8 +1229,12 @@ export function GlassSelfHealingDashboard({
             <motion.div
               key={health.componentId}
               className="glass-p-3 glass-surface-secondary glass-radius-md"
-              initial={{ opacity: 0, x: -10 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, x: -10 }}
+              animate={
+                prefersReducedMotion
+                  ? { opacity: 1, x: 0 }
+                  : { opacity: 1, x: 0 }
+              }
             >
               <div className="glass-flex glass-items-center glass-justify-between">
                 <span className="glass-text-sm glass-text-primary glass-font-medium">
@@ -1304,7 +1295,7 @@ export function GlassSelfHealingDashboard({
           <motion.div
             className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-red glass-radius-full glass-text-xs glass-text-primary glass-flex glass-items-center glass-justify-center"
             initial={{ scale: 0 }}
-            animate={prefersReducedMotion ? {} : { scale: 1 }}
+            animate={prefersReducedMotion ? { scale: 1 } : { scale: 1 }}
           >
             {criticalCount + warningCount + healingCount}
           </motion.div>

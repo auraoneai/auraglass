@@ -1,7 +1,12 @@
-import * as jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import jwt from "../../vendor/jsonwebtoken";
+import type {
+  SignOptions as jwtSignOptions_t,
+  Secret as jwtSecret_t,
+} from "jsonwebtoken";
+import bcrypt from "../../vendor/bcryptjs";
 import { randomBytes } from "crypto";
-import { z } from "zod";
+import type * as zt from "zod";
+import { z } from "../../vendor/zod";
 
 export const UserSchema = z.object({
   id: z.string(),
@@ -14,7 +19,7 @@ export const UserSchema = z.object({
   metadata: z.record(z.any()).optional(),
 });
 
-export type User = z.infer<typeof UserSchema>;
+export type User = zt.infer<typeof UserSchema>;
 
 export const TokenPayloadSchema = z.object({
   userId: z.string(),
@@ -25,7 +30,7 @@ export const TokenPayloadSchema = z.object({
   exp: z.number().optional(),
 });
 
-export type TokenPayload = z.infer<typeof TokenPayloadSchema>;
+export type TokenPayload = zt.infer<typeof TokenPayloadSchema>;
 
 export interface AuthConfig {
   jwtSecret: string;
@@ -33,6 +38,27 @@ export interface AuthConfig {
   refreshTokenExpiresIn: string;
   bcryptRounds: number;
 }
+
+const EXAMPLE_JWT_SECRET = "your-super-secret-jwt-key-change-in-production";
+
+/**
+ * Fails the hosted-runtime startup when the JWT secret is unsafe: unset,
+ * equal to the shipped .env.example default, or shorter than 32 characters.
+ * Exits the process (code 1) rather than throwing so a misconfigured deploy
+ * can never reach request handling. Returns the secret when safe.
+ */
+export const assertJwtSecret = (
+  env: { JWT_SECRET?: string | undefined } & object = process.env
+): string => {
+  const secret = env.JWT_SECRET;
+  if (!secret || secret === EXAMPLE_JWT_SECRET || secret.length < 32) {
+    console.error(
+      "FATAL: JWT_SECRET is unset, the shipped example default, or shorter than 32 characters — refusing to start the hosted runtime."
+    );
+    process.exit(1);
+  }
+  return secret;
+};
 
 const resolveJwtSecret = (providedSecret?: string): string => {
   const secret = providedSecret || process.env.JWT_SECRET;
@@ -45,7 +71,7 @@ const resolveJwtSecret = (providedSecret?: string): string => {
     return "auraglass-test-jwt-secret";
   }
 
-  throw new Error("JWT_SECRET is required to initialize AuthService");
+  return assertJwtSecret();
 };
 
 export class AuthService {
@@ -79,23 +105,23 @@ export class AuthService {
       permissions: user.permissions,
     };
 
-    const signOptions: jwt.SignOptions = {
+    const signOptions: jwtSignOptions_t = {
       expiresIn: this.config.jwtExpiresIn as any,
     };
     return jwt.sign(
       payload as object,
-      this.config.jwtSecret as jwt.Secret,
+      this.config.jwtSecret as jwtSecret_t,
       signOptions
     );
   }
 
   generateRefreshToken(userId: string): string {
-    const opts: jwt.SignOptions = {
+    const opts: jwtSignOptions_t = {
       expiresIn: this.config.refreshTokenExpiresIn as any,
     };
     return jwt.sign(
       { userId, type: "refresh" } as object,
-      this.config.jwtSecret as jwt.Secret,
+      this.config.jwtSecret as jwtSecret_t,
       opts
     );
   }

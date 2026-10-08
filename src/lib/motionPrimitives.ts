@@ -1,12 +1,23 @@
-import { Variants } from 'framer-motion';
+import type { Variants } from "framer-motion";
 
 export const createMotionAwareVariants = {
   fadeInScale: (prefersReducedMotion: boolean) => ({
-    hidden: prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 },
-    visible: prefersReducedMotion ? { opacity: 1, scale: 1, transition: { duration: 0 } } : { opacity: 1, scale: 1, transition: { duration: 0.3, ease: 'easeOut' } },
+    hidden: prefersReducedMotion
+      ? { opacity: 1, scale: 1 }
+      : { opacity: 0, scale: 0.8 },
+    visible: prefersReducedMotion
+      ? { opacity: 1, scale: 1, transition: { duration: 0 } }
+      : {
+          opacity: 1,
+          scale: 1,
+          transition: { duration: 0.3, ease: "easeOut" },
+        },
   }),
 
-  slideIn: (direction: 'left' | 'right' | 'up' | 'down', prefersReducedMotion: boolean) => {
+  slideIn: (
+    direction: "left" | "right" | "up" | "down",
+    prefersReducedMotion: boolean
+  ) => {
     const directionMap = {
       left: { x: -50 },
       right: { x: 50 },
@@ -15,14 +26,25 @@ export const createMotionAwareVariants = {
     };
 
     return {
-      hidden: prefersReducedMotion ? { opacity: 1, ...directionMap[direction] } : { opacity: 0, ...directionMap[direction] },
-      visible: prefersReducedMotion ? { opacity: 1, x: 0, y: 0, transition: { duration: 0 } } : { opacity: 1, x: 0, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+      hidden: prefersReducedMotion
+        ? { opacity: 1, ...directionMap[direction] }
+        : { opacity: 0, ...directionMap[direction] },
+      visible: prefersReducedMotion
+        ? { opacity: 1, x: 0, y: 0, transition: { duration: 0 } }
+        : {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            transition: { duration: 0.4, ease: "easeOut" },
+          },
     };
   },
 
   fadeInUp: (prefersReducedMotion: boolean) => ({
     hidden: prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
-    visible: prefersReducedMotion ? { opacity: 1, y: 0, transition: { duration: 0 } } : { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeOut' } },
+    visible: prefersReducedMotion
+      ? { opacity: 1, y: 0, transition: { duration: 0 } }
+      : { opacity: 1, y: 0, transition: { duration: 0.3, ease: "easeOut" } },
   }),
 };
 

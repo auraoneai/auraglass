@@ -3,10 +3,9 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import {
   AnimatePresence,
   motion,
-  HTMLMotionProps,
-  PanInfo,
   useMotionValue,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
+import type { HTMLMotionProps, PanInfo } from "framer-motion";
 import React, {
   forwardRef,
   useCallback,
@@ -19,8 +18,7 @@ import { cn } from "../../lib/utilsComprehensive";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 const channelBalancedGlassStyle = {
-  background:
-    "linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.18))",
+  ...createGlassStyle({ intent: "neutral", elevation: "level1" }),
   border: "1px solid rgba(32,32,32,0.14)",
   boxShadow:
     "0 14px 34px rgba(32,32,32,0.1), inset 0 1px 0 rgba(255,255,255,0.26)",
@@ -187,7 +185,7 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
 
     return (
       <motion.div
-        ref={(node) => {
+        ref={(node: any) => {
           containerRef.current = node;
           if (typeof ref === "function") {
             ref(node);
@@ -234,8 +232,12 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
                 borderRadius: "50%",
                 background: "var(--glass-neutral-level2-surface)",
               }}
-              initial={{ scale: 0, opacity: 1 }}
-              animate={prefersReducedMotion ? {} : { scale: 3, opacity: 0 }}
+              initial={prefersReducedMotion ? false : { scale: 0, opacity: 1 }}
+              animate={
+                prefersReducedMotion
+                  ? { scale: 1, opacity: 1 }
+                  : { scale: 3, opacity: 0 }
+              }
               exit={{ opacity: 0 }}
               transition={
                 prefersReducedMotion
@@ -256,8 +258,8 @@ export const TouchOptimizedGlass = forwardRef<HTMLDivElement, TouchGlassProps>(
                   background: "var(--glass-neutral-level2-surface)",
                   borderRadius: "inherit",
                 }}
-                initial={{ opacity: 0 }}
-                animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                initial={prefersReducedMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={
                   prefersReducedMotion ? { duration: 0 } : { duration: 0.1 }
@@ -345,7 +347,7 @@ export function MobileGlassNavigation({
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.2}
-      onDragEnd={(event, info) => {
+      onDragEnd={(event: any, info: any) => {
         const { offset, velocity } = info;
 
         if (Math.abs(offset.x) > swipeThreshold || Math.abs(velocity.x) > 500) {
@@ -452,7 +454,7 @@ export function AdaptiveGlassDensity({
         borderRadius: "12px",
         transition: "all 0.3s ease-in-out",
       }}
-      animate={prefersReducedMotion ? {} : { opacity: 1 }}
+      animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
     >
       {children}
@@ -527,8 +529,12 @@ export function TouchRippleEffects({
               height: 40,
               background: color,
             }}
-            initial={{ scale: 0, opacity: 1 }}
-            animate={prefersReducedMotion ? {} : { scale: 4, opacity: 0 }}
+            initial={prefersReducedMotion ? false : { scale: 0, opacity: 1 }}
+            animate={
+              prefersReducedMotion
+                ? { scale: 1, opacity: 1 }
+                : { scale: 4, opacity: 0 }
+            }
             exit={{ opacity: 0 }}
             transition={
               prefersReducedMotion
@@ -594,11 +600,11 @@ export function MobileGlassBottomSheet({
           {/* Backdrop */}
           <motion.div
             className={cn(
-              "glass-foundation-complete glass-position-fixed glass-inset-0 glass-z-40"
+              "glass-foundation-complete glass-position-fixed glass-inset-0 glass-z-40",
+              "bg-black/30"
             )}
-            style={{ background: "rgba(32, 32, 32, 0.32)" }}
-            initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
           />
@@ -618,7 +624,7 @@ export function MobileGlassBottomSheet({
               boxSizing: "border-box",
             }}
             initial={{ y: "100%" }}
-            animate={prefersReducedMotion ? {} : { y: 0 }}
+            animate={prefersReducedMotion ? { y: 0 } : { y: 0 }}
             exit={{ y: "100%" }}
             transition={
               prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }

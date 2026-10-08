@@ -13,7 +13,11 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";
@@ -828,6 +832,13 @@ export function useBiometricAdaptation() {
     );
   }
   return context;
+}
+
+/** PLAT-085: optional reader — returns the context when mounted under the
+    provider, null otherwise (never throws). Lets call sites hoist the hook
+    unconditionally and gate feature usage on the flag instead. */
+export function useOptionalBiometricAdaptation() {
+  return useContext(BiometricAdaptationContext);
 }
 
 export class BiometricStressDetector extends BiometricAdaptationEngine {

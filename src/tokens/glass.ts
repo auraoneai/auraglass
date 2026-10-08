@@ -928,10 +928,57 @@ export const glassTokenUtils = {
   /**
    * Validate contrast ratio for text over surface
    */
-  validateTextContrast: (textColor: string, surfaceColor: string): boolean => {
-    // Implementation would calculate actual contrast ratio
-    // For now, we ensure our predefined values meet WCAG AA
-    return true; // Our defined colors all meet 4.5:1 contrast
+  validateTextContrast: (
+    textColor: string,
+    surfaceColor: string
+  ): boolean | "unverified" => {
+    const toRgb = (value: string): number[] | null => {
+      const trimmed = (value || "").trim();
+      if (!trimmed || trimmed.startsWith("var(") || trimmed === "transparent") {
+        return null;
+      }
+      const hex = trimmed.replace(/^#/, "");
+      if (/^[0-9a-fA-F]{3}$/.test(hex)) {
+        const full = hex
+          .split("")
+          .map((c) => c + c)
+          .join("");
+        return [
+          parseInt(full.slice(0, 2), 16),
+          parseInt(full.slice(2, 4), 16),
+          parseInt(full.slice(4, 6), 16),
+        ];
+      }
+      if (/^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/.test(hex)) {
+        return [
+          parseInt(hex.slice(0, 2), 16),
+          parseInt(hex.slice(2, 4), 16),
+          parseInt(hex.slice(4, 6), 16),
+        ];
+      }
+      const channel = trimmed.match(
+        /rgba?\(\s*(\d+)\s*[, ]\s*(\d+)\s*[, ]\s*(\d+)/
+      );
+      return channel
+        ? [Number(channel[1]), Number(channel[2]), Number(channel[3])]
+        : null;
+    };
+    const channelLuminance = (c: number) => {
+      const v = c / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    };
+    const luminance = (rgb: number[]) =>
+      0.2126 * channelLuminance(rgb[0] ?? 0) +
+      0.7152 * channelLuminance(rgb[1] ?? 0) +
+      0.0722 * channelLuminance(rgb[2] ?? 0);
+
+    const fg = toRgb(textColor);
+    const bg = toRgb(surfaceColor);
+    if (!fg || !bg) return "unverified";
+    const l1 = luminance(fg);
+    const l2 = luminance(bg);
+    const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    return ratio >= 4.5;
   },
 
   /**
@@ -992,6 +1039,7 @@ export const glassTokenUtils = {
       );
     }
 
+    // eslint-disable-next-line auraglass/no-inline-glass -- canonical token surface, not an app inline style
     return {
       background:
         "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
@@ -1585,6 +1633,7 @@ export const liquidGlassUtils = {
       ...baseStylesWithoutColorConflict
     } = baseStyles;
 
+    // eslint-disable-next-line auraglass/no-inline-glass -- canonical token surface, not an app inline style
     return {
       ...baseStylesWithoutColorConflict,
 
@@ -1604,7 +1653,7 @@ export const liquidGlassUtils = {
       // Cap the specular highlight at the canonical white-frost ceiling
       // (0.35) so even the lightest gradient stop stays within audit bounds.
       background:
-        "linear-gradient(135deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.12) 100%), linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.08) 100%)",
+        "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
 
       // Enhanced transitions for micro-interactions
       transition: performance.enableMicroInteractions

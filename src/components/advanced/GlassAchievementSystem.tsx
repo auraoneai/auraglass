@@ -14,7 +14,7 @@ import React, {
   useContext,
   forwardRef,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import {
@@ -748,6 +748,13 @@ export function useAchievements() {
   return context;
 }
 
+/** PLAT-085: optional reader — returns the context when mounted under the
+    provider, null otherwise (never throws). Lets call sites hoist the hook
+    unconditionally and gate feature usage on the flag instead. */
+export function useOptionalAchievements() {
+  return useContext(AchievementContext);
+}
+
 // Achievement notification component
 export function GlassAchievementNotifications({
   className,
@@ -863,7 +870,7 @@ const AchievementNotificationCard = forwardRef<
       onKeyDown={handleKeyDown}
       className="glass-relative"
       initial={{ x: 300, opacity: 0, scale: 0.8 }}
-      animate={prefersReducedMotion ? {} : { x: 0, opacity: 1, scale: 1 }}
+      animate={{ x: 0, opacity: 1, scale: 1 }}
       exit={{ x: 300, opacity: 0, scale: 0.8 }}
       transition={
         prefersReducedMotion
@@ -963,7 +970,7 @@ const AchievementNotificationCard = forwardRef<
       <motion.div
         className="glass-absolute glass-inset-0 glass-pointer-events-none"
         initial={{ opacity: 0 }}
-        animate={prefersReducedMotion ? {} : { opacity: [0, 1, 0] }}
+        animate={{ opacity: [0, 1, 0] }}
         transition={
           prefersReducedMotion
             ? { duration: 0 }

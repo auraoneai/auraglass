@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { OptimizedGlass } from "../../primitives";
 import { useGlassSound } from "../../utils/soundDesign";
@@ -204,8 +204,12 @@ export const GlassPresenceIndicator = forwardRef<
       <motion.div
         key={user.id}
         layout={animateChanges}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }}
+        animate={
+          prefersReducedMotion
+            ? { opacity: 1, scale: 1 }
+            : { opacity: 1, scale: 1 }
+        }
         exit={{ opacity: 0, scale: 0.8 }}
         transition={respectMotionPreference({
           duration: 0.3,
@@ -255,7 +259,11 @@ export const GlassPresenceIndicator = forwardRef<
                   right: -2,
                   bottom: -2,
                 }}
-                animate={user.status === "online" ? { scale: [1, 1.2, 1] } : {}}
+                animate={
+                  user.status === "online"
+                    ? { scale: [1, 1.2, 1] }
+                    : { scale: 1 }
+                }
                 transition={respectMotionPreference({
                   duration: 2,
                   repeat: Infinity,
@@ -320,7 +328,9 @@ export const GlassPresenceIndicator = forwardRef<
         {showTypingIndicator && user.isTyping && (
           <motion.div
             className="glass-flex glass-space-x-1"
-            animate={prefersReducedMotion ? {} : { opacity: [0.4, 1, 0.4] }}
+            animate={
+              prefersReducedMotion ? { opacity: 1 } : { opacity: [0.4, 1, 0.4] }
+            }
             transition={respectMotionPreference({
               duration: 1.5,
               repeat: Infinity,
@@ -331,7 +341,7 @@ export const GlassPresenceIndicator = forwardRef<
               <motion.div
                 key={i}
                 className="glass-w-1.5 glass-h-1.5 glass-surface-primary glass-radius-full"
-                animate={prefersReducedMotion ? {} : { y: [-2, 0, -2] }}
+                animate={prefersReducedMotion ? { y: 0 } : { y: [-2, 0, -2] }}
                 transition={respectMotionPreference({
                   duration: 0.6,
                   repeat: Infinity,
@@ -368,8 +378,8 @@ export const GlassPresenceIndicator = forwardRef<
             <motion.div
               className="glass-flex glass-items-center glass-space-x-2 glass-p-2 glass-radius-lg glass-text-secondary"
               style={createGlassStyle({ variant: "default", radius: "lg" })}
-              initial={{ opacity: 0 }}
-              animate={prefersReducedMotion ? {} : { opacity: 1 }}
+              initial={prefersReducedMotion ? false : { opacity: 0 }}
+              animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
               transition={respectMotionPreference({ delay: 0.3 })}
             >
               <div
@@ -396,8 +406,10 @@ export const GlassPresenceIndicator = forwardRef<
         {showTypingIndicator && typingUsers.length > 0 && (
           <motion.div
             className="glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10"
-            initial={{ opacity: 0, y: 10 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+            animate={
+              prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+            }
             exit={{ opacity: 0, y: 10 }}
           >
             <p className="glass-text-xs glass-text-primary-glass-opacity-60">
@@ -412,8 +424,8 @@ export const GlassPresenceIndicator = forwardRef<
 
         <motion.div
           className="glass-mt-3 glass-pt-3 glass-border-t glass-border-white/10 glass-flex glass-justify-between glass-items-center glass-text-xs glass-text-primary-glass-opacity-50"
-          initial={{ opacity: 0 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1 }}
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
           transition={respectMotionPreference({ delay: 0.5 })}
         >
           <span>{processedUsers.totalOnline} online</span>

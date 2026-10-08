@@ -1,6 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { HTMLMotionProps, motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
+import type { HTMLMotionProps } from "framer-motion";
 import React, { forwardRef, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { createGlassStyle } from "../../core/mixins/glassMixins";

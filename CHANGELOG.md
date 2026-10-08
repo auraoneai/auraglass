@@ -1,6 +1,21 @@
+## [4.1.1] - Unreleased
+
+### Security and privacy
+
+- GHSA draft: hosted example runtime ships a default JWT secret, missing authorization on AI routes, and open WebSocket rooms (see docs/security/GHSA-4.1.1-draft.md; owner publishes the advisory before the v4.1.1 tag).
+- `assertJwtSecret` fails closed at startup; Dockerfile no longer copies `.env.example` over `.env`.
+- `enableAdaptiveAI` is opt-in; GlassCanvas executes `onComponentAction` instead of string code (DEP-P0012, DEP-P0013).
+- `validateTextContrast`/ContrastGuard report `unverified` honestly instead of unconditional pass (DEP-P0014).
+- Font decision D-31: Aeonik (licence unconfirmed) removed; `--glass-font-sans` falls back to the system stack (DEP-P0015).
+- Crash fixes: conditional-hook violations hoisted; reduced-motion `animate={{}}` sites rewritten (`prefersReducedMotion ? FINAL : X`).
+- Hydration: `useOptional*` readers + hydration-stable helpers avoid SSR/client mismatch fallbacks.
+
 # Changelog
 
 ## [4.1.0] - 2026-09-05
+
+> **Retraction (4.1.1):** the "498 certified" and "SSR-safe" claims in this release's notes overstated the evidence — certification is per-run pipeline output and components are client components. Ledger corrections: docs/release/ledger-corrections.json.
+
 
 ### Fixed
 

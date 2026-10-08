@@ -1,0 +1,3 @@
+/* 4.3 compat: 4.x token names aliased onto the 5.0 --ag-* successor table.
+   Opt-in only — import "aura-glass/compat/tokens.css" to preview. */
+@import "../styles/v5.css";

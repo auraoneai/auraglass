@@ -1,0 +1,38 @@
+PREPACK-RAN
+more-noise
+[
+  {
+    "id": "aura-glass@4.1.0",
+    "name": "aura-glass",
+    "version": "4.1.0",
+    "size": 14229,
+    "unpackedSize": 46210,
+    "shasum": "ea2727b89bdf95ea4403d4514dd9e4061f2ac533",
+    "integrity": "sha512-a6vJYop3BWuM3VpcCA6wTVxNN7S30sjbA0COxqJg9U9qMb+J+Ay6wpagHPKYIoWnho7oO3W+/3mn9kPO11RTtw==",
+    "filename": "aura-glass-4.1.0.tgz",
+    "files": [
+      {
+        "path": "LICENSE",
+        "size": 1070,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 31675,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 15,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 13450,
+        "mode": 420
+      }
+    ],
+    "entryCount": 4,
+    "bundled": []
+  }
+]

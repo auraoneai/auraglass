@@ -1,5 +1,7 @@
 "use client";
 
+import { AuraGlassProvider } from "./AuraGlassProvider";
+import { warnDeprecated } from "../utils/warnDeprecated";
 import React from "react";
 
 import {
@@ -115,16 +117,19 @@ export const GlassThemeProvider = ({
 
   const vars = createGlassThemeCssVars(theme) as React.CSSProperties;
 
+  warnDeprecated("DEP-P0050");
   return (
-    <GlassThemeContext.Provider value={value}>
-      <div
-        data-auraglass-theme={theme.id}
-        data-glass-theme-mode={theme.mode}
-        style={vars}
-      >
-        {children}
-      </div>
-    </GlassThemeContext.Provider>
+    <AuraGlassProvider>
+      <GlassThemeContext.Provider value={value}>
+        <div
+          data-auraglass-theme={theme.id}
+          data-glass-theme-mode={theme.mode}
+          style={vars}
+        >
+          {children}
+        </div>
+      </GlassThemeContext.Provider>
+    </AuraGlassProvider>
   );
 };
 

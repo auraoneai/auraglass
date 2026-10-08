@@ -1,3 +1,5 @@
+> **Retraction (4.1.1):** This document's "498 targets certified" and "SSR-safe" claims overstated the evidence. Certification was a per-run pipeline result, not a standing property; components are client components (tokens are server-safe). See docs/release/ledger-corrections.json.
+
 # AuraGlass 4.1.0
 
 AuraGlass 4.1.0 certifies the full visual surface: all 498 targets (470 component exports plus 28 recipes) pass token-purity and layout gates on desktop, tablet, and mobile. It fixes the defects the certification run surfaced and hardens the audit harness itself.

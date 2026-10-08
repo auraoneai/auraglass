@@ -1,6 +1,6 @@
 // @ts-nocheck - Optional OpenAI dependency
 import { createHash } from "crypto";
-import { z } from "zod";
+import { z } from "../../vendor/zod";
 import { AIConfig } from "./config";
 import { CacheService } from "./cache-service";
 import { ErrorHandler } from "./error-handler";

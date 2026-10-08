@@ -3,7 +3,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { cn } from "@/lib/utils";
 
 import React, { forwardRef, useState, useEffect, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -226,8 +226,10 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
       return (
         <motion.div
           layout
-          initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={
+            prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+          }
           exit={{ opacity: 0, y: -20 }}
           transition={respectMotionPreference({
             duration: ANIMATION.DURATION.normal / 1000,
@@ -244,7 +246,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
           <div className="glass-flex glass-items-start glass-space-x-3 glass-mb-3">
             <motion.div
               className="glass-relative glass-cursor-pointer"
-              onClick={(e) => {
+              onClick={(e: any) => {
                 e.stopPropagation();
                 onUserClick?.(post.author.id);
               }}
@@ -424,7 +426,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
             <div className="glass-flex glass-items-center glass-justify-between glass-pt-3 glass-border-t glass-border-white/10">
               <div className="glass-flex glass-items-center glass-space-x-6">
                 <motion.button
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     handleLike(post.id);
                   }}
@@ -453,7 +455,7 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
                 </button>
 
                 <motion.button
-                  onClick={(e) => {
+                  onClick={(e: any) => {
                     e.stopPropagation();
                     handleShare(post.id);
                   }}

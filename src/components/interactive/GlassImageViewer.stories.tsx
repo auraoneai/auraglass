@@ -17,7 +17,7 @@ const viewerImage = (title: string, accent: string, width = 800, height = 600) =
       <circle cx="${width * 0.76}" cy="${height * 0.26}" r="${Math.min(width, height) * 0.18}" fill="rgba(255,255,255,.18)"/>
       <rect x="${width * 0.1}" y="${height * 0.16}" width="${width * 0.5}" height="${height * 0.13}" rx="22" fill="rgba(255,255,255,.16)"/>
       <rect x="${width * 0.1}" y="${height * 0.76}" width="${width * 0.72}" height="${height * 0.035}" rx="12" fill="rgba(255,255,255,.22)"/>
-      <text x="${width * 0.1}" y="${height * 0.68}" font-family="Aeonik, Arial, sans-serif" font-size="${Math.max(24, width * 0.052)}" font-weight="700" fill="#ffffff">${title}</text>
+      <text x="${width * 0.1}" y="${height * 0.68}" font-family="Arial, Arial, sans-serif" font-size="${Math.max(24, width * 0.052)}" font-weight="700" fill="#ffffff">${title}</text>
     </svg>
   `)}`;
 

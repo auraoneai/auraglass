@@ -10,7 +10,7 @@ import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { AlertCircle, Eye, EyeOff, Hand, Info, Loader2 } from "@/icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
@@ -204,7 +204,6 @@ export function ARGlassEffects({
   showControls = true,
   showInfo = true,
 }: ARGlassEffectsProps) {
-  const prefersReducedMotion = useReducedMotion();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [userPosition] = useState(new THREE.Vector3(0, 1.6, 0));
   const [isInitialized, setIsInitialized] = useState(false);
@@ -322,8 +321,9 @@ export function ARGlassEffects({
     [onInteraction]
   );
 
+  const prefersReducedMotion = useReducedMotion();
+
   const handlePortalActivation = useCallback(() => {
-    const prefersReducedMotion = useReducedMotion();
     setPortalActive(!portalActive);
     if (onInteraction) {
       onInteraction("portal_toggle", { active: !portalActive });
@@ -375,7 +375,8 @@ export function ARGlassEffects({
       {mode === "ar" && capabilities.isARSupported && showControls && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           className="glass-absolute glass-top-4 glass-right-4 glass-z-10 glass-flex glass-gap-2"
         >
           <button
@@ -415,7 +416,8 @@ export function ARGlassEffects({
       {mode === "demo" && showInfo && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           className="glass-absolute glass-top-4 glass-left-4 glass-z-10 glass-p-4 glass-surface-dark/80 glass-backdrop-blur-lg glass-radius-lg glass-text-primary glass-text-sm glass-max-w-xs glass-contrast-guard"
         >
           <h3 className="glass-font-semibold glass-mb-2 glass-flex glass-items-center glass-gap-2">
@@ -477,7 +479,8 @@ export function ARGlassEffects({
       {xrError && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           className="glass-absolute glass-bottom-4 glass-left-4 glass-z-10 glass-surface-red glass-text-primary glass-p-3 glass-radius-lg glass-max-w-xs glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2">
@@ -492,7 +495,8 @@ export function ARGlassEffects({
         (handTracking.left.isActive || handTracking.right.isActive) && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : undefined}
             className="glass-absolute glass-bottom-4 glass-right-4 glass-z-10 glass-surface-green glass-text-primary glass-p-3 glass-radius-lg glass-text-sm glass-contrast-guard"
           >
             <div className="glass-flex glass-items-center glass-gap-2">

@@ -10,13 +10,13 @@ import React, {
 } from "react";
 import { OptimizedGlass } from "../../primitives";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { ContrastGuard } from "@/components/accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -31,16 +31,10 @@ const tableTextStyle: React.CSSProperties = { color: TABLE_TEXT };
 const tableSecondaryTextStyle: React.CSSProperties = {
   color: TABLE_SECONDARY_TEXT,
 };
-const tableControlStyle: React.CSSProperties = {
-  minHeight: 40,
-  border: "1px solid rgba(255, 255, 255, 0.16)",
-  borderRadius: 12,
-  color: TABLE_TEXT,
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.018))",
-  boxShadow:
-    "inset 0 1px 0 rgba(255,255,255,0.16), 0 8px 24px rgba(3,7,18,0.12)",
-};
+const tableControlStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 const tableNativeControlStyle: React.CSSProperties = {
   ...tableControlStyle,
   appearance: "none",
@@ -299,15 +293,23 @@ const GlassDataTableInnerBase = <
   >({});
 
   // Consciousness feature hooks - only initialize if features are enabled
-  const predictiveEngine = predictive ? usePredictiveEngine() : null;
-  const eyeTracker = eyeTracking ? useEyeTracking() : null;
-  const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-  const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-  const achievementTracker = trackAchievements ? useAchievements() : null;
+  const predictiveEngineOptional = useOptionalPredictiveEngine();
+  const predictiveEngine = predictive ? predictiveEngineOptional : null;
+  const eyeTrackerOptional = useOptionalEyeTracking();
+  const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+  const biometricAdapterOptional = useOptionalBiometricAdaptation();
+  const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+  const spatialAudioEngineOptional = useOptionalSpatialAudio();
+  const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+  const achievementTrackerOptional = useOptionalAchievements();
+  const achievementTracker = trackAchievements
+    ? achievementTrackerOptional
+    : null;
+  const interactionRecorderOptional = useOptionalInteractionRecorder(
+    `glass-datatable-${usageContext}`
+  );
   const interactionRecorder =
-    predictive || trackAchievements
-      ? useInteractionRecorder(`glass-datatable-${usageContext}`)
-      : null;
+    predictive || trackAchievements ? interactionRecorderOptional : null;
   const [sortState, setSortState] = useState<SortState | null>(null);
   const [filterState, setFilterState] = useState<FilterState>({});
   const [searchQuery, setSearchQuery] = useState("");

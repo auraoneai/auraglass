@@ -15,14 +15,15 @@ import React, {
 import { cn } from "@/lib/utils";
 import { Motion, OptimizedGlass } from "../../primitives";
 import { createButtonA11y, useA11yId } from "../../utils/a11y";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
 import {
-  useInteractionRecorder,
+  useOptionalInteractionRecorder,
   usePredictiveEngine,
+  useOptionalPredictiveEngine,
 } from "../advanced/GlassPredictiveEngine";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import { getSafeWindow } from "../../utils/env";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
@@ -258,22 +259,29 @@ function ToggleButtonComponent(
   const [clickCount, setClickCount] = useState(0);
 
   // Consciousness feature hooks - only initialize if features are enabled
-  const predictiveEngine = predictive ? usePredictiveEngine() : null;
-  const eyeTracker = eyeTracking ? useEyeTracking() : null;
-  const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-  const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-  const achievementTracker = trackAchievements ? useAchievements() : null;
+  const predictiveEngineOptional = useOptionalPredictiveEngine();
+  const predictiveEngine = predictive ? predictiveEngineOptional : null;
+  const eyeTrackerOptional = useOptionalEyeTracking();
+  const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+  const biometricAdapterOptional = useOptionalBiometricAdaptation();
+  const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+  const spatialAudioEngineOptional = useOptionalSpatialAudio();
+  const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+  const achievementTrackerOptional = useOptionalAchievements();
+  const achievementTracker = trackAchievements
+    ? achievementTrackerOptional
+    : null;
   const { recordInteraction } = usePredictiveEngine();
+  const interactionRecorderOptional = useOptionalInteractionRecorder(
+    `glass-toggle-${variant}-${usageContext}`
+  );
   const interactionRecorder =
-    predictive || trackAchievements
-      ? useInteractionRecorder(`glass-toggle-${variant}-${usageContext}`)
-      : null;
+    predictive || trackAchievements ? interactionRecorderOptional : null;
 
   // Generate unique ID for accessibility
   const componentId = useA11yId("glass-toggle");
-  const descriptionId = description
-    ? useA11yId("glass-toggle-desc")
-    : undefined;
+  const descriptionIdHook = useA11yId("glass-toggle-desc");
+  const descriptionId = description ? descriptionIdHook : undefined;
 
   // Handle ref forwarding
   useImperativeHandle(ref, () => buttonRef.current as HTMLButtonElement);

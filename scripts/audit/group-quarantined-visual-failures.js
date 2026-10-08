@@ -2,9 +2,10 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { evidenceDir } = require("../ci/lib/evidence-dir");
 
 const repoRoot = process.cwd();
-const auditRoot = path.join(repoRoot, "reports", "audit");
+const auditRoot = evidenceDir("audit");
 const progressPath = process.argv[2];
 const stagingRoot = process.argv[3];
 const outputPath = process.argv[4];

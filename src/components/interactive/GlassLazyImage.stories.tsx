@@ -16,7 +16,7 @@ const lazyImage = (title: string, accent: string, width = 400, height = 300) =>
       <rect width="100%" height="100%" fill="url(#bg)"/>
       <rect x="${width * 0.12}" y="${height * 0.16}" width="${width * 0.52}" height="${height * 0.16}" rx="18" fill="rgba(255,255,255,.16)"/>
       <circle cx="${width * 0.78}" cy="${height * 0.36}" r="${Math.min(width, height) * 0.16}" fill="rgba(255,255,255,.18)"/>
-      <text x="${width * 0.12}" y="${height * 0.74}" font-family="Aeonik, Arial, sans-serif" font-size="${Math.max(18, width * 0.055)}" font-weight="700" fill="#ffffff">${title}</text>
+      <text x="${width * 0.12}" y="${height * 0.74}" font-family="Arial, Arial, sans-serif" font-size="${Math.max(18, width * 0.055)}" font-weight="700" fill="#ffffff">${title}</text>
     </svg>
   `)}`;
 

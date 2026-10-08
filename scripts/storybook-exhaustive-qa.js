@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const http = require("node:http");
 const https = require("node:https");
 const path = require("node:path");
+const { evidenceDir } = require("./ci/lib/evidence-dir");
 const { chromium } = require("@playwright/test");
 
 const repoRoot = process.cwd();
@@ -30,7 +31,7 @@ const storyFilter =
   process.env.STORYBOOK_QA_FILTER ||
   (filterArgIndex >= 0 ? process.argv[filterArgIndex + 1] || "" : "");
 
-const reportDir = path.join(repoRoot, "reports");
+const reportDir = evidenceDir("storybook");
 const jsonReportPath = path.join(reportDir, "storybook-exhaustive-qa.json");
 const markdownReportPath = path.join(reportDir, "storybook-exhaustive-qa.md");
 

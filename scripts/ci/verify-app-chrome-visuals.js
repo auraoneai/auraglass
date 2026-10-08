@@ -5,6 +5,8 @@ const http = require("http");
 const os = require("os");
 const path = require("path");
 const { execSync, spawn } = require("child_process");
+const { packToDir } = require("./lib/npm-pack");
+const { evidenceDir } = require("./lib/evidence-dir");
 const { chromium } = require("@playwright/test");
 
 const projectRoot = path.resolve(__dirname, "..", "..");
@@ -769,18 +771,11 @@ const main = async () => {
   }
 
   const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), "auraglass-app-chrome-"));
-  const packOutput = runWithOutput(
-    `npm pack --dry-run=false --json --pack-destination ${tmpRoot}`,
-    { cwd: projectRoot }
-  );
-  const packInfo = JSON.parse(packOutput)[0];
-  if (!packInfo || !packInfo.filename) {
-    throw new Error("Failed to generate npm pack tarball for AuraGlass.");
-  }
+  const packInfo = packToDir(projectRoot, tmpRoot);
+  const tarballPath = packInfo.tarballPath;
 
   const appDir = path.join(tmpRoot, "app-chrome-visuals");
   fs.mkdirSync(appDir);
-  const tarballPath = path.join(tmpRoot, packInfo.filename);
   const relativeTarball = path.relative(appDir, tarballPath);
 
   writeFile(
@@ -859,7 +854,7 @@ export default defineConfig({
   try {
     await waitForUrl(`http://127.0.0.1:${port}/`);
 
-    const screenshotDir = path.join(projectRoot, "reports", "3.3-release", "app-chrome-visuals");
+    const screenshotDir = evidenceDir("3.3-release/app-chrome-visuals");
     fs.rmSync(screenshotDir, { recursive: true, force: true });
     fs.mkdirSync(screenshotDir, { recursive: true });
 
@@ -935,7 +930,7 @@ export default defineConfig({
       passed: screenshots.length === targets.length,
     };
 
-    const reportDir = path.join(projectRoot, "reports", "3.3-release");
+    const reportDir = evidenceDir("3.3-release");
     fs.writeFileSync(
       path.join(reportDir, "app-chrome-visual-evidence.json"),
       `${JSON.stringify(report, null, 2)}\n`,
@@ -980,7 +975,7 @@ ${keyboardChecks.map((check) => `| ${check.id} | ${check.passed ? "Pass" : "Fail
     );
   } finally {
     stopServer(server);
-    const reportDir = path.join(projectRoot, "reports", "3.3-release");
+    const reportDir = evidenceDir("3.3-release");
     fs.mkdirSync(reportDir, { recursive: true });
     fs.writeFileSync(path.join(reportDir, "app-chrome-visual-server.log"), serverLog, "utf8");
   }

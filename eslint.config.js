@@ -22,7 +22,8 @@ module.exports = [
       }
     },
     plugins: {
-      'auraglass': auraglassPlugin
+      'auraglass': auraglassPlugin,
+      'react-hooks': require('eslint-plugin-react-hooks')
     },
     rules: {
       // AuraGlass Design System Rules - CRITICAL FOR UNIFIED GLASS
@@ -58,7 +59,25 @@ module.exports = [
       }],
       'auraglass/no-inline-style-attr': 'warn',
       'auraglass/motion-no-empty-animate': 'error',
+      // Security honesty (PLAT-075): no string-code execution; hooks rules enforced
+      'no-eval': 'error',
+      'no-new-func': 'error',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     }
+  },
+
+  // Grandfathered auraglass/no-inline-glass sites (PLAT-065, option b):
+  // the rule stays at error; files listed in the generated baseline are
+  // demoted to warn so new violations in unlisted files still fail
+  // lint:check. The baseline is shrink-only — tests/eslint/
+  // no-inline-glass-baseline.test.ts fails when an entry is added for a
+  // file that does not violate, or a listed file no longer violates.
+  {
+    files: require('./eslint/no-inline-glass-baseline.json'),
+    rules: {
+      'auraglass/no-inline-glass': 'warn',
+    },
   },
 
   // Global ignores

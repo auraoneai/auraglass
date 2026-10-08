@@ -5,7 +5,13 @@
  */
 
 import { cn } from "../../lib/utilsComprehensive";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "../../vendor/framer_motion";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 import React, {
   forwardRef,
   useCallback,
@@ -46,6 +52,170 @@ export interface GlassParallaxLayersProps {
   /** Reduced motion preference */
   respectMotionPreference?: boolean;
 }
+
+interface ParallaxLayerItemProps {
+  layer: ParallaxLayer;
+  index: number;
+  prefersReducedMotion: boolean;
+  smoothMouseX: ReturnType<typeof useSpring>;
+  smoothMouseY: ReturnType<typeof useSpring>;
+  scrollYProgress: ReturnType<typeof useMotionValue<number>>;
+  mouseIntensity: number;
+  scrollIntensity: number;
+  autoRotate: boolean;
+  rotation: number;
+  isHovered: boolean;
+  debug?: boolean;
+}
+
+const ParallaxLayerItem: React.FC<ParallaxLayerItemProps> = ({
+  layer,
+  index,
+  prefersReducedMotion,
+  smoothMouseX,
+  smoothMouseY,
+  scrollYProgress,
+  mouseIntensity,
+  scrollIntensity,
+  autoRotate,
+  rotation,
+  isHovered,
+  debug,
+}) => {
+  const depthFactor = layer.depth / 10;
+  const parallaxFactor = 1 - depthFactor;
+
+  // Calculate transforms based on depth
+  const xTransform = useTransform(
+    smoothMouseX,
+    [-0.5, 0.5],
+    [
+      -50 * parallaxFactor * mouseIntensity,
+      50 * parallaxFactor * mouseIntensity,
+    ]
+  );
+
+  const yTransform = useTransform(
+    smoothMouseY,
+    [-0.5, 0.5],
+    [
+      -30 * parallaxFactor * mouseIntensity,
+      30 * parallaxFactor * mouseIntensity,
+    ]
+  );
+
+  const scrollY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [100 * depthFactor * scrollIntensity, -100 * depthFactor * scrollIntensity]
+  );
+
+  const rotateXTransform = useTransform(
+    smoothMouseY,
+    [-0.5, 0.5],
+    [
+      15 * parallaxFactor * mouseIntensity,
+      -15 * parallaxFactor * mouseIntensity,
+    ]
+  );
+
+  const rotateYTransform = useTransform(
+    smoothMouseX,
+    [-0.5, 0.5],
+    [
+      -15 * parallaxFactor * mouseIntensity,
+      15 * parallaxFactor * mouseIntensity,
+    ]
+  );
+
+  // Blur based on depth
+  const blurAmount = Math.round(depthFactor * 4);
+  const autoBlur =
+    blurAmount === 0
+      ? "none"
+      : blurAmount === 1
+        ? "subtle"
+        : blurAmount === 2
+          ? "medium"
+          : blurAmount === 3
+            ? "strong"
+            : "intense";
+
+  // Map layer blur values to OptimizedGlass compatible values
+  const mapBlurValue = (
+    blur: "none" | "sm" | "md" | "lg" | "xl" | undefined
+  ): "none" | "subtle" | "medium" | "strong" | "intense" | undefined => {
+    switch (blur) {
+      case "sm":
+        return "subtle";
+      case "md":
+        return "medium";
+      case "lg":
+        return "strong";
+      case "xl":
+        return "intense";
+      default:
+        return blur;
+    }
+  };
+
+  const finalBlur = mapBlurValue(layer.blur) || autoBlur;
+
+  const layerStyle = {
+    x: prefersReducedMotion ? 0 : xTransform,
+    y: prefersReducedMotion ? 0 : scrollY,
+    rotateX: prefersReducedMotion ? 0 : rotateXTransform,
+    rotateY: prefersReducedMotion
+      ? 0
+      : autoRotate
+        ? rotation
+        : rotateYTransform,
+    z: prefersReducedMotion ? 0 : layer.depth * 50,
+    scale: layer.scale || 1 - depthFactor * 0.1,
+    opacity: layer.opacity || 1 - depthFactor * 0.1,
+    transformStyle: prefersReducedMotion ? "flat" : "preserve-3d",
+  } as any;
+
+  return (
+    <motion.div
+      key={`layer-${index}`}
+      initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.9 }}
+      animate={{
+        opacity: layer.opacity || 1 - depthFactor * 0.1,
+        scale: layer.scale || 1 - depthFactor * 0.1,
+      }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : ANIMATION.DURATION.slower / 1000,
+        delay: prefersReducedMotion ? 0 : index * 0.1,
+      }}
+      style={{ ...layerStyle }}
+    >
+      <OptimizedGlass
+        intent="neutral"
+        elevation={isHovered ? "level3" : "level1"}
+        intensity="medium"
+        glassBlur={finalBlur}
+        depth={Math.min(layer.depth, 5)}
+        className={cn(
+          "glass-absolute glass-inset-0",
+          "glass-transition-all",
+          { transitionDuration: "var(--glass-motion-duration-normal)" },
+          layer.className
+        )}
+      >
+        <ContrastGuard>{layer.content}</ContrastGuard>
+
+        {debug && (
+          <ContrastGuard>
+            <div className="glass-absolute glass-top-2 glass-left-2 glass-surface-dark/20 glass-backdrop-blur-sm glass-p-2 glass-radius-sm glass-text-xs glass-text-primary-glass-opacity-90">
+              Layer {index + 1} | Depth: {layer.depth}
+            </div>
+          </ContrastGuard>
+        )}
+      </OptimizedGlass>
+    </motion.div>
+  );
+};
 
 export const GlassParallaxLayers = forwardRef<
   HTMLDivElement,
@@ -199,161 +369,31 @@ export const GlassParallaxLayers = forwardRef<
         aria-label={ariaLabel || "Parallax layers with interactive effects"}
         aria-hidden={!ariaLabel}
       >
-        {sortedLayers.map((layer, index) => {
-          const depthFactor = layer.depth / 10;
-          const parallaxFactor = 1 - depthFactor;
-
-          // Calculate transforms based on depth
-          const xTransform = useTransform(
-            smoothMouseX,
-            [-0.5, 0.5],
-            [
-              -50 * parallaxFactor * mouseIntensity,
-              50 * parallaxFactor * mouseIntensity,
-            ]
-          );
-
-          const yTransform = useTransform(
-            smoothMouseY,
-            [-0.5, 0.5],
-            [
-              -30 * parallaxFactor * mouseIntensity,
-              30 * parallaxFactor * mouseIntensity,
-            ]
-          );
-
-          const scrollY = useTransform(
-            scrollYProgress,
-            [0, 1],
-            [
-              100 * depthFactor * scrollIntensity,
-              -100 * depthFactor * scrollIntensity,
-            ]
-          );
-
-          const rotateXTransform = useTransform(
-            smoothMouseY,
-            [-0.5, 0.5],
-            [
-              15 * parallaxFactor * mouseIntensity,
-              -15 * parallaxFactor * mouseIntensity,
-            ]
-          );
-
-          const rotateYTransform = useTransform(
-            smoothMouseX,
-            [-0.5, 0.5],
-            [
-              -15 * parallaxFactor * mouseIntensity,
-              15 * parallaxFactor * mouseIntensity,
-            ]
-          );
-
-          // Blur based on depth
-          const blurAmount = Math.round(depthFactor * 4);
-          const autoBlur =
-            blurAmount === 0
-              ? "none"
-              : blurAmount === 1
-                ? "subtle"
-                : blurAmount === 2
-                  ? "medium"
-                  : blurAmount === 3
-                    ? "strong"
-                    : "intense";
-
-          // Map layer blur values to OptimizedGlass compatible values
-          const mapBlurValue = (
-            blur: "none" | "sm" | "md" | "lg" | "xl" | undefined
-          ):
-            | "none"
-            | "subtle"
-            | "medium"
-            | "strong"
-            | "intense"
-            | undefined => {
-            switch (blur) {
-              case "sm":
-                return "subtle";
-              case "md":
-                return "medium";
-              case "lg":
-                return "strong";
-              case "xl":
-                return "intense";
-              default:
-                return blur;
-            }
-          };
-
-          const finalBlur = mapBlurValue(layer.blur) || autoBlur;
-
-          const layerStyle = {
-            x: prefersReducedMotion ? 0 : xTransform,
-            y: prefersReducedMotion ? 0 : scrollY,
-            rotateX: prefersReducedMotion ? 0 : rotateXTransform,
-            rotateY: prefersReducedMotion
-              ? 0
-              : autoRotate
-                ? rotation
-                : rotateYTransform,
-            z: prefersReducedMotion ? 0 : layer.depth * 50,
-            scale: layer.scale || 1 - depthFactor * 0.1,
-            opacity: layer.opacity || 1 - depthFactor * 0.1,
-            transformStyle: prefersReducedMotion ? "flat" : "preserve-3d",
-          } as any;
-
-          return (
-            <motion.div
-              key={`layer-${index}`}
-              initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.9 }}
-              animate={{
-                opacity: layer.opacity || 1 - depthFactor * 0.1,
-                scale: layer.scale || 1 - depthFactor * 0.1,
-              }}
-              transition={{
-                duration: prefersReducedMotion
-                  ? 0
-                  : ANIMATION.DURATION.slower / 1000,
-                delay: prefersReducedMotion ? 0 : index * 0.1,
-              }}
-              style={{ ...layerStyle }}
-            >
-              <OptimizedGlass
-                intent="neutral"
-                elevation={isHovered ? "level3" : "level1"}
-                intensity="medium"
-                glassBlur={finalBlur}
-                depth={Math.min(layer.depth, 5)}
-                className={cn(
-                  "glass-absolute glass-inset-0",
-                  "glass-transition-all",
-                  { transitionDuration: "var(--glass-motion-duration-normal)" },
-                  layer.className
-                )}
-              >
-                <ContrastGuard>{layer.content}</ContrastGuard>
-
-                {debug && (
-                  <ContrastGuard>
-                    <div className="glass-absolute glass-top-2 glass-left-2 glass-surface-dark/20 glass-backdrop-blur-sm glass-p-2 glass-radius-sm glass-text-xs glass-text-primary-glass-opacity-90">
-                      Layer {index + 1} | Depth: {layer.depth}
-                    </div>
-                  </ContrastGuard>
-                )}
-              </OptimizedGlass>
-            </motion.div>
-          );
-        })}
+        {sortedLayers.map((layer, index) => (
+          <ParallaxLayerItem
+            key={`layer-${index}`}
+            layer={layer}
+            index={index}
+            prefersReducedMotion={prefersReducedMotion}
+            smoothMouseX={smoothMouseX}
+            smoothMouseY={smoothMouseY}
+            scrollYProgress={scrollYProgress}
+            mouseIntensity={mouseIntensity}
+            scrollIntensity={scrollIntensity}
+            autoRotate={autoRotate}
+            rotation={rotation}
+            isHovered={isHovered}
+            debug={debug}
+          />
+        ))}
 
         {/* Interactive indicator */}
         {interactive && !prefersReducedMotion && (
           <motion.div
             className="glass-absolute glass-bottom-4 glass-right-4 glass-text-xs glass-backdrop-blur-sm glass-p-2 glass-radius-md"
             style={{
+              ...createGlassStyle({ intent: "neutral", elevation: "level1" }),
               color: "var(--glass-theme-text, var(--glass-text-primary))",
-              background: "rgba(255, 255, 255, 0.24)",
-              border: "1px solid rgba(255, 255, 255, 0.42)",
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

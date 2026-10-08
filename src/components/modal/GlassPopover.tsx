@@ -677,11 +677,11 @@ export interface GlassTooltipProps
 
 export const GlassTooltip = forwardRef<HTMLDivElement, GlassTooltipProps>(
   ({ content, disabled = false, ...props }, ref) => {
+    const [open, setOpen] = React.useState(false);
+
     if (disabled) {
       return props?.children;
     }
-
-    const [open, setOpen] = React.useState(false);
 
     return (
       <GlassPopover

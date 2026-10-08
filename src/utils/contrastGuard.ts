@@ -52,6 +52,7 @@ export interface BackdropSample {
   contrast: number; // Measured contrast with current text
   timestamp: number; // When sampled
   confidence: number; // 0-1 quality of sample
+  verified: boolean; // false when the sample is a placeholder/estimate
 }
 
 // Contrast adjustment result
@@ -66,6 +67,7 @@ export interface ContrastAdjustment {
   };
   meetsRequirement: boolean;
   level: ContrastLevel;
+  verified: boolean; // false when measured colors were unset or unknown
 }
 
 /**
@@ -140,8 +142,9 @@ export class ContrastGuard {
             originalContrast: currentContrast,
             adjustedContrast: currentContrast,
             modifications: {},
-            meetsRequirement: true,
+            meetsRequirement: backdrop.verified !== false,
             level: targetLevel,
+            verified: backdrop.verified !== false,
           });
           return;
         }
@@ -298,12 +301,14 @@ export class ContrastGuard {
   ): Promise<BackdropSample> {
     const liquidSample = sampleLiquidGlassBackdrop(element);
     if (liquidSample.source !== "fallback") {
+      const verified = liquidSample.source === "computed-style";
       return {
         averageLuminance: liquidSample.luminance,
         dominantHue: 0,
         contrast: liquidSample.contrastHint === "mixed" ? 4.5 : 7,
         timestamp: Date.now(),
         confidence: liquidSample.source === "computed-style" ? 0.8 : 0.5,
+        verified,
       };
     }
     try {
@@ -387,6 +392,7 @@ export class ContrastGuard {
       contrast: 4.5, // Will be calculated properly in real implementation
       timestamp: Date.now(),
       confidence: 0.8,
+      verified: true,
     };
   }
 
@@ -426,6 +432,7 @@ export class ContrastGuard {
       contrast: 4.5,
       timestamp: Date.now(),
       confidence,
+      verified: confidence >= 0.5,
     };
   }
 
@@ -490,8 +497,10 @@ export class ContrastGuard {
         backdropBlur: adjustedBlur,
         fallbackMode,
       },
-      meetsRequirement: finalContrast >= requiredRatio,
+      meetsRequirement:
+        backdrop.verified !== false && finalContrast >= requiredRatio,
       level: this.getContrastLevel(finalContrast),
+      verified: backdrop.verified !== false,
     };
   }
 
@@ -667,6 +676,7 @@ export class ContrastGuard {
       contrast: 4.5,
       timestamp: Date.now(),
       confidence: 0.3,
+      verified: false,
     };
   }
 
@@ -684,6 +694,7 @@ export class ContrastGuard {
       },
       meetsRequirement: true,
       level: targetLevel,
+      verified: true, // deterministic fallback styling, not a measurement claim
     };
   }
 }

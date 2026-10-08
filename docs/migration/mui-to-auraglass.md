@@ -69,7 +69,7 @@ export function BillingHeader() {
 
 Move brand, density, contrast, and motion decisions into AuraGlass theme tokens instead of `createTheme` overrides. Keep domain-specific data and business state outside the theme layer.
 
-Use `docs/theme/theme-engine.md` as the current baseline for brand generation, density, contrast budgets, and SSR-safe runtime theming.
+Use `docs/theme/theme-engine.md` as the current baseline for brand generation, density, contrast budgets, and hydration-safe runtime theming.
 
 ## CLI Audit
 

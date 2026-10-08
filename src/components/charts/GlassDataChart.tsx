@@ -30,13 +30,11 @@ import {
   RadialLinearScale,
   Tooltip,
   Legend,
-  ChartOptions,
-  ChartType,
   Filler,
   defaults,
-  Plugin,
-} from "chart.js";
-import { Chart } from "react-chartjs-2";
+} from "../../vendor/chart_js";
+import type { ChartOptions, ChartType, Plugin } from "chart.js";
+import { Chart } from "../../vendor/react_chartjs_2";
 import { useAccessibilitySettings } from "../../hooks/useAccessibilitySettings";
 // import { glassGlow } from '../../core/mixins/glowEffects'; // unused
 // import { createThemeContext } from '../../core/themeContext'; // unused
@@ -93,7 +91,7 @@ const usePhysicsAnimation = (_options: PhysicsAnimationOptions) => ({
 });
 
 const useChartPhysicsInteraction = (
-  _chartRef: React.RefObject<ChartJS | null>,
+  _chartRef: React.RefObject<InstanceType<typeof ChartJS> | null>,
   _wrapperRef: React.RefObject<HTMLDivElement | null>,
   _options: {
     enabled?: boolean;
@@ -306,7 +304,7 @@ interface GlassDataChartProps {
   ) => void;
   onSelectionChange?: (selection: number[]) => void;
   onTypeChange?: (type: ChartVariant) => void;
-  onZoomPan?: (chart: ChartJS) => void;
+  onZoomPan?: (chart: InstanceType<typeof ChartJS>) => void;
   exportOptions?: {
     filename: string;
     quality: number;
@@ -335,7 +333,7 @@ interface GlassDataChartProps {
   "data-testid"?: string;
 }
 
-type GlassDataChartRef = ChartJS;
+type GlassDataChartRef = InstanceType<typeof ChartJS>;
 
 // Simple format function
 const formatValue = (value: unknown) => String(value);
@@ -1006,7 +1004,7 @@ const GlassDataChartComponent = React.forwardRef<
   // const theme = useGlassTheme(); // unused
   const { settings: accessibilitySettings } = useAccessibilitySettings();
   const isReducedMotion = accessibilitySettings?.reducedMotion || false;
-  const chartRef = useRef<ChartJS | null>(null);
+  const chartRef = useRef<InstanceType<typeof ChartJS> | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const chartWrapperRef = useRef<HTMLDivElement | null>(null);
 
@@ -1684,7 +1682,7 @@ const GlassDataChartComponent = React.forwardRef<
       exportContext.textBaseline = "middle";
 
       if (title) {
-        exportContext.font = `bold ${16 * devicePixelRatio}px Aeonik, sans-serif`;
+        exportContext.font = `bold ${16 * devicePixelRatio}px Arial, sans-serif`;
         exportContext.fillStyle = "#ffffff";
         exportContext.fillText(
           title,
@@ -1694,7 +1692,7 @@ const GlassDataChartComponent = React.forwardRef<
       }
 
       if (subtitle) {
-        exportContext.font = `${14 * devicePixelRatio}px Aeonik, sans-serif`;
+        exportContext.font = `${14 * devicePixelRatio}px Arial, sans-serif`;
         exportContext.fillStyle = "rgba(255, 255, 255, 0.76)";
         exportContext.fillText(
           subtitle,
@@ -1747,7 +1745,7 @@ const GlassDataChartComponent = React.forwardRef<
 
   // Combined ref callback for ChartJS instance
   const chartRefCallback = useCallback(
-    (instance: ChartJS | undefined | null) => {
+    (instance: InstanceType<typeof ChartJS> | undefined | null) => {
       chartRef.current = instance ?? null;
       // Call the forwarded ref if it exists
       if (typeof ref === "function") {

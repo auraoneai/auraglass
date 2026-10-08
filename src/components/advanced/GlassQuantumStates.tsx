@@ -19,7 +19,7 @@ import {
   AnimatePresence,
   useMotionValue,
   useTransform,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -607,7 +607,6 @@ export function GlassQuantumStatesProvider({
     superposition: QuantumSuperpositionEntry[]
   ) => void;
 }) {
-  const prefersReducedMotion = useReducedMotion();
   const systemRef = useRef<QuantumUISystem>();
 
   // Initialize system
@@ -749,7 +748,6 @@ export function GlassQuantumButton({
       "user-click"
     );
     if (measurement) {
-      const prefersReducedMotion = useReducedMotion();
       setCurrentState(measurement.measuredValue);
       setIsCollapsed(true);
       onCollapse?.(measurement.measuredValue);
@@ -788,14 +786,10 @@ export function GlassQuantumButton({
                 className="glass-flex-1 glass-h-full glass-opacity-30"
                 style={{ backgroundColor: state.state.color }}
                 initial={{ opacity: 0 }}
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        opacity: state.probability * 0.6,
-                        scale: 1 + state.phase * 0.1,
-                      }
-                }
+                animate={{
+                  opacity: state.probability * 0.6,
+                  scale: 1 + state.phase * 0.1,
+                }}
                 exit={{ opacity: 0 }}
                 transition={
                   prefersReducedMotion
@@ -815,7 +809,7 @@ export function GlassQuantumButton({
             className="glass-absolute glass-inset-0"
             style={{ backgroundColor: currentState.color }}
             initial={{ scale: 0, opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { scale: 1, opacity: 0.8 }}
+            animate={{ scale: 1, opacity: 0.8 }}
             exit={{ scale: 0, opacity: 0 }}
             transition={
               prefersReducedMotion

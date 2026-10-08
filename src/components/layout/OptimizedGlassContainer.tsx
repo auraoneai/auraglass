@@ -59,6 +59,7 @@ const usePerformanceMonitoring = (
   const [performanceScore, setPerformanceScore] = useState(1);
   const frameCountRef = useRef(0);
   const lastTimeRef = useRef(performance.now());
+  const cleanupRef = useRef<(() => void) | undefined>(undefined);
 
   useEffect(() => {
     let animationFrame: number;
@@ -77,7 +78,12 @@ const usePerformanceMonitoring = (
         lastTimeRef.current = now;
       }
 
-      animationFrame = requestAnimationFrame(measureFps);
+      // PLAT-154: measure once per interval instead of a perpetual rAF loop
+      animationFrame = 0;
+      const timer = setTimeout(() => {
+        animationFrame = requestAnimationFrame(measureFps);
+      }, checkInterval) as unknown as number;
+      cleanupRef.current = () => clearTimeout(timer);
     };
 
     animationFrame = requestAnimationFrame(measureFps);
@@ -86,6 +92,7 @@ const usePerformanceMonitoring = (
       if (animationFrame) {
         cancelAnimationFrame(animationFrame);
       }
+      cleanupRef.current?.();
     };
   }, [targetFps, checkInterval]);
 

@@ -45,10 +45,6 @@ const getCookie = (name: string): string | null => {
 
 // Physics/Animation Imports
 import {
-  useGalileoStateSpring,
-  GalileoStateSpringOptions,
-} from "../../hooks/useGalileoStateSpring";
-import {
   SpringConfig,
   SpringPresets,
 } from "../../animations/physics/springPhysics";
@@ -278,36 +274,13 @@ export const GlobalCookieConsent = forwardRef<
       } as React.CSSProperties;
     }, [glassIntensity]);
 
-    const isTop = position?.startsWith("top");
-    const exitY = isTop ? -30 : 30; // Use 30px like original CSS
-
-    // Spring for Opacity
-    const { value: animatedOpacity } = useGalileoStateSpring(visible ? 1 : 0, {
-      ...finalSpringConfig,
-      immediate: !shouldAnimate,
-    });
-
-    // Spring for TranslateY
-    const { value: animatedTranslateY } = useGalileoStateSpring(
-      visible ? 0 : exitY,
-      {
-        ...finalSpringConfig,
-        immediate: !shouldAnimate,
-      }
-    );
-
-    // Calculate transform
-    const isCentered = position === "top" || position === "bottom";
-    const animatedStyle: React.CSSProperties = {
-      opacity: animatedOpacity,
-      transform: `translateY(${animatedTranslateY}px)${isCentered ? " translateX(-50%)" : ""}`,
-    };
     if (!visible) {
       return (
         <div
           ref={ref}
           className={cn(styles.container, positionClass, className)}
-          style={{ ...containerStyleVars, display: "none", ...style }}
+          data-state="closed"
+          style={{ ...containerStyleVars, ...style }}
           aria-hidden
           {...rest}
         />
@@ -363,7 +336,8 @@ export const GlobalCookieConsent = forwardRef<
         <div
           ref={ref}
           className={cn(styles.container, positionClass, className)}
-          style={{ ...containerStyleVars, ...animatedStyle, ...style }}
+          data-state="open"
+          style={{ ...containerStyleVars, ...style }}
           aria-hidden={!visible}
           {...rest}
         >

@@ -16,7 +16,7 @@ import {
   useSpring,
   useMotionValue,
   AnimatePresence,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "@/utils/a11y";

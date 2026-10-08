@@ -1,7 +1,7 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import {
   Flame,
   Palette,
@@ -136,7 +136,6 @@ const AuroraFactory = {
 
         // Noise function for organic movement
         float noise(vec2 st) {
-  const prefersReducedMotion = useReducedMotion();
           return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
         }
 
@@ -431,7 +430,6 @@ export function AuroraPro({
 
   // Get color palette colors for UI
   const getPaletteColors = (palette: string) => {
-    const prefersReducedMotion = useReducedMotion();
     return (
       colorPalettes[palette as keyof typeof colorPalettes] ||
       colorPalettes.arctic
@@ -472,7 +470,8 @@ export function AuroraPro({
       {/* Aurora intensity indicator */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={prefersReducedMotion ? { duration: 0 } : undefined}
         className={cn(
           "glass-absolute glass-top-4 glass-left-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border glass-border-subtle glass-surface-dark"
         )}
@@ -515,7 +514,8 @@ export function AuroraPro({
       {showControls && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           className={cn(
             "glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-flex-col glass-gap-2"
           )}
@@ -618,7 +618,8 @@ export function AuroraPro({
       {/* Aurora status indicator */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
-        animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={prefersReducedMotion ? { duration: 0 } : undefined}
         className={cn(
           "glass-absolute glass-top-4 glass-right-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border glass-border-subtle glass-surface-dark"
         )}

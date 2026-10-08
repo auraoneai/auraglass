@@ -14,7 +14,7 @@ import React, {
   useContext,
   HTMLAttributes,
 } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { cn } from "../../lib/utils";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
@@ -700,6 +700,11 @@ export function useSpatialAudio() {
   return context;
 }
 
+/** PLAT-085: optional reader — null instead of throwing outside the provider. */
+export function useOptionalSpatialAudio() {
+  return useContext(SpatialAudioContext);
+}
+
 // Component for audio-reactive glass effects
 export function GlassAudioReactive({
   children,
@@ -864,11 +869,19 @@ export function GlassSpatialVisualizer({
         {/* Center point (listener) */}
         <div
           className="glass-absolute glass-w-4 glass-h-4 glass-radius-full"
-          style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
+          style={{
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
         >
           <div
             className="glass-absolute glass-w-2 glass-h-2 glass-surface-primary glass-radius-full"
-            style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
           />
           <div className="glass-absolute glass-inset-0 glass-border glass-border-subtle glass-radius-full glass-animate-pulse" />
         </div>
@@ -897,14 +910,14 @@ export function GlassSpatialVisualizer({
                           : "#ec4899",
                 }}
                 initial={{ scale: 0, opacity: 0 }}
-                animate={
-                  prefersReducedMotion
-                    ? {}
-                    : {
-                        scale: source.isPlaying ? [1, 1.2, 1] : 1,
-                        opacity: source.isPlaying ? 1 : 0.5,
-                      }
-                }
+                animate={{
+                  scale: prefersReducedMotion
+                    ? 1
+                    : source.isPlaying
+                      ? [1, 1.2, 1]
+                      : 1,
+                  opacity: source.isPlaying ? 1 : 0.5,
+                }}
                 exit={{ scale: 0, opacity: 0 }}
                 transition={{
                   scale: {

@@ -68,7 +68,8 @@ export const GlassCardLink = forwardRef<HTMLAnchorElement, GlassCardLinkProps>(
     ref
   ) => {
     const prefersReducedMotion = useReducedMotion();
-    const componentId = id || useA11yId("card-link");
+    const componentIdHook = useA11yId("card-link");
+    const componentId = id || componentIdHook;
 
     const handleClick = (e: React.MouseEvent) => {
       if (onClick) {

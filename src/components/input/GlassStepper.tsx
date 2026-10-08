@@ -128,11 +128,12 @@ export const GlassStepper = forwardRef<HTMLDivElement, GlassStepperProps>(
     // Generate unique IDs for accessibility
     const stepperId = useA11yId("glass-stepper");
     const finalId = id || stepperId;
-    const labelId = label ? useA11yId("glass-stepper-label") : undefined;
-    const descriptionId = description
-      ? useA11yId("glass-stepper-description")
-      : undefined;
-    const errorId = error ? useA11yId("glass-stepper-error") : undefined;
+    const labelIdHook = useA11yId("glass-stepper-label");
+    const labelId = label ? labelIdHook : undefined;
+    const descriptionIdHook = useA11yId("glass-stepper-description");
+    const descriptionId = description ? descriptionIdHook : undefined;
+    const errorIdHook = useA11yId("glass-stepper-error");
+    const errorId = error ? errorIdHook : undefined;
 
     const inputRef = useRef<HTMLInputElement>(null);
     const longPressTimeoutRef = useRef<NodeJS.Timeout>();

@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { cn } from "../../lib/utilsComprehensive";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { useState } from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import useAutoTextContrast from "../../hooks/useAutoTextContrast";
@@ -547,8 +547,12 @@ export function PresetPositionDemo({ className }: { className?: string }) {
         </div>
         {activePreset !== null && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1, scale: 1 }
+                : { opacity: 1, scale: 1 }
+            }
             exit={{ opacity: 0, scale: 0.9 }}
             className="glass-chip glass-chip-blue glass-text-sm"
           >

@@ -14,7 +14,7 @@
       "codemod": "imports-subpaths",
       "automation": "full",
       "breaking": "B4",
-      "message": "aura-glass/tokens/keyframes is removed in 5.0; import aura-glass/tokens.css — the motion keyframes are emitted inside it.",
+      "message": "aura-glass/tokens/keyframes is removed in 5.0; import aura-glass/tokens.css \u2014 the motion keyframes are emitted inside it.",
       "doc": "#dep-m0800"
     },
     {
@@ -55,7 +55,7 @@
       "symbol": "getPersona",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "presets (aura-glass/theme) — personas are replaced by the 5.x presets table",
+      "replacement": "presets (aura-glass/theme) \u2014 personas are replaced by the 5.x presets table",
       "codemod": null,
       "automation": "manual",
       "breaking": "B3",
@@ -357,7 +357,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassStyle is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassStyle is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0822"
     },
     {
@@ -372,7 +372,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassHoverMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassHoverMixin is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0823"
     },
     {
@@ -387,7 +387,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassFocusMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassFocusMixin is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0824"
     },
     {
@@ -402,7 +402,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassDisabledMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassDisabledMixin is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0825"
     },
     {
@@ -417,7 +417,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "generateGlassThemeVariables is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "generateGlassThemeVariables is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0826"
     },
     {
@@ -432,7 +432,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createResponsiveGlassStyle is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createResponsiveGlassStyle is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0827"
     },
     {
@@ -447,7 +447,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassMixin is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0828"
     },
     {
@@ -462,7 +462,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createGlassLoadingMixin is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "createGlassLoadingMixin is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0829"
     },
     {
@@ -477,7 +477,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "canUseHighQualityGlass is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "canUseHighQualityGlass is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0830"
     },
     {
@@ -492,7 +492,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "getRecommendedTier is removed in 5.0; use materialProps/MaterialSpec — unmapped call shapes get a TODO marker (codemod: removed).",
+      "message": "getRecommendedTier is removed in 5.0; use materialProps/MaterialSpec \u2014 unmapped call shapes get a TODO marker (codemod: removed).",
       "doc": "#dep-m0831"
     },
     {
@@ -807,7 +807,7 @@
       "codemod": null,
       "automation": "none",
       "breaking": "B8",
-      "message": "the storybook-utility-shim.css import (src/styles/index.css) leaves the package at 5.0 — the file moves to .storybook/ (PKG-101). doctor --v5 reports it.",
+      "message": "the storybook-utility-shim.css import (src/styles/index.css) leaves the package at 5.0 \u2014 the file moves to .storybook/ (PKG-101). doctor --v5 reports it.",
       "doc": "#dep-m0852"
     },
     {
@@ -1303,11 +1303,11 @@
       "symbol": "createRippleEffect",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — ripple effects are not part of the material grammar",
+      "replacement": "none \u2014 ripple effects are not part of the material grammar",
       "codemod": "motion-imports",
       "automation": "partial",
       "breaking": "B3",
-      "message": "createRippleEffect is removed in 5.0; use none — ripple effects are not part of the material grammar (codemod: motion-imports).",
+      "message": "createRippleEffect is removed in 5.0; use none \u2014 ripple effects are not part of the material grammar (codemod: motion-imports).",
       "doc": "#dep-m0885"
     },
     {
@@ -1534,11 +1534,11 @@
       "symbol": "useGlassMotionPolicy",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "usePreference('motion') — OS floors cannot be overridden",
+      "replacement": "usePreference('motion') \u2014 OS floors cannot be overridden",
       "codemod": "motion-imports",
       "automation": "partial",
       "breaking": "B13",
-      "message": "useGlassMotionPolicy is removed in 5.0; motion policy is a floor, not a prop — use usePreference('motion') (codemod: motion-imports).",
+      "message": "useGlassMotionPolicy is removed in 5.0; motion policy is a floor, not a prop \u2014 use usePreference('motion') (codemod: motion-imports).",
       "doc": "#dep-m0900"
     },
     {
@@ -1684,11 +1684,11 @@
       "symbol": "RippleButton",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "Button (5.x) — ripple effects are not part of the material grammar",
+      "replacement": "Button (5.x) \u2014 ripple effects are not part of the material grammar",
       "codemod": "motion-props",
       "automation": "partial",
       "breaking": "B3",
-      "message": "RippleButton is removed in 5.0; use Button (5.x) — ripple effects are not part of the material grammar (codemod: motion-props).",
+      "message": "RippleButton is removed in 5.0; use Button (5.x) \u2014 ripple effects are not part of the material grammar (codemod: motion-props).",
       "doc": "#dep-m0910"
     },
     {
@@ -1703,7 +1703,7 @@
       "codemod": "motion-props",
       "automation": "partial",
       "breaking": "B3",
-      "message": "TouchRippleEffects is removed in 5.0; use none — ripple effects are not part of the material grammar (codemod: motion-props).",
+      "message": "TouchRippleEffects is removed in 5.0; use none \u2014 ripple effects are not part of the material grammar (codemod: motion-props).",
       "doc": "#dep-m0911"
     },
     {
@@ -2029,11 +2029,11 @@
       "symbol": "AccessibilityProvider",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "AuraGlassProvider (highContrast→contrast=\"more\", reducedTransparency→transparency=\"tinted\", colorBlindness dropped)",
+      "replacement": "AuraGlassProvider (highContrast\u2192contrast=\"more\", reducedTransparency\u2192transparency=\"tinted\", colorBlindness dropped)",
       "codemod": "providers",
       "automation": "mostly",
       "breaking": "B5",
-      "message": "AccessibilityProvider is deprecated; use AuraGlassProvider (highContrast→contrast=\"more\", reducedTransparency→transparency=\"tinted\", colorBlindness dropped) (codemod: providers).",
+      "message": "AccessibilityProvider is deprecated; use AuraGlassProvider (highContrast\u2192contrast=\"more\", reducedTransparency\u2192transparency=\"tinted\", colorBlindness dropped) (codemod: providers).",
       "doc": "#dep-m0933",
       "compat": "AccessibilityProvider"
     },
@@ -2157,11 +2157,11 @@
       "symbol": "ScreenReader",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "useAnnouncer (ScreenReaderOnly → VisuallyHidden)",
+      "replacement": "useAnnouncer (ScreenReaderOnly \u2192 VisuallyHidden)",
       "codemod": "canonical-names",
       "automation": "full",
       "breaking": "B5",
-      "message": "ScreenReader is removed in 5.0; use useAnnouncer (ScreenReaderOnly → VisuallyHidden) (codemod: canonical-names).",
+      "message": "ScreenReader is removed in 5.0; use useAnnouncer (ScreenReaderOnly \u2192 VisuallyHidden) (codemod: canonical-names).",
       "doc": "#dep-m0941"
     },
     {
@@ -2296,7 +2296,7 @@
       "codemod": null,
       "automation": "manual",
       "breaking": "B8",
-      "message": "the data-color-blindness hook is removed in 5.0; color-vision modes are dropped — contrast floors apply.",
+      "message": "the data-color-blindness hook is removed in 5.0; color-vision modes are dropped \u2014 contrast floors apply.",
       "doc": "#dep-m0950"
     },
     {
@@ -2356,7 +2356,7 @@
       "codemod": "css-vars",
       "automation": "mostly",
       "breaking": "B9",
-      "message": "the --glass-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).",
+      "message": "the --glass-* variables are removed in 5.0; use --ag-* \u2014 compat/tokens.css aliases reads only (codemod: css-vars).",
       "doc": "#dep-m0954"
     },
     {
@@ -2371,7 +2371,7 @@
       "codemod": "css-vars",
       "automation": "mostly",
       "breaking": "B9",
-      "message": "the --aura-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).",
+      "message": "the --aura-* variables are removed in 5.0; use --ag-* \u2014 compat/tokens.css aliases reads only (codemod: css-vars).",
       "doc": "#dep-m0955"
     },
     {
@@ -2386,7 +2386,7 @@
       "codemod": "css-vars",
       "automation": "mostly",
       "breaking": "B9",
-      "message": "the --persona-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).",
+      "message": "the --persona-* variables are removed in 5.0; use --ag-* \u2014 compat/tokens.css aliases reads only (codemod: css-vars).",
       "doc": "#dep-m0956"
     },
     {
@@ -2401,7 +2401,7 @@
       "codemod": "css-vars",
       "automation": "mostly",
       "breaking": "B9",
-      "message": "the --glass-theme-* variables are removed in 5.0; use --ag-* — compat/tokens.css aliases reads only (codemod: css-vars).",
+      "message": "the --glass-theme-* variables are removed in 5.0; use --ag-* \u2014 compat/tokens.css aliases reads only (codemod: css-vars).",
       "doc": "#dep-m0957"
     },
     {
@@ -2623,11 +2623,11 @@
       "symbol": "GlassDensity \"comfortable\"",
       "since": "4.3.0",
       "removeIn": "5.0.0",
-      "replacement": "the 5.x density scale (§21 OI-03)",
+      "replacement": "the 5.x density scale (\u00a721 OI-03)",
       "codemod": "providers",
       "automation": "mostly",
       "breaking": "B6",
-      "message": "the \"comfortable\" GlassDensity is removed in 5.0; density maps onto the 5.x scale (codemod: providers; see §21 OI-03).",
+      "message": "the \"comfortable\" GlassDensity is removed in 5.0; density maps onto the 5.x scale (codemod: providers; see \u00a721 OI-03).",
       "doc": "#dep-m0972"
     },
     {
@@ -2691,6 +2691,231 @@
       "doc": "#dep-m0976"
     },
     {
+      "id": "DEP-P0001",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "component_inventory_json",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'component_inventory_json' (\"reports/component_inventory.json\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-component_inventory_json"
+    },
+    {
+      "id": "DEP-P0002",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "COMPONENT_INVENTORY_JSON_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'COMPONENT_INVENTORY_JSON_PATH' (\"reports/component_inventory.json\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-component_inventory_json_path"
+    },
+    {
+      "id": "DEP-P0003",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "component_inventory_json_path",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'component_inventory_json_path' (\"reports/component_inventory.json\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-component_inventory_json_path"
+    },
+    {
+      "id": "DEP-P0004",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "GILDED_TOKENS_CATALOGUE_MD",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'GILDED_TOKENS_CATALOGUE_MD' (\"reports/GILDED_TOKENS_CATALOGUE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-gilded_tokens_catalogue_md"
+    },
+    {
+      "id": "DEP-P0005",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "REDUCED_MOTION_100_COMPLETE_MD",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'REDUCED_MOTION_100_COMPLETE_MD' (\"reports/REDUCED_MOTION_100_COMPLETE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-reduced_motion_100_complete_md"
+    },
+    {
+      "id": "DEP-P0006",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "REDUCED_MOTION_101_GUIDE_MD",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'REDUCED_MOTION_101_GUIDE_MD' (\"reports/REDUCED_MOTION_101_GUIDE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-reduced_motion_101_guide_md"
+    },
+    {
+      "id": "DEP-P0007",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "GILDED_TOKENS_CATALOGUE_MD_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'GILDED_TOKENS_CATALOGUE_MD_PATH' (\"reports/GILDED_TOKENS_CATALOGUE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-gilded_tokens_catalogue_md_path"
+    },
+    {
+      "id": "DEP-P0008",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "REDUCED_MOTION_101_GUIDE_MD_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'REDUCED_MOTION_101_GUIDE_MD_PATH' (\"reports/REDUCED_MOTION_101_GUIDE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-reduced_motion_101_guide_md_path"
+    },
+    {
+      "id": "DEP-P0009",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "REDUCED_MOTION_100_COMPLETE_MD_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'REDUCED_MOTION_100_COMPLETE_MD_PATH' (\"reports/REDUCED_MOTION_100_COMPLETE.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-reduced_motion_100_complete_md_path"
+    },
+    {
+      "id": "DEP-P0010",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "TYPESCRIPT_FIX_PROGRESS_MD_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'TYPESCRIPT_FIX_PROGRESS_MD_PATH' (\"reports/TYPESCRIPT_FIX_PROGRESS.md\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-typescript_fix_progress_md_path"
+    },
+    {
+      "id": "DEP-P0011",
+      "kind": "export",
+      "status": "active",
+      "entry": ".",
+      "symbol": "REDUCED_MOTION_FINAL_REPORT_JSON_PATH",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": null,
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "root export 'REDUCED_MOTION_FINAL_REPORT_JSON_PATH' (\"reports/reduced-motion-final-report.json\") is a tracked-reports path constant; reports/ is untracked evidence now \u2014 drop the import.",
+      "doc": "#dep-reduced_motion_final_report_json_path"
+    },
+    {
+      "id": "DEP-P0012",
+      "kind": "prop",
+      "status": "active",
+      "entry": ".",
+      "symbol": "enableAdaptiveAI",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": "enableAdaptiveAI opt-in flag (adaptive AI is disabled unless explicitly enabled)",
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "adaptive AI heuristics now require the explicit 'enableAdaptiveAI' opt-in; unconditional adaptive behavior is removed in 5.0.0.",
+      "doc": "#dep-enableadaptiveai"
+    },
+    {
+      "id": "DEP-P0013",
+      "kind": "prop",
+      "status": "active",
+      "entry": ".",
+      "symbol": "GlassCanvas string action execution",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": "onComponentAction callback prop",
+      "codemod": null,
+      "automation": "manual",
+      "breaking": "B14",
+      "message": "GlassCanvas no longer executes string-supplied actions; pass 'onComponentAction' to receive dispatched action descriptors.",
+      "doc": "#dep-glasscanvas-string-actions"
+    },
+    {
+      "id": "DEP-P0014",
+      "kind": "prop",
+      "status": "active",
+      "entry": ".",
+      "symbol": "ContrastGuard unconditional pass",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": "'unverified' contrast state when a ratio cannot be computed",
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "contrast utilities report 'unverified' instead of passing when the ratio is uncomputable; handle the new state before 5.0.0.",
+      "doc": "#dep-contrast-unverified"
+    },
+    {
+      "id": "DEP-P0015",
+      "kind": "css-global",
+      "status": "active",
+      "entry": ".",
+      "symbol": "--glass-font-sans (Aeonik)",
+      "since": "4.1.1",
+      "removeIn": "5.0.0",
+      "replacement": "system stack: system-ui, -apple-system, \"Segoe UI\", sans-serif",
+      "codemod": null,
+      "automation": "none",
+      "breaking": "B14",
+      "message": "the bundled Aeonik family is removed (licence unconfirmed, D-31); '--glass-font-sans' resolves to the platform system stack.",
+      "doc": "#dep-aeonik-font-stack"
+    },
+    {
       "id": "DEP-S0001",
       "kind": "export",
       "status": "planned",
@@ -2718,7 +2943,7 @@
       "codemod": "canonical-names",
       "automation": "mostly",
       "breaking": "B4",
-      "message": "GlassHeader is removed in 5.0; use TopBar — AppShell.SidebarToggle replaces the built-in burger.",
+      "message": "GlassHeader is removed in 5.0; use TopBar \u2014 AppShell.SidebarToggle replaces the built-in burger.",
       "doc": "#dep-s0002",
       "compat": "GlassHeader"
     },
@@ -3951,7 +4176,7 @@
       "symbol": "GlassPredictiveChat",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -3966,7 +4191,7 @@
       "symbol": "GlassPredictiveEngine",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -3981,7 +4206,7 @@
       "symbol": "usePredictiveEngine",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -3996,7 +4221,7 @@
       "symbol": "GlassAutoComposer",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4011,7 +4236,7 @@
       "symbol": "useAutoComposer",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4026,7 +4251,7 @@
       "symbol": "AIGlassThemeProvider",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4041,7 +4266,7 @@
       "symbol": "GlassGANGenerator",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none until 5.1 — generative-art surfaces are deferred",
+      "replacement": "none until 5.1 \u2014 generative-art surfaces are deferred",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4056,7 +4281,7 @@
       "symbol": "GlassDeepDreamGlass",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none until 5.1 — generative-art surfaces are deferred",
+      "replacement": "none until 5.1 \u2014 generative-art surfaces are deferred",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4071,7 +4296,7 @@
       "symbol": "GlassStyleTransfer",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none until 5.1 — generative-art surfaces are deferred",
+      "replacement": "none until 5.1 \u2014 generative-art surfaces are deferred",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4086,7 +4311,7 @@
       "symbol": "GlassGenerativeArt",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none until 5.1 — generative-art surfaces are deferred",
+      "replacement": "none until 5.1 \u2014 generative-art surfaces are deferred",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4101,7 +4326,7 @@
       "symbol": "NeuromorphicLearningNetwork",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4116,7 +4341,7 @@
       "symbol": "NeuralWeightVisualization",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4161,7 +4386,7 @@
       "symbol": "GlassLiveFilter",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4176,7 +4401,7 @@
       "symbol": "GlassPredictionIndicator",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4191,7 +4416,7 @@
       "symbol": "useInteractionRecorder",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4206,7 +4431,7 @@
       "symbol": "predictiveEnginePresets",
       "since": "4.2.0",
       "removeIn": "5.0.0",
-      "replacement": "none — predictive/simulated AI is rejected at 5.0",
+      "replacement": "none \u2014 predictive/simulated AI is rejected at 5.0",
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
@@ -4734,7 +4959,7 @@
       "codemod": "imports-subpaths",
       "automation": "full",
       "breaking": "B4",
-      "message": "aura-glass/workspace is removed in 5.0; migrate to aura-glass/app-shell — the AppShell composition replaces the workspace layout subpath.",
+      "message": "aura-glass/workspace is removed in 5.0; migrate to aura-glass/app-shell \u2014 the AppShell composition replaces the workspace layout subpath.",
       "doc": "#dep-s0800"
     },
     {
@@ -4794,7 +5019,7 @@
       "codemod": "removed",
       "automation": "manual",
       "breaking": "B3",
-      "message": "GlassSmartShoppingCart is removed in 5.0; use the commerce-cart registry block (5.1) — controlled cart UI that holds no discounts, tax or currency logic.",
+      "message": "GlassSmartShoppingCart is removed in 5.0; use the commerce-cart registry block (5.1) \u2014 controlled cart UI that holds no discounts, tax or currency logic.",
       "doc": "#dep-s0804"
     },
     {
@@ -4824,7 +5049,7 @@
       "codemod": "removed",
       "automation": "manual",
       "breaking": "B3",
-      "message": "GlassEcommerceProvider is removed in 5.0; keep commerce state in your app — the 5.x commerce registry blocks take data by props only.",
+      "message": "GlassEcommerceProvider is removed in 5.0; keep commerce state in your app \u2014 the 5.x commerce registry blocks take data by props only.",
       "doc": "#dep-s0806"
     },
     {
@@ -4839,7 +5064,7 @@
       "codemod": "removed",
       "automation": "mostly",
       "breaking": "B3",
-      "message": "GlassTeamCursors is removed in 5.0; use the presence-stack registry item (5.1) — it only drew three fake cursors with no data input.",
+      "message": "GlassTeamCursors is removed in 5.0; use the presence-stack registry item (5.1) \u2014 it only drew three fake cursors with no data input.",
       "doc": "#dep-s0807"
     },
     {
@@ -4854,7 +5079,7 @@
       "codemod": "removed",
       "automation": "mostly",
       "breaking": "B3",
-      "message": "GlassTeamCursorsWithEffects is removed in 5.0; use the presence-stack registry item (5.1) — the effect variant layered static circles on fake cursors.",
+      "message": "GlassTeamCursorsWithEffects is removed in 5.0; use the presence-stack registry item (5.1) \u2014 the effect variant layered static circles on fake cursors.",
       "doc": "#dep-s0808"
     },
     {
@@ -4869,7 +5094,7 @@
       "codemod": "removed",
       "automation": "partial",
       "breaking": "B3",
-      "message": "GlassCollaborativeComments is removed in 5.0; use the comment-thread registry item (5.1) — spatial pins become an anchored-popover primitive.",
+      "message": "GlassCollaborativeComments is removed in 5.0; use the comment-thread registry item (5.1) \u2014 spatial pins become an anchored-popover primitive.",
       "doc": "#dep-s0809"
     },
     {
@@ -4884,7 +5109,7 @@
       "codemod": "removed",
       "automation": "mostly",
       "breaking": "B3",
-      "message": "GlassUserPresence is removed in 5.0; use the presence-stack registry item (5.1) — deterministic ids replace its random presence colours.",
+      "message": "GlassUserPresence is removed in 5.0; use the presence-stack registry item (5.1) \u2014 deterministic ids replace its random presence colours.",
       "doc": "#dep-s0810"
     },
     {

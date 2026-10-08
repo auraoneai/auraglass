@@ -6,7 +6,14 @@
  */
 
 import React, { ReactNode, createContext, useContext } from "react";
-import { format, parse, isValid, addDays, addMonths, addYears } from "date-fns";
+import {
+  format,
+  parse,
+  isValid,
+  addDays,
+  addMonths,
+  addYears,
+} from "../vendor/date_fns";
 
 // Define the shape of our adapter context
 export interface DateAdapter {

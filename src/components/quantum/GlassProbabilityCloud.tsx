@@ -1,7 +1,7 @@
-'use client';
+"use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { forwardRef, useState, useEffect, useRef, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
 import { OptimizedGlass } from "../../primitives";
 import { useA11yId } from "../../utils/a11y";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -75,7 +75,7 @@ export const GlassProbabilityCloud = forwardRef<
       realTimeMode = false,
       onMeasurement,
       onUncertaintyChange,
-      className="",
+      className = "",
       ...props
     },
     ref
@@ -457,7 +457,7 @@ export const GlassProbabilityCloud = forwardRef<
         className={`relative ${className}`}
         {...props}
       >
-        <div className='glass-p-4 glass-space-y-4'>
+        <div className="glass-p-4 glass-space-y-4">
           {/* Header */}
           <div className="glass-flex glass-items-start glass-justify-between glass-flex-wrap glass-gap-3">
             <div>
@@ -473,7 +473,7 @@ export const GlassProbabilityCloud = forwardRef<
               </p>
             </div>
 
-            <div className='glass-flex glass-items-center glass-flex-wrap glass-gap-3'>
+            <div className="glass-flex glass-items-center glass-flex-wrap glass-gap-3">
               <button
                 onClick={() => setIsObserved(!isObserved)}
                 className={`
@@ -497,7 +497,7 @@ export const GlassProbabilityCloud = forwardRef<
           </div>
 
           {/* Canvas */}
-          <div className='glass-relative'>
+          <div className="glass-relative">
             <canvas
               ref={canvasRef}
               width={width}
@@ -515,7 +515,7 @@ export const GlassProbabilityCloud = forwardRef<
               {measurements.map((measurement: any) => (
                 <motion.div
                   key={measurement.timestamp}
-                  className='glass-absolute glass-pointer-events-none'
+                  className="glass-absolute glass-pointer-events-none"
                   style={{
                     left: measurement.point.x,
                     top: measurement.point.y,
@@ -545,7 +545,7 @@ export const GlassProbabilityCloud = forwardRef<
               createGlassStyle({ variant: "default" })
             )}
           >
-            <div className='glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4 glass-text-sm'>
+            <div className="glass-grid glass-grid-cols-2 md:glass-grid-cols-4 glass-gap-4 glass-text-sm">
               <div>
                 <span className={cn("glass-text-secondary")}>Uncertainty:</span>
                 <div
@@ -609,7 +609,7 @@ export const GlassProbabilityCloud = forwardRef<
 
             {/* Recent measurements */}
             {measurements.length > 0 && (
-              <div className='glass-space-y-1'>
+              <div className="glass-space-y-1">
                 <span className={cn("glass-text-secondary glass-text-sm")}>
                   Recent Measurements:
                 </span>
@@ -623,7 +623,7 @@ export const GlassProbabilityCloud = forwardRef<
                     >
                       P: {(measurement.point.probability * 100).toFixed(0)}%
                       {measurement.uncertainty > 0.5 && (
-                        <span className='glass-text-primary glass-ml-1'>
+                        <span className="glass-text-primary glass-ml-1">
                           ±{measurement.uncertainty.toFixed(1)}
                         </span>
                       )}
@@ -641,21 +641,21 @@ export const GlassProbabilityCloud = forwardRef<
             )}
           >
             <span>Click particles to measure • Hover to observe</span>
-            <div className='glass-flex glass-items-center glass-flex-wrap glass-gap-3'>
+            <div className="glass-flex glass-items-center glass-flex-wrap glass-gap-3">
               {uncertaintyPrinciple && (
-                <span className='glass-flex glass-items-center glass-space-x-1'>
+                <span className="glass-flex glass-items-center glass-space-x-1">
                   <span>⚛</span>
                   <span>Heisenberg</span>
                 </span>
               )}
               {waveParticleDuality && (
-                <span className='glass-flex glass-items-center glass-space-x-1'>
+                <span className="glass-flex glass-items-center glass-space-x-1">
                   <span>〰️</span>
                   <span>Wave-Particle</span>
                 </span>
               )}
               {realTimeMode && (
-                <span className='glass-flex glass-items-center glass-space-x-1 glass-text-primary'>
+                <span className="glass-flex glass-items-center glass-space-x-1 glass-text-primary">
                   <div
                     className={cn(
                       "glass-w-2 glass-h-2 glass-surface-success glass-radius-full glass-animate-pulse"

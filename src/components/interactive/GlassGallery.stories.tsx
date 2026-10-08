@@ -16,7 +16,7 @@ const galleryImage = (title: string, accent: string, width = 400, height = 300) 
       <rect width="100%" height="100%" fill="url(#bg)"/>
       <circle cx="${width * 0.78}" cy="${height * 0.28}" r="${Math.min(width, height) * 0.18}" fill="rgba(255,255,255,.18)"/>
       <rect x="${width * 0.12}" y="${height * 0.18}" width="${width * 0.48}" height="${height * 0.16}" rx="18" fill="rgba(255,255,255,.18)"/>
-      <text x="${width * 0.12}" y="${height * 0.72}" font-family="Aeonik, Arial, sans-serif" font-size="${Math.max(18, width * 0.06)}" font-weight="700" fill="#ffffff">${title}</text>
+      <text x="${width * 0.12}" y="${height * 0.72}" font-family="Arial, Arial, sans-serif" font-size="${Math.max(18, width * 0.06)}" font-weight="700" fill="#ffffff">${title}</text>
     </svg>
   `)}`;
 

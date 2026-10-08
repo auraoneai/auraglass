@@ -1,6 +1,8 @@
 // token-lint-ignore-file: ThemeProvider composes low-level tokens and may use raw values internally.
 "use client";
 
+import { AuraGlassProvider } from "./AuraGlassProvider";
+import { warnDeprecated } from "../utils/warnDeprecated";
 import React, {
   createContext,
   useContext,
@@ -1435,24 +1437,27 @@ const UnifiedThemeProvider: React.FC<ThemeProviderProps> = ({
     children
   );
 
+  warnDeprecated("DEP-P0050");
   return (
-    <ThemeProviderPresenceContext.Provider value={true}>
-      <ColorModeContext.Provider value={colorModeContextValue}>
-        <ThemeVariantContext.Provider value={themeVariantContextValue}>
-          <PersonaContext.Provider value={personaContextValue}>
-            <StyleUtilsContext.Provider value={styleUtilsContextValue}>
-              <GlassEffectsContext.Provider value={glassEffectsContextValue}>
-                <PreferencesContext.Provider value={preferencesContextValue}>
-                  <ResponsiveContext.Provider value={responsiveContextValue}>
-                    {themedChildren}
-                  </ResponsiveContext.Provider>
-                </PreferencesContext.Provider>
-              </GlassEffectsContext.Provider>
-            </StyleUtilsContext.Provider>
-          </PersonaContext.Provider>
-        </ThemeVariantContext.Provider>
-      </ColorModeContext.Provider>
-    </ThemeProviderPresenceContext.Provider>
+    <AuraGlassProvider>
+      <ThemeProviderPresenceContext.Provider value={true}>
+        <ColorModeContext.Provider value={colorModeContextValue}>
+          <ThemeVariantContext.Provider value={themeVariantContextValue}>
+            <PersonaContext.Provider value={personaContextValue}>
+              <StyleUtilsContext.Provider value={styleUtilsContextValue}>
+                <GlassEffectsContext.Provider value={glassEffectsContextValue}>
+                  <PreferencesContext.Provider value={preferencesContextValue}>
+                    <ResponsiveContext.Provider value={responsiveContextValue}>
+                      {themedChildren}
+                    </ResponsiveContext.Provider>
+                  </PreferencesContext.Provider>
+                </GlassEffectsContext.Provider>
+              </StyleUtilsContext.Provider>
+            </PersonaContext.Provider>
+          </ThemeVariantContext.Provider>
+        </ColorModeContext.Provider>
+      </ThemeProviderPresenceContext.Provider>
+    </AuraGlassProvider>
   );
 };
 

@@ -1,3 +1,5 @@
+"use client";
+
 // AuraGlass Primitive Components
 export { GlassCore, default as GlassPrimitive } from "./GlassCore";
 export { GlassAdvanced } from "./glass/GlassAdvanced";

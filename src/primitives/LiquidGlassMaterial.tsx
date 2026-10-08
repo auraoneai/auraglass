@@ -305,6 +305,7 @@ export const LiquidGlassMaterial = forwardRef<
         contrast: backdrop.contrastHint === "mixed" ? 4.5 : 7,
         timestamp: Date.now(),
         confidence: backdrop.source === "fallback" ? 0.4 : 0.8,
+        verified: backdrop.source === "computed-style",
         ...backdrop,
       };
       setBackdropSample(legacySample);

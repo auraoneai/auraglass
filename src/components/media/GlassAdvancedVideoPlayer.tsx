@@ -99,8 +99,8 @@ const fallbackPoster =
       <path d="M604 360 468 280v160z" fill="#ffffff"/>
       <rect x="96" y="528" width="1088" height="16" rx="8" fill="rgba(255,255,255,0.24)"/>
       <rect x="96" y="528" width="462" height="16" rx="8" fill="#ffffff"/>
-      <text x="132" y="178" font-family="Aeonik, Arial, sans-serif" font-size="52" font-weight="700" fill="#ffffff">AuraGlass Video</text>
-      <text x="132" y="604" font-family="Aeonik, Arial, sans-serif" font-size="30" fill="#dbeafe">Stable visual media preview</text>
+      <text x="132" y="178" font-family="Arial, Arial, sans-serif" font-size="52" font-weight="700" fill="#ffffff">AuraGlass Video</text>
+      <text x="132" y="604" font-family="Arial, Arial, sans-serif" font-size="30" fill="#dbeafe">Stable visual media preview</text>
     </svg>
   `);
 
@@ -114,7 +114,8 @@ const controlButtonStyle: React.CSSProperties = {
   WebkitAppearance: "none",
   border: "1px solid rgba(148, 163, 184, 0.42)",
   color: "var(--glass-theme-text, var(--glass-text-primary))",
-  background: "linear-gradient(180deg, rgba(255,255,255,.32), rgba(248,250,252,.22))",
+  background:
+    "linear-gradient(180deg, rgba(255,255,255,.32), rgba(248,250,252,.22))",
   boxShadow:
     "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28)",
 };
@@ -128,7 +129,8 @@ const activeButtonStyle: React.CSSProperties = {
   appearance: "none",
   WebkitAppearance: "none",
   color: "var(--glass-theme-text, var(--glass-text-primary))",
-  background: "linear-gradient(180deg, rgba(255,255,255,.35), rgba(248,250,252,.25))",
+  background:
+    "linear-gradient(180deg, rgba(255,255,255,.35), rgba(248,250,252,.25))",
   borderColor: "rgba(148, 163, 184, 0.48)",
   boxShadow:
     "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.28)",
@@ -541,7 +543,10 @@ const VideoControls: React.FC<ControlsProps> = ({
             <button
               onClick={onMuteToggle}
               className="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle/20 glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"
-              style={{ ...controlButtonStyle, color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                ...controlButtonStyle,
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
               aria-label={
                 isMuted || volume === 0 ? "Unmute video" : "Mute video"
               }
@@ -1164,15 +1169,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
         className
       )}
       data-testid={dataTestId || "glassadvancedvideoplayer"}
-      style={{
-        background:
-          "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-        border: "1px solid rgba(255,255,255,0.18)",
-        backdropFilter: "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
-        WebkitBackdropFilter: "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
-        color: "var(--glass-theme-text, var(--glass-text-primary, rgba(248,250,252,0.96)))",
-        minHeight: 320,
-      }}
+      style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
     >
       <style>{videoComponentStyles}</style>
       <div
@@ -1222,8 +1219,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
             <div
               className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center"
               style={{
-                background:
-                  "var(--glass-primary-level2-surface)",
+                background: "var(--glass-primary-level2-surface)",
               }}
             >
               <div className="glass-animate-spin glass-radius-full glass-h-16 glass-w-16 glass-border-4 glass-border-white glass-border-t-transparent" />
@@ -1235,8 +1231,7 @@ export const GlassAdvancedVideoPlayer: React.FC<AdvancedVideoPlayerProps> = ({
             <div
               className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-text-primary"
               style={{
-                background:
-                  "var(--glass-primary-level2-surface)",
+                background: "var(--glass-primary-level2-surface)",
               }}
             >
               <div className="glass-text-center">

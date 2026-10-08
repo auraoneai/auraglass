@@ -22,13 +22,13 @@ import { GlassButton } from "../button";
 import { CardContent, CardHeader, CardTitle, GlassCard } from "../card";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 
 export interface ChatMessage {
   id: string;
@@ -190,12 +190,22 @@ export const GlassChat: React.FC<GlassChatProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Consciousness hooks
-  const predictiveEngine = predictive ? usePredictiveEngine() : null;
-  const eyeTracker = eyeTracking ? useEyeTracking() : null;
-  const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-  const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-  const interactionRecorder = consciousness ? useInteractionRecorder() : null;
-  const achievementTracker = trackAchievements ? useAchievements() : null;
+  const predictiveEngineOptional = useOptionalPredictiveEngine();
+  const predictiveEngine = predictive ? predictiveEngineOptional : null;
+  const eyeTrackerOptional = useOptionalEyeTracking();
+  const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+  const biometricAdapterOptional = useOptionalBiometricAdaptation();
+  const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+  const spatialAudioEngineOptional = useOptionalSpatialAudio();
+  const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+  const interactionRecorderOptional = useOptionalInteractionRecorder();
+  const interactionRecorder = consciousness
+    ? interactionRecorderOptional
+    : null;
+  const achievementTrackerOptional = useOptionalAchievements();
+  const achievementTracker = trackAchievements
+    ? achievementTrackerOptional
+    : null;
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {

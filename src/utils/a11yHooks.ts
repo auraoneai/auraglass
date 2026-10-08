@@ -3,21 +3,26 @@
  * Enhanced accessibility hooks for comprehensive WCAG 2.1 AA compliance
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useA11yId, announceToScreenReader, KEYS } from './a11y';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useA11yId, announceToScreenReader, KEYS } from "./a11y";
 
 /**
  * Enhanced announcement hook with queuing and debouncing
  */
 export function useScreenReaderAnnouncement() {
-  const queueRef = useRef<Array<{ message: string; priority: 'polite' | 'assertive' }>>([]);
+  const queueRef = useRef<
+    Array<{ message: string; priority: "polite" | "assertive" }>
+  >([]);
   const isProcessingRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout>();
 
-  const announce = useCallback((message: string, priority: 'polite' | 'assertive' = 'polite') => {
-    queueRef.current.push({ message, priority });
-    processQueue();
-  }, []);
+  const announce = useCallback(
+    (message: string, priority: "polite" | "assertive" = "polite") => {
+      queueRef.current.push({ message, priority });
+      processQueue();
+    },
+    []
+  );
 
   const processQueue = useCallback(async () => {
     if (isProcessingRef.current || queueRef.current.length === 0) return;
@@ -28,10 +33,13 @@ export function useScreenReaderAnnouncement() {
     announceToScreenReader(message, priority);
 
     // Wait before processing next announcement
-    timeoutRef.current = setTimeout(() => {
-      isProcessingRef.current = false;
-      processQueue();
-    }, priority === 'assertive' ? 1000 : 500);
+    timeoutRef.current = setTimeout(
+      () => {
+        isProcessingRef.current = false;
+        processQueue();
+      },
+      priority === "assertive" ? 1000 : 500
+    );
   }, []);
 
   const clearQueue = useCallback(() => {
@@ -59,7 +67,7 @@ export function useScreenReaderAnnouncement() {
  */
 export interface UseKeyboardNavigationOptions {
   items: Array<{ id: string; disabled?: boolean }>;
-  orientation?: 'horizontal' | 'vertical' | 'both';
+  orientation?: "horizontal" | "vertical" | "both";
   loop?: boolean;
   homeEndKeys?: boolean;
   pageKeys?: boolean;
@@ -70,7 +78,7 @@ export interface UseKeyboardNavigationOptions {
 export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
   const {
     items,
-    orientation = 'vertical',
+    orientation = "vertical",
     loop = true,
     homeEndKeys = true,
     pageKeys = false,
@@ -84,17 +92,20 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
 
   const enabledItems = items.filter((item: any) => !item.disabled);
 
-  const focusItem = useCallback((index: number) => {
-    if (index < 0 || index >= enabledItems.length) return;
-    
-    const item = enabledItems[index];
-    const element = itemRefs.current.get(item.id);
-    
-    if (element) {
-      element.focus();
-      setFocusedIndex(index);
-    }
-  }, [enabledItems]);
+  const focusItem = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= enabledItems.length) return;
+
+      const item = enabledItems[index];
+      const element = itemRefs.current.get(item.id);
+
+      if (element) {
+        element.focus();
+        setFocusedIndex(index);
+      }
+    },
+    [enabledItems]
+  );
 
   const moveNext = useCallback(() => {
     const nextIndex = focusedIndex + 1;
@@ -122,109 +133,122 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
     focusItem(enabledItems.length - 1);
   }, [enabledItems.length, focusItem]);
 
-  const handleKeyDown = useCallback((event: React.KeyboardEvent | KeyboardEvent) => {
-    const { key } = event;
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent | KeyboardEvent) => {
+      const { key } = event;
 
-    const isVertical = orientation === 'vertical' || orientation === 'both';
-    const isHorizontal = orientation === 'horizontal' || orientation === 'both';
+      const isVertical = orientation === "vertical" || orientation === "both";
+      const isHorizontal =
+        orientation === "horizontal" || orientation === "both";
 
-    switch (key) {
-      case KEYS.ARROW_DOWN:
-        if (isVertical) {
-          event.preventDefault();
-          moveNext();
-        }
-        break;
-      case KEYS.ARROW_UP:
-        if (isVertical) {
-          event.preventDefault();
-          movePrevious();
-        }
-        break;
-      case KEYS.ARROW_RIGHT:
-        if (isHorizontal) {
-          event.preventDefault();
-          moveNext();
-        }
-        break;
-      case KEYS.ARROW_LEFT:
-        if (isHorizontal) {
-          event.preventDefault();
-          movePrevious();
-        }
-        break;
-      case KEYS.HOME:
-        if (homeEndKeys) {
-          event.preventDefault();
-          moveToFirst();
-        }
-        break;
-      case KEYS.END:
-        if (homeEndKeys) {
-          event.preventDefault();
-          moveToLast();
-        }
-        break;
-      case KEYS.PAGE_UP:
-        if (pageKeys) {
-          event.preventDefault();
-          const jumpIndex = Math.max(0, focusedIndex - 10);
-          focusItem(jumpIndex);
-        }
-        break;
-      case KEYS.PAGE_DOWN:
-        if (pageKeys) {
-          event.preventDefault();
-          const jumpIndex = Math.min(enabledItems.length - 1, focusedIndex + 10);
-          focusItem(jumpIndex);
-        }
-        break;
-      case KEYS.ENTER:
-      case KEYS.SPACE:
-        if (focusedIndex >= 0 && focusedIndex < enabledItems.length) {
-          event.preventDefault();
-          const item = enabledItems[focusedIndex];
-          onActivate?.(item.id);
-        }
-        break;
-    }
-  }, [
-    orientation,
-    moveNext,
-    movePrevious,
-    moveToFirst,
-    moveToLast,
-    homeEndKeys,
-    pageKeys,
-    focusedIndex,
-    enabledItems,
-    focusItem,
-    onActivate,
-  ]);
-
-  const registerItem = useCallback((id: string, element: HTMLElement | null) => {
-    if (element) {
-      itemRefs.current.set(id, element);
-    } else {
-      itemRefs.current.delete(id);
-    }
-  }, []);
-
-  const selectItem = useCallback((id: string, multiSelect = false) => {
-    setSelectedIds((prev: Set<string>) => {
-      const newSelection = new Set(multiSelect ? prev : []);
-
-      if (newSelection.has(id)) {
-        newSelection.delete(id);
-      } else {
-        newSelection.add(id);
+      switch (key) {
+        case KEYS.ARROW_DOWN:
+          if (isVertical) {
+            event.preventDefault();
+            moveNext();
+          }
+          break;
+        case KEYS.ARROW_UP:
+          if (isVertical) {
+            event.preventDefault();
+            movePrevious();
+          }
+          break;
+        case KEYS.ARROW_RIGHT:
+          if (isHorizontal) {
+            event.preventDefault();
+            moveNext();
+          }
+          break;
+        case KEYS.ARROW_LEFT:
+          if (isHorizontal) {
+            event.preventDefault();
+            movePrevious();
+          }
+          break;
+        case KEYS.HOME:
+          if (homeEndKeys) {
+            event.preventDefault();
+            moveToFirst();
+          }
+          break;
+        case KEYS.END:
+          if (homeEndKeys) {
+            event.preventDefault();
+            moveToLast();
+          }
+          break;
+        case KEYS.PAGE_UP:
+          if (pageKeys) {
+            event.preventDefault();
+            const jumpIndex = Math.max(0, focusedIndex - 10);
+            focusItem(jumpIndex);
+          }
+          break;
+        case KEYS.PAGE_DOWN:
+          if (pageKeys) {
+            event.preventDefault();
+            const jumpIndex = Math.min(
+              enabledItems.length - 1,
+              focusedIndex + 10
+            );
+            focusItem(jumpIndex);
+          }
+          break;
+        case KEYS.ENTER:
+        case KEYS.SPACE:
+          if (focusedIndex >= 0 && focusedIndex < enabledItems.length) {
+            event.preventDefault();
+            const item = enabledItems[focusedIndex];
+            onActivate?.(item.id);
+          }
+          break;
       }
+    },
+    [
+      orientation,
+      moveNext,
+      movePrevious,
+      moveToFirst,
+      moveToLast,
+      homeEndKeys,
+      pageKeys,
+      focusedIndex,
+      enabledItems,
+      focusItem,
+      onActivate,
+    ]
+  );
 
-      return newSelection;
-    });
+  const registerItem = useCallback(
+    (id: string, element: HTMLElement | null) => {
+      if (element) {
+        itemRefs.current.set(id, element);
+      } else {
+        itemRefs.current.delete(id);
+      }
+    },
+    []
+  );
 
-    onSelect?.(id);
-  }, [onSelect]);
+  const selectItem = useCallback(
+    (id: string, multiSelect = false) => {
+      setSelectedIds((prev: Set<string>) => {
+        const newSelection = new Set(multiSelect ? prev : []);
+
+        if (newSelection.has(id)) {
+          newSelection.delete(id);
+        } else {
+          newSelection.add(id);
+        }
+
+        return newSelection;
+      });
+
+      onSelect?.(id);
+    },
+    [onSelect]
+  );
 
   return {
     focusedIndex,
@@ -246,9 +270,12 @@ export function useKeyboardNavigation(options: UseKeyboardNavigationOptions) {
 export function useExpandableNavigation() {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
-  const isExpanded = useCallback((id: string) => {
-    return expandedIds.has(id);
-  }, [expandedIds]);
+  const isExpanded = useCallback(
+    (id: string) => {
+      return expandedIds.has(id);
+    },
+    [expandedIds]
+  );
 
   const toggleExpanded = useCallback((id: string) => {
     setExpandedIds((prev: Set<string>) => {
@@ -298,15 +325,15 @@ export function useExpandableNavigation() {
  */
 export function useLiveRegion() {
   const regionRef = useRef<HTMLDivElement>();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Create live region if it doesn't exist
     if (!regionRef.current) {
-      const region = document.createElement('div');
-      region.setAttribute('aria-live', 'polite');
-      region.setAttribute('aria-atomic', 'true');
-      region.className='glass-sr-only';
+      const region = document.createElement("div");
+      region.setAttribute("aria-live", "polite");
+      region.setAttribute("aria-atomic", "true");
+      region.className = "glass-sr-only";
       region.style.cssText = `
         position: absolute;
         left: -10000px;
@@ -328,17 +355,20 @@ export function useLiveRegion() {
     };
   }, []);
 
-  const announce = useCallback((newMessage: string, priority: 'polite' | 'assertive' = 'polite') => {
-    if (regionRef.current) {
-      regionRef.current.setAttribute('aria-live', priority);
-      setMessage(newMessage);
-      
-      // Clear message after announcement
-      setTimeout(() => {
-        setMessage('');
-      }, 1000);
-    }
-  }, []);
+  const announce = useCallback(
+    (newMessage: string, priority: "polite" | "assertive" = "polite") => {
+      if (regionRef.current) {
+        regionRef.current.setAttribute("aria-live", priority);
+        setMessage(newMessage);
+
+        // Clear message after announcement
+        setTimeout(() => {
+          setMessage("");
+        }, 1000);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (regionRef.current) {
@@ -371,20 +401,24 @@ export function useFormFieldA11y(options: UseFormFieldA11yOptions) {
     disabled = false,
   } = options;
 
-  const fieldId = useA11yId(providedId || 'form-field');
-  const labelId = label ? useA11yId('label') : undefined;
-  const errorId = error ? useA11yId('error') : undefined;
-  const descriptionId = description ? useA11yId('description') : undefined;
+  const fieldId = useA11yId(providedId || "form-field");
+  const labelIdHook = useA11yId("label");
+  const labelId = label ? labelIdHook : undefined;
+  const errorIdHook = useA11yId("error");
+  const errorId = error ? errorIdHook : undefined;
+  const descriptionIdHook = useA11yId("description");
+  const descriptionId = description ? descriptionIdHook : undefined;
 
   // Build describedby string
-  const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined;
+  const describedBy =
+    [descriptionId, errorId].filter(Boolean).join(" ") || undefined;
 
   const fieldProps = {
     id: fieldId,
-    'aria-required': required || undefined,
-    'aria-invalid': Boolean(error) || undefined,
-    'aria-describedby': describedBy,
-    'aria-labelledby': labelId,
+    "aria-required": required || undefined,
+    "aria-invalid": Boolean(error) || undefined,
+    "aria-describedby": describedBy,
+    "aria-labelledby": labelId,
     disabled,
   };
 
@@ -393,22 +427,26 @@ export function useFormFieldA11y(options: UseFormFieldA11yOptions) {
     htmlFor: fieldId,
   };
 
-  const errorProps = error ? {
-    id: errorId,
-    role: 'alert' as const,
-    'aria-live': 'polite' as const,
-  } : {};
+  const errorProps = error
+    ? {
+        id: errorId,
+        role: "alert" as const,
+        "aria-live": "polite" as const,
+      }
+    : {};
 
-  const descriptionProps = description ? {
-    id: descriptionId,
-  } : {};
+  const descriptionProps = description
+    ? {
+        id: descriptionId,
+      }
+    : {};
 
   const { announce } = useScreenReaderAnnouncement();
 
   // Announce error changes
   useEffect(() => {
     if (error) {
-      announce(`Field error: ${error}`, 'assertive');
+      announce(`Field error: ${error}`, "assertive");
     }
   }, [error, announce]);
 
@@ -456,11 +494,12 @@ export function useTabNavigation() {
   const containerRef = useRef<HTMLElement>(null);
 
   const trapFocus = useCallback((event: React.KeyboardEvent) => {
-    if (event.key !== 'Tab' || !containerRef.current) return;
+    if (event.key !== "Tab" || !containerRef.current) return;
 
-    const focusableElements = containerRef.current.querySelectorAll<HTMLElement>(
-      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-    );
+    const focusableElements =
+      containerRef.current.querySelectorAll<HTMLElement>(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
 
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
@@ -492,39 +531,48 @@ export function useModalA11y() {
   const { saveFocus, restoreFocus } = useFocusRestore();
   const { announce } = useScreenReaderAnnouncement();
 
-  const openModal = useCallback((title?: string) => {
-    saveFocus();
-    
-    // Announce modal opening
-    if (title) {
-      announce(`${title} dialog opened`, 'assertive');
-    }
+  const openModal = useCallback(
+    (title?: string) => {
+      saveFocus();
 
-    // Focus first focusable element
-    setTimeout(() => {
-      if (modalRef.current) {
-        const firstFocusable = modalRef.current.querySelector<HTMLElement>(
-          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        );
-        firstFocusable?.focus();
+      // Announce modal opening
+      if (title) {
+        announce(`${title} dialog opened`, "assertive");
       }
-    }, 0);
-  }, [saveFocus, announce]);
 
-  const closeModal = useCallback((title?: string) => {
-    // Announce modal closing
-    if (title) {
-      announce(`${title} dialog closed`, 'polite');
-    }
+      // Focus first focusable element
+      setTimeout(() => {
+        if (modalRef.current) {
+          const firstFocusable = modalRef.current.querySelector<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          );
+          firstFocusable?.focus();
+        }
+      }, 0);
+    },
+    [saveFocus, announce]
+  );
 
-    restoreFocus();
-  }, [restoreFocus, announce]);
+  const closeModal = useCallback(
+    (title?: string) => {
+      // Announce modal closing
+      if (title) {
+        announce(`${title} dialog closed`, "polite");
+      }
 
-  const handleEscape = useCallback((onClose: () => void) => (event: React.KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  }, []);
+      restoreFocus();
+    },
+    [restoreFocus, announce]
+  );
+
+  const handleEscape = useCallback(
+    (onClose: () => void) => (event: React.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    },
+    []
+  );
 
   return {
     modalRef,
@@ -537,19 +585,19 @@ export function useModalA11y() {
 /**
  * Hook for managing loading state accessibility
  */
-export function useLoadingA11y(isLoading: boolean, loadingText = 'Loading...') {
+export function useLoadingA11y(isLoading: boolean, loadingText = "Loading...") {
   const { announce } = useScreenReaderAnnouncement();
 
   useEffect(() => {
     if (isLoading) {
-      announce(loadingText, 'polite');
+      announce(loadingText, "polite");
     }
   }, [isLoading, loadingText, announce]);
 
   const loadingProps = {
-    'aria-busy': isLoading || undefined,
-    'aria-live': isLoading ? 'polite' as const : undefined,
-    'aria-label': isLoading ? loadingText : undefined,
+    "aria-busy": isLoading || undefined,
+    "aria-live": isLoading ? ("polite" as const) : undefined,
+    "aria-label": isLoading ? loadingText : undefined,
   };
 
   return { loadingProps, announce };
@@ -574,18 +622,22 @@ export function useValidationA11y(options: UseValidationA11yOptions) {
 
   // Announce new errors
   useEffect(() => {
-    const newErrors = errors.filter((error: any) => !prevErrorsRef.current.includes(error));
+    const newErrors = errors.filter(
+      (error: any) => !prevErrorsRef.current.includes(error)
+    );
     if (newErrors.length > 0) {
-      announce(`Validation errors: ${newErrors.join(', ')}`, 'assertive');
+      announce(`Validation errors: ${newErrors.join(", ")}`, "assertive");
     }
     prevErrorsRef.current = errors;
   }, [errors, announce]);
 
   // Announce new warnings
   useEffect(() => {
-    const newWarnings = warnings.filter((warning: any) => !prevWarningsRef.current.includes(warning));
+    const newWarnings = warnings.filter(
+      (warning: any) => !prevWarningsRef.current.includes(warning)
+    );
     if (newWarnings.length > 0) {
-      announce(`Validation warnings: ${newWarnings.join(', ')}`, 'polite');
+      announce(`Validation warnings: ${newWarnings.join(", ")}`, "polite");
     }
     prevWarningsRef.current = warnings;
   }, [warnings, announce]);
@@ -593,13 +645,14 @@ export function useValidationA11y(options: UseValidationA11yOptions) {
   // Announce validation success
   useEffect(() => {
     if (isValid && validMessage) {
-      announce(validMessage, 'polite');
+      announce(validMessage, "polite");
     }
   }, [isValid, validMessage, announce]);
 
   const validationProps = {
-    'aria-invalid': errors.length > 0 || undefined,
-    'aria-describedby': [...errors, ...warnings].length > 0 ? 'validation-messages' : undefined,
+    "aria-invalid": errors.length > 0 || undefined,
+    "aria-describedby":
+      [...errors, ...warnings].length > 0 ? "validation-messages" : undefined,
   };
 
   return {

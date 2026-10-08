@@ -21,13 +21,13 @@ import { Motion } from "../../primitives";
 import { GlassButton } from "../button";
 import { CardContent, GlassCard } from "../card";
 import {
-  usePredictiveEngine,
-  useInteractionRecorder,
+  useOptionalPredictiveEngine,
+  useOptionalInteractionRecorder,
 } from "../advanced/GlassPredictiveEngine";
-import { useAchievements } from "../advanced/GlassAchievementSystem";
-import { useBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
-import { useEyeTracking } from "../advanced/GlassEyeTracking";
-import { useSpatialAudio } from "../advanced/GlassSpatialAudio";
+import { useOptionalAchievements } from "../advanced/GlassAchievementSystem";
+import { useOptionalBiometricAdaptation } from "../advanced/GlassBiometricAdaptation";
+import { useOptionalEyeTracking } from "../advanced/GlassEyeTracking";
+import { useOptionalSpatialAudio } from "../advanced/GlassSpatialAudio";
 import type { ConsciousnessFeatures } from "../layout/GlassContainer";
 
 export interface CarouselItem {
@@ -180,15 +180,23 @@ export const GlassCarousel = forwardRef<HTMLDivElement, GlassCarouselProps>(
     const transitionRef = useRef<NodeJS.Timeout>();
 
     // Consciousness feature hooks - only initialize if features are enabled
-    const predictiveEngine = predictive ? usePredictiveEngine() : null;
-    const eyeTracker = eyeTracking ? useEyeTracking() : null;
-    const biometricAdapter = adaptive ? useBiometricAdaptation() : null;
-    const spatialAudioEngine = spatialAudio ? useSpatialAudio() : null;
-    const achievementTracker = trackAchievements ? useAchievements() : null;
+    const predictiveEngineOptional = useOptionalPredictiveEngine();
+    const predictiveEngine = predictive ? predictiveEngineOptional : null;
+    const eyeTrackerOptional = useOptionalEyeTracking();
+    const eyeTracker = eyeTracking ? eyeTrackerOptional : null;
+    const biometricAdapterOptional = useOptionalBiometricAdaptation();
+    const biometricAdapter = adaptive ? biometricAdapterOptional : null;
+    const spatialAudioEngineOptional = useOptionalSpatialAudio();
+    const spatialAudioEngine = spatialAudio ? spatialAudioEngineOptional : null;
+    const achievementTrackerOptional = useOptionalAchievements();
+    const achievementTracker = trackAchievements
+      ? achievementTrackerOptional
+      : null;
+    const interactionRecorderOptional = useOptionalInteractionRecorder(
+      `glass-carousel-${usageContext}`
+    );
     const interactionRecorder =
-      predictive || trackAchievements
-        ? useInteractionRecorder(`glass-carousel-${usageContext}`)
-        : null;
+      predictive || trackAchievements ? interactionRecorderOptional : null;
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [isPlaying, setIsPlaying] = useState(autoPlay);
     const [isFullscreen, setIsFullscreen] = useState(false);

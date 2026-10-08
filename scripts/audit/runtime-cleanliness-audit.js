@@ -2,11 +2,12 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { evidenceDir } = require('../ci/lib/evidence-dir');
 
 const root = process.cwd();
 const srcRoot = path.join(root, 'src');
-const reportJsonPath = path.join(root, 'reports/runtime-cleanliness-audit.json');
-const reportMdPath = path.join(root, 'reports/runtime-cleanliness-audit.md');
+const reportJsonPath = path.join(evidenceDir(), 'runtime-cleanliness-audit.json');
+const reportMdPath = path.join(evidenceDir(), 'runtime-cleanliness-audit.md');
 
 const issuePatterns = [
   { key: 'console.log', regex: /\bconsole\.log\b/g },

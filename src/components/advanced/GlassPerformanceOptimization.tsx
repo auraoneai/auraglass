@@ -4,7 +4,7 @@ import {
   motion,
   useInView,
   useReducedMotion,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import React, {
   createContext,
   useContext,
@@ -89,7 +89,7 @@ export function GlassPerformanceProvider({
         lastTime = currentTime;
       }
 
-      requestAnimationFrame(measurePerformance);
+      // PLAT-154: single measurement sample — no perpetual rAF loop
     };
 
     const animationFrame = requestAnimationFrame(measurePerformance);
@@ -288,8 +288,7 @@ export function LazyGlassLoading({
     <div
       className={cn("glass-surface-placeholder glass-animate-pulse")}
       style={{
-        background:
-          "var(--glass-neutral-level2-surface)",
+        background: "var(--glass-neutral-level2-surface)",
         backgroundSize: "200% 100%",
         animation: "shimmer 1.5s infinite",
         borderRadius: "12px",
@@ -462,8 +461,7 @@ export function ProgressiveGlassEnhancement({
   children,
   tiers = {
     basic: {
-      background:
-        "var(--glass-neutral-level2-surface)",
+      background: "var(--glass-neutral-level2-surface)",
       border: "1px solid var(--glass-border-default)",
       borderRadius: "8px",
     },
@@ -639,7 +637,8 @@ function PerformanceSummaryCard() {
   );
 }
 
-interface GlassPerformanceOptimizationProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassPerformanceOptimizationProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   adaptivePerformance?: boolean;
   showMonitor?: boolean;
   children?: React.ReactNode;

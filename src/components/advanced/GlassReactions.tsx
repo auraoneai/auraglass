@@ -11,7 +11,7 @@ import {
   AnimatePresence,
   useSpring,
   useMotionValue,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
 import { cn } from "@/lib/utils";
 import { glassSoundDesign } from "../../utils/soundDesign";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
@@ -433,14 +433,18 @@ function ReactionComponent({
         scale: enablePhysics ? scale : 1,
         fontSize: `${24 + intensity * 12}px`,
       }}
-      initial={{
-        opacity: 0,
-        scale: 0,
-        rotate: -180,
-      }}
+      initial={
+        prefersReducedMotion
+          ? false
+          : {
+              opacity: 0,
+              scale: 0,
+              rotate: -180,
+            }
+      }
       animate={
         prefersReducedMotion
-          ? {}
+          ? { opacity: 1, scale: 1, rotate: 0 }
           : {
               opacity: 1,
               scale: enablePhysics ? undefined : 1 + intensity * 0.5,
@@ -468,7 +472,7 @@ function ReactionComponent({
           className="glass-absolute glass-inset-0 glass-gradient-primary glass-gradient-primary glass-via-white glass-gradient-primary glass-opacity-30"
           animate={
             prefersReducedMotion
-              ? {}
+              ? { x: 0 }
               : {
                   x: [-100, 100],
                 }
@@ -544,8 +548,12 @@ function ReactionPicker({
         top: position.y,
         transform: "translate(-50%, -100%)",
       }}
-      initial={{ opacity: 0, scale: 0.8, y: 10 }}
-      animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.8, y: 10 }}
+      animate={
+        prefersReducedMotion
+          ? { opacity: 1, scale: 1, y: 0 }
+          : { opacity: 1, scale: 1, y: 0 }
+      }
       exit={{ opacity: 0, scale: 0.8, y: 10 }}
       transition={
         prefersReducedMotion
@@ -661,8 +669,10 @@ export function GlassReactionBar({
           : "bg-white shadow-lg",
         className
       )}
-      initial={{ opacity: 0, y: 20 }}
-      animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+      animate={
+        prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+      }
     >
       {reactionTypes.map((reactionType, index) => (
         <motion.button

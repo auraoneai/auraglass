@@ -27,9 +27,13 @@
   --aura-color-global-scrollbar-thumb-dark-hover: hsla(217, 33%, 40%, 0.7);
   --aura-color-global-scrollbar-thumb-light: hsla(220, 14%, 70%, 0.5);
   --aura-color-global-scrollbar-thumb-light-hover: hsla(220, 14%, 60%, 0.7);
+  --glass-opacity-20: 0.2;
+  --glass-opacity-24: 0.24;
+  --glass-opacity-32: 0.32;
+  --glass-opacity-52: 0.52;
+  --glass-opacity-72: 0.72;
   --aura-font-sans:
-    "Aeonik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --aura-font-mono:
     "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --aura-type-display-font-size: 3.5rem;

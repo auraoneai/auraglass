@@ -1,6 +1,6 @@
 {
   "name": "aura-glass",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Liquid Glass React and Next.js component library for polished dashboards, AI apps, media tools, and SaaS interfaces.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -227,14 +227,16 @@
       "import": "./dist/three/index.mjs",
       "require": "./dist/three/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./deprecations.json": "./deprecations.json"
   },
   "files": [
     "bin",
     "dist",
     "workers",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "deprecations.json"
   ],
   "scripts": {
     "dev": "rollup -c --watch",
@@ -244,7 +246,8 @@
     "build:server": "tsc --project tsconfig.server.json",
     "build:hosted": "npm run build && npm run build:server",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "lint:check": "eslint src",
     "server:dev": "ts-node server/index.ts",
     "server:websocket": "node server/websocket-server.js",
@@ -321,23 +324,20 @@
     "codemod:all": "npm run codemod:tokens && npm run codemod:focus",
     "check:perf": "npm run build && npm run size-check",
     "ci": "npm run glass:full-check && npm run test:coverage",
-    "release": "npm run ci && npm publish --provenance --access public",
-    "release:dry-run": "npm run ci && npm publish --dry-run --provenance --access public",
     "storybook": "storybook dev -p 6006",
     "prebuild-storybook": "node scripts/ensure-component-inventory.js",
     "build-storybook": "storybook build",
-    "prepublishOnly": "npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
+    "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run build && npm run verify:pack && npm run verify:css-vars && npm run test:integration:next -- --skip-build && npm run test:integration:vite -- --skip-build",
     "verify:pack": "node scripts/ci/verify-pack.js",
     "verify:css-vars": "node scripts/ci/check-undefined-custom-props.mjs",
     "size-check": "bundlesize",
     "analyze": "npm run build && npx bundle-analyzer dist/index.mjs",
-    "audit:3.1-frame-loop": "node scripts/audit/3.1-frame-loop-audit.js",
-    "audit:3.1-frame-loop:strict": "node scripts/audit/3.1-frame-loop-audit.js --strict",
-    "audit:3.0.7-source": "node scripts/audit/3.0.7-source-audit.js",
     "audit:visual:evidence": "node scripts/audit/verify-visual-evidence.js",
     "audit:glass:materials": "node scripts/audit/static-glass-material-audit.js",
     "audit:storybook:presentation": "node scripts/audit/story-presentation-audit.js",
-    "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test"
+    "test:audit:glass:materials": "node scripts/audit/static-glass-material-audit.js --self-test",
+    "prepack": "node scripts/ci/gen-deprecations.mjs && node scripts/ci/prune-bridge-exports.mjs",
+    "postpack": "node scripts/ci/prune-bridge-exports.mjs --restore"
   },
   "keywords": [
     "react",
@@ -367,33 +367,88 @@
   },
   "homepage": "https://auraglass.auraone.ai",
   "peerDependencies": {
+    "@google-cloud/vision": "^5.3.4",
+    "@pinecone-database/pinecone": "^7.2.0",
     "@react-three/drei": "^9.122.0 || ^10.0.0",
     "@react-three/fiber": "^8.18.0 || ^9.0.0",
+    "@sentry/node": "^10.56.0",
     "@sentry/react": "^7.100.0 || ^8.0.0 || ^9.0.0 || ^10.0.0",
-    "@google-cloud/vision": "^5.0.0",
-    "framer-motion": ">=10.0.0",
-    "openai": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "chart.js": "^4.5.0",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "date-fns": "^4.1.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.5.2",
+    "framer-motion": "^11.18.2",
+    "helmet": "^8.2.0",
+    "ioredis": "^5.11.1",
+    "jsonwebtoken": "^9.0.3",
+    "openai": "^6.10.0",
     "react": ">=18.0.0 <20.0.0",
-    "react-chartjs-2": "^5.0.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": ">=18.0.0 <20.0.0",
     "react-hook-form": "^7.0.0",
-    "redis": "^5.0.0",
-    "three": ">=0.159.0 <1.0.0"
+    "redis": "^5.10.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "three": ">=0.159.0 <1.0.0",
+    "zod": "^3.22.0"
   },
   "peerDependenciesMeta": {
-    "@react-three/drei": {
-      "optional": true
-    },
-    "@sentry/react": {
-      "optional": true
-    },
     "@google-cloud/vision": {
+      "optional": true
+    },
+    "@pinecone-database/pinecone": {
+      "optional": true
+    },
+    "@react-three/drei": {
       "optional": true
     },
     "@react-three/fiber": {
       "optional": true
     },
+    "@sentry/node": {
+      "optional": true
+    },
+    "@sentry/react": {
+      "optional": true
+    },
+    "bcryptjs": {
+      "optional": true
+    },
+    "chart.js": {
+      "optional": true
+    },
+    "compression": {
+      "optional": true
+    },
+    "cors": {
+      "optional": true
+    },
+    "date-fns": {
+      "optional": true
+    },
+    "dotenv": {
+      "optional": true
+    },
+    "express": {
+      "optional": true
+    },
+    "express-rate-limit": {
+      "optional": true
+    },
     "framer-motion": {
+      "optional": true
+    },
+    "helmet": {
+      "optional": true
+    },
+    "ioredis": {
+      "optional": true
+    },
+    "jsonwebtoken": {
       "optional": true
     },
     "openai": {
@@ -408,7 +463,16 @@
     "redis": {
       "optional": true
     },
+    "socket.io": {
+      "optional": true
+    },
+    "socket.io-client": {
+      "optional": true
+    },
     "three": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },
@@ -486,30 +550,9 @@
     "yaml": "2.9.1"
   },
   "dependencies": {
-    "@google-cloud/vision": "^5.3.4",
-    "@pinecone-database/pinecone": "^7.2.0",
-    "@sentry/node": "^10.56.0",
-    "bcryptjs": "^3.0.3",
-    "chart.js": "^4.5.0",
     "clsx": "^2.0.0",
-    "compression": "^1.8.1",
-    "cors": "^2.8.6",
-    "date-fns": "^4.1.0",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "express-rate-limit": "^8.5.2",
-    "framer-motion": "^11.18.2",
-    "helmet": "^8.2.0",
-    "ioredis": "^5.11.1",
-    "jsonwebtoken": "^9.0.3",
-    "openai": "^6.10.0",
-    "react-chartjs-2": "^5.3.0",
     "react-hook-form": "^7.54.0",
-    "redis": "^5.10.0",
-    "socket.io": "^4.8.3",
-    "socket.io-client": "^4.8.3",
-    "tailwind-merge": "^3.3.1",
-    "zod": "^3.22.0"
+    "tailwind-merge": "^3.3.1"
   },
   "overrides": {
     "@grpc/grpc-js": "^1.14.4",

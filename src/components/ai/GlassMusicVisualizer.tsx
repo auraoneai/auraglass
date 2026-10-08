@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMotionPreference } from "../../hooks/useMotionPreference";
@@ -734,7 +734,13 @@ export const GlassMusicVisualizer = forwardRef<
         ctx.lineTo(x, y);
       }
       ctx.stroke();
-    }, [canvasWidth, canvasHeight, compact, isPlaying, visualConfig.colorScheme]);
+    }, [
+      canvasWidth,
+      canvasHeight,
+      compact,
+      isPlaying,
+      visualConfig.colorScheme,
+    ]);
 
     const Controls = () => (
       <div
@@ -784,7 +790,9 @@ export const GlassMusicVisualizer = forwardRef<
           whileHover={shouldAnimate ? { scale: 1.1 } : {}}
           whileTap={shouldAnimate ? { scale: 0.9 } : {}}
           onClick={isPlaying ? handlePause : handlePlay}
-          style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+          style={{
+            color: "var(--glass-theme-text, var(--glass-text-primary))",
+          }}
           aria-label={isPlaying ? "Pause visualization" : "Play visualization"}
         >
           {isPlaying ? (
@@ -802,21 +810,42 @@ export const GlassMusicVisualizer = forwardRef<
           whileHover={shouldAnimate ? { scale: 1.1 } : {}}
           whileTap={shouldAnimate ? { scale: 0.9 } : {}}
           onClick={handleStop}
-          style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+          style={{
+            color: "var(--glass-theme-text, var(--glass-text-primary))",
+          }}
           aria-label="Stop visualization"
         >
           <Square className="glass-h-4 glass-w-4" aria-hidden="true" />
         </motion.button>
 
         <div className="glass-flex glass-items-center glass-gap-1">
-          <span className="glass-text-xs" style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}>
+          <span
+            className="glass-text-xs"
+            style={{
+              color:
+                "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+            }}
+          >
             {Math.floor(currentTime / 60)}:
             {Math.floor(currentTime % 60)
               .toString()
               .padStart(2, "0")}
           </span>
-          <span style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}>/</span>
-          <span className="glass-text-xs" style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}>
+          <span
+            style={{
+              color:
+                "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+            }}
+          >
+            /
+          </span>
+          <span
+            className="glass-text-xs"
+            style={{
+              color:
+                "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+            }}
+          >
             {Math.floor(duration / 60)}:
             {Math.floor(duration % 60)
               .toString()
@@ -828,7 +857,9 @@ export const GlassMusicVisualizer = forwardRef<
           <label
             htmlFor={volumeControlId}
             className="glass-text-xs"
-            style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+            style={{
+              color: "var(--glass-theme-text, var(--glass-text-primary))",
+            }}
           >
             {compact ? "Vol" : "Volume:"}
           </label>
@@ -914,7 +945,9 @@ export const GlassMusicVisualizer = forwardRef<
                 "glass-font-semibold glass-truncate",
                 compact ? "glass-text-sm" : "glass-text-lg"
               )}
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               Music Visualizer
             </h3>
@@ -925,7 +958,10 @@ export const GlassMusicVisualizer = forwardRef<
                   : "glass-truncate",
                 compact ? "glass-text-xs" : "glass-text-sm"
               )}
-              style={{ color: "var(--glass-theme-text-secondary, var(--glass-text-secondary))" }}
+              style={{
+                color:
+                  "var(--glass-theme-text-secondary, var(--glass-text-secondary))",
+              }}
             >
               Real-time audio visualization and analysis
             </p>

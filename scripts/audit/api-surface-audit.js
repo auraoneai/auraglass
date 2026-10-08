@@ -2,16 +2,17 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
+const { evidenceDir } = require('../ci/lib/evidence-dir');
 
 const root = process.cwd();
-const publicExportReportPath = path.join(root, 'reports/public-export-audit.json');
-const reportJsonPath = path.join(root, 'reports/api-surface-audit.json');
-const reportMdPath = path.join(root, 'reports/api-surface-audit.md');
+const publicExportReportPath = path.join(evidenceDir(), 'public-export-audit.json');
+const reportJsonPath = path.join(evidenceDir(), 'api-surface-audit.json');
+const reportMdPath = path.join(evidenceDir(), 'api-surface-audit.md');
 
 const read = (filePath) => fs.readFileSync(filePath, 'utf8');
 
 if (!fs.existsSync(publicExportReportPath)) {
-  console.error('Missing reports/public-export-audit.json. Run npm run audit:exports first.');
+  console.error(`Missing ${publicExportReportPath}. Run npm run audit:exports first.`);
   process.exit(1);
 }
 
@@ -162,7 +163,7 @@ const report = {
   objective:
     'Audit public API declaration quality, explicit any usage, and likely ref-forwarding follow-ups for root public exports.',
   inputs: {
-    publicExportAudit: 'reports/public-export-audit.json',
+    publicExportAudit: path.relative(root, publicExportReportPath),
   },
   summary,
   sourceAnyFiles,

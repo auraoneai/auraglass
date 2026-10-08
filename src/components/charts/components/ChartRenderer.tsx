@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from "react";
 import { cn } from "../../../lib/utilsComprehensive";
-import { Line, Bar, Pie, Scatter } from "react-chartjs-2";
+import { Line, Bar, Pie, Scatter } from "../../../vendor/react_chartjs_2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,7 +19,7 @@ import {
   ArcElement,
   Tooltip as ChartTooltipCore,
   Legend as ChartLegendCore,
-} from "chart.js";
+} from "../../../vendor/chart_js";
 import {
   ContrastGuard,
   TextWithContrast,

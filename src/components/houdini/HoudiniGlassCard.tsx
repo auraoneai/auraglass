@@ -1,6 +1,6 @@
 "use client";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { motion } from "framer-motion";
+import { motion } from "../../vendor/framer_motion";
 import {
   Droplets,
   Eye,
@@ -42,7 +42,6 @@ export function HoudiniGlassCard({
   description,
   "data-testid": dataTestId,
 }: HoudiniGlassCardProps) {
-  const prefersReducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLDivElement>(null);
   const { isSupported, enabledEffects, toggleEffect, performanceMode } =
     useHoudiniGlass();
@@ -83,8 +82,9 @@ export function HoudiniGlassCard({
     }
   };
 
+  const prefersReducedMotion = useReducedMotion();
+
   const getPerformanceIndicator = () => {
-    const prefersReducedMotion = useReducedMotion();
     if (performanceMode) {
       return (
         <span title="Performance mode active">
@@ -172,7 +172,8 @@ export function HoudiniGlassCard({
       {showEffectControls && showControls && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, height: "auto" }}
+          animate={{ opacity: 1, height: "auto" }}
+          transition={prefersReducedMotion ? { duration: 0 } : undefined}
           exit={{ opacity: 0, height: 0 }}
           className="glass-mb-4 glass-p-3 glass-radius-lg glass-surface-dark/5 dark:glass-surface-subtle/5"
         >
@@ -191,7 +192,7 @@ export function HoudiniGlassCard({
                 <button
                   key={effect}
                   onClick={() => toggleEffect(effect)}
-                  className="flex items-center gap-2 p-2 rounded-lg text-sm transition-all glass-text-primary"
+                  className="glass-flex glass-items-center glass-gap-2 glass-p-2 glass-radius-lg glass-text-sm transition-all glass-text-primary"
                   style={{
                     background: enabledEffects.includes(effect)
                       ? "rgba(255, 255, 255, 0.28)"
@@ -228,7 +229,7 @@ export function HoudiniGlassCard({
         <motion.div
           className="glass-absolute glass-inset-0 glass-z-0 glass-gradient-primary glass-pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={prefersReducedMotion ? {} : { opacity: isHovered ? 1 : 0 }}
+          animate={{ opacity: isHovered ? 1 : 0 }}
           transition={
             prefersReducedMotion
               ? { duration: 0 }
@@ -318,7 +319,9 @@ export function HoudiniGlassShowcase() {
           <div className="glass-text-center glass-p-3 glass-radius-lg glass-surface-subtle dark:glass-surface-primary">
             <div
               className="glass-text-2xl glass-mb-2"
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               {isSupported ? "✅" : "❌"}
             </div>
@@ -331,7 +334,9 @@ export function HoudiniGlassShowcase() {
           <div className="glass-text-center glass-p-3 glass-radius-lg glass-surface-subtle dark:glass-surface-primary">
             <div
               className="glass-text-2xl glass-mb-2"
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               {hasPropertyAPI ? "✅" : "❌"}
             </div>
@@ -344,7 +349,9 @@ export function HoudiniGlassShowcase() {
           <div className="glass-text-center glass-p-3 glass-radius-lg glass-surface-subtle dark:glass-surface-primary">
             <div
               className="glass-text-2xl glass-mb-2"
-              style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}
+              style={{
+                color: "var(--glass-theme-text, var(--glass-text-primary))",
+              }}
             >
               {hasPaintAPI ? "✅" : "❌"}
             </div>
@@ -369,12 +376,14 @@ export function HoudiniGlassShowcase() {
               onClick={() => setSelectedPreset(preset.id)}
               className="glass-p-3 glass-radius-lg glass-text-left glass-transition-all glass-text-primary"
               style={{
-                background: selectedPreset === preset.id
-                  ? "rgba(255, 255, 255, 0.28)"
-                  : "rgba(255, 255, 255, 0.12)",
-                border: selectedPreset === preset.id
-                  ? "2px solid rgba(255, 255, 255, 0.28)"
-                  : "2px solid rgba(255, 255, 255, 0.18)",
+                background:
+                  selectedPreset === preset.id
+                    ? "rgba(255, 255, 255, 0.28)"
+                    : "rgba(255, 255, 255, 0.12)",
+                border:
+                  selectedPreset === preset.id
+                    ? "2px solid rgba(255, 255, 255, 0.28)"
+                    : "2px solid rgba(255, 255, 255, 0.18)",
                 color: "var(--glass-theme-text, var(--glass-text-primary))",
               }}
             >
@@ -400,7 +409,7 @@ export function HoudiniGlassShowcase() {
             <button
               key={effect.id}
               onClick={() => toggleEffect(effect.id)}
-              className="p-3 rounded-lg text-left transition-all glass-text-primary"
+              className="glass-p-3 glass-radius-lg text-left transition-all glass-text-primary"
               style={{
                 background: selectedEffects.includes(effect.id)
                   ? "rgba(255, 255, 255, 0.28)"

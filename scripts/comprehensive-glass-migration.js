@@ -8,6 +8,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { evidenceDir } = require('./ci/lib/evidence-dir');
 
 class ComprehensiveGlassMigration {
   constructor() {
@@ -386,7 +387,7 @@ export const HighTier: Story = {
       success: this.stats.errorComponents === 0
     };
     
-    const reportDir = path.join(process.cwd(), 'reports', 'glass');
+    const reportDir = evidenceDir('glass');
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true });
     }

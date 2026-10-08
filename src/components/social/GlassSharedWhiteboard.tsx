@@ -9,7 +9,8 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { motion, AnimatePresence, type Transition } from "framer-motion";
+import { motion, AnimatePresence } from "../../vendor/framer_motion";
+import type { Transition } from "framer-motion";
 import { OptimizedGlass } from "../../primitives";
 import { useGlassSound } from "../../utils/soundDesign";
 import { useA11yId } from "../../utils/a11y";

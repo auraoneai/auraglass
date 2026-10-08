@@ -13,6 +13,9 @@ const path = require('node:path');
 const run = (command, options = {}) =>
   execSync(command, { stdio: ['ignore', 'pipe', 'inherit'], encoding: 'utf8', ...options });
 
+const { packToDir } = require('./lib/npm-pack');
+const projectRoot = path.resolve(__dirname, '..', '..');
+
 const walkFiles = (root) => {
   const files = [];
   const stack = [root];
@@ -131,19 +134,8 @@ console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, a
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-pack-'));
 
 try {
-  const packOutput = run(
-    `npm pack --dry-run=false --ignore-scripts --json --pack-destination "${tmpRoot}"`
-  );
-  const jsonStart = packOutput.indexOf('[');
-  const [packResult] = JSON.parse(
-    jsonStart >= 0 ? packOutput.slice(jsonStart) : packOutput
-  );
-
-  if (!packResult || !Array.isArray(packResult.files) || !packResult.filename) {
-    throw new Error('Unexpected npm pack output.');
-  }
-
-  const tarballPath = path.join(tmpRoot, packResult.filename);
+  const packResult = packToDir(projectRoot, tmpRoot);
+  const tarballPath = packResult.tarballPath;
   const extractionRoot = path.join(tmpRoot, 'unpacked');
   fs.mkdirSync(extractionRoot, { recursive: true });
 
@@ -219,6 +211,44 @@ try {
     console.error('❌ npm pack includes test artifacts:');
     testArtifacts.forEach(({ path: filePath }) => console.error(` - ${filePath}`));
     process.exit(1);
+  }
+
+  // PLAT-092: every entry declared client-side in client-entries.json must
+  // ship a "use client" directive in its dist bundle.
+  const clientEntriesPath = path.join(projectRoot, 'client-entries.json');
+  if (fs.existsSync(clientEntriesPath)) {
+    const { clientEntries } = JSON.parse(fs.readFileSync(clientEntriesPath, 'utf8'));
+    const missingDirective = [];
+    for (const subpath of clientEntries) {
+      const entry = packedPackageJson.exports?.[subpath];
+      const importPath = typeof entry === 'string' ? entry : entry?.import ?? entry?.default;
+      if (!importPath) {
+        missingDirective.push(`${subpath} (no export)`);
+        continue;
+      }
+      const distFile = path.join(distRoot, '..', importPath.replace(/^\.\//, ''));
+      const absFile = path.isAbsolute(importPath) ? importPath : path.join(tmpRoot, importPath.replace(/^\.\//, ''));
+      const packed = packResult.files.find((f) => f.path === importPath.replace(/^\.\//, ''));
+      if (!packed) {
+        missingDirective.push(`${subpath} (${importPath} not packed)`);
+        continue;
+      }
+      const extracted = path.join(tmpRoot, 'packed', importPath.replace(/^\.\//, ''));
+      const content = fs.existsSync(extracted)
+        ? fs.readFileSync(extracted, 'utf8')
+        : fs.existsSync(absFile)
+          ? fs.readFileSync(absFile, 'utf8')
+          : '';
+      if (!/^["']use client["']/.test(content.trimStart())) {
+        missingDirective.push(`${subpath} (${importPath})`);
+      }
+    }
+    if (missingDirective.length > 0) {
+      console.error('❌ client-entries.json entries missing "use client" in dist bundle:');
+      missingDirective.forEach((entry) => console.error(` - ${entry}`));
+      process.exit(1);
+    }
+    console.log(`client-entries.json: ${clientEntries.length} entries carry "use client"`);
   }
 
   runInstallSmoke(tarballPath, tmpRoot);

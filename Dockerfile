@@ -47,7 +47,6 @@ COPY --from=builder --chown=nodejs:nodejs /app/server ./server
 COPY --from=builder --chown=nodejs:nodejs /app/public ./public
 
 # Copy environment file (will be overridden by docker-compose or k8s)
-COPY --chown=nodejs:nodejs .env.example .env
 
 # Switch to non-root user
 USER nodejs

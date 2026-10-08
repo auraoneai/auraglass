@@ -34,7 +34,7 @@ const posterDataUri = (label: string) =>
       `<circle cx='320' cy='150' r='42' fill='#ffffff' fill-opacity='.48' stroke='#ffffff' stroke-opacity='.8'/>` +
       `<path d='M307 126l38 24-38 24z' fill='#334155' fill-opacity='.8'/>` +
       `<text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle'` +
-            ` dy='78' font-size='24' font-family='Aeonik, Arial, Helvetica, sans-serif' fill='#1e293b' opacity='0.86'>` +
+            ` dy='78' font-size='24' font-family='Arial, Arial, Helvetica, sans-serif' fill='#1e293b' opacity='0.86'>` +
         label +
       `</text>` +
     `</svg>`

@@ -3,7 +3,7 @@ import { useReducedMotion } from "@/hooks/useReducedMotion";
 import React, { useState } from "react";
 import { createGlassStyle } from "../../core/mixins/glassMixins";
 import { cn } from "../../lib/utilsComprehensive";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "../../vendor/framer_motion";
 import { ANIMATION, BORDER_RADIUS } from "../../tokens/designConstants";
 
 export interface PageTransitionDemoProps {

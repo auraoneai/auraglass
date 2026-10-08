@@ -27,9 +27,6 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
   const performance = usePerformance({ enableDevtools: enabled });
   const accessibility = useAccessibility();
 
-  // Don't render if not enabled
-  if (!enabled) return null;
-
   // Console interceptor
   useEffect(() => {
     const runtimeConsole = globalThis.console;
@@ -417,6 +414,8 @@ export const GlassDevTools: React.FC<DevToolsProps> = ({
       </div>
     </div>
   );
+
+  if (!enabled) return null;
 
   return (
     <>

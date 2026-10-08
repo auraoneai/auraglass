@@ -117,7 +117,8 @@ export const GlassA11yAuditor = forwardRef<
     const [highlightedElement, setHighlightedElement] =
       useState<Element | null>(null);
     const prefersReducedMotion = useReducedMotion();
-    const componentId = id || useA11yId("a11y-auditor");
+    const componentIdHook = useA11yId("a11y-auditor");
+    const componentId = id || componentIdHook;
     const isCompact = compact || preview || density === "compact";
     const bounded = contained || isCompact;
     const resolvedMaxHeight =

@@ -20,10 +20,8 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  AnimationControls,
-  Variants,
-  Transition,
-} from "framer-motion";
+} from "../../vendor/framer_motion";
+import type { AnimationControls, Variants, Transition } from "framer-motion";
 import { ANIMATION } from "../../tokens/designConstants";
 import { ContrastGuard } from "../accessibility/ContrastGuard";
 
@@ -750,8 +748,7 @@ export const OrganicAnimationEngine: React.FC<OrganicAnimationEngineProps> = ({
             position: "absolute",
             top: 0,
             right: 0,
-            background:
-              "var(--glass-primary-level2-surface)",
+            background: "var(--glass-primary-level2-surface)",
             color: "white",
             padding: "4px 8px",
             fontSize: "10px",
