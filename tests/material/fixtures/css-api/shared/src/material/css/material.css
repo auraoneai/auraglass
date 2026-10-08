@@ -1,0 +1,1 @@
+.ag-surface::before { backdrop-filter: blur(var(--_ag-blur)); }

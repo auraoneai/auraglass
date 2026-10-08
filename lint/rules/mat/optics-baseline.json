@@ -1,0 +1,8 @@
+{
+  "rule": "auraglass/no-optics-outside-material",
+  "mode": "ratchet",
+  "maxWarnings": 36,
+  "recordedAt": "d02a05b0571ea09f2ee68eb4864f34f4aa134d3b",
+  "files": { "src/theme/materials.ts": 36 },
+  "note": "MAT-099 baseline: only the legacy src/theme/materials.ts recipe table emits optics outside src/material/** today; CI fails at W+1 (MAT-344 wires --max-warnings)."
+}

@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+/* MAT-102 — REQ-MAT-39 independent-glass-recipes metric.
+   N = distinct src files OUTSIDE src/material/** and compiler output that emit a
+   backdrop-filter/-webkit-backdrop-filter declaration or backdropFilter key,
+   + 1 if src/material/** emits any.
+
+   Usage:
+     node scripts/mat/count-glass-recipes.mjs [--root <dir>]
+         [--ratchet <baseline.json>] [--strict] [--json]
+   Always prints `independent-glass-recipes: N` and writes
+   $AURAGLASS_EVIDENCE_DIR/mat/count-glass-recipes/recipes.json (default .artifacts).
+   --ratchet fails on N > baseline.N or any noRegression file emitting;
+   --strict fails on N > 1 (post-5.0.0-beta.1 mode). */
+import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
+import { join, relative, resolve } from 'node:path';
+import { emitsBackdropFilter } from './optics-patterns.mjs';
+
+const args = process.argv.slice(2);
+const opt = (name, fallback) => {
+  const i = args.indexOf(name);
+  return i >= 0 ? args[i + 1] : fallback;
+};
+const ROOT = resolve(opt('--root', '.'));
+const RATCHET = opt('--ratchet', null);
+const STRICT = args.includes('--strict');
+const SCAN_EXT = /\.(css|ts|tsx|js|jsx|mjs|cjs)$/;
+
+const isExcluded = (rel) =>
+  rel.includes('/generated/') || rel.startsWith('dist/') || rel.startsWith('legacy/')
+  || rel.includes('/node_modules/');
+
+function* walk(dir) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    const st = statSync(p);
+    if (st.isDirectory()) {
+      if (name === 'node_modules' || name === 'dist' || name.startsWith('.')) continue;
+      yield* walk(p);
+    } else if (SCAN_EXT.test(name)) {
+      yield p;
+    }
+  }
+}
+
+export function count(root) {
+  const srcDir = join(root, 'src');
+  const inside = [];
+  const outside = [];
+  if (existsSync(srcDir)) {
+    for (const file of walk(srcDir)) {
+      const rel = relative(root, file).replace(/\\/g, '/');
+      if (isExcluded(rel)) continue;
+      const text = readFileSync(file, 'utf8');
+      if (!emitsBackdropFilter(text)) continue;
+      (rel.startsWith('src/material/') ? inside : outside).push(rel);
+    }
+  }
+  const n = outside.length + (inside.length ? 1 : 0);
+  return { n, inside, outside };
+}
+
+const isMain = process.argv[1] && resolve(process.argv[1]) === resolve(new URL(import.meta.url).pathname);
+
+if (isMain) {
+  const { n, inside, outside } = count(ROOT);
+  console.log(`independent-glass-recipes: ${n}`);
+  for (const f of inside) console.log(`  inside  ${f}`);
+  for (const f of outside) console.log(`  outside ${f}`);
+
+  const evidenceDir = process.env.AURAGLASS_EVIDENCE_DIR ?? join(ROOT, '.artifacts');
+  const outDir = join(evidenceDir, 'mat', 'count-glass-recipes');
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, 'recipes.json'), JSON.stringify({
+    'independent-glass-recipes': n, inside, outside,
+  }, null, 1));
+
+  let failed = false;
+  if (RATCHET) {
+    const baseline = JSON.parse(readFileSync(resolve(RATCHET), 'utf8'));
+    if (n > baseline.N) {
+      console.error(`[count-glass-recipes] ratchet regression: ${baseline.N} -> ${n}`);
+      failed = true;
+    }
+    for (const f of baseline.noRegression ?? []) {
+      if (outside.includes(f) || inside.includes(f)) {
+        console.error(`[count-glass-recipes] noRegression file re-emitted optics: ${f}`);
+        failed = true;
+      }
+    }
+    if (!failed) console.log(`[count-glass-recipes] ratchet OK (N=${n} <= ${baseline.N})`);
+  }
+  if (STRICT && n > 1) {
+    console.error(`[count-glass-recipes] strict: ${n} > 1`);
+    failed = true;
+  }
+  process.exit(failed ? 1 : 0);
+}
