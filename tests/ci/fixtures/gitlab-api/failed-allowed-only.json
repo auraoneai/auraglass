@@ -1,0 +1,22 @@
+{
+ "expect": {
+  "code": 1,
+  "contains": [
+   "failed"
+  ]
+ },
+ "pipelines": [
+  {
+   "id": 2,
+   "status": "failed",
+   "web_url": "https://gitlab.com/x/-/pipelines/2"
+  }
+ ],
+ "jobs": [
+  {
+   "name": "plat:test:cli",
+   "status": "failed",
+   "allow_failure": true
+  }
+ ]
+}

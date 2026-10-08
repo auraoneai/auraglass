@@ -1,0 +1,15 @@
+{
+ "expect": {
+  "code": 1,
+  "contains": [
+   "running"
+  ]
+ },
+ "pipelines": [
+  {
+   "id": 4,
+   "status": "running",
+   "web_url": "https://gitlab.com/x/-/pipelines/4"
+  }
+ ]
+}
