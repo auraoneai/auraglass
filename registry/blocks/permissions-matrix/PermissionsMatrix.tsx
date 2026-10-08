@@ -26,10 +26,10 @@ export function PermissionsMatrix() {
             aria-label={`${role} ${p.label}`}
             aria-describedby={`desc-${p.id}`}
             checked={checked}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onCheckedChange={(checkedNow) =>
               setGrants((g) => ({
                 ...g,
-                [role]: (e.target as HTMLInputElement).checked
+                [role]: checkedNow
                   ? [...(g[role] ?? []), p.id]
                   : (g[role] ?? []).filter((x) => x !== p.id),
               }))

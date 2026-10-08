@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'Command',
   owner: 'SURF',
   entry: '.',
+  flagship: 29,
   tier: 'T1',
   rsc: 'client',
   parts: ['command', 'input', 'list', 'item', 'group', 'group-heading', 'empty', 'loading', 'separator', 'shortcut'],

@@ -38,7 +38,7 @@ export function DataWorkspace() {
           resultCount={ROWS.length}
         />
         <Table data={ROWS} columns={COLUMNS} getRowId={(r: Row) => r.id} />
-        <Pagination.Root aria-label="Pages">
+        <Pagination.Root aria-label="Pages" pageCount={Math.ceil(ROWS.length / 10)}>
           <Pagination.Previous href="#prev" disabled={page === 0} />
           <Pagination.Item page={1} current={page === 0} href="#p1">1</Pagination.Item>
           <Pagination.Next href="#next" disabled />

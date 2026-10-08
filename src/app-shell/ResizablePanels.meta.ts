@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'ResizablePanels',
   owner: 'SURF',
   entry: '.',
+  flagship: 30,
   tier: 'T1',
   rsc: 'client',
   parts: ['resizable-panels', 'resizable-panel', 'resize-handle'],

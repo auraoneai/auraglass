@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './ai',
   tier: 'T2',
-  flagship: false,
   rsc: 'client',
   parts: ['reasoning', 'trigger', 'content'],
   states: ['streaming', 'done'],

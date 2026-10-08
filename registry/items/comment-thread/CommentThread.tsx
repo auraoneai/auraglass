@@ -60,18 +60,17 @@ export function CommentThread({
           ))}
         </ol>
       </Card.Body>
-      <Card.Footer data-ag-part="composer">
+      <Card.Footer data-ag-part="composer" onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          // IME-safe: Enter inside a composition confirms text, not submit.
+          if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+            e.preventDefault();
+            submit();
+          }
+        }}>
         <TextField
           data-ag-part="input"
           value={value}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-            // IME-safe: Enter inside a composition confirms text, not submit.
-            if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-              e.preventDefault();
-              submit();
-            }
-          }}
+          onValueChange={(v) => setValue(v)}
           placeholder="Write a comment"
           aria-label="Write a comment"
         />

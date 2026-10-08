@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T1',
-  flagship: true,
+  flagship: 35,
   rsc: 'server',
   parts: ['stat-card', 'stat-card-label', 'stat-card-value', 'stat-card-delta', 'stat-card-sparkline', 'stat-card-description'],
   states: ['loading'],

@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'TabBar',
   owner: 'SURF',
   entry: '.',
+  flagship: 26,
   tier: 'T1',
   rsc: 'client',
   parts: ['tab-bar', 'tab-bar-item', 'tab-bar-item-icon', 'tab-bar-item-label', 'tab-bar-item-badge', 'tab-bar-accessory', 'tab-bar-search'],

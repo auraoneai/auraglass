@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'Tabs',
   owner: 'SURF',
   entry: '.',
+  flagship: 25,
   tier: 'T1',
   rsc: 'client',
   parts: ['tabs', 'list', 'tab', 'panel', 'indicator'],

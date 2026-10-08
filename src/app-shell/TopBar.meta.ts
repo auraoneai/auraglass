@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'TopBar',
   owner: 'SURF',
   entry: '.',
+  flagship: 24,
   tier: 'T1',
   rsc: 'server',
   parts: ['top-bar', 'top-bar-leading', 'top-bar-center', 'top-bar-trailing', 'top-bar-title'],

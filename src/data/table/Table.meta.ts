@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T1',
-  flagship: true,
+  flagship: 32,
   rsc: 'client',
   parts: ['table', 'table-header', 'table-header-row', 'table-column-header', 'table-sort-button', 'table-body', 'table-row', 'table-cell', 'table-resize-handle', 'table-pin-button', 'table-empty', 'table-pagination', 'table-selection-checkbox', 'table-filter-input'],
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],

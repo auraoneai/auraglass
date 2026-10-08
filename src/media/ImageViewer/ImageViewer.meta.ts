@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './media',
   tier: 'T2',
-  flagship: true,
   rsc: 'client',
   parts: ['viewer', 'trigger', 'popup', 'stage', 'toolbar', 'caption', 'inspector', 'prev', 'next', 'counter', 'zoom-in', 'zoom-out', 'zoom-reset', 'close'],
   states: ['closed', 'open', 'zoomed'],

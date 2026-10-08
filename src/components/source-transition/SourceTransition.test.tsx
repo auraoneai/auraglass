@@ -5,6 +5,13 @@ import * as React from 'react';
 import { SourceTransition } from './SourceTransition';
 import * as motion from '../../motion';
 
+// Real MAT startMorph is a frozen ESM export — spyOn can't redefine it, so
+// wrap it with a transparent jest.fn at the module seam instead.
+jest.mock('../../motion', () => {
+  const actual = jest.requireActual<typeof import('../../motion')>('../../motion');
+  return { ...actual, startMorph: jest.fn(actual.startMorph) };
+});
+
 describe('SourceTransition (SURF-091)', () => {
   it('moves the view-transition-name to the destination on activate', async () => {
     render(
@@ -44,7 +51,8 @@ describe('SourceTransition (SURF-091)', () => {
   });
 
   it('routes through the MAT startMorph seam', async () => {
-    const spy = jest.spyOn(motion, 'startMorph');
+    const spy = motion.startMorph as unknown as jest.Mock;
+    spy.mockClear();
     render(
       <SourceTransition.Root>
         <SourceTransition.Source id="s1">src</SourceTransition.Source>
@@ -55,6 +63,5 @@ describe('SourceTransition (SURF-091)', () => {
       fireEvent.click(document.querySelector('[data-ag-part="source"]')!);
     });
     expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
   });
 });

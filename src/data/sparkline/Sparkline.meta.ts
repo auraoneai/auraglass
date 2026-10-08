@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T2',
-  flagship: true,
+  flagship: 36,
   rsc: 'server',
   parts: ['sparkline', 'sparkline-line', 'sparkline-area', 'sparkline-bar', 'sparkline-dot'],
   states: [],

@@ -5,8 +5,7 @@ import * as React from 'react';
 import { Toolbar } from '../../components/toolbar';
 
 type FC = React.FC<Record<string, unknown> & { children?: React.ReactNode }>;
-const ToolbarRoot = Toolbar.Root as FC;
-const ToolbarButton = Toolbar.Button as FC;
+const ToolbarRoot = Toolbar.Root as unknown as FC;
 import type { MediaHandle } from '../useMediaElement';
 import { MediaControlsContext, useMediaModel, type MediaModel } from './mediaContext';
 import { handleMediaShortcut } from './shortcuts';

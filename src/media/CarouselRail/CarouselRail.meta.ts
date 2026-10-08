@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './media',
   tier: 'T2',
-  flagship: true,
+  flagship: 44,
   rsc: 'client',
   parts: ['carousel', 'viewport', 'slide', 'prev', 'next', 'indicators', 'indicator', 'autoplay-toggle'],
   states: ['playing', 'stopped', 'offscreen'],

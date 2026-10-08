@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './ai',
   tier: 'T2',
-  flagship: false,
   rsc: 'server',
   parts: ['usage-meter', 'usage', 'usage-window', 'usage-window-text'],
   states: ['normal', 'warning', 'critical'],

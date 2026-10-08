@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T1',
-  flagship: true,
+  flagship: 36,
   rsc: 'server',
   parts: ['chart-frame', 'chart-title', 'chart-plot', 'chart-legend', 'chart-legend-item', 'chart-table'],
   states: ['empty', 'loading'],

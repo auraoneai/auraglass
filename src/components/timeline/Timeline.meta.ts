@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: '.',
   tier: 'T1',
-  flagship: true,
+  flagship: 37,
   rsc: 'server',
   parts: ['timeline', 'timeline-item', 'timeline-marker', 'timeline-title', 'timeline-description', 'timeline-time'],
   states: [],

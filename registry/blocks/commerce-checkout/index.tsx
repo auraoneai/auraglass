@@ -52,7 +52,7 @@ export function CommerceCheckout({
         )}
         {internal === 'payment' && (
           <div data-ag-part="payment-form">
-            <TextField label="Card number" name="card" inputMode="numeric" />
+            <TextField label="Card number" name="card" />
             <TextField label="Expiry" name="expiry" placeholder="MM/YY" />
           </div>
         )}

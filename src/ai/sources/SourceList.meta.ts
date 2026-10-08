@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './ai',
   tier: 'T2',
-  flagship: false,
+  flagship: 42,
   rsc: 'client',
   parts: ['source-list', 'trigger', 'sources', 'source', 'source-link', 'source-text', 'source-host', 'source-file'],
   states: [],

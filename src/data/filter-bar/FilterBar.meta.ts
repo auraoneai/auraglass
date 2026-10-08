@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T1',
-  flagship: true,
+  flagship: 34,
   rsc: 'client',
   parts: ['filter-bar', 'filter-search', 'filter-chip', 'filter-chip-remove', 'filter-add', 'filter-clear', 'filter-count'],
   states: ['empty', 'active'],

@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'CommandPalette',
   owner: 'SURF',
   entry: '.',
+  flagship: 29,
   tier: 'T1',
   rsc: 'client',
   parts: ['command-palette'],

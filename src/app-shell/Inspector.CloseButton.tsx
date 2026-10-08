@@ -18,6 +18,7 @@ export function InspectorCloseButton({ label = 'Close inspector' }: { label?: st
       <IconButton
         label={label}
         aria-label={label}
+        icon={'\u00d7'}
         onClick={() => rootEl && setInspector(rootEl, 'closed')}
       />
     </>

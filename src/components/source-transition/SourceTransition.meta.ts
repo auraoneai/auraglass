@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'SourceTransition',
   owner: 'SURF',
   entry: '.',
+  flagship: 31,
   tier: 'T1',
   rsc: 'client',
   parts: ['source-transition', 'source', 'destination'],

@@ -60,9 +60,8 @@ export function AppShellInspectorToggle({ labels, icon, ...rest }: AppShellInspe
       aria-expanded={open}
       {...(controls ? { 'aria-controls': controls } : {})}
       onClick={() => rootEl && setInspector(rootEl, open ? 'closed' : 'open')}
+      icon={icon}
       {...(rest as Record<string, unknown>)}
-    >
-      {icon}
-    </IconButton>
+    />
   );
 }

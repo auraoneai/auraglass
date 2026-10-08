@@ -98,9 +98,8 @@ export function AppShellSidebarToggle({
       {...aria}
       {...(controls ? { 'aria-controls': controls } : {})}
       onClick={() => rootEl && setSidebar(rootEl, next)}
+      icon={icon}
       {...(rest as Record<string, unknown>)}
-    >
-      {icon}
-    </IconButton>
+    />
   );
 }

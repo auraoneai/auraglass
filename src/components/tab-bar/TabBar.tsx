@@ -204,7 +204,7 @@ export function TabBarSearch({ render, ...rest }: PartProps<'div'>) {
     'data-ag-part': 'tab-bar-search',
     className: 'ag-tab-bar__search',
     ...rest,
-    children: <SearchField render={<button type="button" aria-label="Search" />} />,
+    children: <SearchField aria-label="Search" />,
   });
 }
 TabBarSearch.displayName = 'TabBar.Search';

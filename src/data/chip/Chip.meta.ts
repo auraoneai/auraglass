@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T2',
-  flagship: true,
   rsc: 'client',
   parts: ['chip', 'chip-label', 'chip-remove'],
   states: ['selected', 'disabled'],

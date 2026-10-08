@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T1',
-  flagship: true,
+  flagship: 33,
   rsc: 'client',
   parts: ['tree', 'treeitem', 'treeitem-label', 'treeitem-chevron', 'treeitem-children'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],

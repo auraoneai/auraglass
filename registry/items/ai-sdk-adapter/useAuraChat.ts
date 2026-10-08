@@ -3,8 +3,8 @@
  * composerProps: { onSubmit, onStop }, status }`. Requires the consumer's
  * `ai` + `@ai-sdk/react` dependencies (declared in registry-item.json). */
 'use client';
-import { useChat, type ChatTransport } from '@ai-sdk/react';
-import type { UIMessage } from 'ai';
+import { useChat } from '@ai-sdk/react';
+import type { ChatTransport, UIMessage } from 'ai';
 import type { AgMessage } from 'aura-glass/ai';
 
 export interface UseAuraChatOptions {

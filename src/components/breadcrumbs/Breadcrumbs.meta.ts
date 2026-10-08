@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'Breadcrumbs',
   owner: 'SURF',
   entry: '.',
+  flagship: 27,
   tier: 'T1',
   rsc: 'mixed',
   parts: ['breadcrumbs', 'list', 'item', 'link', 'current', 'separator', 'ellipsis', 'overflow-menu'],

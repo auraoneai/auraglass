@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './date',
   tier: 'T1',
-  flagship: true,
+  flagship: 14,
   rsc: 'client',
   parts: ['date-picker', 'field-label', 'field-input', 'field-segment', 'picker-trigger', 'popover', 'calendar'],
   states: ['open', 'invalid', 'disabled', 'required', 'readonly'],

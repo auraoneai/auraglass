@@ -31,7 +31,7 @@ export function ProductCard({
     ['@media (pointer: coarse)' as string]: undefined,
   } as const;
   return (
-    <Card.Root data-ag-part="root" data-variant="content-raised" asChild={false}>
+    <Card.Root data-ag-part="root" data-variant="content-raised">
       <article data-ag-part="article">
         {image ? (
           <img data-ag-part="image" src={image.src} alt={image.alt} />

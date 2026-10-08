@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './backdrops',
   tier: 'T2',
-  flagship: true,
   rsc: 'server',
   parts: ['backdrop-layer', 'backdrop-content', 'backdrop-pause'],
   states: ['media', 'light', 'dark', 'auto', 'none'],
@@ -17,7 +16,7 @@ export default defineMeta({
     { from: 'AtmosphericBackground', props: { variant: null, weather: null, colorScheme: null }, automation: 'partial', compat: true },
     { from: 'GlassDynamicAtmosphere', props: { type: null, primaryColor: null, secondaryColor: null }, automation: 'partial', compat: true },
     { from: 'GlassMeshGradient', props: { colors: null, animate: 'motion' }, automation: 'partial', compat: true },
-    { from: 'LiquidGlassBackdropSampler', props: {}, automation: 'none' },
+    { from: 'LiquidGlassBackdropSampler', props: {}, automation: 'none', compat: false },
   ],
   selectors: [{ from: '.aurora-background', to: '.ag-backdrop[data-ag-backdrop-preset="aurora"]' }],
 });

@@ -5,7 +5,6 @@ export default defineMeta({
   owner: 'SURF',
   entry: './data',
   tier: 'T2',
-  flagship: true,
   rsc: 'client',
   parts: ['key-value-editor', 'key-value-row', 'key-input', 'value-input', 'key-value-remove', 'key-value-add'],
   states: ['duplicate-key', 'disabled'],

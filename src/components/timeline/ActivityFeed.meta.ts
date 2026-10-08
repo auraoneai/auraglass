@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: '.',
   tier: 'T1',
-  flagship: true,
+  flagship: 37,
   rsc: 'mixed',
   parts: ['activity-feed', 'activity-day', 'activity-heading', 'activity-item', 'activity-actor', 'activity-new-items'],
   states: ['new-items'],

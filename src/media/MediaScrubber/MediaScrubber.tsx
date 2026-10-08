@@ -89,7 +89,7 @@ export const MediaScrubber = React.forwardRef<HTMLDivElement, MediaScrubberProps
           max={safeMax}
           step={step}
           largeStep={largeStep}
-          disabled={disabled}
+          {...(disabled !== undefined ? { disabled } : {})}
           aria-label={ariaLabel}
           getAriaValueText={(v: number) => scrubberValueText(v, safeMax)}
           onValueChange={(v: number | number[]) => onValueChange?.(Array.isArray(v) ? v[0]! : v)}

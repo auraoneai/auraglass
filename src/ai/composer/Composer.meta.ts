@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: './ai',
   tier: 'T1',
-  flagship: true,
+  flagship: 40,
   rsc: 'client',
   parts: ['composer', 'input', 'attachments', 'attachment', 'attachment-name', 'attachment-remove', 'actions', 'action', 'submit', 'stop', 'counter', 'file-input'],
   states: ['ready', 'submitted', 'streaming', 'error'],

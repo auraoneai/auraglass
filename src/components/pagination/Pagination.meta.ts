@@ -4,6 +4,7 @@ export default defineMeta({
   name: 'Pagination',
   owner: 'SURF',
   entry: '.',
+  flagship: 28,
   tier: 'T1',
   rsc: 'mixed',
   parts: ['pagination', 'pagination-list', 'item', 'page', 'previous', 'next', 'ellipsis'],
