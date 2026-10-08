@@ -1,0 +1,37 @@
+{
+  "family": "RM-07",
+  "generatedAt": "2026-10-08T02:16:44.464Z",
+  "names": [
+    "AtmosphericEffects",
+    "ChartAxis",
+    "ChartContainer",
+    "ChartContainerStyles",
+    "ChartElementStyles",
+    "ChartFilters",
+    "ChartGrid",
+    "ChartLegend",
+    "ChartRenderer",
+    "ChartTooltip",
+    "GlassAreaChart",
+    "GlassBarChart",
+    "GlassChart",
+    "GlassDataChart",
+    "GlassLineChart",
+    "GlassPieChart",
+    "KpiChart",
+    "ModularGlassDataChart",
+    "TooltipStyles"
+  ],
+  "status": "missing",
+  "missingRoots": [
+    "/Users/gurbakshchahal/AuraOne",
+    "/Users/gurbakshchahal/platforms"
+  ],
+  "scans": [],
+  "gh": {
+    "status": "missing",
+    "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
+  },
+  "acknowledged": false,
+  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+}

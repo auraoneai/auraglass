@@ -177,6 +177,8 @@ tests/visual/**/*.spec.ts-snapshots/
 !build/exports.manifest.schema.json
 /.artifacts/
 /reports/
+/probe-*.mjs
+/*-probe*.mjs
 /deprecations.json
 /registry/registry.json
 /packages/cli/src/migrate/4to5/mappings/

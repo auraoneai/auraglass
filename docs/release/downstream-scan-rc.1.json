@@ -1,0 +1,8 @@
+{
+  "record": "downstream-scan",
+  "cut": "5.0.0-rc.1",
+  "status": "missing",
+  "note": "Same operator action as the 4.2 scan, re-run at 5.0.0-rc.1 over every platforms/* checkout declaring aura-glass. Placeholder committed so the gate evidence exists and the action is tracked; replaced by the real summary at the RC cut.",
+  "tool": "scripts/release/downstream-grep.mjs",
+  "roots": []
+}
