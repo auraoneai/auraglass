@@ -2,6 +2,50 @@
 
 This runbook covers bad public `aura-glass` npm releases and matching GitHub tags. It is repository-side operational guidance; executing npm or GitHub changes still requires release-owner credentials and approval.
 
+## Fixed Sequence
+
+Every rollback follows the same five steps in order. Do not reorder; each step's evidence gates the next.
+
+```text
+1. Triage        -> classify severity (S1/S2/S3), capture the bad version + dist-tag state
+2. Contain       -> move `latest` off the bad version; post the consumer notice
+3. Verify fix    -> dry-run evidence (verify:pack + pack --dry-run + install smoke)
+4. Deprecate     -> `npm deprecate` the bad version with the notice message
+5. Recover       -> publish the fixed patch, realign tags/notes, run post-incident checklist
+```
+
+## Preflight Checklist
+
+Run before step 4/5. Every box requires committed or recorded evidence — do not
+deprecate or publish from memory.
+
+```text
+preflight:
+  - [ ] dry-run passed: `npm run release:dry-run` output recorded (integrity + shasum)
+  - [ ] pack contents verified: `npm pack --dry-run --json` file list attached to the incident record
+  - [ ] install smoke passed on a clean project (both `import` and `require`)
+  - [ ] target dist-tag state recorded: `npm view aura-glass dist-tags --json`
+  - [ ] deprecation message drafted (see Consumer Mitigation Message template)
+  - [ ] decision gate signed off: release owner (2FA-verified) approves the severity class
+```
+
+## The First-72-Hours Deprecation Window
+
+A version less than 72 hours on npm may be **deprecated immediately** once the severity class and preflight pass — installs that already fetched it still resolve, so deprecation is the only safe signal. After 72 hours the version may be deeply installed in lockfiles; prefer `latest` moves plus deprecation, and never `npm unpublish` it: unpublish within the npm window breaks every lockfile that already references the tarball.
+
+**Whole-package `npm unpublish` is forbidden.** Only a single version may ever be
+unpublished, only inside npm's unpublish window, and only with owner sign-off recorded
+in `docs/release/decisions/`.
+
+## Decision Gates
+
+| Gate | Approver | Evidence recorded |
+| --- | --- | --- |
+| Severity class | Release owner | Incident record in `docs/release/decisions/` |
+| Deprecate now vs patch-first | Release owner | Preflight checklist output |
+| `npm unpublish` of a single version | Owner + second reviewer | Decision record (rare; window-limited) |
+| Tag rewrite | Owner only | Explicit record — default answer is no |
+
 ## Scope
 
 - Public npm package releases.

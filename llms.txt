@@ -36,4 +36,10 @@ For app UIs, prefer `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `Glas
 
 Canonical repository: https://github.com/auraoneai/auraglass
 Package name: `aura-glass`
-Current release track: `3.0.x`
+Current release track: `5.x` (pre-release train on `next`)
+
+## Versions
+
+- `5.x` — current development line (`next` dist-tag; GA pending)
+- `4.x` — LTS: fixes and security only, 12 months after 5.0.0 GA (`latest` dist-tag until GA)
+- `<4.x` — unsupported
