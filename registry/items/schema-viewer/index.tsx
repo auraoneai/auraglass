@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { TreeView } from 'aura-glass/data';
 
-interface Node { key: string; label: string; children?: Node[] | undefined }
+interface Node { [k: string]: unknown; key: string; label: string; children?: Node[] | undefined }
 
 function toNodes(obj: Record<string, unknown>, prefix: string): Node[] {
   return Object.entries(obj).map(([k, v]) => {

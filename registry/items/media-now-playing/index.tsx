@@ -13,12 +13,12 @@ export interface MediaNowPlayingProps {
  * useMediaElement feeding the NowPlayingBar compound. */
 export function MediaNowPlaying({ src, title, subtitle, artworkSrc }: MediaNowPlayingProps) {
   const ref = React.useRef<HTMLAudioElement | null>(null);
-  const media = useMediaElement(ref, { mediaSession: { title, artist: subtitle } });
+  const media = useMediaElement(ref, { mediaSession: { title, ...(subtitle !== undefined ? { artist: subtitle } : {}) } });
   return (
     <div data-ag-media-root data-ag-part="media-now-playing">
       <audio ref={ref} src={src} aria-label={title} />
       <NowPlayingBar.Root media={media}>
-        <NowPlayingBar.Artwork src={artworkSrc} alt="" />
+        <NowPlayingBar.Artwork src={artworkSrc} />
         <NowPlayingBar.Title>{title}</NowPlayingBar.Title>
         <NowPlayingBar.Subtitle>{subtitle}</NowPlayingBar.Subtitle>
         <NowPlayingBar.Progress />

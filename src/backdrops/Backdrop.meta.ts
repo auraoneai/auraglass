@@ -1,4 +1,4 @@
-import { defineMeta } from '../../foundation';
+import { defineMeta } from '../foundation';
 
 export default defineMeta({
   name: 'Backdrop',

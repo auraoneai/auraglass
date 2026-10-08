@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Golden for handler-only-items: GlassAppShell prop slots become children,
 // the items array becomes Sidebar.Item children, handler-only items keep
 // their handlers (no href fabricated). Layout-only props drop to TODO-free

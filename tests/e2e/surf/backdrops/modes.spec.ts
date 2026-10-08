@@ -1,7 +1,7 @@
 // modes.spec.ts — SURF-438: preset × scheme modes render (aurora light/dark/
 // auto, mesh, grain, photo, video) and declare data-ag-backdrop correctly.
 import { test, expect } from '@playwright/test';
-import { listSubjects, gotoStory } from '../../../../helpers';
+import { listSubjects, gotoStory } from '../../../helpers';
 
 test.describe('backdrop modes (SURF-438)', () => {
   test('each preset renders decorative layer + content', async ({ page }) => {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GlassImageViewer } from 'aura-glass';
 
 export function Gallery() {

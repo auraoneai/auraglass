@@ -15,7 +15,7 @@ const COLUMNS = [
 ];
 
 export function AuditLog() {
-  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', combinator: 'and', children: [] });
+  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });
   const [pagination, setPagination] = React.useState({ pageIndex: 0, pageSize: PAGE_SIZE });
   const [range, setRange] = React.useState<{ start: unknown; end: unknown } | null>(null);
   return (

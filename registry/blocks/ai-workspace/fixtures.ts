@@ -14,9 +14,8 @@ export const MESSAGES: AgMessage[] = [
     parts: [
       { type: 'reasoning', text: 'The block combines a collection sidebar, filter bar, table and stat cards.' },
       {
-        type: 'tool-call',
+        type: `tool-list_collections`,
         toolCallId: 't1',
-        toolName: 'list_collections',
         state: 'output-available',
         input: { scope: 'workspace' },
         output: { collections: ['live', 'archived'] },

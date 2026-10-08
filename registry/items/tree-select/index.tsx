@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { TreeView } from 'aura-glass/data';
 
-export interface TreeSelectItem { key: string; label: string; children?: TreeSelectItem[] | undefined }
+export interface TreeSelectItem { [k: string]: unknown; key: string; label: string; children?: TreeSelectItem[] | undefined }
 
 export interface TreeSelectProps {
   items: readonly TreeSelectItem[];

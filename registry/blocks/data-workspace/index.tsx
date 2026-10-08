@@ -17,7 +17,7 @@ const COLUMNS = [
 const treeItems = COLLECTIONS.map((c) => ({ key: c.id, label: c.label }));
 
 export function DataWorkspace() {
-  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', combinator: 'and', children: [] });
+  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });
   const [page, setPage] = React.useState(0);
   const totalViews = ROWS.reduce((s, r) => s + r.views, 0);
   return (

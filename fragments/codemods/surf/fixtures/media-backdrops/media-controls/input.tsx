@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LiquidGlassMediaControls } from 'aura-glass';
 
 export function Player() {

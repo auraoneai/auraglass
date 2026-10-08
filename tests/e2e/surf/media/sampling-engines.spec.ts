@@ -12,7 +12,8 @@ test.describe('media sampling engines (SURF-439)', () => {
     if (subjects.length === 0) { console.warn('no subjects — pending'); return; }
     const result = await page.evaluate(async (scenes) => {
       try {
-        const mod = await import('/src/media/sampling/index.ts').catch(() => null) as { classifyTone?: (p: unknown) => string } | null;
+        const spec = '/src/media/sampling/index.ts';
+        const mod = await import(/* @vite-ignore */ spec).catch(() => null) as { classifyTone?: (p: unknown) => string } | null;
         if (!mod || typeof mod.classifyTone !== 'function') return null;
         return scenes.map((s) => ({ scene: s, tone: mod.classifyTone!(s) }));
       } catch { return null; }

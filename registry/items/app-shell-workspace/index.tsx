@@ -37,7 +37,7 @@ export function AppShellWorkspace() {
             </Tabs.Root>
           }
         />
-        <ResizablePanels.Root direction="horizontal">
+        <ResizablePanels.Root orientation="horizontal">
           <ResizablePanels.Panel id="document" defaultSize={70} minSize={40}>
             <div className="ag-app-shell__auto-grid">
               <p>Document content</p>

@@ -1,7 +1,7 @@
 // motion.spec.ts — SURF-437 (REQ-SURF-160): drift animates only under the
 // continuous gate; backdrop-pause toggles video. Remote lane; pending-warn.
 import { test, expect } from '@playwright/test';
-import { listSubjects, gotoStory } from '../../../../helpers';
+import { listSubjects, gotoStory } from '../../../helpers';
 
 test.describe('backdrop motion (SURF-437)', () => {
   test('drift animates only with allowContinuous; video pause toggles', async ({ page }) => {

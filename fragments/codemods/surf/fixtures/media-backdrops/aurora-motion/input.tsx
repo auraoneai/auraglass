@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { AuroraBackground } from 'aura-glass';
 
 export function Hero() {

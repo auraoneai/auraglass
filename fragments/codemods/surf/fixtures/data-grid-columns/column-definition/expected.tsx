@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Golden: ColumnDefinition -> Table column def per REQ-SURF-14.
 import { Table } from 'aura-glass/data';
 

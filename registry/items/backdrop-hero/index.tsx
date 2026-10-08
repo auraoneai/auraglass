@@ -16,7 +16,7 @@ export interface BackdropHeroProps {
 export function BackdropHero({ preset, title, lede, cta, src, tone, motion = 'static' }: BackdropHeroProps) {
   const mediaProps = preset === 'photo' ? { src, alt: '' } : preset === 'video' ? { src } : {};
   return (
-    <Backdrop preset={preset} tone={tone} motion={motion} {...(mediaProps as Record<string, unknown>)}>
+    <Backdrop {...({ preset, scheme: tone, motion, ...mediaProps } as React.ComponentProps<typeof Backdrop>)}>
       <div data-ag-part="backdrop-hero" style={{ padding: '6rem 2rem', textAlign: 'center' }}>
         <h1 style={{ margin: 0, fontSize: '2.5rem' }}>{title}</h1>
         {lede ? <p style={{ maxInlineSize: '40rem', margin: '1rem auto' }}>{lede}</p> : null}

@@ -10,7 +10,7 @@ export const COLLECTIONS = [
 ] as const;
 
 export const FILTER_FIELDS: FilterField[] = [
-  { id: 'status', label: 'Status', type: 'enum', options: ['live', 'draft', 'archived'] },
+  { id: 'status', label: 'Status', type: 'enum', options: [{ value: 'live', label: 'Live' }, { value: 'draft', label: 'Draft' }, { value: 'archived', label: 'Archived' }] },
   { id: 'owner', label: 'Owner', type: 'text' },
   { id: 'views', label: 'Views', type: 'number' },
 ];

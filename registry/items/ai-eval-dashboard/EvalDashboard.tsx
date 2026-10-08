@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { StatCard, Table } from 'aura-glass/data';
 import type { TableColumnDef } from 'aura-glass/data';
-import { UsageMeter } from 'aura-glass/ai';
+import { UsageMeter , type AgUsage } from 'aura-glass/ai';
 
 export interface EvalRun {
   id: string;
@@ -17,7 +17,7 @@ export interface EvalRun {
 export interface EvalDashboardProps {
   runs: readonly EvalRun[];
   title?: string | undefined;
-  usage?: { inputTokens: number; outputTokens: number; costUsd?: number | undefined } | undefined;
+  usage?: AgUsage | undefined;
 }
 
 const pct = (n: number) => `${Math.round(n * 100)}%`;

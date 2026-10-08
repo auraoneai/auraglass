@@ -38,8 +38,7 @@ export function MediaViewer({ src = TRACKS.video, title = ITEM_TITLE }: MediaVie
           <ImageViewer.Root items={ITEM_IMAGES}>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
               {ITEM_IMAGES.map((it) => (
-                <ImageViewer.Trigger key={it.id} item={it.id}
-                  style={{ padding: 0, border: 0, background: 'none', cursor: 'zoom-in' }}>
+                <ImageViewer.Trigger key={it.id} id={it.id} className="ag-media-thumb">
                   <img src={it.src} alt={it.alt} loading="lazy" style={{ inlineSize: '10rem', borderRadius: '0.5rem' }} />
                 </ImageViewer.Trigger>
               ))}

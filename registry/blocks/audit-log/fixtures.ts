@@ -11,8 +11,8 @@ export const EVENTS: AuditEvent[] = Array.from({ length: 24 }, (_, i) => ({
 }));
 
 export const FIELDS = [
-  { id: 'actor', label: 'Actor', type: 'enum' as const, options: ['mira', 'jon', 'priya', 'system'] },
-  { id: 'action', label: 'Action', type: 'enum' as const, options: ['user.invited', 'key.rotated', 'role.changed', 'export.created'] },
+  { id: 'actor', label: 'Actor', type: 'enum' as const, options: [{ value: 'mira', label: 'Mira' }, { value: 'jon', label: 'Jon' }, { value: 'priya', label: 'Priya' }, { value: 'system', label: 'System' }] },
+  { id: 'action', label: 'Action', type: 'enum' as const, options: [{ value: 'user.invited', label: 'User.invited' }, { value: 'key.rotated', label: 'Key.rotated' }, { value: 'role.changed', label: 'Role.changed' }, { value: 'export.created', label: 'Export.created' }] },
 ];
 
 export const TOTAL_EVENTS = 183;

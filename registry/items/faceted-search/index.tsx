@@ -13,7 +13,7 @@ export interface FacetedSearchProps {
 }
 
 export function FacetedSearch({ facets, results, renderResult }: FacetedSearchProps) {
-  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', combinator: 'and', children: [] });
+  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });
   const [q, setQ] = React.useState('');
   return (
     <div data-ag-part="faceted-search" className="ag-faceted-search" style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem' }}>

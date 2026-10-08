@@ -16,12 +16,12 @@ const COLUMNS = [
 ];
 
 const FIELDS = [
-  { id: 'status', label: 'Status', type: 'enum' as const, options: ['open', 'pending', 'closed'] },
-  { id: 'priority', label: 'Priority', type: 'enum' as const, options: ['low', 'normal', 'high'] },
+  { id: 'status', label: 'Status', type: 'enum' as const, options: [{ value: 'open', label: 'Open' }, { value: 'pending', label: 'Pending' }, { value: 'closed', label: 'Closed' }] },
+  { id: 'priority', label: 'Priority', type: 'enum' as const, options: [{ value: 'low', label: 'Low' }, { value: 'normal', label: 'Normal' }, { value: 'high', label: 'High' }] },
 ];
 
 export function SupportInbox() {
-  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', combinator: 'and', children: [] });
+  const [model, setModel] = React.useState<FilterGroup>({ kind: 'group', id: 'root', combinator: 'and', children: [] });
   const [selected, setSelected] = React.useState<Ticket | null>(TICKETS[0] ?? null);
   const [draft, setDraft] = React.useState('');
   const msgs = selected !== null ? (MESSAGES[selected.id] ?? []) : [];

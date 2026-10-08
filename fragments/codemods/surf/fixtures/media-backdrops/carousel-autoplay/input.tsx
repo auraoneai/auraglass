@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GlassCarousel } from 'aura-glass';
 
 export function Rail() {

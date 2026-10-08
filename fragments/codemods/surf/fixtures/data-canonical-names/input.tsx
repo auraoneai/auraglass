@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { GlassDataGrid, GlassTreeView, GlassFilterBar, GlassDatePicker, GlassStatCard } from 'aura-glass';
 
 export const View = () => (

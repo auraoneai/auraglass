@@ -26,7 +26,7 @@ export function AiWorkspace({ initialMessages = MESSAGES, onSubmit, status = 'id
       {error ? (
         <ProviderErrorState kind="rate-limit" onRetry={() => setError(false)} />
       ) : null}
-      <Thread messages={messages} streaming={status === 'streaming'} />
+      <Thread messages={messages} />
       <Composer
         onSubmit={({ text, files }: { text: string; files: File[] }) => {
           setMessages((m) => [
