@@ -1,0 +1,6 @@
+@layer ag.components {
+  .ag-form {
+    display: grid;
+    gap: var(--ag-space-4);
+  }
+}
