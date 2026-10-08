@@ -211,6 +211,26 @@ export default function Page() {
 `,
 );
 
+// PLAT-093: a real React Server Component page — no "use client" — importing
+// package modules. Proves client entries don't leak client-only code into RSC.
+writeFile(
+  appDir,
+  'app/rsc/page.tsx',
+  `import { Glass } from 'aura-glass/primitives';
+import { glassTokenUtils } from 'aura-glass/tokens';
+
+export default function RscPage() {
+  const surface = glassTokenUtils.buildSurfaceStyles('neutral', 'level2', 'high');
+  return (
+    <main>
+      <h1>AuraGlass RSC</h1>
+      <Glass style={surface}>server component renders primitives</Glass>
+    </main>
+  );
+}
+`,
+);
+
 writeFile(
   appDir,
   'app/globals.css',

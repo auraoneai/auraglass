@@ -1,0 +1,9 @@
+{
+  "description": "PLAT-092: subpath entry points whose modules carry a \"use client\" directive and therefore render only on the client. Kept in sync with src/*/index barrels and asserted by verify-pack.",
+  "clientEntries": [
+    "./",
+    "./client",
+    "./primitives",
+    "./theme"
+  ]
+}

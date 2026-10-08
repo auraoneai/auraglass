@@ -213,6 +213,44 @@ try {
     process.exit(1);
   }
 
+  // PLAT-092: every entry declared client-side in client-entries.json must
+  // ship a "use client" directive in its dist bundle.
+  const clientEntriesPath = path.join(projectRoot, 'client-entries.json');
+  if (fs.existsSync(clientEntriesPath)) {
+    const { clientEntries } = JSON.parse(fs.readFileSync(clientEntriesPath, 'utf8'));
+    const missingDirective = [];
+    for (const subpath of clientEntries) {
+      const entry = packedPackageJson.exports?.[subpath];
+      const importPath = typeof entry === 'string' ? entry : entry?.import ?? entry?.default;
+      if (!importPath) {
+        missingDirective.push(`${subpath} (no export)`);
+        continue;
+      }
+      const distFile = path.join(distRoot, '..', importPath.replace(/^\.\//, ''));
+      const absFile = path.isAbsolute(importPath) ? importPath : path.join(tmpRoot, importPath.replace(/^\.\//, ''));
+      const packed = packResult.files.find((f) => f.path === importPath.replace(/^\.\//, ''));
+      if (!packed) {
+        missingDirective.push(`${subpath} (${importPath} not packed)`);
+        continue;
+      }
+      const extracted = path.join(tmpRoot, 'packed', importPath.replace(/^\.\//, ''));
+      const content = fs.existsSync(extracted)
+        ? fs.readFileSync(extracted, 'utf8')
+        : fs.existsSync(absFile)
+          ? fs.readFileSync(absFile, 'utf8')
+          : '';
+      if (!/^["']use client["']/.test(content.trimStart())) {
+        missingDirective.push(`${subpath} (${importPath})`);
+      }
+    }
+    if (missingDirective.length > 0) {
+      console.error('❌ client-entries.json entries missing "use client" in dist bundle:');
+      missingDirective.forEach((entry) => console.error(` - ${entry}`));
+      process.exit(1);
+    }
+    console.log(`client-entries.json: ${clientEntries.length} entries carry "use client"`);
+  }
+
   runInstallSmoke(tarballPath, tmpRoot);
 
   const files = walkFiles(distRoot);

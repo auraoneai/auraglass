@@ -15,10 +15,8 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 
-export interface GlassInputProps extends Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  "size"
-> {
+export interface GlassInputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   /**
    * GlassInput variant
    */
@@ -144,10 +142,13 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
 
     // Generate unique IDs for accessibility
     const inputId = useA11yId("glass-input");
-    const helperTextId =
-      helperText || errorText ? useA11yId("glass-input-helper") : undefined;
-    const errorId = errorText ? useA11yId("glass-input-error") : undefined;
-    const labelId = label ? useA11yId("glass-input-label") : undefined;
+    // PLAT-087: hooks run unconditionally; the condition gates the value.
+    const helperTextIdHook = useA11yId("glass-input-helper");
+    const errorIdHook = useA11yId("glass-input-error");
+    const labelIdHook = useA11yId("glass-input-label");
+    const helperTextId = helperText || errorText ? helperTextIdHook : undefined;
+    const errorId = errorText ? errorIdHook : undefined;
+    const labelId = label ? labelIdHook : undefined;
 
     const currentState = errorText ? "error" : state;
     const displayHelperText = errorText || helperText;
@@ -310,8 +311,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
                 "--liquid-glass-input-density": isFocused ? "0.95" : "0.92",
                 "--liquid-glass-focus-refraction": "1.15",
               } as React.CSSProperties),
-              background:
-                "var(--glass-primary-level3-surface)",
+              background: "var(--glass-primary-level3-surface)",
               border: "1px solid rgba(148, 163, 184, 0.24)",
               boxShadow:
                 "0 8px 22px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 0 12px rgba(255, 255, 255, 0.12)",
@@ -430,8 +430,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             liftOnHover
             press
             style={{
-              background:
-                "var(--glass-primary-level3-surface)",
+              background: "var(--glass-primary-level3-surface)",
               border: "1px solid rgba(148, 163, 184, 0.24)",
               boxShadow:
                 "0 8px 22px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.24), inset 0 0 12px rgba(255, 255, 255, 0.12)",
