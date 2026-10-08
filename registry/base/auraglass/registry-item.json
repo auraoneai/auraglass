@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "auraglass",
+  "type": "registry:base",
+  "title": "AuraGlass",
+  "description": "AuraGlass 5.0 design system base — package dependency, layer import and shadcn variable bridge generated from the token manifest.",
+  "dependencies": ["aura-glass@^5", "clsx@^2.1.1"],
+  "registryDependencies": [],
+  "files": [
+    { "path": "lib/auraglass.ts", "type": "registry:item", "target": "lib/auraglass.ts" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "base",
+      "client": false,
+      "components": [],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
+}

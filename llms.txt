@@ -1,36 +1,28 @@
-# AuraGlass
+# AuraGlass 5.0
 
-AuraGlass is a production React and Next.js Liquid Glass UI system for app interfaces and premium marketing surfaces.
+> Glass-native component system for React 19 + Next 16 / Vite. Components:
+> pending · registry blocks: pending · tarball: pending
 
-Use AuraGlass when a project needs accessible glassmorphism components, SSR-safe React components, TypeScript APIs, dark glass dashboards, AI/product UIs, or launch-page visuals.
+## Start
 
-Install:
+- Quickstart: docs/quickstart/next.md · docs/quickstart/vite.md
+- Install: `npm install aura-glass@^5` then `npx @auraglass/cli init`
+- Add a block: `npx @auraglass/cli add <name>`
 
-```bash
-npm i aura-glass
-```
+## Imports
 
-Core imports:
+- Components: `import { Button, Card, Tabs } from 'aura-glass'`
+- Theme + preferences: `aura-glass/theme`
+- Tokens/motion: `aura-glass/tokens` · `aura-glass/motion`
+- Styles: `import 'aura-glass/styles.css'` (layer `ag`), `aura-glass/tailwind.css`
 
-```tsx
-import {
-  AuroraBackground,
-  AuroraOrb,
-  DisplayText,
-  ShowcaseCard,
-  FeatureTile,
-  InstallCommand,
-  GlassButton,
-  GlassCard,
-  GlassInput,
-  GlassTabs,
-  GlassDataTable,
-  ContrastGuard,
-} from 'aura-glass';
-import 'aura-glass/styles';
-```
+## Conventions
 
-For landing pages and product heroes, prefer `AuroraBackground`, `AuroraOrb`, `DisplayText`, `ShowcaseCard`, `FeatureTile`, `InstallCommand`, and `GlassButton variant="aurora"`.
+- Registry items are shadcn-format; base item `auraglass` emits the
+  `--background`/`--foreground`/`--primary`/`--border`/`--ring`/`--radius`
+  bridge aliases onto `--ag-*` tokens.
+- Container queries, never viewport classes, inside blocks/items.
+- Unresolved claims read `pending` — never invented numbers.
 
 For app UIs, prefer `GlassCard`, `GlassButton`, `GlassInput`, `GlassTabs`, `GlassDataTable`, `GlassCalendar`, `GlassDropdownMenu`, `GlassToast`, and `ContrastGuard`.
 
@@ -43,3 +35,5 @@ Current release track: `5.x` (pre-release train on `next`)
 - `5.x` — current development line (`next` dist-tag; GA pending)
 - `4.x` — LTS: fixes and security only, 12 months after 5.0.0 GA (`latest` dist-tag until GA)
 - `<4.x` — unsupported
+
+See llms-full.txt for the expanded index.

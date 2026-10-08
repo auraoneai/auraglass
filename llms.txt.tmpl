@@ -1,0 +1,27 @@
+# AuraGlass 5.0
+
+> Glass-native component system for React 19 + Next 16 / Vite. Components:
+> <!-- ag:claim component-count --> · registry blocks: <!-- ag:claim registry-block-count --> · tarball: <!-- ag:claim tarball-mb -->
+
+## Start
+
+- Quickstart: docs/quickstart/next.md · docs/quickstart/vite.md
+- Install: `npm install aura-glass@^5` then `npx @auraglass/cli init`
+- Add a block: `npx @auraglass/cli add <name>`
+
+## Imports
+
+- Components: `import { Button, Card, Tabs } from 'aura-glass'`
+- Theme + preferences: `aura-glass/theme`
+- Tokens/motion: `aura-glass/tokens` · `aura-glass/motion`
+- Styles: `import 'aura-glass/styles.css'` (layer `ag`), `aura-glass/tailwind.css`
+
+## Conventions
+
+- Registry items are shadcn-format; base item `auraglass` emits the
+  `--background`/`--foreground`/`--primary`/`--border`/`--ring`/`--radius`
+  bridge aliases onto `--ag-*` tokens.
+- Container queries, never viewport classes, inside blocks/items.
+- Unresolved claims read `pending` — never invented numbers.
+
+See llms-full.txt for the expanded index.

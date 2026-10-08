@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "auth",
+  "type": "registry:block",
+  "title": "Auth",
+  "description": "Sign-in / sign-up / password-reset card on the AuraGlass field grammar (replaces the 4.x auth surfaces).",
+  "dependencies": ["react", "aura-glass@^5"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "block",
+      "client": true,
+      "components": ["Button", "Card", "Field", "Link", "Separator", "Text", "TextField"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": ["login-form"]
+    }
+  }
+}

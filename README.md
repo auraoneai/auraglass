@@ -16,6 +16,9 @@ Build Liquid Glass React and Next.js interfaces without rebuilding glass surface
 [![React](https://img.shields.io/badge/React-18%20%7C%2019-61dafb)](https://react.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-14%20%7C%2015-black)](https://nextjs.org/)
 
+
+**5.0 status:** pending components · pending registry blocks · tarball pending
+
 Developers use AuraGlass to:
 
 - Ship polished dashboards, AI products, media tools, creator apps, and SaaS workspaces with a glass-native visual system.

@@ -1,0 +1,6 @@
+# Migrate from Radix
+
+Radix primitives → AuraGlass: `Dialog` → modal parts, `Tabs` → `Tabs.Root/List/Tab/Panel`, `Switch` → `Switch`, `DropdownMenu` → menu parts, `Tooltip` → tooltip parts.
+
+- Radix `asChild` → `render` prop on Text/Button.
+- Uncontrolled `defaultValue` pairs → `default*` + `on*Change` grammar.

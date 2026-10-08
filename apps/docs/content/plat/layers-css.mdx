@@ -1,0 +1,11 @@
+# Layers & CSS
+
+Two sheet families ship with 5.0:
+
+- `aura-glass/styles.css` — token cascade + component styles (layer `ag`)
+- `aura-glass/tailwind.css` — utility layer for the registry items' container queries
+
+Order matters: the `ag` layer sits below app styles so your overrides win.
+The registry base item emits bridge aliases (`--background`, `--foreground`,
+`--primary`, `--border`, `--ring`, `--radius`) pointing at `--ag-*` vars, so
+shadcn-style consumer code binds to the same tokens.

@@ -4,11 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "next build"
+    "build": "next build",
+    "dev": "next dev",
+    "start": "npx serve out"
   },
   "dependencies": {
-    "next": "16.4.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "aura-glass": "file:../../.artifacts/pack/aura-glass-5.0.0-alpha.0.tgz",
+    "next": "16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5.9"
   }
 }

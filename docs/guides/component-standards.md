@@ -601,7 +601,6 @@ When reviewing component implementations:
 - [Design System Enforcement](./design-system-enforcement.md)
 - [Button Spacing Guide](./button-spacing.md)
 - [Glass Utility Reference](../glass-utilities.md)
-- [Migration Guide](./migration.md)
 - [Accessibility Guide](./accessibility.md)
 
 ---

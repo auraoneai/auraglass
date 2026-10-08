@@ -1,0 +1,7 @@
+@import "aura-glass/styles.css";
+
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 0; }
+body { margin: 0; font-family: var(--ag-font-sans, system-ui); color: var(--ag-on-surface); background: var(--ag-color-canvas); }
+main { padding: 1rem; max-width: 72rem; }
+@media (max-width: 320px) { main { padding: 0.5rem; } }

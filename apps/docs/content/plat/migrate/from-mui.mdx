@@ -1,0 +1,6 @@
+# Migrate from MUI
+
+MUI → AuraGlass mappings: `Box` → surface primitives, `Button` → `Button`, `TextField` → `TextField`, `DataGrid` → `Table` (`aura-glass/data`), `ThemeProvider` → `AuraGlassProvider` (`aura-glass/theme`).
+
+- Drop `@mui/*` imports; there is no sx prop — compose with container queries.
+- Emotion styling becomes the `ag` layer + `--ag-*` tokens.

@@ -1,0 +1,19 @@
+[
+ "docs/guides/component-standards.md::// Bad: Hardcoded colors\n<div style={{ color: '#",
+ "docs/guides/component-standards.md::// Bad: Inline glass styles\n<div style={{ backdr",
+ "docs/guides/component-standards.md::// Bad: No focus management\n<div onClick={handle",
+ "docs/guides/component-standards.md::// Bad: Random elevation values\n<GlassCard eleva",
+ "docs/guides/component-standards.md::// Required attributes\nclassName=\"glass-focus\"  ",
+ "docs/guides/component-standards.md::// Small: 32px height, 12px padding\n<GlassButton",
+ "docs/guides/component-standards.md::// ❌ Bad: Hardcoded values\n<OptimizedGlass\n  sty",
+ "docs/guides/component-standards.md::// ❌ Bad: Numeric elevation\n<GlassCard elevation",
+ "docs/guides/elevation-guidelines.md::import { OptimizedGlass } from '@/primitives';\n\n",
+ "docs/guides/focus-management-guide.md::// Glass-specific focus\n<div className=\"glass-fo",
+ "docs/guides/focus-management-guide.md::// ✅ Automatic focus management - no extra code ",
+ "docs/guides/focus-management-guide.md::{\n  enabled?: boolean;\n  autoFocus?: boolean;\n  ",
+ "docs/guides/focus-management-guide.md::{\n  initialFocus?: RefObject<HTMLElement>;\n  ret",
+ "docs/guides/focus-management-guide.md::{\n  ref: RefObject<HTMLElement>;\n  focusState: {",
+ "docs/guides/focus-management-quick-reference.md::// ❌ DON'T: Make non-interactive elements focusa",
+ "docs/guides/focus-management-quick-reference.md::// ❌ DON'T: Remove focus outline\nbutton {\n  outl",
+ "docs/guides/focus-management-quick-reference.md::<button>Button</button>                  // ✅ Au"
+]
