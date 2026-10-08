@@ -593,6 +593,72 @@ module.exports = {
           }
         };
       }
+    },
+    // Disallow empty animate targets (TRUST-045 / REQ-MOT-64): single rule name
+    // absorbing no-empty-reduced-animate. Empty animate renders instantly; an
+    // initial={{ opacity: 0 }} with a conditional animate can leave the element
+    // permanently invisible.
+    'motion-no-empty-animate': {
+      meta: {
+        type: 'problem',
+        docs: {
+          description: 'Disallow empty animate objects and faded-in initial with a conditional animate.',
+          category: 'Motion',
+          recommended: true
+        },
+        fixable: null,
+        schema: [],
+        messages: {
+          emptyAnimate: 'animate={{}} has no target keys: an empty animate renders instantly — remove the prop or give it a real target.',
+          fadedConditional: 'initial={{opacity:0}} with a conditional animate can leave the element invisible: make the animate unconditional.'
+        }
+      },
+      create(context) {
+        const isEmptyObject = (expr) => {
+          if (!expr) return false;
+          const e = expr.type === 'TSAsExpression' ? expr.expression : expr;
+          return e.type === 'ObjectExpression' && e.properties.length === 0;
+        };
+        const isZeroOpacityLiteral = (expr) => {
+          if (!expr) return false;
+          const e = expr.type === 'TSAsExpression' ? expr.expression : expr;
+          if (e.type !== 'ObjectExpression') return false;
+          return e.properties.some((p) => {
+            if (p.type !== 'Property') return false;
+            const k = p.key.type === 'Identifier' ? p.key.name : String(p.key.value);
+            return k === 'opacity' && p.value && p.value.type === 'Literal' && Number(p.value.value) === 0;
+          });
+        };
+        const isConditional = (expr) => {
+          if (!expr) return false;
+          const e = expr.type === 'TSAsExpression' ? expr.expression : expr;
+          return e.type === 'ConditionalExpression'
+            || (e.type === 'LogicalExpression' && (e.operator === '&&' || e.operator === '??'));
+        };
+        const jsxExpr = (attr) =>
+          attr && attr.value && attr.value.type === 'JSXExpressionContainer' ? attr.value.expression : null;
+        const attrOf = (openingEl, name) =>
+          openingEl && openingEl.attributes
+            ? openingEl.attributes.find((a) => a.type === 'JSXAttribute' && a.name && a.name.name === name) || null
+            : null;
+        return {
+          JSXOpeningElement(el) {
+            const animate = attrOf(el, 'animate');
+            const init = attrOf(el, 'initial');
+            if (animate && isEmptyObject(jsxExpr(animate))) {
+              context.report({ node: animate, messageId: 'emptyAnimate' });
+            }
+            const initExpr = jsxExpr(init);
+            const hiddenLiteral = init && init.value && init.value.type === 'Literal' && init.value.value === 'hidden';
+            if (init && (isZeroOpacityLiteral(initExpr) || hiddenLiteral)) {
+              const animExpr = jsxExpr(animate);
+              if (animExpr && isConditional(animExpr)) {
+                context.report({ node: animate, messageId: 'fadedConditional' });
+              }
+            }
+          }
+        };
+      }
     }
   }
 };
