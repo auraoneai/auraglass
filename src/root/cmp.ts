@@ -73,3 +73,34 @@ export type {
   ComboboxEmptyProps, ComboboxChipsProps, ComboboxChipProps, ComboboxMode,
   ComboboxCreatable, ComboboxLoadContext,
 } from '../components/combobox';
+
+// CMP-239/243/225/228 (REQ-CMP-23, REQ-CMP-02): overlay lane root exports.
+// Popover/Tooltip/Menu/ContextMenu/Menubar/Toast remain contract-seed exports
+// until lanes 3f/3i replace internals — the names are frozen by S-30, so
+// exporting them now closes the root-export rows without touching their seams.
+export { Dialog } from '../components/dialog';
+export type {
+  DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
+  DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
+  DialogContentProps, DialogLayoutProps, DialogSize, DialogPlacement, DialogVariant,
+} from '../components/dialog';
+
+export { AlertDialog } from '../components/alert-dialog';
+export type {
+  AlertDialogRootProps, AlertDialogTriggerProps, AlertDialogContentProps,
+  AlertDialogPopupProps, AlertDialogButtonishProps, AlertDialogActionProps,
+  AlertDialogLayoutProps,
+} from '../components/alert-dialog';
+
+export { Sheet } from '../components/sheet';
+export type {
+  SheetRootProps, SheetTriggerProps, SheetPopupProps, SheetContentProps,
+  SheetButtonishProps, SheetActionProps, SheetLayoutProps, SheetSide, SheetPreset,
+} from '../components/sheet';
+export type { SheetDetent } from '../components/sheet';
+export { SheetHandle, useSheetDetents, resolveDetent } from '../components/sheet';
+
+export { Popover } from '../components/popover';
+export { Tooltip } from '../components/tooltip';
+export { Menu, ContextMenu, Menubar } from '../components/menu';
+export { Toast, useToast } from '../components/toast';

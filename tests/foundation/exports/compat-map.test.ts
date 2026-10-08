@@ -10,10 +10,10 @@
  */
 import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+const root = process.cwd();
 const COMPAT_INDEX = join(root, 'src/compat/index.ts');
 const FIXTURE_MAP = join(root, 'tests/compat/fixtures-map.json');
 

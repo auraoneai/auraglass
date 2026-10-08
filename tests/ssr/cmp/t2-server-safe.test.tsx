@@ -5,8 +5,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import * as React from 'react';
 import './ssr-polyfill';
 import { renderToStaticMarkup } from 'react-dom/server';
@@ -14,7 +13,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../../src/components/st
 import { Steps } from '../../../src/components/steps';
 import { AvatarGroup } from '../../../src/components/avatar';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
+const root = process.cwd();
 const SERVER_SOURCES = [
   'src/components/state-view/StateView.tsx',
   'src/components/steps/Steps.tsx',

@@ -2,7 +2,7 @@ import type { ReactNode, Ref } from 'react';
 import type { ControlSize } from '../control-shared/size';
 import type { ChangeDetails } from '../../contracts/components';
 
-/** BU render-prop shape, declared locally — .types.ts may not import @base-ui (foundation pattern). */
+/** BU render-prop shape, declared locally — .types.ts no headless-lib imports allowed here (foundation pattern). */
 export type RenderProp = import('react').ReactElement | ((props: any) => import('react').ReactElement);
 
 export interface SelectRootProps<Value = string> {
