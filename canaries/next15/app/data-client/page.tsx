@@ -1,5 +1,5 @@
 'use client';
-// SURF-238 — Next 15 + React 19.0 floor client page: imports every data/date
+// SURF-237 — Next 16 + React 19.3 client page: imports every data/date
 // flagship (and the root Timeline/ActivityFeed) so the QUAL harness can assert
 // client-manifest membership and zero hydration warnings in-browser.
 import {
