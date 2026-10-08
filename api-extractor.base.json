@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "apiReport": { "enabled": true, "reportFolder": "<projectFolder>/etc/api/" },
+  "docModel": { "enabled": false },
+  "dtsRollup": { "enabled": false },
+  "messages": {
+    "extractorMessageReporting": { "default": { "logLevel": "warning" } },
+    "compilerMessageReporting": { "default": { "logLevel": "none" } }
+  }
+}

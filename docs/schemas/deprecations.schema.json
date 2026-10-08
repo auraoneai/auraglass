@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "deprecations.schema.json",
+  "title": "DeprecationEntry (S-38)",
+  "type": "object",
+  "required": [
+    "$schema",
+    "version",
+    "entries"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "status",
+          "entry",
+          "symbol",
+          "since",
+          "removeIn",
+          "replacement",
+          "codemod",
+          "automation",
+          "breaking",
+          "message",
+          "doc"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^DEP-[PMCSQ]\\d+$"
+          },
+          "kind": {
+            "enum": [
+              "export",
+              "subpath",
+              "prop",
+              "prop-value",
+              "css-var",
+              "css-global",
+              "peer",
+              "dependency",
+              "engine",
+              "behavior",
+              "cli",
+              "data-attr",
+              "asset"
+            ]
+          },
+          "status": {
+            "anyOf": [
+              {
+                "const": "active"
+              },
+              {
+                "const": "planned"
+              }
+            ]
+          },
+          "entry": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "since": {
+            "type": "string",
+            "pattern": "^4\\.\\d+\\.\\d+$"
+          },
+          "removeIn": {
+            "anyOf": [
+              {
+                "const": "5.0.0"
+              },
+              {
+                "const": "6.0.0"
+              }
+            ]
+          },
+          "replacement": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {}
+            ]
+          },
+          "codemod": {
+            "anyOf": [
+              {
+                "enum": [
+                  "imports-subpaths",
+                  "canonical-names",
+                  "prop-grammar",
+                  "dead-optical-props",
+                  "providers",
+                  "css-vars",
+                  "deps",
+                  "removed",
+                  "ai-chat",
+                  "app-shell-slots",
+                  "media-backdrops",
+                  "reduced-motion-initial",
+                  "motion-imports",
+                  "motion-props"
+                ]
+              },
+              {}
+            ]
+          },
+          "automation": {
+            "anyOf": [
+              {
+                "const": "full"
+              },
+              {
+                "const": "mostly"
+              },
+              {
+                "const": "partial"
+              },
+              {
+                "const": "manual"
+              },
+              {
+                "const": "none"
+              }
+            ]
+          },
+          "breaking": {
+            "type": "string",
+            "pattern": "^B\\d+$"
+          },
+          "message": {
+            "type": "string"
+          },
+          "doc": {
+            "type": "string",
+            "pattern": "^#dep-.+$"
+          },
+          "compat": {
+            "type": "string"
+          },
+          "exception": {
+            "anyOf": [
+              {
+                "const": "security"
+              },
+              {
+                "const": "privacy"
+              },
+              {
+                "const": "crash"
+              },
+              {
+                "const": "legal"
+              },
+              {
+                "const": "honesty"
+              }
+            ]
+          },
+          "evidence": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,34 @@
+{
+  "changesets": {
+    "bumps": [
+      "minor",
+      "patch",
+      "minor"
+    ]
+  },
+  "class": "C-B",
+  "commitMarkers": {
+    "hasBang": false,
+    "hasBreaking": false,
+    "multiFamily": []
+  },
+  "deprecationsAdded": [],
+  "errors": [
+    "computed class C-B but the commits carry no '!' or 'BREAKING CHANGE:' marker",
+    "changeset bump 'minor', 'patch', 'minor' is below the floor for C-B ('major')"
+  ],
+  "perEntry": {},
+  "reasons": [
+    "dependencies removed: @base-ui/react, @tanstack/react-table, @tanstack/react-virtual",
+    "peerDependencies floor raised or entry removed: @react-three/drei, @react-three/fiber, react, react-dom, three, @internationalized/date, motion, react-aria-components, tailwindcss, d3-scale, d3-shape",
+    "package.json engines changed",
+    "package.json exports removed: ./material, ./motion, ./date, ./ai, ./media, ./backdrops, ./charts, ./compat, ./styles.css, ./tokens.css, ./material.css, ./tailwind.css, ./compat/tokens.css, ./compat/globals.css, ./deprecations.json",
+    "frozen contract surface touched: contracts/ownership.json, contracts/packages.json, src/contracts/fragments.ts, src/contracts/load-fragments.mjs"
+  ],
+  "removals": [],
+  "visual": {
+    "cells": 0,
+    "record": null,
+    "status": "pending"
+  }
+}
