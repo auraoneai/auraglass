@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "_comment": "PLAT-014/015: rows = {job, line, firstGreenPipelineUrl, sha, date}. A REQUIRED_JOBS gate stays allow_failure:true on a line until a row here records its first green pipeline on that line; contract:ci-fragments enforces the flip.",
+  "activations": []
+}

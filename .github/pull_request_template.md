@@ -1,50 +1,24 @@
-# Summary
+## Summary
 
-Describe the change and the user-facing behavior it affects.
+<!-- what changed and why; link the task ids (PLAT-___, REQ-___) -->
 
-## Scope
+## GitLab pipeline URL for head SHA
 
-- [ ] Package source
-- [ ] Documentation or README
-- [ ] GitHub/community metadata
-- [ ] Release evidence
-- [ ] Tests or audit tooling
-- [ ] Website handoff only; no website repo edits in this PR
+<!-- REQUIRED: paste the URL printed by `node scripts/ci/gitlab-status.mjs --sha <head>`
+     once it reports `success`. The mirror lags ~a day (W-6) — see
+     docs/release/branch-policy.md. -->
 
-## Package Checks
+## Checklist
 
-Run the focused checks that match the change. Do not mark a gate complete unless it was run on this branch.
+- [ ] `node scripts/ci/gitlab-status.mjs --sha <head>` → success (pipeline URL above)
+- [ ] changeset added (`.changeset/plat-<lane>-<topic>.md`) for user-visible changes
+- [ ] line-neutral lane files landed on both `next` and `release/4.x` (when applicable)
+- [ ] no `.github/workflows/*` additions; `mirror-to-gitlab.yml` untouched
+- [ ] tests updated: `npx jest <touched>` and `npm run typecheck` pass
 
-- [ ] `npm run typecheck`
-- [ ] `npm run lint:check`
-- [ ] `npm run lint:tokens`
-- [ ] `npm run lint:styles`
-- [ ] `npm test -- --runInBand`
-- [ ] `npm run audit:components`
-- [ ] `npm run audit:exports`
-- [ ] `npm run audit:api`
-- [ ] `npm run audit:runtime`
-- [ ] `npm run build`
-- [ ] `npm run verify:pack`
-- [ ] `npm run test:integration:next -- --skip-build`
-- [ ] `npm run release:dry-run`
+## Trailers (only when applicable)
 
-## Visual QA
+- `Multi-Family: yes` — when the change spans multiple ownership families
+- `Perf-Budget-Raise: <reason>` — when a perf/size budget is raised
 
-- [ ] Storybook preview checked
-- [ ] Desktop viewport checked
-- [ ] Mobile viewport checked
-- [ ] Reduced motion checked
-- [ ] Dark theme checked
-- [ ] Screenshots or contact sheets attached when visual output changed
-
-## Documentation
-
-- [ ] README/npm-facing copy updated if public behavior changed
-- [ ] Component docs updated if API or usage changed
-- [ ] Changelog updated
-- [ ] 3.1 evidence scaffold updated when a launch gate changed
-
-## Risk
-
-List known risks, follow-ups, and any gates intentionally not run.
+[Written by Devin](https://app.devin.ai/sessions/64e809634f8349d9b91f7ea4ec03fec3)
