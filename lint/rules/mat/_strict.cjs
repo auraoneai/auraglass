@@ -6,12 +6,15 @@
    MAT-180: after each family deletion/migration PR (2e-B consumes the
    removal lanes), add that family's glob here so its optics are enforced at
    'error' while the rest of src/ stays at 'warn' via optics-baseline.json
-   ratchet. On 5.0 GA the whole src/ glob escalates. */
+   ratchet. On 5.0 GA the whole src/ glob escalates.
+
+   MAT-233 wiring (REQ-MOT-64): motion-no-empty-animate is error on src/**;
+   all other MOT rules stay warn until MOT-090 flips them. */
+'use strict';
 module.exports = {
   strict: {
+    'motion-no-empty-animate': ['src/**/*.{ts,tsx,js,jsx}'],
     // family globs land here per migration PR (MAT-180), e.g.
     // 'no-optics-outside-material': ['src/components/table/**', ...]
-    // (an empty array is an invalid flat-config `files` value — the plugin
-    // would reject it, so the table stays empty until the first family lands).
   },
 };

@@ -1,0 +1,7 @@
+@layer ag.material {
+  [data-ag-interactive] {
+    transition: opacity var(--ag-duration-small) var(--ag-ease-standard),
+      transform var(--ag-duration-small) var(--ag-spring-snappy);
+  }
+}
+@keyframes ag-sweep { from { translate: -100% 0; } to { translate: 100% 0; } }
