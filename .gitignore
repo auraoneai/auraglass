@@ -179,6 +179,11 @@ tests/visual/**/*.spec.ts-snapshots/
 /reports/
 /deprecations.json
 /registry/registry.json
+/registry/registry-report.json
+/packages/registry/r/
+/packages/registry/index.json
+/packages/mcp/data/
+/packages/mcp/dist/
 /packages/cli/src/migrate/4to5/mappings/
 /apps/docs/out/
 /apps/docs/generated/

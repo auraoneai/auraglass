@@ -1,0 +1,25 @@
+{
+  "name": "@auraglass/registry",
+  "version": "5.0.0-alpha.0",
+  "description": "AuraGlass 5.0 shadcn-format registry data — r/*.json items plus index.json. Data-only; built by scripts/registry/build.mjs.",
+  "type": "module",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "r",
+    "index.json",
+    "PUBLISHING.md"
+  ],
+  "exports": {
+    "./index.json": "./index.json",
+    "./r/*.json": "./r/*.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prepublishOnly": "node ../../scripts/release/require-ci-publish.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
