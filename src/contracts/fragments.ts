@@ -65,7 +65,7 @@ export interface LaneRegistration {
 export interface PlaywrightProjectFragment { name: `${StreamKey}:${string}`; testDir: string; testMatch?: string; use?: Record<string, unknown> }
 
 // ---- S-45 other fragments ----
-export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
+export interface CssFragment { file: string; layer: 'ag.compat' | 'ag.reset' | 'ag.tokens' | 'ag.material' | 'ag.components' | 'ag.a11y'; bundle: 'styles.css' | 'tokens.css' | 'material.css' | 'data.css' | 'date.css' | 'ai.css' | 'media.css' | 'app-shell.css' | 'backdrops.css' | 'charts.css' | 'compat/tokens.css' | 'compat/globals.css'; order?: number }
 export interface SideEffectException { module: string; reason: string; expires: string /* version */ }
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }

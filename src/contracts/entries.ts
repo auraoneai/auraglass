@@ -26,8 +26,16 @@ export const ENTRIES: readonly EntrySpec[] = [
   { subpath: './media', source: 'src/media/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/media.css',
     exports: ['MediaControls', 'NowPlayingBar', 'ImageViewer', 'CarouselRail', 'useMediaElement', 'MediaScrubber', 'formatMediaTime'] },
   { subpath: './backdrops', source: 'src/backdrops/index.ts', owner: 'SURF', ga: '5.0', css: 'dist/backdrops.css', exports: ['Backdrop'] },
+<<<<<<< HEAD
   { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: [] }, // OI-01: no 4.x three component ported; exports: [] at 5.0, ga kept
   { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'] },
+||||||| d02a05b0
+  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: ['@unchanged-from-4.1.0'] },
+  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'] },
+=======
+  { subpath: './three', source: 'src/three/index.ts', owner: 'SURF', ga: '5.0', exports: ['@unchanged-from-4.1.0'] },
+  { subpath: './charts', source: 'src/charts/index.ts', owner: 'SURF', ga: '5.1', exports: ['Chart'], css: 'dist/charts.css' },
+>>>>>>> contract/charts-peers
   { subpath: './compat', source: 'src/compat/index.ts', owner: 'PLAT', ga: '5.0', exports: ['@union of src/compat/<stream>/index.ts'] },
   // CSS-only and data entries (PLAT assembles from fragments/css/*):
   { subpath: './styles.css', source: 'build:css', owner: 'PLAT', ga: '5.0', exports: [] },

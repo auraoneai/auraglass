@@ -105,7 +105,8 @@
    "subpath": "./charts",
    "source": "src/charts/index.ts",
    "types": "dist/charts/index.d.ts",
-   "default": "dist/charts/index.js"
+   "default": "dist/charts/index.js",
+   "css": "dist/charts.css"
   },
   {
    "subpath": "./compat",
