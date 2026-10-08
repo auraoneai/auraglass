@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "apg-coverage-mat",
+  "version": 1,
+  "owner": "MAT",
+  "note": "MAT-309/320: every interactive MAT-owned component maps to an APG spec path, owner PRD and required keys from the §5.8 table. verify-apg-coverage.mjs fails on absent specs or missing keys; ratchet until beta (--enforce).",
+  "components": {
+    "GlassPreferencesPanel": {
+      "spec": "tests/a11y/apg/mat/glass-preferences-panel.apg.spec.ts",
+      "prd": "PRD-MAT",
+      "requiredKeys": ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Tab"]
+    },
+    "AuraGlassProvider": {
+      "spec": null,
+      "prd": "PRD-MAT",
+      "requiredKeys": [],
+      "reason": "non-interactive: no focusable surface"
+    },
+    "HitArea": {
+      "spec": null,
+      "prd": "PRD-MAT",
+      "requiredKeys": [],
+      "reason": "non-interactive: aria-hidden presentation span"
+    }
+  }
+}

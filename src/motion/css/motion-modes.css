@@ -1,0 +1,88 @@
+/* aura-glass 5.0 — motion modes (REQ-MAT-44/45, REQ-MOT-20/-21/-110/-113/-117).
+   Layer: ag.a11y (REQ-MAT-19). Layer order does the escalation work, so every
+   selector stays at or below the (0,2,0) a11y specificity cap via :where().
+   calm = attribute mode; the @media mirror applies only when no attribute is set
+   (S-12: prefers-reduced-motion caps resolved motion at calm, never above). */
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+@layer ag.a11y {
+
+  /* ---- calm (REQ-MOT-20): opacity cross-fades keep token durations;
+     transforms settle instantly; springs become --ag-ease-standard;
+     hover/press light response is instant; infinite animation stops. ---- */
+  [data-ag-motion=calm] :where([data-ag-part], [data-ag-surface]),
+  :where([data-ag-motion=calm][data-ag-part], [data-ag-motion=calm][data-ag-surface]) {
+    /* every spring token resolves to the standard ease in calm subtrees */
+    --ag-spring-snappy: var(--ag-ease-standard);
+    --ag-spring-smooth: var(--ag-ease-standard);
+    --ag-spring-fluid: var(--ag-ease-standard);
+    /* pointer light frozen (JS install is gated separately) */
+    --_ag-pointer: 50% 50%;
+    /* no finite or infinite CSS animation survives calm */
+    animation: none;
+  }
+
+  /* starting/ending styles lose their transforms — opacity cross-fade stays */
+  [data-ag-motion=calm] :where([data-starting-style], [data-ending-style]) {
+    scale: none;
+    translate: none;
+    rotate: none;
+  }
+
+  /* hover/press light response is instant in calm */
+  [data-ag-motion=calm] :where([data-ag-interactive]),
+  :where([data-ag-motion=calm][data-ag-interactive]) {
+    transition-duration: 0s;
+  }
+
+  /* OS reduced motion mirrors calm exactly when the attribute is absent */
+  @media (prefers-reduced-motion: reduce) {
+    :root:not([data-ag-motion]) :where([data-ag-part], [data-ag-surface]),
+    :root:not([data-ag-motion]):where([data-ag-part], [data-ag-surface]) {
+      --ag-spring-snappy: var(--ag-ease-standard);
+      --ag-spring-smooth: var(--ag-ease-standard);
+      --ag-spring-fluid: var(--ag-ease-standard);
+      --_ag-pointer: 50% 50%;
+      animation: none;
+    }
+    :root:not([data-ag-motion]) :where([data-starting-style], [data-ending-style]) {
+      scale: none;
+      translate: none;
+      rotate: none;
+    }
+    :root:not([data-ag-motion]) :where([data-ag-interactive]) {
+      transition-duration: 0s;
+    }
+  }
+
+  /* ---- none (REQ-MOT-21): scoped to library parts/surfaces only — never '*'. ---- */
+  [data-ag-motion=none] :where([data-ag-part], [data-ag-surface]),
+  :where([data-ag-motion=none][data-ag-part], [data-ag-motion=none][data-ag-surface]) {
+    transition-duration: 0s;
+    animation: none;
+  }
+
+  /* ---- forced colors (REQ-MOT-113): pointer light, sweeps and optics fades off;
+     focus rings (and everything else) never transition — paint properties only. ---- */
+  @media (forced-colors: active) {
+    :root :where([data-ag-part], [data-ag-surface]),
+    :root:where([data-ag-part], [data-ag-surface]) {
+      --_ag-pointer: 50% 50%;
+      --_ag-optics: 1;
+      animation: none;
+      transition-property: color, background-color, border-color, outline-color;
+    }
+  }
+
+  /* ---- reduced highlights (REQ-MOT-117, S-01 data-ag-highlights):
+     presence of the attribute means reduced; kills pointer light,
+     press glow and sweeps independent of the resolved motion mode. ---- */
+  :where([data-ag-highlights]) :where([data-ag-part], [data-ag-surface]),
+  :where([data-ag-highlights][data-ag-part], [data-ag-highlights][data-ag-surface]),
+  :where([data-ag-highlights=reduced]) :where([data-ag-part], [data-ag-surface]),
+  :where([data-ag-highlights=reduced][data-ag-part], [data-ag-highlights=reduced][data-ag-surface]) {
+    --_ag-pointer: 50% 50%;
+    --_ag-press: 0;
+    animation: none;
+  }
+}

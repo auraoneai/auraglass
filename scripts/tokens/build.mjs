@@ -1,89 +1,335 @@
 #!/usr/bin/env node
-/* @ag-contract-seed: S-10, S-11, S-52. Owner MAT replaces internals with the real Style Dictionary
-   compiler; the CLI contract (npm run tokens:build, output paths) is frozen.
-   Seed: writes TOKEN_OUTPUTS from PUBLIC_CSS_VARS and MOTION_CSS_VARS with placeholder values
-   ('initial' for colours, '0' for dimensions); every CSS file is layered per S-04. Idempotent. */
-import { build } from 'esbuild';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+/* MAT-007 token compiler entry: validate -> load -> resolve aliases -> expand modes ->
+   emit formats -> prettier. Replaces the C0 placeholder writer; keeps the CLI contract
+   (npm run tokens:build) and all TOKEN_OUTPUTS paths.
+
+   Failure contract (exit 1 naming the offending token path):
+     - schema violation            (validate.mjs)
+     - unresolved alias            resolveAliases()
+     - alias cycle                 resolveAliases()
+     - material.* alias to non-sys guardMaterialAliases()
+     - preset defining material.*  guardPresets()
+     - preset/theme output containing --_ag-*  emitTokensCss()
+   Flags: --fixtures <dir> (token root override), --out <dir> (output root override,
+   used by tests/tokens/determinism.test.ts to build into temp dirs). */
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { discoverTokenFiles, validateTokenFile, loadSchema, isAlias } from './validate.mjs';
+import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from './color.mjs';
+import { springToLinear, springDurationMs, compileSpring } from './transforms/motion-spring.mjs';
+import { buildLadders, buildFloors } from './transforms/glass-material.mjs';
+import { solveContrastMatrix, matrixJson } from './transforms/contrast-solve.mjs';
+import { createHash } from 'node:crypto';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-async function loadContract(specifier) {
-  const res = await build({
-    stdin: { contents: `export * from '${specifier}';`, resolveDir: root, loader: 'ts' },
-    bundle: true, write: false, format: 'esm', platform: 'node', logLevel: 'silent',
+export const AXIS_ORDER = ['scheme', 'contrast', 'transparency', 'density', 'preset'];
+
+// ---------- load ----------
+
+/** Flatten a token-file tree into records: { name, type, ext, value, file, group }. */
+function flattenTree(tree, file) {
+  const out = new Map();
+  const walk = (node, keys, type, ext) => {
+    const t = node.$type ?? type;
+    const e = { ...(ext ?? {}), ...(node.$extensions ?? {}) };
+    if ('$value' in node) {
+      const name = keys.join('.');
+      out.set(name, { name, type: t, ext: Object.keys(e).length ? e : undefined, value: node.$value, file, group: keys.slice(1, -1).join('.') });
+      return;
+    }
+    for (const [k, v] of Object.entries(node)) {
+      if (k.startsWith('$')) continue;
+      walk(v, [...keys, k], t, e);
+    }
+  };
+  for (const [k, v] of Object.entries(tree)) if (!k.startsWith('$')) walk(v, [k], undefined, undefined);
+  return out;
+}
+
+export function loadTokens(tokenDir) {
+  const records = new Map();
+  for (const file of discoverTokenFiles(tokenDir)) {
+    const tree = JSON.parse(readFileSync(file, 'utf8'));
+    for (const [name, rec] of flattenTree(tree, file)) {
+      if (records.has(name)) die(`duplicate token path ${name} (${rec.file} vs ${file})`);
+      records.set(name, rec);
+    }
+  }
+  return records;
+}
+
+// ---------- alias resolution ----------
+
+const REF_RE = /\{([^{}]+)\}/g;
+
+/** Deep-resolve {a.b.c} aliases in a token value. Throws (with path) on unresolved/cycle. */
+export function resolveAliases(records) {
+  const resolved = new Map();
+  const stack = [];
+  const resolveRef = (name) => {
+    if (resolved.has(name)) return resolved.get(name);
+    const rec = records.get(name);
+    if (!rec) die(`unresolved alias {${name}} referenced from ${stack.at(-1) ?? 'unknown'}`);
+    if (stack.includes(name)) die(`alias cycle: ${[...stack, name].join(' -> ')}`);
+    stack.push(name);
+    const v = resolveValue(rec.value);
+    stack.pop();
+    resolved.set(name, v);
+    return v;
+  };
+  const resolveValue = (v) => {
+    if (typeof v === 'string') {
+      if (isAlias(v)) return resolveRef(v.slice(1, -1));
+      if (v.includes('{')) return v.replace(REF_RE, (_, p) => stringifyResolved(resolveRef(p)));
+      return v;
+    }
+    if (Array.isArray(v)) return v.map(resolveValue);
+    if (v && typeof v === 'object') {
+      const o = {};
+      for (const [k, x] of Object.entries(v)) o[k] = resolveValue(x);
+      return o;
+    }
+    return v;
+  };
+  for (const name of [...records.keys()].sort()) resolveRef(name);
+  return resolved;
+}
+
+const stringifyResolved = (v) => (v && typeof v === 'object' ? JSON.stringify(v) : String(v));
+
+/** material.* tokens may only alias sys.* or other material.* tokens (MAT-007 guard). */
+function guardMaterialAliases(records) {
+  for (const rec of records.values()) {
+    if (rec.ext?.['ag.tier'] !== 'material') continue;
+    const scan = (v) => {
+      if (typeof v === 'string') for (const m of v.matchAll(REF_RE)) {
+        const target = records.get(m[1]);
+        const tt = target?.ext?.['ag.tier'];
+        if (target && tt !== 'sys' && tt !== 'material')
+          die(`${rec.name}: material.* alias {${m[1]}} targets tier '${tt ?? 'none'}' (must alias sys.* or material.* only)`);
+      } else if (v && typeof v === 'object') for (const x of Object.values(v)) scan(x);
+    };
+    scan(rec.value);
+  }
+}
+
+/** presets must not define material.* keys or private vars (MAT-007 guards). */
+function guardPresets(records, resolved) {
+  for (const rec of records.values()) {
+    if (!rec.name.startsWith('preset.')) continue;
+    const v = resolved.get(rec.name);
+    if (JSON.stringify(v).includes('material.') || /"material"\s*:/.test(JSON.stringify(v)))
+      die(`${rec.name}: preset defines material.* keys`);
+    if (JSON.stringify(rec.value).includes('--_ag-'))
+      die(`${rec.name}: preset value contains private --_ag-* var`);
+  }
+}
+
+// ---------- mode expansion ----------
+
+/** Read tokens/modes/axes.tokens.json defs: axis -> {default, values, selectors}. */
+function readAxisDefs(records, resolved) {
+  const defs = {};
+  for (const rec of records.values()) {
+    const axis = rec.ext?.['ag.axisDef'];
+    if (typeof axis === 'string' && rec.name.startsWith('mode.')) defs[axis] = resolved.get(rec.name);
+  }
+  return defs;
+}
+
+/**
+ * Expand each public token into cells: [{ cssVar, value(rendered css string), axis, axisValue }].
+ * Non-mode tokens produce one base cell. Scheme-pair colors emit light-dark() at base plus a
+ * 'dark' cell for the fallback block. mode-table leaves expand per axis value.
+ */
+export function expandModes(records, resolved, axisDefs) {
+  const cells = [];
+  for (const [name, rec] of [...records.entries()].sort()) {
+    const ext = rec.ext ?? {};
+    const cssVar = ext['ag.cssVar'];
+    const isPublic = ext['ag.public'] === true && typeof cssVar === 'string';
+    const type = rec.type;
+    const v = resolved.get(name);
+
+    if (type === 'mode-table' && ext['ag.axisDef']) continue;                 // axis defs emit nothing
+    if (typeof ext['ag.axisDef'] === 'string') continue;                       // solver spec tokens
+    if (ext['ag.legacy'] === true) continue;                                   // frozen 4.x primitives emit nothing
+    // private tokens with a cssVar still emit (--_ag-* recipe/state vars);
+    // private tokens without one feed generators only
+    if (typeof cssVar !== 'string' && type !== 'motion-spring') continue;
+
+    if (type === 'mode-table') {
+      for (const [key, cell] of Object.entries(v)) {
+        if (key === 'default') {
+          cells.push({ name, cssVar, type, value: cell, axis: null, axisValue: null, ext, renderType: ext['ag.valueType'] ?? 'number' });
+          continue;
+        }
+        let axis = ext['ag.axis'];
+        let axisValue = key;
+        if (key.includes('.')) [axis, axisValue] = key.split('.');
+        if (!axis) die(`${name}: mode-table cell '${key}' has no axis (use '<axis>.<value>' keys or set ag.axis)`);
+        const def = axisDefs[axis];
+        if (!def) die(`${name}: mode-table cell '${key}' names unknown axis '${axis}'`);
+        if (!def.values.includes(axisValue))
+          die(`${name}: mode-table cell '${axisValue}' not an axis value of '${axis}' (${def.values.join('/')})`);
+        cells.push({ name, cssVar, type, value: cell, axis, axisValue, ext, renderType: ext['ag.valueType'] ?? 'number' });
+      }
+      continue;
+    }
+    if (type === 'color' && v && typeof v === 'object' && 'light' in v && 'dark' in v) {
+      cells.push({ name, cssVar, type, value: v, axis: 'scheme', axisValue: 'light', ext, renderType: 'color' });
+      cells.push({ name, cssVar, type, value: v.dark, axis: 'scheme', axisValue: 'dark', ext, renderType: 'color', fallbackOnly: true });
+      continue;
+    }
+    cells.push({ name, cssVar, type, value: v, axis: null, axisValue: null, ext, renderType: type });
+  }
+  return cells;
+}
+
+// ---------- value rendering ----------
+
+const dim = (v) => `${v.value}${v.unit}`;
+// ---------- emit ----------
+
+// ---------- emitters (contract module paths) ----------
+import { emitTokensCss, HEADER_CSS, LAYER_ORDER } from './formats/css-layered.mjs';
+import { emitTokensTs, emitPresetsTs, emitMotionTs, emitMaterialSpecTs } from './formats/ts-constants.mjs';
+import { emitManifest, emitManifestTs } from './formats/manifest.mjs';
+import { emitTailwind } from './formats/tailwind-bridge.mjs';
+import { emitRegistry } from './formats/registry-cssvars.mjs';
+import { buildProperties } from './formats/property-registry.mjs';
+import { prettierFormat, die } from './formats/_shared.mjs';
+
+// ---------- driver ----------
+
+export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT, quiet = false } = {}) {
+  const schema = loadSchema(join(tokenDir, '$schema.json'));
+  const files = discoverTokenFiles(tokenDir);
+  const errors = [];
+  for (const f of files) {
+    let tree;
+    try { tree = JSON.parse(readFileSync(f, 'utf8')); }
+    catch (e) { die(`${f}: invalid JSON: ${e.message}`); }
+    for (const e of validateTokenFile(tree, schema, f)) errors.push(`${f} at ${e.path}: ${e.message}`);
+  }
+  if (errors.length) die(`schema violations:\n  ${errors.join('\n  ')}`);
+
+  const records = loadTokens(tokenDir);
+  guardMaterialAliases(records);
+  const resolved = resolveAliases(records);
+  guardPresets(records, resolved);
+  const axisDefs = readAxisDefs(records, resolved);
+  const cells = expandModes(records, resolved, axisDefs);
+
+  const write = (rel, content) => {
+    const p = join(outRoot, rel);
+    mkdirSync(dirname(p), { recursive: true });
+    const prev = existsSync(p) ? readFileSync(p, 'utf8') : null;
+    if (prev !== content) writeFileSync(p, content);
+    if (!quiet) console.log(`${prev === content ? 'ok' : 'wrote'} ${relative(ROOT, p)}`);
+  };
+
+  // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
+  const tokensCss = await emitTokensCss(cells, axisDefs, records, resolved);
+  write('dist/tokens.css', tokensCss);
+  const { tokensTs } = await emitTokensTs(cells);
+  write('src/tokens/generated/tokens.ts', tokensTs);
+  write('src/tokens/generated/tokens.d.ts', tokensTs.replace("export function token", "export declare function token").replace('{\n  return tokens[path];\n}', ';'));
+  // aura-glass/tokens map exposes exactly {tokens, token, materialSpec, manifest} (MAT-078)
+  write('src/tokens/generated/material-spec.ts', await emitMaterialSpecTs(records, resolved));
+  write('src/tokens/generated/presets.ts', await emitPresetsTs(records, resolved));
+  // manifest.ts emitted after dist/tokens/manifest.json at the end of runBuild
+
+  write('src/tokens/index.ts', [
+    '/* @generated by scripts/tokens/build.mjs. Do not edit by hand. */',
+    "export { tokens, token } from './generated/tokens.js';",
+    "export type { TokenName, TokenPath } from './generated/tokens.js';",
+    "export { materialSpec } from './generated/material-spec.js';",
+    "export { manifest } from './generated/manifest.js';",
+    '',
+  ].join('\n'));
+  write('src/motion/tokens.generated.ts', await emitMotionTs(records, resolved));
+
+  // contrast matrix first: floors consume its solved tint floors (MAT-046/047/048)
+  const specPath = join(tokenDir, 'contrast', 'contrast-matrix.tokens.json');
+  const matrix = solveContrastMatrix(records, resolved);
+  matrix.inputSha256 = createHash('sha256').update(readFileSync(specPath, 'utf8')).digest('hex');
+  write('dist/contrast-matrix.json', matrixJson(matrix));
+  // MAT-047: committed solver output at the canonical generated path — nested
+  // [preset][scheme][contrast][transparency][variant][thickness][backdrop] ->
+  // {floorAlpha, minRatio, pair, apcaLc}, keys sorted; never hand-edited.
+  write('tokens/generated/opacity-floors.json', matrixJson({
+    version: 1,
+    generatedFrom: matrix.generatedFrom,
+    inputSha256: matrix.inputSha256,
+    cells: matrix.cells,
+  }));
+  // MAT-091: the DS-owned busy-reference artefact — exact 9 sRGB samples + composite list.
+  write('tokens/contrast/busy-reference.json', JSON.stringify({
+    version: 1,
+    busy: ['#777777', '#ff3b30', '#34c759', '#0a84ff', '#ffcc00', '#af52de', '#ff9500', '#5ac8fa', '#8e8e93'],
+    composites: ['#ffffff', '#000000', 'busy'],
+  }, null, 1) + '\n');
+
+  // material ladders + floors + @property registrations (MAT-026/027, transforms MAT-038+)
+  const laddersCss = await prettierFormat(buildLadders(records, resolved), 'css');
+  const floorsCss = await prettierFormat(buildFloors(records, resolved, matrix), 'css');
+  const propertiesCss = await prettierFormat(buildProperties(), 'css');
+  write('src/material/css/generated/ladders.css', laddersCss);
+  write('src/material/css/generated/floors.css', floorsCss);
+  write('src/material/css/generated/properties.css', propertiesCss);
+
+  // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
+  const tailwindCss = await emitTailwind(cells, records, resolved);
+  write('dist/css/tokens.css', tokensCss);
+  write('dist/css/tailwind.css', tailwindCss);
+  write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports
+  write('dist/tokens/registry-cssvars.json', emitRegistry(cells));
+
+  // compat aliases (MAT-073): map file is owned by another lane; emit only if present
+  // compat layer: frozen 4.x primitives + alias map (MAT-073..076)
+  if (existsSync(join(tokenDir, 'legacy', '4x-rendered.tokens.json'))) {
+    const { emitCompat } = await import('./formats/compat-aliases.mjs');
+    const { count } = emitCompat(write, tokenDir);
+    if (!quiet) console.log(`compat: ${count} reader names mapped`);
+  }
+  const compatMap = join(tokenDir, 'compat-alias-map.json');
+  if (existsSync(compatMap)) {
+    const map = JSON.parse(readFileSync(compatMap, 'utf8'));
+    const lines = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.compat {', '  :root {'];
+    for (const [oldName, newName] of Object.entries(map).sort())
+      if (newName) lines.push(`    ${oldName}: var(${newName});`);
+    lines.push('  }', '}', '');
+    write('dist/compat/tokens.css', await prettierFormat(lines.join('\n'), 'css'));
+  }
+
+  // manifest LAST: consumers counts cover every emitted css + hand-written src
+  const readerCorpus = [tokensCss, laddersCss, floorsCss, propertiesCss, tailwindCss];
+  const walkSrc = (d) => {
+    if (!existsSync(d)) return;
+    for (const name of readdirSync(d).sort()) {
+      if (name === 'node_modules' || name.startsWith('.')) continue;
+      const p = join(d, name);
+      if (statSync(p).isDirectory()) walkSrc(p);
+      else if (/\.(ts|tsx|css)$/.test(name) && !p.includes('/generated/') && !p.includes('__tests__'))
+        readerCorpus.push(readFileSync(p, 'utf8'));
+    }
+  };
+  walkSrc('src');
+  const manifestJson = emitManifest(records, cells, readerCorpus);
+  write('dist/tokens/manifest.json', manifestJson);
+  write('src/tokens/generated/manifest.ts', emitManifestTs(manifestJson));
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const args = process.argv.slice(2);
+  const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : undefined; };
+  const fixtures = flag('--fixtures');
+  const out = flag('--out');
+  await runBuild({
+    tokenDir: fixtures ? resolve(ROOT, fixtures) : join(ROOT, 'tokens'),
+    outRoot: out ? resolve(ROOT, out) : ROOT,
   });
-  const url = 'data:text/javascript;base64,' + Buffer.from(res.outputFiles[0].text).toString('base64');
-  return import(url);
 }
-
-const { PUBLIC_CSS_VARS, LAYER_ORDER_STATEMENT, TOKEN_OUTPUTS } = await loadContract('./src/contracts/tokens.ts');
-const { MOTION_CSS_VARS, DURATIONS_MS, AMBIENT_DURATION_MS, EASES, SPRINGS } = await loadContract('./src/contracts/motion.ts');
-
-const allVars = Object.values(PUBLIC_CSS_VARS).flat().concat([...MOTION_CSS_VARS]);
-const isColor = (name) => name.startsWith('--ag-color') || name.startsWith('--ag-surface') ||
-  ['--background', '--foreground', '--primary', '--primary-foreground', '--muted', '--border', '--ring'].includes(name);
-const value = (name) => (isColor(name) ? 'initial' : name === '--ag-density' ? '1' : '0');
-
-const write = (rel, content) => {
-  const p = join(root, rel);
-  mkdirSync(dirname(p), { recursive: true });
-  const prev = existsSync(p) ? readFileSync(p, 'utf8') : null;
-  if (prev !== content) writeFileSync(p, content);
-  console.log(`${prev === content ? 'ok' : 'wrote'} ${rel}`);
-};
-
-// dist/tokens.css — every public var at its placeholder value, under @layer ag.tokens (S-04)
-write(TOKEN_OUTPUTS.css.replace(/^dist\//, 'dist/'), [
-  LAYER_ORDER_STATEMENT, '', '@layer ag.tokens {', '  :root {',
-  ...allVars.map((v) => `    ${v}: ${value(v)};`), '  }', '}', '',
-].join('\n'));
-
-// dist/tokens/manifest.json — TokenManifest (S-11)
-write(TOKEN_OUTPUTS.manifest, JSON.stringify({
-  version: 1, generatedFrom: 'tokens/**/*.tokens.json',
-  tokens: allVars.map((v) => ({
-    name: v.replace(/^--(ag-)?/, '').replaceAll('-', '.'),
-    cssVar: v,
-    type: isColor(v) ? 'color' : 'dimension',
-    tier: 'sys', modes: {}, value: value(v),
-  })),
-}, null, 1) + '\n');
-
-// src/tokens/index.ts — committed generated module (S-10)
-write(TOKEN_OUTPUTS.ts, [
-  '/* @generated by scripts/tokens/build.mjs (seed). Do not edit by hand; MAT regenerates in its own PRs. */',
-  'export const tokens = {',
-  ...allVars.map((v) => `  ${JSON.stringify(v)}: 'var(${v})',`),
-  '} as const;',
-  'export type TokenName = keyof typeof tokens;', '',
-].join('\n'));
-
-// src/motion/tokens.generated.ts — committed generated module
-write(TOKEN_OUTPUTS.motionTs, [
-  '/* @generated by scripts/tokens/build.mjs (seed). Do not edit by hand; MAT regenerates in its own PRs. */',
-  'export const motionTokens = {',
-  ...Object.entries(DURATIONS_MS).flatMap(([d, v]) =>
-    [`  'duration-${d}': ${v.enter},`, `  'duration-${d}-exit': ${v.exit},`]),
-  `  'duration-ambient': ${AMBIENT_DURATION_MS},`,
-  ...Object.entries(EASES).map(([e, v]) => `  'ease-${e}': 'cubic-bezier(${v.join(', ')})',`),
-  ...Object.entries(SPRINGS).flatMap(([s, v]) =>
-    [`  'spring-${s}': ${v.zeta},`, `  'spring-${s}-duration': ${v.responseMs},`]),
-  '} as const;', '',
-].join('\n'));
-
-// src/material/css/generated/{ladders,floors}.css — committed generated sheets
-for (const f of [TOKEN_OUTPUTS.ladders, TOKEN_OUTPUTS.floors]) {
-  write(f, [LAYER_ORDER_STATEMENT, '', '@layer ag.material {', '  /* seed: MAT replaces with the compiled ladders/floors */',
-    '  [data-ag-surface] {', '    --ag-surface-fill: var(--ag-glass-opacity, initial);', '  }', '}', ''].join('\n'));
-}
-
-// dist/compat/tokens.css — from tokens/compat-alias-map.json (H03 on 4.x); absent -> empty layer at C0
-const aliasPath = join(root, 'tokens', 'compat-alias-map.json');
-const aliases = existsSync(aliasPath) ? JSON.parse(readFileSync(aliasPath, 'utf8')) : {};
-write(TOKEN_OUTPUTS.compat, [
-  LAYER_ORDER_STATEMENT, '', '@layer ag.compat {', '  :root {',
-  ...Object.entries(aliases).map(([from, to]) => `    ${from}: var(${to});`), '  }', '}', '',
-].join('\n'));

@@ -1,0 +1,17 @@
+{
+ "entry": "./theme",
+ "exports": [
+  "AuraGlassProvider",
+  "AuraGlassScript",
+  "GlassPreferencesPanel",
+  "auraGlassPrepaintScript",
+  "createBrandGlassTheme",
+  "createBrandTheme",
+  "createGlassTheme",
+  "createGlassThemeCssVars",
+  "presets",
+  "usePreference",
+  "usePreferenceActions",
+  "useResolvedPreferences"
+ ]
+}

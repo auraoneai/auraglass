@@ -1,0 +1,17 @@
+{
+  "$schema": "../$schema.json",
+  "sys": {
+    "$extensions": { "ag.tier": "sys", "ag.since": "5.0.0" },
+    "radius": {
+      "$type": "mode-table",
+      "$extensions": { "ag.axis": "preset", "ag.valueType": "dimension" },
+      "$description": "Radius ladder (REQ-MAT-06): 6/10/14/20/28/9999 at preset scale 1. Cells scale by the preset's radiusScale.",
+      "xs":   { "$value": { "aura": { "value": 6, "unit": "px" }, "graphite": { "value": 4.5, "unit": "px" }, "daylight": { "value": 6, "unit": "px" }, "midnight": { "value": 7.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-xs" } },
+      "sm":   { "$value": { "aura": { "value": 10, "unit": "px" }, "graphite": { "value": 7.5, "unit": "px" }, "daylight": { "value": 10, "unit": "px" }, "midnight": { "value": 12.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-sm" } },
+      "md":   { "$value": { "aura": { "value": 14, "unit": "px" }, "graphite": { "value": 10.5, "unit": "px" }, "daylight": { "value": 14, "unit": "px" }, "midnight": { "value": 17.5, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-md" } },
+      "lg":   { "$value": { "aura": { "value": 20, "unit": "px" }, "graphite": { "value": 15, "unit": "px" }, "daylight": { "value": 20, "unit": "px" }, "midnight": { "value": 25, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-lg" } },
+      "xl":   { "$value": { "aura": { "value": 28, "unit": "px" }, "graphite": { "value": 21, "unit": "px" }, "daylight": { "value": 28, "unit": "px" }, "midnight": { "value": 35, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-xl" } },
+      "full": { "$value": { "aura": { "value": 9999, "unit": "px" }, "graphite": { "value": 9999, "unit": "px" }, "daylight": { "value": 9999, "unit": "px" }, "midnight": { "value": 9999, "unit": "px" } }, "$extensions": { "ag.public": true, "ag.cssVar": "--ag-radius-full" } }
+    }
+  }
+}

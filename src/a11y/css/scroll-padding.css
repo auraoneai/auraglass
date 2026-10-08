@@ -1,0 +1,15 @@
+/* REQ-MAT-63 focus-not-obscured (MAT-304) — sticky chrome owners (or the
+   useStickyScrollPadding hook) write --ag-scroll-padding-<edge>; focused
+   elements scroll fully into view. Also holds the LayerStack's
+   [data-ag-scroll-locked] rule (overflow hidden + scrollbar-gutter stable on
+   <html>), moved here from the dropped visually-hidden.css. */
+@layer ag.a11y {
+  [data-ag-scroll-container],
+  :root {
+    scroll-padding-block: var(--ag-scroll-padding-top, 0px) var(--ag-scroll-padding-bottom, 0px);
+  }
+  :root[data-ag-scroll-locked] {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+}

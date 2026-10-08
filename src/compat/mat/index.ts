@@ -1,2 +1,19 @@
-/* @ag-contract-seed: S-37. Owner replaces internals; compat surface stays additive. */
-export {};
+/* src/compat/mat/index.ts — MAT compat surface (lane 2e-B). Re-exported by
+   the contract-owned src/compat/index.ts aggregate. REQ-MAT-24 adapters. */
+export {
+  OptimizedGlass,
+  GlassCore,
+  OptimizedGlassAdvanced,
+  type OptimizedGlassCompatProps,
+} from './material/OptimizedGlass';
+export {
+  LiquidGlassMaterial,
+  LiquidGlassEffectGroup,
+  LiquidGlassLayerProvider,
+  LiquidGlassScrollEdge,
+  LiquidGlassConcentricFrame,
+  type LiquidGlassMaterialCompatProps,
+  type LiquidGlassEffectGroupCompatProps,
+  type LiquidGlassScrollEdgeCompatProps,
+  type LiquidGlassConcentricFrameCompatProps,
+} from './material/LiquidGlassMaterial';

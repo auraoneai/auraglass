@@ -114,6 +114,7 @@
   ],
   "scripts": {
     "tokens:build": "node scripts/tokens/build.mjs",
+    "prebuild": "node scripts/mat/build-prepaint-script.mjs",
     "build": "npm run tokens:build && tsdown",
     "api:update": "node scripts/build/api-report.mjs",
     "pack:verify": "node scripts/ci/verify-pack.js",
@@ -122,39 +123,60 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:contract": "npm test -- tests/contract",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:tokens:exports": "node --test tests/tokens/export.spec.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
-    "clsx": "2.1.1",
     "@tanstack/react-table": "8.21.3",
-    "@tanstack/react-virtual": "3.14.13"
+    "@tanstack/react-virtual": "3.14.13",
+    "clsx": "2.1.1"
   },
   "peerDependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-aria-components": "^1.21.1",
     "@internationalized/date": "^3.12.4",
-    "motion": "^12.0.0",
-    "react-hook-form": "^7.0.0",
-    "three": ">=0.170.0",
-    "@react-three/fiber": "^9.0.0",
     "@react-three/drei": "^10.0.0",
+    "@react-three/fiber": "^9.0.0",
+    "motion": "^12.0.0",
+    "react": "^19.0.0",
+    "react-aria-components": "^1.21.1",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.0.0",
     "tailwindcss": "^4.0.0",
+    "three": ">=0.170.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0"
   },
   "peerDependenciesMeta": {
-    "react-aria-components": { "optional": true },
-    "@internationalized/date": { "optional": true },
-    "motion": { "optional": true },
-    "react-hook-form": { "optional": true },
-    "three": { "optional": true },
-    "@react-three/fiber": { "optional": true },
-    "@react-three/drei": { "optional": true },
-    "tailwindcss": { "optional": true },
-    "d3-scale": { "optional": true },
-    "d3-shape": { "optional": true }
+    "react-aria-components": {
+      "optional": true
+    },
+    "@internationalized/date": {
+      "optional": true
+    },
+    "motion": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "three": {
+      "optional": true
+    },
+    "@react-three/fiber": {
+      "optional": true
+    },
+    "@react-three/drei": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    },
+    "d3-scale": {
+      "optional": true
+    },
+    "d3-shape": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@ai-sdk/openai-compatible": "1.0.29",
@@ -174,6 +196,7 @@
     "@storybook/addon-a11y": "9.1.20",
     "@storybook/addon-docs": "9.1.20",
     "@storybook/react-vite": "9.1.20",
+    "@tailwindcss/node": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/node": "26.6.4",

@@ -1,0 +1,506 @@
+{
+  "$schema": "../$schema.json",
+  "material": {
+    "$extensions": {
+      "ag.tier": "material",
+      "ag.since": "5.0.0"
+    },
+    "material": {
+      "$type": "glass-material",
+      "$value": {
+        "variants": {
+          "regular": {
+            "thin": {
+              "blur": {
+                "value": 12,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.72
+            },
+            "regular": {
+              "blur": {
+                "value": 20,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.72
+            },
+            "thick": {
+              "blur": {
+                "value": 32,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.72
+            }
+          },
+          "clear": {
+            "thin": {
+              "blur": {
+                "value": 12,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.02,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.55
+            },
+            "regular": {
+              "blur": {
+                "value": 20,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.02,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.55
+            },
+            "thick": {
+              "blur": {
+                "value": 32,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.02,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.55
+            }
+          },
+          "identity": {
+            "thin": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.85
+            },
+            "regular": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.85
+            },
+            "thick": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.85
+            }
+          }
+        },
+        "content": {
+          "raised": {
+            "thin": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.8
+            },
+            "regular": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.8
+            },
+            "thick": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.8
+            }
+          },
+          "sunken": {
+            "thin": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.64
+            },
+            "regular": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.64
+            },
+            "thick": {
+              "blur": {
+                "value": 0,
+                "unit": "px"
+              },
+              "saturation": 1.6,
+              "brightness": {
+                "light": 1.0,
+                "dark": 1.0
+              },
+              "grain": 0.03,
+              "rim": {
+                "value": 1,
+                "unit": "px"
+              },
+              "alpha": 0.64
+            }
+          }
+        },
+        "tint": {
+          "light": "{sys.color.canvas}",
+          "dark": "{sys.color.canvas}",
+          "media": "{sys.color.canvas}"
+        },
+        "scrim": {
+          "clear": 0.35,
+          "clearOverBright": 0.35,
+          "modal": 0.4,
+          "media": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.72
+          }
+        },
+        "fallbackFill": {
+          "alpha": 0.98
+        },
+        "refraction": {
+          "bezel": {
+            "thin": {
+              "value": 12,
+              "unit": "px"
+            },
+            "regular": {
+              "value": 16,
+              "unit": "px"
+            },
+            "thick": {
+              "value": 24,
+              "unit": "px"
+            }
+          }
+        }
+      },
+      "$extensions": {
+        "ag.tier": "material",
+        "ag.since": "5.0.0",
+        "ag.public": false
+      }
+    },
+    "surface": {
+      "fill": {
+        "$type": "color",
+        "$value": "{sys.color.canvas}",
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-surface-fill"
+        }
+      },
+      "rim": {
+        "$type": "color",
+        "$value": "{sys.color.specular}",
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-surface-rim"
+        }
+      },
+      "shadow": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "alpha": 0.18
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-surface-shadow"
+        }
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": "{sys.shape.radius-outer}",
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-surface-radius"
+        }
+      },
+      "on-surface": {
+        "$type": "color",
+        "$value": "{sys.color.on-surface}",
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-on-surface"
+        }
+      },
+      "on-surface-muted": {
+        "$type": "color",
+        "$value": "{sys.color.on-surface-muted}",
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-on-surface-muted"
+        }
+      }
+    },
+    "shadow": {
+      "thin": {
+        "$type": "shadow",
+        "$value": {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 1,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 4,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          },
+          "color": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.1
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-thin"
+        }
+      },
+      "regular": {
+        "$type": "shadow",
+        "$value": {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 4,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 16,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          },
+          "color": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.14
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-regular"
+        }
+      },
+      "thick": {
+        "$type": "shadow",
+        "$value": {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 8,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 32,
+            "unit": "px"
+          },
+          "spread": {
+            "value": 0,
+            "unit": "px"
+          },
+          "color": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.2
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-thick"
+        }
+      }
+    }
+  }
+}

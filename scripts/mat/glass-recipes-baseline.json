@@ -1,0 +1,5 @@
+{
+  "N": 2,
+  "noRegression": [],
+  "note": "N=2 at next-mat lane head: src/theme/materials.ts (4.x emitter, removed by MAT-179 gate) + src/material/css (the canonical recipe). On release/4.x N was ~121."
+}

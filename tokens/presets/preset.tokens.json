@@ -1,0 +1,35 @@
+{
+  "$schema": "../$schema.json",
+  "mode": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "preset": {
+      "$type": "mode-table",
+      "$extensions": {
+        "ag.axisDef": "preset"
+      },
+      "$value": {
+        "default": "aura",
+        "values": [
+          "aura",
+          "graphite",
+          "daylight",
+          "midnight"
+        ],
+        "selectors": {
+          "graphite": [
+            "[data-ag-theme=\"graphite\"]"
+          ],
+          "daylight": [
+            "[data-ag-theme=\"daylight\"]"
+          ],
+          "midnight": [
+            "[data-ag-theme=\"midnight\"]"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "midnight-slate": {
+    "name": "Midnight Slate",
+    "canvas4x": "#090B1A",
+    "accent4x": "#4FD6FF",
+    "preset": "midnight",
+    "dE": 1.792,
+    "createBrandTheme": "createBrandTheme('#4FD6FF', { preset: 'midnight' })"
+  },
+  "midnight-meridian": {
+    "name": "Midnight Meridian",
+    "canvas4x": "#081418",
+    "accent4x": "#34D2B4",
+    "preset": "aura",
+    "dE": 3.68,
+    "createBrandTheme": "createBrandTheme('#34D2B4', { preset: 'aura' })"
+  },
+  "solar-apex": {
+    "name": "Solar Apex",
+    "canvas4x": "#0D1324",
+    "accent4x": "#FFB545",
+    "preset": "midnight",
+    "dE": 2.107,
+    "createBrandTheme": "createBrandTheme('#FFB545', { preset: 'midnight' })"
+  },
+  "violet-nebula": {
+    "name": "Violet Nebula",
+    "canvas4x": "#08091C",
+    "accent4x": "#C06CFF",
+    "preset": "midnight",
+    "dE": 2.966,
+    "createBrandTheme": "createBrandTheme('#C06CFF', { preset: 'midnight' })"
+  },
+  "aurora-noir": {
+    "name": "Aurora Noir",
+    "canvas4x": "#0A1026",
+    "accent4x": "#3EF2A1",
+    "preset": "midnight",
+    "dE": 2.955,
+    "createBrandTheme": "createBrandTheme('#3EF2A1', { preset: 'midnight' })"
+  },
+  "helios-foundry": {
+    "name": "Helios Foundry",
+    "canvas4x": "#10141F",
+    "accent4x": "#FF8450",
+    "preset": "aura",
+    "dE": 1.803,
+    "createBrandTheme": "createBrandTheme('#FF8450', { preset: 'aura' })"
+  },
+  "glacier-morn": {
+    "name": "Glacier Morn",
+    "canvas4x": "#071220",
+    "accent4x": "#5BE1FF",
+    "preset": "aura",
+    "dE": 0.526,
+    "createBrandTheme": "createBrandTheme('#5BE1FF', { preset: 'aura' })"
+  },
+  "terra-inflect": {
+    "name": "Terra Inflect",
+    "canvas4x": "#120E1A",
+    "accent4x": "#F8693A",
+    "preset": "midnight",
+    "dE": 4.174,
+    "createBrandTheme": "createBrandTheme('#F8693A', { preset: 'midnight' })"
+  },
+  "lumen-veil": {
+    "name": "Lumen Veil",
+    "canvas4x": "#0C0B1C",
+    "accent4x": "#C79BFF",
+    "preset": "midnight",
+    "dE": 3.448,
+    "createBrandTheme": "createBrandTheme('#C79BFF', { preset: 'midnight' })"
+  },
+  "nimbus-relay": {
+    "name": "Nimbus Relay",
+    "canvas4x": "#060B1C",
+    "accent4x": "#5BD5FF",
+    "preset": "midnight",
+    "dE": 1.151,
+    "createBrandTheme": "createBrandTheme('#5BD5FF', { preset: 'midnight' })"
+  }
+}

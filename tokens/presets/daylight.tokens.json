@@ -1,0 +1,46 @@
+{
+  "$schema": "../$schema.json",
+  "preset": {
+    "daylight": {
+      "$type": "theme-preset",
+      "$value": {
+        "name": "Daylight",
+        "canvas": {
+          "light": {
+            "colorSpace": "oklch",
+            "components": [
+              0.995,
+              0.002,
+              95
+            ],
+            "alpha": 1
+          },
+          "dark": {
+            "colorSpace": "oklch",
+            "components": [
+              0.25,
+              0.01,
+              95
+            ],
+            "alpha": 1
+          }
+        },
+        "neutralHue": 95,
+        "accent": {
+          "colorSpace": "oklch",
+          "components": [
+            0.62,
+            0.17,
+            150
+          ],
+          "alpha": 1
+        },
+        "radiusScale": 1
+      }
+    },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    }
+  }
+}

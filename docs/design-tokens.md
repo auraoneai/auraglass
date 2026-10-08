@@ -1,5 +1,12 @@
 # AuraGlass by AuraOne Design Token Reference
 
+> **AuraGlass 5.0 (MAT-081):** token tables are no longer hand-maintained here.
+> The DX docs site renders the generated pages (docs app DX-101, theming guide
+> DX-124) from `dist/tokens/manifest.json` and
+> `tokens/generated/persona-preset-map.json`. Everything below is the 4.x
+> reference, kept for migration until DS-109.
+
+
 ## Overview
 
 This document provides a complete reference for all design tokens in the AuraGlass by AuraOne system. Design tokens are the visual design atoms that store visual design decisions and are the foundation of consistent, world-class glassmorphism experiences.

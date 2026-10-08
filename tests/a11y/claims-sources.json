@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "a11y-claims-sources",
+  "version": 1,
+  "owner": "MAT",
+  "note": "MAT-322 (PRD-20 no-unsourced-claim): every permitted a11y claim key maps to the source artifact + JSON path that backs it. The lint flags claims without a row here.",
+  "claims": {
+    "wcag-level": {
+      "description": "WCAG 2.2 AA conformance statement",
+      "source": "a11y-cert-summary.json",
+      "path": "$.rows[?(@.id =~ /AC-A11Y-.*/)].pass",
+      "requires": "all pass"
+    },
+    "contrast-minimum": {
+      "description": "minimum measured contrast ratio across the matrix",
+      "source": "a11y-pixel-contrast.json",
+      "path": "$.rows[*].worstRatio",
+      "requires": "min >= 4.5 (text) / 3 (non-text, large text)"
+    },
+    "contrast-matrix": {
+      "description": "solver-level pair ratios",
+      "source": "contrast-matrix.json",
+      "path": "$.cells[*].pairs[*].ratio",
+      "requires": "all >= threshold"
+    },
+    "sr-coverage": {
+      "description": "screen-reader cells recorded",
+      "source": "a11y-manual-<sha>.json",
+      "path": "$.records[*].steps[*].pass",
+      "requires": "SR-1..SR-4 176/176 + 88/88 on the release SHA"
+    },
+    "reduced-transparency-support": {
+      "description": "floors hold under prefers-reduced-transparency",
+      "source": "axe-results.json + e2e floors.spec.ts",
+      "path": "$.rows[*].violations",
+      "requires": "0 serious/critical on the floors cells"
+    },
+    "forced-colors-support": {
+      "description": "0 visible backdrop filters + system colors under forced colors",
+      "source": "forced-colors-filters.json",
+      "path": "$.rows[*].visible",
+      "requires": "0"
+    },
+    "focus-appearance": {
+      "description": "visible focus indicator area + 3:1 worst decile",
+      "source": "focus-appearance.json",
+      "path": "$.rows[*].fail",
+      "requires": "0 fail rows"
+    },
+    "axe-clean": {
+      "description": "0 serious/critical axe violations",
+      "source": "axe-results.json",
+      "path": "$.rows[*].seriousCritical",
+      "requires": "0"
+    }
+  }
+}

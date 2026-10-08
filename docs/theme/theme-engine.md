@@ -1,3 +1,8 @@
+> **AuraGlass 5.0 (MAT-081):** this hand-written guide is superseded by the DX
+> theming guide (DX-124), generated from `dist/tokens/manifest.json` and
+> `tokens/generated/persona-preset-map.json`. The 4.x text below stays for the
+> migration window and is deleted at 5.0 (DS-109).
+
 # Theme Engine 2.0
 
 Import theme helpers from `aura-glass/theme`. The provider writes CSS variables onto a wrapper `div` and exposes density, motion, and mode through hooks.
