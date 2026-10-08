@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "transforms": [
+    { "id": "imports-subpaths", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#imports-subpaths" },
+    { "id": "providers", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#providers" },
+    { "id": "canonical-names", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#canonical-names" },
+    { "id": "prop-grammar", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#prop-grammar" },
+    { "id": "ai-chat", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/ai.md" },
+    { "id": "app-shell-slots", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/app-shell.md" },
+    { "id": "media-backdrops", "kind": "area", "automation": "review", "doc": "apps/docs/content/surf/migration/media.md" },
+    { "id": "reduced-motion-initial", "kind": "area", "automation": "full", "doc": "docs/motion.md" },
+    { "id": "motion-imports", "kind": "area", "automation": "review", "doc": "docs/motion.md" },
+    { "id": "motion-props", "kind": "area", "automation": "full", "doc": "docs/motion.md" },
+    { "id": "dead-optical-props", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#dead-optical-props" },
+    { "id": "css-vars", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#css-vars" },
+    { "id": "deps", "kind": "core", "automation": "full", "doc": "docs/auraglass-5/migrate/5.md#deps" },
+    { "id": "removed", "kind": "core", "automation": "review", "doc": "docs/auraglass-5/migrate/5.md#removed" }
+  ]
+}

@@ -24,3 +24,32 @@ scripts read names from `contracts/packages.json`, never hard-coded).
 | Fallback names recorded | applied (contracts/packages.json) |
 | `@auraglass` org + membership | missing — owner action on npmjs.com |
 | Provenance URLs point at `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` `.gitlab-ci.yml` | applied (§4.13.7) |
+
+---
+
+## CLI-side details (1e, #96)
+
+`@auraglass/*` scope for the CLI/registry/MCP support packages:
+
+| Package | Preferred name | D-23 fallback |
+|---|---|---|
+| CLI (this repo, `packages/cli`) | `@auraglass/cli` | `aura-glass-cli` |
+| Registry | `@auraglass/registry` | `aura-glass-registry` |
+| MCP | `@auraglass/mcp` | `aura-glass-mcp` |
+
+Names come from `contracts/packages.json` (which lists both spellings). The
+fallback applies only if `@auraglass` scope ownership cannot be verified before
+the 4.2 line — one name per package, never both published.
+
+## Verification step (operator action)
+
+`npm view @auraglass/cli` / scope membership check owned by Gurbaksh; PLAT has
+no npm credentials on this runner (gh/glab unauthenticated). Until verified,
+packages stay unpublished and every publish path fails closed
+(`scripts/ci/require-ci-publish.js`).
+
+## Where consumed
+
+`packages/cli/src/meta.ts` `PACKAGE_NAME`; `packages/*/package.json` `name`;
+`PUBLISHING.md` files. Fallback flip = rename in `meta.ts` + `package.json` +
+registry-item schema references, in one PR.
