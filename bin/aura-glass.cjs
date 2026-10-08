@@ -5,6 +5,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
+// 4.3 bridge (PLAT-159): verbatim from packages/cli/src/meta.ts on the next line.
+const MOVED_NOTICE = "aura-glass CLI moved: use npx @auraglass/cli <command>";
+
 const usage = `AuraGlass CLI
 
 Usage:
@@ -260,6 +263,31 @@ const loadRegistry = () => {
       );
     }
   }
+};
+
+const BUILTIN = new Set(require("node:module").builtinModules);
+
+const collectUndeclaredImports = (cwd, declared) => {
+  const roots = ["src", "app", "pages", "lib"].map((d) => path.join(cwd, d)).filter((d) => fs.existsSync(d));
+  const found = new Set();
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name !== "node_modules" && !entry.name.startsWith(".")) walk(full);
+      } else if (/\.(tsx?|jsx?|mjs|cjs)$/.test(entry.name)) {
+        const text = fs.readFileSync(full, "utf8");
+        for (const m of text.matchAll(/(?:import|export)[^'"]*from\s+['"]([^'".][^'"]*)['"]|require\(['"]([^'".][^'"]*)['"]\)/g)) {
+          const spec = m[1] || m[2];
+          if (spec.startsWith("node:") || spec.startsWith("@/") || spec.includes("{")) continue;
+          const pkg = spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0];
+          if (!BUILTIN.has(pkg) && !declared[pkg]) found.add(pkg);
+        }
+      }
+    }
+  };
+  for (const root of roots) walk(root);
+  return [...found].sort();
 };
 
 const parseArgs = (argv) => {
@@ -639,7 +667,7 @@ const loadInstalledAuraGlassPackage = (cwd) => {
   }
 };
 
-const runDoctor = (cwd) => {
+const runDoctor = (cwd, options = {}) => {
   const checks = [];
   const depsAudit = auditPackageDependencies(cwd);
   const importsAudit = auditImports(cwd);
@@ -690,6 +718,18 @@ const runDoctor = (cwd) => {
           : `${warningDeps.length} forbidden core UI package reference(s) remain in devDependencies.`
         : `${errorDeps.length} forbidden core UI package reference(s) found in production-facing metadata.`,
   });
+
+  if (options.v5) {
+    const undeclared = collectUndeclaredImports(cwd, allDeps || {});
+    checks.push({
+      id: "undeclared-imports",
+      status: undeclared.length === 0 ? "pass" : "fail",
+      message:
+        undeclared.length === 0
+          ? "Every imported bare specifier is declared in package.json."
+          : `${undeclared.length} imported package(s) missing from package.json: ${undeclared.join(", ")}`,
+    });
+  }
 
   checks.push({
     id: "forbidden-imports",
@@ -859,6 +899,7 @@ const printDoctor = (report) => {
 const main = () => {
   const { args, flags } = parseArgs(process.argv.slice(2));
   const command = args[0];
+  process.stderr.write(`${MOVED_NOTICE}\n`);
 
   if (!command || command === "help" || command === "--help" || command === "-h") {
     process.stdout.write(usage);
@@ -928,6 +969,7 @@ const main = () => {
       throw new Error(`Unknown recipe "${id}". Run \`aura-glass list\` for valid ids.`);
     }
 
+    process.stderr.write(`Replacement: npx @auraglass/cli add ${id}\n`);
     const results = recipes.map((recipe) => writeRecipe(recipe, flags));
     if (flags.json) {
       process.stdout.write(toJson(results));
@@ -1004,7 +1046,7 @@ const main = () => {
   }
 
   if (command === "doctor") {
-    const report = runDoctor(resolveCwd(flags));
+    const report = runDoctor(resolveCwd(flags), { v5: Boolean(flags.v5) });
     if (flags.json) {
       process.stdout.write(toJson(report));
     } else {

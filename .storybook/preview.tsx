@@ -8,6 +8,7 @@ import {
   SkipLinks,
 } from '../src/components/accessibility';
 import { StorySurface, type StoryPreviewMode, type StorySurfaceKind } from './StorySurface';
+import { setDeprecationMode } from '../src/utils/warnDeprecated';
 import '../src/styles/index.css';
 import {
   DEFAULT_PERSONA_ID,
@@ -82,6 +83,18 @@ export const globalTypes = {
         { value: 'dark', title: 'Dark' },
         { value: 'liquid', title: 'Liquid Glass' },
         { value: 'high-contrast', title: 'High Contrast' },
+      ],
+    },
+  },
+  v5Preview: {
+    name: 'V5 Preview',
+    description: 'Opt-in 5.0 preview surface (4.3 bridge, D-20)',
+    defaultValue: 'off',
+    toolbar: {
+      icon: 'globe',
+      items: [
+        { value: 'off', title: 'V5 preview: off' },
+        { value: 'v5', title: 'V5 preview: on' },
       ],
     },
   },
@@ -162,6 +175,12 @@ const preview: Preview = {
       const surface = resolveSurface(context);
       const fullscreen = context.parameters.layout === 'fullscreen';
       const highContrast = previewMode === 'high-contrast';
+      const v5Preview = context.globals.v5Preview === 'v5';
+      // Snapshot runs (Chromatic / visual tests drive the browser) must not
+      // spam warnings — deprecations render 'silent' there.
+      if (typeof navigator !== 'undefined' && navigator.webdriver) {
+        setDeprecationMode('silent');
+      }
 
       return (
         <AccessibilityProvider
@@ -183,6 +202,7 @@ const preview: Preview = {
             >
               <StorySurface mode={previewMode} kind={surface} fullscreen={fullscreen}>
                 <SkipLinks />
+
                 <GlassFocusIndicators />
                 <ContrastGuard
                   as="main"
@@ -195,7 +215,13 @@ const preview: Preview = {
                   minContrast={highContrast ? 7 : 4.5}
                   style={{ display: 'block', width: '100%' }}
                 >
-                  <Story />
+                  {v5Preview ? (
+                    <div data-ag-preview="v5" className="contents">
+                      <Story />
+                    </div>
+                  ) : (
+                    <Story />
+                  )}
                 </ContrastGuard>
               </StorySurface>
             </ThemeProvider>
