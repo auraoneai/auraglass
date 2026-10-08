@@ -1,0 +1,32 @@
+{
+  "$schema": "../$schema.json",
+  "mode": {
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    },
+    "transparency": {
+      "$type": "mode-table",
+      "$extensions": {
+        "ag.axisDef": "transparency"
+      },
+      "$value": {
+        "default": "glass",
+        "values": [
+          "glass",
+          "tinted",
+          "solid"
+        ],
+        "selectors": {
+          "tinted": [
+            "[data-ag-transparency=\"tinted\"]"
+          ],
+          "solid": [
+            "[data-ag-transparency=\"solid\"]",
+            "@media (prefers-reduced-transparency: reduce)"
+          ]
+        }
+      }
+    }
+  }
+}

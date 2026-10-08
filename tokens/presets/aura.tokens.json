@@ -1,0 +1,46 @@
+{
+  "$schema": "../$schema.json",
+  "preset": {
+    "aura": {
+      "$type": "theme-preset",
+      "$value": {
+        "name": "Aura",
+        "canvas": {
+          "light": {
+            "colorSpace": "oklch",
+            "components": [
+              0.99,
+              0.004,
+              250
+            ],
+            "alpha": 1
+          },
+          "dark": {
+            "colorSpace": "oklch",
+            "components": [
+              0.18,
+              0.012,
+              250
+            ],
+            "alpha": 1
+          }
+        },
+        "neutralHue": 250,
+        "accent": {
+          "colorSpace": "oklch",
+          "components": [
+            0.64,
+            0.16,
+            235
+          ],
+          "alpha": 1
+        },
+        "radiusScale": 1
+      }
+    },
+    "$extensions": {
+      "ag.tier": "sys",
+      "ag.since": "5.0.0"
+    }
+  }
+}

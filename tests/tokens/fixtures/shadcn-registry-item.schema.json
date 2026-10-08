@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ui.shadcn.com/schema/registry-item.json",
+  "title": "shadcn registry item (v4)",
+  "comment": "Committed copy of the shadcn CLI v4 registry-item schema, fetched from https://ui.shadcn.com/schema/registry-item.json on 2026-10-07 (MAT-072). Only the cssVars contract is binding on dist/tokens/registry-cssvars.json; the rest is for completeness.",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "type": { "enum": ["registry:lib", "registry:block", "registry:component", "registry:ui", "registry:hook", "registry:page", "registry:file", "registry:theme", "registry:style", "registry:item"] },
+    "cssVars": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "object",
+          "patternProperties": { "^--[a-zA-Z0-9-_]+$": { "type": "string" } },
+          "additionalProperties": false
+        },
+        "light": {
+          "type": "object",
+          "patternProperties": { "^--[a-zA-Z0-9-_]+$": { "type": "string" } },
+          "additionalProperties": false
+        },
+        "dark": {
+          "type": "object",
+          "patternProperties": { "^--[a-zA-Z0-9-_]+$": { "type": "string" } },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

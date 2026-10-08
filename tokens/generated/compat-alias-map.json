@@ -1,0 +1,7522 @@
+{
+  "--aura-": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-accent-color": {
+    "successor": "--ag-color-accent",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-animation-duration": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-animation-easing": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-blur-amount": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-foreground": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-glass-border": {
+    "successor": "--ag-color-border",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-glass-overlay": {
+    "successor": null,
+    "frozen": "#0f172a",
+    "defined": true
+  },
+  "--aura-color-glass-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-glass-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-accent": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-background-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-background-glass": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-background-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-border-soft": {
+    "successor": "--ag-color-border",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-border-strong": {
+    "successor": "--ag-color-border",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-scrollbar-thumb-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-scrollbar-thumb-dark-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-scrollbar-thumb-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-scrollbar-thumb-light-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-selection-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-selection-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-surface": {
+    "successor": "--ag-color-canvas",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-text-inverse": {
+    "successor": null,
+    "frozen": "#0f172a",
+    "defined": true
+  },
+  "--aura-color-global-text-on-primary": {
+    "successor": null,
+    "frozen": "#ffffff",
+    "defined": true
+  },
+  "--aura-color-global-text-primary": {
+    "successor": "--ag-on-surface",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-text-secondary": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-global-text-tertiary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-highlight": {
+    "successor": "--ag-color-accent",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-muted": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-muted-foreground": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-overlay-surface-strong": {
+    "successor": null,
+    "frozen": "color-mix( in srgb, var(--aura-color-glass-overlay) 65%, transparent )",
+    "defined": true
+  },
+  "--aura-color-semantic-danger": {
+    "successor": "--ag-color-danger",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-error": {
+    "successor": "--ag-color-danger",
+    "frozen": "var( --aura-color-semantic-danger, hsl(var(--glass-color-danger)) )",
+    "defined": true
+  },
+  "--aura-color-semantic-info": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-neutral": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-primary": {
+    "successor": "--ag-color-accent",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-success": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-semantic-warning": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-color-surface-base": {
+    "successor": null,
+    "frozen": "var(--aura-color-global-background-surface)",
+    "defined": true
+  },
+  "--aura-font-family": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-family-sans": {
+    "successor": "--ag-font-sans",
+    "frozen": "var(--aura-font-sans, system-ui, sans-serif)",
+    "defined": true
+  },
+  "--aura-font-line-height-normal": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-line-height-relaxed": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-line-height-tight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-mono": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-sans": {
+    "successor": "--ag-font-sans",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-size-base": {
+    "successor": "--ag-type-body-size",
+    "frozen": "var(--glass-font-size-base)",
+    "defined": true
+  },
+  "--aura-font-size-lg": {
+    "successor": "--ag-type-callout-size",
+    "frozen": "var(--glass-font-size-lg)",
+    "defined": true
+  },
+  "--aura-font-size-sm": {
+    "successor": "--ag-type-label-size",
+    "frozen": "var(--glass-font-size-sm)",
+    "defined": true
+  },
+  "--aura-font-size-xl": {
+    "successor": "--ag-type-title-3-size",
+    "frozen": "var(--glass-font-size-xl)",
+    "defined": true
+  },
+  "--aura-font-size-xs": {
+    "successor": "--ag-type-caption-size",
+    "frozen": "var(--glass-font-size-xs)",
+    "defined": true
+  },
+  "--aura-font-weight-bold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-extrabold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-medium": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-regular": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-semibold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-font-weight-thin": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-gap-dense": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-gap-loose": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-gap-relaxed": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-danger-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-info-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-surface-overlay": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-neutral-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-primary-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-success-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-backdrop-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-highlight-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-inner-glow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-inner-glow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-inner-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-noise-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-shadow-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-shadow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-shadow-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-shadow-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-surface-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-glass-warning-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-background-fixed-zindex": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-background-grain-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-background-particle-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-background-vignette": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-button-aurora-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-button-aurora-glow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-button-aurora-text": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-display-text-gradient-aurora": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-display-text-hero-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-display-text-section-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-orb-glow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-orb-gradient": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-orb-inset-highlight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-aurora-cyan": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-aurora-magenta": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-aurora-mint": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-aurora-rose": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-aurora-violet": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ember-coral": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ember-gold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ember-rose": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-mono-ink": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-mono-mist": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-mono-slate": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ocean-blue": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ocean-deep": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-ocean-foam": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-prism-cyan": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-prism-indigo": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-palettes-prism-pink": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-surface-highlight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-surface-showcase-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-surface-showcase-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-marketing-surface-showcase-glow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-duration-fast": {
+    "successor": "--ag-duration-micro",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-duration-instant": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-duration-medium": {
+    "successor": "--ag-duration-small",
+    "frozen": "var(--glass-motion-duration-normal)",
+    "defined": true
+  },
+  "--aura-motion-duration-normal": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-duration-slow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-easing-accelerate": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-easing-decelerate": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-easing-emphasized": {
+    "successor": "--ag-ease-emphasized",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-easing-standard": {
+    "successor": "--ag-ease-standard",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-stagger-macro": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-stagger-micro": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-motion-stagger-regular": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-particle-count": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-quality-tier": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-2xl": {
+    "successor": "--ag-radius-xl",
+    "frozen": "var(--glass-radius-2xl)",
+    "defined": true
+  },
+  "--aura-radius-lg": {
+    "successor": "--ag-radius-lg",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-md": {
+    "successor": "--ag-radius-md",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-pill": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-sm": {
+    "successor": "--ag-radius-sm",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-xl": {
+    "successor": "--ag-radius-xl",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-radius-xs": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-shadow-elevation-": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-shadow-elevation-1": {
+    "successor": "--ag-shadow-thin",
+    "frozen": "var(--glass-elev-1)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-2": {
+    "successor": "--ag-shadow-regular",
+    "frozen": "var(--glass-elev-2)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-3": {
+    "successor": "--ag-shadow-regular",
+    "frozen": "var(--glass-elev-3)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-4": {
+    "successor": "--ag-shadow-thick",
+    "frozen": "var(--glass-elev-4)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-lg": {
+    "successor": "--ag-shadow-thick",
+    "frozen": "var(--glass-shadow-lg)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-md": {
+    "successor": "--ag-shadow-regular",
+    "frozen": "var(--glass-shadow-md)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-sm": {
+    "successor": "--ag-shadow-thin",
+    "frozen": "var(--glass-shadow-sm)",
+    "defined": true
+  },
+  "--aura-shadow-elevation-xl": {
+    "successor": "--ag-shadow-thick",
+    "frozen": "var(--glass-shadow-xl)",
+    "defined": true
+  },
+  "--aura-space-0": {
+    "successor": "--ag-space-0",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-1": {
+    "successor": "--ag-space-1",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-10": {
+    "successor": "--ag-space-10",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-12": {
+    "successor": "--ag-space-12",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-16": {
+    "successor": "--ag-space-16",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-2": {
+    "successor": "--ag-space-2",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-3": {
+    "successor": "--ag-space-3",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-4": {
+    "successor": "--ag-space-4",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-5": {
+    "successor": "--ag-space-5",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-6": {
+    "successor": "--ag-space-6",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-space-8": {
+    "successor": "--ag-space-8",
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-target-fps": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-body-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-body-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-body-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-caption-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-caption-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-caption-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-display-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-display-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-display-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-headline-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-headline-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-headline-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-label-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-label-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-label-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-subtitle-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-subtitle-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-subtitle-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-title-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-title-line-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-type-title-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--aura-z-overlay": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--auraglass-font-scale": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--auraglass-text": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--auraglass-text-muted": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-3d-perspective": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-danger-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-danger-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-danger-fg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-danger-foreground": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-info-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-info-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-info-fg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-primary-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-primary-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-primary-fg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-success-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-success-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-success-fg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-warning-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-warning-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-accent-warning-fg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-blur-multiplier": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-contrast": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-intensity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-saturation": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-adaptive-tint": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-ai-animation-speed": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-ai-font-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-ai-intensity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-animation-duration": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-animation-speed": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-aspect-auto": {
+    "successor": null,
+    "frozen": "auto",
+    "defined": true
+  },
+  "--glass-aspect-cinema": {
+    "successor": null,
+    "frozen": "21 / 9",
+    "defined": true
+  },
+  "--glass-aspect-photo": {
+    "successor": null,
+    "frozen": "4 / 3",
+    "defined": true
+  },
+  "--glass-aspect-square": {
+    "successor": null,
+    "frozen": "1 / 1",
+    "defined": true
+  },
+  "--glass-aspect-video": {
+    "successor": null,
+    "frozen": "16 / 9",
+    "defined": true
+  },
+  "--glass-backdrop-blur": {
+    "successor": null,
+    "frozen": "blur(var(--glass-blur-md))",
+    "defined": true
+  },
+  "--glass-backdrop-brightness": {
+    "successor": null,
+    "frozen": "brightness(1.05)",
+    "defined": true
+  },
+  "--glass-backdrop-contrast": {
+    "successor": null,
+    "frozen": "contrast(1.05)",
+    "defined": true
+  },
+  "--glass-backdrop-fallback-bg": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-black) / var(--glass-opacity-80) )",
+    "defined": true
+  },
+  "--glass-backdrop-fallback-border": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-55) )",
+    "defined": true
+  },
+  "--glass-backdrop-fallback-text": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-100) )",
+    "defined": true
+  },
+  "--glass-backdrop-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-backdrop-grayscale": {
+    "successor": null,
+    "frozen": "grayscale(0)",
+    "defined": true
+  },
+  "--glass-backdrop-hue-rotate": {
+    "successor": null,
+    "frozen": "hue-rotate(0deg)",
+    "defined": true
+  },
+  "--glass-backdrop-invert": {
+    "successor": null,
+    "frozen": "invert(0)",
+    "defined": true
+  },
+  "--glass-backdrop-saturate": {
+    "successor": null,
+    "frozen": "saturate(1.8)",
+    "defined": true
+  },
+  "--glass-backdrop-sepia": {
+    "successor": null,
+    "frozen": "sepia(0)",
+    "defined": true
+  },
+  "--glass-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bg-active": {
+    "successor": null,
+    "frozen": "rgba(var(--glass-color-white) / var(--glass-opacity-35))",
+    "defined": true
+  },
+  "--glass-bg-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bg-default": {
+    "successor": null,
+    "frozen": "rgba(var(--glass-color-white) / var(--glass-opacity-25))",
+    "defined": true
+  },
+  "--glass-bg-disabled": {
+    "successor": null,
+    "frozen": "rgba(var(--glass-color-white) / var(--glass-opacity-15))",
+    "defined": true
+  },
+  "--glass-bg-hover": {
+    "successor": null,
+    "frozen": "rgba(var(--glass-color-white) / var(--glass-opacity-30))",
+    "defined": true
+  },
+  "--glass-bg-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bg-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bg-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-black": {
+    "successor": null,
+    "frozen": "#000000",
+    "defined": true
+  },
+  "--glass-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-blur-2xl": {
+    "successor": null,
+    "frozen": "48px",
+    "defined": true
+  },
+  "--glass-blur-3xl": {
+    "successor": null,
+    "frozen": "48px",
+    "defined": true
+  },
+  "--glass-blur-intensity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-blur-lg": {
+    "successor": null,
+    "frozen": "32px",
+    "defined": true
+  },
+  "--glass-blur-md": {
+    "successor": null,
+    "frozen": "24px",
+    "defined": true
+  },
+  "--glass-blur-none": {
+    "successor": null,
+    "frozen": "0px",
+    "defined": true
+  },
+  "--glass-blur-sm": {
+    "successor": null,
+    "frozen": "16px",
+    "defined": true
+  },
+  "--glass-blur-xl": {
+    "successor": null,
+    "frozen": "40px",
+    "defined": true
+  },
+  "--glass-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-active": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-50) )",
+    "defined": true
+  },
+  "--glass-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-default": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-25) )",
+    "defined": true
+  },
+  "--glass-border-disabled": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-20) )",
+    "defined": true
+  },
+  "--glass-border-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-hover": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-40) )",
+    "defined": true
+  },
+  "--glass-border-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-bottom-0-5": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-brightness": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-button-aurora-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-button-aurora-glow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-chart-tooltip-arrow-fill": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-color-": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-color-accent": {
+    "successor": "--ag-color-accent",
+    "frozen": "#06b6d4",
+    "defined": true
+  },
+  "--glass-color-accent-2": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-color-black": {
+    "successor": null,
+    "frozen": "0 0 0",
+    "defined": true
+  },
+  "--glass-color-brand-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-color-danger": {
+    "successor": "--ag-color-danger",
+    "frozen": "0 84% 60%",
+    "defined": true
+  },
+  "--glass-color-danger-dark": {
+    "successor": null,
+    "frozen": "#b91c1c",
+    "defined": true
+  },
+  "--glass-color-danger-light": {
+    "successor": null,
+    "frozen": "#f87171",
+    "defined": true
+  },
+  "--glass-color-error": {
+    "successor": "--ag-color-danger",
+    "frozen": "hsl(var(--glass-color-danger))",
+    "defined": true
+  },
+  "--glass-color-gray-500": {
+    "successor": null,
+    "frozen": "107 114 128",
+    "defined": true
+  },
+  "--glass-color-info": {
+    "successor": "--ag-color-info",
+    "frozen": "199 89% 48%",
+    "defined": true
+  },
+  "--glass-color-primary": {
+    "successor": null,
+    "frozen": "217 91% 60%",
+    "defined": true
+  },
+  "--glass-color-primary-light": {
+    "successor": null,
+    "frozen": "#60a5fa",
+    "defined": true
+  },
+  "--glass-color-secondary": {
+    "successor": null,
+    "frozen": "#8b5cf6",
+    "defined": true
+  },
+  "--glass-color-success": {
+    "successor": null,
+    "frozen": "160 84% 39%",
+    "defined": true
+  },
+  "--glass-color-success-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-color-success-light": {
+    "successor": null,
+    "frozen": "#4ade80",
+    "defined": true
+  },
+  "--glass-color-warning": {
+    "successor": null,
+    "frozen": "38 92% 50%",
+    "defined": true
+  },
+  "--glass-color-warning-light": {
+    "successor": null,
+    "frozen": "#fbbf24",
+    "defined": true
+  },
+  "--glass-color-white": {
+    "successor": null,
+    "frozen": "255 255 255",
+    "defined": true
+  },
+  "--glass-container-2xl": {
+    "successor": null,
+    "frozen": "42rem",
+    "defined": true
+  },
+  "--glass-container-3xl": {
+    "successor": null,
+    "frozen": "48rem",
+    "defined": true
+  },
+  "--glass-container-4xl": {
+    "successor": null,
+    "frozen": "56rem",
+    "defined": true
+  },
+  "--glass-container-5xl": {
+    "successor": null,
+    "frozen": "64rem",
+    "defined": true
+  },
+  "--glass-container-6xl": {
+    "successor": null,
+    "frozen": "72rem",
+    "defined": true
+  },
+  "--glass-container-7xl": {
+    "successor": null,
+    "frozen": "80rem",
+    "defined": true
+  },
+  "--glass-container-full": {
+    "successor": null,
+    "frozen": "100%",
+    "defined": true
+  },
+  "--glass-container-lg": {
+    "successor": null,
+    "frozen": "32rem",
+    "defined": true
+  },
+  "--glass-container-md": {
+    "successor": null,
+    "frozen": "28rem",
+    "defined": true
+  },
+  "--glass-container-sm": {
+    "successor": null,
+    "frozen": "24rem",
+    "defined": true
+  },
+  "--glass-container-xl": {
+    "successor": null,
+    "frozen": "36rem",
+    "defined": true
+  },
+  "--glass-container-xs": {
+    "successor": null,
+    "frozen": "20rem",
+    "defined": true
+  },
+  "--glass-contrast": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-bg-active": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-bg-disabled": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-bg-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-border-active": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-border-disabled": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-control-border-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-cookie-backdrop-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-danger-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-data-chart-backdrop-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-datagrid-min-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-datagrid-row-even-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-datagrid-row-hover-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-datagrid-row-selected-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-edge-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-edge-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-effective-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-0": {
+    "successor": null,
+    "frozen": "none",
+    "defined": true
+  },
+  "--glass-elev-1": {
+    "successor": null,
+    "frozen": "0 2px 8px rgba(var(--glass-color-black) / 0.12)",
+    "defined": true
+  },
+  "--glass-elev-2": {
+    "successor": null,
+    "frozen": "0 4px 16px rgba(var(--glass-color-black) / 0.16)",
+    "defined": true
+  },
+  "--glass-elev-3": {
+    "successor": null,
+    "frozen": "0 8px 24px rgba(var(--glass-color-black) / 0.2)",
+    "defined": true
+  },
+  "--glass-elev-4": {
+    "successor": null,
+    "frozen": "0 12px 32px rgba(var(--glass-color-black) / 0.24)",
+    "defined": true
+  },
+  "--glass-elev-5": {
+    "successor": null,
+    "frozen": "0 16px 40px rgba(var(--glass-color-black) / 0.28)",
+    "defined": true
+  },
+  "--glass-elev-6": {
+    "successor": null,
+    "frozen": "0 24px 56px rgba(var(--glass-color-black) / 0.32)",
+    "defined": true
+  },
+  "--glass-elev-chart-container": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-container-focused": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-container-shell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-data-container": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-legend": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-legend-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-toolbar-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-tooltip": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-tooltip-shell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-type-active": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-chart-type-selector": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-datagrid-handle-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-datagrid-header-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-datagrid-row-drag": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-feedback-glow-active": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-feedback-glow-base": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-focus-glass": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-focus-glass-high-contrast": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-focus-visible": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-focus-visible-high-contrast": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-image-item-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-image-item-level1": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-image-item-level2": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-image-item-level3": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-image-item-level4": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-button": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-core": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-glow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-highlight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-index": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-logo": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-particle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-marketing-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-multiselect-dropdown": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-multiselect-error": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-multiselect-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-page-tabs-badge": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-page-tabs-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-page-tabs-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-page-tabs-selected": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-page-tabs-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-tabbar-container": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-tabbar-selector": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-treeitem-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-elev-treeview-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-filter-base": {
+    "successor": null,
+    "frozen": "var(--glass-backdrop-saturate) var(--glass-backdrop-brightness) var(--glass-backdrop-contrast)",
+    "defined": true
+  },
+  "--glass-focus-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-color-danger": {
+    "successor": null,
+    "frozen": "hsl(var(--glass-color-danger) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-color-default": {
+    "successor": "--ag-color-focus-inner",
+    "frozen": "rgba(var(--glass-color-white) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-color-info": {
+    "successor": null,
+    "frozen": "hsl(var(--glass-color-info) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-color-primary": {
+    "successor": "--ag-color-focus-inner",
+    "frozen": "hsl(var(--glass-color-primary) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-color-success": {
+    "successor": null,
+    "frozen": "hsl(var(--glass-color-success) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-color-warning": {
+    "successor": null,
+    "frozen": "hsl(var(--glass-color-warning) / 0.5)",
+    "defined": true
+  },
+  "--glass-focus-duration": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-offset": {
+    "successor": null,
+    "frozen": "2px",
+    "defined": true
+  },
+  "--glass-focus-offset-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-offset": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-offset-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-offset-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-ring-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-shadow-form": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-shadow-interactive": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-shadow-navigation": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-shadow-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-focus-width": {
+    "successor": "--ag-focus-width",
+    "frozen": "2px",
+    "defined": true
+  },
+  "--glass-font-black": {
+    "successor": null,
+    "frozen": "900",
+    "defined": true
+  },
+  "--glass-font-bold": {
+    "successor": null,
+    "frozen": "700",
+    "defined": true
+  },
+  "--glass-font-extrabold": {
+    "successor": null,
+    "frozen": "800",
+    "defined": true
+  },
+  "--glass-font-extralight": {
+    "successor": null,
+    "frozen": "200",
+    "defined": true
+  },
+  "--glass-font-light": {
+    "successor": null,
+    "frozen": "300",
+    "defined": true
+  },
+  "--glass-font-medium": {
+    "successor": null,
+    "frozen": "500",
+    "defined": true
+  },
+  "--glass-font-mono": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-font-normal": {
+    "successor": null,
+    "frozen": "400",
+    "defined": true
+  },
+  "--glass-font-semibold": {
+    "successor": null,
+    "frozen": "600",
+    "defined": true
+  },
+  "--glass-font-size-2xl": {
+    "successor": "--ag-type-title-2-size",
+    "frozen": "clamp(1.5rem, 0.56vw + 1.25rem, 1.8rem)",
+    "defined": true
+  },
+  "--glass-font-size-3xl": {
+    "successor": "--ag-type-title-1-size",
+    "frozen": "clamp(1.88rem, 0.78vw + 1.5rem, 2.25rem)",
+    "defined": true
+  },
+  "--glass-font-size-4xl": {
+    "successor": null,
+    "frozen": "clamp(2.25rem, 1.1vw + 1.8rem, 2.75rem)",
+    "defined": true
+  },
+  "--glass-font-size-5xl": {
+    "successor": null,
+    "frozen": "clamp(3rem, 1.6vw + 2.2rem, 3.5rem)",
+    "defined": true
+  },
+  "--glass-font-size-6xl": {
+    "successor": null,
+    "frozen": "clamp(3.75rem, 2.2vw + 2.75rem, 4.5rem)",
+    "defined": true
+  },
+  "--glass-font-size-7xl": {
+    "successor": null,
+    "frozen": "clamp(4.5rem, 2.8vw + 3.4rem, 5.5rem)",
+    "defined": true
+  },
+  "--glass-font-size-8xl": {
+    "successor": null,
+    "frozen": "clamp(6rem, 4vw + 4.4rem, 7rem)",
+    "defined": true
+  },
+  "--glass-font-size-9xl": {
+    "successor": null,
+    "frozen": "clamp(8rem, 5.5vw + 5.8rem, 9.5rem)",
+    "defined": true
+  },
+  "--glass-font-size-base": {
+    "successor": "--ag-type-body-size",
+    "frozen": "clamp(0.98rem, 0.22vw + 0.9rem, 1.06rem)",
+    "defined": true
+  },
+  "--glass-font-size-lg": {
+    "successor": "--ag-type-callout-size",
+    "frozen": "clamp(1.1rem, 0.28vw + 1rem, 1.2rem)",
+    "defined": true
+  },
+  "--glass-font-size-sm": {
+    "successor": "--ag-type-label-size",
+    "frozen": "clamp(0.84rem, 0.18vw + 0.8rem, 0.92rem)",
+    "defined": true
+  },
+  "--glass-font-size-xl": {
+    "successor": "--ag-type-title-3-size",
+    "frozen": "clamp(1.25rem, 0.36vw + 1.1rem, 1.4rem)",
+    "defined": true
+  },
+  "--glass-font-size-xs": {
+    "successor": "--ag-type-caption-size",
+    "frozen": "clamp(0.72rem, 0.14vw + 0.7rem, 0.78rem)",
+    "defined": true
+  },
+  "--glass-font-thin": {
+    "successor": null,
+    "frozen": "100",
+    "defined": true
+  },
+  "--glass-glow-cyan": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-gold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-ice": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-intensity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-lavender": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-midnight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-mint": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-plum": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-rose": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-sky": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-soft-gold": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-spread": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-tint": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-tint-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-glow-warm": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-gradient-danger": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, hsl(var(--glass-color-danger) / var(--glass-opacity-20)) 50%, hsl(var(--glass-color-danger) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gradient-default": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-gradient-info": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, hsl(var(--glass-color-info) / var(--glass-opacity-20)) 50%, hsl(var(--glass-color-info) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gradient-neutral": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-25)) 0%, rgba(var(--glass-color-white) / var(--glass-opacity-15)) 50%, rgba(var(--glass-color-white) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gradient-primary": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, hsl(var(--glass-color-primary) / var(--glass-opacity-20)) 50%, hsl(var(--glass-color-primary) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gradient-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-gradient-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-gradient-success": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, hsl(var(--glass-color-success) / var(--glass-opacity-20)) 50%, hsl(var(--glass-color-success) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gradient-warning": {
+    "successor": null,
+    "frozen": "linear-gradient( 135deg, rgba(var(--glass-color-white) / var(--glass-opacity-30)) 0%, hsl(var(--glass-color-warning) / var(--glass-opacity-20)) 50%, hsl(var(--glass-color-warning) / var(--glass-opacity-10)) 100% )",
+    "defined": true
+  },
+  "--glass-gray-100": {
+    "successor": null,
+    "frozen": "#f3f4f6",
+    "defined": true
+  },
+  "--glass-gray-200": {
+    "successor": null,
+    "frozen": "#e5e7eb",
+    "defined": true
+  },
+  "--glass-gray-300": {
+    "successor": null,
+    "frozen": "#d1d5db",
+    "defined": true
+  },
+  "--glass-gray-400": {
+    "successor": null,
+    "frozen": "#9ca3af",
+    "defined": true
+  },
+  "--glass-gray-50": {
+    "successor": null,
+    "frozen": "#f9fafb",
+    "defined": true
+  },
+  "--glass-gray-500": {
+    "successor": null,
+    "frozen": "#6b7280",
+    "defined": true
+  },
+  "--glass-gray-600": {
+    "successor": null,
+    "frozen": "#4b5563",
+    "defined": true
+  },
+  "--glass-gray-700": {
+    "successor": null,
+    "frozen": "#374151",
+    "defined": true
+  },
+  "--glass-gray-800": {
+    "successor": null,
+    "frozen": "#1f2937",
+    "defined": true
+  },
+  "--glass-gray-900": {
+    "successor": null,
+    "frozen": "#111827",
+    "defined": true
+  },
+  "--glass-image-focus-ring-inner": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-image-focus-ring-outer": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-image-overlay": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-info-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-kpi-accent": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-leading-loose": {
+    "successor": null,
+    "frozen": "2",
+    "defined": true
+  },
+  "--glass-leading-none": {
+    "successor": null,
+    "frozen": "1",
+    "defined": true
+  },
+  "--glass-leading-normal": {
+    "successor": null,
+    "frozen": "1.5",
+    "defined": true
+  },
+  "--glass-leading-relaxed": {
+    "successor": null,
+    "frozen": "1.625",
+    "defined": true
+  },
+  "--glass-leading-snug": {
+    "successor": null,
+    "frozen": "1.375",
+    "defined": true
+  },
+  "--glass-leading-tight": {
+    "successor": null,
+    "frozen": "1.25",
+    "defined": true
+  },
+  "--glass-marketing-ambient-accent": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-feature-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-bg-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-bg-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-border-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-glass-saturation": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-highlight-line": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-launch-backdrop-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-logo-inner": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-particle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-shine-soft": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-shine-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-text-muted": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-marketing-vignette": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-max-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-max-elements": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-motion-default": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-motion-duration-fast": {
+    "successor": "--ag-duration-micro",
+    "frozen": "150ms",
+    "defined": true
+  },
+  "--glass-motion-duration-instant": {
+    "successor": "--ag-duration-instant",
+    "frozen": "50ms",
+    "defined": true
+  },
+  "--glass-motion-duration-normal": {
+    "successor": "--ag-duration-small",
+    "frozen": "250ms",
+    "defined": true
+  },
+  "--glass-motion-duration-slow": {
+    "successor": "--ag-duration-medium",
+    "frozen": "350ms",
+    "defined": true
+  },
+  "--glass-motion-duration-slower": {
+    "successor": "--ag-duration-large",
+    "frozen": "450ms",
+    "defined": true
+  },
+  "--glass-motion-duration-slowest": {
+    "successor": null,
+    "frozen": "600ms",
+    "defined": true
+  },
+  "--glass-motion-ease-accelerated": {
+    "successor": "--ag-ease-accelerate",
+    "frozen": "cubic-bezier(0.3, 0, 1, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-decelerated": {
+    "successor": "--ag-ease-emphasized-decelerate",
+    "frozen": "cubic-bezier(0, 0, 0, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-emphasized": {
+    "successor": "--ag-ease-emphasized",
+    "frozen": "cubic-bezier(0.3, 0, 0, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-in": {
+    "successor": "--ag-ease-standard",
+    "frozen": "cubic-bezier(0.4, 0, 1, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-in-out": {
+    "successor": "--ag-ease-standard",
+    "frozen": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-linear": {
+    "successor": null,
+    "frozen": "linear",
+    "defined": true
+  },
+  "--glass-motion-ease-out": {
+    "successor": "--ag-ease-emphasized-decelerate",
+    "frozen": "cubic-bezier(0, 0, 0.2, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-spring": {
+    "successor": "--ag-spring-smooth",
+    "frozen": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "defined": true
+  },
+  "--glass-motion-ease-standard": {
+    "successor": "--ag-ease-standard",
+    "frozen": "cubic-bezier(0.2, 0, 0, 1)",
+    "defined": true
+  },
+  "--glass-motion-easing-linear": {
+    "successor": null,
+    "frozen": "linear",
+    "defined": true
+  },
+  "--glass-motion-easing-standard": {
+    "successor": "--ag-ease-standard",
+    "frozen": "var(--glass-motion-ease-standard)",
+    "defined": true
+  },
+  "--glass-motion-enter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-motion-exit": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-motion-reduced": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-motion-snap": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-multiselect-error-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-multiselect-error-text": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-neutral-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-noise-opacity": {
+    "successor": null,
+    "frozen": "var(--glass-opacity-10)",
+    "defined": true
+  },
+  "--glass-noise-svg": {
+    "successor": null,
+    "frozen": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E\")",
+    "defined": true
+  },
+  "--glass-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-0": {
+    "successor": null,
+    "frozen": "0",
+    "defined": true
+  },
+  "--glass-opacity-10": {
+    "successor": null,
+    "frozen": "0.1",
+    "defined": true
+  },
+  "--glass-opacity-100": {
+    "successor": null,
+    "frozen": "1",
+    "defined": true
+  },
+  "--glass-opacity-15": {
+    "successor": null,
+    "frozen": "0.15",
+    "defined": true
+  },
+  "--glass-opacity-20": {
+    "successor": null,
+    "frozen": "0.2",
+    "defined": true
+  },
+  "--glass-opacity-24": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-25": {
+    "successor": null,
+    "frozen": "0.25",
+    "defined": true
+  },
+  "--glass-opacity-28": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-30": {
+    "successor": null,
+    "frozen": "0.3",
+    "defined": true
+  },
+  "--glass-opacity-32": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-35": {
+    "successor": null,
+    "frozen": "0.35",
+    "defined": true
+  },
+  "--glass-opacity-40": {
+    "successor": null,
+    "frozen": "0.4",
+    "defined": true
+  },
+  "--glass-opacity-45": {
+    "successor": null,
+    "frozen": "0.45",
+    "defined": true
+  },
+  "--glass-opacity-5": {
+    "successor": null,
+    "frozen": "0.05",
+    "defined": true
+  },
+  "--glass-opacity-50": {
+    "successor": null,
+    "frozen": "0.5",
+    "defined": true
+  },
+  "--glass-opacity-52": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-55": {
+    "successor": null,
+    "frozen": "0.55",
+    "defined": true
+  },
+  "--glass-opacity-60": {
+    "successor": null,
+    "frozen": "0.6",
+    "defined": true
+  },
+  "--glass-opacity-65": {
+    "successor": null,
+    "frozen": "0.65",
+    "defined": true
+  },
+  "--glass-opacity-70": {
+    "successor": null,
+    "frozen": "0.7",
+    "defined": true
+  },
+  "--glass-opacity-72": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-opacity-75": {
+    "successor": null,
+    "frozen": "0.75",
+    "defined": true
+  },
+  "--glass-opacity-80": {
+    "successor": null,
+    "frozen": "0.8",
+    "defined": true
+  },
+  "--glass-opacity-90": {
+    "successor": null,
+    "frozen": "0.9",
+    "defined": true
+  },
+  "--glass-opacity-95": {
+    "successor": null,
+    "frozen": "0.95",
+    "defined": true
+  },
+  "--glass-overlay-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-overlay-bg-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-overlay-bg-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-page-tabs-backdrop-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-page-tabs-ink": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-page-tabs-ink-disabled": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-page-tabs-ink-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-parallax-x": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-parallax-y": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-particle-count": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-persona-card-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-persona-card-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-persona-card-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-primary-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-radius-2xl": {
+    "successor": null,
+    "frozen": "40px",
+    "defined": true
+  },
+  "--glass-radius-full": {
+    "successor": "--ag-radius-full",
+    "frozen": "9999px",
+    "defined": true
+  },
+  "--glass-radius-lg": {
+    "successor": "--ag-radius-lg",
+    "frozen": "24px",
+    "defined": true
+  },
+  "--glass-radius-md": {
+    "successor": "--ag-radius-md",
+    "frozen": "16px",
+    "defined": true
+  },
+  "--glass-radius-none": {
+    "successor": null,
+    "frozen": "0px",
+    "defined": true
+  },
+  "--glass-radius-pill": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-radius-sm": {
+    "successor": "--ag-radius-sm",
+    "frozen": "10px",
+    "defined": true
+  },
+  "--glass-radius-xl": {
+    "successor": "--ag-radius-xl",
+    "frozen": "32px",
+    "defined": true
+  },
+  "--glass-radius-xs": {
+    "successor": "--ag-radius-xs",
+    "frozen": "6px",
+    "defined": true
+  },
+  "--glass-reduced-transparency-bg": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-black) / var(--glass-opacity-90) )",
+    "defined": true
+  },
+  "--glass-ring-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-ripple-button-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-saturation": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-screen-2xl": {
+    "successor": null,
+    "frozen": "1536px",
+    "defined": true
+  },
+  "--glass-screen-lg": {
+    "successor": null,
+    "frozen": "1024px",
+    "defined": true
+  },
+  "--glass-screen-md": {
+    "successor": null,
+    "frozen": "768px",
+    "defined": true
+  },
+  "--glass-screen-sm": {
+    "successor": null,
+    "frozen": "640px",
+    "defined": true
+  },
+  "--glass-screen-xl": {
+    "successor": null,
+    "frozen": "1280px",
+    "defined": true
+  },
+  "--glass-screen-xs": {
+    "successor": null,
+    "frozen": "475px",
+    "defined": true
+  },
+  "--glass-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-2xl": {
+    "successor": null,
+    "frozen": "0 16px 48px rgba(var(--glass-color-black) / 0.24)",
+    "defined": true
+  },
+  "--glass-shadow-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-color-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-color-subtle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-inner": {
+    "successor": null,
+    "frozen": "inset 0 2px 4px rgba(var(--glass-color-black) / 0.06)",
+    "defined": true
+  },
+  "--glass-shadow-lg": {
+    "successor": null,
+    "frozen": "0 8px 24px rgba(var(--glass-color-black) / 0.16)",
+    "defined": true
+  },
+  "--glass-shadow-light": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-shadow-md": {
+    "successor": null,
+    "frozen": "0 4px 12px rgba(var(--glass-color-black) / 0.12)",
+    "defined": true
+  },
+  "--glass-shadow-sm": {
+    "successor": null,
+    "frozen": "0 2px 4px rgba(var(--glass-color-black) / 0.08)",
+    "defined": true
+  },
+  "--glass-shadow-xl": {
+    "successor": null,
+    "frozen": "0 12px 36px rgba(var(--glass-color-black) / 0.2)",
+    "defined": true
+  },
+  "--glass-shadow-xs": {
+    "successor": null,
+    "frozen": "0 1px 2px rgba(var(--glass-color-black) / 0.05)",
+    "defined": true
+  },
+  "--glass-space-0": {
+    "successor": null,
+    "frozen": "0px",
+    "defined": true
+  },
+  "--glass-space-0-5": {
+    "successor": null,
+    "frozen": "0.125rem",
+    "defined": true
+  },
+  "--glass-space-1": {
+    "successor": null,
+    "frozen": "0.25rem",
+    "defined": true
+  },
+  "--glass-space-1-5": {
+    "successor": null,
+    "frozen": "0.375rem",
+    "defined": true
+  },
+  "--glass-space-10": {
+    "successor": null,
+    "frozen": "2.5rem",
+    "defined": true
+  },
+  "--glass-space-11": {
+    "successor": null,
+    "frozen": "2.75rem",
+    "defined": true
+  },
+  "--glass-space-12": {
+    "successor": null,
+    "frozen": "3rem",
+    "defined": true
+  },
+  "--glass-space-14": {
+    "successor": null,
+    "frozen": "3.5rem",
+    "defined": true
+  },
+  "--glass-space-16": {
+    "successor": null,
+    "frozen": "4rem",
+    "defined": true
+  },
+  "--glass-space-2": {
+    "successor": null,
+    "frozen": "0.5rem",
+    "defined": true
+  },
+  "--glass-space-2-5": {
+    "successor": null,
+    "frozen": "0.625rem",
+    "defined": true
+  },
+  "--glass-space-20": {
+    "successor": null,
+    "frozen": "5rem",
+    "defined": true
+  },
+  "--glass-space-24": {
+    "successor": null,
+    "frozen": "6rem",
+    "defined": true
+  },
+  "--glass-space-28": {
+    "successor": null,
+    "frozen": "7rem",
+    "defined": true
+  },
+  "--glass-space-3": {
+    "successor": null,
+    "frozen": "0.75rem",
+    "defined": true
+  },
+  "--glass-space-3-5": {
+    "successor": null,
+    "frozen": "0.875rem",
+    "defined": true
+  },
+  "--glass-space-32": {
+    "successor": null,
+    "frozen": "8rem",
+    "defined": true
+  },
+  "--glass-space-36": {
+    "successor": null,
+    "frozen": "9rem",
+    "defined": true
+  },
+  "--glass-space-4": {
+    "successor": null,
+    "frozen": "1rem",
+    "defined": true
+  },
+  "--glass-space-40": {
+    "successor": null,
+    "frozen": "10rem",
+    "defined": true
+  },
+  "--glass-space-44": {
+    "successor": null,
+    "frozen": "11rem",
+    "defined": true
+  },
+  "--glass-space-48": {
+    "successor": null,
+    "frozen": "12rem",
+    "defined": true
+  },
+  "--glass-space-5": {
+    "successor": null,
+    "frozen": "1.25rem",
+    "defined": true
+  },
+  "--glass-space-52": {
+    "successor": null,
+    "frozen": "13rem",
+    "defined": true
+  },
+  "--glass-space-56": {
+    "successor": null,
+    "frozen": "14rem",
+    "defined": true
+  },
+  "--glass-space-6": {
+    "successor": null,
+    "frozen": "1.5rem",
+    "defined": true
+  },
+  "--glass-space-60": {
+    "successor": null,
+    "frozen": "15rem",
+    "defined": true
+  },
+  "--glass-space-64": {
+    "successor": null,
+    "frozen": "16rem",
+    "defined": true
+  },
+  "--glass-space-7": {
+    "successor": null,
+    "frozen": "1.75rem",
+    "defined": true
+  },
+  "--glass-space-72": {
+    "successor": null,
+    "frozen": "18rem",
+    "defined": true
+  },
+  "--glass-space-8": {
+    "successor": null,
+    "frozen": "2rem",
+    "defined": true
+  },
+  "--glass-space-80": {
+    "successor": null,
+    "frozen": "20rem",
+    "defined": true
+  },
+  "--glass-space-9": {
+    "successor": null,
+    "frozen": "2.25rem",
+    "defined": true
+  },
+  "--glass-space-96": {
+    "successor": null,
+    "frozen": "24rem",
+    "defined": true
+  },
+  "--glass-space-chart-tooltip-arrow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-cell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-cell-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-compact-cell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-compact-handle-cell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-compact-header": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-handle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-handle-cell": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-header": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-header-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-datagrid-sort-right": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-image-item-bar-subtitle": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-space-px": {
+    "successor": null,
+    "frozen": "1px",
+    "defined": true
+  },
+  "--glass-specular-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-specular-intensity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-state-active-press": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-state-disabled-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-state-hover-lift": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-success-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-surface-deep": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-surface-deeper": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-surface-elevated": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-surface-opacity": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-highlight-fade": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-highlight-inner": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-selector-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-selector-color-bottom": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-selector-color-top": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-selector-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-selector-highlight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-tabbar-underline-filter": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-disabled": {
+    "successor": null,
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-40) )",
+    "defined": true
+  },
+  "--glass-text-inverse": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-muted": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-on-dark": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-on-dark-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-text-primary": {
+    "successor": "--ag-on-surface",
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-95) )",
+    "defined": true
+  },
+  "--glass-text-secondary": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-80) )",
+    "defined": true
+  },
+  "--glass-text-secondary-dark": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": "rgba( var(--glass-color-black) / var(--glass-opacity-70) )",
+    "defined": true
+  },
+  "--glass-text-tertiary": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": "rgba( var(--glass-color-white) / var(--glass-opacity-60) )",
+    "defined": true
+  },
+  "--glass-text-tertiary-dark": {
+    "successor": "--ag-on-surface-muted",
+    "frozen": "rgba( var(--glass-color-black) / var(--glass-opacity-50) )",
+    "defined": true
+  },
+  "--glass-theme-accent": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-accent-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-accent-primary-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-accent-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-accent-secondary-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-background": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-background-canvas": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-background-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-base-grid": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-border": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-brand": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-brand-text": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-button-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-control-height": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-duration-fast": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-duration-normal": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-easing-standard": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-focus-ring": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-gap": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-motion-async": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-motion-entry": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-motion-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-motion-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-overlay-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-page-padding": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-panel-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-shadow-panel": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-error": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-error-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-success": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-success-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-warning": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-state-warning-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-surface-strong": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text": {
+    "successor": "--ag-color-on-surface",
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text-inverse": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text-muted": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text-secondary": {
+    "successor": "--ag-color-on-surface-muted",
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-text-tertiary": {
+    "successor": "--ag-on-surface-tertiary",
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-body-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-body-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-body-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-caption-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-caption-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-caption-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-display-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-display-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-display-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-headline-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-headline-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-headline-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-metric-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-metric-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-theme-typography-metric-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-top-1": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-touch-target-lg": {
+    "successor": "--ag-target-coarse",
+    "frozen": "48px",
+    "defined": true
+  },
+  "--glass-touch-target-md": {
+    "successor": "--ag-target-min",
+    "frozen": "44px",
+    "defined": true
+  },
+  "--glass-touch-target-min": {
+    "successor": "--ag-target-min",
+    "frozen": "44px",
+    "defined": true
+  },
+  "--glass-touch-target-sm": {
+    "successor": null,
+    "frozen": "36px",
+    "defined": true
+  },
+  "--glass-tracking-normal": {
+    "successor": null,
+    "frozen": "0em",
+    "defined": true
+  },
+  "--glass-tracking-tight": {
+    "successor": null,
+    "frozen": "-0.025em",
+    "defined": true
+  },
+  "--glass-tracking-tighter": {
+    "successor": null,
+    "frozen": "-0.05em",
+    "defined": true
+  },
+  "--glass-tracking-wide": {
+    "successor": null,
+    "frozen": "0.025em",
+    "defined": true
+  },
+  "--glass-tracking-wider": {
+    "successor": null,
+    "frozen": "0.05em",
+    "defined": true
+  },
+  "--glass-tracking-widest": {
+    "successor": null,
+    "frozen": "0.1em",
+    "defined": true
+  },
+  "--glass-transition": {
+    "successor": null,
+    "frozen": "var(--glass-transition-property) var(--glass-transition-duration) var(--glass-transition-timing)",
+    "defined": true
+  },
+  "--glass-transition-duration": {
+    "successor": null,
+    "frozen": "var(--glass-motion-duration-normal)",
+    "defined": true
+  },
+  "--glass-transition-easing": {
+    "successor": null,
+    "frozen": "var(--glass-transition-timing)",
+    "defined": true
+  },
+  "--glass-transition-property": {
+    "successor": null,
+    "frozen": "all",
+    "defined": true
+  },
+  "--glass-transition-timing": {
+    "successor": null,
+    "frozen": "var(--glass-motion-ease-standard)",
+    "defined": true
+  },
+  "--glass-treeitem-focus-inner": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-treeitem-focus-outer": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-visual-feedback-ripple-bg": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level1-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level2-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level3-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level4-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-border-color": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-border-style": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-border-width": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-shadow": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-warning-level5-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--glass-white": {
+    "successor": null,
+    "frozen": "#ffffff",
+    "defined": true
+  },
+  "--glass-z-0": {
+    "successor": "--ag-z-content",
+    "frozen": "0",
+    "defined": true
+  },
+  "--glass-z-10": {
+    "successor": null,
+    "frozen": "10",
+    "defined": true
+  },
+  "--glass-z-100": {
+    "successor": null,
+    "frozen": "100",
+    "defined": true
+  },
+  "--glass-z-20": {
+    "successor": null,
+    "frozen": "20",
+    "defined": true
+  },
+  "--glass-z-30": {
+    "successor": null,
+    "frozen": "30",
+    "defined": true
+  },
+  "--glass-z-40": {
+    "successor": null,
+    "frozen": "40",
+    "defined": true
+  },
+  "--glass-z-50": {
+    "successor": null,
+    "frozen": "50",
+    "defined": true
+  },
+  "--glass-z-60": {
+    "successor": null,
+    "frozen": "60",
+    "defined": true
+  },
+  "--glass-z-70": {
+    "successor": null,
+    "frozen": "70",
+    "defined": true
+  },
+  "--glass-z-80": {
+    "successor": null,
+    "frozen": "80",
+    "defined": true
+  },
+  "--glass-z-90": {
+    "successor": null,
+    "frozen": "90",
+    "defined": true
+  },
+  "--glass-z-auto": {
+    "successor": null,
+    "frozen": "auto",
+    "defined": true
+  },
+  "--persona-accent-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-accent-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-background-canvas": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-background-surface": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-base-grid": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-button-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-default-id": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-focus-ring": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-motion-async": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-motion-entry": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-motion-focus": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-motion-hover": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-overlay-blur": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-panel-radius": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-picker-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-picker-text-secondary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-picker-text-tertiary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-shadow-panel": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-state-error": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-state-success": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-state-warning": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-text-primary": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-text-rgb": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-body-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-body-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-body-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-caption-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-caption-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-caption-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-display-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-display-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-display-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-headline-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-headline-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-headline-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-metric-size": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-metric-tracking": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  },
+  "--persona-typography-metric-weight": {
+    "successor": null,
+    "frozen": null,
+    "defined": false
+  }
+}

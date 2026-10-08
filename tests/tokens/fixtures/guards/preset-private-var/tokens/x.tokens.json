@@ -1,0 +1,1 @@
+{"preset": {"bad": {"$type": "theme-preset", "$value": {"name": "Bad --_ag-secret", "canvas": {"light": {"colorSpace": "oklch", "components": [1, 0, 0], "alpha": 1}, "dark": {"colorSpace": "oklch", "components": [0, 0, 0], "alpha": 1}}, "neutralHue": 250, "accent": {"colorSpace": "oklch", "components": [0.7, 0.1, 250], "alpha": 1}}, "$extensions": {"ag.tier": "sys"}}}}

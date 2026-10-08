@@ -1,5 +1,9 @@
-/* @ag-contract-seed: lint rules land per stream in their lanes; C0 ships an empty rule set
-   so the frozen `lint` script runs (§4.12). */
+// MAT-058: auraglass/no-raw-design-values at error over all src CSS.
+import noRawDesignValues from './stylelint-plugin-auraglass/index.js';
+
 export default {
-  rules: {},
+  plugins: [noRawDesignValues],
+  rules: {
+    'auraglass/no-raw-design-values': [true, { severity: 'error' }],
+  },
 };
