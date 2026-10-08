@@ -9,9 +9,6 @@
 - `createGlassTheme`
 - `createGlassThemeCssVars`
 - `presets`
-- `useAnnouncer`
-- `useLayer`
-- `usePortalContainer`
 - `usePreference`
 - `usePreferenceActions`
 - `useResolvedPreferences`

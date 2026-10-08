@@ -114,6 +114,7 @@
   ],
   "scripts": {
     "tokens:build": "node scripts/tokens/build.mjs",
+    "prebuild": "node scripts/mat/build-prepaint-script.mjs",
     "build": "npm run tokens:build && tsdown",
     "api:update": "node scripts/build/api-report.mjs",
     "pack:verify": "node scripts/ci/verify-pack.js",

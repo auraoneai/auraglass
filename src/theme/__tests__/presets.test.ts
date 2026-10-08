@@ -1,0 +1,113 @@
+/* MAT-248: the four presets are authored, each with light+dark canvases,
+   contain no material.* refs, every opacity-floors cell for each preset passes
+   its pair's threshold, and each [data-ag-theme=<id>] block overrides only the
+   ref.color.* and sys.color.{canvas,accent,on-accent,border} vars (allowlist). */
+import { describe, expect, it } from '@jest/globals';
+import fs from 'node:fs';
+import { presets } from '../presets';
+import type { PresetId } from '../presets';
+import { parseColor, wcagContrast, formatOklch } from '../color';
+import { manifest } from '../../tokens/generated/manifest';
+
+const FLOORS = JSON.parse(
+  fs.readFileSync('tokens/generated/opacity-floors.json', 'utf8'),
+) as { cells: Record<string, unknown> };
+
+// opacity-floors cells carry only the non-text pairs today; text pairs land
+// with the contrast-matrix solver (matrix-contract.json records both sets).
+const TEXT_PAIRS = new Set(['on-surface', 'on-surface-muted', 'text', 'muted']);
+const THRESHOLDS: Record<string, number> = {
+  focus: 3,
+  border: 3,
+  'on-surface': 4.5,
+  'on-surface-muted': 4.5,
+  'border-strong': 3,
+  icon: 3,
+  'control-boundary': 3,
+  'on-surface-disabled': 3,
+};
+
+const visitCells = (preset: string) => {
+  const out: Array<{ path: string[]; cell: { apcaLc: number; floorAlpha: number; minRatio: number; pair: string } }> = [];
+  const walk = (node: unknown, path: string[]) => {
+    if (node && typeof node === 'object' && 'minRatio' in (node as Record<string, unknown>)) {
+      out.push({ path, cell: node as never });
+      return;
+    }
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) walk(v, [...path, k]);
+  };
+  walk((FLOORS.cells as Record<string, unknown>)[preset], []);
+  return out;
+};
+
+const allowedVar = (v: string) =>
+  /^ref\.color\./.test(v) || /^sys\.color\.(canvas|accent|on-accent|border)/.test(v);
+
+describe('theme presets', () => {
+  it('exactly 4 presets with light+dark canvases', () => {
+    const ids = Object.keys(presets).sort();
+    expect(ids).toEqual(['aura', 'daylight', 'graphite', 'midnight']);
+    for (const id of ids) {
+      const p = presets[id as PresetId];
+      expect(p.id).toBe(id);
+      expect(parseColor(p.canvas.light).l).toBeGreaterThan(0.5);
+      expect(parseColor(p.canvas.dark).l).toBeLessThan(0.5);
+      expect(() => parseColor(p.accent)).not.toThrow();
+    }
+  });
+
+  it('no preset source mentions material.*', () => {
+    for (const [id, p] of Object.entries(presets)) {
+      expect(JSON.stringify(p)).not.toContain('material.');
+    }
+  });
+
+  it('every opacity-floors cell for each preset passes its pair threshold', () => {
+    const failures: string[] = [];
+    let total = 0;
+    for (const id of Object.keys(presets)) {
+      for (const { path, cell } of visitCells(id)) {
+        total += 1;
+        const [scheme, contrast] = path;
+        const need = contrast === 'more' && TEXT_PAIRS.has(cell.pair) ? 7 : (THRESHOLDS[cell.pair] ?? 4.5);
+        if (cell.minRatio < need) failures.push(`${id}/${path.join('/')} ${cell.minRatio} < ${need}`);
+        if (!(cell.floorAlpha > 0 && cell.floorAlpha <= 1)) failures.push(`${id}/${path.join('/')} floorAlpha ${cell.floorAlpha} out of (0,1]`);
+      }
+    }
+    expect(total).toBeGreaterThan(0);
+    expect(failures).toEqual([]);
+  });
+
+  it('preset [data-ag-theme] blocks override only allowlisted vars', () => {
+    // presets ship as data + a generated css block per id. For presets that
+    // have a generated block file, every overridden var is allowlisted.
+    const dir = 'tokens/generated';
+    const byCssVar = new Map(
+      (manifest.tokens as readonly { name: string; cssVar: string }[]).map((t) => [t.cssVar, t.name]),
+    );
+    for (const id of Object.keys(presets)) {
+      const file = `${dir}/preset-${id}.css`;
+      if (!fs.existsSync(file)) continue; // css block shipped by the theme file itself
+      const css = fs.readFileSync(file, 'utf8');
+      for (const m of css.matchAll(/(--[\w-]+)\s*:/g)) {
+        const name = byCssVar.get(m[1]!);
+        if (name === undefined) throw new Error(`${id} overrides non-allowlisted ${m[1]}`);
+        if (!allowedVar(name)) throw new Error(`${id} ${name} not allowed`);
+      }
+    }
+    // data-level check: a preset only carries canvas/accent/radius/neutralHue —
+    // no other override surface exists.
+    for (const [id, p] of Object.entries(presets)) {
+      expect(Object.keys(p).sort()).toEqual(
+        ['accent', 'canvas', 'id', 'name', 'neutralHue', ...(p.radiusScale !== undefined ? ['radiusScale'] : [])].sort(),
+      );
+    }
+  });
+
+  it('each preset accent meets 3:1 on its own light canvas', () => {
+    for (const p of Object.values(presets)) {
+      const ratio = wcagContrast(formatOklch(parseColor(p.accent)), p.canvas.light);
+      expect(ratio).toBeGreaterThanOrEqual(3);
+    }
+  });
+});

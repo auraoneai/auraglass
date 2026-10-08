@@ -14,15 +14,11 @@
  "motion-no-ungated-loop": "mat",
  "no-document-escape": "mat",
  "no-runtime-contrast": "mat",
-<<<<<<< HEAD
  "motion-no-runtime-import": "mat",
  "motion-no-hover-transform": "mat",
  "motion-single-preference-source": "mat",
  "motion-no-random": "mat",
-||||||| d02a05b05
-=======
  "no-outline-none-focus": "mat",
->>>>>>> origin/contract/lint-owners-no-outline-none
  "no-forward-ref": "cmp",
  "no-overlay-global-listeners": "cmp",
  "prop-grammar": "cmp",
