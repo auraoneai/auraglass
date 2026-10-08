@@ -1,0 +1,8 @@
+/* aura-glass/compat/globals.css (PLAT-277) — the whole-layer opt-in for apps that
+   import the compat globals stylesheet directly: @import 'aura-glass/compat/globals.css'.
+   Everything here lives in the ag.compat layer so app css wins over it. */
+:root {
+  color-scheme: light dark;
+}
+[data-ag-scheme='light'] { color-scheme: light; }
+[data-ag-scheme='dark'] { color-scheme: dark; }
