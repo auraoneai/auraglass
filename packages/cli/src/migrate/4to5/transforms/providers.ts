@@ -93,6 +93,11 @@ function applyCode(source: string, isNextLayout: boolean, mappings: CompiledMapp
   if (replaced > 0) changes.push({ transform: 'providers', description: `unwrapped ${replaced} 4.x provider(s)` });
 
   // Swap imports: remove provider specifiers, ensure AuraGlassProvider (+ AuraGlassScript for layouts).
+  // Insert each name at most once across the file: several `aura-glass` import
+  // statements can coexist (e.g. after a subpath collapsed to root), and
+  // pushing the specifier into every one would duplicate the declaration.
+  let addedProvider = false;
+  let addedScript = false;
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -105,9 +110,15 @@ function applyCode(source: string, isNextLayout: boolean, mappings: CompiledMapp
       const local = (s.local as { name?: string })?.name;
       return !(imp && PROVIDER_4X.has(imp)) && !(local && PROVIDER_4X.has(local));
     });
-    if (!hasProviderSpec && (src === 'aura-glass' || src === 'aura-glass/react')) {
-      kept.unshift(j.importSpecifier(j.identifier('AuraGlassProvider')) as never);
-      if (isNextLayout) kept.unshift(j.importSpecifier(j.identifier('AuraGlassScript')) as never);
+    if (src === 'aura-glass' || src === 'aura-glass/react') {
+      if (!hasProviderSpec && !addedProvider) {
+        kept.unshift(j.importSpecifier(j.identifier('AuraGlassProvider')) as never);
+        addedProvider = true;
+      }
+      if (isNextLayout && !addedScript) {
+        kept.unshift(j.importSpecifier(j.identifier('AuraGlassScript')) as never);
+        addedScript = true;
+      }
     }
     p.node.specifiers = kept as never;
     if (kept.length === 0) j(p).remove();

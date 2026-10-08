@@ -1,2 +1,2 @@
-import { GlassButton } from 'aura-glass';
-export const x = <GlassButton variant={dyn} size="huge"/>;
+import { AuraGlassProvider } from 'aura-glass/theme';
+export const x = <AuraGlassProvider preview="v5" theme={t}><App/></AuraGlassProvider>;

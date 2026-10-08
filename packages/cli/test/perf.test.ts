@@ -10,8 +10,8 @@ const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agperf-'));
 describe('perf', () => {
   it('200 files migrate within budget', async () => {
     for (let i = 0; i < 200; i += 1) {
-      const body = [0, 1, 2].map((k) => `export const x${i}_${k} = <GlassButton variant="primary"><GlassCard/></GlassButton>;`).join('\n');
-      fs.writeFileSync(path.join(dir, `f${i}.tsx`), `import { GlassButton, GlassCard } from 'aura-glass';\n${body}\n`);
+      const body = [0, 1, 2].map((k) => `export const x${i}_${k} = <GlassProvider><Nav/></GlassProvider>;`).join('\n');
+      fs.writeFileSync(path.join(dir, `f${i}.tsx`), `import { GlassProvider } from 'aura-glass';\nimport { Nav } from 'aura-glass/navigation';\n${body}\n`);
     }
     fs.writeFileSync(path.join(dir, 'package.json'), '{"dependencies":{"aura-glass":"4.9.0"}}');
     const t0 = Date.now();

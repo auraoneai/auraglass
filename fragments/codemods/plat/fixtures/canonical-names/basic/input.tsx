@@ -1,2 +1,2 @@
-import { GlassButton } from 'aura-glass';
-export const x = <GlassButton onClick={f}>Go</GlassButton>;
+import { GlassProvider } from 'aura-glass';
+export const x = <GlassProvider><App/></GlassProvider>;

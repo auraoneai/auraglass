@@ -1,2 +1,2 @@
-import { useGlassProbes } from 'aura-glass';
-export const x = useGlassProbes;
+import { glassMixins } from 'aura-glass';
+export const x = glassMixins;
