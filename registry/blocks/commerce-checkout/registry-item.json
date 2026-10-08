@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "commerce-checkout",
+  "type": "registry:block",
+  "title": "Commerce checkout",
+  "description": "Step-gated checkout shell — shipping, payment, review — with grammar-triple step control.",
+  "dependencies": ["react"],
+  "registryDependencies": ["card", "button", "text-field", "separator", "commerce-cart"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

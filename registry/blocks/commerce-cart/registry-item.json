@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "commerce-cart",
+  "type": "registry:block",
+  "title": "Commerce cart",
+  "description": "Controlled cart UI — line items, quantity steppers, localized totals.",
+  "dependencies": ["react"],
+  "registryDependencies": ["card", "button", "badge", "separator"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ]
+}

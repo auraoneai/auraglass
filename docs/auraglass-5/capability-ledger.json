@@ -1,0 +1,2709 @@
+{
+  "$schema": "./capability-ledger.schema.json",
+  "version": "1",
+  "rows": [
+    {
+      "id": "X-01",
+      "capability": "Background-adaptive legibility contract (tint floor, ink auto-flip, valid `contrast: more`, complete forced-colors)",
+      "area": "foundation",
+      "priority": "P0",
+      "owner": "MAT",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "data-ag-surface"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:no competitor ships glass (E-34); platform bar is Apple/Mica"
+      ],
+      "findings": [
+        "E-34",
+        "E-29",
+        "E-32"
+      ],
+      "reqRefs": [
+        "REQ-MAT-10",
+        "REQ-MAT-24",
+        "REQ-MAT-29",
+        "REQ-MAT-30"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-02",
+      "capability": "Positioning layer: Base UI positioner inside `Popover`/`Menu`/`Select` (no `@floating-ui` dep)",
+      "area": "foundation",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "positioner"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-85"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-03",
+      "capability": "Shared Listbox/Menu/Field shells (internal parts for ~13 consumers)",
+      "area": "foundation",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "control-shell"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:composition for ~13 consumers (capability map P0 build order step 1)"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-57",
+        "REQ-CMP-67",
+        "REQ-CMP-102"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-04",
+      "capability": "NumberField",
+      "area": "foundation",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "NumberField"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101",
+        "research/competitors.md:130"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-75",
+        "REQ-CMP-76",
+        "REQ-CMP-77"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-05",
+      "capability": "Meter (consumed by `UsageMeter`)",
+      "area": "foundation",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Meter"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-117"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-06",
+      "capability": "Kbd (reused by `SearchField` `shortcut` and `CommandPalette` hints)",
+      "area": "foundation",
+      "priority": "P2",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Kbd"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:no competitor evidence; reused by SearchField `shortcut` and CommandPalette hints"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-119"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-07",
+      "capability": "Direction/locale layer: `dir` and `locale` props on the provider plus Base UI direction wiring and internal `useLocale()`",
+      "area": "foundation",
+      "priority": "P1",
+      "owner": "MAT",
+      "collaborators": [
+        "CMP"
+      ],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "dir",
+        "locale"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:105"
+      ],
+      "findings": [
+        "E-08"
+      ],
+      "reqRefs": [
+        "REQ-SURF-10"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-08",
+      "capability": "Ranked fuzzy matching, cmdk-style compound (`Command`, `CommandPalette`)",
+      "area": "navigation",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Command",
+        "CommandPalette"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:89"
+      ],
+      "findings": [
+        "E-17"
+      ],
+      "reqRefs": [
+        "REQ-SURF-60",
+        "REQ-SURF-61",
+        "REQ-SURF-63"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 2,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-09",
+      "capability": "Radiogroup segmented control with thumb (`SegmentedControl` on Base UI `RadioGroup`)",
+      "area": "navigation",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "SegmentedControl"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101"
+      ],
+      "findings": [
+        "E-08",
+        "E-18"
+      ],
+      "reqRefs": [
+        "REQ-CMP-41",
+        "REQ-CMP-42",
+        "REQ-CMP-43",
+        "REQ-CMP-44"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-10",
+      "capability": "Pointer-anchored context menu and real menubar (`ContextMenu`, `Menubar`)",
+      "area": "navigation",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "ContextMenu",
+        "Menubar"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:99",
+        "research/competitors.md:130"
+      ],
+      "findings": [
+        "E-27"
+      ],
+      "reqRefs": [
+        "REQ-CMP-105"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 2,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-11",
+      "capability": "Roving-focus toolbar (`Toolbar`)",
+      "area": "navigation",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Toolbar"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-37",
+        "REQ-CMP-40"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-12",
+      "capability": "Async, creatable and free-text autocomplete combobox (`mode=\"autocomplete\"`, `loadOptions`, `creatable`)",
+      "area": "inputs",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "mode",
+        "loadOptions",
+        "creatable"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:101"
+      ],
+      "findings": [
+        "E-06"
+      ],
+      "reqRefs": [
+        "REQ-CMP-69",
+        "REQ-CMP-71",
+        "REQ-CMP-73"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-13",
+      "capability": "Tag input: `Combobox multiple creatable` with `Combobox.Chips` (no `TagInput` export)",
+      "area": "inputs",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "prop",
+        "part"
+      ],
+      "names": [
+        "multiple",
+        "creatable",
+        "Chips"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:89",
+        "research/competitors.md:123"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-74"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-14",
+      "capability": "Calendar grid + draft-commit range (`Calendar`, `DatePicker`, `DateRangePicker` in `./date`)",
+      "area": "inputs",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Calendar",
+        "DatePicker",
+        "DateRangePicker"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:105"
+      ],
+      "findings": [
+        "E-12"
+      ],
+      "reqRefs": [
+        "REQ-SURF-100",
+        "REQ-SURF-101",
+        "REQ-SURF-102"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 3
+      },
+      "status": "planned",
+      "subpath": "./date"
+    },
+    {
+      "id": "X-15",
+      "capability": "TimePicker (`./date`)",
+      "area": "inputs",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "TimePicker"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:105",
+        "research/competitors.md:130"
+      ],
+      "findings": [
+        "E-01"
+      ],
+      "reqRefs": [
+        "REQ-SURF-104"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./date"
+    },
+    {
+      "id": "X-16",
+      "capability": "DateTimePicker (`./date`, composed of `DateField` + `TimeField` + `Calendar`; additive contract PR at 5.1)",
+      "area": "inputs",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "DateTimePicker"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "research/competitors.md:130"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-105"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./date"
+    },
+    {
+      "id": "X-17",
+      "capability": "Real dropzone with upload adapter (`FileUpload` `onUpload(file, { signal, onProgress })`)",
+      "area": "inputs",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "onUpload"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:89",
+        "research/competitors.md:123"
+      ],
+      "findings": [
+        "E-20"
+      ],
+      "reqRefs": [
+        "REQ-CMP-126"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-18",
+      "capability": "2-D colour area (`ColorPicker.Area` part)",
+      "area": "inputs",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "Area"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:105"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-125"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-19",
+      "capability": "One-time-code input (`OtpField`, root export at 5.1)",
+      "area": "inputs",
+      "priority": "P2",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "OtpField"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "research/competitors.md:89"
+      ],
+      "findings": [
+        "E-07"
+      ],
+      "reqRefs": [
+        "REQ-SURF-184"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-20",
+      "capability": "AlertDialog",
+      "area": "overlays",
+      "priority": "P0",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "AlertDialog"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:99"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-91"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-21",
+      "capability": "Hover card with hover intent (`Popover openOnHover`)",
+      "area": "overlays",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "openOnHover"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:99"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-97",
+        "REQ-CMP-85"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-22",
+      "capability": "Notification inbox on the toast store (`Toast.History`)",
+      "area": "overlays",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "History"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:archived OVL PRD design (E-19)"
+      ],
+      "findings": [
+        "E-19"
+      ],
+      "reqRefs": [
+        "REQ-CMP-107",
+        "REQ-CMP-110"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-23",
+      "capability": "Product Tour on `Popover`",
+      "area": "overlays",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Tour"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:architecture §11.1 T2 list"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-128"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-24",
+      "capability": "Row and column virtualization (`Table` `virtualize` via `@tanstack/react-virtual`)",
+      "area": "data",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "virtualize"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:130"
+      ],
+      "findings": [
+        "E-35",
+        "E-11"
+      ],
+      "reqRefs": [
+        "REQ-SURF-70"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-25",
+      "capability": "Column sizing, pinning, reorder (`columnSizing`/`enableColumnResizing`, `columnPinning`; `columnOrder` reorder)",
+      "area": "data",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "columnSizing",
+        "enableColumnResizing",
+        "columnPinning",
+        "columnOrder",
+        "enableColumnReordering"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:130"
+      ],
+      "findings": [
+        "E-02"
+      ],
+      "reqRefs": [
+        "REQ-SURF-72",
+        "REQ-SURF-78"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-26",
+      "capability": "Range row selection, inline cell edit, server pagination/sort adapters (inline edit at 5.1)",
+      "area": "data",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "selectionMode",
+        "manualPagination",
+        "manualSorting",
+        "rowCount",
+        "editor",
+        "onCellEditCommit"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:130"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-69",
+        "REQ-SURF-79"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-27",
+      "capability": "ChartFrame (axes, legend, table fallback, adapter)",
+      "area": "data",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "ChartFrame"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:D-21"
+      ],
+      "findings": [
+        "E-36"
+      ],
+      "reqRefs": [
+        "REQ-SURF-92"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./data"
+    },
+    {
+      "id": "X-28",
+      "capability": "SVG `Chart` (line, area, bar, donut) in `./charts` with optional peers `d3-scale`, `d3-shape`",
+      "area": "data",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Chart"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:D-21"
+      ],
+      "findings": [
+        "E-36",
+        "E-37"
+      ],
+      "reqRefs": [
+        "REQ-SURF-161",
+        "REQ-SURF-162",
+        "REQ-SURF-164"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./charts"
+    },
+    {
+      "id": "X-29",
+      "capability": "Sound query builder: headless `useFilterModel` plus registry item `query-builder`",
+      "area": "data",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "part",
+        "registry-item"
+      ],
+      "names": [
+        "useFilterModel",
+        "query-builder"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:130"
+      ],
+      "findings": [
+        "E-16"
+      ],
+      "reqRefs": [
+        "REQ-SURF-174"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-30",
+      "capability": "Kanban, Gantt, TransferList registry items",
+      "area": "data",
+      "priority": "P2",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "kanban",
+        "gantt",
+        "transfer-list"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:D-17, §13.5"
+      ],
+      "findings": [
+        "E-28"
+      ],
+      "reqRefs": [
+        "REQ-PLAT-96"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-31",
+      "capability": "Log thread, message parts, streaming text (`Thread`, `Message`, `StreamingText`)",
+      "area": "ai",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Thread",
+        "Message",
+        "StreamingText"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:23"
+      ],
+      "findings": [
+        "E-33"
+      ],
+      "reqRefs": [
+        "REQ-SURF-107",
+        "REQ-SURF-111",
+        "REQ-SURF-113"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 3
+      },
+      "status": "planned",
+      "subpath": "./ai"
+    },
+    {
+      "id": "X-32",
+      "capability": "Multimodal composer (attachments, paste/drop, stop) plus `MediaRecorder` voice capture as `ai-voice-input` registry item on `Composer.Action`",
+      "area": "ai",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export",
+        "registry-item"
+      ],
+      "names": [
+        "Composer",
+        "ai-voice-input"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:23",
+        "research/competitors.md:25"
+      ],
+      "findings": [
+        "E-13"
+      ],
+      "reqRefs": [
+        "REQ-SURF-116",
+        "REQ-SURF-118",
+        "REQ-SURF-173"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./ai"
+    },
+    {
+      "id": "X-33",
+      "capability": "Reasoning, ToolCall (+ approval), AgentSteps",
+      "area": "ai",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Reasoning",
+        "ToolCall",
+        "AgentSteps"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:24",
+        "research/competitors.md:25"
+      ],
+      "findings": [
+        "E-33"
+      ],
+      "reqRefs": [
+        "REQ-SURF-120",
+        "REQ-SURF-122",
+        "REQ-SURF-123"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 3
+      },
+      "status": "planned",
+      "subpath": "./ai"
+    },
+    {
+      "id": "X-34",
+      "capability": "Citation, SourceList",
+      "area": "ai",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Citation",
+        "SourceList"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:25"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-124",
+        "REQ-SURF-125"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 2
+      },
+      "status": "planned",
+      "subpath": "./ai"
+    },
+    {
+      "id": "X-35",
+      "capability": "ModelPicker registry item on `Combobox`",
+      "area": "ai",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "ai-model-picker"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:25"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-173"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-36",
+      "capability": "Artifact panel, TraceTree, EvalDashboard registry items",
+      "area": "ai",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "ai-artifact-panel",
+        "ai-trace-tree",
+        "ai-eval-dashboard"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:25"
+      ],
+      "findings": [
+        "E-33",
+        "E-26"
+      ],
+      "reqRefs": [
+        "REQ-SURF-173"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-37",
+      "capability": "Headless media element (`useMediaElement` in `./media`)",
+      "area": "media",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "useMediaElement"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:architecture §3.2 `./media` entry"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-130"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./media"
+    },
+    {
+      "id": "X-38",
+      "capability": "Scrubber with buffered ranges, chapter markers, hover time, frame step (`MediaScrubber`, also `MediaControls.Scrubber`)",
+      "area": "media",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export",
+        "part"
+      ],
+      "names": [
+        "MediaScrubber"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:media PRD scope deviation (archived line 15)"
+      ],
+      "findings": [
+        "E-22"
+      ],
+      "reqRefs": [
+        "REQ-SURF-134",
+        "REQ-SURF-136"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./media"
+    },
+    {
+      "id": "X-39",
+      "capability": "Standalone lightbox (`ImageViewer`, Dialog-based, `items` keyed by `id`) replaces `GlassGallery enableLightbox`",
+      "area": "media",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "ImageViewer"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:rubric R3"
+      ],
+      "findings": [
+        "E-23"
+      ],
+      "reqRefs": [
+        "REQ-SURF-141",
+        "REQ-SURF-142",
+        "REQ-SURF-143"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./media"
+    },
+    {
+      "id": "X-40",
+      "capability": "APG carousel (`CarouselRail`)",
+      "area": "media",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "CarouselRail"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:APG carousel pattern"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-146",
+        "REQ-SURF-147"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./media"
+    },
+    {
+      "id": "X-41",
+      "capability": "Captions/track toggle (`MediaControls.Captions`, native `TextTrack` modes)",
+      "area": "media",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "Captions"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:WCAG 1.2.2"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-134",
+        "REQ-SURF-138"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-42",
+      "capability": "Waveform (consumer-supplied decoded `peaks`, or live single-bar `level` 0–1; no audio analysis, no `AudioContext`, no separate `AudioLevel`)",
+      "area": "media",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Waveform"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:no competitor evidence"
+      ],
+      "findings": [
+        "E-14"
+      ],
+      "reqRefs": [
+        "REQ-SURF-140"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./media"
+    },
+    {
+      "id": "X-43",
+      "capability": "Transcript panel registry item `media-transcript`",
+      "area": "media",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "media-transcript"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:accessibility value"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-175"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-44",
+      "capability": "N-panel `ResizablePanels` (pointer, container-relative, collapse, persisted layout)",
+      "area": "workspaces",
+      "priority": "P0",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "ResizablePanels"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:89"
+      ],
+      "findings": [
+        "E-15"
+      ],
+      "reqRefs": [
+        "REQ-SURF-42"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./app-shell"
+    },
+    {
+      "id": "X-45",
+      "capability": "Dockable `Inspector` with typed property rows",
+      "area": "workspaces",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "Inspector"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:89"
+      ],
+      "findings": [
+        "E-21"
+      ],
+      "reqRefs": [
+        "REQ-SURF-37",
+        "REQ-SURF-38"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 1
+      },
+      "status": "planned",
+      "subpath": "./app-shell"
+    },
+    {
+      "id": "X-46",
+      "capability": "PresenceStack registry item on `AvatarGroup` (typed `users` prop, no transport)",
+      "area": "workspaces",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "presence-stack"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:no competitors.md evidence (Liveblocks-style UIs)"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-176"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-47",
+      "capability": "CommentThread anchored to content (replaces `GlassCommentThread`)",
+      "area": "workspaces",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "comment-thread"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:replaces GlassCommentThread (§3.5)"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-176"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-48",
+      "capability": "Commerce cart block (`ProductCard`, `LineItem`, `CartSummary`)",
+      "area": "commerce",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-block"
+      ],
+      "names": [
+        "commerce-cart"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:recipe demand at recipes.ts:810 (E-24)"
+      ],
+      "findings": [
+        "E-24",
+        "E-38"
+      ],
+      "reqRefs": [
+        "REQ-SURF-177"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-49",
+      "capability": "Checkout steps block (`CheckoutSteps`: ordered list with `aria-current=\"step\"` + `Form` fields)",
+      "area": "commerce",
+      "priority": "P2",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-block"
+      ],
+      "names": [
+        "commerce-checkout"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:recipe demand at recipes.ts:810 (E-24)"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-177"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-50",
+      "capability": "Pricing block (`PricingTable`, `PlanComparison` on `SegmentedControl` + `Table`)",
+      "area": "commerce",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-block"
+      ],
+      "names": [
+        "pricing"
+      ],
+      "release": "5.1",
+      "evidence": [
+        "exception:E-25"
+      ],
+      "findings": [
+        "E-25"
+      ],
+      "reqRefs": [
+        "REQ-SURF-177"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-51",
+      "capability": "Typed registry (`$schema`, `registryDependencies`)",
+      "area": "enterprise",
+      "priority": "P1",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "registry-item"
+      ],
+      "names": [
+        "registry.json"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:18",
+        "research/competitors.md:86"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-PLAT-94"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-52",
+      "capability": "DescriptionList",
+      "area": "enterprise",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "DescriptionList"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:architecture §11.1 T2 list"
+      ],
+      "findings": [
+        "E-09"
+      ],
+      "reqRefs": [
+        "REQ-CMP-119"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-53",
+      "capability": "Banner as `Alert layout=\"banner\"` (no `Banner` export)",
+      "area": "enterprise",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "prop"
+      ],
+      "names": [
+        "layout"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:rubric R3"
+      ],
+      "findings": [
+        "E-09"
+      ],
+      "reqRefs": [
+        "REQ-CMP-116"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-54",
+      "capability": "EmptyState (polish of `GlassEmptyState`)",
+      "area": "enterprise",
+      "priority": "P1",
+      "owner": "CMP",
+      "collaborators": [],
+      "form": [
+        "export"
+      ],
+      "names": [
+        "EmptyState"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:capability map Enterprise section"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-CMP-129"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 1,
+        "subpath": 0
+      },
+      "status": "planned",
+      "subpath": "."
+    },
+    {
+      "id": "X-55",
+      "capability": "Settings page, audit log, permissions matrix blocks (`settings` at 5.0 by PLAT; `audit-log`, `permissions-matrix` at 5.2)",
+      "area": "enterprise",
+      "priority": "P1",
+      "owner": "SURF",
+      "collaborators": [
+        "PLAT"
+      ],
+      "form": [
+        "registry-block"
+      ],
+      "names": [
+        "settings",
+        "audit-log",
+        "permissions-matrix"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "research/competitors.md:130",
+        "research/competitors.md:89"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-178"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-56",
+      "capability": "Honest depth layering on the existing layer model and `SurfaceGroup` (no `elevation` tokens)",
+      "area": "spatial",
+      "priority": "P3",
+      "owner": "MAT",
+      "collaborators": [],
+      "form": [
+        "part"
+      ],
+      "names": [
+        "SurfaceGroup"
+      ],
+      "release": "5.0",
+      "evidence": [
+        "exception:D-07"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-MAT-07",
+        "REQ-MAT-19",
+        "REQ-MAT-26",
+        "REQ-MAT-30"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-57",
+      "capability": "Parallax, ParticleField, MagneticCursor labs residents (rebuilt to §13.4 criteria)",
+      "area": "spatial",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [
+        "MAT"
+      ],
+      "form": [
+        "labs"
+      ],
+      "names": [
+        "Parallax",
+        "ParticleField",
+        "MagneticCursor"
+      ],
+      "release": "5.x",
+      "evidence": [
+        "exception:§4.5 admission rubric"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-167",
+        "REQ-SURF-168"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-58",
+      "capability": "Cinematic WebGL lens (labs → `./three`, promoted per §13.4)",
+      "area": "spatial",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [
+        "MAT"
+      ],
+      "form": [
+        "labs"
+      ],
+      "names": [
+        "cinematic-lens"
+      ],
+      "release": "5.x",
+      "evidence": [
+        "exception:D-05, D-16"
+      ],
+      "findings": [],
+      "reqRefs": [
+        "REQ-SURF-165",
+        "REQ-SURF-169"
+      ],
+      "rubric": {
+        "r1": true,
+        "r2": true,
+        "r3": true,
+        "r4": true,
+        "r5": true,
+        "r6": true
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "planned"
+    },
+    {
+      "id": "X-R01",
+      "capability": "consciousness/quantum/biometric/eye-tracking components and `ConsciousnessFeatures` props",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "consciousness",
+        "quantum",
+        "biometric",
+        "eye-tracking",
+        "ConsciousnessFeatures"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: consciousness/quantum/biometric/eye-tracking components and `ConsciousnessFeatures` props"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R02",
+      "capability": "`GlassGANGenerator`, `GlassDeepDreamGlass`, `GlassStyleTransfer`, `GlassGenerativeArt`, `AIGlassThemeProvider`, `GlassPredictiveEngine`, `GlassAutoComposer`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "GlassGANGenerator",
+        "GlassDeepDreamGlass",
+        "GlassStyleTransfer",
+        "GlassGenerativeArt",
+        "AIGlassThemeProvider",
+        "GlassPredictiveEngine",
+        "GlassAutoComposer"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `GlassGANGenerator`, `GlassDeepDreamGlass`, `GlassStyleTransfer`, `GlassGenerativeArt`, `AIGlassThemeProvider`, `GlassPredictiveEngine`, `GlassAutoComposer`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R03",
+      "capability": "`GlassSmartShoppingCart`, `GlassEcommerceProvider`, `GlassProductRecommendations`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "GlassSmartShoppingCart",
+        "GlassEcommerceProvider",
+        "GlassProductRecommendations"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `GlassSmartShoppingCart`, `GlassEcommerceProvider`, `GlassProductRecommendations`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R04",
+      "capability": "`SpatialComputingEngine`, `GlassARPreview`, `ARGlassEffects`, `Glass360Viewer`, `GlassHologram`, `GlassVortexPortal`, `GlassFluidSimulation`, `Glass3DEngine`, `AuroraPro`, `GlassShatterEffects`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "SpatialComputingEngine",
+        "GlassARPreview",
+        "ARGlassEffects",
+        "Glass360Viewer",
+        "GlassHologram",
+        "GlassVortexPortal",
+        "GlassFluidSimulation",
+        "Glass3DEngine",
+        "AuroraPro",
+        "GlassShatterEffects"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `SpatialComputingEngine`, `GlassARPreview`, `ARGlassEffects`, `Glass360Viewer`, `GlassHologram`, `GlassVortexPortal`, `GlassFluidSimulation`, `Glass3DEngine`, `AuroraPro`, `GlassShatterEffects`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R05",
+      "capability": "Fractal, Orbital, Tessellation layouts, `GlassIslandLayout`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "Fractal",
+        "Orbital",
+        "Tessellation",
+        "GlassIslandLayout"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: Fractal, Orbital, Tessellation layouts, `GlassIslandLayout`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R06",
+      "capability": "CMS family incl. `GlassCanvas`, `GlassPropertyPanel` (sink no-op in 4.1.1)",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "GlassCanvas",
+        "GlassPropertyPanel"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: CMS family incl. `GlassCanvas`, `GlassPropertyPanel` (sink no-op in 4.1.1)"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R07",
+      "capability": "`GlassTeamCursors`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "GlassTeamCursors"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `GlassTeamCursors`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R08",
+      "capability": "gamification, achievements, `emotionalIntelligence`, default-on `soundDesign`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "gamification",
+        "achievements",
+        "emotionalIntelligence",
+        "soundDesign"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: gamification, achievements, `emotionalIntelligence`, default-on `soundDesign`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R09",
+      "capability": "`HoudiniGlassProvider`/`Card`, `LiquidGlassGPU`",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "HoudiniGlassProvider",
+        "HoudiniGlassCard",
+        "LiquidGlassGPU"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `HoudiniGlassProvider`/`Card`, `LiquidGlassGPU`"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R10",
+      "capability": "library-side presence/transport adapter (never added)",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "presence-transport",
+        "presenceAdapter",
+        "PresenceAdapter"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: library-side presence/transport adapter (never added)"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R11",
+      "capability": "alias exports `Autocomplete`, `TagInput`, `HoverCard`, `NotificationCenter`, `Banner`, `Lightbox`, `Dock`, `NavBar` (never added)",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "Autocomplete",
+        "TagInput",
+        "HoverCard",
+        "NotificationCenter",
+        "Banner",
+        "Lightbox",
+        "Dock",
+        "NavBar"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: alias exports `Autocomplete`, `TagInput`, `HoverCard`, `NotificationCenter`, `Banner`, `Lightbox`, `Dock`, `NavBar` (never added)"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R12",
+      "capability": "`elevation` token axis (never added)",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "SURF",
+      "collaborators": [],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "elevation"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `elevation` token axis (never added)"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    },
+    {
+      "id": "X-R13",
+      "capability": "`MindMap`, `SignaturePad` as core exports (`GlassMindMap`, `GlassSignaturePad`); labs on demand",
+      "area": "rejected",
+      "priority": "P3",
+      "owner": "PLAT",
+      "collaborators": [
+        "SURF"
+      ],
+      "form": [
+        "rejected"
+      ],
+      "names": [
+        "MindMap",
+        "SignaturePad",
+        "GlassMindMap",
+        "GlassSignaturePad"
+      ],
+      "release": "never",
+      "evidence": [
+        "exception:rejected: `MindMap`, `SignaturePad` as core exports (`GlassMindMap`, `GlassSignaturePad`); labs on demand"
+      ],
+      "findings": [],
+      "reqRefs": [],
+      "rubric": {
+        "r1": false,
+        "r2": false,
+        "r3": false,
+        "r4": false,
+        "r5": false,
+        "r6": false
+      },
+      "exportDelta": {
+        "root": 0,
+        "subpath": 0
+      },
+      "status": "rejected"
+    }
+  ]
+}
