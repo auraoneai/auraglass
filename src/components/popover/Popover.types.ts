@@ -7,9 +7,11 @@ import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes'
 type RenderProp = React.ReactElement | ((props: any) => React.ReactElement);
 
 export interface PopoverRootProps {
-  open?: boolean;
+  open?: boolean | undefined;
   defaultOpen?: boolean;
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
+  /** Modal behaviour; non-modal is the default for anchored overlays. */
+  modal?: boolean | 'trap-focus' | undefined;
   children?: React.ReactNode;
 }
 
@@ -35,6 +37,9 @@ export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElem
   align?: 'start' | 'center' | 'end' | undefined;
   sideOffset?: number | undefined;
   collisionPadding?: number | undefined;
+  /** External anchor element (Tour step targets, hovercards) — BU forwards it to
+      the positioner's anchor resolution. */
+  anchor?: Element | null | undefined;
   children?: React.ReactNode;
 }
 

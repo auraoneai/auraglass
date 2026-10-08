@@ -1,0 +1,6 @@
+/* CMP-317 InlineEdit */
+@layer ag.components {
+  .ag-inline-edit-trigger { background: none; border: none; font: inherit; cursor: text; text-align: start; padding: 0; }
+  .ag-inline-edit-placeholder { opacity: 0.5; }
+  .ag-inline-edit-input { font: inherit; inline-size: 100%; }
+}

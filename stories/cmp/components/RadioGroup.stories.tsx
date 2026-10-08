@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/RadioGroup',
   component: RadioGroup.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'RadioGroup', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'RadioGroup', kind: 'component' } },
 } satisfies Meta<typeof RadioGroup.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Switch',
   component: Switch,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Switch', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Switch', kind: 'component' } },
 } satisfies Meta<typeof Switch>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

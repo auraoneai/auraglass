@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/SearchField',
   component: SearchField,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'SearchField', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'SearchField', kind: 'component' } },
   args: { 'aria-label': 'Search' },
 } satisfies Meta<typeof SearchField>;
 export default sbMeta;

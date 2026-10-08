@@ -27,7 +27,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Combobox',
   component: Combobox.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Combobox', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Combobox', kind: 'component' } },
 } satisfies Meta<typeof Combobox.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

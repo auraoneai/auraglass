@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Field',
   component: Field.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Field', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Field', kind: 'component' } },
 } satisfies Meta<typeof Field.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

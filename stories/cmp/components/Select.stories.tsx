@@ -28,7 +28,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Select',
   component: Select.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Select', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Select', kind: 'component' } },
 } satisfies Meta<typeof Select.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

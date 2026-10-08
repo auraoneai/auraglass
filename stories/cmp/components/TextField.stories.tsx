@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/TextField',
   component: TextField,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'TextField', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'TextField', kind: 'component' } },
 } satisfies Meta<typeof TextField>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

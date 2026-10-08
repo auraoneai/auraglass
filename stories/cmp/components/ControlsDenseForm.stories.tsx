@@ -13,7 +13,7 @@ import type { StoryAgParameters } from '../../../src/contracts/testing';
 const sbMeta = {
   title: 'Flagships/Controls/DenseForm',
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'ControlsDenseForm', kind: 'scene' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'ControlsDenseForm', kind: 'scene' } },
 } satisfies Meta;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/ButtonGroup',
   component: ButtonGroup,
   tags: ['certified'],
-  parameters: { ag: { tier: 'standard', subject: 'ButtonGroup', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'ButtonGroup', kind: 'component' } },
   args: { 'aria-label': 'Actions' },
 } satisfies Meta<typeof ButtonGroup>;
 export default sbMeta;

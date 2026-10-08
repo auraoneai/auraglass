@@ -12,7 +12,7 @@ const sbMeta = {
   title: 'Flagships/Overlays/Toast',
   component: Toast.Viewport,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Toast', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Toast', kind: 'component' } },
 } satisfies Meta<typeof Toast.Viewport>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

@@ -1,4 +1,2 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const FileUpload = createSeedComponent('file-upload', 'div');
+export { FileUpload } from './FileUpload.client';
+export type { FileUploadProps, FileUploadItem } from './FileUpload.client';

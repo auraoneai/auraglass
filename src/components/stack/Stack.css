@@ -1,0 +1,6 @@
+/* CMP-297 Stack */
+@layer ag.components {
+  .ag-stack { display: flex; }
+  .ag-stack-separator { display: flex; align-items: center; justify-content: center; color: var(--ag-text-secondary, currentColor); }
+  .ag-stack[data-ag-direction='row'] > .ag-stack-separator { flex: none; }
+}

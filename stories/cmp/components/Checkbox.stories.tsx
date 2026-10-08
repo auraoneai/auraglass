@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Checkbox',
   component: Checkbox,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Checkbox', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Checkbox', kind: 'component' } },
 } satisfies Meta<typeof Checkbox>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;

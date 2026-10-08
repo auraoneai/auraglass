@@ -7,7 +7,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Slider',
   component: Slider.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Slider', kind: 'component' } satisfies StoryAgParameters },
+  parameters: { ag: { tier: 'standard', subject: 'Slider', kind: 'component' } },
 } satisfies Meta<typeof Slider.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
