@@ -1,0 +1,41 @@
+{
+  "family": "RM-03",
+  "generatedAt": "2026-10-08T02:16:44.147Z",
+  "names": [
+    "GlassBiometricAdaptation",
+    "GlassBiometricDashboard",
+    "GlassCoherenceIndicator",
+    "GlassContextAware",
+    "GlassContextualDashboard",
+    "GlassContextualEngine",
+    "GlassEyeTracking",
+    "GlassEyeTrackingCalibration",
+    "GlassGazeResponsive",
+    "GlassGazeVisualization",
+    "GlassMetaDashboard",
+    "GlassNeuroFeedback",
+    "GlassNeuroMetricsDashboard",
+    "GlassPredictiveEngine",
+    "GlassProbabilityCloud",
+    "GlassQuantumField",
+    "GlassQuantumStates",
+    "GlassQuantumTunnel",
+    "GlassSelfHealingSystem",
+    "GlassStressResponsive",
+    "GlassSuperpositionalMenu",
+    "GlassWaveFunction",
+    "QuantumEntanglementVisualizer"
+  ],
+  "status": "missing",
+  "missingRoots": [
+    "/Users/gurbakshchahal/AuraOne",
+    "/Users/gurbakshchahal/platforms"
+  ],
+  "scans": [],
+  "gh": {
+    "status": "missing",
+    "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
+  },
+  "acknowledged": false,
+  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+}

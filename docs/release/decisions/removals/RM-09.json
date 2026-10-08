@@ -1,0 +1,23 @@
+{
+  "family": "RM-09",
+  "generatedAt": "2026-10-08T02:16:44.611Z",
+  "names": [
+    "AccessibilityProvider",
+    "ContrastGuard",
+    "GlassA11y",
+    "GlassFocusIndicators",
+    "GlassHighContrast"
+  ],
+  "status": "missing",
+  "missingRoots": [
+    "/Users/gurbakshchahal/AuraOne",
+    "/Users/gurbakshchahal/platforms"
+  ],
+  "scans": [],
+  "gh": {
+    "status": "missing",
+    "reason": "gh search unavailable: Command failed: gh search code --owner auraoneai --owner gchahal1982 aura-glass --limit 50 --json repository,path"
+  },
+  "acknowledged": false,
+  "note": "AuraOne checkouts are on the owner machine; record regenerated there at the family's PR step."
+}
