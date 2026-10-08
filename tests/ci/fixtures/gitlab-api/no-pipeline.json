@@ -1,0 +1,9 @@
+{
+ "expect": {
+  "code": 1,
+  "contains": [
+   "pending"
+  ]
+ },
+ "pipelines": []
+}
