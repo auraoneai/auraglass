@@ -80,7 +80,7 @@ const summarizeCoverage = (components, set) =>
   components.filter((component) => hasDirectMatch(set, component.name)).length;
 
 const main = () => {
-  const inventory = readJson("reports/component_inventory.json");
+  const inventory = readJson("docs/inventory/component_inventory.json");
   const components = inventory.components || [];
 
   const storyNames = toNameSet(

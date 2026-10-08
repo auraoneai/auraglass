@@ -447,9 +447,9 @@ AuraGlass 3.4 layers the Liquid Glass white-frost surface redesign (see [CHANGEL
 
 Primary evidence sources:
 
-- [Component inventory](./reports/component_inventory.json)
-- [Storybook visual certification JSON](./reports/glassmorphism-storybook-visual-certification.json)
-- [Storybook visual certification report](./reports/glassmorphism-storybook-visual-certification.md)
+- [Component inventory](./docs/inventory/component_inventory.json)
+- Storybook visual certification JSON/MD — CI artifact `.artifacts/glassmorphism-storybook-visual-certification.*`
+- [Certification audit spec](./docs/certification/certification-audit-spec.md)
 - [Storybook exhaustive QA report](./reports/storybook-exhaustive-qa.md)
 - [3.1 accessibility and visual QA baseline](./reports/3.1-release/accessibility-and-visual-qa.md)
 - [3.1 package surface audit](./reports/3.1-release/package-surface-audit.md)
@@ -524,7 +524,7 @@ npm run audit:components
 
 ### Tightened glass certification audit
 
-The headless certification contract is documented in [`reports/audit/certification-audit-spec.md`](./reports/audit/certification-audit-spec.md). Use that spec when changing glass surfaces, stories, recipes, or audit tooling; it is the durable source of truth for the inventory, token, runtime, and layout gates.
+The headless certification contract is documented in [`docs/certification/certification-audit-spec.md`](./docs/certification/certification-audit-spec.md). Use that spec when changing glass surfaces, stories, recipes, or audit tooling; it is the durable source of truth for the inventory, token, runtime, and layout gates.
 
 The audit is intentionally mechanical and exit-code gated. The authoritative public scope is **470 visual component-like exports + 1 explicitly nonvisual public state engine (`QuantumNeuromorphicEngine`) + 28 recipes = 499 total**. The screenshot-required visual scope is **498 items** (470 exports + 28 recipes), or **1,494 PNG/JSON pairs** across three viewports. Derive counts dynamically from the generated inventory; exclude `nonVisual` entries from screenshot gates only after their dedicated API/behavior tests pass. If a task or older report says “439 exports/components and recipes,” record the **471-vs-439 discrepancy** in the final summary rather than silently changing the inventory.
 

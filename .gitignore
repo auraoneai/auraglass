@@ -152,13 +152,12 @@ playwright-report/
 playwright-report*/
 playwright/.cache/
 
-# Generated local QA artifacts
+# Generated local QA artifacts — evidence lives in CI artifacts, never tracked
 /final.md
-/reports/storybook-exhaustive-qa.json
-/reports/storybook-showroom-triage.json
-/reports/storybook-showroom-triage.md
-/reports/storybook-static-resilient-sweep.json
-/reports/worker-*-screens/
+/reports/
+/.artifacts/
+/probe-*.mjs
+/*-probe*.mjs
 
 # Local development
 .local

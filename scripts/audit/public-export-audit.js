@@ -242,7 +242,7 @@ const parseRootExports = (source) => {
   return { exports, exportStars };
 };
 
-const inventoryPath = path.join(root, "reports/component_inventory.json");
+const inventoryPath = path.join(root, "docs/inventory/component_inventory.json");
 const inventory = JSON.parse(read(inventoryPath));
 const inventoryByName = new Map(
   inventory.components.map((component) => [
@@ -544,7 +544,7 @@ const report = {
   summary,
   inputs: {
     rootIndex: "src/index.ts",
-    historicalComponentInventory: "reports/component_inventory.json",
+    historicalComponentInventory: "docs/inventory/component_inventory.json",
   },
   visualTargetManifest: path.relative(root, visualTargetManifestPath),
   exportStars: exportStars.map((entry) => ({
@@ -579,7 +579,7 @@ const visualTargetManifest = {
   inputs: {
     publicExportAudit: path.relative(root, reportJsonPath),
     rootIndex: "src/index.ts",
-    historicalComponentInventory: "reports/component_inventory.json",
+    historicalComponentInventory: "docs/inventory/component_inventory.json",
   },
   summary: {
     publicVisualExportCount: visualTargetEntries.length,

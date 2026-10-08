@@ -3,15 +3,19 @@ import fs from "node:fs";
 import path from "node:path";
 
 const repoRoot = process.cwd();
+// Certification evidence is CI-produced; it is read from the evidence
+// directory ($AURAGLASS_EVIDENCE_DIR, default <repo>/.artifacts) — never
+// from a tracked reports/ tree (PLAT-110).
+const { evidenceDir } = require("../../../scripts/ci/lib/evidence-dir.js");
 const reportPath = path.join(
-  repoRoot,
-  "reports/glassmorphism-storybook-visual-certification.json"
+  evidenceDir(),
+  "glassmorphism-storybook-visual-certification.json"
 );
 const summaryPath = path.join(
-  repoRoot,
-  "reports/glassmorphism-storybook-visual-certification.md"
+  evidenceDir(),
+  "glassmorphism-storybook-visual-certification.md"
 );
-const inventoryPath = path.join(repoRoot, "reports/component_inventory.json");
+const inventoryPath = path.join(repoRoot, "docs/inventory/component_inventory.json");
 
 type CertificationEntry = {
   identityKey: string;
@@ -123,7 +127,7 @@ test.describe("Storybook visual certification report guardrails", () => {
       .readdirSync(
         path.join(
           repoRoot,
-          "reports/glassmorphism-storybook-visual-certification/screenshots"
+          evidenceDir("glassmorphism-storybook-visual-certification/screenshots")
         ),
         { recursive: true }
       )

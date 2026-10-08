@@ -436,7 +436,7 @@ const main = async () => {
   fs.rmSync(screenshotDir, { recursive: true, force: true });
   ensureDir(screenshotDir);
 
-  const inventory = readJson("reports/component_inventory.json");
+  const inventory = readJson("docs/inventory/component_inventory.json");
   const response = await fetch(`${storybookUrl}/index.json`);
   if (!response.ok) {
     throw new Error(`Unable to fetch Storybook index: ${response.status}`);
