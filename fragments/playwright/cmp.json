@@ -1,1 +1,5 @@
-[]
+[
+  { "name": "overlays-chromium", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "chromium" } },
+  { "name": "overlays-webkit", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "webkit" } },
+  { "name": "overlays-firefox", "testMatch": "tests/overlays/**/*.spec.ts", "use": { "browserName": "firefox" } }
+]

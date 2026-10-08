@@ -1,0 +1,110 @@
+/* Button — @layer ag.components, tokens only, no literals. Selectors: .ag-button, [data-ag-part], Base UI data-* state. */
+@layer ag.components {
+  .ag-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ag-space-2);
+    font: inherit;
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+    color: var(--ag-color-on-surface);
+    border: none;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    padding-inline: var(--ag-space-4);
+    border-radius: var(--ag-radius-full);
+    min-block-size: var(--ag-target-min);
+    position: relative;
+    background: transparent;
+    transition: box-shadow var(--ag-duration-micro) var(--ag-ease-standard), opacity var(--ag-duration-micro) var(--ag-ease-standard);
+  }
+
+  .ag-button[data-ag-size='sm'] {
+    padding-inline: var(--ag-space-3);
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
+  }
+  .ag-button[data-ag-size='lg'] {
+    padding-inline: var(--ag-space-5);
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+  }
+
+  .ag-button [data-ag-part='icon'] {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+  }
+  .ag-button [data-ag-part='spinner'] {
+    inline-size: var(--ag-space-4);
+    block-size: var(--ag-space-4);
+    border-radius: var(--ag-radius-full);
+    border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
+    border-block-start-color: var(--ag-color-accent);
+    animation: ag-spin var(--ag-duration-ambient) var(--ag-ease-standard) infinite;
+    flex: none;
+  }
+
+  /* Loading: label/icons stay mounted, hidden for stable width. */
+  .ag-button[aria-busy] [data-ag-part='label'],
+  .ag-button[aria-busy] [data-ag-part='icon'] {
+    visibility: hidden;
+  }
+  .ag-button[aria-busy] [data-ag-part='spinner'] {
+    position: absolute;
+    inset-inline-start: var(--ag-space-0);
+    inset-inline-end: var(--ag-space-0);
+    margin-inline: auto;
+  }
+
+  /* identity: no optics until hover — hover raises specular */
+  .ag-button[data-ag-variant='identity']:hover {
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-color-specular, var(--ag-color-border));
+  }
+  .ag-button:not([data-ag-variant='identity']):hover {
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-hover-specular);
+  }
+
+  /* intent=danger tints text/rim/specular only; never selects material */
+  .ag-button[data-ag-intent='danger'] {
+    color: var(--ag-color-danger);
+  }
+
+  /* press glow via rim opacity only — transform stays none at rest/hover/press */
+  .ag-button:active,
+  .ag-button[data-pressed] {
+    box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
+  }
+
+  .ag-button:focus-visible {
+    outline: var(--ag-focus-width) solid var(--ag-color-focus-ring, var(--ag-focus-outer));
+    outline-offset: var(--ag-focus-width);
+  }
+
+  .ag-button:disabled,
+  .ag-button[data-disabled] {
+    cursor: default;
+    opacity: var(--ag-state-disabled-alpha);
+  }
+
+  @media (forced-colors: active) {
+    .ag-button {
+      forced-color-adjust: none;
+      color: ButtonText;
+      background: ButtonFace;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+  }
+}
+
+/* REQ-33: hit-area — expands the interactive target to --ag-target-min
+   (44px coarse) without changing the visual box. */
+.ag-button [data-ag-part='hit-area'] {
+  position: absolute;
+  inset: calc((var(--ag-target-min) - 100%) / -2);
+  inset-inline: calc((var(--ag-target-min) - 100%) / -2);
+  z-index: -1;
+}

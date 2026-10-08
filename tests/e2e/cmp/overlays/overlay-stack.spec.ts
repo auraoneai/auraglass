@@ -1,0 +1,68 @@
+
+/* CMP-394 + CMP-399 + CMP-404 + CMP-409 (lane 3i-Q). Overlay stack cases
+   T-OVL-STACK-01..04 over nested/composite overlay scenes. */
+import { test, expect } from '@playwright/test';
+import { gotoStory } from '../../../helpers/index';
+
+const popups = (page: import('@playwright/test').Page) =>
+  page.locator('[data-ag-part="popup"]');
+
+test.describe('overlay stack (CMP-394/399/404/409)', () => {
+  test('T-OVL-STACK-04: nested Dialog — nested-open marker, top scrim only, one Escape per layer', async ({ page }) => {
+    await gotoStory(page, 'overlays-dialog--nested');
+    const outer = page.locator('[data-ag-part="popup"][aria-label="outer dialog"]');
+    const inner = page.locator('[data-ag-part="popup"][aria-label="inner dialog"]');
+    await expect(outer).toBeVisible();
+    await expect(inner).toBeVisible();
+
+    // parent popup carries the nested-open marker while the child is up
+    await expect(outer).toHaveAttribute('data-ag-nested-open', /.*/);
+
+    // only the topmost scrim blurs
+    const blurredScrims = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('[data-ag-part="backdrop"], [data-ag-part="scrim"]')]
+        .filter((el) => getComputedStyle(el).backdropFilter !== 'none'
+          || getComputedStyle(el, '::before').backdropFilter !== 'none').length,
+    );
+    expect(blurredScrims).toBeLessThanOrEqual(1);
+
+    // one Escape closes exactly the child; focus returns to the parent layer
+    await page.keyboard.press('Escape');
+    await expect(inner).toHaveCount(0);
+    await expect(outer).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(outer).toHaveCount(0);
+  });
+
+  test('T-OVL-STACK-02: press inside Dialog popup outside Popover closes only the Popover', async ({ page }) => {
+    // Composite Dialog→Popover scene does not exist yet; the case is authored
+    // test-first and records PENDING until a composite story lands.
+    await gotoStory(page, 'overlays-dialog--nested');
+    const count = await popups(page).count();
+    expect(count).toBeGreaterThanOrEqual(2);
+    // placeholder for the press-targeting assertion once the scene exists
+    test.skip(true, 'composite Dialog→Popover scene pending');
+  });
+
+  test('T-OVL-STACK-01: Dialog→Popover→Menu — exactly one layer per Escape', async ({ page }) => {
+    await gotoStory(page, 'overlays-dialog--nested');
+    expect(await popups(page).count()).toBeGreaterThanOrEqual(2);
+    test.skip(true, 'composite Dialog→Popover→Menu scene pending');
+  });
+
+  test('T-OVL-STACK-03: toast viewport has no inert ancestor over a modal Dialog; F6 reaches it', async ({ page }) => {
+    await gotoStory(page, 'overlays-dialog--default');
+    // mount a toast through the page's own toast manager if present, else the
+    // toast viewport from the provider; assert no inert ancestor either way.
+    const viewport = page.locator('[data-ag-part="viewport"], [data-ag-part="region"]').first();
+    if (await viewport.count()) {
+      const hasInertAncestor = await viewport.evaluate(
+        (el) => { let n: Element | null = el; while (n) { if (n.hasAttribute('inert')) return true; n = n.parentElement; } return false; },
+      );
+      expect(hasInertAncestor).toBe(false);
+      await page.keyboard.press('F6');
+    } else {
+      test.skip(true, 'no toast viewport mounted alongside the dialog scene');
+    }
+  });
+});

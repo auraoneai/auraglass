@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`overlay dom contract (CMP-202) AlertDialog: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-describedby",
+  "aria-label",
+  "aria-labelledby",
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-state",
+  "id",
+  "role",
+  "style",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Dialog: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-describedby",
+  "aria-label",
+  "aria-labelledby",
+  "aria-modal",
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-placement",
+  "data-ag-size",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-state",
+  "id",
+  "role",
+  "style",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Menu: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-labelledby",
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-align",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-rootownerid",
+  "data-side",
+  "data-state",
+  "id",
+  "role",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Popover: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-describedby",
+  "aria-labelledby",
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-align",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-side",
+  "data-state",
+  "id",
+  "role",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Sheet: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-label",
+  "aria-labelledby",
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-preset",
+  "data-ag-side",
+  "data-ag-size",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-state",
+  "id",
+  "role",
+  "style",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Toast: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "aria-describedby",
+  "aria-labelledby",
+  "aria-modal",
+  "class",
+  "data-ag-intent",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-state",
+  "data-type",
+  "role",
+  "style",
+  "tabindex",
+]
+`;
+
+exports[`overlay dom contract (CMP-202) Tooltip: popup attribute-name set is stable and contract-shaped 1`] = `
+[
+  "class",
+  "data-ag-layer",
+  "data-ag-overlay",
+  "data-ag-part",
+  "data-ag-surface",
+  "data-ag-thickness",
+  "data-ag-variant",
+  "data-align",
+  "data-base-ui-focusable",
+  "data-open",
+  "data-side",
+  "data-state",
+  "id",
+  "role",
+  "tabindex",
+]
+`;

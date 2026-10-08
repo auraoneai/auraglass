@@ -1,0 +1,7 @@
+/* CMP-316 Rating */
+@layer ag.components {
+  .ag-rating { display: inline-flex; gap: var(--ag-space-1, 0.25rem); }
+  .ag-rating-item { cursor: pointer; color: var(--ag-rating-off, currentColor); opacity: 0.35; }
+  .ag-rating-item-on { opacity: 1; color: var(--ag-rating-on, currentColor); }
+  .ag-rating[data-ag-readonly] .ag-rating-item { cursor: default; }
+}

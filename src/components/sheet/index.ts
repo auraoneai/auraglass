@@ -1,4 +1,9 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const Sheet = createSeedCompound('sheet', ['Root','Trigger','Content','Title','Description','Close','Handle']);
+export { Sheet } from './Sheet.client';
+export { SheetHandle } from './SheetHandle.client';
+export { SheetHeader, SheetBody, SheetFooter } from './SheetLayout';
+export { useSheetDetents, resolveDetent } from './useSheetDetents';
+export type {
+  SheetRootProps, SheetTriggerProps, SheetPopupProps, SheetContentProps,
+  SheetButtonishProps, SheetActionProps, SheetLayoutProps, SheetSide, SheetPreset,
+} from './Sheet.types';
+export type { SheetDetent } from './useSheetDetents';

@@ -1,3 +1,40 @@
-# ci/cmp.gitlab-ci.yml (CMP), seed per §4.13.4: one hidden template so the file is never empty.
+# ci/cmp.gitlab-ci.yml (CMP). Lane mapping: L1 Static (SC-29). 5x-line jobs only;
+# public/private handling per ci-selection.md; no cloud secrets.
 .cmp-base:
   extends: .ag-node
+
+cmp:test:foundation-pattern:
+  extends: .cmp-base
+  stage: test
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm ci
+    - |
+      # FND rules auraglass/require-data-ag-part + auraglass/no-forward-ref are in
+      # lint/rules/cmp/ agConfig; consumed rules (no-random-in-render PKG-086,
+      # no-raw-design-values DS/SC-17, no-optics-outside-material MAT-004) attach
+      # through their own owners' agConfig when those lanes land.
+      npx eslint src/components src/primitives src/foundation --max-warnings 0
+    - node scripts/cmp/verify-foundation-pattern.mjs
+    - npm test -- tests/lint tests/foundation src/foundation src/components/field src/components/text-field src/components/search-field src/components/number-field src/components/checkbox src/components/radio-group src/components/switch src/components/slider tests/controls
+    - npx tsc -p tests/types/cmp/tsconfig.json --noEmit
+    - |
+      # gen-component-docs --check (CMP-046): scripts/docs/ is PLAT-owned and the
+      # script is not yet delivered — fail loudly rather than skip it.
+      if [ -f scripts/docs/gen-component-docs.mjs ]; then
+        node scripts/docs/gen-component-docs.mjs --check
+      else
+        echo "gen-component-docs.mjs missing (CMP-046 pending/PLAT-owned path)"
+        exit 1
+      fi
+
+cmp:build:dts:
+  extends: .cmp-base
+  stage: build
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
+  script:
+    - npm ci
+    - npm run build
+    - npm test -- tests/foundation/exports/no-foundation-types.test.ts

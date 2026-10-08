@@ -1,0 +1,12 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "overlay-flows",
+  "type": "registry:block",
+  "title": "Overlay Flows",
+  "description": "GA block: confirm-delete AlertDialog, edit Dialog with form, bottom Sheet with detents, Popover filter, Menu/ContextMenu actions, Tooltip on IconButtons, Toast with undo.",
+  "dependencies": ["aura-glass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:block", "target": "blocks/overlay-flows/index.tsx" },
+    { "path": "fixtures.ts", "type": "registry:block", "target": "blocks/overlay-flows/fixtures.ts" }
+  ]
+}

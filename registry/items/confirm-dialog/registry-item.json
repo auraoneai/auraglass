@@ -1,0 +1,11 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confirm-dialog",
+  "type": "registry:item",
+  "title": "Confirm Dialog",
+  "description": "AlertDialog composition replacing the 4.x modal confirm variants (destructive and neutral).",
+  "dependencies": ["aura-glass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item", "target": "components/confirm-dialog.tsx" }
+  ]
+}

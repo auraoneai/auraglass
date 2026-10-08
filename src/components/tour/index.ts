@@ -1,4 +1,2 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const Tour = createSeedCompound('tour', ['Root','Step']);
+export { Tour } from './Tour.client';
+export type { TourProps, TourStepDef } from './Tour.client';

@@ -1,0 +1,46 @@
+@layer ag.components {
+  .ag-state-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ag-space-3);
+    text-align: center;
+    padding-block: var(--ag-space-8);
+    padding-inline: var(--ag-space-4);
+  }
+  .ag-state-view-icon {
+    display: inline-flex;
+    font-size: var(--ag-type-title-1-size);
+  }
+  .ag-state-view-title {
+    margin: 0;
+    font-size: var(--ag-type-title-3-size);
+    line-height: var(--ag-type-title-3-leading);
+    font-weight: var(--ag-type-title-3-weight);
+  }
+  .ag-state-view-description {
+    margin: 0;
+    color: var(--ag-color-on-surface-muted);
+    font-size: var(--ag-type-body-size);
+  }
+  .ag-state-view-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ag-space-2);
+    justify-content: center;
+  }
+  .ag-state-view-spinner {
+    animation: ag-spin var(--ag-duration-large) var(--ag-ease-standard) infinite;
+  }
+  @keyframes ag-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-state-view-spinner {
+      animation: none;
+    }
+  }
+}
