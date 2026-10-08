@@ -680,8 +680,12 @@ export const EnhancementShowcase: React.FC = () => {
               activeSection === section.id && (
                 <motion.div
                   key={section.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+                  animate={
+                    prefersReducedMotion
+                      ? { opacity: 1, y: 0 }
+                      : { opacity: 1, y: 0 }
+                  }
                   exit={{ opacity: 0, y: -20 }}
                   transition={
                     prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }

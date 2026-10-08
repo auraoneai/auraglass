@@ -30,6 +30,7 @@ import {
   GlassBreadcrumb,
   GlassBreadcrumbItem,
 } from "../navigation/GlassBreadcrumb";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export interface FileItem {
   id: string;
@@ -416,18 +417,7 @@ const GlassFileExplorer = React.forwardRef<
         )}
         data-glass-component
         data-testid={dataTestId}
-        style={{
-          maxHeight: "100%",
-          minWidth: 0,
-          background:
-            "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.018))",
-          border: "1px solid rgba(255,255,255,0.14)",
-          boxShadow:
-            "0 16px 38px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.12)",
-          color:
-            "var(--glass-theme-text, var(--glass-text-primary, rgba(248,250,252,0.96)))",
-          ...styleProp,
-        }}
+        style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
         aria-label={ariaLabel || "File explorer"}
         role="region"
         {...props}
@@ -591,9 +581,13 @@ const GlassFileExplorer = React.forwardRef<
                 {sortedFiles.map((file) => (
                   <motion.div
                     key={file.id}
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={
+                      prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }
+                    }
                     animate={
-                      prefersReducedMotion ? {} : { opacity: 1, scale: 1 }
+                      prefersReducedMotion
+                        ? { opacity: 1, scale: 1 }
+                        : { opacity: 1, scale: 1 }
                     }
                     exit={{ opacity: 0, scale: 0.95 }}
                     className={cn(

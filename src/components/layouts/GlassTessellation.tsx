@@ -656,6 +656,11 @@ export const GlassTessellation = forwardRef<
 
                 const isHovered = hoveredTile === tile.id;
                 const isSelected = selectedTile === tile.id;
+                const tileVariant = isSelected
+                  ? "selected"
+                  : isHovered
+                    ? "hover"
+                    : "visible";
 
                 return (
                   <motion.g
@@ -663,9 +668,7 @@ export const GlassTessellation = forwardRef<
                     custom={index}
                     variants={getTileVariants()}
                     initial="hidden"
-                    animate={
-                      isSelected ? "selected" : isHovered ? "hover" : "visible"
-                    }
+                    animate={tileVariant}
                     exit="hidden"
                     style={{
                       transformOrigin: `${position.x + effectiveTileSize / 2}px ${position.y + effectiveTileSize / 2}px`,

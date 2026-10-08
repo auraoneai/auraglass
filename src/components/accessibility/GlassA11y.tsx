@@ -19,6 +19,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { ANIMATION } from "../../tokens/designConstants";
+import { createGlassStyle } from "../../core/mixins/glassMixins";
 
 export type GlassContrastLevel = "normal" | "high" | "maximum";
 export type GlassMotionPreference = "full" | "reduced" | "none";
@@ -352,7 +353,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
       top: !shouldContain && position === "fixed" ? "20px" : undefined,
       right: !shouldContain && position === "fixed" ? "20px" : undefined,
       zIndex: !shouldContain && position === "fixed" ? 1000 : undefined,
-      maxHeight: shouldContain ? resolvedMaxHeight ?? "220px" : undefined,
+      maxHeight: shouldContain ? (resolvedMaxHeight ?? "220px") : undefined,
       maxWidth: resolvedMaxWidth ?? (shouldContain ? "320px" : undefined),
       width: shouldContain ? "100%" : undefined,
       overflow: shouldContain ? "hidden" : undefined,
@@ -396,9 +397,15 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: -20 }}
+              initial={
+                prefersReducedMotion
+                  ? false
+                  : { opacity: 0, scale: 0.9, y: -20 }
+              }
               animate={
-                prefersReducedMotion ? {} : { opacity: 1, scale: 1, y: 0 }
+                prefersReducedMotion
+                  ? { opacity: 1, scale: 1, y: 0 }
+                  : { opacity: 1, scale: 1, y: 0 }
               }
               exit={{ opacity: 0, scale: 0.9, y: -20 }}
               transition={
@@ -440,9 +447,7 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                   (isCompact ? "220px" : "min(80vh, 42rem)"),
               }}
               data-glass-a11y-panel
-              data-glass-a11y-placement={
-                flowsWithDocument ? "flow" : "popover"
-              }
+              data-glass-a11y-placement={flowsWithDocument ? "flow" : "popover"}
             >
               {/* Header */}
               <div
@@ -760,10 +765,14 @@ export const GlassA11y = React.forwardRef<HTMLDivElement, GlassA11yProps>(
                             <AnimatePresence>
                               {section.isExpanded && (
                                 <motion.div
-                                  initial={{ height: 0, opacity: 0 }}
+                                  initial={
+                                    prefersReducedMotion
+                                      ? false
+                                      : { height: 0, opacity: 0 }
+                                  }
                                   animate={
                                     prefersReducedMotion
-                                      ? {}
+                                      ? { height: "auto", opacity: 1 }
                                       : { height: "auto", opacity: 1 }
                                   }
                                   exit={{ height: 0, opacity: 0 }}
@@ -942,15 +951,7 @@ export const GlassMotionControls = React.forwardRef<
               })
             }
             className="glass-w-full glass-p-2 glass-radius-md glass-focus glass-touch-target glass-contrast-guard"
-            style={{
-              appearance: "none",
-              background:
-                "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-              backgroundColor: "rgba(255,255,255,0.018)",
-              border: "1px solid rgba(255,255,255,0.18)",
-              color: "var(--glass-theme-text, var(--glass-text-primary))",
-              opacity: 1,
-            }}
+            style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
           >
             <option value="full">Full Motion</option>
             <option value="reduced">Reduced Motion</option>
@@ -973,7 +974,7 @@ export const GlassMotionControls = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
+                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
               border: `1px solid rgba(15,23,42,${config.enableHoverEffects ? "0.28" : "0.14"})`,
               boxShadow: config.enableHoverEffects
                 ? "inset 0 1px 6px rgba(255,255,255,0.14), 0 0 0 2px rgba(15,23,42,0.08)"
@@ -983,8 +984,11 @@ export const GlassMotionControls = React.forwardRef<
             <div
               className="glass-absolute glass-top-0.5 glass-w-5 glass-h-5 glass-radius-full glass-transition"
               style={{
-                left: config.enableHoverEffects ? "calc(100% - 1.375rem)" : "0.125rem",
-                background: "rgba(255,255,255,0.96)",
+                left: config.enableHoverEffects
+                  ? "calc(100% - 1.375rem)"
+                  : "0.125rem",
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}
@@ -1069,7 +1073,7 @@ export const GlassKeyboardNav = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
+                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
               border: `1px solid rgba(15,23,42,${config.enhanceKeyboardNavigation ? "0.28" : "0.14"})`,
               boxShadow: "inset 0 1px 6px rgba(255,255,255,0.14)",
             }}
@@ -1077,8 +1081,11 @@ export const GlassKeyboardNav = React.forwardRef<
             <div
               className="glass-absolute glass-top-0.5 glass-w-5 glass-h-5 glass-radius-full glass-transition"
               style={{
-                left: config.enhanceKeyboardNavigation ? "calc(100% - 1.375rem)" : "0.125rem",
-                background: "rgba(255,255,255,0.96)",
+                left: config.enhanceKeyboardNavigation
+                  ? "calc(100% - 1.375rem)"
+                  : "0.125rem",
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}
@@ -1098,7 +1105,7 @@ export const GlassKeyboardNav = React.forwardRef<
             className="glass-relative glass-w-12 glass-h-6 glass-radius-full glass-focus glass-touch-target glass-contrast-guard glass-transition"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14))",
+                '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
               border: `1px solid rgba(15,23,42,${config.showSkipLinks ? "0.28" : "0.14"})`,
               boxShadow: "inset 0 1px 6px rgba(255,255,255,0.14)",
             }}
@@ -1106,8 +1113,11 @@ export const GlassKeyboardNav = React.forwardRef<
             <div
               className="glass-absolute glass-top-0.5 glass-w-5 glass-h-5 glass-radius-full glass-transition"
               style={{
-                left: config.showSkipLinks ? "calc(100% - 1.375rem)" : "0.125rem",
-                background: "rgba(255,255,255,0.96)",
+                left: config.showSkipLinks
+                  ? "calc(100% - 1.375rem)"
+                  : "0.125rem",
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
                 border: "1px solid rgba(15,23,42,0.16)",
                 boxShadow: "0 2px 6px rgba(15,23,42,0.18)",
               }}

@@ -518,9 +518,13 @@ const GlassFileTree = React.forwardRef<HTMLDivElement, GlassFileTreeProps>(
           <AnimatePresence>
             {isExpanded && node.children && node.children.length > 0 && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
+                initial={
+                  prefersReducedMotion ? false : { opacity: 0, height: 0 }
+                }
                 animate={
-                  prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
+                  prefersReducedMotion
+                    ? { opacity: 1, height: "auto" }
+                    : { opacity: 1, height: "auto" }
                 }
                 exit={{ opacity: 0, height: 0 }}
                 className="glass-overflow-hidden"

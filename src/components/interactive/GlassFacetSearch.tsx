@@ -311,8 +311,14 @@ const GlassFacetSearch = React.forwardRef<
             {showSuggestions &&
               (suggestions.length > 0 || recentSearches.length > 0) && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+                  initial={
+                    prefersReducedMotion ? false : { opacity: 0, y: -10 }
+                  }
+                  animate={
+                    prefersReducedMotion
+                      ? { opacity: 1, y: 0 }
+                      : { opacity: 1, y: 0 }
+                  }
                   exit={{ opacity: 0, y: -10 }}
                   className="glass-absolute glass-left-0 glass-right-0 glass-z-10 glass-max-h-60 glass-overflow-y-auto"
                   style={{ top: "calc(100% + 8px)" }}
@@ -372,9 +378,11 @@ const GlassFacetSearch = React.forwardRef<
         <AnimatePresence>
           {showFacetPanel && showFilters && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
               animate={
-                prefersReducedMotion ? {} : { opacity: 1, height: "auto" }
+                prefersReducedMotion
+                  ? { opacity: 1, height: "auto" }
+                  : { opacity: 1, height: "auto" }
               }
               exit={{ opacity: 0, height: 0 }}
               className="glass-mb-4 glass-border glass-border-white/10 glass-surface-dark/20 glass-radius-lg glass-overflow-hidden"
@@ -416,7 +424,10 @@ const GlassFacetSearch = React.forwardRef<
 
         {/* Results */}
         {showResults && (loading || displayedResults.length > 0 || query) && (
-          <div className="glass-auto-gap glass-auto-gap-sm" style={{ marginTop: 8 }}>
+          <div
+            className="glass-auto-gap glass-auto-gap-sm"
+            style={{ marginTop: 8 }}
+          >
             <div className="glass-flex glass-items-center glass-justify-between">
               <h3 className="glass-text-base glass-font-semibold glass-text-primary">
                 Results {results.length > 0 && `(${results.length})`}
@@ -431,8 +442,10 @@ const GlassFacetSearch = React.forwardRef<
             <AnimatePresence>
               {loading ? (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  animate={
+                    prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }
+                  }
                   exit={{ opacity: 0 }}
                   className="glass-flex glass-items-center glass-justify-center glass-py-8"
                 >
@@ -440,16 +453,24 @@ const GlassFacetSearch = React.forwardRef<
                 </motion.div>
               ) : displayedResults.length > 0 ? (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  animate={
+                    prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }
+                  }
                   exit={{ opacity: 0 }}
                   className="glass-auto-gap glass-auto-gap-sm"
                 >
                   {displayedResults.map((result, index) => (
                     <motion.div
                       key={result.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+                      initial={
+                        prefersReducedMotion ? false : { opacity: 0, x: -20 }
+                      }
+                      animate={
+                        prefersReducedMotion
+                          ? { opacity: 1, x: 0 }
+                          : { opacity: 1, x: 0 }
+                      }
                       transition={
                         prefersReducedMotion
                           ? { duration: 0 }
@@ -497,8 +518,10 @@ const GlassFacetSearch = React.forwardRef<
                 </motion.div>
               ) : query ? (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  animate={
+                    prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }
+                  }
                   exit={{ opacity: 0 }}
                   className="glass-text-center glass-py-8 glass-text-primary-opacity-70"
                 >
@@ -506,8 +529,10 @@ const GlassFacetSearch = React.forwardRef<
                 </motion.div>
               ) : (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1 }}
+                  initial={prefersReducedMotion ? false : { opacity: 0 }}
+                  animate={
+                    prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }
+                  }
                   exit={{ opacity: 0 }}
                   className="glass-text-center glass-py-8 glass-text-primary-opacity-70"
                 >
@@ -563,8 +588,12 @@ const FacetGroup: React.FC<FacetGroupProps> = ({
       <AnimatePresence>
         {expanded && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, height: "auto" }}
+            initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1, height: "auto" }
+                : { opacity: 1, height: "auto" }
+            }
             exit={{ opacity: 0, height: 0 }}
             className="glass-px-3 glass-pb-3"
           >

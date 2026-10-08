@@ -97,17 +97,9 @@ const canvasColors = {
   hover: "rgba(100, 116, 139, 0.28)",
 };
 
-const neutralGlassStyle: React.CSSProperties = {
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-  backgroundColor: "rgba(255,255,255,0.018)",
-  border: "1px solid rgba(255,255,255,0.18)",
-  color: "var(--glass-theme-text, var(--glass-text-primary))",
-  backdropFilter: "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  WebkitBackdropFilter:
-    "blur(24px) saturate(1.5) brightness(1.06) contrast(1.04)",
-  boxShadow: "0 12px 32px rgba(15, 23, 42, 0.12)",
-};
+const neutralGlassStyle: React.CSSProperties = createGlassStyle({
+  elev: 2,
+});
 
 export const GlassQuantumTunnel = forwardRef<
   HTMLDivElement,
@@ -539,7 +531,8 @@ export const GlassQuantumTunnel = forwardRef<
                 maxWidth: "100%",
                 height: "auto",
                 display: "block",
-                background: "rgba(255, 255, 255, 0.22)",
+                background:
+                  '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
               }}
             />
 
@@ -561,10 +554,12 @@ export const GlassQuantumTunnel = forwardRef<
                     zIndex: 2,
                     ...neutralGlassStyle,
                   }}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={
+                    prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }
+                  }
                   animate={
                     prefersReducedMotion
-                      ? {}
+                      ? { opacity: 1, scale: 1 }
                       : {
                           opacity: state.isActive ? 1 : 0.5,
                           scale: measuredStates.has(state.id) ? 1.2 : 1,
@@ -598,7 +593,9 @@ export const GlassQuantumTunnel = forwardRef<
                     <motion.div
                       className="glass-absolute glass-top-1 glass--right-1 glass-w-3 glass-h-3 glass-surface-green glass-radius-full"
                       initial={{ scale: 0 }}
-                      animate={prefersReducedMotion ? {} : { scale: 1 }}
+                      animate={
+                        prefersReducedMotion ? { scale: 1 } : { scale: 1 }
+                      }
                       transition={
                         prefersReducedMotion
                           ? { duration: 0 }
@@ -677,9 +674,13 @@ export const GlassQuantumTunnel = forwardRef<
                       top: `${(y / 300) * 100}%`,
                       transform: "translate(-50%, -50%)",
                     }}
-                    initial={{ opacity: 0, scale: 0.5 }}
+                    initial={
+                      prefersReducedMotion ? false : { opacity: 0, scale: 0.5 }
+                    }
                     animate={
-                      prefersReducedMotion ? {} : { opacity: 1, scale: 1 }
+                      prefersReducedMotion
+                        ? { opacity: 1, scale: 1 }
+                        : { opacity: 1, scale: 1 }
                     }
                     exit={{ opacity: 0, scale: 0.5 }}
                   >
@@ -780,7 +781,10 @@ export const GlassQuantumTunnel = forwardRef<
                     <div
                       key={index}
                       className="glass-px-2 glass-py-1 glass-text-xs glass-text-secondary glass-radius glass-border glass-border-subtle"
-                      style={{ background: "rgba(255, 255, 255, 0.42)" }}
+                      style={{
+                        background:
+                          '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
+                      }}
                     >
                       {transition.from} → {transition.to} (
                       {(transition.probability * 100).toFixed(0)}%)

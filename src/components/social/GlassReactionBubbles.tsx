@@ -381,116 +381,117 @@ export const GlassReactionBubbles = forwardRef<
       bubble,
     }: {
       bubble: ReactionBubble;
-    }) => (
-      <motion.div
-        className={cn(
-          "glass-absolute glass-cursor-pointer glass-select-none glass-z-10"
-        )}
-        style={{
-          // Reactions are authored in the logical canvas coordinate space.
-          // Percentage positioning keeps demo/user supplied reactions inside
-          // a responsive surface when the canvas is narrower than `width`.
-          left: `${Math.min(
-            100,
-            Math.max(0, (bubble.x / Math.max(width, 1)) * 100)
-          )}%`,
-          top: `${Math.min(
-            100,
-            Math.max(0, (bubble.y / Math.max(height, 1)) * 100)
-          )}%`,
-          fontSize: bubble.size || 30,
-          maxWidth: "calc(100% - 8px)",
-        }}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={
-          prefersReducedMotion
-            ? {
-                scale: getBubbleScale(bubble),
-                opacity: getBubbleOpacity(bubble),
-              }
-            : {
-                scale: getBubbleScale(bubble),
-                opacity: getBubbleOpacity(bubble),
-                rotate:
-                  Math.sin(
-                    (bubble.maxLife - bubble.life) / 1000 + bubble.timestamp
-                  ) * 10,
-              }
-        }
-        exit={{
-          scale: 0,
-          opacity: 0,
-          y: bubble.y - 50,
-        }}
-        transition={
-          shouldAnimate
-            ? {
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-              }
-            : { duration: 0 }
-        }
-        onClick={(e) => handleBubbleClick(bubble, e)}
-        whileHover={{ scale: getBubbleScale(bubble) * 1.1 }}
-        whileTap={{ scale: getBubbleScale(bubble) * 0.9 }}
-      >
-        <div
+    }) => {
+      const bubbleAnim = prefersReducedMotion
+        ? {
+            scale: getBubbleScale(bubble),
+            opacity: getBubbleOpacity(bubble),
+          }
+        : {
+            scale: getBubbleScale(bubble),
+            opacity: getBubbleOpacity(bubble),
+            rotate:
+              Math.sin(
+                (bubble.maxLife - bubble.life) / 1000 + bubble.timestamp
+              ) * 10,
+          };
+      return (
+        <motion.div
           className={cn(
-            "glass-relative glass-inline-flex glass-items-center glass-justify-center glass-radius-full glass-border glass-border-white/20",
-            createGlassStyle({ blur: "sm", opacity: 0.8 }).background
+            "glass-absolute glass-cursor-pointer glass-select-none glass-z-10"
           )}
+          style={{
+            // Reactions are authored in the logical canvas coordinate space.
+            // Percentage positioning keeps demo/user supplied reactions inside
+            // a responsive surface when the canvas is narrower than `width`.
+            left: `${Math.min(
+              100,
+              Math.max(0, (bubble.x / Math.max(width, 1)) * 100)
+            )}%`,
+            top: `${Math.min(
+              100,
+              Math.max(0, (bubble.y / Math.max(height, 1)) * 100)
+            )}%`,
+            fontSize: bubble.size || 30,
+            maxWidth: "calc(100% - 8px)",
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={bubbleAnim}
+          exit={{
+            scale: 0,
+            opacity: 0,
+            y: bubble.y - 50,
+          }}
+          transition={
+            shouldAnimate
+              ? {
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 20,
+                }
+              : { duration: 0 }
+          }
+          onClick={(e) => handleBubbleClick(bubble, e)}
+          whileHover={{ scale: getBubbleScale(bubble) * 1.1 }}
+          whileTap={{ scale: getBubbleScale(bubble) * 0.9 }}
         >
-          <span className={cn("glass-text-2xl")}>{bubble.emoji}</span>
+          <div
+            className={cn(
+              "glass-relative glass-inline-flex glass-items-center glass-justify-center glass-radius-full glass-border glass-border-white/20",
+              createGlassStyle({ blur: "sm", opacity: 0.8 }).background
+            )}
+          >
+            <span className={cn("glass-text-2xl")}>{bubble.emoji}</span>
 
-          {effectiveShowUserNames && (
-            <motion.div
-              className={cn(
-                "glass-absolute glass-bottom-8-neg glass-left-1/2 glass-transform glass-translate-x-1/2-neg"
-              )}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 0.8, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={shouldAnimate ? { delay: 0.2 } : { duration: 0 }}
-            >
-              <div
+            {effectiveShowUserNames && (
+              <motion.div
                 className={cn(
-                  "glass-px-2 glass-py-1 glass-text-xs glass-font-medium glass-text-primary glass-radius glass-border glass-border-white/20 glass-whitespace-nowrap",
-                  createGlassStyle({ blur: "sm", opacity: 0.8 }).background
+                  "glass-absolute glass-bottom-8-neg glass-left-1/2 glass-transform glass-translate-x-1/2-neg"
                 )}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 0.8, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={shouldAnimate ? { delay: 0.2 } : { duration: 0 }}
               >
-                {bubble.userName}
-              </div>
-            </motion.div>
-          )}
+                <div
+                  className={cn(
+                    "glass-px-2 glass-py-1 glass-text-xs glass-font-medium glass-text-primary glass-radius glass-border glass-border-white/20 glass-whitespace-nowrap",
+                    createGlassStyle({ blur: "sm", opacity: 0.8 }).background
+                  )}
+                >
+                  {bubble.userName}
+                </div>
+              </motion.div>
+            )}
 
-          {/* Particle trail effect */}
-          <motion.div
-            className={cn("glass-absolute glass-inset-0 glass-radius-full")}
-            style={{
-              background: `radial-gradient(circle, ${bubble.userColor || "#FF6B6B"}40 0%, transparent 70%)`,
-            }}
-            animate={
-              prefersReducedMotion
-                ? { scale: 1, opacity: 0.2 }
-                : {
-                    scale: [1, 1.5, 1],
-                    opacity: [0.3, 0.1, 0.3],
-                  }
-            }
-            transition={
-              shouldAnimate
-                ? {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }
-                : { duration: 0 }
-            }
-          />
-        </div>
-      </motion.div>
-    );
+            {/* Particle trail effect */}
+            <motion.div
+              className={cn("glass-absolute glass-inset-0 glass-radius-full")}
+              style={{
+                background: `radial-gradient(circle, ${bubble.userColor || "#FF6B6B"}40 0%, transparent 70%)`,
+              }}
+              animate={
+                prefersReducedMotion
+                  ? { scale: 1, opacity: 0.2 }
+                  : {
+                      scale: [1, 1.5, 1],
+                      opacity: [0.3, 0.1, 0.3],
+                    }
+              }
+              transition={
+                shouldAnimate
+                  ? {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }
+                  : { duration: 0 }
+              }
+            />
+          </div>
+        </motion.div>
+      );
+    };
 
     const EmojiSelector = () => (
       <motion.div
@@ -615,7 +616,7 @@ export const GlassReactionBubbles = forwardRef<
               }}
               animate={
                 prefersReducedMotion
-                  ? {}
+                  ? { y: 0, opacity: 1, scale: 1 }
                   : {
                       y: [0, -20, 0],
                       opacity: [0.2, 0.8, 0.2],
@@ -654,8 +655,10 @@ export const GlassReactionBubbles = forwardRef<
               "glass-absolute glass-top-4 glass-right-4 glass-z-20 glass-p-3 glass-radius-lg",
               createGlassStyle({ blur: "sm", opacity: 0.8 }).background
             )}
-            initial={{ opacity: 0, x: 20 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, x: 20 }}
+            animate={
+              prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }
+            }
             transition={shouldAnimate ? { delay: 0.5 } : { duration: 0 }}
           >
             <div
@@ -669,7 +672,13 @@ export const GlassReactionBubbles = forwardRef<
                 )}
               >
                 <span>{stats.totalReactions}</span>
-                <span style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}>total</span>
+                <span
+                  style={{
+                    color: "var(--glass-theme-text, var(--glass-text-primary))",
+                  }}
+                >
+                  total
+                </span>
               </div>
               <div
                 className={cn(
@@ -677,7 +686,13 @@ export const GlassReactionBubbles = forwardRef<
                 )}
               >
                 <span>{stats.recentReactions}</span>
-                <span style={{ color: "var(--glass-theme-text, var(--glass-text-primary))" }}>recent</span>
+                <span
+                  style={{
+                    color: "var(--glass-theme-text, var(--glass-text-primary))",
+                  }}
+                >
+                  recent
+                </span>
               </div>
               {mostUsed && (
                 <div
@@ -710,8 +725,10 @@ export const GlassReactionBubbles = forwardRef<
               whiteSpace: "normal",
               textAlign: "center",
             }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            animate={
+              prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+            }
             transition={shouldAnimate ? { delay: 1 } : { duration: 0 }}
           >
             Click anywhere to add {selectedEmoji} • Click bubbles to multiply

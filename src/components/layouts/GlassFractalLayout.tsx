@@ -422,6 +422,11 @@ export const GlassFractalLayout = forwardRef<
             {allNodes.map((node, index) => {
               const isHovered = hoveredNode === node.id;
               const isSelected = selectedNode === node.id;
+              const nodeVariant = isSelected
+                ? "selected"
+                : isHovered
+                  ? "hover"
+                  : "visible";
               const nodeX = (node.position?.x || 0) * currentZoom;
               const nodeY = (node.position?.y || 0) * currentZoom;
 
@@ -437,9 +442,7 @@ export const GlassFractalLayout = forwardRef<
                   custom={node.depth || 0}
                   variants={getNodeVariants()}
                   initial="hidden"
-                  animate={
-                    isSelected ? "selected" : isHovered ? "hover" : "visible"
-                  }
+                  animate={nodeVariant}
                   exit="hidden"
                   onMouseEnter={() => handleNodeHover(node)}
                   onMouseLeave={() => handleNodeHover(null)}

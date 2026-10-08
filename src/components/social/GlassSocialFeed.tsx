@@ -226,8 +226,10 @@ export const GlassSocialFeed = forwardRef<HTMLDivElement, GlassSocialFeedProps>(
       return (
         <motion.div
           layout
-          initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={
+            prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+          }
           exit={{ opacity: 0, y: -20 }}
           transition={respectMotionPreference({
             duration: ANIMATION.DURATION.normal / 1000,

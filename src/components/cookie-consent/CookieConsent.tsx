@@ -15,7 +15,6 @@ import { ContrastGuard } from "../accessibility/ContrastGuard";
 import { ANIMATION } from "../../tokens/designConstants";
 
 // Physics/Animation Imports
-import { useGalileoStateSpring } from "../../hooks/useGalileoStateSpring";
 import { useAnimationContext } from "../../contexts/AnimationContext";
 import {
   SpringConfig,
@@ -154,22 +153,6 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       return { ...baseConfig, ...contextConfig, ...propConfig };
     }, [defaultSpring, animationConfig]);
 
-    const isTop = position?.startsWith("top");
-    const exitY = isTop ? -20 : 20;
-
-    const { value: animatedOpacity } = useGalileoStateSpring(visible ? 1 : 0, {
-      ...finalSpringConfig,
-      immediate: !shouldAnimate,
-    });
-
-    const { value: animatedTranslateY } = useGalileoStateSpring(
-      visible ? 0 : exitY,
-      {
-        ...finalSpringConfig,
-        immediate: !shouldAnimate,
-      }
-    );
-
     const positionClass =
       POSITION_CLASS_MAP[position ?? "bottom-right"] ??
       styles.positionBottomRight;
@@ -180,18 +163,13 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       "--cookie-box-shadow": `0 12px ${shadowDepth}px color-mix(in srgb, var(--glass-gray-900) 18%, transparent)`,
     };
 
-    const isCentered = position === "top" || position === "bottom";
-    const animatedStyle: React.CSSProperties = {
-      opacity: animatedOpacity,
-      transform: `translateY(${animatedTranslateY}px)${isCentered ? " translateX(-50%)" : ""}`,
-    };
-
     if (!visible) {
       return (
         <div
           ref={ref}
           className={cn(styles.container, positionClass, className)}
-          style={{ ...containerStyleVars, display: "none", ...style }}
+          data-state="closed"
+          style={{ ...containerStyleVars, ...style }}
           aria-hidden
           {...rest}
         />
@@ -202,7 +180,8 @@ export const CookieConsent = forwardRef<HTMLDivElement, CookieConsentProps>(
       <div
         ref={ref}
         className={cn(styles.container, positionClass, className)}
-        style={{ ...containerStyleVars, ...animatedStyle, ...style }}
+        data-state="open"
+        style={{ ...containerStyleVars, ...style }}
         aria-hidden={!visible}
         {...rest}
       >

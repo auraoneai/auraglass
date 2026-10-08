@@ -222,22 +222,22 @@ export function BrandColorIntegration({
           <motion.div
             className="glass-absolute glass-inset-0 glass-flex glass-items-center glass-justify-center glass-z-50"
             style={createGlassStyle({ intent: "neutral", elevation: "level2" })}
-            initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
               className={cn(
                 "glass-flex glass-items-center glass-space-x-3 glass-text-primary"
               )}
-              initial={{ y: 10, opacity: 0 }}
-              animate={prefersReducedMotion ? {} : { y: 0, opacity: 1 }}
+              initial={prefersReducedMotion ? false : { y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
             >
               <motion.div
                 className={cn(
                   "glass-w-5 glass-h-5 glass-border-2 glass-border-primary glass-border-t-transparent glass-radius-full"
                 )}
-                animate={prefersReducedMotion ? {} : { rotate: 360 }}
+                animate={prefersReducedMotion ? { rotate: 0 } : { rotate: 360 }}
                 transition={
                   prefersReducedMotion
                     ? { duration: 0 }
@@ -390,6 +390,7 @@ export function BrandGlassButton({
       <motion.div
         className="glass-absolute glass-inset-0 glass-radius-lg glass-pointer-events-none"
         style={{
+          // eslint-disable-next-line auraglass/no-inline-glass -- decorative press pulse, not a glass surface
           background:
             "radial-gradient(circle at center, rgba(255, 255, 255, 0.22) 0%, transparent 70%)",
           opacity: 0,
@@ -400,7 +401,7 @@ export function BrandGlassButton({
                 scale: [1, 1.1, 1],
                 opacity: [0, 0.2, 0],
               }
-            : {}
+            : { scale: 1, opacity: 1 }
         }
         transition={
           prefersReducedMotion

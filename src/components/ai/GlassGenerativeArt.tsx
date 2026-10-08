@@ -768,8 +768,14 @@ export const GlassGenerativeArt = forwardRef<
                   key={index}
                   className="glass-relative glass-aspect-square glass-radius-lg glass-overflow-hidden glass-surface-subtle/10 glass-group glass-cursor-pointer"
                   whileHover={shouldAnimate ? { scale: 1.02 } : {}}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={prefersReducedMotion ? {} : { opacity: 1, scale: 1 }}
+                  initial={
+                    prefersReducedMotion ? false : { opacity: 0, scale: 0.9 }
+                  }
+                  animate={
+                    prefersReducedMotion
+                      ? { opacity: 1, scale: 1 }
+                      : { opacity: 1, scale: 1 }
+                  }
                   transition={
                     prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
                   }

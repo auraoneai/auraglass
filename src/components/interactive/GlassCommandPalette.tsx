@@ -296,9 +296,13 @@ export const GlassCommandPalette = forwardRef<
       const keywords = (item?.keywords || []).join(" ").toLowerCase();
 
       if (fuzzySearch) {
-        // Simple fuzzy search implementation
+        // Simple fuzzy search implementation — escape regex metacharacters
+        // per query character so e.g. "(" cannot throw or widen the match.
         const searchRegex = new RegExp(
-          normalizedSearch.split("").join(".*"),
+          normalizedSearch
+            .split("")
+            .map((c) => c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+            .join(".*"),
           "i"
         );
         return (

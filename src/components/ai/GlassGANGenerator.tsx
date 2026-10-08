@@ -836,9 +836,13 @@ export const GlassGANGenerator = forwardRef<
                     key={index}
                     className="glass-relative glass-aspect-square glass-radius-lg glass-overflow-hidden glass-surface-subtle/10 glass-group glass-cursor-pointer"
                     whileHover={shouldAnimate ? { scale: 1.05 } : {}}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={
+                      prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }
+                    }
                     animate={
-                      prefersReducedMotion ? {} : { opacity: 1, scale: 1 }
+                      prefersReducedMotion
+                        ? { opacity: 1, scale: 1 }
+                        : { opacity: 1, scale: 1 }
                     }
                     transition={
                       prefersReducedMotion

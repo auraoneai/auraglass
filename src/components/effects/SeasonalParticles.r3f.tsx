@@ -391,8 +391,10 @@ export function SeasonalParticlesR3F({
 
       {/* Season indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={
+          prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+        }
         className={cn(
           "glass-absolute glass-top-4 glass-left-4 glass-px-3 glass-py-2 glass-radius-lg glass-foundation-complete glass-border",
           getSeasonColors(currentSeason)
@@ -413,8 +415,10 @@ export function SeasonalParticlesR3F({
       {/* Controls */}
       {showControls && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={
+            prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+          }
           className="glass-absolute glass-bottom-4 glass-right-4 glass-flex glass-flex-col glass-gap-2"
         >
           {/* Season selector */}
@@ -462,15 +466,17 @@ export function SeasonalParticlesR3F({
       {/* Wind strength indicator */}
       {windStrength > 0 && (
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, x: 0 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, x: -20 }}
+          animate={
+            prefersReducedMotion ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }
+          }
           className="glass-absolute glass-top-4 glass-right-4 glass-px-3 glass-py-2 glass-surface-dark/20 glass-backdrop-blur-lg glass-radius-lg glass-border glass-border-white/10 glass-contrast-guard"
         >
           <div className="glass-flex glass-items-center glass-gap-2 glass-text-primary-glass-opacity-60 glass-text-sm">
             <motion.div
               animate={
                 prefersReducedMotion
-                  ? {}
+                  ? { x: 0 }
                   : {
                       x: windStrength > 0 ? [0, 5, 0] : 0,
                     }

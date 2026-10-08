@@ -6,7 +6,6 @@ import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { GlassButton as Button } from "../button";
 import { Typography } from "../data-display/Typography";
 
-import { useGalileoStateSpring } from "../../hooks/useGalileoStateSpring";
 import { useAnimationContext } from "../../contexts/AnimationContext";
 import {
   SpringConfig,
@@ -147,31 +146,6 @@ export const CompactCookieNotice = forwardRef<
       return { ...baseConfig, ...contextConfig };
     }, [defaultSpring]);
 
-    const isTop = position?.startsWith("top");
-    const exitY = isTop ? -15 : 15;
-
-    // Spring for Opacity
-    const { value: animatedOpacity } = useGalileoStateSpring(visible ? 1 : 0, {
-      ...finalSpringConfig,
-      immediate: !shouldAnimate,
-    });
-
-    // Spring for TranslateY
-    const { value: animatedTranslateY } = useGalileoStateSpring(
-      visible ? 0 : exitY,
-      {
-        ...finalSpringConfig,
-        immediate: !shouldAnimate,
-      }
-    );
-
-    // Calculate transform
-    const isCentered = position === "top" || position === "bottom";
-    const animatedStyle: React.CSSProperties = {
-      opacity: animatedOpacity,
-      transform: `translateY(${animatedTranslateY}px)${isCentered ? " translateX(-50%)" : ""}`,
-    };
-
     const positionClass =
       POSITION_CLASS_MAP[position ?? "bottom-left"] ??
       styles.positionBottomLeft;
@@ -186,7 +160,8 @@ export const CompactCookieNotice = forwardRef<
         <div
           ref={ref}
           className={cn(styles.container, positionClass, className)}
-          style={{ ...containerStyleVars, display: "none", ...style }}
+          data-state="closed"
+          style={{ ...containerStyleVars, ...style }}
           aria-hidden
           {...rest}
         />
@@ -197,7 +172,8 @@ export const CompactCookieNotice = forwardRef<
       <div
         ref={ref}
         className={cn(styles.container, positionClass, className)}
-        style={{ ...containerStyleVars, ...animatedStyle, ...style }}
+        data-state="open"
+        style={{ ...containerStyleVars, ...style }}
         aria-hidden={!visible}
         {...rest}
       >

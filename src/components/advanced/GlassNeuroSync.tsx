@@ -1014,8 +1014,14 @@ export function GlassNeuroMetricsDashboard({
                   }
                 : undefined
             }
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+            initial={
+              prefersReducedMotion ? false : { opacity: 0, y: 10, scale: 0.95 }
+            }
+            animate={
+              prefersReducedMotion
+                ? { opacity: 1, y: 0, scale: 1 }
+                : { opacity: 1, y: 0, scale: 1 }
+            }
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={
               prefersReducedMotion
@@ -1176,7 +1182,8 @@ export function GlassNeuroFeedback({
         <div
           className="glass-w-full glass-h-4 glass-radius-full glass-overflow-hidden"
           style={{
-            background: "rgba(15, 23, 42, 0.1)",
+            background:
+              '/* Use createGlassStyle({ intent: "primary", elevation: "level2" }) */',
             border: "1px solid rgba(15, 23, 42, 0.12)",
             boxSizing: "border-box",
           }}

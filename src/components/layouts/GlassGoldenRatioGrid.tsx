@@ -468,6 +468,11 @@ export const GlassGoldenRatioGrid = forwardRef<
               const hasItem = !!section.item;
               const isHovered = hasItem && hoveredItem === section.item!.id;
               const isSelected = hasItem && selectedItem === section.item!.id;
+              const nodeVariant = isSelected
+                ? "selected"
+                : isHovered
+                  ? "hover"
+                  : "visible";
 
               return (
                 <motion.div
@@ -486,9 +491,7 @@ export const GlassGoldenRatioGrid = forwardRef<
                   custom={index}
                   variants={getItemVariants()}
                   initial="hidden"
-                  animate={
-                    isSelected ? "selected" : isHovered ? "hover" : "visible"
-                  }
+                  animate={nodeVariant}
                   exit="hidden"
                   onMouseEnter={() => hasItem && handleItemHover(section.item!)}
                   onMouseLeave={() => handleItemHover(null)}
@@ -587,7 +590,8 @@ export const GlassGoldenRatioGrid = forwardRef<
                 <div
                   className="glass-w-4 glass-h-0-5 glass-surface-overlay"
                   style={{
-                    background: "rgba(255, 255, 255, 0.24)",
+                    background:
+                      '/* Use createGlassStyle({ intent: "neutral", elevation: "level3" }) */',
                   }}
                 />
                 Spiral

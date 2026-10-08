@@ -482,7 +482,9 @@ export function GlassAccordion({
               </div>
               <motion.div
                 animate={
-                  prefersReducedMotion ? {} : { rotate: isOpen ? 180 : 0 }
+                  prefersReducedMotion
+                    ? { rotate: 0 }
+                    : { rotate: isOpen ? 180 : 0 }
                 }
                 transition={
                   prefersReducedMotion ? { duration: 0 } : { duration: 0.3 }
@@ -507,9 +509,13 @@ export function GlassAccordion({
             <AnimatePresence>
               {isOpen && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
+                  initial={
+                    prefersReducedMotion ? false : { height: 0, opacity: 0 }
+                  }
                   animate={
-                    prefersReducedMotion ? {} : { height: "auto", opacity: 1 }
+                    prefersReducedMotion
+                      ? { height: "auto", opacity: 1 }
+                      : { height: "auto", opacity: 1 }
                   }
                   exit={{ height: 0, opacity: 0 }}
                   transition={
@@ -524,7 +530,7 @@ export function GlassAccordion({
                 >
                   <motion.div
                     initial={{ y: -10 }}
-                    animate={prefersReducedMotion ? {} : { y: 0 }}
+                    animate={prefersReducedMotion ? { y: 0 } : { y: 0 }}
                     exit={{ y: -10 }}
                     className={cn("glass-p-4 glass-text-primary")}
                   >
@@ -577,8 +583,8 @@ export function GlassModal({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1 }}
+          initial={prefersReducedMotion ? false : { opacity: 0 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
             "glass-fixed glass-inset-0 glass-z-50 glass-flex glass-items-center glass-justify-center glass-p-4"
@@ -590,8 +596,8 @@ export function GlassModal({
         >
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
+            animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1 }}
             exit={{ opacity: 0 }}
             className={cn("glass-absolute glass-inset-0 glass-surface-overlay")}
             aria-hidden="true"
@@ -698,8 +704,10 @@ export function GlassTabs({
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+            animate={
+              prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }
+            }
             exit={{ opacity: 0, y: -20 }}
             transition={
               prefersReducedMotion

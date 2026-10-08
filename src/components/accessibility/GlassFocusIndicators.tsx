@@ -101,9 +101,11 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         height: position.height + 8,
         boxShadow: styles.shadowVar,
       }}
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.8 }}
       animate={
-        prefersReducedMotion ? {} : { opacity: isVisible ? 1 : 0, scale: 1 }
+        prefersReducedMotion
+          ? { opacity: 1, scale: 1 }
+          : { opacity: isVisible ? 1 : 0, scale: 1 }
       }
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{
@@ -125,7 +127,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
         }}
         animate={
           prefersReducedMotion
-            ? {}
+            ? { backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }
             : { backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }
         }
         transition={
@@ -163,7 +165,7 @@ function FocusRing({ element, variant = "default" }: FocusRingProps) {
             )}
             animate={
               prefersReducedMotion
-                ? {}
+                ? { scale: 1, opacity: 1 }
                 : {
                     scale: [1, 1.5, 1],
                     opacity: [0.6, 1, 0.6],
@@ -524,8 +526,14 @@ export function KeyboardShortcutsHelper() {
       {showHelp && (
         <motion.div
           className="glass-fixed glass-bottom-4 glass-right-4 glass-z-50 glass-max-w-sm"
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+          initial={
+            prefersReducedMotion ? false : { opacity: 0, y: 20, scale: 0.9 }
+          }
+          animate={
+            prefersReducedMotion
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 1, y: 0, scale: 1 }
+          }
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
         >
           <div
