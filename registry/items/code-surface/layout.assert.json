@@ -1,0 +1,9 @@
+{
+  "subject": "code-surface",
+  "overflow": { "horizontal": false },
+  "touchTargets": { "default": 24, "mobilePrimary": 44 },
+  "breakpoints": [320, 390, 1440],
+  "landmarks": ["main", "region"],
+  "scrollRegions": ["[data-ag-part='static']", "[data-ag-part='editor']"],
+  "containerQueries": ["@container"]
+}

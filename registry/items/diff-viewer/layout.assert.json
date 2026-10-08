@@ -1,0 +1,9 @@
+{
+  "subject": "diff-viewer",
+  "overflow": { "horizontal": false },
+  "touchTargets": { "default": 24 },
+  "breakpoints": [320, 390, 1440],
+  "landmarks": ["main", "region"],
+  "scrollRegions": ["[data-ag-part='lines']"],
+  "containerQueries": ["@container"]
+}

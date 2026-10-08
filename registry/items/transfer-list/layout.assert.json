@@ -1,0 +1,8 @@
+{
+  "subject": "transfer-list",
+  "overflow": { "horizontal": false },
+  "touchTargets": { "default": 24, "mobilePrimary": 44 },
+  "breakpoints": [320, 390, 1440],
+  "landmarks": ["main"],
+  "containerQueries": ["@md"]
+}

@@ -30,6 +30,10 @@ const LEGACY = /\bglass-(?:app-shell__body|sidebar-rail|topbar|dock|drawer|modal
 const FILLER = /\b(?:lorem|ipsum|dolor|consectetur)\b|placeholder\s*=\s*["'][^"']*(?:lorem|placeholder text)/i;
 const API_KEY = /[A-Z_]*API_KEY/;
 const IMPORT_RE = /(?:import|export)[^'"]*?from\s*['"]([^'"]+)['"]|import\s*['"]([^'"]+)['"]|import\s*\(\s*['"]([^'"]+)['"]|require\s*\(\s*['"]([^'"]+)['"]/g;
+// Lazy-dep convention: `const X_SPECIFIER = '<pkg>'` + a vite-ignore dynamic
+// import keeps consumer-installed deps lazy without TS2307; the specifier
+// literal counts as an import reference.
+const SPECIFIER_RE = /const\s+\w+_SPECIFIER\s*[:=][^'"]*['"]([^'"]+)['"]/g;
 const OWN = (id) => new RegExp(`^(\\.|@/|~\\b|${id}/)`);
 const DEP_ALLOW = /^(aura-glass(?:\/[a-z0-9-]+)*|react(?:\/[a-z-]+)?|react-dom(?:\/[a-z-]+)?|next(?:\/[a-z0-9-]+)?)$/;
 /* Stories/tests may import the harness toolchain. */
@@ -136,6 +140,7 @@ export function lint({ root = ROOT_DEFAULT, only = null } = {}) {
       for (const file of files) {
         const src = readFileSync(file, 'utf8');
         for (const m of src.matchAll(IMPORT_RE)) { const s = m[1] ?? m[2] ?? m[3] ?? m[4]; if (s) imported.add(s.startsWith('@') ? s.split('/').slice(0, 2).join('/') : s.split('/')[0]); }
+        for (const m of src.matchAll(SPECIFIER_RE)) { const s = m[1]; if (s) imported.add(s.startsWith('@') ? s.split('/').slice(0, 2).join('/') : s.split('/')[0]); }
         violations.push(...lintFile({ file, rel: relative(root, file), src, id, deps, tailwind }));
       }
       for (const dep of deps) {

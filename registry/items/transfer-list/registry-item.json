@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "transfer-list",
+  "type": "registry:item",
+  "title": "Transfer list",
+  "description": "Two-column pick-and-move list control on the CMP field grammar.",
+  "dependencies": ["react", "aura-glass@^5"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "item",
+      "client": true,
+      "components": ["Button", "Card", "Checkbox", "Text"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": []
+    }
+  }
+}

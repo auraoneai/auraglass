@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kanban",
+  "type": "registry:item",
+  "title": "Kanban board",
+  "description": "@dnd-kit/core kanban board (replaces recipe kanban-workspace); renders statically until the engine loads.",
+  "dependencies": ["react", "aura-glass@^5", "@dnd-kit/core@^6.3.1"],
+  "registryDependencies": ["auraglass"],
+  "files": [
+    { "path": "index.tsx", "type": "registry:item" },
+    { "path": "fixtures.ts", "type": "registry:item" }
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "PLAT",
+      "surface": "item",
+      "client": true,
+      "components": ["Badge", "Card", "Text"],
+      "ga": true,
+      "minVersion": "5.0.0",
+      "certified": null,
+      "replaces": ["kanban-workspace"]
+    }
+  }
+}
