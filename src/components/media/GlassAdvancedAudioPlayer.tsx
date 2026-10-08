@@ -67,22 +67,10 @@ const clampPercent = (value: number, total: number): number => {
   return Math.max(0, Math.min(100, (value / total) * 100));
 };
 
-const audioButtonStyle: React.CSSProperties = {
-  ...createGlassStyle({
-    intent: "neutral",
-    elevation: "level4",
-    interactive: true,
-  }),
-  appearance: "none",
-  WebkitAppearance: "none",
-  border: "1px solid rgba(255,255,255,0.18)",
-  color: "var(--glass-theme-text, var(--glass-text-primary))",
-  background:
-    "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
-  backgroundColor: "rgba(255,255,255,0.018)",
-  boxShadow:
-    "inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 28px rgba(2,6,23,0.24)",
-};
+const audioButtonStyle: React.CSSProperties = createGlassStyle({
+  intent: "neutral",
+  elevation: "level2",
+});
 
 const audioPrimaryButtonStyle: React.CSSProperties = {
   ...createGlassStyle({
@@ -197,7 +185,7 @@ const fallbackCover =
       <circle cx="360" cy="360" r="170" fill="rgba(255,255,255,0.16)"/>
       <circle cx="360" cy="360" r="58" fill="rgba(255,255,255,0.88)"/>
       <rect x="112" y="108" width="408" height="74" rx="22" fill="rgba(255,255,255,0.18)"/>
-      <text x="142" y="158" font-family="Aeonik, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">AuraGlass Audio</text>
+      <text x="142" y="158" font-family="Arial, Arial, sans-serif" font-size="34" font-weight="700" fill="#ffffff">AuraGlass Audio</text>
       <rect x="116" y="572" width="488" height="12" rx="6" fill="rgba(255,255,255,0.24)"/>
       <rect x="116" y="572" width="228" height="12" rx="6" fill="#ffffff"/>
     </svg>
@@ -1014,7 +1002,10 @@ export const GlassAdvancedAudioPlayer: React.FC<AdvancedAudioPlayerProps> = (
       </div>
 
       {/* Controls */}
-      <div className="glass-flex glass-items-center glass-justify-center glass-gap-6" style={{ marginBottom: 10 }}>
+      <div
+        className="glass-flex glass-items-center glass-justify-center glass-gap-6"
+        style={{ marginBottom: 10 }}
+      >
         <button
           onClick={() => handleSeek(Math.max(0, currentTime - 10))}
           className="glass-w-10 glass-h-10 glass-flex glass-items-center glass-justify-center hover:glass-surface-subtle glass-radius-full glass-transition-colors glass-focus glass-touch-target glass-contrast-guard"

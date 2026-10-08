@@ -88,9 +88,9 @@ class MyDocument extends Document {
 export default MyDocument;
 ```
 
-## SSR-Safe Component Usage
+## Server-Side Rendering Notes
 
-All AuraGlass components are SSR-safe by default. However, if you're creating custom components or using browser APIs, use the provided SSR utilities:
+AuraGlass components are client components (tokens and styles are server-safe). Render them inside client boundaries; if you're creating custom components or using browser APIs, use the provided hydration helpers:
 
 ```tsx
 import { isBrowser, safeBrowserExec, getBrowserValue } from 'aura-glass';
@@ -121,8 +121,8 @@ const width = getBrowserValue(() => window.innerWidth, 1024);
 
 - `safeBrowserExec(callback)` - Execute callback only in browser
 - `getBrowserValue(getter, fallback)` - Get browser value with SSR fallback
-- `addBrowserEventListener(type, listener)` - SSR-safe event listeners
-- `safeRequestAnimationFrame(callback)` - SSR-safe animation frame
+- `addBrowserEventListener(type, listener)` - hydration-safe event listeners
+- `safeRequestAnimationFrame(callback)` - hydration-safe animation frame
 
 ### Device/Environment Detection
 
@@ -169,7 +169,7 @@ const width = window.innerWidth; // ❌ Breaks SSR
 
 // Do this:
 import { getViewportSize } from 'aura-glass';
-const { width } = getViewportSize(); // ✅ SSR-safe
+const { width } = getViewportSize(); // ✅ hydration-safe
 ```
 
 ## Framework-Specific Guides

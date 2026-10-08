@@ -6,9 +6,9 @@ AuraGlass is a React and Next.js component package. Security reports should focu
 
 | Version | Status |
 | --- | --- |
-| 3.1.x | Active launch line |
-| 3.0.x | Maintenance fixes as needed |
-| < 3.0 | Not supported |
+| 4.1.x | Active |
+| 4.0.x | Security fixes until 2026-12-31 |
+| < 4.0 | Unsupported |
 
 ## Reporting A Vulnerability
 
@@ -46,8 +46,12 @@ npm run test:integration:next -- --skip-build
 
 For full release readiness, use the 3.1 package-gate ledger:
 
-- [reports/3.1-release/package-gates.md](./reports/3.1-release/package-gates.md)
+- Package-gate evidence is produced per run as CI artifacts (`.artifacts/`).
 
 ## Scope Notes
 
 AuraGlass includes optional integrations for AI, media, websocket collaboration, Sentry, and 3D/AR feature families. Optional peers should stay optional, React should not be bundled into package outputs, and server/helper entrypoints should avoid leaking credentials, tokens, or sensitive diagnostics.
+
+## Hosted runtime
+
+`server/`, `src/services/**`, `Dockerfile`, and `docker-compose.yml` are **unsupported example code** scheduled for extraction from the package repository. They are not part of the supported npm surface; the 4.1.1 advisory (GHSA draft in docs/security/GHSA-4.1.1-draft.md) covers their default-secret and authorization defects.

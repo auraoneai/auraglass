@@ -96,7 +96,7 @@ const productImage = (label: string, color: string) =>
       <rect width="400" height="400" rx="48" fill="url(#g)"/>
       <circle cx="312" cy="88" r="86" fill="rgba(255,255,255,0.16)"/>
       <circle cx="92" cy="318" r="118" fill="rgba(255,255,255,0.12)"/>
-      <text x="200" y="212" text-anchor="middle" font-family="Aeonik, Arial, sans-serif" font-size="38" font-weight="700" fill="white">${label}</text>
+      <text x="200" y="212" text-anchor="middle" font-family="Arial, Arial, sans-serif" font-size="38" font-weight="700" fill="white">${label}</text>
     </svg>
   `)}`;
 

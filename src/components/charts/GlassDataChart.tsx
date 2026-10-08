@@ -1684,7 +1684,7 @@ const GlassDataChartComponent = React.forwardRef<
       exportContext.textBaseline = "middle";
 
       if (title) {
-        exportContext.font = `bold ${16 * devicePixelRatio}px Aeonik, sans-serif`;
+        exportContext.font = `bold ${16 * devicePixelRatio}px Arial, sans-serif`;
         exportContext.fillStyle = "#ffffff";
         exportContext.fillText(
           title,
@@ -1694,7 +1694,7 @@ const GlassDataChartComponent = React.forwardRef<
       }
 
       if (subtitle) {
-        exportContext.font = `${14 * devicePixelRatio}px Aeonik, sans-serif`;
+        exportContext.font = `${14 * devicePixelRatio}px Arial, sans-serif`;
         exportContext.fillStyle = "rgba(255, 255, 255, 0.76)";
         exportContext.fillText(
           subtitle,

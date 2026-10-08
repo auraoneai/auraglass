@@ -99,7 +99,7 @@ export const COLORS = {
 export const TYPOGRAPHY = {
   // Font families
   fontFamily: {
-    sans: '"Aeonik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+    sans: '"system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
     mono: '"SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace',
   },
 

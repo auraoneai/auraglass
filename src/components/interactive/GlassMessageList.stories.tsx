@@ -15,7 +15,7 @@ const attachmentImage =
       </defs>
       <rect width="300" height="200" fill="url(#bg)"/>
       <circle cx="220" cy="56" r="34" fill="rgba(255,255,255,.18)"/>
-      <text x="28" y="124" font-family="Aeonik, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Attachment</text>
+      <text x="28" y="124" font-family="Arial, Arial, sans-serif" font-size="24" font-weight="700" fill="#ffffff">Attachment</text>
     </svg>
   `)}`;
 

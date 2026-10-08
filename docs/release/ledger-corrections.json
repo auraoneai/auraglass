@@ -1,0 +1,27 @@
+[
+  {
+    "doc": "README.md, llms.txt, RELEASE_NOTES_4.1.0.md, CHANGELOG.md",
+    "claim": "498 visual targets certified (standing claim)",
+    "correction": "Certification is a per-run pipeline result stored as CI artifacts; the repo carries no standing certification claim."
+  },
+  {
+    "doc": "README.md, llms.txt",
+    "claim": "SSR-safe package / SSR-safe components",
+    "correction": "Components are client components; token and style entrypoints are server-safe. SSR portal components remain unaffected."
+  },
+  {
+    "doc": "README.md",
+    "claim": "optional backend",
+    "correction": "server/, src/services/**, Dockerfile, docker-compose.yml are unsupported example code scheduled for extraction — not an optional supported backend."
+  },
+  {
+    "doc": "README.md",
+    "claim": "contrast guardrails",
+    "correction": "ContrastGuard and validateTextContrast report 'unverified' when a ratio cannot be computed; they are utilities, not guarantee mechanisms."
+  },
+  {
+    "doc": "README.md, docs/readme.md",
+    "claim": "checked-in reports/ evidence",
+    "correction": "reports/ is untracked; evidence lives in CI artifacts (.artifacts/)."
+  }
+]

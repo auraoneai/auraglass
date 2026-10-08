@@ -34,6 +34,27 @@ export interface AuthConfig {
   bcryptRounds: number;
 }
 
+const EXAMPLE_JWT_SECRET = "your-super-secret-jwt-key-change-in-production";
+
+/**
+ * Fails the hosted-runtime startup when the JWT secret is unsafe: unset,
+ * equal to the shipped .env.example default, or shorter than 32 characters.
+ * Exits the process (code 1) rather than throwing so a misconfigured deploy
+ * can never reach request handling. Returns the secret when safe.
+ */
+export const assertJwtSecret = (
+  env: { JWT_SECRET?: string | undefined } & object = process.env
+): string => {
+  const secret = env.JWT_SECRET;
+  if (!secret || secret === EXAMPLE_JWT_SECRET || secret.length < 32) {
+    console.error(
+      "FATAL: JWT_SECRET is unset, the shipped example default, or shorter than 32 characters — refusing to start the hosted runtime."
+    );
+    process.exit(1);
+  }
+  return secret;
+};
+
 const resolveJwtSecret = (providedSecret?: string): string => {
   const secret = providedSecret || process.env.JWT_SECRET;
 
@@ -45,7 +66,7 @@ const resolveJwtSecret = (providedSecret?: string): string => {
     return "auraglass-test-jwt-secret";
   }
 
-  throw new Error("JWT_SECRET is required to initialize AuthService");
+  return assertJwtSecret();
 };
 
 export class AuthService {
