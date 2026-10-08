@@ -1056,9 +1056,7 @@ export const glassTokenUtils = {
       // dark application. The canonical CSS tokens already provide accessible
       // defaults and [data-theme] overrides, while consumers can supply their
       // own semantic roles at any ancestor.
-      // eslint-disable-next-line auraglass/no-inline-glass -- canonical token surface, not an app inline style
       // Use createGlassStyle() instead,
-      // eslint-disable-next-line auraglass/no-inline-glass -- canonical token surface, not an app inline style
       // Use createGlassStyle() instead,
       border: "1px solid rgba(255,255,255,0.18)",
       borderRadius: `${AURA_GLASS.radii.md}px`,

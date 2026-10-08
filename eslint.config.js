@@ -67,6 +67,19 @@ module.exports = [
     }
   },
 
+  // Grandfathered auraglass/no-inline-glass sites (PLAT-065, option b):
+  // the rule stays at error; files listed in the generated baseline are
+  // demoted to warn so new violations in unlisted files still fail
+  // lint:check. The baseline is shrink-only — tests/eslint/
+  // no-inline-glass-baseline.test.ts fails when an entry is added for a
+  // file that does not violate, or a listed file no longer violates.
+  {
+    files: require('./eslint/no-inline-glass-baseline.json'),
+    rules: {
+      'auraglass/no-inline-glass': 'warn',
+    },
+  },
+
   // Global ignores
   {
     ignores: [
