@@ -1,0 +1,47 @@
+/* CMP-268 (REQ-CMP-101): Tooltip — overlayMaterial('tooltip') thin; no
+   contain:layout/paint on popup; enter = 200ms opacity + 2px data-side
+   translate, exit = opacity only; text-only (max-inline cap). */
+@layer ag.components {
+  .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
+
+  .ag-tooltip-popup {
+    background: var(--ag-surface-fill-strong, var(--ag-glass-fill, rgb(255 255 255 / 0.92)));
+    border: 1px solid var(--ag-rim, rgb(0 0 0 / 0.08));
+    border-radius: var(--ag-radius-sm, 8px);
+    box-shadow: var(--ag-shadow-transient, 0 4px 12px rgb(0 0 0 / 0.12));
+    color: var(--ag-on-surface, inherit);
+    font-size: var(--ag-text-sm, 12px);
+    line-height: 1.4;
+    padding: 6px 10px;
+    max-inline-size: min(320px, calc(100vw - 32px));
+    inline-size: max-content;
+    transition: opacity var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease),
+                transform var(--ag-duration-small, 200ms) var(--ag-ease-standard, ease);
+  }
+  .ag-tooltip-popup[data-starting-style] {
+    opacity: 0;
+    transform: var(--_ag-tip-in, translateY(2px));
+  }
+  .ag-tooltip-popup[data-ending-style] { opacity: 0; transition-property: opacity; }
+  .ag-tooltip-popup[data-side='top'][data-starting-style] { --_ag-tip-in: translateY(2px); }
+  .ag-tooltip-popup[data-side='bottom'][data-starting-style] { --_ag-tip-in: translateY(-2px); }
+  .ag-tooltip-popup[data-side='left'][data-starting-style] { --_ag-tip-in: translateX(2px); }
+  .ag-tooltip-popup[data-side='right'][data-starting-style] { --_ag-tip-in: translateX(-2px); }
+  .ag-tooltip-popup[data-side='inline-start'][data-starting-style] { --_ag-tip-in: translateX(2px); }
+  .ag-tooltip-popup[data-side='inline-end'][data-starting-style] { --_ag-tip-in: translateX(-2px); }
+
+  .ag-tooltip-arrow {
+    inline-size: 8px;
+    block-size: 8px;
+    background: var(--ag-surface-fill-strong, rgb(255 255 255 / 0.92));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none !important; }
+  }
+  @media (forced-colors: active) {
+    .ag-tooltip-popup { border: 1px solid CanvasText; }
+    .ag-tooltip-arrow { background: Canvas; }
+  }
+}

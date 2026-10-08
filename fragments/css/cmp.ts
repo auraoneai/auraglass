@@ -12,4 +12,11 @@ export default [
   { file: 'src/components/button-group/ButtonGroup.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/toggle-group/ToggleGroup.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/segmented-control/SegmentedControl.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/dialog/Dialog.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/alert-dialog/AlertDialog.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/sheet/Sheet.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/popover/Popover.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/tooltip/Tooltip.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/menu/Menu.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/toast/Toast.css', layer: 'ag.components', bundle: 'styles.css' },
 ] satisfies CssFragment[];
