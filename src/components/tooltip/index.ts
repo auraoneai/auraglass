@@ -1,4 +1,5 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const Tooltip = createSeedCompound('tooltip', ['Root','Trigger','Content','Arrow']);
+export { Tooltip } from './Tooltip.client';
+export type {
+  TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
+  TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
+} from './Tooltip.types';

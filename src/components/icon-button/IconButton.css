@@ -1,0 +1,10 @@
+@layer ag.components {
+  .ag-icon-button {
+    padding-inline: var(--ag-space-0);
+    inline-size: var(--ag-target-min);
+    border-radius: var(--ag-radius-full);
+  }
+  .ag-icon-button[data-ag-shape='fixed'] {
+    border-radius: var(--ag-radius-md);
+  }
+}

@@ -1,4 +1,7 @@
-/* @ag-contract-seed: S-30. Owner CMP replaces internals; exports frozen (CMP_MODULES, §4.6). */
-import { createSeedComponent, createSeedCompound } from '../../contracts/seed';
-
-export const Dialog = createSeedCompound('dialog', ['Root','Trigger','Content','Title','Description','Close']);
+export { Dialog } from './Dialog.client';
+export { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
+export type {
+  DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
+  DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
+  DialogContentProps, DialogLayoutProps, DialogSize, DialogPlacement, DialogVariant,
+} from './Dialog.types';

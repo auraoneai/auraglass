@@ -1,0 +1,46 @@
+/* RadioGroup (CMP-127/416): list layout + ring/dot indicator shares the
+   Checkbox box styling (defined in Checkbox.css). */
+@layer ag.components {
+  .ag-radio-group {
+    display: flex;
+    gap: var(--ag-space-3);
+  }
+  .ag-radio-group[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+
+  .ag-radio-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2);
+    color: var(--ag-on-surface);
+    cursor: default;
+  }
+  .ag-radio-item [data-ag-part='hit-area'] {
+    position: absolute;
+    inset: calc((var(--ag-target-min) - 100%) / -2);
+    z-index: -1;
+  }
+
+  .ag-radio-item [data-ag-part='indicator'] {
+    border-radius: var(--ag-radius-full);
+  }
+
+  /* Dot inside the ring — drawn by ::after on checked. */
+  .ag-radio-item [data-ag-part='indicator']::after {
+    content: '';
+    inline-size: 40%;
+    block-size: 40%;
+    border-radius: var(--ag-radius-full);
+    background: currentColor;
+    opacity: 0;
+  }
+  .ag-radio-item[data-checked] [data-ag-part='indicator']::after {
+    opacity: 1;
+  }
+
+  .ag-radio-item[data-disabled] {
+    opacity: var(--ag-state-disabled-alpha);
+  }
+}

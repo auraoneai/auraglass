@@ -1,16 +1,3 @@
-export {
-  AlertCircleIcon,
-  AlertTriangleIcon,
-  BellIcon,
-  ErrorIcon,
-  InfoIcon,
-  LoaderIcon,
-  NotificationIcon,
-  SuccessIcon,
-  WarningIcon,
-} from "./index";
-export type {
-  GlassIcon,
-  GlassIconNode,
-  GlassIconProps,
-} from "./createGlassIcon";
+export { AlertCircleIcon, ErrorIcon } from './status/alert-circle';
+export { AlertTriangleIcon, WarningIcon } from './status/alert-triangle';
+export { InfoIcon } from './status/info';
