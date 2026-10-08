@@ -50,6 +50,8 @@ export default [
   { id: 'Steps.css', import: "src/components/steps/Steps.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'AvatarGroup.css', import: "src/components/avatar/AvatarGroup.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'Chip.css', import: "src/components/chip/Chip.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'KeyValueEditor.css', import: "src/components/key-value-editor/KeyValueEditor.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
+  { id: 'Form.css', import: "src/components/field/Form.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 't2-css-total', import: "aura-glass/styles.css | cmp-t2", limitBytes: 12000, kind: 'css' },
   { id: 'Button.css', import: "src/components/button/Button.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },
   { id: 'IconButton.css', import: "src/components/icon-button/IconButton.css | aura-glass/styles.css", limitBytes: 1200, kind: 'css' },

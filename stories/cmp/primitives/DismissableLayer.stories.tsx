@@ -40,3 +40,42 @@ export const RTL: Story = {
     </DismissableLayer>
   ),
 };
+
+/* CMP-347: two stacked layers — Escape dismisses only the top layer and the
+   primitive's unmount cleanup returns focus to the element that was focused
+   when the inner layer mounted (the "Open inner" button inside the outer). */
+export const Stacked: Story = {
+  parameters: { ag: { subject: 'DismissableLayer', id: 'foundation-dismissable-layer--stacked' } },
+  render: function StackedScene() {
+    const [outerOpen, setOuterOpen] = React.useState(false);
+    const [innerOpen, setInnerOpen] = React.useState(false);
+    return (
+      <div>
+        <button type="button" onClick={() => setOuterOpen(true)}>Open outer</button>
+        {outerOpen ? (
+          <DismissableLayer
+            data-ag-part="layer"
+            aria-label="outer layer"
+            onDismiss={() => setOuterOpen(false)}
+            style={{ padding: 12, border: '1px solid', marginTop: 8, display: 'grid', gap: 8 }}
+          >
+            <div>Outer layer</div>
+            <button type="button" onClick={() => setInnerOpen(true)}>Open inner</button>
+            <button type="button" onClick={() => setOuterOpen(false)}>Close outer</button>
+            {innerOpen ? (
+              <DismissableLayer
+                data-ag-part="layer"
+                aria-label="inner layer"
+                onDismiss={() => setInnerOpen(false)}
+                style={{ padding: 12, border: '1px dashed', display: 'grid', gap: 8 }}
+              >
+                <div>Inner layer</div>
+                <button type="button" onClick={() => setInnerOpen(false)}>Close inner</button>
+              </DismissableLayer>
+            ) : null}
+          </DismissableLayer>
+        ) : null}
+      </div>
+    );
+  },
+};

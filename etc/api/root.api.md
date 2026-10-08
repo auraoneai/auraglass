@@ -23,6 +23,7 @@
 - `Field`
 - `Fieldset`
 - `FileUpload`
+- `Form`
 - `Grid`
 - `Heading`
 - `Icon`

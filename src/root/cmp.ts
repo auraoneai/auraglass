@@ -47,10 +47,10 @@ export type { CheckboxProps, CheckboxGroupProps } from '../components/checkbox';
 export { RadioGroup } from '../components/radio-group';
 export type { RadioGroupProps, RadioItemProps } from '../components/radio-group';
 
-export { Field, Fieldset } from '../components/field';
+export { Field, Fieldset, Form } from '../components/field';
 export type {
   FieldRootProps, FieldLabelProps, FieldControlProps, FieldDescriptionProps, FieldErrorProps,
-  FieldsetRootProps,
+  FieldsetRootProps, FormProps,
 } from '../components/field';
 
 export { TextField } from '../components/text-field';
