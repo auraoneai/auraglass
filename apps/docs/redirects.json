@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "generated": "apps/docs/out/_redirects by plat:build:docs",
+  "redirects": [
+    { "from": "/docs", "to": "/plat/introduction", "status": 301 },
+    { "from": "/docs/*", "to": "/plat/:splat", "status": 301 },
+    { "from": "/readme", "to": "/plat/introduction", "status": 301 },
+    { "from": "/installation", "to": "/quickstart/next", "status": 301 },
+    { "from": "/guides/migration", "to": "/plat/migrate/5", "status": 301 },
+    { "from": "/guides/consciousness-*", "to": "/plat/migrate/5", "status": 301 },
+    { "from": "/recipes/*", "to": "/surfaces/blocks", "status": 301 },
+    { "from": "/cli/*", "to": "/plat/cli", "status": 301 },
+    { "from": "/components/*", "to": "/components/:splat", "status": 301 },
+    { "from": "/app-shell/*", "to": "/components/app-shell", "status": 301 },
+    { "from": "/theme/*", "to": "/foundations/tokens", "status": 301 },
+    { "from": "/liquid-glass/*", "to": "/foundations/glass", "status": 301 }
+  ]
+}
