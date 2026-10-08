@@ -8,8 +8,13 @@ export default [
   { file: 'src/material/css/generated/ladders.css', layer: 'ag.material', bundle: 'material.css', order: 30 },
   { file: 'src/material/css/material.css', layer: 'ag.material', bundle: 'material.css', order: 40 },
   { file: 'src/material/css/lens.css', layer: 'ag.material', bundle: 'material.css', order: 50 },
-  { file: 'src/motion/css/motion.css', layer: 'ag.material', bundle: 'styles.css', order: 30 },
-  { file: 'src/motion/css/loading.css', layer: 'ag.material', bundle: 'styles.css', order: 31 },
-  { file: 'src/motion/css/view-transition.css', layer: 'ag.material', bundle: 'styles.css', order: 32 },
+  // --- lane 2e-B begin ---
+  // MAT-363 (REQ-MAT-19): motion.css/loading.css/view-transition.css map to the
+  // ag.components layer and motion-modes.css to ag.a11y; they ship in the
+  // styles.css bundle (styles.css assembly is PKG's, SC-20).
+  { file: 'src/motion/css/motion.css', layer: 'ag.components', bundle: 'styles.css', order: 30 },
+  { file: 'src/motion/css/loading.css', layer: 'ag.components', bundle: 'styles.css', order: 31 },
+  { file: 'src/motion/css/view-transition.css', layer: 'ag.components', bundle: 'styles.css', order: 32 },
   { file: 'src/motion/css/motion-modes.css', layer: 'ag.a11y', bundle: 'styles.css', order: 60 },
+  // --- lane 2e-B end ---
 ] satisfies CssFragment[];
