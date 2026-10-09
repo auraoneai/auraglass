@@ -30,3 +30,16 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* REQ-CMP-67: popups animate via `scale` property; calm/none pin scale:1. */
+describe('popup scale contract (REQ-CMP-67)', () => {
+  for (const [f, cls] of [['src/components/select/Select.css', 'ag-select-popup'], ['src/components/combobox/Combobox.css', 'ag-combobox-popup']] as const) {
+    it(`${cls} uses scale property, not transform`, () => {
+      const css = readFileSync(join(process.cwd(), f), 'utf8');
+      expect(css).toMatch(/scale:\s*0\.96/);
+      expect(css).not.toMatch(/transform:\s*scale\(0\.96\)/);
+      expect(css).toMatch(/data-ag-motion='calm'\][\s\S]*?scale:\s*1/);
+      expect(css).toMatch(/--ag-duration-small-exit/);
+    });
+  }
+});

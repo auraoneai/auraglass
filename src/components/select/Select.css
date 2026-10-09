@@ -68,21 +68,29 @@
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
   }
+  /* REQ-CMP-67: `scale` property (not transform) so transforms compose;
+     exit uses the small-exit duration. */
   .ag-select-popup[data-starting-style],
   .ag-select-popup[data-ending-style] {
     opacity: 0;
-    transform: scale(0.96);
+    scale: 0.96;
     transition:
       opacity var(--ag-duration-small) var(--ag-ease-standard),
-      transform var(--ag-duration-small) var(--ag-ease-standard);
+      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
-    transition-duration: var(--ag-duration-exit, 140ms);
+    transition-duration: var(--ag-duration-small-exit, var(--ag-duration-small));
   }
   .ag-select-popup[data-open],
   .ag-select-popup[data-instant] {
     opacity: 1;
-    transform: none;
+    scale: 1;
+  }
+  [data-ag-motion='calm'] .ag-select-popup[data-starting-style],
+  [data-ag-motion='calm'] .ag-select-popup[data-ending-style],
+  [data-ag-motion='none'] .ag-select-popup[data-starting-style],
+  [data-ag-motion='none'] .ag-select-popup[data-ending-style] {
+    scale: 1;
   }
 
   .ag-select-popup [data-ag-part='scroll-up'],
