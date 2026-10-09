@@ -41,3 +41,18 @@ describe('StateView components', () => {
     expect(status.parentElement).toHaveClass('ag-visually-hidden');
   });
 });
+
+describe('LoadingState variant (REQ-CMP-118)', () => {
+  it('variant=skeleton renders a Skeleton part tree', () => {
+    const { container } = render(<LoadingState variant="skeleton" />);
+    expect(container.querySelector('.ag-skeleton')).not.toBeNull();
+    expect(container.querySelector('[role="status"]')).not.toBeNull();
+  });
+
+  it('variant=progress renders an indeterminate progressbar', () => {
+    const { container } = render(<LoadingState variant="progress" label="Working" />);
+    const bar = container.querySelector('[role="progressbar"]')!;
+    expect(bar).not.toBeNull();
+    expect(bar.hasAttribute('aria-valuenow')).toBe(false);
+  });
+});

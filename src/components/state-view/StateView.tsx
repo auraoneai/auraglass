@@ -5,6 +5,8 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 import { VisuallyHidden } from '../../primitives/VisuallyHidden';
+import { Skeleton } from '../skeleton/Skeleton';
+import { Progress } from '../progress/Progress.client';
 
 export interface StateViewAction {
   label: string;
@@ -29,6 +31,9 @@ export interface ErrorStateProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export interface LoadingStateProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** 'skeleton' renders Skeleton lines; 'progress' renders an indeterminate
+     Progress bar; unset keeps the icon spinner. */
+  variant?: 'skeleton' | 'progress';
   /** Visible description next to the indicator. */
   description?: string;
   icon?: React.ReactNode;
@@ -104,6 +109,7 @@ export function ErrorState({ urgent, ref, ...props }: ErrorStateProps & { ref?: 
 }
 
 export function LoadingState({
+  variant,
   description,
   icon,
   label = 'Loading',
@@ -113,7 +119,11 @@ export function LoadingState({
 }: LoadingStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
     <div {...rest} ref={ref} data-ag-part="root" aria-busy="true" className={cn('ag-state-view', className)}>
-      {icon ? (
+      {variant === 'skeleton' ? (
+        <Skeleton shape="text" lines={3} />
+      ) : variant === 'progress' ? (
+        <Progress value={null} label={label} showValue={false} />
+      ) : icon ? (
         <span data-ag-part="icon" className="ag-state-view-icon ag-state-view-spinner" aria-hidden="true">
           {icon}
         </span>
