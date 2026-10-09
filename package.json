@@ -94,7 +94,9 @@
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
     "artifact:deps": "node scripts/ci/verify-deps.mjs",
     "prepublish:verify": "npm run tokens:build && node scripts/release/dry-run.mjs --tag \"$CI_COMMIT_TAG\" --line \"${AG_LINE:-5x}\"",
-    "prepack": "node scripts/release/gen-deprecations.mjs"
+    "prepack": "node scripts/release/gen-deprecations.mjs",
+    "version:packages": "changeset version && node scripts/release/release-notes.mjs",
+    "release-notes": "node scripts/release/release-notes.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",
