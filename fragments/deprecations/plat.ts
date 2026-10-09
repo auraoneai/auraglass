@@ -38,7 +38,7 @@ export default REPORT_PATH_ENTRIES.map(([symbol, value], i) => ({
 })).concat([
   {
     id: 'DEP-P0012',
-    kind: 'prop',
+    kind: 'export',
     status: 'active',
     entry: '.',
     symbol: 'enableAdaptiveAI',
