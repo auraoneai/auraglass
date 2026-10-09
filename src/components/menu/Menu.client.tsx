@@ -285,8 +285,8 @@ const MenuSubmenuTrigger = React.forwardRef<HTMLElement, MenuSubmenuTriggerProps
   },
 );
 
-export const Menubar = React.forwardRef<HTMLDivElement, MenubarProps>(
-  function Menubar({ className, orientation = 'horizontal', ...rest }, ref) {
+const MenubarRoot = React.forwardRef<HTMLDivElement, MenubarProps>(
+  function MenubarRoot({ className, orientation = 'horizontal', ...rest }, ref) {
     return (
       <MenubarCtx.Provider value={true}>
         <BaseMenubar
@@ -325,3 +325,9 @@ export const Menu = {
   /** Contract alias: Content = Positioner>Popup region */
   Content: MenuPopup,
 };
+
+/* REQ-CMP-105: Menubar is a compound — Menubar.Root is the real root (loop
+   default true via BU), Menubar.Menu aliases Menu.Root. The flat callable
+   stays as a deprecated alias so existing <Menubar> keeps working. */
+export const Menubar = Object.assign(MenubarRoot, { Root: MenubarRoot, Menu: MenuRoot });
+

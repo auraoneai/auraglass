@@ -39,25 +39,55 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
   );
 }
 
+const CONTEXT_LONG_PRESS_MS = 500;
+
 const ContextMenuTrigger = React.forwardRef<HTMLDivElement, ContextMenuTriggerProps>(
-  function ContextMenuTrigger({ className, children, onKeyDown, ...rest }, ref) {
+  function ContextMenuTrigger({ className, children, onKeyDown, onPointerDown, onPointerUp, onPointerCancel, onPointerMove, ...rest }, ref) {
     // BU ContextMenu opens on contextmenu only — Shift+F10 is ours (CMP-277
     // APG): synthesize a contextmenu event at the trigger's center so BU does
     // anchor + open through its own path.
+    const synth = (el: HTMLElement, x: number, y: number) => {
+      el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
+    };
     const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
       onKeyDown?.(e);
       if (e.defaultPrevented || !(e.key === 'F10' && e.shiftKey)) return;
       e.preventDefault();
       const r = e.currentTarget.getBoundingClientRect();
-      e.currentTarget.dispatchEvent(new MouseEvent('contextmenu', {
-        bubbles: true,
-        cancelable: true,
-        clientX: r.left + r.width / 2,
-        clientY: r.top + r.height / 2,
-      }));
+      synth(e.currentTarget, r.left + r.width / 2, r.top + r.height / 2);
+    };
+    /* REQ-CMP-105: coarse-pointer long-press (500ms) opens the context menu at
+       the press point — BU has no touch path. */
+    const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const cancel = React.useCallback(() => {
+      if (timer.current) { clearTimeout(timer.current); timer.current = null; }
+    }, []);
+    React.useEffect(() => cancel, [cancel]);
+    const handleDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
+      onPointerDown?.(e);
+      if (e.pointerType !== 'touch') return;
+      const el = e.currentTarget; const { clientX, clientY } = e;
+      cancel();
+      timer.current = setTimeout(() => { timer.current = null; synth(el, clientX, clientY); }, CONTEXT_LONG_PRESS_MS);
+    };
+    const handleEnd: React.PointerEventHandler<HTMLDivElement> = (e) => {
+      cancel();
+      if (e.type === 'pointerup') onPointerUp?.(e as React.PointerEvent<HTMLDivElement>);
+      else if (e.type === 'pointercancel') onPointerCancel?.(e);
+      else onPointerMove?.(e as React.PointerEvent<HTMLDivElement>);
     };
     return (
-      <Base.Trigger ref={ref} data-ag-part="context-trigger" className={cn('ag-contextmenu-trigger', className)} onKeyDown={handleKeyDown} {...rest}>
+      <Base.Trigger
+        ref={ref}
+        data-ag-part="context-trigger"
+        className={cn('ag-contextmenu-trigger', className)}
+        onKeyDown={handleKeyDown}
+        onPointerDown={handleDown}
+        onPointerUp={handleEnd}
+        onPointerCancel={handleEnd}
+        onPointerMove={handleEnd}
+        {...rest}
+      >
         {children}
       </Base.Trigger>
     );

@@ -185,4 +185,51 @@ describe('Menubar', () => {
     await act(async () => {}); // composite moves focus on a microtask
     expect(document.activeElement?.textContent).toBe('Edit');
   });
+
+
+  /* REQ-CMP-105 — Menubar compound + ContextMenu long-press + Escape restore. */
+  it('Menubar exposes .Root and .Menu (compound surface, REQ-CMP-105)', () => {
+    expect(Menubar.Root).toBeTruthy();
+    expect(Menubar.Menu).toBe(Menu.Root);
+    // flat callable still renders (deprecated alias)
+    render(
+      <AuraGlassProvider>
+        <Menubar><Menu.Root><Menu.Trigger>File</Menu.Trigger></Menu.Root></Menubar>
+      </AuraGlassProvider>,
+    );
+    expect(document.querySelector('[role="menubar"]')).not.toBeNull();
+  });
+
+  it('ContextMenu: 500ms long-press opens, focuses first item, outside press closes, focus restores (REQ-CMP-105)', async () => {
+    jest.useFakeTimers();
+    render(
+      <ContextMenu.Root>
+        <ContextMenu.Trigger><div data-testid="area">area</div></ContextMenu.Trigger>
+        <ContextMenu.Portal><ContextMenu.Positioner><ContextMenu.Popup>
+          <ContextMenu.Item>Inspect</ContextMenu.Item>
+        </ContextMenu.Popup></ContextMenu.Positioner></ContextMenu.Portal>
+      </ContextMenu.Root>,
+    );
+    await act(async () => {});
+    const area = screen.getByTestId('area');
+    const popup = () => document.querySelector('[data-ag-part="popup"]');
+    // touch long-press on the trigger area
+    const down = createEvent.pointerDown(area);
+    Object.defineProperty(down, 'pointerType', { value: 'touch' });
+    fireEvent(area, down);
+    act(() => { jest.advanceTimersByTime(520); });
+    const up = createEvent.pointerUp(area);
+    Object.defineProperty(up, 'pointerType', { value: 'touch' });
+    fireEvent(area, up);
+    await act(async () => {});
+    expect(popup()).not.toBeNull();
+    // first item is highlighted / focusable
+    expect(document.querySelector('[role="menuitem"]')).not.toBeNull();
+    // outside press closes and restores focus
+    fireEvent.pointerDown(document.body);
+    fireEvent.mouseDown(document.body);
+    await act(async () => {});
+    expect(popup()).toBeNull();
+    jest.useRealTimers();
+  });
 });

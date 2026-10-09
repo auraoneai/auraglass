@@ -24,11 +24,9 @@ test.describe('menubar APG (CMP-403)', () => {
     const menu = page.locator('[role="menu"], [data-ag-part="popup"]').first();
     await expect(menu).toBeVisible();
     await page.keyboard.press('Escape');
-    // focus returns to a top-level trigger, not <body>
-    const onTrigger = await page.evaluate(
-      () => !!document.activeElement?.closest('[role="menubar"]'),
-    );
-    expect(onTrigger).toBe(true);
+    /* REQ-CMP-105: focus returns to the top-level trigger itself (the one the
+       arrows moved to), not merely inside the menubar. */
+    await expect(triggers.nth(1)).toBeFocused();
     await apg.axe(page);
   });
 });
