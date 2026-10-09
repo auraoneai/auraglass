@@ -4,6 +4,10 @@ import React from "react";
 
 import { cn } from "../lib/utilsComprehensive";
 import {
+import { warnDeprecated } from "../utils/warnDeprecated";
+
+// REQ-PLAT-58
+warnDeprecated("DEP-P0055");
   GlassActionBar,
   GlassCommandDock,
   GlassPage,
