@@ -52,7 +52,16 @@
   .ag-radio-group [data-checked] [data-ag-part='indicator'] {
     background: var(--ag-color-accent);
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-accent);
-    color: var(--ag-on-accent, var(--ag-color-on-accent));
+    color: var(--ag-color-on-accent);
+  }
+
+  /* REQ-CMP-54: icon picks contrast-color(accent) when the browser supports it. */
+  @supports (color: contrast-color(red)) {
+    .ag-checkbox[data-checked] [data-ag-part='indicator'],
+    .ag-checkbox[data-indeterminate] [data-ag-part='indicator'],
+    .ag-radio-group [data-checked] [data-ag-part='indicator'] {
+      color: contrast-color(var(--ag-color-accent));
+    }
   }
 
   .ag-checkbox[data-disabled],

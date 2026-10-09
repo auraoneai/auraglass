@@ -30,3 +30,19 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* REQ-CMP-54 (E-12 regression): contrast-color icon + zero backdrop-filter
+   in the checkbox/radio subtree. */
+describe('checkbox/radio E-12 + contrast (REQ-CMP-54)', () => {
+  const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8');
+  it('checked rule has accent icon color + contrast-color @supports', () => {
+    expect(CB).toMatch(/color:\s*var\(--ag-color-on-accent\)/);
+    expect(CB).toMatch(/@supports \(color: contrast-color\(red\)\)[\s\S]*contrast-color\(var\(--ag-color-accent\)\)/);
+  });
+  it('no backdrop-filter in Checkbox.css or RadioGroup.css', () => {
+    for (const f of ['src/components/checkbox/Checkbox.css', 'src/components/radio-group/RadioGroup.css']) {
+      const css = readFileSync(join(process.cwd(), f), 'utf8');
+      expect(css).not.toMatch(/backdrop-filter\s*:/);
+    }
+  });
+});
