@@ -13,9 +13,26 @@ This record binds the sequence; it is a decision record, not a script.
    `next`, pushed to GitHub. **Operator action** — tag creation needs GitHub
    credentials and hits the mirror.
 4. The `mirror-to-gitlab` workflow delivers the tag to GitLab; the GitLab tag
-   pipeline publishes to npm with `--dist-tag next`.
-5. From GA (v5.x.y on `main`): same flow on `main`, `git tag -a v5.x.y`,
-   GitLab publishes with `--dist-tag latest`.
+   pipeline publishes to npm with `--dist-tag next` and creates the GitLab
+   release (`plat:release:notes` job, `release:` block) with linked assets
+   `release-notes.md` and `dist-maps.tgz`.
+5. **Operator action** — mirror the release on GitHub so GitHub-side users get
+   the same notes and assets:
+
+   ```
+   gh release create v5.0.0-<pre>.N \
+     --notes-file .artifacts/plat/release-notes.md \
+     --prerelease \
+     .artifacts/plat/dist-maps.tgz .artifacts/pack/*.tgz
+   ```
+
+   Use `--prerelease` for alpha/beta/rc tags only (never for stable); assets
+   come from the tag pipeline's `plat:package:pack` + `plat:release:notes`
+   evidence artifacts. If GitHub releases are out of scope for a train, record
+   the skip in `docs/release/decisions/` instead.
+6. From GA (v5.x.y on `main`): same flow on `main`, `git tag -a v5.x.y`,
+   GitLab publishes with `--dist-tag latest`; the operator step 5 drops
+   `--prerelease`.
 
 ## Decision record
 
