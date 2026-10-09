@@ -118,6 +118,13 @@ describe('Combobox (CMP-180/183)', () => {
     );
     const chips = document.querySelectorAll('[data-ag-part="chip"]');
     expect(chips.length).toBe(2);
+    /* REQ-CMP-74: chips carry the content-raised capsule material attrs */
+    for (const c of chips) {
+      expect(c).toHaveAttribute('data-ag-surface');
+      expect(c).toHaveAttribute('data-ag-layer', 'content');
+      expect(c).toHaveAttribute('data-ag-content', 'content-raised');
+      expect(c).toHaveAttribute('data-ag-shape', 'capsule');
+    }
     for (const c of chips) {
       expect(c.querySelector('[data-ag-part="chip-remove"]')).toBeTruthy();
     }

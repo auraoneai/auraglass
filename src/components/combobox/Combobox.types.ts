@@ -94,6 +94,8 @@ export interface ComboboxChipsProps {
 export interface ComboboxChipProps {
   children?: ReactNode;
   className?: string;
+  /** Accessible label for the chip's remove control ('Remove <label>'). */
+  label?: string;
 }
 
 export interface ComboboxLoadingProps {

@@ -30,3 +30,13 @@ describe('controls css gate', () => {
     }
   });
 });
+
+
+describe('combobox chip material + size grid (REQ-CMP-74)', () => {
+  const css = readFileSync(join(__dirname, '../../src/components/combobox/Combobox.css'), 'utf8');
+  it('chip block-size is 24/28/32 for sm/md/lg', () => {
+    expect(css).toMatch(/\[data-ag-part='chip'\][^}]*block-size:\s*var\(--ag-chip-h-md,\s*28px\)/);
+    expect(css).toMatch(/data-ag-size='sm'[^}]*chip[^}]*block-size:\s*var\(--ag-chip-h-sm,\s*var\(--ag-space-6\)/);
+    expect(css).toMatch(/data-ag-size='lg'[^}]*chip[^}]*block-size:\s*var\(--ag-chip-h-lg,\s*var\(--ag-space-8\)/);
+  });
+});

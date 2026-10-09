@@ -74,7 +74,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--ag-space-1);
-    block-size: var(--ag-chip-h-md, var(--ag-space-6));
+    block-size: var(--ag-chip-h-md, 28px);
     padding-inline: var(--ag-space-2);
     border-radius: var(--ag-radius-full);
     background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-raised-alpha, 10%), transparent);
@@ -82,10 +82,10 @@
     white-space: nowrap;
   }
   .ag-combobox[data-ag-size='sm'] [data-ag-part='chip'] {
-    block-size: var(--ag-chip-h-sm, var(--ag-space-5));
+    block-size: var(--ag-chip-h-sm, var(--ag-space-6));
   }
   .ag-combobox[data-ag-size='lg'] [data-ag-part='chip'] {
-    block-size: var(--ag-chip-h-lg, var(--ag-space-7));
+    block-size: var(--ag-chip-h-lg, var(--ag-space-8));
   }
   .ag-combobox [data-ag-part='chip-remove'] {
     display: inline-flex;

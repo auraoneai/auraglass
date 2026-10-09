@@ -425,12 +425,17 @@ function ComboboxChips({ children, className }: ComboboxChipsProps) {
   );
 }
 
-function ComboboxChip({ children, className }: ComboboxChipProps) {
+function ComboboxChip({ children, className, label }: ComboboxChipProps) {
   const { messages } = useInternal();
+  const chipText = label ?? (typeof children === 'string' ? children : '');
   return (
-    <Base.Chip data-ag-part="chip" className={className}>
+    <Base.Chip
+      data-ag-part="chip"
+      {...materialProps({ layer: 'content', content: 'content-raised', shape: 'capsule' })}
+      className={className}
+    >
       {children}
-      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: '' })}>
+      <Base.ChipRemove data-ag-part="chip-remove" aria-label={controlMessage('removeItem', messages, { label: chipText })}>
         <XGlyph />
       </Base.ChipRemove>
     </Base.Chip>
