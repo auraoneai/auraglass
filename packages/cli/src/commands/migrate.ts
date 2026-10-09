@@ -32,7 +32,8 @@ export async function migrateCommand(args: string[], flags: Record<string, strin
     const transforms = flags.transform ? String(flags.transform).split(',') : undefined;
     if (transforms) selectTransforms(transforms);
     const dryRun = Boolean(flags['dry-run']);
-    const { report, writes, diffs } = runMigration({ cwd, transforms, dryRun });
+    const paths = args.slice(1).filter((a) => !a.startsWith('-'));
+    const { report, writes, diffs } = runMigration({ cwd, transforms, dryRun, paths: paths.length ? paths : undefined });
     if (dryRun) {
       if (out.json) {
         printJson({ ...report, dryRun: true, diffs: Object.fromEntries(diffs) });
@@ -56,10 +57,10 @@ export async function migrateCommand(args: string[], flags: Record<string, strin
           for (const t of f.todos) status(out, 'warn', `${f.path}${t.line ? `:${t.line}` : ''} TODO ${t.reason}`);
         }
       }
-      if (typeof flags.report === 'string') {
-        const dest = ensureInsideCwd(cwd, flags.report);
-        fs.writeFileSync(dest, `${JSON.stringify(report, null, 2)}\n`);
-      }
+    }
+    if (typeof flags.report === 'string') {
+      const dest = ensureInsideCwd(cwd, flags.report);
+      fs.writeFileSync(dest, `${JSON.stringify(report, null, 2)}\n`);
     }
     if (report.summary.todos > 0 && !flags['allow-todo']) return EXIT.validation;
     return EXIT.ok;

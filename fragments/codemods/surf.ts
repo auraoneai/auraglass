@@ -60,6 +60,7 @@ const w1: CodemodMappingFragment = {
     {
       id: 'app-shell-slots',
       module: 'packages/cli/src/migrate/4to5/transforms/app-shell-slots.ts',
+      names: ['GlassSidebarRail'],
       spec: 'GlassAppShell header/sidebar/footer props -> slot children; GlassSidebar/GlassSidebarRail item arrays -> Sidebar.Item/Rail.Item children; handler-only items (onClick/onSelect, no href) stay actions',
     },
   ],
@@ -168,6 +169,8 @@ const w2: CodemodMappingFragment = {
     { symbol: 'GlassChartsDemo', entry: 'aura-glass', reason: 'demo-only export removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassHeatmap', entry: 'aura-glass', reason: 'no 5.0 successor (5.x candidate)', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassGanttChart', entry: 'aura-glass', reason: 'moved to a registry item owned by PLAT', registryItem: 'gantt', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
+    { symbol: 'GlassKanbanBoard', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
+    { symbol: 'GlassKanban', entry: 'aura-glass', reason: 'moved to a registry item (dnd-kit Kanban)', registryItem: 'kanban', doc: 'docs/auraglass-5/migration/kanban.md' },
     { symbol: 'KpiChart', entry: 'aura-glass', reason: 'chart engines removed at 5.0', doc: 'docs/auraglass-5/migration/chart-adapter.md' },
     { symbol: 'GlassMetricsGrid', entry: 'aura-glass', reason: 'docs composition over StatCard grid', doc: 'docs/auraglass-5/migration/data-table.md' },
     { symbol: 'GlassVirtualGrid', entry: 'aura-glass', reason: 'replaced; no 5.0 successor', doc: 'docs/auraglass-5/migration/data-table.md' },
@@ -289,6 +292,7 @@ const w4: CodemodMappingFragment = {
     {
       id: 'media-backdrops',
       module: 'packages/cli/src/migrate/4to5/transforms/media-backdrops.ts',
+      names: ['GlassCarouselRail'],
       spec: [
         'LiquidGlassMediaControls: onPlayPause -> onPlayingChange; compact -> compose <MediaControls.PlayButton/><MediaControls.Scrubber/>.',
         'GlassImageViewer: images -> items (ids img-<index>), initialIndex -> defaultValue; missing alt -> alt: "" + TODO.',

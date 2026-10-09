@@ -35,8 +35,10 @@ export interface CodemodMappingFragment {
   cssVars?: Record<`--glass-${string}`, `--ag-${string}` | null>;   // css-vars (MAT supplies the alias map)
   removed?: Array<{ symbol: string; entry: string; reason: string; registryItem?: string; doc: string }>;  // removed
   deps?: Array<{ pkg: string; range: string; when: string }>;      // deps (PLAT)
-  areaTransforms?: Array<{ id: keyof typeof AREA_CODEMODS; module: string /* packages/cli/src/migrate/4to5/transforms/<id>.ts, written by PLAT from this spec */; spec: string }>;
+  areaTransforms?: Array<{ id: keyof typeof AREA_CODEMODS; module: string /* packages/cli/src/migrate/4to5/transforms/<id>.ts, written by PLAT from this spec */; spec: string; /** 4.x source names this transform may legitimately reference (replaces the banned hard-coded literal set). */ names?: string[] }>;
   fixtures?: string[];                  // fragments/codemods/<stream>/fixtures/<id>/<case>/ dirs the stream authored (never under packages/cli/)
+  /** Extra 4.x source names core transforms may reference (DOC_NAMES replacement). */
+  names?: string[];
 }
 export const TODO_MARKER = '// TODO(aura-glass 5): <reason>, see <doc>' as const;
 

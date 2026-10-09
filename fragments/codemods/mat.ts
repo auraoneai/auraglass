@@ -158,6 +158,7 @@ const fixtures: NonNullable<CodemodMappingFragment['fixtures']> = [
 ];
 
 export default {
+  names: ['GlassScript'],
   renames,
   props,
   cssVars,
