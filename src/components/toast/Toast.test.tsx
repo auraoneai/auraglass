@@ -113,4 +113,57 @@ describe('Toast + useToast', () => {
     const viewport = document.querySelector('[data-ag-part="viewport"]');
     expect(document.activeElement === viewport || viewport?.contains(document.activeElement)).toBe(true);
   });
+
+
+  /* REQ-CMP-106 — per-provider managers + nested/no-provider guards. */
+  it('sibling providers keep separate toasts (REQ-CMP-106)', () => {
+    const Sink = ({ tag }: { tag: string }) => {
+      const t = useToast();
+      return <button data-testid={`add-${tag}`} onClick={() => t.info({ title: tag })}>go</button>;
+    };
+    const A = () => {
+      const t = useToast();
+      return <span data-testid="count-a">{t.toasts.length}</span>;
+    };
+    const B = () => {
+      const t = useToast();
+      return <span data-testid="count-b">{t.toasts.length}</span>;
+    };
+    render(
+      <>
+        <Toast.Provider><Sink tag="a" /><A /></Toast.Provider>
+        <Toast.Provider><Sink tag="b" /><B /></Toast.Provider>
+      </>,
+    );
+    fireEvent.click(screen.getByTestId('add-a'));
+    expect(screen.getByTestId('count-a').textContent).toBe('1');
+    expect(screen.getByTestId('count-b').textContent).toBe('0');
+  });
+
+  it('nested Toast.Provider logs one console.error (REQ-CMP-106)', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    render(
+      <Toast.Provider>
+        <Toast.Provider><div /></Toast.Provider>
+      </Toast.Provider>,
+    );
+    const msgs = spy.mock.calls.filter((c) => String(c[0]).includes('must not be nested'));
+    expect(msgs).toHaveLength(1);
+    spy.mockRestore();
+  });
+
+  it('useToast outside provider: one error, add() returns "" and does not throw (REQ-CMP-106)', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    let id = 'unset';
+    const Orphan = () => {
+      const t = useToast();
+      id = t.add({ title: 'x' });
+      return null;
+    };
+    expect(() => render(<Orphan />)).not.toThrow();
+    expect(id).toBe('');
+    const msgs = spy.mock.calls.filter((c) => String(c[0]).includes('outside Toast.Provider'));
+    expect(msgs).toHaveLength(1);
+    spy.mockRestore();
+  });
 });

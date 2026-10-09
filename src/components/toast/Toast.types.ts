@@ -6,11 +6,23 @@ export type ToastPosition =
   | 'top-left' | 'top-center' | 'top-right'
   | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
+/** logical viewport position — maps onto the physical six-region grid
+    (start = inline-start). Default 'bottom-end'. */
+export type ToastLogicalPosition =
+  | 'top-start' | 'top-center' | 'top-end'
+  | 'bottom-start' | 'bottom-center' | 'bottom-end';
+
 export interface ToastProviderProps {
   /** default 3 — extra toasts are marked limited */
   limit?: number | undefined;
   /** default 5000ms */
   timeout?: number | undefined;
+  /** REQ-CMP-106: viewport position lives on the provider — logical
+      start/center/end resolved onto the six-region grid (default bottom-end). */
+  position?: ToastLogicalPosition | undefined;
+  /** REQ-CMP-106: history buffer config — {limit} caps the session record,
+      false disables recording. Default { limit: 50 }. */
+  history?: { limit: number } | false | undefined;
   children?: React.ReactNode;
 }
 

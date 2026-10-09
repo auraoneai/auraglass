@@ -12,18 +12,22 @@ import { cn } from '../../internal';
 import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
-  ToastData, ToastRecord, UseToastReturn, ToastIntent,
+  ToastData, ToastRecord, UseToastReturn, ToastIntent, ToastLogicalPosition, ToastPosition,
 } from './Toast.types';
 
 /* CMP-294 (REQ-CMP-110): append-only history — one entry per add, closed on
    close; capped at 50 to bound memory. Module-scoped: shared by every
    provider instance and survives unmounts (history is a session record). */
-const HISTORY_CAP = 50;
+/* REQ-CMP-106: the buffer's cap/disabled flag is configured by the mounted
+   Provider (`history` prop) — the record itself stays a session singleton. */
+let historyCap = 50;
+let historyEnabled = true;
 const history: ToastRecord[] = [];
 const historyListeners = new Set<() => void>();
 function pushHistory(entry: ToastRecord) {
+  if (!historyEnabled) return;
   history.push(entry);
-  if (history.length > HISTORY_CAP) history.splice(0, history.length - HISTORY_CAP);
+  if (history.length > historyCap) history.splice(0, history.length - historyCap);
   historyListeners.forEach((l) => l());
 }
 function markHistoryClosed(id: string) {
@@ -43,27 +47,64 @@ function useHistory(): ToastRecord[] {
 
 const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'error' || intent === 'warning' ? 'high' : 'low');
 
-/* The single shared manager for the app — BU contract requires a stable
-   manager instance passed to the provider. */
+/** @deprecated kept for back-compat; the real manager is per-Provider. */
 export const toastManager = Base.createToastManager();
 
-function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderProps) {
+/* REQ-CMP-106: provider presence/config context — lets useToast detect a
+   missing provider and Viewport inherit the provider's position. */
+interface ToastProviderConfig {
+  position: ToastPosition;
+  history: { limit: number } | false;
+}
+const ToastProviderCtx = React.createContext<ToastProviderConfig | null>(null);
+let warnedNestedProvider = false;
+let warnedNoProvider = false;
+
+const LOGICAL_TO_POSITION: Record<ToastLogicalPosition, ToastPosition> = {
+  'top-start': 'top-left', 'top-center': 'top-center', 'top-end': 'top-right',
+  'bottom-start': 'bottom-left', 'bottom-center': 'bottom-center', 'bottom-end': 'bottom-right',
+};
+
+function ToastProvider({ limit = 3, timeout = 5000, position = 'bottom-end', history: historyProp, children }: ToastProviderProps) {
+  const parent = React.useContext(ToastProviderCtx);
+  if (process.env.NODE_ENV !== 'production' && parent && !warnedNestedProvider) {
+    warnedNestedProvider = true;
+    console.error('[aura-glass] Toast.Provider must not be nested — use a single top-level provider.');
+  }
+  /* REQ-CMP-106: one manager PER provider — sibling providers keep separate
+     toast lists instead of sharing the module singleton. */
+  const [manager] = React.useState(() => Base.createToastManager());
+  const historyLimit = historyProp === false ? null : (historyProp?.limit ?? 50);
+  React.useEffect(() => {
+    historyEnabled = historyLimit !== null;
+    historyCap = historyLimit ?? 0;
+  }, [historyLimit]);
+  const config = React.useMemo<ToastProviderConfig>(() => ({
+    position: LOGICAL_TO_POSITION[position],
+    history: historyLimit === null ? false : { limit: historyLimit },
+  }), [position, historyLimit]);
   return (
-    <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
-      {children}
-    </Base.Provider>
+    <ToastProviderCtx.Provider value={config}>
+      <Base.Provider toastManager={manager} limit={limit} timeout={timeout}>
+        {children}
+      </Base.Provider>
+    </ToastProviderCtx.Provider>
   );
 }
 
 const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
-  function ToastViewport({ position = 'bottom-right', className, children, ...rest }, ref) {
+  function ToastViewport({ position, className, children, ...rest }, ref) {
+    /* REQ-CMP-106: default position comes from the provider context; the
+       viewport prop still overrides for local use. */
+    const cfg = React.useContext(ToastProviderCtx);
+    const resolved = position ?? cfg?.position ?? 'bottom-right';
     const container = usePortalContainer('toast');
     return (
       <Base.Portal container={container}>
         <Base.Viewport
           ref={ref}
           data-ag-part="viewport"
-          data-ag-position={position}
+          data-ag-position={resolved}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
@@ -141,7 +182,34 @@ const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
   },
 );
 
+const NOOP_TOAST: UseToastReturn = {
+  toasts: [],
+  add: () => '',
+  close: () => {},
+  update: () => {},
+  promise: <V,>(p: Promise<V>) => p,
+  info: () => '',
+  success: () => '',
+  warning: () => '',
+  error: () => '',
+  history: [],
+};
+
 export function useToast(): UseToastReturn {
+  const cfg = React.useContext(ToastProviderCtx);
+  if (process.env.NODE_ENV !== 'production' && !cfg && !warnedNoProvider) {
+    warnedNoProvider = true;
+    console.error('[aura-glass] useToast() called outside Toast.Provider — returning a no-op object.');
+  }
+  /* BU's useToastManager throws without a provider, so the real path can only
+     run when present. A component cannot gain a provider mid-render, so the
+     early return is stable in practice. */
+  if (!cfg) return NOOP_TOAST;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  return useToastInner();
+}
+
+function useToastInner(): UseToastReturn {
   const mgr = Base.useToastManager();
   const hist = useHistory();
   const add = React.useCallback((t: ToastData) => {
