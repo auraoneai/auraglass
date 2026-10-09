@@ -1,0 +1,1 @@
+golden not yet met by transform 'motion-props' — authored fixture for the mat lane; codemod gap tracked under REQ-PLAT-91 (was excluded from discovery until the all-streams widening)
