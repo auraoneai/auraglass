@@ -11,7 +11,21 @@ export interface ToastProviderProps {
   limit?: number | undefined;
   /** default 5000ms */
   timeout?: number | undefined;
+  /** REQ-CMP-110: session history of toasts. `false` disables it (useToast
+     returns history: null); `{limit: n}` caps stored items (default 50). */
+  history?: boolean | { limit?: number | undefined } | undefined;
   children?: React.ReactNode;
+}
+
+/** REQ-CMP-110: provider-scoped toast history exposed by useToast. */
+export interface ToastHistory {
+  /** every toast recorded this session, most recent last (new array per change) */
+  items: ToastRecord[];
+  /** items with read === false */
+  unread: number;
+  markRead: (id: string) => void;
+  markAllRead: () => void;
+  clear: () => void;
 }
 
 export interface ToastViewportProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,8 +49,10 @@ export interface ToastRecord {
   id: string;
   intent: ToastIntent;
   title: React.ReactNode;
+  description?: React.ReactNode;
   at: number;
   status: 'open' | 'closed';
+  read: boolean;
 }
 
 export interface ToastRootProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -74,6 +90,6 @@ export interface UseToastReturn {
   success: (t: Omit<ToastData, 'intent'>) => string;
   warning: (t: Omit<ToastData, 'intent'>) => string;
   error: (t: Omit<ToastData, 'intent'>) => string;
-  /** append-only toast history for the session (most recent last) */
-  history: ToastRecord[];
+  /** provider-scoped toast history — null when Provider mounts with history={false} */
+  history: ToastHistory | null;
 }

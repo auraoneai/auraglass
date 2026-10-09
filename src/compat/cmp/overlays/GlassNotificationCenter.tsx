@@ -57,22 +57,33 @@ export interface UseNotificationsCompatReturn {
   addNotification: (n: GlassNotification) => string;
 }
 
-/** 4.x useNotifications().addNotification -> 5.0 useToast().add with history. */
+/** 4.x useNotifications() -> 5.0 useToast() provider history (REQ-CMP-110).
+   `notifications` reads the provider's history items (read flag included);
+   addNotification still routes through useToast().add. */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);
   ref.current = api;
-  const pushed = React.useRef<GlassNotification[]>([]);
   React.useMemo(() => warnDeprecated(`${DEP}.hook`), []);
-  /* Stable return — see useToast.tsx; a fresh object each render loops forever
-     for 4.x callers that hold it in effect deps. */
-  return React.useMemo(() => ({
-    notifications: pushed.current,
-    addNotification: (n) => {
-      pushed.current = [...pushed.current, n];
+  /* Stable return — 4.x callers hold it in effect deps, so a fresh object on
+     every history change loops addNotification forever. `notifications` is a
+     getter: the object identity never changes but each read maps the latest
+     provider history (new items array per mutation). */
+  return React.useMemo<UseNotificationsCompatReturn>(() => ({
+    get notifications() {
+      return (ref.current.history?.items ?? []).map((e) => ({
+        id: e.id,
+        title: e.title,
+        message: e.description,
+        type: e.intent,
+        read: e.read,
+      }));
+    },
+    addNotification: (n: GlassNotification) => {
       const t: ToastData = {
         ...(n.title !== undefined ? { title: n.title } : {}),
         ...(n.message !== undefined ? { description: n.message } : {}),
+        ...(n.type !== undefined ? { intent: n.type } : {}),
       };
       return ref.current.add(t);
     },

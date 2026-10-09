@@ -12,46 +12,74 @@ import { cn } from '../../internal';
 import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
-  ToastData, ToastRecord, UseToastReturn, ToastIntent,
+  ToastData, ToastRecord, UseToastReturn, ToastIntent, ToastHistory,
 } from './Toast.types';
 
-/* CMP-294 (REQ-CMP-110): append-only history — one entry per add, closed on
-   close; capped at 50 to bound memory. Module-scoped: shared by every
-   provider instance and survives unmounts (history is a session record). */
-const HISTORY_CAP = 50;
-const history: ToastRecord[] = [];
-const historyListeners = new Set<() => void>();
-function pushHistory(entry: ToastRecord) {
-  history.push(entry);
-  if (history.length > HISTORY_CAP) history.splice(0, history.length - HISTORY_CAP);
-  historyListeners.forEach((l) => l());
-}
-function markHistoryClosed(id: string) {
-  const e = history.find((h) => h.id === id && h.status === 'open');
-  if (e) {
-    e.status = 'closed';
-    historyListeners.forEach((l) => l());
-  }
-}
-function useHistory(): ToastRecord[] {
-  return React.useSyncExternalStore(
-    (cb) => { historyListeners.add(cb); return () => historyListeners.delete(cb); },
-    () => history,
-    () => history,
-  );
-}
+const DEFAULT_HISTORY_CAP = 50;
 
 const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'error' || intent === 'warning' ? 'high' : 'low');
 
-/* The single shared manager for the app — BU contract requires a stable
-   manager instance passed to the provider. */
-export const toastManager = Base.createToastManager();
+/* REQ-CMP-110: history lives in the Provider (React state — a NEW items array
+   on every change so subscribers re-render). `history={false}` disables it and
+   useToast returns history: null. The toast manager is also per-provider:
+   creating it at module scope ran BU work on import (import-gate). */
+interface HistoryStore {
+  recordOpen: (entry: ToastRecord) => void;
+  recordClosed: (id: string) => void;
+  api: ToastHistory;
+}
+const ToastHistoryCtx = React.createContext<HistoryStore | null>(null);
 
-function ToastProvider({ limit = 3, timeout = 5000, children }: ToastProviderProps) {
+function ToastProvider({ limit = 3, timeout = 5000, history = true, children }: ToastProviderProps) {
+  const [toastManager] = React.useState(() => Base.createToastManager());
+  const historyEnabled = history !== false;
+  const historyCap = (typeof history === 'object' && history !== null && history.limit !== undefined)
+    ? history.limit : DEFAULT_HISTORY_CAP;
+  const [items, setItems] = React.useState<ToastRecord[]>([]);
+  const itemsRef = React.useRef(items);
+  itemsRef.current = items;
+  const setItemsCapped = React.useCallback((next: ToastRecord[]) => {
+    setItems(next.length > historyCap ? next.slice(next.length - historyCap) : next);
+  }, [historyCap]);
+  const store = React.useMemo<HistoryStore | null>(() => {
+    if (!historyEnabled) return null;
+    const unread = items.filter((i) => !i.read).length;
+    return {
+      recordOpen: (entry) => setItemsCapped([...itemsRef.current, entry]),
+      recordClosed: (id) => setItems(itemsRef.current.map((e) => (e.id === id && e.status === 'open' ? { ...e, status: 'closed' as const } : e))),
+      api: {
+        items,
+        unread,
+        markRead: (id) => setItems(itemsRef.current.map((e) => (e.id === id ? { ...e, read: true } : e))),
+        markAllRead: () => setItems(itemsRef.current.map((e) => (e.read ? e : { ...e, read: true }))),
+        clear: () => setItems([]),
+      },
+    };
+  }, [historyEnabled, items, setItemsCapped]);
   return (
-    <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
-      {children}
-    </Base.Provider>
+    <ToastHistoryCtx.Provider value={store}>
+      <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
+        {children}
+      </Base.Provider>
+    </ToastHistoryCtx.Provider>
+  );
+}
+
+/* REQ-CMP-110: rendered history list — ul/li with title/description/time. */
+function ToastHistoryList({ className, children, ...rest }: React.HTMLAttributes<HTMLUListElement>) {
+  const store = React.useContext(ToastHistoryCtx);
+  const items = store?.api.items ?? [];
+  return (
+    <ul data-ag-part="history" className={cn('ag-toast-history', className)} {...rest}>
+      {items.map((e) => (
+        <li key={e.id} data-ag-intent={e.intent} {...(e.read ? {} : { 'data-unread': '' })}>
+          <span className="ag-toast-history-title">{e.title}</span>
+          {e.description !== undefined && e.description !== null ? <span className="ag-toast-history-desc">{e.description}</span> : null}
+          <time className="ag-toast-history-time" dateTime={new Date(e.at).toISOString()}>{new Date(e.at).toLocaleTimeString()}</time>
+          {children}
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -143,7 +171,7 @@ const ToastProgress = React.forwardRef<HTMLElement, ToastProgressProps>(
 
 export function useToast(): UseToastReturn {
   const mgr = Base.useToastManager();
-  const hist = useHistory();
+  const hist = React.useContext(ToastHistoryCtx);
   const add = React.useCallback((t: ToastData) => {
     const intent = t.intent ?? 'info';
     const id = mgr.add({
@@ -155,10 +183,10 @@ export function useToast(): UseToastReturn {
       ...(t.actionLabel !== undefined ? { actionLabel: t.actionLabel } : {}),
       ...(t.onAction !== undefined ? { onAction: t.onAction } : {}),
     } as Parameters<typeof mgr.add>[0]);
-    pushHistory({ id, intent, title: t.title ?? null, at: Date.now(), status: 'open' });
+    hist?.recordOpen({ id, intent, title: t.title ?? null, at: Date.now(), status: 'open', read: false });
     return id;
-  }, [mgr]);
-  const close = React.useCallback((id: string) => { mgr.close(id); markHistoryClosed(id); }, [mgr]);
+  }, [mgr, hist]);
+  const close = React.useCallback((id: string) => { mgr.close(id); hist?.recordClosed(id); }, [mgr, hist]);
   const update = React.useCallback((id: string, t: Partial<ToastData>) => {
     mgr.update(id, {
       ...(t.title !== undefined ? { title: t.title } : {}),
@@ -192,11 +220,12 @@ export function useToast(): UseToastReturn {
     success: wrap('success'),
     warning: wrap('warning'),
     error: wrap('error'),
-    history: hist,
+    history: hist?.api ?? null,
   }), [mgr.toasts, add, close, update, promise, wrap, hist]);
 }
 
 export const Toast = {
+  History: ToastHistoryList,
   Provider: ToastProvider,
   Viewport: ToastViewport,
   Root: ToastRoot,

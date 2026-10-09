@@ -14,7 +14,8 @@ function Host() {
       <button onClick={() => t.add({ title: 'sticky', timeout: 0 })}>add-sticky</button>
       <button onClick={() => t.toasts[0] && t.close(t.toasts[0].id)}>close-first</button>
       <span data-testid="count">{t.toasts.length}</span>
-      <span data-testid="hist">{t.history.length}</span>
+      <span data-testid="hist">{t.history?.items.length ?? -1}</span>
+      <span data-testid="unread">{t.history?.unread ?? -1}</span>
       <Toast.Viewport>
         {t.toasts.map((toast) => (
           <Toast.Root key={toast.id} toast={toast}>
@@ -112,5 +113,72 @@ describe('Toast + useToast', () => {
     await act(async () => {});
     const viewport = document.querySelector('[data-ag-part="viewport"]');
     expect(document.activeElement === viewport || viewport?.contains(document.activeElement)).toBe(true);
+  });
+});
+
+describe('Toast history (REQ-CMP-110)', () => {
+  function HistHost() {
+    const t = useToast();
+    return (
+      <>
+        <button onClick={() => t.add({ title: 'One', description: 'd1' })}>add</button>
+        <button onClick={() => t.toasts[0] && t.close(t.toasts[0].id)}>dismiss</button>
+        <button onClick={() => t.history?.markAllRead()}>mark-all</button>
+        <button onClick={() => t.history?.clear()}>clear</button>
+        <span data-testid="items">{t.history === null ? 'null' : t.history.items.length}</span>
+        <span data-testid="unread">{t.history?.unread ?? -1}</span>
+        <Toast.Viewport>
+          {t.toasts.map((toast) => (
+            <Toast.Root key={toast.id} toast={toast}><Toast.Title>{toast.title}</Toast.Title></Toast.Root>
+          ))}
+        </Toast.Viewport>
+        <Toast.History />
+      </>
+    );
+  }
+  const renderHist = (history?: boolean | { limit: number }) => render(
+    <Toast.Provider {...(history !== undefined ? { history } : {})}><HistHost /></Toast.Provider>,
+  );
+
+  it('history is null when Provider mounts with history={false}', async () => {
+    renderHist(false);
+    await act(async () => {});
+    expect(screen.getByTestId('items').textContent).toBe('null');
+    expect(document.querySelectorAll('.ag-toast-history li')).toHaveLength(0);
+  });
+
+  it('after add+dismiss: items.length===1 and unread===1', async () => {
+    renderHist();
+    await act(async () => {});
+    fireEvent.click(screen.getByText('add'));
+    await act(async () => {});
+    fireEvent.click(screen.getByText('dismiss'));
+    await act(async () => {});
+    expect(screen.getByTestId('items').textContent).toBe('1');
+    expect(screen.getByTestId('unread').textContent).toBe('1');
+  });
+
+  it('markAllRead drops unread to 0; Toast.History renders an li per item', async () => {
+    renderHist();
+    await act(async () => {});
+    fireEvent.click(screen.getByText('add'));
+    await act(async () => {});
+    expect(document.querySelectorAll('.ag-toast-history li')).toHaveLength(1);
+    fireEvent.click(screen.getByText('mark-all'));
+    await act(async () => {});
+    expect(screen.getByTestId('unread').textContent).toBe('0');
+  });
+
+  it('clear empties items; history={limit:1} caps stored items', async () => {
+    renderHist({ limit: 1 });
+    await act(async () => {});
+    fireEvent.click(screen.getByText('add'));
+    await act(async () => {});
+    fireEvent.click(screen.getByText('add'));
+    await act(async () => {});
+    expect(screen.getByTestId('items').textContent).toBe('1');
+    fireEvent.click(screen.getByText('clear'));
+    await act(async () => {});
+    expect(screen.getByTestId('items').textContent).toBe('0');
   });
 });
