@@ -93,7 +93,8 @@
     "test:tokens:exports": "node --test tests/tokens/export.spec.mjs",
     "artifact:size-budgets": "node scripts/ci/verify-size-budgets.mjs",
     "artifact:deps": "node scripts/ci/verify-deps.mjs",
-    "prepublish:verify": "npm run tokens:build && node scripts/release/dry-run.mjs --tag \"$CI_COMMIT_TAG\" --line \"${AG_LINE:-5x}\""
+    "prepublish:verify": "npm run tokens:build && node scripts/release/dry-run.mjs --tag \"$CI_COMMIT_TAG\" --line \"${AG_LINE:-5x}\"",
+    "prepack": "node scripts/release/gen-deprecations.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.8.0",

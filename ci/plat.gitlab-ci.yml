@@ -60,6 +60,7 @@ plat:gate:glass-quality:
             || { echo "PENDING: npm script $s"; exit 1; }
           npm run "$s"
         done
+        node scripts/release/gen-deprecations.mjs --schema --check
         for s in verify-size-budgets.mjs verify-deps.mjs verify-side-effects.mjs; do
           [ -f "scripts/ci/$s" ] || { echo "PENDING: scripts/ci/$s"; exit 1; }
           node "scripts/ci/$s"
