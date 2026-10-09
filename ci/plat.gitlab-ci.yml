@@ -63,6 +63,7 @@ plat:gate:glass-quality:
         node scripts/release/gen-deprecations.mjs --schema --check
         node scripts/release/check-tsdoc-deprecated.mjs --line 5x
         node scripts/release/verify-compat-coverage.mjs
+        node scripts/release/gen-deprecations.mjs --docs && node scripts/release/verify-breaking-register.mjs
         for s in verify-size-budgets.mjs verify-deps.mjs verify-side-effects.mjs; do
           [ -f "scripts/ci/$s" ] || { echo "PENDING: scripts/ci/$s"; exit 1; }
           node "scripts/ci/$s"
