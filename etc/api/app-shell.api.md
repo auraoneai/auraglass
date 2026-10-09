@@ -1,4 +1,4 @@
-## API Report — aura-glass ./app-shell
+## API Report — aura-glass app-shell
 
 - `AppShell`
 - `AppShellController`

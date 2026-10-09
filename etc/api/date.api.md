@@ -1,4 +1,4 @@
-## API Report — aura-glass ./date
+## API Report — aura-glass date
 
 - `Calendar`
 - `DateField`

@@ -16,7 +16,7 @@
    cannot be analysed are recorded in the report's `unanalysable` list — on the
    5x line that is a hard failure once package.json version >= 5.0.0-alpha.1. */
 import { createRequire } from 'node:module';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -96,6 +96,10 @@ export function entrySource(entry, { root = ROOT } = {}) {
   if (!existsSync(manifestPath)) return null;
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const [kind, ...rest] = entry.split('.');
+  if (kind === 'root' && rest.length === 0) {
+    const row = (manifest.entries ?? []).find((e) => e.subpath === '.');
+    return row ? { source: row.source, subpath: '.' } : null;
+  }
   if (kind === 'root') return { source: `src/root/${rest[0]}.ts`, subpath: `.${rest[0] === 'index' ? '' : `/${rest[0]}`}` };
   if (kind === 'compat') return { source: `src/compat/${rest[0]}/index.ts`, subpath: `./compat/${rest[0]}` };
   if (kind === 'css') return { css: `src/${rest.join('/')}.css`, entry };
@@ -162,13 +166,23 @@ export function extractDtsNames(text, _dir) {
   return [...names].sort();
 }
 
+// Every entry that has a committed etc/api/<stem>.exports.json — the check
+// corpus for `--all` (REQ-PLAT-22): each stem must resolve via entrySource.
+export function allEntries(root = ROOT) {
+  const dir = join(root, 'etc/api');
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith('.exports.json'))
+    .map((f) => f.replace(/\.exports\.json$/, '')).sort();
+}
+
 async function main() {
   const argv = process.argv.slice(2);
   const arg = (n) => { const i = argv.indexOf(`--${n}`); return i >= 0 ? argv[i + 1] : null; };
   const has = (f) => argv.includes(f);
   const entry = arg('entry'); const line = arg('line'); const check = has('--check');
-  if (!entry && line !== '4x') {
-    console.error('usage: api-report.mjs --entry <entry> [--check] | --line 4x [--check]');
+  const all = has('--all');
+  if (!entry && !all && line !== '4x') {
+    console.error('usage: api-report.mjs --entry <entry> [--check] | --all [--check] | --line 4x [--check]');
     return 2;
   }
   const version = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).version ?? '0.0.0';
@@ -180,8 +194,11 @@ async function main() {
     const r = run4x({ root: ROOT }); files = r.files;
     unanalysable = r.manifest.unanalysable;
   } else {
-    const r = await run5x(entry, { root: ROOT, check });
-    files = r.files; unanalysable = r.unanalysable;
+    const entries = all ? allEntries(ROOT) : [entry];
+    for (const e of entries) {
+      const r = await run5x(e, { root: ROOT, check });
+      Object.assign(files, r.files); unanalysable.push(...r.unanalysable);
+    }
   }
   const stale = [];
   for (const [rel, content] of Object.entries(files)) {

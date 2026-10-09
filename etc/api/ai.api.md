@@ -1,4 +1,4 @@
-## API Report — aura-glass ./ai
+## API Report — aura-glass ai
 
 - `AgentSteps`
 - `Citation`

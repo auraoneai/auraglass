@@ -1,4 +1,4 @@
-## API Report — aura-glass ./media
+## API Report — aura-glass media
 
 - `CarouselRail`
 - `ImageViewer`

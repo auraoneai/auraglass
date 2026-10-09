@@ -2338,6 +2338,21 @@ export const deprecations: readonly DeprecationEntry[] = [
     "doc": "#dep-21"
   },
   {
+    "id": "DEP-P1016",
+    "kind": "subpath",
+    "status": "active",
+    "entry": "./forms",
+    "symbol": "./forms subpath",
+    "since": "4.2.0",
+    "removeIn": "5.0.0",
+    "replacement": "form controls live under the root export",
+    "codemod": "imports-subpaths",
+    "automation": "full",
+    "breaking": "B4",
+    "message": "the './forms' subpath is removed in 5.0.0; import form controls from the root export.",
+    "doc": "#dep-subpath-forms"
+  },
+  {
     "id": "DEP-S0600",
     "kind": "export",
     "status": "planned",

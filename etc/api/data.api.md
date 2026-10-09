@@ -1,4 +1,4 @@
-## API Report — aura-glass ./data
+## API Report — aura-glass data
 
 - `ChartFrame`
 - `Chip`

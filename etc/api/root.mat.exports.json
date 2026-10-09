@@ -1,6 +1,5 @@
 {
  "entry": "root.mat",
- "source": "src/root/mat.ts",
  "exports": [
   "AuraGlassProvider",
   "AuraGlassScript",
@@ -10,5 +9,6 @@
   "Surface",
   "SurfaceGroup",
   "usePreference"
- ]
+ ],
+ "unanalysable": []
 }

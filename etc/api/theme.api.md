@@ -1,4 +1,4 @@
-## API Report — aura-glass ./theme
+## API Report — aura-glass theme
 
 - `AuraGlassProvider`
 - `AuraGlassScript`
@@ -12,8 +12,3 @@
 - `usePreference`
 - `usePreferenceActions`
 - `useResolvedPreferences`
-
-## Diff vs ENTRIES (architecture §4.2)
-
-- missing (contract exports absent from barrel): none
-- extra (barrel exports not in contract): `createBrandGlassTheme`, `createGlassThemeCssVars`

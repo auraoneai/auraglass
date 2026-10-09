@@ -1,3 +1,3 @@
-## API Report — aura-glass ./backdrops
+## API Report — aura-glass backdrops
 
 - `Backdrop`

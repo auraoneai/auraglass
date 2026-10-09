@@ -1,4 +1,4 @@
-## API Report — aura-glass root.mat (src/root/mat.ts)
+## API Report — aura-glass root.mat
 
 - `AuraGlassProvider`
 - `AuraGlassScript`

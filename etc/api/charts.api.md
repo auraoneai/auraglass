@@ -1,3 +1,3 @@
-## API Report — aura-glass ./charts
+## API Report — aura-glass charts
 
 - `Chart`

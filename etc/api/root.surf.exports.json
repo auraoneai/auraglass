@@ -2,7 +2,15 @@
  "entry": "root.surf",
  "exports": [
   "ActivityFeed",
+  "Breadcrumbs",
+  "Command",
+  "CommandPalette",
+  "Pagination",
+  "SourceTransition",
+  "TabBar",
+  "Tabs",
   "Timeline",
   "formatTimestamp"
- ]
+ ],
+ "unanalysable": []
 }
