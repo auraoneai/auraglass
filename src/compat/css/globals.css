@@ -1,8 +1,20 @@
-/* aura-glass/compat/globals.css (PLAT-277) — the whole-layer opt-in for apps that
-   import the compat globals stylesheet directly: @import 'aura-glass/compat/globals.css'.
-   Everything here lives in the ag.compat layer so app css wins over it. */
-:root {
-  color-scheme: light dark;
+/* aura-glass/compat/globals.css (PLAT-277, REQ-PLAT-30) — the whole-layer
+   opt-in for apps that import the compat globals stylesheet directly:
+   @import 'aura-glass/compat/globals.css'. Everything lives in the
+   ag.compat layer so app css wins over it. */
+@layer ag.compat {
+  :root { color-scheme: light dark; }
+  [data-ag-scheme='light'] { color-scheme: light; }
+  [data-ag-scheme='dark'] { color-scheme: dark; }
+  /* 4.x-era global primitives kept inside the compat layer so 5.0 layered
+     styles are never clobbered by accident. */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-family: var(--ag-font-display, var(--ag-font-sans, inherit));
+    font-weight: var(--ag-font-weight-semibold, 600);
+    line-height: 1.2;
+    color: var(--ag-text-primary, inherit);
+  }
+  .flex { display: flex; }
+  .grid { display: grid; }
 }
-[data-ag-scheme='light'] { color-scheme: light; }
-[data-ag-scheme='dark'] { color-scheme: dark; }
