@@ -51,6 +51,22 @@
   }
   .ag-toast[data-swiping] { transition: none; }
 
+  /* REQ-CMP-109: collapsed stack — cards behind the top one step back and
+     shrink so the stack reads as depth. BU sets data-expanded on hover; in
+     collapsed state each card transforms by --toast-index (the root writes
+     its DOM order). */
+  .ag-toast:not([data-expanded]) {
+    transform: translateY(calc(var(--toast-index, 0) * 8px)) scale(calc(1 - var(--toast-index, 0) * 0.04));
+  }
+  /* Intent tint: icon + 3px border-inline-start (accent set per-intent below). */
+  .ag-toast [data-ag-part='icon'] { color: var(--ag-toast-accent, var(--ag-info, #2563eb)); flex: none; }
+
+  /* Narrow container layout. */
+  @container (max-width: 360px) {
+    .ag-toast { min-width: 0; width: 100%; padding: var(--ag-space-2-5, 10px) var(--ag-space-3, 12px); }
+    .ag-toast-action { margin-block-start: var(--ag-space-2, 8px); }
+  }
+
   .ag-toast[data-ag-intent='success'] { --ag-toast-accent: var(--ag-success, #16a34a); }
   .ag-toast[data-ag-intent='warning'] { --ag-toast-accent: var(--ag-warning, #d97706); }
   .ag-toast[data-ag-intent='error'] { --ag-toast-accent: var(--ag-danger, #dc2626); }

@@ -12,7 +12,7 @@ import { cn } from '../../internal';
 import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
-  ToastData, ToastRecord, UseToastReturn, ToastIntent,
+  ToastData, ToastRecord, UseToastReturn, ToastIntent, ToastPosition,
 } from './Toast.types';
 
 /* CMP-294 (REQ-CMP-110): append-only history — one entry per add, closed on
@@ -43,6 +43,15 @@ function useHistory(): ToastRecord[] {
 
 const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'error' || intent === 'warning' ? 'high' : 'low');
 
+/* REQ-CMP-109: viewport position feeds each root's swipeDirection — a toast
+   parked on the right dismisses right/down, bottom-center only down, etc. */
+const ToastViewportCtx = React.createContext<ToastPosition>('bottom-right');
+
+const POSITION_SWIPE: Record<ToastPosition, ('up' | 'down' | 'left' | 'right')[]> = {
+  'top-left': ['left', 'up'], 'top-center': ['up'], 'top-right': ['right', 'up'],
+  'bottom-left': ['left', 'down'], 'bottom-center': ['down'], 'bottom-right': ['right', 'down'],
+};
+
 /* The single shared manager for the app — BU contract requires a stable
    manager instance passed to the provider. */
 export const toastManager = Base.createToastManager();
@@ -67,7 +76,7 @@ const ToastViewport = React.forwardRef<HTMLDivElement, ToastViewportProps>(
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
-          {children}
+          <ToastViewportCtx.Provider value={position}>{children}</ToastViewportCtx.Provider>
         </Base.Viewport>
       </Base.Portal>
     );
@@ -80,10 +89,25 @@ const ToastRoot = React.forwardRef<HTMLDivElement, ToastRootProps>(
     const priority = intent === 'error' || intent === 'warning' ? 'alert' : 'status';
     // dom-contract (CMP-202) requires data-state open|closed on the surface
     const state = toast?.transitionStatus === 'ending' ? 'closed' : 'open';
+    const position = React.useContext(ToastViewportCtx);
+    const localRef = React.useRef<HTMLDivElement | null>(null);
+    /* REQ-CMP-109: --toast-index from DOM order so the collapsed-stack CSS
+       can translate/scale each card behind the top one. */
+    React.useLayoutEffect(() => {
+      const el = localRef.current;
+      if (!el?.parentElement) return;
+      const siblings = Array.from(el.parentElement.children).filter((n) => n.classList.contains('ag-toast'));
+      el.style.setProperty('--toast-index', String(Math.max(0, siblings.indexOf(el))));
+    }, [toast?.id]);
     return (
       <Base.Root
-        ref={ref}
+        ref={(node: HTMLDivElement | null) => {
+          localRef.current = node;
+          if (typeof ref === 'function') ref(node);
+          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+        }}
         toast={toast}
+        swipeDirection={POSITION_SWIPE[position]}
         role={priority}
         data-ag-part="root"
         data-ag-intent={intent}
@@ -127,6 +151,15 @@ const ToastClose = React.forwardRef<HTMLButtonElement, ToastCloseProps>(
     );
   },
 );
+
+/* REQ-CMP-109: decorative intent icon — tinted by --ag-toast-accent in css. */
+function ToastIcon({ className, children, ...rest }: React.HTMLAttributes<HTMLSpanElement>) {
+  return (
+    <span data-ag-part="icon" aria-hidden="true" className={cn('ag-toast-icon', className)} {...rest}>
+      {children}
+    </span>
+  );
+}
 
 /* CMP-292: optional progress bar — BU exposes remaining time via swipe/timeout
    state on the toast object; we render a track whose bar is driven by the
@@ -198,6 +231,7 @@ export function useToast(): UseToastReturn {
 
 export const Toast = {
   Provider: ToastProvider,
+  Icon: ToastIcon,
   Viewport: ToastViewport,
   Root: ToastRoot,
   Title: ToastTitle,
