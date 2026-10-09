@@ -57,8 +57,9 @@
 
   /* Popup */
   .ag-select-popup {
-    min-inline-size: var(--ag-select-popup-min-w, 100%);
-    max-inline-size: var(--ag-select-popup-max-w, var(--ag-space-96));
+    /* REQ-CMP-68: anchor-width floor + 100vw-16px ceiling, unconditionally. */
+    min-inline-size: var(--anchor-width);
+    max-inline-size: calc(100vw - 16px);
     max-block-size: var(--ag-select-popup-max-h, var(--ag-space-72));
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -135,12 +136,6 @@
   @media (pointer: coarse) {
     .ag-select-popup {
       max-block-size: min(60dvh, 400px);
-    }
-  }
-  @media (max-inline-size: 390px) {
-    .ag-select-popup {
-      min-inline-size: var(--ag-select-trigger-w, auto);
-      max-inline-size: calc(100vw - 16px);
     }
   }
   @media (prefers-reduced-motion: reduce) {

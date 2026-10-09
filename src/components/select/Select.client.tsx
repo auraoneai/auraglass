@@ -123,7 +123,8 @@ function SelectContent({ children, className }: SelectContentProps) {
         data-ag-part="positioner"
         side="bottom"
         align="start"
-        sideOffset={6}
+        sideOffset={8}
+        collisionPadding={8}
         alignItemWithTrigger={alignToTrigger}
         {...sizeAttrs(size)}
       >
