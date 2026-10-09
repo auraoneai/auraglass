@@ -20,7 +20,7 @@
     --_ag-blur: 0px;
     --_ag-saturation: 1;
     --_ag-brightness: 1;
-    --_ag-tint-floor: 0.6;
+    --_ag-tint-floor: var(--_ag-floor-alpha, 1);
     --_ag-dim: 0;
     --_ag-surface-alpha: 1;
     --_ag-refraction-scale: 0;
@@ -136,9 +136,8 @@
     --_ag-on-surface: oklch(0.96 0.01 90);
     --_ag-on-surface-muted: oklch(0.8 0.015 90);
   }
-  [data-ag-backdrop="media"],
-  [data-ag-backdrop="auto"] {
-    /* auto + image/video resolves to the media row (REQ-MAT-26) */
+  [data-ag-backdrop="media"] {
+    /* image/video resolves to the media row (REQ-MAT-26); "auto" resolves upstream */
     --_ag-env-brightness: 1;
     --_ag-on-surface: oklch(0.98 0.005 90);
     --_ag-on-surface-muted: oklch(0.85 0.01 90);
@@ -164,7 +163,7 @@
        bright backdrop inside ::before when the backdrop is light/media */
     --_ag-fill: var(--_ag-canvas-fill);
   }
-  :where([data-ag-backdrop="light"], [data-ag-backdrop="media"], [data-ag-backdrop="auto"])
+  :where([data-ag-backdrop="light"], [data-ag-backdrop="media"])
     [data-ag-surface][data-ag-variant="clear"] {
     --_ag-dim: 0.35; /* scrim.clearOverBright */
   }
