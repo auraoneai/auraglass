@@ -37,6 +37,9 @@
     clip-path: polygon(0 0, 100% 0, 50% 100%);
   }
 
+  /* REQ-CMP-101: calm motion mode gets the same no-transform guarantee as
+     the media-query path — data-ag-motion='calm' rides along, not replaces. */
+  [data-ag-motion='calm'] .ag-tooltip-popup { transform: none; }
   @media (prefers-reduced-motion: reduce) {
     .ag-tooltip-popup { transition: opacity var(--ag-duration-small, 200ms) linear; transform: none !important; }
   }
