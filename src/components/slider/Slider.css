@@ -84,7 +84,7 @@
     color: var(--ag-on-surface);
   }
 
-  .ag-slider[data-disabled] {
+  .ag-slider[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

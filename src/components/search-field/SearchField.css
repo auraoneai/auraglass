@@ -67,7 +67,7 @@
     font-size: var(--ag-type-caption-size);
     color: var(--ag-color-danger);
   }
-  .ag-search-field[data-disabled] {
+  .ag-search-field[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 }

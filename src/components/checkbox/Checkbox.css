@@ -55,8 +55,8 @@
     color: var(--ag-on-accent, var(--ag-color-on-accent));
   }
 
-  .ag-checkbox[data-disabled],
-  .ag-radio-group [data-disabled] {
+  .ag-checkbox[data-disabled] > :where([data-ag-part]),
+  .ag-radio-group [data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

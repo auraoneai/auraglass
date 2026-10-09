@@ -60,7 +60,7 @@
     justify-content: flex-end;
   }
 
-  .ag-switch[data-disabled] {
+  .ag-switch[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 

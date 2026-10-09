@@ -47,7 +47,7 @@
     font-size: var(--ag-type-caption-size);
     color: var(--ag-color-danger);
   }
-  .ag-number-field[data-disabled] {
+  .ag-number-field[data-disabled] > :where([data-ag-part]) {
     opacity: var(--ag-state-disabled-alpha);
   }
 }
