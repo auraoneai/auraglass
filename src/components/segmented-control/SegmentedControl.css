@@ -22,21 +22,21 @@
     font-size: var(--ag-type-label-size);
     cursor: pointer;
     position: relative;
-    z-index: var(--ag-z-base, auto);
+    z-index: var(--ag-z-base);
     flex: 0 1 auto;
     min-width: var(--ag-target-min);
   }
-  .ag-segmented-control[data-ag-size='sm'] .ag-segmented-item {
+  .ag-segmented-control[data-ag-size="sm"] .ag-segmented-item {
     padding-inline: var(--ag-space-2);
     font-size: var(--ag-type-caption-size);
   }
-  .ag-segmented-item [data-ag-part='item-label'] {
+  .ag-segmented-item [data-ag-part="item-label"] {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .ag-segmented-item[data-checked],
-  .ag-segmented-item[aria-checked='true'] {
+  .ag-segmented-item[aria-checked="true"] {
     box-shadow: inset 0 0 0 var(--ag-focus-width) var(--ag-state-press-glow);
   }
   .ag-segmented-item:focus-visible {
@@ -51,14 +51,14 @@
 
   /* indicator: transient layer, thin, concentric, inner fill at rest.
      animates via transform+width only while [data-ag-animating] (S-13 startMorph prefers View Transitions). */
-  .ag-segmented-control [data-ag-part='indicator'] {
+  .ag-segmented-control [data-ag-part="indicator"] {
     position: absolute;
     border-radius: var(--ag-radius-full);
-    background: var(--ag-color-specular, var(--ag-color-border));
+    background: var(--ag-color-specular);
     opacity: 0;
     pointer-events: none;
   }
-  .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
+  .ag-segmented-control[data-ag-animating] [data-ag-part="indicator"] {
     will-change: transform;
     transition: transform var(--ag-duration-small) var(--ag-ease-emphasized);
   }

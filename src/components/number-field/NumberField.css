@@ -5,14 +5,18 @@
     gap: var(--ag-space-1);
     color: var(--ag-on-surface);
   }
-  .ag-number-field [data-ag-part='shell'] {
+  .ag-number-field [data-ag-part="shell"] {
     display: flex;
     align-items: stretch;
     border-radius: var(--ag-radius-md);
-    background: color-mix(in oklab, var(--ag-color-on-surface) var(--ag-content-sunken-alpha, 8%), transparent);
+    background: color-mix(
+      in oklab,
+      var(--ag-color-on-surface) var(--ag-content-sunken-alpha),
+      transparent
+    );
     box-shadow: inset 0 0 0 var(--ag-surface-rim) var(--ag-color-border);
   }
-  .ag-number-field [data-ag-part='control'] {
+  .ag-number-field [data-ag-part="control"] {
     flex: 1;
     min-inline-size: 0;
     text-align: center;
@@ -24,8 +28,8 @@
     font: inherit;
     padding-block: var(--ag-space-2);
   }
-  .ag-number-field [data-ag-part='increment'],
-  .ag-number-field [data-ag-part='decrement'] {
+  .ag-number-field [data-ag-part="increment"],
+  .ag-number-field [data-ag-part="decrement"] {
     display: grid;
     place-items: center;
     padding-inline: var(--ag-space-3);
@@ -35,15 +39,15 @@
     background: transparent;
     font: inherit;
   }
-  .ag-number-field [data-ag-part='increment']:focus-visible,
-  .ag-number-field [data-ag-part='decrement']:focus-visible {
+  .ag-number-field [data-ag-part="increment"]:focus-visible,
+  .ag-number-field [data-ag-part="decrement"]:focus-visible {
     outline: var(--ag-focus-width) solid var(--ag-color-focus-outer);
   }
-  .ag-number-field [data-ag-part='description'] {
+  .ag-number-field [data-ag-part="description"] {
     font-size: var(--ag-type-caption-size);
     color: var(--ag-on-surface-muted);
   }
-  .ag-number-field [data-ag-part='error'] {
+  .ag-number-field [data-ag-part="error"] {
     font-size: var(--ag-type-caption-size);
     color: var(--ag-color-danger);
   }

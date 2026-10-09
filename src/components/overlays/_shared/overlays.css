@@ -7,10 +7,10 @@
     position: fixed;
     inset: 0;
     /* solved tint; blur from the scrim token (ceiling 12px) */
-    background: var(--ag-scrim-bg, var(--ag-scrim-tint, rgb(0 0 0 / 0.32)));
-    backdrop-filter: blur(var(--_ag-scrim-blur, var(--ag-scrim-blur, 8px)));
+    background: var(--ag-scrim-bg);
+    backdrop-filter: blur(var(--_ag-scrim-blur));
     opacity: 1;
-    transition: opacity var(--ag-duration-medium, 200ms) var(--ag-ease-standard, ease);
+    transition: opacity var(--ag-duration-medium) var(--ag-ease-standard);
   }
   .ag-scrim[data-starting-style],
   .ag-scrim[data-ending-style] {
@@ -22,8 +22,8 @@
   }
 
   /* anchored popups (positioner-mounted) */
-  [data-ag-part='popup'][data-ag-overlay],
-  [data-ag-part='popup'][data-ag-positioned] {
+  [data-ag-part="popup"][data-ag-overlay],
+  [data-ag-part="popup"][data-ag-positioned] {
     transform-origin: var(--transform-origin);
     max-block-size: var(--available-height);
     overflow: auto;
@@ -34,11 +34,11 @@
   }
 
   /* focus ring baseline for overlay parts (§6 two-tone ring) */
-  [data-ag-part='popup']:focus-visible,
-  [data-ag-part='close']:focus-visible,
-  [data-ag-part='handle']:focus-visible,
-  [data-ag-part='action']:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-focus-color, Highlight);
+  [data-ag-part="popup"]:focus-visible,
+  [data-ag-part="close"]:focus-visible,
+  [data-ag-part="handle"]:focus-visible,
+  [data-ag-part="action"]:focus-visible {
+    outline: var(--ag-focus-width) solid var(--ag-focus-color);
     outline-offset: 2px;
   }
 
@@ -47,7 +47,7 @@
       backdrop-filter: none;
       background: color-mix(in srgb, Canvas 60%, transparent);
     }
-    [data-ag-part='popup'] {
+    [data-ag-part="popup"] {
       backdrop-filter: none;
       background: Canvas;
       color: CanvasText;
@@ -59,20 +59,20 @@
       backdrop-filter: none;
     }
   }
-  [data-ag-transparency='solid'] .ag-scrim,
-  [data-ag-transparency='solid'] [data-ag-part='popup'] {
+  [data-ag-transparency="solid"] .ag-scrim,
+  [data-ag-transparency="solid"] [data-ag-part="popup"] {
     backdrop-filter: none;
   }
-  [data-ag-transparency='solid'] .ag-scrim {
-    background: rgb(0 0 0 / 0.5);
+  [data-ag-transparency="solid"] .ag-scrim {
+    background: var(--ag-scrim-media);
   }
-  [data-ag-transparency='solid'] [data-ag-part='popup'] {
-    border: var(--ag-surface-rim, 1px) solid var(--ag-color-border, currentColor);
+  [data-ag-transparency="solid"] [data-ag-part="popup"] {
+    border: var(--ag-surface-rim) solid var(--ag-color-border);
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ag-scrim {
-      transition-duration: var(--ag-duration-micro, 80ms);
+      transition-duration: var(--ag-duration-micro);
     }
   }
 }

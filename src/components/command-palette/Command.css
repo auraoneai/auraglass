@@ -5,7 +5,7 @@
   .ag-command-palette {
     display: flex;
     flex-direction: column;
-    max-block-size: var(--ag-command-palette-max-h, 60vh);
+    max-block-size: var(--ag-command-palette-max-h);
     overflow: hidden;
   }
   .ag-command {
@@ -15,28 +15,28 @@
   }
   .ag-command__input {
     inline-size: 100%;
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
+    padding: var(--ag-space-2) var(--ag-space-3);
     border: none;
-    border-block-end: var(--ag-border-width, 1px) solid var(--ag-border, transparent);
+    border-block-end: var(--ag-border-width) solid var(--ag-border);
     background: transparent;
-    color: var(--ag-fg, currentColor);
+    color: var(--ag-fg);
     font: inherit;
   }
   .ag-command__list {
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: var(--ag-space-1, 0.25rem);
+    padding: var(--ag-space-1);
   }
   .ag-command__item {
     display: flex;
     align-items: center;
-    gap: var(--ag-space-2, 0.5rem);
-    padding: var(--ag-space-2, 0.5rem) var(--ag-space-3, 0.75rem);
-    min-block-size: var(--ag-touch-target, 2.75rem);
-    border-radius: var(--ag-radius-1, 0.25rem);
+    gap: var(--ag-space-2);
+    padding: var(--ag-space-2) var(--ag-space-3);
+    min-block-size: var(--ag-touch-target);
+    border-radius: var(--ag-radius-1);
     cursor: default;
   }
   .ag-command__item[data-ag-active] {
-    background: var(--ag-accent-soft, transparent);
+    background: var(--ag-accent-soft);
   }
 }
