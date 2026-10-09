@@ -6,6 +6,7 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { SliderRootProps, SliderValueProps } from './Slider.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function SliderRoot<V extends number | number[]>({
   onValueChange,
@@ -17,6 +18,7 @@ function SliderRoot<V extends number | number[]>({
   ref,
   ...rest
 }: SliderRootProps<V>) {
+  useControllableWarning('Slider', 'value', rest.value);
   const ariaLabel = (rest as Record<string, unknown>)['aria-label'] as string | undefined;
   const ariaLabelledby = (rest as Record<string, unknown>)['aria-labelledby'] as string | undefined;
   const initial = rest.value ?? rest.defaultValue;

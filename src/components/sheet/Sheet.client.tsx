@@ -26,6 +26,7 @@ import type {
 } from './Sheet.types';
 import type { SheetDetentsHandle } from './useSheetDetents';
 import type { SheetSide } from './Sheet.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 interface SheetCtx {
   depth: number;
@@ -71,6 +72,7 @@ function SheetRoot({
   labels,
   children,
 }: SheetRootProps) {
+  useControllableWarning('Sheet', 'open', open);
   const dir = useDirection();
   const rtl = dir === 'rtl';
   const resolved = preset === 'action' ? 'bottom' : resolveSide(side, rtl);

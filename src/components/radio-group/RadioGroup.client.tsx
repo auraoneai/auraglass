@@ -7,8 +7,10 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { RadioGroupProps, RadioItemProps } from './RadioGroup.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function RadioGroupRoot({ onValueChange, children, className, ref, size, orientation, ...rest }: RadioGroupProps) {
+  useControllableWarning('RadioGroup', 'value', rest.value);
   return (
     <BaseGroup
       data-ag-part="root"

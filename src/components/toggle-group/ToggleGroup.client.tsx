@@ -5,6 +5,7 @@ import { Toggle } from '@base-ui/react/toggle';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import type { ChangeDetails } from '../../contracts/components';
+import { useControllableWarning } from '../../foundation/controllable';
 
 export interface ToggleGroupRootProps {
   value?: string[] | undefined;
@@ -38,6 +39,7 @@ function ToggleGroupRoot({
   children,
   ref,
 }: ToggleGroupRootProps) {
+  useControllableWarning('ToggleGroup', 'value', value);
   return (
     <BaseGroup
       value={value}

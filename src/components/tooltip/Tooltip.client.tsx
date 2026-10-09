@@ -12,6 +12,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
   TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps,
@@ -37,6 +38,7 @@ function TooltipProvider({ delay = 600, closeDelay = 0, skipDelayWindow = 400, c
 }
 
 function TooltipRoot({ open, defaultOpen, onOpenChange, children }: TooltipRootProps) {
+  useControllableWarning('Tooltip', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;

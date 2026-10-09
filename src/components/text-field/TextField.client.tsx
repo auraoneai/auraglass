@@ -6,7 +6,7 @@ import { Input as BaseInput } from '@base-ui/react/input';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
-import { warnControlledSwitch } from '../control-shared/value';
+import { useControllableWarning } from '../../foundation/controllable';
 import type { TextFieldProps } from './TextField.types';
 
 /** TextField — 'use client' leaf on BU Field + Input (REQ-CMP-60..62).
@@ -42,15 +42,11 @@ export function TextField({
   ref,
   ...rest
 }: TextFieldProps) {
-  const wasControlled = React.useRef(value !== undefined);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const [count, setCount] = React.useState(() => (value ?? defaultValue ?? '').length);
 
-  if (process.env.NODE_ENV !== 'production') {
-    warnControlledSwitch('TextField', 'value', wasControlled.current, value !== undefined);
-    wasControlled.current = value !== undefined;
-  }
+  useControllableWarning('TextField', 'value', value);
 
   const invalid = error !== undefined && error !== null;
   const controlProps = {

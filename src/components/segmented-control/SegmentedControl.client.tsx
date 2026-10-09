@@ -5,6 +5,7 @@ import { Radio } from '@base-ui/react/radio';
 import { materialProps, SurfaceGroup } from '../../material';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   SegmentedControlRootProps,
   SegmentedControlItemProps,
@@ -28,6 +29,7 @@ function SegmentedControlRoot({
   ref,
   ...rest
 }: SegmentedControlRootProps) {
+  useControllableWarning('SegmentedControl', 'value', value);
   /* Dev-only: >5 segments at ~390px → recommend Select (stripped in production). */
   const measureRef = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {

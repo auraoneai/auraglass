@@ -6,10 +6,12 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { SwitchProps } from './Switch.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 /** Switch — 'use client' leaf on BU Switch.Root + Thumb (REQ-CMP-45..47).
  * root is the track; thumb is the transient part. */
 export function Switch({ size, onCheckedChange, children, className, ref, ...rest }: SwitchProps) {
+  useControllableWarning('Switch', 'checked', rest.checked);
   return (
     <Base.Root
       data-ag-part="root"

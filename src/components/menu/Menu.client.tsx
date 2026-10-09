@@ -13,6 +13,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps,
   MenuPopupProps, MenuArrowProps, MenuItemProps, MenuLinkItemProps,
@@ -30,6 +31,7 @@ const MenuCtx = React.createContext<MenuCtx>({ open: false });
 const MenubarCtx = React.createContext(false);
 
 function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, children }: MenuRootProps) {
+  useControllableWarning('Menu', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;

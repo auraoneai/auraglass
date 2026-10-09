@@ -10,6 +10,7 @@ import { CONTROL_MESSAGES } from '../control-shared/messages';
 import { IconButton } from '../icon-button';
 import { Kbd } from '../kbd';
 import type { SearchFieldProps } from './SearchField.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function SearchGlyph() {
   return (
@@ -46,6 +47,7 @@ export function SearchField({
   ref,
   ...rest
 }: SearchFieldProps) {
+  useControllableWarning('SearchField', 'value', value);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const innerRef = React.useRef<HTMLInputElement | null>(null);

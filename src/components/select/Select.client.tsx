@@ -8,6 +8,7 @@ import { toChangeDetails } from '../../foundation';
 import { cn } from '../../internal';
 import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
+import { useControllableWarning } from '../../foundation/controllable';
 function ChevronGlyph() {
   return (
     <svg aria-hidden="true" viewBox="0 0 16 16" fill="none" width="1em" height="1em">
@@ -50,6 +51,7 @@ function SelectRoot<Value = string>({
   children,
   ...rest
 }: SelectRootProps<Value>) {
+  useControllableWarning('Select', 'value', rest.value);
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
   const [resetNonce, setResetNonce] = React.useState(0);
   /* Form reset: BU keeps selection internally, so restore defaultValue by

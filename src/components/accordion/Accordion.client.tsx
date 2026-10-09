@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { Accordion as BaseAccordion } from '@base-ui/react/accordion';
 import { cn } from '../../internal/index';
+import { useControllableWarning } from '../../foundation/controllable';
 
 export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement> {
   value?: string[];
@@ -15,6 +16,7 @@ export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 function Root({ className, ref, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  useControllableWarning('Accordion', 'value', rest.value);
   return (
     <BaseAccordion.Root
       {...rest}

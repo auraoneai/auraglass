@@ -9,6 +9,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
   MenuPositionerProps, MenuPopupProps, MenuItemProps, MenuGroupProps,
@@ -20,6 +21,7 @@ interface Ctx { open: boolean }
 const Ctx = React.createContext<Ctx>({ open: false });
 
 function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, children }: ContextMenuRootProps) {
+  useControllableWarning('ContextMenu', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;

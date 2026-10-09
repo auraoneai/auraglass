@@ -7,6 +7,7 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import type { ChangeDetails } from '../../contracts/components';
 import type { ButtonProps } from './Button.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 /* Dev-only: at most one prominent button per view root. One warning total. */
 const prominentRegistry = new Set<object>();
@@ -77,6 +78,7 @@ export function Button(props: ButtonProps) {
     ...rest
   } = props as ButtonProps & { 'data-ag-part'?: string };
 
+  useControllableWarning('Button', 'pressed', pressed);
   const token = React.useRef<object>({});
   useProminentGuard(prominent, token.current);
 

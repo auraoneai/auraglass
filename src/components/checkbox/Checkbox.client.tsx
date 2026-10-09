@@ -7,6 +7,7 @@ import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import type { CheckboxGroupProps, CheckboxProps } from './Checkbox.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 function CheckIcon() {
   return (
@@ -33,6 +34,7 @@ export function Checkbox({
   ref,
   ...rest
 }: CheckboxProps) {
+  useControllableWarning('Checkbox', 'checked', rest.checked);
   return (
     <Base.Root
       data-ag-part="root"
@@ -54,6 +56,7 @@ export function Checkbox({
 
 /** CheckboxGroup — flat wrapper over BU CheckboxGroup (REQ-CMP-52). */
 export function CheckboxGroup({ onValueChange, children, className, ref, ...rest }: CheckboxGroupProps) {
+  useControllableWarning('CheckboxGroup', 'value', rest.value);
   return (
     <BaseGroup
       data-ag-part="root"

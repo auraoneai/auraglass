@@ -10,6 +10,7 @@ import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAni
 import { toOverlayReason, type OverlayKind } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   PopoverRootProps, PopoverTriggerProps, PopoverPortalProps,
   PopoverPositionerProps, PopoverPopupProps, PopoverArrowProps,
@@ -22,6 +23,7 @@ const PopoverCtx = React.createContext<PopoverCtx>({ open: false });
 const KIND: OverlayKind = 'popover';
 
 function PopoverRoot({ open, defaultOpen, onOpenChange, children }: PopoverRootProps) {
+  useControllableWarning('Popover', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;

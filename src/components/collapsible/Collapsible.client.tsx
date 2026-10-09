@@ -7,6 +7,7 @@ import * as React from 'react';
 import { Collapsible as BaseCollapsible } from '@base-ui/react/collapsible';
 import { cn } from '../../internal/index';
 import { toChangeDetails } from '../../foundation/index';
+import { useControllableWarning } from '../../foundation/controllable';
 
 export interface CollapsibleRootProps extends React.HTMLAttributes<HTMLDivElement> {
   open?: boolean;
@@ -16,6 +17,7 @@ export interface CollapsibleRootProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 function Root({ open, defaultOpen, onOpenChange, className, ref, ...rest }: CollapsibleRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+  useControllableWarning('Collapsible', 'open', open);
   const [uncontrolled, setUncontrolled] = React.useState(defaultOpen ?? false);
   const current = open ?? uncontrolled;
   return (

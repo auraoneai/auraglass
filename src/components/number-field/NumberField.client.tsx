@@ -8,6 +8,7 @@ import { toChangeDetails } from '../../foundation';
 import { sizeAttrs } from '../control-shared/size';
 import { CONTROL_MESSAGES } from '../control-shared/messages';
 import type { NumberFieldProps } from './NumberField.types';
+import { useControllableWarning } from '../../foundation/controllable';
 
 /** NumberField — BU NumberField inside a Field shell (REQ-CMP-75..77). */
 export function NumberField({
@@ -29,6 +30,7 @@ export function NumberField({
   ref,
   ...rest
 }: NumberFieldProps) {
+  useControllableWarning('NumberField', 'value', rest.value);
   const autoId = React.useId();
   const controlId = id ?? autoId;
   const invalid = error !== undefined && error !== null;

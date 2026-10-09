@@ -15,6 +15,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { DialogHeader, DialogBody, DialogFooter } from './DialogLayout';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   DialogRootProps, DialogTriggerProps, DialogCloseProps, DialogPortalProps,
   DialogBackdropProps, DialogPopupProps, DialogTitleProps, DialogDescriptionProps,
@@ -39,6 +40,7 @@ function DialogRoot({
   labels,
   children,
 }: DialogRootProps) {
+  useControllableWarning('Dialog', 'open', open);
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);

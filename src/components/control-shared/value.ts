@@ -4,7 +4,7 @@ const warned = new Set<string>();
 
 export function warnControlledSwitch(
   component: string,
-  prop: 'value' | 'checked' | 'pressed',
+  prop: 'value' | 'checked' | 'pressed' | 'open',
   wasControlled: boolean,
   isControlled: boolean,
 ): void {

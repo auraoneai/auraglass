@@ -11,6 +11,7 @@ import { sizeAttrs, DEFAULT_CONTROL_SIZE } from '../control-shared/size';
 import type { ControlSize } from '../control-shared/size';
 import { controlMessage } from '../control-shared/messages';
 import type { ControlMessages } from '../control-shared/messages';
+import { useControllableWarning } from '../../foundation/controllable';
 import type {
   ComboboxRootProps,
   ComboboxInputProps,
@@ -116,6 +117,7 @@ function ComboboxRoot<Value = string>({
   children,
   ...rest
 }: ComboboxRootProps<Value>) {
+  useControllableWarning('Combobox', 'value', rest.value);
   const [query, setQuery] = React.useState('');
   const [asyncItems, setAsyncItems] = React.useState<Value[] | null>(null);
   const [loadError, setLoadError] = React.useState(false);

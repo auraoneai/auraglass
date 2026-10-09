@@ -14,6 +14,7 @@ import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { Button } from '../button';
+import { useControllableWarning } from '../../foundation/controllable';
 import {
   AlertDialogHeader, AlertDialogBody, AlertDialogFooter,
 } from './AlertDialogLayout';
@@ -37,6 +38,7 @@ const AlertContext = React.createContext<AlertCtx>({
 });
 
 function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children }: AlertDialogRootProps) {
+  useControllableWarning('AlertDialog', 'open', open);
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
