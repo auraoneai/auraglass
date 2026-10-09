@@ -1,3 +1,4 @@
+import { wcagComposite, wcagRelativeLuminance } from './wcag.mjs';
 export interface GlassRgb {
   r: number;
   g: number;
@@ -46,15 +47,11 @@ export const mixHex = (from: string, to: string, amount: number): string => {
   });
 };
 
+/* WCAG math lives in ./wcag.mjs — the one module shared with the tokens
+   build (scripts/tokens/color.mjs re-exports it). Never re-implement here. */
 export const relativeLuminance = (input: string): number => {
   const { r, g, b } = hexToRgb(input);
-  const convert = (channel: number) => {
-    const value = channel / 255;
-    return value <= 0.03928
-      ? value / 12.92
-      : Math.pow((value + 0.055) / 1.055, 2.4);
-  };
-  return convert(r) * 0.2126 + convert(g) * 0.7152 + convert(b) * 0.0722;
+  return wcagRelativeLuminance([r / 255, g / 255, b / 255]);
 };
 
 export const contrastRatio = (
@@ -265,8 +262,8 @@ export const compositeOver = (
 ): Srgb => {
   const [fr, fgG, fb, fa] = toSrgbFlat(fg);
   const [br, bgG, bb] = toSrgbFlat(bg);
-  const comp = (f: number, b: number) => f * fa + b * (1 - fa);
-  return { r: comp(fr, br), g: comp(fgG, bgG), b: comp(fb, bb), alpha: 1 };
+  const [r, g, b] = wcagComposite([fr, fgG, fb], fa, [br, bgG, bb]);
+  return { r, g, b, alpha: 1 };
 };
 
 /** Advisory APCA Lc (W3 formula, polarity-aware). Positive = dark text on light bg. */

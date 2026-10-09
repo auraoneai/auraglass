@@ -56,7 +56,7 @@
               },
               "grain": 0.03,
               "rim": {
-                "value": 1,
+                "value": 1.5,
                 "unit": "px"
               },
               "alpha": 0.72
@@ -109,7 +109,7 @@
               },
               "grain": 0.02,
               "rim": {
-                "value": 1,
+                "value": 1.5,
                 "unit": "px"
               },
               "alpha": 0.55
@@ -162,7 +162,7 @@
               },
               "grain": 0.03,
               "rim": {
-                "value": 1,
+                "value": 1.5,
                 "unit": "px"
               },
               "alpha": 0.85
@@ -394,111 +394,399 @@
     },
     "shadow": {
       "thin": {
-        "$type": "shadow",
+        "$type": "mode-table",
         "$value": {
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 1,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.1
+            }
           },
-          "offsetY": {
-            "value": 1,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 4,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 0,
-            "unit": "px"
-          },
-          "color": {
-            "colorSpace": "oklch",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.1
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 1,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 4,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.24
+            }
           }
         },
         "$extensions": {
           "ag.tier": "material",
           "ag.since": "5.0.0",
           "ag.public": true,
-          "ag.cssVar": "--ag-shadow-thin"
+          "ag.cssVar": "--ag-shadow-thin",
+          "ag.valueType": "shadow"
         }
       },
       "regular": {
-        "$type": "shadow",
+        "$type": "mode-table",
         "$value": {
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 4,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.14
+            }
           },
-          "offsetY": {
-            "value": 4,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 16,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 0,
-            "unit": "px"
-          },
-          "color": {
-            "colorSpace": "oklch",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.14
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 4,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 16,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.32
+            }
           }
         },
         "$extensions": {
           "ag.tier": "material",
           "ag.since": "5.0.0",
           "ag.public": true,
-          "ag.cssVar": "--ag-shadow-regular"
+          "ag.cssVar": "--ag-shadow-regular",
+          "ag.valueType": "shadow"
         }
       },
       "thick": {
-        "$type": "shadow",
+        "$type": "mode-table",
         "$value": {
-          "offsetX": {
-            "value": 0,
-            "unit": "px"
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 8,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 32,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.2
+            }
           },
-          "offsetY": {
-            "value": 8,
-            "unit": "px"
-          },
-          "blur": {
-            "value": 32,
-            "unit": "px"
-          },
-          "spread": {
-            "value": 0,
-            "unit": "px"
-          },
-          "color": {
-            "colorSpace": "oklch",
-            "components": [
-              0,
-              0,
-              0
-            ],
-            "alpha": 0.2
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 8,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 32,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.4
+            }
           }
         },
         "$extensions": {
           "ag.tier": "material",
           "ag.since": "5.0.0",
           "ag.public": true,
-          "ag.cssVar": "--ag-shadow-thick"
+          "ag.cssVar": "--ag-shadow-thick",
+          "ag.valueType": "shadow"
+        }
+      },
+      "thin-key": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 1,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 1,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.08
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 1,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 1,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.2
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-thin-key",
+          "ag.valueType": "shadow"
+        }
+      },
+      "regular-key": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 2,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 6,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.12
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 2,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 6,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.28
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-regular-key",
+          "ag.valueType": "shadow"
+        }
+      },
+      "thick-key": {
+        "$type": "mode-table",
+        "$value": {
+          "scheme.light": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 6,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 24,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.16
+            }
+          },
+          "scheme.dark": {
+            "offsetX": {
+              "value": 0,
+              "unit": "px"
+            },
+            "offsetY": {
+              "value": 6,
+              "unit": "px"
+            },
+            "blur": {
+              "value": 24,
+              "unit": "px"
+            },
+            "spread": {
+              "value": 0,
+              "unit": "px"
+            },
+            "color": {
+              "colorSpace": "oklch",
+              "components": [
+                0,
+                0,
+                0
+              ],
+              "alpha": 0.36
+            }
+          }
+        },
+        "$extensions": {
+          "ag.tier": "material",
+          "ag.since": "5.0.0",
+          "ag.public": true,
+          "ag.cssVar": "--ag-shadow-thick-key",
+          "ag.valueType": "shadow"
         }
       }
     }

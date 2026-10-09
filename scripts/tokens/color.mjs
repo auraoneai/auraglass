@@ -17,7 +17,7 @@ const LIN_SRGB_TO_LMS = [
 const matVec = (m, v) => m.map((r) => r[0] * v[0] + r[1] * v[1] + r[2] * v[2]);
 
 const srgbTransfer = (x) => (x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055);
-const srgbTransferInv = (x) => (x <= 0.04045 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4));
+const srgbTransferInv = srgbChannelToLinear;
 
 /** oklch {l,c,h} -> [r,g,b] floats 0..1 (may exceed gamut; use gamutMap to clamp). */
 export function oklchToSrgb({ l, c, h }) {
@@ -76,22 +76,11 @@ export function hexToSrgb(hex) {
   return [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16) / 255);
 }
 
-/** WCAG 2.x relative luminance of an sRGB triple. */
-export function relativeLuminance([r, g, b]) {
-  const [rl, gl, bl] = [r, g, b].map(srgbTransferInv);
-  return 0.2126 * rl + 0.7152 * gl + 0.0722 * bl;
-}
-
-export function contrastRatio(rgb1, rgb2) {
-  const [l1, l2] = [relativeLuminance(rgb1), relativeLuminance(rgb2)];
-  const [hi, lo] = l1 >= l2 ? [l1, l2] : [l2, l1];
-  return (hi + 0.05) / (lo + 0.05);
-}
-
-/** Composite foreground (alpha a, rgb f) over opaque backdrop rgb b. */
-export function composite(f, a, b) {
-  return f.map((v, i) => v * a + b[i] * (1 - a));
-}
+/* WCAG math lives in one module (src/theme/wcag.mjs) shared with
+   src/theme/color.ts — see REQ-FIN-03/MAT-10. */
+export const relativeLuminance = wcagRelativeLuminance;
+export const contrastRatio = wcagContrastRatio;
+export const composite = wcagComposite;
 
 /** Any DTCG colorValue -> {rgb:[0..1], alpha} in sRGB. Supports oklch + hex. */
 export function colorToSrgb(cv) {
@@ -124,4 +113,5 @@ export function colorToCss(cv) {
     return a >= 1 ? `rgb(${r} ${g} ${b})` : `rgb(${r} ${g} ${b} / ${a})`;
   }
   throw new Error(`unsupported colorSpace ${JSON.stringify(cv)}`);
-}
+}import { wcagComposite, wcagContrastRatio, wcagRelativeLuminance, srgbChannelToLinear } from '../../src/theme/wcag.mjs';
+

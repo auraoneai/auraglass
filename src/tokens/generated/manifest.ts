@@ -9,15 +9,37 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 4px 16px 0px oklch(0 0 0 / 0.14)",
+    "dark": "0px 4px 16px 0px oklch(0 0 0 / 0.32)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 19
     }
    ],
    "value": "0px 4px 16px 0px oklch(0 0 0 / 0.14)"
+  },
+  {
+   "name": "material.shadow.regular-key",
+   "cssVar": "--ag-shadow-regular-key",
+   "type": "shadow",
+   "tier": "material",
+   "group": "material",
+   "modes": {
+    "light": "0px 2px 6px 0px oklch(0 0 0 / 0.12)",
+    "dark": "0px 2px 6px 0px oklch(0 0 0 / 0.28)"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 7
+    }
+   ],
+   "value": "0px 2px 6px 0px oklch(0 0 0 / 0.12)"
   },
   {
    "name": "material.shadow.thick",
@@ -25,15 +47,37 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 8px 32px 0px oklch(0 0 0 / 0.2)",
+    "dark": "0px 8px 32px 0px oklch(0 0 0 / 0.4)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 8
+     "count": 13
     }
    ],
    "value": "0px 8px 32px 0px oklch(0 0 0 / 0.2)"
+  },
+  {
+   "name": "material.shadow.thick-key",
+   "cssVar": "--ag-shadow-thick-key",
+   "type": "shadow",
+   "tier": "material",
+   "group": "material",
+   "modes": {
+    "light": "0px 6px 24px 0px oklch(0 0 0 / 0.16)",
+    "dark": "0px 6px 24px 0px oklch(0 0 0 / 0.36)"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 4
+    }
+   ],
+   "value": "0px 6px 24px 0px oklch(0 0 0 / 0.16)"
   },
   {
    "name": "material.shadow.thin",
@@ -41,15 +85,37 @@ export const manifest = {
    "type": "shadow",
    "tier": "material",
    "group": "material",
-   "modes": {},
+   "modes": {
+    "light": "0px 1px 4px 0px oklch(0 0 0 / 0.1)",
+    "dark": "0px 1px 4px 0px oklch(0 0 0 / 0.24)"
+   },
    "since": "5.0.0",
    "public": true,
    "consumers": [
     {
-     "count": 10
+     "count": 15
     }
    ],
    "value": "0px 1px 4px 0px oklch(0 0 0 / 0.1)"
+  },
+  {
+   "name": "material.shadow.thin-key",
+   "cssVar": "--ag-shadow-thin-key",
+   "type": "shadow",
+   "tier": "material",
+   "group": "material",
+   "modes": {
+    "light": "0px 1px 1px 0px oklch(0 0 0 / 0.08)",
+    "dark": "0px 1px 1px 0px oklch(0 0 0 / 0.2)"
+   },
+   "since": "5.0.0",
+   "public": true,
+   "consumers": [
+    {
+     "count": 4
+    }
+   ],
+   "value": "0px 1px 1px 0px oklch(0 0 0 / 0.08)"
   },
   {
    "name": "material.surface.fill",
@@ -360,7 +426,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 29
+     "count": 20
     }
    ],
    "value": "oklch(0.99 0.004 250)"
