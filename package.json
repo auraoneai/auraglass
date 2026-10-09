@@ -68,7 +68,43 @@
     "./compat/tokens.css": "./dist/compat/tokens.css",
     "./compat/globals.css": "./dist/compat/globals.css",
     "./deprecations.json": "./deprecations.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./icons/action": {
+      "types": "./dist/icons/action.d.ts",
+      "default": "./dist/icons/action.js"
+    },
+    "./icons/ai": {
+      "types": "./dist/icons/ai.d.ts",
+      "default": "./dist/icons/ai.js"
+    },
+    "./icons/collaboration": {
+      "types": "./dist/icons/collaboration.d.ts",
+      "default": "./dist/icons/collaboration.js"
+    },
+    "./icons/commerce": {
+      "types": "./dist/icons/commerce.d.ts",
+      "default": "./dist/icons/commerce.js"
+    },
+    "./icons/data": {
+      "types": "./dist/icons/data.d.ts",
+      "default": "./dist/icons/data.js"
+    },
+    "./icons/media": {
+      "types": "./dist/icons/media.d.ts",
+      "default": "./dist/icons/media.js"
+    },
+    "./icons/navigation": {
+      "types": "./dist/icons/navigation.d.ts",
+      "default": "./dist/icons/navigation.js"
+    },
+    "./icons/status": {
+      "types": "./dist/icons/status.d.ts",
+      "default": "./dist/icons/status.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "default": "./dist/icons/*.js"
+    }
   },
   "sideEffects": [
     "**/*.css"
@@ -198,5 +234,6 @@
     "typescript": "5.9.3",
     "vite": "7.3.7",
     "yaml": "2.9.1"
-  }
+  },
+  "types": "dist/index.d.ts"
 }
