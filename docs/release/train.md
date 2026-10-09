@@ -25,3 +25,20 @@ named alongside them.
 - G-12: `legacy/` empty + `reports/` absent (PLAT-218/240/241).
 - G-15/OD-10/OD-11: decision records under `docs/release/decisions/`.
 - GA verdict: `verify-release-verdict.mjs` output + `release-verdict.json` URL.
+
+## Operator release mirroring (REQ-PLAT-16)
+
+The GitLab tag pipeline creates the GitLab release with linked assets
+(`plat:release:notes` job `release:` block → `release-notes.md`,
+`dist-maps.tgz`). The operator mirrors the same release on GitHub after the
+tag pipeline is green:
+
+```
+gh release create v4.x.y \
+  --notes-file .artifacts/plat/release-notes.md \
+  .artifacts/plat/dist-maps.tgz .artifacts/pack/*.tgz
+```
+
+Assets come from the tag pipeline's `plat:package:pack` + `plat:release:notes`
+evidence artifacts. If a GitHub release is out of scope for the stop, record
+the skip in `docs/release/decisions/` instead.
