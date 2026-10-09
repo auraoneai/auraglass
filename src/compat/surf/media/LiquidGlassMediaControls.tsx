@@ -20,7 +20,7 @@ export interface LiquidGlassMediaControlsProps {
 }
 
 export function LiquidGlassMediaControls(props: LiquidGlassMediaControlsProps) {
-  warnDeprecated('LiquidGlassMediaControls');
+  warnDeprecated('DEP-S0600';
   const { onPlayPause, compact, ...rest } = props;
   void compact;
   return (

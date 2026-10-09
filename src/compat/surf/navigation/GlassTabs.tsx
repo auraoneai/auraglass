@@ -9,7 +9,7 @@ import { Tabs } from '../../../components/tabs/Tabs';
 export type GlassTabsProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassTabs(props: GlassTabsProps) {
-  warnDeprecated('GlassTabs');
+  warnDeprecated('DEP-S0680');
   const { tabs, selectedTab, onTabChange, children, ...rest } = props as Record<string, React.ReactNode>;
   return <Tabs.Root value={selectedTab as never} onValueChange={onTabChange as never} {...rest}>{children}</Tabs.Root>;
 }

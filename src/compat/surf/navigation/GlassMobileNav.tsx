@@ -9,7 +9,7 @@ import { SidebarDrawer } from '../../../app-shell/Sidebar.Drawer';
 export type GlassMobileNavProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassMobileNav(props: GlassMobileNavProps) {
-  warnDeprecated('GlassMobileNav');
+  warnDeprecated('DEP-S0673');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <SidebarDrawer {...rest}>{children}</SidebarDrawer>;
 }

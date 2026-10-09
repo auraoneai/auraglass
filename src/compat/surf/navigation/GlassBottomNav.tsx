@@ -9,7 +9,7 @@ import { TabBar } from '../../../components/tab-bar/TabBar';
 export type GlassBottomNavProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassBottomNav(props: GlassBottomNavProps) {
-  warnDeprecated('GlassBottomNav');
+  warnDeprecated('DEP-S0671');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <TabBar.Root placement="bottom" {...rest}>{children}</TabBar.Root>;
 }

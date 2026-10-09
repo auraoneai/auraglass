@@ -15,7 +15,7 @@ export type GlassStatCardProps = {
 } & Omit<StatCardProps, 'label' | 'value' | 'delta' | 'trendDirection'>;
 
 export function GlassStatCard(props: GlassStatCardProps) {
-  warnDeprecated('GlassStatCard');
+  warnDeprecated('DEP-S0645');
   const { title, label, value = 0, suffix, delta, trend, format, ...rest } = props;
   const num = typeof value === 'number' ? value : Number.parseFloat(String(value)) || 0;
   const shown = suffix !== undefined ? <>{num}{suffix}</> : format && typeof value === 'number' ? value : num;

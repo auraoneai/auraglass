@@ -9,7 +9,7 @@ export interface AuroraOrbProps {
 }
 
 export function AuroraOrb(props: AuroraOrbProps) {
-  warnDeprecated('AuroraOrb');
+  warnDeprecated('DEP-S0609';
   void props;
   return <Backdrop preset="aurora" palette="aurora" className={props.className} />;
 }

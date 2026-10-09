@@ -17,7 +17,7 @@ function mapFiles(files: NonNullable<GlassFileTreeProps['files']>, prefix = ''):
 }
 
 export function GlassFileTree(props: GlassFileTreeProps) {
-  warnDeprecated('GlassFileTree');
+  warnDeprecated('DEP-S0634');
   const { files = [], ...rest } = props;
   return <TreeView {...rest} items={mapFiles(files) as never} />;
 }

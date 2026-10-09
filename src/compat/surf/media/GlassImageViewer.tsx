@@ -10,7 +10,7 @@ export interface GlassImageViewerProps {
 }
 
 export function GlassImageViewer(props: GlassImageViewerProps) {
-  warnDeprecated('GlassImageViewer');
+  warnDeprecated('DEP-S0604';
   const { images = [], initialIndex, open, onOpenChange } = props;
   const items: ImageViewerItem[] = images.map((img, i) => ({
     id: `img-${i}`, src: img.src, alt: img.alt ?? '', ...(img.caption !== undefined ? { caption: img.caption } : {}),

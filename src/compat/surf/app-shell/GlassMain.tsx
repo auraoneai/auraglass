@@ -9,7 +9,7 @@ import { AppShell } from '../../../app-shell/AppShell';
 export type GlassMainProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassMain(props: GlassMainProps) {
-  warnDeprecated('GlassMain');
+  warnDeprecated('DEP-S0664');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <AppShell.Main {...rest}>{children}</AppShell.Main>;
 }

@@ -9,7 +9,7 @@ import { CommandPalette } from '../../../components/command-palette/CommandPalet
 export type LiquidGlassCommandSurfaceProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function LiquidGlassCommandSurface(props: LiquidGlassCommandSurfaceProps) {
-  warnDeprecated('LiquidGlassCommandSurface');
+  warnDeprecated('DEP-S0685');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <CommandPalette {...rest}>{children}</CommandPalette>;
 }

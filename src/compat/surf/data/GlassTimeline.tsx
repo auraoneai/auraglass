@@ -9,7 +9,7 @@ export type GlassTimelineProps = {
 } & Omit<TimelineProps, 'items'>;
 
 export function GlassTimeline(props: GlassTimelineProps) {
-  warnDeprecated('GlassTimeline');
+  warnDeprecated('DEP-S0637');
   const { items, events, ...rest } = props;
   const list = (items ?? events ?? []).map((it, i) => ({
     id: it.id ?? String(i),

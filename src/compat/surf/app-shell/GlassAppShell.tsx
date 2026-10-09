@@ -14,7 +14,7 @@ import { Inspector } from '../../../app-shell/Inspector';
 export type GlassAppShellProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassAppShell(props: GlassAppShellProps) {
-  warnDeprecated('GlassAppShell');
+  warnDeprecated('DEP-S0656');
   const { header, sidebar, footer, children, ...rest } = props as Record<string, React.ReactNode>;
   return <AppShell.Root {...rest}><>{sidebar}{header}{children}{footer}</></AppShell.Root>;
 }

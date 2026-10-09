@@ -9,7 +9,7 @@ import { TabBar } from '../../../components/tab-bar/TabBar';
 export type GlassTabBarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassTabBar(props: GlassTabBarProps) {
-  warnDeprecated('GlassTabBar');
+  warnDeprecated('DEP-S0670');
   const { items, activeTab, children, ...rest } = props as Record<string, React.ReactNode>;
   return <TabBar.Root {...rest}>{children}</TabBar.Root>;
 }

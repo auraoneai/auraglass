@@ -16,7 +16,7 @@ export type GlassDateRangePickerProps = {
 } & Omit<DateRangePickerProps, 'value' | 'defaultValue' | 'onChange'>;
 
 export function GlassDateRangePicker(props: GlassDateRangePickerProps) {
-  warnDeprecated('GlassDateRangePicker');
+  warnDeprecated('DEP-S0668');
   const { startDate, endDate, value, defaultValue, onChange, timeZone, ...rest } = props;
   const v = value ?? (startDate && endDate ? { start: startDate, end: endDate } : undefined);
   const to5 = (r: { start: Date; end: Date } | undefined): DateRangeValue | undefined =>

@@ -9,7 +9,7 @@ import { Inspector } from '../../../app-shell/Inspector';
 export type GlassInspectorProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassInspector(props: GlassInspectorProps) {
-  warnDeprecated('GlassInspector');
+  warnDeprecated('DEP-S0659');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <Inspector.Root aria-label="Inspector" {...rest}>{children}</Inspector.Root>;
 }

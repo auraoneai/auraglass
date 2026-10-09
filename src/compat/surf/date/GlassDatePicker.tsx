@@ -23,7 +23,7 @@ export type GlassDatePickerProps = {
 } & Omit<DatePickerProps, 'value' | 'defaultValue' | 'onChange' | 'minValue' | 'maxValue' | 'isDateUnavailable' | 'isDisabled' | 'isRequired' | 'isInvalid' | 'description'>;
 
 export function GlassDatePicker(props: GlassDatePickerProps) {
-  warnDeprecated('GlassDatePicker');
+  warnDeprecated('DEP-S0665');
   const { value, defaultValue, onChange, minDate, maxDate, disabledDates, disabled, required, error, helperText, format, timeZone, ...rest } = props;
   void format;
   return (

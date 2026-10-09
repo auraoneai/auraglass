@@ -26,7 +26,7 @@ export type GlassDataGridProps<TRow extends Record<string, unknown> = Record<str
 } & Omit<TableProps<TRow>, 'data' | 'columns' | 'getRowId'>;
 
 export function GlassDataGrid<TRow extends Record<string, unknown> = Record<string, unknown>>(props: GlassDataGridProps<TRow>) {
-  warnDeprecated('GlassDataGrid');
+  warnDeprecated('DEP-S0640');
   const { rows, data, columns, getRowId, ...rest } = props;
   const cols = columns.map((c) => ({
     id: c.key,

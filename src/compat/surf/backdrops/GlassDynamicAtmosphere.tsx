@@ -13,11 +13,11 @@ export interface GlassDynamicAtmosphereProps {
 }
 
 export function GlassDynamicAtmosphere(props: GlassDynamicAtmosphereProps) {
-  warnDeprecated('GlassDynamicAtmosphere');
+  warnDeprecated('DEP-S0611';
   return <Backdrop preset="aurora" className={props.className}>{props.children}</Backdrop>;
 }
 
 export function DynamicAtmosphere(props: GlassDynamicAtmosphereProps) {
-  warnDeprecated('DynamicAtmosphere');
+  warnDeprecated('DEP-S0612';
   return <GlassDynamicAtmosphere {...props} />;
 }

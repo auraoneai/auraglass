@@ -13,7 +13,7 @@ export interface AtmosphericBackgroundProps {
 }
 
 export function AtmosphericBackground(props: AtmosphericBackgroundProps) {
-  warnDeprecated('AtmosphericBackground');
+  warnDeprecated('DEP-S0610';
   const scheme = props.colorScheme === 'dark' ? 'dark' : 'light';
   return <Backdrop preset="aurora" scheme={scheme} className={props.className}>{props.children}</Backdrop>;
 }

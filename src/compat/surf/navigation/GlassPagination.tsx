@@ -9,7 +9,7 @@ import { Pagination } from '../../../components/pagination/Pagination';
 export type GlassPaginationProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassPagination(props: GlassPaginationProps) {
-  warnDeprecated('GlassPagination');
+  warnDeprecated('DEP-S0679');
   const { currentPage, totalPages, onChange, ...rest } = props as Record<string, React.ReactNode>;
   return <Pagination.Root page={currentPage as number} pageCount={totalPages as number} onPageChange={onChange as never} {...rest} />;
 }

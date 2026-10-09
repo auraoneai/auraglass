@@ -22,7 +22,7 @@ export type GlassDataTableProps<TRow extends Record<string, unknown> = Record<st
 } & Omit<TableProps<TRow>, 'data' | 'columns' | 'onRowAction' | 'emptyState' | 'getRowId'>;
 
 export function GlassDataTable<TRow extends Record<string, unknown> = Record<string, unknown>>(props: GlassDataTableProps<TRow>) {
-  warnDeprecated('GlassDataTable');
+  warnDeprecated('DEP-S0636');
   const { rows, data, columns = [], filterable, compact, selectedRows, onSelectionChange, onRowClick, emptyMessage, getRowId, ...rest } = props;
   const cols = columns.map((c) => ({
     id: c.key,

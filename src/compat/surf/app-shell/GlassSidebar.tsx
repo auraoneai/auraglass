@@ -9,7 +9,7 @@ import { Sidebar } from '../../../app-shell/Sidebar';
 export type GlassSidebarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassSidebar(props: GlassSidebarProps) {
-  warnDeprecated('GlassSidebar');
+  warnDeprecated('DEP-S0660');
   const { items, children, ...rest } = props as Record<string, React.ReactNode>;
   return <Sidebar.Root {...rest}><Sidebar.Nav aria-label="Navigation">{children}</Sidebar.Nav></Sidebar.Root>;
 }

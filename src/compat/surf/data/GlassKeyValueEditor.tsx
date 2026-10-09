@@ -10,7 +10,7 @@ export type GlassKeyValueEditorProps = {
 } & Omit<KeyValueEditorProps, 'value' | 'defaultValue' | 'onValueChange'>;
 
 export function GlassKeyValueEditor(props: GlassKeyValueEditorProps) {
-  warnDeprecated('GlassKeyValueEditor');
+  warnDeprecated('DEP-S0646');
   const { entries, pairs, onChange, ...rest } = props;
   const rec = entries ?? pairs ?? {};
   const toPairs = (r: Record<string, string>) => Object.entries(r).map(([key, value]) => ({ key, value }));

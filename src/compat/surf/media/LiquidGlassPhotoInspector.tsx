@@ -9,7 +9,7 @@ export interface LiquidGlassPhotoInspectorProps {
 }
 
 export function LiquidGlassPhotoInspector(props: LiquidGlassPhotoInspectorProps) {
-  warnDeprecated('LiquidGlassPhotoInspector');
+  warnDeprecated('DEP-S0603';
   const p = props.photo;
   const items: ImageViewerItem[] = p ? [{ id: 'img-0', src: p.src, alt: p.alt ?? '', ...(p.caption !== undefined ? { caption: p.caption } : {}) }] : [];
   return (

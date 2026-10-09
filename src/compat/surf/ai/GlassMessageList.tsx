@@ -12,7 +12,7 @@ export interface GlassMessageListProps {
 }
 
 export function GlassMessageList({ messages, currentUserId, className }: GlassMessageListProps) {
-  warnDeprecated('GlassMessageList (dropped: virtualScroll, reactions, replyTo, edited)');
+  warnDeprecated('DEP-S0651');
   const ag: AgMessage[] = messages.map((m) => ({
     id: m.id,
     role: m.type === 'system' ? 'system' : m.sender.id === currentUserId ? 'user' : 'assistant',

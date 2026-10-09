@@ -9,7 +9,7 @@ import { Tabs } from '../../../components/tabs/Tabs';
 export type GlassWorkspaceTabsProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassWorkspaceTabs(props: GlassWorkspaceTabsProps) {
-  warnDeprecated('GlassWorkspaceTabs');
+  warnDeprecated('DEP-S0681');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <Tabs.Root {...rest}>{children}</Tabs.Root>;
 }

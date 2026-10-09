@@ -13,7 +13,7 @@ export interface GlassChatInputProps {
 }
 
 export function GlassChatInput({ value, onChange, onSend, placeholder, disabled }: GlassChatInputProps) {
-  warnDeprecated('GlassChatInput (dropped: onVoiceRecording — use the ai-voice-input registry item)');
+  warnDeprecated('DEP-S0652');
   return (
     <Composer
       {...(value !== undefined ? { value } : {})}

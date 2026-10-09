@@ -13,7 +13,7 @@ export type GlassChipProps = {
 } & Omit<ChipProps, 'selected' | 'onSelectedChange'>;
 
 export function GlassChip(props: GlassChipProps) {
-  warnDeprecated('GlassChip');
+  warnDeprecated('DEP-S0649');
   const { label, text, selected, onSelect, onRemove, color, children, ...rest } = props;
   return (
     <Chip {...rest} selected={selected} onSelectedChange={(v: boolean) => onSelect?.(v)} onRemove={onRemove}>

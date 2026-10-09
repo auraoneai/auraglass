@@ -117,8 +117,10 @@ export async function main(argv = process.argv.slice(2), { root = ROOT } = {}) {
   else if (line === '4x' && existsSync(join(root, 'deprecations.json'))) {
     rootExports = null; // root barrel scan is a 4.x-CI concern; see PLAT-135
   }
+  // breaking-changes.json is `{version, items}` on next and `{version, changes}` on release/4.x.
   const breakingIds = existsSync(PATHS.breakingRegister)
-    ? new Set(JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).changes.map((c) => c.id)) : null;
+    ? new Set(((JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).changes
+        ?? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')).items) ?? []).map((c) => c.id)) : null;
   const errors = checkEntries(entries, { entriesManifest, rootExports, breakingIds });
 
   const ref = arg('--compare-branch');

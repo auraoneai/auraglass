@@ -9,7 +9,7 @@ import { AppShell } from '../../../app-shell/AppShell';
 export type GlassPageHeaderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassPageHeader(props: GlassPageHeaderProps) {
-  warnDeprecated('GlassPageHeader');
+  warnDeprecated('DEP-S0661');
   const { title, children, ...rest } = props as Record<string, React.ReactNode>;
   return <AppShell.PageHeader title={title}>{children}</AppShell.PageHeader>;
 }

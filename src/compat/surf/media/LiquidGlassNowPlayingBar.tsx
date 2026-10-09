@@ -14,7 +14,7 @@ export interface LiquidGlassNowPlayingBarProps {
 }
 
 export function LiquidGlassNowPlayingBar(props: LiquidGlassNowPlayingBarProps) {
-  warnDeprecated('LiquidGlassNowPlayingBar');
+  warnDeprecated('DEP-S0602';
   const { title, subtitle, artwork, onPlayPause, onPrevious, onNext } = props;
   return (
     <NowPlayingBar.Root playing={props.playing} onPlayingChange={onPlayPause}

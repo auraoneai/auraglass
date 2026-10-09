@@ -12,7 +12,7 @@ export interface GlassMeshGradientProps {
 }
 
 export function GlassMeshGradient(props: GlassMeshGradientProps) {
-  warnDeprecated('GlassMeshGradient');
+  warnDeprecated('DEP-S0613';
   return (
     <Backdrop preset="mesh" motion={props.animate ? 'drift' : 'static'} className={props.className}>
       {props.children}

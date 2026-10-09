@@ -16,7 +16,7 @@ export type GlassFilterBarProps = {
 } & Omit<FilterBarProps, 'schema' | 'value' | 'defaultValue' | 'onValueChange' | 'search' | 'resultCount'>;
 
 export function GlassFilterBar(props: GlassFilterBarProps) {
-  warnDeprecated('GlassFilterBar');
+  warnDeprecated('DEP-S0644');
   const { fields = [], filters, onChange, searchValue, onSearchChange, searchPlaceholder, resultCount, ...rest } = props;
   const [q, setQ] = React.useState(searchValue ?? '');
   const [localFilters, setLocalFilters] = React.useState<FilterGroup | undefined>(filters);

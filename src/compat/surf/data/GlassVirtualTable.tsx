@@ -15,7 +15,7 @@ export type GlassVirtualTableProps<TRow extends Record<string, unknown> = Record
 } & Omit<TableProps<TRow>, 'data' | 'columns' | 'getRowId'>;
 
 export function GlassVirtualTable<TRow extends Record<string, unknown> = Record<string, unknown>>(props: GlassVirtualTableProps<TRow>) {
-  warnDeprecated('GlassVirtualTable');
+  warnDeprecated('DEP-S0641');
   const { rows, data, columns = [], rowHeight, ...rest } = props;
   const cols = columns.map((c) => ({ id: c.key, accessorKey: c.key, header: c.label }));
   return (

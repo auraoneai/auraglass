@@ -14,7 +14,7 @@ export type GlassTreeViewProps<T extends TreeItemData = TreeItemData> = {
 } & Omit<TreeViewProps<T>, 'items' | 'selectedKeys' | 'onSelectionChange'>;
 
 export function GlassTreeView<T extends TreeItemData = TreeItemData>(props: GlassTreeViewProps<T>) {
-  warnDeprecated('GlassTreeView');
+  warnDeprecated('DEP-S0647');
   const { nodes, items, selectedId, selectedKey, onSelect, ...rest } = props;
   const sel = selectedKey ?? selectedId;
   return (

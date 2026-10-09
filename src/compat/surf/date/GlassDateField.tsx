@@ -13,7 +13,7 @@ export type GlassDateFieldProps = {
 } & Omit<DateFieldProps, 'value' | 'defaultValue' | 'onChange'>;
 
 export function GlassDateField(props: GlassDateFieldProps) {
-  warnDeprecated('GlassDateField');
+  warnDeprecated('DEP-S0666');
   const { value, defaultValue, onChange, timeZone, ...rest } = props;
   return (
     <DateField

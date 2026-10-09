@@ -9,7 +9,7 @@ import { Command } from '../../../components/command-palette/Command';
 export type GlassCommandProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassCommand(props: GlassCommandProps) {
-  warnDeprecated('GlassCommand');
+  warnDeprecated('DEP-S0677');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <Command.Root {...rest}>{children}</Command.Root>;
 }

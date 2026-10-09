@@ -9,7 +9,7 @@ import { Breadcrumbs } from '../../../components/breadcrumbs/Breadcrumbs';
 export type GlassBreadcrumbProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassBreadcrumb(props: GlassBreadcrumbProps) {
-  warnDeprecated('GlassBreadcrumb');
+  warnDeprecated('DEP-S0672');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <Breadcrumbs.Root {...rest}>{children}</Breadcrumbs.Root>;
 }

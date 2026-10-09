@@ -9,7 +9,7 @@ export interface AuroraBackgroundProps {
 }
 
 export function AuroraBackground(props: AuroraBackgroundProps) {
-  warnDeprecated('AuroraBackground');
+  warnDeprecated('DEP-S0608';
   const motion = props.motion === 'full' ? 'drift' : 'static';
   return <Backdrop preset="aurora" palette="aurora" motion={motion} className={props.className}>{props.children}</Backdrop>;
 }

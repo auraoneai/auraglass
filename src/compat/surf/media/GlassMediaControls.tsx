@@ -5,6 +5,6 @@ import { LiquidGlassMediaControls, type LiquidGlassMediaControlsProps } from './
 export type GlassMediaControlsProps = LiquidGlassMediaControlsProps;
 
 export function GlassMediaControls(props: GlassMediaControlsProps) {
-  warnDeprecated('GlassMediaControls');
+  warnDeprecated('DEP-S0601';
   return <LiquidGlassMediaControls {...props} />;
 }

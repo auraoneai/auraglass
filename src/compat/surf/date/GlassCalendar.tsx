@@ -16,7 +16,7 @@ export type GlassCalendarProps = {
 } & Omit<CalendarProps, 'value' | 'defaultValue' | 'onChange' | 'minValue' | 'maxValue' | 'showWeekNumbers'>;
 
 export function GlassCalendar(props: GlassCalendarProps) {
-  warnDeprecated('GlassCalendar');
+  warnDeprecated('DEP-S0667');
   const { value, defaultValue, onChange, minDate, maxDate, weekNumbers, timeZone, ...rest } = props;
   return (
     <Calendar

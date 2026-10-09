@@ -9,7 +9,7 @@ import { TabBar } from '../../../components/tab-bar/TabBar';
 export type LiquidGlassTabBarProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function LiquidGlassTabBar(props: LiquidGlassTabBarProps) {
-  warnDeprecated('LiquidGlassTabBar');
+  warnDeprecated('DEP-S0678');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <TabBar.Root {...rest}>{children}</TabBar.Root>;
 }

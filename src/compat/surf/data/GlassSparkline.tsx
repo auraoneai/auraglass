@@ -11,7 +11,7 @@ export type GlassSparklineProps = {
 } & Omit<SparklineProps, 'data' | 'label'>;
 
 export function GlassSparkline(props: GlassSparklineProps) {
-  warnDeprecated('GlassSparkline');
+  warnDeprecated('DEP-S0639');
   const { values, data, color, label, ...rest } = props;
   return <Sparkline {...rest} data={data ?? values ?? []} label={label ?? 'Sparkline'} intent={color !== undefined ? 'neutral' : rest.intent} />;
 }

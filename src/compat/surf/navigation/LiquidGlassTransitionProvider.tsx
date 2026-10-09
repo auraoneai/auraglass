@@ -9,7 +9,7 @@ import { SourceTransition } from '../../../components/source-transition/SourceTr
 export type LiquidGlassTransitionProviderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function LiquidGlassTransitionProvider(props: LiquidGlassTransitionProviderProps) {
-  warnDeprecated('LiquidGlassTransitionProvider');
+  warnDeprecated('DEP-S0675');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <SourceTransition.Root {...rest}>{children}</SourceTransition.Root>;
 }

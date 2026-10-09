@@ -13,7 +13,7 @@ export interface GlassCarouselProps {
 }
 
 export function GlassCarousel(props: GlassCarouselProps) {
-  warnDeprecated('GlassCarousel');
+  warnDeprecated('DEP-S0606';
   const children = React.Children.toArray(props.children);
   const slides: CarouselRailSlide[] = children.map((c, i) => ({ id: `s${i}`, children: c }));
   return (

@@ -9,7 +9,7 @@ export interface GlassGalleryProps {
 }
 
 export function GlassGallery(props: GlassGalleryProps) {
-  warnDeprecated('GlassGallery');
+  warnDeprecated('DEP-S0605';
   const items: ImageViewerItem[] = (props.images ?? []).map((img, i) => ({
     id: `img-${i}`, src: img.src, alt: img.alt ?? '',
   }));

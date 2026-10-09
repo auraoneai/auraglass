@@ -23,7 +23,7 @@ export interface GlassChatProps {
 
 /** REQ-SURF-13/SC-34: 4.x ChatMessage → AgMessage mapping (one dev warning). */
 export function GlassChat({ messages, currentUserId, onSend, className }: GlassChatProps) {
-  warnDeprecated('GlassChat (dropped: reactions, replyTo, edited, predictive, eyeTracking, adaptive, spatialAudio, consciousness, trackAchievements, virtualScroll, onVoiceRecording)');
+  warnDeprecated('DEP-S0653');
   const ag: AgMessage[] = messages.map((m) => ({
     id: m.id,
     role: m.type === 'system' ? 'system' : m.sender.id === currentUserId ? 'user' : 'assistant',

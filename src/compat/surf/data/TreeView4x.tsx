@@ -5,6 +5,6 @@ import { GlassTreeView, type GlassTreeViewProps } from './GlassTreeView';
 import type { TreeItemData } from '../../../data/tree-view/TreeView';
 
 export function TreeView<T extends TreeItemData = TreeItemData>(props: GlassTreeViewProps<T>) {
-  warnDeprecated('TreeView(4.x)');
+  warnDeprecated('DEP-S0650');
   return <GlassTreeView {...props} />;
 }

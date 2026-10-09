@@ -11,7 +11,7 @@ export interface LiquidGlassCarouselRailProps {
 }
 
 export function LiquidGlassCarouselRail(props: LiquidGlassCarouselRailProps) {
-  warnDeprecated('LiquidGlassCarouselRail');
+  warnDeprecated('DEP-S0607';
   const slides: CarouselRailSlide[] = (props.items ?? []).map((c, i) => ({ id: `s${i}`, children: c }));
   return (
     <CarouselRail.Root

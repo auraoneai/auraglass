@@ -9,7 +9,7 @@ import { AppShell } from '../../../app-shell/AppShell';
 export type ZSpaceAppLayoutProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function ZSpaceAppLayout(props: ZSpaceAppLayoutProps) {
-  warnDeprecated('ZSpaceAppLayout');
+  warnDeprecated('DEP-S0658');
   const { children, depth, ...rest } = props as Record<string, React.ReactNode>;
   return <AppShell.Root {...rest}>{children}</AppShell.Root>;
 }

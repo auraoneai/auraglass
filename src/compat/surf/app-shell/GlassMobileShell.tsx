@@ -9,7 +9,7 @@ import { MobileShell } from '../../../app-shell/MobileShell';
 export type GlassMobileShellProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassMobileShell(props: GlassMobileShellProps) {
-  warnDeprecated('GlassMobileShell');
+  warnDeprecated('DEP-S0657');
   const { topBar, tabBar, children, ...rest } = props as Record<string, React.ReactNode>;
   return <MobileShell topBar={topBar} tabBar={tabBar} {...rest}>{children}</MobileShell>;
 }

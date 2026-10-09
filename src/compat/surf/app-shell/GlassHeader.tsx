@@ -9,7 +9,7 @@ import { TopBar } from '../../../app-shell/TopBar';
 export type GlassHeaderProps = Record<string, unknown> & { children?: React.ReactNode };
 
 export function GlassHeader(props: GlassHeaderProps) {
-  warnDeprecated('GlassHeader');
+  warnDeprecated('DEP-S0655');
   const { children, ...rest } = props as Record<string, React.ReactNode>;
   return <TopBar.Root {...rest}>{children}</TopBar.Root>;
 }

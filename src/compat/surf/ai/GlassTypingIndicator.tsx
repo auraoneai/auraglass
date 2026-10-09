@@ -10,7 +10,7 @@ export interface GlassTypingIndicatorProps {
 }
 
 export function GlassTypingIndicator({ visible = true, names, className }: GlassTypingIndicatorProps) {
-  warnDeprecated('GlassTypingIndicator');
+  warnDeprecated('DEP-S0654');
   if (!visible) return null;
   return (
     <div data-ag-part="typing-indicator" className={className} role="status">

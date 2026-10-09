@@ -9,7 +9,7 @@ export type GlassActivityFeedProps = {
 } & Omit<ActivityFeedProps, 'items'>;
 
 export function GlassActivityFeed(props: GlassActivityFeedProps) {
-  warnDeprecated('GlassActivityFeed');
+  warnDeprecated('DEP-S0643');
   const { entries, items, ...rest } = props;
   const list = (items ?? entries ?? []).map((it, i) => ({
     id: it.id ?? String(i),
