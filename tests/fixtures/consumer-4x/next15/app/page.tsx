@@ -1,6 +1,7 @@
-/* consumer-4x Vite app: >=30 root exports, every surviving subpath,
+/* consumer-4x App Router page: >=30 root exports, every surviving subpath,
    CSS vars, props, provider and date-fns usage (REQ-PLAT-63). */
-import React from "react";
+"use client";
+
 import {
   GlassButton,
   GlassCard,
@@ -80,14 +81,12 @@ import * as sp_client from "aura-glass/client";
 import * as sp_server from "aura-glass/server";
 import * as sp_ssr from "aura-glass/ssr";
 import * as sp_three from "aura-glass/three";
-import { createRoot } from "react-dom/client";
 import { format, addDays } from "date-fns";
 import { Panel } from "@components/Panel";
 import { HELLO } from "@lib/hello";
 import { Chip } from "@/components/Chip";
-import "./globals.css";
 
-function App() {
+export default function Page() {
   const when = format(addDays(new Date(), 1), "yyyy-MM-dd");
   const theme = useTheme();
   void useReducedMotion;
@@ -139,16 +138,15 @@ function App() {
   void sp_three;
   const props: GlassProps = {};
   return (
-    <ThemeProvider>
-      <main data-mobile-page style={{ padding: "var(--glass-space-4)" }}>
+    <main data-mobile-page style={{ padding: "var(--glass-space-4)" }}>
+      <ThemeProvider>
         <Panel>{HELLO} {when} {props.size ?? "md"}</Panel>
-        <GlassButton variant="primary">consumer-4x vite</GlassButton>
+        <GlassButton variant="primary">consumer-4x next15</GlassButton>
         <GlassCard><Chip />aura-glass page</GlassCard>
         <GlassForm schema={[]} title="form" />
         <GlassDataGrid columns={[]} data={[]} />
-      </main>
-    </ThemeProvider>
+        <GlassCommandPalette commands={[]} open={false} onClose={() => {}} />
+      </ThemeProvider>
+    </main>
   );
 }
-
-createRoot(document.getElementById("root")!).render(<App />);
