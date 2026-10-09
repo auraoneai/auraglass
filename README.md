@@ -4,6 +4,7 @@
 > **v4.x is the active release line** (`latest` dist-tag). The 5.0 train
 > develops on `next` under the `next` dist-tag and reaches GA later; 4.x then
 > enters 12-month LTS (fixes + security only) — see `docs/release/lts-policy.md`.
+<!-- dist-tags: latest=4.1.0 next=none v4-lts=none -->
 <!-- /AG-RELEASE-BANNER -->
 
 Build Liquid Glass React and Next.js interfaces without rebuilding glass surfaces, tokens, motion, accessibility guardrails, and client-component package wiring from scratch.
