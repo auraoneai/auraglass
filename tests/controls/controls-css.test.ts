@@ -30,3 +30,18 @@ describe('controls css gate', () => {
     }
   });
 });
+
+/* REQ-CMP-53: check-path dash animation <= duration-micro, 0s under calm/reduced. */
+describe('checkbox check-path draw (REQ-CMP-53)', () => {
+  const CB = readFileSync(join(process.cwd(), 'src/components/checkbox/Checkbox.css'), 'utf8');
+  it('pathLength=1 dash draw on [data-checked] over duration-micro', () => {
+    expect(CB).toMatch(/stroke-dasharray:\s*1/);
+    expect(CB).toMatch(/data-checked\][^\n]*\[data-ag-part='icon'\]\s*path[^}]*stroke-dashoffset:\s*0/);
+    expect(CB).toMatch(/transition:\s*stroke-dashoffset\s+var\(--ag-duration-micro\)/);
+  });
+  it('instant under reduced-motion and calm/none', () => {
+    expect(CB).toMatch(/prefers-reduced-motion:\s*reduce[^}]*transition:\s*none/s);
+    expect(CB).toMatch(/data-ag-motion='calm'\][^}]*transition:\s*none/);
+    expect(CB).toMatch(/data-ag-motion='none'\][^}]*transition:\s*none/);
+  });
+});

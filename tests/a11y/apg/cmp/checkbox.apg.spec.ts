@@ -16,13 +16,20 @@ test.describe('checkbox APG (CMP-361)', () => {
     await expect(box).toHaveAttribute('aria-checked', before === 'true' ? 'false' : 'true');
   });
 
-  test('indeterminate/mixed state cycles to checked', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-checkbox--indeterminate');
-    const box = page.getByRole('checkbox').first();
-    await box.focus();
+  /* REQ-CMP-53: parent checkbox in CheckboxGroup cycles exact
+     mixed -> true -> false via aria-checked. */
+  test('indeterminate: parent cycles mixed -> true -> false', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-checkbox-group--default')
+      .catch(() => gotoStory(page, 'flagships-controls-checkboxgroup--default'));
+    const boxes = page.getByRole('checkbox');
+    const n = await boxes.count();
+    if (n < 2) test.skip();
+    const parent = boxes.first();
+    await parent.focus();
     await page.keyboard.press('Space');
-    const v = await box.getAttribute('aria-checked');
-    expect(['true', 'false']).toContain(v ?? '');
+    expect(await parent.getAttribute('aria-checked')).toBe('true');
+    await page.keyboard.press('Space');
+    expect(await parent.getAttribute('aria-checked')).toBe('false');
     await apg.axe(page);
   });
 

@@ -11,7 +11,7 @@ import type { CheckboxGroupProps, CheckboxProps } from './Checkbox.types';
 function CheckIcon() {
   return (
     <svg data-ag-part="icon" aria-hidden="true" viewBox="0 0 16 16" fill="none">
-      <path d="M3 8.5 6.5 12 13 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M3 8.5 6.5 12 13 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" pathLength={1} />
     </svg>
   );
 }
