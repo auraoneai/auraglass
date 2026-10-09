@@ -18,3 +18,11 @@ describe('Kbd', () => {
     expect(seps[0]!.textContent).toBe('+');
   });
 });
+
+describe('Kbd REQ-CMP-119', () => {
+  it('root carries content-sunken material attrs', () => {
+    const { container } = render(<Kbd keys={['⌘', 'K']} />);
+    const el = container.querySelector('[data-ag-part="root"]')!;
+    expect(el.getAttribute('data-ag-content')).toBe('content-sunken');
+  });
+});

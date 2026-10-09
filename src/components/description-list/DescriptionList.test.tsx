@@ -24,3 +24,26 @@ describe('DescriptionList', () => {
     expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layout')).toBe('inline');
   });
 });
+
+describe('DescriptionList REQ-CMP-119', () => {
+  it('flat items render Term/Details parts', () => {
+    const { container } = render(
+      <DescriptionList items={[{ term: 'CPU', details: '8 cores' }, { term: 'RAM', details: '16 GB' }]} />,
+    );
+    expect(container.querySelectorAll('[data-ag-part="item"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-ag-part="label"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-ag-part="value"]')).toHaveLength(2);
+  });
+
+  it('orientation=horizontal resolves to inline layout', () => {
+    const { container } = render(<DescriptionList orientation="horizontal" items={[{ term: 't', details: 'd' }]} />);
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layout')).toBe('inline');
+  });
+
+  it('dl wrapper is its own inline-size container (standalone stacking)', () => {
+    const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'DescriptionList.css'), 'utf8');
+    expect(css).toMatch(/\.ag-dl \{[^}]*container-type: inline-size/);
+    expect(css).toContain('@container (max-width: 400px)');
+    expect(css).not.toContain('@container ag-container');
+  });
+});

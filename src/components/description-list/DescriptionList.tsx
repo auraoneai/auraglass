@@ -5,19 +5,48 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 
-export interface DescriptionListProps extends React.HTMLAttributes<HTMLDListElement> {
-  layout?: 'stacked' | 'inline';
+export interface DescriptionListItem {
+  term: React.ReactNode;
+  details: React.ReactNode;
 }
 
-function Root({ layout = 'stacked', className, ref, ...rest }: DescriptionListProps & { ref?: React.Ref<HTMLDListElement> | undefined }) {
+export interface DescriptionListProps extends React.HTMLAttributes<HTMLDListElement> {
+  layout?: 'stacked' | 'inline';
+  /** Orientation shorthand: 'horizontal' = inline, 'vertical' = stacked.
+     Wins over `layout` when set. */
+  orientation?: 'horizontal' | 'vertical';
+  /** Flat API — renders Item/Term/Details parts for each row; compound
+     children may still be used instead. */
+  items?: readonly DescriptionListItem[];
+}
+
+function Root({
+  layout = 'stacked',
+  orientation,
+  items,
+  className,
+  ref,
+  children,
+  ...rest
+}: DescriptionListProps & { ref?: React.Ref<HTMLDListElement> | undefined }) {
+  const resolved = orientation === 'horizontal' ? 'inline' : orientation === 'vertical' ? 'stacked' : layout;
   return (
     <dl
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-layout={layout}
+      data-ag-layout={resolved}
       className={cn('ag-dl', className)}
-    />
+    >
+      {items
+        ? items.map((item, i) => (
+            <Item key={i}>
+              <Term>{item.term}</Term>
+              <Details>{item.details}</Details>
+            </Item>
+          ))
+        : children}
+    </dl>
   );
 }
 
