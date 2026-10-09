@@ -82,6 +82,18 @@ export function Button(props: ButtonProps) {
 
   const isToggle = pressed !== undefined || defaultPressed !== undefined || onPressedChange !== undefined;
 
+  /* REQ-CMP-32: isToggle is a component-type switch (Button <-> Toggle), so a
+     change remounts the root and drops handlers/state. Warn once in dev. */
+  const toggleRef = React.useRef<{ init: boolean; warned: boolean }>({ init: isToggle, warned: false });
+  if (process.env.NODE_ENV !== 'production' && toggleRef.current.init !== isToggle && !toggleRef.current.warned) {
+    toggleRef.current.warned = true;
+    console.warn(
+      'aura-glass Button: `pressed`/`onPressedChange` props changed between renders — ' +
+      'the component switches between Button and Toggle, remounting the element. ' +
+      'Keep the toggle mode stable across renders.',
+    );
+  }
+
   const role: Parameters<typeof materialProps>[0] = { layer: 'chrome', variant };
   if (thickness !== undefined) role.thickness = thickness;
   if (prominent === true) role.prominent = true;
